@@ -49,7 +49,8 @@
      },
      "explanation": "Value added is the selling price LESS material and bought-in costs. If the selling price stays the same and the bought-in costs rise, less is left over, so the value added by the business falls."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -224,7 +225,8 @@
      "correct_answer": 0,
      "explanation": "Turning flour into bread is processing and manufacturing, so it is secondary activity. Private individuals own it, so it is in the private sector. Primary would mean extracting raw materials or farming. Public sector means government or state ownership. Tertiary means services such as retailing or banking, not making goods."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -277,7 +279,8 @@
      "correct_answer": 1,
      "explanation": "Making furniture from timber is manufacturing, which is secondary sector activity like aircraft or computers in the diagram. Primary is wrong because that sector only extracts natural resources. Tertiary is wrong because selling or serving others is not the same as making products from materials."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -507,7 +510,8 @@
      "correct_answer": 0,
      "explanation": "Both businesses are tractor manufacturers, so they operate at the same stage of production in the same industry. Joining them is horizontal integration. Backward integration means merging with a supplier. Forward integration means merging with a distributor or retailer. A conglomerate merger joins firms in unrelated industries."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -591,7 +595,8 @@
      "correct_answer": 0,
      "explanation": "Limited liability means shareholders can lose only the amount they invested in shares, so their personal assets are protected. Paying all debts from personal assets is unlimited liability, which sole traders have. Being the same legal person is wrong, because the company has a separate legal identity. Private limited companies cannot sell shares to the public, as the diagram's limitations show."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -632,7 +637,8 @@
      "correct_answer": 0,
      "explanation": "A tyre supplier is earlier in the supply chain, so buying it is backward vertical integration, a form of external growth. Forward would mean buying a retailer or distributor. Horizontal means buying a rival at the same stage. Internal (organic) growth means expanding without taking over another firm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -655,7 +661,8 @@
      },
      "explanation": "The answer is backward integration. The diagram shows Vertical splitting into Forward and Backward. Buying a supplier, such as a tyre producer, moves back along the supply chain, so it is backward vertical integration."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -834,7 +841,8 @@
      },
      "explanation": "The answer is stakeholders. The diagram shows groups (directors, workers, local community, consumers) with different interests in a business, such as growth, jobs, low pollution, and price and quality. Groups with an interest in a business are stakeholders."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -869,7 +877,8 @@
      "correct_answer": 0,
      "explanation": "Stakeholders have different aims. Owners want profits, which may mean cutting costs, while the community wants a clean environment, which can raise costs. This causes conflict. Stakeholders do not all share the same aims, so the second and third options are wrong. Government takeover is not a normal result of such a disagreement, so the fourth option is wrong too."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -966,7 +975,8 @@
      "correct_answer": 0,
      "explanation": "Piece rate is a type of wage where workers are paid for each unit produced, so pay depends on output. Time rate pays for hours worked, not units made. Salaries are a fixed yearly amount paid monthly. Profit sharing gives employees a share of the business's profits, not payment per unit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -987,7 +997,8 @@
      },
      "explanation": "The answer is salaries. A salary is a fixed yearly sum paid in equal monthly instalments. Wages, shown with time rate and piece rate, depend on hours worked or units produced, so they do not fit this description."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1131,7 +1142,8 @@
      "correct_answer": 0,
      "explanation": "Span of control is the number of subordinates directly under a manager. The Chief Executive has three directors reporting to him, so his span is three. Chain of command is the line of authority from top to bottom. Levels of hierarchy are the layers in the structure. Delegation is passing tasks or authority to subordinates, not counting them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1545,7 +1557,8 @@
      "correct_answer": 0,
      "explanation": "The diagram lists 'Employees may leave once they are trained and another business will benefit from the training'. A rival hiring trained staff gains from the firm's investment. Lost output refers to time spent training, not staff leaving. Raised expectations of pay and promotion is about demands made while staying. Training actually helps a firm use new technology, so that is an advantage, not a disadvantage."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1586,7 +1599,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows external communication as going to people in other organisations or to customers. A supplier is another organisation, so this is external. Internal means only people in the same organisation, and where the message starts does not decide the type. The medium and the clarity of the message affect how effective it is, not whether it is internal or external."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1606,7 +1620,8 @@
      },
      "explanation": "The answer is external. The diagram shows external communication as going to people in other organisations or to customers. An invoice is sent to a customer outside the firm, so it is not communication within the same organisation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1737,7 +1752,8 @@
      "correct_answer": 1,
      "explanation": "Email reaches many receivers quickly and is cheap, and it gives a written record, which the diagram lists as factors (the receiver, speed, cost, need for written record). Face-to-face talks, phone calls and corridor chats would take far too long for 500 people, and they leave no written proof that the rule was sent."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1834,7 +1850,8 @@
      "correct_answer": 0,
      "explanation": "Sales records appear under Internal sources, which belong to secondary (desk) research because the data already exists and is reused. The second option is wrong as primary research means collecting new data. The third is wrong as sales records are internal, not external. The fourth is wrong as no new field data is collected."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1856,7 +1873,8 @@
      },
      "explanation": "Sales records appear under Internal sources, which link to secondary research (desk research). The business is using data that already exists, not collecting new information directly from people, so this is secondary research."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2137,7 +2155,8 @@
      },
      "explanation": "The graph is the product life cycle. It shows a product's sales volume over time, from development through introduction, growth, maturity and saturation to decline. Businesses use it to plan marketing activities for each stage."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2308,7 +2327,8 @@
      },
      "explanation": "The diagram lists 'Perishable product?' as a factor affecting the distribution channel. Perishable goods like fresh strawberries must reach consumers quickly before they spoil, so a short channel with few intermediaries is better."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2399,7 +2419,8 @@
      "correct_answer": 0,
      "explanation": "A price discount such as '30% off' is a sales promotion, designed to encourage customers to buy now. Market research collects information about customers and is not shown by a badge. Diversification means offering new products in new markets. Distribution concerns how goods reach customers, which the badge does not show."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2608,7 +2629,8 @@
      "correct_answer": 1,
      "explanation": "Shoes that do not fit show the customer could not see or feel the product before buying, so 'Cannot see/feel products' is correct. Identity theft concerns misuse of personal data. Internet access required concerns being able to get online at all. No personal contact concerns lack of face-to-face service, not judging the product itself."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2705,7 +2727,8 @@
      "correct_answer": 0,
      "explanation": "The question sits in the Price box, so it helps the business set a price that is competitive and acceptable to the target market. Distribution channels belong in Place. The promotion budget belongs in Promotion. Changing the product to meet consumer tastes belongs in Product, not Price."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2791,7 +2814,8 @@
      "correct_answer": 0,
      "explanation": "The ingredients are combined into a meal and served in pleasant surroundings, so value is added (the $40 difference). The $40 is not profit, because wages, rent and other costs must still be paid. The ingredients are not resold unchanged. A restaurant is a service business, so it is not a primary sector producer."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3323,7 +3347,8 @@
      "correct_answer": 0,
      "explanation": "A new oven is a long-term fixed asset, so it is capital expenditure. Revenue expenditure covers day-to-day running costs such as wages or ingredients, so it is wrong. Additional working capital funds short-term costs like paying suppliers. Start-up capital is money to set up a new business, not to buy equipment for an existing shop."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3473,7 +3498,8 @@
      "correct_answer": 0,
      "explanation": "Debentures appear under Long term, so they suit buying a factory used for many years. Overdrafts from bank, Debt factoring and Trade creditors – delay paying suppliers are all Short term sources. They help with day-to-day cash flow, not major long-term assets, and could need repaying too soon."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3744,7 +3770,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows working capital = current assets – current liabilities, so $50,000 – $30,000 = $20,000. $80,000 wrongly adds the two figures. $30,000 and $50,000 are just one of the figures given, not the difference between them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3766,7 +3793,8 @@
      },
      "explanation": "The diagram gives Working capital = Current assets – Current liabilities. So $50,000 – $30,000 = $20,000. This is the money available to pay the business's short-term debts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3956,7 +3984,8 @@
      "explanation": "A negative closing balance in brackets means the business has spent more cash than it holds, so it is overdrawn and pays bank interest (shown from Jan. to Jun.). It does not prove a loss, as cash flow differs from profit. It is not surplus cash, and wages of 20 000 are paid every month.",
      "topic": "Financial information and financial decisions"
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4054,7 +4083,8 @@
      "correct_answer": 0,
      "explanation": "The acid test ratio subtracts inventories from current assets before dividing by current liabilities, so it shows whether a business can pay short-term debts without selling stock. The current ratio includes inventories, so it hides the problem. Gross profit margin and return on capital employed measure profitability, not liquidity."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4105,7 +4135,8 @@
      },
      "explanation": "The answer is the business cycle (also called the economic cycle or trade cycle). The curve moves up and down over the years, passing through growth, boom, recession and slump, then growth and boom again, showing that GDP changes in a repeating pattern."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -4140,7 +4171,8 @@
      "correct_answer": 0,
      "explanation": "Opening stores in another country needs capital spending on premises, fittings and stock to expand into a new market, so investment is correct. Dividends reward shareholders and do not create outlets. Repaying an overdraft is about managing short-term debt. Cutting prices to clear stock is a pricing decision, not an expansion one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4306,7 +4338,8 @@
      "correct_answer": 3,
      "explanation": "VAT is an indirect tax on spending, so it is added to the price of goods and demand may fall. The first option describes corporation tax, a direct tax on profits. The second is wrong because higher taxes do not raise disposable incomes; income tax cuts them. The third is wrong because import tariffs, not VAT, affect the price of imports."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4347,7 +4380,8 @@
      "correct_answer": 0,
      "explanation": "Monetary policy works through interest rates, which the diagram links to the cost of borrowing and loans to consumers. Fiscal policy uses tax revenue and government spending, so it is wrong. Supply side policy aims to improve productive capacity through competition and training. Privatisation is only one example of supply side policy, not a type of policy itself."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4444,7 +4478,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows depreciation makes import prices likely to rise, so imported raw materials cost more, and export prices could fall, helping overseas sales. The second option describes appreciation. The third and fourth wrongly pair the effects in the same direction, which the diagram does not show for either depreciation or appreciation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4485,7 +4520,8 @@
      "correct_answer": 0,
      "explanation": "The Starbucks shop sits on a street with Spanish tiled lettering, so a multinational is trading in another country. This is globalisation. Subsidies for small local firms are not shown, since Starbucks is a large chain. Trade union action and interest rate changes are external influences too, but nothing in the photograph shows them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5865,7 +5901,8 @@
      "correct_answer": 0,
      "explanation": "Acceleration equals the gradient of a velocity–time graph. The curve gets less steep, so the gradient and acceleration decrease, approaching zero. Velocity still rises, but more slowly, so the second option is wrong. Acceleration is not constant because the gradient changes. It is not negative because the gradient stays positive, even though it is flattening."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6021,7 +6058,8 @@
      "correct_answer": 0,
      "explanation": "Area under a velocity–time graph equals displacement. The rectangle (average velocity × t) has the same area as the area under the sloping line, so it gives the displacement. Acceleration is the gradient, not an area. Final velocity v is read from the axis. Change in velocity is v − u, a vertical difference, not an area."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6209,7 +6247,8 @@
      "correct_answer": 0,
      "explanation": "The ball starts from rest with constant acceleration g, so h = ½gt². This gives a curve through the origin that steepens, with h proportional to t². A straight line would mean constant speed. A horizontal line would mean no fall. A flattening curve would mean the ball is decelerating."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6359,7 +6398,8 @@
      "correct_answer": 0,
      "explanation": "With θ measured from north, vE = v sinθ rises from 0 to v as θ goes from 0° to 90°, while vN = v cosθ falls from v to 0. The other options mix up the functions, assume both grow, or ignore that the components depend on θ even when v is constant."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6441,7 +6481,8 @@
      "correct_answer": 0,
      "explanation": "From h = ½at², the gradient of h against t² is a/2. Gradient = 0.84 / 0.20 = 4.2 m s⁻², so a = 2 × 4.2 = 8.4 m s⁻². 4.2 forgets the factor of 2. 16.8 doubles twice. 0.24 comes from inverting the gradient (0.20/0.84)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6535,7 +6576,8 @@
      "correct_answer": 0,
      "explanation": "The vertical component is u sin 30° = 20 × 0.5 = 10 m s^-1. 17 m s^-1 is u cos 30°, the horizontal component, so it uses the wrong trig function. 20 m s^-1 ignores the angle. 40 m s^-1 wrongly divides by 0.5 instead of multiplying by it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6713,7 +6755,8 @@
      "correct_answer": 0,
      "explanation": "The object moves upwards, which is the positive direction, so its velocity is positive. Gravity pulls downwards, so the acceleration is negative (-9.81 m/s²), even though the object is moving up. The other options wrongly assume that acceleration must point along the motion, or that the velocity is downwards."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6919,7 +6962,8 @@
      "correct_answer": 0,
      "explanation": "As speed rises, air resistance increases, so the resultant force (weight minus air resistance) falls towards zero. This is why the gradient decreases. Weight is constant, but resultant force is not. It does not increase, since acceleration is falling. It is not zero at the start, as the parachutist is still accelerating."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7013,7 +7057,8 @@
      "correct_answer": 0,
      "explanation": "Newton's second law gives a = F/m, so for the same F acceleration is inversely proportional to mass. The ratio is 2600/700 ≈ 3.7 in favour of the lighter car. Equal acceleration ignores mass. Reversing the ratio gives the wrong car. 1.9 comes from wrongly using a square root or halving."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7258,7 +7303,8 @@
      },
      "explanation": "The two arrows show the contact force of the floor on the foot and the contact force of the foot on the floor. They act on different objects, are equal in size and opposite in direction. This is a third-law pair, so the answer is Newton's third law."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -7362,7 +7408,8 @@
      "correct_answer": 0,
      "explanation": "Third law pairs act on different bodies, are the same type and are equal in size but opposite in direction. Earth pulls the box down, so the box pulls Earth up, also gravitational. The rope tension is a different type of force. The man's pull on the rope is unrelated to the box's weight. The ground's push on the man pairs with the man pushing the ground."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7556,7 +7603,8 @@
      "correct_answer": 1,
      "explanation": "The forces form a closed triangle, so the resultant of all three is zero. Tension must therefore balance the resultant of wind and weight. It is not equal to the weight or the wind alone, because it has both components. It is also not the simple sum of their magnitudes, because the forces are perpendicular and add as vectors (Pythagoras)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7609,7 +7657,8 @@
      "correct_answer": 0,
      "explanation": "The forces are perpendicular, so by Pythagoras R = √(6.0² + 8.0²) = √100 = 10 N. 14 N simply adds the magnitudes, which ignores direction. 2.0 N subtracts them, which is only valid for opposite forces. 48 N multiplies them, which has no meaning here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7916,7 +7965,8 @@
      },
      "explanation": "The component down the slope is g sin θ, as labelled. The component perpendicular to the ramp is the other component of g, which is g cos θ. The two components are at right angles, and their combined effect gives g."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8021,7 +8071,8 @@
      "correct_answer": 0,
      "explanation": "The rope's vertical component F sinθ acts upwards, partly supporting the crate's weight. This reduces the normal reaction from the ground, so the maximum friction (μN) falls and the crate moves more easily. Pressing it down is wrong because the component is upward; forward motion comes from F cosθ; and friction does depend on the normal force, so 'no effect' is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9465,7 +9516,8 @@
      "correct_answer": 0,
      "explanation": "Taking right as positive, the total momentum before is mv + m(−v) = 0. Momentum is conserved, so the total after is zero and the joined trolleys are at rest. The 2mv options add the magnitudes and ignore direction. The mv option ignores B's momentum. Their positions after the collision do not affect the total momentum."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9806,7 +9858,8 @@
      "correct_answer": 0,
      "explanation": "Pressure p = ρgh, so with ρ and g unchanged it is directly proportional to h; doubling h doubles p. It does not stay the same, because depth matters. It does not halve, since greater depth gives greater pressure. It does not quadruple, because p is proportional to h, not h squared. Area A cancels out."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10632,7 +10685,8 @@
      "correct_answer": 0,
      "explanation": "The area under a force–extension graph equals force × distance, which is work done, stored as elastic potential energy. The gradient, not the area, gives the force constant. The maximum force is a single y-value, not an area. Extension per unit force is the reciprocal of the gradient."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10656,7 +10710,8 @@
      },
      "explanation": "Force F = kx, so force divided by extension is constant. The gradient of this straight line through the origin equals k, the force constant (spring constant) of the spring, which measures its stiffness."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -10816,7 +10871,8 @@
      "correct_answer": 0,
      "explanation": "Conventional current is defined as the direction in which positive charge would flow, so it points opposite to the electron movement, which is to the left. Right is wrong because it ignores the negative charge of electrons. The ions are fixed in the lattice and do not move along the metal. Arrows on the electrons show a current is flowing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11200,7 +11256,8 @@
      "correct_answer": 0,
      "explanation": "Conventional current is defined as the direction of flow of positive charge, so it is opposite to the electrons' drift velocity v. The same-direction options ignore this convention. Area A does not repel electrons; it only affects the current through I = nAvq."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11458,7 +11515,8 @@
      "correct_answer": 0,
      "explanation": "Both resistors connect between the same two junctions, so each has the same potential difference V. Charge is conserved at a junction (Kirchhoff's first law), so I = I1 + I2. Voltage division applies to series circuits, not parallel. The current splits, so I1 and I2 are not each equal to I. V is the same across both, not larger across the smaller one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12191,7 +12249,8 @@
      },
      "explanation": "The middle 5.0 V cell branch has no resistor and is connected between the same two junctions as the 20 Ω and 2.0 V branch. Parallel branches share the same p.d., so the p.d. across the 20 Ω and 2.0 V branch is 5.0 V."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12680,7 +12739,8 @@
      "correct_answer": 0,
      "explanation": "The terminal p.d. equals the e.m.f. minus the 'lost volts' across the internal resistance r, so V = E − Ir, which is also IR. E + Ir is wrong because energy is dissipated in r, not gained. E alone ignores the internal resistance, so it applies only when no current flows. Ir is just the lost volts across r, not the p.d. across R."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12791,7 +12851,8 @@
      "correct_answer": 0,
      "explanation": "Once a forward-biased diode conducts, its resistance is small and current rises rapidly, so the series safety resistor limits the current and protects the diode. The voltmeter, not the resistor, measures p.d. across the diode. The resistor does not reverse the diode's bias. Ammeter and voltmeter read different quantities, so they cannot be equal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13422,7 +13483,8 @@
      "correct_answer": 0,
      "explanation": "The horizontal axis shows time, so the distance of one cycle multiplied by the time/cm setting gives the period T, and f = 1/T. Amplitude shows loudness, not frequency. The trace's position on the screen and the shift control only move the display and do not change the period."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13936,7 +13998,8 @@
      "correct_answer": 0,
      "explanation": "The light leaving the first Polaroid oscillates vertically. A second Polaroid with a horizontal axis is at 90° to this, so it has no component along its transmission axis and almost no light passes. Half intensity applies to unpolarised light. Unchanged transmission needs parallel axes. A Polaroid cannot make light unpolarised."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14103,7 +14166,8 @@
      "correct_answer": 0,
      "explanation": "When the gap is much wider than the wavelength, only the edges of the wavefronts bend, so most of the ripples continue straight and diffraction is less noticeable. The wavelength does not change, because speed and frequency are unchanged. Stronger spreading happens with narrower gaps. Waves still pass through a wide gap."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14194,7 +14258,8 @@
      },
      "explanation": "Each point in the gap, such as A, B and C, acts as a source of secondary circular wavelets. This is Huygens' principle. The ripples from all points overlap and superpose beyond the barrier, giving the diffraction pattern."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -14365,7 +14430,8 @@
      "correct_answer": 0,
      "explanation": "Bright dots form where light from the two slits arrives in phase (path difference of a whole number of wavelengths), giving constructive superposition. Antiphase arrival gives destructive interference and dark regions. The screen does not selectively absorb crossing beams. Refraction by the slide does not produce multiple evenly spaced maxima; diffraction and interference do."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14506,7 +14572,8 @@
      "correct_answer": 0,
      "explanation": "Coherent sources keep a constant phase difference, so the positions of maxima and minima stay fixed and the pattern is stable. Different frequencies would make the phase difference change and the pattern would vary. White light is not needed and blurs the fringes. Slits must be narrow, comparable to the wavelength, for the light to diffract and overlap."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14575,7 +14642,8 @@
      "correct_answer": 0,
      "explanation": "Both slits are lit by the same incident wave, so any sudden phase change occurs in both at the same time. Their phase difference stays constant, so they are coherent. A phase change in each wave does not cause incoherence. The frequencies are the same. Constant phase difference does not mean antiphase."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14631,7 +14699,8 @@
      "correct_answer": 0,
      "explanation": "The single slit acts as one narrow source, so light reaching both slits of the double slit comes from the same wavefront and keeps a constant phase difference (coherent). This gives stable fringes. It reduces intensity rather than increasing it. The filter, not the slit, makes the light monochromatic. Diffraction at the double slit is not reduced by it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14684,7 +14753,8 @@
      "correct_answer": 0,
      "explanation": "For a grating d sinθ = nλ. With n = 1 and d fixed, sinθ is proportional to λ, so a longer wavelength gives a larger θ. Longer wavelengths diffract more, not less. Fixed d does not fix θ, since λ also matters. The n = 0 ray staying put does not stop the n = +1 ray moving."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14737,7 +14807,8 @@
      "correct_answer": 0,
      "explanation": "For a grating, d sinθ = nλ, so for a given order the angle increases with wavelength. Red has the longest wavelength, so it is deflected most. Violet has the shortest wavelength and the smallest angle. Red does not have the highest frequency, and the effect is diffraction and interference, not refraction due to speed differences."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15164,7 +15235,8 @@
      "correct_answer": 0,
      "explanation": "At the water surface the air cannot move because the wave is reflected there, so there is a displacement node. At the open end the air vibrates with maximum amplitude, so there is an antinode. The distance from node to adjacent antinode is λ/4. The other options reverse these positions or give the same type of point at both ends, which is wrong for a tube closed at one end."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15229,7 +15301,8 @@
      },
      "explanation": "The air particles at the closed end cannot move because of the base, so there is a displacement node. The curve in a narrows to a point at the closed bottom, which shows zero displacement amplitude."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15329,7 +15402,8 @@
      },
      "explanation": "The diagram shows the frequencies f0, 2f0 and 3f0 for the first three harmonics. The frequency rises in whole-number multiples of f0, so the fourth harmonic has frequency 4f0."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15373,7 +15447,8 @@
      },
      "explanation": "Wavelength = v/f = 340 / 2000 = 0.17 m. Adjacent nodes in a stationary wave are half a wavelength apart, so the distance is 0.17 / 2 = 0.085 m."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15491,7 +15566,8 @@
      "correct_answer": 0,
      "explanation": "α-particles have a short range in air and are easily absorbed or deflected by air molecules, so air is removed. Cooling the foil is not the purpose. A pump cannot speed up the particles. It also does not neutralise their charge, which is needed for scattering by nuclei."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15616,7 +15692,8 @@
      "correct_answer": 0,
      "explanation": "Sharp backward deflection needs a strong repulsive force from a concentrated, positively charged mass, so the nucleus is small, dense and positive. A uniform sphere would give only small deflections. Electrons are far too light to turn α-particles back. Most α-particles pass undeflected, so the nucleus occupies very little volume."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15713,7 +15790,8 @@
      "correct_answer": 1,
      "explanation": "Each loop is half a wavelength, so 6 loops make 3 wavelengths. 3λ = 75 cm gives λ = 25 cm. 12.5 cm wrongly treats each loop as a whole wavelength. 50 cm would fit 3 loops, not 6. 75 cm treats the whole string as one wavelength."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15737,7 +15815,8 @@
      },
      "explanation": "Each loop is half a wavelength. Seven loops fit into 75 cm, so 7 × λ/2 = 75 cm. Therefore λ = 150 ÷ 7 ≈ 21.4 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -16244,7 +16323,8 @@
      "correct_answer": 1,
      "explanation": "Line B is horizontal, so the eye is level with the rod top and the line of sight is perpendicular to the scale. This gives the true reading of about 23 mm. Lines A and C are oblique and make the rod top appear against the wrong marks (too high or too low). The ruler's distance from the rod does not remove parallax error."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16629,7 +16709,8 @@
      "correct_answer": 0,
      "explanation": "At constant speed the velocity is tangential, so the direction changes and there is an acceleration. This acceleration, and therefore the resultant force, points along the radius towards the centre. Away from the centre describes a nonexistent 'centrifugal' force. A force along or against v would change the speed, not just the direction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17240,7 +17321,8 @@
      "correct_answer": 0,
      "explanation": "Potential is defined as zero at infinity, and gravity is attractive. So energy must be supplied to take a mass from near the Sun or Earth to infinity, which makes the potential negative. Force is not what the potential sign shows, mass is never negative, and gravity does not repel."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17365,7 +17447,8 @@
      "correct_answer": 0,
      "explanation": "The mountain attracts the 20 g mass with a small horizontal gravitational force towards its centre of mass. Together with the Earth's pull (weight) and the tension, the resultant balance gives a tilted string. The pull does not cancel the Earth's pull, as that would reduce weight, not tilt the string. Attraction acts as if from the centre of mass. Tension is a single force along the string and does not pull sideways."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17433,7 +17516,8 @@
      "correct_answer": 0,
      "explanation": "Both bodies stay on opposite sides of the joint centre of mass, always in line with it, so they complete one orbit in the same time and have equal periods (ratio 1 : 1). The other ratios wrongly assume the smaller orbit or the larger mass gives a different period, or use a mass or radius ratio."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17547,7 +17631,8 @@
      "correct_answer": 0,
      "explanation": "When the flash frequency is slightly lower than the vibration frequency, each flash catches the cone slightly further along its cycle, so it appears to move slowly. Stationary would need equal frequencies. The apparent frequency is the small difference, not the true frequency. Blurring is not what a strobe produces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17792,7 +17877,8 @@
      },
      "explanation": "The trolley is held between two springs, so the net restoring force is proportional to its displacement from the centre and directed towards it (F = -kx). This gives acceleration proportional to displacement, which is simple harmonic motion."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17883,7 +17969,8 @@
      "correct_answer": 0,
      "explanation": "The cosine curve is at its maximum when t = 0, while the sine curve is at zero and only reaches its maximum a quarter cycle later. So they differ by π/2 rad (90°), and cosine leads sine. Antiphase would be π rad. Zero phase difference is wrong because equal amplitude and period do not mean the curves are in step."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18175,7 +18262,8 @@
      "correct_answer": 0,
      "explanation": "At maximum displacement the x–t gradient is zero, so v = 0. Acceleration is proportional to -x, so it has maximum magnitude and is negative, about -5.0 m s^-2. Maximum velocity occurs at x = 0, where a = 0. Both zero is wrong because a depends on x. Both maximum is wrong because v is zero at the peak."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18445,7 +18533,8 @@
      },
      "explanation": "The curve peaks where the driving frequency equals the natural frequency. At this point the system absorbs energy most efficiently from the driver and its amplitude is greatest. This phenomenon is called resonance."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -18608,7 +18697,8 @@
      "correct_answer": 0,
      "explanation": "The dashed resonance line leans towards lower driving frequency as damping increases, and the peak amplitude falls, so the first option is correct. The second is wrong because the peak does shift. The third is wrong because amplitude falls, not rises. The fourth is wrong because the shift is to lower, not higher, frequency."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18672,7 +18762,8 @@
      },
      "explanation": "Velocity is the gradient of the displacement-time graph. Each straight section has a constant gradient, alternating between positive and negative with equal size. So velocity jumps between two constant values, giving a square wave."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -19046,7 +19137,8 @@
      "correct_answer": 0,
      "explanation": "The curve rises from a large negative value towards zero as r increases, so potential energy increases. Work must be done against the attractive force to pull the atoms apart. The second option has the wrong direction of change. The third is wrong because the curve stays below zero. The fourth is wrong because the potential energy plainly changes along the curve."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19950,7 +20042,8 @@
      "correct_answer": 0,
      "explanation": "A spark forms when the field in the gap becomes strong enough to ionise air molecules, so the air briefly conducts and charge flows. Air does not become a perfect insulator, so that option is wrong. Charge flows because of potential difference, not different masses. The potential difference is large before the spark, not zero; it falls only as charge flows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20032,7 +20125,8 @@
      "correct_answer": 0,
      "explanation": "Parallel, equally spaced lines mean a uniform field, so g is constant and the weight mg on the object is the same at every point. The field is not stronger at the top, because spacing does not change. It is not zero during horizontal motion, since gravity always acts downward. It does not weaken to the right, because the line spacing stays constant."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20085,7 +20179,8 @@
      "correct_answer": 1,
      "explanation": "The sphere's positive charge attracts electrons from the earth onto the plate, giving its near surface an induced negative charge. The field lines run from the sphere to the plate, so there is an attractive force. Option A has the charge sign wrong. Option C is wrong because the plate is only neutral until the sphere is brought near. Option D is wrong because the sphere is not neutralised; the electric force acts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20108,7 +20203,8 @@
      },
      "explanation": "The positive sphere attracts electrons from the earth through the wire to the plate's near surface. This gives the facing side a negative induced charge, so the sphere is attracted towards the plate."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20316,7 +20412,8 @@
      },
      "explanation": "Between the plates the field is uniform, so the force on the proton is constant and downward. It moves at constant horizontal velocity while accelerating vertically, like a projectile, so its path is a parabola."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20756,7 +20853,8 @@
      "correct_answer": 0,
      "explanation": "Rolling lets long, large-area plates fit into a compact space, and capacitance is proportional to area (C = εA/d), so it is larger. The dielectric is an insulator and does not conduct. Rolling does not reduce the area. It also does not increase the plate separation, which would lower the capacitance."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20922,7 +21020,8 @@
      "correct_answer": 0,
      "explanation": "A joulemeter measures energy. When the switch is moved right, C discharges through J, which records the energy stored in the capacitor (½CV²). Charge, potential difference and capacitance are measured by other meters, so they are not what J reads here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21020,7 +21119,8 @@
      "correct_answer": 0,
      "explanation": "Energy stored equals the area under the V–Q graph: ½ × 4 mC × 4 V = 8 mJ. 16 mJ comes from multiplying QV without the ½. 4 mJ is a wrong reading of the area, using only half of the correct value. 2 mJ would come from using ½QV with the wrong values, such as Q = 1 mC and V = 4 V."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21287,7 +21387,8 @@
      "correct_answer": 0,
      "explanation": "Q = CV = 67 × 10⁻⁶ F × 12 V = 8.04 × 10⁻⁴ C, so 8.0 × 10⁻⁴ C is correct. 5.6 × 10⁻⁶ C comes from dividing C by V. 4.0 × 10⁻⁵ C comes from a wrong power of ten in the conversion. 1.8 × 10⁵ C comes from dividing V by C, which is meaningless here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21310,7 +21411,8 @@
      },
      "explanation": "Charge Q = CV. With C = 67 µF and V = 12 V, Q = 67 × 12 = 804 µC (8.04 × 10⁻⁴ C). The diagram shows the capacitor connected across the battery when the switch touches A."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -21989,7 +22091,8 @@
      },
      "explanation": "In (b) both currents are in the same direction (crosses). The green arrows show each wire pushed towards the other, so the force between them is attractive. Parallel currents in the same direction attract."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -22134,7 +22237,8 @@
      "correct_answer": 0,
      "explanation": "Both currents point into the page. The field of I1 at I2 is downward, so the force on I2 is towards I1. By Newton's third law I1 is pulled towards I2 equally. Same-direction parallel currents therefore attract. Repulsion is for opposite directions, and I1's field does act on I2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22356,7 +22460,8 @@
      "correct_answer": 0,
      "explanation": "The magnets give a horizontal field across the gap and the current runs horizontally along the wire. The force is perpendicular to both (Fleming's left-hand rule), so it is vertical. A force parallel to the field is wrong. A force along the current is wrong. A force along B is wrong because F = BIL sinθ acts at right angles to B."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22397,7 +22502,8 @@
      "correct_answer": 0,
      "explanation": "The force on a moving charge in a magnetic field is perpendicular to both velocity and field, so it acts as a centripetal force. It changes direction only, so speed and kinetic energy stay constant. Along or against the velocity would change the speed, and a force parallel to the field is not what the diagram shows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22438,7 +22544,8 @@
      "correct_answer": 0,
      "explanation": "Fast electrons collide with gas atoms, exciting or ionising them; when the atoms de-excite they emit photons, so the path glows. Electrons moving at constant velocity in a straight line do not radiate. Gas atoms are not pulled into a beam. The glass only fluoresces where electrons strike it, giving the green patch, not along the path."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22837,7 +22944,8 @@
      },
      "explanation": "This is the Hall effect. The magnetic field B deflects the charge carriers in the current I sideways, so positive and negative charge build up on opposite faces. This produces the Hall voltage V_H across the slab."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23105,7 +23213,8 @@
      "correct_answer": 0,
      "explanation": "An e.m.f. is induced only while magnetic flux linkage changes, so the pointer deflects while the magnet moves. When the magnet is still, the flux linkage is constant, so the induced e.m.f. and current are zero. The steady deflection is wrong because a strong field alone induces nothing. Contact is not needed, so zero throughout is wrong. Deflection after the magnet stops is wrong too."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23259,7 +23368,8 @@
      "correct_answer": 0,
      "explanation": "Moving the magnet away takes the field lines out of the coil, so flux linkage falls. By Faraday's law, a changing flux linkage induces an e.m.f. The coil does not need to move, because only relative motion matters. Flux linkage does not stay constant or increase, since fewer lines link the coil."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23412,7 +23522,8 @@
      "correct_answer": 1,
      "explanation": "Flux depends on the field component perpendicular to the area, which is along the normal. This component is B cos θ, so flux = BA cos θ. BA sin θ uses the component parallel to the surface. BA tan θ has no physical basis. BA applies only in a, where θ = 0."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23503,7 +23614,8 @@
      },
      "explanation": "The magnetic field B acts on the moving charge carriers in the current I and pushes them sideways. Charge builds up on opposite faces of the slab, creating a transverse potential difference called the Hall voltage."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24141,7 +24253,8 @@
      "correct_answer": 0,
      "explanation": "While entering, flux linkage rises at a constant rate because the speed is constant, so the induced e.m.f. is constant (about 0.04 s of entry). Once fully inside uniform field, flux linkage stops changing, so e.m.f. is zero. The other options wrongly link e.m.f. to flux itself, not its rate of change."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24710,7 +24823,8 @@
      },
      "explanation": "Peak voltage = r.m.s. voltage × √2 for a sinusoidal supply. So V0 = 6.0 × 1.414 = 8.5 V. The diagram gives the supply as 6.0 V r.m.s., and the diode does not change the supply's peak value."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -25034,7 +25148,8 @@
      "correct_answer": 0,
      "explanation": "Photoelectric emission occurs when a single photon gives all its energy to a single electron, and hf is at least the work function. Heating is wrong because emission is not thermal. Energy is not shared among all electrons. The wave-amplitude build-up idea is wrong because there is a threshold frequency, so low-frequency light does not eject electrons however intense it is."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25211,7 +25326,8 @@
      "correct_answer": 0,
      "explanation": "Einstein's equation gives hf = Φ + KEmax. Φ is a property of the metal and does not change, so any increase in hf goes into the maximum kinetic energy. Staying the same confuses Φ with a kinetic energy cap. A decrease is wrong because Φ is fixed. A larger increase is wrong because Φ does not shrink."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25404,7 +25520,8 @@
      "correct_answer": 0,
      "explanation": "Maxima satisfy d sinθ = nλ, so each wavelength has a different angle for the same order. Red is diffracted most and violet least, which spreads the colours. Prism-style refraction is not the cause. Absorption is not the cause. Colours do not share one angle except at the central maximum, where n = 0."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -25451,7 +25568,8 @@
      "correct_answer": 0,
      "explanation": "Photon energy equals the difference between levels: -0.24 − (−2.18) = 1.94 × 10^-18 J. 2.42 wrongly adds the magnitudes. 2.18 is the ground-state energy, which is the ionisation energy, not this transition. 1.64 comes from using the -0.54 level instead of -0.24."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25560,7 +25678,8 @@
      "correct_answer": 0,
      "explanation": "Photon energy equals the difference between the two levels: -4 - (-22) = 18 eV. 26 eV wrongly adds the two values. 22 eV uses only the final level's value. 9 eV is the difference between -4 and -13, so it uses the wrong level."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25656,7 +25775,8 @@
      "correct_answer": 0,
      "explanation": "Each spot is one particle detected at one place, showing particle behaviour, while the build-up of bands shows interference, a wave property (wave-particle duality). A single particle does not form a whole band. Collisions between particles are not needed, since the pattern appears even with one particle at a time. Particles are not split on detection."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25764,7 +25884,8 @@
      "correct_answer": 0,
      "explanation": "A regular diffraction pattern shows electrons have wave properties (de Broglie wavelength) and are diffracted by the regular atomic spacing in the crystal. Random particle scattering would give no ordered spots. The photoelectric effect involves emission by photons, not diffraction. Energy level transitions produce line spectra, not spot grids."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25909,7 +26030,8 @@
      },
      "explanation": "The photon energy equals the difference between the two levels: -1.6 - (-5.8) = 4.2 × 10^-19 J. The diagram gives both level energies, and the photon carries away exactly this energy."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26049,7 +26171,8 @@
      "correct_answer": 0,
      "explanation": "A higher accelerating voltage gives the electrons more kinetic energy and greater momentum, so λ = h/p becomes shorter. For a fixed graphite spacing, a shorter wavelength gives a smaller diffraction angle. The other options wrongly say the wavelength gets longer, that θ increases, or that the spacing alone fixes θ."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26158,7 +26281,8 @@
      "correct_answer": 0,
      "explanation": "On the steep rising part of the curve, joining light nuclei gives a nucleus with higher binding energy per nucleon, so it is more stable and energy is released. Lower binding energy per nucleon would need energy input. Larger A alone does not release energy. The maximum is near A = 50–90, not 240."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26441,7 +26565,8 @@
      },
      "explanation": "X-rays make the input phosphor emit light. This light hits the photocathode and releases electrons by the photoelectric effect. The diagram shows these electrons travelling through the vacuum to the anode and output phosphor."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26613,7 +26738,8 @@
      "correct_answer": 0,
      "explanation": "Rotating the tube sends the beam through the slice from many directions, and the detectors record the transmitted intensity each time. A computer combines these readings to build the cross-sectional image. Cooling is not the purpose. X-rays always travel at the speed of light, so rotation cannot speed them up. The fan beam is wide and strikes many detectors, not one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26724,7 +26850,8 @@
      "correct_answer": 1,
      "explanation": "Air-filled lungs have low density and attenuate X-rays least, so more intensity reaches the detector, giving dark areas on the radiograph. Bone and the heart and mediastinum attenuate more, so they appear lighter. Strong lung absorption, reflection by lungs, and lung emission are all wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26834,7 +26961,8 @@
      "correct_answer": 0,
      "explanation": "Barium has a high atomic number, so it absorbs X-rays far more than soft tissue (strong attenuation). Fewer X-rays reach the detector behind it, giving a pale region on this image. Barium does not emit X-rays. X-ray reflection is negligible. Greater transmission would give the opposite contrast."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26925,7 +27053,8 @@
      },
      "explanation": "In panel (b) the stress squeezes the crystal and charge separates, giving + on one face and − on the other, so an e.m.f. is induced. This production of a voltage from stress is the piezoelectric effect."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26988,7 +27117,8 @@
      "correct_answer": 0,
      "explanation": "The damping material absorbs the crystal's vibrations quickly, so each pulse is short. Short pulses give good axial resolution, because echoes from nearby boundaries do not overlap. It does not increase amplitude (it reduces ringing). It is not mainly a reflector. The thin wire, not the damping block, provides the electrical connection."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27087,7 +27217,8 @@
      "correct_answer": 0,
      "explanation": "Each position sends a pulse along a different line, and reflections from the organ boundary are plotted as dots at the right depth. Together they form a 2D outline. Moving the transducer does not change wavelength, does not reduce reflection at the skin (gel does that), and is not used for Doppler measurement here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27128,7 +27259,8 @@
      "correct_answer": 0,
      "explanation": "The electron and positron have almost zero total momentum, so the photons must have equal and opposite momenta, which means they travel in opposite directions. Photons are uncharged, so charge is not the reason. Mass is not carried by photons, and mass-energy is conserved instead. Photons do not repel each other electrostatically."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27238,7 +27370,8 @@
      "correct_answer": 0,
      "explanation": "The electron and positron have almost zero momentum before annihilation, so the two gamma photons must leave with equal and opposite momentum, giving a straight line of response. Repulsion is wrong because they attract. All detectors respond to gamma photons. The photons travel at the same speed, c."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27729,7 +27862,8 @@
      "correct_answer": 0,
      "explanation": "Gradient = change in extension ÷ change in load = 8.0 cm ÷ 5 N ≈ 1.6 cm N⁻¹. 0.63 inverts the ratio (load ÷ extension). 8.0 uses only the extension and ignores the load. 1.6 N cm⁻¹ has the correct number but the wrong units, since extension is on the y-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27770,7 +27904,8 @@
      "correct_answer": 0,
      "explanation": "In beta-minus decay a neutron changes into a proton, so the atomic number rises by 1 (6 to 7) and the nucleon number stays 14. The table shows atomic number 7 is nitrogen. Boron would follow beta-plus decay. Carbon would mean no change in proton number. Oxygen would need a rise of 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27790,7 +27925,8 @@
      },
      "explanation": "Uranium has atomic number 92, shown in the table. Alpha decay emits a helium nucleus with 2 protons, so the daughter has 92 − 2 = 90 protons. The element with atomic number 90 is thorium, which matches."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28062,7 +28198,8 @@
      "correct_answer": 0,
      "explanation": "Capital is man-made equipment, machinery and buildings used to produce goods and services, which fits the refinery columns, tanks and pipes. Land means natural resources such as oil or the site itself. Enterprise is the risk-taking and organising role of the entrepreneur. Labour is human effort, and no workers are visible."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28378,7 +28515,8 @@
      "correct_answer": 0,
      "explanation": "Consumer protection and advertising law require claims about a product or service to be truthful and not misleading. An untrue safety claim would breach this. Unfair dismissal concerns employees, price fixing concerns collusion between competitors, and shareholder rights concern company ownership, so none of these relate to an inaccurate advertising claim."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28419,7 +28557,8 @@
      "correct_answer": 0,
      "explanation": "Sitting outside the building with symbolic barrels is direct action, a visible stunt designed to attract media attention and public sympathy. Private lobbying happens away from public view. Legal action would happen in court, not on the street. A protest does not involve negotiating a formal agreement with shareholders."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28516,7 +28655,8 @@
      "correct_answer": 0,
      "explanation": "From the peak to the low point, real GDP falls, so incomes drop and unemployment rises. Demand for luxury goods, which are income elastic, falls sharply. Rising confidence, shortages from overheating and faster growth all describe the upswing or boom, not the downturn, so they would not reduce sales."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28579,7 +28719,8 @@
      },
      "explanation": "Changes to government spending and tax rates are fiscal policy. The flowchart shows both being used during a recession to increase aggregate demand, which raises output and employment. This is expansionary fiscal policy, not monetary policy, which uses interest rates or money supply."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28845,7 +28986,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows competences combining into core products, which then support Businesses 1 to 4 and twelve end products. This is core competence theory. Ansoff's matrix compares product and market growth options. Porter's generic strategies compare cost, differentiation and focus. The Boston Matrix classifies products by market share and growth. None of these is shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29367,7 +29509,8 @@
      "correct_answer": 1,
      "explanation": "Safety needs sit directly above physical needs and below social needs. Once job security and health and safety are met, the next level is social needs: trust, acceptance, friendship and belonging. Esteem and self-actualisation come later, so choices A and C skip a level. Physical needs are already met lower down, so D is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29388,7 +29531,8 @@
      },
      "explanation": "The pyramid shows Maslow's hierarchy of needs, from physical needs at the base to self-actualisation at the top. Abraham Maslow argued that people are motivated by moving up the levels as each lower need is satisfied."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -29630,7 +29774,8 @@
      },
      "explanation": "The answer is a matrix structure. The grid has functional departments in the columns and project teams in the rows, so staff report both to their department and to a project team. The arrows show these two crossing lines of authority."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -29685,7 +29830,8 @@
      },
      "explanation": "The answer is span of control. The diagram shows each manager with three people directly beneath, so the span is three. This is a narrow span, which allows close supervision of subordinates."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30340,7 +30486,8 @@
      "correct_answer": 0,
      "explanation": "A is in the lower left quadrant: high share, low growth, so it is a cash cow. It earns more cash than it needs, so the cash should fund other products such as question marks. Firms cannot raise market growth by investing, so that is wrong. Withdrawal suits dogs like D. Heavy promotion wastes money in a mature market."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30430,7 +30577,8 @@
      },
      "explanation": "The answer is promotion. The jersey shows the sponsor names 'SOUDAL' and 'Lotto', so the firms pay to advertise their brands to spectators and viewers. Sponsorship is a form of promotion in the marketing mix."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30819,7 +30967,8 @@
      "correct_answer": 0,
      "explanation": "The dashed line extends the existing trend to 208 by 2022 Q2, assuming past patterns continue. Changes such as new competitors or economic shifts could make it wrong. Moving averages can show rises, as the graph does. The forecast is an estimate, not exact. The data runs from 2018 to 2021, not only 2018."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31007,7 +31156,8 @@
      },
      "explanation": "The diagram shows one parcel, a single-product marketing mix, sent unchanged to the whole global market. Using the same marketing mix everywhere is called standardisation (global marketing), rather than adapting the mix for each country."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -31070,7 +31220,8 @@
      "correct_answer": 0,
      "explanation": "A positive average seasonal variation means actual sales are normally above the trend in that quarter, here by about 51.67 (revenue units). Below the trend would need a negative figure. It is not a percentage of the trend, and it is an average of past differences, not a fixed sales figure or a guarantee."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31123,7 +31274,8 @@
      "correct_answer": 0,
      "explanation": "The sign keeps the cup, DD logo and colours for global brand consistency, but adds Chinese characters for local customers, so this is partial adaptation. A fully standardised approach would have no Chinese text. The brand identity is not hidden or replaced, and nothing shows a takeover or a change of product."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31414,7 +31566,8 @@
      "correct_answer": 0,
      "explanation": "Beyond the Optimum, the rise in inventory-holding costs (storage, insurance, capital tied up) outweighs the fall in inventory-out costs, so total costs climb along the U-shaped curve. Inventory-out costs fall as stock rises, not rise. Holding costs rise with more stock. Total costs do not stay constant, because the Optimum is the minimum point."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31524,7 +31677,8 @@
      "correct_answer": 0,
      "explanation": "Moving down the left side of the curve, average costs fall because of economies of scale such as spreading fixed costs over more units and bulk-buying discounts. Rising costs and communication problems occur only beyond the minimum point. Constant costs do not match the downward slope. Diseconomies of scale are on the right, where costs rise."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31715,7 +31869,8 @@
      "correct_answer": 0,
      "explanation": "TQM aims to build quality into every stage through a company-wide culture. The diagram shows this with 'Involve all employees', 'Get it right first time' and 'Focus on consumer'. Inspection by a separate department is quality control, not TQM. TQM does not cut staff involvement; it increases it. 'Continuous improvement' shows it is ongoing, not a one-off management project."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31833,7 +31988,8 @@
      },
      "explanation": "The cycle is benchmarking. The firm measures its BPIs, identifies the best businesses, compares itself with them, sets standards, changes processes, then re-measures. The arrow from circle 7 back to circle 1 shows it repeats."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -31868,7 +32024,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows every function joined to a single ERP centre, so they share integrated, real-time data, which improves coordination and decision-making. The second option is wrong because ERP links departments rather than isolating them. The third is wrong because ERP does not remove Sales. The fourth is wrong because ERP supports forecasting and materials planning rather than replacing them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31909,7 +32066,8 @@
      "correct_answer": 0,
      "explanation": "Buffers are stocks held between processes. Removing them cuts work-in-progress and storage costs, but a problem at one stage now halts the next stages. The second option reverses the effect. The third wrongly says storage costs rise. The fourth confuses buffers with quality checking, which they do not provide."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32503,7 +32661,8 @@
      "correct_answer": 0,
      "explanation": "Beyond BE the sales revenue line is steeper than the total costs line, so the gap between them widens and profit grows to its maximum at full capacity. Fixed costs stay constant, but this does not keep profit constant. Variable costs do rise, but more slowly than revenue. Total costs never fall as output increases."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32623,7 +32782,8 @@
      "correct_answer": 0,
      "explanation": "SR2 is steeper than SR1, so a higher price gives more contribution per unit. SR2 meets TC sooner, at BE2, which is to the left of BE1. Break-even output rises is wrong because BE2 is lower. Staying at BE1 is wrong because break-even depends on revenue as well as TC. Lower fixed costs is wrong because the fixed cost line has not moved."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32686,7 +32846,8 @@
      },
      "explanation": "To the left of the break-even point, the TC line lies above the SR line. Total costs are higher than sales revenue, so the business makes a loss rather than a profit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -33349,7 +33510,8 @@
      "correct_answer": 0,
      "explanation": "Discount received from a supplier is entered in the Disc column on the credit side, the 'money out' side, alongside the payment. The debit Disc column holds discounts allowed to customers. Cash and Bank columns record only the actual money paid or received, not the discount, so those options are wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33390,7 +33552,8 @@
      "correct_answer": 0,
      "explanation": "A trial balance lists ledger balances and checks that total debits equal total credits, which tests the arithmetic accuracy of double entry. It cannot prove transactions went to the correct accounts, since errors like wrong account or omission still balance. It does not measure profit, which comes from the income statement."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33431,7 +33594,8 @@
      "correct_answer": 0,
      "explanation": "Depreciation is apportioned by asset cost, so 3 600/12 000 = 30% means Painting holds 30% of the cost of non-current assets. Floor area is 25% for Painting (10 000/40 000), so that is wrong. Indirect labour is allocated directly, and Painting's share is not 30%. Moulding has the largest total overhead, $43 000, not Painting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33637,7 +33801,8 @@
      "correct_answer": 0,
      "explanation": "The horizontal line at $500 shows total fixed costs do not change with output within this range. Spreading $500 over more units makes fixed cost per unit fall (from $5 to about $1.67). The other options wrongly treat fixed costs as varying with output or per-unit cost as constant."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33800,7 +33965,8 @@
      "correct_answer": 2,
      "explanation": "Limiting factors (4) applies when a scarce resource, such as machine hours, restricts output. Products are ranked by contribution per unit of the scarce resource. Target profit (1) finds the sales needed for a set profit. Make or buy (3) compares internal and external supply costs. Closure (5) considers whether a unit's contribution justifies keeping it open."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33821,7 +33987,8 @@
      },
      "explanation": "The answer is contribution (selling price minus variable cost per unit). Target profit, special orders, make or buy, limiting factors and closure decisions all compare contribution and avoidable costs rather than full absorbed profit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -34068,7 +34235,8 @@
      "correct_answer": 0,
      "explanation": "The total direct materials variance is made up of a price variance (actual price compared with standard price) and a usage variance (actual quantity compared with standard quantity). Both lower boxes are labelled 'usage', so one should be 'price'. The labour variances belong to direct labour, and a 'sales' variance is not a materials variance, so the other options are wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34089,7 +34257,8 @@
      },
      "explanation": "The total direct materials variance splits into a price variance and a usage variance. The diagram labels both lower boxes 'usage', but one should be the direct materials price variance, which compares actual and standard price paid per unit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -34164,7 +34333,8 @@
      "correct_answer": 0,
      "explanation": "Higher fixed costs shift the total cost line up in parallel, so it meets the unchanged revenue line later, at 400 units instead of 250. Revenue not changing does not keep break-even the same. A higher cost line cannot lower break-even. $2000 and $3200 are revenue values, not unit outputs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35582,7 +35752,8 @@
      "correct_answer": 0,
      "explanation": "Number is declared with Dim inside the function, so it is local. It exists only while InputOddNumber runs and Sub Main cannot access it. NewNumber is the module-level variable. A local variable does not keep its value after the function ends. Declaring it inside a function does not make it global."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -36047,7 +36218,8 @@
      },
      "explanation": "Each of these subroutines contains only a Console.WriteLine message to show it was reached. Such temporary placeholders are called stubs. They let the menu in Sub Main be tested before the real routines are written."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -36185,7 +36357,8 @@
      },
      "explanation": "Factorial(3) = 3 * Factorial(2) = 3 * 2 * Factorial(1) = 3 * 2 * 1 * Factorial(0). The base case n = 0 returns 1, so the result is 3 * 2 * 1 * 1 = 6."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -36261,7 +36434,8 @@
      "correct_answer": 2,
      "explanation": "Declarative programming, such as Prolog, states facts and rules, and the system searches for a solution to answer a query. Imperative programming gives step-by-step instructions. Low-level programming uses processor-specific commands. Object-oriented programming combines data with procedures in objects, not by searching."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -36282,7 +36456,8 @@
      },
      "explanation": "The answer is object-oriented. Information hiding (encapsulation) protects an object's internal properties, such as private attributes, so they can only be changed through its methods. The statement mentions objects, which points to the object-oriented paradigm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -37125,7 +37300,8 @@
      "correct_answer": 0,
      "explanation": "Quantity demanded does not change when price rises, so the percentage change in quantity is 0 and PED = 0/%ΔP = 0, which is perfectly inelastic. Infinite elasticity would be a horizontal line. Unit elasticity needs proportionate changes in quantity and price. Elastic demand needs quantity to change by a larger percentage than price, which does not happen here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37222,7 +37398,8 @@
      "correct_answer": 3,
      "explanation": "In b, supply shifts left, so less is supplied at every price, including P. A new tax raises costs of production and causes this. A fall in raw material costs and a subsidy shift supply right, as in a. A rise in the good's own price causes a movement along the curve, not a shift."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37244,7 +37421,8 @@
      },
      "explanation": "In diagram b the supply curve moves left from S to S1, so less is supplied at price P (Q falls to Q1). A new tax raises costs of production and decreases supply. A subsidy would shift supply right, as in diagram a."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -38201,7 +38379,8 @@
      "correct_answer": 0,
      "explanation": "Rising demand for hotel services (graph a) raises the demand for the workers who provide them. Labour demand is a derived demand, so D shifts to D1 in graph b and the wage rises to W1. Supply S does not move. The causation is not reversed, and the wage is set by labour market forces rather than fixed by the price of hotel services."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -38222,7 +38401,8 @@
      },
      "explanation": "Demand for hotel workers rises because demand for hotel services rises (graph a). Workers are wanted not for themselves but for the output they help produce, so their demand is derived demand. This pushes the wage from W to W1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -38257,7 +38437,8 @@
      "correct_answer": 0,
      "explanation": "Consumer surplus is the area between D and the price line, up to the quantity bought. A higher price shrinks this triangle, as the price line moves closer to P1 and Q falls. It does not rise, since paying more reduces the gap between willingness to pay and price. It does not stay constant, since the area depends on price even if D does not shift."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39340,7 +39521,8 @@
      "correct_answer": 0,
      "explanation": "A rise in injections shifts the horizontal I + G + X line upwards. At Y injections now exceed withdrawals, so income expands until the upward-sloping S + T + M line meets it at a higher GDP. The other options wrongly claim GDP falls or is unchanged, or that withdrawals must adjust first or alone."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39507,7 +39689,8 @@
      "correct_answer": 0,
      "explanation": "A change in the price level causes a movement along the AD curve. Moving down and to the right means a lower price level, so more real GDP is demanded. The other options (higher government spending, lower interest rates, greater consumer confidence) are non-price-level factors that shift the whole curve to the right, not movements along it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39642,7 +39825,8 @@
      "correct_answer": 0,
      "explanation": "A leftward shift from SRAS to SRAS1 means firms supply less at every price level, which happens when costs of production rise, such as higher raw material or energy costs. Lower corporation tax, higher productivity and cheaper imports all reduce costs or raise efficiency, so they would shift SRAS right."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39695,7 +39879,8 @@
      "correct_answer": 1,
      "explanation": "The vertical LRAS shows potential output at Y does not depend on the price level; it is determined by the quantity and quality of factors of production and technology. Higher prices do not raise capacity permanently. Unlimited supply at a fixed price describes a horizontal Keynesian range. Rising AD alone only raises prices, not long-run output."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39748,7 +39933,8 @@
      "correct_answer": 1,
      "explanation": "Near full capacity, labour and capital are almost fully employed, so firms cannot easily raise output and costs rise sharply, making SRAS very steep. Spare capacity gives a flatter curve at the lower left. Rising productivity would shift SRAS right, not make it vertical. Falling government spending affects demand, not the curve's shape."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40154,7 +40340,8 @@
      },
      "explanation": "Replacing workers with robots is technological unemployment. The chart lists this under structural unemployment, which arises from changes in the structure of the economy. It is not frictional (between jobs) or cyclical (lack of aggregate demand)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -40440,7 +40627,8 @@
      "correct_answer": 0,
      "explanation": "Higher raw material or energy costs raise production costs, shifting short-run aggregate supply left from AS to AS1, so prices rise to P1 and real GDP falls. The other options increase consumption or government spending, shifting AD right, which would cause demand-pull inflation, not a leftward AS shift."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40461,7 +40649,8 @@
      },
      "explanation": "The answer is cost-push inflation. Higher production costs shift the supply curve left from AS to AS1. The AD curve then meets AS1 at the higher price level P1, so prices rise while real GDP falls."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -40496,7 +40685,8 @@
      "correct_answer": 0,
      "explanation": "Demand-pull inflation occurs when AD shifts right and pulls up the price level. Here AD to AD1 raises output from Y to Y1 and price from P to P1 along AS. The AS curve does not shift, so it is not cost-push. AD rises, not falls. Output increases to Y1, so it does not stay at Y."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40517,7 +40707,8 @@
      },
      "explanation": "The answer is demand-pull inflation. AD shifts right to AD1 along the upward-sloping AS curve, so the price level rises from P to P1 and output rises from Y to Y1. Rising aggregate demand pulls prices up."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -40844,7 +41035,8 @@
      "correct_answer": 0,
      "explanation": "Interest payments are transfer payments: money moves from taxpayers to bond holders without government using up resources or creating output directly. Infrastructure is capital spending. Goods and services for public services are current spending. How spending is financed does not decide whether it is exhaustive."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40885,7 +41077,8 @@
      "correct_answer": 2,
      "explanation": "VAT is a tax on spending, so it is indirect, and at 24% it is the largest indirect source shown. Income tax (37%) is larger but is a direct tax on income. Corporate tax is also direct, and it is only 16%. Tariffs are indirect but provide just 5%, so they are not the largest."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40926,7 +41119,8 @@
      "correct_answer": 0,
      "explanation": "Welfare payments (15%) are transfer payments: money is redistributed to recipients without any good or service being produced in exchange. Defence, education and training, and transport are government spending on goods and services, such as equipment, teachers' services and infrastructure, so they are not transfer payments."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -41016,7 +41210,8 @@
      },
      "explanation": "The answer is demand-pull inflation. AD shifts right to AD1 along the upward-sloping part of the supply curve, so real GDP rises from Y to Y1 and the price level rises from P to P1, because spending grows faster than output can."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41600,7 +41795,8 @@
      },
      "explanation": "The answer is demand-pull inflation. AD shifts right to AD1 and cuts the upward-sloping AS curve at a higher price level, P1 instead of P. Rising aggregate demand pulls up prices, and real GDP also rises from Y to Y1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41849,7 +42045,8 @@
      "correct_answer": 0,
      "explanation": "Every point on one indifference curve gives the same total utility, so moving from x to y leaves satisfaction unchanged. More X is exactly offset by less Y. The second and third options look at only one good. The fourth is wrong because distance from the origin along a single curve does not show satisfaction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -42148,7 +42345,8 @@
      "correct_answer": 0,
      "explanation": "E2 to E3 moves from I1 to I2 along lines parallel to B3 and B2, so relative prices are constant. Only real income changes, which is the income effect. Substitution is E1 to E2. Money income does not change in this case. Movement along I1 to the old price ratio is not what is shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -42431,7 +42629,8 @@
      "correct_answer": 0,
      "explanation": "At the tangency point B the slope of IC (MRS) equals the slope of the budget line (price ratio), so utility is maximised with the income available. A lies on the budget line but on a lower indifference curve. C is on the same curve as B, so it gives equal utility, and it is unaffordable because it lies above the budget line. At B the consumer spends all of their income, not none of it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -42659,7 +42858,8 @@
      "correct_answer": 0,
      "explanation": "Putting money values on costs and benefits lets them be totalled and compared in the same units, which is needed to interpret the results. Option 2 is wrong because CBA includes external costs and benefits. Option 3 is wrong because forecasting is a separate stage. Option 4 is wrong because identification comes first, before valuation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -42897,7 +43097,8 @@
      },
      "explanation": "Points x, y and z each produce 100 units using different combinations of labour and capital. A curve joining all input combinations giving the same output is called an isoquant."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -42960,7 +43161,8 @@
      "correct_answer": 0,
      "explanation": "TC = TFC + TVC, so TC minus TVC equals TFC, shown by the horizontal line. Fixed costs do not change with output, so the gap is constant. Variable cost is the lower curve itself, not the gap. Marginal cost changes with output. The graph shows costs only, so it cannot show profit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43013,7 +43215,8 @@
      "correct_answer": 0,
      "explanation": "ATC = AVC + AFC, so the vertical gap between ATC and AVC equals AFC. AFC falls as fixed costs are spread over more units. Marginal cost actually rises at higher output. AVC does not rise faster than ATC to close the gap. Total fixed cost stays constant in the short run, so it does not fall."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43268,7 +43471,8 @@
      "correct_answer": 1,
      "explanation": "External economies of scale come from growth of the whole industry, such as specialist suppliers or better infrastructure, and shift every firm's LRAC down. A single firm spreading fixed costs is an internal economy, a movement along the curve. Coordination problems are diseconomies, which raise costs. A per-unit tax raises costs, shifting LRAC up."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43309,7 +43513,8 @@
      "correct_answer": 0,
      "explanation": "The market in graph a sets price P where S meets D. A single perfectly competitive firm is too small to affect it, so it sells every unit at P. Price, average revenue and marginal revenue are therefore equal. A monopolist sets its own price. Price cuts would make MR fall below AR. The market supply curve is upward sloping, not perfectly elastic."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43330,7 +43535,8 @@
      },
      "explanation": "The firm faces a horizontal demand curve at price P, so it is a price taker. Graph a shows the market sets P through demand and supply. This is perfect competition, where D = AR = MR for each firm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43756,7 +43962,8 @@
      "correct_answer": 0,
      "explanation": "Barriers to entry, such as patents, high start-up costs or legal control, stop new firms joining, so the single supplier keeps its position. Perfect information belongs to perfect competition. Product differentiation is typical of monopolistic competition. Price taking is what firms in perfect competition do, whereas a monopolist is a price maker."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43777,7 +43984,8 @@
      },
      "explanation": "The diagram shows that it is difficult for new firms to enter the market. Economists call these obstacles barriers to entry, such as economies of scale, legal protection or control of resources. They let a monopolist keep its position and have no competition."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43812,7 +44020,8 @@
      "correct_answer": 0,
      "explanation": "Profit is maximised where MC = MR: beyond Q each extra unit adds more to cost than to revenue, and below Q it adds more to revenue than to cost. Minimum ATC is productive efficiency, not profit maximisation. At Q, P is above ATC, so profit is supernormal. Allocative efficiency needs P = MC, which does not hold at Q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43933,7 +44142,8 @@
      "correct_answer": 0,
      "explanation": "The monopolist produces where MC = MR at MQ, which is less than PCQ. It charges MP at point e on the demand curve, above PCP. Output is restricted below the level where price equals MC, so the hatched deadweight loss appears. The other options reverse the changes, deny the efficiency loss, or claim output and price are unchanged."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45053,7 +45263,8 @@
      "correct_answer": 0,
      "explanation": "Above W, the supply curve lies to the right of the demand curve, so more people want to work than firms want to hire, creating excess supply (unemployment). A shortage happens only below W. Demand and supply do not both shift; the movement is along the curves. Firms hire fewer workers than L at a higher wage, not more."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46026,7 +46237,8 @@
      "correct_answer": 0,
      "explanation": "The curve moves above and below an upward-sloping trend, showing short-term fluctuations in actual output around long-run growth: the business cycle. Long-run decline is wrong because the curve recovers after the Trough. The Peak is only a temporary high, not a maximum capacity. The trend line slopes upward, so it is not falling."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46049,7 +46261,8 @@
      },
      "explanation": "The answer is the business cycle (also called the trade or economic cycle). The graph shows real GDP rising above and falling below the trend line in repeated upturns, peaks, downturns and troughs, which is how short-run fluctuations around long-run growth are described."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -46212,7 +46425,8 @@
      "correct_answer": 0,
      "explanation": "Y is to the right of Yfe, so actual output exceeds potential output: a positive output gap. Resources are used beyond normal capacity, so wages and costs rise and push the price level up. A negative gap would need Y left of Yfe. Downward pressure on prices is wrong for a positive gap. Y does not equal Yfe, so a gap exists."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46443,7 +46657,8 @@
      "correct_answer": 0,
      "explanation": "In liquidity preference theory, a rise in money supply shifts the vertical MS line right. With L unchanged, the new intersection is further down the downward-sloping L curve, so the equilibrium interest rate falls. The other options wrongly say the rate rises, stays at R, or that L shifts when the money supply changes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46513,7 +46728,8 @@
      "correct_answer": 0,
      "explanation": "Increasing money supply from Q to Q1 creates excess supply of money at R, so the interest rate falls to R1 along the L curve. The rise option reverses the relationship. The unchanged option ignores that the supply shift moves equilibrium. The last option wrongly says L shifts; the movement is along L."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46710,7 +46926,8 @@
      "correct_answer": 0,
      "explanation": "A leftward shift of the supply curve means less is lent at every interest rate. This creates excess demand at R, which pushes the rate up. The higher rate reduces the quantity demanded, and with less supplied, Q falls. Rising Q or falling R would need a rightward supply shift or a demand shift, not this change."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -47474,7 +47691,8 @@
      },
      "explanation": "Both circular flows start and end at low incomes, so low income reinforces itself through low savings and investment or through low human capital. This self-perpetuating process is called the poverty cycle (vicious circle of poverty)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -47604,7 +47822,8 @@
      },
      "explanation": "The Gini coefficient rises to a peak of about 0.6 as GDP per head grows, then falls again. This inverted-U relationship between inequality and income per head is the Kuznets curve, proposed by Simon Kuznets."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -48182,7 +48401,8 @@
      "correct_answer": 0,
      "explanation": "The curve is symmetric about the vertical axis, so a horizontal line above O cuts it twice: for example x = 2 and x = -2 both give 4. So f is many-to-one, and its inverse would not be a function. The origin does not matter. The symmetry is about the f(x) axis, not the x-axis. Opening upward only restricts the range."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48291,7 +48511,8 @@
      "correct_answer": 0,
      "explanation": "The midpoint is the mean of the coordinates: ((6 + −4)/2, (4 + −16)/2) = (1, −6). (5, 10) comes from halving the differences 10 and 20. (2, −12) is the sums without halving. (−1, 6) has the wrong signs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48312,7 +48533,8 @@
      },
      "explanation": "The midpoint is the average of the coordinates: x = (6 + (−4))/2 = 1 and y = (4 + (−16))/2 = −6. So the midpoint of AB is (1, −6)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -48463,7 +48685,8 @@
      },
      "explanation": "The midpoint is the average of the coordinates: (2 + 6)/2 = 4 and (5.8 + 3.8)/2 = 4.8. So the midpoint of the segment between the two marked points is (4, 4.8)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -48603,7 +48826,8 @@
      },
      "explanation": "The red curve y = sin x + 1 reaches its highest point at x = 90, where it meets the y-axis value 2. This is the blue curve's maximum of 1 shifted up by 1, so the maximum is 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -48638,7 +48862,8 @@
      "correct_answer": 0,
      "explanation": "BC = √((7−(−3))² + (7−2)²) = √(10² + 5²) = √125 = 5√5. 5√2 comes from using 5 for both differences. 5 is the length AB (using A and B), not BC. √97 comes from wrongly using 7−3=4 and 7+2=9, mishandling signs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48719,7 +48944,8 @@
      "correct_answer": 0,
      "explanation": "200° lies between 180° and 270°, in the lower left quadrant, which is labelled Tan. So only tan is positive. Sin alone is positive between 90° and 180°. Cos alone is positive between 270° and 360°. All three are positive only between 0° and 90°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -48924,7 +49150,8 @@
      "correct_answer": 0,
      "explanation": "The amplitude a is half the distance between maximum and minimum: (10 − 4) ÷ 2 = 3. Option 6 is the full height of the wave, not half. Option 7 is the midline value c, the average of 10 and 4. Option 4 is just the minimum value read from the axis, which is not the amplitude."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -49027,7 +49254,8 @@
      },
      "explanation": "Choose which 4 of the 8 different toys go in box A; the other 4 go in box B. This gives 8C4 = 8!/(4!×4!) = 40320/576 = 70 ways."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -49220,7 +49448,8 @@
      },
      "explanation": "The graph shows a maximum at (−1, 3). Differentiate: dy/dx = 3x² − 3, so d²y/dx² = 6x. At x = −1 this is −6, which is negative, as expected for a maximum point."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -49412,7 +49641,8 @@
      "correct_answer": 0,
      "explanation": "Velocity is the gradient of the displacement-time graph. At t = 2 the curve is at its maximum, so the tangent is horizontal and v = 4 − 2t = 0. The particle is momentarily at rest and changing direction. Reading 4 confuses displacement with velocity. The particle is back at O at t = 4, not t = 2. Velocity is not simply the value of t."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50219,7 +50449,8 @@
      "correct_answer": 0,
      "explanation": "Decomposition means breaking a large problem or system into smaller, more manageable parts, as the Calculator is split into Input, Process and Output. Testing checks that a program works. Iteration means repeating steps. Debugging means finding and fixing errors. None of these describes splitting a problem into parts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50475,7 +50706,8 @@
      },
      "explanation": "The diagram is a structure (hierarchy) diagram. It starts with the whole problem at the top and breaks it into smaller sub-tasks (Input, Process, Output). This is decomposition, done in the design stage of the program development life cycle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51777,7 +52009,8 @@
      "correct_answer": 0,
      "explanation": "Sandstone is a sedimentary rock: sand grains were deposited in successive layers, then compacted and cemented, so bedding shows as bands. Cooling magma makes igneous rock with interlocking crystals. Heat and pressure without melting makes metamorphic rock. Lava cooling at the surface makes extrusive igneous rock, not layered sediment."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51887,7 +52120,8 @@
      "correct_answer": 0,
      "explanation": "Metamorphic rock is correct: arrows labelled 4 (heat and pressure) run from both sedimentary and igneous rocks to metamorphic rocks. Magma forms by melting (5), not process 4. Surface rock is produced by uplift (7) and is then broken down by weathering. New igneous rock forms when magma cools (6), not by heat and pressure."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52012,7 +52246,8 @@
      "correct_answer": 0,
      "explanation": "Loose sediment is compacted and cemented to form sedimentary rock, so the oval holds sediment. Magma forms from melting and cools into igneous rock. Weathering and erosion are processes that produce sediment, not a material. Heat and pressure change rocks into metamorphic rock, not sedimentary."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52109,7 +52344,8 @@
      "correct_answer": 0,
      "explanation": "Benches break a tall wall into smaller steps, reducing the risk of landslides and rockfalls, and give roads for haul trucks. Rock formation is not sped up by terraces. Magma does not rise through the steps. Benches do not prevent dust or waste escaping from the pit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52206,7 +52442,8 @@
      "correct_answer": 0,
      "explanation": "Recycling scrap metal means less ore has to be mined, so finite mineral resources last longer. Ores take millions of years to form, so recycling cannot speed that up. Metal does not become igneous rock. Recycling usually uses less energy than mining and extraction, but it still needs some energy, so it does not remove the need for it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52275,7 +52512,8 @@
      "correct_answer": 0,
      "explanation": "Opencast mining strips off topsoil and overburden and stores them in piles, so a large area of land is disturbed and must be restored later. Tunnels are used in underground mining, not opencast. Oil is in a separate rock layer, shown at the oil well. Coal takes millions of years to form, so it is not replaced quickly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52372,7 +52610,8 @@
      "correct_answer": 0,
      "explanation": "Benches break up the steep pit wall into smaller sections, making it more stable and giving safe access for machinery, so rockfalls and collapse are less likely. Collecting rainwater for plants is not the purpose, tourism is not why mines are built, and mining does not make rock form or heat it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52433,7 +52672,8 @@
      },
      "explanation": "Fossil fuels store chemical energy. Burning releases it as heat, as the flames under the boiler show. This heat turns water to steam, which spins the turbine and generator to light the bulb."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -52689,7 +52929,8 @@
      "correct_answer": 0,
      "explanation": "Solar panels convert sunlight into electricity, a renewable source, so the house needs less electricity from power stations that burn fossil fuels. Panels do not burn fuel, do not store fossil fuels (they are not fuels at all), and do not absorb carbon dioxide like trees do."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52751,7 +52992,8 @@
      },
      "explanation": "The process is hydraulic fracturing, or fracking. Water, chemicals and sand are pumped down the well under pressure, which fractures the shale rock. This releases gas and oil, which then move up the well to the surface."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -52855,7 +53097,8 @@
      "correct_answer": 0,
      "explanation": "Coal is a fossil fuel; burning it in the power station releases stored carbon as carbon dioxide from the chimneys. Wind turbines use moving air and burn no fuel. Both feed the sub-station, so that is not the difference. Turbines do not absorb carbon dioxide. Pylons carry electricity from both sources."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53061,7 +53304,8 @@
      },
      "explanation": "The answer is crop rotation. The diagram shows the same four plots growing legumes, root crops, fallow and leafy crops in a different order each year. This helps keep soil fertile and reduces pests and disease."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -53177,7 +53421,8 @@
      "correct_answer": 0,
      "explanation": "Emitters/micro-tubes on the lateral pipes release small amounts of water right beside each plant, so little is lost by evaporation or runoff. Waterlogging is not the aim. The strainer/filter only removes particles that could block emitters, and it adds no nutrients. Drip systems use low pressure, not high pressure."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53249,7 +53494,8 @@
      },
      "explanation": "Unglazed clay is porous, meaning it has tiny holes. Water in the pot slowly seeps through these pores into the soil, where the plant's roots growing toward the pot's side can take it up."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -53296,7 +53542,8 @@
      "correct_answer": 0,
      "explanation": "Roots in water have little oxygen, so bubbled air supplies oxygen for root respiration, which gives the energy needed to take up nutrients. Warming is not the purpose of the air. Photosynthesis happens in the leaves, which take in carbon dioxide from the air. Water is moved up by transpiration, not by bubbles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53383,7 +53630,8 @@
      "correct_answer": 0,
      "explanation": "Topsoil is rich in humus, nutrients, air and water, and is loose, so roots grow there. The topsoil is not the oldest layer; bedrock is. Parent material is not poisonous; it is broken-down rock that forms soil. The diagram shows some roots do reach into the subsoil."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53406,7 +53654,8 @@
      },
      "explanation": "The answer is humus, or organic matter. The diagram shows the topsoil as the darkest brown layer, where the roots are most concentrated. Decomposed plants and animals add humus, which darkens the topsoil and supplies nutrients to the plant."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -53637,7 +53886,8 @@
      "correct_answer": 0,
      "explanation": "Trees intercept rainfall, and their roots help water infiltrate the soil. Clearing the forest removes both, so more water flows over the surface to the lake. Transpiration would fall, not rise. Run-off would not stay the same just because rainfall is unchanged. It would not stop, because less infiltration means less groundwater recharge."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53690,7 +53940,8 @@
      "correct_answer": 0,
      "explanation": "Spraying kills the non-resistant pests, leaving only the 2 R pests, which breed and pass on the resistance gene, giving 8 R pests. Insecticide does not cause mutations; resistance already existed. Breeding speed is not the cause. The diagram shows no movement between plants."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53712,7 +53963,8 @@
      },
      "explanation": "The answer is natural selection. Spraying kills the non-resistant pests, so only the 2 resistant (R) pests survive and breed. Their resistance gene is passed on, giving a resistant population of 8 R pests."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -53775,7 +54027,8 @@
      "correct_answer": 0,
      "explanation": "Water stored high in the reservoir has gravitational potential energy. As it flows down the sloping tunnel this becomes kinetic energy, which spins the turbine. Heat and chemical energy are not involved in the water's movement. Electrical energy is produced later by the generator, not used to move the water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53825,7 +54078,8 @@
      },
      "explanation": "The dark water held back behind the dam wall is a reservoir, an artificial lake. It stores river water so it can be used for drinking supply, irrigation, hydroelectric power and flood control, especially in dry areas like the one shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -53973,7 +54227,8 @@
      "correct_answer": 0,
      "explanation": "Aerobic bacteria need oxygen to respire and break down organic matter in the sewage, so air is pumped in. Killing all bacteria is not the aim. Methane is made by anaerobic bacteria in the digester (7), not the pond. Large objects are removed in the screening tank (2)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54063,7 +54318,8 @@
      },
      "explanation": "The answer is eutrophication. The flowchart shows nutrients causing an algal bloom, the algae dying, bacteria decomposing them and using up oxygen, so fish and other aquatic animals die. This whole sequence is called eutrophication."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -54174,7 +54430,8 @@
      },
      "explanation": "The answer is acid rain. The diagram shows SO2 and NOx rising from industrial, transport and natural sources, moving to a cloud as pollutants in cloud water, then falling as precipitation onto trees and a lake."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -54285,7 +54542,8 @@
      },
      "explanation": "The answer is eutrophication. The diagram shows nitrates and phosphates (and ammonia) from fertiliser, sewage, manure and street run-off entering the lake. These nutrients cause algal blooms, which later deplete oxygen in the water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -54320,7 +54578,8 @@
      "correct_answer": 0,
      "explanation": "Trawl nets are towed through the water and often along the seabed. They catch non-target species (bycatch) and can damage seabed habitats. Acid rain comes from atmospheric gases, not fishing. Thermal pollution is linked to power stations. Eutrophication comes from nutrient runoff, not from nets."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54361,7 +54620,8 @@
      "correct_answer": 0,
      "explanation": "On the chart, the 'adult fish die' bracket covers about pH 3 to 4, so pH 3.5 falls inside it and adult fish die. Reproduction only being affected applies to about pH 4 to 5. The normal stream range is about pH 6 to 8. A lower pH means more acidic, not more alkaline."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54402,7 +54662,8 @@
      "correct_answer": 0,
      "explanation": "Salt pans use shallow pools of sea water that the sun and wind evaporate, leaving salt crystals to be raked into heaps. Boiling with electricity or gas is costly and not used here. Wave power does not drive evaporation. The photograph shows open pans with no fuel-burning equipment."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54580,7 +54841,8 @@
      "correct_answer": 0,
      "explanation": "Most large economies, industrial regions and busy ports lie in the northern hemisphere, so trade routes concentrate there. Southern oceans are mostly not frozen, apart from near Antarctica. Ships are not banned from them. They also have fishing and other resources, though less traffic."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54741,7 +55003,8 @@
      },
      "explanation": "Current A is a cold current. It flows from cold polar waters towards the equator along the west coast of South America. Cold currents like this bring nutrient-rich water upwards, which supports large fisheries."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -55376,7 +55639,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows gases from the crater include sulfur dioxide, which dissolves in water droplets in the atmosphere and falls as acid rain. Lava flow, lahars and volcanic bombs are separate hazards. They do not produce acid rain, which forms in the atmosphere from the gases."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55529,7 +55793,8 @@
      "correct_answer": 0,
      "explanation": "Concrete and tarmac are impermeable, so rain cannot infiltrate and runs quickly over the surface as overland flow. Water reaches the river sooner, so lag time shortens and the peak is higher. Longer lag time would need infiltration and slower throughflow. Lag time depends on the surface and not just on rainfall amount. Base flow is groundwater and is not what controls the peak."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55748,7 +56013,8 @@
      "correct_answer": 0,
      "explanation": "Normally air gets colder with height, so polluted air can rise and disperse. In an inversion, a warmer layer sits above colder air, so the cold polluted air cannot rise through it and is trapped. The other options describe mixing, removal or free rising of pollution, which do not happen under an inversion."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55789,7 +56055,8 @@
      "correct_answer": 0,
      "explanation": "More greenhouse gases absorb more of the radiation the Earth emits (step 5), so the atmosphere heats up further. The Sun's radiation still passes through, so B is wrong. C is wrong because greenhouse gases trap outgoing radiation. D is wrong because the Earth would still absorb radiation and would not cool."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55839,7 +56106,8 @@
      },
      "explanation": "The diagram shows warmer air above the smog and colder air below it. Normally air gets colder with height, so this reversal is called a temperature inversion. It stops air rising, so pollution from the A40 motorway and Passy is trapped."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56095,7 +56363,8 @@
      "correct_answer": 0,
      "explanation": "In the stationary phase the population stays at about 1200 because limiting factors like food and space, and waste build-up, make birth rate equal death rate. Dying out would make the line fall. Unlimited food would keep numbers rising. Slow adaptation describes the lag phase, not the stationary phase."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56148,7 +56417,8 @@
      "correct_answer": 2,
      "explanation": "After 1800 the curve gets steeper and steeper, reaching about 7.0 billion at 2000, which is exponential growth. Constant at 0.3 billion describes 1050 to about 1500 only. A straight line would mean a steady rate, but this curve steepens. The line never falls, so there is no peak and decline."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56367,7 +56637,8 @@
      "correct_answer": 0,
      "explanation": "Northern Canada and Siberia have very cold climates, frozen soils and short growing seasons, so food production and settlement are hard and density stays low. Crowding would raise density, not lower it. Birth limits are not the main cause. Both areas are very large, so size is not the reason."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56641,7 +56912,8 @@
      "correct_answer": 0,
      "explanation": "Bacteria and fungi decay dead leaves, which then rot and release minerals into the soil. Without them, nutrients would not be recycled and plants would get fewer minerals through their roots. Leaves would not release more minerals if they stayed whole. Rainfall depends on weather, not decomposers. Roots binding soil and photosynthesis would not stop immediately."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56682,7 +56954,8 @@
      "correct_answer": 0,
      "explanation": "Only 10% of energy is passed on at each step and 90% is lost, mainly as heat through respiration and waste. Little energy reaches the top, so it supports few herons. The other options reverse the energy figures, claim no energy is lost, or wrongly say herons take nutrients from soil."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56928,7 +57201,8 @@
      "correct_answer": 0,
      "explanation": "The arrows for photosynthesis and respiration are equally long in the mature forest, so CO2 taken in matches CO2 released and there is no net gain. Carbon stays held in the biomass. Photosynthesis does not stop, respiration is not greater, and trees always respire."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56969,7 +57243,8 @@
      "correct_answer": 0,
      "explanation": "The transect in (a) runs from dense trees to sparse shrubs and grass, so quadrats at regular intervals show how species change along the gradient. The grid in (b) suits random sampling, not gradients. Quadrats are still used on a transect. The line also continues into the open area, not only the trees."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57066,7 +57341,8 @@
      "correct_answer": 0,
      "explanation": "A transect with quadrats samples plants at regular intervals, so changes in plant cover with distance from the road can be compared. Counting only large plants would be biased sampling. Quadrats do not measure road width. A transect is a survey method and does not affect animal movement."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57328,7 +57604,8 @@
      "correct_answer": 0,
      "explanation": "The arrow from igneous rock to metamorphic rock is labelled heat and pressure, which changes the rock while it stays solid. Cooling forms igneous rock from magma. Compaction and cementation turns sediment into sedimentary rock. Weathering and erosion breaks rock into sediment, not metamorphic rock."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57397,7 +57674,8 @@
      "correct_answer": 0,
      "explanation": "The red line moves left from sea level to about 12 km, so temperature falls with height. This lowest layer is the troposphere. The second option is wrong because the line does not move right here. The stratosphere starts above 12 km, so the last two options name the wrong layer. In the stratosphere, temperature rises, not stays constant."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57576,7 +57854,8 @@
      "correct_answer": 0,
      "explanation": "Female literacy is about 92% in Kerala but only about 50% in India, the biggest gap on the chart. Educated women usually marry later, use family planning and have fewer children. Male literacy differs little (96% vs 86%). Indian literacy is not equal, and Kerala's is higher, not lower."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57657,7 +57936,8 @@
      "correct_answer": 0,
      "explanation": "The special-font characters at the bottom of the cheque are printed in magnetic ink and read by MICR readers, which is fast and accurate even if the cheque is marked. OMR detects marks in set positions, such as on multiple-choice forms. RFID needs a radio tag. A barcode scanner reads bars, not character shapes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57906,7 +58186,8 @@
      "correct_answer": 0,
      "explanation": "Labour is the human effort used in production, and the men's work shearing the sheep is exactly that. Capital means man-made goods like the platform or gates, not the workers. Land means natural resources such as the sheep or the fields. Enterprise means organising and risk-taking, which the photograph does not show."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58031,7 +58312,8 @@
      "correct_answer": 0,
      "explanation": "The smog is pollution, a negative externality: a cost to third parties such as worse health and lower quality of life. It is not a fall in GDP, since growth is occurring. It does not increase resources available. Firms may avoid paying for the pollution, but society bears the cost, so it is not a benefit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58206,7 +58488,8 @@
      },
      "explanation": "The 4s level sits slightly below 3d on the diagram, so after 3p is filled, electrons enter 4s before 3d. This follows the aufbau principle, where the lowest available energy level is filled first."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -58597,7 +58880,8 @@
      "correct_answer": 0,
      "explanation": "Hydrogen bonds between surface water molecules pull them inward and sideways, producing surface tension, so the surface stretches into dimples but does not break. Covalent O–H bonds act within molecules, not between them. Water is simple molecular, not ionic. Water has hydrogen bonding as well as London forces, and the surface is not rigid."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58758,7 +59042,8 @@
      },
      "explanation": "The graph shows a steep rise after 2 electrons, then a gradual rise from 3 to 10 (8 electrons), then a steep rise after 10. These 8 electrons are in the second shell, n = 2. The first two removed are in n = 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -58984,7 +59269,8 @@
      "correct_answer": 1,
      "explanation": "Metallic bonding is the attraction between positive ions and a sea of delocalised electrons. It is non-directional, so ions can move past each other while still held together, allowing flow. Covalent bonding is directional and fixed. Mercury does have delocalised electrons. It is not ionic, since it has only one type of particle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59193,7 +59479,8 @@
      "correct_answer": 0,
      "explanation": "Each carbon in the hexagonal network bonds to three neighbours, as in graphite, leaving one electron per atom delocalised along the surface, so it conducts. Four bonds would be diamond-like and insulating. Localising all electrons ignores the delocalised electrons. Within the wall the bonds are strong covalent, and no ions are present."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60669,7 +60956,8 @@
      "correct_answer": 0,
      "explanation": "The honeycomb channels give a very large surface area for the thin coating of platinum-group metals, so more gas molecules contact the catalyst and react faster. Trapping hydrocarbons permanently is wrong because they are converted to CO2 and H2O. Cooling the gases is not the purpose, since catalysts need high temperatures. Catalysts are not used up in the reaction, so the last option is wrong too."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62024,7 +62312,8 @@
      "correct_answer": 0,
      "explanation": "Sideways overlap of adjacent p orbitals, perpendicular to the plane of the ring, forms the π delocalised system above and below the plane. Head-on overlap forms σ bonds, which lie in the plane. Benzene carbons are sp², not sp³. Hydrogen s orbitals only bond to carbon in the plane and do not form the ring."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62093,7 +62382,8 @@
      "correct_answer": 0,
      "explanation": "The N=N azo group links aromatic rings, giving an extended delocalised system that absorbs visible light, so the dyes are coloured. SO3−Na+ groups mainly make the dye water-soluble. OH groups modify the colour slightly but are not in the yellow dye. NHCONH appears only in the red dye."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62328,7 +62618,8 @@
      "correct_answer": 0,
      "explanation": "Excess ethanolic ammonia heated in a sealed tube substitutes the halogen with NH2, giving an amine. Aqueous NaOH gives an alcohol. Acidified dichromate is an oxidising agent and does not react with halogenoalkanes this way. Concentrated sulfuric acid is used for dehydration or esterification, not for forming amines."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62397,7 +62688,8 @@
      "correct_answer": 0,
      "explanation": "Process 1 is thermal or catalytic cracking: decane (C10H22) splits into ethene (C2H4) and an alkane, C8H18 (octane). Hydration would need steam and an alkene. Polymerisation joins small molecules, not splits them. Combustion would need oxygen and would not give ethene as a product."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62438,7 +62730,8 @@
      "correct_answer": 1,
      "explanation": "Each peptide bond forms by condensation, releasing one water molecule. Joining 21 residues in a single unbranched chain needs 20 peptide bonds, so 20 water molecules are lost. 19 miscounts the bonds. 21 wrongly equals the number of residues. 22 adds extra molecules for no reason."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62529,7 +62822,8 @@
      },
      "explanation": "The coiled tan cylinders are alpha helices. Each helix is held in shape by hydrogen bonds between the C=O of one peptide group and the N-H of another, four residues further along the backbone."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -63035,7 +63329,8 @@
      "correct_answer": 0,
      "explanation": "Element 33 is arsenic (As). It is in Period 4, in the column headed 15, so it has 5 outer electrons: 4s²4p³. Its highest-energy electron is in 4p. Group 13 would be gallium, 31. 4s is filled before 4p and is not the highest-energy subshell here. Group 5 is the d-block column of vanadium, which is not arsenic's position."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63057,7 +63352,8 @@
      },
      "explanation": "The configuration has 16 electrons (2+2+6+2+4), so the atomic number is 16. In Period 3, the element with atomic number 16 is sulfur, S, in Group 16."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -63261,7 +63557,8 @@
      },
      "explanation": "The answer is magnetic. The photograph shows a spinning metal platter with an actuator arm and read/write head above it. The head reads and writes data by changing magnetised areas on the platter. Optical drives use lasers, and solid state drives have no moving parts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -63518,7 +63815,8 @@
      "correct_answer": 0,
      "explanation": "The monitor is an output device because it displays images and text produced by the processor. The mouse is an input device that sends pointing and click data. The keyboard is also an input device that sends typed data. The tower case houses the processor, memory and storage, so it is not an output device itself."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64397,7 +64695,8 @@
      },
      "explanation": "The answer is video conferencing. The photograph shows people in the room talking with remote participants on large screens, so both groups can see and hear each other in real time over a network."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    }
   ]
  },
@@ -67566,7 +67865,8 @@
      "correct_answer": 0,
      "explanation": "HTML is the content/structure layer: it marks up the heading and the list items shown on the page. CSS only controls how content looks, such as colours, fonts and spacing. JavaScript adds behaviour and interaction, such as responding to clicks. The bookmarks bar is part of the browser, not a layer of the web page."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67719,7 +68019,8 @@
      "correct_answer": 0,
      "explanation": "The clip shows moving underwater images with a 10 second playback bar, so it needs the <video> element. The sound has only a playback bar and no picture, so it needs <audio>. <img> only displays still pictures. <a> only creates a link and does not embed a player. Swapping audio and video puts each file in the wrong element."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67978,7 +68279,8 @@
      "correct_answer": 1,
      "explanation": "The presentation layer, normally CSS, controls colour, font, size and alignment, as seen in the headings. The content layer (HTML) only supplies the text and structure such as h1 and p. The behaviour layer (scripts) adds interaction or actions, which are not shown. A server layer stores pages and does not style them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -68607,7 +68909,8 @@
      "correct_answer": 0,
      "explanation": "A laser barcode scanner detects reflected light: dark bars absorb it and light spaces reflect it, and the sensor turns this pattern into electrical signals. The scanner does not use OCR on the digits, magnetic ink is a different technology (MICR), and the beam does not work by measuring heat."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -68913,7 +69216,8 @@
      "correct_answer": 0,
      "explanation": "A clustered bar chart groups bars for Travelling, Telephone, Postage and Meals under each employee, so categories and employees can be compared easily. It does not store data. It does not show only totals, because each category has its own bar. It does not show change over time, because it covers one month only."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -69243,7 +69547,8 @@
      "correct_answer": 0,
      "explanation": "Decimal fractions like 0.2 cannot be represented exactly in binary floating point, so repeated subtraction accumulates tiny errors, leaving about 2.78E-16 rather than 0. The loop does not leave a stale value, a negative step does not cause standard form, and the list box does not round values; it only shows the stored value."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -69545,7 +69850,8 @@
      "correct_answer": 0,
      "explanation": "Twisting the pairs makes interference affect both wires of a pair equally, so it cancels out, and it reduces crosstalk between neighbouring pairs. It does not amplify the signal or lengthen the cable. Light is used in fibre optic cable, not copper. Twisting adds little strength, and the sheath is still needed for protection."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -69792,7 +70098,8 @@
      "correct_answer": 0,
      "explanation": "The cristae are folded inner membranes that give a large surface area for electron transport chains and ATP synthase, so more ATP can be made. The outline does not make ATP. Matrix ribosomes make proteins, not ATP. Neighbouring membranes do not supply oxygen, which diffuses in."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70274,7 +70581,8 @@
      "correct_answer": 0,
      "explanation": "A point mutation replaces hydrophilic glutamic acid with hydrophobic valine in the beta chain. This changes the tertiary and quaternary structure, so HbS polymerises into fibres at low oxygen and distorts the cell. The second option reverses the substitution. The third is wrong because haem iron is not lost. The fourth is wrong because the primary structure is altered, not peptide bonds being broken."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70480,7 +70788,8 @@
      "correct_answer": 0,
      "explanation": "Natural selection acts on existing variation: beetles with alleles for spraying were more likely to survive predation, reproduce and pass on those alleles, so allele frequency rose. Acquired traits are not inherited. Evolution does not occur because of need. Selection acts on individual survival and reproduction, not for the good of the species."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70721,7 +71030,8 @@
      },
      "explanation": "The answer is exocytosis. The diagram shows the vesicle moving to the cell surface, fusing with the membrane and releasing its dotted contents ('product released') outside the cell. This is how cells export substances such as enzymes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -70805,7 +71115,8 @@
      },
      "explanation": "Each chromosome in the photograph has already replicated during S phase. It consists of two identical sister chromatids joined at the centromere. They separate during anaphase of mitosis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -70840,7 +71151,8 @@
      "correct_answer": 0,
      "explanation": "Telomeres are repetitive non-coding DNA sequences that act as buffers. They protect chromosome ends from degradation and stop coding genes being lost as ends shorten after replication. Spindle fibres attach at the centromere (kinetochore), not the telomeres. Sister chromatids are held at the centromere. Telomeres do not contain start codons or initiate transcription."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70881,7 +71193,8 @@
      "correct_answer": 0,
      "explanation": "The membrane folds around the bacterium and pinches off as a phagocytic vacuole, which is endocytosis (phagocytosis). Facilitated diffusion and active transport move small molecules or ions through membrane proteins, not whole cells. Exocytosis moves material out of the cell, as shown for the undigested remains."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70900,7 +71213,8 @@
      },
      "explanation": "The answer is endocytosis, specifically phagocytosis. The diagram shows the cell surface membrane folding around the bacterium and enclosing it in a phagocytic vacuole, which is how a cell takes in a large particle in bulk."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -71103,7 +71417,8 @@
      "correct_answer": 0,
      "explanation": "Bacteria are prokaryotes with no nucleus, so 70S ribosomes in the cytoplasm translate mRNA, often while it is still being transcribed. A nuclear envelope, rough endoplasmic reticulum and mitochondria are all membrane-bound organelles that prokaryotic cells lack, so the other options are wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71732,7 +72047,8 @@
      "correct_answer": 0,
      "explanation": "Lignin is strong and waterproof, so the thickening stops the vessel walls collapsing inward when the water column is under tension. Sucrose loading and sieve plates belong to phloem. Lignin makes walls impermeable, not freely permeable; water leaves only through unlignified gaps or pits."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72121,7 +72437,8 @@
      "correct_answer": 0,
      "explanation": "Intercalated discs join adjacent fibres mechanically and contain gap junctions, so impulses pass quickly from cell to cell and the heart muscle contracts in a coordinated way. Capillaries lie in the spaces between fibres, not in the discs. Striations come from the arrangement of myofilaments, not from the discs. Discs do not anchor nuclei."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72190,7 +72507,8 @@
      "correct_answer": 0,
      "explanation": "The tendinous cords (heart strings) anchor the atrioventricular valve flaps to the papillary muscles, so the flaps are not forced back into the atrium when ventricular pressure rises. They are not conducting tissue (Purkyne fibres do that), not blood vessels (coronary arteries supply the muscle), and they do not pump blood; the ventricle wall does."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72368,7 +72686,8 @@
      "correct_answer": 0,
      "explanation": "Clusters of many small alveoli give a very large surface area for diffusion. In emphysema, smoking-related damage breaks down alveolar walls, leaving fewer, larger air spaces and a smaller surface area. The other options wrongly describe thick walls, gas exchange in the bronchioles, or an increase in surface area."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72493,7 +72812,8 @@
      "correct_answer": 0,
      "explanation": "The yellow structures are cilia on ciliated epithelial cells. They beat to move mucus carrying dust and bacteria away from the lungs. Smoke damages and paralyses them, so mucus accumulates. Cilia do not absorb oxygen, do not secrete mucus (goblet cells do), and are not muscles that widen airways."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -73255,7 +73575,8 @@
      "correct_answer": 0,
      "explanation": "Muscle contraction needs large amounts of ATP, made by aerobic respiration on the cristae of mitochondria, so they are packed beside the myofibrils. Actin and myosin are made by ribosomes, not mitochondria. Digesting worn-out structures is a lysosome function. The dark lines (Z lines) are protein structures of the sarcomere, not made by mitochondria."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -73489,7 +73810,8 @@
      "correct_answer": 0,
      "explanation": "Mitochondria next to myofibrils supply ATP from aerobic respiration (oxidative phosphorylation on the many cristae) for myosin head movement and calcium pumping. Calcium storage is the role of the sarcoplasmic reticulum. Actin and myosin are made on ribosomes. Lactate conversion to glucose happens in the liver, not here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -73912,7 +74234,8 @@
      "correct_answer": 0,
      "explanation": "The dark rings are myelin, formed by Schwann cells. It is a lipid-rich insulator, so depolarisation occurs only at nodes of Ranvier and impulses show saltatory conduction, which is faster. Neurotransmitter is stored in synaptic vesicles. Proteins are made in the cell body, which holds the nucleus. Ions cross the membrane only at nodes, not through myelin."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74037,7 +74360,8 @@
      "correct_answer": 0,
      "explanation": "Striations arise from the repeating arrangement of thick myosin and thin actin filaments in sarcomeres, giving dark A bands and light I bands. Connective tissue lies between fibres, not as stripes. Nuclei are few and peripheral, not regular. Each fibre is one multinucleate cell, not separate stacked cells."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74803,7 +75127,8 @@
      "correct_answer": 0,
      "explanation": "The Himalayan allele codes for a tyrosinase enzyme that is heat-sensitive: it works only at the lower temperatures of the extremities, so melanin is made only there. All body cells carry the same genotype, so the second option is wrong. Temperature does not cause inherited mutations, which rules out the third. Melanin is made locally in melanocytes and is not carried by the blood, which rules out the fourth."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74928,7 +75253,8 @@
      "correct_answer": 0,
      "explanation": "Siamese colouring comes from a temperature-sensitive tyrosinase allele, active only in cooler extremities, so pigment forms there. Mutation after birth is wrong because all cells carry the same genotype. Different alleles in different regions is wrong for the same reason. Light exposure is not the cause; temperature is."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75081,7 +75407,8 @@
      "correct_answer": 0,
      "explanation": "The dark moth contrasts strongly with pale bark, so visual predators such as birds find it easily. Selection against it lowers the melanic allele frequency. Camouflage applies to pale moths here, not dark ones. Moths cannot change colour in response to background. Colour clearly affects predation, so survival is not equal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75159,7 +75486,8 @@
      },
      "explanation": "Each grey chromosome pairs with a speckled one of the same length and shape, as the right nucleus shows by matching patterns. One of each pair comes from each parent, so they are homologous chromosomes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -75642,7 +75970,8 @@
      "correct_answer": 0,
      "explanation": "Random quadrats avoid bias and let the learner record species richness and abundance in low, dense vegetation, which allows a diversity index to be calculated. Counting only palms ignores most species. Recording only the largest species ignores the rest. Sampling the bare patch is biased and unrepresentative of the habitat."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75747,7 +76076,8 @@
      },
      "explanation": "The larger, paler, thick-walled cells scattered among the smaller photosynthetic cells are heterocysts. Their thick walls limit oxygen entry, which protects nitrogenase so the cells can fix nitrogen in filamentous cyanobacteria such as Nostoc."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -76886,7 +77216,8 @@
      "correct_answer": 0,
      "explanation": "Fingerprint ridge patterns (loops and whorls) are unique to an individual and remain stable through life, so they reliably identify one person. The pattern does not change daily. Relatives do not share identical prints. Ridge patterns are not determined by height, so they cannot be predicted from it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -78088,7 +78419,8 @@
      "correct_answer": 0,
      "explanation": "A bar chart suits discrete categories such as ports, with one bar for each port's tonnage. A line graph is for continuous data such as change over time. A scatter graph needs two numerical variables to look for correlation. A pie chart of percentage change would be wrong because the changes include negative values and zero, which cannot be shown as parts of a whole."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -78875,7 +79207,8 @@
      "correct_answer": 0,
      "explanation": "The jobs (Director, Engineer, Sales and so on) are separate categories, and the bar heights let you compare the numbers, such as Sales 16 and Director 3. A line graph is for change over time. A pie chart shows parts of a whole. A scatter graph shows a relationship between two continuous variables."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -79836,7 +80169,8 @@
      "correct_answer": 0,
      "explanation": "A bookmark marks a place in a document so the user can go straight to it, for example from the Index to 'Motherboard'. Bookmarks do not lock text against editing, do not change font formatting, and do not compress the file or reduce its size."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80330,7 +80664,8 @@
      },
      "explanation": "Each column in a database table is called a field. Make, Colour and PDate are fields, and each one stores one type of data about every car. A row, such as car 68, is a record."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",

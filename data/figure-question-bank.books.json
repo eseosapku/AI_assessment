@@ -1182,7 +1182,8 @@
      },
      "explanation": "The table gives \"wrong\" as the meaning of mis-. Adding mis- to \"spell\" makes \"misspell\", which means to spell something wrongly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1248,7 +1249,8 @@
      },
      "explanation": "The noun 'severity' comes from the adjective 'severe'. The table shows 'severity' in the Noun column, so you need to write the adjective form in the Adjective column of that row: severe."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1359,7 +1361,8 @@
      },
      "explanation": "Use the table to match each number to its letter: 8 = h, 5 = e, 1 = a, 18 = r, 9 = i, 14 = n, 7 = g. Together they spell 'hearing', the sense we use with our ears."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1621,7 +1624,8 @@
      "correct_answer": 0,
      "explanation": "'Mimics' means copies something else, so a building that mimics a shell copies its shape. 'Collection' defines 'array', 'aims' defines 'goals', and 'rounded' defines 'curved'. These are other words in the table, so they do not match 'mimics'."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2257,7 +2261,8 @@
      "correct_answer": 0,
      "explanation": "Ubiquitous means present or found everywhere, so the first option is correct. 'Full of holes in the surface' describes potholed. 'Extremely harmful and shocking' describes catastrophic, which is in column B. 'Taking part in an event' describes a participant, also in column B."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2423,7 +2428,8 @@
      "correct_answer": 0,
      "explanation": "'Memorable' means easy to remember or worth remembering, so it fits an experience people talk about for years. 'Sturdy' describes strong objects such as boots. 'Shock-absorbing' describes equipment that reduces impact, such as soles. 'Husky-trekking' is a specific activity, not a quality of an experience."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2898,7 +2904,8 @@
      "correct_answer": 0,
      "explanation": "'19th' is an ordinal number showing position, so its word form is 'nineteenth'. 'Nineteen' is the cardinal number without the ordinal ending. 'Ninetieth' is the ordinal for 90th. 'One ninth' is a fraction, not an ordinal showing position in a sequence."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2967,7 +2974,8 @@
      "correct_answer": 0,
      "explanation": "The definition \"match or be very similar\" (3) goes with \"correspond\" (e), as in 'her answers correspond with the facts'. \"Concern\" means worry. \"Effective\" means useful or something which works. \"Majority\" means most of a group, not similarity."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3014,7 +3022,8 @@
      },
      "explanation": "Nevertheless shows a difference or an unexpected result, like But and However, which are already under Contrasting in the table. It does not add a point or put ideas in order, so Contrasting is correct."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3358,7 +3367,8 @@
      "correct_answer": 1,
      "explanation": "Dissuade means to try to stop someone from doing something, for example dissuading a friend from a risky journey. Rations is a fixed amount of food or water. Depot is a place where food and other things are stored. Stumbled means walked unsteadily and almost fell."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3766,7 +3776,8 @@
      "correct_answer": 0,
      "explanation": "\"Perform surgery\" is correct because doctors carry out operations, and 'perform' collocates with 'surgery'. 'Prevent medications' is wrong because we prevent illnesses, not medications. 'Alleviate surgery' is wrong because we alleviate suffering. 'Restore suffering' is wrong because we restore health, not suffering."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6827,7 +6838,8 @@
      "correct_answer": 0,
      "explanation": "A watershed is the high-ground boundary of a drainage basin. Rain falling inside it flows into the Elbe and its tributaries. The country borders are shown by the grey dotted lines, not the red dashes. The river's route is the blue line. Flood risk is not shown by a watershed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7796,7 +7808,8 @@
      "correct_answer": 0,
      "explanation": "Quito is shown just below the Equator line, on the higher Andean land that runs north to south, and almost on the 78°W line. The coastal option is wrong because the Pacific coast is near 80°W. The eastern lowlands and the Guayaquil Gulf are far from Quito's position."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8039,7 +8052,8 @@
      "correct_answer": 0,
      "explanation": "Alice Springs is at 24°S, in the Southern Hemisphere, so June and July are winter, with the Sun lower in the sky (12–13°C). It is not in the Northern Hemisphere. It is not near the Equator. Rainfall is only 12 mm in these months, so rain is not the cause."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8738,7 +8752,8 @@
      "correct_answer": 0,
      "explanation": "Multinational corporations are large companies that have operations and sell goods or services in many countries, as the brands ringing the globe show. NGOs are non-profit groups working on social or environmental issues. Local cooperatives are small businesses owned by members in one area. State-owned enterprises are run by a national government, not spread across the globe."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8936,7 +8951,8 @@
      },
      "explanation": "The answer is a transnational corporation (TNC). The table shows Nokia growing from a Finnish pulp mill to the world leader in mobile phones by 1998, selling its billionth phone in Nigeria in 2005, so it operates across many countries."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9628,7 +9644,8 @@
      "correct_answer": 0,
      "explanation": "Control rods sit among the uranium fuel and can be raised or lowered to absorb neutrons, which slows or speeds the reaction and controls the heat made. Turning steam back into water is the condenser's job. Electricity is carried by cables to the transformer. Warm water is cooled in the cooling tower, not stored by control rods."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9708,7 +9725,8 @@
      },
      "explanation": "The dams hold back river water to form the Hálslón reservoir. Released water turns turbines to generate electricity, which is hydroelectric power (HEP). It is a renewable energy source that Iceland uses to support its economic development."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11405,7 +11423,8 @@
      "correct_answer": 0,
      "explanation": "Intensive farming means getting more output from the same land by adding inputs. Yield rose from 3.9 to 5.0 as fertiliser and tractor use increased. Larger area harvested shows extensive growth, not intensification. The flat yield in 1995–2000 and the small fall in production in 2000–2005 are not evidence of intensification."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12016,7 +12035,8 @@
      "correct_answer": 0,
      "explanation": "Counting at 09.00, 12.00 and 15.00 shows how traffic flow varies through the day, for example at rush hour compared with midday. Counting vehicles once is not the purpose of repeating the count. The sheet does not measure road width. It also does not record where drivers live."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12210,7 +12230,8 @@
      "correct_answer": 0,
      "explanation": "Central land is scarce and has very high land values because of accessibility and competition from offices and shops, so building upwards (skyscrapers) makes best use of space. Cheap, plentiful land would give low, spread-out buildings. Low-rise limits do not fit the photograph. The CBD is mainly offices and commerce, not housing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13094,7 +13115,8 @@
      },
      "explanation": "At the first-quadrant intersection the curves have equal r, so 1 + sin θ = 1 + cos θ. This gives tan θ = 1, so θ = π/4. On the graph the crossing is at about r ≈ 1.7, on the line y = x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15214,7 +15236,8 @@
      "correct_answer": 0,
      "explanation": "The question needs the overall selected total, so the stated 100 is used. Expected = row total × column total ÷ grand total = 100 × 140 ÷ 500 = 28. 21 is the observed frequency, not the expected one. 40 is 100 × 200 ÷ 500, which uses the wrong column total. 35 comes from dividing 140 by 4 as if the regions were equal, which ignores the selected total."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20371,7 +20394,8 @@
      "correct_answer": 0,
      "explanation": "The photograph shows a red ribbon tied in a bow on a gift box, so 'She tied a red bow on the present' is correct. 'Took a bow' means bending forward to show respect. 'Bow and arrow' is a weapon. 'The bow of the ship' means the front of a ship. These are other meanings of bow, not a knot of ribbon."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21026,7 +21050,8 @@
      "correct_answer": 0,
      "explanation": "'Stroked' treats abstract qualities like trust and courage as things that can be gently rubbed into someone, showing tender, caring teaching. Forcing or punishing is wrong because stroking is soft. Hurrying is wrong because stroking is slow and calm. Hitting is the opposite of the gentle touch the verb suggests."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21067,7 +21092,8 @@
      "correct_answer": 0,
      "explanation": "An oxymoron puts two contradictory words together. \"Open\" and \"secret\" have opposite meanings, so the phrase is an oxymoron. The option about \"like\" describes a simile. The option about human actions describes personification. The option about exaggeration describes hyperbole, so these are all wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21108,7 +21134,8 @@
      "correct_answer": 0,
      "explanation": "The pan is the yellow saucepan, and people use a pan to cook food. A book is for reading fairy tales. A paintbrush is for painting pictures. A flower pot holds soil and a small plant, so it is for growing flowers, not for cooking."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21476,7 +21503,8 @@
      },
      "explanation": "The answer is the atlas. An atlas has maps. The blue book shows a globe of the Earth on its cover, so it is the book that shows you countries and where they are."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -22077,7 +22105,8 @@
      "correct_answer": 0,
      "explanation": "The drawing shows the dugong swimming underwater in the sea, above green seagrass, with small fish nearby. A tree, a desert and a small pond at home are not shown. A dugong is a water animal and needs the sea to live in."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23057,7 +23086,8 @@
      "correct_answer": 1,
      "explanation": "Nouns ending in -ch add -es to make the plural, so watch becomes watches. The form \"watchs\" is wrong because -ch needs -es to be pronounced easily. \"Watchies\" wrongly changes the ending as if it were a word ending in -y. \"Watchez\" is not a real English spelling."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23126,7 +23156,8 @@
      "correct_answer": 0,
      "explanation": "'Greet' means to say hello or welcome someone when you meet them. 'The way of life of a group of people' describes 'culture', not 'greet'. 'A person from New Zealand' is not what 'greet' means. 'To give someone a present' is a different action and has nothing to do with saying hello."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23286,7 +23317,8 @@
      "correct_answer": 1,
      "explanation": "Anticlockwise means going the opposite way to clockwise, so anti is correct. Misclockwise is not a word. Coclockwise is not a word, because co means together. Exclockwise is not a word, because ex usually means former or out. Only anti fits."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23451,7 +23483,8 @@
      "correct_answer": 0,
      "explanation": "The sentence asks something, so it ends with a question mark, the yellow one. The red full stop ends a plain statement. The orange exclamation mark shows surprise or a shout. The comma is a short pause inside a sentence and does not end it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23698,7 +23731,8 @@
      },
      "explanation": "The table shows 'dance' becomes 'dancing'. The 'e' is not in 'dancing', so we drop the 'e' before adding 'ing'. This rule helps you write 'smiling' and 'glancing' correctly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23733,7 +23767,8 @@
      "correct_answer": 1,
      "explanation": "'They'll' is the short form of 'they will', because the apostrophe replaces the letters 'wi'. 'You're' is short for 'you are'. 'Who's' is short for 'who is'. 'Let's' is short for 'let us'. These other options match different full forms in the right panel."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23802,7 +23837,8 @@
      "correct_answer": 0,
      "explanation": "Clap is correct: it ends in one vowel plus one consonant, so the p doubles, giving clapping and clapped, like hug. Play ends in a vowel plus y, so it becomes playing and played. Walk ends in two consonants, so it becomes walking and walked. Smile ends in e, which is dropped: smiling, smiled."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23823,7 +23859,8 @@
      },
      "explanation": "The answer is g. The table shows hug becomes hugs, hugging and hugged. In hugging and hugged, the last letter g is written twice before -ing and -ed are added. In hugs, it is not doubled."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23927,7 +23964,8 @@
      "correct_answer": 0,
      "explanation": "Apartheid was a system in South Africa that separated people by race using laws, so the first option is correct. 'A close and kind relationship' describes friendship. 'Officially ended a law' describes abolished. 'A group living in one village' is a community, which is not on the chart."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23996,7 +24034,8 @@
      "correct_answer": 0,
      "explanation": "\"Stare\" is a homophone of \"stair\": both are pronounced /steə/, but stare means to look at something for a long time. \"Star\" has a different vowel sound. \"Store\" sounds like /stɔː/, so it is not the same. \"Steer\" sounds like /stɪə/, so it is also different."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24016,7 +24055,8 @@
      },
      "explanation": "The answer is \"stare\". It sounds the same as \"stair\", the word printed under the drawing of the steps, but it is spelled differently and means to look at something for a long time."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24063,7 +24103,8 @@
      "correct_answer": 0,
      "explanation": "'Flower' sounds the same as 'flour' (both are said /flaʊər/) but means a plant's blossom, so it is a homophone. 'Floor' is the surface you walk on and sounds different. 'Flow' rhymes with 'go'. 'Four' is a number and sounds different. Only 'flower' matches the sound."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24130,7 +24171,8 @@
      "correct_answer": 0,
      "explanation": "'Most comfortable' is correct because comfortable has three syllables, so the superlative uses 'most' before the adjective. 'More comfortable' is the comparative, already shown in the table. 'Comfortabliest' and 'comfortablest' wrongly add endings to a long adjective, which does not take -est."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24183,7 +24225,8 @@
      "correct_answer": 0,
      "explanation": "\"Pear\" is pronounced the same as \"pair\" (/peə/) but means a fruit, so it is a homophone. \"Pain\" sounds like \"pane\", not \"pair\". \"Peer\" sounds like \"pier\" and has a different vowel sound. \"Par\" has a different vowel sound (/pɑː/) and does not match."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24243,7 +24286,8 @@
      },
      "explanation": "The answer is \"pair\". It sounds the same as \"pear\", the fruit shown in the drawing, but it is spelled differently and means two things together. Words like this are called homophones."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24472,7 +24516,8 @@
      "correct_answer": 0,
      "explanation": "Run is a short word with one vowel followed by one consonant, so the final consonant is doubled before -ing: running. \"Runing\" forgets to double the n. \"Runned\" is a wrong past tense, not an -ing form. \"Runs\" adds -s, not -ing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24582,7 +24627,8 @@
      "correct_answer": 0,
      "explanation": "The adjective 'quick' matches the adverb 'quickly', which is formed by adding -ly. 'Quickness' is a noun, not an adjective. 'Quicker' and 'quickest' are comparative and superlative adjective forms, so they do not pair with 'quickly' in this table."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24785,7 +24831,8 @@
      "correct_answer": 0,
      "explanation": "'Under the old bridge' is a prepositional phrase at the start, so a comma follows it, as in 'On the far side of the river, Tchang thanked the dragon.' The other options put the comma in the middle of the main clause or before a phrase at the end, which the table's rule does not support."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24839,7 +24886,8 @@
      "correct_answer": 0,
      "explanation": "When you introduce yourself, you use words like 'my', so you speak as yourself. The table lists 'my' under first person. Second person is for the person you talk to, such as 'you'. Third person is for other people or things, such as 'he' or 'they'. There is no fourth person in the table."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24919,7 +24967,8 @@
      },
      "explanation": "The prefix sub- means 'under' or 'below'. A submarine travels under the sea, subhuman means below human, and substandard means below the normal standard. The table shows these three words together under sub-."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -25121,7 +25170,8 @@
      },
      "explanation": "The answer is \"stopping\". Short words like grab end in one vowel and one consonant, so the last letter is doubled before -ing: grab becomes grabbing. Stop follows the same pattern, so it becomes stopping."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -25188,7 +25238,8 @@
      },
      "explanation": "The answer is i. In carry, marry, cry and try, the y changes to i before -ed: carried, married, cried, tried. The -ing forms keep the y, such as carrying and trying."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -25496,7 +25547,8 @@
      "correct_answer": 0,
      "explanation": "The sentences give evidence that the company has ignored earlier letters, so they make the argument stronger and more urgent. Thanking the company is wrong because no one has replied. The chief's role appears only in the signature. Saying goodbye is the job of 'Yours sincerely'."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26176,7 +26228,8 @@
      "correct_answer": 0,
      "explanation": "A sitcom blends the start of 'situation' (sit-) with the start of 'comedy' (com-), like pulsar from pulse + quasar. 'situcomedy' keeps too much of both words, 'comsit' reverses the order, and 'sitmedy' joins the wrong part of 'comedy'. The blend must keep the word order."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26420,7 +26473,8 @@
      "correct_answer": 1,
      "explanation": "'Portrayed' means shown or described in a particular way, so 'made out to be' matches it. 'The ruler of the country' means monarch. 'Tittle-tattle' means rumours, or gossip. 'Control of the country' means reins of power."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26586,7 +26640,8 @@
      "correct_answer": 0,
      "explanation": "The diagram pairs 'Expected, given the circumstances' with 'Predictably', so a result anyone would anticipate fits it. 'Undoubtedly' means definite, without question. 'Admittedly' means confessing agreement. 'Frankly' means being honest and plain speaking. None of these shows that something was expected."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26897,7 +26952,8 @@
      },
      "explanation": "Mass is continuous data because it is measured and can take any value within a range, such as 7.2 g or 15.6 g. That is why the cumulative frequency graph is a smooth curve rather than separate points."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27588,7 +27644,8 @@
      },
      "explanation": "The pattern fixes the seats: men take positions 1, 3 and 5, and women take positions 2 and 4. The men can be arranged in 3! = 6 ways and the women in 2! = 2 ways. So 6 × 2 = 12."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27691,7 +27748,8 @@
      "correct_answer": 0,
      "explanation": "Two different x-values, one on each side of the y-axis, give the same f(x), so the function is many-one. A many-one function is not one-one, so it has no inverse over x ∈ ℝ. It is still a function, because each input has exactly one output. It passes the vertical line test, since no vertical line meets the curve twice."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27826,7 +27884,8 @@
      "correct_answer": 0,
      "explanation": "Each blue point moves vertically to a point with twice the y-value: (4, 5) goes to (4, 10) and (2, –3) goes to (2, –6). That is a y-direction stretch with scale factor 2. An x-direction stretch would change the roots. A translation would not keep the roots at –1 and 3. Scale factor 1/2 would halve the y-values."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28197,7 +28256,8 @@
      },
      "explanation": "The table gives 1/cos 120° = −2, so cos 120° = −1/2. 120° is in the second quadrant, where sine is positive, and sin 120° = sin 60° = √3/2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28945,7 +29005,8 @@
      "correct_answer": 0,
      "explanation": "Data encrypted with the public key can only be decrypted with the matching private key, which only the server holds. This keeps the symmetric key secret in transit. The second option is wrong because the public key is not used to decrypt. Encryption does not compress data. The server does need its private key to decrypt."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29074,7 +29135,8 @@
      "correct_answer": 0,
      "explanation": "The read-write head sits at the end of the access arm and magnetises small areas of the platter to store binary data. Burning pits with a laser describes optical discs. The head has no memory chips for storage. Spinning the platter is done by the spindle motor, not the head."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29245,7 +29307,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows the object files and the runtime library all feeding into the Linker, which outputs the executable program, so it joins them together. Translating source files into object files is the compiler's job. Running code line by line describes an interpreter. Syntax checking happens during compilation, not linking."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30126,7 +30189,8 @@
      "correct_answer": 0,
      "explanation": "The counterfoil stays in the chequebook as a record of the date, payee and amount, which the business uses to write up its cash book. The bank checks the signature on the actual cheque, not the counterfoil. The counterfoil is not sent to the payee as proof of payment. The signed cheque, not the counterfoil, authorises the bank to pay."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30168,7 +30232,8 @@
      "correct_answer": 0,
      "explanation": "Purchases of $820 on credit are credited. Returns $44 and bank payment $700 are debited, totalling $744. The $76 left is a credit balance, so the business still owes Varun $76 (a liability). Varun does not owe the business, there is no overpayment, and returns were only $44."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30870,7 +30935,8 @@
      "correct_answer": 0,
      "explanation": "The return arrows show feedback: problems found in testing, installation or evaluation can send the team back to analysis, design or production to fix them. Doing every stage twice is not shown. The forward arrows fix the order, so it is not arbitrary. The model does not loop forever; it ends when the system is accepted."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31036,7 +31102,8 @@
      },
      "explanation": "The man uses a headset microphone as an input device. Speech recognition (voice recognition) software analyses the sound and converts it into text or commands, allowing hands-free control of the computer, which is useful for users with limited mobility."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -31943,7 +32010,8 @@
      "correct_answer": 0,
      "explanation": "ByVal passes a copy of the argument's value to the matching parameter, so FirstNumber can change without affecting Num1. Passing by reference would be ByRef, which links to the original. The parameter does not rename the variable. The argument's value is used, not ignored or replaced by a default."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32068,7 +32136,8 @@
      "correct_answer": 0,
      "explanation": "The compiler is a shared resource, so one copy serves both users and saves memory. The compiler is not part of the operating system section. User data sections hold data, not compiler code. The diagram shows both users' programs in memory at once, so the last option is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32287,7 +32356,8 @@
      "correct_answer": 0,
      "explanation": "Task Manager displays how much CPU time and RAM are being used, reflecting the OS's role in managing processor and memory resources. It does not encrypt files, compile programs (a translator's job), or defragment disks; those are separate utility or translation tasks unrelated to these figures."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32750,7 +32820,8 @@
      },
      "explanation": "Student1 and student2 are objects, also called instances of a class. Each has its own values for studentID, studentName and dateOfBirth, such as 183 and \"Chris\" for student1, while sharing the same attributes defined by the class."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -33007,7 +33078,8 @@
      "correct_answer": 0,
      "explanation": "Stock code, description, sale price and customer details are stored in more than one file, so there is data redundancy. If a sale price or customer address is changed in one file but not the others, the data becomes inconsistent. The other options describe problems the diagram does not show or that do not follow from separate files."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33076,7 +33148,8 @@
      "correct_answer": 0,
      "explanation": "A product can appear on many orders and an order can contain many products, which is a many-to-many relationship. ORDER-PRODUCT is a link entity that splits this into two one-to-many relationships. The 'one only' option contradicts the crow's feet. The operating-system option confuses databases with file handling. Copying PRODUCT attributes into ORDER would cause redundancy, not solve the problem."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33404,7 +33477,8 @@
      "correct_answer": 0,
      "explanation": "Encrypting with Red's public key means only Red's private key can decrypt the message. Blue does not know Red's private key, so that option is impossible. Blue's private key would only create a signature that anyone with Blue's public key could decrypt. Blue's public key would let only Blue decrypt, so Red could not read it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33617,7 +33691,8 @@
      "correct_answer": 0,
      "explanation": "Market demand is the horizontal sum of individual demands: at $10, 500 + 400 = 900. Adding prices is wrong because price is the same for all buyers. Averaging would give 450, not 900. Using only the larger group would give 500 and ignore female customers' demand."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33863,7 +33938,8 @@
      "correct_answer": 0,
      "explanation": "Negative externality is correct: pollution and damage from the fire impose costs on third parties who are not buyers or sellers of the oil. Opportunity cost is the next best alternative given up. A positive externality is a benefit to third parties. Economies of scale are lower average costs from larger output."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34169,7 +34245,8 @@
      "correct_answer": 0,
      "explanation": "S_doctors is steeper, so supply is inelastic: doctors cannot be increased quickly, so the rise in demand mainly pushes wages up from Wd1 to Wd2, with a small rise from d1 to d2. Elastic supply would give a smaller wage rise. Waiters' supply is elastic, not inelastic. Both groups face the same shift from DL1 to DL2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34387,7 +34464,8 @@
      "correct_answer": 0,
      "explanation": "An emissions tax makes polluters pay the external cost, so they produce less pollution. Cutting subsidies for cleaner energy would increase pollution. Lowering interest rates boosts output and likely worsens smog. Removing regulations would let firms pollute more, ignoring external costs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34676,7 +34754,8 @@
      "correct_answer": 2,
      "explanation": "The router (c) joins different networks, such as a home network and the internet, and forwards packets using IP addresses. The modem (a) only converts signals between the line and digital data. The switch (b) sends frames to devices within one network only. The network interface card (d) is inside a computer and lets that single device connect to a network."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34826,7 +34905,8 @@
      "correct_answer": 0,
      "explanation": "The table lists desktops as easy to upgrade and expand (e.g. adding memory) and less easy to steal and carry away. Laptops are portable, so easier to steal and less expandable. Tablets and smartphones are portable and not all have expandable memory, so they do not meet both needs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34923,7 +35003,8 @@
      "correct_answer": 0,
      "explanation": "An extranet is a private network that gives selected outsiders, such as customers or suppliers, controlled access. An intranet is only for members inside one organisation. The internet is a global public network. A public hotspot is open to anyone, so it is not a private company network."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35188,7 +35269,8 @@
      "correct_answer": 0,
      "explanation": "Plugging many devices into one extension lead can draw more current than it is rated for, so it overheats and may start a fire. Losing files, slower network speed and radiation are not electrical hazards caused by overloaded sockets."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -36133,7 +36215,8 @@
      "correct_answer": 0,
      "explanation": "The chart has the placeholder title \"Chart Title\" and no axis titles, so readers cannot tell what it shows or what is measured. Removing the legend would stop readers identifying the series. Starting the axis at $500,000.00 would hide smaller values and distort comparisons. One colour would make the four periods indistinguishable."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -36292,7 +36375,8 @@
      "correct_answer": 0,
      "explanation": "Pulling a slice out (an exploded pie chart) draws the reader's attention to that category, here Real Madrid. It does not mean negative values, estimated data, or change the total, which is always 100% of the whole pie. The other options misread what exploding does."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -36351,7 +36435,8 @@
      "correct_answer": 0,
      "explanation": "A pie chart shows how a whole is split into parts, so each club's slice shows its share of all fans (e.g. Real Madrid 28%). It cannot show change over time, which needs a line graph. It does not show a relationship between two variables, which needs a scatter graph. It is a display, not a database for storing data."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37048,7 +37133,8 @@
      },
      "explanation": "The report arranges records under headings, first 2006 and 2007, then F and M. This is done with grouping in the report, which collects records sharing the same field value under one group heading."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -37236,7 +37322,8 @@
      "correct_answer": 0,
      "explanation": "Real is correct because weights such as 3.2 and 4.2 have decimal places. Integer is wrong as it only stores whole numbers and would lose the decimal part. Text is wrong because it is for characters and cannot be used properly in calculations. Boolean is wrong because it only stores true/false values, such as Y/N."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37535,7 +37622,8 @@
      },
      "explanation": "The normal-weight line of text is a paragraph, so it is placed inside the <p> tag. The headings above it use <h1>, <h2> and <h3>, which make text larger and bold."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -37570,7 +37658,8 @@
      "correct_answer": 0,
      "explanation": "An ordered list uses <ol>, with each step in an <li> list item, which gives the numbers 1 to 4. <ul> makes bullets, as in the Tea, Coffee, Hot chocolate list. <p> is for paragraphs, not list items. <li> items go inside a list, not the other way round."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37594,7 +37683,8 @@
      },
      "explanation": "The steps are shown with numbers 1 to 4, so they are in an ordered list. In HTML this is made with the <ol> and </ol> tags, with each step inside <li> tags."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -37629,7 +37719,8 @@
      "correct_answer": 0,
      "explanation": "CSS rules go inside the style element, which sits in the head (lines 6 to 8). The script element is for JavaScript code, not CSS. The body holds the visible content, not the style rules. The doctype line only tells the browser the document is HTML and holds no styling."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37698,7 +37789,8 @@
      "correct_answer": 0,
      "explanation": "target=\"_blank\" in the anchor tag tells the browser to open the linked page in a new tab. target=\"_self\" opens it in the same window, which matches the third link. href gives the destination address, not where it opens. rel=\"newtab\" is not a valid way to control this."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -37829,7 +37921,8 @@
      "correct_answer": 0,
      "explanation": "Merging cells vertically combines several rows in the Country column into one cell, so each country is shown once beside its cities. Splitting does the opposite. A repeating header row only affects page breaks. Borders change the lines, not how cells are combined across rows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37856,7 +37949,8 @@
      },
      "explanation": "The word Spain appears once across both Barcelona and Madrid rows, and United Kingdom does the same across six rows. This is done by merging cells (a row span) so one cell covers several rows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -37919,7 +38013,8 @@
      "correct_answer": 0,
      "explanation": "The anchor element <a> with an href attribute creates a hyperlink to another page. <img> is for displaying images, not links. <li> makes a list item, as in the numbered services list. <p> makes a paragraph and does not support href as a link."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -38114,7 +38209,8 @@
      },
      "explanation": "The dashed straight line passes through the origin and (6, 6), so it is y = x. The graph of an inverse function is always the reflection of the original function in the line y = x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -38149,7 +38245,8 @@
      "correct_answer": 0,
      "explanation": "The graph is symmetric about the vertical axis, so pairs like x = 2 and x = −2 give the same output. This makes f many-to-one, so its inverse would be one-to-many and not a function. The origin is not a problem, the curve does pass the vertical line test, and it does have a range, f(x) ≥ 0."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -38363,7 +38460,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = 3: |3 − 2| + 3 = 1 + 3 = 4. The value 6 comes from adding 3 + 3 and ignoring the −2 inside the modulus. The value 2 comes from a sign error, using 1 − 3 or −1 + 3 − 0. The value 3 is y at x = 2, not x = 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -38837,7 +38935,8 @@
      },
      "explanation": "The base is 2 + √3. Squaring gives 2² + 2(2)(√3) + (√3)² = 4 + 4√3 + 3 = 7 + 4√3, since (√3)² = 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -38906,7 +39005,8 @@
      },
      "explanation": "AB is (2 + √7) cm, so AB² = (2 + √7)² = 4 + 4√7 + 7 = 11 + 4√7 cm², using (√7)² = 7."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39021,7 +39121,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = 2 (remainder theorem). 2x³ + 5x² − 4x − 3 gives 16 + 20 − 8 − 3 = 25, so it is correct. The quartic gives 27, x³ + x + 10 gives 20, and 6x³ − 10x² − 18 gives −10, so none of these leaves 25."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39042,7 +39143,8 @@
      },
      "explanation": "Both expressions are in the table. Add like terms: x^3 + x^3 = 2x^3, the x term stays x, and −8 + 10 = 2. So the sum is 2x^3 + x + 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39165,7 +39267,8 @@
      },
      "explanation": "B is where the curve crosses the y-axis, so x = 0. Substitute: y = 2(0+1)²(7 − 0) = 2 × 1 × 7 = 14. So B is (0, 14) and its y-coordinate is 14."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39212,7 +39315,8 @@
      "correct_answer": 0,
      "explanation": "The inequality needs the curve above the x-axis. This happens to the left of x = −1 and between x = 1 and x = 2, so x < −1 or 1 < x < 2. The option −1 < x < 1 or x > 2 is where the curve is below the axis. The option x < −1 or x > 2 ignores the section between 1 and 2. The option −1 < x < 2 ignores the sign changes at x = 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39373,7 +39477,8 @@
      "correct_answer": 0,
      "explanation": "Substitute (0, 4): 4 = k(0−1)²(0−2) = k(1)(−2) = −2k, so k = −2. The value 2 forgets the negative sign from (0−2). The value 4 just copies the y-intercept. The value −4 ignores the factor (−1)² and misuses the product."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39462,7 +39567,8 @@
      },
      "explanation": "M is the midpoint of AB, so B = 2M − A. The x-coordinate is 2×6 − 8 = 4 and the y-coordinate is 2×4 − 3 = 5. So B is (4, 5)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39603,7 +39709,8 @@
      "correct_answer": 0,
      "explanation": "Midpoint = ((1+6)/2, (7+2)/2) = (3.5, 4.5). (2.5, 4.5) wrongly uses half the difference in x (5/2) instead of the mean. (3.5, 9) adds the y-values and forgets to halve. (5, 5) finds the differences between the coordinates instead of averaging them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39624,7 +39731,8 @@
      },
      "explanation": "Add the x-coordinates and halve: (1 + 6)/2 = 3.5. Add the y-coordinates and halve: (7 + 2)/2 = 4.5. So the midpoint of the segment between (1, 7) and (6, 2) is (3.5, 4.5)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39681,7 +39789,8 @@
      },
      "explanation": "The segment runs from O(0, 0) to (3, 6). Length = √(3² + 6²) = √(9 + 36) = √45, which simplifies to 3√5, about 6.71 units."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39804,7 +39913,8 @@
      },
      "explanation": "The gradient is the change in y divided by the change in √x. From (2, 3) to (5, 6), y rises by 3 and √x increases by 3, so the gradient is 3 ÷ 3 = 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39923,7 +40033,8 @@
      "correct_answer": 0,
      "explanation": "The midpoint is the mean of the x-coordinates and the mean of the y-coordinates: ((2+5)/2, (6+3)/2) = (3.5, 4.5). (7, 9) adds the coordinates but forgets to halve. (1.5, 1.5) halves the differences instead of the sums. (4.5, 3.5) swaps the x and y values."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39945,7 +40056,8 @@
      },
      "explanation": "The midpoint is the average of the coordinates: x = (2 + 5) ÷ 2 = 3.5 and y = (6 + 3) ÷ 2 = 4.5. So the midpoint of the segment between the two marked points is (3.5, 4.5)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -40020,7 +40132,8 @@
      "correct_answer": 0,
      "explanation": "The vertical axis is x + y and the horizontal axis is x². Gradient = change in (x + y) ÷ change in x² = (8 − (−2)) ÷ (10 − 2) = 10/8 = 5/4. 4/5 inverts the fraction. 1 uses only the x² change incorrectly. 8/5 uses 8 instead of the full rise of 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40069,7 +40182,8 @@
      },
      "explanation": "The midpoint is the mean of the coordinates of the two marked points: (2 + 6)/2 = 4 and (9 + 1)/2 = 5. So the midpoint is (4, 5)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -40132,7 +40246,8 @@
      "correct_answer": 0,
      "explanation": "Midpoint = ((0.5+2.5)/2, (1.00+4.20)/2) = (1.5, 2.6). (1.5, 3.67) just reads the middle table column instead of averaging. (1.5, 2.1) halves 4.20 only, ignoring the first y-value. (3.0, 5.2) adds the coordinates but forgets to divide by 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40642,7 +40757,8 @@
      "correct_answer": 0,
      "explanation": "Midpoint = ((2+10)/2, (0.10+11.29)/2) = (6, 5.695). (6, 1.08) just reads the table value at x = 6, which is not the average of the y-values. (6, 11.19) subtracts the y-values instead of adding and halving. (12, 11.39) adds the coordinates but forgets to divide by 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40716,7 +40832,8 @@
      },
      "explanation": "The points (2, 30.0) and (10, 148.4) are the first and last columns of the table. Midpoint = ((2+10)/2, (30.0+148.4)/2) = (6, 89.2)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -40751,7 +40868,8 @@
      "correct_answer": 0,
      "explanation": "Midpoint = ((5+25)/2, (5.54+1.53)/2) = (15, 3.535). (15, 2.30) just reads the table's y-value at x=15, which is not the midpoint. (20, 4.04) subtracts or mis-averages x. (30, 7.07) adds the coordinates without halving."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40792,7 +40910,8 @@
      "correct_answer": 0,
      "explanation": "BC = √((7−(−3))² + (7−2)²) = √(100+25) = √125 = 5√5. Adding the differences to get 15 forgets to square and root. 125 forgets the square root. 5 uses only the vertical difference and ignores the horizontal change of 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40845,7 +40964,8 @@
      "correct_answer": 0,
      "explanation": "180° = π radians, so 135° = 135/180 × π = 3π/4. 3π/2 is 270°, which comes from using 3/2 instead of 3/4. π/4 is 45°, which is the wrong multiple of 45°. 2π/3 is 120°, which comes from mixing up the fraction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40868,7 +40988,8 @@
      },
      "explanation": "The table shows 180° = π radians, so 1° = π/180 radians. For 135°, multiply: 135 × π/180 = 3π/4. This is also 135/180 of π, which simplifies to 3/4 of π."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -40915,7 +41036,8 @@
      "correct_answer": 0,
      "explanation": "Midpoint = ((0.5+0.9)/2, (9+4.5)/2) = (0.7, 6.75). (0.7, 6.5) comes from an arithmetic slip in the y-values. (1.4, 13.5) is the sums without dividing by 2. (0.2, 2.25) uses half the differences instead of the sums."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40968,7 +41090,8 @@
      "correct_answer": 0,
      "explanation": "Since 180° = π radians, 120° = 120/180 × π = 2π/3. π/3 is the value for 60°, a common slip. 3π/2 is the value for 270°. 4π/3 is the value for 240°, so it is too large for 120°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40992,7 +41115,8 @@
      },
      "explanation": "The table shows 180° = π radians, so 1° = π/180. Then 240° = 240 × π/180 = 4π/3 radians."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41240,7 +41364,8 @@
      "correct_answer": 0,
      "explanation": "Arc length = rθ = 4 × 1.1 = 4.4 cm. The perimeter also includes the two straight radii: 4 + 4 + 4.4 = 12.4 cm. 4.4 cm is only the arc. 8.4 cm leaves out one radius. 17.6 cm multiplies the sum 4 + 4 + 4.4 wrongly, or uses 4 × 4.4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -41423,7 +41548,8 @@
      },
      "explanation": "Arc length = rθ, with r = 5 cm and θ = 4.2 rad from the diagram. So arc = 5 × 4.2 = 21 cm. The angle must be in radians for this formula."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41490,7 +41616,8 @@
      },
      "explanation": "Arc length is s = rθ, with θ in radians. The diagram shows r = 10 cm and angle AOB = 2.3 rad, so s = 10 × 2.3 = 23 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41666,7 +41793,8 @@
      },
      "explanation": "O is the midpoint of BC, so BO = 8 cm. Triangle ABO has a right angle at B, so OA = √(6² + 8²) = √100 = 10 cm. This is the radius of the sector."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41713,7 +41841,8 @@
      "correct_answer": 0,
      "explanation": "Arc length s = rθ, so 9π = 12θ and θ = 9π/12 = 3π/4. 3π/2 comes from wrongly doubling the angle. 3/4 drops the π from the arc length. 4π/3 inverts the fraction by dividing 12 by 9π incorrectly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -42582,7 +42711,8 @@
      },
      "explanation": "All nine letters G, R, A, D, I, E, N, T, S are different. With G fixed in first place, the other 8 cards can be arranged in 8! = 40320 ways."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43000,7 +43130,8 @@
      "correct_answer": 0,
      "explanation": "Integrate x² − 3x from 0 to 3: [x³/3 − 3x²/2] = 9 − 13.5 = −4.5. Area cannot be negative, so it is 9/2. −9/2 is the signed value, not an area. 9 comes from an arithmetic slip. 0 wrongly suggests the area cancels, but the whole region lies below the axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43041,7 +43172,8 @@
      "correct_answer": 0,
      "explanation": "The area is the integral of x² from x = 2 to x = 3: [x³/3] = 27/3 − 8/3 = 19/3. The integral from 0 to 3 includes the unshaded area from 0 to 2. Integrating 2x uses the derivative instead of reversing differentiation. Width × height of the right-hand edge overestimates, because the curve is not flat."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43159,7 +43291,8 @@
      },
      "explanation": "Expand to x² − 2x and integrate to get x³/3 − x². At x = 2 this is 8/3 − 4 = −4/3, and at x = 0 it is 0. The answer is negative because the shaded region lies below the x-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43379,7 +43512,8 @@
      "correct_answer": 0,
      "explanation": "The curve meets the line where 1 + cos x = 1, so cos x = 0. The values nearest the y-axis are x = −π/2 and x = π/2, which are the limits for the shaded area. x = ±π is where the curve touches the x-axis (cos x = −1). x = 0 is the maximum, and x = π is not a crossing. x = ±1 confuses the y-value with x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43783,7 +43917,8 @@
      },
      "explanation": "Set 4 − x = 6/(x+3), so (4 − x)(x + 3) = 6, giving x² − x − 6 = 0. This factorises as (x − 3)(x + 2) = 0, so x = 3 or x = −2. The right-hand point has x = 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43838,7 +43973,8 @@
      },
      "explanation": "At the intersection 3x = x(8 − x), so x² − 5x = 0, giving x = 0 (point O) or x = 5. The second crossing is at x = 5, where region A's upper boundary changes from line to curve."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43986,7 +44122,8 @@
      "correct_answer": 0,
      "explanation": "Stationary points occur where dy/dx = 0: 3x² − 6x − 9 = 3(x − 3)(x + 1) = 0, so x = −1 or x = 3. A is the maximum on the left, so x = −1, and B is the minimum on the right, so x = 3. The other options swap the points or use wrong signs or factors."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -44006,7 +44143,8 @@
      },
      "explanation": "At a stationary point dy/dx = 0, so 3x² − 6x − 9 = 3(x − 3)(x + 1) = 0, giving x = 3 or x = −1. B is the minimum on the right of the y-axis, so x = 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -44053,7 +44191,8 @@
      "correct_answer": 0,
      "explanation": "Gradient = change in y ÷ change in x = (0 − (−3)) ÷ (1 − 4) = 3 ÷ (−3) = −1. The answer 1 loses the negative sign. The answer 3 uses only the rise and ignores the run. The answer −1/3 inverts the fraction, giving run over rise."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -44622,7 +44761,8 @@
      },
      "explanation": "The hemisphere is half of a sphere, whose surface area is 4πr². Half of this is 2πr². Its flat face joins the cylinder's top circle, so it is not part of the outer surface."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -44748,7 +44888,8 @@
      },
      "explanation": "The line of length 5 is the hypotenuse of a right-angled triangle with sides r and h, since the centre of the sphere is halfway up the cylinder (height 2h). So r² + h² = 25, giving r² = 25 − h²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -44852,7 +44993,8 @@
      "correct_answer": 0,
      "explanation": "AB = 2p means B is at x = p, so the height BC is y = 4 − p². Area = base × height = 2p(4 − p²). Option 2 wrongly uses 2p as x. Option 3 uses p instead of the full base 2p. Option 4 adds p² instead of subtracting it, which does not match the curve."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -44875,7 +45017,8 @@
      },
      "explanation": "B lies on the x-axis directly below C, so BC is the y-coordinate of C. C is on the curve y = 4 − x² with x = p, so its height is 4 − p² units."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -44978,7 +45121,8 @@
      "correct_answer": 0,
      "explanation": "BA = BO + OA = −b + a = a − b. The option b − a is AB, the reverse direction. The option a + b goes from the wrong start point and adds instead of subtracting. The option −a − b is the negative of a + b, which is not a route from B to A."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45000,7 +45144,8 @@
      },
      "explanation": "To go from B to A, travel from B back to O (−b), then from O to A (+a). So BA = −b + a, which is a − b."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -45215,7 +45360,8 @@
      "correct_answer": 0,
      "explanation": "B is the midpoint of OD, so OD = 2b. Then AD = AO + OD = −a + 2b = 2b − a. The option b − a is AB, not AD. The option a − 2b is DA, which has the wrong direction. The option 2b + a adds a instead of subtracting it, so it uses OA where AO is needed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45237,7 +45383,8 @@
      },
      "explanation": "Since B is the midpoint of OD, OD = 2b. Then AD = AO + OD = −a + 2b, which is written 2b − a."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -45284,7 +45431,8 @@
      "correct_answer": 0,
      "explanation": "QP = QO + OP. QO is the reverse of OQ, so it is −3b, and OP = a, giving a − 3b. The option 3b − a is PQ, the opposite direction. The option a + 3b forgets that QO reverses OQ. The option a + 2b is OY, not QP."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45400,7 +45548,8 @@
      "correct_answer": 0,
      "explanation": "XB = XO + OB = −λa + b = b − λa. The option λa − b is the reverse vector BX. The option b + λa adds instead of subtracting XO. The option λ(b − a) wrongly treats XB as a fraction of AB, but X lies on OA, not AB."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45423,7 +45572,8 @@
      },
      "explanation": "XB goes from X to B, so travel X to O then O to B. XO = −λa and OB = b, so XB = −λa + b, which is b − λa."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -45470,7 +45620,8 @@
      "correct_answer": 0,
      "explanation": "AB = AO + OB = −a + b = b − a. The option a − b is the vector BA, which has the wrong direction. The option a + b adds the position vectors, which gives a diagonal and not the side AB. The option ½(a + b) is the midpoint of AB, not the vector AB."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45625,7 +45776,8 @@
      "correct_answer": 0,
      "explanation": "AB = b − a, since AB = AO + OB = −a + b. AP is 3/4 of AB, so AP = (3/4)(b − a). The option (3/4)(a − b) has the direction reversed. The option (3/4)b − a applies the fraction to only one vector. The option (3/4)(a + b) wrongly adds the position vectors."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45800,7 +45952,8 @@
      },
      "explanation": "The answer is 90°. EF is a diameter and G lies on the arc, so the angle in a semi-circle at G is a right angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -45973,7 +46126,8 @@
      "correct_answer": 0,
      "explanation": "Each F1 plant is Tt, receiving T from the TT parent and t from the tt parent. The dominant T allele is expressed and hides the recessive t, so the plants are tall. The t allele is not dominant, alleles do not blend, and Tt is heterozygous rather than homozygous, so the t allele is not lost."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45995,7 +46149,8 @@
      },
      "explanation": "Each F1 plant receives a T allele from the TT parent and a t allele from the tt parent. Two different alleles for one gene make the genotype heterozygous. The plants are tall because T is dominant over t."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -46051,7 +46206,8 @@
      },
      "explanation": "The answer is osmosis. In the diagram, water moves from the cell, where solute concentration is low, to the surrounding hypertonic solution, where it is high, through the partially permeable membrane. The cell loses water and shrinks."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -46121,7 +46277,8 @@
      },
      "explanation": "The answer is osmosis. The diagram shows water moving into the cell from a low solute concentration outside to a high solute concentration inside, across the cell membrane. This makes the cell swell and burst (lyse)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -46777,7 +46934,8 @@
      "correct_answer": 0,
      "explanation": "Tracheoles reach right up to the muscle, so oxygen diffuses straight into the respiring cells through air-filled tubes, with no blood transport. Insect blood does not carry oxygen to tissues, so the second option is wrong. Tracheoles do not store carbon dioxide. They do not serve to warm air using the muscle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46818,7 +46976,8 @@
      "correct_answer": 0,
      "explanation": "At 40-50% the chart shows a greater risk of collapse or fainting with increased respiration and pulse. This is because carbon monoxide binds haemoglobin more strongly than oxygen, reducing oxygen delivery. White blood cells are not destroyed, the trachea is not blocked, and blood oxygen is lowered, not raised."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -47300,7 +47459,8 @@
      },
      "explanation": "H is a smaller cell that does not release antibodies. It stays in the body after the infection as a memory cell. If tetanus bacteria enter again, memory cells allow a faster and larger secondary response."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -47772,7 +47932,8 @@
      "correct_answer": 0,
      "explanation": "Degrees of freedom = (12 + 14) − 2 = 24, giving a critical value of 2.06. Since 2.30 is greater than 2.06, the difference is significant at p = 0.05, so the null hypothesis is rejected. Using 22 degrees of freedom miscalculates (n − 4). Saying 'accept' misreads the test. Using ∞ is incorrect for small samples."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48716,7 +48877,8 @@
      "correct_answer": 1,
      "explanation": "An edge is the line where two faces meet. In the diagram, the edge arrow points to where the front face meets the side face. A flat side is a face, not an edge. A pointed corner is a vertex. The inside of the shape is not an edge."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48757,7 +48919,8 @@
      "correct_answer": 0,
      "explanation": "The digit 8 sits under the 0.01 heading, so its value is 8 hundredths (0.08). It is not tenths, because the tenths column (0.1) holds the 0. It is not thousandths, because that column (0.001) holds the 2. Hundreds is wrong because there is no hundreds column; the columns to the left of the point are tens and ones."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48880,7 +49043,8 @@
      "correct_answer": 0,
      "explanation": "Length is measured along the curved body, so a string laid along it and then straightened against a ruler gives the true length. A straight ruler from head to tail cuts across the curves and gives too short a length. A weighing scale measures mass. A measuring jug measures capacity."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48899,7 +49063,8 @@
      },
      "explanation": "The answer is length. How long the earthworm is from its head to its tail is a length. Mass tells how heavy something is, and capacity tells how much a container holds, so neither fits."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -49315,7 +49480,8 @@
      "correct_answer": 0,
      "explanation": "The short hand shows the hour and it points to 5, so the time is 5 o'clock. The second option is wrong because the long hand shows minutes, not hours. The third is wrong because the short hand is not at 12. The fourth is wrong because the long hand points to 12, not 5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -49381,7 +49547,8 @@
      "correct_answer": 1,
      "explanation": "The drawing shows 2 wheels on one bicycle. Three bicycles means 2 + 2 + 2 = 6 wheels. 5 comes from adding 2 and 3 instead of making 3 groups of 2. 8 is 4 groups of 2. 3 counts the bicycles, not the wheels."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -49401,7 +49568,8 @@
      },
      "explanation": "The drawing shows a bicycle with 2 wheels. 6 bicycles have 2 wheels each, so you count 2 six times: 2, 4, 6, 8, 10, 12. The answer is 12 wheels."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -50309,7 +50477,8 @@
      },
      "explanation": "The answer is 2. There are 16 frogs in 8 equal rows, so you divide 16 ÷ 8 = 2. The drawing shows 2 frogs in every row."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -50463,7 +50632,8 @@
      "correct_answer": 1,
      "explanation": "One 1 litre bottle holds more than one 1/2 litre cup, because 1 litre is greater than 1/2 litre. The 'less than' and 'the same as' options reverse or ignore the difference. Three bottles hold 3 litres and two cups hold 1 litre in total, so three bottles hold more, not less."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50533,7 +50703,8 @@
      "correct_answer": 0,
      "explanation": "Two half litres make 1 litre, so four half litres make 2 litres. 2 litres is less than 5 litres, so the cups hold less. Saying more or the same is wrong because 2 is not 5 or greater. Litres and half litres can be compared."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50741,7 +50912,8 @@
      "correct_answer": 0,
      "explanation": "Sharing 2 litres equally between 4 identical jugs gives 2 ÷ 4 = half a litre each. 1 litre would be sharing between only 2 jugs. 2 litres is the total, not one jug. 4 litres is just the number of jugs, not an amount."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50810,7 +50982,8 @@
      "correct_answer": 1,
      "explanation": "There are 4 packs with 10 pens in each, so count in tens: 10, 20, 30, 40. The answer is 40. 14 comes from adding 4 and 10 instead of counting four tens. 100 is ten tens, which would need 10 packs. 04 ignores the tens."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51030,7 +51203,8 @@
      "correct_answer": 0,
      "explanation": "−3 is a negative whole number, so it lies in ℤ. Since ℤ sits inside ℚ and ℚ inside ℝ, it is also in ℚ and ℝ. It is not in ℕ because natural numbers are not negative. The other options wrongly place −3 in ℕ, or wrongly exclude it from the larger ovals that contain ℤ."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51192,7 +51366,8 @@
      "correct_answer": 0,
      "explanation": "The secant PQ has gradient Δy/Δx = (f(x+Δx) − f(x))/Δx, the average rate of change. As Δx → 0, Q moves towards P and the secant becomes the tangent at P, giving f′(x). Δx/Δy is inverted. f(x) is a height, not a gradient. Q moves to P, so the tangent is at P, not Q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51245,7 +51420,8 @@
      "correct_answer": 0,
      "explanation": "Substitute °F = 50: °C = 5/9(50 – 32) = 5/9 × 18 = 10, so the line is at 10 on the vertical axis above 50. 18 is only the value of °F – 32 and forgets to multiply by 5/9. –10 gets the sign wrong. 90 uses 5 × 18 and forgets to divide by 9."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51267,7 +51443,8 @@
      },
      "explanation": "Put °F = 50 into the equation: °C = 5/9 × (50 – 32) = 5/9 × 18 = 10. On the graph, the line is at about 10 on the vertical axis above 50 on the horizontal axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51343,7 +51520,8 @@
      "correct_answer": 0,
      "explanation": "The dot product of two vectors is the product of their lengths times the cosine of the angle between them: a·b = |a||b|cos θ. The sine form is linked to the magnitude of the cross product, not the dot product. Adding the lengths is wrong because the dot product is a product. The tangent form is not used in the definition."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51365,7 +51543,8 @@
      },
      "explanation": "The dot product is a·b = |a||b|cos θ. The diagram shows the lengths |a| and |b| and the angle θ between the vectors, so the function applied to θ is cosine."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51412,7 +51591,8 @@
      "correct_answer": 0,
      "explanation": "Vectors are added component by component: horizontal parts together and vertical parts together, giving (ax + bx, ay + by). Adding ax to ay mixes directions. Subtracting gives a − b, not a + b. Multiplying components is not vector addition."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51453,7 +51633,8 @@
      "correct_answer": 0,
      "explanation": "The scalar (dot) product is the product of the two lengths and the cosine of the angle between the vectors, so a·b = |a||b| cos θ. The sin θ form relates to the magnitude of the cross product, not the dot product. The other two options add the lengths instead of multiplying them, which is incorrect."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51476,7 +51657,8 @@
      },
      "explanation": "The scalar (dot) product of two vectors with the same starting point is the product of their lengths |a| and |b| and the cosine of the angle θ between them: a·b = |a||b|cosθ."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51591,7 +51773,8 @@
      "correct_answer": 0,
      "explanation": "Reflection in y = x swaps coordinates, so (x, y) becomes (y, x). The matrix [[0,1],[1,0]] gives (4,3) → (3,4). [[0,–1],[–1,0]] is reflection in y = –x and gives (–3,–4). [[1,0],[0,–1]] is reflection in the x-axis. [[–1,0],[0,1]] is reflection in the y-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51665,7 +51848,8 @@
      },
      "explanation": "The diagram shows that when price rises, quantity demanded falls, and when price falls, quantity demanded rises. This inverse relationship between price and quantity demanded, other factors constant, is the law of demand."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -52202,7 +52386,8 @@
      "correct_answer": 0,
      "explanation": "Curves further from the origin show bundles with more goods, so a higher level of satisfaction; IC2 is higher than IC1. Satisfaction is equal only along one curve, not between curves. Steepness does not measure total satisfaction. Moving outward can raise satisfaction from both goods, not just Z."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52262,7 +52447,8 @@
      "correct_answer": 0,
      "explanation": "At a, IC0 is tangent to the budget line, so it is the highest indifference curve the consumer can afford. Points b and c lie on lower curve IC1, giving less satisfaction. IC2 is better but lies outside the budget line, so it is unaffordable. At a, the consumer spends all their income and buys both goods."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52371,7 +52557,8 @@
      "correct_answer": 0,
      "explanation": "Milk is perishable, so locating near the source of raw materials reduces spoilage and transport costs. Room for expansion concerns future growth, not input supply. Security and social amenities may matter for any firm, but they do not explain why a milk processor locates near dairy farms."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52768,7 +52955,8 @@
      "correct_answer": 0,
      "explanation": "Higher taxes leave people with less money, so consumption and aggregate demand fall, moving Agg dd 1 down to Agg dd 2 and closing the inflationary gap. More government spending, cheaper borrowing and a larger money supply all raise aggregate demand, which would shift the line upward and widen the gap."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52837,7 +53025,8 @@
      "correct_answer": 0,
      "explanation": "Higher wages and raw material costs make production dearer, so firms supply less at each price. SRAS shifts left, output falls to Y2 and price rises to P2. Higher incomes, lower interest rates or more spending would shift AD right, not SRAS left. Cutting government spending would shift AD left and lower prices, not raise them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53186,7 +53375,8 @@
      },
      "explanation": "The atom gains one electron, so it has more electrons than protons and carries a negative charge, shown by the '–' on the brackets. A negatively charged ion is called an anion."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -53391,7 +53581,8 @@
      "correct_answer": 0,
      "explanation": "Carbon dioxide reacts with calcium hydroxide solution (limewater) to form calcium carbonate, an insoluble white solid, so the liquid turns milky. It does not turn blue, since no indicator is present. It does not stay clear, because a reaction happens. No hydrogen is made; the gas is carbon dioxide."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53489,7 +53680,8 @@
      "correct_answer": 0,
      "explanation": "Na+ from the concentrated solution displaces Mg2+ (and Ca2+) held on the resin. The Mg2+ is washed out into the beaker, and the resin is left with Na+ and can soften water again. Adding Mg2+ would make the resin useless. The step is not filtration and does not involve heating or gas."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53586,7 +53778,8 @@
      "correct_answer": 0,
      "explanation": "Nitric acid vapour passes along the neck into the flask. Cold tap water running over the outside lowers the temperature, so the vapour condenses into liquid nitric acid. The water does not heat it, does not enter the flask to dilute it, and does not neutralise it because it is only water and not a base."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53655,7 +53848,8 @@
      "correct_answer": 0,
      "explanation": "Concentrated sulphuric acid is a dehydrating agent, so it absorbs water vapour and leaves dry hydrogen chloride gas. It does not neutralise HCl, because both are acids. It does not turn HCl into chlorine under these conditions. It does not cool the gas to a liquid; HCl is collected as a gas."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53993,7 +54187,8 @@
      "correct_answer": 0,
      "explanation": "Ethene is almost insoluble in water, so it can be collected by displacing water from the gas jar. Being denser than air is wrong: ethene is slightly less dense than air and that applies to collection by air displacement. It does not dissolve in sodium hydroxide, which only removes acidic impurities like CO2 and SO2. Ethene does not react with water under these conditions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54051,7 +54246,8 @@
      "correct_answer": 0,
      "explanation": "Yeast ferments glucose to ethanol and carbon dioxide. The gas passes through the delivery tube into calcium hydroxide (limewater) and forms insoluble calcium carbonate, so it turns milky. Ethanol stays in the flask and does not cause a blue colour. Oxygen does not react with limewater. Ethene is not made by fermentation, and limewater does not turn orange."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54092,7 +54288,8 @@
      "correct_answer": 0,
      "explanation": "Ethanoic acid and ethanol undergo esterification, giving an ester (ethyl ethanoate) and water. A salt forms when the acid reacts with a base, metal or carbonate, as with NaOH or Mg. An alcohol is a reactant here, not the product. B is not a carboxylic acid, because the acid has been used up."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54114,7 +54311,8 @@
      },
      "explanation": "The arrow labelled Ethanol shows ethanoic acid reacting with an alcohol. A carboxylic acid and an alcohol react (esterification) to form an ester, so B is an ester, ethyl ethanoate."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -54149,7 +54347,8 @@
      "correct_answer": 0,
      "explanation": "The line crosses the x-axis where y = 0. Then x + 2 = 0, so x = -2, which matches the graph. x = 2 comes from ignoring the sign. x = 0 is where it crosses the y-axis (at y = 2). x = 3 is just the end of the x-axis, not a crossing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54171,7 +54370,8 @@
      },
      "explanation": "The line y = x + 2 cuts the y-axis where x = 0. The graph shows it passing through the marked point (0, 2), so the y-value is 2. This is also the number added to x in the equation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -54423,7 +54623,8 @@
      },
      "explanation": "A line that crosses two parallel lines is called a transversal. In the diagram, AB meets both AD and BC, which are marked parallel by arrows, so AB is a transversal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -54458,7 +54659,8 @@
      "correct_answer": 0,
      "explanation": "Volume of a cuboid is length × breadth × height, so l × b × h. Adding l + b + h gives no useful measure of space. 2(lb + bh + lh) is the surface area, which measures the outside faces. 4(l + b + h) is the total length of all 12 edges."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54511,7 +54713,8 @@
      "correct_answer": 0,
      "explanation": "Extending DC past C makes an angle outside the parallelogram, between the extension and side CB. This is an exterior angle. An interior angle lies inside the figure. Vertically opposite angles are formed by two crossing lines on opposite sides of the crossing point. A reflex angle is greater than 180°, but this angle is less than 180°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54947,7 +55150,8 @@
      "correct_answer": 0,
      "explanation": "The hatched (unwanted) side is where x is greater than 3, so the wanted region is x < 3. The line is dashed, so points on x = 3 are not included, which makes the sign strict. x ≤ 3 would need a solid line. x > 3 and x ≥ 3 describe the hatched, unwanted side."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55010,7 +55214,8 @@
      },
      "explanation": "The hypotenuse is the side opposite the right angle. In triangle PQS the right angle is at P, so the side opposite it is SQ, the diagonal joining S and Q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -55123,7 +55328,8 @@
      },
      "explanation": "AC passes through centre O, so it is a diameter. The angle in a semicircle is a right angle, so angle ABC at B on the circle is 90°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -55456,7 +55662,8 @@
      },
      "explanation": "The answer is 2. The chart shows 16 = 8 x [blank]. Multiplying 8 by 2 means doubling 8, and 8 + 8 = 16. So the missing number is 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -55650,7 +55857,8 @@
      },
      "explanation": "Add 22 and 17. Add the tens: 20 + 10 = 30. Add the ones: 2 + 7 = 9. Then 30 + 9 = 39. So the missing number is 39."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -55765,7 +55973,8 @@
      "correct_answer": 1,
      "explanation": "The triangle has 3 straight sides, so it is correct. The circle has no straight sides, only one curved line. The square has 4 sides. The cross has 12 sides, which is many more than 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55832,7 +56041,8 @@
      "correct_answer": 1,
      "explanation": "7 tens and 5 ones make 75, which matches the table with Tens 7 and Ones 5. 57 swaps the digits, so it is wrong. 12 adds 7 and 5 instead of reading the places. 7 uses only the tens digit and leaves out the ones."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55894,7 +56104,8 @@
      },
      "explanation": "The triangle is the pointed shape in the bottom row, in the middle. Count its straight edges one by one. It has 3 sides."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -55969,7 +56180,8 @@
      "correct_answer": 0,
      "explanation": "At A the bob is lowest, so its potential energy is minimum and, as energy is conserved, its speed and kinetic energy are maximum. At B and C the bob stops momentarily, so kinetic energy is zero and potential energy is maximum. So the other options are wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56096,7 +56308,8 @@
      "correct_answer": 0,
      "explanation": "Liquid cannot be compressed, so the volume pushed down at A1 (A1×Δx1) equals the volume raised at A2 (A2×Δx2). Since A2 is larger, Δx2 is smaller. The liquid is not compressed. Pressure is the same in both arms. F1 is smaller than F2, not larger."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56186,7 +56399,8 @@
      },
      "explanation": "The 8 kg mass weighs 8 × 10 = 80 N. This weight pushes down on piston B (16 cm²), so the force put on the liquid is 80 N."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56221,7 +56435,8 @@
      "correct_answer": 0,
      "explanation": "Pascal's principle says pressure applied to an enclosed liquid is transmitted equally everywhere. Since force = pressure × area, the large piston's bigger area gives a bigger force. The pressure is not larger in the large cylinder. The valve only controls the flow direction. Liquids are almost incompressible, so they are not squeezed into a smaller volume."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56290,7 +56505,8 @@
      "correct_answer": 0,
      "explanation": "At fixed volume and temperature, total pressure is proportional to the number of gas particles. Adding gas b adds particles, so more collisions with the walls and a higher reading. Staying at 4atm ignores gas b's contribution. Decreasing is wrong because crowding increases collisions. Zero is wrong because mixing does not remove pressure."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56523,7 +56739,8 @@
      "correct_answer": 1,
      "explanation": "The diagram shows F halfway between C and the vertex, so f = R/2. f equal to R would put F at C. f twice R would put F beyond C. f one third of R does not match F's midpoint position, which is shown in both mirrors."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56576,7 +56793,8 @@
      "correct_answer": 0,
      "explanation": "In a series circuit there is only one path, so the same current passes through every point. The current at B equals the current at D. Current is not used up by bulbs, so it does not become greater, smaller or zero. Only energy is transferred, and the voltage drops across the bulbs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56598,7 +56816,8 @@
      },
      "explanation": "In a series circuit there is only one path, so the same current flows through every point. The current at B is 2 A, so the current at D is also 2 A. Current is not used up by the bulbs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56645,7 +56864,8 @@
      "correct_answer": 0,
      "explanation": "I is a virtual image: the reflected rays diverge and only appear to come from I when traced backwards (dashed lines). Light does not actually pass through I, so it is not real. A virtual image cannot be formed on a screen. Equal distance from the mirror does not make an image real."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56770,7 +56990,8 @@
      "correct_answer": 2,
      "explanation": "Two equal 6Ω resistors in parallel give (6×6)/(6+6) = 3Ω, which is half of one resistor. 12Ω is wrong because it adds them as if in series. 6Ω is wrong because parallel resistors always reduce the resistance below the smallest one. 1.5Ω comes from dividing 6 by 4, which is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56791,7 +57012,8 @@
      },
      "explanation": "Two equal resistors in parallel share the current, so 1/R = 1/6 + 1/6 = 2/6. This gives R = 3Ω. This 3Ω value replaces the parallel pair in the middle circuit of Diagram A."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56993,7 +57215,8 @@
      "correct_answer": 0,
      "explanation": "Constant speed means zero acceleration, so by Newton's first law the net force is zero. F to the right must equal Fr to the left. If F were greater, the block would accelerate. If Fr were greater, it would slow down. Friction is not zero while sliding."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57018,7 +57241,8 @@
      },
      "explanation": "At constant speed the acceleration is zero, so by Newton's first law the forces are balanced. The frictional force Fr, which points left, is therefore equal in size to the applied force F, which points right, and opposite in direction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -57183,7 +57407,8 @@
      },
      "explanation": "The runway is tilted so that the component of the trolley's weight down the slope balances friction. The trolleys then move at constant velocity, so the tapes give velocities that are not affected by friction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -57383,7 +57608,8 @@
      "correct_answer": 0,
      "explanation": "In the closed ring the magnetic field lines stay inside the iron, so almost all the flux from the input coil passes through the output coil. In the open U-core, field lines leak out into the air and are lost. The core does not carry current between the coils, does not work with direct current, and does not store charge."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57444,7 +57670,8 @@
      },
      "explanation": "In the left diagram the left coil has about 3 turns and the right coil has about 7. If the input is the 3-turn coil, the secondary has more turns, so the voltage increases. This is a step-up transformer."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -57563,7 +57790,8 @@
      "correct_answer": 0,
      "explanation": "The fuse is in the live wire. If the current becomes too large, its thin wire melts and breaks the circuit, protecting the appliance and user. Carrying fault current to the ground is the job of the earth wire. A fuse cannot increase voltage. Gripping the cable is the job of the case clip."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58166,7 +58394,8 @@
      },
      "explanation": "The bracket labelled Period spans one crest to the next crest, so the period is T = 0.5 s. Frequency is f = 1/T = 1/0.5 = 2 Hz."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -58406,7 +58635,8 @@
      "correct_answer": 0,
      "explanation": "The force f = mω²r, where r = R cosλ is the radius of the circle at P. Moving towards a pole, λ increases and r decreases, so f decreases. It does not increase, since r gets smaller. ω is the same for every point on Earth, so f is not constant. mg′ changing is an effect of f, not its cause."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58464,7 +58694,8 @@
      "correct_answer": 0,
      "explanation": "At r_o the α-particle is momentarily at rest, so its kinetic energy has been converted entirely into electrostatic potential energy through repulsion by the positive nucleus. The nucleus does not absorb heat, since the force is conservative. Energy is not shared equally as kinetic energy, because the particle is momentarily at rest. Kinetic energy is not unchanged, because the particle stops."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58712,7 +58943,8 @@
      "correct_answer": 0,
      "explanation": "The modulator combines the low-frequency information with a high-frequency carrier, so the carrier carries the information over long distances. Amplifying is not the modulator's main job. Removing noise is not its purpose. Recovering the original information is done by the demodulator at the receiving end, not the modulator."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58889,7 +59121,8 @@
      "correct_answer": 0,
      "explanation": "Interference at B depends on the path difference between the waves from the two sources. A whole number of wavelengths gives constructive interference (bright); an odd number of half wavelengths gives destructive interference (dark). L or y alone does not decide this, and the sum of the paths does not either, because only their difference sets the phase difference."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58911,7 +59144,8 @@
      },
      "explanation": "Waves from the two sources, separated by d, travel different paths to B and overlap there. Their superposition gives constructive or destructive interference, depending on the path difference, so the phenomenon is interference."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -58958,7 +59192,8 @@
      "correct_answer": 0,
      "explanation": "Brightness at P depends on the phase difference of the two waves, which comes from the path difference r2 − r1 relative to the wavelength. A whole number of wavelengths gives constructive interference (bright); a half-integer gives destructive (dark). The sum r1 + r2, D alone, or y alone does not give the phase difference by itself."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59274,7 +59509,8 @@
      "correct_answer": 0,
      "explanation": "The sprinkler pushes water out (action), and the water pushes the sprinkler back with an equal, opposite force (reaction), so it rotates opposite to the jets. The first-law option is wrong because a force does act. The same-object option is wrong because action and reaction act on different objects. The mass-loss option is wrong because the turning is caused by the reaction force, not by lost mass."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59412,7 +59648,8 @@
      "correct_answer": 0,
      "explanation": "Some energy is changed into heat and sound, which are not useful electrical energy, so it is wasted. Energy is not destroyed, because of conservation of energy. Not all of it becomes electrical energy, since the arrows show losses. Heat and sound are outputs, not the cause of rotation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59434,7 +59671,8 @@
      },
      "explanation": "The answer is the law of conservation of energy. The flowchart shows energy changing from one form to another, with some becoming heat and sound, but none is lost. The total energy stays the same."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -59481,7 +59719,8 @@
      "correct_answer": 0,
      "explanation": "As the object falls, it loses height, so its potential energy decreases and changes into kinetic energy as its speed increases. At the ground P.E = 0 and K.E is maximum. The second option reverses the change. The third is wrong because energy is transferred, so both cannot increase. The fourth is wrong because the object speeds up, so K.E is not zero."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59522,7 +59761,8 @@
      "correct_answer": 0,
      "explanation": "During boiling, the heat energy supplied is used to change water into steam, not to raise the temperature. So the reading stays constant at the boiling point (100 °C for pure water). It does not keep rising, fall, or fluctuate, because the heat is used to break the bonds between water particles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59581,7 +59821,8 @@
      "correct_answer": 0,
      "explanation": "The current in the circuit makes the immersion heater hot, so thermal energy passes from the heater to the cold water and the thermometer reading rises. The water does not lose energy to the heater, and the temperature does not fall. The thermometer only measures the temperature, so it does not stop the change."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -59684,7 +59925,8 @@
      "correct_answer": 0,
      "explanation": "In a class 1 lever the pivot lies between the load and the effort, as in all four drawings. The option saying the load is in the middle describes a class 2 lever. The option saying the effort is in the middle describes a class 3 lever. The option with the pivot at the end does not match any of the four drawings."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59748,7 +59990,8 @@
      },
      "explanation": "In both the fishing rod and the tweezers, the effort is applied between the pivot and the load. A lever with the effort in the middle is a Class 3 (third-class) lever."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -59876,7 +60119,8 @@
      },
      "explanation": "V2 is connected in parallel with the lamp. Its two ends join to the two sides of the lamp, on a separate branch, so it measures the potential difference across the lamp. The lamp itself is in series in the main loop."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -59934,7 +60178,8 @@
      },
      "explanation": "In both drawings the load lies between the pivot and the effort. This arrangement is a class 2 lever. It lets a small effort lift or overcome a larger load."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60081,7 +60326,8 @@
      "correct_answer": 0,
      "explanation": "Light travels in straight lines, so the opaque Earth blocks the Sun's rays and a shadow forms behind it. The Moon does not make its own light; it only reflects sunlight. Light does not bend round the Earth to fill the shadow. The ball sits in the shadow; it does not cause it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60150,7 +60396,8 @@
      "correct_answer": 0,
      "explanation": "The dotted line is the normal. It is drawn at 90° to the reflecting surface at the point where the ray hits, and angles of incidence and reflection are measured from it. The surface itself is the hatched line, not the dotted one. The reflected ray is the solid line with an arrow leaving the surface. A shadow is not shown in this diagram."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60170,7 +60417,8 @@
      },
      "explanation": "The dotted line drawn at 90° to the surface, at the point where the incident ray hits, is called the normal. Angles of incidence and reflection are measured from it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60412,7 +60660,8 @@
      "correct_answer": 0,
      "explanation": "Atomic number 13 means 13 protons. A neutral atom has equal electrons, so 13 electrons. Neutrons = nucleon number − protons = 27 − 13 = 14. The 27 neutrons option confuses nucleon number with neutrons. Swapping protons and neutrons is wrong. 14 electrons ignores neutrality."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60638,7 +60887,8 @@
      "correct_answer": 0,
      "explanation": "C2H4 = 24.0000000 + 4.0312984 = 28.0312984, which matches 28.0313. N2 = 28.0061476 and CO = 27.9949141 are different accurate masses. All three have nominal mass 28, but high resolution distinguishes them, so the last option is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60944,7 +61194,8 @@
      "correct_answer": 0,
      "explanation": "Aluminium's outer electron is in a 3p subshell, which is higher in energy and further out than 3s, and it is partly shielded by the 3s electrons. Aluminium's nuclear charge is greater, not smaller. It has no extra shell; both are in Period 3. Its 3p subshell holds one electron, so it is not half-filled."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61147,7 +61398,8 @@
      "correct_answer": 0,
      "explanation": "Mg(OH)2 is only sparingly soluble, so few OH−(aq) ions are in solution and the pH is about 10. NaOH is very soluble and fully dissociates, giving pH 14. MgO is basic, not acidic. Mg(OH)2 does not release H+. The table shows MgO does react with water, forming Mg(OH)2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61347,7 +61599,8 @@
      "correct_answer": 0,
      "explanation": "Each element down Group 2 has an extra occupied electron shell, so the outer electrons are further from the nucleus and the radius rises (0.122 to 0.217 nm). Nuclear charge actually increases, not decreases. All Group 2 atoms have two outer electrons. Atoms in a metallic lattice have not simply lost the electrons that determine their radius in this way."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61551,7 +61804,8 @@
      "correct_answer": 0,
      "explanation": "MnO4− gains 5e− but each Fe2+ loses only 1e−, so five Fe2+ are needed for the electrons to cancel. E⦵ values are not multiplied by the coefficients, so the second option is wrong. H+ appears only in the manganate half-equation, so the third is wrong. The ion charges are unrelated to the multiplication, so the fourth is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61773,7 +62027,8 @@
      "correct_answer": 0,
      "explanation": "Each aldehyde has one more CH2 than the one before and all share the CHO functional group, which defines a homologous series. Adding oxygen is wrong because each has only one O. Two alkyl groups on C=O describes ketones. Their Mr values increase by 14, so they are not equal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62448,7 +62703,8 @@
      "correct_answer": 0,
      "explanation": "Chlorine is electronegative, so it withdraws electron density through the C–Cl bonds (negative inductive effect). This disperses the negative charge on the carboxylate ion, stabilising it and shifting the equilibrium towards dissociation, so Ka rises with each added Cl. Chlorine does not donate electrons. Each acid has only one acidic hydrogen. Solubility is not what determines Ka."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62546,7 +62802,8 @@
      "correct_answer": 0,
      "explanation": "11.5 ppm lies in the 9.0–13.0 range for R─COOH protons. It is outside the alcohol range (0.5–6.0), the amine range (1.0–5.0) and the phenol range (4.5–7.0). An amide (5.0–12.0) would also overlap, but amides are not offered as an option."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62595,7 +62852,8 @@
      },
      "explanation": "Add the bottom row of products: −128 + 0 + 32 + 16 + 0 + 0 + 0 + 1 = −79. The most significant bit has a negative place value of −128, so the number is negative."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62642,7 +62900,8 @@
      "correct_answer": 0,
      "explanation": "More amplitude levels means the defined values are closer together, so each sample is rounded to a nearer value and the error shrinks (greater sampling resolution). Sampling times are set by the sampling rate, not the levels. The original wave is unaffected. Accuracy does depend on the number of levels, not only on sampling times."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62683,7 +62942,8 @@
      "correct_answer": 0,
      "explanation": "The penetration arrow points left towards radio, so radio waves (lowest frequencies) pass through walls best. Infrared has high bandwidth and focusing, but these do not help penetration; its penetration is lowest. Microwave is intermediate, and its attenuation is greater than radio's, so it is not the best choice."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62724,7 +62984,8 @@
      "correct_answer": 0,
      "explanation": "Class B has 16 hostID bits, so 2^16 = 65 536 host addresses. 16 is just the number of bits, not the number of addresses. 16 384 is 2^14, which comes from the netID bits, not the hostID bits. 256 is 2^8, which is the Class C hostID figure."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62744,7 +63005,8 @@
      },
      "explanation": "Class C uses 8 bits for the hostID, as the table shows. The number of combinations is 2^8 = 256, before reserved addresses such as network and broadcast are removed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62903,7 +63165,8 @@
      "correct_answer": 1,
      "explanation": "Each of the three inputs can be 0 or 1 independently, giving 2×2×2 = 8 rows. Six comes from adding 3+3 or doubling 3, which is incorrect. Three only counts the inputs. Nine comes from 3², but inputs are binary, so the base is 2, not 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62924,7 +63187,8 @@
      },
      "explanation": "The diagram shows three input lines entering the logic circuit. Each input can be 0 or 1, so the number of input combinations is 2 × 2 × 2 = 8 rows in the truth table."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -63215,7 +63479,8 @@
      "correct_answer": 0,
      "explanation": "DEC <register> subtracts 1 from the contents of the register, so IX changes from 7 to 6. 8 would result from INC, which adds 1. 7 wrongly assumes nothing changes. 0 wrongly assumes the register is cleared rather than reduced by exactly 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63486,7 +63751,8 @@
      "correct_answer": 0,
      "explanation": "VB.NET uses the keyword Const and Java uses static final to mark the identifier as a constant, so the value cannot be reassigned. Python's syntax shows no such keyword. The equals sign is ordinary assignment, the semicolon only ends a Java statement, and the angle brackets are placeholders for what the programmer supplies."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64402,7 +64668,8 @@
      "correct_answer": 0,
      "explanation": "Semantic analysis takes the parse tree and checks it makes sense, for example that variables are declared and data types match, producing an annotated abstract syntax tree. Splitting into tokens is lexical analysis. Checking grammar and building the parse tree is syntax analysis. Producing machine code is not this stage; the later stage makes intermediate code."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64511,7 +64778,8 @@
      "correct_answer": 0,
      "explanation": "Encryption turns readable data into a form that is meaningless to anyone who intercepts it unless they have the key for decryption. Encryption does not necessarily reduce size, does not prevent alteration of data in transit, and the diagram shows the recipient still needs a key to decrypt."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64605,7 +64873,8 @@
      "correct_answer": 0,
      "explanation": "The CA signs the certificate, which contains Person A's public key, with its private key. Anyone can then check the signature using the CA's public key and trust the certificate. The other options are wrong: the private key is not used to encrypt the website, to decrypt Person A's messages, or to create Person A's public key, which Person A supplied."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64627,7 +64896,8 @@
      },
      "explanation": "The CA's private key is used to sign the certificate, creating a digital signature. Others can check it with the CA's public key to confirm the certificate is genuine. The diagram shows the CA's private key going into the creation process."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -64854,7 +65124,8 @@
      "correct_answer": 0,
      "explanation": "The comparisons for n items are the sum of the first (n – 1) whole numbers. For n = 8 this is 1+2+...+7 = 28, which matches ½ × 8 × 7. 36 wrongly sums up to 8. 21 is the value for n = 7. 64 wrongly squares n."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65068,7 +65339,8 @@
      "correct_answer": 0,
      "explanation": "Factorial(0) is the base case: n = 0 is TRUE, so it returns 1 with no further call. Each waiting call, Factorial(1) up to Factorial(4), can then complete as the stack unwinds, giving 1, 2, 6, 24. The other options wrongly describe Factorial(0) as multiplying, as needing 24 first, or as using a queue instead of a stack."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65146,7 +65418,8 @@
      },
      "explanation": "The answer is inheritance. The open-headed arrows from Book and CD point up to LibraryItem, showing both subclasses inherit its attributes and methods, such as Title and GetTitle(), and add their own specific ones."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -65246,7 +65519,8 @@
      "correct_answer": 0,
      "explanation": "A get method (getter) returns the value of a private attribute such as VehicleID, so outside code reads it without direct access; this is encapsulation. It does not create objects (that is a constructor), does not change the value (that is a setter), and is unrelated to inheritance."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65340,7 +65614,8 @@
      "correct_answer": 0,
      "explanation": "Private attributes support encapsulation: data is hidden and accessed or modified only through public getters and setters, which can control access. Speed is unaffected by access level. The constructor is inside the class, so it can still assign private attributes. Direct outside changes are exactly what Private prevents."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65493,7 +65768,8 @@
      "correct_answer": 0,
      "explanation": "The insulating dielectric keeps the charge trapped on the floating gate, so the memory is non-volatile. Letting electrons through is the job of the tunnel oxide coating. The electron source supplies electrons. Flash memory stores data using trapped charge, not magnetism."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65534,7 +65810,8 @@
      "correct_answer": 0,
      "explanation": "A bridge joins two LANs so data can pass between them, as shown by the two hub/switch groups linked through the BRIDGE. It does not connect to the internet (that is a router's role), store files (that is a server's role), or convert digital to analogue signals (that is a modem's role)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65603,7 +65880,8 @@
      "correct_answer": 0,
      "explanation": "Each AP (wireless access point) is wired to the bus and sends and receives radio signals, so wireless computers can join the wired network. It does not store files, as that is a server's job. Computers still need wireless network adapters. Connecting to the internet is a router's job, and no internet link is shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -65880,7 +66158,8 @@
      "correct_answer": 1,
      "explanation": "Key loggers secretly record keystrokes, so passwords and card details can be captured. Adware only shows unwanted adverts. Worms replicate themselves across networks and do not record typing. Ransomware encrypts or locks files and demands payment, rather than logging keys."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65946,7 +66225,8 @@
      "correct_answer": 0,
      "explanation": "The bottom box holds ways to reduce or remove the risk, such as locks and secured rooms. The description of laptops being portable belongs in the top box. Lost coursework and replacement costs are possible effects, so they go in the middle box. \"Theft of laptops\" is the name of the risk, so it goes in the left box."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65987,7 +66267,8 @@
      "correct_answer": 0,
      "explanation": "Biometric authentication identifies people using physical characteristics, here the calculated positions of facial features such as the eyes, nose and mouth. A firewall filters network traffic, encryption scrambles data, and a proxy server hides IP addresses. None of these measure a person's body features to check who they are."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -66516,7 +66797,8 @@
      },
      "explanation": "The gradient of the car's line is the change in speed divided by the change in time. The speed rises from 0 to 25 m/s in 20 seconds, so 25 ÷ 20 = 1.25 m/s each second."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -66687,7 +66969,8 @@
      "correct_answer": 0,
      "explanation": "Change to minutes: Monday is 100 mins and Wednesday is 50 mins. 100 : 50 simplifies by dividing by 50 to give 2 : 1. 20 : 1 comes from wrongly using 1 hour 40 as 100 against 5. 1 : 50 mixes hours and minutes. 40 : 50 ignores the 1 hour."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -66951,7 +67234,8 @@
      "correct_answer": 0,
      "explanation": "Lysosomes contain hydrolytic (digestive) enzymes. When one fuses with the phagosome, the phagolysosome forms and the bacterium is degraded, shown by the dots. The lysosome does not expel the bacterium, since that would be exocytosis. ATP comes from mitochondria, not lysosomes. Lysosomes do not help bacteria divide; they destroy them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67184,7 +67468,8 @@
      "correct_answer": 0,
      "explanation": "Only position 6 differs (Glu replaced by Val) and the length stays the same, so one base was substituted, changing one codon. Deletion or insertion would shift the reading frame and alter all following amino acids. Non-disjunction changes chromosome number, not a single amino acid."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67281,7 +67566,8 @@
      "correct_answer": 0,
      "explanation": "Ethylated guanine pairs with thymine instead of cytosine. After replication, thymine pairs with adenine, so the original G–C pair becomes A–T, a base substitution (point mutation). The A–T to G–C option is the wrong direction. Insertion causing a frameshift and chromosome deletion involve adding or losing DNA, but here one base is simply swapped."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67301,7 +67587,8 @@
      },
      "explanation": "Guanine normally pairs with cytosine. EMS adds an ethyl group (C2H5) to guanine's oxygen, giving o-ethylguanine, which pairs with thymine instead. This can cause a G–C to A–T base-pair substitution mutation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67364,7 +67651,8 @@
      "correct_answer": 0,
      "explanation": "Air spaces let oxygen diffuse through the cortex to respiring cells, which the root needs for aerobic respiration and active uptake of mineral ions. Water moves through cell walls and cytoplasm, not air spaces. Starch storage is done by the parenchyma cells, not the spaces. Blocking the apoplast is the job of the endodermis, which has Casparian strips."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67545,7 +67833,8 @@
      "correct_answer": 0,
      "explanation": "As humidity falls, the water potential gradient between leaf air spaces and the air steepens, so transpiration speeds up. This pulls harder on the water column, making tension more negative (to about −2230 kPa at the top). Option 2 reverses the effect. Option 3 ignores the clear change on the graph. Option 4 is wrong because the time is midday and water vapour leaves the leaf rather than entering."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67621,7 +67910,8 @@
      "correct_answer": 0,
      "explanation": "Extra CO2 forms carbonic acid, lowering pH. This changes haemoglobin's shape so its affinity for oxygen falls and oxygen is unloaded more easily (Bohr effect). Higher pH would increase affinity. Both curves converge near 96% at high oxygen, so there is no permanent competition. CO2 does not change the amount of haemoglobin."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67827,7 +68117,8 @@
      "correct_answer": 0,
      "explanation": "Soda-lime, KOH or NaOH absorbs carbon dioxide, so only oxygen uptake changes the gas volume. Pressure falls in the experimental tube and fluid moves towards it. Carbon dioxide is absorbed, so it cannot raise the pressure. Glass beads are inert and just match the volume. Heat expansion would push fluid away, and it is not the main effect."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67868,7 +68159,8 @@
      "correct_answer": 0,
      "explanation": "Chloroplasts and prokaryotes both have circular DNA, small 70S ribosomes (about 18 nm) and overlapping sizes (1–10 µm). Chloroplast DNA is naked, not combined with protein into chromosomes. Chloroplasts have complex internal thylakoid membranes, which typical prokaryotes lack. Chloroplasts have no peptidoglycan wall."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67916,7 +68208,8 @@
      },
      "explanation": "The diagram shows amylase acting on starch to produce maltose. Amylase breaks glycosidic bonds in starch by adding water, so the reaction is hydrolysis. This releases maltose, a sugar that the embryo can use during germination."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67951,7 +68244,8 @@
      "correct_answer": 0,
      "explanation": "The axon cytoplasm has low Na⁺ and the tissue fluid has high Na⁺, so Na⁺ is pumped uphill against its gradient by active transport, which needs energy from ATP hydrolysis. Moving down a gradient would not need ATP. The pump moves K⁺ in, not out. The pump does not work by making the membrane permeable to water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -69160,7 +69454,8 @@
      "correct_answer": 0,
      "explanation": "Moving 5 squares left subtracts 5 from x: 4 – 5 = –1. Moving 4 squares up adds 4 to y: –3 + 4 = 1. So the vertex moves to (–1, 1). (9, 1) adds 5 to x instead of subtracting. (–1, –7) moves down instead of up. (1, 1) subtracts only 3 from x, so the horizontal move is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -69446,7 +69741,8 @@
      },
      "explanation": "The corner (5,4) is 4 units to the right of the mirror line x = 1. Its image is 4 units to the left of the line, at x = –3. The y-value stays 4, so the image is (–3,4)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -69493,7 +69789,8 @@
      "correct_answer": 0,
      "explanation": "The tall tower has 4 cubes and the short tower has 2 cubes, so 4 is 2 more than 2. The answer 4 is just the number in the tall tower. The answer 6 adds the two towers together. The answer 1 is wrong because the difference is not 1; the gap is two cubes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70432,7 +70729,8 @@
      },
      "explanation": "The empty box comes just before 16 in the counting order. The number just before 16 is 15, so 15 goes in the empty box."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -70957,7 +71255,8 @@
      "correct_answer": 0,
      "explanation": "A level beam means both pans are at the same height, so the cow and the horse balance and have the same mass. The cow is not heavier and the horse is not heavier, because then one pan would be lower. Height is not shown by a balance, so taller is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70998,7 +71297,8 @@
      "correct_answer": 0,
      "explanation": "The pans are level and the pointer is in the middle, so the car and the two cubes have the same mass. If the car were heavier or lighter, its pan would go down or up. One cube alone would be lighter than the car, because two cubes are needed to balance it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71217,7 +71517,8 @@
      "correct_answer": 0,
      "explanation": "On a balance scale, the heavier object pushes its pan down. The right pan is lower, so its object is heavier. The left pan is higher because its object is lighter, so the second option is wrong. The pans would be level if the weights were equal. Comparing which pan is lower shows which is heavier, so no numbers are needed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71238,7 +71539,8 @@
      },
      "explanation": "The answer is right. On a balance scale, the heavier side goes down and the lighter side goes up. On the bottom scale the left pan is higher and the right pan is lower, so the right side is heavier."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -71763,7 +72065,8 @@
      "correct_answer": 0,
      "explanation": "The 3rd is a Tuesday, and the next Tuesday is one week (7 days) later: 3 + 7 = 10. The 4 is the next day, Wednesday. The 9 is a Monday, which is one day too early. The 11 is a Wednesday, which is one day too late."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71804,7 +72107,8 @@
      "correct_answer": 0,
      "explanation": "The pink row counts on by 1 from 61. The fifth box is 65, so the sixth box is 66. 65 is the fifth box, not the sixth. 67 skips a number. 70 is the last box in the row, not the sixth."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72024,7 +72328,8 @@
      },
      "explanation": "The diagram shows 4 ovals, and each oval has 5 beans. Add 5 four times, or multiply 4 × 5, to get 20 beans altogether."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -72071,7 +72376,8 @@
      "correct_answer": 0,
      "explanation": "There are 40 wheels in 4 equal rows, so sharing 40 into 4 rows gives 10 in each row: 40 ÷ 4 = 10. 40 ÷ 10 = 10 has the wrong answer, since 40 ÷ 10 = 4. 4 ÷ 40 = 10 puts the numbers in the wrong order. 40 ÷ 4 = 4 gives the wrong answer for the number in each row."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72303,7 +72609,8 @@
      "correct_answer": 0,
      "explanation": "The two parts, 5 and 3, add to make the whole, 8, so 5 + 3 = 8 is correct. 8 + 3 = 5 and 5 + 8 = 3 wrongly add the whole to a part. 8 − 5 = 2 is wrong because taking the 5-cube part from the whole leaves 3, not 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72682,7 +72989,8 @@
      },
      "explanation": "The answer is 10. The drawing shows 5 groups with 2 roses in each group. Adding 2 + 2 + 2 + 2 + 2 gives 10, which is the same as 5 × 2 = 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -72961,7 +73269,8 @@
      "correct_answer": 0,
      "explanation": "With demand fixed at D1, the supply shift from S1 to S2 moves equilibrium from E0 to E2. Price falls from PE0 to PE2 and quantity rises from QE0 to QE2. The second option describes a demand increase (E1). The third and fourth options give wrong quantity directions, since a rightward supply shift never reduces quantity here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -73412,7 +73721,8 @@
      "correct_answer": 0,
      "explanation": "The line l is y = x. It is drawn solid, so points on it are included. The shaded points below the line, such as (3,1), have y smaller than x, so y ≤ x. y ≥ x describes the region above the line. y < x would need a dashed line. x ≤ 0 is a region to the left of the y-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -73518,7 +73828,8 @@
      },
      "explanation": "The line cuts the y-axis at 40 and the x-axis at 10. The gradient is -40/10 = -4. So y = -4x + 40, which can also be written as 4x + y = 40."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -73620,7 +73931,8 @@
      "correct_answer": 0,
      "explanation": "Test the origin (0,0), which lies in the shaded part: 0 ≤ 12, so the shaded side is 3y + 4x ≤ 12. R is the opposite side, so 3y + 4x ≥ 12. The option with ≤ 12 describes the shaded region. The option with 0 uses the wrong constant. The option with 3y − 4x changes the line itself."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74277,7 +74589,8 @@
      "correct_answer": 0,
      "explanation": "The left oval has 3 elephants and the right oval has 1 elephant. So 4 = 3 + 1, and the empty box needs 1. The number 2 is wrong because 3 + 2 makes 5. The number 3 repeats the first part. The number 4 is the total, not the missing part."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74396,7 +74709,8 @@
      "correct_answer": 0,
      "explanation": "1 cow and 2 cows together make 3 cows, so 3 is right. The answer 2 is wrong because it only counts the cows in the middle box. The answer 1 is wrong because it only counts the first box. The answer 4 is too many; 1 + 2 does not make 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74417,7 +74731,8 @@
      },
      "explanation": "The Cows row shows 1 + 2. Count the one cow and the two cows together: 1, 2, 3. So there are 3 cows altogether, and 3 goes in the empty box."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -74452,7 +74767,8 @@
      "correct_answer": 1,
      "explanation": "2 bananas and 1 more banana make 3 bananas altogether, so 3 is right. The answer 2 forgets the banana Gasore gets. The answer 1 counts only the new banana. The answer 4 adds too many, because 2 + 1 is not 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74617,7 +74933,8 @@
      "correct_answer": 0,
      "explanation": "7 + 2 = 9, so 2 is the missing number. 16 comes from adding 7 and 9 instead of finding what is missing. 9 is just the total written in the equation, not the missing part. 3 is wrong because 7 + 3 = 10, which is more than 9."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74805,7 +75122,8 @@
      "correct_answer": 0,
      "explanation": "From biggest to smallest, the order is 8, 7, 6, 5, 3. The option 3, 5, 6, 7, 8 goes from smallest to biggest, which is the wrong direction. The option 6, 8, 3, 5, 7 is the original order and is not arranged. The option 8, 7, 6, 3, 5 starts well but puts 3 before 5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74879,7 +75197,8 @@
      },
      "explanation": "The answer is 3. There are 8 mangoes in all and 5 have a red cross. Taking away 5 from 8 leaves 3, the mangoes with no cross: 8 - 5 = 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -74932,7 +75251,8 @@
      },
      "explanation": "The answer is 9. The left side shows 6 footballs and 3 more footballs. Put them together: 6 + 3 = 9. The right side also shows 9 footballs in total."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -74979,7 +75299,8 @@
      "correct_answer": 0,
      "explanation": "6 - 4 = 2, so 4 goes in the empty box. 3 is wrong because 6 - 3 = 3. 8 is wrong because it is bigger than 6 and cannot be taken away from 6. 2 is wrong because 6 - 2 = 4, not 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75045,7 +75366,8 @@
      "correct_answer": 1,
      "explanation": "6 - 4 = 2, so 4 goes in the blank box. 3 is wrong because 6 - 3 = 3. 8 is wrong because it is bigger than 6 and cannot be taken away from 6. 2 is wrong because 6 - 2 = 4, not 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75064,7 +75386,8 @@
      },
      "explanation": "The row says 6 take away a number leaves 2. Since 6 - 4 = 2, the empty box needs the number 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -75331,7 +75654,8 @@
      "correct_answer": 0,
      "explanation": "6 + 4 = 10, so 4 is correct. 16 is wrong because it adds 6 and 10 instead of finding the missing part. 5 is wrong because 6 + 5 = 11. 6 is wrong because 6 + 6 = 12, not 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75385,7 +75709,8 @@
      "correct_answer": 0,
      "explanation": "10 minus 6 equals 4, so 6 is right. The number 4 is just the answer shown in the equation, not what is taken away. 14 is what you get by adding 10 and 4. 5 gives 10 - 5 = 5, not 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75404,7 +75729,8 @@
      },
      "explanation": "The answer is 6. In the first panel, 10 take away a number leaves 4. Count back from 10 to 4 and you take away 6, because 10 - 6 = 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -75667,7 +75993,8 @@
      "correct_answer": 0,
      "explanation": "10 − 8 = 2, so 2 mangoes are not crossed out. 8 is the number crossed out, not the number left. 10 is the total number of mangoes before any were crossed out. 18 comes from adding 10 and 8, but we take away the crossed-out mangoes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75979,7 +76306,8 @@
      "correct_answer": 0,
      "explanation": "Taking away the crossed lemons from all the lemons gives 19 - 14 = 5, and the drawing shows 5 lemons without a cross. 14 is the number crossed out, not the number left. 6 counts the whole top row, including the crossed lemon. 33 comes from adding 19 and 14 instead of subtracting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76430,7 +76758,8 @@
      "correct_answer": 0,
      "explanation": "Rays from the focus F hit the parabolic mirror and reflect as parallel rays, so the beam stays narrow and strong over a distance. The mirror does not spread the rays out, absorb them, or make them cross at a point in front of it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76453,7 +76782,8 @@
      },
      "explanation": "In the left diagram, rays from F hit the parabolic mirror and reflect as parallel rays going right. This is why parabolic mirrors are used in torches and car headlights to give a strong parallel beam."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -76488,7 +76818,8 @@
      "correct_answer": 0,
      "explanation": "Moving the magnet towards the coil changes the magnetic flux through it, inducing an emf and a current, so the needle deflects while the magnet moves. A battery is not needed. Touching is not needed. The deflection lasts only while the flux is changing, not steadily."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76569,7 +76900,8 @@
      "correct_answer": 0,
      "explanation": "Moving the magnet away changes the magnetic flux through the coil, which induces an emf and a current, so the needle deflects while the magnet moves. Touching is not needed. A steady field without change gives no current. A battery is not required for induced current."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76610,7 +76942,8 @@
      "correct_answer": 1,
      "explanation": "The slip rings turn with the coil, and the brushes press on them. This lets current pass from the rotating coil WXYZ to the meter in the external circuit without twisting the wires. The magnet's poles provide the field. The rings do not speed up the coil. Splitting the ring (a commutator) would be needed for DC, so slip rings keep the output AC."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76663,7 +76996,8 @@
      "correct_answer": 0,
      "explanation": "Slip rings turn with the coil and stay in contact with the carbon brushes, so current can pass to the resistor while the coil rotates. They do not change a.c. to d.c. (a split-ring commutator does that). They do not strengthen the magnetic field (the magnet does). The springs press the brushes, not the slip rings."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76732,7 +77066,8 @@
      "correct_answer": 0,
      "explanation": "Evenly spaced parallel lines mean a uniform field, so the field intensity is the same everywhere between the plates and the force F = qE stays constant. It points right, the direction of the field lines. The force does not grow near the negative plate, does not weaken since the lines do not spread, and is not zero midway."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76802,7 +77137,8 @@
      "correct_answer": 0,
      "explanation": "The split ring swaps contacts with the brushes every half turn, so the current in the external circuit keeps the same direction (a d.c. generator). It does not strengthen the field, since the magnets do that. It does not speed up the coil. It does the opposite of changing d.c. to a.c.; slip rings would give a.c."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76824,7 +77160,8 @@
      },
      "explanation": "With slip rings, each brush stays connected to the same side of the coil. The current in the external circuit reverses every half turn as the coil cuts the field lines from N to S, so the output is alternating current."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -76887,7 +77224,8 @@
      "correct_answer": 0,
      "explanation": "Light bends toward the normal when it enters a denser medium, because its speed decreases. Glass is optically denser than air, so light travels more slowly there. Faster in glass would make the ray bend away from the normal. The speed does change at the boundary. Light does not stop at Q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77011,7 +77349,8 @@
      "correct_answer": 0,
      "explanation": "The inverted second prism refracts each colour in the opposite sense to the first, so the separated colours converge and recombine into white light parallel to the incident ray. It does not absorb colours, spreading them further would not recombine them, and light is still refracted, with the colours changing speed in glass."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77064,7 +77403,8 @@
      "correct_answer": 0,
      "explanation": "Glass is optically denser than air, so light slows down when entering it and bends towards the normal, making r smaller than i. Bending away would happen only if light sped up. A flat face still refracts light when the ray strikes at an angle. Speeding up in glass is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77145,7 +77485,8 @@
      "correct_answer": 0,
      "explanation": "A thinner, weaker convex lens bends rays less, so parallel rays meet farther away and the focal length f increases. It does not get shorter, since that happens with a stronger lens. f depends on the lens, so it does change. Rays still converge on the right side, not the left."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77166,7 +77507,8 @@
      },
      "explanation": "The distance f runs from the centre of the lens at P to the principal focus F, where the parallel rays meet. This distance is called the focal length of the lens."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77201,7 +77543,8 @@
      "correct_answer": 0,
      "explanation": "The ray reflects fully at the inner wall because it travels from denser glass toward less dense surroundings with angle of incidence i greater than the critical angle, so total internal reflection occurs. A smaller i would let light refract out. Refraction out would lose the light. Absorption with i = 0 would not guide the ray."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77222,7 +77565,8 @@
      },
      "explanation": "The ray reflects from the inner walls at each point and stays in the fibre. This happens because the angle of incidence i is larger than the critical angle, so the light undergoes total internal reflection and none escapes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77264,7 +77608,8 @@
      },
      "explanation": "The white light from the sun separates into Violet and Red rays as it passes through the raindrop. This splitting into different colours is called dispersion. It happens because each colour is refracted by a different amount."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77411,7 +77756,8 @@
      "correct_answer": 0,
      "explanation": "An object at 2F gives an image at 2F on the other side of the lens. The rays actually meet at M, so the image is real. It points downward, so it is inverted, and it is as tall as the object. Virtual and upright images occur only when the object is inside F. A smaller image needs the object beyond 2F. A real image cannot be upright."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77434,7 +77780,8 @@
      },
      "explanation": "The object is at 2F on the left, and the image forms at 2F on the right. The arrows OB and I have the same length, so the image is the same size as the object, though it is inverted and real."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77469,7 +77816,8 @@
      "correct_answer": 0,
      "explanation": "The refracted rays actually meet at M beyond the right-hand 2F, so the image is real. IM points downward, so it is inverted, and it is longer than OB, so it is magnified. A virtual upright image occurs only when the object is inside F. A diminished image needs the object beyond 2F. A same-size image needs the object at 2F."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77493,7 +77841,8 @@
      },
      "explanation": "The image IM is longer than the object OB, so it is magnified (larger than the object). For an object between F and 2F, a convex lens forms a real, inverted image beyond 2F that is larger than the object."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77612,7 +77961,8 @@
      "correct_answer": 0,
      "explanation": "The object is beyond 2F, so the image forms between F and 2F on the other side. It is real because the refracted rays actually meet at M. It is inverted (arrow points down) and smaller than OB. The other options describe virtual images or a larger image, which happen only when the object is inside F or between F and 2F."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77681,7 +78031,8 @@
      "correct_answer": 0,
      "explanation": "The object is between F and 2F, so the image forms beyond 2F. The refracted rays actually meet at M, so the image is real. It points downward, so it is inverted, and it is longer than OB, so it is magnified. A virtual image would need diverging rays. An upright image would point up. Diminished is wrong because IM is longer than OB."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77701,7 +78052,8 @@
      },
      "explanation": "The image is real. The refracted rays actually meet at M on the opposite side of the lens from the object, so the image can be formed on a screen. It is also inverted, as the downward arrow IM shows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77800,7 +78152,8 @@
      },
      "explanation": "Object B is about 3 cm from the lens, which is less than the 5.0 cm focal length. Refracted rays spread apart and do not meet, so the image is virtual (also upright and magnified), formed on the same side as the object."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77835,7 +78188,8 @@
      "correct_answer": 0,
      "explanation": "With the object between F and 2F, a converging lens forms a real, inverted, magnified image beyond 2F on the other side, so v is greater than u, as the diagram shows. The image is on a screen, so it is real. Upright virtual images occur only when the object is inside F. Diminished images occur when the object is beyond 2F."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -77858,7 +78212,8 @@
      },
      "explanation": "The candle is between F and 2F on its side of the lens. The image forms beyond 2F on the screen side, so v is greater than u. The image is real, inverted and magnified (larger than the candle)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77915,7 +78270,8 @@
      },
      "explanation": "The K.E. and P.E. curves are in opposite phase. Where the solid K.E. curve reaches the total energy line, the dashed P.E. curve is at its lowest point on the axis, which is zero. Their sum stays equal to the total energy."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -78183,7 +78539,8 @@
      "correct_answer": 0,
      "explanation": "At balance no current flows through G, so the p.d. across R equals the p.d. across wire AD, which is proportional to l. It is not the p.d. across all of AB, which is l0. R carries current I1, so its p.d. is not zero. The battery's p.d. is across the whole wire, not just R."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -78224,7 +78581,8 @@
      "correct_answer": 0,
      "explanation": "Kirchhoff's voltage law applies to a closed loop: emfs (rises) and voltage drops across resistors add algebraically to zero. The current law applies to junctions, and this circuit has none, since it is a single loop. The current is the same everywhere in a series loop, so it does not shrink after each resistor. Battery emfs need not exceed the drops in every case."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -78612,7 +78970,8 @@
      "correct_answer": 0,
      "explanation": "The electric field points from P to Q, but an electron is negative, so the force on it is opposite to the field, towards positive plate P. Downward confuses the electron with a positive charge. The force is not zero whatever the energy. The field is uniform, so the force does not reverse."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -78824,7 +79183,8 @@
      "correct_answer": 1,
      "explanation": "Electrons are negatively charged, so they are attracted to a positive plate and repelled by a negative one. The beam bends towards Q, so Q must be positive and P negative. The first option reverses the polarity. Gravity is negligible for electrons. Two plates of the same sign would not deflect the beam downwards."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -78859,7 +79219,8 @@
      "correct_answer": 0,
      "explanation": "Each photon transfers its energy hf to one electron; if this is at least the work function, the electron leaves the cathode and travels to the anode. The anode only collects electrons and is not what absorbs the light. Emission is not due to heating or melting. Frequency matters, so not every frequency works, and amplitude does not decide emission."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -78900,7 +79261,8 @@
      "correct_answer": 0,
      "explanation": "Measuring swing times and writing them in a table is collecting and recording data, which is stage 3 (Experimentation). Making a prediction is stage 2 and happens before the experiment. Calculating averages or drawing graphs is data analysis, stage 4. Showing findings to the class is presentation, stage 6."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -79070,7 +79432,8 @@
      "correct_answer": 0,
      "explanation": "The slope ∆M/∆V is mass divided by volume, which is density. Here ∆M is about 150 g and ∆V about 150, so the slope is about 1. Weight needs a force calculation, volume is read on the horizontal axis, and total mass would need adding the values, not dividing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -79363,7 +79726,8 @@
      "correct_answer": 0,
      "explanation": "A lever turns about its pivot. In the left diagram, the pivot C lies between A and D, so when the effort end D goes down, the load end A goes up. A does not move down with D. A does not stay still, because only C is fixed. A also does not move farther than D, because x is shorter than y in the picture."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -79432,7 +79796,8 @@
      "correct_answer": 0,
      "explanation": "An inclined plane spreads the lifting over a longer distance d, so a smaller effort E is needed than lifting the weight straight up through h. It does not reduce the work to zero, it does not change the block's weight, and some effort is always still needed to move the block up the slope."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -79650,7 +80015,8 @@
      "correct_answer": 0,
      "explanation": "The poles, labelled N and S at the two ends, are where a magnet's attraction is strongest, so the nail is pulled most there. The curved middle is weaker. The pull is not equal everywhere. The S pole attracts iron just as the N pole does, so N is not the only strong end."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -79671,7 +80037,8 @@
      },
      "explanation": "The answer is attract. The diagram shows the end labelled N, which is a north pole. A north pole and a south pole are unlike poles, and unlike poles attract each other."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -79728,7 +80095,8 @@
      },
      "explanation": "The wax in the test tube is heated by the hot water around it. It takes in heat energy, so the solid wax melts and changes into liquid wax. This change of state is called melting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -79847,7 +80215,8 @@
      "correct_answer": 0,
      "explanation": "Field lines curve away from each N pole and do not join across the gap. This shows the two like poles repel each other. Attraction would show lines running from N to S across the gap, as in pattern (b). Having no force or changing force is not shown by the diagram."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80018,7 +80387,8 @@
      "correct_answer": 0,
      "explanation": "By the law of reflection, the angle of reflection r equals the angle of incidence i. Both are measured from the normal BN, not from the mirror. r is not bigger or smaller, because the mirror does not change the angle. A flat mirror still reflects light at an angle equal to i, so r is not zero."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80039,7 +80409,8 @@
      },
      "explanation": "The dashed line BN is drawn at 90° to the mirror at the point where the ray hits it. It is called the normal. The angles of incidence i and reflection r are both measured from this line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -80442,7 +80813,8 @@
      "correct_answer": 0,
      "explanation": "More electrons in larger molecules means larger instantaneous dipoles and stronger induced dipoles, so more energy is needed to separate molecules. Covalent bonds are not broken on boiling. Alkanes cannot hydrogen bond, since C–H is not polar enough and there is no N, O or F. They have no significant permanent dipoles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80495,7 +80867,8 @@
      "correct_answer": 0,
      "explanation": "Nitrogen is small and highly electronegative, and NH3 has a lone pair, so molecules form hydrogen bonds, which are stronger than the forces in PH3. Boiling breaks intermolecular forces, not covalent bonds. Ammonia has fewer electrons and a lower mass than phosphine, so van der Waals forces are weaker in ammonia."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80552,7 +80925,8 @@
      "correct_answer": 1,
      "explanation": "Atomic number rises, so each atom has more electrons and a larger, more polarisable electron cloud. This gives stronger instantaneous dipole–induced dipole (London) forces, needing more energy to overcome, so boiling points rise. Noble gases are monatomic and form no covalent bonds, are non-polar so have no permanent dipoles, and cannot hydrogen bond."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80605,7 +80979,8 @@
      "correct_answer": 0,
      "explanation": "Metallic sodium has a lattice of positive ions in a sea of delocalised electrons, which move and carry charge. In solid NaCl the ions are fixed in the lattice, so no charge carriers can move. Sodium has no mobile ions, NaCl is not covalent, melting point is not the reason, and sodium is not covalent. NaCl ions still carry charge."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80646,7 +81021,8 @@
      "correct_answer": 0,
      "explanation": "Giant ionic is correct: strong ionic bonding gives a high melting point, and ions are fixed in the solid (poor conduction) but free to move when molten (good conduction). Simple molecular has a very low melting point. Giant covalent does not conduct as a liquid. Giant metallic conducts well as a solid."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80770,7 +81146,8 @@
      "correct_answer": 0,
      "explanation": "Down the group the cation radius increases, so charge density falls. The carbonate ion is polarised less, its C–O bonds are distorted less, and more energy is needed for decomposition. The second option describes the opposite trend. Metallic bonding is irrelevant to ionic carbonates. Ionisation energy decreases down the group, not increases."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80889,7 +81266,8 @@
      "correct_answer": 0,
      "explanation": "The table shows iodine forms at the anode. Anodes attract anions, and iodide ions lose electrons (oxidation): 2I⁻ → I₂ + 2e⁻. I₂ + 2e⁻ → 2I⁻ is reversed (reduction). Zn²⁺ + 2e⁻ → Zn is the cathode reaction. Zn → Zn²⁺ + 2e⁻ is the wrong direction and the wrong electrode."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81275,7 +81653,8 @@
      "correct_answer": 0,
      "explanation": "In (a) 15 is copied into Temp, so when (b) overwrites Value1 with 34, the original 15 still exists and can be copied to Value2 in (c). Without Temp both variables would end up holding 34. Temp does not store 34, a sum, or give any speed advantage."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82058,7 +82437,8 @@
      "correct_answer": 0,
      "explanation": "Cross-coupling two NAND gates gives an SR flip-flop. Feedback lets the outputs hold their state after the inputs return to 1, so one bit is stored. An adder uses XOR and AND gates with no feedback. A comparator also has no feedback. A converter is a decoder, not a latch."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82304,7 +82684,8 @@
      "correct_answer": 0,
      "explanation": "With S = 1, the bottom NOR gate outputs Q' = 0. This feeds the top NOR gate, whose inputs are then R = 0 and Q' = 0, so Q = 1. Q = 0, Q' = 1 is the reset state (R = 1). Both 0 and both 1 are inconsistent with the cross-coupled NOR gates for these inputs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82430,7 +82811,8 @@
      "correct_answer": 1,
      "explanation": "A laser printer uses a laser to build an image on a charged drum, which attracts toner that is fused onto paper. This makes it fast and high quality. A dot matrix printer strikes pins against a ribbon. An actuator is an output device that causes movement. A graph plotter draws lines with pens."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82618,7 +83000,8 @@
      "correct_answer": 0,
      "explanation": "The buffer stores packets and passes earlier ones on while later ones arrive, so playback seems continuous with no gaps. It does not compress packets, as that is done before sending. It does not find or resend lost packets, as that is error checking. It does not encrypt data, as that is a security process."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82743,7 +83126,8 @@
      "correct_answer": 0,
      "explanation": "Each cell has its own tower, and the cells overlap so coverage is continuous. As the user moves into the next cell, the network hands the call over to that cell's tower, so the call carries on. The other options are wrong because calls are not dropped, one tower cannot cover unlimited distance, and the phone is not switched off."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82784,7 +83168,8 @@
      "correct_answer": 0,
      "explanation": "Splitting data into numbered packets lets each one take its own route across the network, and the laptop uses the numbers to reassemble them in order. Joining them into one block is the opposite of packet switching. Packets do not prevent copying. The laptop receives all packets, not just one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82853,7 +83238,8 @@
      "correct_answer": 0,
      "explanation": "The cloud connected to many different devices shows cloud computing: data and software are held on remote servers and reached over the internet from any device. A single-server LAN would be in one site. Bluetooth is short-range device-to-device. A standalone computer has no connections at all."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82906,7 +83292,8 @@
      "correct_answer": 0,
      "explanation": "MICR reads numbers printed in magnetic ink, such as the account and cheque numbers along the bottom of a cheque, so banks can process them quickly. OMR detects marks in set positions on forms. RFID uses radio tags. QR scanning reads two-dimensional barcodes. None of these is used for the cheque's number line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82928,7 +83315,8 @@
      },
      "explanation": "The numbers along the bottom of the cheque (11122233344 2020-20 000001) are in magnetic ink. Banks read them quickly and accurately with a magnetic ink character reader (MICR), which is how cheques are processed automatically."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -82963,7 +83351,8 @@
      "correct_answer": 0,
      "explanation": "The keypad is an input device: it takes the customer's key presses and the ATM sends the data to the bank's computer for checking. It is not an output device, because the screen does that job. It does not store the PIN permanently. It is not a cable, which would only carry data between the ATM and the bank."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83060,7 +83449,8 @@
      "correct_answer": 1,
      "explanation": "The inference engine sits at the centre. It exchanges data with the user interface, searches the knowledge base and applies the rules base to reach a conclusion. The explanation system only explains the reasoning afterwards. The user interface only passes input and output. The rules base only stores rules and cannot reason by itself."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83101,7 +83491,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows GPS: a receiver gets signals from several satellites and uses the time each takes to arrive to calculate its position (trilateration). It does not measure other cars' speeds, forecast weather, or choose internet routes. The arrows only point towards the car, so it receives signals and does not send data."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83223,7 +83614,8 @@
      "correct_answer": 0,
      "explanation": "Parallel running means the old and new systems both operate together, so results can be compared and the old one used if the new one fails. Direct changeover stops the old system immediately. Phased implementation introduces the new system one part at a time. Pilot running tests the new system in just one location or department first."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83243,7 +83635,8 @@
      },
      "explanation": "The answer is parallel running. The diagram shows four changeover methods, and only parallel running means the old and new systems operate side by side, so the old system is a backup if the new one fails."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -83360,7 +83753,8 @@
      "correct_answer": 0,
      "explanation": "The encryption process scrambles the plain text using the key, producing ciphertext that cannot be understood without the right key. Plain text is the input, not the output. A digital signature proves identity and is not made this way. A firewall filters network traffic and does not change message content."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83457,7 +83851,8 @@
      "correct_answer": 0,
      "explanation": "The unreadable text in the green box is cypher text, and the recipient uses the decryption process together with the decryption key to turn it back into plain text. Plain text is the readable message, so the second and fourth options are wrong. Encryption makes cypher text rather than reversing it, so the third option is wrong too."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -83492,7 +83887,8 @@
      "correct_answer": 0,
      "explanation": "The code goes to the user's registered phone, so entering it shows the person has something they own as well as something they know (the password). This is two-factor authentication. The code does not store the password, encrypt the user name, or set a new password. It is used once to confirm identity."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83696,7 +84092,8 @@
      "correct_answer": 1,
      "explanation": "Each new pattern adds a row with one more dot than the last row added. The differences are 2, 3, 4, so the next difference is 5, and 10 + 5 = 15. 12 and 13 come from adding too little. 14 comes from adding 4 again, repeating the previous difference."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83716,7 +84113,8 @@
      },
      "explanation": "The number of dots added each time goes up by one: +2, +3, +4. The next pattern adds 5 dots to 10, which gives 15 dots. This makes a triangle with a bottom row of 5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -83751,7 +84149,8 @@
      "correct_answer": 0,
      "explanation": "Depth rises from 10 cm to 25 cm, a change of 15 cm in 3 minutes, so the rate is 15 ÷ 3 = 5 cm per minute. 15 cm per minute is just the total rise, not divided by time. 8.3 comes from dividing 25 by 3 and ignores the starting depth. 25 cm per minute confuses the final depth with the rate."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83773,7 +84172,8 @@
      },
      "explanation": "Flask 1 goes from 10 cm to 25 cm in 3 minutes. That is a rise of 15 cm. Dividing 15 by 3 gives 5 cm each minute, which is the gradient of the line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -84032,7 +84432,8 @@
      },
      "explanation": "The 16 cm row is seen full length from above at P. A scale of 1 : 2 halves every length, so the drawing is 16 ÷ 2 = 8 cm long."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -84067,7 +84468,8 @@
      "correct_answer": 0,
      "explanation": "Add 3 to the x-coordinate and 4 to the y-coordinate: (2+3, 3+4) = (5, 7). (6, 6) swaps the movements, using 4 right and 3 up. (4, 6) uses 2 right and 3 up, which is wrong. (5, 6) adds 3 to both coordinates, so it misses the 4 units up."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -84233,7 +84635,8 @@
      "correct_answer": 0,
      "explanation": "The point (2, 4) is 0.5 to the left of x = 2.5, so its image is 0.5 to the right, at x = 3, and y stays 4, giving (3, 4). (2, 5) changes y, which is wrong. (4, 4) uses a distance of 2. (0.5, 4) moves it the wrong way."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -84342,7 +84745,8 @@
      "correct_answer": 1,
      "explanation": "The point (5,6) is 3 units above the mirror line y = 3, so its image is 3 units below it, at y = 0, giving (5,0). (5,1) is only 2 units below the line. (5,3) lies on the mirror line. (1,6) swaps the coordinates, which is not a reflection in y = 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -84480,7 +84884,8 @@
      "correct_answer": 0,
      "explanation": "The point (3, 5) is 1 unit above the line y = 4. Its image is 1 unit below the line, at y = 3, and x stays 3, so (3, 3). (3, 2) uses a distance of 2. (5, 3) changes x wrongly. (3, 4) lies on the mirror line and is not the image."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -84547,7 +84952,8 @@
      "correct_answer": 0,
      "explanation": "The point (6,6) is 3 units above the line y = 3, so its image is 3 units below it, at y = 0. The x-coordinate stays 6, giving (6,0). (6,3) is only the point on the mirror line. (6,2) is 1 unit below the line, not 3. (0,6) swaps the coordinates, which is wrong for a horizontal mirror line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -84684,7 +85090,8 @@
      "correct_answer": 1,
      "explanation": "The point (1, 6) is 3 units left of x = 4, so its image is 3 units right: x = 7, with y unchanged, giving (7, 6). (6, 6) uses a distance of 2. (4, 6) puts the point on the mirror line. (1, 2) reflects in a horizontal line instead."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -84705,7 +85112,8 @@
      },
      "explanation": "The vertex (1, 6) is 3 units to the left of the line x = 4. Its image is 3 units to the right, at x = 7. The y-coordinate stays 6, so the image is (7, 6)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -84836,7 +85244,8 @@
      "correct_answer": 0,
      "explanation": "(4, 3) is directly above (4, 2), so it lies due north. Bearings are measured clockwise from north, giving 000°. 090° would be due east, 180° due south (the reverse direction), and 270° due west, which does not match the vertical line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -85045,7 +85454,8 @@
      "correct_answer": 0,
      "explanation": "Q is 2 units right and 2 units up from P, so the line PQ lies halfway between north and east. The bearing is measured clockwise from north, giving 045°. 135° would point southeast. 225° would point southwest. 090° would point due east, which needs no upward movement."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -85802,7 +86212,8 @@
      },
      "explanation": "The triangular end has area ½ × 6 × 2 = 6 m². Multiply by the prism's length, 7 m: 6 × 7 = 42 m³."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -85837,7 +86248,8 @@
      "correct_answer": 0,
      "explanation": "Area of a triangle = ½ × base × height. The base is 10 cm and the slant height 14 cm is the triangle's height, so ½ × 10 × 14 = 70 cm². 140 cm² forgets the ½. 35 cm² halves twice. 100 cm² is the area of the square base, not a face."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -85969,7 +86381,8 @@
      },
      "explanation": "The triangle has a right angle, so its base is 6 cm and its height is 8 cm. Area = ½ × 6 × 8 = 24 cm². This is one step in finding the prism's surface area."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",

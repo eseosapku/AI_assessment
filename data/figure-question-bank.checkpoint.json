@@ -61,7 +61,8 @@
      "correct_answer": 1,
      "explanation": "0.05 × 10^4 = 0.05 × 10000 = 500. Option 5 × 10^-1 gives 0.5. Option 5 ÷ 10^-3 gives 5 ÷ 0.001 = 5000, a common slip when dividing by a negative power. Option 0.5 ÷ 10^2 gives 0.005, as already shown by the line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81,7 +82,8 @@
      },
      "explanation": "Dividing by 10^-3 is the same as multiplying by 10^3, which is 1000. So 5 ÷ 10^-3 = 5 × 1000 = 5000, the bottom answer in the right column."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -147,7 +149,8 @@
      },
      "explanation": "A 180° rotation about (0, 0) changes the sign of both coordinates. The vertex (2, 4) of triangle T therefore moves to (−2, −4)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -589,7 +592,8 @@
      "correct_answer": 0,
      "explanation": "√19 is irrational because 19 is not a perfect square, and π is irrational because its decimal never ends or repeats. 19/6 is a fraction of integers and 8² = 64 is an integer, so both are rational. Every other option includes at least one of these rational numbers."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -788,7 +792,8 @@
      "correct_answer": 0,
      "explanation": "Gradient = change in y ÷ change in x. From (0, 6) to (3, 0), y falls by 6 while x rises by 3, so –6 ÷ 3 = –2. The answer 2 ignores that the line slopes downward. The answer –3 uses the x-intercept instead of the gradient. The answer –1/2 inverts the fraction by dividing x by y."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1012,7 +1017,8 @@
      "correct_answer": 0,
      "explanation": "Dividing by 2 gives y = 5.5 − 4x, so the gradient is −4, which matches the steep downward slope. −8 forgets to divide by 2. 5.5 is the y-intercept, not the gradient. −1/4 inverts the gradient, but the line falls 4 units for each 1 unit across."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1034,7 +1040,8 @@
      },
      "explanation": "Rearrange 2y = 11 − 8x by dividing by 2: y = 5.5 − 4x. The coefficient of x is the gradient, so it is −4. The graph agrees: the line falls steeply, crossing the y-axis at 5.5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1134,7 +1141,8 @@
      "correct_answer": 0,
      "explanation": "The 14 cm is the diameter, so the radius is 7 cm. Area = π × 7² = 49π ≈ 154 cm². 616 cm² wrongly uses 14 as the radius. 44 cm² is the circumference π × 14, not the area. 77 cm² comes from halving the area, which is not needed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1158,7 +1166,8 @@
      },
      "explanation": "The 14 cm across the base is the diameter, so the radius is 7 cm. Area = πr² = π × 7² = 49π ≈ 153.9 cm² to 1 decimal place."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1516,7 +1525,8 @@
      "correct_answer": 0,
      "explanation": "A prism with a pentagonal cross-section has 2 pentagonal end faces and 5 rectangular side faces, so 2 + 5 = 7 faces. Five counts only the rectangles and ignores the ends. Ten is the number of vertices, not faces. Fifteen is the number of edges, and it is also the length in cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1537,7 +1547,8 @@
      },
      "explanation": "A prism with a pentagon cross-section has 2 pentagonal end faces and 5 rectangular side faces. So the total is 2 + 5 = 7 faces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1611,7 +1622,8 @@
      "correct_answer": 2,
      "explanation": "A pentagonal prism has 2 pentagonal end faces and 5 rectangular side faces, so 2 + 5 = 7 faces. 5 counts only the rectangular faces. 6 is the number of sides plus one, which is incorrect. 10 is the number of vertices on the two ends, not faces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1632,7 +1644,8 @@
      },
      "explanation": "The prism has two pentagonal end faces and five rectangular faces joining them, because the pentagon has five sides. So 2 + 5 = 7 faces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1781,7 +1794,8 @@
      "correct_answer": 1,
      "explanation": "When multiplying powers of the same base, add the indices: 8^2 × 8^3 = 8^(2+3) = 8^5, so B is correct. A gives 8^4. C gives 8^(15−5) = 8^10. F gives 8^(2×3) = 8^6, since a power of a power multiplies the indices."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1977,7 +1991,8 @@
      "correct_answer": 0,
      "explanation": "Any non-zero number raised to the power 0 equals 1, so 8^0 = 1 belongs in the small circle. 8^1 equals 8, not 1. 0^8 equals 0. 6^8 is 1 679 616, which is greater than 8^6 = 262 144, so it would go in the right circle, not the small one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2104,7 +2119,8 @@
      },
      "explanation": "Substitute x = 5 into y = 4x². First square 5 to get 25, then multiply by 4. This gives y = 100, so 100 goes in the dotted space in the right oval."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2430,7 +2446,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = −2: y = (1 + (−2))² = (−1)² = 1. The answer −1 forgets that squaring a negative gives a positive. The answer 5 wrongly squares 1 and −2 separately and adds them. The answer 9 comes from calculating (1 − (−2))², using the wrong sign."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2495,7 +2512,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = –2: (–2)² = 4, then 4 – 1 = 3. The value –5 comes from treating (–2)² as –4. The value –3 comes from –4 + 1 or a sign slip. The value 5 comes from 4 + 1 instead of subtracting 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2515,7 +2533,8 @@
      },
      "explanation": "Substitute x = 2 into y = x² – 1. Then y = 2² – 1 = 4 – 1 = 3. This is the missing y-value under x = 2 in the table."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2664,7 +2683,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = 3: y = 3² + 1 = 9 + 1 = 10. The answer 7 comes from 3 × 2 + 1, which doubles instead of squaring. The answer 9 forgets to add 1. The answer 12 comes from (3 + 1) × 3, which uses the wrong order of operations."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2686,7 +2706,8 @@
      },
      "explanation": "The points on the graph fit y = x² + 1, for example (1, 2) and (–2, 5). At x = 2, y = 2² + 1 = 4 + 1 = 5, so the missing point is (2, 5)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2731,7 +2752,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = 3: y = 3² + 1 = 9 + 1 = 10. The answer 7 comes from 3×2 + 1, doubling instead of squaring. The answer 16 comes from (3+1)². The answer 9 forgets to add 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2751,7 +2773,8 @@
      },
      "explanation": "Substitute x = 3 into y = x² + 1. First 3² = 9, then add 1 to get 10. This matches the pattern in the table, where x = –3 also gives y = 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -2796,7 +2819,8 @@
      "correct_answer": 0,
      "explanation": "The point (8, 7) is 5 units above the line y = 2, so its image is 5 units below it, at y = 2 − 5 = −3, giving (8, −3). (8, −7) reflects in the x-axis, not y = 2. (8, 4) is only a shift down by 3. (−8, 7) reflects in the y-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3286,7 +3310,8 @@
      "correct_answer": 2,
      "explanation": "w = 50 – x has gradient –1, which is negative, so w decreases as x increases and its statement is false. y = x + 3 has gradient 1, v = 5x has gradient 5 and z = x/5 has gradient 1/5. All of these gradients are positive, so y, v and z increase as x increases."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3438,7 +3463,8 @@
      },
      "explanation": "Substitute x = 10 into y = 4x². First square 10 to get 100, then multiply by 4 to get 400. So the dotted space for the input 10 is 400."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3783,7 +3809,8 @@
      "correct_answer": 0,
      "explanation": "A hexagonal prism has 6 rectangular side faces plus 2 hexagonal faces (top and bottom), giving 8 faces. 6 forgets the two hexagonal ends. 12 counts the number of edges on the two hexagons or the total vertices, not faces. 7 only adds one hexagonal end."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3804,7 +3831,8 @@
      },
      "explanation": "The prism has 2 hexagonal faces (top and bottom) and 6 rectangular side faces, one for each side of the hexagon. So 2 + 6 = 8 faces altogether."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3849,7 +3877,8 @@
      "correct_answer": 1,
      "explanation": "5 > x means x < 5. Multiplying both sides by 12 gives 12x < 60, which is the same as x < 5, so this is true. x < –2 is not the same as –2 < x because the direction is reversed. x ≥ 3 is not the same as x > 2, since 2.5 satisfies only the second. 4x ≥ 12 means x ≥ 3, not x > 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3954,7 +3983,8 @@
      "correct_answer": 0,
      "explanation": "The line crosses the y-axis at (0, 5), so c = 5. From (0, 5) to (2, 4), y falls by 1 as x rises by 2, so m = −½. So y = −½x + 5. The equation y = ½x + 5 has the wrong sign, as the line slopes downward. y = −2x + 5 inverts the gradient. y = −½x + 4 uses the wrong intercept."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4439,7 +4469,8 @@
      "correct_answer": 0,
      "explanation": "The radius is half of 143 mm, which is 71.5 mm. The area of a full circle is πr², so the semicircle is half of this: π × 71.5² ÷ 2. Using 143 as the radius is a mistake. π × 143 ÷ 2 is only the curved length. π × 71.5² is the whole circle, not half."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4796,7 +4827,8 @@
      "correct_answer": 0,
      "explanation": "The line crosses the y-axis at 3, so c = 3. From (0, 3) to (4, 5), y rises 2 while x rises 4, so m = 2/4 = 0.5. The equation is y = 0.5x + 3. y = 2x + 3 inverts the gradient. y = 3x + 0.5 swaps m and c. y = 0.5x + 5 uses a point's y-value as the intercept."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4865,7 +4897,8 @@
      "correct_answer": 0,
      "explanation": "Reflecting in the x-axis keeps the x-coordinate and changes the sign of the y-coordinate, so (6, 3) goes to (6, -3). (-6, 3) is a reflection in the y-axis. (-6, -3) is a 180° rotation about the origin. (3, 6) is a reflection in y = x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5075,7 +5108,8 @@
      },
      "explanation": "Substitute n = 4 into 2n – 7. This gives 2 × 4 – 7 = 8 – 7 = 1. So the 4th term of sequence C is 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -5142,7 +5176,8 @@
      },
      "explanation": "The upright rectangular face is 10 cm high and 40 cm long, as the diagram shows. Area of a rectangle = length × width, so 10 × 40 = 400 cm²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -5382,7 +5417,8 @@
      "correct_answer": 0,
      "explanation": "A mass hung at X has weight, which is a downward force that pulls on the spring, so the spring stretches and gets longer. It does not get shorter, because pulling does not squash the coils. Weight is a force, so the third option is wrong. The spring's own weight is not what changes its length, so the fourth is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5641,7 +5677,8 @@
      "correct_answer": 0,
      "explanation": "By the law of reflection, the angle of incidence equals the angle of reflection. Here A and C are both measured from the mirror surface, so they are equal. When A increases, C increases by the same amount. It does not shrink, stay fixed or become zero, because the reflected ray always follows A."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5720,7 +5757,8 @@
      "correct_answer": 1,
      "explanation": "When citric acid dissolves, its particles separate and spread out between the water particles, so they are mixed throughout the solution. The row at the bottom is the undissolved solid. The particles do not vanish, because matter is conserved. They also do not clump together, because dissolving separates them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5853,7 +5891,8 @@
      "correct_answer": 0,
      "explanation": "Scratching away from the hand holding the rock means that if the nail slips, it will not stab or cut his fingers. Pressing harder makes slipping more likely. Holding the rock with one finger makes it less steady. Rubbing faster gives less control and increases the risk of injury."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5930,7 +5969,8 @@
      "correct_answer": 0,
      "explanation": "Melting is the change from solid to liquid, as the ice cubes turn into the puddle. Freezing is the reverse, liquid to solid. Evaporation is liquid changing to gas. Condensation is gas changing to liquid. None of these others matches solid water becoming liquid water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5952,7 +5992,8 @@
      },
      "explanation": "The drawing shows ice cubes (solid water) beside a puddle (liquid water). A solid changing into a liquid is called melting. It happens when the ice gains heat energy from its surroundings."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -6007,7 +6048,8 @@
      },
      "explanation": "The answer is refraction. The ray crosses the boundary between two materials and continues on the other side in a different direction, because light changes speed when it enters a different material. The diagram shows this bend at the line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -6385,7 +6427,8 @@
      "correct_answer": 0,
      "explanation": "A force from the bat can make the ball speed up, slow down or change direction, and it may also change the ball's shape briefly. The bat does not change the ball's mass, because that is the amount of matter in it. Weight stays the same too, and colour is not affected by a force."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -6424,7 +6467,8 @@
      },
      "explanation": "The planet with rings is Saturn. In the diagram it is the second-largest planet, sixth from the Sun, with the largest planet, Jupiter, drawn nearer the top. Saturn is the Solar System planet best known for its rings."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -6672,7 +6716,8 @@
      "correct_answer": 0,
      "explanation": "Light from the room hits his face, scatters, and reflects off the mirror into his eyes, so he sees the image. The mirror does not make light (option 2). Eyes do not send out light (option 3). A mirror reflects light rather than refracting it through (option 4)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6737,7 +6782,8 @@
      "correct_answer": 0,
      "explanation": "A is the heart, a muscular organ between the lungs that pumps blood to the lungs and around the body. B is a lung, which exchanges gases and does not pump blood. D is a kidney, which filters blood to make urine. E is the large intestine, which absorbs water from undigested food."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7052,7 +7098,8 @@
      },
      "explanation": "The answer is gravity. The Sun's gravitational pull acts on the comet all the time and bends its path into a closed orbit around the Sun, just as it does for Earth's orbit shown in the diagram."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -7214,7 +7261,8 @@
      "correct_answer": 1,
      "explanation": "Rajiv pulls the box to the right, so friction between the box and ground acts left, opposing the pull. The box stays still, so the forces are balanced and friction equals his pull. Right is wrong direction. Upwards is the normal force's direction. If friction were bigger, the box would accelerate left."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7539,7 +7587,8 @@
      },
      "explanation": "When calcium carbonate is heated it breaks down into solid calcium oxide and carbon dioxide gas. The gas is a product, so it appears only after heating the solid shown in the test-tube."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -7572,7 +7621,8 @@
      "correct_answer": 0,
      "explanation": "Cartilage rings are firm, so they hold the trachea open and stop it collapsing when we breathe in. Gas exchange happens in the alveoli, not the trachea. Mucus and cilia trap dust and germs. The diaphragm and rib muscles move air, because cartilage cannot pump."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7594,7 +7644,8 @@
      },
      "explanation": "At the bottom, the trachea splits into two branches, one going into each lung. These tubes are called bronchi (one is a bronchus). They carry air into the left and right lungs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -7627,7 +7678,8 @@
      "correct_answer": 0,
      "explanation": "Fossils like this coiled shell form when sediment buries a dead sea animal, so the rock is sedimentary and formed in water long ago. Cooled lava would destroy a shell, so that option is wrong. Rock containing the fossil is older than layers above it, not younger. Hardness comes from minerals replacing the shell, not from recent formation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7647,7 +7699,8 @@
      },
      "explanation": "Fossils form when sediment gradually buries dead animals and hardens into rock. The spiral shell Chen holds is a fossil, so it was most likely found in sedimentary rock. Heat and pressure in igneous and metamorphic rocks would destroy it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -7718,7 +7771,8 @@
      "correct_answer": 0,
      "explanation": "Gas particles are far apart with empty space between them, so pushing the lid down squashes them closer together. The particles do not change size. Gases can be compressed, so the spacing does change. The particles keep moving and do not become a solid."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7973,7 +8027,8 @@
      "correct_answer": 0,
      "explanation": "The egg stays still in the middle of the water, so the forces on it are balanced. The upward upthrust from the water equals its downward weight. If weight were greater, the egg would sink. If upthrust were greater, it would rise. Weight is not the only force acting, because the water also pushes up."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8137,7 +8192,8 @@
      },
      "explanation": "The answer is refraction. The ray from B changes direction at the water surface because light changes speed when it passes from air into water. The fish's brain assumes the light travelled in a straight line, so the insect appears at A."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8170,7 +8226,8 @@
      "correct_answer": 0,
      "explanation": "Pushing the plunger squashes the wet sand together, which models compaction of sediments under pressure from layers above. Melting and crystallisation are linked to igneous rock formation and involve heat. Weathering breaks rock into pieces, but here the sand is already broken down and is being pressed together."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8193,7 +8250,8 @@
      },
      "explanation": "The plunger pushes down hard on the wet sand and squashes the grains closer together. In nature, layers of sediment are pressed together by the weight of material above them. This process is called compaction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8258,7 +8316,8 @@
      },
      "explanation": "The water is the solvent. A solvent is the liquid that dissolves a solid. The coloured solid that dissolves is the solute, and together they make a solution."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8434,7 +8493,8 @@
      },
      "explanation": "The answer is evaporation. The arrows start only at the liquid surface, and no particles are drawn inside the liquid. Evaporation happens only at the surface, but boiling happens throughout the liquid."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8521,7 +8581,8 @@
      "correct_answer": 0,
      "explanation": "The ball bouncing off the cushion models reflection, where light bounces off a surface and leaves at an angle equal to the angle it arrived. Refraction is bending as light enters another material, which the ball does not show. Absorption would mean the ball stops. Splitting into colours (dispersion) is not modelled by one ball."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8753,7 +8814,8 @@
      "correct_answer": 0,
      "explanation": "The substance is in series with the bulb. Plastic does not let electric current pass, so the circuit is not complete and the bulb stays off. This shows it is an electrical insulator. A lit bulb would show a conductor, and the circuit does not test heat (thermal) conduction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8963,7 +9025,8 @@
      "correct_answer": 0,
      "explanation": "The syrup models the mantle. Heated syrup rises, cools, and sinks again, forming convection currents that drag the biscuits (tectonic plates) along. The crust is represented by the biscuits, not the syrup. The outer core is far deeper and is not what this model shows. A magma chamber is a small local feature, not the whole layer that moves plates."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9074,7 +9137,8 @@
      },
      "explanation": "The answer is combustion (burning). Arrow A goes from fuel to carbon dioxide in the atmosphere. When a fuel burns it reacts with oxygen, which releases the carbon in the fuel as carbon dioxide."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9241,7 +9305,8 @@
      "correct_answer": 0,
      "explanation": "Conduction is correct: in solid metals, particles vibrate and pass energy to neighbours, and free electrons help carry it. Convection needs fluids that can flow, so it cannot happen in solid rods. Radiation can cross empty space and is not the main way energy travels along the metal. Evaporation involves liquids changing to gas, not heat moving through solids."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9262,7 +9327,8 @@
      },
      "explanation": "The answer is conduction. Thermal energy passes along the solid metal rods from the hot end in the flame to the far end, melting the wax. Particles pass on vibrations in solids, so this is not convection or radiation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9321,7 +9387,8 @@
      "correct_answer": 0,
      "explanation": "The block is a cuboid, so volume = length × width × height, which is needed for density = mass ÷ volume. Adding the dimensions gives a distance, not a volume. Length and width alone give only the base area. Height alone gives just one edge, not the space the block occupies."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9372,7 +9439,8 @@
      "correct_answer": 0,
      "explanation": "When the nucleus of a sperm fuses with the nucleus of an egg, fertilisation happens and a zygote forms. Ovulation is the release of an egg from the ovary, before this stage. Menstruation is the loss of the uterus lining. Implantation happens later, after the embryo has formed and travelled to the uterus."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9391,7 +9459,8 @@
      },
      "explanation": "The answer is fertilisation. The diagram shows one sperm touching the egg cell. When the sperm nucleus joins with the egg nucleus, a fertilised egg (zygote) forms. This process is called fertilisation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9527,7 +9596,8 @@
      "correct_answer": 0,
      "explanation": "The values fall from 181 °C for lithium to 64 °C for potassium and 39 °C for rubidium, so melting point decreases down the group. Increasing, staying constant, or rising then falling do not match the values shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9551,7 +9621,8 @@
      },
      "explanation": "The melting points fall from 181 °C for lithium to 64 °C for potassium and 39 °C for rubidium. So the melting point decreases as you go down Group 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9815,7 +9886,8 @@
      "correct_answer": 0,
      "explanation": "Filtration is correct because the copper carbonate is insoluble, so it is trapped by the filter paper while the copper sulfate solution passes through. Evaporation would only remove the water from the solution and leave both solids mixed. Chromatography separates dissolved substances such as inks. Distillation collects the liquid solvent, not the insoluble solid."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9908,7 +9980,8 @@
      "correct_answer": 0,
      "explanation": "The flask is sealed, so no substances enter or leave. Atoms are only rearranged into new substances, so the total mass stays the same. The solid sinking does not change mass. Reactants being used up are replaced by products of equal total mass, so mass does not increase or decrease."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9978,7 +10051,8 @@
      "correct_answer": 0,
      "explanation": "Waves closer together means more waves each second, so the frequency increases and the pitch rises. The height (amplitude) stays constant, so the loudness does not change. The other options wrongly say the loudness changes, or that the pitch stays the same or falls."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10113,7 +10187,8 @@
      },
      "explanation": "The small grey ovals around the edge of the cell are chloroplasts. They contain the green pigment chlorophyll, which absorbs light energy so the cell can carry out photosynthesis and make glucose."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -10339,7 +10414,8 @@
      "correct_answer": 0,
      "explanation": "The ball falls when the wax melts. Wax melts sooner if heat travels faster along the spoon, so copper is the best thermal conductor. Thermal insulator is wrong because an insulator would slow heat transfer. Electrical insulator is unrelated to this test. Mass or heaviness is not shown by how quickly the wax melts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10389,7 +10465,8 @@
      },
      "explanation": "The two arrows are the same length and both are 600 N, but they point in opposite directions. The forces are balanced, so they cancel out and the resultant force is 0 N."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -10474,7 +10551,8 @@
      "correct_answer": 0,
      "explanation": "Igneous rock forms when liquid rock (magma or lava) cools and solidifies, forming interlocking crystals. Heating and melting is the reverse change. Squashing under layers of sediment helps form sedimentary rock by compaction. Weathering, erosion and deposition make sediments, not igneous rock."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10833,7 +10911,8 @@
      "correct_answer": 0,
      "explanation": "Dispersion is the splitting of white light into its colours, because each colour is refracted by a different amount in glass. Reflection is light bouncing off a surface, which is not what is shown. Absorption is light being taken in by a material. Diffraction is spreading of waves around gaps or edges, not colour separation by bending."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11009,7 +11088,8 @@
      },
      "explanation": "An ammeter measures current, so it must be placed in series with the resistor so that the same current flows through both. A voltmeter would be connected in parallel instead."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11068,7 +11148,8 @@
      "correct_answer": 0,
      "explanation": "The atomic radius rises from 145 pm (lithium) to 235 pm (rubidium) because each element down the group has one more electron shell. The decrease option contradicts the values. The 'same' option confuses outer electron number with size. The 'increases then decreases' option is not shown in the table, and density does not control radius."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11119,7 +11200,8 @@
      "correct_answer": 0,
      "explanation": "The pair of dots at the bottom of nitrogen's outer circle is not in any overlap with hydrogen, so it is a lone pair of two electrons. Three electrons is wrong because that is the number of bonds, not the unshared electrons. Five is the total number of outer electrons, which includes shared ones. Six counts the shared electrons from the three pairs, which are shared."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11140,7 +11222,8 @@
      },
      "explanation": "The answer is 3. Each H circle overlaps the outer circle of N, and each overlap holds one cross and one dot, which is one shared pair. There are three overlaps, so three shared pairs. The pair of dots at the bottom is not shared."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11272,7 +11355,8 @@
      },
      "explanation": "The last stage shows the Moon travelling along an orbit around the Earth. The Earth's gravitational pull on the Moon keeps it in this curved path instead of moving off in a straight line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11312,7 +11396,8 @@
      },
      "explanation": "The answer is oxygen. An aquatic plant in light photosynthesises, making glucose and releasing oxygen. The bubbles rising from the plant through the funnel and into the measuring cylinder are this oxygen gas."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11552,7 +11637,8 @@
      "correct_answer": 0,
      "explanation": "When the sperm nucleus fuses with the egg nucleus in fertilisation, the single cell formed is a zygote. A gamete is a sex cell, such as the egg or sperm, before joining. An embryo with a heartbeat forms much later after many divisions. A foetus is the later stage of development."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11575,7 +11661,8 @@
      },
      "explanation": "The diagram shows a sperm joining an egg. When their nuclei fuse, one cell forms called a zygote (a fertilised egg). It has genetic material from both parents and then divides to form an embryo."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11620,7 +11707,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows 2 + 8 = 10 electrons and a charge of +. The ion has one more proton than electrons, so it has 11 protons. 10 would make the ion neutral. 9 and 8 would give a negative charge, not +."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11781,7 +11869,8 @@
      "correct_answer": 0,
      "explanation": "The ice floats with part above the surface, so it is less dense than liquid water: the same volume of ice has less mass. Higher density would make it sink. Equal density would make it float fully submerged, level with the surface. More mass per volume means higher density, so it would sink."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11846,7 +11935,8 @@
      "correct_answer": 0,
      "explanation": "Heated oil above the candle expands, so its particles spread out and it becomes less dense than the cooler oil around it. It therefore rises, forming a convection current. Sinking would happen to cooler, denser oil. Liquids can flow, so oil does move. Radiation does not carry the oil sideways; the movement is convection."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11866,7 +11956,8 @@
      },
      "explanation": "The candle warms the oil directly above it. Warm oil expands, becomes less dense and rises, while cooler, denser oil sinks to replace it. This circulating movement of a fluid is called convection."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -13228,7 +13319,8 @@
      "correct_answer": 0,
      "explanation": "\"Attempt\" means try, and \"in any condition\" means even badly damaged computers are accepted, so the first option is right. The second is wrong because an attempt is not a guarantee. The third is wrong because any condition includes old or broken computers. The fourth is wrong because the notice gives only an average repair time of two weeks."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",

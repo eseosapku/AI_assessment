@@ -32,7 +32,8 @@
      },
      "explanation": "The tube in the neck and chest that leads down to the lungs is the trachea, also called the windpipe. Air passes through it when we breathe in, on its way to the lungs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -86,7 +87,8 @@
      },
      "explanation": "The left cell is a red blood cell. It has no nucleus and is red-orange because it contains haemoglobin, which combines with oxygen in the lungs and carries it to the body's cells."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -201,7 +203,8 @@
      },
      "explanation": "The camera detects infrared radiation. All objects give off it, and hotter objects give off more. The camera turns this into the colours on the scale from 20.3 °C to 40.3 °C, so the hot screen looks orange-red."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -303,7 +306,8 @@
      "correct_answer": 0,
      "explanation": "Lift is equal to weight. Constant height means the vertical forces are balanced, so there is no resultant force up or down. Lift greater than weight would make the plane climb. Lift less than weight would make it descend. Lift acts upwards and thrust acts forwards, so they are not forces that balance each other."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -328,7 +332,8 @@
      },
      "explanation": "The lift arrow points up and the weight arrow points down. At constant height there is no change in vertical motion, so the forces are balanced. This means lift and weight are equal in size."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -371,7 +376,8 @@
      },
      "explanation": "Moment = force × distance from the pivot. The diagram shows a force of 20 N at 0.25 m from the pivot, so 20 × 0.25 = 5 Nm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -428,7 +434,8 @@
      },
      "explanation": "The bottom hole makes water squirt farthest. Water pressure increases with depth, and the bottom hole has the most water above it. The greater pressure pushes the water out with more force, so it travels farther."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -475,7 +482,8 @@
      "correct_answer": 0,
      "explanation": "Time = distance ÷ speed. Cycling is 7 m/s, so 600 ÷ 7 ≈ 86 s. 300 s uses the walking speed of 2 m/s. 4200 s multiplies distance by speed instead of dividing. 12 s is not found by any correct calculation from these values."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -834,7 +842,8 @@
      "correct_answer": 0,
      "explanation": "A petal looks orange because it reflects orange light into our eyes and absorbs most other colours from white light. It does not absorb orange and reflect the rest. Flowers are not light sources, so they make no light of their own. Transmission describes light passing through clear materials like the cellophane, not opaque petals."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -875,7 +884,8 @@
      "correct_answer": 0,
      "explanation": "Glass is optically denser than air, so light slows down as it enters and refracts towards the normal. Bending away from the normal happens when light speeds up, such as glass to air. Going straight on only happens along the normal. Bending towards the normal while speeding up is inconsistent, because bending towards the normal comes with slowing down."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1025,7 +1035,8 @@
      "correct_answer": 0,
      "explanation": "Traffic behind sends light to the smooth, shiny mirror, which reflects it into the rider's eyes, so the rider sees it. Light does not travel from the mirror to the traffic. A mirror does not absorb light and then emit its own, because it is not a light source. Refraction happens when light passes through a transparent material, not when it bounces off a mirror."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1046,7 +1057,8 @@
      },
      "explanation": "The mirrors have smooth, shiny surfaces, so parallel rays of light reflect in one direction. This is specular (regular) reflection. It produces clear images of the scene behind, unlike a rough surface, which scatters light in many directions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1101,7 +1113,8 @@
      },
      "explanation": "A is the hip and D is the shoulder. Both are ball and socket joints, where the rounded end of one bone fits into a cup-shaped socket. This allows movement in many directions, as the cat's legs show."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1258,7 +1271,8 @@
      "correct_answer": 0,
      "explanation": "The name must be stored in a variable so the program can use it again in the greeting later. Printing it as a star number makes no sense because the star number is a calculated value. A name is text, so it cannot be converted to an integer. Deleting it would lose the data the greeting needs."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1299,7 +1313,8 @@
      "correct_answer": 0,
      "explanation": "Parental Permission can only be ticked or not ticked, so a Yes/No (Boolean) type fits. Short text would allow any characters, so it wouldn't restrict entries. Date/Time is for dates like Date Joined. Number is for values like Age, not for two-state choices."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1322,7 +1337,8 @@
      },
      "explanation": "The answer is integer. The Age column shows only whole numbers (11, 12 and 13) with no decimal places, so an integer data type is the most suitable choice. Text would not allow numerical comparisons or calculations."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1733,7 +1749,8 @@
      },
      "explanation": "Add the place values where the binary digit is 1: 16 + 4 + 1 = 21. Place values with a 0 are not counted, so the decimal value is 21."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1808,7 +1825,8 @@
      "correct_answer": 0,
      "explanation": "A username and password show the computer who the user is, so only the right person can open their account. They do not change screen brightness, connect a printer or switch the laptop off. Those jobs use settings, cables or wireless connections, and the shutdown option."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3009,7 +3027,8 @@
      "correct_answer": 0,
      "explanation": "H8 is correct: a cell address gives the column letter first, then the row number. Column H is outlined in blue (C) and row 8 in red (D), so they meet at H8. 8H puts the number first, which is the wrong order. D8 uses the label D instead of the column letter H. HC mixes the column letter with a diagram label."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3029,7 +3048,8 @@
      },
      "explanation": "A cell address is the column letter followed by the row number. The blue column is H and the red row is 8. The cell where they cross is in column H and row 8, so its address is H8."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3071,7 +3091,8 @@
      },
      "explanation": "The answer is B2. A cell address is the column letter followed by the row number. Column B is highlighted at the top, and row 2 is the second row down, so the cell where they meet is B2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3118,7 +3139,8 @@
      "correct_answer": 0,
      "explanation": "Searching the Age field for values of 15 or more finds Mark Simmons (15), Hanna Ali (16) and Zhang Li (15). Searching for 12 finds only Alisha Greene. Searching Meeting Time for 3:30 p.m. looks at the wrong field and misses Zhang Li. Searching Name of Club for Chess looks at the wrong field and finds Alisha and Zhang."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3262,7 +3284,8 @@
      "correct_answer": 0,
      "explanation": "Currency is right because the Late Fee values are amounts of money shown with a dollar sign and two decimal places. Date/Time is wrong because the values are not dates or times. Yes/No is wrong because it only stores two choices, like the Outstanding field. Text is wrong because it is for words and labels, not money amounts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3944,7 +3967,8 @@
      },
      "explanation": "The top face is a 4 by 4 grid of small squares. Finding the area of a square face means squaring the side length: 4 × 4 = 16 small squares."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -4240,7 +4264,8 @@
      "correct_answer": 0,
      "explanation": "A circle is correct: the pencil stays the same distance from the fixed point all the way round, which makes a circle. A straight line would need a ruler and no turning. A square has four straight sides and corners, which compasses cannot make by turning. A triangle also has straight sides, so it is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5479,7 +5504,8 @@
      "correct_answer": 0,
      "explanation": "A parallelogram has two pairs of opposite sides that are parallel, so the first option is correct. Four equal angles describes a rectangle, and these shapes are slanted. A trapezium, not a parallelogram, has exactly one pair of parallel sides. Four lines of symmetry belongs to a square, and these slanted parallelograms do not have that."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6055,7 +6081,8 @@
      "correct_answer": 0,
      "explanation": "The whole is 10 and one part is 4, so the missing part is 10 − 4 = 6, because 4 + 6 = 10. The number 5 is wrong because 4 + 5 = 9. The number 14 comes from adding 4 and 10, but the whole is the biggest number. The number 4 is wrong because 4 + 4 = 8."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6110,7 +6137,8 @@
      "correct_answer": 0,
      "explanation": "The parts are 7 and 0, so the whole is 7 + 0 = 7. Adding zero does not change the number. 7 + 0 = 0 wrongly thinks zero makes the answer zero. 7 + 0 = 8 adds one extra. 0 + 0 = 7 does not use the parts 7 and 0."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6206,7 +6234,8 @@
      "correct_answer": 0,
      "explanation": "The whole is 7 and one part is 3, so the other part is 7 − 3 = 4. The answer 3 just repeats the known part. The answer 10 comes from adding 7 and 3, but the whole is already 7. The answer 5 is a guess that does not make 3 and the part total 7."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6616,7 +6645,8 @@
      "correct_answer": 0,
      "explanation": "Half past 8 is correct: the minute hand at 6 means half past, and the hour hand has passed 8 but not reached 9. Half past 9 is wrong because the hour hand has not reached 9. Half past 6 uses the minute hand number as the hour. 8 o'clock is wrong because the minute hand would point to 12."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6639,7 +6669,8 @@
      },
      "explanation": "The long minute hand points to 6, so it is half past. The short hour hand has passed 8 but has not reached 9, so the hour is 8. The time is half past 8, or 8:30."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -6716,7 +6747,8 @@
      "correct_answer": 0,
      "explanation": "A ruler measures length, and the numbers 0 to 10 on it count centimetres. Kilograms measure mass (weight), litres measure how much liquid a container holds, and minutes measure time. None of these can be read from a ruler."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7307,7 +7339,8 @@
      },
      "explanation": "The tag shows 24 marbles in the bag. Count on from 24 to 30: 25, 26, 27, 28, 29, 30. That is 6 more marbles, so the answer is 6."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -7539,7 +7572,8 @@
      "correct_answer": 0,
      "explanation": "In a 100 square, moving down one row adds 10, so 42 + 10 = 52. 32 is the square above, because it takes away 10. 41 is the square to the left and 43 is the square to the right, as they change by 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7861,7 +7895,8 @@
      "correct_answer": 0,
      "explanation": "The side of a cylinder bends smoothly around it, so it is a curved surface. A vertex is a corner point, and the cylinder's side is not one. A flat face is not curved, but the side of a cylinder curves. An edge is a line where two faces meet, and the arrow points to the middle of the side, not to a line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9285,7 +9320,8 @@
      "correct_answer": 0,
      "explanation": "Convert 12 m to 1200 cm, then divide by 200 to get 6 cm. 0.6 cm comes from dividing 120 cm by 200 (a conversion slip). 60 cm comes from dividing by 20 instead of 200. 12 cm comes from dividing 2400 by 200 or using the wrong conversion."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9306,7 +9342,8 @@
      },
      "explanation": "The width is 12 m, which is 1200 cm. With a scale of 1 : 200, divide by 200: 1200 ÷ 200 = 6. So the width on the scale drawing is 6 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9381,7 +9418,8 @@
      "correct_answer": 0,
      "explanation": "Position 4 is half an orbit from New, so the Moon is on the opposite side of Earth from the Sun and the whole face we see is lit: a Full Moon. New Moon is wrong because that is the label at the start. First quarter is at position 2. A waning crescent happens after position 6."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9503,7 +9541,8 @@
      "correct_answer": 0,
      "explanation": "In 4/4 time a bar holds 4 beats, and the hollow note lasts 2 beats, so it fills 2/4 = 1/2 of the bar. 1/4 would be a one-beat note. 2/3 wrongly compares 2 with 3 notes. 1/8 confuses it with a half-beat note."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9544,7 +9583,8 @@
      "correct_answer": 0,
      "explanation": "The line y = −2 is horizontal, so every point on it has y = −2. On y = x, y = −2 means x = −2. The lines cross at (−2, −2). (2, 2) is where y = x meets the dashed line y = 2. (−2, 2) has the wrong y-value. (0, −2) is on y = −2 but not on y = x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9654,7 +9694,8 @@
      "correct_answer": 0,
      "explanation": "Add 3 to the x-coordinate and −2 to the y-coordinate: (−1 + 3, 1 − 2) = (2, −1). (−4, 3) subtracts the vector instead of adding it. (2, 3) adds 2 to y instead of subtracting it. (−3, 2) swaps the numbers and moves the wrong way."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10460,7 +10501,8 @@
      "correct_answer": 0,
      "explanation": "The line falls from (0, 4) to (6, 0), so the gradient is -4 ÷ 6 = -2/3. A positive 2/3 ignores that the line slopes downwards. -3/2 turns the fraction upside down (run over rise). 4 is the y-intercept, not the gradient."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10481,7 +10523,8 @@
      },
      "explanation": "The line meets the x-axis where y = 0. On the graph this happens at the point (6, 0), so the x-coordinate is 6. You can check: 2(6) + 3(0) = 12."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -10536,7 +10579,8 @@
      },
      "explanation": "The square has area a² and the rectangle has area bc, so A = a² + bc. Substituting gives 6² + 3 × 4.5 = 36 + 13.5 = 49.5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -10758,7 +10802,8 @@
      "correct_answer": 0,
      "explanation": "B is 6 units right and 6 units up from A, so the line AB lies exactly halfway between north and east. Bearings are measured clockwise from north, giving 045°. 090° is due east. 135° is between east and south. 000° is due north."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11013,7 +11058,8 @@
      "correct_answer": 0,
      "explanation": "The point (−1, 4) is 3 units above y = 1, so its image is 3 units below the line, at y = −2, giving (−1, −2). (−1, −4) reflects in the x-axis. (−1, −3) is a miscount of the distance. (1, 4) reflects in the y-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11483,7 +11529,8 @@
      },
      "explanation": "A prism has the same cross-section along its whole length. Every face of this cuboid is a rectangle, so slicing it parallel to any face gives a rectangle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11530,7 +11577,8 @@
      "correct_answer": 0,
      "explanation": "The cell membrane is a thin outer layer that controls what moves into and out of the cell. The nucleus holds genetic information, and this red blood cell has none. The cytoplasm is where many chemical reactions happen. Mitochondria release energy in respiration, not the membrane."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11599,7 +11647,8 @@
      "correct_answer": 0,
      "explanation": "The high-power objective lens magnifies most, so it shows small parts in more detail, and the fine focussing knob sharpens the image. Tilting the mirror away only reduces light. The low-power lens magnifies least. The stage only holds the slide and cannot replace the eyepiece."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11621,7 +11670,8 @@
      },
      "explanation": "The fine focussing knob makes small adjustments to sharpen the image once the coarse focussing knob has brought it roughly into focus. The diagram shows both knobs on the arm, with the smaller fine knob labelled below the coarse one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11712,7 +11762,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows a nerve cell (neurone). Its long thin fibre carries electrical impulses over long distances, and the branched ends connect with other cells. Absorbing water is the job of root hair cells. Carrying oxygen is the job of red blood cells. Photosynthesis happens in leaf cells that contain chloroplasts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11753,7 +11804,8 @@
      "correct_answer": 0,
      "explanation": "Cilia are tiny hair-like structures that beat together to sweep mucus and trapped dust or microbes along the surface. Respiration happens in mitochondria, not cilia. Genetic information is stored in the nucleus, which is labelled separately. Absorbing digested food is done by villi and microvilli in the small intestine, not by cilia."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11817,7 +11869,8 @@
      },
      "explanation": "Part A is a chloroplast. It contains chlorophyll, which absorbs light energy so the cell can carry out photosynthesis and make glucose. Animal cells have no chloroplasts, so they cannot do this."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11880,7 +11933,8 @@
      "correct_answer": 0,
      "explanation": "Solid to liquid is melting, so A is melting. Gas to liquid is condensing, so D is condensing. Freezing is liquid to solid, not solid to liquid. Evaporating is liquid to gas, the opposite of D. Condensing and melting are swapped in the last option."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12109,7 +12163,8 @@
      "correct_answer": 0,
      "explanation": "The box is at rest, so the forces are balanced. The desk's upward push equals the box's downward weight. Gravity is not the only force, because the desk also pushes up. If the upward force were larger, the box would accelerate upwards. The desk does push back on the box, as the contact forces are an equal and opposite pair."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12437,7 +12492,8 @@
      "correct_answer": 0,
      "explanation": "A lamp is meant to give out light, so light is the useful energy output. Most of the energy is transferred as heat to the surroundings, which is wasted. Electrical energy is the input, not an output. Heat is not the useful output of a lamp, so the other options are wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12459,7 +12515,8 @@
      },
      "explanation": "A light bulb is meant to give light, so light is the useful energy. The heat is not wanted and spreads into the surroundings, so it is wasted energy. This is why heat goes in the 'wasted' column."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12506,7 +12563,8 @@
      "correct_answer": 0,
      "explanation": "The battery stores chemical energy. In a complete circuit, this is transferred by electricity through the wires to the bulb, which gives out light and some thermal energy. The other options reverse the energy transfer, claim the bulb charges the battery, or name energy types (kinetic, sound) that are not the main outputs here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12527,7 +12585,8 @@
      },
      "explanation": "The answer is chemical. The battery stores chemical energy. When the wires connect it to the bulb in a complete circuit, a current flows and the bulb transfers this energy as light and heat."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12646,7 +12705,8 @@
      "correct_answer": 3,
      "explanation": "Gravity always pulls the skydiver down, and air resistance pushes up against the falling parachute. At steady speed the two forces are balanced. 'No, no' ignores both forces. 'No, yes' leaves out air resistance. 'Yes, no' wrongly says gravity stops acting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12735,7 +12795,8 @@
      },
      "explanation": "The answer is a dichotomous key. At every numbered step the flowchart gives two choices, a and b. Each choice leads to another step or to an organism. This is how a dichotomous key helps you identify living things."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -13091,7 +13152,8 @@
      "correct_answer": 0,
      "explanation": "The hand moves along the length of the spring, so the coils vibrate parallel to the direction the wave travels. This makes a longitudinal wave. The bunched-up regions are compressions. A transverse wave needs up-and-down movement. Rarefactions are the spread-out regions, not the bunched ones."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13111,7 +13173,8 @@
      },
      "explanation": "The answer is longitudinal. The hand moves back and forth along the length of the spring, so the coils squash together and spread apart in the same direction as the wave travels. A transverse wave would move the coils up and down."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -13158,7 +13221,8 @@
      "correct_answer": 2,
      "explanation": "Sound is a longitudinal wave, so air particles vibrate back and forth parallel to the direction the sound travels, shown by the horizontal double-headed arrow C. A is a sideways (transverse) movement, like water waves. B is circular motion, which does not happen. D shows particles travelling along with the wave, but they only vibrate about a fixed position."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13225,7 +13289,8 @@
      "correct_answer": 0,
      "explanation": "Mercury melts at −39 °C and boils at 357 °C, so 20 °C is between them and it is a liquid. Sulfur (melts 119 °C) and sodium (melts 98 °C) are solid at 20 °C. Oxygen boils at −183 °C, so at 20 °C it is a gas."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13382,7 +13447,8 @@
      },
      "explanation": "A sound wave that bounces off an object and returns is called an echo. The diagram shows sound waves from the ship hitting the fish and reflected sound waves travelling back up. The boat uses the time taken to find the distance."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -13597,7 +13663,8 @@
      "correct_answer": 0,
      "explanation": "The inner core is solid iron and nickel at the centre, so A matches Z. The outer core is molten iron and nickel (W), not X. The mantle is molten rock below the crust (Y), not W. The crust is the solid outer layer (X), not Y."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13638,7 +13705,8 @@
      "correct_answer": 0,
      "explanation": "Grass is a producer because it is a plant that makes its own food by photosynthesis, and it is at the start of the arrows. Termite and zebra are consumers that eat plants. Aardvark is a consumer that eats termites. None of these three can make its own food."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13661,7 +13729,8 @@
      },
      "explanation": "The zebra is a primary consumer. The arrow from grass to zebra shows it eats a producer, which is a plant. Animals that eat plants are herbivores, so they are the first consumers in a food chain."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -13696,7 +13765,8 @@
      "correct_answer": 0,
      "explanation": "Fungi (moulds) grow as fuzzy, powdery patches and release enzymes that digest the orange, so they are decomposers. Bacteria are microscopic single cells and do not form visible fuzzy growth like this. Algae make food by photosynthesis and are not decomposers. Viruses are not living cells and cannot decompose fruit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13719,7 +13789,8 @@
      },
      "explanation": "The answer is fungi. The fluffy white and grey-green growth is mould, which is a type of fungus. It feeds on the orange by breaking it down, so it is a decomposer, and the peel looks rotten where it grows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -13766,7 +13837,8 @@
      "correct_answer": 0,
      "explanation": "Magnesium oxide is a compound, does not conduct electricity, and melts at 2800 °C, higher than both 651 °C and −214 °C. The second option is wrong because it is a compound and does not conduct. The third is wrong because it is a solid. The fourth is wrong because it is white and powdery, and 651 °C is magnesium's melting point."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14031,7 +14103,8 @@
      "correct_answer": 0,
      "explanation": "Hydrogen peroxide breaks down with manganese dioxide to give oxygen, seen as bubbles. Oxygen makes a glowing splint relight, so the splint flames. Hydrogen would give a squeaky pop with a lit splint. Carbon dioxide would put a flame out. Water vapour does not relight a splint."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14086,7 +14159,8 @@
      "correct_answer": 0,
      "explanation": "pH 12 is alkaline and pH 7 is neutral, so adding acid neutralises the alkali and the solution changes from alkaline to neutral. It does not start acidic, because 12 is above 7. It does not become alkaline, because the pH falls. It does not stay alkaline, because 7 is neutral."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14374,7 +14448,8 @@
      "correct_answer": 0,
      "explanation": "Plastic is an electrical insulator, so it stops current flowing into the user's hand when they hold the plug body. The second option is wrong because plastic does not conduct electricity. The third is wrong because plastic is not magnetic. The fourth is wrong because plastic is a poor heat conductor, and warmth is not its purpose."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14415,7 +14490,8 @@
      "correct_answer": 0,
      "explanation": "In a series circuit there is only one path, and current is not used up by the lamps. The same current passes every point, so the ammeter reads the same at X, Y and Z. The other options wrongly suggest current is used up or changes depending on position relative to the cell or lamps."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15032,7 +15108,8 @@
      "correct_answer": 0,
      "explanation": "Red blood cells are biconcave discs, flattened with a dip in the middle. This gives a large surface area for absorbing oxygen quickly. A bumpy surface belongs to the white cell in the photograph and does not trap oxygen. Red cells are not ball-shaped, and the white cell is the round one. Colour does not decide oxygen uptake."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15166,7 +15243,8 @@
      "correct_answer": 0,
      "explanation": "Live, germinating peas respire, and respiration releases energy as heat, so the thermometer reading rises. Dead peas do not respire, so their flask stays near room temperature. Insulation reduces heat loss but does not stop the warming. Growing does not absorb heat from the surroundings. Peas release carbon dioxide in respiration rather than absorbing it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15297,7 +15375,8 @@
      },
      "explanation": "The answer is parallel. In C and D the ammeter's wires join on either side of the lamp, so it sits across the lamp on a separate branch. An ammeter must be in series to measure the lamp's current, as in A and B."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15391,7 +15470,8 @@
      "correct_answer": 0,
      "explanation": "The rope stays still, so the forces on it are balanced: equal in size and opposite in direction, giving zero resultant force. A bigger force from one team would make the rope accelerate towards it. Forces in the same direction would add together and cause movement. Both teams are pulling, so neither force is zero."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15444,7 +15524,8 @@
      "correct_answer": 0,
      "explanation": "At the top of the ramp the ball is raised, so it has gravitational potential energy. As it rolls down, its height falls and its speed rises, so this energy becomes kinetic energy. The reverse option describes rolling uphill. Chemical-to-sound and elastic-to-kinetic do not apply, because the ball is not stretched or compressed and nothing is burning."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15467,7 +15548,8 @@
      },
      "explanation": "The ball is raised above the table on the stack of books, so it stores gravitational potential energy. As it rolls down the ramp, this store decreases and is transferred to kinetic (movement) energy."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15502,7 +15584,8 @@
      "correct_answer": 0,
      "explanation": "Copper carbonate is green and insoluble, so it does not dissolve and is left as a green solid on the filter paper. Iron sulfate is green but soluble, so it dissolves and passes through. Zinc carbonate is insoluble but white. Sodium chloride is white and soluble, so it dissolves."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15524,7 +15607,8 @@
      },
      "explanation": "Sodium chloride is soluble, so it dissolves in water. Zinc carbonate is insoluble, so it stays as a solid. Filtering the mixture catches the solid zinc carbonate in the filter paper, while the sodium chloride solution passes through."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15559,7 +15643,8 @@
      "correct_answer": 0,
      "explanation": "Moment = force × distance from the pivot. The force stays at 4 N but the distance is less than 0.12 m, so the moment gets smaller. It does not get larger, because a shorter distance reduces the turning effect. It does not stay the same, because distance matters. A moment is measured in newton metres, not in N, so 4 N is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15724,7 +15809,8 @@
      "correct_answer": 0,
      "explanation": "Moment = force × perpendicular distance from the pivot = 20 N × 0.09 m = 1.8 N m. 0.0045 N m comes from dividing the distance by the force. 180 N m comes from using 9 instead of 0.09. 20.09 N m comes from adding the numbers instead of multiplying."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16133,7 +16219,8 @@
      "correct_answer": 0,
      "explanation": "Gravelly ground drains quickly and holds little water, so long, spreading roots help a plant reach water deep down. Wide, flat leaves would lose too much water. Floating roots suit aquatic plants, not dry gravel. Bright insect-attracting flowers help pollination, but grasses are wind-pollinated and the flowers do not help with water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16293,7 +16380,8 @@
      },
      "explanation": "The image of the candle in a plane mirror is virtual. It seems to be behind the mirror, but light does not actually pass through that place. Sofia's eyes just see the reflected rays as if they came from there."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -16529,7 +16617,8 @@
      },
      "explanation": "The answer is refraction. Light from the part of the pencil in the water changes speed and direction as it leaves the water and enters air, so the pencil looks broken or shifted at the water surface."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -16646,7 +16735,8 @@
      "correct_answer": 1,
      "explanation": "A red object reflects mostly red light and absorbs other colours. In blue light there is no red light to reflect, so the cube absorbs the blue light and almost no light reaches the eye, making it look black. The other options are wrong: it does not reflect blue, red is not what it absorbs here, and objects do not make black light."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16699,7 +16789,8 @@
      "correct_answer": 3,
      "explanation": "The blue filter only transmits blue light and absorbs the other colours, including red. The red filter only transmits red light, so it absorbs the blue light that reaches it. No light passes through at C, so it looks black. Red, blue and purple are wrong because none of these colours can get through both filters."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16837,7 +16928,8 @@
      "correct_answer": 0,
      "explanation": "Iodine solution turns blue-black when starch is present, so this is what the learner records. Orange-brown is the original colour of iodine solution, so it means no starch is present. Colourless and bright red are not results of the iodine test for starch."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16884,7 +16976,8 @@
      },
      "explanation": "The answer is protein. The meat patty and the cheese in the burger are rich in protein, which the body uses to build new cells and repair tissues, so it is especially important for a growing child."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -16997,7 +17090,8 @@
      },
      "explanation": "The biceps and triceps are a pair of muscles on opposite sides of the humerus. They work against each other. When the biceps contracts and bends the arm, the triceps relaxes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17096,7 +17190,8 @@
      },
      "explanation": "The answer is ball-and-socket. In the photograph the golfer's arms swing up, down and round in many directions. Only a ball-and-socket joint at the shoulder allows movement in all directions, unlike a hinge joint, which moves in one direction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17159,7 +17254,8 @@
      "correct_answer": 1,
      "explanation": "The diagram shows energy taken in, so the particles gain energy. They leave the regular ice arrangement and slide past each other as irregular liquid water. Staying fixed describes a solid. Filling the container describes a gas. Particles do not shrink, and they gain energy rather than lose it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17254,7 +17350,8 @@
      },
      "explanation": "The drawing shows a wire loop held in the hot Bunsen burner flame. This is how a flame test is done: a metal compound on the loop colours the flame, which helps identify the metal ion present."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17466,7 +17563,8 @@
      "correct_answer": 0,
      "explanation": "Calcium reacts with water to make hydrogen gas and calcium hydroxide. Hydrogen burns explosively with a lit splint, giving a squeaky pop. Burning more brightly is the test for oxygen. Going out quietly suggests carbon dioxide. A normal flame would mean no gas effect, which is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17486,7 +17584,8 @@
      },
      "explanation": "The answer is hydrogen. Calcium is a reactive metal, so it reacts with water to make calcium hydroxide and hydrogen. The bubbles rise through the funnel and collect in the water-filled test tube."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17704,7 +17803,8 @@
      "correct_answer": 0,
      "explanation": "A freely hanging bar magnet acts like a compass needle. Earth's magnetic field makes it line up north–south, so after being turned it swings back and settles in that direction. It does not stay in a new position, because the field keeps pulling it. It does not spin continuously, because it loses energy and stops. East–west is not the direction of Earth's field."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17947,7 +18047,8 @@
      "correct_answer": 0,
      "explanation": "The tilted axis means different parts of the Earth lean towards or away from the Sun as it orbits, so the length of day and the Sun's strength change, giving seasons. Day and night come from the Earth spinning. Moon phases come from the Moon's orbit. The Sun appears to rise in the east because of the direction of spin."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18088,7 +18189,8 @@
      },
      "explanation": "The gas is oxygen. The water plant photosynthesises in light, making glucose and oxygen. The oxygen forms bubbles that rise up the funnel stem and collect at the top of the water-filled test tube."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -18255,7 +18357,8 @@
      "correct_answer": 0,
      "explanation": "Melting points fall from lithium (180 °C) to sodium (98 °C) to potassium (63 °C), so they decrease as atomic number increases. They do not increase, stay constant, or rise then fall, because each value is lower than the one before."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18324,7 +18427,8 @@
      "correct_answer": 0,
      "explanation": "Seaweed photosynthesises in light, producing glucose and oxygen. The oxygen gas collects as bubbles in the measuring cylinder, so more gas shows a faster rate. Carbon dioxide is a reactant that is used up, not released. Respiration alone would not give a net release of oxygen. Seaweed makes its own food rather than taking it in."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18444,7 +18548,8 @@
      "correct_answer": 0,
      "explanation": "Alkali metals such as sodium, potassium and lithium react vigorously with water, and potassium can spit and ignite. A transparent screen shields observers from splashes and hot fragments while still allowing them to watch. It does not reduce evaporation, keep metals dry, or change the reaction rate."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18567,7 +18672,8 @@
      "correct_answer": 0,
      "explanation": "Potassium has 4 shells (2, 8, 8, 1) but sodium has only 3 (2, 8, 1), so its outer electron is further from the nucleus. Both have 1 outer electron, so that option is wrong. Potassium has 20 neutrons, more than sodium's 12, not fewer. Its nucleus (19p 20n) is larger, not smaller."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18727,7 +18833,8 @@
      "correct_answer": 0,
      "explanation": "Reactivity increases down Group 1. The table shows the reaction with water getting more vigorous from lithium (bubbles) to potassium (catches fire) to rubidium (explodes). Francium, below rubidium, should react even more violently. Less violent, no reaction, or the same as lithium all go against this trend."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18780,7 +18887,8 @@
      "correct_answer": 0,
      "explanation": "Elements react in similar ways when they have the same number of outer-shell electrons. Fluorine and chlorine each have 7, so they are in the same group. They have different numbers of shells (2 and 3). Both have 2 electrons in the first shell, but this does not decide their reactions. Their total electrons differ (9 and 17)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18801,7 +18909,8 @@
      },
      "explanation": "The answer is 7. In the fluorine atom the outer shell has 7 crosses, and in the chlorine atom the outer shell also has 7 crosses. This shows both elements have the same outer electron number, so they are in the same group."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -18902,7 +19011,8 @@
      "correct_answer": 0,
      "explanation": "Fluorine has only 2 shells, so its outer shell is closer to the nucleus. The nucleus attracts an incoming electron more strongly, so fluorine gains one more easily. Fewer neutrons do not decide reactivity. Fluorine has 9 protons, fewer than chlorine's 17. Both atoms have 7 outer electrons, so both need to gain just one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18987,7 +19097,8 @@
      "correct_answer": 0,
      "explanation": "Na+ and Cl− have opposite charges, so strong electrostatic attraction (ionic bonding) holds them in the lattice. Shared electron pairs describe covalent bonding. Weak forces between molecules apply to simple molecular substances, not ionic lattices. A sea of free electrons describes metallic bonding."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19095,7 +19206,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows 7 outer electrons, so fluorine gains 1 electron to fill the outer shell with 8, forming F⁻. Losing 1 electron would give 6 and is wrong. Losing 7 is how metals behave, not fluorine. Protons are in the nucleus and do not change in ion formation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19116,7 +19228,8 @@
      },
      "explanation": "The diagram shows 7 electrons in fluorine's outer shell. When the atom gains one electron to form a fluoride ion, the outer shell has 7 + 1 = 8 electrons, which is a full outer shell."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -19442,7 +19555,8 @@
      "correct_answer": 0,
      "explanation": "Lithium has 2 electrons in the inner shell and 1 in the outer shell (2,1). The number of outer-shell electrons gives the group number, so it is Group 1. Group 2 would need two outer electrons, which confuses the inner shell with the outer. Group 3 counts all the electrons. Group 8 would need a full outer shell."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19466,7 +19580,8 @@
      },
      "explanation": "The outer shell of the lithium atom has one electron (one cross). The number of outer electrons matches the group number for these elements, so lithium is in Group 1, the alkali metals."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -19705,7 +19820,8 @@
      "correct_answer": 0,
      "explanation": "Water near the heater warms, expands and becomes less dense, so it rises by convection. Cooler, denser water sinks to the heater and is warmed in turn. Hot water does not sink, so the second option is wrong. Radiation is not the main way heat moves in water. Water is a poor conductor, so conduction would be slow."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19726,7 +19842,8 @@
      },
      "explanation": "The heater warms the water at the bottom. This water expands and becomes less dense, so it rises. Cooler, denser water sinks to take its place. This movement of heat by a fluid is convection, so hot water collects at the top."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -19819,7 +19936,8 @@
      "correct_answer": 0,
      "explanation": "The coolant takes in thermal energy from the engine block, then flows through the radiator tubes. There it transfers thermal energy to the cooler air outside, so it returns cooler. The other options are wrong: the radiator does not make thermal energy, the coolant does take thermal energy from the engine, and the energy is not changed to chemical energy."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19888,7 +20006,8 @@
      "correct_answer": 0,
      "explanation": "Conduction is correct: the spoon is a solid metal, so the particles in the hot end vibrate more and pass energy to neighbouring particles, and free electrons help carry it up to the handle. Convection only happens in fluids, not solids. Radiation does not involve particles being sent out and is not the main way here. Evaporation is a change of state and does not heat the handle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19909,7 +20028,8 @@
      },
      "explanation": "The answer is conduction. The spoon is metal, and the part in the hot tea is heated. Its vibrating particles pass energy along the spoon to neighbouring particles and free electrons, so the handle above the rim also warms up."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20000,7 +20120,8 @@
      "correct_answer": 0,
      "explanation": "The long thin extension reaches between soil particles and greatly increases surface area, so more water and mineral ions can be absorbed. Storing starch is not its role. Root cells underground have no chloroplasts, so there is no photosynthesis. The cell takes water in by osmosis, it does not stop water moving."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20022,7 +20143,8 @@
      },
      "explanation": "The root hair cell's long, thin extension reaches between the moist soil particles. This increases the cell's surface area, so more water and mineral ions can be absorbed from the soil."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20057,7 +20179,8 @@
      "correct_answer": 0,
      "explanation": "Zinc reacts with sulfuric acid to make zinc sulfate and hydrogen, so the bubbles are hydrogen gas. Oxygen is wrong because the acid does not give off oxygen in this reaction. Carbon dioxide forms when acids react with carbonates, and zinc is not a carbonate. Sulfur dioxide is wrong because the sulfate stays in solution as zinc sulfate."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20078,7 +20201,8 @@
      },
      "explanation": "The bubbles show that a gas is made when zinc reacts with sulfuric acid. A metal reacting with an acid produces hydrogen gas, along with a salt called zinc sulfate."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20131,7 +20255,8 @@
      },
      "explanation": "The answer is transpiration. The diagram shows water moving from the xylem vessel into cells, then as water vapour through the air space and out of the stoma. This loss of water vapour from the leaf is called transpiration."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20263,7 +20388,8 @@
      "correct_answer": 0,
      "explanation": "A4 is 440 Hz and A3 is 220 Hz, so A4 has twice as many vibrations per second, which gives a higher pitch. Loudness depends on amplitude, not frequency. Half as many vibrations would lower the pitch. The same frequency would give the same pitch."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20572,7 +20698,8 @@
      "correct_answer": 0,
      "explanation": "A species is a group of organisms that can interbreed to produce fertile offspring. These goats share body features and can breed together despite differences in colour, size and age. Matching coat colour, identical age or size, and living in the same place do not define a species, because individuals vary in these ways."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20653,7 +20780,8 @@
      "correct_answer": 0,
      "explanation": "Wrist circumference is continuous data, so almost every person has a different value. Grouping into equal intervals lets tallies show a pattern. It is not limited to whole numbers, grouping does not remove anomalies or improve accuracy, and the intervals do not indicate health or body systems."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20674,7 +20802,8 @@
      },
      "explanation": "Wrist circumference is continuous because it can take any value within a range, such as 10.3 cm or 10.37 cm. That is why the table groups measurements into class intervals like 10.0–10.9 instead of listing single values."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20789,7 +20918,8 @@
      "correct_answer": 0,
      "explanation": "Sperm cells have tails so they can swim, but egg cells cannot swim. Both cell types contain a nucleus, both are gametes, and both contain 23 chromosomes in humans, so those descriptions apply to egg cells as well as sperm cells."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20979,7 +21109,8 @@
      "correct_answer": 0,
      "explanation": "The cross behind the tube is used to decide the end point. As the reaction makes the liquid cloudy or changes its colour, the cross disappears and the timer is stopped. The cross does not show the fill level, which side to heat, or where the stopper goes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21037,7 +21168,8 @@
      "correct_answer": 0,
      "explanation": "When the cubes are joined, many faces press against each other and are hidden inside, so the exposed surface area decreases. It does not stay the same, because the number of cubes alone does not decide exposed area. It does not increase or double, because packing hides faces rather than creating new ones."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21106,7 +21238,8 @@
      "correct_answer": 0,
      "explanation": "Marble chips are calcium carbonate, and carbonates react with acids to give a salt, water and carbon dioxide, so carbon dioxide is collected. Hydrogen is made when metals react with acids, not carbonates. Oxygen is not produced in this reaction. Chlorine is not formed because hydrochloric acid reacts as an acid here and does not break down."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21126,7 +21259,8 @@
      },
      "explanation": "Marble chips are calcium carbonate. When they react with dilute hydrochloric acid, they make calcium chloride, water and carbon dioxide. The bubbles in the flask are carbon dioxide, which travels along the delivery tube into the measuring cylinder."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -21307,7 +21441,8 @@
      "correct_answer": 0,
      "explanation": "Magnesium reacts with an acid to make a salt (magnesium sulfate) and hydrogen gas. Hydrogen gives a squeaky pop with a lit splint. Oxygen relights a glowing splint, but it is not made here. Carbon dioxide turns limewater cloudy, but it comes from carbonates. Bleaching damp litmus is a test for chlorine, not hydrogen."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21327,7 +21462,8 @@
      },
      "explanation": "The bubbles show a gas is made when magnesium reacts with sulfuric acid. A reactive metal reacting with an acid produces a salt (magnesium sulfate) and hydrogen gas, so the gas is hydrogen."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -21511,7 +21647,8 @@
      "correct_answer": 0,
      "explanation": "Ammeter X is in the main part of the circuit, so the current through it splits between the three parallel branches and is the sum of them: 1.5 + 1.0 + 0.5 = 3.0 A. 1.5 A is only the largest branch. 1.0 A and 0.5 A are single branch readings, not the total."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21534,7 +21671,8 @@
      },
      "explanation": "The three branches are in parallel, so the currents add up in the main circuit. X = 1.5 + 1.0 + 0.5 = 3 A. Ammeter X is in the main part, so it reads the total current."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -21649,7 +21787,8 @@
      "correct_answer": 0,
      "explanation": "In a series circuit the potential differences across the components add up to the battery voltage. The buzzer gets 9 V − 2 V = 7 V. 2 V is the lamp's share only. 9 V would be right only if the buzzer were the only component. 11 V comes from adding when you should subtract."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21670,7 +21809,8 @@
      },
      "explanation": "In a series circuit the battery voltage is shared between the components. The battery gives 9 V and the lamp uses 2 V, so the buzzer gets 9 − 2 = 7 V."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -22041,7 +22181,8 @@
      "correct_answer": 0,
      "explanation": "Current = voltage ÷ resistance = 12 V ÷ 100 Ω = 0.12 A, and the ammeter is in series so it reads this current. 8.3 A comes from dividing 100 by 12 the wrong way round. 12 A ignores the resistance. 1200 A comes from multiplying voltage by resistance."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22099,7 +22240,8 @@
      "correct_answer": 0,
      "explanation": "Adding a resistor in series increases total resistance. With the same cell voltage, the current decreases, so the ammeter reading falls. More resistors do not raise current. The cell's voltage staying the same does not mean the current stays the same. Current is not used up; it is the same all around a series loop and does not fall to zero."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22229,7 +22371,8 @@
      "correct_answer": 0,
      "explanation": "A voltmeter measures potential difference across a component and is connected in parallel with it, as V is across R. It does not measure current; that is the ammeter's job, and the ammeter is placed in series. A voltmeter in series would block the current in the circuit."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22252,7 +22395,8 @@
      },
      "explanation": "The voltmeter V is connected in parallel across the resistor R, so it measures the potential difference (voltage) across R. The ammeter A, in series, measures current instead."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -22408,7 +22552,8 @@
      "correct_answer": 0,
      "explanation": "Covering p leaves F above A, which means F divided by A, so p = F ÷ A. F × A is what you get when you cover F, not p. A ÷ F turns the fraction upside down. Subtracting is wrong because the triangle only shows multiplication and division."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22559,7 +22704,8 @@
      },
      "explanation": "The car is non-living. It does not grow, feed, breathe or reproduce. It only moves when a person drives it. The palm trees in the background are living, but the car is not."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -22733,7 +22879,8 @@
      "correct_answer": 0,
      "explanation": "The white parts are the roots. Roots take in water and hold the plant in the soil. Seeds are made in the fruit, not the roots. Flowers attract insects. Food is made in the green leaves using sunlight, because roots are underground and get no light."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22755,7 +22902,8 @@
      },
      "explanation": "The answer is the roots. The drawing shows the white, branching roots spreading under the brown soil. They take in water from the soil and hold the plant firmly in place."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -22810,7 +22958,8 @@
      },
      "explanation": "The plants need water. The photograph shows dry, cracked soil and yellow, withered, drooping leaves. This happens because the plants have not had enough water. Plants need water to stay healthy and grow."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23014,7 +23163,8 @@
      "correct_answer": 0,
      "explanation": "Glass is transparent, so light passes through and we can see out. It is not soft, because glass is hard. It is not chosen for weight, because heaviness does not keep a window shut. Glass in a window is clear, not coloured, so looks are not the reason."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23035,7 +23185,8 @@
      },
      "explanation": "The answer is glass. In the drawing, the window panes are light blue and see-through. Glass is transparent, so light passes through it and we can see outside. Wood and metal are not see-through."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23266,7 +23417,8 @@
      "correct_answer": 0,
      "explanation": "The horse is harnessed in front of the cart and moves forward, so it pulls the cart along. A push would need the horse to be behind the cart. Spinning and swinging describe types of movement, like the dancer and the girl on the rope, not the force the horse uses on the cart."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23289,7 +23441,8 @@
      },
      "explanation": "The answer is pulling. The horse is in front of the cart and is joined to it by straps. It pulls the cart forward along the road. The cart is behind the horse, so the horse is not pushing it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23333,7 +23486,8 @@
      },
      "explanation": "The answer is ears. The drawing shows a red electric guitar, which makes sound when played. We hear sounds with our ears, which pick up the sound and send messages to the brain."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23508,7 +23662,8 @@
      "correct_answer": 1,
      "explanation": "The fish lives in water all the time. It uses gills to breathe and fins to swim, so it needs the wet place. The lion and the goat live on land and can live in dry places. The eagle flies and lives on land or in trees, and it does not need to stay in water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23713,7 +23868,8 @@
      "correct_answer": 0,
      "explanation": "Wool is a natural material that comes from the fleece of a sheep. It is cut off, spun into yarn and knitted into jumpers. Cows give leather and milk, not wool. Silkworms make silk thread. Crocodiles give skin used for leather, which is not used to knit jumpers."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23766,7 +23922,8 @@
      "correct_answer": 0,
      "explanation": "A balloon is made of thin rubber, which is soft and flexible, so hands can bend and twist it into a dog shape. Hard, stiff materials cannot be twisted by hand. Water is not why it twists, since balloons are filled with air. Weight does not make a material twist."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23807,7 +23964,8 @@
      "correct_answer": 2,
      "explanation": "D is correct because the sun makes its own light, so it is a light source. A is wrong because the moon only reflects light from the sun. B is wrong because a mirror only reflects light that shines on it. E is wrong because a cupcake does not make light; we see it when light bounces off it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24268,7 +24426,8 @@
      "correct_answer": 0,
      "explanation": "The Sun's light cannot pass through the solid pointer, so a shadow forms on the plate. The plate and numbers do not block light to make this shadow, because the shadow is cast by the tall pointer. The Moon is not the light source for a sundial telling the time in the day."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24291,7 +24450,8 @@
      },
      "explanation": "The Sun makes the shadow. Its light is blocked by the tall pointer, so a dark shadow falls on the dial. As the Sun seems to move across the sky, the shadow moves and shows the time."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24394,7 +24554,8 @@
      "correct_answer": 0,
      "explanation": "The box blocks the light from the window, so the only thing changed is light. The investigation tests whether seedlings need light to grow well. The box is just the tool used to block light. Pot size and water are not changed, because the pots look the same and no watering is shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24730,7 +24891,8 @@
      "correct_answer": 1,
      "explanation": "The eagle is a bird, and all birds have feathers, so it belongs in the 'Animals with feathers' cage. The lion and the panda are mammals with fur, so they go in the fur cage. The crocodile is a reptile with scaly skin, so it goes in the scales cage."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25069,7 +25231,8 @@
      "correct_answer": 0,
      "explanation": "The eagle, frog and dandelion are living things: they grow, need food or nutrients, and reproduce. The second group is wrong because the candle flame and sun are not alive. The third is wrong because a cuckoo clock only has a bird model. The fourth is wrong because cars and clouds are not alive, even though cars move and clouds change."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25772,7 +25935,8 @@
      "correct_answer": 0,
      "explanation": "The camel stands on dry yellow sand dunes under a hot sun, so its habitat is a desert, where little water is available. A pond is a freshwater habitat like the frog's. A mountain is the eagle's habitat, with snow and rock. An ocean is a salty water habitat, not sandy and dry."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25906,7 +26070,8 @@
      },
      "explanation": "The answer is vibrate. When the hand hits the stretched skin head of the tambourine, the skin moves quickly back and forth. These vibrations travel through the air as sound waves to our ears."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26426,7 +26591,8 @@
      "correct_answer": 0,
      "explanation": "Wind carries the pollen. Grass flowers like A have long, dangling stamens that release lots of light pollen into the air. Bees and birds are attracted by bright petals, scent or nectar, and A has none of these. Water pollination happens in some water plants, not in a land grass like this."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26577,7 +26743,8 @@
      },
      "explanation": "The bright white and pink-red streaked petals of flower B stand out. They attract insects such as bees, which carry pollen from flower to flower. This is pollination, the first step towards making seeds."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26612,7 +26779,8 @@
      "correct_answer": 0,
      "explanation": "The thin, papery wings are light and flat, so wind can catch them and carry the seeds away from the parent plant. Hooks or spines would be needed for sticking to fur. Floating seeds need waterproof, buoyant coverings. Animal-eaten seeds are usually inside fleshy, tasty fruits, which these are not."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26635,7 +26803,8 @@
      },
      "explanation": "The answer is wind. The seeds hang from thin stalks and each has a light, papery wing around it. The wings catch the air, so the wind can carry the seeds away from the parent plant."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26682,7 +26851,8 @@
      "correct_answer": 0,
      "explanation": "The large, flat, light wings catch the air and make the fruit spin and glide, so wind carries it away from the parent plant. Hooks or sticky parts would be needed for animal fur. Floating needs a waterproof, buoyant covering. B, not A, shows a pod that splits open to release seeds."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26785,7 +26955,8 @@
      },
      "explanation": "Part 4 is the root (radicle). It is the first part to grow out of a germinating seed. It grows downward to anchor the young plant and take in water and minerals from the soil."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26832,7 +27003,8 @@
      "correct_answer": 0,
      "explanation": "Heat from the sun gives the water particles in the grapes enough energy to escape from the surface as water vapour, which is evaporation. The water does not freeze, because the sun warms the grapes. It does not turn into sugar, because evaporation changes water from liquid to gas. It does not just stay in the grapes, because that would not dry them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26855,7 +27027,8 @@
      },
      "explanation": "The sun's heat warms the grapes. The liquid water in them changes into water vapour, a gas, and escapes into the air. This change is called evaporation, and it leaves the grapes dried."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26890,7 +27063,8 @@
      "correct_answer": 0,
      "explanation": "Warm air in the tumble dryer makes the liquid water in the clothes evaporate, so it becomes water vapour (a gas) and is carried away. It does not freeze into a solid. It is not destroyed, because matter is not lost. Changing from gas to liquid is condensation, which is the opposite change."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26939,7 +27113,8 @@
      },
      "explanation": "The wavy arrows at A rise from the sea to the cloud. The Sun's heat turns liquid water into water vapour, which is a gas. This change of state from liquid to gas is called evaporation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26986,7 +27161,8 @@
      "correct_answer": 0,
      "explanation": "We see non-luminous objects when light from a source, here the sun, reflects off them and enters our eyes. Light does not travel out from the eyes. The car is not a light source just because it is coloured. The street lamp is not the only light, since the sun is shining brightly and lights the car."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27008,7 +27184,8 @@
      },
      "explanation": "The answer is light. The car is not a light source, so it reflects light from the Sun. When this reflected light enters the man's eyes, he can see the car."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27055,7 +27232,8 @@
      "correct_answer": 2,
      "explanation": "Three images are seen. Each mirror makes one image of the coin, giving two. These two images are then reflected in the opposite mirrors and meet to form a third image in the corner. One or two images ignore the double reflection. Four is too many for a 90° angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27111,7 +27289,8 @@
      "correct_answer": 0,
      "explanation": "The large orbit around the Sun is Earth's orbit, and one complete trip takes about 365 days, which is one year. One day is the time Earth takes to spin once on its axis. One month is roughly the time the Moon takes to orbit Earth. One week is not a natural cycle of any of these movements."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27133,7 +27312,8 @@
      },
      "explanation": "The answer is gravity. The Sun's gravitational pull on the Earth keeps it travelling along the curved orbit shown by the arrows, instead of moving off in a straight line into space."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27168,7 +27348,8 @@
      "correct_answer": 0,
      "explanation": "A mirror reflects light, so the light from the object bounces off the angled top mirror and travels down the tube. Absorbing it would stop the light reaching the eye. Light does not pass through a mirror and bend. A mirror does not make new light, and the eye sees the object because reflected light reaches it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27265,7 +27446,8 @@
      "correct_answer": 0,
      "explanation": "Each object is a light source, so it gives out its own light. That light travels in straight lines into our eyes, and we see the source. Eyes do not send out light. These objects make light, so they do not only reflect sunlight. Shadows are not what lets us see them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27341,7 +27523,8 @@
      "correct_answer": 0,
      "explanation": "42 is more than 40 but less than 50, so it sits between 40 and 50, closer to 40. 30 and 40 is wrong because 42 is already past 40. 20 and 30 is much too small. 42 and 50 is wrong because 42 is not a labelled multiple of 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27360,7 +27543,8 @@
      },
      "explanation": "The answer is 40. On the number line, 42 sits just after the 40 mark and is much further from 50. It is only 2 away from 40, so 40 is the closest multiple of 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27455,7 +27639,8 @@
      },
      "explanation": "In a 100 square, moving down one row adds 10 to a number. The square below 46 is in the same column, so the number is 46 + 10 = 56."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27664,7 +27849,8 @@
      "correct_answer": 1,
      "explanation": "Both numbers have 8 hundreds, so compare the tens: 3 tens is less than 8 tens, so 838 < 883. The option saying 838 is greater is wrong, since 3 tens is smaller than 8 tens. Equal is wrong because the digits are in different places. Having a 3 in the tens place does not make a number larger."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -27839,7 +28025,8 @@
      },
      "explanation": "The table shows 458 and 643. Subtract the smaller from the larger: 643 − 458 = 185. So the difference between the two numbers is 185."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28101,7 +28288,8 @@
      "correct_answer": 0,
      "explanation": "750 is exactly halfway between 700 and 800, and the rule is to round up at halfway, so 750 rounds to 800. 700 comes from rounding down, which ignores the rule. 750 is the number unchanged, since it already ends in 0 when rounded to the nearest 10. 760 is not a multiple of 100."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28120,7 +28308,8 @@
      },
      "explanation": "The answer is 900. In 896, the tens digit is 9, which is 5 or more, so the hundreds digit 8 rounds up to 9. That gives 900 when rounded to the nearest 100."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28320,7 +28509,8 @@
      "correct_answer": 0,
      "explanation": "The square left of 765 is 764. Each row of the strip has 10 numbers, so the square directly below adds 10: 764 + 10 = 774. 764 is the square left of 765 itself. 775 is directly below 765, not below 764. 766 is the square to the right of 765."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28446,7 +28636,8 @@
      },
      "explanation": "97 is in the first jar and 50 is in the second jar. Subtract 50 by taking away 5 tens from 97. The tens go from 9 to 4 and the ones stay 7, so 97 − 50 = 47."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28726,7 +28917,8 @@
      "correct_answer": 0,
      "explanation": "43 + 6 = 49, because 3 ones + 6 ones = 9 ones and the 4 tens stay the same. 37 is what you get by subtracting 6 instead of adding. 59 comes from wrongly adding 10 as well. 48 is a counting error in the ones."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28781,7 +28973,8 @@
      "correct_answer": 1,
      "explanation": "$24 and 5c is 24 dollars and 5 cents. Cents need two places after the decimal point, so 5c is .05, giving $24.05. $24.50 means 50 cents. $24.5 is not the usual way to write money. $245 has no decimal point and is a much larger amount."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28835,7 +29028,8 @@
      "correct_answer": 0,
      "explanation": "The digits before the decimal point show dollars (9) and the two digits after it show cents (75), so $9.75 is 9 dollars and 75 cents. 97 dollars and 5 cents misplaces the point. 9 dollars and 7 cents ignores the 5. 75 dollars and 9 cents reverses the parts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29271,7 +29465,8 @@
      "correct_answer": 0,
      "explanation": "The cone has one curved surface, one flat circular base and one pointed tip (apex). The sphere has only a curved surface and no flat face or tip. The square-based pyramid has a point but its faces are all flat and its base is a square. The cuboid has only flat faces and no curved surface."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29292,7 +29487,8 @@
      },
      "explanation": "The answer is the cone. The purple shape has a flat circular base, one curved surface and a pointed tip at the top. The sphere has no flat face, and the other shapes have only flat faces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -29339,7 +29535,8 @@
      "correct_answer": 0,
      "explanation": "The purple cone has one flat circular base, one curved surface and one point (vertex) at the top. The cylinder has two flat circular faces and no vertices. The sphere has only one curved surface and no vertices. The hexagonal pyramid has all flat faces and seven vertices."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29393,7 +29590,8 @@
      "correct_answer": 0,
      "explanation": "A square-based pyramid has one square face (the base) and four triangular faces. A cube has only square faces. A triangular prism has two triangles and three rectangles, with no square needed. A cone has a curved surface and a circular face, not triangles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30507,7 +30705,8 @@
      },
      "explanation": "The 3 × row shows the multiples of 3. Under 5 the value is 15, so each step adds 3. Under 8 is 3 × 8, which equals 24."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30574,7 +30773,8 @@
      },
      "explanation": "The answer is 43. Each number is 10 more than the one before, so you move down one row in the same column. On the grid, 33 is in the fourth row and 43 is directly below it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30676,7 +30876,8 @@
      "correct_answer": 0,
      "explanation": "Each domino has 4 + 5 = 9 dots. There are 3 dominoes, so 3 × 9 = 27 dots. 12 is only the top halves (3 × 4). 15 is only the bottom halves (3 × 5). 9 is the dots on just one domino."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30696,7 +30897,8 @@
      },
      "explanation": "Each domino has 4 + 5 = 9 dots. There are 3 identical dominoes, so 3 × 9 = 27 dots altogether. You can also find 3 × 4 = 12 and 3 × 5 = 15, then add: 12 + 15 = 27."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30731,7 +30933,8 @@
      "correct_answer": 0,
      "explanation": "Kilometres is correct because the distance between two continents is very long, so a large unit of length is needed. Centimetres are too small and would give a huge number. Millilitres measure capacity, not length. Grams measure mass, not length."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30753,7 +30956,8 @@
      },
      "explanation": "The answer is kilometres. An Olympic marathon is a very long race, about 42 kilometres. Millimetres and metres are too small, so you would need a lot of them. Kilometres are used for long distances."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30828,7 +31032,8 @@
      "correct_answer": 0,
      "explanation": "A door is about 2 metres high, so metres are the best unit. Kilometres are far too big and are used for long distances such as a marathon race. Millimetres are too small, because a door would be thousands of them. Kilograms measure mass, not height."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30869,7 +31074,8 @@
      "correct_answer": 0,
      "explanation": "The array has 9 rows of 6, so 54 stickers in all. Sharing 54 into 9 equal rows gives 6 in each row: 54 ÷ 9 = 6. 54 ÷ 6 = 6 is wrong because it would give 9, not 6. 9 ÷ 6 = 54 puts the total in the wrong place. 54 − 9 is subtraction, not division."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31243,7 +31449,8 @@
      "correct_answer": 0,
      "explanation": "The perimeter is the distance around the rectangle: 7 + 2 + 7 + 2 = 18 m. 9 m only adds two sides (7 + 2). 14 m is the area (7 × 2), which is the wrong measure. 16 m comes from doubling 7 and 2 incorrectly, or from missing a side length."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31264,7 +31471,8 @@
      },
      "explanation": "The perimeter is the distance around the rectangle. A rectangle has two sides of 7 m and two sides of 2 m. So 7 + 2 + 7 + 2 = 18 m."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -31497,7 +31705,8 @@
      "correct_answer": 0,
      "explanation": "A ruler measures length, and the line is made of straight segments, so each segment is measured and the results are added. Measuring end to end ignores the ups and downs and gives too short a length. A jug measures capacity. Scales measure mass, not length."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31900,7 +32109,8 @@
      },
      "explanation": "The perimeter is the distance all the way around the rectangle. Opposite sides are equal, so the sides are 8, 7, 8 and 7. Adding them gives 8 + 7 + 8 + 7 = 30 m."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -32112,7 +32322,8 @@
      "correct_answer": 0,
      "explanation": "The top 1/2 covers the same space as two of the four equal bottom cells, so 1/2 = 2/4. The answer 1 is wrong because it just copies the numerator from 1/2. The answer 4 is wrong because it copies the denominator. The answer 3 is wrong because 3/4 covers three cells, which is more than half."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32131,7 +32342,8 @@
      },
      "explanation": "The answer is 2. One half is the same size as two of the four equal cells in the bottom row, so 1/2 = 2/4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -32262,7 +32474,8 @@
      "correct_answer": 0,
      "explanation": "Each 1/5 box lines up with two of the ten equal boxes in the bottom row, so 1/5 = 2/10. The answer 1 only copies the numerator from 1/5. The answer 5 is the number of top boxes, not the number of tenths. The answer 10 is the denominator, not the numerator."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32856,7 +33069,8 @@
      "correct_answer": 1,
      "explanation": "The long minute hand points to 9, which means 45 minutes past. The short hour hand is almost at 3 but has not reached it, so the hour is 2. The time is 2:45. 9:15 swaps the hands. 3:45 uses the hour hand's nearest number. 2:09 reads the 9 as 9 minutes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -32879,7 +33093,8 @@
      },
      "explanation": "The longer hand is the minute hand. It points to 9, and each number is 5 minutes, so 9 × 5 = 45. The clock shows 45 minutes past the hour."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -33189,7 +33404,8 @@
      },
      "explanation": "The answer is 25 minutes. Each number on the clock face stands for 5 minutes, so the minute hand pointing to 5 means 5 × 5 = 25 minutes past the hour."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -33417,7 +33633,8 @@
      "correct_answer": 0,
      "explanation": "9 + 6 = 15, then 15 + 4 = 19, so 19 is correct. 18 comes from adding 9 + 5 + 4 or a slip in counting on. 20 comes from rounding up the total. 17 comes from taking away one too many when adding 6 + 4 to 9 incorrectly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33523,7 +33740,8 @@
      "correct_answer": 2,
      "explanation": "Two identical bags make 34, so one bag is 34 shared into 2 equal parts: 34 ÷ 2 = 17. Subtracting 2 only takes 2 away and does not share equally. Multiplying by 2 gives 68, which is double the total. Adding 2 gives 36, which makes the total larger."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33921,7 +34139,8 @@
      "correct_answer": 0,
      "explanation": "The overlap holds numbers that are multiples of both 2 and 3, so multiples of 6 up to 20: 6, 12 and 18. The option with 2 and 3 lists factors, not multiples. The option with 20 is wrong because 20 is not a multiple of 3. The last option lists only the multiples of 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34010,7 +34229,8 @@
      },
      "explanation": "The overlap holds numbers that are both odd and multiples of 5. Between 10 and 20, the multiples of 5 are 10, 15 and 20. Only 15 is odd, so 15 goes in the overlap."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -34118,7 +34338,8 @@
      },
      "explanation": "The complement of 100 is the number you add to 77 to make 100. 77 + 23 = 100, so the answer is 23. The table shows 33, which is a mistake because 77 + 33 = 110."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -34586,7 +34807,8 @@
      "correct_answer": 0,
      "explanation": "65 is correct because 65 ÷ 5 = 13 exactly, and multiples of 5 end in 0 or 5. 49 ends in 9, 73 ends in 3 and 38 ends in 8, so each leaves a remainder when divided by 5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34891,7 +35113,8 @@
      "correct_answer": 0,
      "explanation": "Both strips are the same length. The bottom strip is cut into 5 equal parts, so each part is smaller than one of the 4 parts in the top strip. So 1/5 is less than 1/4. The other options wrongly judge by the bigger denominator, by the matching numerator, or by the smaller denominator."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34944,7 +35167,8 @@
      "correct_answer": 0,
      "explanation": "Each sandwich is cut into 4 equal quarters. Eating 3 quarters leaves 1 quarter, so 1/4 is left. 3/4 is the amount eaten, not the amount left. 1/3 wrongly compares the eaten and left pieces instead of using the 4 equal parts. 2/4 of both sandwiches does not match the 1 piece left."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34985,7 +35209,8 @@
      "correct_answer": 0,
      "explanation": "The 4 cars are one third of the set, so the whole set is 3 equal parts of 4 cars, which is 3 × 4 = 12. Choosing 4 only gives the one part shown. Choosing 3 uses the number of parts, not cars. Choosing 7 adds 3 and 4 instead of multiplying."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35006,7 +35231,8 @@
      },
      "explanation": "The drawing shows 4 cars, and these are one third of the set. The whole set is 3 equal parts of 4 cars. So 3 × 4 = 12 cars in the whole set."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -35448,7 +35674,8 @@
      "correct_answer": 1,
      "explanation": "All the cards have 1 on top, so the fraction with the smallest denominator is the greatest, because a whole cut into fewer parts gives bigger pieces. Halves are the biggest pieces here, so 1/2 is greatest. 1/10 is the smallest, not the greatest. 1/3 and 1/5 are smaller than 1/2. Choosing them comes from thinking a bigger denominator means a bigger fraction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35620,7 +35847,8 @@
      },
      "explanation": "A cupcake is small and light. 7 kg is as heavy as a big bag of potatoes, and 700 g is too heavy for one cupcake. 70 g is a sensible estimate for its mass."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -35667,7 +35895,8 @@
      "correct_answer": 0,
      "explanation": "The beaker holds 500 ml at the middle mark and 1000 ml at the top mark. The difference is 1000 − 500 = 500 ml, so 500 ml is correct. 1000 ml is the full amount, not the extra needed. 1500 ml comes from adding the marks instead of finding the difference. 250 ml wrongly halves the gap."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35796,7 +36025,8 @@
      },
      "explanation": "The best estimate is 4 g. A single wrapped sweet is very light, about the same as a few small coins. 40 g would be too heavy for one sweet, and 4 kg is as heavy as a big bag of sugar."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -35831,7 +36061,8 @@
      "correct_answer": 0,
      "explanation": "1/10 + 3/10 = 4/10 because the denominators are the same, so we add the numerators (1 + 3 = 4) and keep the denominator 10. 4/20 is wrong because the denominators should not be added. 3/10 ignores the 1/10. 2/10 subtracts instead of adding."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -36362,7 +36593,8 @@
      },
      "explanation": "The box label says 12 cans. Four cans hold 1 litre, so count how many groups of 4 are in 12: 12 ÷ 4 = 3. The box holds 3 litres."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -36610,7 +36842,8 @@
      },
      "explanation": "The top mark on the scale says 1 litre. One litre is the same as 1000 millilitres, so a cylinder filled to that mark holds 1000 ml of water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -38049,7 +38282,8 @@
      "correct_answer": 0,
      "explanation": "A half turn is two quarter turns, so the arrow turns from pointing up to pointing the opposite way, straight down. Straight up would mean no turn or a full turn. Left is only a quarter turn anticlockwise. Right is only a quarter turn clockwise. A half turn gives the same result in either direction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -38071,7 +38305,8 @@
      },
      "explanation": "The arrow starts by pointing up. A half turn is two quarter turns, so it turns halfway round the circle. The arrow then points the opposite way, which is down. Clockwise or anticlockwise gives the same answer."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -39663,7 +39898,8 @@
      "correct_answer": 0,
      "explanation": "1000 + 900 + 9 = 1909, because there is 1 thousand, 9 hundreds, 0 tens and 9 ones. 1900 leaves out the 9 ones. 10009 puts the digits in the wrong places, giving ten thousands. 1090 puts the 9 in the tens place instead of the ones place."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40389,7 +40625,8 @@
      "correct_answer": 1,
      "explanation": "437 + 463 = 900, so this pair is correct. 238 + 672 = 910 (too much by 10). 589 + 322 = 911 (too much by 11). 545 + 465 = 1010 (too much by 110). Only 437 and 463 make exactly 900."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40832,7 +41069,8 @@
      },
      "explanation": "The arrow shows one jump of +23 from 0. Four equal jumps of 23 means 23 + 23 + 23 + 23, which is the same as 23 × 4 = 92."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41528,7 +41766,8 @@
      },
      "explanation": "A rectangle's perimeter is 2 × (length + width). Half of 18 cm is 9 cm, so length + width = 9 cm. With a width of 2 cm, the length is 9 − 2 = 7 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43014,7 +43253,8 @@
      "correct_answer": 1,
      "explanation": "Subtracting 20 means moving 20 units left from 10. You pass 0 after 10 units and reach -10 after 20 units. 0 is only a move of 10. 30 comes from adding 20 instead. -20 goes too far, and it is not marked on this number line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43067,7 +43307,8 @@
      "correct_answer": 0,
      "explanation": "786 + 926 = 1712, the greatest. 638 + 843 = 1481 is smaller. 603 + 497 = 1100 has a neat total but is smaller. 581 + 307 = 888 is much smaller. Estimating 800 + 900 shows the answer is about 1700."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43404,7 +43645,8 @@
      "correct_answer": 0,
      "explanation": "498 g + 502 g = 1000 g, and 1000 g equals 1 kg, so 1 kg is correct. 996 g comes from a wrong addition of the numbers. 1 kg 100 g comes from carrying incorrectly when adding. 1000 kg confuses grams with kilograms, because 1000 g is only 1 kg."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43457,7 +43699,8 @@
      "correct_answer": 0,
      "explanation": "Add the two weights: 349 + 482 = 831 g. Adding the 9 and 2 ones gives 11, so 1 is carried, and 4 + 8 + 1 = 13 tens, which carries 1 hundred; 3 + 4 + 1 = 8 hundreds. 731 g forgets to carry the ten. 833 g makes a ones error. 133 g subtracts instead of adding."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43477,7 +43720,8 @@
      },
      "explanation": "Subtract the weight of the beans from the weight of the rice: 482 − 349 = 133. The rice is 133 g heavier than the beans."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -43972,7 +44216,8 @@
      "correct_answer": 0,
      "explanation": "Perimeter is the distance around the rectangle: 2 × (4 + 9) = 26. 36 is the area (4 × 9), not the perimeter. 13 is only one length plus one width, so it is half the perimeter. 52 doubles the correct perimeter by doubling twice."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -44076,7 +44321,8 @@
      "correct_answer": 0,
      "explanation": "7 × 3 = 21 and 24 − 21 = 3, so the remainder is 3. A remainder of 4 comes from rounding up to 28 or using 7 × 4 = 28 wrongly. A remainder of 2 is wrong because 22 is not a multiple of 7. A remainder of 0 would mean 7 divides 24 exactly, which it does not."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -44353,7 +44599,8 @@
      "correct_answer": 0,
      "explanation": "Start at (2, 3). Moving 3 squares right changes the across number to 5. Moving 2 squares up changes the up number to 5. So the counter reaches 5 across, 5 up. 5 across, 3 up forgets the upward move. 4 across, 6 up swaps the moves. 6 across, 4 up adds the numbers to the wrong labels."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45454,7 +45701,8 @@
      "correct_answer": 0,
      "explanation": "The differences are 12−5=7, 19−12=7, 26−19=7 and 33−26=7, so the rule is add 7 each time. Add 6 would be the next square straight down, because each row has 6 numbers. Add 8 would move diagonally the other way. Add 5 is the first number, not the step."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -45879,7 +46127,8 @@
      "correct_answer": 0,
      "explanation": "0.75 means 75 hundredths, which simplifies to 3/4, the same as three quarters. 7/5 is wrongly made from the digits 7 and 5. 75/10 is 7.5, not 0.75. 1/75 wrongly puts 75 as the denominator with numerator 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46142,7 +46391,8 @@
      "correct_answer": 1,
      "explanation": "35/50 is correct: multiplying the numerator and denominator of 7/10 by 5 gives 35/50. 4/5 equals 8/10, not 7/10. 30/100 equals 3/10. 4/10 is the fraction left over, equal to 2/5, so it does not match 7/10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46183,7 +46433,8 @@
      "correct_answer": 0,
      "explanation": "1/2 of 24 is 24 ÷ 2 = 12, the largest answer because halves are the biggest parts here. 1/8 gives 3, 1/3 gives 8 and 1/4 gives 6. Learners may wrongly think a bigger denominator, such as 8, gives a bigger answer, but it makes smaller parts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46202,7 +46453,8 @@
      },
      "explanation": "The answer is 3. To find 1/8 of 24, divide 24 into 8 equal groups. 24 ÷ 8 = 3, so 1/8 of 24 is 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -46249,7 +46501,8 @@
      "correct_answer": 0,
      "explanation": "The circle opposite 7/10 must make a total of 1. Since 1 = 10/10, the missing fraction is 10/10 − 7/10 = 3/10. 7/10 just repeats the given fraction. 1/10 is a subtraction slip. 3/5 is the fraction in a different circle and does not add to 1 with 7/10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46269,7 +46522,8 @@
      },
      "explanation": "The circle opposite 7/10 is on the right. Opposite fractions add to 1, so subtract: 1 − 7/10 = 10/10 − 7/10 = 3/10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -47119,7 +47373,8 @@
      },
      "explanation": "Each row has 3 purple beads, and each purple bead goes with 4 green beads. So one row has 3 × 4 = 12 green beads. Two rows have 2 × 12 = 24 green beads altogether."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -47361,7 +47616,8 @@
      "correct_answer": 0,
      "explanation": "A bag of sugar is commonly 1 kg, so 1.2 kg is the sensible mass. 1.2 m is a length, so it cannot be a mass. 55 g is about the mass of an egg, which is far too light for a bag of sugar. 5 ml is a capacity, not a mass."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -47571,7 +47827,8 @@
      "correct_answer": 2,
      "explanation": "Perimeter is the distance around the rectangle: 4 + 5 + 4 + 5 = 18 units. 20 is the area (4 × 5), not the perimeter. 9 is only one length plus one width, which is half the perimeter. 13 adds just three sides and leaves one out."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48193,7 +48450,8 @@
      "correct_answer": 0,
      "explanation": "The overlap lies inside both circles, so it holds items that are strawberry and vanilla. The strawberry-only part is for children who like only strawberry. The vanilla-only part is for children who like only vanilla. The space outside both circles is for children who like neither flavour."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48375,7 +48633,8 @@
      "correct_answer": 0,
      "explanation": "2505 is exactly halfway between 2500 and 2510, and the rule is to round a halfway number up, so it becomes 2510. Rounding down to 2500 wrongly ignores that rule. Staying at 2505 is not rounding to a ten. 2000 confuses rounding to the nearest ten with rounding to the nearest thousand."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48643,7 +48902,8 @@
      },
      "explanation": "The answer is 455. Read the two cards, 149 (orange) and 306 (blue), then add them: 149 + 306 = 455. Add the ones, tens and hundreds in turn: 9 + 6 = 15, so regroup, then 40 + 0 + 10 = 50, then 100 + 300 = 400."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -48745,7 +49005,8 @@
      "correct_answer": 2,
      "explanation": "542 − 143 = 399, not 439, so this pair is correct. 543 − 104 = 439, 972 − 533 = 439 and 682 − 243 = 439, so those pairs do have a difference of 439 and are wrong choices."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48946,7 +49207,8 @@
      "correct_answer": 0,
      "explanation": "Adding 8 moves one row down in the same column, so 5, 13, 21, 29, 37 is correct. 5, 6, 7, 8, 9 counts in ones along the row. 5, 15, 25, 35, 45 counts in tens. 5, 12, 19, 26, 33 counts in sevens, which is not the row length of 8."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -49081,7 +49343,8 @@
      "correct_answer": 0,
      "explanation": "Newton's dates are 1642–1727, and 1727 − 1642 = 85 years, so 85 is correct. 75 comes from a subtraction error. 42 comes from subtracting only the last two digits wrongly. 1727 is just the year he died, not the length of his life."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -49945,7 +50208,8 @@
      "correct_answer": 1,
      "explanation": "H has two upright straight lines that stay the same distance apart and never meet, so they are parallel. C, O and S are made only of curves, so they have no straight parallel lines, even though they may look balanced or symmetrical."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50067,7 +50331,8 @@
      "correct_answer": 0,
      "explanation": "From 1189 to 1089 the sequence goes down by 100 each step. So 1489 → 1389 → 1289 → 1189 works. 1479 and 1469 subtract 10, which is the wrong size of step. 1499 and 1399 go up first. 1409 and 1309 subtract 80 and then 100, so they are not a constant step."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50085,7 +50350,8 @@
      },
      "explanation": "The sequence goes down by 100 each step: 1189 to 1089 is 100 less. Working back from 1489, subtract 100 to get 1389. The next missing number is 1289, which then leads to 1189."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -50609,7 +50875,8 @@
      "correct_answer": 1,
      "explanation": "Each kite has exactly one mirror line, the line along its long axis. Zero is wrong because the halves match. Two is wrong because a kite is not a rhombus, so the other diagonal is not a mirror line: the top and bottom triangles differ in size. Four applies to a square."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51047,7 +51314,8 @@
      "correct_answer": 0,
      "explanation": "A regular hexagon has 6 equal sides, so the perimeter is 6 × 22 = 132 metres. 88 metres comes from using 4 sides, as if the shape were a square. 110 metres comes from using 5 sides. 484 metres is 22 × 22, which squares the side length and does not find the distance around the edge."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51068,7 +51336,8 @@
      },
      "explanation": "The distance around the edge is the perimeter. A regular hexagon has 6 equal sides, so the perimeter is 6 × 22 = 132 metres."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51336,7 +51605,8 @@
      "correct_answer": 0,
      "explanation": "A regular octagon has 8 equal sides, so the perimeter is 8 × 7 = 56 cm. 49 cm comes from multiplying 7 × 7. 42 cm comes from using 6 sides, as for a hexagon. 15 cm comes from adding 8 + 7 instead of multiplying."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51356,7 +51626,8 @@
      },
      "explanation": "A regular octagon has 8 equal sides. The diagram shows one side is 7 cm, so every side is 7 cm. The perimeter is 8 × 7 = 56 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51391,7 +51662,8 @@
      "correct_answer": 0,
      "explanation": "A regular pentagon has 5 equal sides, so the perimeter is 5 × 8 = 40 cm. 32 cm comes from using 4 sides. 24 cm comes from using 3 sides. 48 cm comes from using 6 sides, as if it were a hexagon."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51413,7 +51685,8 @@
      },
      "explanation": "A regular pentagon has 5 equal sides. The diagram shows one side is 8 cm, so every side is 8 cm. The perimeter is 5 × 8 = 40 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51476,7 +51749,8 @@
      "correct_answer": 0,
      "explanation": "A square has four equal sides, so one side is 32 ÷ 4 = 8 cm. 4 cm is wrong because it comes from dividing by 8 instead of 4. 16 cm is wrong because it comes from dividing by 2. 64 cm is wrong because it comes from multiplying by 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51498,7 +51772,8 @@
      },
      "explanation": "A square has four equal sides. The diagram shows a perimeter of 32 cm, so one side is 32 ÷ 4 = 8 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51545,7 +51820,8 @@
      "correct_answer": 0,
      "explanation": "A regular heptagon has 7 equal sides, so the perimeter is 7 × 3 = 21 cm. 18 cm comes from using 6 sides, as if it were a hexagon. 24 cm comes from using 8 sides, as if it were an octagon. 10 cm comes from adding 7 + 3 instead of multiplying."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51565,7 +51841,8 @@
      },
      "explanation": "A heptagon has 7 sides, and because it is regular all the sides are equal. Each side is 3 cm, so the perimeter is 7 × 3 = 21 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51612,7 +51889,8 @@
      "correct_answer": 0,
      "explanation": "A regular octagon has 8 equal sides, so one side is 40 ÷ 8 = 5 cm. 8 cm comes from dividing by 5 instead of 8. 4 cm comes from dividing by 10. 10 cm comes from dividing by 4, as if the shape were a square."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51693,7 +51971,8 @@
      "correct_answer": 0,
      "explanation": "A regular pentagon has 5 equal sides, so one side is 45 ÷ 5 = 9 cm. 5 cm comes from dividing by 9 instead of 5. 40 cm comes from subtracting 5 rather than dividing. 225 cm comes from multiplying 45 by 5, which is the wrong operation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51734,7 +52013,8 @@
      "correct_answer": 0,
      "explanation": "A heptagon has 7 sides. If it is regular, all sides are equal, so one side is 56 ÷ 7 = 8 cm. 7 cm comes from dividing by 8 sides. 6 cm comes from dividing by 9 sides or guessing. 392 cm comes from multiplying 56 × 7 instead of dividing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51756,7 +52036,8 @@
      },
      "explanation": "A heptagon has 7 sides. If it is regular, all sides are equal, so one side is the perimeter divided by 7: 56 ÷ 7 = 8 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51924,7 +52205,8 @@
      "correct_answer": 0,
      "explanation": "Reading from the left, the six digits 5, 3, 8, 2, 4, 6 go into HTh, TTh, Th, H, T, U. So 3 is in the Ten thousand column and is worth 30 000. Thousand column and 3 000 mixes up the position. Hundred thousand and 300 000 is the place of the 5. Ten thousand with 3 000 gives the right column but the wrong value."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -51943,7 +52225,8 @@
      },
      "explanation": "The answer is 8. Reading the columns from the left: Hundred thousand 4, Ten thousand 8, Thousand 2, Hundred 6, Ten 1, Unit 5. So the digit under Ten thousand (TTh) is 8."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -52161,7 +52444,8 @@
      "correct_answer": 0,
      "explanation": "Falling means moving left on the number line. Starting at −5 and moving 7 places left gives −12, so −12°C is correct. 2°C comes from moving right instead. −2°C comes from subtracting 5 − 7 and ignoring the negative start. 12°C ignores the direction and the sign."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52183,7 +52467,8 @@
      },
      "explanation": "Start at −5 and move 8 steps right. Five steps reach 0, and 3 more steps reach 3. So the new temperature is 3°C. Moving right on the number line shows addition."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -52492,7 +52777,8 @@
      },
      "explanation": "The spider shows 2 × 3 = 6, 20 × 3 = 60 and 200 × 3 = 600. Each time the first number is 10 times bigger, the answer is 10 times bigger. So 2000 × 3 = 6000."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -53577,7 +53863,8 @@
      "correct_answer": 0,
      "explanation": "The mode is the value that occurs most often. Shoe size 41 has the highest frequency, 18, so the mode is 41. The value 18 is a frequency, not a shoe size. The middle size, 40, would suggest the median, not the mode. The largest size, 42, is just the maximum, not the most common."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54245,7 +54532,8 @@
      "correct_answer": 0,
      "explanation": "There are 12 months in a year, so 6 years is 6 × 12 = 72 months. Adding the 2 months gives 74 months. 62 simply joins the digits 6 and 2. 72 forgets to add the 2 months. 8 adds 6 + 2 without converting years to months."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54353,7 +54641,8 @@
      "correct_answer": 0,
      "explanation": "The mode is the most frequent value. Counting the faces, 1, 2, 3, 5 and 6 each appear exactly twice, so no value occurs more often than the others and there is no single mode. The largest value is the maximum, not the mode. 3.5 is not a data value and is not the mode. 4 does not appear at all."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54488,7 +54777,8 @@
      "correct_answer": 0,
      "explanation": "Perimeter = 2 × (2.9 + 4.6) = 2 × 7.5 = 15 cm. 13.34 cm is the area (2.9 × 4.6), not the perimeter. 7.5 cm only adds the two different sides once, missing the other two sides. 12.5 cm comes from a wrong addition or from doubling only one side."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55437,7 +55727,8 @@
      },
      "explanation": "The buckets are labelled 125 and 75. Adding them gives 125 + 75 = 200, because 25 + 75 makes 100 and 100 + 100 makes 200."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -55604,7 +55895,8 @@
      "correct_answer": 0,
      "explanation": "3/10 means 3 tenths, which is 0.3. Since 0.3 = 30/100, it is 30%. The pair 0.3 and 3% mistakes the percentage. 3.10 and 310% come from writing the numerator and denominator side by side. 0.03 uses the wrong place value, hundredths instead of tenths."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56111,7 +56403,8 @@
      "correct_answer": 0,
      "explanation": "The square has sides of length 2. Corners (1, 1) and (3, 1) lie along the bottom, and (3, 1) and (3, 3) go up the right side. The fourth corner is above (1, 1) and level with (3, 3), so it is (1, 3). (3, 1) is already a given corner. (1, 2) gives a rectangle that is too short. (3, 4) is not level with the other corners, so it does not form a square."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56327,7 +56620,8 @@
      },
      "explanation": "The answer is no. A hexagonal pyramid needs a hexagon base with a triangle on every one of its six sides. In net (c) the triangles are all joined in a row on one side, so they cannot fold up to cover the base."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56370,7 +56664,8 @@
      },
      "explanation": "A pyramid needs one triangular face for each side of its base. The base in net (b) is an octagon, which has 8 sides, so the pyramid needs 8 triangular faces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56907,7 +57202,8 @@
      },
      "explanation": "The two bottles hold 1.8 l and 1.9 l. Add them: 1.8 + 1.9 = 3.7 l. Since 1 l = 1000 ml, 3.7 l = 3700 ml."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -57484,7 +57780,8 @@
      "correct_answer": 0,
      "explanation": "−20 ÷ 4 = −5, because a negative number divided by a positive number gives a negative answer, and 20 ÷ 4 = 5. The answer 5 ignores the negative sign. −80 multiplies instead of dividing. −16 subtracts 4 instead of dividing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58116,7 +58413,8 @@
      "correct_answer": 0,
      "explanation": "Two green bricks give b + b = 2b, and one yellow brick adds a, so the total is a + 2b. 2a + b swaps the numbers of bricks. a + b + c uses one of each brick. 2ab means 2 × a × b, which is multiplication and not a total length."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58305,7 +58603,8 @@
      "correct_answer": 0,
      "explanation": "Set k + 10 = 3k, so 10 = 2k and k = 5. Check: 5 + 10 = 15 and 3 × 5 = 15. k = 15 is the value of the expressions, not k. k = 10 just copies the constant. k = 2.5 comes from dividing 10 by 4 instead of 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58480,7 +58779,8 @@
      "correct_answer": 2,
      "explanation": "Expanding gives 2(12x+15) = 24x+30, 3(10+8x) = 30+24x and 6(5+4x) = 30+24x, so these three match. 4(6x+26) = 24x+104, because 4×26 = 104, so it differs. The other options are equivalent to each other, so they are wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58549,7 +58849,8 @@
      "correct_answer": 0,
      "explanation": "Angle C = 3 × (4k − 7m). Multiplying every term inside the bracket by 3 gives 12k − 21m. (12k − 7m) only multiplies the first term. (4k − 21m) only multiplies the second term. (12k + 21m) changes the sign wrongly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58917,7 +59218,8 @@
      "correct_answer": 0,
      "explanation": "The arrow points left, so x is smaller than -4, and the open circle means -4 is not included, so x < -4. x ≤ -4 would need a filled circle. x > -4 and x ≥ -4 would need the arrow pointing right, toward -3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59042,7 +59344,8 @@
      "correct_answer": 0,
      "explanation": "Equal sides give 2p + 1 = 14. Subtract 1 to get 2p = 13, then divide by 2 to get p = 6.5. The answer 13 forgets to divide by 2. The answer 7.5 adds 1 instead of subtracting it. The answer 14 wrongly sets p equal to the side length."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59065,7 +59368,8 @@
      },
      "explanation": "The two sloping sides are equal, so 2p + 1 = 14. Subtract 1 from both sides to get 2p = 13, then divide by 2. This gives p = 6.5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -59132,7 +59436,8 @@
      },
      "explanation": "The two sides are equal, so 6p − 10 = 26. Adding 10 to both sides gives 6p = 36. Dividing both sides by 6 gives p = 6."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -59434,7 +59739,8 @@
      "correct_answer": 0,
      "explanation": "8 × 3.3 = 26.4, since 8 × 3 = 24 and 8 × 0.3 = 2.4, giving 26.4. 25.5 is the answer to 6 × 4.25. 27.6 is the answer to 4 × 6.9. 28.8 is the answer to 12 × 2.4. So those cards belong to other multiplications."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59784,7 +60090,8 @@
      "correct_answer": 0,
      "explanation": "0.6 × 3450 = 6 × 3450 ÷ 10 = 20 700 ÷ 10 = $2070. $207 divides by 100 instead of 10. $20 700 forgets to divide by 10 after multiplying by 6. $2 070.6 wrongly places a decimal point from the 0.6 in the answer."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59806,7 +60113,8 @@
      },
      "explanation": "Multiply 0.3 × 3450. First work out 3 × 3450 = 10 350, then divide by 10 because 0.3 is 3 tenths. This gives 1035, so silver is $1035."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60090,7 +60398,8 @@
      },
      "explanation": "Angles on a straight line add up to 180°. So a = 180° − 116° = 64°. The diagram shows 116° and a sharing the same straight horizontal line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60137,7 +60446,8 @@
      "correct_answer": 0,
      "explanation": "Angles on a straight line add up to 180°, so b = 180° − 55° = 125°. 35° comes from wrongly using 90° as the total. 55° wrongly assumes the two angles are equal. 305° comes from subtracting from 360°, which is for angles around a point, not on a line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60204,7 +60514,8 @@
      "correct_answer": 0,
      "explanation": "Angles around a point add up to 360°. So a = 360° − 130° − 120° = 110°. 100° comes from wrongly subtracting from 350°. 50° comes from using 180°, which is for a straight line, not a full turn. 120° just repeats one of the given angles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60337,7 +60648,8 @@
      "correct_answer": 0,
      "explanation": "Angles on a straight line add up to 180°. The right angle is 90° and the other angle is 34°, so d = 180 − 90 − 34 = 56°. 66° comes from wrongly using 180 − 114 with a slip. 46° comes from an arithmetic slip. 146° comes from subtracting only 34° and forgetting the right angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60411,7 +60723,8 @@
      },
      "explanation": "Angles on a straight line add up to 180°. The diagram shows 60°, c and 24° along the line, so c = 180° − 60° − 24° = 96°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60446,7 +60759,8 @@
      "correct_answer": 0,
      "explanation": "Angles around a point add up to 360°. So b = 360° − 155° − 37° = 168°. 143° wrongly uses 180° − 37°. 25° wrongly uses 180° − 155°. 188° comes from an arithmetic slip when subtracting from 360°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60566,7 +60880,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a triangle add up to 180°. The two known angles total 57° + 49° = 106°, so angle B = 180° − 106° = 74°. 106° is the sum of the two known angles, not the missing one. 84° comes from a subtraction error. 180° is the total of all three angles, not angle B."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60586,7 +60901,8 @@
      },
      "explanation": "Angles in a triangle add up to 180°. The two given angles are 57° and 49°, which total 106°. So angle B = 180° − 106° = 74°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60633,7 +60949,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a triangle add up to 180°. Angle B = 180° − 90° − 28° = 62°. 152° is wrong because it subtracts only 28° from 180° and forgets the right angle. 28° wrongly copies angle C. 72° comes from subtracting 28° from 100° instead of using the 90° angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60653,7 +60970,8 @@
      },
      "explanation": "Angles in a triangle add up to 180°. Angle A is 90° and angle C is 28°, so angle B = 180° − 90° − 28° = 62°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60861,7 +61179,8 @@
      "correct_answer": 1,
      "explanation": "Interior angles of a quadrilateral add up to 360°. 63 + 95 + 110 = 268, so a = 360 − 268 = 92°. 88° comes from an addition or subtraction slip. 112° and 118° come from wrongly using 180° (as for a triangle) or from other arithmetic errors."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60982,7 +61301,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a quadrilateral add up to 360°. The three known angles total 40 + 62 + 35 = 137°, so b = 360 − 137 = 223°. 137° is just the sum of the known angles. 43° wrongly uses 180° instead of 360°. 123° comes from an arithmetic slip."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61049,7 +61369,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a quadrilateral add up to 360°. The three known angles total 35 + 172 + 100 = 307°, so c = 360 − 307 = 53°. 63° comes from using a wrong total of 370°. 127° comes from subtracting from 180°, which is the triangle total. 143° results from an arithmetic slip, subtracting only 217°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61970,7 +62291,8 @@
      "correct_answer": 0,
      "explanation": "a, b and c are the three angles of one triangle, and angles in a triangle add up to 180°. 360° is the total for a quadrilateral. a + b = c would force c to be 90°, which is not shown. a = b = c would need an equilateral triangle, but this triangle is not."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61990,7 +62312,8 @@
      },
      "explanation": "The angles a, b and c are the three interior angles of one triangle. Angles in any triangle add up to 180°, so a + b + c = 180°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62243,7 +62566,8 @@
      "correct_answer": 0,
      "explanation": "An acute angle is less than 90°, so 52° is acute. It is not obtuse, because obtuse angles are between 90° and 180°. It is not a right angle, because that is exactly 90°. It is not reflex, because reflex angles are greater than 180°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62265,7 +62589,8 @@
      },
      "explanation": "The angle at Y is marked 52°. An acute angle is less than 90°, and 52° is less than 90°, so the angle between YX and YZ is acute."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62353,7 +62678,8 @@
      },
      "explanation": "The shortest distance from a point to a line is along the perpendicular. It meets the line at 90°. In the diagram, you would construct this from B down to the sloping line."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62575,7 +62901,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a triangle add to 180°, so the angle at the meeting point is 180° − 30° − 40° = 110°, and this is angle a. 70° is only 30° + 40°, the two known angles added. 140° is the labelled angle on the right, not a. 150° wrongly uses 180° − 30°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62733,7 +63060,8 @@
      },
      "explanation": "The angles in a quadrilateral add up to 360°. Angles A and B total 120° + 110° = 230°. So angles C and D together are 360° − 230° = 130°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62768,7 +63096,8 @@
      "correct_answer": 0,
      "explanation": "Angles ACP and PCB lie on the straight line AB, so they add up to 180°. 180° − 63° = 117°. 63° is wrong because it is the angle PCB, not ACP. 27° comes from using 90° − 63°, but the lines are not perpendicular. 107° is a subtraction error."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62788,7 +63117,8 @@
      },
      "explanation": "Angles PCB and PCA lie on the straight line AB, so they add up to 180°. Angle PCA = 180° − 63° = 117°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62835,7 +63165,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a quadrilateral add up to 360°. 75° + 60° = 135°, so the other two angles total 360° − 135° = 225°. Since they are equal, each is 225° ÷ 2 = 112.5°. 120° forgets part of the sum, 135° is just the sum of the two known angles, and 225° is the total of the two angles, not each one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62855,7 +63186,8 @@
      },
      "explanation": "The angles in any quadrilateral add up to 360°. The diagram shows 75° and 60°, which total 135°. So the other two angles add up to 360° − 135° = 225°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62902,7 +63234,8 @@
      "correct_answer": 0,
      "explanation": "Two square corners give 90° + 90° = 180°, and three equilateral triangle corners give 60° × 3 = 180°. Together they make 360°, a full turn. 180° is only the squares or only the triangles. 300° and 270° come from leaving out an angle or miscounting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63010,7 +63343,8 @@
      "correct_answer": 3,
      "explanation": "Angles around a point add up to 360°. Subtract 100° to leave 260°, then share equally between the two other angles: 260° ÷ 2 = 130°. 40° wrongly uses 180° − 100° = 80° then halves it. 80° is the angle on a straight line. 100° wrongly assumes all three angles are equal to the one shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63065,7 +63399,8 @@
      "correct_answer": 0,
      "explanation": "A small square in a corner means a right angle, which is 90°. This also fits the angle sum: 125° + 80° + 65° + 90° = 360°. 180° is a straight line, not a corner. 45° is half a right angle and has a different mark. 95° wrongly ignores the square, and the angles would then total 365°, not 360°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63686,7 +64021,8 @@
      "correct_answer": 3,
      "explanation": "58/25 = 232/100 = 2.32, so 2.32 is correct. 2.25 is 9/4. 2.28… is 16/7, which does not terminate. 2.33… is 7/3, a recurring decimal. Only 2.32 matches 58/25 exactly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63753,7 +64089,8 @@
      "correct_answer": 0,
      "explanation": "Multiplying numerator and denominator by 10 gives 25×10 = 250 and 4×10 = 40. This is the same as multiplying by 10/10, which equals 1, so the value is unchanged. Multiplying only the top changes the value. Multiplying by 4 gives 100/16, not /40. Adding 10 to the numerator does not keep the value."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63886,7 +64223,8 @@
      },
      "explanation": "In each visible card, 8/5, 7/4 and 17/9, the numerator is larger than the denominator. Fractions like this are worth more than 1 and are called improper (top-heavy) fractions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -64294,7 +64632,8 @@
      "correct_answer": 0,
      "explanation": "Area = length × width, so length = area ÷ width, which is 2/15 ÷ 3/10 (= 4/9 m). Multiplying 2/15 × 3/10 would find something else. 3/10 ÷ 2/15 divides the wrong way round. Adding the two values has no link to the area formula."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64315,7 +64654,8 @@
      },
      "explanation": "The diagram shows the width as 3/10 m. Length = area ÷ width = 4/15 ÷ 3/10 = 4/15 × 10/3 = 40/45 = 8/9 m."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -64362,7 +64702,8 @@
      "correct_answer": 2,
      "explanation": "Use a common denominator of 60: 3/4 = 45/60, 3/10 = 18/60, 5/6 = 50/60, 7/15 = 28/60. So 5/6 is largest. 3/4 is smaller than 5/6. 3/10 and 7/15 are both less than one half. Comparing only numerators or denominators gives wrong answers."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64430,7 +64771,8 @@
      "correct_answer": 0,
      "explanation": "1/2 × 1/3 = 1/6. Dividing by 1/4 means multiplying by 4/1, so 1/6 × 4 = 4/6 = 2/3. 1/24 comes from multiplying by 1/4 instead of dividing. 4 ignores the 1/6. 3/2 is the reciprocal of the correct answer."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64720,7 +65062,8 @@
      "correct_answer": 1,
      "explanation": "A parallelogram that is not a rectangle or rhombus maps onto itself after a half-turn about its centre, so its order is 2. Order 1 would mean it only fits after a full turn. Order 4 needs a square. Order 0 is not possible, since every shape fits after a full turn."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64787,7 +65130,8 @@
      "correct_answer": 0,
      "explanation": "A rectangle has 2 lines of symmetry (through the midpoints of opposite sides) and order 2 rotational symmetry. A parallelogram has no lines of symmetry. An isosceles trapezium has 1 line and order 1. A kite has 1 line and order 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64806,7 +65150,8 @@
      },
      "explanation": "A rectangle has 2 lines of symmetry: one joins the midpoints of the two longer sides and the other joins the midpoints of the two shorter sides. Its diagonals are not lines of symmetry, because they do not reflect the rectangle onto itself."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -64841,7 +65186,8 @@
      "correct_answer": 0,
      "explanation": "With a red centre, red corners and white edge tiles, a quarter turn about the centre maps the pattern onto itself, so the order is 4. The other arrangements are not unchanged by a 90° turn: the rows, the column or the top block of white tiles would move to different positions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64949,7 +65295,8 @@
      "correct_answer": 1,
      "explanation": "Triangle d is a right-angled isosceles triangle, so it has two equal sides and two equal angles of 45°. One line of symmetry runs from the right angle to the middle of the longest side. 0 is wrong because it is isosceles, not scalene. 2 and 3 would need more equal sides, as in an equilateral triangle, which has 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64971,7 +65318,8 @@
      },
      "explanation": "An equilateral triangle has three equal sides and three equal angles. A line from each vertex to the midpoint of the opposite side splits it into two matching halves, so it has 3 lines of symmetry."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -65221,7 +65569,8 @@
      "correct_answer": 0,
      "explanation": "The five identical triangles meet at the centre, and angles around a point total 360°. So each angle is 360° ÷ 5 = 72°. 60° would be right for a hexagon's six triangles. 108° is the interior angle of the pentagon, not the centre angle. 90° would need four triangles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65518,7 +65867,8 @@
      },
      "explanation": "The angles in a triangle add up to 180°. The diagram shows 62° at Y and 23° at Z, so angle X = 180° − 62° − 23° = 95°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -66408,7 +66758,8 @@
      "correct_answer": 0,
      "explanation": "The pyramid has one square base and four triangular faces that meet at the apex, giving five faces. Four triangles only forgets the base. Five triangles wrongly treats the base as a triangle. Six faces with two squares confuses it with a cuboid-like solid; a pyramid has only one base."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -66429,7 +66780,8 @@
      },
      "explanation": "The answer is 5. The square base is one face, and the four triangular faces that meet at the apex are the others. So 1 + 4 = 5 faces in total."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -66464,7 +66816,8 @@
      "correct_answer": 0,
      "explanation": "Each new pattern adds one triangle, which is 3 more matchsticks. The sequence 3, 6, 9 goes up in 3s, so pattern 4 has 9 + 3 = 12. Ten comes from wrongly adding 1. Fifteen comes from adding 6, the previous gap doubled. Twenty-seven comes from multiplying 9 by 3 instead of adding."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -66621,7 +66974,8 @@
      "correct_answer": 0,
      "explanation": "The dot totals go 4, 7, 10, so each pattern has 3 more dots than the one before. Pattern 4 has 10 + 3 = 13 dots. 12 is wrong because it adds only 2. 11 is wrong because it adds only 1. 14 is wrong because it adds 4, which is the first term and not the difference."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -66769,7 +67123,8 @@
      "correct_answer": 0,
      "explanation": "The sequence 5, 8, 11 goes up by 3 each time, so the rule starts with 3n. Pattern 1 needs 5, so 3(1) + 2 = 5, and 3(2) + 2 = 8 works. 3n + 5 gives 8 for pattern 1. 5n gives 5, 10, 15. n + 4 goes up by only 1 each time."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67077,7 +67432,8 @@
      "correct_answer": 0,
      "explanation": "The machine multiplies each input by 6, so 3 × 6 = 18 and 5 × 6 = 30. The pair 8 and 10 adds 5 instead of multiplying. The pair 9 and 11 adds 6 to each input. The pair 3 and 5 just repeats the inputs without applying the machine."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67096,7 +67452,8 @@
      },
      "explanation": "The machine is ×6, so the input 5 is multiplied by 6. 5 × 6 = 30, so the missing output for input 5 is 30."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67149,7 +67506,8 @@
      },
      "explanation": "The machine is +5, so each input has 5 added to it. The input 4 gives 4 + 5 = 9. This matches the first row, where 2 gives 7."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67196,7 +67554,8 @@
      "correct_answer": 0,
      "explanation": "For C, the 1st term is 4 and 1+3=4, the 2nd is 5 and 2+3=5, so the rule is n+3. n−3 would give −2, −1, 0 and so on. n+7 would start at 8, which is sequence F. 2n gives 2, 4, 6, which is sequence B."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67252,7 +67611,8 @@
      "correct_answer": 0,
      "explanation": "Replace n with 20: 20 − 15 = 5. The answer 35 comes from adding 15 instead of subtracting. The answer −10 is the 5th term, shown in the table, not the 20th. The answer −300 comes from multiplying 20 by −15."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67336,7 +67696,8 @@
      },
      "explanation": "The machine divides each input by 4. For the input 40, 40 ÷ 4 = 10, so the missing output next to 40 is 10. This matches 12 ÷ 4 = 3, which is shown."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67383,7 +67744,8 @@
      "correct_answer": 0,
      "explanation": "The machine adds 7, so the inverse operation is subtracting 7. Working backwards, 16 − 7 = 9. The answer 23 comes from adding 7 instead of subtracting it. The answer 16 ignores the machine completely. The answer 7 confuses the number in the machine with the input."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67402,7 +67764,8 @@
      },
      "explanation": "The machine adds 7, so use the inverse operation, subtracting 7. The output 16 minus 7 gives 9, so the input was 9."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67437,7 +67800,8 @@
      "correct_answer": 0,
      "explanation": "The inverse of ÷ 6 is × 6, so the input is 9 × 6 = 54. Dividing 9 by 6 gives 1.5, which uses the same operation again instead of the inverse. Adding 6 gives 15, and subtracting 6 gives 3. Both of those use the wrong operation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67455,7 +67819,8 @@
      },
      "explanation": "The inverse of ÷ 6 is × 6. Work backwards from the output 9: 9 × 6 = 54. So the input that gives the output 9 is 54."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67502,7 +67867,8 @@
      "correct_answer": 0,
      "explanation": "The inverse of ×8 is ÷8, because dividing undoes multiplying. So 56 ÷ 8 = 7. Subtracting 8 would undo adding 8, not multiplying. Multiplying by 8 again repeats the function instead of reversing it, giving 448. Dividing by 8 is correct, but 448 comes from multiplying, so it is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67521,7 +67887,8 @@
      },
      "explanation": "The inverse of ×8 is ÷8. The output 56 in the table is divided by 8, so 56 ÷ 8 = 7. The input was 7."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67568,7 +67935,8 @@
      "correct_answer": 0,
      "explanation": "To find the input, work backwards using the inverse of +9, which is −9. So 24 − 9 = 15. Adding 9 gives 33, which wrongly uses the same operation. 24 is the output itself, not the input. 9 is just the number the machine adds."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67588,7 +67956,8 @@
      },
      "explanation": "The machine adds 9, so the inverse machine subtracts 9. Working backwards from the output 45 gives 45 − 9 = 36, so the input is 36."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67821,7 +68190,8 @@
      "correct_answer": 0,
      "explanation": "To find an input, use the inverse of ×3, which is ÷3. So 30 ÷ 3 = 10. The answer 27 comes from subtracting 3 instead of dividing. The answer 90 comes from multiplying by 3 again. The answer 33 comes from adding 3. Only dividing reverses multiplying."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67840,7 +68210,8 @@
      },
      "explanation": "The machine multiplies every input by 3. The first input is 4, so the missing output is 4 × 3 = 12."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67887,7 +68258,8 @@
      "correct_answer": 0,
      "explanation": "The machine divides by 2, so the inverse operation is multiplying by 2. The input is 6 × 2 = 12. Choosing 3 comes from dividing 6 by 2 again, which uses the wrong operation. Choosing 4 or 8 does not match the output 6, because 8 is the input that gives 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -67906,7 +68278,8 @@
      },
      "explanation": "The machine divides the input by 2. To go back from the output 9, use the inverse operation, which is multiplying by 2. So 9 × 2 = 18, and the input was 18."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67995,7 +68368,8 @@
      "correct_answer": 0,
      "explanation": "Doubling means multiplying by 2, so 3 maps to 6, which is marked on the output line. Output 5 comes from adding 2 instead of doubling. Output 3 means the input was left unchanged. Output 9 comes from multiplying by 3 instead of 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -68048,7 +68422,8 @@
      "correct_answer": 0,
      "explanation": "25% is a quarter of 40 m, giving 10 m. 50% is half, giving 20 m. 20% is a fifth, giving 8 m. 10% is a tenth, giving 4 m. The option 25, 50, 20, 10 treats the percentages as metres. The option with 4 m and 8 m swaps 20% and 10%. The option starting with 16 m is wrong because 16 m is 40% of 40 m, not 25%."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -68069,7 +68444,8 @@
      },
      "explanation": "25% is one quarter of the whole. The diagram shows 100% = 40 m, so divide 40 by 4. This gives 10 m for the 25% box."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -68142,7 +68518,8 @@
      },
      "explanation": "Each output is 4 more than its input: 1 becomes 5, 3 becomes 7 and 5 becomes 9. So the missing function in the machine is add 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -68217,7 +68594,8 @@
      "correct_answer": 0,
      "explanation": "The number of squares goes up by 5 each time: 5, 10, 15, so pattern 4 has 15 + 5 = 20 squares. 18 is wrong because it adds 3, which does not match the pattern. 25 is wrong because it adds 10 to pattern 3. 16 is wrong because it adds only 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -68596,7 +68974,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = −4: y = 2 × (−4) + 1 = −8 + 1 = −7. The answer −9 comes from subtracting 1 instead of adding. The answer −8 forgets to add 1. The answer 9 ignores the negative sign of x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -68619,7 +68998,8 @@
      },
      "explanation": "The table has x = −4 in its first column. Substitute into y = 2x + 1: 2 × (−4) + 1 = −8 + 1 = −7. So the empty y cell under −4 would be −7."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -69006,7 +69386,8 @@
      "correct_answer": 1,
      "explanation": "Halving 6 gives 3, so y = 3. The answer -3 only copies the value for x = -6 and ignores the sign change. 12 comes from multiplying by 2 instead of dividing. 8 comes from adding 2 instead of halving."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -69056,7 +69437,8 @@
      },
      "explanation": "Time is the quantity that is chosen or changes independently, and the length depends on it. So time goes on the horizontal axis, and length goes on the vertical axis. The table shows time in the top row as the starting values."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -69649,7 +70031,8 @@
      "correct_answer": 0,
      "explanation": "Moving from (0, 0) to (-1, -1) means the x-coordinate decreases by 1, so go left 1, and the y-coordinate decreases by 1, so go down 1. Right 1 and up 1 reaches (1, 1). Left 1 and up 1 reaches (-1, 1). Down 1 and right 1 reaches (1, -1)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70113,7 +70496,8 @@
      "correct_answer": 1,
      "explanation": "A fair coin has two equally likely outcomes, so heads and tails each have probability 1/2. That matches 'even chance'. 'Likely' would mean heads is more probable than tails. 'Unlikely' would mean it is less probable. 'Certain' would mean heads always happens, which is false."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71200,7 +71584,8 @@
      },
      "explanation": "The blue arrow shows +5 is added to the y-coordinate. C has y-coordinate 5, so 5 + 5 = 10. The y-coordinate of C′ is 10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -71247,7 +71632,8 @@
      "correct_answer": 2,
      "explanation": "AB is 12 cm on the drawing. A scale of 1 to 25 means real length is 25 times bigger, so 12 × 25 = 300 cm (3 m). Adding 25 gives 37 cm, which is wrong. Dividing 12 by 25 gives 0.48 cm, which is wrong. 1200 cm wrongly multiplies by 100."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71425,7 +71811,8 @@
      "correct_answer": 0,
      "explanation": "Reflection in the y-axis changes the sign of the x-coordinate and keeps the y-coordinate, so (3, 3) becomes (-3, 3). (3, -3) is a reflection in the x-axis. (-3, -3) is a rotation of 180° about the origin. (3, 3) would be no change at all."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71560,7 +71947,8 @@
      "correct_answer": 0,
      "explanation": "The y-coordinate stays 3 and the x-coordinate changes from −4 to 4, so the point flips across the y-axis (x = 0). Reflection in the x-axis would change the y-coordinate. A translation down would change y only. A 90° rotation would swap the coordinates."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71601,7 +71989,8 @@
      "correct_answer": 0,
      "explanation": "Reflection in the x-axis keeps the x-coordinate and changes the sign of the y-coordinate, so (1, 4) becomes (1, -4). (-1, 4) is a reflection in the y-axis. (4, 1) swaps the coordinates, which is a reflection in y = x. (-1, -4) changes both signs, which is a rotation of 180°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71622,7 +72011,8 @@
      },
      "explanation": "A reflection in the x-axis keeps the x-coordinate and changes the sign of the y-coordinate. The vertex (1, 4) is 4 units above the axis, so its image is 4 units below, at (1, -4)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -71669,7 +72059,8 @@
      "correct_answer": 0,
      "explanation": "Reflecting in the x-axis keeps the x-coordinate and changes the sign of the y-coordinate, so (-1, 4) becomes (-1, -4). (1, 4) is a reflection in the y-axis. (-4, -1) swaps the coordinates, which is a reflection in a diagonal line. (-1, 4) is unchanged, so no reflection has happened."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71737,7 +72128,8 @@
      "correct_answer": 0,
      "explanation": "Reflecting in the x-axis keeps x the same and changes the sign of y, so (1, -3) becomes (1, 3). (-1, -3) is a reflection in the y-axis. (1, -3) is the point not moved. (-1, 3) changes both signs, which is a half-turn about the origin."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71778,7 +72170,8 @@
      "correct_answer": 0,
      "explanation": "Reflecting in the y-axis changes the sign of the x-coordinate and keeps the y-coordinate the same, so (-4, 1) becomes (4, 1). (-4, -1) is a reflection in the x-axis. (4, -1) changes both signs, which is a rotation of 180°. (-2, 1) is a different vertex of the triangle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71799,7 +72192,8 @@
      },
      "explanation": "Reflecting in the y-axis changes the sign of the x-coordinate and keeps the y-coordinate the same. The point (-4, 1) is 4 units left of the y-axis, so its image is 4 units right, at (4, 1)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -71887,7 +72281,8 @@
      "correct_answer": 0,
      "explanation": "Reflecting in the y-axis changes the sign of the x-coordinate and keeps the y-coordinate, so (-3, 1) becomes (3, 1). (-3, -1) is a reflection in the x-axis. (1, -3) swaps the coordinates, which is a reflection in the line y = x. (3, -1) changes both signs, which is a rotation of 180° about the origin."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71907,7 +72302,8 @@
      },
      "explanation": "Reflecting in the y-axis keeps the y-coordinate the same and changes the sign of the x-coordinate. The vertex (-3, 1) is 3 units left of the y-axis, so its image is 3 units to the right, at (3, 1)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -72003,7 +72399,8 @@
      },
      "explanation": "Reflecting in the y-axis keeps the y-coordinate and changes the sign of the x-coordinate. The vertex (-3, -3) is 3 units left of the y-axis, so its image is 3 units to the right, at (3, -3)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -72090,7 +72487,8 @@
      "correct_answer": 0,
      "explanation": "A 180° rotation about (4, 3) sends (x, y) to (8 − x, 6 − y), so (1, 5) goes to (7, 1). (7, 5) is a reflection in x = 4, which keeps the height. (1, 1) is a reflection in y = 3. (3, 1) uses the wrong centre of rotation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -72295,7 +72693,8 @@
      "correct_answer": 0,
      "explanation": "Enlargement with scale factor 2 multiplies every length by 2, so 6 × 2 = 12 squares. Adding 2 gives 8, which confuses multiplying with adding. Leaving it at 6 ignores the enlargement. 3 divides by 2, which would be a reduction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -73290,7 +73689,8 @@
      "correct_answer": 0,
      "explanation": "Reflecting in the y-axis changes the sign of the x-coordinate and keeps the y-coordinate, so (4, 2) becomes (-4, 2). (4, -2) is a reflection in the x-axis. (-4, -2) is a rotation of 180° about the origin. (-2, 4) swaps the coordinates and changes a sign, which is not a reflection in the y-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -73582,7 +73982,8 @@
      "correct_answer": 0,
      "explanation": "Perimeter is the total distance around the rectangle: 9 + 4 + 9 + 4 = 26 cm. 36 cm is the area (9 × 4) with the wrong unit, so it is not a perimeter. 13 cm only adds one length and one width. 22 cm comes from adding 9 + 9 + 4, missing one side."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74283,7 +74684,8 @@
      "correct_answer": 0,
      "explanation": "Area of a triangle = ½ × base × perpendicular height = ½ × 20 × 7 = 70 m². 140 m² is wrong because it forgets to halve. 27 m² is wrong because it adds the lengths instead of multiplying. 35 m² is wrong because it halves twice."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74306,7 +74708,8 @@
      },
      "explanation": "The area of a triangle is ½ × base × perpendicular height. The diagram shows a base of 20 m and a perpendicular height of 7 m, so the area is ½ × 20 × 7 = 70 m²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -74353,7 +74756,8 @@
      "correct_answer": 0,
      "explanation": "Area of a triangle = ½ × base × perpendicular height = ½ × 10 × 6 = 30 cm². 60 cm² forgets to halve. 16 cm² adds the two lengths instead of multiplying. 30 cm has the right number but uses a length unit instead of square units for area."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74375,7 +74779,8 @@
      },
      "explanation": "The area of a triangle is ½ × base × perpendicular height. The diagram shows a base of 10 cm and a height of 6 cm, so the area is ½ × 10 × 6 = 30 cm²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -74478,7 +74883,8 @@
      "correct_answer": 0,
      "explanation": "Area of a triangle = ½ × base × perpendicular height = ½ × 16 × 11 = 88 m². 176 m² is wrong because it forgets to halve. 27 m² adds the lengths instead of multiplying. 44 m² halves twice, or uses ½ × 8 × 11 and halves again."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -74501,7 +74907,8 @@
      },
      "explanation": "The area of a triangle is ½ × base × height. The diagram shows a base of 16 m and a perpendicular height of 11 m, so ½ × 16 × 11 = 88 m²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -74749,7 +75156,8 @@
      },
      "explanation": "The line from the top vertex meets the 12 cm base at a right angle, marked by the small square. This line is the perpendicular height of the triangle, which is used with the base to find the area."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -74824,7 +75232,8 @@
      "correct_answer": 0,
      "explanation": "The table shows volume as side × side × side, so a 5 cm cube is 5 × 5 × 5 = 5³ = 125 cm³. 15 cm³ comes from 5 × 3, which is multiplying by 3 instead of cubing. 25 cm³ is only 5², an area. 625 cm³ is 5⁴, which uses four factors."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75142,7 +75551,8 @@
      "correct_answer": 0,
      "explanation": "Surface area is the sum of the areas of all six faces: 2×(7×4 + 7×2 + 4×2) = 2×(28 + 14 + 8) = 100 cm². 56 cm² is the volume, not the surface area. 13 cm² just adds the three lengths. 200 cm² doubles the answer again by counting each pair twice."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75630,7 +76040,8 @@
      "correct_answer": 0,
      "explanation": "A cube has 6 identical square faces. Each face is 5 × 5 = 25 cm², so the total is 6 × 25 = 150 cm². 25 cm² is only one face. 125 cm² is the volume (5 × 5 × 5), not surface area. 100 cm² counts only 4 faces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75652,7 +76063,8 @@
      },
      "explanation": "A cube has 6 identical square faces. Each face has area 5 × 5 = 25 cm². The total surface area is 6 × 25 = 150 cm²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -75767,7 +76179,8 @@
      "correct_answer": 0,
      "explanation": "A cube has 12 edges, each of length x, so the total length is 12 × x = 12x. x + 12 adds instead of multiplying. 6x counts only 6 edges (or confuses edges with faces). x³ is the volume, not the total edge length."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75789,7 +76202,8 @@
      },
      "explanation": "A cube has 12 edges and the diagram shows each edge has length x. Adding 12 lots of x gives a total edge length of 12x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -75836,7 +76250,8 @@
      "correct_answer": 0,
      "explanation": "A cube has 6 identical square faces. Each face has area 3 × 3 = 9 cm², so the total is 6 × 9 = 54 cm². 27 cm² is the volume (3 × 3 × 3), not the surface area. 36 cm² counts only 4 faces. 9 cm² is the area of just one face."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -75858,7 +76273,8 @@
      },
      "explanation": "A cube has 6 identical square faces. Each face has area 3 × 3 = 9 cm². The total surface area is 6 × 9 = 54 cm²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -75926,7 +76342,8 @@
      },
      "explanation": "A cuboid has three pairs of identical faces. The areas are 8×6=48, 8×3=24 and 6×3=18. Add them: 48+24+18=90. Double this for the pairs: 2×90=180 cm²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -76098,7 +76515,8 @@
      "correct_answer": 0,
      "explanation": "Faces: top and bottom 2 × (9 × 6) = 108; front and back 2 × (9 × 4) = 72; two sides 2 × (6 × 4) = 48. Total 228 cm². 216 cm² is the volume, not surface area. 114 cm² counts only half the faces. 108 cm² counts only the top and bottom."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76722,7 +77140,8 @@
      "correct_answer": 1,
      "explanation": "Each visible face is a 3 by 3 grid, so 9 squares. A cube has 6 faces, so 6 × 9 = 54 squares. 27 is the number of small cubes, not faces. 36 counts only 4 faces. 18 counts only 2 faces, or is half the correct total."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -76743,7 +77162,8 @@
      },
      "explanation": "Each face of the large cube is a 3 by 3 grid, so it has 9 squares. A cube has 6 faces, so the surface has 6 × 9 = 54 small squares. The drawing shows three faces, and the three hidden faces match them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -77673,7 +78093,8 @@
      },
      "explanation": "Tea's 45 out of 150 is 30%, which gives 108°. For 15 drinks, 15/150 × 100 = 10%, and 10% of 360° is 36°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -79605,7 +80026,8 @@
      "correct_answer": 0,
      "explanation": "A trace table is used to follow a program step by step, recording the value of each variable (here i and countdown) and any output as lines run. It is not a flowchart, it does not make a program faster, and it is used to check logic by tracing, not to list syntax errors."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -79626,7 +80048,8 @@
      },
      "explanation": "This is a trace table. It records the values of variables, here i and countdown, line by line as a program runs, and it also records any output. It helps you find errors and predict what a program does."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -80240,7 +80663,8 @@
      "correct_answer": 0,
      "explanation": "'md' stands for make directory, so it created the network-users folder, which then appears in the dir list. 'dir' is the command that lists folders, so the second option is wrong. Moving a folder and deleting a folder need different commands (move and rd), so those options are wrong too."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80949,7 +81373,8 @@
      "correct_answer": 0,
      "explanation": "Total pixels = 2000 × 2000 = 4,000,000. Each pixel uses 1 bit, so 4,000,000 × 1 = 4,000,000 bits. 2,000 and 4,000 bits come from adding or not multiplying the dimensions properly. 12,000,000 bits wrongly uses 3 bits per pixel, which belongs to the second image."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -80972,7 +81397,8 @@
      },
      "explanation": "The image has 2000 × 2000 = 4,000,000 pixels. The table says each pixel is represented by 1 bit, so the file needs 4,000,000 × 1 = 4,000,000 bits."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -81212,7 +81638,8 @@
      "correct_answer": 0,
      "explanation": "Repeating A Student's details (1001, 9X2) on rows L1, L4, L6 and L7 wastes storage and risks inconsistency if one copy is edited and the others are not. Loans can still be stored for each student, LoanIDs stay unique, and the table can still be sorted."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81237,7 +81664,8 @@
      },
      "explanation": "The answer is data redundancy. A Student, 1001 and 9X2 are stored again in loans L1, L4, L6 and L7. Storing the same data many times wastes space and can cause errors. Splitting the data into related tables avoids this."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -81327,7 +81755,8 @@
      "correct_answer": 0,
      "explanation": "The asterisk marks studentID as the primary key. Its values are unique, so each student record can be identified. It is a Number field, not text. Requiring a name is not what the asterisk shows. A foreign key links to another table's key, and Class is not linked here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81349,7 +81778,8 @@
      },
      "explanation": "The asterisk beside studentID marks it as the primary key. A primary key holds a unique value for each record, so every student can be identified without confusion, even if two students share a name or class."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -81384,7 +81814,8 @@
      "correct_answer": 0,
      "explanation": "A flat file repeats the student's details in every row, so one student's name can be entered differently (M Student and N Student for 1002). This is data inconsistency. The scores are all valid, encryption is not the issue, and row order does not cause conflicting data."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81453,7 +81884,8 @@
      "correct_answer": 0,
      "explanation": "In a data dictionary, an asterisk beside a field name usually marks the primary key, which uniquely identifies each record. The text option is wrong because all three fields are short text. Key fields are not left empty. bookID has length 6, the shortest, not the longest."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81603,7 +82035,8 @@
      "correct_answer": 0,
      "explanation": "Primary keys studentID and bookID link to matching foreign keys in loanTBL, so each loan records one student and one book. Joining names to titles is not valid because those fields are not keys. loanID does not match class or author. dateOut and dateBack are not linked to other tables."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81644,7 +82077,8 @@
      "correct_answer": 0,
      "explanation": "studentID is correct because each student has a different ID, so it identifies one record only. studentName could be repeated by two students. class is shared by many students in a real school. studentName and class together could still repeat, and are less reliable than a single unique ID."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81697,7 +82131,8 @@
      "correct_answer": 0,
      "explanation": "Student 1001 appears once but has four loan records (L1, L4, L6, L7), so one student links to many loans. One-to-one is wrong because there are several loans. Many students sharing one loan is not shown. Separate tabs do not mean unrelated; the nested loans prove a relationship exists."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81778,7 +82213,8 @@
      "correct_answer": 0,
      "explanation": "In loanTBL, bookID is a foreign key that matches the primary key in bookTBL, so each loan points to one book. It does not replace bookTBL's key. It does not store students, because studentID does that. It is not a mistake, because relationships need matching fields."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -81802,7 +82238,8 @@
      },
      "explanation": "The answer is one-to-many. The line has 1 at studentTBL and ∞ at loanTBL, so one student can appear in many loan records, but each loan record belongs to only one student."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -81921,7 +82358,8 @@
      "correct_answer": 0,
      "explanation": "MAX finds the largest value in the range C2:C29, which is 20 mm on day 13. MIN finds the smallest value (0), so it gives the lowest. SUM adds all the values together. AVERAGE gives the mean, not the highest value."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82007,7 +82445,8 @@
      "correct_answer": 0,
      "explanation": "Student 1001 'A Student' and class 9X2 are repeated in four rows, so the same data is stored many times (redundancy). Order of IDs is not a validation issue. Encryption is about security, not repetition. Data is not lost, as students have several books recorded."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82060,7 +82499,8 @@
      "correct_answer": 0,
      "explanation": "COUNT counts only cells that hold numbers, so it counts the cloud values such as 10 or 50 and skips the text 'No Clouds'. It does not count empty cells, it has no rule about values above 10, and it counts every numeric cell in the range, not just the first."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82423,7 +82863,8 @@
      "correct_answer": 0,
      "explanation": "The expected outcome is decided before testing, so the tester can compare it with what the program actually does and record pass or fail. The program does not write code from a plan. The Pass/fail column is filled in after testing. The data entered is fixed so the test is repeatable, not changed during it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82445,7 +82886,8 @@
      },
      "explanation": "The answer is boundary data. The test checks 'between 7 and 10', and age = 10 is the highest value allowed in that range. Data on the edge of the accepted range is called boundary data."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -82546,7 +82988,8 @@
      "correct_answer": 0,
      "explanation": "The number in square brackets is the index, which says which position in the array to read. It is not the stored value, because the value is what is found at that position. It is not the array length, and it is not added to anything. The calculation uses the items at positions 2 and 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -82571,7 +83014,8 @@
      },
      "explanation": "The number in square brackets is the index. It gives the position of one value in the score array, so score[2] means the item at index 2. Each calculation uses indexes to pick which stored values to add, subtract, multiply or divide."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -82963,7 +83407,8 @@
      "correct_answer": 0,
      "explanation": "random.choice(fruit) selects one item from the list at random, so food may be \"apple\", \"banana\" or \"grapefruit\" on each run. Importing random does not rearrange the list. print only displays the value already stored in food and does not choose. food is not fixed to \"apple\"; that was just one possible output."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -83292,7 +83737,8 @@
      "correct_answer": 0,
      "explanation": "The variable option holds 3, so option == 1 is false and the code after THEN does not run. Deleting a character needs a separate check for 3. The program does not stop, because the IF only controls one branch. Showing the list belongs to option 4, which is also not tested here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",

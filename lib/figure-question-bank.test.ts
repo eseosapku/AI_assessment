@@ -29,6 +29,17 @@ describe('vettedFor', () => {
     const seen = new Set([questionKey('Which gas?')])
     expect(vettedFor('fig1', ['mcq'], 'mcq', bank, seen)?.question).toBe('Which gas?')
   })
+  it('prefers a question that needs its figure to one answerable without it', () => {
+    // "Look at the drawing. The wet clothes in the tumble dryer become dry. Which change of state happens?" --
+    // a third of sampled vetted questions could be answered with the picture hidden.
+    const decorative = { kind: 'mcq' as const, decorative: true, question: { type: 'mcq', question: 'Which change of state happens?', options: ['a', 'b', 'c', 'd'], correct_answer: 0 } }
+    const needs = { kind: 'mcq' as const, question: { type: 'mcq', question: 'Which letter shows the condenser?', options: ['A', 'B', 'C', 'D'], correct_answer: 2 } }
+    const both = new Map<string, VettedQuestion[]>([['f', [decorative, needs]], ['g', [decorative]]])
+    for (let i = 0; i < 20; i++) expect(vettedFor('f', ['mcq'], 'mcq', both)?.question).toBe('Which letter shows the condenser?')
+    // Never at the cost of a repeat, and a figure whose only questions are decorative still has one.
+    expect(vettedFor('f', ['mcq'], 'mcq', both, new Set([questionKey('Which letter shows the condenser?')]))?.question).toBe('Which change of state happens?')
+    expect(vettedFor('g', ['mcq'], 'mcq', both)?.question).toBe('Which change of state happens?')
+  })
 })
 
 describe('questionKey', () => {

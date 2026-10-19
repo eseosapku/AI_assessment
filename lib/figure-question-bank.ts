@@ -15,7 +15,11 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 export type VettedKind = 'mcq' | 'short' | 'written'
-export interface VettedQuestion { kind: VettedKind; question: any }
+/**
+ * `decorative`: answered correctly with the figure hidden (a blind text-only check), so the picture only
+ * illustrates it. Still usable; a figure's question that needs it is preferred.
+ */
+export interface VettedQuestion { kind: VettedKind; question: any; decorative?: boolean }
 
 const FILES = ['figure-question-bank.json', 'figure-question-bank.checkpoint.json', 'figure-question-bank.igcse.json', 'figure-question-bank.rwanda.json', 'figure-question-bank.library.json', 'figure-question-bank.books.json']
 let cache: Map<string, VettedQuestion[]> | null = null
@@ -49,7 +53,7 @@ export function loadFigureQuestionBank(): Map<string, VettedQuestion[]> {
       for (const rec of Object.values<any>(raw)) {
         const kept = (rec?.questions ?? []).filter((q: any) => q?.kept && q?.question && String(q.question.question ?? '').trim())
           .filter((q: any) => !(q.kind === 'short' && openPhraseAnswer(q.question.short_answer?.accepted ?? [], String(q.question.question ?? ''))))
-        if (kept.length) map.set(String(rec.figureId), kept.map((q: any) => ({ kind: q.kind, question: q.question })))
+        if (kept.length) map.set(String(rec.figureId), kept.map((q: any) => ({ kind: q.kind, question: q.question, ...(q.decorative ? { decorative: true } : {}) })))
       }
     } catch {
       // A missing bank means every figure question is written live, as before.
@@ -99,7 +103,10 @@ export function vettedFor(
   const pool = fresh.length ? fresh : list
   const preferred = prefer ? pool.filter((q) => q.kind === prefer) : []
   const from = preferred.length ? preferred : pool
-  return JSON.parse(JSON.stringify(from[Math.floor(Math.random() * from.length)].question))
+  // One that needs its figure before one the picture only illustrates -- never at the cost of a repeat or the kind.
+  const needing = from.filter((q) => !q.decorative)
+  const pick = needing.length ? needing : from
+  return JSON.parse(JSON.stringify(pick[Math.floor(Math.random() * pick.length)].question))
 }
 
 export interface VettedPart { format: string; marks: number }

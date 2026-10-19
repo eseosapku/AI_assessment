@@ -230,7 +230,8 @@
      },
      "explanation": "The DNA in this bacterial cell is circular and lies free in the cytoplasm, with no nucleus around it. Cells without a nucleus are prokaryotic. Plant and animal cells have a nucleus, so they are eukaryotic."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -343,7 +344,8 @@
      },
      "explanation": "The small oval structures lying in the cytoplasm around the edge of each cell are chloroplasts. They contain chlorophyll, which absorbs light energy for photosynthesis. Palisade cells have many of them because they are the main photosynthesising cells in the leaf."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -477,7 +479,8 @@
      },
      "explanation": "D is the large central space inside the cell, surrounded by cytoplasm (C). In mature plant cells this is the vacuole, which contains cell sap and helps keep the cell firm (turgid)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -584,7 +587,8 @@
      "correct_answer": 0,
      "explanation": "Potassium is 4 in the plant cells but only 0.5 in the pond water, so ions are moving against the concentration gradient. This needs active transport, which uses energy from respiration. Diffusion and facilitated diffusion only move particles down a gradient. Osmosis is the movement of water, not ions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -679,7 +683,8 @@
      "correct_answer": 0,
      "explanation": "P (the substrate) has a shape complementary to Q (the active site), so only P binds to form R, the enzyme-substrate complex. Molecules with other shapes do not fit. Q does not change to fit every molecule, heat is not the reason for specificity, and charge is not how the diagram shows selectivity."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -750,7 +755,8 @@
      "correct_answer": 0,
      "explanation": "Iodine solution is orange-brown, and it turns blue-black when starch is present, so this is the positive test for starch. Blue to orange-brown is the reverse. Colourless to brick red describes the Benedict's test for reducing sugars. Orange-brown to colourless is not a result of any food test."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1011,7 +1017,8 @@
      "correct_answer": 0,
      "explanation": "Photosynthesis needs chlorophyll to absorb light, so starch is made and stored only in the green area, which turns blue-black with iodine. The pale edge has no chlorophyll, so it makes no starch and stays orange-brown. The whole leaf is wrong because the pale edge cannot photosynthesise. Starch is made in light, not in the dark."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1120,7 +1127,8 @@
      },
      "explanation": "The answer is epidermis. Cell A has no bar, so it has no chloroplasts and cannot photosynthesise. Palisade mesophyll cells have the most chloroplasts (100), so they do most photosynthesis. Epidermal cells are mostly transparent and have no chloroplasts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -1156,7 +1164,8 @@
      "correct_answer": 0,
      "explanation": "Above the optimum of about 25 °C, enzymes in photosynthesis lose their shape (denature), so the rate falls to zero at about 42.5 °C. CO2 is not used up in the air. Cold would explain low rates near 0 °C, not high temperatures. Glucose is not what stops the process here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1555,7 +1564,8 @@
      "correct_answer": 0,
      "explanation": "Xylem transports water and mineral ions upwards, and in the diagram it is the red tissue on the inner side of each bundle, nearer the centre. The second option has the position wrong. The third and fourth name phloem, which carries sucrose and amino acids, not water from the roots. In the diagram, phloem is the blue tissue on the outer side of each bundle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -1749,7 +1759,8 @@
      "correct_answer": 0,
      "explanation": "Removing the ring takes out the phloem, which carries sucrose down from the leaves. Sucrose cannot cross the gap, so it builds up just above it, at X. Y is cut off from the supply. Xylem carries water and minerals upwards, not sucrose, so it does not carry sucrose across the gap."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2226,7 +2237,8 @@
      "correct_answer": 0,
      "explanation": "Influenza viruses have genetic material, which is RNA, inside a protein coat, so A is correct. Viruses are not cells, so they have no cytoplasm with ribosomes, no nucleus with chromosomes, and no chloroplasts. Those structures belong to living cells, not viruses."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2463,7 +2475,8 @@
      "correct_answer": 0,
      "explanation": "Gravity makes auxin accumulate on the lower side of the horizontal shoot. In shoots, more auxin stimulates greater cell elongation there, so the lower side grows faster and the tip curves upwards (negative gravitropism). Upper-side build-up would bend the shoot down. Auxin does not stop elongation in shoots at this concentration. Cells do not burst from water collecting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2505,7 +2518,8 @@
      "correct_answer": 0,
      "explanation": "Moist paper provides water, which seeds absorb to activate enzymes and start germination, and it holds the beans against the glass so they can be seen. Minerals are not the main food source, as stored reserves feed the seedling at first. The paper does not block light and does not supply carbon dioxide."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2576,7 +2590,8 @@
      "correct_answer": 0,
      "explanation": "Positive gravitropism is correct: roots grow in the direction of gravity, so they turn downward whether the seed is upright, on its side or curved. Negative phototropism would be growth away from light, which is not shown. Positive phototropism is growth towards light, which roots do not do here. Negative gravitropism is growth upward, which is what shoots do."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -2795,7 +2810,8 @@
      },
      "explanation": "The vesicles labelled A are in the nerve ending and fuse with the membrane to release neurotransmitter. It diffuses across the gap and binds to receptors (B) on the next neurone's membrane, passing the impulse on."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3012,7 +3028,8 @@
      "correct_answer": 0,
      "explanation": "Runners are stems that grow along the ground and form plantlets by mitosis from one parent, so this is asexual reproduction and the offspring are clones. Sexual reproduction needs gametes and gives variation. Pollination happens between flowers, as in the right image. Seed dispersal involves seeds from fruits, not runners."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3131,7 +3148,8 @@
      "correct_answer": 0,
      "explanation": "Feathery, branched stigmas give a large surface area to catch airborne pollen, and stamens hang outside the flower so the wind can blow pollen away. Bright colours suit insect pollination, not wind. The stamens are outside the flower, not inside. Wind-pollinated pollen is light and smooth, not sticky or heavy."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -3210,7 +3228,8 @@
      },
      "explanation": "The answer is A, the stigma. It is the sticky, knob-shaped top of the central carpel, where pollen lands. B is the anther, which makes pollen. C is a petal, and D is an ovule."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3306,7 +3325,8 @@
      },
      "explanation": "Fertilisation is the fusion of the nuclei of two gametes (male and female sex cells) to form a zygote. Row A shows this pairing: gametes in column 1 fuse to produce zygotes in column 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -3342,7 +3362,8 @@
      "correct_answer": 0,
      "explanation": "Suckers grow from the parent's base by mitosis, which is asexual reproduction, so offspring are genetically identical clones. Variation, gamete fusion (fertilisation) and pollination all belong to sexual reproduction, which is not shown. The suckers are outgrowths of the parent's own tissue."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4029,7 +4050,8 @@
      "correct_answer": 0,
      "explanation": "Removing every aa offspring only removes homozygous recessive individuals. Heterozygous (Aa) carriers are not removed and can pass the recessive allele to offspring, so aa individuals appear again. Mutation does not target the allele, AA does not change into aa, and 100% means all aa are removed, not half."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4276,7 +4298,8 @@
      "correct_answer": 0,
      "explanation": "Growing one crop over a large area is a monoculture. Habitats and food sources for wild plants and animals are removed, so species variety falls. Option B is wrong because biodiversity decreases. Option C is wrong because the field is farmed, not natural. Option D is wrong because selective breeding is choosing parents for desired features, not a way of using land."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4853,7 +4876,8 @@
      "correct_answer": 0,
      "explanation": "The bubbles in a fizzy drink are carbon dioxide gas. Gas particles are far apart and move randomly at high speed. Liquid particles are close but can slide past each other, which describes the drink. Solid particles are in fixed positions, like the ice cubes. Gas particles do not vibrate in fixed positions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -4894,7 +4918,8 @@
      "correct_answer": 0,
      "explanation": "Ammonia (Mr 17) is lighter than hydrogen chloride (Mr 36.5), so it diffuses faster and travels further before meeting HCl. The ring forms nearer the hydrochloric acid end. Ammonia is not heavier. The gases do not diffuse at equal rates. Acid strength does not control diffusion speed; relative mass does."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5007,7 +5032,8 @@
      },
      "explanation": "Ammonia gas from the right and hydrogen chloride gas from the left diffuse towards each other. Where they meet they react to form a white solid ring of ammonium chloride, NH4Cl."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -5286,7 +5312,8 @@
      "correct_answer": 0,
      "explanation": "Each line is a single covalent bond: carbon and hydrogen are both non-metals, so they share a pair of electrons (one from each atom). Ionic is wrong because no ions form by transfer. Metallic is wrong because there is no metal lattice. A single shared electron is wrong because each bond contains two electrons."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -5308,7 +5335,8 @@
      },
      "explanation": "The answer is covalent. Each line between C and H shows one shared pair of electrons. Carbon and hydrogen are both non-metals, so they share electrons to form single covalent bonds rather than transferring them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -5841,7 +5869,8 @@
      "correct_answer": 0,
      "explanation": "Fe3+ has three notches and SO4 2- has two, so the pieces fit when the total charges match: 2 × 3+ = 6+ and 3 × 2- = 6-. This gives Fe2(SO4)3. Fe3(SO4)2 swaps the numbers. FeSO4 ignores the charge balance and would need Fe2+. Fe(SO4)3 leaves the charges unbalanced (3+ against 6-)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6015,7 +6044,8 @@
      },
      "explanation": "The right-hand electrode is joined to the − terminal of the power supply. The negative electrode in an electrolytic cell is called the cathode, and positive ions move to it and gain electrons."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -6134,7 +6164,8 @@
      },
      "explanation": "The products, 2NH3, are on a lower enthalpy level than the reactants, N2 + 3H2. Energy is released to the surroundings, so the overall enthalpy change is negative and the reaction is exothermic."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -6403,7 +6434,8 @@
      "correct_answer": 0,
      "explanation": "The catalysed curve has a lower peak, so activation energy is lower and more particles collide with enough energy, so the rate increases. Both curves start at the same reactants level and end at the same products level, so ΔH is unchanged. The other options wrongly say ΔH changes or that the rate decreases."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -6700,7 +6732,8 @@
      "correct_answer": 0,
      "explanation": "Metals contain delocalised electrons that are free to move and carry current, so the pins conduct. The case is an insulator, such as plastic, with no free charged particles, so it protects the user. Metals do not conduct through ions in a solid, the case does have bonds, and metals do have free electrons."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7339,7 +7372,8 @@
      "correct_answer": 0,
      "explanation": "Isomers are compounds with the same molecular formula but different structural formulae. Here the OH group is on an end carbon in one and on the middle carbon in the other. Isotopes are atoms of one element with different neutron numbers. Homologues differ by CH2 in the same series. Allotropes are different forms of one element."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7380,7 +7414,8 @@
      "correct_answer": 0,
      "explanation": "In reflux, vapours of the volatile reactants rise, are cooled by the water in the condenser, and drip back into the flask, so heating can continue without losing them. Collecting ester is distillation, which needs a different setup. The flask is heated, not cooled. No hydrogen gas is produced in esterification, and the apparatus is not open for gas to escape."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -7481,7 +7516,8 @@
      },
      "explanation": "Row B shows a polyester made by condensation polymerisation. In condensation polymerisation a small molecule is lost each time monomers join. For polyesters, an acid group and an alcohol group react to form an ester link and water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8072,7 +8108,8 @@
      "correct_answer": 0,
      "explanation": "Ethanoic acid melts at 16 °C and boils at 118 °C, so 25 °C lies between them and it is a liquid. Radon (boils at −62 °C) and propane (boils at −42 °C) are gases. Sodium melts at 98 °C, so it is still solid at 25 °C."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8346,7 +8383,8 @@
      "correct_answer": 1,
      "explanation": "Neutrons = mass number − atomic number = 131 − 53 = 78. 53 is the number of protons (and electrons), not neutrons. 131 is the nucleon number, which counts protons plus neutrons. 184 wrongly adds 131 and 53 instead of subtracting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8366,7 +8404,8 @@
      },
      "explanation": "The number of neutrons equals the mass number minus the atomic number (proton number). For iodine-131 this is 131 − 53 = 78 neutrons. The table gives 53 protons for this isotope, and the mass number 131 is shown in the isotope symbol."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8577,7 +8616,8 @@
      "correct_answer": 0,
      "explanation": "The spheres represent positive metal ions in a lattice, and metallic bonding is the attraction between these ions and a 'sea' of delocalised electrons. Shared pairs describe covalent bonding. Negative ions are found in ionic compounds, not metals. Uncharged atoms with no electrons between them would give no electrostatic attraction, so there would be no metallic bond."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8674,7 +8714,8 @@
      "correct_answer": 1,
      "explanation": "Each C=O is a double bond, which is two shared pairs, so 4 electrons are shared between carbon and each oxygen. One shared pair (2 electrons) would be a single bond, as in H–Cl. Three pairs would be a triple bond. Eight electrons would be the total around carbon, not the amount shared with each oxygen."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8715,7 +8756,8 @@
      "correct_answer": 0,
      "explanation": "Each silicon atom is joined to four oxygen atoms by shared pairs of electrons, so it forms four covalent bonds. Ionic bonds would involve electron transfer and not a giant covalent lattice. Lone pairs are not shared in bonding. Delocalised electrons occur in metals, not in silica, where all outer electrons are used in bonds."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8796,7 +8838,8 @@
      "correct_answer": 0,
      "explanation": "Al is in Group 3, so its atoms use three outer electrons and have a valency of 3. Mg is in Group 2, so its valency is 2. O is in Group 6, so its valency is 2. Cl is in Group 7, so its valency is 1."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8817,7 +8860,8 @@
      },
      "explanation": "Oxygen is in Group 6, so its atoms have six outer electrons. They gain or share two electrons to fill the outer shell, so oxygen's valency is 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8864,7 +8908,8 @@
      "correct_answer": 0,
      "explanation": "Aluminium is Al³⁺ and sulfate is SO4²⁻. The lowest common multiple of 3 and 2 is 6, so 2 Al³⁺ (+6) balance 3 SO4²⁻ (−6), giving Al2(SO4)3. Al3(SO4)2 swaps the numbers wrongly. AlSO4 ignores the charges. Al2(SO4)2 does not balance: +6 against −4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -8884,7 +8929,8 @@
      },
      "explanation": "Aluminium is Al³⁺ and sulfate is SO₄²⁻. To balance charges you need 2 Al³⁺ (+6) and 3 SO₄²⁻ (−6). The formula is Al₂(SO₄)₃, with brackets around the sulfate group."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -8952,7 +8998,8 @@
      },
      "explanation": "The diagram places helium at 4 and carbon at 12 on the relative atomic mass scale. Dividing 12 by 4 gives 3, so one carbon atom is 3 times as heavy as one helium atom."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9081,7 +9128,8 @@
      "correct_answer": 0,
      "explanation": "Fe3O4 has 3 Fe atoms and 4 O atoms: (3 × 56) + (4 × 16) = 168 + 64 = 232. 184 comes from using only 3 Fe plus 1 O (or miscounting oxygen atoms). 120 comes from adding 56 + 64 with only one Fe atom. 72 comes from adding only the Ar values of one Fe and one O, ignoring the subscripts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9134,7 +9182,8 @@
      "correct_answer": 0,
      "explanation": "The diagram shows Na+ and Cl- alternating, so each ion sits next to oppositely charged ions. Strong electrostatic attraction between them forms a giant ionic lattice. Sharing electrons describes covalent molecules, not ionic bonding. The ions are not grouped into separate layers of the same charge. Like ions repel, so Na+ ions do not bond to each other."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9156,7 +9205,8 @@
      },
      "explanation": "The structure is made of positive Na+ ions and negative Cl- ions alternating. Strong electrostatic attraction between these oppositely charged ions is called ionic bonding, which holds the sodium chloride lattice together."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9247,7 +9297,8 @@
      "correct_answer": 0,
      "explanation": "M_r of CaCO3 = 40 + 12 + (3 × 16) = 100. Moles = mass ÷ M_r = 100.0 ÷ 100 = 1.0 mol. 0.5 mol comes from using a wrong M_r of 200. 2.0 mol comes from inverting the formula (M_r ÷ mass would give 1, so doubling is a slip). 100 mol confuses mass with moles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9270,7 +9321,8 @@
      },
      "explanation": "The table gives a mass of 128.0 g for Cu. Moles = mass ÷ A_r = 128.0 ÷ 64 = 2.0 mol."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9402,7 +9454,8 @@
      "correct_answer": 0,
      "explanation": "Convert 500 cm³ to 0.5 dm³, then moles = concentration × volume = 0.5 × 0.5 = 0.25 mol. 0.5 ignores the volume being half a dm³. 1.0 divides instead of multiplying. 250 multiplies by 500 without converting cm³ to dm³."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9522,7 +9575,8 @@
      },
      "explanation": "Heating zinc carbonate decomposes it: ZnCO3 → ZnO + CO2. The colourless gas given off is carbon dioxide, CO2. The hot yellow solid is zinc oxide, which turns white on cooling."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9569,7 +9623,8 @@
      "correct_answer": 0,
      "explanation": "Hydrogen (H2) enters at the negative electrode, where it loses electrons, so it is oxidised. Oxygen (O2) enters at the positive electrode and gains electrons, so it is reduced. The other options pair the substances with the wrong electrode or the wrong process."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -9632,7 +9687,8 @@
      },
      "explanation": "The jug is connected to the negative terminal, so it is the cathode. Positive metal ions gain electrons there and become metal atoms. Gaining electrons is reduction, so the jug is plated by reduction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9838,7 +9894,8 @@
      },
      "explanation": "The reaction is exothermic. In the diagram the products are at a lower energy level than the reactants, and the arrow shows thermal energy given out to the surroundings, so the temperature of the surroundings rises."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -9951,7 +10008,8 @@
      "correct_answer": 0,
      "explanation": "Methane has four C–H bonds and two oxygen molecules each have one O=O bond, so the energy to break them is 4 × 413 + 2 × 498. One of each ignores the equation's amounts. Subtracting is wrong because breaking bonds absorbs energy, so the terms are added. O–H and C=O bonds are formed in the products, not broken."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10129,7 +10187,8 @@
      "correct_answer": 0,
      "explanation": "As a solid precipitate forms, the mixture turns cloudy and scatters or blocks the light travelling from the light source down to the light data-logger, so the reading falls. Reflection would not make more light reach the detector. The light source's position is unchanged, but the mixture's clarity changes. Concentration of the liquid does not increase the light transmitted."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10270,7 +10329,8 @@
      "correct_answer": 0,
      "explanation": "Pushing the piston in raises the pressure. NH4Cl(s) ⇌ NH3(g) + HCl(g): the gas side has 2 molecules and the solid side has none. The equilibrium shifts towards the solid, so more ammonium chloride forms. Option B reverses this. C is wrong because the cap only keeps the system closed, and it does not stop the position shifting. D is wrong because at equilibrium both reactions continue, and a change in conditions shifts the position."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10460,7 +10520,8 @@
      "correct_answer": 0,
      "explanation": "Cu²⁺ becomes Cu by gaining two electrons, which is reduction. Zn becomes Zn²⁺ by losing two electrons, which is oxidation. The second option swaps the two processes. The third pairs the right names with the wrong electron movement. The fourth uses oxygen transfer, which does not apply because no oxygen is involved."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10515,7 +10576,8 @@
      "correct_answer": 0,
      "explanation": "Oxides of nitrogen lose oxygen to form nitrogen, N2, and loss of oxygen is reduction. Carbon monoxide gains this oxygen to form carbon dioxide, so it is oxidised. The options saying oxidised, or saying oxygen is gained, mix up the definitions of oxidation and reduction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10649,7 +10711,8 @@
      "correct_answer": 0,
      "explanation": "Na (2,8,1) becomes Na⁺ (2,8) by losing one electron, and loss of electrons is oxidation. Gaining an electron would be reduction, which happens to chlorine. Seven and eight are chlorine's outer electrons or the full shell, not the number sodium transfers."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10698,7 +10761,8 @@
      },
      "explanation": "Calcium atom is 2,8,8,2 and the calcium ion is 2,8 (Ca²⁺). It loses its two outer electrons, so 2 electrons are transferred from each calcium atom to oxygen, which becomes O²⁻ (2,8)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -10773,7 +10837,8 @@
      "correct_answer": 0,
      "explanation": "HNO3 supplies the nitrate ion and CaCO3 supplies calcium and carbonate, so the products are Ca(NO3)2, CO2 and H2O. HCl with Ca(OH)2 gives CaCl2 and water. H2SO4 with CaO gives a sulfate, not a nitrate. HNO3 with Mg gives a magnesium salt and hydrogen, not Ca(NO3)2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10854,7 +10919,8 @@
      "correct_answer": 0,
      "explanation": "Hydrogen is +1, so two H give +2. Oxygen is -2, so four O give -8. The compound is neutral, so S = +8 - 2 = +6. The +4 option forgets that there are four oxygens. The +2 option ignores the oxygen total. The -2 option uses sulfur's usual ion charge, not its value in this compound."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -10875,7 +10941,8 @@
      },
      "explanation": "The table shows oxygen is –2 in SO₂, so the two oxygen atoms total –4. The compound is neutral, so sulfur must balance this with +4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11099,7 +11166,8 @@
      "correct_answer": 0,
      "explanation": "Acid + metal oxide gives salt + water only. Nitric acid forms a nitrate, so copper nitrate and water are produced. Carbon dioxide only forms from carbonates. Hydrogen forms from reactions of acids with metals. Nitride is wrong because nitric acid gives nitrate salts."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11119,7 +11187,8 @@
      },
      "explanation": "Zinc oxide is a metal oxide, so it reacts with the acid to form a salt and water. The salt name comes from the metal (zinc) and the acid (hydrochloric gives chloride), so the salt is zinc chloride."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11194,7 +11263,8 @@
      "correct_answer": 1,
      "explanation": "Transition elements are dense metals, so 'high densities' is true. They are all metals, so non-metals is false. They form coloured compounds (e.g. blue copper(II) sulfate), not only white ones. Only a few, such as iron, cobalt and nickel, are magnetic, so 'all' is false."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11246,7 +11316,8 @@
      },
      "explanation": "The reactivity decreases down Group 7. Chlorine reacts very exothermically without heating, bromine needs the iron wool heated first, and iodine needs lots of heat and gives out only a small amount of heat."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11337,7 +11408,8 @@
      "correct_answer": 0,
      "explanation": "Krypton's configuration 2,8,18,8 has four occupied electron shells, so it is in Period 4. Period 3 would mean three shells, as in argon. Period 5 has five shells, like xenon (2,8,18,18,8). Period 8 confuses the period with the 8 outer electrons, which relates to the group."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -11359,7 +11431,8 @@
      },
      "explanation": "Krypton's configuration is 2,8,18,8, which has four occupied electron shells. The number of occupied shells equals the period number, so krypton is in Period 4. This fits xenon, which has five shells and is in Period 5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11588,7 +11661,8 @@
      },
      "explanation": "Metals that can be drawn into wires are described as ductile, so the property is ductility. This is the row in the table that says 'They can be drawn into wires.' It is why metals such as copper are used for electrical wiring."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11724,7 +11798,8 @@
      },
      "explanation": "Brass is an alloy of copper and zinc. The table shows copper as 70%, so the other 30% is zinc. Brass is harder than copper and has a gold colour."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -11828,7 +11903,8 @@
      "correct_answer": 1,
      "explanation": "E is the inlet at the bottom, where hot air is blown in; its oxygen burns coke to make heat and carbon dioxide. Molten iron leaves at the bottom outlets, not through an inlet. Limestone is added with ore and coke at the top, at B. Waste gases leave at the top through A."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12037,7 +12113,8 @@
      "correct_answer": 0,
      "explanation": "Every C–C bond in cyclopentane is single, and each carbon has two H atoms, so it is saturated (formula C5H10). Being a ring does not make it unsaturated. C5H12 is pentane, which has two more H atoms because it has no ring. The double bonds are in aspirin's ring, not in cyclopentane."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12057,7 +12134,8 @@
      },
      "explanation": "Every carbon in cyclopentane is joined to the others by single bonds only, and each carbon carries two H atoms. With no C=C double bonds, it holds the maximum number of hydrogen atoms, so it is saturated."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12177,7 +12255,8 @@
      },
      "explanation": "The empirical formula is the simplest whole-number ratio of atoms. Propene is C3H6, and dividing both numbers by 3 gives a ratio of C:H = 1:2. The empirical formula is therefore CH2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12212,7 +12291,8 @@
      "correct_answer": 0,
      "explanation": "Each alkene is one CH2 larger than the one before (C3H6, C4H8, C5H10), so hexene is C6H12, with H = 2 × C. C6H14 is the alkane formula. C6H10 has too few hydrogens. C7H14 has seven carbons, but hex- means six."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12231,7 +12311,8 @@
      },
      "explanation": "The names follow the number of carbon atoms: propene has 3, butene has 4, pentene has 5. The alkene with 2 carbon atoms and formula C2H4 is ethene."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12266,7 +12347,8 @@
      "correct_answer": 0,
      "explanation": "The displayed formula shows 3 carbon atoms, 8 hydrogen atoms (7 on carbon, 1 in O–H) and 1 oxygen atom, so C3H8O. C3H6O has too few hydrogens. C3H7O2 has the wrong number of hydrogens and oxygens. C3H8 is propane, with no oxygen, so it is not an alcohol."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12391,7 +12473,8 @@
      "correct_answer": 0,
      "explanation": "Ethene is C2H4 with a C=C double bond, so it is unsaturated. Its relative molecular mass is (2×12)+(4×1)=28. The saturated option wrongly gives only single bonds. The C2H6 option confuses it with ethane (mass 30). The mass 26 option wrongly uses only 2 hydrogens."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12432,7 +12515,8 @@
      "correct_answer": 0,
      "explanation": "Each has four carbons and one C=C, so each is C4H8 once hydrogens are added (4 + 4). The double bond is in different positions, so they are structural isomers. They are not the same compound, since the double bond position differs. They do not differ by CH2. They are unsaturated, not C4H10."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12452,7 +12536,8 @@
      },
      "explanation": "Each structure has four carbons and one C=C double bond, so each is an alkene with formula CnH2n. For n = 4 this is C4H8. Adding hydrogens to complete each carbon's four bonds gives 8 hydrogens in both."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12606,7 +12691,8 @@
      },
      "explanation": "The blank in the condensation column, after 'loss of a small molecule (usually ...)', is completed by water. Each time two monomers join, an H2O molecule is lost, which is why the process is called condensation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12845,7 +12931,8 @@
      "correct_answer": 0,
      "explanation": "The amine group (H2N, NH2) reacts with the carboxylic acid group (HOOC, COOH) to form an amide link, losing one water molecule each time (condensation polymerisation). Hydrogen, carbon dioxide and ammonia are not lost; no C=C double bonds are involved, so it is not addition polymerisation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12886,7 +12973,8 @@
      "correct_answer": 0,
      "explanation": "Each –COOH group reacts with an –OH group to form an ester link, and the OH from the acid plus the H from the alcohol leave as water, H2O. Hydrogen, carbon dioxide and hydrogen chloride contain atoms that are not lost in this condensation reaction, so they are wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -12906,7 +12994,8 @@
      },
      "explanation": "The acid's –COOH groups react with the diol's –OH groups to form ester links. Each link formed releases one small molecule of water, H2O. This is why the process is called condensation polymerisation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -12953,7 +13042,8 @@
      "correct_answer": 0,
      "explanation": "Potassium ions give a lilac flame, so K+ is correct. Lithium gives a red flame. Barium gives a pale green flame. Copper(II) gives a blue-green flame. Sodium (yellow) and calcium (orange-red) would also not give lilac."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13074,7 +13164,8 @@
      "correct_answer": 0,
      "explanation": "Sulfate ions react with barium ions to form insoluble white barium sulfate, which stays in acid. Chloride ions would not give a precipitate with BaCl2. Carbonate would also give a white precipitate with barium ions, but it would dissolve in the dilute HCl. Barium ions were added in the reagent, so they are not being tested for."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -13756,7 +13847,8 @@
      "correct_answer": 1,
      "explanation": "Gradient of a speed–time graph equals acceleration. Speed is rising and acceleration is increasing, so the upward curve gets steeper. A straight upward line means constant acceleration. A curve becoming less steep means decreasing acceleration. A downward line shows deceleration, not acceleration."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14177,7 +14269,8 @@
      "correct_answer": 0,
      "explanation": "Acceleration = force ÷ mass = 112 ÷ 70 = 1.6 m/s², so 1.6 is correct. 0.625 comes from dividing mass by force the wrong way round. 7840 comes from multiplying force by mass. 182 comes from adding the two values instead of dividing."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -14197,7 +14290,8 @@
      },
      "explanation": "Rearrange F = ma to a = F ÷ m. The table gives force 112 N and mass 70 kg, so b = 112 ÷ 70 = 1.6 m/s²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -14756,7 +14850,8 @@
      },
      "explanation": "Moment = force × perpendicular distance from the pivot. In the left drawing the weight is 3.75 N and its distance is 25 cm, so 3.75 × 25 = 93.75 N cm (about 0.94 N m)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15010,7 +15105,8 @@
      "correct_answer": 0,
      "explanation": "Friction acts sideways along the ground, so it is the unbalanced horizontal force that changes the cyclist's direction. Weight acts vertically downwards. The contact force acts upwards and balances the weight. Pedalling pushes the bike forwards, not towards the centre of the turn, and it is not shown in the diagram."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15433,7 +15529,8 @@
      },
      "explanation": "A squashed spring is deformed, so it stores energy that is released when it springs back. This store is called elastic potential energy (also called elastic strain energy). It is a store, not a transfer."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15592,7 +15689,8 @@
      "correct_answer": 0,
      "explanation": "Hot springs show that hot rocks lie below the surface. Water heated there can make steam to turn turbines, which is geothermal energy. Hydroelectric energy uses the gravitational potential energy of stored water. Biomass uses the forests and not the springs. Tidal energy depends on the sea moving, not on underground heat."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15657,7 +15755,8 @@
      },
      "explanation": "The arrow for energy input splits into useful energy output and waste energy. No energy disappears, so the total stays the same. This is the principle of conservation of energy: energy cannot be created or destroyed, only transferred."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15720,7 +15819,8 @@
      "correct_answer": 0,
      "explanation": "Natural gas is a fossil fuel formed over millions of years, so it is used faster than it forms and is non-renewable. Geothermal uses heat from within the Earth, which is continually replenished. Tidal energy depends on the Moon's pull and keeps recurring. Hydroelectricity relies on the water cycle, which is replenished by rainfall."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -15741,7 +15841,8 @@
      },
      "explanation": "Nuclear energy is non-renewable because it depends on uranium, which is a limited resource. It releases energy by fission of nuclei, not by burning. Coal, oil and natural gas are non-renewable, but they release energy by burning."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15851,7 +15952,8 @@
      },
      "explanation": "Work done = force × distance moved in the direction of the force. The diagram shows a 440 N force along the 1.6 m ramp, so W = 440 × 1.6 = 704 J."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15908,7 +16010,8 @@
      },
      "explanation": "He is stationary, so his body moves no distance in the direction of the force from his arms. Work done equals force × distance moved in the direction of the force, so with zero distance the work done is zero."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15953,7 +16056,8 @@
      },
      "explanation": "The horse pulls the rope and lifts the block upwards through 1 foot. Raising a mass against gravity increases its gravitational potential energy. The work done by the horse is transferred to this store."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -15997,7 +16101,8 @@
      },
      "explanation": "Work done = force × distance moved in the direction of the force. The diagram shows a 150 N force along the 20 m slope, so work = 150 × 20 = 3000 J."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -16073,7 +16178,8 @@
      "correct_answer": 0,
      "explanation": "Temperature rise = energy ÷ (mass × specific heat capacity). Gold has the lowest specific heat capacity (300), so it rises most. Water (4200) needs the most energy per degree, so it rises least. Glass (840) and air (1000) have higher values than gold, so they rise less."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16139,7 +16245,8 @@
      "correct_answer": 0,
      "explanation": "Insulation reduces energy transferred to the surroundings, so more of the energy shown on the joulemeter stays in the block and the result is more accurate. It does not increase the electrical energy supplied. The joulemeter is reset to zero by the user. The thermometer needs to measure the block's temperature, so it is not meant to be isolated."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16220,7 +16327,8 @@
      "correct_answer": 0,
      "explanation": "Steel expands when heated. The rollers let the right end move slightly outwards, so no large stresses build up that could buckle the bridge or damage the supports. The second option wrongly says the steel contracts when hot. The third is wrong because rollers allow movement, not prevent it. The fourth is wrong because heating does not change the weight of the steel."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16469,7 +16577,8 @@
      "correct_answer": 0,
      "explanation": "Conduction is correct: heated particles in the metal vibrate more and pass energy to neighbouring particles, and free electrons also help, so energy travels along the solid rod. Convection needs fluids that can flow, so it is wrong. Radiation does not need a medium and does not travel through the rod. Evaporation only happens at liquid surfaces."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16548,7 +16657,8 @@
      },
      "explanation": "The matte black can cools faster. Dull black surfaces are better emitters of infrared radiation than shiny silver ones. The board and wooden bench isolate the cans, so the surface is the main difference affecting how quickly each loses thermal energy."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -16623,7 +16733,8 @@
      "correct_answer": 0,
      "explanation": "Water heated by the immersion heater expands, becomes less dense and rises, while cooler denser water sinks to replace it. This sets up convection currents. Water is a poor conductor, so conduction is not the main way. Radiation is not the main method in a liquid. Evaporation does not spread energy through the water."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -16644,7 +16755,8 @@
      },
      "explanation": "The heater warms the water at the bottom. This water expands and becomes less dense, so it rises. Cooler, denser water sinks to replace it. This circulation of a fluid is convection, which moves thermal energy up to the hot water outlet."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -16757,7 +16869,8 @@
      },
      "explanation": "Heat travels along each rod by conduction and melts the vaseline, so the drawing pin drops. The pin that falls first is on the rod that conducts heat best, so the apparatus compares thermal conductivity."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17054,7 +17167,8 @@
      },
      "explanation": "The mirror reflects the rays so they spread apart and only appear to come from a point behind the mirror. They do not actually meet there, so the image cannot be put on a screen. It is a virtual image."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17137,7 +17251,8 @@
      },
      "explanation": "The law of reflection says the angle of reflection equals the angle of incidence. So an angle of incidence of 60° should give an angle of reflection of 60°. The table shows 30°, which is incorrect."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17295,7 +17410,8 @@
      "correct_answer": 0,
      "explanation": "Glass is optically denser than air, so light slows down on entering it and bends towards the normal. Bending away would happen going from glass to air. Light does not speed up in glass. Straight passage only happens along the normal, and this ray is not along the normal, since it meets the curved surface at an angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -17378,7 +17494,8 @@
      },
      "explanation": "The dashed line drawn at right angles to the mirror where the ray strikes it is called the normal. Both angle i and angle r are measured from this line, not from the mirror surface."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -17802,7 +17919,8 @@
      },
      "explanation": "The answer is diffraction. Sound waves from person A pass through the gap of the doorway and spread out into the area beyond. This lets person B, who is off to the side and not in line with the doorway, still hear the sound."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -18168,7 +18286,8 @@
      "correct_answer": 0,
      "explanation": "Ultraviolet has a lower frequency than X-rays but a higher frequency than visible blue light, so it fits in the third box. Infrared lies beyond red light, at lower frequency. Gamma rays have higher frequency than X-rays, so they go in the first box. Microwaves have much lower frequency, near the end."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18350,7 +18469,8 @@
      "correct_answer": 0,
      "explanation": "Field lines show the direction of force on a small positive charge. A positive charge is attracted to a negative sphere, so lines point inwards radially from all directions. Pointing away describes a positive sphere. Circling lines describe magnetic fields. Parallel lines occur between charged plates, not around a single sphere."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18373,7 +18493,8 @@
      },
      "explanation": "Electric field lines show the direction of the force on a small positive charge. A positive charge is attracted to a negative sphere, so the field lines point towards the negatively charged sphere in ii."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -18408,7 +18529,8 @@
      "correct_answer": 0,
      "explanation": "A larger current makes a stronger magnetic field around the coil, and the soft iron core strengthens it further, so the magnet can hold a larger mass. The core does not have a fixed strength. The supply voltage is not what sets the field, since the current does. Heating is not the main effect here and does not reduce the magnetism in this way."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18432,7 +18554,8 @@
      },
      "explanation": "A larger current makes the coil's magnetic field stronger, and the soft iron core becomes more strongly magnetised. The electromagnet then pulls harder on the steel eye, so it can support a larger mass on the holder."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -18782,7 +18905,8 @@
      "correct_answer": 0,
      "explanation": "The voltmeter is across the wire R and gives the potential difference, and the ammeter in series gives the current. Resistance = V ÷ I. Dividing I by V inverts the relationship. Multiplying V by I gives power, not length. Adding V and I is meaningless because they have different units."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -18925,7 +19049,8 @@
      },
      "explanation": "The diagram shows I = 30 kA = 30 000 A. Charge = current × time, so Q = 30 000 × 0.001 = 30 C."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -19039,7 +19164,8 @@
      },
      "explanation": "Energy in kWh = power in kW × time in hours. Three minutes is 3/60 = 0.05 hours. So 2 kW × 0.05 h = 0.1 kWh. This is the value missing at i in the kettle row."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -19732,7 +19858,8 @@
      "correct_answer": 0,
      "explanation": "A current-carrying wire in a magnetic field feels a force (motor effect). The current runs in opposite directions on the two sides of the coil, so the forces are opposite and produce a turning effect. The soft iron core only strengthens and shapes the field. Heating and expansion plays no part. Current is not converted into static charge."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19843,7 +19970,8 @@
      "correct_answer": 0,
      "explanation": "A current-carrying coil in a magnetic field feels a force (motor effect). When the current alternates, the force reverses direction, so the coil and attached cone vibrate. The magnet is fixed, so it does not move. Heating is not the cause. The spider and surround only support the cone; they do not produce vibrations."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -19924,7 +20052,8 @@
      "correct_answer": 0,
      "explanation": "A current-carrying wire in a magnetic field experiences a force. On opposite sides of the coil the current flows in opposite directions, so the forces act in opposite directions and make the coil turn. Charged magnets, heating effects and the wire being iron are not the cause of the motor effect."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20109,7 +20238,8 @@
      },
      "explanation": "A current in a solenoid gives a field that loops from one end round to the other. Outside the coil the field lines look just like those of a bar magnet, with one end acting as a north pole and the other as a south pole."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20144,7 +20274,8 @@
      "correct_answer": 0,
      "explanation": "The slip rings turn with the coil and the brushes press on them. This keeps a continuous electrical connection to the lamp without twisting the wires. They do not strengthen the field (the magnets do that). They do not change a.c. to d.c. (a split-ring commutator does that). They do not drive the rotation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -20350,7 +20481,8 @@
      },
      "explanation": "Nucleon number A is protons plus neutrons, so Z = A − N. For Nu-6, Z = 13 − 7 = 6. This means Nu-6 is a carbon nucleus, like Nu-1 and Nu-4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -20385,7 +20517,8 @@
      "correct_answer": 0,
      "explanation": "The proton and electron are already listed, so the third particle in the nucleus is the neutron, which has no charge (0) and a relative mass of 1. A neutron with +1 is wrong because that is the proton's charge. The electron orbits outside the nucleus. A positron is not an atomic particle found in the nucleus and would be +1, not 0."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21422,7 +21555,8 @@
      "correct_answer": 0,
      "explanation": "Perpendicular forces combine using Pythagoras: √(3² + 2²) = √13 ≈ 3.6 N. 5.0 N comes from simply adding the forces, which only works if they act in the same direction. 1.0 N comes from subtracting them, which only works if they act in opposite directions. 6.0 N comes from multiplying the two values, which has no physical meaning here."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21548,7 +21682,8 @@
      "correct_answer": 0,
      "explanation": "Left and right 100N forces cancel. Upward forces add to 20N + 40N = 60N, and 100N acts down, so the resultant is 100 − 60 = 40N downwards. 60N upwards ignores the downward force. 80N uses only one upward force wrongly. Zero assumes all forces balance."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21570,7 +21705,8 @@
      },
      "explanation": "The 20 N left and right forces cancel each other. Vertically, 40 N down minus 20 N up leaves 20 N. So the resultant force is 20 N, acting downwards."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -21617,7 +21753,8 @@
      "correct_answer": 0,
      "explanation": "He is stationary, so the resultant force is zero: his weight down equals the upward force from the moving air. His weight is not zero, since gravity still acts. An upward force bigger than weight would make him accelerate upwards. Gravity acts whether or not he moves."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21810,7 +21947,8 @@
      "correct_answer": 0,
      "explanation": "Equal time intervals with growing gaps means the distance travelled per interval increases, so speed increases: the object accelerates downwards. Constant speed would give equally spaced dots. Decelerating would give gaps getting smaller. No resultant force would mean constant speed, not increasing speed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21919,7 +22057,8 @@
      "correct_answer": 0,
      "explanation": "Forces in opposite directions are subtracted: 10 N − 7 N = 3 N, and the resultant acts in the direction of the larger force, which is left. 3 N to the right has the wrong direction. 17 N adds the forces, which is wrong because they oppose each other. Zero would only happen if the forces were equal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -21988,7 +22127,8 @@
      "correct_answer": 0,
      "explanation": "Force, weight, velocity and electric field strength all have both size and direction, so they are vectors. The second set has speed, mass and energy, which are scalars. The third has distance and time, which are scalars. The fourth has temperature and speed, which are scalars."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22733,7 +22873,8 @@
      "correct_answer": 0,
      "explanation": "Diesel fuel stores energy in the chemical bonds between its atoms, released when it burns, so chemical is correct. Nuclear is the store in a uranium nucleus. Gravitational potential is for objects raised above the ground, like the ball. Thermal is the store in a hot object, like the coffee."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -22994,7 +23135,8 @@
      "correct_answer": 0,
      "explanation": "Nuclear energy comes from uranium nuclei, tidal energy from the Moon's gravity and Earth's rotation, and geothermal from heat inside the Earth. All three are independent of the Sun. Wind, wave and hydroelectric power are driven by solar heating. Fossil fuels, wood and sunlight come from the Sun. Wind power is also solar, so the last group is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23035,7 +23177,8 @@
      "correct_answer": 1,
      "explanation": "Lifting the box raises its height, so the work the girl does against gravity increases its gravitational potential energy. Chemical energy is lost by the girl, not gained by the box. The box is lifted steadily and ends at rest, so its kinetic energy does not keep increasing. The box is not stretched or squashed, so there is no elastic energy."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23076,7 +23219,8 @@
      "correct_answer": 1,
      "explanation": "Energy is released is correct because both fission and fusion release energy. 'Large nuclei split into two' is fission only. 'The energy source of the Sun' is fusion only, as hydrogen nuclei join. 'Used in a uranium-fuelled power station' is fission only, since uranium nuclei are split."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23117,7 +23261,8 @@
      "correct_answer": 0,
      "explanation": "A single fixed pulley only changes the direction of the force, so the girl pulls down while the crate goes up. It does not reduce the effort, which is about equal to the weight. Work done is not reduced, since the force and distance stay the same. The crate rises the same distance as the rope is pulled, not twice as far."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23246,7 +23391,8 @@
      },
      "explanation": "The answer is liquid. A liquid flows to take the shape of its container but keeps a fixed volume. A solid has a fixed shape. A gas takes the container's shape but fills it, so its volume is not fixed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23315,7 +23461,8 @@
      },
      "explanation": "The average kinetic energy of the particles tells you how hot an object is, which is its temperature. This is also the quantity measured using a thermometer, as the last statement in the table shows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23676,7 +23823,8 @@
      "correct_answer": 0,
      "explanation": "Conduction and convection need particles to pass on energy, and a vacuum has almost none, so these are greatly reduced. Reflecting radiation is the job of the shiny silver surfaces, not the vacuum. A vacuum contains no trapped air. Glass still emits radiation, and the silver surfaces reduce it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23745,7 +23893,8 @@
      "correct_answer": 0,
      "explanation": "Air heated by the heater expands, so it becomes less dense and rises toward the ceiling, starting a convection current. Sinking happens to cooler, denser air, not warm air. Warm air does not travel along the floor, because it rises. Heated air does change density, so the last option is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23833,7 +23982,8 @@
      "correct_answer": 0,
      "explanation": "Loudness depends on amplitude, which is the maximum displacement from the time axis to a peak. The time for one complete wave is the period, which relates to pitch. The distance between neighbouring peaks along the time axis is also the period. The number of peaks depends only on how long the trace was recorded, not on loudness."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23855,7 +24005,8 @@
      },
      "explanation": "A louder sound has a larger amplitude, so the peaks and troughs on the displacement axis would be taller. The pitch stays the same, so the period and frequency along the time axis do not change."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -23890,7 +24041,8 @@
      "correct_answer": 0,
      "explanation": "Pitch depends on frequency, so the peaks must stay the same distance apart in time. Loudness depends on amplitude, so a quieter sound has smaller peaks and troughs. Changing only the spacing alters pitch, not loudness. Smaller height with closer peaks would be quieter but higher in pitch, so it is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -23931,7 +24083,8 @@
      "correct_answer": 0,
      "explanation": "The graph has seven peaks, one for each day. The Earth rotates once a day, so the point receives radiation from the Sun by day and loses thermal energy at night. The Earth's distance from the Sun barely changes in a week. The Sun's output is steady. The Moon does not cause daily temperature cycles."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24028,7 +24181,8 @@
      "correct_answer": 0,
      "explanation": "Light speeds up going from water to air, so it refracts away from the normal. The eye traces the rays back in straight lines (dashed) to a point higher than the object, so the object looks shallower. Bending towards the normal is wrong here, appearing deeper is wrong, and no bending would show the true position."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24106,7 +24260,8 @@
      "correct_answer": 1,
      "explanation": "Angles of incidence and reflection are measured from the normal, which is 90° to the mirror. The angle of incidence is 90° − 40° = 50°, so the angle of reflection is also 50°. 40° is the angle to the mirror, not the normal. 80° is double 40°, and 90° is the angle between the normal and the mirror."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24126,7 +24281,8 @@
      },
      "explanation": "The angle of incidence is measured from the normal, which is 90° to the mirror. The ray is 40° from the mirror surface, so the angle of incidence is 90° − 40° = 50°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24202,7 +24358,8 @@
      "correct_answer": 0,
      "explanation": "The ray hits the wall at an angle larger than the critical angle, so it undergoes total internal reflection and stays in the glass. Refraction out would let light escape and the signal would be lost. Absorption would make the ray fade, not reflect. Dispersion is splitting of white light into colours and is not what the diagram shows."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24308,7 +24465,8 @@
      },
      "explanation": "On a displacement–time graph, the time from one peak to the next peak is one complete cycle. This is the period of the wave, the time taken for one full oscillation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24343,7 +24501,8 @@
      "correct_answer": 0,
      "explanation": "O is closer to the lens than the focal point F, so refracted rays diverge and only appear to come from a point on the object's side. This gives a virtual, upright, magnified image, like a magnifying glass. Real inverted images need the object beyond F. A diminished image occurs only when the object is beyond 2F."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24364,7 +24523,8 @@
      },
      "explanation": "The object is closer to the lens than the focal point F. The refracted rays spread apart and never meet, so they only appear to come from a point behind the object. The image is virtual, upright and magnified."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24406,7 +24566,8 @@
      },
      "explanation": "The symbol f stands for frequency, the number of waves passing a point each second. Its unit is the hertz, symbol Hz. In v = fλ, f is multiplied by wavelength λ to give wave speed v."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24501,7 +24662,8 @@
      },
      "explanation": "The straight wavefronts pass through a narrow gap and spread out into curved wavefronts on the other side. This spreading of waves at a gap is called diffraction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24548,7 +24710,8 @@
      "correct_answer": 0,
      "explanation": "The wavelength is shorter in material 2. Frequency is set by the source and does not change at a boundary. Since v = fλ, a shorter wavelength at the same frequency means a lower speed. The other options wrongly change the frequency or give a higher speed, which would need a longer wavelength."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -24623,7 +24786,8 @@
      },
      "explanation": "O is further from the lens than 2F (about 2.5 times the focal distance). For a converging lens, an object beyond 2F gives a real, inverted image that is smaller (diminished) than the object."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24719,7 +24883,8 @@
      },
      "explanation": "The charges are +2C and –2C, so they are opposite in sign. Opposite charges attract each other, so each charge feels a force pulling it towards the other. Like charges would repel."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -24907,7 +25072,8 @@
      "correct_answer": 0,
      "explanation": "Two like poles (N and N) repel, so field lines leave each N pole and bend away from each other, giving a neutral point midway where the field is zero. Straight lines across the gap would show attraction between unlike poles, as in diagram c. Lines may not stop at one magnet only, and the field in the gap does not come from an S end, because the facing ends are both N."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25029,7 +25195,8 @@
      "correct_answer": 0,
      "explanation": "The lamp, resistor and cells are in one series loop, so total resistance rises and the current falls everywhere in it, making the lamp dimmer. Brighter is wrong as more resistance reduces current. Unchanged is wrong because current depends on resistance too. Current is not used up; it is the same throughout."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25099,7 +25266,8 @@
      "correct_answer": 0,
      "explanation": "Thinner wires and longer wires both raise resistance, so current decreases (I = V/R). Less resistance makes current increase, so options 2 and 4 are wrong. Increasing the voltage makes current increase, so option 3 is wrong because it pairs this with a change that decreases current."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25430,7 +25598,8 @@
      "correct_answer": 0,
      "explanation": "An LDR (light-dependent resistor) has a resistance that falls as light intensity increases. A thermistor responds to temperature, not light. A variable resistor changes only when its slider is moved by hand. A fuse is a safety device that melts when the current is too high."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25664,7 +25833,8 @@
      "correct_answer": 0,
      "explanation": "Each device draws current from the same socket, so the total current becomes large. A large current heats the wires (heating effect), which may cause a fire. Mains voltage does not rise when more devices are added. Devices on an adapter are in parallel, not series, so each gets full voltage. Plugs do not become charged from overloading."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25726,7 +25896,8 @@
      "correct_answer": 0,
      "explanation": "The split ring swaps which brush touches each half of the coil every half turn, reversing the current. The forces on the coil sides then keep turning it the same way. It does not raise the voltage. The magnet's field between N and S is fixed. It must allow current to flow, not stop it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25796,7 +25967,8 @@
      "correct_answer": 0,
      "explanation": "Power = potential difference × current = 120 V × 4 A = 480 W. Dividing 120 by 4 gives 30, which is wrong because that is resistance, not power. Adding (124) or subtracting (116) the values has no physical meaning for power."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -25819,7 +25991,8 @@
      },
      "explanation": "Row 1 has 600 W = 0.6 kW. Energy = 3.6 ÷ 20 = 0.18 kWh. Time = energy ÷ power = 0.18 ÷ 0.6 = 0.3 hours, which is 18 minutes."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26012,7 +26185,8 @@
      "correct_answer": 0,
      "explanation": "Current direction reverses when the current changes sign, shown by the curve crossing the time axis between positive and negative values. A peak only shows maximum current. Repeating shape shows the current is periodic, not that it reverses. Starting at zero just shows the current's value at the start, not a change of direction."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26342,7 +26516,8 @@
      },
      "explanation": "Only neutrons have no electric charge. Protons are positive and electrons are negative. The row 'These particles have no electric charge' therefore describes neutrons, which are found in the nucleus."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26377,7 +26552,8 @@
      "correct_answer": 0,
      "explanation": "Alpha particles and the gold nucleus are both positive, so they repel. Particle 1 passes very close to the tiny, dense nucleus, so the repulsive force is large. Particle 2 is far away, so the force is negligible. Attraction is wrong because the charges are alike. Electrons are too light to turn alphas back. Both alphas are positive."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26446,7 +26622,8 @@
      "correct_answer": 0,
      "explanation": "The atomic number 2 gives 2 protons. The mass number 4 is protons plus neutrons, so neutrons = 4 − 2 = 2. 4 protons and 2 neutrons wrongly uses the mass number as the proton count. 2 protons and 4 neutrons wrongly uses the mass number as the neutron count. 4 protons and 0 neutrons ignores the atomic number."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26467,7 +26644,8 @@
      },
      "explanation": "The mass number 4 is the total number of protons and neutrons. The atomic number 2 is the number of protons. So neutrons = 4 − 2 = 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26585,7 +26763,8 @@
      "correct_answer": 0,
      "explanation": "The α arrow stops at the paper, so alpha is the radiation absorbed by paper. Alpha particles are helium nuclei, which are heavy and strongly ionising. Beta is not stopped by paper; it stops at the aluminium, and it is a fast electron, not a helium nucleus. Gamma passes through paper and aluminium and is an electromagnetic wave."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -26606,7 +26785,8 @@
      },
      "explanation": "Gamma is the answer. In the diagram the γ arrow passes through the paper and the aluminium and goes partway into the lead. The α and β arrows are both stopped earlier, so γ is the most penetrating."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -26748,7 +26928,8 @@
      "correct_answer": 0,
      "explanation": "Tc-99 emits only gamma, which passes out of the body to be detected, and its 6-hour half-life means it soon decays so the patient's dose is low. Am-241, Cf-252 and U-234 emit harmful alpha, which is highly ionising inside the body. Am-241 and U-234 also stay radioactive for far too long."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27240,7 +27421,8 @@
      "correct_answer": 0,
      "explanation": "The tick marks show all four sides equal 2x, so P = 2x + 2x + 2x + 2x = 8x. 4x only adds two sides. 2x + 4 wrongly adds 4 to one side instead of adding four sides. 8x² wrongly multiplies the sides instead of adding them."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -27792,7 +27974,8 @@
      },
      "explanation": "Angles on a straight line add up to 180°. The 112° angle and x share the straight line, so x = 180° − 112° = 68°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28034,7 +28217,8 @@
      },
      "explanation": "The angles 82°, x and 82° together make a straight line above the horizontal, so they add up to 180°. Then x = 180° − 82° − 82° = 16°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -28308,7 +28492,8 @@
      "correct_answer": 0,
      "explanation": "Angles x and 5x lie together along one straight line, so they add up to 180°. Then 6x = 180, so x = 30°. 36° comes from dividing 180 by 5 and ignoring the x. 60° comes from dividing 180 by 3. 18° wrongly uses 90° instead of 180° and divides by 5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28665,7 +28850,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a triangle sum to 180°. The right angle is 90°, so 2x = 90° and x = 45°. 90° is wrong because it is the sum of both x angles, not one. 30° and 60° come from assuming an equilateral or 30-60-90 triangle, but the two marked angles are equal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -28793,7 +28979,8 @@
      },
      "explanation": "Angles in a triangle add up to 180°. So x = 180° − 82° − 30° = 68°. The diagram gives the other two angles as 82° and 30°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -29465,7 +29652,8 @@
      },
      "explanation": "The angles in a triangle add up to 180°. So x = 180° − 57° − 69° = 54°. The diagram gives the angles at B and C, so subtract their sum (126°) from 180°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -29512,7 +29700,8 @@
      "correct_answer": 0,
      "explanation": "MN = MO, so the triangle is isosceles and the base angles at N and O are equal. Angles sum to 180°, so x = (180 − 48) ÷ 2 = 66°. 48° wrongly copies the apex angle. 84° is 132° ÷ 2 miscalculated. 132° is the sum of both base angles, not one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -29532,7 +29721,8 @@
      },
      "explanation": "The tick marks show MN = MO, so the triangle is isosceles and the base angles are equal. The angles sum to 180°, so x = (180 − 48) ÷ 2 = 132 ÷ 2 = 66°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30012,7 +30202,8 @@
      "correct_answer": 0,
      "explanation": "Since AC = AB, triangle ABC is isosceles with equal angles at B and C: (180 − 58) ÷ 2 = 61°. The exterior angle x = 180 − 61 = 119°, which also equals 58 + 61. 122° wrongly uses 180 − 58. 61° is only the interior angle at B. 109° comes from treating 58° as a base angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30310,7 +30501,8 @@
      "correct_answer": 0,
      "explanation": "The diagonals of a rectangle are equal and bisect each other, so the triangle formed with the centre is isosceles and angle ACB = angle DBC = 62°. Angle BCD = 90°, so x = 90° − 62° = 28°. 62° ignores the right angle. 38° comes from subtracting from 100°. 118° is 180° − 62°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30365,7 +30557,8 @@
      "correct_answer": 0,
      "explanation": "Angles in a quadrilateral add up to 360°, so 3x + 4x + 2x + x = 10x = 360°, giving x = 36. The answer 40 comes from dividing by 9, missing the angle x. The answer 30 comes from using 300° instead of 360°. The answer 10 is the sum of the coefficients, not x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30567,7 +30760,8 @@
      "correct_answer": 0,
      "explanation": "Angle sum = (n − 2) × 180°, so (12 − 2) × 180 = 1800°. 2160° comes from using n × 180. 1980° is the sum for 13 sides, from using (n − 1) × 180. 1620° is the sum for 11 sides, from using (n − 3) × 180."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30587,7 +30781,8 @@
      },
      "explanation": "The table gives 12 sides. The interior angle sum is (n − 2) × 180, so (12 − 2) × 180 = 10 × 180 = 1800 degrees."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30634,7 +30829,8 @@
      "correct_answer": 0,
      "explanation": "AB is a straight line through the centre O with both ends on the large circle, so it is a diameter. A radius goes only from the centre to the circle. A chord not through O would not pass through the centre. A tangent touches the circle at just one point."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -30694,7 +30890,8 @@
      },
      "explanation": "Triangle PQR is isosceles because RQ = PQ, so the base angles at R and P are equal. Angle QPR = (180° − 70°) ÷ 2 = 55°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -30729,7 +30926,8 @@
      "correct_answer": 0,
      "explanation": "A pentagon's interior angles sum to (5−2)×180° = 540°. The three right angles total 270°, so 2x = 270° and x = 135°. 90° wrongly treats x as a right angle. 125° comes from guessing. 270° is the value of 2x, not of one x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31465,7 +31663,8 @@
      "correct_answer": 0,
      "explanation": "The number of people in a household is found by counting, so only whole values such as 2, 3 or 4 are possible. This is discrete data. Continuous data is measured and can take any value in a range. Data in words is categorical, not numerical. Fractions of a person are impossible."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -31486,7 +31685,8 @@
      },
      "explanation": "The answer is discrete. Number of people in household is a numerical value that comes from counting whole people (1, 2, 3...). It cannot take values in between, such as 2.5 people, so it is discrete rather than continuous."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -31616,7 +31816,8 @@
      "correct_answer": 1,
      "explanation": "$29.99 lies between 20 and 29.99, so it belongs in the 20–29.99 class. 10–19.99 is too low. 30–39.99 starts at 30, so it is too high. 20–30 is not a class in the table, and the classes do not overlap."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33439,7 +33640,8 @@
      "correct_answer": 0,
      "explanation": "AB = AC, so the base angles are equal. Angles in a triangle total 180°, so ABC = (180 − 38) ÷ 2 = 71°. 142° forgets to halve. 109° is the exterior angle ACD, not ABC. 38° wrongly assumes a base angle equals the apex angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33459,7 +33661,8 @@
      },
      "explanation": "The tick marks show AB = AC, so the base angles at B and C are equal. Angles in a triangle sum to 180°, so angle ABC = (180 − 38) ÷ 2 = 71°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -33522,7 +33725,8 @@
      "correct_answer": 0,
      "explanation": "Decreasing by 15% means multiplying by 0.85: 18 × 0.85 = 15.3, which matches H. T (15.6) is the value of bubble R, increase 12 by 30%. S (23) does not come from this calculation. D (9.6) equals 20% of 40% of 120, not 15% off 18."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33659,7 +33863,8 @@
      "correct_answer": 0,
      "explanation": "3/16 = 3 ÷ 16 = 0.1875, which stops after four decimal places. 5/8 = 0.625 terminates, but after only three places. 1/3 = 0.333… recurs forever. 3/7 = 0.428571… also recurs, because its denominator 7 is not made only of factors 2 and 5."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -33890,7 +34095,8 @@
      "correct_answer": 1,
      "explanation": "Writing 12x + 18 as 6(2x + 3) takes out the HCF of 12 and 18, which is 6, so it matches criterion B. Criterion A involves solving equations, and there is no equals sign here. Criterion C involves rearranging a formula. Expanding is the reverse of factorising, so the last option is wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -34381,7 +34587,8 @@
      },
      "explanation": "Area of a trapezium = ½ × (sum of parallel sides) × height. The parallel sides are 6 cm and 12 cm, and the dotted perpendicular height is 6 cm. So ½ × (6 + 12) × 6 = 54 cm²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -35133,7 +35340,8 @@
      "correct_answer": 0,
      "explanation": "Area = πr² = π × 4² = 16π ≈ 50.3 m². 25.1 m² is the circumference 2πr, which is the wrong formula. 201 m² comes from squaring 2πr or using (2r)² incorrectly with π. 16.0 m² forgets to multiply by π."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35363,7 +35571,8 @@
      "correct_answer": 1,
      "explanation": "Circumference = 2πr = 2 × π × 2/π = 4 m, because π cancels. 4/π m is wrong because it leaves out the π in the formula. 2 m uses πr instead of 2πr. 4/π² m wrongly divides by π again, as if the formula were 2r/π."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35426,7 +35635,8 @@
      },
      "explanation": "The diameter is √2 km, so the radius is √2/2 km. Area = πr² = π × (2/4) = π/2 ≈ 1.57 km² to 3 significant figures."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -35526,7 +35736,8 @@
      "correct_answer": 0,
      "explanation": "Arc length is the fraction angle/360 of the circumference. Here (1/60)/360 = 1/21 600. 1/360 forgets the angle is only 1/60 of a degree. 1/60 uses the angle as the fraction without dividing by 360. 1/3600 wrongly multiplies 60 by 60 instead of 60 by 360."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35599,7 +35810,8 @@
      },
      "explanation": "The circumference is 12π, so the diameter is 12π ÷ π = 12 cm. The circle touches all four sides of the square, so the square's side equals the circle's diameter: 12 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -35634,7 +35846,8 @@
      "correct_answer": 0,
      "explanation": "Arc length = (θ/360)×2πr. Setting this equal to r gives θ = 360/(2π) ≈ 57.3° (1 radian). 60° would be correct only if the chord, not the arc, equalled r. 90° would be a quarter circle, with arc πr/2. 180° would be a semicircle, with arc πr."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35658,7 +35871,8 @@
      },
      "explanation": "Arc length = (θ/360) × 2πr. The arc equals r, so θ/360 = 1/(2π). Then θ = 360/(2π) ≈ 57.3°, which is 57° to the nearest degree. This is one radian."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -35693,7 +35907,8 @@
      "correct_answer": 0,
      "explanation": "Shaded area = outer circle minus inner circle = π(9²) − π(5²) = 81π − 25π = 56π mm². 16π comes from (9−5)²π, which wrongly squares the difference of the radii. 4π comes from subtracting the radii and then using π(9−5). 106π comes from adding the two areas instead of subtracting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -35762,7 +35977,8 @@
      "correct_answer": 0,
      "explanation": "The tick marks show the radius is 15 cm, so area = 62/360 × π × 15² ≈ 122 cm². 16.2 is the arc length formula, not area. 30.4 wrongly treats 15 as the diameter (r = 7.5). 232 uses 118° instead of the marked 62°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -36394,7 +36610,8 @@
      "correct_answer": 0,
      "explanation": "Perimeter = curved arc + two radii. Arc = ¼ × 2π × 15.4 = 24.19 m, and the radii add 30.8 m, giving 55.0 m. 24.2 m forgets the straight edges. 79.2 m uses a semicircle arc. 186 m is the area (¼πr²), not the perimeter."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37071,7 +37288,8 @@
      "correct_answer": 0,
      "explanation": "Volume of a cone = ⅓πr²h = ⅓ × π × 2.4² × 8.3 ≈ 50.1 cm³. 150 cm³ forgets the ⅓. 200 cm³ wrongly uses the diameter 4.8 as the radius. 20.9 cm³ does not square the radius."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37206,7 +37424,8 @@
      "correct_answer": 0,
      "explanation": "The 2 cm is the diameter, so r = 1 cm. Volume = 4/3 × π × 1³ = 4.19 cm³. 33.5 cm³ wrongly uses r = 2 (the diameter). 12.6 cm³ is 4πr², the surface area formula. 8.38 cm³ comes from multiplying 4/3 by π and by the diameter instead of cubing the radius."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37572,7 +37791,8 @@
      "correct_answer": 0,
      "explanation": "Touching circles have centres a distance of two radii apart. All circles are identical, so all three sides equal 2r, making the triangle equilateral. Isosceles is wrong because all three pairs touch. Right-angled is wrong because each angle is 60°. Scalene is wrong because the sides are equal; the position on the page does not change the lengths."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -37919,7 +38139,8 @@
      },
      "explanation": "Numbers greater than 2 on a regular dice are 3, 4, 5 and 6, which is 4 outcomes out of 6. So the probability is 4/6, which simplifies to 2/3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -38695,7 +38916,8 @@
      "correct_answer": 0,
      "explanation": "The sequence 1, 3, 5 goes up by 2 each time, so c = 2p + a constant. When p = 1, c = 1, so the constant is −1, giving c = 2p − 1. c = p + 2 gives 3 for p = 1. c = 2p + 1 gives 3 for p = 1. c = p² gives 4 for p = 2, not 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -39167,7 +39389,8 @@
      "correct_answer": 0,
      "explanation": "The overlap is the part that is in both A and B, so it is the intersection A ∩ B. A ∪ B is wrong because it covers everything inside either circle. A′ ∩ B′ is wrong because it is the region outside both circles. A′ ∪ B is wrong because it includes all of B plus everything outside A."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40314,7 +40537,8 @@
      "correct_answer": 0,
      "explanation": "The line crosses the y-axis at (0, 2), so c = 2. It falls 2 units for every 2 units across, so the gradient is -1, giving y = -x + 2. y = x + 2 has the wrong sign of gradient. y = -x - 2 has the wrong intercept. y = 2x + 2 has the wrong gradient and slopes upward."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40747,7 +40971,8 @@
      "correct_answer": 1,
      "explanation": "From H(0,0) to G(7,1) the horizontal change is 7 and the vertical change is 1. Pythagoras gives √(7²+1²)=√50. Choosing 7 ignores the vertical change. √48 subtracts the squares instead of adding. 8 adds the two changes instead of using Pythagoras."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -40807,7 +41032,8 @@
      "correct_answer": 0,
      "explanation": "The wall, ground and ladder form a right-angled triangle, with the ladder as the hypotenuse. So length = √(3² + 0.4²) ≈ 3.03 m. √(3² − 0.4²) wrongly treats a shorter side as the hypotenuse. 3 + 0.4 adds the sides and ignores Pythagoras. √(3 − 0.4) does not square the lengths."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -41201,7 +41427,8 @@
      "correct_answer": 0,
      "explanation": "The hypotenuse is the 10 cm side opposite the right angle, so a² + 8² = 10². Then a² = 100 − 64 = 36, so a = 6. Option 2 subtracts the lengths (10 − 8). Option 12.8 adds the squares (100 + 64 = 164, √164 ≈ 12.8), treating 10 as a short side. Option 9 is a guess that does not satisfy the theorem."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -41340,7 +41567,8 @@
      "correct_answer": 0,
      "explanation": "The 12 cm side is the hypotenuse, so k² + 6² = 12². That gives k² = 144 − 36 = 108, so k = √108 cm (about 10.4). √180 comes from adding 144 + 36. 6 cm wrongly assumes the legs are equal. √72 comes from 12² − 6² computed wrongly as 72 (12×6)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -41527,7 +41755,8 @@
      },
      "explanation": "The shorter sides are 5 cm and 12 cm, so 5² + 12² = 25 + 144 = 169 cm². This is not equal to 14² = 196, so triangle C is not right angled."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -41574,7 +41803,8 @@
      "correct_answer": 0,
      "explanation": "The longest side, 25 cm, is the hypotenuse, so the two shorter sides squared must sum to its square: 49 + 576 = 625 = 25². The second option adds lengths without squaring. The third puts the hypotenuse on the wrong side (625 + 49 ≠ 576). The fourth does not square the sides and subtracts incorrectly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -41627,7 +41857,8 @@
      "correct_answer": 0,
      "explanation": "The hypotenuse is opposite the right angle, so x² = 6² + 8² = 36 + 64 = 100, and x = 10 cm. Subtracting squares finds a shorter side, not the hypotenuse. Adding 6 + 8 ignores squaring and square rooting. Stopping at 100 forgets the final square root step."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -41801,7 +42032,8 @@
      "correct_answer": 0,
      "explanation": "Pythagoras: t² = 4² + 6² = 16 + 36 = 52, so t = √52 m (about 7.21 m). √20 comes from subtracting 36 − 16, which is wrong for a hypotenuse. 10 comes from adding the sides (4 + 6). 5 comes from wrongly using 4 + 6 = 10 and halving it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -42540,7 +42772,8 @@
      "correct_answer": 0,
      "explanation": "Both ends are the same distance x from the corner, so x² + x² = 6², giving 2x² = 36 and x² = 18, so x = 4.24 cm. 3.00 cm comes from halving 6. 8.49 cm comes from adding the squares wrongly, using x² = 72. 6.00 cm treats the brace as a leg, not the hypotenuse."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -43276,7 +43509,8 @@
      },
      "explanation": "Area = width × height, so width = 592 ÷ 32 = 18.5 cm. The diagram gives the height of rectangle a as 32 cm and its area as 592 cm²."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -44253,7 +44487,8 @@
      "correct_answer": 0,
      "explanation": "Regular octagons all have equal interior angles of 135° and equal sides, so any two have equal corresponding angles and sides in a constant ratio. This makes them similar. Different size does not stop similarity (enlargement). Equal perimeter or equal area would make them congruent, which is not required."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -44704,7 +44939,8 @@
      "correct_answer": 1,
      "explanation": "The ladder is the hypotenuse of a right-angled triangle, so height² = 4.5² − 1.6² = 20.25 − 2.56 = 17.69, giving about 4.21 m. 4.78 m wrongly adds the squares. 2.9 m just subtracts the lengths. 4.32 m only squares one of the numbers before subtracting."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46506,7 +46742,8 @@
      "correct_answer": 0,
      "explanation": "3.61 is given to 2 decimal places (3 s.f.), so the error is up to half of 0.01, which is 0.005. The upper bound is 3.61 + 0.005 = 3.615 cm. 3.65 adds 0.05, which is the wrong place value. 3.605 is the lower bound. 3.62 adds a whole 0.01 instead of half of it."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46525,7 +46762,8 @@
      },
      "explanation": "3.61 cm is rounded to the nearest 0.01 cm, so the true value can be up to 0.005 cm more or less. Adding 0.005 to 3.61 gives an upper bound of 3.615 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -46793,7 +47031,8 @@
      "correct_answer": 0,
      "explanation": "Going up from 80 km/h to the line and across gives about 50 mph. 80 mph wrongly treats the units as equal, but the line is well below that. 128 mph converts in the wrong direction (80 mph to km/h). 40 mph is too low; the line reaches 40 mph near 64 km/h."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -46818,7 +47057,8 @@
      },
      "explanation": "Find 80 on the km/h axis, go up to the line, then across to the mph axis. The line is at about 50 mph. So 80 km/h is roughly 50 mph."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -47144,7 +47384,8 @@
      },
      "explanation": "Substitute x = 3 into x + y = 9. Then 3 + y = 9, so y = 9 − 3 = 6. This is the missing y-value in the column where x is 3."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -47313,7 +47554,8 @@
      },
      "explanation": "BT is opposite the 35° angle at A, and AT is the hypotenuse because it is opposite the right angle at B. Opposite over hypotenuse is the sine ratio, so sin 35° = BT ÷ AT."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -47348,7 +47590,8 @@
      "correct_answer": 0,
      "explanation": "b is opposite the 70° angle and the ladder (3.6 m) is the hypotenuse, so b = 3.6 × sin 70° ≈ 3.38 m. Using cos 70° would find the base distance from the wall. Dividing by sin 70° gives a length longer than the ladder. Tan 70° would need the adjacent side, not the hypotenuse."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -47471,7 +47714,8 @@
      "correct_answer": 0,
      "explanation": "A scale copy is mathematically similar: lengths are enlarged but angles stay the same, so the angles remain 90°, 60° and 30°. The second option wrongly says angles scale with the sides. The third wrongly says the other angles change. The fourth is also wrong because the 60° angle does not change when the triangle is enlarged."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -48136,7 +48380,8 @@
      },
      "explanation": "BC is opp(30°) = 1 unit. Since sin 30° = opp/hypotenuse = 1/AB = 0.5, AB = 2 units. This is the known 30°-60°-90° triangle, where the hypotenuse is twice the shortest side."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -50545,7 +50790,8 @@
      "correct_answer": 0,
      "explanation": "Sine is opposite divided by hypotenuse. The side opposite θ° is y and the hypotenuse is r, so sin θ° = y/r. x/r is cos θ° because x is adjacent. y/x is tan θ°. r/y is the reciprocal of sine, so it is inverted."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -50567,7 +50813,8 @@
      },
      "explanation": "Sine is opposite divided by hypotenuse. The side opposite angle θ° is y, and the hypotenuse is r, so sin θ° = y/r."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -51824,7 +52071,8 @@
      "correct_answer": 0,
      "explanation": "AC is adjacent to the 18° angle and AB is the hypotenuse, so cos 18° = AC ÷ 6.25, giving AC = 6.25 × cos 18°. Using sin would find BC (the opposite side). Dividing by cos 18° wrongly makes AC longer than the hypotenuse. Using tan would need AB to be a different side (the adjacent side)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52136,7 +52384,8 @@
      "correct_answer": 0,
      "explanation": "PQ = PT, so triangle PQT is isosceles and angles PQT and PTQ are equal. Angle sum 180° gives (180 − 108) ÷ 2 = 36°. 72° is the sum of both base angles, not one. 54° wrongly halves 108°. 108° is the angle at P, not Q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -52156,7 +52405,8 @@
      },
      "explanation": "Triangle PQT is isosceles because PQ = PT = 10 cm, so angles PQT and PTQ are equal. The angles sum to 180°, so (180 − 108) ÷ 2 = 36°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -52232,7 +52482,8 @@
      "correct_answer": 0,
      "explanation": "A regular pentagon has rotational symmetry of order 5, so the angles at the centre between neighbouring vertices are equal. Each is 360° ÷ 5 = 72°. 36° is half of this, which is angle AOM. 108° is an interior angle of the pentagon. 60° wrongly assumes triangle AOE is equilateral."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -53484,7 +53735,8 @@
      "correct_answer": 0,
      "explanation": "A regular hexagon splits into 6 equilateral triangles, each of area ½ × 11.2 × 11.2 × sin60° ≈ 54.3 cm². Multiplying by 6 gives 325.9 cm². 271.6 uses only 5 triangles. 54.3 is just one triangle. 67.2 is the perimeter (6 × 11.2), not the area."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54512,7 +54764,8 @@
      "correct_answer": 0,
      "explanation": "x is adjacent to the 50° angle and 12 m is opposite, so tan 50° = 12/x and x = 12 ÷ tan 50° = 10.1 m. Multiplying 12 by tan 50° gives 14.3 m, which swaps the sides. 12 ÷ sin 50° = 15.7 m is the length PQ. 12 ÷ cos 50° = 18.7 m uses the wrong ratio."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -54731,7 +54984,8 @@
      "correct_answer": 0,
      "explanation": "The line y = 0.5 crosses the curve twice, once on the rising part before A (x = 30) and once on the falling part after A (x = 150). One is wrong because it ignores the symmetry about x = 90. Three and four are wrong because the curve is below zero from 180 to 360, so the line does not meet it there."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55419,7 +55673,8 @@
      "correct_answer": 0,
      "explanation": "Triangle ABC has its right angle at B, so AC is the hypotenuse. BC² = 20² − 13² = 400 − 169 = 231, so BC = 15.2 cm. Adding the squares gives 23.9 cm, which wrongly treats AC as a shorter side. Subtracting the lengths gives 7 cm, which forgets to square. 12.4 is not found by any valid method."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -55991,7 +56246,8 @@
      "correct_answer": 0,
      "explanation": "10% of 125.99 is 12.599, which is about 12.60 in savings. The sale price is 125.99 − 12.599 = 113.391, so $113.39. 12.60 is only the savings. 138.59 adds the discount instead of subtracting it. 115.99 subtracts 10 rather than 10%."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56153,7 +56409,8 @@
      "correct_answer": 0,
      "explanation": "A larger coefficient of x² makes y increase faster, so y = 2x² is steeper and narrower; for example at x = 1 it gives y = 2 but ½x² gives 0.5. The 'wider' option reverses this. Both vertices are at the origin, so the third is wrong. The last option reverses the effect of a smaller coefficient."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    }
   ]
  },
@@ -56182,7 +56439,8 @@
      "correct_answer": 0,
      "explanation": "All three curves have vertex (0, 0) and open downward because each coefficient is negative. Only the size of the coefficient differs: -1/3 gives the widest curve and -2 the narrowest. So the coefficient changes the width. The vertex position and the direction of opening do not change."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    }
   ]
  },
@@ -56283,7 +56541,8 @@
      "correct_answer": 0,
      "explanation": "Substituting x = −3 gives (−3)² + 1 = 9 + 1 = 10, because squaring a negative number gives a positive. −8 comes from treating (−3)² as −9. 7 comes from subtracting 1 or using 3² − 2. −10 comes from both a sign error and adding incorrectly."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56356,7 +56615,8 @@
      },
      "explanation": "Substitute x = −3 into y = x² − 2. Squaring −3 gives 9, because a negative squared is positive. Then 9 − 2 = 7, so the empty cell under −3 should contain 7."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56403,7 +56663,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = -3: (-3)² = 9, so y = -9 + 1 = -8. The value 10 comes from treating -x² as (-x)² and adding 1 to 9. The value -10 comes from -9 - 1. The value 8 comes from ignoring the negative sign on x² and subtracting 1 from 9."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56425,7 +56686,8 @@
      },
      "explanation": "Substitute x = -3 into y = -x² + 1. Squaring gives (-3)² = 9, so -x² = -9. Then y = -9 + 1 = -8. This is the value that goes in the first cell of the bottom row."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56734,7 +56996,8 @@
      "correct_answer": 0,
      "explanation": "y = 2 ÷ (−4) = −0.5, so −0.5 is correct. 0.5 ignores the negative sign of x. −2 comes from subtracting or using 2 − 4 instead of dividing. −8 comes from multiplying 2 by −4 instead of dividing 2 by −4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56854,7 +57117,8 @@
      "correct_answer": 0,
      "explanation": "Dividing 1 by 0 is undefined, so the graph has no point at x = 0 and it forms two separate branches. The y = 0 option is wrong because 1/x never equals 0. The graph is a curve, not a straight line. Curved graphs can use any x-values, not only fractions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -56876,7 +57140,8 @@
      },
      "explanation": "Substitute x = −1/2 into y = 1/x. Dividing 1 by −1/2 gives −2, so the empty y cell under x = −1/2 would be −2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -56966,7 +57231,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = −4: y = −1/(−4) = 0.25. A negative divided by a negative gives a positive. −0.25 ignores the double negative. 4 and −4 come from forgetting that 1/x is a reciprocal, so the answer must be a fraction, not 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57089,7 +57355,8 @@
      "correct_answer": 0,
      "explanation": "The line y = 4 meets the parabola y = x² at x = -2 and x = 2, so both are solutions of x² = 4. Choosing x = 2 only ignores the negative root. x = 4 confuses the y-value with x. x = -4 and 4 are not where the curves cross."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57142,7 +57409,8 @@
      "correct_answer": 0,
      "explanation": "The curve and line cross at (-1, 1) and (2, 4): both satisfy y = x² and y = x + 2. (1, 1) is not on the line. (4, 2) swaps x and y. (-2, 0) is where the line meets the x-axis, not the curve."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57601,7 +57869,8 @@
      "correct_answer": 0,
      "explanation": "Draw a horizontal line at y = 4. It meets the curve at x = 2 and x = −2, because the curve is symmetrical about the y-axis. 'x = 2 only' ignores the negative solution. 'x = 4 and x = −4' and 'x = 4 only' confuse the y-value 4 with the x-value."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57804,7 +58073,8 @@
      "correct_answer": 1,
      "explanation": "Substitute x = 0.5: 0.5² = 0.25, so y = 0.25 + 3 = 3.25, matching y = 3.25 at x = −0.5 by symmetry. 3.5 comes from doubling or adding 0.5 instead of squaring. 3.025 misplaces the decimal in 0.5². 4.25 comes from squaring wrongly as 1.25."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -57825,7 +58095,8 @@
      },
      "explanation": "Substitute x = 0.5 into y = x² + 3: 0.5² = 0.25, so y = 0.25 + 3 = 3.25. This matches the table's symmetry, since x = −0.5 also gives y = 3.25."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -58000,7 +58271,8 @@
      },
      "explanation": "The gradient is the change in y divided by the change in x. From (0, 1) to (3, 7), y rises by 6 while x rises by 3, so the gradient is 6 ÷ 3 = 2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -58740,7 +59012,8 @@
      },
      "explanation": "The table shows a regular octagon has 8 lines of symmetry. A regular polygon's order of rotational symmetry equals its number of lines of symmetry (and its number of sides), so the order is 8."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -58827,7 +59100,8 @@
      "correct_answer": 1,
      "explanation": "The equilateral triangle gives 3 planes, each running the length of the prism through a vertex and the midpoint of the opposite side. A fourth plane cuts halfway between the two triangular ends. So 4 in total. 3 forgets the middle plane, 1 counts only that middle plane, and 6 wrongly doubles the count."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58893,7 +59167,8 @@
      "correct_answer": 2,
      "explanation": "Any plane containing the axis of the cylinder splits it into two mirror halves. Since the circular cross-section has infinitely many diameters, there are infinitely many such planes. 1, 2 or 4 would only suit a shape such as a cuboid or square prism, not a circular cylinder."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58946,7 +59221,8 @@
      "correct_answer": 0,
      "explanation": "Any vertical plane through the apex and the centre of the circular base splits the cone into identical mirror halves, and there are infinitely many such planes. One or two planes ignore the circular symmetry. A plane parallel to the base gives a top part (a small cone) and a bottom part (a frustum), which are not mirror images."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -58999,7 +59275,8 @@
      "correct_answer": 0,
      "explanation": "A right square-based pyramid has 4 planes of symmetry: two vertical planes through the midpoints of opposite base edges, and two vertical planes through opposite base corners and the apex. 2 counts only one type of plane. 1 is too few. 8 wrongly counts each plane twice or includes a horizontal plane, which does not work because the pyramid is not the same above and below."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59187,7 +59464,8 @@
      "correct_answer": 0,
      "explanation": "The axis passes through the apex and the centre of the square base, so the pyramid fits onto itself after every 90° turn, giving 4 positions in one full turn. Order 1 ignores the symmetry. Order 2 would only be true for 180° turns. Order 8 wrongly counts edges or triangles instead of matching positions."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59240,7 +59518,8 @@
      "correct_answer": 1,
      "explanation": "There are 6 planes that cut through both hexagonal ends: 3 through opposite vertices and 3 through midpoints of opposite sides. There is also 1 plane halfway along the prism, parallel to the ends. That gives 7. Choosing 6 misses the middle plane, 9 and 12 overcount."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59404,7 +59683,8 @@
      "correct_answer": 0,
      "explanation": "A regular octagon has 8 equal sides, so rotating the prism about the axis through the centres of its ends fits it onto itself 8 times in one full turn (every 45°). 4 and 2 count only some of these rotations. 16 wrongly counts both sides and vertices, or doubles the sides."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59595,7 +59875,8 @@
      "correct_answer": 0,
      "explanation": "A tangent meets the radius at 90°, so triangle BAO is right-angled at A with hypotenuse BO = 15. AO² = 15² − 12² = 225 − 144 = 81, so AO = 9 cm. 3 cm subtracts the lengths directly. 19.2 cm adds the squares and square-roots (√369). 13.5 cm is just the mean of 12 and 15, which has no basis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -59983,7 +60264,8 @@
      },
      "explanation": "X is the midpoint of AB, so OX is perpendicular to AB and triangle OXA has a right angle at X. By Pythagoras, AX² = 17² − 8² = 289 − 64 = 225, so AX = 15 mm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60139,7 +60421,8 @@
      "correct_answer": 0,
      "explanation": "AC is a diameter, so the angle in a semicircle, ABC, is 90°. Option B is wrong because nothing shows AB = BC. Option C is wrong because ABC is not an angle of a cyclic quadrilateral with opposite angle x. Option D is wrong because it confuses the tangent-radius right angle with the semicircle angle, and the value depends on x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60160,7 +60443,8 @@
      },
      "explanation": "AC is a diameter of the circle, and B lies on the circle. The angle in a semicircle is a right angle, so angle ABC, which is subtended by the diameter AC, is 90°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60396,7 +60680,8 @@
      "correct_answer": 0,
      "explanation": "AC and BD are straight lines through X, so angle AXB and angle DXC are vertically opposite and therefore equal. Angles on a straight line add to 180°, but these two are not adjacent. Nothing shows the chords are perpendicular, so 90° is unjustified. The isosceles reasoning is not valid, since XA, XB, XC and XD are not marked equal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60418,7 +60703,8 @@
      },
      "explanation": "Angle AXB and angle DXC lie opposite each other where chords AC and BD cross at X. Angles facing each other at an intersection are called vertically opposite angles, and they are equal."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -60788,7 +61074,8 @@
      "correct_answer": 0,
      "explanation": "The angle at the centre is twice the angle at the circumference when both stand on the same arc AB, so angle AOB = 2x. Option x wrongly treats the two angles as equal. 90° − x confuses this with a tangent-radius relationship. 180° − 2x is the base angle sum in triangle OAB, not angle AOB."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -60810,7 +61097,8 @@
      },
      "explanation": "The angle at the centre is twice the angle at the circumference when both stand on the same arc AB. Angle ACB = x, so angle AOB = 2x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -61143,7 +61431,8 @@
      "correct_answer": 0,
      "explanation": "The volume of any prism is cross-sectional area × length, so the hexagon's area multiplied by the prism's length is correct. Using the perimeter gives the area of the rectangular faces, not the volume. Adding the area and length mixes units. Multiplying one rectangle's area by the number of faces ignores the hexagonal ends and does not give a volume."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61163,7 +61452,8 @@
      },
      "explanation": "Each end is a regular hexagon with 6 equal angles. The interior angles of a hexagon add up to (6 − 2) × 180 = 720°. Dividing by 6 gives 120° for each interior angle."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -61226,7 +61516,8 @@
      "correct_answer": 1,
      "explanation": "Tangents drawn to a circle from the same external point are equal in length. Joining X to the centre and P and Q to the centre gives two congruent right-angled triangles, so XP = XQ. The other options have no basis: P and Q are the same distance from the centre, and the tangent lengths are not related to the diameter or to a half."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61381,7 +61672,8 @@
      },
      "explanation": "Tangents from B are equal, so BP = BQ and triangle BPQ is isosceles. Angle BPQ equals angle PQB, which is 60°. Angles in a triangle sum to 180°, so angle PBQ = 180 − 60 − 60 = 60°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -61778,7 +62070,8 @@
      "correct_answer": 0,
      "explanation": "The ellipse has two lines of symmetry, the horizontal and vertical dashed lines, and it maps onto itself after a 180° turn, so its rotational order is 2. Order 1 ignores the half-turn. One line misses one of the axes. Infinite symmetry belongs to a circle, not an ellipse."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -61831,7 +62124,8 @@
      "correct_answer": 0,
      "explanation": "The letter A has one vertical line of symmetry through the top point, and the crossbar is horizontal, so the two halves match. It has no rotational symmetry, because a half-turn would put the point at the bottom. The other options wrongly give extra lines or rotational symmetry."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62166,7 +62460,8 @@
      },
      "explanation": "The angle at the centre is twice the angle at the circumference when both stand on the same arc BD. Angle BAD = 86° ÷ 2 = 43°."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -62637,7 +62932,8 @@
      "correct_answer": 0,
      "explanation": "Class width is the upper boundary minus the lower boundary: 165 − 160 = 5. Frequency density = frequency ÷ class width = 20 ÷ 5 = 4. Multiplying 20 × 5 gives 100, which is wrong. Swapping the two values gives 4 and 5, which is wrong. Using the upper boundary 165 as the width is also wrong."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -62657,7 +62953,8 @@
      },
      "explanation": "Class width is the upper boundary minus the lower boundary. For 160 < h ≤ 165, this is 165 − 160 = 5 cm. Class width is needed to work out frequency density when drawing a histogram."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -63699,7 +63996,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = −4 into y = 8/x: 8 ÷ (−4) = −2. The option 2 ignores the negative sign. The option −32 multiplies 8 by −4 instead of dividing. The option −0.5 divides the wrong way round (−4 ÷ 8)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63720,7 +64018,8 @@
      },
      "explanation": "Substitute x = −4 into y = 8/x. This gives y = 8 ÷ (−4) = −2. A positive number divided by a negative number gives a negative answer, so the missing y-value under −4 is −2."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    }
   ]
  },
@@ -63778,7 +64077,8 @@
      "correct_answer": 1,
      "explanation": "The circle has infinitely many lines of symmetry, but the square limits the whole diagram to its own 4: two diagonals and two lines joining midpoints of opposite sides. 2 counts only the diagonals or only the midpoint lines. 8 doubles the square's lines. Infinitely many is true only for the circle alone."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -63931,7 +64231,8 @@
      },
      "explanation": "The class width is the upper boundary minus the lower boundary: 15 − 10 = 5 cm. Class widths matter in histograms because frequency density is frequency divided by class width."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -63985,7 +64286,8 @@
      },
      "explanation": "Substitute x = 3 into y = 7 + 2x − x²: 7 + 6 − 9 = 4. So the blank cell under x = 3 is 4. This matches the symmetry of the table, since x = −1 also gives 4."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -64274,7 +64576,8 @@
      "correct_answer": 0,
      "explanation": "Substitute x = −3 into y = 12/x: y = 12 ÷ (−3) = −4. The answer 4 ignores the negative sign. −36 comes from multiplying 12 by x instead of dividing. 9 comes from adding 12 and −3, which is the wrong operation."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64296,7 +64599,8 @@
      },
      "explanation": "The table follows y = 12/x, as shown by 12 ÷ 1 = 12 and 12 ÷ 6 = 2. When x = −2, y = 12 ÷ (−2) = −6."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -64399,7 +64703,8 @@
      "correct_answer": 0,
      "explanation": "The angle at the circumference is half the angle at the centre when both stand on the same arc AB, so x = 110° ÷ 2 = 55°. 110° wrongly uses the centre angle itself. 35° wrongly uses 90° − 55°. 24° is the angle EFD, which is on a different arc."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64495,7 +64800,8 @@
      "correct_answer": 0,
      "explanation": "Completing the square gives y = (x + 5)² − 11, so the minimum turning point is (-5, -11). (5, -11) has the wrong sign for x. (-5, 39) uses +25 instead of −25 when completing the square. (-10, 14) confuses the turning point with the y-intercept and the coefficient of x."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -64686,7 +64992,8 @@
      "correct_answer": 0,
      "explanation": "The ratio has 1+2+3+4 = 10 parts, so one part is 360° ÷ 10 = 36°. Sector C has 3 parts, so 3 × 36° = 108°. 36° is only one part (sector A). 72° is two parts (sector B). 144° is four parts (sector D)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65000,7 +65307,8 @@
      "correct_answer": 0,
      "explanation": "Real length = 5 × 90 = 450 cm = 4.5 m. 45 cm comes from dividing 450 by 10 wrongly. 0.45 m is a conversion slip by a factor of 10. 18 m comes from dividing 90 by 5 instead of multiplying."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65745,7 +66053,8 @@
      "correct_answer": 0,
      "explanation": "Direct proportion means y = kx. From (10, 12), k = 12/10 = 1.2, so a = 1.2 × 5 = 6. Choosing 7 comes from adding 2 less than the gap of 5 instead of using the ratio. Choosing 5 copies the x-value. Choosing 2.4 divides 12 by 5, which is not the constant k."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -65765,7 +66074,8 @@
      },
      "explanation": "For direct proportion, y ÷ x is constant. At (10, 12) the ratio is 12/10 = 1.2. So at y = 18, b = 18 ÷ 1.2 = 15."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -66594,7 +66904,8 @@
      "correct_answer": 0,
      "explanation": "Volume of a cylinder is base area × height = πr² × 12 = 12πr². 24πr mixes up the formula with circumference (2πr × 12), which is a curved surface area. πr²+12 adds instead of multiplying. 4πr² wrongly uses the sphere surface area formula, not the cylinder."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -66615,7 +66926,8 @@
      },
      "explanation": "The curved surface area of a cylinder is 2πrh. With h = 12 cm, 2π × r × 12 = 24πr. Setting 24πr = 96π gives r = 4 cm."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -67973,7 +68285,8 @@
      "correct_answer": 0,
      "explanation": "Reflection in y = x swaps the x and y coordinates, so (5, 0) becomes (0, 5). (-5, 0) comes from reflecting in the y-axis. (0, -5) comes from reflecting in y = -x. (5, 0) would be unchanged, which only happens for a point on the line or after reflecting in the x-axis."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -68995,7 +69308,8 @@
      },
      "explanation": "Add the vector to the point: x = 4 + (−3) = 1 and y = −1 + (−2) = −3. So the vertex (4, −1) of shape A moves to (1, −3)."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -69815,7 +70129,8 @@
      "correct_answer": 0,
      "explanation": "Adding vectors head to tail, DA + AB gives DB, then DB + BC gives DC, so the path D→A→B→C has the same effect as DC. CD points the opposite way. AC misses the start at D. DB stops at B, leaving out BC."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70025,7 +70340,8 @@
      "correct_answer": 0,
      "explanation": "Going from A to C via B, AC = AB + BC = 2a + 3b. Subtracting (2a − 3b) wrongly reverses the direction of BC. 3a + 2b swaps the coefficients. 6ab multiplies the vectors, which is not defined for vector addition."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70066,7 +70382,8 @@
      "correct_answer": 2,
      "explanation": "OM = b + ½a and ON = a + ½b, so MN = ON − OM = ½a − ½b. ½b − ½a is NM, the opposite direction. ½a + ½b comes from a sign error when subtracting. a − b forgets that M and N are midpoints, so the halves are missed."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70179,7 +70496,8 @@
      "correct_answer": 0,
      "explanation": "AB = AO + OB = −a + b = b − a. The option a − b gives BA, which is the opposite direction. The option a + b would be the diagonal of a parallelogram built on a and b, not the vector from A to B. The option b − 2a has no basis in the diagram, since A is only a single a from O."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70201,7 +70519,8 @@
      },
      "explanation": "To go from A to B, travel from A back to O (−a) and then from O to B (+b). So AB = −a + b, which is b − a."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -70474,7 +70793,8 @@
      "correct_answer": 0,
      "explanation": "PQ = PO + OQ. Since PO = −p and OQ = q, PQ = q − p. The option p − q is QP, which has the opposite direction. The option p + q ignores that PO runs against p. The option ½p + q wrongly brings in QR, which is not part of the path from P to Q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -70914,7 +71234,8 @@
      },
      "explanation": "To go from A to D, follow the path A to B to C to D along the arrows. This gives AD = AB + BC + CD = b + c + d."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -70961,7 +71282,8 @@
      "correct_answer": 0,
      "explanation": "The 52 patients who self-diagnosed COVID-19 split into two groups after testing. If 20 actually had a cold, then 52 − 20 = 32 had COVID-19. 20 is only the cold group. 72 wrongly adds the numbers. 11 wrongly subtracts 20 from 31, which is the other branch."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71439,7 +71761,8 @@
      "correct_answer": 0,
      "explanation": "Elements in E but not in M lie in the crescent of circle E outside the overlap. The overlap shows elements in both E and M. The crescent of M shows elements in M only. The area outside both circles shows elements in neither E nor M."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71548,7 +71871,8 @@
      "correct_answer": 0,
      "explanation": "A horizontal line on a distance-time graph means the distance does not change, so the student is stopped, 4 km from the start. Speed of 4 km/h confuses height with gradient. Returning to the start would be at 0 km. Greatest speed is shown by the steepest line, not a flat one."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71644,7 +71968,8 @@
      "correct_answer": 0,
      "explanation": "AC = AO + OC. AO is the reverse of OA, so AO = −p, and OC = q. So AC = −p + q = q − p. The option p − q is CA, the opposite direction. The option p + q is OB, the diagonal from O. The option −p − q has the wrong sign on q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71665,7 +71990,8 @@
      },
      "explanation": "In a parallelogram, opposite sides are equal and parallel. AB is parallel to OC and has the same length and direction, so AB = OC = q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "written",
@@ -71712,7 +72038,8 @@
      "correct_answer": 0,
      "explanation": "Outside P means P', inside Q means Q, and 'and' means intersection, so P' ∩ Q is correct. P ∩ Q' is the part of P only. P' ∪ Q includes everything outside P as well as all of Q, so it is far larger. P ∪ Q' includes all of P plus everything outside Q."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
@@ -71838,7 +72165,8 @@
      "correct_answer": 0,
      "explanation": "Gradient = change in speed ÷ change in time = 9 ÷ 50 = 0.18, and on a speed-time graph this is acceleration in m/s². 5.6 comes from inverting the fraction (50 ÷ 9). Distance is the area under the graph, not the gradient. The speed of 9 m/s is the height of the horizontal section, not the gradient."
     },
-    "kept": true
+    "kept": true,
+    "decorative": true
    },
    {
     "kind": "short",
