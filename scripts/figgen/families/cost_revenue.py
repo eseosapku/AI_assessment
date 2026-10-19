@@ -19,9 +19,12 @@ ID = "cost_revenue"
 KIND = "business.document"
 SUBJECT = "economics"
 BANDS = ("UP", "AL")
+# The A Level table, with total revenue or a price and the profit-maximising output, is what Rwanda S4's "Revenues and
+# profits of a firm" teaches (TR, AR, MR and profit), so it reaches that Upper Secondary topic by its name (P4).
+ALSO_BANDS = {"AL": ("UP",)}
 CONCEPTS = tuple(f"economics.{c}" for c in ("costs-of-production", "cost-functions", "revenue-and-profit"))
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"\bcosts?\b|cost function"
+NEEDS = r"\bcosts?\b|cost function|revenues? and profits?"
 
 # the firm, what it makes (plural, singular), and francs to one step of cost (MC moves in steps of 100 of these)
 FIRMS = {

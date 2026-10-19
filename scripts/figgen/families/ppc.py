@@ -22,8 +22,17 @@ ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the
 CONCEPTS = tuple(f"economics.{c}" for c in ("production-possibility-curve", "scarcity-choice-opportunity-cost",
                                             "basic-economic-problems"))
 ALSO = ("business.production-possibility-frontier",)
-# A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"production possibilit|\bPP[CF]\b|opportunity cost"
+# A topic whose sections the book lists is reached only if one names what this figure teaches. AS Level's chapter 1
+# (choice and opportunity cost) and chapter 32 (productive efficiency: on the curve, not inside it) are named for it
+# (P4); its chapter 2 and Rwanda S4's first two topics list no scarcity, choice or PPC section, and are left.
+NEEDS = (r"production possibilit|\bPP[CF]\b|opportunity cost|fundamental economic problem|introduction to efficiency|"
+         r"productive efficiency")
+
+
+def avoid_for(p: dict) -> str | None:
+    """The efficiency chapter only where the figure asks for the point inside the curve (resources unemployed or used
+    inefficiently), not where it asks for the unattainable one."""
+    return r"efficiency" if p["ask"] == "outside" else None
 
 # The two goods with their units, where they are made, and who chooses between them.
 CONTEXTS = {

@@ -89,6 +89,21 @@ from . import (block_code_p, computer_parts, document_format, email_screen, fold
 from . import calendar_p, capacity_mass_p, clock_early_p, compare_length_p, position_p, shapes_p
 # P3z chemistry imports
 from . import air_composition, concentration_table, gas_collection, ph_scale, reactivity_test, separation_apparatus
+# P4 business-b imports
+from . import (budget_variance, distribution_channels, ecommerce_checkout, product_label, promotion_results,
+               share_prices, transport_insurance)
+# P4 economics imports
+from . import (ad_as_policy, credit_creation, development_indicators, externality_diagram, goods_grid,
+               population_economics, tariff_diagram)
+# P4 computing-b imports
+from . import (branching_db_p, class_diagram, code_output, cpu_scheduling, gis_layers, memory_allocation,
+               phishing_check)
+# P4 business-a imports
+from . import (action_plan, business_model_canvas, forms_of_business, office_records, quality_control, sectors_chain,
+               stakeholder_grid)
+# P4 computing-a imports
+from . import (computer_generations, data_processing_cycle, keyboard_mouse_p, memory_hierarchy, os_boot,
+               spreadsheet_chart)
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -186,4 +201,17 @@ FAMILIES = {m.ID: m for m in (
     clock_early_p, position_p, compare_length_p, shapes_p, capacity_mass_p, calendar_p,
     # P3z chemistry families
     separation_apparatus, gas_collection, ph_scale, air_composition, concentration_table, reactivity_test,
+    # P4 business-b families
+    distribution_channels, product_label, promotion_results, ecommerce_checkout, budget_variance, share_prices,
+    transport_insurance,
+    # P4 economics families
+    externality_diagram, tariff_diagram, goods_grid, development_indicators, credit_creation, population_economics,
+    ad_as_policy,
+    # P4 computing-b families
+    code_output, class_diagram, cpu_scheduling, memory_allocation, gis_layers, phishing_check, branching_db_p,
+    # P4 business-a families
+    forms_of_business, sectors_chain, stakeholder_grid, business_model_canvas, quality_control, office_records,
+    action_plan,
+    # P4 computing-a families
+    spreadsheet_chart, data_processing_cycle, memory_hierarchy, computer_generations, keyboard_mouse_p, os_boot,
 )}

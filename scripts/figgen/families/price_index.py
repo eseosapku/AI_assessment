@@ -18,10 +18,12 @@ ID = "price_index"
 KIND = "business.document"
 SUBJECT = "economics"
 BANDS = ("UP",)
+# The same weighted index in Cambridge AS Level's chapters on price stability, which measure inflation with it (P4).
+ALSO_BANDS = {"UP": ("AL",)}
 CONCEPTS = tuple(f"economics.{c}" for c in ("index-numbers-and-measurement", "inflation-measurement", "price-index",
                                             "price-level-measurement"))
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"price ind|index|inflation|cost of living|consumer price"
+NEEDS = r"price ind|index|inflation|cost of living|consumer price|price stability"
 
 # item, sold per, base-year prices it may have (Frw)
 BASKET = [
