@@ -1,10 +1,12 @@
 // scripts/figure-library/review-drawn.ts
-// Run: npx jiti scripts/figure-library/review-drawn.ts [--job=p1a-blind] [--cap=8] [--families=bar_chart,pie_chart] [--dry] [--workers=4] [--regrade] [--approve]
+// Run: npx jiti scripts/figure-library/review-drawn.ts [--job=p1a-blind] [--cap=8] [--families=bar_chart,pie_chart] [--ids=@file] [--dry] [--workers=4] [--regrade] [--approve]
+//      (--ids: review these figures instead of each family's first 30 -- a new sub-type in a family whose first 30 were reviewed before; '@file' reads one id per line)
 //      (--job: the review's name, so a later wave is reviewed afresh; --cap: that job's spending cap in USD)
 //      (--regrade: recompute stored verdicts under the current rules; sends nothing)
 //      (--approve: approve the figures of every family that passed; sends nothing)
 // The blind review of the drawn families (spec 5.5): Sonnet answers the questions on 30
 // figures from each family without seeing the keys; code compares; 27 must pass. Resumable.
+import fs from 'node:fs'
 import { libraryDir, openStore } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
@@ -18,7 +20,7 @@ const MAX_UNUSABLE = 10
 
 async function main() {
   const args = parseArgs(process.argv.slice(2), {
-    families: 'string', dry: 'flag', workers: 'int', regrade: 'flag', approve: 'flag', job: 'string', cap: 'string',
+    families: 'string', ids: 'string', dry: 'flag', workers: 'int', regrade: 'flag', approve: 'flag', job: 'string', cap: 'string',
   })
   const job = args.job ? String(args.job) : REVIEW_JOB
   const cap = args.cap ? Number(args.cap) : DEFAULT_CAP_USD
@@ -33,7 +35,10 @@ async function main() {
   }
   const lib = libraryDir()
   if (args.regrade) console.log(`${regrade(db, job)} verdicts changed on regrading`)
-  const items = itemsToReview(db, { job, size: REVIEW_SIZE, families })
+  const idArg = args.ids ? String(args.ids) : ''
+  const figureIds = !idArg ? undefined
+    : (idArg.startsWith('@') ? fs.readFileSync(idArg.slice(1), 'utf8') : idArg).split(/[\s,]+/).map((x) => x.trim()).filter(Boolean)
+  const items = itemsToReview(db, { job, size: REVIEW_SIZE, families, figureIds })
   const estimate = items.length * REVIEW_USD_PER_ITEM
   console.log(`${items.length} figures to review, estimate $${estimate.toFixed(2)}`)
   if (args.dry) {

@@ -29,6 +29,7 @@ NEEDS = r"keyboard|mouse|typing"
 AVOID = r"citizenship|safety|designer|artist|\bdata\b|network|robot|interface|game|animator|storyteller|operating"
 
 U = 0.52  # one key's width, in inches (one data unit is one inch)
+MOUSE = (13.05, 1.85)  # the mouse body's centre
 JOBS = {"enter": "start a new line", "backspace": "remove the letter just to the left of the cursor",
         "delete": "remove the letter just to the right of the cursor", "shift": "type just one capital letter",
         "caps": "keep typing capital letters without holding a key down", "space": "put a space between two words",
@@ -83,7 +84,7 @@ def _letter(ax, x, y, letter, gid):
 
 
 def draw(p: dict):
-    W, H = 13.4, 4.6
+    W, H = 15.0, 4.6
     fig, ax = new_figure(W, H)
     fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
     ax.set_xlim(0, W)
@@ -119,17 +120,19 @@ def draw(p: dict):
         sy = ly + (-0.24 if side == "above" else 0.24 if side == "below" else 0)
         ax.plot([sx, ex], [sy, ey], color=INK, linewidth=1.3, zorder=3, gid=f"leader:{kid}")
         _letter(ax, lx, ly, letter, f"letter:{kid}")
-    # the mouse, seen from above, its cable at the top
-    cx, cy = 12.1, 1.75
-    ax.plot([cx, cx, cx - 0.3], [cy + 1.0, cy + 1.6, cy + 2.0], color=INK, linewidth=1.6)
-    ax.add_patch(Ellipse((cx, cy), 1.3, 2.1, facecolor="#f4f5f6", edgecolor=INK, linewidth=1.6))
-    ax.plot([cx, cx], [cy + 0.15, cy + 1.05], color=INK, linewidth=1.3)
-    ax.plot([cx - 0.62, cx + 0.62], [cy + 0.15, cy + 0.15], color=INK, linewidth=1.3)
-    ax.add_patch(FancyBboxPatch((cx - 0.09, cy + 0.42), 0.18, 0.4, boxstyle="round,pad=0,rounding_size=0.08",
+    # the mouse, seen from above, its cable at the top, far enough right that its letters stand clear of the
+    # keyboard's right-hand letters (P4 review: Enter's "A" sat on the left button's letter)
+    cx, cy = MOUSE
+    ax.plot([cx, cx, cx - 0.3], [cy + 1.25, cy + 1.7, cy + 2.1], color=INK, linewidth=1.6)
+    ax.add_patch(Ellipse((cx, cy), 1.7, 2.5, facecolor="#f4f5f6", edgecolor=INK, linewidth=1.6))
+    ax.plot([cx, cx], [cy + 0.2, cy + 1.25], color=INK, linewidth=1.3)
+    ax.plot([cx - 0.83, cx + 0.83], [cy + 0.2, cy + 0.2], color=INK, linewidth=1.3)
+    ax.add_patch(FancyBboxPatch((cx - 0.1, cy + 0.55), 0.2, 0.45, boxstyle="round,pad=0,rounding_size=0.08",
                                 facecolor="#9aa4ad", edgecolor=INK, linewidth=1.2))
-    spots = {"left button": ((cx - 1.05, cy + 0.55), (cx - 0.3, cy + 0.55)),
-             "right button": ((cx + 1.05, cy + 0.55), (cx + 0.3, cy + 0.55)),
-             "wheel": ((cx + 0.85, cy + 1.7), (cx + 0.07, cy + 0.86))}
+    # each button's arrow ends in the middle of its own half, well clear of the wheel; the wheel's ends on the wheel
+    spots = {"left button": ((cx - 1.5, cy + 0.7), (cx - 0.5, cy + 0.7)),
+             "right button": ((cx + 1.5, cy + 0.7), (cx + 0.5, cy + 0.7)),
+             "wheel": ((cx + 0.75, cy + 2.05), (cx + 0.03, cy + 0.95))}
     for part, letter in p["mouse"].items():
         (lx, ly), (ex, ey) = spots[part]
         d = ((ex - lx) ** 2 + (ey - ly) ** 2) ** 0.5

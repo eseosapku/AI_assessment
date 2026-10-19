@@ -617,6 +617,52 @@ JOB_KEY = [("start a new line", "Enter"), ("just to the left of the cursor", "Ba
 MOUSE_PART = [("shortcut menu", "right button"), ("scroll", "wheel"), ("choose", "left button")]
 
 
+def mouse_regions(ax):
+    """The drawn mouse's parts, read from the figure: its body (an ellipse), the wheel (the small box inside it) and
+    the line across it under the buttons. Returns a function naming the part a point lies in (None if no part, or
+    within 0.3 of the wheel's sides, where a reader could not tell a button from the wheel)."""
+    from matplotlib.patches import Circle, Ellipse, FancyBboxPatch
+    body = next(pa for pa in ax.patches if isinstance(pa, Ellipse) and not isinstance(pa, Circle))
+    (cx, cy), a, b = body.center, body.width / 2, body.height / 2
+
+    def in_body(x, y):
+        return ((x - cx) / a) ** 2 + ((y - cy) / b) ** 2 < 1
+
+    wheel = next(pa for pa in ax.patches if isinstance(pa, FancyBboxPatch)
+                 and in_body(pa.get_x() + pa.get_width() / 2, pa.get_y() + pa.get_height() / 2))
+    wx0, wx1 = wheel.get_x(), wheel.get_x() + wheel.get_width()
+    wy0, wy1 = wheel.get_y(), wheel.get_y() + wheel.get_height()
+    divider = next(ln for ln in ax.lines if len(ln.get_xydata()) == 2 and ln.get_xydata()[0][1] == ln.get_xydata()[1][1]
+                   and in_body(*((ln.get_xydata()[0] + ln.get_xydata()[1]) / 2)))
+    dy = divider.get_xydata()[0][1]
+
+    def part_at(pt):
+        x, y = pt
+        if wx0 <= x <= wx1 and wy0 <= y <= wy1:
+            return "wheel"
+        if not in_body(x, y) or y <= dy:
+            return None
+        if x < wx0 - 0.3:
+            return "left button"
+        if x > wx1 + 0.3:
+            return "right button"
+        return None
+
+    return part_at
+
+
+def leader_ends(ax):
+    """Each letter's leader end, the letter found as the circle's text nearest the leader's other end."""
+    circles = [(t.get_text(), t.get_position()) for t in ax.texts if t.get_fontsize() == 13]
+    ends = {}
+    for ln in ax.lines:
+        gid = ln.get_gid() or ""
+        if gid.startswith("leader:"):
+            (x0, y0), (x1, y1) = ln.get_xydata()[0], ln.get_xydata()[-1]
+            ends[min(circles, key=lambda c: math.dist(c[1], (x0, y0)))[0]] = (x1, y1)
+    return ends
+
+
 def test_keyboard_mouse_p():
     m = fam("keyboard_mouse_p")
     for s in SEEDS:
@@ -624,15 +670,8 @@ def test_keyboard_mouse_p():
         fig = m.draw(p)
         ax = fig.axes[0]
         labels = [(t.get_text(), t.get_position()) for t in ax.texts if t.get_fontsize() == 10]
-        circles = [(t.get_text(), t.get_position()) for t in ax.texts if t.get_fontsize() == 13]
-        ends = {}
-        for ln in ax.lines:
-            gid = ln.get_gid() or ""
-            if not gid.startswith("leader:"):
-                continue
-            (x0, y0), (x1, y1) = ln.get_xydata()[0], ln.get_xydata()[-1]
-            letter = min(circles, key=lambda c: math.dist(c[1], (x0, y0)))[0]
-            ends[letter] = (x1, y1)
+        ends = leader_ends(ax)
+        part_at = mouse_regions(ax)
         plt.close(fig)
         assert len(ends) == 7, s
 
@@ -643,7 +682,6 @@ def test_keyboard_mouse_p():
                 return "space"
             return near[0]
 
-        mouse_x = min(x for x, _ in ends.values() if x > 10)
         for q in qs:
             for phrase, key in JOB_KEY:
                 if phrase in q.stem and "key" in q.stem:
@@ -651,12 +689,32 @@ def test_keyboard_mouse_p():
                     assert all(key_at(ends[o]) != key for o in q.options if o != picked(q)), s
             for phrase, part in MOUSE_PART:
                 if phrase in q.stem and "mouse" in q.stem:
-                    x, y = ends[picked(q)]
-                    cx = 12.1
-                    want = {"left button": x < cx - 0.1, "right button": x > cx + 0.1,
-                            "wheel": abs(x - cx) <= 0.1 and y > 1.75 + 0.5}[part]
-                    assert want, (s, part, (x, y))
-        assert mouse_x > 10, s
+                    assert part_at(ends[picked(q)]) == part, (s, part, ends[picked(q)])
+                    assert all(part_at(ends[o]) not in (part, None) for o in q.options if o != picked(q)), s
+
+
+def test_keyboard_mouse_p_letters_never_overlap_and_mouse_arrows_end_in_their_parts():
+    """P4 review of figure 7: Enter's letter sat on the left button's letter, and the button arrows ended at the
+    wheel's edge. No two letter circles may touch (centre distance more than the sum of the radii, in figure
+    inches), and each mouse arrow ends inside its own part: a button's well clear of the wheel, the wheel's on it."""
+    from matplotlib.patches import Circle
+    m = fam("keyboard_mouse_p")
+    for s in range(1, 301):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        rings = [pa for pa in ax.patches if isinstance(pa, Circle) and abs(pa.radius - 0.24) < 1e-9]
+        assert len(rings) == 7, (s, len(rings))
+        for i, c in enumerate(rings):
+            for d in rings[i + 1:]:
+                assert math.dist(c.center, d.center) > c.radius + d.radius, (s, c.center, d.center)
+        part_at = mouse_regions(ax)
+        for ln in ax.lines:
+            gid = ln.get_gid() or ""
+            if gid.startswith("leader:") and gid[7:] in ("left button", "right button", "wheel"):
+                end = tuple(ln.get_xydata()[-1])
+                assert part_at(end) == gid[7:], (s, gid, end)
+        plt.close(fig)
 
 
 def test_keyboard_mouse_p_prints_big_and_every_job_names_one_key():
