@@ -80,7 +80,8 @@ describe('no source file carries a stray control character', () => {
     }
 
     expect(offenders).toEqual([])
-  })
+    // Reads every source file; past 5 s once scripts/ grew and the machine was busy drawing figures.
+  }, 30_000)
 })
 
 describe('a word boundary that is really a backspace', () => {
