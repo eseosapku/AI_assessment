@@ -113,6 +113,36 @@ def pct(x: Fraction) -> str:
 
 # --- election_results ----------------------------------------------------------------------------------------------
 
+def election_named(p) -> str:
+    """The election the figure shows, as this file words it from the params."""
+    if p["band"] == "P":
+        return f"Class {p['grade']} election for {p['office']} at {p['place']} Primary School"
+    if p["band"] == "LS":
+        return f"election for {p['office']} at {p['place']} " + ("Junior Secondary School" if p["ctx"] == "ng"
+                                                                   else "Secondary School")
+    return f"councillor election in Ward {p['place']}" if p["ctx"] == "ng" else \
+        f"village leader election in Village {p['place']}"
+
+
+def test_election_results_first_question_names_the_figures_own_election():
+    """P5 blind review: "for a class debate" or "for the school newsletter" beside a head prefect's election read as
+    another election. The first stem names exactly the election the figure's title shows, and no other event."""
+    m = fam("election_results")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        stem = qs[0].stem
+        assert election_named(p) in stem and stem.count(" election") == 2, (s, stem)  # the figure's, then "won the election"
+        assert not re.search(r"debate|newsletter|club|meeting|lesson", stem), stem
+    for s in DRAWN:
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        words = words_of(fig).lower()
+        plt.close(fig)
+        place = {"P": f"{p['place']} primary school", "LS": f"{p['place']} "}.get(
+            p["band"], ("ward " if p["ctx"] == "ng" else "village ") + p["place"]).lower()
+        assert p["office"] in words and place in words, (s, p["office"], words[:120])
+
+
 def counts_of(p):
     """Each candidate's votes, the valid total, the votes cast and the registered voters, from the params."""
     votes = {c[0]: c[-1] for c in p["candidates"]}
@@ -162,8 +192,12 @@ def test_election_results():
                 asked.add("needed")
             elif "turnout" in q.stem:
                 assert "registered voters × 100" in q.stem, q.stem
-                assert q.answer == pct(turnout), (s, q.answer, turnout)
-                assert f"{q.answer}%" in q.accepted
+                places = 1 if p["band"] == "UP" else 0
+                assert q.stem.endswith("as a percentage to one decimal place?" if places else
+                                       "as a percentage to the nearest whole number?"), q.stem
+                # the key is the turnout exactly, written at the stated rounding: nothing is rounded away
+                assert Fraction(q.answer) == turnout and q.answer == f"{float(turnout):.{places}f}", (s, q.answer, turnout)
+                assert f"{q.answer}%" in q.accepted and pct(turnout) in q.accepted
                 asked.add("turnout")
             elif "did not vote" in q.stem:
                 assert q.answer == str(reg - cast), (s, q.stem)

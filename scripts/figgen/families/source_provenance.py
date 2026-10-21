@@ -1,15 +1,17 @@
 """Four sources about one real event, in a table (UP; AS Level "Preparing for assessment" by name): each source lettered
-A to D, with what it is, who made it, when it was made and how its maker knew. The definitions of a primary source, a
-secondary source and an eyewitness are printed above the table, and the event's date and place under the title.
+A to D, with what it is, who made it, when it was made and how its maker knew. The definitions of a primary and a
+secondary source are printed above the table, and the event's date and place under the title.
 
 The authors are invented ("a teacher who was at the independence ceremony in Lagos", "a historian at a university in
-Ibadan"); the events and their dates are real and fixed in the table below. A primary source here is always made
-within a week of the event, a secondary source at least fifteen years later, so the printed definitions class every
-source one way only; exactly one maker was there and saw the event.
+Ibadan"); the events and their dates are real and fixed in the table below. The definitions decide every source on the
+printed facts alone: a primary source is made within one week of the event by a person who was there and saw it, a
+secondary source ten years or more after it by a person who was not there. No source falls between the two (P5 blind
+review: a letter written within days by someone who only read the news was both and neither).
 
-How many of the four are primary sources; which source was made closest in time to the event; which source an
-eyewitness made; how many years after the event a secondary source was made; and, when one source stands alone,
-which is the only primary (or secondary) source.
+How many of the four are primary sources; how many years after the event a secondary source was made; and three
+letter questions whose keys are three different sources: the only primary (or secondary) source, the source made
+closest in time to the event, the primary source made last, the source made longest after the event, the secondary
+source made first.
 """
 from __future__ import annotations
 
@@ -19,7 +21,7 @@ from datetime import date, timedelta
 
 from matplotlib.patches import Rectangle
 
-from ..core import FILL_2, INK, NAMES, Question, new_figure, short
+from ..core import FILL_2, INK, NAMES, Question, article, new_figure, short
 
 ID = "source_provenance"
 KIND = "table.data"
@@ -39,7 +41,7 @@ TOPICS = r"source analysis|historiograph|preparing for assessment"
 NG_NAMES = ["Chinedu", "Amina", "Tunde", "Ngozi", "Emeka", "Aisha", "Bola", "Ifeoma", "Musa", "Funke", "Chioma",
             "Ibrahim", "Kemi", "Obinna", "Zainab", "Femi"]
 
-# Each event: its name, its date, where it happened, what an eyewitness was at, the towns others heard of it in,
+# Each event: its name, its date, where it happened, what a witness was at, the towns later writers worked in,
 # whose names the questions use, and whether an AS Level coursebook's period holds it.
 EVENTS = [
     ("Nigeria becomes independent", [1960, 10, 1], "Lagos", "independence ceremony", ["Kano", "Enugu", "Ibadan", "Kaduna"], "ng", False),
@@ -70,9 +72,9 @@ ROLES = ["teacher", "nurse", "student", "trader", "clerk", "farmer"]
 # Who could stand at a meeting, a signing or a proclamation: no crowd watched those.
 STAFF = ["secretary", "interpreter", "clerk", "messenger"]
 CROWDS = ("independence ceremony", "opening", "swearing-in")
-DEFINITIONS = [("Primary source", "made at the time of the event (within days of it), by someone who lived through it."),
-               ("Secondary source", "made later (years afterwards), by someone who studied the event from other sources."),
-               ("Eyewitness", "a person who saw the event happen with their own eyes.")]
+DEFINITIONS = [("Primary source", "made at the time of the event (within one week of it) by a person who was there and saw it."),
+               ("Secondary source", "made later (ten years or more after the event) by a person who was not there, "
+                                    "from other sources.")]
 
 
 def concepts_for(p: dict) -> tuple[str, ...]:
@@ -94,11 +96,12 @@ def written(d: list) -> str:
 
 # --- sampling ---------------------------------------------------------------------------------------------
 
-def _eyewitness(rng, ev) -> dict:
-    name, when, place, noun = ev[0], ev[1], ev[2], ev[3]
-    roles = ROLES if noun in CROWDS else STAFF
-    kinds = [("A diary entry", f"A {rng.choice(roles)} who was at the {noun} in {place}", [0, 1]),
-             ("A letter", f"A {rng.choice(roles)} who was at the {noun} in {place}", list(range(2, 8))),
+def _witness(rng, ev) -> dict:
+    """A primary source: made within a week by someone who was there."""
+    when, place, noun = ev[1], ev[2], ev[3]
+    role = rng.choice(ROLES if noun in CROWDS else STAFF)
+    maker = f"{article(role).capitalize()} {role} who was at the {noun} in {place}"
+    kinds = [("A diary entry", maker, [0, 1]), ("A letter", maker, list(range(2, 8))),
              ("A newspaper report", f"A reporter who was at the {noun} in {place}", [1, 2])]
     if when[0] >= 1855:
         kinds.append(("A photograph", f"A newspaper photographer at the {noun} in {place}", [0]))
@@ -107,35 +110,19 @@ def _eyewitness(rng, ev) -> dict:
     return {"what": what, "who": who, "gap": rng.choice(gaps), "how": how}
 
 
-def _heard(rng, ev) -> dict:
-    when, towns = ev[1], ev[4]
-    news = (["Heard the news on the radio"] if when[0] >= 1925 else []) + ["Read about it in a newspaper"]
-    kinds = [("A letter", f"A {rng.choice(ROLES)} in {rng.choice(towns)}", list(range(2, 8)), news),
-             ("A diary entry", f"A {rng.choice(ROLES)} in {rng.choice(towns)}", [0, 1], news),
-             ("A newspaper report", f"An editor in {rng.choice(towns)}", [1, 2, 3], _wires(when[0]))]
-    what, who, gaps, hows = rng.choice(kinds)
-    return {"what": what, "who": who, "gap": rng.choice(gaps), "how": rng.choice(hows)}
-
-
-def _wires(year: int) -> list:
-    """How an editor far away had the news within days: letters before the telegraph, the telegraph after it, news
-    agencies once radio and telex carried their reports."""
-    if year < 1850:
-        return ["Used letters from people who were there"]
-    return ["Used news agency reports"] if year >= 1925 else ["Used reports sent by telegraph"]
-
-
 def _later(rng, ev) -> dict:
     year, towns = ev[1][0], ev[4] + [ev[2]]
     town = rng.choice(towns)
-    kinds = [("A school textbook", f"A history teacher in {town}", year + 15, "Read old newspapers and government records"),
+    kinds = [("A school textbook", f"A history teacher in {town}", year + 15,
+              "Was not there; read old newspapers and government records"),
              ("A history book", f"A historian at a university in {town}", year + 15,
-              "Read letters, diaries and newspapers from the time"),
-             ("A magazine article", f"A journalist in {town}", year + 15, "Read history books about the event")]
+              "Was not there; read letters, diaries and newspapers from the time"),
+             ("A magazine article", f"A journalist in {town}", year + 15, "Was not there; read history books about the event")]
     if year >= 1900:
         kinds.append(("A documentary film", f"A film-maker in {town}", max(1950, year + 15),
-                      "Interviewed people who were there and used old film"))
-    kinds.append(("A museum website", f"A museum guide in {town}", max(2000, year + 15), "Read the museum's old papers and letters"))
+                      "Was not there; interviewed people who were there and used old film"))
+    kinds.append(("A museum website", f"A museum guide in {town}", max(2000, year + 15),
+                  "Was not there; read the museum's old papers and letters"))
     what, who, first, how = rng.choice(kinds)
     last = min(2024, year + 60) if what == "A documentary film" else min(2024, year + 140)
     return {"what": what, "who": who, "year": rng.randint(first, max(first, last)), "how": how}
@@ -146,7 +133,7 @@ def sample(rng: random.Random) -> dict:
     d0 = date(*ev[1])
     while True:
         n = rng.choice([1, 2, 3])
-        rows = [_eyewitness(rng, ev)] + [_heard(rng, ev) for _ in range(n - 1)] + [_later(rng, ev) for _ in range(4 - n)]
+        rows = [_witness(rng, ev) for _ in range(n)] + [_later(rng, ev) for _ in range(4 - n)]
         if len({r["what"] for r in rows}) < 4 or len({r["who"] for r in rows}) < 4:
             continue
         gaps = [r["gap"] for r in rows if "gap" in r]
@@ -163,7 +150,8 @@ def sample(rng: random.Random) -> dict:
             sources.append({"what": r["what"], "who": r["who"], "when": when, "how": r["how"]})
         rng.shuffle(sources)
         later = [i for i, s in enumerate(sources) if len(s["when"]) == 1]
-        return {"band": "UP", "event": ev[0], "sources": sources, "ask": "ABCD"[rng.choice(later)]}
+        return {"band": "UP", "event": ev[0], "sources": sources, "ask": "ABCD"[rng.choice(later)],
+                "pick": rng.randrange(4)}
 
 
 # --- drawing ----------------------------------------------------------------------------------------------
@@ -171,6 +159,7 @@ def sample(rng: random.Random) -> dict:
 COLS = [("Source", 0.3, 1.15, None), ("What it is", 1.15, 3.15, 20), ("Who made it", 3.15, 6.75, 38),
         ("When it was made", 6.75, 8.65, None), ("How the maker knew", 8.65, 11.9, 34)]
 KEYS = [None, "what", "who", "when", "how"]
+BOX = 0.75  # the definitions' box
 
 
 def draw(p: dict):
@@ -182,7 +171,7 @@ def draw(p: dict):
     heights = [0.22 + 0.2 * max(c.count("\n") + 1 for c in row) for row in cells]
     head_h = 0.42
     W = 12.2
-    H = 0.55 + 0.4 + 1.05 + 0.25 + head_h + sum(heights) + 0.25
+    H = 0.55 + 0.4 + BOX + 0.25 + head_h + sum(heights) + 0.25
     fig, ax = new_figure(W, H)
     fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
     y = H - 0.35
@@ -192,13 +181,13 @@ def draw(p: dict):
             gid="event")
     # the definitions, in a shaded box
     top = y - 0.25
-    ax.add_patch(Rectangle((0.3, top - 1.05), 11.6, 1.05, facecolor=FILL_2, edgecolor=INK, linewidth=0.9))
+    ax.add_patch(Rectangle((0.3, top - BOX), 11.6, BOX, facecolor=FILL_2, edgecolor=INK, linewidth=0.9))
     for i, (word, means) in enumerate(DEFINITIONS):
         yy = top - 0.22 - i * 0.31
         ax.text(0.45, yy, word + ":", ha="left", va="center", fontsize=10.5, fontweight="bold", gid=f"def:{i}")
-        ax.text(2.25, yy, means, ha="left", va="center", fontsize=10.5)
+        ax.text(2.25, yy, means, ha="left", va="center", fontsize=10.5, gid=f"means:{i}")
     # the table
-    y = top - 1.05 - 0.25
+    y = top - BOX - 0.25
     xs = [c[1] for c in COLS] + [COLS[-1][2]]
     ax.add_patch(Rectangle((xs[0], y - head_h), xs[-1] - xs[0], head_h, facecolor="#e3e6e9", edgecolor="none"))
     for name, x0, x1, _ in COLS:
@@ -240,21 +229,29 @@ def questions(p: dict, rng: random.Random) -> list:
     who = rng.choice(NG_NAMES if ev[5] == "ng" else NAMES)
     d0 = date(*ev[1])
     srcs = dict(zip("ABCD", p["sources"]))
-    primary = [k for k, s in srcs.items() if len(s["when"]) == 3]
     gap = {k: ((date(*s["when"]) if len(s["when"]) == 3 else date(s["when"][0], 1, 1)) - d0).days for k, s in srcs.items()}
-    eye = next(k for k, s in srcs.items() if s["how"].startswith("Was there"))
+    primary = sorted((k for k, s in srcs.items() if len(s["when"]) == 3), key=gap.get)
+    secondary = sorted((k for k in srcs if k not in primary), key=gap.get)
     n = len(primary)
+    # Letter questions whose keys are different sources: never one source the answer to all of them.
+    asked = []
+    if n == 1:
+        asked.append(("By the definitions printed, which source is the only primary source?", primary[0]))
+    if n == 3:
+        asked.append(("By the definitions printed, which source is the only secondary source?", secondary[0]))
+    if n >= 2:
+        asked += [("Which source was made closest in time to the event?", primary[0]),
+                  ("By the definitions printed, which of the primary sources was made last?", primary[-1])]
+    if n <= 2:
+        asked += [("Which source was made longest after the event?", secondary[-1]),
+                  ("By the definitions printed, which of the secondary sources was made first?", secondary[0])]
+    if len(asked) > 3:
+        asked.pop(p["pick"])
     qs = [short(f"{who} {rng.choice(VERBS)} these four sources about one event {rng.choice(SETTINGS)}. By the "
                 f"definitions printed, how many of the four are primary sources?", n,
-                [f"{n} sources" if n != 1 else "1 source", f"{n} primary sources" if n != 1 else "1 primary source"]),
-          _letters("Which source was made closest in time to the event?", min(gap, key=gap.get)),
-          _letters("By the definition printed, which source was made by an eyewitness?", eye)]
+                [f"{n} sources" if n != 1 else "1 source", f"{n} primary sources" if n != 1 else "1 primary source"])]
+    qs += [_letters(stem, key) for stem, key in asked]
     x = p["ask"]
     years = srcs[x]["when"][0] - d0.year
     qs.append(short(f"How many years after the event was source {x} made?", years, [f"{years} years"]))
-    if n == 1:
-        qs.append(_letters("By the definitions printed, which source is the only primary source?", primary[0]))
-    elif n == 3:
-        qs.append(_letters("By the definitions printed, which source is the only secondary source?",
-                           next(k for k in srcs if k not in primary)))
     return qs

@@ -373,15 +373,27 @@ def draw(p: dict):
 # --- questions --------------------------------------------------------------------------------------------------------
 
 VERBS = ["counts", "checks", "studies", "reads", "looks at"]
-P_SETTINGS = ["in class", "after break time", "on election day", "for the class notice board", "in a citizenship lesson"]
-SETTINGS = ["for the school newsletter", "in a civic education lesson", "for a class debate", "on a revision card",
-            "for homework", "at the debate club", "before a class test", "for a group project"]
 
 
-def _pct(x: Fraction) -> tuple[str, list[str]]:
-    s = f"{float(x):.1f}".rstrip("0").rstrip(".")
-    forms = [s] + ([f"{float(x):.1f}"] if "." not in s else [])
-    return s, forms + [f"{f}{u}" for f in forms for u in ("%", " %", " per cent", " percent")]
+def election_of(p: dict) -> str:
+    """The election the figure shows, named as its title names it (P5 blind review: a stem that said "for a class
+    debate" beside a head prefect's election read as another election)."""
+    if p["band"] == "P":
+        return f"the Class {p['grade']} election for {p['office']} at {p['place']} Primary School"
+    if p["band"] == "LS":
+        school = "Junior Secondary School" if p["ctx"] == "ng" else "Secondary School"
+        return f"the election for {p['office']} at {p['place']} {school}"
+    if p["ctx"] == "ng":
+        return f"the councillor election in Ward {p['place']}"
+    return f"the village leader election in Village {p['place']}"
+
+
+def _pct(x: Fraction, places: int) -> tuple[str, list[str]]:
+    """The turnout at the rounding the stem states; the counts are chosen so it is exact there, never rounded."""
+    assert (x * 10 ** places).denominator == 1, x
+    key = f"{float(x):.{places}f}"
+    forms = [key] + ([key[:-2]] if key.endswith(".0") else [])
+    return key, forms + [f"{f}{u}" for f in forms for u in ("%", " %", " per cent", " percent")]
 
 
 def questions(p: dict, rng: random.Random) -> list:
@@ -398,29 +410,31 @@ def questions(p: dict, rng: random.Random) -> list:
     behind = rng.choice(ranked[1:])
     gap = votes[win] - votes[behind] + 1
     margin = votes[win] - votes[second]
+    election = election_of(p)
     out = []
     if p["band"] == "P":
         chart = "tally chart" if p["style"] == "tally" else "bar chart"
-        out.append(mcq(f"{who} {rng.choice(VERBS)} the votes for {p['office']} in this {chart} {rng.choice(P_SETTINGS)}. "
-                       f"Who won the election?", win, others, rng))
+        out.append(mcq(f"{who} {rng.choice(VERBS)} the votes in {election}, shown in this {chart}. Who won the election?",
+                       win, others, rng))
         if p["style"] == "tally":
             x = rng.choice(names)
             out.append(count(f"How many votes did {x} get?", votes[x], "votes"))
     else:
         what = "results table" if p["style"] == "table" else "bar chart"
-        out.append(mcq(f"{who} {rng.choice(VERBS)} this {what} of an election {rng.choice(SETTINGS)}. Who won the "
-                       f"election?", win, others, rng))
+        out.append(mcq(f"{who} {rng.choice(VERBS[1:])} this {what} of {election}. Who won the election?", win, others,
+                       rng))  # one counts votes, but reads a table
     out.append(count(f"By how many votes did {win} beat {second}, who came second?", margin, "votes"))
     out.append(count(f"How many more votes did {behind} need to get one vote more than {win}? (No other count changes.)",
                      gap, "votes"))
     if p["band"] != "P" or p["level"] == "upper":
-        key, forms = _pct(Fraction(100 * cast, reg))
         if p["band"] == "UP":
+            key, forms = _pct(Fraction(100 * cast, reg), 1)
             stem = ("Votes cast are the valid votes plus the rejected ballots, and turnout = votes cast ÷ registered "
-                    "voters × 100. What was the turnout in this election, as a percentage?")
+                    "voters × 100. What was the turnout in this election, as a percentage to one decimal place?")
         else:
+            key, forms = _pct(Fraction(100 * cast, reg), 0)
             stem = ("The turnout is the votes cast ÷ the registered voters × 100. What was the turnout in this "
-                    "election, as a percentage?")
+                    "election, as a percentage to the nearest whole number?")
         out.append(short(stem, key, forms))
     absent = reg - cast
     if p["band"] == "P":

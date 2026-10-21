@@ -326,56 +326,87 @@ def source_rows(items):
     return rows
 
 
+def classify(row, when, definitions):
+    """Every kind the printed definitions allow this source to be, read from its printed facts alone: primary if made
+    within the printed window by someone who was there, secondary if made the printed number of years or more later by
+    someone who was not."""
+    window = int(re.search(r"within one (week)", definitions["Primary source"]).group(1) == "week") * 7
+    later = int(re.search(r"\((\w+) years or more after", definitions["Secondary source"]).group(1) == "ten") * 10
+    assert window == 7 and later == 10, definitions
+    day, year = read_when(row["when"])
+    there, away = row["how"].startswith("Was there"), row["how"].startswith("Was not there")
+    kinds = set()
+    if day is not None and 0 <= (day - when).days <= window and there:
+        kinds.add("primary")
+    made = day.year if day is not None else year
+    if day is None and made - when.year >= later and away:
+        kinds.add("secondary")
+    return kinds
+
+
 def test_source_provenance():
+    """Every source is primary or secondary by the printed definitions and never both or neither (P5 blind review:
+    a letter made within days by someone who only read the news fitted neither definition cleanly); every letter
+    question has exactly one source that fits; the letter questions of one figure have different keys."""
     m = fam("source_provenance")
     seen = Counter()
+    keys_seen = Counter()
     for s in SEEDS:
         p, qs = run(m, s)
         items = placed(m, p)
         words = " ".join(t for t, *_ in items)
-        assert "Primary source" in words and "Secondary source" in words and "Eyewitness" in words, s
+        definitions = {}
+        for t, pos, fs, gid in items:
+            g = re.fullmatch(r"def:(\d)", gid or "")
+            if g:
+                means = next(u for u, _, _, gd in items if gd == f"means:{g.group(1)}")
+                definitions[t.rstrip(":")] = means
+        assert sorted(definitions) == ["Primary source", "Secondary source"], s
         event = p["event"]
         when = EVENT_DATES[event]
         assert f"{when.day} {MONTHS[when.month - 1]} {when.year}" in words and event in words, s
         rows = source_rows(items)
         assert sorted(rows) == list("ABCD"), s
-        primary, gap, eye, made = set(), {}, set(), {}
+        kind, gap, made = {}, {}, {}
         for letter, row in rows.items():
+            kinds = classify(row, when, definitions)
+            assert len(kinds) == 1, (s, row, kinds)
+            kind[letter] = kinds.pop()
             day, year = read_when(row["when"])
-            if day is not None:  # made within days of the event: primary by the printed definition
-                assert 0 <= (day - when).days <= 14, (s, row)
-                primary.add(letter)
-                gap[letter] = (day - when).days
-                made[letter] = day.year
-            else:  # made years later: secondary
-                assert year - when.year >= 10 and year <= 2025, (s, row)
-                gap[letter] = (date(year, 1, 1) - when).days
-                made[letter] = year
-            if row["how"].startswith("Was there"):
-                eye.add(letter)
-                assert letter in primary, s
-        assert len(eye) == 1, s
+            gap[letter] = ((day if day else date(year, 1, 1)) - when).days
+            made[letter] = day.year if day else year
+            assert not re.search(r"\bA [AEIOUaeiou]", row["who"] + " " + row["what"]), (s, row)  # "an interpreter"
+        primary = {k for k, v in kind.items() if v == "primary"}
+        secondary = set("ABCD") - primary
         seen[len(primary)] += 1
+        tests = {"Which source was made closest in time to the event?": lambda k: gap[k] == min(gap.values()),
+                 "Which source was made longest after the event?": lambda k: gap[k] == max(gap.values()),
+                 "By the definitions printed, which of the primary sources was made last?":
+                     lambda k: k in primary and gap[k] == max(gap[j] for j in primary),
+                 "By the definitions printed, which of the secondary sources was made first?":
+                     lambda k: k in secondary and gap[k] == min(gap[j] for j in secondary),
+                 "By the definitions printed, which source is the only primary source?":
+                     lambda k: len(primary) == 1 and k in primary,
+                 "By the definitions printed, which source is the only secondary source?":
+                     lambda k: len(secondary) == 1 and k in secondary}
+        keys = []
         for q in qs:
             if "how many of the four are primary sources" in q.stem:
                 assert q.answer == str(len(primary)), s
-            elif "closest in time to the event" in q.stem:
-                best = min(gap.values())
-                assert list(gap.values()).count(best) == 1 and gap[picked(q)] == best, s
-            elif "made by an eyewitness" in q.stem:
-                assert {picked(q)} == eye, s
             elif "How many years after the event was source" in q.stem:
                 x = re.search(r"source ([A-D]) made\?", q.stem).group(1)
-                assert x not in primary and q.answer == str(made[x] - when.year), s
-            elif "the only primary source" in q.stem:
-                assert primary == {picked(q)}, s
-            elif "the only secondary source" in q.stem:
-                assert set("ABCD") - primary == {picked(q)}, s
+                assert x in secondary and q.answer == str(made[x] - when.year), s
+            elif q.stem in tests:
+                assert q.options == list("ABCD"), s
+                fits = [o for o in q.options if tests[q.stem](o)]
+                assert fits == [picked(q)], (s, q.stem, fits)
+                keys.append(picked(q))
+                keys_seen[q.stem] += 1
             else:
                 pytest.fail(f"{s}: unchecked question {q.stem}")
-            if q.kind == "mcq":
-                assert q.options == list("ABCD"), s
+        assert len(keys) == 3 and len(set(keys)) == 3, (s, keys)  # three letter questions, three different sources
     assert set(seen) == {1, 2, 3} and min(seen.values()) >= 150, seen
+    assert len(keys_seen) == 6 and min(keys_seen.values()) >= 100, keys_seen
 
 
 def test_source_dates_are_the_second_copy_and_kinds_fit_their_time():
