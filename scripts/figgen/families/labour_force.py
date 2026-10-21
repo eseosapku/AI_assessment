@@ -23,6 +23,9 @@ SUBJECT = "economics"
 BANDS = ("UP",)
 ALSO_BANDS = {"UP": ("AL",)}  # the same table in Cambridge AS Level, whose chapter is named for unemployment
 CONCEPTS = ("economics.unemployment", "economics.labour-force", "economics.employment-rates")
+# The same survey table in social studies (P5): Rwanda GSCS S6 "Unit 7: Transport, employment, unemployment and their
+# impact on the economy" (its sections "Concept of unemployment" and "Causes of unemployment").
+ALSO = ("social-studies.employment-unemployment",)
 # another country's economy; S5 "Inflation", whose Phillips-curve section names unemployment but works no labour
 # force table
 AVOID = r"nigeria|inflation"

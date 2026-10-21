@@ -104,6 +104,12 @@ from . import (action_plan, business_model_canvas, forms_of_business, office_rec
 # P4 computing-a imports
 from . import (computer_generations, data_processing_cycle, keyboard_mouse_p, memory_hierarchy, os_boot,
                spreadsheet_chart)
+# P5 social-primary imports
+from . import community_data_p, community_helpers_p, sector_map_p, transport_communication_p, weather_data_p
+# P5 social-civic imports
+from . import election_results, government_chart
+# P5 history imports
+from . import family_history_p, history_timeline, kingdom_structure, source_provenance
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -214,4 +220,10 @@ FAMILIES = {m.ID: m for m in (
     action_plan,
     # P4 computing-a families
     spreadsheet_chart, data_processing_cycle, memory_hierarchy, computer_generations, keyboard_mouse_p, os_boot,
+    # P5 social-primary families
+    transport_communication_p, sector_map_p, weather_data_p, community_data_p, community_helpers_p,
+    # P5 social-civic families
+    election_results, government_chart,
+    # P5 history families
+    history_timeline, source_provenance, kingdom_structure, family_history_p,
 )}

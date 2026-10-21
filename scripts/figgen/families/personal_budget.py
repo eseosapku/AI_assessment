@@ -21,8 +21,15 @@ KIND = "business.document"
 SUBJECT = "business"
 BANDS = ("LS",)
 CONCEPTS = ("business.personal-budgeting",)
+# The same budget in social studies (P5): NERDC JSS 2-3 "Economics basics" (family budget) and the Rwanda GSCS units
+# on personal finance -- S4 "Personal Finances" (keeping track of personal money and payment commitments) and S6
+# "How to manage money" (saving, borrowing and debt); S5 "Money and Finance" teaches banks and payments, not budgets.
+ALSO = ("social-studies.family-budget", "social-studies.personal-finances")
+# The GSCS units are Upper Secondary books; the same student or family budget serves them as drawn, where the unit's
+# own name says it teaches personal finance or managing money.
+ALSO_BANDS = {"LS": ("UP",)}
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"budget|financial awareness"  # S1 teaches the personal budget in "Financial awareness"
+NEEDS = r"budget|financial awareness|personal financ|manage money"  # S1 teaches the personal budget in "Financial awareness"
 # Listed without sections, sharing the concept, but teaching consumers' rights rather than a budget.
 AVOID = r"consumer education"
 
