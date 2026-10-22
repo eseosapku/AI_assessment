@@ -36,6 +36,32 @@ function getPool() {
 export const db = {
   query: <T extends QueryResultRow = any>(text: string, values?: unknown[]): Promise<QueryResult<T>> =>
     getPool().query<T>(text, values),
+
+  /**
+   * Queries the database itself abandons after `ms`.
+   *
+   * For an optional lookup with a deadline (the figure library's sample): a caller that stops
+   * waiting still leaves its query running on the server, holding a connection. SET LOCAL lasts
+   * only for this transaction, so the pooled connection goes back unchanged.
+   */
+  withStatementTimeout: async <R>(
+    ms: number,
+    fn: (query: <T extends QueryResultRow = any>(text: string, values?: unknown[]) => Promise<QueryResult<T>>) => Promise<R>,
+  ): Promise<R> => {
+    const client = await getPool().connect()
+    try {
+      await client.query('BEGIN')
+      await client.query(`SET LOCAL statement_timeout = ${Math.max(1, Math.floor(ms))}`)
+      const result = await fn((text, values) => client.query(text, values))
+      await client.query('COMMIT')
+      return result
+    } catch (err) {
+      await client.query('ROLLBACK').catch(() => {})
+      throw err
+    } finally {
+      client.release()
+    }
+  },
 }
 
 /**

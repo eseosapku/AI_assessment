@@ -1802,7 +1802,7 @@ ${commandBlock}`
     let quizFigures: TextbookFigure[] = bankFigures
     if (bankApplies && libraryEnabled() && bankFigures.length < figureShare && libraryTopics.length) {
       const library = librarySource() === 'postgres'
-        ? await libraryFiguresPg(db, { topicIds: libraryTopics, excludeAssets: seenAssets(seenFigures.images, process.env.FIGURE_ASSET_BASE ?? '') })
+        ? await libraryFiguresPg(db, { topicIds: libraryTopics, excludeAssets: seenAssets(seenFigures.images, process.env.FIGURE_ASSET_BASE ?? ''), kinds: figureKinds })
         : libraryFigures({ topicIds: libraryTopics })
       // Each comes with the question it will ask, so no wording is asked twice on the paper.
       const picked = pickLibraryFigures({

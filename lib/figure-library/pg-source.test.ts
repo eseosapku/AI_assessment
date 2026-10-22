@@ -18,7 +18,8 @@ function fakeDb(figRows = FIG_ROWS, qRows = Q_ROWS) {
     calls,
     query: async (sql: string, values: unknown[] = []) => {
       calls.push({ sql, values })
-      return { rows: /figure_library_questions/.test(sql) ? qRows : figRows } as never
+      // The questions query, not the figure query that checks a question's kind exists.
+      return { rows: /SELECT figure_id, kind, stem/.test(sql) ? qRows : figRows } as never
     },
   }
 }
@@ -40,9 +41,42 @@ describe('library figures from Postgres', () => {
     const db = fakeDb()
     const exclude = Array.from({ length: 2000 }, (_, i) => `assets/drawn/x/${i}.svg`)
     await libraryFiguresPg(db, { topicIds: [2, 9], excludeAssets: exclude, limit: 120, base: 'https://cdn' })
-    expect(db.calls[0].sql).toMatch(/ORDER BY random\(\)/)
-    expect(db.calls[0].values).toEqual([[2, 9], exclude, 120])
+    // The topic links are sampled first (a narrow index-only sort), three times the figures wanted,
+    // then only those figures are fetched: the whole-row random sort took 812 ms on an 8,618-figure topic.
+    expect(db.calls[0].sql).toMatch(/FROM figure_library_topics WHERE topic_id = ANY\(\$1::int\[\]\) ORDER BY random\(\) LIMIT \$3/)
+    expect(db.calls[0].values).toEqual([[2, 9], exclude, 360, 120, null])
     expect(db.calls[1].values).toEqual([['wikimedia/1', 'drawn/bar_chart/1']])
+  })
+
+  it('asks only for figures with a question of a kind the quiz uses', async () => {
+    // A third of the published figures have no multiple-choice question, and a multiple-choice quiz
+    // wasted that share of every sample on figures it could not ask about.
+    const db = fakeDb()
+    await libraryFiguresPg(db, { topicIds: [2], kinds: ['mcq', 'written'], base: 'https://cdn' })
+    expect(db.calls[0].sql).toMatch(/EXISTS \(SELECT 1 FROM figure_library_questions q WHERE q.figure_id = f.id AND q.kind = ANY\(\$5::text\[\]\)\)/)
+    expect(db.calls[0].values.at(-1)).toEqual(['mcq'])
+    const shortOnly = fakeDb()
+    await libraryFiguresPg(shortOnly, { topicIds: [2], kinds: ['short', 'written'], base: 'https://cdn' })
+    expect(shortOnly.calls[0].values.at(-1)).toEqual(['short'])
+  })
+
+  it('lets the database itself abandon a slow lookup, not only stop waiting for it', async () => {
+    // The 2-second guard returned nothing but left the query running on the server.
+    const db = fakeDb()
+    let timeout = 0
+    const withTimeout = {
+      ...db,
+      withStatementTimeout: async <R>(ms: number, fn: (q: typeof db.query) => Promise<R>) => { timeout = ms; return fn(db.query) },
+    }
+    const { figures } = await libraryFiguresPg(withTimeout, { topicIds: [2], base: 'https://cdn', timeoutMs: 1500 })
+    expect(timeout).toBe(1500)
+    expect(figures).toHaveLength(2)
+    expect(db.calls).toHaveLength(2)
+  })
+
+  it('reads a base URL with stray spaces', async () => {
+    const { figures } = await libraryFiguresPg(fakeDb(), { topicIds: [2], base: '  https://cdn/figure-library/  ' })
+    expect(figures[0].localPath).toBe('https://cdn/figure-library/assets/wikimedia/1.webp')
   })
 
   it('gives nothing, without asking, for no topics; and nothing when every figure was seen', async () => {
