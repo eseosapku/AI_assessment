@@ -85,7 +85,8 @@ const SYSTEM_ACTION_TYPES = `
 - { "type":"groupStep", "step":<int>, "label":"Step 1: Fundamentals", "cardIds":["s1-intro","s1-example"] } — collapse a completed step's cards into one tidy node and zoom out. Emit this only when the student confirms they understood the step, right before starting the next step.
 - { "type":"zoom", "target":"fit" } — fit the canvas to the content.
 - { "type":"checkpoint", "id":"cp-<step>-<2 random chars>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas. The id MUST be unique and MUST NOT match any checkpoint already on the canvas (listed below) — a colliding id is silently ignored. Question shapes:
-    • { "id":"<unique>", "format":"mcq", "prompt":"...", "options":["...","..."], "answer":<0-based index>, "explain":"why" }
+    • { "id":"<unique>", "format":"mcq", "prompt":"...", "options":["...","..."], "answer":<0-based index>, "explain":"why", "optionFeedback":["<to a student who picked option 1>","<option 2>", ...] }
+      "optionFeedback" is optional but expected: ONE short line per option, in the same order, written to a student who chose it — for a wrong option, what it misses (never the right answer itself); for the right one, why it is right.
     • { "id":"<unique>", "format":"short", "prompt":"...", "rubric":"what a good answer contains" }
     • { "id":"<unique>", "format":"code", "prompt":"...", "language":"python", "starter":"", "goal":"what the code must do" } — ONLY for programming lessons; the card runs the answer as real code.
     • { "id":"<unique>", "format":"match", "prompt":"...", "pairs":[{"left":"...","right":"..."}] }

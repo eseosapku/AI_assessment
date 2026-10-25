@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, salvageQuestions, checkAnswers } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, salvageQuestions, checkAnswers, coerceQuestion } from '@/lib/studylab/quiz'
 import type { CheckpointQuestion, QuizCell } from '@/lib/studylab/types'
 
 const mcq: CheckpointQuestion = { id: 'q1', format: 'mcq', prompt: 'p', options: ['a', 'b'], answer: 1 }
@@ -147,5 +147,21 @@ describe('marking a check on the server', () => {
   it('reports each answered cell by its question id', () => {
     const cells = [{ checkpointId: 'cp', gate: 'hard' as const, question: mcq, state: 'correct' as const, given: 0 }]
     expect(checkAnswers(cells)).toEqual({ q1: { given: 0, state: 'correct' } })
+  })
+})
+
+describe('per-option feedback on a multiple-choice question', () => {
+  const base = { id: 'f', format: 'mcq' as const, prompt: 'Which?', options: ['A', 'B', 'C'], answer: 1 }
+
+  it('keeps feedback that has one line per option', () => {
+    const q = coerceQuestion({ ...base, optionFeedback: ['no', 'yes', 'no'] })
+    expect(q.format === 'mcq' && q.optionFeedback).toEqual(['no', 'yes', 'no'])
+  })
+
+  it('drops feedback that does not line up with the options', () => {
+    const short = coerceQuestion({ ...base, optionFeedback: ['no', 'yes'] })
+    expect(short.format === 'mcq' && 'optionFeedback' in short).toBe(false)
+    const notText = coerceQuestion({ ...base, optionFeedback: ['no', 3, 'no'] as unknown as string[] })
+    expect(notText.format === 'mcq' && 'optionFeedback' in notText).toBe(false)
   })
 })

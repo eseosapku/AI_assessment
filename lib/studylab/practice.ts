@@ -27,6 +27,8 @@ export interface PracticeCell {
   feedback?: string
   /** True once the learner has asked to see the worked solution. */
   revealed?: boolean
+  /** Tries spent on this problem. Absent on cells saved before. */
+  attempts?: number
 }
 
 /**

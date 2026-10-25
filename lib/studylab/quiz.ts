@@ -86,7 +86,14 @@ export function isValidQuestion(q: any): q is CheckpointQuestion {
 // Normalise a question that passed isValidQuestion into the canonical shape
 // (e.g. coerce a string mcq answer to an integer index).
 export function coerceQuestion(q: CheckpointQuestion): CheckpointQuestion {
-  if (q.format === 'mcq') return { ...q, answer: Number(q.answer) }
+  if (q.format === 'mcq') {
+    const { optionFeedback, ...rest } = q
+    const linesUp =
+      Array.isArray(optionFeedback) &&
+      optionFeedback.length === q.options.length &&
+      optionFeedback.every((f) => typeof f === 'string')
+    return { ...rest, answer: Number(q.answer), ...(linesUp ? { optionFeedback } : {}) }
+  }
   return q
 }
 

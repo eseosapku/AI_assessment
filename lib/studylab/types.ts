@@ -16,7 +16,16 @@ export type CardKind =
 // ── Knowledge-check checkpoints ───────────────────────────────────────────────
 
 export type CheckpointQuestion =
-  | { id: string; format: 'mcq'; prompt: string; options: string[]; answer: number; explain?: string }
+  | {
+      id: string; format: 'mcq'; prompt: string; options: string[]; answer: number; explain?: string
+      /**
+       * One line per option, written for a learner who picked it: why that
+       * choice is right, or what it missed. Shown on a first miss in place of
+       * a generic nudge. Dropped by `coerceQuestion` unless it lines up with
+       * `options`.
+       */
+      optionFeedback?: string[]
+    }
   | { id: string; format: 'short'; prompt: string; rubric?: string }
   | { id: string; format: 'code'; prompt: string; language?: string; starter?: string; goal: string }
   | { id: string; format: 'match'; prompt: string; pairs: { left: string; right: string }[] }
@@ -28,6 +37,12 @@ export interface QuizCell {
   state: 'unanswered' | 'pending' | 'correct' | 'incorrect'
   given?: number | string | string[]
   feedback?: string
+  /**
+   * Tries spent. While learning a cell stays 'unanswered' between tries and
+   * only settles as correct or incorrect when final, so the checkpoint's own
+   * marking sees exactly what it always did. Absent on cells saved before.
+   */
+  attempts?: number
 }
 
 export interface StudyNodeData {
