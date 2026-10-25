@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import Latex from 'react-latex-next'
 import { PlanCard } from './PlanCard'
 import { QuestionPicker } from './QuestionPicker'
-import { Brain, Send, Sparkles, ImagePlus, X, ArrowRight } from 'lucide-react'
+import { Send, Sparkles, ImagePlus, X, ArrowRight, Volume2, VolumeX } from 'lucide-react'
+import { Inky } from './inky/Inky'
+import { useMuted } from '@/lib/studylab/sound'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
 import { plainTitle } from '@/lib/studylab/actions'
 import { toDollarMath } from '@/lib/studylab/mathText'
@@ -168,13 +170,12 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
     <div className="flex flex-col h-full bg-white dark:bg-[#161617]">
       {/* Header */}
       <div className="flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-800">
-        <div className="w-8 h-8 rounded-xl bg-[color:var(--ss-accent)]/10 flex items-center justify-center">
-          <Brain className="w-4.5 h-4.5 text-ss-accent" />
-        </div>
+        <Inky size={34} mood={busy ? 'thinking' : 'idle'} />
         <div className="leading-tight">
-          <p className="font-semibold text-[14px]">AI Study Assistant</p>
-          <p className="text-[12px] text-ss-slate">Brain Ink AI</p>
+          <p className="font-semibold text-[14px]">Inky</p>
+          <p className="text-[12px] text-ss-slate">Your tutor</p>
         </div>
+        <MuteToggle />
       </div>
 
       {/* Messages */}
@@ -207,9 +208,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             </div>
           ) : m.role === 'assistant' ? (
             <div key={i} className="flex gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-[color:var(--ss-accent)]/10 flex items-center justify-center shrink-0 mt-0.5">
-                <Brain className="w-4 h-4 text-ss-accent" />
-              </div>
+              <Inky size={28} className="shrink-0 mt-0.5" />
               {/* Rendered by kind. A proposed plan, a refusal, an error and an
                   ordinary teaching line used to be the same grey bubble, so
                   nothing in the conversation read as more important than
@@ -308,9 +307,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
         {busy && (
           <div className="flex gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[color:var(--ss-accent)]/10 flex items-center justify-center shrink-0">
-              <Brain className="w-4 h-4 text-ss-accent" />
-            </div>
+            <Inky size={28} mood="thinking" className="shrink-0" />
             <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-2">
               <span className="flex items-center gap-1.5" aria-hidden>
                 <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.3s]" />
@@ -505,6 +502,23 @@ function RetryButton({ onClick, disabled }: { onClick: () => void; disabled: boo
       className="mt-2 block rounded-lg bg-ss-accent px-3 py-1.5 text-[12.5px] font-bold text-white hover:opacity-90 disabled:opacity-60"
     >
       Try again
+    </button>
+  )
+}
+
+/** One switch for the lesson's sounds and, later, Inky's voice. */
+function MuteToggle() {
+  const [muted, setMuted] = useMuted()
+  return (
+    <button
+      type="button"
+      onClick={() => setMuted(!muted)}
+      aria-pressed={muted}
+      aria-label={muted ? 'Turn sound on' : 'Turn sound off'}
+      title={muted ? 'Sound off' : 'Sound on'}
+      className="ml-auto grid h-9 w-9 place-items-center rounded-xl text-ss-slate transition hover:bg-ss-chip hover:text-ss-ink motion-reduce:transition-none"
+    >
+      {muted ? <VolumeX className="h-4.5 w-4.5" /> : <Volume2 className="h-4.5 w-4.5" />}
     </button>
   )
 }
