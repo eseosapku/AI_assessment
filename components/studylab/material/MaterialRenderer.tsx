@@ -6,6 +6,9 @@ import { shakeElement } from '@/lib/studylab/activities/motion'
 import { createInitialMaterialState } from '@/lib/studylab/material/initialState'
 import { applyMove, tick } from '@/lib/studylab/material/interpreter'
 import type { MaterialSpec, MaterialState, Piece } from '@/lib/studylab/material/types'
+import type { CheckFlowState } from '@/lib/studylab/checkFlow'
+import type { BarAction } from '@/lib/studylab/checkBarModel'
+import { playSound } from '@/lib/studylab/sound'
 import { ControlView } from './ControlView'
 import { DisplayView } from './DisplayView'
 import { MaterialFrame } from './MaterialFrame'
@@ -34,6 +37,10 @@ export type MaterialRendererProps = {
   onCheck?: () => void
   wrongIds?: string[]
   onRefusal?: (pieceId: string, slotId: string) => void
+  /** The lesson's check flow; see ActivityFrame. */
+  checkState?: CheckFlowState
+  onCheckAction?: (action: BarAction) => void
+  checkLine?: string
 }
 
 export function MaterialRenderer({
@@ -50,6 +57,9 @@ export function MaterialRenderer({
   onCheck,
   wrongIds = [],
   onRefusal,
+  checkState,
+  onCheckAction,
+  checkLine,
 }: MaterialRendererProps) {
   const controlled = controlledState !== undefined && onStateChange !== undefined
   const [internal, setInternal] = useState(() => createInitialMaterialState(spec))
@@ -81,6 +91,8 @@ export function MaterialRenderer({
       const piece = rootRef.current?.querySelector(`[data-item="${CSS.escape(pieceId)}"]`)
       shakeElement(piece, REFUSAL_KEYFRAMES)
       onRefusal?.(pieceId, slotId)
+    } else {
+      playSound('drop')
     }
     setState(next)
   }, [onRefusal, setState, spec, state])
@@ -121,6 +133,9 @@ export function MaterialRenderer({
       hintAvailable={hintAvailable}
       onHint={onHint ?? (() => undefined)}
       onCheck={onCheck}
+      checkState={checkState}
+      onCheckAction={onCheckAction}
+      checkLine={checkLine}
     >
       <div ref={rootRef}>
         <MaterialFrame

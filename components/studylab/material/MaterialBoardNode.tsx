@@ -1,12 +1,14 @@
 'use client'
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { createInitialMaterialState } from '@/lib/studylab/material/initialState'
 import { tick } from '@/lib/studylab/material/interpreter'
 import type { MaterialState } from '@/lib/studylab/material/types'
+import type { BarAction } from '@/lib/studylab/checkBarModel'
 import { CanvasContext, CardFrame } from '@/components/studylab/canvasShared'
 import { MaterialRenderer } from './MaterialRenderer'
+import { useCheckFlow } from '../check/useCheckFlow'
 
 export function MaterialBoardNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
@@ -19,6 +21,17 @@ export function MaterialBoardNode({ id, data }: NodeProps) {
     return { placement: {}, controls: {}, attempts: 0, rejectedMoves: [], status: 'untouched' }
   })
   const [revealed, setRevealed] = useState(() => d.materialState?.status === 'solved')
+
+  // The lesson's check flow; the material state already counts attempts.
+  const { state: flow, dispatch } = useCheckFlow(
+    'learn',
+    { attempts: materialState.attempts, settled: materialState.status === 'solved' ? 'correct' : undefined },
+    () => {},
+  )
+  useEffect(() => {
+    if (materialState.status === 'in_progress') dispatch({ type: 'answer', present: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const persist = useCallback(
     (next: MaterialState) => {
@@ -34,12 +47,15 @@ export function MaterialBoardNode({ id, data }: NodeProps) {
         ...next,
         status: materialState.status === 'solved' ? 'solved' : 'in_progress',
       })
+      // Moving something is the answer, and after a miss it is the next go.
+      dispatch({ type: 'answer', present: true })
     },
-    [persist, materialState.status],
+    [persist, materialState.status, dispatch],
   )
 
   const check = useCallback(() => {
     if (!materialSpec) return
+    dispatch({ type: 'check' })
     const tickResult = tick(materialSpec, materialState)
     const next: MaterialState = {
       ...materialState,
@@ -48,7 +64,13 @@ export function MaterialBoardNode({ id, data }: NodeProps) {
     }
     persist(next)
     if (tickResult.solved) setRevealed(true)
-  }, [materialSpec, materialState, persist])
+    dispatch({ type: 'result', verdict: tickResult.solved ? 'correct' : 'incorrect' })
+  }, [materialSpec, materialState, persist, dispatch])
+
+  const onCheckAction = (action: BarAction) => {
+    if (action === 'check') check()
+    else if (action === 'tryAgain') dispatch({ type: 'tryAgain' })
+  }
 
   if (!materialSpec) {
     return (
@@ -68,6 +90,8 @@ export function MaterialBoardNode({ id, data }: NodeProps) {
       solved={solved}
       revealed={revealed}
       onCheck={solved ? undefined : check}
+      checkState={flow}
+      onCheckAction={onCheckAction}
     />
   )
 }

@@ -1,9 +1,14 @@
 'use client'
-import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
+import { useEffect } from 'react'
+import { motion, AnimatePresence, MotionConfig, useAnimationControls, useReducedMotion } from 'framer-motion'
 import { Handle, Position } from '@xyflow/react'
 import { Lightbulb, Check, Hand } from 'lucide-react'
 import { handleClass } from '../canvasShared'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
+import type { CheckFlowState } from '@/lib/studylab/checkFlow'
+import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { motionFor } from '@/lib/studylab/motionPresets'
+import { CheckBar, toneBorder } from '../check/CheckBar'
 
 interface Props {
   prompt: string
@@ -21,7 +26,25 @@ interface Props {
    * degrade silently to the plain surface — this must never break rendering.
    */
   texture?: string
+  /**
+   * The shared check flow. When given, the frame shows the lesson's check bar
+   * -- Check, Try again, Inky's line -- in place of its own Check button,
+   * Solved pill and Hint button. Absent (the dev bench, older patterns), the
+   * frame behaves exactly as it always did.
+   */
+  checkState?: CheckFlowState
+  onCheckAction?: (action: BarAction) => void
+  /** What Inky says on the bar: the hint after a miss, for instance. */
+  checkLine?: string
   children: React.ReactNode
+}
+
+const MATERIAL_BAR: BarOptions = {
+  canReveal: false,
+  hasWhy: false,
+  whyOpened: false,
+  hasHelp: false,
+  hasContinue: false,
 }
 
 /**
@@ -47,59 +70,82 @@ interface Props {
  * renders through.
  */
 export function ActivityFrame({
-  prompt, solved, reveal, revealed, hint, hintAvailable, onHint, onCheck, checkLabel = 'Check', texture, children,
+  prompt, solved, reveal, revealed, hint, hintAvailable, onHint, onCheck, checkLabel = 'Check', texture,
+  checkState, onCheckAction, checkLine, children,
 }: Props) {
   // Unknown/uncatalogued names (all 25 tactile textures are not yet catalogued)
   // resolve to null, so this is a no-op whenever no texture is supplied or the
   // name doesn't resolve — the surface renders exactly as it did before.
   const textureUrl = texture ? assetUrl(texture) : null
+  const reduced = useReducedMotion() ?? false
+  const tone = checkState ? barModel(checkState, MATERIAL_BAR).tone : 'neutral'
+  // Solved: the surface gives one little hop. A miss sways it. Driven by
+  // controls rather than a remount, so the pieces inside keep their state.
+  const surface = useAnimationControls()
+  const phase = checkState?.phase
+  const attempts = checkState?.attempts
+  useEffect(() => {
+    const m =
+      phase === 'correct' ? motionFor('stagger', reduced)
+      : phase === 'retry' || phase === 'wrong' ? motionFor('shakeSoft', reduced)
+      : undefined
+    if (m?.animate) void surface.start({ ...m.animate, transition: m.transition })
+  }, [phase, attempts, reduced, surface])
   return (
     <MotionConfig reducedMotion="user">
-      <div className="sl-node-enter w-[420px] overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)]">
+      <div
+        className="sl-node-enter w-[420px] overflow-hidden rounded-2xl border-2 bg-ss-panel shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] transition-colors duration-200 motion-reduce:transition-none"
+        style={{ borderColor: checkState ? toneBorder(tone) : 'var(--ss-line)' }}
+      >
         <Handle type="target" position={Position.Left} className={handleClass} />
         <div className="nowheel flex flex-col gap-3 p-4">
           <div className="flex items-start gap-2">
-            <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[color:var(--ss-accent)]/10">
-              <Hand className="h-3.5 w-3.5 text-ss-accent" />
+            <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: 'var(--subject-soft)' }}>
+              <Hand className="h-3.5 w-3.5 text-ss-subject" />
             </span>
             <p className="text-[13px] font-semibold leading-snug text-ss-ink">{prompt}</p>
           </div>
 
-          <div
+          <motion.div
+            animate={surface}
             className="rounded-xl border border-ss-line bg-[color:var(--ss-canvas)]/60 bg-cover p-3"
             style={textureUrl ? { backgroundImage: `url(${textureUrl})` } : undefined}
           >
             {children}
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-2">
-            {onCheck && !solved && (
-              <button
-                type="button"
-                onClick={onCheck}
-                className="nodrag rounded-full bg-ss-accent px-4 py-1.5 text-[12px] font-bold text-white transition hover:brightness-95 motion-reduce:transition-none"
-              >
-                {checkLabel}
-              </button>
-            )}
-            {solved && (
-              <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 text-[12px] font-bold text-emerald-600 dark:text-emerald-400">
-                <Check className="h-3.5 w-3.5" strokeWidth={3} /> Solved
-              </span>
-            )}
-            {hintAvailable && !solved && (
-              <button
-                type="button"
-                onClick={onHint}
-                className="nodrag flex items-center gap-1.5 rounded-full border border-ss-line px-3 py-1.5 text-[12px] font-semibold text-ss-slate transition hover:border-[color:var(--ss-accent)]/40 motion-reduce:transition-none"
-              >
-                <Lightbulb className="h-3.5 w-3.5" /> Hint
-              </button>
-            )}
-          </div>
+          {checkState && onCheckAction ? (
+            <CheckBar state={checkState} options={MATERIAL_BAR} onAction={onCheckAction} line={checkLine} />
+          ) : (
+            <div className="flex items-center gap-2">
+              {onCheck && !solved && (
+                <button
+                  type="button"
+                  onClick={onCheck}
+                  className="nodrag rounded-full bg-ss-accent px-4 py-1.5 text-[12px] font-bold text-white transition hover:brightness-95 motion-reduce:transition-none"
+                >
+                  {checkLabel}
+                </button>
+              )}
+              {solved && (
+                <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 text-[12px] font-bold text-emerald-600 dark:text-emerald-400">
+                  <Check className="h-3.5 w-3.5" strokeWidth={3} /> Solved
+                </span>
+              )}
+              {hintAvailable && !solved && (
+                <button
+                  type="button"
+                  onClick={onHint}
+                  className="nodrag flex items-center gap-1.5 rounded-full border border-ss-line px-3 py-1.5 text-[12px] font-semibold text-ss-slate transition hover:border-[color:var(--ss-accent)]/40 motion-reduce:transition-none"
+                >
+                  <Lightbulb className="h-3.5 w-3.5" /> Hint
+                </button>
+              )}
+            </div>
+          )}
 
           <AnimatePresence>
-            {hint && (
+            {!checkState && hint && (
               <motion.p
                 key="hint"
                 initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
@@ -112,9 +158,10 @@ export function ActivityFrame({
               <motion.div
                 key="reveal"
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg border border-[color:var(--ss-accent)]/30 bg-[color:var(--ss-accent)]/[0.07] px-3 py-2"
+                className="rounded-lg border border-[color:var(--subject)]/30 px-3 py-2"
+                style={{ backgroundColor: 'var(--subject-soft)' }}
               >
-                <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent">What you just found</p>
+                <p className="text-[12px] font-bold uppercase tracking-widest text-ss-subject-ink">What you just found</p>
                 <p className="mt-1 text-[12.5px] leading-relaxed text-ss-ink">{reveal}</p>
               </motion.div>
             )}
