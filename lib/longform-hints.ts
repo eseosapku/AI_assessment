@@ -89,7 +89,7 @@ export function labelledParts(question: string): string[] {
 
   return starts.map((from, i) => {
     const to = i + 1 < starts.length ? starts[i + 1] : q.length
-    return cleanText(q.slice(from, to).replace(/^\([a-d]|[ivx]+\)\s*/i, ''))
+    return cleanText(q.slice(from, to).replace(/^\(([a-d]|[ivx]+)\)\s*/i, ''))
   }).filter(Boolean)
 }
 

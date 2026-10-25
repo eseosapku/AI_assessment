@@ -23,6 +23,23 @@ const ALIASES: Record<string, string[]> = {
   'Arabic Language': ['arabic', 'arabic studies'],
 }
 
+/**
+ * The same paper, not a longer name that merely contains a shorter one.
+ *
+ * "Principles of Accounts" and "Financial Accounting" are the same paper.
+ * "Further Mathematics" is not "Mathematics", even though one contains the other.
+ */
+export function sameExamPaperSubject(requested: string, candidate: string): boolean {
+  const req = requested.trim().toLowerCase()
+  const cand = candidate.trim().toLowerCase()
+  if (!req || !cand) return false
+  if (req === cand) return true
+  return Object.entries(ALIASES).some(([canonical, list]) => {
+    const group = [canonical.toLowerCase(), ...list.map((a) => a.toLowerCase())]
+    return group.includes(req) && group.includes(cand)
+  })
+}
+
 export function examSubjectMatches(requested: string, candidate: string): boolean {
   const req = requested.trim().toLowerCase()
   const cand = candidate.trim().toLowerCase()

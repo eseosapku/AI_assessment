@@ -33,6 +33,8 @@ import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { normalizeIds, positiveId } from '@/lib/request-ids'
+import { assignPdfFigures, composePdfSource, pdfFigureRules, sanitizePdfFigures } from '@/lib/pdf-source'
+import { PDF_TEXT_MAX_CHARS } from '@/lib/pdf-upload'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
 import { bookInBank, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
 import { assembleParts, hasFreshVetted, hasVetted, vettedFor } from '@/lib/figure-question-bank'
@@ -46,7 +48,7 @@ import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, optionsCopyOriginal, stripFigureTokens, type BankFigure } from '@/lib/checkpoint-figure-bank'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from '@/lib/passage-question-match'
-import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
+import { enforceSlotShape, isCompositionQuestion, restampByFormat } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
@@ -56,6 +58,7 @@ import { parseTopUp, topUpAllowed, TOP_UP_MAX_MISSING } from '@/lib/quiz-top-up'
 import { leastCoveredSections, pointShares, sectionShares, type BookSection } from '@/lib/section-shares'
 import { toBritish } from '@/lib/british-spelling'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
+import { isLazyChoiceQuestion, sourceNeedsWorkedProblems, workedProblemRules } from '@/lib/worked-problems'
 import { normaliseWrittenType } from '@/lib/written-type'
 import { prettyMaths } from '@/lib/maths-notation'
 import { correctParagraphLetter, citesAMissingParagraph, paragraphNumberToLetter, paragraphMismatch } from '@/lib/paragraph-reference'
@@ -521,17 +524,23 @@ function buildTopicAlignmentBlock(params: {
    * Primary teaches neither by then. Where the book has spoken, they step aside.
    */
   hasBrief?: boolean
+  /** The source is a problem set. The "no arithmetic" rule would delete the paper the student asked for. */
+  workedProblems?: boolean
 }): string {
   const topicText = (params.topics || []).join(' ').toLowerCase()
   const g = Number(params.grade)
   const rules: string[] = []
 
-  rules.push('Every question must directly target the selected topic names. Do not include unrelated skills or generic arithmetic unless the topic explicitly requires it.')
+  if (params.workedProblems) {
+    rules.push('About half the questions are calculations, with the numbers or the matrix written in the question. The rest are theory on the same topic: a definition, a property, or when the method is used.')
+  } else {
+    rules.push('Every question must directly target the selected topic names. Do not include unrelated skills or generic arithmetic unless the topic explicitly requires it.')
+  }
   if (params.topics.length > 1) {
     rules.push('Cover all selected topics; include at least one question per topic.')
   }
 
-  if (!allowsArithmeticForSelection(String(params.subject || ''), params.topics || [])) {
+  if (!params.workedProblems && !allowsArithmeticForSelection(String(params.subject || ''), params.topics || [])) {
     rules.push('Do NOT include arithmetic calculation or math word problems. Numbers may appear only as facts (dates, counts, labels) when required by the topic.')
   }
 
@@ -636,6 +645,8 @@ function buildPrompt(opts: {
   batchFocus?: string[]
   /** The paper already asks about those points: a follow-up or a retry needs a new angle on them. */
   batchFocusCovered?: boolean
+  /** A PDF of problems: every question in this batch must make the student compute a result. */
+  requireWorkedProblems?: boolean
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
@@ -741,7 +752,8 @@ function buildPrompt(opts: {
     }`
 
   const gradeNum = Number(opts.grade) || 99
-  const allowArithmetic = allowsArithmeticForSelection(subject, topics)
+  const solvingSource = sourceNeedsWorkedProblems(sourceText)
+  const allowArithmetic = allowsArithmeticForSelection(subject, topics) || solvingSource
   const isPrimaryLow = gradeNum >= 1 && gradeNum <= 2
   const lfMarksRange = isPrimaryLow ? '2-3' : '2-8'
   // An exam paper's written answers are short: measured across the real
@@ -852,8 +864,26 @@ Return exactly ${questionParts.length} questions, in this order, all type "longf
     ${activeLfSchema}`
   }
 
-  const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
-  const topicAlignment = buildTopicAlignmentBlock({ topics, grade: opts.grade, subject, hasBrief: Boolean(opts.scopeBrief) })
+  // The schema above asks for an essay ("describe", "which statement"). On a
+  // PDF of problems the model followed that schema and ignored a later note
+  // that said some questions should be calculations. The note has to replace
+  // the task, not sit under it.
+  if (opts.requireWorkedProblems) {
+    questionInstruction = `${workedProblemRules(count)}
+
+Generate exactly ${count} questions. About half are calculations with the matrix or the numbers written in the question. The rest are theory on the same material.`
+  }
+
+  // Beginner difficulty lists only "describe" and "explain", and the paper
+  // came back with no calculations. Forcing every question to be a calculation
+  // then came back with no theory. A problem PDF wants both.
+  const difficultyInstruction = opts.requireWorkedProblems
+    ? `MIX: about half the questions are calculations from the source, and about half are theory (define, describe a property, or say when a method is used).`
+    : difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
+  const topicAlignment = buildTopicAlignmentBlock({
+    topics, grade: opts.grade, subject, hasBrief: Boolean(opts.scopeBrief),
+    workedProblems: Boolean(opts.requireWorkedProblems),
+  })
 
   const sourceBlock = sourceText
     ? `SOURCE MATERIAL (${sourceName || 'Uploaded PDF'}):
@@ -864,12 +894,15 @@ ${sourceText}
 SOURCE RULES:
 - Use ONLY the source material.
 - Do NOT add facts that are not present in the source.
+${opts.requireWorkedProblems ? '- A small worked example of a method the source describes is allowed. Put its numbers in the question and ask for the result.\n' : ''}
 - If a selected topic is not covered in the source, skip it.
 - If a quote is needed, copy exact words from the source text.
 - THE STUDENT CANNOT SEE THIS SOURCE. They answer on a screen that shows your question and nothing else — no book, no page numbers, no chapter headings.
   • NEVER write "page 255", "on page 23", "Figure 28.3", "Table 4.1", "in Unit 9", "see Chapter 7", "of the textbook", or any other pointer into the source.
   • If a question needs a value, a table row, a definition or a described picture from the source, WRITE THAT CONTENT INTO THE QUESTION ITSELF.
-  • Never ask about the book's own apparatus — its revision exercises, its summary boxes, its chapter titles. Ask about the subject.`
+  • Never ask about the book's own apparatus — its revision exercises, its summary boxes, its chapter titles. Ask about the subject.
+${pdfFigureRules((sourceText.match(/\[Figure pdf-\d+/g) ?? []).length)}
+${opts.requireWorkedProblems ? workedProblemRules(count) : ''}`
     : ''
 
   const g = gradeNum
@@ -977,8 +1010,11 @@ ${genreBlock ? `${genreBlock}
 2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
 3. LaTeX math MUST be wrapped in dollar signs: $...$ for inline (e.g. $\\\\frac{1}{x}$, $\\\\sqrt{2}$, $x^2 + y^2$) and $$...$$ for display. This applies in ALL fields including explanations and model_answer. Never write bare LaTeX outside of dollar signs.
 ${wantsMcq ? `4. MCQ "explanation" field: 100-150 words, addressed TO the student and never to a marker. Cover: (a) why the correct answer is right, with the specific reasoning, evidence or working, (b) why each wrong option is wrong and what misconception leads to it. Open with the reasoning itself — NOT with "This question tests...". Name the answer by its VALUE, never by its letter ("7 is correct because 3 + 4 = 7", never "Option B is correct"): the options get reordered before the student sees them, so a letter written here becomes wrong. Do NOT just restate the question. Write in full sentences.` : ''}
-${wantsLongform ? `5. Longform "explanation" field: 40-60 words, addressed TO the student. Describe what a strong answer must include and why those points earn the marks. Do NOT open by naming the skill being assessed — "This question tests inference skills" is written for a marker and tells the student nothing. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
-5b. Longform "hints": exactly ONE string in the array. Write a single comprehensive hint for the whole question: how to structure the answer based on THIS question's wording (both demands if multi-part). Do NOT write one hint per criterion. Do NOT paste or lightly rephrase the question three times. MUST NOT include the key fact, quote, formula, or any sentence from model_answer.` : ''}
+${wantsLongform ? (opts.requireWorkedProblems
+  ? `5. A calculation's "model_answer" is the result and one line of working. A theory question's "model_answer" is a few sentences, not an 80-word essay. "marks" is 2 or 3. "explanation" is written TO the student.
+5b. Longform "hints": exactly ONE string. For a calculation, say which operation to do first and do NOT include the result. For a theory question, say how to structure the answer and do NOT include the key fact.`
+  : `5. Longform "explanation" field: 40-60 words, addressed TO the student. Describe what a strong answer must include and why those points earn the marks. Do NOT open by naming the skill being assessed — "This question tests inference skills" is written for a marker and tells the student nothing. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
+5b. Longform "hints": exactly ONE string in the array. Write a single comprehensive hint for the whole question: how to structure the answer based on THIS question's wording (both demands if multi-part). Do NOT write one hint per criterion. Do NOT paste or lightly rephrase the question three times. MUST NOT include the key fact, quote, formula, or any sentence from model_answer.`) : ''}
 6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
 ${questionType !== 'longform' || hasDiagramSupport ? `7. ${diagramNote || 'N/A'}` : ''}
 8. ${passageNote}
@@ -1366,8 +1402,8 @@ export async function POST(request: NextRequest) {
     }
 
     const requestedSubject = String(subject ?? '').trim()
-    const requestedTopics = Array.isArray(topics) ? topics.map((t: any) => String(t).trim()).filter(Boolean) : []
-    const hasSomeTopics = requestedTopics.length > 0 || topicIds.length > 0 || subtopicIds.length > 0
+    let requestedTopics = Array.isArray(topics) ? topics.map((t: any) => String(t).trim()).filter(Boolean) : []
+    let hasSomeTopics = requestedTopics.length > 0 || topicIds.length > 0 || subtopicIds.length > 0
 
     // ── Textbook lookup (incl. imported past-paper / NERDC source text) ─────
     let textbookName = ''
@@ -1428,14 +1464,35 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Exam prep is only available for Nigeria accounts.' }, { status: 403 })
       }
     }
-    const sourceCharLimit = (isExamPrepCurriculum || curriculumSlugEarly === 'nigeria') && textbookSourceText
-      ? MAX_EXAM_SOURCE_CHARS
-      : MAX_SOURCE_CHARS
-    const effectiveRawSource = rawSourceText || textbookSourceText || ''
+    const pdfSource = body?.sourceKind === 'pdf'
+    const sourceCharLimit = pdfSource
+      ? PDF_TEXT_MAX_CHARS
+      : (isExamPrepCurriculum || curriculumSlugEarly === 'nigeria') && textbookSourceText
+        ? MAX_EXAM_SOURCE_CHARS
+        : MAX_SOURCE_CHARS
+    const pdfFigures = sanitizePdfFigures(body?.sourceFigures)
+    const usedPdfFigures = new Set<string>()
+    const effectiveRawSource = composePdfSource(rawSourceText || textbookSourceText || '', pdfFigures, sourceCharLimit)
     const normalizedSource = normalizeSourceText(effectiveRawSource, sourceCharLimit)
     const sourceText = normalizedSource.text
     const sourceLabel = String(sourceName ?? '').trim() || (textbookName && textbookSourceText ? textbookName : '')
     const hasSourceText = Boolean(sourceText)
+
+    // "Another like this" can name the book and not the topics, and a book
+    // with no pasted source text then failed the check below. The book's own
+    // topic list is what the first quiz was built from.
+    if (!hasSomeTopics && !hasSourceText && Number.isFinite(textbookId) && !isCachePaperId(textbookId)) {
+      try {
+        const topicRows = await db.query(
+          'SELECT topic FROM topics WHERE textbook_id = $1 AND topic IS NOT NULL ORDER BY topic LIMIT 8',
+          [textbookId],
+        )
+        requestedTopics = topicRows.rows.map((row) => String(row.topic ?? '').trim()).filter(Boolean)
+        hasSomeTopics = requestedTopics.length > 0
+      } catch (error) {
+        console.error('Textbook topic lookup for a repeat failed:', error)
+      }
+    }
 
     if ((!requestedSubject && !Number.isFinite(textbookId) && !hasSourceText) || (!hasSomeTopics && !hasSourceText) || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -2463,6 +2520,7 @@ ${commandBlock}`
         curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
         sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
         figureAppetite: isCheckpoint ? 'exam-paper' : 'default', paperPass, questionParts,
+        requireWorkedProblems: pdfSource && sourceNeedsWorkedProblems(sourceText),
         assignedFigure: assignedFigure ? { description: assignedFigure.description, category: assignedFigure.category } : undefined,
         scopeBrief: scopeBrief || undefined,
         batchFocus,
@@ -3084,8 +3142,12 @@ ${commandBlock}`
           console.warn(`Removed unanswerable (visual-dependent) question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
-        if (isLikelyOffTopicMathQuestion(q, promptSubject, promptTopics)) {
+        if (!sourceNeedsWorkedProblems(sourceText) && isLikelyOffTopicMathQuestion(q, promptSubject, promptTopics)) {
           console.warn(`Removed off-topic arithmetic question: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (pdfSource && sourceNeedsWorkedProblems(sourceText) && isLazyChoiceQuestion(q)) {
+          console.warn(`Removed all-of-the-above question on a problem PDF: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
         if (isMisalignedQuestion(q, promptSubject)) {
@@ -3443,6 +3505,14 @@ ${commandBlock}`
       // student has no page 286.
       const unbooked = repairBookReferences(questions)
       if (unbooked > 0) console.log(`Removed a book cross-reference from ${unbooked} question(s)`)
+
+      // A picture from the student's PDF has to be on the question before the
+      // dangling-reference check, or "in the diagram" deletes a question whose
+      // picture is sitting right here.
+      if (pdfFigures.length) {
+        const attached = assignPdfFigures(questions, pdfFigures, usedPdfFigures)
+        if (attached > 0) console.log(`Attached ${attached} figure(s) from the uploaded PDF`)
+      }
 
       // A stem that promises attached content it never includes — "consider the
       // following code snippet" with no snippet — is unanswerable, and nothing
@@ -4112,17 +4182,11 @@ ${commandBlock}`
     // Marks are stamped per batch, but the top-up passes above call
     // tryGenerateBatch with NO slot plan -- so anything they add carries the
     // model's own number, and a paper printed as 42 marks awarded 84. The
-    // slot plan is the authority and it is right here, so the last word on
-    // marks is taken from it, in order, once everything else is settled.
+    // slot plan is the authority. The list is no longer in blueprint order —
+    // specials are generated first and the composition sits at the end — so
+    // the marks follow the slot each question was written for, not its position.
     if (isCheckpoint && slotPlan.length > 0) {
-      let stamped = 0
-      allQuestions.forEach((q: any, i: number) => {
-        const slot = slotPlan[i]
-        if (!slot || !q || typeof q !== 'object') return
-        const want = Number(slot.marks) || 1
-        if (Number(q.marks) !== want) stamped++
-        q.marks = want
-      })
+      const stamped = restampByFormat(allQuestions, slotPlan)
       const total = allQuestions.reduce((t: number, q: any) => t + (Number(q.marks) || 0), 0)
       const printed = slotPlan.reduce((t: number, s: any) => t + (Number(s?.marks) || 0), 0)
       if (stamped > 0) console.log(`Re-stamped marks on ${stamped} question(s); paper is ${total} of ${printed}`)

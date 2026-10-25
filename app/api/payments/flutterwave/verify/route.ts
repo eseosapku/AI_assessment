@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { activateSubscription, getSubscriptionSnapshot } from '@/lib/subscription-server'
+import { getSubscriptionSnapshot, settleSubscriptionPayment } from '@/lib/subscription-server'
 import { findTransactionByTxRef, verifyTransactionById } from '@/lib/flutterwave'
-
-function isPaidFlutterwaveStatus(status: string | undefined | null): boolean {
-  const s = String(status ?? '').toLowerCase()
-  return s === 'successful' || s === 'succeeded' || s === 'completed'
-}
+import { isPaidFlutterwaveStatus, type FlutterwaveTransaction } from '@/lib/subscription-payment'
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,32 +17,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'reference or transaction_id is required' }, { status: 400 })
     }
 
-    let flwVerified = false
-    let paymentId: string | undefined
-    let txRef = reference
+    let txn: FlutterwaveTransaction | null = transactionId ? await verifyTransactionById(transactionId) : null
 
-    if (transactionId) {
-      const txn = await verifyTransactionById(transactionId)
-      if (txn && isPaidFlutterwaveStatus(txn.status)) {
-        flwVerified = true
-        paymentId = txn.id
-        if (txn.txRef) txRef = txn.txRef
-      }
-    }
-
-    if (!flwVerified && txRef) {
+    if (!isPaidFlutterwaveStatus(txn?.status) && reference) {
       try {
-        const txn = await findTransactionByTxRef(txRef)
-        if (txn && isPaidFlutterwaveStatus(txn.status)) {
-          flwVerified = true
-          paymentId = txn.id
-        }
+        txn = await findTransactionByTxRef(reference)
       } catch (e) {
         console.warn('Flutterwave verify lookup failed:', e)
       }
     }
 
-    if (!flwVerified) {
+    if (!txn || !isPaidFlutterwaveStatus(txn.status)) {
       return NextResponse.json(
         {
           error:
@@ -56,22 +37,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const result = await activateSubscription({
-      userId,
-      ref: paymentId ?? txRef ?? transactionId,
-      provider: 'flutterwave',
-    })
-
-    if (!result.ok) {
-      return NextResponse.json({ error: result.error ?? 'Activation failed' }, { status: 400 })
+    // The transaction used to be applied to whichever user_id the body named,
+    // and as many times as it was posted.
+    const settled = await settleSubscriptionPayment(txn, userId)
+    if (!settled.ok) {
+      return NextResponse.json({ error: settled.error }, { status: settled.status })
     }
 
-    const snapshot = await getSubscriptionSnapshot(userId)
+    const snapshot = await getSubscriptionSnapshot(settled.userId)
     return NextResponse.json({
       active: true,
       verified: true,
       expiresAt: snapshot?.expiresAt ?? undefined,
-      lastPaymentId: paymentId ?? txRef ?? transactionId,
+      lastPaymentId: settled.transactionId,
       subscription: snapshot,
     })
   } catch (err: unknown) {

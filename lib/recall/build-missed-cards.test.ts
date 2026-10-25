@@ -17,6 +17,14 @@ describe('recall cards from missed questions', () => {
     expect(card.front).toBe(`What is the dark dot?\n\nImage: ${credit}`)
   })
 
+  it('treats a blank as a miss, even when the key is option A', () => {
+    const [blankA] = buildMissedRecallCards([question()], { 0: null }, 'Biology')
+    const [blankB] = buildMissedRecallCards([question({ correct_answer: 1 })], { 0: null }, 'Biology')
+    expect(blankA.back).toContain('Nucleus')
+    expect(blankB.back).toContain('Vacuole')
+    expect(buildMissedRecallCards([question()], { 0: '' }, 'Biology')).toHaveLength(1)
+  })
+
   it('leaves out a credit with no image', () => {
     const [card] = buildMissedRecallCards([question({ image_credit: 'x' })], { 0: 1 }, 'Biology')
     expect(card.front).toBe('What is the dark dot?')

@@ -51,6 +51,7 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
   // curriculum behind it has nothing to regenerate from.
   const [repeatParams, setRepeatParams] = useState<Record<string, unknown> | null>(null)
   const [building, setBuilding] = useState(false)
+  const [repeatError, setRepeatError] = useState<string | null>(null)
   useEffect(() => {
     let cancelled = false
     ;(async () => {
@@ -71,6 +72,7 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
   const handleQuizAgain = async () => {
     if (!repeatParams || building) return
     setBuilding(true)
+    setRepeatError(null)
     try {
       const quizPayload = { ...repeatParams, style: 'Test Style (Textbooks)' }
       const res = await fetch('/api/generate-assessment', {
@@ -85,6 +87,7 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
       router.push('/assessment')
     } catch (err) {
       console.error('Quiz again failed:', err)
+      setRepeatError(err instanceof Error ? err.message : 'Could not build the quiz')
       setBuilding(false)
     }
   }
@@ -152,6 +155,9 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
           {/* Nine wizard steps collapse to one: everything the builder would
               ask for is already on the finished assessment. Hidden when the
               quiz has no curriculum behind it to regenerate from. */}
+          {repeatError && (
+            <p className="col-span-2 text-[12px] font-semibold text-ss-bad">{repeatError}</p>
+          )}
           {canRepeat && (
             <button
               type="button"

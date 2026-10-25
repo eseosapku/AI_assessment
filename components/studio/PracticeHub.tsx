@@ -148,7 +148,7 @@ export default function PracticeHub() {
         <span className="min-w-0 flex-1">
           <span className="block text-[16px] font-extrabold text-ss-ink">Quiz me on anything</span>
           <span className="block text-[13px] font-semibold text-ss-slate">
-            Off the syllabus? Type any topic or paste your own notes — we&apos;ll work out what to cover.
+            Off the syllabus? Type a topic, paste notes, or upload a PDF — we&apos;ll work out what to cover.
           </span>
         </span>
         <ArrowRight className="h-5 w-5 shrink-0 text-ss-slate transition-transform group-hover:translate-x-0.5" />

@@ -21,8 +21,19 @@
  * the way Cambridge prints it, and is not measured in words.
  */
 
-/** Verbs that promise arithmetic. "Find" is deliberately absent -- see below. */
+/** Verbs that promise arithmetic. Bare "find" is not one -- see below. */
 const COMPUTES = /^\s*(?:calculate|work out|compute)\b/i
+
+/**
+ * A linear-algebra demand. "Find" stays out of COMPUTES because
+ * "Find the information stated in the text" is a reading question.
+ * "Find the determinant of A = [[4, 2], [1, 3]]" is a calculation.
+ */
+const MATH_WORK = /^\s*(?:solve|simplify|evaluate|find)\b/i
+const MATH_OBJECT = /\b(?:determinant|eigenvalues?|matrix|matrices|inverse|vector|equation|expression|polynomial|integral|derivative|singular value)\b/i
+/** "Given A = [[4, 2], [1, 3]], find the eigenvalues" does not open with Calculate. */
+const GIVEN_MATRIX = /\[\s*-?\d|\\+begin\{(?:pmatrix|bmatrix|matrix|vmatrix)/i
+const MATRIX_JOB = /\b(?:find|calculate|compute|solve|perform|determine|obtain|work out|decompos\w*|eigendecompos\w*|eigenvalues?|eigenvectors?|determinant|inverse|singular values?|cholesky|diagonaliz\w*)\b/i
 
 /**
  * A thing that has a numeric value.
@@ -44,12 +55,15 @@ const QUANTITY =
 export function isCalculationDemand(stem: unknown): boolean {
   const text = String(stem ?? '').trim()
   if (!text) return false
-  if (!COMPUTES.test(text)) return false
-  if (/\b(?:explain|describe|justify|compare|discuss|why|suggest why|comment on)\b/i.test(text)) {
+  const solvesAMatrix = MATH_WORK.test(text) && MATH_OBJECT.test(text) && /\d/.test(text)
+  const matrixJob = GIVEN_MATRIX.test(text) && MATRIX_JOB.test(text)
+  if (/\b(?:interpretation|significance)\b/i.test(text)) return false
+  if (!COMPUTES.test(text) && !solvesAMatrix && !matrixJob) return false
+  if (/\b(?:explain|describe|justify|compare|discuss|why|suggest why|comment on)\b/i.test(text) && !matrixJob) {
     return false
   }
   // A bare "Calculate your answer carefully" is not a calculation demand.
-  return QUANTITY.test(text) || /[\d+\-×x*/=]/.test(text)
+  return QUANTITY.test(text) || /[\d+\-×x*/=]/.test(text) || solvesAMatrix || matrixJob
 }
 
 /** True when the stem names a quantity, whether or not it computes one. */

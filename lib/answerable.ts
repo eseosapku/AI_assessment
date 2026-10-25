@@ -105,8 +105,13 @@ function shapeHasWrongCorners(stem: string): boolean {
     /\b(triangle|quadrilateral|rectangle|square|parallelogram|rhombus|trapezium|kite|pentagon|hexagon|octagon)\s+((?:[A-Z](?:\s*,\s*|\s+and\s+|\s*)){2,})/,
   )
   if (!m) return false
-  const letters = m[2].match(/[A-Z]/g) ?? []
-  return letters.length >= 2 && letters.length !== CORNERS[m[1].toLowerCase()]
+  // "triangle ABC and DEF" is two triangles, not one shape with six corners.
+  // "A, B and C" is still one triangle: a side of a single letter is not a
+  // second shape, so those letters are counted together.
+  const chunks = m[2].split(/\s+and\s+/i).map((c) => (c.match(/[A-Z]/g) ?? []).length)
+  const groups = chunks.every((n) => n >= 2) ? chunks : [m[2].match(/[A-Z]/g)?.length ?? 0]
+  const need = CORNERS[m[1].toLowerCase()]
+  return groups.some((n) => n >= 2 && n !== need)
 }
 
 /**
@@ -181,7 +186,9 @@ function choiceAsksSomething(stem: string): boolean {
 const PRONOUN = /\b(?:it|its|she|he|her|hers|his|they|them|their)\b/i
 /** Nouns a question makes definite once a setup has introduced them. */
 const DEFINITE_SUBJECT =
-  /\bthe\s+(?:car|bus|train|object|ball|marble|block|box|container|liquid|solution|mixture|sample|experiment|investigation|reaction|plant|animal|child|student|learner|class|journey|trip)\b/i
+  // "the plant" and "the reaction" are how a science question is asked, not
+  // a pointer at a setup on the previous screen. "the car" still is.
+  /\bthe\s+(?:car|bus|train|object|ball|marble|block|box|container|liquid|solution|mixture|sample|experiment|investigation|child|student|learner|class|journey|trip)\b/i
 
 function referstoNothing(q: AnswerableQuestion, stem: string): boolean {
   if (q.scenario || q.passage || q.image_url || q.diagram_svg) return false
@@ -241,7 +248,7 @@ function calculatesFromNothing(q: AnswerableQuestion, stem: string): boolean {
   const context = `${stem} ${String(q.scenario ?? '')} ${String(q.passage ?? '')}`
   // A digit anywhere, or a number written as a word.
   if (/\d/.test(context)) return false
-  return !/\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|thirty|fifty|hundred|thousand|half|quarter|third)\b/i.test(
+  return !/\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|half|quarter|third)\b/i.test(
     context,
   )
 }

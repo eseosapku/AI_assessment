@@ -1,6 +1,6 @@
 // lib/slot-shape.test.ts
 import { describe, it, expect } from 'vitest'
-import { enforceSlotShape, isCompositionQuestion, type SlotSpec } from './slot-shape'
+import { enforceSlotShape, isCompositionQuestion, restampByFormat, type SlotSpec } from './slot-shape'
 
 const mcq = () => ({ type: 'mcq', question: 'Draw a ring around the prime number.', options: ['4', '7', '9', '12'], correct_answer: 1 })
 const tick = () => ({ type: 'interactive', kind: 'multi_select', question: 'Tick all the correct statements.', options: ['a', 'b', 'c', 'd', 'e'], correct_indices: [0, 2] })
@@ -138,5 +138,20 @@ describe('a written answer has a point for every mark', () => {
       )
       expect(out.wrong).toHaveLength(0)
     }
+  })
+})
+
+describe('marks after the paper has been reordered', () => {
+  it('gives the essay its own marks, not the slot it landed in', () => {
+    const tick = { kind: 'multi_select', slot_format: 'tick', marks: 1 }
+    const short = { short_answer: { accepted: ['x'] }, slot_format: 'short', marks: 2 }
+    const essay = { slot_format: 'composition', marks: 1 }
+    const slots = [
+      { marks: 1, format: 'short' },
+      { marks: 2, format: 'tick' },
+      { marks: 25, format: 'composition' },
+    ]
+    restampByFormat([tick, short, essay], slots)
+    expect([tick.marks, short.marks, essay.marks]).toEqual([2, 1, 25])
   })
 })

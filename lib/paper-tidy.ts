@@ -140,7 +140,12 @@ export function dropRepeatedFigures<T extends TidyQuestion>(questions: readonly 
       // a stem that pointed at it, so the rule is written down here:
       //
       //   a repeated figure is a blemish; a missing one is a broken question.
-      if (PROMISES_A_FIGURE.test(String(q?.question ?? ''))) return q
+      if (PROMISES_A_FIGURE.test(String(q?.question ?? ''))) {
+        // Kept, so the NEXT repeat is measured from here. Leaving the old
+        // position made the following part lose the figure it needed.
+        lastSeenAt.set(path, i)
+        return q
+      }
       removed++
       const { image_url, ...rest } = q
       return rest as T

@@ -2,13 +2,15 @@ import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
 import { needsSpeechHint, speakSymbols } from './speech-symbols'
 import { hasCurrency, protectCurrency } from './currency-math'
+import { mathText } from './math-text'
 
 /**
  * Wrap only math fragments in $...$, not whole prose paragraphs.
  * Previously, any `^` or `_` caused the entire string to be treated as math,
  * which makes KaTeX ignore spaces ("This question" → "Thisquestion").
  */
-export function wrapInlineMath(text: string): string {
+export function wrapInlineMath(value: unknown): string {
+  const text = mathText(value)
   if (!text) return ''
   if (text.includes('$') || text.includes('\\(') || text.includes('\\[')) return text
 
@@ -49,8 +51,8 @@ const NO_SINGLE_DOLLAR = [
   { left: '\\[', right: '\\]', display: true },
 ]
 
-export function LatexText({ children }: { children: string }) {
-  const text = children ?? ''
+export function LatexText({ children }: { children: unknown }) {
+  const text = mathText(children)
   // "$50 bill after buying three items costing $12.45" was rendered as maths
   // between the two dollar signs -- run-together italics, spaces gone. With
   // money present, real maths moves to \( \) and "$" stays a dollar.

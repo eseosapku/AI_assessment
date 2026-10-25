@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowLeft, Eye, EyeOff, HelpCircle } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import { fetchDueCards, submitReview } from '@/lib/recall/client'
@@ -73,16 +73,25 @@ export default function RecallReview() {
   }, [load])
 
   const card = queue[index]
+  const ratingBusy = useRef(false)
+  const [saving, setSaving] = useState(false)
 
   const rate = async (rating: RecallRating) => {
-    if (!user?.id || !card) return
-    await submitReview(user.id, card, rating)
-    setReviewed((r) => r + 1)
-    setFlipped(false)
-    if (index + 1 >= queue.length) {
-      setDone(true)
-    } else {
-      setIndex((i) => i + 1)
+    if (!user?.id || !card || ratingBusy.current) return
+    ratingBusy.current = true
+    setSaving(true)
+    try {
+      await submitReview(user.id, card, rating)
+      setReviewed((r) => r + 1)
+      setFlipped(false)
+      if (index + 1 >= queue.length) {
+        setDone(true)
+      } else {
+        setIndex((i) => i + 1)
+      }
+    } finally {
+      ratingBusy.current = false
+      setSaving(false)
     }
   }
 
@@ -248,6 +257,7 @@ export default function RecallReview() {
                 key={r.rating}
                 type="button"
                 onClick={() => rate(r.rating)}
+                disabled={saving}
                 className={`flex flex-col gap-1 rounded-2xl border-2 p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md ${r.tone}`}
               >
                 <p className="text-sm font-black">{r.label}</p>

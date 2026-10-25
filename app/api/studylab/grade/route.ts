@@ -3,6 +3,14 @@ import { callGemma, parseJsonRobust, hasBedrockCredentials } from '@/lib/bedrock
 import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 
+function gradedCorrect(value: unknown): boolean | null {
+  if (value === true || value === false) return value
+  const text = String(value ?? '').trim().toLowerCase()
+  if (text === 'true') return true
+  if (text === 'false') return false
+  return null
+}
+
 function buildPrompt(o: {
   prompt: string
   format: string
@@ -57,9 +65,15 @@ export async function POST(request: NextRequest) {
 
     try {
       const parsed = parseJsonRobust(raw)
-      return NextResponse.json({ correct: parsed?.correct === true, feedback: String(parsed?.feedback ?? 'Reviewed.') })
+      const correct = gradedCorrect(parsed?.correct)
+      // A reply that is not a boolean is not a mark. Sending correct: false
+      // locked the answer, including when the model wrote the word "true".
+      if (correct === null) {
+        return NextResponse.json({ feedback: 'Could not grade right now — try again.' })
+      }
+      return NextResponse.json({ correct, feedback: String(parsed?.feedback ?? 'Reviewed.') })
     } catch {
-      return NextResponse.json({ correct: false, feedback: raw.slice(0, 300) || 'Reviewed — try again.' })
+      return NextResponse.json({ feedback: 'Could not grade right now — try again.' })
     }
   } catch {
     return NextResponse.json({ error: 'Grade request failed' }, { status: 500 })

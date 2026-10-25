@@ -16,25 +16,16 @@ export async function POST(request: NextRequest) {
         }
 
         const today = new Date().toISOString().slice(0, 10)
-        const existing = await db.query(
-            'SELECT seconds_active FROM user_activity_daily WHERE user_id = $1 AND activity_date = $2 LIMIT 1',
-            [userId, today]
+        // One statement. The old select-then-write was two round trips to RDS,
+        // and two pings at once could both insert and one would fail.
+        await db.query(
+            `INSERT INTO user_activity_daily (user_id, activity_date, seconds_active)
+             VALUES ($1, $2::date, $3)
+             ON CONFLICT (user_id, activity_date)
+             DO UPDATE SET seconds_active = user_activity_daily.seconds_active + EXCLUDED.seconds_active,
+                           updated_at = NOW()`,
+            [userId, today, Math.round(seconds)],
         )
-
-        const currentSeconds = Number(existing.rows[0]?.seconds_active ?? 0)
-        const nextSeconds = currentSeconds + seconds
-
-        if (existing.rows[0]) {
-            await db.query(
-                'UPDATE user_activity_daily SET seconds_active = $1, updated_at = NOW() WHERE user_id = $2 AND activity_date = $3',
-                [nextSeconds, userId, today]
-            )
-        } else {
-            await db.query(
-                'INSERT INTO user_activity_daily (user_id, activity_date, seconds_active) VALUES ($1, $2, $3)',
-                [userId, today, nextSeconds]
-            )
-        }
 
         return NextResponse.json({ success: true })
     } catch (err) {

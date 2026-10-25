@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { pgErrorMessage } from '@/lib/pg-errors'
 import { isExamPrepCurriculumNumeric, slugForTextbookCurriculum } from '@/lib/curriculum-registry'
 import type { MasteryStatus } from '@/lib/studylab/types'
+import { masteryNumber, sumAccuracies } from '@/lib/studylab/mastery-numbers'
 import { unlinkedSummary } from '@/lib/studylab/wall'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -366,7 +367,8 @@ export async function GET(request: NextRequest) {
           const m = bySubtopic.get(s.id)
           const derived = subAgg.get(s.id)
           if (m && (m.attempts ?? 0) > 0) {
-            return { id: s.id, name: s.name, status: classify(m.accuracy ?? null, m.attempts), accuracy: m.accuracy ?? null, attempts: m.attempts ?? 0, last_assessed: m.last_assessed ?? null }
+            const accuracy = masteryNumber(m.accuracy)
+            return { id: s.id, name: s.name, status: classify(accuracy, m.attempts), accuracy, attempts: m.attempts ?? 0, last_assessed: m.last_assessed ?? null }
           }
           if (derived) {
             const acc = Math.round(derived.sum / derived.n)
@@ -386,7 +388,7 @@ export async function GET(request: NextRequest) {
 
         if (assessedSubs.length > 0) {
           // Best signal: coverage-weighted over the topic's full set of subtopics.
-          const sum = assessedSubs.reduce((acc, s) => acc + (s.accuracy ?? 0), 0)
+          const sum = sumAccuracies(assessedSubs.map((s) => s.accuracy))
           const denom = subs.length > 0 ? subs.length : assessedSubs.length
           topicAccuracy = Math.round((sum / denom) * 100) / 100
           topicStatus = classify(topicAccuracy, assessedSubs.length)
@@ -394,8 +396,8 @@ export async function GET(request: NextRequest) {
           topicLast = assessedSubs.reduce<string | null>((acc, s) => (s.last_assessed && (!acc || new Date(s.last_assessed) > new Date(acc)) ? s.last_assessed : acc), null)
         } else if (topicMastery && (topicMastery.attempts ?? 0) > 0) {
           // Persisted topic-level mastery (e.g. a quiz scored at topic grain).
-          topicStatus = classify(topicMastery.accuracy ?? null, topicMastery.attempts ?? null)
-          topicAccuracy = topicMastery.accuracy ?? null
+          topicStatus = classify(masteryNumber(topicMastery.accuracy), topicMastery.attempts ?? null)
+          topicAccuracy = masteryNumber(topicMastery.accuracy)
           topicAttempts = topicMastery.attempts ?? 0
           topicLast = topicMastery.last_assessed ?? null
           topicLevelOnly = subs.length > 0
@@ -431,7 +433,7 @@ export async function GET(request: NextRequest) {
         subjectAccuracy = rawAvg
         subjectStatus = classify(rawAvg, b.attempts)
       } else if (assessedTopics.length > 0) {
-        const sum = assessedTopics.reduce((acc, t) => acc + (t.accuracy ?? 0), 0)
+        const sum = sumAccuracies(assessedTopics.map((t) => t.accuracy))
         subjectAccuracy = Math.round((sum / topicNodes.length) * 100) / 100
         subjectStatus = classify(subjectAccuracy, assessedTopics.length)
       } else {

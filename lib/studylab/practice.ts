@@ -47,7 +47,10 @@ export function normaliseAnswer(raw: unknown): string {
     .toLowerCase()
     .replace(/\$/g, '')
     .replace(/\\[a-z]+/g, ' ')
-    .replace(/^[a-z]\s*=\s*/, '')
+    // Only a number after the equals sign is a restated subject ("x = 12" is
+    // "12"). "a = b" is a different answer from "b", and stripping it marked
+    // the equation correct.
+    .replace(/^[a-z]\s*=\s*(?=-?\d)/, '')
     .replace(/[)(,;:!?]/g, ' ')
     .replace(/\s+/g, ' ')
     // Trimmed before the full stop is stripped: with trailing spaces still

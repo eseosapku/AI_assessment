@@ -100,6 +100,41 @@ export interface SlotCheck {
  * A batch that returned a different NUMBER of questions is left alone here --
  * that is the retry loop's problem, not this one's.
  */
+/**
+ * Put each question's marks back on the slot it was written for.
+ *
+ * Special formats are generated first and the composition is moved to the
+ * end, so the list is no longer in blueprint order. Stamping `slotPlan[i]`
+ * onto question `i` then gave a one-word answer the essay's 25 marks and the
+ * essay the last slot's 1. Questions remember `slot_format`; the first unused
+ * slot of that format still has the right number.
+ */
+export function restampByFormat(
+  questions: any[],
+  slots: readonly { marks: number; format: string }[],
+): number {
+  const queues = new Map<string, number[]>()
+  for (const slot of slots) {
+    const list = queues.get(slot.format) ?? []
+    list.push(Number(slot.marks) || 1)
+    queues.set(slot.format, list)
+  }
+  const used = new Map<string, number>()
+  let stamped = 0
+  questions.forEach((q, i) => {
+    if (!q || typeof q !== 'object') return
+    const format = typeof q.slot_format === 'string' ? q.slot_format : ''
+    const list = format ? queues.get(format) : undefined
+    const at = used.get(format) ?? 0
+    const want = list && at < list.length ? list[at] : slots[i] ? Number(slots[i].marks) || 1 : null
+    if (list && at < list.length) used.set(format, at + 1)
+    if (want == null) return
+    if (Number(q.marks) !== want) stamped++
+    q.marks = want
+  })
+  return stamped
+}
+
 export function enforceSlotShape(questions: unknown, slots: readonly SlotSpec[] | undefined): SlotCheck {
   const list = Array.isArray(questions) ? questions : []
   if (!slots?.length) return { questions: list, wrong: [] }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  labelledParts,
   alignLongformHints,
   attachLongformHints,
   buildLongformHint,
@@ -9,6 +10,13 @@ import {
   studentHintsOf,
   tokenOverlapRatio,
 } from './longform-hints'
+
+describe('labelled parts of a written question', () => {
+  it('drops the label and keeps the demand', () => {
+    expect(labelledParts('(a) Explain the process of photosynthesis. (b) Give one reason it needs light.'))
+      .toEqual(['Explain the process of photosynthesis.', 'Give one reason it needs light.'])
+  })
+})
 
 describe('longform hints', () => {
   it('rejects a hint that copies the marking criterion', () => {

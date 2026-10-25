@@ -28,6 +28,9 @@ describe('localVerdict', () => {
   it('awards it through the notation the two sides happen to use', () => {
     expect(localVerdict('$x = 12$', '12')).toBe('correct')
     expect(localVerdict('12', 'x = 12')).toBe('correct')
+    expect(localVerdict('b', 'a = b')).toBe('unknown')
+    expect(localVerdict('a = b', 'b')).toBe('unknown')
+    expect(localVerdict('x = y', 'y')).toBe('unknown')
   })
 
   it('reads a fraction as the number it is', () => {

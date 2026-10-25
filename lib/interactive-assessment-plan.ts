@@ -215,6 +215,15 @@ TOPIC FOCUS: ${topicLine}
 }
 
 /** Normalize and validate AI output into a workable interactive question. */
+function statementTruth(value: unknown): boolean | null {
+  if (typeof value === 'boolean') return value
+  if (typeof value === 'number') return value === 1 ? true : value === 0 ? false : null
+  const text = String(value ?? '').trim().toLowerCase()
+  if (text === 'true' || text === 't' || text === 'yes') return true
+  if (text === 'false' || text === 'f' || text === 'no') return false
+  return null
+}
+
 export function normalizeInteractiveQuestion(raw: any): InteractiveQuestion | null {
   const kind = String(raw?.kind || '').toLowerCase() as InteractiveKind
   const base = {
@@ -305,10 +314,12 @@ export function normalizeInteractiveQuestion(raw: any): InteractiveQuestion | nu
 
   if (kind === 'true_false') {
     const statements = (Array.isArray(raw.statements) ? raw.statements : []).map(String).filter(Boolean)
-    let answers = (Array.isArray(raw.correct_answers) ? raw.correct_answers : []).map((v: unknown) => Boolean(v))
+    // Boolean("false") is true: any non-empty string is. A model that writes
+    // the words "true" and "false" was marking every statement true.
+    const answers: (boolean | null)[] = (Array.isArray(raw.correct_answers) ? raw.correct_answers : []).map(statementTruth)
     if (statements.length < 3) return null
-    if (answers.length !== statements.length) return null
-    return { ...base, kind: 'true_false', statements, correct_answers: answers, marks: statements.length }
+    if (answers.length !== statements.length || answers.some((v) => v === null)) return null
+    return { ...base, kind: 'true_false', statements, correct_answers: answers as boolean[], marks: statements.length }
   }
 
   if (kind === 'multi_select') {

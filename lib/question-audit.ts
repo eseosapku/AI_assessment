@@ -523,7 +523,11 @@ const COMMANDS =
   // -- a perfectly good question, called broken by the check meant to protect
   // it. A false alarm here costs more than the fault: it sends someone to
   // read a question that was fine.
-  '|add|subtract|multiply|divide|round|express|shade|circle|underline|fill in|rearrange|substitute|prove|construct|count|arrange)'
+  '|add|subtract|multiply|divide|round|express|shade|circle|underline|fill in|rearrange|substitute|prove|construct|count|arrange' +
+  // A linear-algebra paper says "Perform LU decomposition on A = [[2, 1], [6, 5]]."
+  // Perform is the command. Without it the question was deleted as a scene
+  // that asks nothing, after the matrix and the job were both in the stem.
+  '|perform|compute|decompose|factor|diagonalise|diagonalize|obtain)'
 
 /** A command opening a sentence: "Write the number in expanded form." */
 const COMMAND_AT_START = new RegExp(String.raw`^${COMMANDS}\b`, 'i')

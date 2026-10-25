@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Sparkles, History, Shuffle, Type, ClipboardPaste } from 'lucide-react'
+import { Sparkles, History, Shuffle, Type, ClipboardPaste, FileUp, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import {
   TOPIC_MAX_LENGTH,
@@ -11,8 +11,9 @@ import {
   normalizeNotes,
 } from '@/lib/quiz-topic'
 import type { TopicMatch } from '@/app/api/quiz-topic/match/route'
+import { PDF_MAX_BYTES, pdfCanStartQuiz, type UploadedPdf } from '@/lib/pdf-upload'
 
-export type CustomSource = 'topic' | 'notes'
+export type CustomSource = 'topic' | 'notes' | 'pdf'
 
 /**
  * Starters shown on an empty input. They exist to answer "what can I even put
@@ -45,6 +46,13 @@ export function CustomTopicStep({
   onSubmit,
   matches,
   onUseMatch,
+  pdf,
+  pdfPrompt,
+  onPdfPromptChange,
+  pdfBusy,
+  pdfError,
+  onPdfFile,
+  onPdfClear,
 }: {
   source: CustomSource
   onSourceChange: (s: CustomSource) => void
@@ -53,6 +61,13 @@ export function CustomTopicStep({
   notes: string
   onNotesChange: (n: string) => void
   recents: string[]
+  pdf: UploadedPdf | null
+  pdfPrompt: string
+  onPdfPromptChange: (value: string) => void
+  pdfBusy: boolean
+  pdfError: string
+  onPdfFile: (file: File) => void
+  onPdfClear: () => void
   /** Syllabus topics that look like what was typed. */
   matches: TopicMatch[]
   onUseMatch: (m: TopicMatch) => void
@@ -89,6 +104,7 @@ export function CustomTopicStep({
         {([
           { id: 'topic' as const, label: 'Type a topic', Icon: Type },
           { id: 'notes' as const, label: 'Paste notes', Icon: ClipboardPaste },
+          { id: 'pdf' as const, label: 'Upload PDF', Icon: FileUp },
         ]).map(({ id, label, Icon }) => (
           <button
             key={id}
@@ -203,7 +219,7 @@ export function CustomTopicStep({
             </div>
           )}
         </div>
-      ) : (
+      ) : source === 'notes' ? (
         <div>
           <textarea
             value={notes}
@@ -220,6 +236,60 @@ export function CustomTopicStep({
               ? `${notesLength.toLocaleString()} characters — ready.`
               : `${notesLength.toLocaleString()} / ${NOTES_MIN_LENGTH} characters minimum.`}
           </p>
+        </div>
+      ) : (
+        <div>
+          <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed border-ss-line bg-ss-panel px-4 py-6 text-center transition-colors hover:border-ss-accent">
+            {pdfBusy ? <Loader2 className="h-5 w-5 animate-spin text-ss-accent" /> : <FileUp className="h-5 w-5 text-ss-accent" />}
+            <span className="text-[13px] font-semibold text-ss-ink">
+              {pdf ? pdf.filename : 'Choose a PDF'}
+            </span>
+            <span className="text-[12px] font-medium text-ss-slate">Up to 10 MB. Text and pictures are taken from the file.</span>
+            <input
+              type="file"
+              accept="application/pdf,.pdf"
+              className="sr-only"
+              aria-label="PDF to be quizzed on"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                e.target.value = ''
+                if (file) onPdfFile(file)
+              }}
+            />
+          </label>
+          {pdf && (
+            <div className="mt-3 flex items-center justify-between gap-3">
+              <p className="text-[13px] font-medium text-ss-slate">
+                {pdf.pageCount ? `${pdf.pageCount} pages. ` : ''}
+                {pdf.figures.length ? `${pdf.figures.length} picture${pdf.figures.length === 1 ? '' : 's'} found. ` : ''}
+                {pdf.truncated ? 'The longest part of the text is used. ' : ''}
+                {pdfCanStartQuiz({ text: pdf.text, figureCount: pdf.figures.length, prompt: pdfPrompt }) ? 'Ready.' : 'Not enough to quiz on yet.'}
+              </p>
+              <button type="button" onClick={onPdfClear} className="text-[12px] font-bold text-ss-slate hover:text-ss-accent">
+                Remove
+              </button>
+            </div>
+          )}
+          {pdfError && <p className="mt-2 text-[13px] font-semibold text-ss-bad">{pdfError}</p>}
+          <label className="mt-4 block text-[12px] font-bold uppercase tracking-widest text-ss-slate" htmlFor="pdf-prompt">
+            Focus (optional)
+          </label>
+          <input
+            id="pdf-prompt"
+            type="text"
+            value={pdfPrompt}
+            onChange={(e) => onPdfPromptChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                onSubmit()
+              }
+            }}
+            maxLength={TOPIC_MAX_LENGTH}
+            placeholder="Leave blank to be quizzed on the whole PDF"
+            className="mt-1.5 w-full rounded-xl border border-ss-line bg-ss-panel px-4 py-3 text-sm font-medium text-ss-ink outline-none transition-colors placeholder:font-normal placeholder:text-ss-slate focus:border-ss-accent"
+          />
+          <p className="sr-only">Maximum file size {Math.round(PDF_MAX_BYTES / (1024 * 1024))} MB</p>
         </div>
       )}
     </motion.div>

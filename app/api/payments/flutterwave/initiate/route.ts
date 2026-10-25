@@ -2,15 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { db } from '@/lib/db'
 import {
-  convertUsd,
   createFlutterwaveCheckout,
   ensurePaymentPlan,
   getFlutterwaveRedirectUrl,
   isFlutterwaveConfigured,
-  roundForCurrency,
   supportsFlutterwavePaymentPlan,
 } from '@/lib/flutterwave'
-import { fixedLocalAmount } from '@/lib/subscription-pricing'
+import { isSupportedCheckoutCurrency } from '@/lib/subscription-pricing'
+import { quoteSubscription, recordCheckout } from '@/lib/subscription-server'
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,27 +35,19 @@ export async function POST(request: NextRequest) {
 
     const email = String(body.email ?? user.email ?? '').trim() || `user+${userId.slice(0, 8)}@studysquare.org`
     const currency = String(body.currency ?? process.env.FLW_SUBSCRIPTION_CURRENCY ?? 'USD').toUpperCase()
-    const interval = String(body.interval ?? 'monthly')
-    const fixedCurrency = (process.env.FLW_SUBSCRIPTION_CURRENCY ?? '').toUpperCase()
-    const fixedAmount = process.env.FLW_SUBSCRIPTION_AMOUNT ? Number(process.env.FLW_SUBSCRIPTION_AMOUNT) : null
-    const amountUsd = Number(process.env.FLW_SUBSCRIPTION_AMOUNT_USD ?? 5)
-
-    let amountToCharge: number
-    const fixedLocal = fixedLocalAmount(currency as 'RWF' | 'USD' | 'NGN' | 'UGX' | 'KES' | 'GHS')
-    if (body.amount != null && body.amount !== '') {
-      amountToCharge = Number(body.amount)
-    } else if (fixedLocal != null) {
-      amountToCharge = fixedLocal
-    } else if (fixedAmount != null && currency === fixedCurrency) {
-      amountToCharge = fixedAmount
-    } else if (currency === 'USD') {
-      amountToCharge = amountUsd
-    } else {
-      amountToCharge = roundForCurrency(await convertUsd(amountUsd, currency), currency)
+    if (!isSupportedCheckoutCurrency(currency)) {
+      return NextResponse.json({ error: 'Unsupported currency' }, { status: 400 })
     }
-    amountToCharge = roundForCurrency(amountToCharge, currency)
+    const interval = String(body.interval ?? 'monthly')
 
-    const txRef = `sub_${userId}_${randomBytes(4).toString('hex')}`
+    // body.amount used to be charged as sent, so a subscription cost whatever
+    // the caller typed. The price is the server's, and it is recorded so the
+    // payment can be checked against it later.
+    const quote = await quoteSubscription(currency)
+    const amountToCharge = quote.amount
+
+    const txRef = `sub_${user.id}_${randomBytes(4).toString('hex')}`
+    await recordCheckout(txRef, String(user.id), quote)
     const meta = {
       user_id: userId,
       country: { USD: 'US', NGN: 'NG', UGX: 'UG', RWF: 'RW', KES: 'KE', GHS: 'GH' }[currency] ?? 'US',

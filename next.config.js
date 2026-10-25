@@ -11,6 +11,7 @@ const nextConfig = {
     '@aws-sdk/client-bedrock-runtime',
     '@aws-sdk/client-sqs',
     'pdf-parse',
+    'pdfjs-dist',
     'pg',
   ],
   outputFileTracingExcludes: {

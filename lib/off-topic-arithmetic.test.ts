@@ -17,6 +17,16 @@ describe('a sum on a paper that is not about sums', () => {
     expect(english('Your school is holding a competition. Write a story about the day everything changed. Aim for 300-400 words.')).toBe(false)
   })
 
+  it('does not treat share, left or difference as a sum by themselves', () => {
+    expect(english('In paragraph 2, the characters share a secret about the house.')).toBe(false)
+    expect(english('Explain the difference between the two characters in paragraph 2.')).toBe(false)
+    expect(isLikelyOffTopicMathQuestion(
+      { question: 'In 1960 the character left the village and never returned.' },
+      'History',
+      ['The twentieth century'],
+    )).toBe(false)
+  })
+
   it('does not read a word limit as a quantity', () => {
     expect(english('In no more than 20 words, explain the difference between the two characters.')).toBe(false)
   })

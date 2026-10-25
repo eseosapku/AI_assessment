@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Flag, Loader2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
+import { figureSrc } from '@/lib/figure-src'
 import { REPORT_REASONS } from '@/lib/question-report'
 
 /**
@@ -163,7 +164,7 @@ export default function ReportsPage() {
                     )}
                     {typeof snap.image_url === 'string' && (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={snap.image_url} alt="" className="mt-2 max-h-40 rounded-lg border border-ss-line" />
+                      <img src={figureSrc(snap.image_url)} alt="" className="mt-2 max-h-40 rounded-lg border border-ss-line" />
                     )}
                   </div>
                 )}

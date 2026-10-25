@@ -103,7 +103,7 @@ export const TOURS: Record<TourId, Tour> = {
         eyebrow: 'Off the syllabus',
         title: 'Anything not in the curriculum',
         body:
-          'Type any topic, or paste your own notes and be quizzed on those. Useful for a class the syllabus does not cover, or for revising from something a teacher handed out.',
+          'Type any topic, paste your own notes, or upload a PDF of up to 10 MB. Questions come from what you provide, and pictures in the PDF can be shown beside the question. Useful for a class the syllabus does not cover, or for revising from something a teacher handed out.',
         action: 'Be specific — a whole subject gives you a shallow quiz.',
       },
       {

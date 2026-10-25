@@ -17,13 +17,26 @@ function createPool() {
     throw new Error('DATABASE_URL is required for RDS/Postgres access')
   }
 
-  return new Pool({
+  const pool = new Pool({
     connectionString,
     ssl: resolveSsl(),
     max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 10000,
+    // The activity ping fires every 60s. An idle limit under that closed the
+    // socket in between, and the next ping opened a fresh TLS connection to
+    // RDS. That handshake often takes longer than 10s from here, and the
+    // attempt was then destroyed: "Connection terminated due to connection
+    // timeout". Keep the socket, and give a cold connect time to finish.
+    idleTimeoutMillis: 120_000,
+    connectionTimeoutMillis: 20_000,
+    keepAlive: true,
+    keepAliveInitialDelayMillis: 10_000,
   })
+  // A socket that dies while idle emits 'error'. With no listener the process
+  // crashes, and the next request inherits a pool that cannot connect.
+  pool.on('error', (error) => {
+    console.error('Postgres pool error:', error.message)
+  })
+  return pool
 }
 
 function getPool() {

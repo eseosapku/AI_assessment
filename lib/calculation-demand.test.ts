@@ -22,6 +22,15 @@ describe('isCalculationDemand', () => {
     expect(isCalculationDemand('Calculate the speed. Explain why it increases.')).toBe(false)
   })
 
+  it('treats a matrix problem as working, and a reading question as prose', () => {
+    expect(isCalculationDemand('Find the determinant of A = [[4, 2], [1, 3]].')).toBe(true)
+    expect(isCalculationDemand('Given the matrix A = [[4, 2], [1, 3]], find the eigenvalues of A.')).toBe(true)
+    expect(isCalculationDemand('Perform LU decomposition on the matrix A = [[2, 1], [6, 5]].')).toBe(true)
+    expect(isCalculationDemand('What is the geometric interpretation of the determinant of a matrix?')).toBe(false)
+    expect(isCalculationDemand('Solve the equation 2x + 3 = 11.')).toBe(true)
+    expect(isCalculationDemand('Find the information directly stated in the text.')).toBe(false)
+  })
+
   it('is not fooled by an English comprehension demand', () => {
     expect(isCalculationDemand('Find the information directly stated in the text.')).toBe(false)
     expect(isCalculationDemand('Explain how the writer builds tension.')).toBe(false)

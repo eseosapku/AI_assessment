@@ -193,6 +193,28 @@ describe('options that label themselves', () => {
   })
 })
 
+describe('a labelled option and a comparison', () => {
+  it('points the key at 7 after the letter prefix is removed', () => {
+    const [q] = repairAnswerKeys([{
+      question: 'What is 3 plus 4?',
+      options: ['A. 6', 'B. 7', 'C. 8', 'D. 5'],
+      correct_answer: 0,
+      explanation: 'The correct answer is 7 because when you add 3 and 4, you get 7.',
+    }])
+    expect(q.options).toEqual(['6', '7', '8', '5'])
+    expect(q.options![q.correct_answer as number]).toBe('7')
+  })
+
+  it('does not treat a less-than as a greater-than', () => {
+    const q = reconcileKeyWithExplanation({
+      options: ['x < 3', '7', '8', '9'],
+      correct_answer: 1,
+      explanation: 'The correct answer is x > 3.',
+    })
+    expect(q.correct_answer).toBe(1)
+  })
+})
+
 describe('the whole repair together', () => {
   it('fixes the key, drops the letters and moves the answer off A', () => {
     const paper = repairAnswerKeys([

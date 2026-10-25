@@ -228,3 +228,51 @@ describe('a highest or lowest question keyed to the wrong bar', () => {
     expect(answerContradictsFigure(ask('Name one way of travelling shown on the chart.', ['Bus']), BARS)).toBeNull()
   })
 })
+
+describe('answers the chart can actually check', () => {
+  it('reads an MCQ by the option text, not the index', () => {
+    const ask = (key: number) => ({
+      question: 'What percentage of the total does Arts represent?',
+      type: 'mcq',
+      options: ['10%', '25%', '35%', '45%'],
+      correct_answer: key,
+    })
+    expect(answerContradictsFigure(ask(0), PIE)).toBeNull()
+    expect(answerContradictsFigure(ask(1), PIE)).toContain('Arts')
+  })
+
+  it('does not read Fiction as Non-fiction', () => {
+    expect(answerContradictsFigure(
+      { question: 'Which genre is the most popular?', short_answer: { accepted: ['Fiction'] } },
+      PIE,
+    )).toBeNull()
+    expect(answerContradictsFigure(
+      { question: 'Which genre is the most popular?', short_answer: { accepted: ['Non-fiction'] } },
+      PIE,
+    )).toContain('Non-fiction')
+  })
+
+  it('does not turn 0.12 into 12 on a bar chart', () => {
+    expect(answerContradictsFigure(
+      { question: 'How many learners Walk?', short_answer: { accepted: ['0.12'] } },
+      BARS,
+    )).toContain('Walk')
+    expect(answerContradictsFigure(
+      { question: 'How many learners Walk?', short_answer: { accepted: ['12'] } },
+      BARS,
+    )).toBeNull()
+  })
+
+  it('notices a table whose only measurement is tied', () => {
+    const tied = {
+      kind: 'datatable' as const,
+      columns: ['Trial', 'Probability'],
+      rows: [['Trial 1', '1/4'], ['Trial 2', '1/4'], ['Trial 3', '1/4'], ['Trial 4', '1/4']],
+    }
+    expect(figureCannotAnswer({ question: 'Which trial has the highest probability?' }, tied)).toContain('table')
+    expect(figureCannotAnswer({ question: 'Which trial has the highest probability?' }, {
+      ...tied,
+      rows: [['Trial 1', '1/2'], ['Trial 2', '1/4'], ['Trial 3', '1/4'], ['Trial 4', '1/4']],
+    })).toBeNull()
+  })
+})

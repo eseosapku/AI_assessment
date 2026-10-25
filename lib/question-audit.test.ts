@@ -496,6 +496,12 @@ describe('a demand that is only a command word', () => {
 
   it('still lets a short real demand through', async () => {
     const { asksNothing } = await import('./question-audit')
-    for (const stem of ['Explain why.', 'Name the gas.', 'Describe what happens.']) expect(asksNothing(stem), stem).toBe(false)
+    for (const stem of [
+      'Explain why.',
+      'Name the gas.',
+      'Describe what happens.',
+      'Perform LU decomposition on the matrix A = [[2, 1], [6, 5]].',
+      'Given the matrix A = [[4, 2], [1, 3]], find the eigenvalues of A.',
+    ]) expect(asksNothing(stem), stem).toBe(false)
   })
 })
