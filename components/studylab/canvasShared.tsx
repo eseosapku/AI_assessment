@@ -97,9 +97,12 @@ export function NodeHeader({ icon: Icon, title, tone = 'cyan' }: { icon: LucideI
 export function CardFrame({
   children,
   accent = 'blue',
+  borderColor,
 }: {
   children: React.ReactNode
   accent?: 'blue' | 'orange' | 'violet'
+  /** A result tone for the whole card (the check bar's), drawn 2px. */
+  borderColor?: string
 }) {
   const ring =
     accent === 'orange'
@@ -109,7 +112,8 @@ export function CardFrame({
         : 'border-ss-line'
   return (
     <div
-      className={`sl-node-enter w-[300px] rounded-2xl bg-ss-panel border ${ring} shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] overflow-hidden`}
+      className={`sl-node-enter w-[300px] rounded-2xl bg-ss-panel ${borderColor ? 'border-2 transition-colors duration-200 motion-reduce:transition-none' : `border ${ring}`} shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] overflow-hidden`}
+      style={borderColor ? { borderColor } : undefined}
     >
       <Handle type="target" position={Position.Left} className={handleClass} />
       {children}
