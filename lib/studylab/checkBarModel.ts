@@ -20,7 +20,8 @@ export interface BarButton {
 
 export interface BarModel {
   tone: 'neutral' | 'good' | 'warn' | 'bad'
-  primary: BarButton
+  /** Absent only when nothing is left to press (no Continue here, no Why?). */
+  primary?: BarButton
   secondary?: BarButton
   line?: string
 }
@@ -35,6 +36,12 @@ export interface BarOptions {
   /** The tutor can be asked about this attempt (Phase 3). */
   hasHelp: boolean
   continueLabel?: string
+  /**
+   * False where the card cannot move the lesson on -- a question inside a
+   * checkpoint, which is handed in when every question in it is settled.
+   * Defaults to true.
+   */
+  hasContinue?: boolean
   /** Label for revealing: "Show me how" on practice, "Show answer" elsewhere. */
   revealLabel?: string
 }
@@ -49,6 +56,14 @@ const B = {
 } satisfies Record<string, BarButton>
 
 export function barModel(state: CheckFlowState, opts: BarOptions): BarModel {
+  const model = fullModel(state, opts)
+  if (opts.hasContinue !== false) return model
+  // Without Continue: whatever stood beside it moves up to take its place.
+  const keep = [model.primary, model.secondary].filter((b) => b && b.action !== 'continue') as BarButton[]
+  return { ...model, primary: keep[0], secondary: keep[1] }
+}
+
+function fullModel(state: CheckFlowState, opts: BarOptions): BarModel & { primary: BarButton } {
   const cont: BarButton = { action: 'continue', label: opts.continueLabel ?? 'Continue' }
   const reveal: BarButton = { action: 'reveal', label: opts.revealLabel ?? 'Show answer' }
   const why = opts.hasWhy ? B.why : undefined

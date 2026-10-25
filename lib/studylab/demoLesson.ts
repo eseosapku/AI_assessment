@@ -270,7 +270,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 1,
     completesStep: true,
     cue: {
-      action: 'Answer the check on the board',
+      action: 'Pick an answer on the board, then press Check',
       why: 'A check blocks Continue until it is answered. Getting one wrong is not a dead end — the tutor re-teaches that point instead of moving on.',
       anchor: 'lesson-board',
     },

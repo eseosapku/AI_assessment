@@ -12,7 +12,7 @@ describe('the check bar', () => {
   it('waits for an answer, then offers Check', () => {
     expect(barModel(s('learn', 'idle'), opts)).toMatchObject({ tone: 'neutral', primary: { action: 'check', disabled: true } })
     expect(barModel(s('learn', 'ready'), opts)).toMatchObject({ primary: { action: 'check' } })
-    expect(barModel(s('learn', 'ready'), opts).primary.disabled).toBeFalsy()
+    expect(barModel(s('learn', 'ready'), opts).primary?.disabled).toBeFalsy()
   })
 
   it('shows Check as busy while marking', () => {
@@ -24,7 +24,7 @@ describe('the check bar', () => {
     expect(m).toMatchObject({ tone: 'good', primary: { action: 'continue', label: 'Continue' }, secondary: { action: 'why' } })
     expect(CORRECT_LINES).toContain(m.line)
     expect(barModel(s('learn', 'correct', 1), { ...opts, hasWhy: false }).secondary).toBeUndefined()
-    expect(barModel(s('learn', 'correct', 1), { ...opts, continueLabel: 'Finish' }).primary.label).toBe('Finish')
+    expect(barModel(s('learn', 'correct', 1), { ...opts, continueLabel: 'Finish' }).primary?.label).toBe('Finish')
   })
 
   it('offers another go after a first miss while learning', () => {
@@ -48,6 +48,15 @@ describe('the check bar', () => {
     const after = barModel(s('test', 'wrong', 1), { ...opts, whyOpened: true })
     expect(after).toMatchObject({ primary: { action: 'continue' }, secondary: { action: 'why' } })
     expect(barModel(s('test', 'wrong', 1), { ...opts, hasWhy: false })).toMatchObject({ primary: { action: 'continue' } })
+  })
+
+  it('leaves Continue out where the card cannot move the lesson on', () => {
+    const none = { ...opts, hasContinue: false }
+    expect(barModel(s('learn', 'correct', 1), none)).toMatchObject({ primary: { action: 'why' } })
+    expect(barModel(s('learn', 'correct', 1), none).secondary).toBeUndefined()
+    expect(barModel(s('learn', 'correct', 1), { ...none, hasWhy: false }).primary).toBeUndefined()
+    expect(barModel(s('test', 'wrong', 1), { ...none, whyOpened: true })).toMatchObject({ primary: { action: 'why' } })
+    expect(barModel(s('learn', 'revealed', 2), { ...none, hasWhy: false }).primary).toBeUndefined()
   })
 
   it('carries on once the answer has been shown', () => {

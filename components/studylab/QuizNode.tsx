@@ -1,20 +1,21 @@
 'use client'
 
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
-import { Target, Check, X, Play, Loader2, HelpCircle } from 'lucide-react'
+import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
+import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
+import { modeForGate, feedbackFor, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { motionFor } from '@/lib/studylab/motionPresets'
+import { playSound } from '@/lib/studylab/sound'
 import { getEngine, normalizeLanguage } from '@/lib/studylab/runner'
 import { CanvasContext, handleClass, SafeLatex } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
-
-const STATE_RING: Record<string, string> = {
-  unanswered: 'border-ss-line',
-  pending: 'border-amber-300',
-  correct: 'border-emerald-400',
-  incorrect: 'border-red-400',
-}
+import { CheckBar, toneBorder } from './check/CheckBar'
+import { ResultBadge } from './check/ResultBadge'
+import { useCheckFlow } from './check/useCheckFlow'
 
 export function CheckpointHeaderNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
@@ -51,7 +52,21 @@ function useGrade() {
   }
 }
 
-type SetCell = (patch: Partial<QuizCell>) => void
+const UNMARKED = 'Couldn’t mark that — try again.'
+
+/**
+ * How a check-flow state is saved on the cell. A cell only settles as correct
+ * or incorrect when it is final -- a right answer, a miss in a test, or the
+ * answer shown -- so the checkpoint's own marking and the server's
+ * `markCheck` see exactly what they always saw.
+ */
+function cellState(s: CheckFlowState): QuizCell['state'] {
+  if (s.phase === 'correct') return 'correct'
+  if (s.phase === 'revealed') return 'incorrect'
+  if (s.phase === 'wrong' && s.mode === 'test') return 'incorrect'
+  if (s.phase === 'checking') return 'pending'
+  return 'unanswered'
+}
 
 export function QuizNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
@@ -65,53 +80,258 @@ export function QuizNode({ id, data }: NodeProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   if (!quiz) return null
-  const set: SetCell = (patch) => onNodeDataChange(id, { quiz: { ...quiz, ...patch } })
-  const q = quiz.question
+  const cell = stale ? { ...quiz, ...stale } : quiz
+  return <QuizCard key={cell.question.id} cell={cell} save={(patch) => onNodeDataChange(id, { quiz: { ...cell, ...patch } })} />
+}
+
+type Answer = number | string | string[] | undefined
+
+function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCell>) => void }) {
+  const q = cell.question
+  const mode = modeForGate(cell.gate)
+  const grade = useGrade()
+  const reduced = useReducedMotion() ?? false
+  const shake = useAnimationControls()
+  const primaryRef = useRef<HTMLButtonElement>(null)
+
+  const [answer, setAnswer] = useState<Answer>(() => initialAnswer(q, cell.given))
+  const [line, setLine] = useState<string | undefined>(cell.feedback)
+  const [whyOpen, setWhyOpen] = useState(false)
+  // What the next save carries besides the flow state: the answer as given and
+  // the line said about it.
+  const extras = useRef<Partial<QuizCell>>({})
+
+  const { state, dispatch } = useCheckFlow(
+    mode,
+    {
+      attempts: cell.attempts,
+      settled: cell.state === 'correct' ? 'correct' : cell.state === 'incorrect' ? 'incorrect' : undefined,
+      revealed: cell.revealed,
+    },
+    (s) => save({
+      state: cellState(s),
+      attempts: s.attempts,
+      ...(s.phase === 'revealed' ? { revealed: true } : {}),
+      ...extras.current,
+    }),
+  )
+
+  const settled = state.phase === 'correct' || state.phase === 'wrong' || state.phase === 'revealed'
+  const locked = settled || state.phase === 'checking' || state.phase === 'retry'
+  const showAnswer = state.phase === 'revealed' || (state.phase === 'wrong' && mode === 'test')
+
+  // A miss sways the card once; then focus goes to the bar's first button, so
+  // a keyboard learner lands on "Try again" or "Why?" without hunting.
+  useEffect(() => {
+    if (state.phase === 'retry' || state.phase === 'wrong') {
+      const m = motionFor('shakeSoft', reduced)
+      if (m.animate) void shake.start({ ...m.animate, transition: m.transition })
+    }
+    if (state.phase !== 'idle' && state.phase !== 'ready' && state.phase !== 'checking') {
+      primaryRef.current?.focus({ preventScroll: true })
+    }
+  }, [state.phase, state.attempts, reduced, shake])
+
+  const give = (next: Answer) => {
+    if (locked) return
+    setAnswer(next)
+    dispatch({ type: 'answer', present: isAnswered(q, next) })
+  }
+
+  const why = whyText(q, cell, line)
+
+  const options: BarOptions = {
+    canReveal: true,
+    hasWhy: Boolean(why),
+    whyOpened: whyOpen,
+    hasHelp: false,
+    hasContinue: false,
+    revealLabel: 'Show answer',
+  }
+
+  const check = async () => {
+    if (state.phase !== 'ready') return
+    dispatch({ type: 'check' })
+    if (q.format === 'mcq' || q.format === 'match') {
+      const right = q.format === 'mcq' ? gradeMcq(q, answer as number) : gradeMatch(q, answer as string[])
+      const finalMiss = !right && (mode === 'test' || state.attempts + 1 >= 2)
+      const said = q.format === 'mcq' ? feedbackFor(q, answer, right ? 'correct' : 'incorrect', { final: finalMiss && mode === 'learn' }) : undefined
+      setLine(said)
+      extras.current = { given: answer as number | string[], feedback: said }
+      dispatch({ type: 'result', verdict: right ? 'correct' : 'incorrect' })
+      return
+    }
+    const payload =
+      q.format === 'short'
+        ? { prompt: q.prompt, format: 'short', answer, rubric: q.rubric }
+        : { prompt: q.prompt, format: 'code', answer, goal: q.goal, output: codeOutput.current }
+    const r = await grade(payload)
+    if (r.verdict === 'ungraded') {
+      extras.current = { given: answer as string }
+      dispatch({ type: 'result', verdict: 'ungraded', message: UNMARKED })
+      return
+    }
+    setLine(r.feedback || undefined)
+    extras.current = { given: answer as string, feedback: r.feedback }
+    dispatch({ type: 'result', verdict: r.verdict })
+  }
+
+  const onAction = (action: BarAction) => {
+    if (action === 'check') void check()
+    else if (action === 'tryAgain') {
+      setLine(undefined)
+      dispatch({ type: 'tryAgain' })
+    } else if (action === 'reveal') dispatch({ type: 'reveal' })
+    else if (action === 'why') setWhyOpen(true)
+  }
+
+  const codeOutput = useRef('')
+  const tone = barModel(state, options).tone
+  // Only the line the learner should read now: the written feedback after a
+  // miss or a right answer, nothing in a test miss (the bar says "Incorrect").
+  const barLine =
+    state.phase === 'wrong' && mode === 'test' ? undefined
+    : state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'correct' ? line
+    : state.message
+
   return (
-    <div className={`sl-node-enter w-[320px] rounded-2xl border-2 bg-ss-panel shadow overflow-hidden ${STATE_RING[quiz.state]}`}>
+    <motion.div
+      animate={shake}
+      className="sl-node-enter w-[340px] rounded-2xl border-2 bg-ss-panel shadow overflow-visible"
+      style={{ borderColor: toneBorder(tone) }}
+    >
       <Handle type="target" position={Position.Left} className={handleClass} />
       <div className="flex items-center gap-2 px-4 pt-3">
-        <HelpCircle className="w-4 h-4 text-emerald-600" />
-        <span className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">{q.format}</span>
-        {quiz.state === 'correct' && <Check className="ml-auto w-4 h-4 text-emerald-500" />}
-        {quiz.state === 'incorrect' && <X className="ml-auto w-4 h-4 text-red-500" />}
+        <HelpCircle className="w-4 h-4 text-ss-subject" aria-hidden />
+        <span className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">
+          {mode === 'test' ? 'Check' : 'Try it'} · {FORMAT_LABEL[q.format]}
+        </span>
       </div>
-      <div className="px-4 pb-4 pt-1.5">
-        <p className="text-[14px] font-semibold mb-2"><SafeLatex>{q.prompt}</SafeLatex></p>
-        {q.format === 'mcq' && <Mcq q={q} quiz={quiz} set={set} />}
-        {q.format === 'short' && <Short q={q} quiz={quiz} set={set} />}
-        {q.format === 'match' && <Match q={q} quiz={quiz} set={set} />}
-        {q.format === 'code' && <CodeChallenge q={q} quiz={quiz} set={set} />}
-        {quiz.feedback && <p className="mt-2 text-[12px] text-gray-500"><SafeLatex>{quiz.feedback}</SafeLatex></p>}
+      <div className="px-4 pb-4 pt-1.5 flex flex-col gap-3">
+        <p className="text-[14px] font-semibold"><SafeLatex>{q.prompt}</SafeLatex></p>
+        {q.format === 'mcq' && (
+          <McqOptions q={q} chosen={answer as number | undefined} phase={state.phase} mode={mode} showAnswer={showAnswer} locked={locked} onChoose={(i) => { playSound('tap'); give(i) }} />
+        )}
+        {q.format === 'short' && (
+          <textarea
+            className="nodrag nowheel w-full h-20 rounded-xl border border-ss-line bg-transparent px-3 py-2 text-[13px] outline-none focus:border-[color:var(--subject)]"
+            value={(answer as string) ?? ''}
+            disabled={locked}
+            placeholder="Your answer…"
+            aria-label="Your answer"
+            onMouseDown={(e) => e.stopPropagation()}
+            onChange={(e) => give(e.target.value)}
+          />
+        )}
+        {q.format === 'match' && (
+          <MatchRows q={q} given={(answer as string[]) ?? q.pairs.map(() => '')} marked={state.phase !== 'idle' && state.phase !== 'ready' && state.phase !== 'checking'} showAnswer={showAnswer} locked={locked} onChange={give} />
+        )}
+        {q.format === 'code' && (
+          <CodeBox q={q} code={(answer as string) ?? ''} locked={locked} onChange={give} onOutput={(o) => { codeOutput.current = o }} />
+        )}
+        {showAnswer && q.format === 'short' && q.rubric && (
+          <p className="rounded-xl bg-ss-chip px-3 py-2 text-[12.5px] text-ss-ink">
+            <span className="font-bold">A good answer: </span><SafeLatex>{q.rubric}</SafeLatex>
+          </p>
+        )}
+        <AnimatePresence>
+          {whyOpen && why && (
+            <motion.div
+              {...motionFor('rise', reduced)}
+              className="rounded-xl border border-ss-line bg-ss-chip px-3 py-2.5"
+            >
+              <p className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">Why</p>
+              <p className="mt-1 text-[13px] leading-relaxed text-ss-ink"><SafeLatex>{why}</SafeLatex></p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={barLine} />
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
-    </div>
+    </motion.div>
   )
 }
 
-function Mcq({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mcq' }>; quiz: QuizCell; set: SetCell }) {
-  const answered = quiz.state === 'correct' || quiz.state === 'incorrect'
+const FORMAT_LABEL: Record<CheckpointQuestion['format'], string> = {
+  mcq: 'Choose one',
+  short: 'In your words',
+  match: 'Match',
+  code: 'Code',
+}
+
+function initialAnswer(q: CheckpointQuestion, given: QuizCell['given']): Answer {
+  if (q.format === 'mcq') return typeof given === 'number' ? given : undefined
+  if (q.format === 'match') return Array.isArray(given) ? given : q.pairs.map(() => '')
+  if (q.format === 'code') return typeof given === 'string' ? given : q.starter ?? ''
+  return typeof given === 'string' ? given : ''
+}
+
+/** Blank is not an answer: an empty box or a half-matched list cannot be checked. */
+function isAnswered(q: CheckpointQuestion, a: Answer): boolean {
+  if (q.format === 'mcq') return typeof a === 'number'
+  if (q.format === 'match') return Array.isArray(a) && a.length === q.pairs.length && a.every((g) => g.trim() !== '')
+  return typeof a === 'string' && a.trim() !== ''
+}
+
+function whyText(q: CheckpointQuestion, cell: QuizCell, line: string | undefined): string | undefined {
+  if (q.format === 'mcq') return q.explain ?? q.optionFeedback?.[q.answer]
+  if (q.format === 'match') return q.pairs.map((p) => `${p.left} → ${p.right}`).join(' · ')
+  return line ?? cell.feedback
+}
+
+function McqOptions({
+  q, chosen, phase, mode, showAnswer, locked, onChoose,
+}: {
+  q: Extract<CheckpointQuestion, { format: 'mcq' }>
+  chosen: number | undefined
+  phase: CheckFlowState['phase']
+  mode: 'learn' | 'test'
+  showAnswer: boolean
+  locked: boolean
+  onChoose: (i: number) => void
+}) {
+  const marked = phase === 'correct' || phase === 'retry' || phase === 'wrong' || phase === 'revealed'
+  const buttons = useRef<(HTMLButtonElement | null)[]>([])
+  // Arrow keys move through the options and choose as they go, the way a
+  // radio group does.
+  const onKey = (e: KeyboardEvent) => {
+    if (locked) return
+    const step = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0
+    if (!step) return
+    e.preventDefault()
+    const from = chosen ?? -1
+    const next = (from + step + q.options.length) % q.options.length
+    onChoose(next)
+    buttons.current[next]?.focus()
+  }
   return (
-    <div className="space-y-1.5">
+    <div role="radiogroup" aria-label="Options" className="flex flex-col gap-2" onKeyDown={onKey}>
       {q.options.map((opt, i) => {
-        const chosen = quiz.given === i
-        const isAns = i === q.answer
-        const cls = answered
-          ? isAns
-            ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-900/20'
-            : chosen
-              ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
-              : 'border-ss-line'
-          : 'border-ss-line hover:border-ss-accent'
+        const isChosen = chosen === i
+        const isAnswer = i === q.answer
+        const faded = marked && !isChosen && !(showAnswer && isAnswer)
+        const chosenTone =
+          !marked ? 'border-[color:var(--subject)] bg-[color:var(--subject-soft)]'
+          : phase === 'correct' ? 'border-[color:var(--ss-good)] bg-[color:var(--ss-good)]/10'
+          : mode === 'learn' ? 'border-[color:var(--ss-warn)] bg-[color:var(--ss-warn)]/10'
+          : 'border-[color:var(--ss-bad)] bg-[color:var(--ss-bad)]/10'
         return (
           <button
             key={i}
+            ref={(el) => { buttons.current[i] = el }}
             type="button"
-            disabled={answered}
-            onClick={() => set({ given: i, state: gradeMcq(q, i) ? 'correct' : 'incorrect', feedback: q.explain })}
-            className={`nodrag w-full text-left rounded-lg border px-3 py-1.5 text-[13px] ${cls}`}
+            role="radio"
+            aria-checked={isChosen}
+            tabIndex={isChosen || (chosen === undefined && i === 0) ? 0 : -1}
+            disabled={locked}
+            onClick={() => onChoose(i)}
+            className={`nodrag relative w-full rounded-xl border-2 px-3 py-2.5 text-left text-[13.5px] transition-[opacity,border-color,background-color] duration-200 motion-reduce:transition-none ${
+              isChosen ? chosenTone : 'border-ss-line hover:border-[color:var(--subject)]'
+            } ${faded ? 'opacity-45' : ''} disabled:cursor-default`}
           >
             <SafeLatex>{opt}</SafeLatex>
+            {marked && isChosen && <ResultBadge kind={phase === 'correct' ? 'correct' : 'wrong'} tone={mode === 'learn' ? 'warn' : 'bad'} />}
+            {showAnswer && isAnswer && !isChosen && <ResultBadge kind="answer" />}
           </button>
         )
       })}
@@ -119,161 +339,98 @@ function Mcq({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mcq' 
   )
 }
 
-function Short({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'short' }>; quiz: QuizCell; set: SetCell }) {
-  const grade = useGrade()
-  const [text, setText] = useState(typeof quiz.given === 'string' ? quiz.given : '')
-  const answered = quiz.state === 'correct' || quiz.state === 'incorrect'
-  // An empty box is not a wrong answer. Sending one graded it as one, and the
-  // question locked — a stray click on Check cost a mark and, once every other
-  // cell was settled, took the whole check down with it.
-  const empty = !text.trim()
-  // A second tap before the re-render would send a second grade.
-  const inFlight = useRef(false)
-  const check = async () => {
-    if (empty || inFlight.current) return
-    inFlight.current = true
-    set({ given: text, state: 'pending' })
-    const r = await grade({ prompt: q.prompt, format: 'short', answer: text, rubric: q.rubric })
-    inFlight.current = false
-    set({ given: text, state: r.verdict === 'ungraded' ? 'unanswered' : r.verdict, feedback: r.feedback })
-  }
-  return (
-    <div className="space-y-2">
-      <textarea
-        className="nodrag w-full h-16 rounded-lg border border-ss-line bg-transparent px-2 py-1.5 text-[13px] outline-none"
-        value={text}
-        disabled={answered}
-        placeholder="Your answer…"
-        onMouseDown={(e) => e.stopPropagation()}
-        onChange={(e) => setText(e.target.value)}
-      />
-      {!answered && (
-        <button
-          type="button"
-          onClick={check}
-          disabled={empty || quiz.state === 'pending'}
-          title={empty ? 'Write an answer first' : undefined}
-          className="nodrag inline-flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
-        >
-          {quiz.state === 'pending' && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-          Check
-        </button>
-      )}
-    </div>
-  )
-}
-
-function Match({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'match' }>; quiz: QuizCell; set: SetCell }) {
+function MatchRows({
+  q, given, marked, showAnswer, locked, onChange,
+}: {
+  q: Extract<CheckpointQuestion, { format: 'match' }>
+  given: string[]
+  marked: boolean
+  showAnswer: boolean
+  locked: boolean
+  onChange: (next: string[]) => void
+}) {
   const rights = useMemo(() => [...q.pairs.map((p) => p.right)].sort(() => Math.random() - 0.5), [q])
-  const [given, setGiven] = useState<string[]>(
-    Array.isArray(quiz.given) ? (quiz.given as string[]) : q.pairs.map(() => '')
-  )
-  const answered = quiz.state === 'correct' || quiz.state === 'incorrect'
-  // Same rule as the short answer: half-filled is not an answer.
-  const incomplete = given.some((g) => !g.trim())
-  const check = () => {
-    if (incomplete) return
-    const ok = gradeMatch(q, given)
-    set({ given, state: ok ? 'correct' : 'incorrect', feedback: ok ? 'Matched!' : 'Not quite — review the pairs.' })
-  }
   return (
-    <div className="space-y-1.5">
-      {q.pairs.map((p, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <span className="text-[13px] flex-1"><SafeLatex>{p.left}</SafeLatex></span>
-          <select
-            className="nodrag rounded-lg border border-ss-line bg-transparent text-[12px] px-1 py-1"
-            disabled={answered}
-            value={given[i] ?? ''}
-            onMouseDown={(e) => e.stopPropagation()}
-            onChange={(e) => {
-              const g = [...given]
-              g[i] = e.target.value
-              setGiven(g)
-            }}
-          >
-            <option value="">—</option>
-            {rights.map((r, j) => (
-              <option key={j} value={r}>
-                {r}
-              </option>
-            ))}
-          </select>
-        </div>
-      ))}
-      {!answered && (
-        <button
-          type="button"
-          onClick={check}
-          disabled={incomplete}
-          title={incomplete ? 'Match every row first' : undefined}
-          className="nodrag rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
-        >
-          Check
-        </button>
-      )}
+    <div className="flex flex-col gap-2">
+      {q.pairs.map((p, i) => {
+        const ok = given[i] === p.right
+        return (
+          <div key={i} className="flex items-center gap-2">
+            <span className="flex-1 text-[13px]"><SafeLatex>{p.left}</SafeLatex></span>
+            <select
+              className="nodrag rounded-lg border border-ss-line bg-transparent px-1.5 py-1.5 text-[12.5px]"
+              disabled={locked}
+              value={given[i] ?? ''}
+              aria-label={`Match for ${p.left}`}
+              onMouseDown={(e) => e.stopPropagation()}
+              onChange={(e) => {
+                const next = [...given]
+                next[i] = e.target.value
+                onChange(next)
+              }}
+            >
+              <option value="">—</option>
+              {rights.map((r, j) => (
+                <option key={j} value={r}>{r}</option>
+              ))}
+            </select>
+            {marked && (ok
+              ? <Check className="h-4 w-4 shrink-0 text-[color:var(--ss-good)]" aria-label="Right" />
+              : <X className="h-4 w-4 shrink-0 text-[color:var(--ss-warn)]" aria-label="Not this one" />)}
+            {showAnswer && !ok && <span className="text-[12px] text-ss-slate">→ {p.right}</span>}
+          </div>
+        )
+      })}
     </div>
   )
 }
 
-function CodeChallenge({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'code' }>; quiz: QuizCell; set: SetCell }) {
-  const grade = useGrade()
-  const [code, setCode] = useState(typeof quiz.given === 'string' ? quiz.given : q.starter ?? '')
+function CodeBox({
+  q, code, locked, onChange, onOutput,
+}: {
+  q: Extract<CheckpointQuestion, { format: 'code' }>
+  code: string
+  locked: boolean
+  onChange: (next: string) => void
+  onOutput: (output: string) => void
+}) {
   const [output, setOutput] = useState('')
   const [running, setRunning] = useState(false)
-  const answered = quiz.state === 'correct' || quiz.state === 'incorrect'
   const run = async () => {
     const lang = normalizeLanguage(q.language)
     if (!lang) return
     setRunning(true)
     try {
       const r = await getEngine(lang).run(code, new AbortController().signal)
-      setOutput(r.stdout || r.stderr || '(no output)')
+      const out = r.stdout || r.stderr || '(no output)'
+      setOutput(out)
+      onOutput(out)
     } finally {
       setRunning(false)
     }
   }
-  const blank = !code.trim()
-  const inFlight = useRef(false)
-  const submit = async () => {
-    if (blank || inFlight.current) return
-    inFlight.current = true
-    set({ given: code, state: 'pending' })
-    const r = await grade({ prompt: q.prompt, format: 'code', answer: code, goal: q.goal, output })
-    inFlight.current = false
-    set({ given: code, state: r.verdict === 'ungraded' ? 'unanswered' : r.verdict, feedback: r.feedback })
-  }
   return (
-    <div className="space-y-2">
-      <p className="text-[12px] text-gray-500">Goal: {q.goal}</p>
+    <div className="flex flex-col gap-2">
+      <p className="text-[12px] text-ss-slate">Goal: {q.goal}</p>
       <textarea
-        className="nodrag w-full h-24 font-mono text-[12px] bg-gray-950 text-gray-100 rounded-lg p-2 outline-none resize-y"
+        className="nodrag nowheel h-28 w-full resize-y rounded-xl bg-gray-950 p-2.5 font-mono text-[12px] text-gray-100 outline-none"
         value={code}
-        disabled={answered}
+        disabled={locked}
+        aria-label="Your code"
         onMouseDown={(e) => e.stopPropagation()}
-        onChange={(e) => setCode(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
       />
-      {output && <pre className="text-[12px] bg-gray-950 text-gray-100 rounded-lg p-2 whitespace-pre-wrap">{output}</pre>}
-      {!answered && (
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={run}
-            disabled={running}
-            className="nodrag inline-flex items-center gap-1 rounded-lg bg-violet-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-violet-600 disabled:opacity-60"
-          >
-            {running ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
-            Run
-          </button>
-          <button
-            type="button"
-            onClick={submit}
-            disabled={blank || quiz.state === 'pending'}
-            className="nodrag rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
-          >
-            Submit
-          </button>
-        </div>
+      {output && <pre className="whitespace-pre-wrap rounded-xl bg-gray-950 p-2.5 text-[12px] text-gray-100">{output}</pre>}
+      {!locked && (
+        <button
+          type="button"
+          onClick={run}
+          disabled={running}
+          className="nodrag ss-press inline-flex w-fit items-center gap-1.5 rounded-xl bg-ss-chip px-3 py-2 text-[12.5px] font-bold text-ss-ink disabled:opacity-60"
+        >
+          {running ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
+          Run
+        </button>
       )}
     </div>
   )

@@ -57,13 +57,15 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
         {model.secondary && (
           <BarButtonView button={model.secondary} onAction={onAction} variant="secondary" />
         )}
-        <BarButtonView
-          ref={primaryRef}
-          button={model.primary}
-          onAction={onAction}
-          variant="primary"
-          fill={PRIMARY_FILL[model.tone]}
-        />
+        {model.primary && (
+          <BarButtonView
+            ref={primaryRef}
+            button={model.primary}
+            onAction={onAction}
+            variant="primary"
+            fill={PRIMARY_FILL[model.tone]}
+          />
+        )}
       </div>
     </div>
   )

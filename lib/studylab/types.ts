@@ -43,6 +43,8 @@ export interface QuizCell {
    * marking sees exactly what it always did. Absent on cells saved before.
    */
   attempts?: number
+  /** The learner asked to see the answer; the cell settles as incorrect. */
+  revealed?: boolean
 }
 
 export interface StudyNodeData {
