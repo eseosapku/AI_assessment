@@ -119,7 +119,7 @@ function Bench() {
         </button>
         <div className="flex items-end gap-2">
           {MOODS.map((m) => (
-            <div key={m} className="flex flex-col items-center text-[10px] text-ss-slate"><Inky size={34} mood={m} />{m}</div>
+            <div key={m} className="flex flex-col items-center text-[12px] text-ss-slate"><Inky size={34} mood={m} />{m}</div>
           ))}
         </div>
       </div>
