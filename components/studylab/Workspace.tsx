@@ -28,6 +28,7 @@ import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
+import { subjectStyle } from '@/lib/studylab/subjectFamily'
 
 // React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
@@ -1154,7 +1155,7 @@ export default function Workspace({ id }: { id: string }) {
   }
 
   return (
-    <div className="h-screen w-full flex overflow-hidden">
+    <div className="ss-lesson h-screen w-full flex overflow-hidden" style={subjectStyle(space.subject ?? space.title)}>
       <StudyLabSidebar
         title={space.title}
         subject={space.subject}

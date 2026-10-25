@@ -31,6 +31,22 @@
     --ss-bad: #B0303C;
     --ss-warn: #9A5B0B;
     --ss-canvas: #E8EEF3;
+
+    /* Lesson colour (lib/studylab/subjectFamily.ts). A lesson root sets these
+       from its subject; anywhere else they fall back to the site accent. */
+    --subject: var(--ss-accent);
+    --subject-soft: var(--ss-accent-soft);
+    --subject-ink: var(--ss-accent-deep);
+  }
+
+  /* A lesson root carries its light values inline and its dark ones as
+     --subject-*-dark. Inline custom properties beat ordinary rules, hence
+     !important here and nowhere else. */
+  .dark .ss-lesson,
+  .dark.ss-lesson {
+    --subject: var(--subject-dark) !important;
+    --subject-soft: var(--subject-soft-dark) !important;
+    --subject-ink: var(--subject-ink-dark) !important;
   }
 
   .dark {
@@ -132,6 +148,27 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* A control you can feel: it sits on a 3px edge and presses down onto it.
+     Used by the lesson's check bar and its primary buttons. */
+  .ss-press {
+    box-shadow: 0 3px 0 0 color-mix(in srgb, currentColor 22%, transparent);
+    transition: transform 120ms ease-out, box-shadow 120ms ease-out, filter 120ms ease-out;
+  }
+  .ss-press:hover:not(:disabled) {
+    filter: brightness(0.97);
+  }
+  .ss-press:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 0 color-mix(in srgb, currentColor 22%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ss-press,
+    .ss-press:active:not(:disabled) {
+      transition: none;
+      transform: none;
+    }
   }
 
   /* Touch-friendly tap targets for mobile */

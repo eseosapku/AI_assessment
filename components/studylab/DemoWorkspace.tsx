@@ -22,6 +22,7 @@ import {
   DEMO_ACTS, actAt, isFinished, cueAt, suggestionsAt, type DemoTrigger,
 } from '@/lib/studylab/demoLesson'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
+import { subjectStyle } from '@/lib/studylab/subjectFamily'
 
 const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
   ssr: false,
@@ -272,7 +273,7 @@ export default function DemoWorkspace() {
   }
 
   return (
-    <div className="h-screen w-full flex flex-col overflow-hidden">
+    <div className="ss-lesson h-screen w-full flex flex-col overflow-hidden" style={subjectStyle(DEMO_SUBJECT)}>
       <div
         className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2 text-white"
         style={{ backgroundColor: 'var(--ss-accent)' }}

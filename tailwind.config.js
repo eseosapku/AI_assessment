@@ -38,6 +38,9 @@ module.exports = {
         'ss-good': 'var(--ss-good)',
         'ss-bad': 'var(--ss-bad)',
         'ss-warn': 'var(--ss-warn)',
+        'ss-subject': 'var(--subject)',
+        'ss-subject-soft': 'var(--subject-soft)',
+        'ss-subject-ink': 'var(--subject-ink)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'sans-serif'],
