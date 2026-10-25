@@ -158,8 +158,8 @@ export function ActivityFrame({
               <motion.div
                 key="reveal"
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg border border-[color:var(--subject)]/30 px-3 py-2"
-                style={{ backgroundColor: 'var(--subject-soft)' }}
+                className="rounded-lg border px-3 py-2"
+                style={{ backgroundColor: 'var(--subject-soft)', borderColor: 'color-mix(in srgb, var(--subject) 30%, transparent)' }}
               >
                 <p className="text-[12px] font-bold uppercase tracking-widest text-ss-subject-ink">What you just found</p>
                 <p className="mt-1 text-[12.5px] leading-relaxed text-ss-ink">{reveal}</p>

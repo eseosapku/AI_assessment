@@ -55,8 +55,16 @@ describe('the check bar', () => {
     expect(barModel(s('learn', 'correct', 1), none)).toMatchObject({ primary: { action: 'why' } })
     expect(barModel(s('learn', 'correct', 1), none).secondary).toBeUndefined()
     expect(barModel(s('learn', 'correct', 1), { ...none, hasWhy: false }).primary).toBeUndefined()
-    expect(barModel(s('test', 'wrong', 1), { ...none, whyOpened: true })).toMatchObject({ primary: { action: 'why' } })
+    expect(barModel(s('test', 'wrong', 1), { ...none, whyOpened: false })).toMatchObject({ primary: { action: 'why' } })
     expect(barModel(s('learn', 'revealed', 2), { ...none, hasWhy: false }).primary).toBeUndefined()
+  })
+
+  it('drops Why? once it has been read and there is no Continue to lead with', () => {
+    const none = { ...opts, hasContinue: false, whyOpened: true }
+    expect(barModel(s('test', 'wrong', 1), none).primary).toBeUndefined()
+    expect(barModel(s('learn', 'correct', 1), none).primary).toBeUndefined()
+    // With Continue, Why? stays beside it so the explanation can be reopened.
+    expect(barModel(s('learn', 'correct', 1), { ...opts, whyOpened: true })).toMatchObject({ primary: { action: 'continue' }, secondary: { action: 'why' } })
   })
 
   it('carries on once the answer has been shown', () => {

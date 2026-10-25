@@ -138,7 +138,13 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     dispatch({ type: 'answer', present: isAnswered(q, next) })
   }
 
-  const why = whyText(q, cell, line)
+  // A written answer's feedback is already Inky's line, so "Why?" would only
+  // repeat it -- except after a miss in a test, where the line says
+  // "Incorrect" and the feedback waits behind "Why?".
+  const why =
+    q.format === 'short' || q.format === 'code'
+      ? state.phase === 'wrong' && mode === 'test' ? whyText(q, cell, line) : undefined
+      : whyText(q, cell, line)
 
   const options: BarOptions = {
     canReveal: true,
@@ -310,11 +316,18 @@ function McqOptions({
         const isChosen = chosen === i
         const isAnswer = i === q.answer
         const faded = marked && !isChosen && !(showAnswer && isAnswer)
-        const chosenTone =
-          !marked ? 'border-[color:var(--subject)] bg-[color:var(--subject-soft)]'
-          : phase === 'correct' ? 'border-[color:var(--ss-good)] bg-[color:var(--ss-good)]/10'
-          : mode === 'learn' ? 'border-[color:var(--ss-warn)] bg-[color:var(--ss-warn)]/10'
-          : 'border-[color:var(--ss-bad)] bg-[color:var(--ss-bad)]/10'
+        // Inline, not Tailwind's /10: opacity modifiers render nothing on
+        // these CSS-variable colours.
+        const toneVar =
+          !marked ? null
+          : phase === 'correct' ? 'var(--ss-good)'
+          : mode === 'learn' ? 'var(--ss-warn)'
+          : 'var(--ss-bad)'
+        const chosenStyle = !isChosen
+          ? undefined
+          : toneVar
+            ? { borderColor: toneVar, backgroundColor: `color-mix(in srgb, ${toneVar} 10%, transparent)` }
+            : { borderColor: 'var(--subject)', backgroundColor: 'var(--subject-soft)' }
         return (
           <button
             key={i}
@@ -326,8 +339,9 @@ function McqOptions({
             disabled={locked}
             onClick={() => onChoose(i)}
             className={`nodrag relative w-full rounded-xl border-2 px-3 py-2.5 text-left text-[13.5px] transition-[opacity,border-color,background-color] duration-200 motion-reduce:transition-none ${
-              isChosen ? chosenTone : 'border-ss-line hover:border-[color:var(--subject)]'
+              isChosen ? '' : 'border-ss-line hover:border-[color:var(--subject)]'
             } ${faded ? 'opacity-45' : ''} disabled:cursor-default`}
+            style={chosenStyle}
           >
             <SafeLatex>{opt}</SafeLatex>
             {marked && isChosen && <ResultBadge kind={phase === 'correct' ? 'correct' : 'wrong'} tone={mode === 'learn' ? 'warn' : 'bad'} />}

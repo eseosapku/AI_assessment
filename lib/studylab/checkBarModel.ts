@@ -58,8 +58,11 @@ const B = {
 export function barModel(state: CheckFlowState, opts: BarOptions): BarModel {
   const model = fullModel(state, opts)
   if (opts.hasContinue !== false) return model
-  // Without Continue: whatever stood beside it moves up to take its place.
-  const keep = [model.primary, model.secondary].filter((b) => b && b.action !== 'continue') as BarButton[]
+  // Without Continue: whatever stood beside it moves up to take its place --
+  // except a "Why?" already open, which would be a button that does nothing.
+  const keep = [model.primary, model.secondary].filter(
+    (b) => b && b.action !== 'continue' && !(b.action === 'why' && opts.whyOpened),
+  ) as BarButton[]
   return { ...model, primary: keep[0], secondary: keep[1] }
 }
 

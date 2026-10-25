@@ -87,10 +87,15 @@ const BarButtonView = forwardRef<HTMLButtonElement, {
       onClick={() => onAction(button.action)}
       className={
         primary
-          ? 'ss-press inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-xl px-4 text-[13.5px] font-bold text-white disabled:cursor-not-allowed disabled:opacity-45'
+          ? `ss-press inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-xl px-4 text-[13.5px] font-bold ${
+              button.disabled && !button.busy ? 'cursor-not-allowed bg-ss-chip text-ss-slate shadow-none' : ''
+            }`
           : 'ss-press inline-flex min-h-[44px] items-center justify-center rounded-xl bg-ss-chip px-4 text-[13.5px] font-bold text-ss-ink disabled:opacity-45'
       }
-      style={primary ? { backgroundColor: fill } : undefined}
+      // Waiting for an answer: a quiet grey, not a faded version of the colour.
+      // Text takes the panel colour, which flips with the theme: white on the
+      // darker light-mode fills, near-black on the brighter dark-mode ones.
+      style={primary && !(button.disabled && !button.busy) ? { backgroundColor: fill, color: 'var(--ss-panel)' } : undefined}
     >
       {button.busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
       {button.label}

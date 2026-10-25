@@ -28,8 +28,8 @@ export function ResultBadge({ kind, tone = 'bad' }: { kind: 'correct' | 'wrong' 
       transition={m.transition}
       role="img"
       aria-label={label}
-      className="pointer-events-none absolute -right-2 -top-2 z-10 grid h-5 w-5 place-items-center rounded-md text-white shadow-sm"
-      style={{ backgroundColor: bg }}
+      className="pointer-events-none absolute -right-2 -top-2 z-10 grid h-5 w-5 place-items-center rounded-md shadow-sm"
+      style={{ backgroundColor: bg, color: 'var(--ss-panel)' }}
     >
       {kind === 'wrong' ? <X className="h-3.5 w-3.5" strokeWidth={3} /> : <Check className="h-3.5 w-3.5" strokeWidth={3} />}
     </motion.span>

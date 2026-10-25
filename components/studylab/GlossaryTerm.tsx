@@ -26,7 +26,7 @@ export function GlossaryTerm({
   label: string
 }) {
   const [open, setOpen] = useState(false)
-  const [place, setPlace] = useState<{ left: number; top: number; above: boolean } | null>(null)
+  const [place, setPlace] = useState<{ left: number; top: number; above: boolean; vars: Record<string, string> } | null>(null)
   const button = useRef<HTMLButtonElement>(null)
   const card = useRef<HTMLDivElement>(null)
   const id = useId()
@@ -36,7 +36,13 @@ export function GlossaryTerm({
     if (!open || !button.current) return
     const r = button.current.getBoundingClientRect()
     const above = r.bottom + 140 > window.innerHeight
-    setPlace({ left: Math.min(Math.max(8, r.left), window.innerWidth - 280), top: above ? r.top - 8 : r.bottom + 8, above })
+    // The card is drawn at the page root, outside the lesson's colour scope,
+    // so it carries the lesson's colours with it.
+    const computed = getComputedStyle(button.current)
+    const vars = Object.fromEntries(
+      ['--subject', '--subject-soft', '--subject-ink'].map((v) => [v, computed.getPropertyValue(v).trim()]),
+    )
+    setPlace({ left: Math.min(Math.max(8, r.left), window.innerWidth - 280), top: above ? r.top - 8 : r.bottom + 8, above, vars })
   }, [open])
 
   useEffect(() => {
@@ -47,12 +53,12 @@ export function GlossaryTerm({
       setOpen(false)
       if (e.type === 'keydown') button.current?.focus()
     }
-    window.addEventListener('keydown', close)
+    window.addEventListener('keydown', close, true)
     window.addEventListener('pointerdown', close, true)
     window.addEventListener('wheel', close, { passive: true })
     window.addEventListener('resize', close)
     return () => {
-      window.removeEventListener('keydown', close)
+      window.removeEventListener('keydown', close, true)
       window.removeEventListener('pointerdown', close, true)
       window.removeEventListener('wheel', close)
       window.removeEventListener('resize', close)
@@ -89,7 +95,7 @@ export function GlossaryTerm({
                 exit={m.exit}
                 transition={m.transition}
                 className="fixed z-[1000] w-[272px] rounded-xl border border-ss-line bg-ss-panel px-3.5 py-3 text-[13px] leading-relaxed text-ss-ink shadow-[0_18px_40px_-16px_rgba(20,60,90,0.45)]"
-                style={{ left: place.left, top: place.top, transform: place.above ? 'translateY(-100%)' : undefined }}
+                style={{ left: place.left, top: place.top, transform: place.above ? 'translateY(-100%)' : undefined, ...place.vars }}
               >
                 <p className="mb-1 text-[12px] font-bold uppercase tracking-wide text-ss-subject-ink">{term}</p>
                 <div>{definition}</div>
