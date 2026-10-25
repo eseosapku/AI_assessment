@@ -37,6 +37,11 @@ export const MAX_LEARN_TRIES = 2
 const SETTLED: readonly CheckPhase[] = ['correct', 'wrong', 'revealed']
 
 export function checkFlow(state: CheckFlowState, event: CheckEvent): CheckFlowState {
+  // While learning, two misses hand the lead to help and the answer, but
+  // another go is never taken away. In a test, a miss is final.
+  if (state.phase === 'wrong' && state.mode === 'learn' && event.type === 'tryAgain') {
+    return { ...state, phase: 'ready', message: undefined }
+  }
   if (SETTLED.includes(state.phase)) {
     return event.type === 'reveal' && state.phase === 'wrong' ? { ...state, phase: 'revealed' } : state
   }

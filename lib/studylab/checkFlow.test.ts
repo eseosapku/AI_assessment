@@ -32,6 +32,16 @@ describe('the check flow', () => {
     expect(s.phase).toBe('revealed')
   })
 
+  it('still lets a learner have another go after the second miss, but not in a test', () => {
+    const learnWrong = run(initialCheckFlow('learn'), [answer, check, wrong, { type: 'tryAgain' }, check, wrong])
+    const again = checkFlow(learnWrong, { type: 'tryAgain' })
+    expect(again).toMatchObject({ phase: 'ready', attempts: 2 })
+    expect(run(again, [check, wrong])).toMatchObject({ phase: 'wrong', attempts: 3 })
+    expect(run(again, [check, right])).toMatchObject({ phase: 'correct', attempts: 3 })
+    const testWrong = run(initialCheckFlow('test'), [answer, check, wrong])
+    expect(checkFlow(testWrong, { type: 'tryAgain' })).toBe(testWrong)
+  })
+
   it('accepts a right answer on either try', () => {
     expect(run(initialCheckFlow('learn'), [answer, check, right])).toMatchObject({ phase: 'correct', attempts: 1 })
     expect(

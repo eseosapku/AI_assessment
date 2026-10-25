@@ -1,0 +1,62 @@
+import { describe, it, expect } from 'vitest'
+import { barModel, CORRECT_LINES } from './checkBarModel'
+import type { CheckFlowState } from './checkFlow'
+
+const opts = { canReveal: true, hasWhy: true, whyOpened: false, hasHelp: false }
+
+function s(mode: 'learn' | 'test', phase: CheckFlowState['phase'], attempts = 0): CheckFlowState {
+  return { mode, phase, attempts }
+}
+
+describe('the check bar', () => {
+  it('waits for an answer, then offers Check', () => {
+    expect(barModel(s('learn', 'idle'), opts)).toMatchObject({ tone: 'neutral', primary: { action: 'check', disabled: true } })
+    expect(barModel(s('learn', 'ready'), opts)).toMatchObject({ primary: { action: 'check' } })
+    expect(barModel(s('learn', 'ready'), opts).primary.disabled).toBeFalsy()
+  })
+
+  it('shows Check as busy while marking', () => {
+    expect(barModel(s('learn', 'checking'), opts)).toMatchObject({ primary: { action: 'check', disabled: true, busy: true } })
+  })
+
+  it('moves on after a right answer, with Why? beside it', () => {
+    const m = barModel(s('learn', 'correct', 1), opts)
+    expect(m).toMatchObject({ tone: 'good', primary: { action: 'continue', label: 'Continue' }, secondary: { action: 'why' } })
+    expect(CORRECT_LINES).toContain(m.line)
+    expect(barModel(s('learn', 'correct', 1), { ...opts, hasWhy: false }).secondary).toBeUndefined()
+    expect(barModel(s('learn', 'correct', 1), { ...opts, continueLabel: 'Finish' }).primary.label).toBe('Finish')
+  })
+
+  it('offers another go after a first miss while learning', () => {
+    expect(barModel(s('learn', 'retry', 1), { ...opts, hasHelp: true })).toMatchObject({
+      tone: 'warn', primary: { action: 'tryAgain' }, secondary: { action: 'getHelp' }, line: 'Not quite — have another go.',
+    })
+    expect(barModel(s('learn', 'retry', 1), opts)).toMatchObject({ secondary: { action: 'reveal' } })
+    expect(barModel(s('learn', 'retry', 1), { ...opts, canReveal: false }).secondary).toBeUndefined()
+  })
+
+  it('leads with help, or the answer, after the second miss', () => {
+    expect(barModel(s('learn', 'wrong', 2), { ...opts, hasHelp: true })).toMatchObject({
+      tone: 'warn', primary: { action: 'getHelp' }, secondary: { action: 'tryAgain' },
+    })
+    expect(barModel(s('learn', 'wrong', 2), opts)).toMatchObject({ primary: { action: 'reveal' } })
+  })
+
+  it('marks a missed test incorrect and asks Why? first, then Continue', () => {
+    const before = barModel(s('test', 'wrong', 1), opts)
+    expect(before).toMatchObject({ tone: 'bad', primary: { action: 'why' }, secondary: { action: 'continue' }, line: 'Incorrect' })
+    const after = barModel(s('test', 'wrong', 1), { ...opts, whyOpened: true })
+    expect(after).toMatchObject({ primary: { action: 'continue' }, secondary: { action: 'why' } })
+    expect(barModel(s('test', 'wrong', 1), { ...opts, hasWhy: false })).toMatchObject({ primary: { action: 'continue' } })
+  })
+
+  it('carries on once the answer has been shown', () => {
+    expect(barModel(s('learn', 'revealed', 2), opts)).toMatchObject({ primary: { action: 'continue' } })
+  })
+
+  it('shows a marking problem on the bar without counting it', () => {
+    const m = barModel({ mode: 'learn', phase: 'ready', attempts: 0, message: 'Couldn’t mark that — try again.' }, opts)
+    expect(m.line).toBe('Couldn’t mark that — try again.')
+    expect(m.tone).toBe('neutral')
+  })
+})

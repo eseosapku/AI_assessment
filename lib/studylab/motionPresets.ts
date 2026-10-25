@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { TargetAndTransition, Transition } from 'framer-motion'
+import type { Target, TargetAndTransition, Transition } from 'framer-motion'
 import { prefersReducedMotion } from './activities/motion'
 
 export { prefersReducedMotion }
@@ -15,7 +15,7 @@ export { prefersReducedMotion }
  * does nothing at all -- see `motionFor`.
  */
 export interface MotionPreset {
-  initial?: TargetAndTransition
+  initial?: Target
   animate?: TargetAndTransition
   exit?: TargetAndTransition
   transition?: Transition
@@ -79,11 +79,11 @@ export type MotionName = keyof typeof MOTION
 
 const TRANSFORM_KEYS = new Set(['x', 'y', 'scale', 'scaleX', 'scaleY', 'rotate'])
 
-function stripTransforms(frame: TargetAndTransition | undefined): TargetAndTransition | undefined {
+function stripTransforms<T extends Target | TargetAndTransition>(frame: T | undefined): T | undefined {
   if (!frame) return frame
   return Object.fromEntries(
     Object.entries(frame).filter(([key]) => !TRANSFORM_KEYS.has(key)),
-  ) as TargetAndTransition
+  ) as T
 }
 
 /**
