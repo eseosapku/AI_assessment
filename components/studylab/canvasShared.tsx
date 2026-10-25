@@ -6,6 +6,8 @@ import Latex from 'react-latex-next'
 import type { LucideIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { toDollarMath } from '@/lib/studylab/mathText'
+import { splitGlossary } from '@/lib/studylab/glossary'
+import { GlossaryTerm } from './GlossaryTerm'
 
 // Shared canvas primitives used by both the static node renderers (canvasNodes)
 // and the interactive RunnableCodeCard. Lives in its own module so those two
@@ -40,10 +42,33 @@ function mdEmphasis(s: string): string {
 const NOT_MATH = /[|\n]/
 
 // Renders model card text: $…$ segments as KaTeX math, the rest as markdown
-// emphasis. Coerces non-strings (the model occasionally sends a number/object).
+// emphasis, and [[term|definition]] marks as tap-to-define terms. Coerces
+// non-strings (the model occasionally sends a number/object).
 export function SafeLatex({ children }: { children?: unknown }) {
   if (children == null) return null
   const raw = typeof children === 'string' ? children : String(children)
+  if (!raw) return null
+  const parts = splitGlossary(raw)
+  if (parts.length === 1 && parts[0].kind === 'text') return <LatexText text={parts[0].text} />
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.kind === 'text' ? (
+          <LatexText key={i} text={part.text} />
+        ) : (
+          <GlossaryTerm
+            key={i}
+            label={part.term}
+            term={<LatexText text={part.term} />}
+            definition={<LatexText text={part.definition} />}
+          />
+        ),
+      )}
+    </>
+  )
+}
+
+function LatexText({ text: raw }: { text: string }) {
   if (!raw) return null
   const text = toDollarMath(raw)
   const parts = text.split(/(\$[^$]+\$)/g)
