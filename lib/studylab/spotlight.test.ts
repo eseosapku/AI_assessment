@@ -1,6 +1,6 @@
 // lib/studylab/spotlight.test.ts
 import { describe, it, expect } from 'vitest'
-import { focusIds, continueFor, dockModel } from './spotlight'
+import { focusIds, continueFor, dockModel, focusFromTurn } from './spotlight'
 import type { LessonRun, OpenCheck } from './lessonRun'
 import type { QuizCell, StudyNode } from './types'
 
@@ -160,5 +160,23 @@ describe('dockModel', () => {
     })
     const handedIn = [cell('q1', 'cp', 'correct')]
     expect(dockModel({ ...base, nodes: handedIn, run: run({ openCheck: open('cp') }), busy: false })).toEqual({ kind: 'none' })
+  })
+})
+
+describe('focusFromTurn', () => {
+  it('puts what a turn built in focus, instead of zooming to it', () => {
+    expect(focusFromTurn(['a', 'b'], [{ kind: 'zoom', target: 'fit' }])).toEqual({
+      focus: ['a', 'b'],
+      effects: [{ kind: 'zoom', target: 'fit' }],
+    })
+  })
+
+  it('focuses a rewritten card when nothing new was built', () => {
+    expect(focusFromTurn([], [{ kind: 'zoom', target: 'node', nodeId: 'c' }])).toEqual({ focus: ['c'], effects: [] })
+  })
+
+  it('leaves the focus alone when a turn built and rewrote nothing', () => {
+    expect(focusFromTurn([], [{ kind: 'zoom', target: 'reset' }])).toEqual({ focus: null, effects: [{ kind: 'zoom', target: 'reset' }] })
+    expect(focusFromTurn([], [])).toEqual({ focus: null, effects: [] })
   })
 })

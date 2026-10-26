@@ -2,12 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
-import StudyLabSidebar from './StudyLabSidebar'
 import ProductTour from '@/components/studio/ProductTour'
 import DemoOffer from './DemoOffer'
-import ChatMouthpiece from './ChatMouthpiece'
+import LessonStage from './stage/LessonStage'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
@@ -18,6 +16,7 @@ import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
+import { focusFromTurn } from '@/lib/studylab/spotlight'
 import { checkAnswers, checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards, recallNotice } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
@@ -28,17 +27,6 @@ import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
-import { subjectStyle } from '@/lib/studylab/subjectFamily'
-
-// React Flow is client-only; load without SSR.
-const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-ss-canvas dark:bg-[#0a0a0a]">
-      <Loader2 className="w-7 h-7 text-ss-accent animate-spin" />
-    </div>
-  ),
-})
 
 interface GapFocus {
   topic_name: string | null
@@ -72,6 +60,9 @@ export default function Workspace({ id }: { id: string }) {
   // What the tutor is doing right now, so the wait names its own cause.
   const [working, setWorking] = useState('Thinking…')
   const [run, setRun] = useState<LessonRun | null>(null)
+  // What the stage is about: the cards the last turn built, or the one the
+  // learner was sent to. Empty after a reload; the spotlight falls back.
+  const [focus, setFocus] = useState<string[]>([])
   const [loadError, setLoadError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -327,7 +318,10 @@ export default function Workspace({ id }: { id: string }) {
           }
 
           setCanvas(nextCanvas)
-          const list = created.length > 0 ? [...fx, { kind: 'fitNodes' as const, nodeIds: created }] : fx
+          // What this turn built is the new focus; the board's camera follows it.
+          const turn = focusFromTurn(created, fx)
+          if (turn.focus) setFocus(turn.focus)
+          const list = turn.effects
           if (list.length > 0) {
             effectVersion.current += 1
             setEffects({ version: effectVersion.current, list })
@@ -893,8 +887,7 @@ export default function Workspace({ id }: { id: string }) {
 
   // Pan/zoom the canvas to a specific node (used by the "show me the check" banner).
   const goToNode = useCallback((nodeId: string) => {
-    effectVersion.current += 1
-    setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId }] })
+    setFocus([nodeId])
   }, [])
 
   // When every quiz node in a checkpoint is answered, report the result to the
@@ -1155,91 +1148,89 @@ export default function Workspace({ id }: { id: string }) {
   }
 
   return (
-    <div className="ss-lesson h-screen w-full flex overflow-hidden" style={subjectStyle(space.subject ?? space.title)}>
-      <StudyLabSidebar
-        title={space.title}
-        subject={space.subject}
-        currentStep={currentStep}
-        groups={groups}
-        plan={canvas.plan}
-        cardCount={cardCount}
-        run={run}
-        policy={policy}
-        origin={space?.origin}
-        onBack={() => router.push('/studylab')}
-        onFocusGroup={handleFocusGroup}
-        onTestOut={(stepId) => {
+    <LessonStage
+      subjectKey={space.subject ?? space.title}
+      focus={focus}
+      rail={{
+        title: space.title,
+        subject: space.subject,
+        currentStep,
+        groups,
+        plan: canvas.plan,
+        cardCount,
+        run,
+        policy,
+        origin: space?.origin,
+        onBack: () => router.push('/studylab'),
+        onFocusGroup: handleFocusGroup,
+        onTestOut: (stepId) => {
           // The rail is clickable as soon as a plan is drafted, before it is
           // accepted — but test_out (via the check job on the step it opens)
           // writes real questions, so it must wait like everything else does.
           if (run?.phase === 'planning') return
           void sendAction({ type: 'test_out', stepId, checkpointId: `to-${stepId}` })
-        }}
-        onJump={(stepId) => {
+        },
+        onJump: (stepId) => {
           if (run?.phase === 'planning') return
           void sendAction({ type: 'jump', stepId })
-        }}
-        onSetPace={(pace) => void sendAction({ type: 'set_pace', pace })}
-        onAddPage={handleAddPage}
-      />
-
-      <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
-        {unsaved && (
+        },
+        onSetPace: (pace) => void sendAction({ type: 'set_pace', pace }),
+        onAddPage: handleAddPage,
+      }}
+      boardOverlay={
+        unsaved && (
           <div role="status" className="absolute left-3 top-3 z-20 rounded-full border border-ss-line bg-ss-panel px-3 py-1.5 text-[12.5px] font-semibold text-ss-ink shadow">
             Not saved yet. Retrying…
           </div>
-        )}
-        <StudyCanvas
-          nodes={canvas.nodes}
-          edges={canvas.edges}
-          effects={effects}
-          run={run}
-          onNodesPositionChange={handleNodesPositionChange}
-          onToggleGroup={handleToggleGroup}
-          onNodeDataChange={handleNodeDataChange}
-          onAddBlock={handleAddBlock}
-          onDeleteNode={handleDeleteNode}
-          onNodeResize={handleNodeResize}
-          onAskTutor={handleAskTutor}
-          onConnectEdge={handleConnectEdge}
-          onEdgeLabel={handleEdgeLabel}
-          onCardPrompt={handleCardPrompt}
-          busy={busy}
-          title={space?.title}
-          plan={canvas.plan}
-        />
-      </div>
-
-      <div className="w-[360px] shrink-0 h-full border-l border-gray-100 dark:border-gray-800">
-        <ChatMouthpiece
-          messages={messages}
-          suggestions={suggestions}
-          busy={busy}
-          working={working}
-          done={done}
-          onSend={handleSend}
-          onFocusCard={goToNode}
-          defaultPace={policy.defaultPace}
-          pendingCheckpoint={pendingCheckpoint}
-          onGoToCheck={goToNode}
-          onProveIt={handleProveIt}
-          provingIt={provingIt}
-          proveUpdatesGapMap={Boolean(space?.textbook_id && space?.topic_id)}
-          before={measuredBefore(run)}
-          onAcceptPlan={(pace) => {
-            markPlanSettled()
-            void sendAction({ type: 'accept_plan', pace })
-          }}
-          onAnswerPlan={(answer) => {
-            markPlanSettled()
-            sayToTutor({ role: 'user', content: answer })
-            void sendAction({ type: 'draft_plan', answer })
-          }}
-          onStartHomework={startHomework}
-          onRetry={(action) => void sendAction(action)}
-        />
-      </div>
-
+        )
+      }
+      board={{
+        nodes: canvas.nodes,
+        edges: canvas.edges,
+        effects,
+        run,
+        onNodesPositionChange: handleNodesPositionChange,
+        onToggleGroup: handleToggleGroup,
+        onNodeDataChange: handleNodeDataChange,
+        onAddBlock: handleAddBlock,
+        onDeleteNode: handleDeleteNode,
+        onNodeResize: handleNodeResize,
+        onAskTutor: handleAskTutor,
+        onConnectEdge: handleConnectEdge,
+        onEdgeLabel: handleEdgeLabel,
+        onCardPrompt: handleCardPrompt,
+        busy,
+        title: space?.title,
+        plan: canvas.plan,
+      }}
+      chat={{
+        messages,
+        suggestions,
+        busy,
+        working,
+        done,
+        onSend: handleSend,
+        onFocusCard: goToNode,
+        defaultPace: policy.defaultPace,
+        pendingCheckpoint,
+        onGoToCheck: goToNode,
+        onProveIt: handleProveIt,
+        provingIt,
+        proveUpdatesGapMap: Boolean(space?.textbook_id && space?.topic_id),
+        before: measuredBefore(run),
+        onAcceptPlan: (pace) => {
+          markPlanSettled()
+          void sendAction({ type: 'accept_plan', pace })
+        },
+        onAnswerPlan: (answer) => {
+          markPlanSettled()
+          sayToTutor({ role: 'user', content: answer })
+          void sendAction({ type: 'draft_plan', answer })
+        },
+        onStartHomework: startHomework,
+        onRetry: (action) => void sendAction(action),
+      }}
+    >
       {/* Offered before anything else, on whichever lesson they open first —
           a topic they typed, a gap from the map, or a homework photo. It is
           the only moment the offer is useful. */}
@@ -1251,6 +1242,6 @@ export default function Workspace({ id }: { id: string }) {
           the plan card's own buttons — so running it on arrival would spotlight
           things that are not there yet. */}
       <ProductTour id="lesson" enabled={run?.phase === 'teaching' && canvas.nodes.length > 0} />
-    </div>
+    </LessonStage>
   )
 }

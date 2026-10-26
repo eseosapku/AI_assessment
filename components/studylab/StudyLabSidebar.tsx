@@ -16,7 +16,7 @@ interface StepGroupSummary {
   label: string
 }
 
-interface StudyLabSidebarProps {
+export interface StudyLabSidebarProps {
   title: string
   subject?: string | null
   currentStep: number

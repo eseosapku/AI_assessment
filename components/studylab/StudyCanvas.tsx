@@ -20,7 +20,7 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
-import { Loader2, Download, Brain, Wrench } from 'lucide-react'
+import { Loader2, Download, Wrench, Crosshair } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import PaletteToolbar from './PaletteToolbar'
 import { exportLayout, exportFileName, triggerDownload, brandExport } from '@/lib/studylab/exportCanvas'
@@ -29,6 +29,7 @@ import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 import { ZoomControl } from './ZoomControl'
 import { stepRegions } from '@/lib/studylab/stepRegions'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
+import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 
 const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
@@ -56,7 +57,7 @@ export interface CanvasEffects {
   list: CanvasEffect[]
 }
 
-interface StudyCanvasProps {
+export interface StudyCanvasProps {
   nodes: StudyNode[]
   edges: StudyEdge[]
   effects: CanvasEffects
@@ -87,7 +88,16 @@ interface StudyCanvasProps {
    * a step's frame cut off the bottom of the very card it was drawn around.
    */
   run: LessonRun | null
+  /** The nodes in the spotlight; everything else dims. Empty: nothing dims. */
+  focusIds?: string[]
+  /** Room the camera leaves around the focus, in screen pixels. */
+  insets?: { top: number; right: number; bottom: number; left: number }
+  /** Told when the learner starts or stops looking around the board on their own. */
+  onExploreChange?: (exploring: boolean) => void
 }
+
+const NO_FOCUS: string[] = []
+const NO_INSETS = { top: 24, right: 24, bottom: 24, left: 24 }
 
 function FlowInner({
   nodes,
@@ -96,6 +106,9 @@ function FlowInner({
   title,
   plan,
   run,
+  focusIds = NO_FOCUS,
+  insets = NO_INSETS,
+  onExploreChange,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -104,6 +117,16 @@ function FlowInner({
   onCardPrompt,
 }: Omit<StudyCanvasProps, 'onNodeDataChange' | 'onNodeResize' | 'busy'>) {
   const rf = useReactFlow()
+  // The spotlight. While the learner looks around on their own (any pan or
+  // zoom they make) nothing dims and the camera stays where they put it, until
+  // the next thing to work on arrives or they ask to go back.
+  const [exploring, setExploring] = useState(false)
+  const focusKey = focusIds.join('|')
+  const focused = useMemo(() => new Set(focusKey ? focusKey.split('|') : []), [focusKey])
+  const dimming = focused.size > 0 && !exploring
+  useEffect(() => {
+    onExploreChange?.(exploring)
+  }, [exploring, onExploreChange])
   const lastEffectVersion = useRef(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [cardMenu, setCardMenu] = useState<{ id: string; title: string; x: number; y: number } | null>(null)
@@ -264,6 +287,7 @@ function FlowInner({
             type: n.type,
             position: n.position,
             data: n.data as unknown as Record<string, unknown>,
+            ...(dimming && !focused.has(n.id) ? { className: 'ss-dim' } : {}),
           }
           // Frames carry their size on the node wrapper so NodeResizer can drive
           // the resize live; the renderer fills it with w-full/h-full.
@@ -272,7 +296,7 @@ function FlowInner({
           }
           return base
         }),
-    [nodes]
+    [nodes, dimming, focused]
   )
 
   const [rfNodes, setRfNodes, onNodesChange] = useNodesState(propNodes)
@@ -306,8 +330,10 @@ function FlowInner({
         selectable: false,
         deletable: false,
         zIndex: -1,
+        // The step being taught stays lit with its cards; the others dim.
+        ...(dimming && r.status !== 'current' ? { className: 'ss-dim' } : {}),
       })),
-    [nodes, sizes, run],
+    [nodes, sizes, run, dimming],
   )
 
   const drawnNodes = useMemo<Node[]>(() => [...regionNodes, ...rfNodes], [regionNodes, rfNodes])
@@ -412,6 +438,7 @@ function FlowInner({
           const isUser = e.id.startsWith('u-')
           const stroke = isUser ? '#94a3b8' : '#0E8FD1'
           return {
+            ...(dimming && !focused.has(e.source) && !focused.has(e.target) ? { className: 'ss-dim' } : {}),
             id: e.id,
             source: e.source,
             target: e.target,
@@ -429,7 +456,7 @@ function FlowInner({
             labelBgBorderRadius: 4,
           }
         }),
-    [edges, nodes, exporting]
+    [edges, nodes, exporting, dimming, focused]
   )
 
   const handleNodesChange = useCallback(
@@ -517,6 +544,33 @@ function FlowInner({
     [onNodesPositionChange]
   )
 
+  // The camera follows the focus: whatever is new to work on glides into the
+  // frame, clear of the board's controls and the bar along the bottom. A new
+  // focus also ends looking around -- the learner asked for it by moving on.
+  const frameFocus = useCallback(() => {
+    if (!focusKey) return
+    const px = (n: number) => `${n + 24}px` as const
+    rf.fitView({
+      nodes: focusKey.split('|').map((id) => ({ id })),
+      duration: prefersReducedMotion() ? 0 : 450,
+      padding: { top: px(insets.top), right: px(insets.right), bottom: px(insets.bottom), left: px(insets.left) },
+      minZoom: READABLE_ZOOM,
+      maxZoom: 1,
+    })
+  }, [rf, focusKey, insets.top, insets.right, insets.bottom, insets.left])
+  useEffect(() => {
+    if (!focusKey) return
+    setExploring(false)
+    // New cards need a frame to be measured before they can be framed.
+    const timer = setTimeout(frameFocus, 120)
+    return () => clearTimeout(timer)
+  }, [focusKey, frameFocus])
+
+  const backToLesson = useCallback(() => {
+    setExploring(false)
+    frameFocus()
+  }, [frameFocus])
+
   // Run queued view effects (zoom/fit/center) when a new batch arrives.
   useEffect(() => {
     if (effects.version === lastEffectVersion.current) return
@@ -574,6 +628,10 @@ function FlowInner({
         onNodeDragStop={onNodeDragStop}
         onNodeClick={onNodeClick}
         onConnect={onConnect}
+        // Only the learner's own moves pass an event; the camera's do not.
+        onMoveStart={(e) => {
+          if (e) setExploring(true)
+        }}
         nodesConnectable={tools}
         deleteKeyCode={null}
         onEdgeDoubleClick={tools ? (_, edge) => {
@@ -588,9 +646,23 @@ function FlowInner({
         className="bg-ss-canvas dark:bg-[#0a0a0a]"
       >
         <Background variant={BackgroundVariant.Dots} gap={28} size={1.5} className="!text-[#BFE0F2] dark:!text-[#1d3543]" />
-        <Panel position="bottom-left">
+        <Panel position="bottom-right">
           <ZoomControl />
         </Panel>
+        {exploring && focused.size > 0 && (
+          // Above the bar at the foot of the board, where the work goes on --
+          // the top centre is the demo's cue card.
+          <Panel position="bottom-center" style={{ marginBottom: 104 }}>
+            <button
+              type="button"
+              onClick={backToLesson}
+              className="ss-press inline-flex min-h-[40px] items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 text-[13px] font-bold text-ss-ink shadow-ss-panel"
+            >
+              <Crosshair className="h-4 w-4 text-ss-subject" aria-hidden />
+              Back to lesson
+            </button>
+          </Panel>
+        )}
         {tools && (
           <MiniMap
             pannable
@@ -606,14 +678,6 @@ function FlowInner({
         </Panel>
         <Panel position="top-left">
           <div className="flex items-center gap-2">
-            {/* Space title + beta — a proper little header instead of a lone button */}
-            <div className="flex items-center gap-2 rounded-xl border border-ss-line bg-[color:var(--ss-panel)]/95 px-3 py-2 shadow-ss-panel backdrop-blur">
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-[color:var(--ss-accent)]/15">
-                <Brain className="h-3.5 w-3.5 text-ss-accent" />
-              </span>
-              <span className="max-w-[200px] truncate text-[12.5px] font-extrabold text-ss-ink">{title || 'LearnSpace'}</span>
-              <span className="rounded-full bg-[color:var(--ss-accent)]/15 px-1.5 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
-            </div>
           <button
             type="button"
             onClick={toggleTools}
@@ -746,6 +810,9 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             title={props.title}
             plan={props.plan}
             run={props.run}
+            focusIds={props.focusIds}
+            insets={props.insets}
+            onExploreChange={props.onExploreChange}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}
             onAddBlock={props.onAddBlock}

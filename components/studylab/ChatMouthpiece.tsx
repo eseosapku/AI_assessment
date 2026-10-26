@@ -33,7 +33,7 @@ function SafeLatex({ children }: { children?: string }) {
   }
 }
 
-interface ChatMouthpieceProps {
+export interface ChatMouthpieceProps {
   messages: ChatMessage[]
   suggestions: string[]
   /** Accept the plan proposed in the conversation, at the chosen pace. */

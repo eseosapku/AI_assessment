@@ -1,5 +1,6 @@
 // lib/studylab/spotlight.ts
 import { isFreeform } from './blocks'
+import type { CanvasEffect } from './actions'
 import type { LessonRun } from './lessonRun'
 import type { StudyNode } from './types'
 
@@ -117,4 +118,24 @@ export function dockModel(input: {
   if (!run || run.phase === 'planning') return { kind: 'none' }
   const target = continueFor(null, input)
   return target ? { kind: 'continue', target } : { kind: 'none' }
+}
+
+/**
+ * What a tutor turn changes about the spotlight. The cards it built become the
+ * focus -- the camera goes to them because they are the focus, not because a
+ * zoom was queued. A rewritten card (the reducer's zoom-to-node) becomes the
+ * focus when nothing new was built. Other camera moves pass through. `null`
+ * means the focus stays where it was.
+ */
+export function focusFromTurn(
+  created: string[],
+  effects: CanvasEffect[],
+): { focus: string[] | null; effects: CanvasEffect[] } {
+  const toNode = effects.filter((e): e is Extract<CanvasEffect, { kind: 'zoom' }> & { nodeId: string } =>
+    e.kind === 'zoom' && e.target === 'node' && typeof e.nodeId === 'string',
+  )
+  const rest = effects.filter((e) => !toNode.includes(e as (typeof toNode)[number]))
+  if (created.length > 0) return { focus: created, effects: rest }
+  if (toNode.length > 0) return { focus: toNode.map((e) => e.nodeId), effects: rest }
+  return { focus: null, effects }
 }
