@@ -590,9 +590,21 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const suggestions =
     stage === null ? offered : stage === 'name' && stageOf(closed.run) !== 'check' ? [...COMPREHENSION_CHIPS] : []
 
+  // On an explore, Inky's line says what to watch on the card. When a material
+  // the turn wrote was refused, that line may describe the refused one -- live:
+  // "Drag the river features..." over a slope slider. The surviving material's
+  // own instruction is certain to be about what is on the board.
+  const isMaterial = (a: unknown) => ['createActivity', 'build_material'].includes(String((a as { type?: unknown } | null)?.type))
+  const survivor = kept.find(isMaterial) as { spec?: { prompt?: unknown } } | undefined
+  const shownSay =
+    stage === 'explore' && survivor && kept.filter(isMaterial).length < closed.actions.filter(isMaterial).length &&
+    typeof survivor.spec?.prompt === 'string' && survivor.spec.prompt.trim()
+      ? survivor.spec.prompt.trim()
+      : say
+
   return {
     run: closed.run,
-    say,
+    say: shownSay,
     actions: onePoint(kept),
     suggestions,
     intents: intents.length > 0 ? intents : undefined,
