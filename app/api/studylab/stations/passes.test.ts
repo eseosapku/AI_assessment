@@ -325,6 +325,36 @@ describe('runPass: verify', () => {
     expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: true })
   })
 
+  describe('an item a teacher could argue', () => {
+    // Written again, a part came back with another one (milk, a rubber ball, a butterfly): the one item goes instead.
+    const match = { id: 'q2', format: 'match', prompt: 'Match each element to its kind.', pairs: [{ left: 'Iron', right: 'Metal' }, { left: 'Sulfur', right: 'Non-metal' }, { left: 'Copper', right: 'Conducts heat' }, { left: 'Silicon', right: 'Semi-metal' }] }
+    const withMatch = { ...whole, check: { say: 'Quick check.', questions: [...check.questions, match] } as never }
+    const arguable = { ok: false, kind: 'arguable-item', pass: 'practice_check', quote: 'Silicon', reason: 'Silicon is a metalloid; its kind is argued.' }
+
+    it('is taken out, and the station judged once more', async () => {
+      reply(arguable)
+      reply({ ok: true })
+      const out = await runPass('verify', ctx(withMatch))
+      expect(out.ok).toBe(true)
+      if (!out.ok) return
+      const pairs = (out.bundle!.check.questions[1] as unknown as { pairs: { left: string }[] }).pairs
+      expect(pairs.map((p) => p.left)).toEqual(['Iron', 'Sulfur', 'Copper'])
+      expect(callGemma).toHaveBeenCalledTimes(2)
+    })
+
+    it('sends the part back when the station without it still fails', async () => {
+      reply(arguable)
+      reply({ ok: false, kind: 'wrong-key', pass: 'practice_check', quote: 'Copper', reason: 'Wrong.' })
+      expect(await runPass('verify', ctx(withMatch))).toMatchObject({ ok: false, redo: 'practice_check' })
+    })
+
+    it('sends the part back when the item cannot come out', async () => {
+      reply({ ...arguable, quote: 'Sulfur is brittle.' })
+      expect(await runPass('verify', ctx(withMatch))).toMatchObject({ ok: false, redo: 'practice_check' })
+      expect(callGemma).toHaveBeenCalledTimes(1)
+    })
+  })
+
   it('gives the judge room to finish, and asks for the shortest quote: a 350-token reply was cut off mid-quote', async () => {
     // Audit 7: "1095 characters, ending ... so 8 +" -- a whole feedback line quoted, and the budget spent.
     reply({ truth: 'Binary columns double.', ok: true })

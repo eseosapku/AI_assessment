@@ -13,6 +13,7 @@ import { stationSystemPrompt } from '../tutor/system-prompt'
 import { stagePrompt } from '../tutor/stagePrompt'
 import { materialRules } from '../tutor/dispatch'
 import { fitPictures } from '@/lib/studylab/meaning/art'
+import { dropArguable } from '@/lib/studylab/arguable'
 import { scenesFor } from '@/lib/studylab/engines'
 
 /**
@@ -375,11 +376,12 @@ function stationText(value: unknown): string {
 }
 const squash = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').trim()
 
-async function verify(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
-  const code = verifyBundleCode({ version: ctx.version, stepId: ctx.step.id, ...ctx.partial })
-  if (!code.ok) return { ok: false, reason: code.reasons.join('; '), redo: code.pass }
+/** What the judge made of a station: a pass, or a definite error it quoted, with the part to write again. */
+type Judgement = { ok: true } | { ok: false; reason: string; redo?: BundlePass; kind?: string; quote?: string }
+
+async function judgeStation(bundle: StationBundle, ctx: PassContext, opts: PassOptions): Promise<Judgement> {
   const raw = await callGemma(
-    [judgeAsk(!!code.bundle.explore.relationship), '', `STATION: ${ctx.step.title} -- ${ctx.step.goal} (${ctx.subject ?? 'lesson'}: ${ctx.title})`, '', JSON.stringify(code.bundle)].join('\n'),
+    [judgeAsk(!!bundle.explore.relationship), '', `STATION: ${ctx.step.title} -- ${ctx.step.goal} (${ctx.subject ?? 'lesson'}: ${ctx.title})`, '', JSON.stringify(bundle)].join('\n'),
     {
       maxTokens: BUDGET.verify,
       temperature: 0,
@@ -398,24 +400,41 @@ async function verify(ctx: PassContext, opts: PassOptions): Promise<PassResult> 
     const text = String(raw ?? '')
     return { ok: false, reason: `the judge did not come back as JSON (${text.length} characters, ending "${text.slice(-60)}")` }
   }
-  if (verdict?.ok === true) return { ok: true, bundle: code.bundle }
+  if (verdict?.ok === true) return { ok: true }
   // A failure has to be a definite error of a kind the judge was given. A
   // practice failed twice live for "not assessing the goal" -- a judgement on
   // teaching -- and it quoted the station, so the quote alone let it through.
-  if (!ERROR_KINDS.has(String(verdict?.kind))) return { ok: true, bundle: code.bundle }
+  if (!ERROR_KINDS.has(String(verdict?.kind))) return { ok: true }
   // A failure has to quote the station. A judge that names an error which is
   // not in it -- "3/9 does not match", a vary complaint about a sort -- invented
   // it, and the station stands.
   const quote = squash(String(verdict?.quote ?? ''))
-  if (!quote || !squash(stationText(code.bundle)).includes(quote)) return { ok: true, bundle: code.bundle }
+  if (!quote || !squash(stationText(bundle)).includes(quote)) return { ok: true }
   // The part to write again: the one the judge named, or else the one its
   // quote comes from.
-  const b = code.bundle
   const named = ['explore', 'name', 'practice_check'].includes(String(verdict?.pass)) ? (verdict.pass as BundlePass) : null
   const redo: BundlePass =
     named ??
-    (squash(stationText(b.explore)).includes(quote) ? 'explore' : squash(stationText(b.name)).includes(quote) ? 'name' : 'practice_check')
-  return { ok: false, reason: String(verdict?.reason ?? 'the judge failed it'), redo }
+    (squash(stationText(bundle.explore)).includes(quote) ? 'explore' : squash(stationText(bundle.name)).includes(quote) ? 'name' : 'practice_check')
+  return { ok: false, reason: String(verdict?.reason ?? 'the judge failed it'), redo, kind: String(verdict.kind), quote: String(verdict.quote) }
+}
+
+async function verify(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
+  const code = verifyBundleCode({ version: ctx.version, stepId: ctx.step.id, ...ctx.partial })
+  if (!code.ok) return { ok: false, reason: code.reasons.join('; '), redo: code.pass }
+  const first = await judgeStation(code.bundle, ctx, opts)
+  if (first.ok) return { ok: true, bundle: code.bundle }
+  // An item a teacher could argue comes out where the rest still stands, and
+  // the station is judged again: written again, the part came back with
+  // another one (milk's pH, a rubber ball's density, a butterfly's level).
+  const fixed = first.kind === 'arguable-item' && first.quote ? dropArguable(code.bundle, first.quote) : null
+  const recheck = fixed ? verifyBundleCode(fixed) : null
+  if (recheck?.ok) {
+    const second = await judgeStation(recheck.bundle, ctx, opts)
+    if (second.ok) return { ok: true, bundle: recheck.bundle }
+    return { ok: false, reason: second.reason, ...(second.redo ? { redo: second.redo } : {}) }
+  }
+  return { ok: false, reason: first.reason, ...(first.redo ? { redo: first.redo } : {}) }
 }
 
 /** Runs one pass of one station. */
