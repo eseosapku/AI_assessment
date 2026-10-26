@@ -46,7 +46,8 @@ export interface PassOptions {
 }
 
 /** Output budgets that keep each call inside the 20 s a pass may take. Measured in the live audit. */
-const BUDGET: Record<Pass, number> = { explore: 1500, name: 1000, practice_check: 1400, verify: 350 }
+// The judge at 350 was cut off mid-quote, quoting a whole feedback line (audit 7).
+const BUDGET: Record<Pass, number> = { explore: 1500, name: 1000, practice_check: 1400, verify: 900 }
 
 /**
  * Only the asked-for model's own ids. Refused, a call moves on to Gemma 3 12B,
@@ -353,6 +354,8 @@ function judgeAsk(hasRelationship: boolean): string {
     'part only follows an error an earlier part made, name the earlier one. "explore" (the material, opening, hints' + (hasRelationship ? ', relationship' : '') + '),',
     '"name" (the three name-it versions) or "practice_check" (the practice item and the check).',
     '',
+    '"quote" is the shortest exact text that shows the error -- the item, the words -- never a whole question or',
+    'feedback line; "truth" and "reason" are one short sentence each.',
     'Reply with JSON only: { "truth": "...", "ok": true } or',
     '{ "truth": "...", "ok": false, "kind": "false-statement" | "wrong-key" | "feedback-mismatch" | "arguable-item",',
     '  "pass": "explore" | "name" | "practice_check", "quote": "<the exact wrong text>", "reason": "<what is true>" }',

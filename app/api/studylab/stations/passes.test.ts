@@ -325,6 +325,14 @@ describe('runPass: verify', () => {
     expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: true })
   })
 
+  it('gives the judge room to finish, and asks for the shortest quote: a 350-token reply was cut off mid-quote', async () => {
+    // Audit 7: "1095 characters, ending ... so 8 +" -- a whole feedback line quoted, and the budget spent.
+    reply({ truth: 'Binary columns double.', ok: true })
+    await runPass('verify', ctx(whole))
+    expect((call()[1] as { maxTokens: number }).maxTokens).toBeGreaterThanOrEqual(800)
+    expect(String(call()[0])).toMatch(/shortest exact text/i)
+  })
+
   it('says how a judge reply that is not JSON ended, so a reply cut off at its budget shows as one', async () => {
     const cut = JSON.stringify({ truth: 'Milk is close to neutral. '.repeat(20), ok: false, kind: 'arguable-item', quote: 'Milk' }).slice(0, 300)
     vi.mocked(callGemma).mockResolvedValueOnce(cut)
@@ -386,6 +394,7 @@ describe('runPass: verify', () => {
     expect(call()[1]).toMatchObject({ model: modelForJob('judge'), fallbackModel: modelForJob('plan') })
     // Nor the judge: a station judged by a weaker model is worse than one served live.
     expect((call()[1] as { maxCandidates?: number }).maxCandidates).toBeGreaterThan(0)
-    expect((call()[1] as { maxTokens: number }).maxTokens).toBeLessThanOrEqual(400)
+    // A short reply ends at its JSON whatever the cap; at 350 a long one was cut off and the try lost.
+    expect((call()[1] as { maxTokens: number }).maxTokens).toBeLessThanOrEqual(1000)
   })
 })
