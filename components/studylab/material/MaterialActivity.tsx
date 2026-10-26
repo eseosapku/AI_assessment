@@ -9,6 +9,7 @@ import { CanvasContext } from '@/components/studylab/canvasShared'
 import type { MaterialWorkAdapter } from './adapters'
 import { MaterialRenderer } from './MaterialRenderer'
 import { withLessonPrompt } from '@/lib/studylab/material/lessonPrompt'
+import { seededShuffle } from '@/lib/studylab/activities/shuffle'
 import { useCheckFlow } from '../check/useCheckFlow'
 import { restoreEvent } from '@/lib/studylab/checkFlow'
 import type { BarAction } from '@/lib/studylab/checkBarModel'
@@ -177,7 +178,9 @@ export function MaterialActivity({
 
   return (
     <MaterialRenderer
-      spec={withLessonPrompt(materialSpec, spec)}
+      // The pieces in the activity's own shuffled order, as the old renderers
+      // drew them: in the order written, a sort listed its answer.
+      spec={withLessonPrompt({ ...materialSpec, pieces: seededShuffle(materialSpec.pieces, spec.seed ?? 1) }, spec)}
       state={materialState}
       onStateChange={handleStateChange}
       onRefusal={handleRefusal}
