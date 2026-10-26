@@ -2,6 +2,7 @@
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
 import { modelForJob, fallbackForJob } from '@/lib/studylab/lessonJobs'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
+import { isValidPart } from '@/lib/studylab/point'
 import {
   checkExplore, checkName, checkPracticeCheck, verifyBundleCode,
   type AuthoredCut, type BundlePass, type Outcome, type StationBundle,
@@ -43,7 +44,10 @@ export interface PassOptions {
 }
 
 /** Output budgets that keep each call inside the 20 s a pass may take. Measured in the live audit. */
-const BUDGET: Record<Pass, number> = { explore: 1500, name: 1400, practice_check: 1400, verify: 350 }
+const BUDGET: Record<Pass, number> = { explore: 1500, name: 1000, practice_check: 1400, verify: 350 }
+
+/** As much of the explore item as a later pass reads: enough for any material the catalogue builds. */
+const EXPLORE_CHARS = 3000
 
 const OUTCOMES: readonly Outcome[] = ['solved', 'helped', 'untried']
 
@@ -63,14 +67,19 @@ function context(ctx: PassContext): string {
   ].filter((l) => l !== '').join('\n')
 }
 
+/**
+ * The explore item a later pass builds on, whole: its items, labels and answer.
+ * Told only its prompt, the name pass described toast-making steps the sort did
+ * not have, and a practice item drifted from a balance to chemical equations.
+ */
 function exploreSummary(ctx: PassContext): string {
   const e = ctx.partial.explore
   if (!e) return ''
-  const a = e.action as { type?: string; id?: string; title?: string; spec?: { prompt?: string } }
+  const { id, step: _step, ...item } = e.action as unknown as Record<string, unknown>
   return [
-    'THE EXPLORE ITEM ALREADY WRITTEN FOR THIS STATION:',
-    `  id "${a.id}", ${a.type === 'createCard' ? `a predict item: "${a.title}"` : `a material: "${a.spec?.prompt ?? ''}"`}`,
+    `THE EXPLORE ITEM ALREADY WRITTEN FOR THIS STATION (id "${String(id)}"):`,
     `  Inky's opening line: "${e.opening}"`,
+    `  The item, exactly as the student gets it: ${JSON.stringify(item).slice(0, EXPLORE_CHARS)}`,
   ].join('\n')
 }
 
@@ -87,15 +96,21 @@ const EXPLORE_ASK = [
 ].join('\n')
 
 const NAME_ASK = [
-  'STAGE: NAME IT -- write three versions of the name-it turn, one for each way the explore can go:',
-  '  "solved": they solved it first time -- build on the result they reached;',
-  '  "helped": they solved it after a hint or two -- build on the result and on the step that was hard;',
-  '  "untried": they moved on without trying it, or did not finish -- name the idea from the start.',
-  'Never describe a result they did not reach in "untried".',
-  'Each version: "say" (one line), and "actions": one or two createCard actions, a "connect" from the explore',
-  'item to each card, and at most one "point" at the part of the explore item that shows the idea.',
+  'STAGE: NAME IT -- name the idea the explore item shows. Write the naming card ONCE, then what Inky says for',
+  'each way the explore can go:',
+  '  "card": ONE createCard ("concept" or "worked") that names the idea and shows it on the explore item. Write it',
+  '          so it is true whatever the student did -- no "you found", no result of theirs.',
+  '  "solved": { "say" } -- they solved it first time: one line that builds on the result they reached.',
+  '  "helped": { "say", "card" } -- they solved it after a hint or two: one line on the result and the step that',
+  '          was hard, and ONE short card on that step (or leave the card out).',
+  '  "untried": { "say", "card" } -- they moved on without finishing: one line, and ONE short card showing what the',
+  '          explore item shows when it is done, as a demonstration. Never describe a result they did not reach.',
+  '  "point": the part of the explore item that shows the idea, as the board names it -- "piece-<id>" for one of',
+  '          its items, "slot-<id>" for a slot -- or leave it out.',
+  'Describe only what the explore item above holds: its items, labels and answer, as they are written there.',
   '',
-  'Reply with JSON only: { "solved": { "say": "...", "actions": [...] }, "helped": {...}, "untried": {...} }',
+  'Reply with JSON only: { "card": {...}, "solved": { "say": "..." }, "helped": { "say": "...", "card": {...} },',
+  '  "untried": { "say": "...", "card": {...} }, "point": "piece-..." }',
 ].join('\n')
 
 const PRACTICE_CHECK_ASK = [
@@ -181,27 +196,37 @@ async function explore(ctx: PassContext, opts: PassOptions): Promise<PassResult>
   return problems.length ? { ok: false, reason: problems.join('; ') } : { ok: true, partial: { explore: e } }
 }
 
+/**
+ * The name-it cuts, built around one naming card written once. The three cuts
+ * differ where the outcome matters -- the line Inky says, and the card each
+ * adds: the hard step for "helped", what the item shows when done for
+ * "untried". Written three times over, the cards came back the same and the
+ * pass ran close to its time.
+ */
 async function name(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
   const exploreId = String((ctx.partial.explore?.action as { id?: unknown } | undefined)?.id ?? '')
   if (!exploreId) return { ok: false, reason: 'no explore item to name', redo: 'explore' }
   const got = await ask('name', ctx, opts)
   if (!got) return { ok: false, reason: 'the name pass did not come back as JSON' }
+  const asCard = (raw: unknown, id: string): Record<string, unknown> | null =>
+    raw && typeof raw === 'object' ? stepped({ ...(raw as Record<string, unknown>), type: 'createCard', id }, ctx.stepNo) : null
+  const naming = asCard(got.card, `${ctx.step.id}-name`)
+  if (!naming) return { ok: false, reason: 'the name pass wrote no naming card ("card")' }
+  // A part no renderer draws points at the whole item instead.
+  const part = typeof got.point === 'string' ? got.point.trim() : ''
+  const point = typeof got.point === 'string' ? [{ type: 'point', nodeId: exploreId, ...(isValidPart(part) ? { part } : {}) }] : []
+  const join = (from: unknown, to: unknown) => ({ type: 'connect', from, to })
   const cuts: Partial<Record<Outcome, AuthoredCut>> = {}
   for (const o of OUTCOMES) {
-    const cut = got[o] as { say?: unknown; actions?: unknown } | undefined
-    if (!cut || !Array.isArray(cut.actions)) continue
-    // The model's ids, mapped to the station's; its explore item is ours.
-    const ids = new Map<string, string>()
-    let n = 0
-    for (const a of cut.actions) {
-      const id = (a as { id?: unknown })?.id
-      if ((a as { type?: unknown })?.type === 'createCard' && typeof id === 'string') ids.set(id, `${ctx.step.id}-${o}-${++n}`)
-    }
-    for (const a of cut.actions) {
-      const r = a as { from?: unknown; nodeId?: unknown }
-      for (const v of [r?.from, r?.nodeId]) if (typeof v === 'string' && !ids.has(v)) ids.set(v, exploreId)
-    }
-    cuts[o] = { say: String(cut.say ?? '').trim(), actions: rename(cut.actions, ids).map((a) => stepped(a, ctx.stepNo)) as never }
+    const cut = got[o] as { say?: unknown; card?: unknown } | undefined
+    if (!cut || typeof cut !== 'object') continue
+    const own = o === 'solved' ? null : asCard(cut.card, `${ctx.step.id}-${o}-1`)
+    const actions = !own
+      ? [naming, join(exploreId, naming.id), ...point]
+      : o === 'untried'
+        ? [own, naming, join(exploreId, own.id), join(own.id, naming.id), ...point]
+        : [naming, own, join(exploreId, naming.id), join(naming.id, own.id), ...point]
+    cuts[o] = { say: String(cut.say ?? '').trim(), actions: actions as never }
   }
   const problems = checkName(cuts, exploreId)
   return problems.length ? { ok: false, reason: problems.join('; ') } : { ok: true, partial: { name: cuts as StationBundle['name'] } }

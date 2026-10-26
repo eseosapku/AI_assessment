@@ -106,11 +106,25 @@ function materialProblems(action: unknown, rawIntent: unknown, needIntent: boole
 }
 
 /** What is wrong with an explore item, if anything. */
+/**
+ * Why an explore item is not a valid action, put so the next try can act on
+ * it: "not a valid action" alone sent a truth table back into "compose" twice.
+ */
+function invalidExplore(action: unknown): string {
+  const type = typeOf(action)
+  if (type !== 'createActivity' && type !== 'build_material') return 'the explore item is not a valid action'
+  const pattern = String((action as { spec?: { pattern?: unknown } } | null)?.spec?.pattern ?? type)
+  return (
+    `the "${pattern}" material does not match its apparatus's schema (its payload, prompt or success rule) -- ` +
+    'fit that schema exactly, or, where no material honestly fits this station, open with a "Predict: ..." practice card instead'
+  )
+}
+
 export function checkExplore(e: Partial<AuthoredExplore> | undefined): string[] {
   if (!e || typeof e !== 'object') return ['no explore item']
   const out: string[] = []
   if (!text(e.opening)) out.push('no opening line')
-  if (!isValidAction(e.action)) out.push('the explore item is not a valid action')
+  if (!isValidAction(e.action)) out.push(invalidExplore(e.action))
   else {
     const isPredict = typeOf(e.action) === 'createCard'
     if (isPredict && !/^\s*predict\b/i.test(String((e.action as { title?: unknown }).title ?? ''))) {

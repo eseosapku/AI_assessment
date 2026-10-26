@@ -111,6 +111,14 @@ describe('verifyBundleCode', () => {
     expect(fails(b).pass).toBe('practice_check')
   })
 
+  it('tells a malformed material what to do instead: fit its schema, or open with a predict item', () => {
+    const b = good()
+    b.explore = { ...b.explore, action: { type: 'createActivity', id: 'm1', spec: { pattern: 'compose', prompt: 'Fill the table', payload: { parts: [], validJoins: [] }, success: { kind: 'exactSet', itemIds: [] } }, step: 1 } as never }
+    const v = fails(b)
+    expect(v.reasons.join(' ')).toMatch(/"compose".*schema/)
+    expect(v.reasons.join(' ')).toMatch(/Predict:/)
+  })
+
   it('accepts a predict item where no material fits', () => {
     const b = good()
     b.explore = { opening: 'Guess before you read.', action: { type: 'createCard', id: 'm1', card: 'practice', title: 'Predict: which city grew first?', body: 'Look at the map.', answer: 'The one on the river', rubric: 'Names the river city', steps: ['Water and trade'], step: 1 } as never, hints: [] }

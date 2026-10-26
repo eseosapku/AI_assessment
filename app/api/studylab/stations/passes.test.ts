@@ -76,25 +76,80 @@ describe('runPass: explore', () => {
 })
 
 describe('runPass: name', () => {
-  it('writes a cut for each outcome, pointing at the explore item it builds on', async () => {
-    reply({
-      solved: { say: 'You split them.', actions: [card('a'), { type: 'connect', from: 'whatever', to: 'a' }, { type: 'point', nodeId: 'whatever', part: 'piece-i1' }] },
-      helped: { say: 'Iron told you.', actions: [card('b')] },
-      untried: { say: 'Here is the idea.', actions: [card('c')] },
-    })
+  const naming = { type: 'createCard', id: 'whatever', card: 'concept', title: 'Metals bend, non-metals snap', body: 'A metal bends because its atoms slide past each other.' }
+  const extra = (title: string) => ({ type: 'createCard', id: 'x', card: 'concept', title, body: 'A real sentence with an example.' })
+  const replyName = (over: Record<string, unknown> = {}) => reply({
+    card: naming,
+    solved: { say: 'You split them by behaviour.' },
+    helped: { say: 'Iron gave it away.', card: extra('The shine was the clue') },
+    untried: { say: 'Here is what the sort shows.', card: extra('What the sort shows') },
+    point: 'piece-i1',
+    ...over,
+  })
+  type Act = { type: string; id?: string; from?: string; to?: string; nodeId?: string; part?: string; step?: number; title?: string }
+
+  it('writes the naming card once, and builds each outcome around it', async () => {
+    replyName()
     const out = await runPass('name', ctx({ explore: explore as never }))
     expect(out.ok).toBe(true)
     if (!out.ok) return
-    const solved = out.partial!.name!.solved.actions as { type: string; id?: string; from?: string; to?: string; nodeId?: string }[]
-    expect(solved[0].id).toBe('s1-solved-1')
-    expect(solved[1]).toMatchObject({ from: 's1-explore', to: 's1-solved-1' })
-    expect(solved[2]).toMatchObject({ nodeId: 's1-explore' })
-    expect(String(call()[0])).toContain('Watch which ones bend.')
-    expect(String(call()[0])).toMatch(/never describe a result they did not reach/i)
+    const cut = (o: 'solved' | 'helped' | 'untried') => out.partial!.name![o].actions as Act[]
+    const cards = (o: 'solved' | 'helped' | 'untried') => cut(o).filter((a) => a.type === 'createCard').map((a) => a.id)
+    // Solved: the name, joined to what they handled, pointing at the part that shows it.
+    expect(cards('solved')).toEqual(['s1-name'])
+    expect(cut('solved')).toContainEqual(expect.objectContaining({ type: 'connect', from: 's1-explore', to: 's1-name' }))
+    expect(cut('solved')).toContainEqual(expect.objectContaining({ type: 'point', nodeId: 's1-explore', part: 'piece-i1' }))
+    // Helped: the name, and the step that was hard.
+    expect(cards('helped')).toEqual(['s1-name', 's1-helped-1'])
+    // Untried: what the item shows when done comes first, then the name.
+    expect(cards('untried')).toEqual(['s1-untried-1', 's1-name'])
+    expect(cut('untried')).toContainEqual(expect.objectContaining({ type: 'connect', from: 's1-untried-1', to: 's1-name' }))
+    expect(out.partial!.name!.untried.say).toBe('Here is what the sort shows.')
+    for (const o of ['solved', 'helped', 'untried'] as const) for (const a of cut(o)) if (a.type === 'createCard') expect(a.step).toBe(1)
   })
-  it('refuses a reply missing one of the outcomes', async () => {
-    reply({ solved: name.solved, helped: name.helped })
+
+  it('briefs the name pass with the explore item whole, so it never describes what is not there', async () => {
+    replyName()
+    await runPass('name', ctx({ explore: explore as never }))
+    const p = String(call()[0])
+    expect(p).toContain('Watch which ones bend.')
+    // The items and bins of the sort itself, not just its prompt.
+    expect(p).toContain('Sulfur')
+    expect(p).toContain('Non-metal')
+    expect(p).toMatch(/never describe a result they did not reach/i)
+    expect(p).toMatch(/true whatever the student did/i)
+  })
+
+  it('takes a helped cut with no card of its own as the name alone', async () => {
+    replyName({ helped: { say: 'Iron gave it away.' } })
+    const out = await runPass('name', ctx({ explore: explore as never }))
+    expect(out.ok).toBe(true)
+    if (!out.ok) return
+    expect((out.partial!.name!.helped.actions as Act[]).filter((a) => a.type === 'createCard').map((a) => a.id)).toEqual(['s1-name'])
+  })
+
+  it('points at the whole explore item when the part named is not one the board draws', async () => {
+    replyName({ point: 'the slider for resistance' })
+    const out = await runPass('name', ctx({ explore: explore as never }))
+    expect(out.ok).toBe(true)
+    if (!out.ok) return
+    const point = (out.partial!.name!.solved.actions as Act[]).find((a) => a.type === 'point')
+    expect(point).toMatchObject({ nodeId: 's1-explore' })
+    expect(point).not.toHaveProperty('part')
+  })
+
+  it('refuses a reply with no naming card, or missing an outcome', async () => {
+    replyName({ card: undefined })
     expect((await runPass('name', ctx({ explore: explore as never }))).ok).toBe(false)
+    vi.mocked(callGemma).mockReset()
+    replyName({ untried: undefined })
+    expect((await runPass('name', ctx({ explore: explore as never }))).ok).toBe(false)
+  })
+
+  it('keeps the name pass small enough to finish well inside its time', async () => {
+    replyName()
+    await runPass('name', ctx({ explore: explore as never }))
+    expect((call()[1] as { maxTokens: number }).maxTokens).toBeLessThanOrEqual(1000)
   })
 })
 
@@ -109,6 +164,8 @@ describe('runPass: practice_check', () => {
     expect(out.ok).toBe(true)
     expect(String(call()[0])).toMatch(/optionFeedback/)
     expect(String(call()[0])).toMatch(/near-twin/i)
+    // A near-twin of the explore item as it is, items and all.
+    expect(String(call()[0])).toContain('Sulfur')
     // Each distractor's slip is worked out before its feedback is written.
     expect(String(call()[0])).toMatch(/work out the exact slip/i)
   })

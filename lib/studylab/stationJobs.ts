@@ -55,6 +55,9 @@ export interface AuthorState {
 /** Marks a reason as an outage or a timeout rather than something the pass wrote. */
 export const ERROR_MARK = '[error] '
 
+/** A pass written again because what it built on changed: no fault of its own. */
+const SUPERSEDED = 'superseded'
+
 /** Where this station's authoring stands, for this version only. */
 export async function authorState(spaceId: string, stepId: string, version: string): Promise<AuthorState> {
   const { rows } = await db.query<{ id: string; pass: string; status: string; result_payload: Record<string, unknown> | null; error_message?: string | null }>(
@@ -76,6 +79,8 @@ export async function authorState(spaceId: string, stepId: string, version: stri
       const result = r.result_payload ?? {}
       if (result.partial && typeof result.partial === 'object') partial = { ...partial, ...(result.partial as Partial<StationBundle>) }
       if (r.pass === 'verify' && result.bundle && typeof result.bundle === 'object') bundle = result.bundle as StationBundle
+    } else if (r.status === 'failed' && String(r.error_message ?? '').startsWith(`${SUPERSEDED}:`)) {
+      continue
     } else if (r.status === 'failed') {
       failures.set(r.pass, (failures.get(r.pass) ?? 0) + 1)
       const reason = String(r.error_message ?? '').replace(/^redone: /, '').trim()
@@ -128,15 +133,16 @@ export async function failPass(id: string, reason: string): Promise<void> {
 }
 
 /**
- * Sends a written pass back to be written again: the verifier found its part
- * wrong. Its row becomes a failure, so it counts toward the two a pass gets
- * before the station runs live.
+ * Sends a written pass back to be written again. The pass the verifier found
+ * wrong is charged: its row counts toward the two a pass gets before the
+ * station runs live. A pass written again only because what it built on
+ * changed is superseded, and is not charged -- it was not at fault.
  */
-export async function redoPass(spaceId: string, stepId: string, version: string, pass: Pass, reason: string): Promise<void> {
+export async function redoPass(spaceId: string, stepId: string, version: string, pass: Pass, reason: string, blame = true): Promise<void> {
   await db.query(
     `UPDATE ai_jobs SET status = 'failed', error_message = $6, finished_at = NOW()
       WHERE job_type = $1 AND input_payload->>'spaceId' = $2 AND input_payload->>'stepId' = $3
         AND input_payload->>'version' = $4 AND input_payload->>'pass' = $5 AND status = 'succeeded'`,
-    [JOB, spaceId, stepId, version, pass, `redone: ${reason}`.slice(0, 4000)],
+    [JOB, spaceId, stepId, version, pass, `${blame ? 'redone' : SUPERSEDED}: ${reason}`.slice(0, 4000)],
   )
 }

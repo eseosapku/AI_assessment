@@ -93,6 +93,20 @@ describe('authorState', () => {
     })
   })
 
+  it('charges a redo only to the pass at fault, not to the passes written on top of it', async () => {
+    const failed = (pass: string, error_message: string) => ({ ...row(pass, 'failed'), error_message })
+    query.mockResolvedValue({ rows: [
+      failed('explore', 'redone: the series is upside down'),
+      failed('name', 'superseded: the series is upside down'),
+      failed('practice_check', 'superseded: the series is upside down'),
+      failed('practice_check', '[error] AbortError: Request aborted'),
+    ] })
+    const s = await authorState('space', 's1', 'v1')
+    expect(s.status).not.toBe('failed')
+    expect(s.retries).toBe(1)
+    expect(s.lastFailure).toEqual({ explore: 'the series is upside down' })
+  })
+
   it('reads only this station and this version', async () => {
     query.mockResolvedValue({ rows: [] })
     await authorState('space', 's1', 'v1')
@@ -120,5 +134,10 @@ describe('redoPass', () => {
     expect(String(sql)).toMatch(/UPDATE ai_jobs SET status = 'failed'/)
     expect(String(sql)).toMatch(/status = 'succeeded'/)
     expect(values).toEqual(['author_station', 'space', 's1', 'v1', 'explore', 'redone: the vary models a false relationship'])
+  })
+  it('marks a pass written again only because what it built on changed as superseded, not at fault', async () => {
+    query.mockResolvedValue({ rows: [] })
+    await redoPass('space', 's1', 'v1', 'name', 'the vary models a false relationship', false)
+    expect(query.mock.calls[0][1][5]).toBe('superseded: the vary models a false relationship')
   })
 })

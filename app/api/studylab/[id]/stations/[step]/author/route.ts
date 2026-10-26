@@ -119,9 +119,10 @@ export async function POST(request: NextRequest, { params }: Params) {
     let done = state.done
     if (result.redo) {
       // The part the verifier faulted is written again, and so is everything
-      // written on top of it: a name cut quotes the explore it follows.
+      // written on top of it: a name cut quotes the explore it follows. Only
+      // the faulted part is charged for it.
       const again = PASSES.slice(PASSES.indexOf(result.redo), PASSES.indexOf('verify')) as Pass[]
-      for (const p of again) await redoPass(spaceId, stepId, version, p, result.reason)
+      for (const p of again) await redoPass(spaceId, stepId, version, p, result.reason, p === result.redo)
       done = done.filter((p) => !again.includes(p))
     }
     return NextResponse.json(standing({ ...state, done, status: 'authoring' }))
