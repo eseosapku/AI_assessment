@@ -1,5 +1,5 @@
 // app/api/studylab/stations/passes.ts
-import { callGemma, parseJsonRobust } from '@/lib/bedrock'
+import { buildModelCandidates, callGemma, parseJsonRobust } from '@/lib/bedrock'
 import { modelForJob, fallbackForJob } from '@/lib/studylab/lessonJobs'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
 import { isValidPart } from '@/lib/studylab/point'
@@ -45,6 +45,15 @@ export interface PassOptions {
 
 /** Output budgets that keep each call inside the 20 s a pass may take. Measured in the live audit. */
 const BUDGET: Record<Pass, number> = { explore: 1500, name: 1000, practice_check: 1400, verify: 350 }
+
+/**
+ * Only the asked-for model's own ids. Refused, a call moves on to Gemma 3 12B,
+ * and a station written or judged by it is worse than one taught live: found
+ * when the author model was refused on purpose, and the passes kept answering.
+ */
+function onlyModel(model: string): number {
+  return new Set(buildModelCandidates(model)).size
+}
 
 /** Indentation is output a pass waits for and nobody reads. */
 const COMPACT = 'Write the JSON compact -- no indentation or line breaks.'
@@ -192,6 +201,7 @@ async function ask(pass: Exclude<Pass, 'verify'>, ctx: PassContext, opts: PassOp
     temperature: 0.5,
     model: modelForJob('author'),
     fallbackModel: fallbackForJob('author'),
+    maxCandidates: onlyModel(modelForJob('author')),
     signal: opts.signal,
     usage: opts.usage ? { feature: `station_${pass}`, requestId: opts.usage.requestId, userId: opts.usage.userId } : undefined,
   })
@@ -339,6 +349,7 @@ async function verify(ctx: PassContext, opts: PassOptions): Promise<PassResult> 
       temperature: 0,
       model: modelForJob('judge'),
       fallbackModel: fallbackForJob('judge'),
+      maxCandidates: Math.max(onlyModel(modelForJob('judge')), onlyModel(modelForJob('plan'))),
       signal: opts.signal,
       usage: opts.usage ? { feature: 'station_judge', requestId: opts.usage.requestId, userId: opts.usage.userId } : undefined,
     },

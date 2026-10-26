@@ -1,14 +1,15 @@
 // app/api/studylab/stations/passes.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-vi.mock('@/lib/bedrock', () => ({
+vi.mock('@/lib/bedrock', async (orig) => ({
+  buildModelCandidates: (await orig<typeof import('@/lib/bedrock')>()).buildModelCandidates,
   callGemma: vi.fn(),
   parseJsonRobust: (t: string) => JSON.parse(t),
   fixLatexInRawJson: (t: string) => t,
   hasBedrockCredentials: () => true,
 }))
 
-import { callGemma } from '@/lib/bedrock'
+import { callGemma, buildModelCandidates } from '@/lib/bedrock'
 import { runPass, type PassContext } from './passes'
 import { modelForJob } from '@/lib/studylab/lessonJobs'
 
@@ -82,6 +83,14 @@ describe('runPass: explore', () => {
     reply({ opening: 'Watch which ones bend.', action: { type: 'createActivity', id: 'x', spec: sortSpec }, intent, hints: [] })
     await runPass('explore', { ...ctx(), fix: 'a vary material must cite the relationship it models, with a source' })
     expect(String(call()[0])).not.toMatch(/This time, open with a "Predict/)
+  })
+
+  it('never lets a refused authoring model fall through to another model', async () => {
+    // Found live: with the author model refused, the call quietly moved on to
+    // Gemma 3 12B, and stations were being written by it.
+    reply({ opening: 'Watch which ones bend.', action: { type: 'createActivity', id: 'x', spec: sortSpec }, intent, hints: [] })
+    await runPass('explore', ctx())
+    expect(call()[1]).toMatchObject({ maxCandidates: new Set(buildModelCandidates(modelForJob('author'))).size })
   })
 
   it('refuses a reading card in place of something to handle', async () => {
@@ -297,6 +306,8 @@ describe('runPass: verify', () => {
     const out = await runPass('verify', ctx(whole))
     expect(out).toMatchObject({ ok: true, bundle: { version: 'v1', stepId: 's1' } })
     expect(call()[1]).toMatchObject({ model: modelForJob('judge'), fallbackModel: modelForJob('plan') })
+    // Nor the judge: a station judged by a weaker model is worse than one served live.
+    expect((call()[1] as { maxCandidates?: number }).maxCandidates).toBeGreaterThan(0)
     expect((call()[1] as { maxTokens: number }).maxTokens).toBeLessThanOrEqual(400)
   })
 })
