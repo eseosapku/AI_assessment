@@ -71,7 +71,12 @@ export function artFaults(action: unknown): string[] {
     // A diagram or a situation's picture shows many things: matched on what it
     // shows as well as its name ("plant cell -- chloroplasts" on a leaf-cell card).
     if (spec.pattern === 'scenario') shows(payload.imageUrl, `${typeof payload.situation === 'string' ? payload.situation : ''} ${prompt}`, 'the situation')
-    if (spec.pattern === 'label') shows((payload.image as { imageUrl?: unknown } | undefined)?.imageUrl, prompt, 'what is to be labelled')
+    if (spec.pattern === 'label') {
+      const before = out.length
+      shows((payload.image as { imageUrl?: unknown } | undefined)?.imageUrl, prompt, 'what is to be labelled')
+      // A labelling card is nothing without its diagram: if the catalogue has none, it is the wrong card.
+      if (out.length > before) out[out.length - 1] += ' -- the catalogue has no diagram of it, so use a different apparatus, or a predict item'
+    }
   }
   if (a.type === 'build_material') {
     for (const p of (Array.isArray(spec.pieces) ? spec.pieces : []) as { label?: unknown; art?: unknown }[]) {

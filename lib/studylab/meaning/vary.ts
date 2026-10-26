@@ -7,6 +7,9 @@ const MAX_SAMPLES = 200
 /** A bar that moves less than this share of its height shows nothing. */
 const MIN_SPAN = 0.05
 
+/** How a curve with a ceiling, a floor or a peak is written in the expression language. */
+const CURVES = 'no ?: and no comparisons -- a ceiling is min(x / 250, 20), a floor max(0, ...), a peak max(0, 100 - abs(t - 40) * 4)'
+
 const said = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, ''))
 
 /** The slider positions a card is tried at: min, max and evenly between, on the slider's own steps. */
@@ -45,7 +48,7 @@ export function varyFaults(payload: VaryPayload): string[] {
   if (m.kind === 'bars') {
     for (const bar of m.bars) {
       const s = spread(across(payload, bar.expr, at))
-      if (!s) out.push(`the bar "${bar.label}" cannot be worked out from the slider: write "${bar.expr}" with only the slider's id "${payload.variable.id}", numbers, + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round`)
+      if (!s) out.push(`the bar "${bar.label}" cannot be worked out from the slider: write "${bar.expr}" with only the slider's id "${payload.variable.id}", numbers, + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round -- ${CURVES}`)
       else if (s.hi === s.lo) out.push(`the bar "${bar.label}" reads ${said(s.lo)} at every slider position: moving the slider changes nothing`)
       else if (s.lo >= bar.max) out.push(`the bar "${bar.label}" is full at every slider position (its max is ${said(bar.max)})`)
       else if (s.hi <= 0) out.push(`the bar "${bar.label}" is empty at every slider position`)
@@ -70,7 +73,7 @@ export function varyFaults(payload: VaryPayload): string[] {
   const reading = across(payload, t.expr, at)
   const near = (v: number | null) => v !== null && Math.abs(v - t.value) <= Math.max(t.tolerance, 0)
   const s = spread(reading)
-  if (!s) out.push(`the target's reading "${t.expr}" cannot be worked out: write it with only the slider's id "${payload.variable.id}" and numbers`)
+  if (!s) out.push(`the target's reading "${t.expr}" cannot be worked out: write it with only the slider's id "${payload.variable.id}" and numbers -- ${CURVES}`)
   else if (s.hi === s.lo) out.push(`the target's reading "${t.expr}" does not change as the slider moves`)
   else if (!reading.some(near)) out.push(`no slider position reaches the target (${t.expr} = ${said(t.value)} ± ${said(t.tolerance)}; it runs ${said(s.lo)} to ${said(s.hi)})`)
   else if (near(reading[0])) out.push(`the target is met at the slider's start, so the card is solved before the slider moves`)

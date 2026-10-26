@@ -2198,7 +2198,8 @@ APPARATUS — "vary" — isolates "magnitude", never "consequence" (move ONE sli
   crosses the fluid's), or "plot" ({"fn","xRange":[lo,hi],"yRange":[lo,hi]},
   where the axis variable is "x").
   EXPRESSIONS may use ONLY the declared variable id (and "x" in a plot), numbers,
-  + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round floor ceil.
+  + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round floor ceil --
+  no ?: and no comparisons -- a ceiling is min(x / 250, 20), a floor max(0, ...), a peak max(0, 100 - abs(t - 40) * 4).
   Anything else is rejected and that readout is dropped.
   "max" must be greater than "min", "step" greater than 0, and
   "success.tolerance" at least half of "step" and NEVER 0 — the slider only
