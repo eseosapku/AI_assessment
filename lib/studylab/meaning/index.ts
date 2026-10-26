@@ -4,6 +4,7 @@ import { varyFaults } from './vary'
 import { startStateFaults } from './startState'
 import { selfAnswerFaults } from './selfAnswer'
 import { artFaults } from './art'
+import { getEngine } from '../engines/registry'
 
 export { varyFaults, startStateFaults, selfAnswerFaults, artFaults }
 
@@ -23,6 +24,13 @@ export function meaningFaults(action: unknown): string[] {
     } catch {
       out.push('the slider card cannot be worked out')
     }
+  }
+  if (a.type === 'createActivity' && a.spec?.pattern === 'scene') {
+    // A scene's engine knows what would make its config teach nothing.
+    const p = (a.spec.payload ?? {}) as { engine?: unknown; config?: unknown }
+    const engine = getEngine(p.engine)
+    const config = engine?.parse(p.config)
+    out.push(...(engine && config ? engine.faults(config) : ["the scene's engine or config cannot be read"]))
   }
   out.push(...startStateFaults(action), ...selfAnswerFaults(action), ...artFaults(action))
   return out

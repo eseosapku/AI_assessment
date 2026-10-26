@@ -3,7 +3,7 @@ import type { ActivitySpec, SuccessRule } from './types'
 import { getPatternModule } from './registry'
 
 const SUCCESS_KINDS = new Set([
-  'exactSet', 'exactOrder', 'binAssignment', 'numericWithin', 'pairing', 'allSubgoals',
+  'exactSet', 'exactOrder', 'binAssignment', 'numericWithin', 'pairing', 'allSubgoals', 'scene',
 ])
 
 function isSuccessRule(r: unknown): r is SuccessRule {
@@ -21,6 +21,8 @@ function isSuccessRule(r: unknown): r is SuccessRule {
       return Array.isArray(x.pairs) && x.pairs.every((p: unknown) => Array.isArray(p) && p.length === 2)
     case 'allSubgoals':
       return Array.isArray(x.subgoals) && x.subgoals.length > 0 && x.subgoals.every(isSuccessRule)
+    case 'scene':
+      return true
     default:
       return false
   }

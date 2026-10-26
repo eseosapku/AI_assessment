@@ -9,6 +9,7 @@ import { varyModule } from './patterns/vary'
 import { balanceModule } from './patterns/balance'
 import { scenarioModule } from './patterns/scenario'
 import { composeModule } from './patterns/compose'
+import { sceneModule } from './patterns/scene'
 
 // A Map, NOT an object literal: `pattern` originates from model output, and
 // indexing an object literal would reach Object.prototype — so
@@ -24,6 +25,7 @@ const MODULES = new Map<ActivityPattern, PatternModule<any, any>>([
   ['balance', balanceModule],
   ['scenario', scenarioModule],
   ['compose', composeModule],
+  ['scene', sceneModule],
 ])
 
 export function getPatternModule(p: ActivityPattern): PatternModule<any, any> | null {

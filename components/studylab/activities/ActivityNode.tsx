@@ -14,6 +14,7 @@ import { LabelActivity } from './LabelActivity'
 import { VaryActivity } from './VaryActivity'
 import { BalanceActivity } from './BalanceActivity'
 import { ScenarioActivity } from './ScenarioActivity'
+import { SceneActivity } from './SceneActivity'
 import { ComposeActivity } from './ComposeActivity'
 
 /** Outcomes travel to Workspace via a DOM event so the canvas stays decoupled. */
@@ -168,6 +169,10 @@ export function ActivityNode({ id, data }: NodeProps) {
           initialState={initialState}
         />
       )
+    }
+    case 'scene': {
+      // A purpose-built engine: it draws and marks its own idea.
+      return <SceneActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
     }
     case 'compose': {
       // Drawn as the lesson wrote it, not as a material: converted, it dropped the target, its formula, the parts' pictures and valences, and the building itself.

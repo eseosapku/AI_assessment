@@ -1,0 +1,74 @@
+// lib/studylab/engines/contract.test.ts
+import { describe, it, expect, vi } from 'vitest'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { ReactFlowProvider } from '@xyflow/react'
+import { registerEngine, getEngine, sceneCatalogue } from './registry'
+import type { SceneEngine } from './types'
+import { validateSpec } from '../activities/validate'
+import { getPatternModule } from '../activities/registry'
+import { dimensionsOf } from '../activities/dimensions'
+import { checkIntent } from '../activities/intent'
+import { meaningFaults } from '../meaning'
+import { ActivityNode } from '@/components/studylab/activities/ActivityNode'
+
+vi.spyOn(console, 'error').mockImplementation(() => {})
+
+/**
+ * A scene is an activity whose engine computes what the learner sees and
+ * marks it: the tutor names a few fields, never the mechanics.
+ */
+const stub: SceneEngine<{ target: number }, { at: number }> = {
+  id: 'stub',
+  covers: ['testing the contract'],
+  isolates: 'position',
+  parse: (raw) => (raw && typeof (raw as { target?: unknown }).target === 'number' ? { target: (raw as { target: number }).target } : null),
+  faults: (c) => (c.target === 0 ? ['the target is where it starts'] : []),
+  initial: () => ({ at: 0 }),
+  check: (c, s) => ({ ok: s.at === c.target, wrongIds: [] }),
+  solve: (c) => ({ at: c.target }),
+  View: ({ state }) => createElement('p', { 'data-stub': true }, `at ${state.at}`),
+  prompt: 'stub -- a test engine: { "target": <number> }',
+}
+registerEngine(stub as SceneEngine<unknown, unknown>)
+
+const spec = (config: unknown, engine = 'stub') => ({ pattern: 'scene', prompt: 'Move it to 3.', payload: { engine, config }, success: { kind: 'scene' } })
+
+describe('the scene pattern', () => {
+  it('is a valid activity when its engine can read its config', () => {
+    expect(validateSpec(spec({ target: 3 }))).toBe(true)
+    expect(validateSpec(spec({ target: 'three' }))).toBe(false)
+    expect(validateSpec(spec({ target: 3 }, 'no-such-engine'))).toBe(false)
+  })
+
+  it('is marked by its engine, from its engine’s start', () => {
+    const mod = getPatternModule('scene')!
+    const s = spec({ target: 3 })
+    expect(mod.initialWork(s.payload as never)).toEqual({ at: 0 })
+    expect(mod.validate(s.payload as never, { at: 3 }, s.success as never).ok).toBe(true)
+    expect(mod.validate(s.payload as never, { at: 2 }, s.success as never).ok).toBe(false)
+  })
+
+  it('isolates what its engine isolates, so a matching intent passes', () => {
+    expect(dimensionsOf(spec({ target: 3 }) as never)).toEqual(['position'])
+    expect(checkIntent({ goal: 'g', isolates: 'position', apparatus: 'scene:stub', why: 'w' }, spec({ target: 3 }) as never).ok).toBe(true)
+  })
+
+  it('is refused by the meaning gates for whatever its engine finds', () => {
+    expect(meaningFaults({ type: 'createActivity', id: 'm1', spec: spec({ target: 0 }) })).toContain('the target is where it starts')
+  })
+
+  it('draws its engine’s view under the prompt', () => {
+    const html = renderToStaticMarkup(createElement(ReactFlowProvider, null, createElement(ActivityNode as never, { id: 'n1', data: { spec: spec({ target: 3 }) } } as never)))
+    expect(html).toContain('Move it to 3.')
+    expect(html).toContain('data-stub')
+  })
+})
+
+describe('the registry', () => {
+  it('finds an engine by id, and lists every engine for the tutor', () => {
+    expect(getEngine('stub')?.id).toBe('stub')
+    expect(getEngine('nothing')).toBeNull()
+    expect(sceneCatalogue()).toContain('stub -- a test engine')
+  })
+})

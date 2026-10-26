@@ -5,6 +5,8 @@
 export type ActivityPattern =
   | 'threePeriod' | 'sort' | 'label' | 'sequence' | 'vary'
   | 'balance' | 'compare' | 'scenario' | 'compose'
+  /** A purpose-built engine (lib/studylab/scenes): the engine marks it. */
+  | 'scene'
 
 export type ActivityStatus = 'untouched' | 'in_progress' | 'solved'
 
@@ -16,6 +18,8 @@ export type SuccessRule =
   | { kind: 'numericWithin'; target: number; tolerance: number }
   | { kind: 'pairing'; pairs: readonly (readonly [string, string])[] }
   | { kind: 'allSubgoals'; subgoals: readonly SuccessRule[] }
+  /** A scene is marked by its engine's own check. */
+  | { kind: 'scene' }
 
 /** Declarative visual model for vary/balance. Closed union — no code execution. */
 export type ModelSpec =
@@ -102,7 +106,13 @@ export interface ComposePayload {
 
 export type ActivityPayload =
   | ThreePeriodPayload | SortPayload | LabelPayload | SequencePayload | VaryPayload
-  | BalancePayload | ComparePayload | ScenarioPayload | ComposePayload
+  | BalancePayload | ComparePayload | ScenarioPayload | ComposePayload | ScenePayload
+
+/** A scene: which engine, and the few fields the tutor names for it. */
+export interface ScenePayload {
+  engine: string
+  config: unknown
+}
 
 export interface ActivitySpec {
   pattern: ActivityPattern

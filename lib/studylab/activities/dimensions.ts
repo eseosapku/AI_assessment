@@ -1,5 +1,6 @@
 // lib/studylab/activities/dimensions.ts
 import type { ActivitySpec } from './types'
+import { getEngine } from '../engines/registry'
 
 /**
  * What a material can vary, as a closed vocabulary.
@@ -73,6 +74,11 @@ export function dimensionsOf(spec: ActivitySpec): Dimension[] {
       if (p.mode === 'equation') return ['structure']
       const pool = [...list(p.pool), ...list(p.left), ...list(p.right)]
       return spread(pool, 'weight') >= 2 ? ['quantity'] : []
+    }
+    case 'scene': {
+      // The engine says what its controls vary.
+      const engine = getEngine(p.engine)
+      return engine && engine.parse(p.config) ? [engine.isolates] : []
     }
     default:
       return []
