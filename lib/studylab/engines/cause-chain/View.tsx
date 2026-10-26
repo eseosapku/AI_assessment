@@ -2,33 +2,43 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import type { SceneViewProps } from '../types'
 import type { CauseChainConfig, CauseChainState, Effect, Link, LinkStatus } from './config'
-import { effectChoices, judge, labelOf, learnerLinks, propagation, ringOrder, sentence, withLink, withoutLink } from './config'
+import {
+  CARD_HEIGHT, CARD_PAD_X, cardWidth, LABEL_LINE, LABEL_SIZE, effectChoices, judge, labelOf, learnerLinks, propagation, ringOrder,
+  sentence, withLink, withoutLink,
+} from './config'
 
 // The ring, in its own units: the cards sit round an ellipse, the start on the left.
 const W = 360
-const CARD_W = 100
-const CARD_H = 52
-const RX = W / 2 - CARD_W / 2 - 2
 const PAD = 6
 /** How tall the ring is for each number of cards: enough that neighbours never touch (pinned by the tests). */
 const RY: Record<number, number> = { 3: 80, 4: 100, 5: 112, 6: 124, 7: 140 }
+/**
+ * Where seven cards sit round the ring, in degrees clockwise from the left:
+ * the two at the top (and the two at the bottom) are eased a little apart from
+ * even spacing, so cards wide enough for "Unemployment" at 12px clear each
+ * other. Fewer cards are evenly spaced.
+ */
+const SPACING: Record<number, number[]> = { 7: [0, 50, 106, 154.3, 205.7, 254, 310] }
 /** The space between a card's edge and an arrow's end. */
 const GAP = 3
 /** How long each step of the chain takes to light once it is marked. */
 const STEP_MS = 650
 
 type Pt = { x: number; y: number }
+type Card = { w: number; h: number }
 
 /** The ring's height, its centre, and where each card's centre sits, clockwise from the left. */
-export function ringGeometry(n: number): { w: number; h: number; centre: Pt; slots: Pt[]; card: { w: number; h: number } } {
+export function ringGeometry(n: number): { w: number; h: number; centre: Pt; slots: Pt[]; card: Card } {
+  const card = { w: cardWidth(n), h: CARD_HEIGHT }
+  const rx = W / 2 - card.w / 2 - 2
   const ry = RY[n] ?? 140
-  const angles = Array.from({ length: n }, (_, k) => (2 * Math.PI * k) / n)
+  const angles = (SPACING[n] ?? Array.from({ length: n }, (_, k) => (360 * k) / n)).map((d) => (d * Math.PI) / 180)
   const reach = Math.max(0, ...angles.map((t) => Math.abs(Math.sin(t)))) * ry
-  const h = Math.round(2 * (reach + CARD_H / 2 + PAD))
+  const h = Math.round(2 * (reach + card.h / 2 + PAD))
   const centre = { x: W / 2, y: h / 2 }
   return {
-    w: W, h, centre, card: { w: CARD_W, h: CARD_H },
-    slots: angles.map((t) => ({ x: centre.x - RX * Math.cos(t), y: centre.y - ry * Math.sin(t) })),
+    w: W, h, centre, card,
+    slots: angles.map((t) => ({ x: centre.x - rx * Math.cos(t), y: centre.y - ry * Math.sin(t) })),
   }
 }
 
@@ -38,9 +48,9 @@ const unit = (x: number, y: number): Pt => {
 }
 
 /** Where a ray from a card's centre along `d` leaves the card, just outside it. */
-function border(c: Pt, d: Pt): Pt {
-  const sx = Math.abs(d.x) < 1e-6 ? Infinity : (CARD_W / 2 + GAP) / Math.abs(d.x)
-  const sy = Math.abs(d.y) < 1e-6 ? Infinity : (CARD_H / 2 + GAP) / Math.abs(d.y)
+function border(c: Pt, d: Pt, card: Card): Pt {
+  const sx = Math.abs(d.x) < 1e-6 ? Infinity : (card.w / 2 + GAP) / Math.abs(d.x)
+  const sy = Math.abs(d.y) < 1e-6 ? Infinity : (card.h / 2 + GAP) / Math.abs(d.y)
   const s = Math.min(sx, sy)
   return { x: c.x + d.x * s, y: c.y + d.y * s }
 }
@@ -53,7 +63,7 @@ const f = (v: number) => v.toFixed(1)
  * of the neighbours, and arrows to different cards leave at different places.
  * Returns the line, its head, and where the effect's sign sits on it.
  */
-export function arrowGeometry(a: Pt, b: Pt, centre: Pt): { d: string; head: string; badge: Pt; curve: [Pt, Pt, Pt, Pt] } {
+export function arrowGeometry(a: Pt, b: Pt, centre: Pt, card: Card): { d: string; head: string; badge: Pt; curve: [Pt, Pt, Pt, Pt] } {
   const ab = unit(b.x - a.x, b.y - a.y)
   const ca = unit(centre.x - a.x, centre.y - a.y)
   const cb = unit(centre.x - b.x, centre.y - b.y)
@@ -61,8 +71,8 @@ export function arrowGeometry(a: Pt, b: Pt, centre: Pt): { d: string; head: stri
   let db = unit(cb.x - ab.x, cb.y - ab.y)
   if (da.x === 0 && da.y === 0) da = ab
   if (db.x === 0 && db.y === 0) db = { x: -ab.x, y: -ab.y }
-  const p0 = border(a, da)
-  const p3 = border(b, db)
+  const p0 = border(a, da, card)
+  const p3 = border(b, db, card)
   const k = Math.min(56, Math.max(18, Math.hypot(p3.x - p0.x, p3.y - p0.y) * 0.35))
   const p1 = { x: p0.x + da.x * k, y: p0.y + da.y * k }
   const p2 = { x: p3.x + db.x * k, y: p3.y + db.y * k }
@@ -253,7 +263,7 @@ export function CauseChainView({ config, state, setState, marked, reduced, locke
             const a = at.get(link.from)
             const b = at.get(link.to)
             if (!a || !b) return null
-            const g = arrowGeometry(a, b, geo.centre)
+            const g = arrowGeometry(a, b, geo.centre, geo.card)
             const s = look(status, step)
             return (
               <g key={keyOf(link)} data-link={keyOf(link)} opacity={s.opacity} style={{ transition: fade }}>
@@ -284,23 +294,30 @@ export function CauseChainView({ config, state, setState, marked, reduced, locke
               aria-label={`${label(id)}${id === start ? ', the start' : ''}${on ? ', reached from the start' : ''}`}
               onClick={() => tap(id)}
               onKeyDown={(e) => onCardKey(e, i)}
-              className="nodrag absolute flex touch-manipulation items-center justify-center overflow-hidden rounded-xl px-1 text-center text-[12px] font-bold leading-[14px] text-ss-ink disabled:cursor-default"
+              data-size={LABEL_SIZE}
+              className="nodrag absolute flex touch-manipulation items-center justify-center overflow-hidden rounded-xl text-center font-bold text-ss-ink disabled:cursor-default"
               style={{
-                left: pct(c.x - CARD_W / 2, geo.w),
-                top: pct(c.y - CARD_H / 2, geo.h),
-                width: pct(CARD_W, geo.w),
-                height: pct(CARD_H, geo.h),
+                left: pct(c.x - geo.card.w / 2, geo.w),
+                top: pct(c.y - geo.card.h / 2, geo.h),
+                width: pct(geo.card.w, geo.w),
+                height: pct(geo.card.h, geo.h),
+                // Lines break only between words; a label that cannot fit whole at 12px is refused by faults().
+                paddingLeft: CARD_PAD_X,
+                paddingRight: CARD_PAD_X,
+                fontSize: LABEL_SIZE,
+                lineHeight: `${LABEL_LINE}px`,
                 borderStyle: 'solid',
                 borderWidth: id === start ? 2 : 1.5,
                 borderColor: on ? 'var(--ss-good)' : id === start || chosen ? 'var(--subject)' : 'var(--ss-slate)',
                 backgroundColor: on ? 'color-mix(in srgb, var(--ss-good) 14%, var(--ss-panel))' : chosen ? 'var(--subject-soft)' : 'var(--ss-panel)',
                 boxShadow: ringColour ? `0 0 0 2px ${ringColour}` : undefined,
                 transition: reduced ? undefined : 'background-color 250ms, border-color 250ms, box-shadow 250ms',
-                hyphens: 'auto',
-                overflowWrap: 'break-word',
+                hyphens: 'manual',
+                overflowWrap: 'normal',
+                wordBreak: 'normal',
               }}
             >
-              <span className="line-clamp-3">{label(id)}</span>
+              <span>{label(id)}</span>
             </button>
           )
         })}
@@ -309,7 +326,7 @@ export function CauseChainView({ config, state, setState, marked, reduced, locke
             aria-hidden="true"
             className="pointer-events-none absolute rounded-full border bg-ss-panel px-1.5 text-[12px] font-extrabold uppercase leading-[16px] tracking-wide text-ss-subject-ink"
             // Above the card, clear of its label; nothing leads into the start, so no arrow comes this way.
-            style={{ left: pct(at.get(start)!.x - CARD_W / 2 + 4, geo.w), top: `calc(${pct(at.get(start)!.y - CARD_H / 2, geo.h)} - 20px)`, borderColor: 'var(--subject)' }}
+            style={{ left: pct(at.get(start)!.x - geo.card.w / 2 + 4, geo.w), top: `calc(${pct(at.get(start)!.y - geo.card.h / 2, geo.h)} - 20px)`, borderColor: 'var(--subject)' }}
           >
             Start
           </span>

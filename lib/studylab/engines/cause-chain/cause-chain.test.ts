@@ -5,7 +5,7 @@ import { ReactFlowProvider } from '@xyflow/react'
 // The engine first: it registers itself, and its view comes with it.
 import {
   causeChainEngine as engine, judge, propagation, ringOrder, readsInOrder, statedLinks, learnerLinks,
-  withLink, withoutLink, effectChoices, polarity, promptFaults,
+  withLink, withoutLink, effectChoices, polarity, promptFaults, labelFit, labelRoom, textWidth, LABEL_SIZE, LIMITS,
   type CauseChainConfig, type CauseChainState, type Effect, type Link,
 } from './config'
 import { CauseChainView, ringGeometry, arrowGeometry } from './View'
@@ -310,7 +310,7 @@ describe('where the cards go', () => {
       const g = ringGeometry(n)
       g.slots.forEach((a, i) => g.slots.forEach((b, j) => {
         if (i === j) return
-        const { curve: [p0, p1, p2, p3], badge } = arrowGeometry(a, b, g.centre)
+        const { curve: [p0, p1, p2, p3], badge } = arrowGeometry(a, b, g.centre, g.card)
         g.slots.forEach((c, k) => {
           if (inside(badge, c, g.card.w, g.card.h, 9)) bad.push(`${n} cards, ${i}→${j}: the sign is under card ${k}`)
           if (k === i || k === j) return
@@ -330,6 +330,97 @@ describe('where the cards go', () => {
       }))
     }
     expect(bad).toEqual([])
+  })
+})
+
+// The scene eval's card that drew "Unemploymen / t rises" (2026-10-26): the Treaty's consequences.
+const VERSAILLES = {
+  task: {
+    kind: 'build-chain', start: 'treaty',
+    factors: [
+      { id: 'treaty', label: 'Treaty of Versailles signed' },
+      { id: 'pay', label: 'Germany ordered to pay' },
+      { id: 'economy', label: 'German economy struggles' },
+      { id: 'unemployment', label: 'Unemployment rises' },
+      { id: 'extremism', label: 'Support for extremist parties' },
+    ],
+    links: [
+      { from: 'treaty', to: 'pay', effect: 'causes' }, { from: 'pay', to: 'economy', effect: 'causes' },
+      { from: 'economy', to: 'unemployment', effect: 'causes' }, { from: 'unemployment', to: 'extremism', effect: 'causes' },
+    ],
+  },
+}
+
+describe('a factor’s label on its card', () => {
+  const whole = (label: string, n: number) => {
+    const fit = labelFit(label, n)
+    if (!fit) return false
+    // Rejoined, the lines are the label: no word was split; and every line fits the card at 12px.
+    return fit.lines.join(' ') === label.trim().replace(/\s+/g, ' ') && fit.lines.every((l) => textWidth(l, 12) <= labelRoom(n)) && fit.lines.length <= 3
+  }
+  /** A chain of n factors with this label first. */
+  const chainWith = (label: string, n: number) => {
+    const factors = [label, ...Array.from({ length: n - 1 }, (_, i) => `Factor ${i}`)]
+    return read({ task: { start: factors[0], factors, links: factors.slice(1).map((f, i) => ({ from: factors[i], to: f })) } })
+  }
+  const refusedFor = (label: string, n: number) => engine.faults(chainWith(label, n)).filter((f) => f.startsWith(`"${label}"`))
+
+  it('measures the board’s font as Chrome draws it', () => {
+    // Plus Jakarta Sans 700 at 12px, by canvas measureText: "Unemployment" 90.5px, "Deforestation" 81.4px.
+    expect(textWidth('Unemployment', 12)).toBeCloseTo(90.4, 0)
+    expect(textWidth('Deforestation', 12)).toBeCloseTo(81.4, 0)
+  })
+
+  it('sets every label at 12px, never smaller, every word whole on its line', () => {
+    expect(LABEL_SIZE).toBe(12)
+    // The eval's card: "Unemployment" whole at 12px, on the widest cards and on a ring of seven.
+    expect(labelFit('Unemployment rises', 5)).toEqual({ lines: ['Unemployment', 'rises'] })
+    expect(labelFit('Unemployment rises', 7)).toEqual({ lines: ['Unemployment', 'rises'] })
+    expect(labelFit('Assassination of Franz Ferdinand', 6)).toEqual({ lines: ['Assassination of', 'Franz Ferdinand'] })
+    expect(labelFit('Assassination of Franz Ferdinand', 7)).toEqual({ lines: ['Assassination', 'of Franz', 'Ferdinand'] })
+    expect(labelFit('Counterurbanisation', 3)).toBeNull()
+  })
+
+  it('fits the real labels at 12px on six factors or fewer, and refuses in words what cannot fit whole', () => {
+    const real = [
+      'Assassination of Franz Ferdinand', 'Support for extremist parties', 'Germany declares war on Russia',
+      'Industrialisation', 'Desertification spreads', 'Hyperinflation in Germany', 'Unemployment rises',
+      'Rural-urban migration increases', 'Interception by leaves', 'Deforestation', 'Moving out of cities', 'Treaty of Versailles signed',
+    ]
+    // Two words a syllabus uses are wider than a card at 12px: they must be said in shorter words.
+    const tooWide = ['Counterurbanisation', 'Telecommunications improve']
+    const crowded = ['Mmmm mmmm mmmm mmmm mmmm mmmm mm', 'WWWWW WWWWW WWWWW WWWWW WWWWW WW']
+    for (const label of [...real, ...tooWide, ...crowded]) expect(label.length, label).toBeLessThanOrEqual(LIMITS.maxLabel)
+    for (let n = 3; n <= 7; n++) {
+      // On seven factors the cards are narrower: "Industrialisation" alone no longer fits, and is told to use fewer.
+      for (const label of real) {
+        const fits = n < 7 || label !== 'Industrialisation'
+        expect(whole(label, n), `${label} on ${n}`).toBe(fits)
+        if (fits) expect(refusedFor(label, n), `${label} on ${n}`).toEqual([])
+        else expect(refusedFor(label, n).join()).toMatch(/\("Industrialisation"\): say it in shorter words, as "Moving out of cities" says "Counterurbanisation", or use six factors or fewer, whose cards are wider\./)
+      }
+      for (const label of tooWide) {
+        expect(whole(label, n), label).toBe(false)
+        expect(refusedFor(label, n).join(), `${label} on ${n}`).toMatch(/has a word too wide for its card at a readable size .*: say it in shorter words, as "Moving out of cities" says "Counterurbanisation"\.$/)
+      }
+      for (const label of crowded) expect(refusedFor(label, n).join(), `${label} on ${n}`).toMatch(/needs more than 3 lines on its card: shorten it/)
+    }
+  })
+
+  it('is drawn breaking only between words: no break-all, no anywhere, no break-word', () => {
+    const html = renderToStaticMarkup(createElement(ReactFlowProvider, null, createElement(ActivityNode as never, {
+      id: 'n1', data: { spec: { pattern: 'scene', prompt: 'The Treaty of Versailles is signed in 1919. Link what follows.', payload: { engine: 'cause-chain', config: VERSAILLES }, success: { kind: 'scene' } } },
+    } as never)))
+    const cards = html.match(/<button[^>]*data-size="[^"]*"[^>]*>/g) ?? []
+    expect(cards).toHaveLength(VERSAILLES.task.factors.length)
+    for (const card of cards) {
+      expect(card).toMatch(/hyphens:manual/)
+      expect(card).toMatch(/overflow-wrap:normal/)
+      expect(card).toMatch(/word-break:normal/)
+      expect(card).not.toMatch(/break-all|anywhere|break-word|line-clamp/)
+    }
+    // Every card, "Unemployment rises" among them, is set at 12px.
+    for (const card of cards) expect(card).toMatch(/data-size="12"[^>]*font-size:12px;line-height:14px/)
   })
 })
 

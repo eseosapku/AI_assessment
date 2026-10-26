@@ -374,6 +374,77 @@ export function ringOrder(config: CauseChainConfig): string[] {
   return ring
 }
 
+// ── How a label fits its card ───────────────────────────────────────────────
+
+/** A card's width in a ring of n, in the ring's 360-wide units: seven cards leave room for narrower ones only. */
+export const cardWidth = (n: number) => (n >= 7 ? 104 : 112)
+export const CARD_HEIGHT = 52
+/** A card's padding either side of its label, px. */
+export const CARD_PAD_X = 3
+/**
+ * A card's label is set at 12px on 14px lines, and never smaller: text on a
+ * learning card must stay readable. A label that cannot fit whole at that size
+ * is refused (a fault), never shrunk and never broken inside a word.
+ */
+export const LABEL_SIZE = 12
+export const LABEL_LINE = 14
+/** As many lines as the card holds inside its border. */
+export const LABEL_LINES = Math.floor((CARD_HEIGHT - 4) / LABEL_LINE)
+/**
+ * The width a label has on a card in a ring of n: the card less a 2px border
+ * and the padding each side, and 1.5px for the widths' rounding and the scene
+ * being drawn a little under 360 wide.
+ */
+export const labelRoom = (n: number) => cardWidth(n) - (2 * 2 + 2 * CARD_PAD_X + 1.5)
+
+/**
+ * Plus Jakarta Sans at weight 700 (the board's font, as the cards' `font-bold`):
+ * each character's advance in ems, measured in Chrome with canvas measureText
+ * and rounded to hundredths. Kerning only narrows a word.
+ */
+const ADVANCE: Record<string, number> = {
+  ' ': 0.18, A: 0.71, B: 0.69, C: 0.77, D: 0.74, E: 0.6, F: 0.59, G: 0.81, H: 0.73, I: 0.28, J: 0.39, K: 0.68, L: 0.54, M: 0.89,
+  N: 0.74, O: 0.88, P: 0.65, Q: 0.88, R: 0.66, S: 0.65, T: 0.54, U: 0.72, V: 0.7, W: 1.02, X: 0.66, Y: 0.66, Z: 0.57,
+  a: 0.58, b: 0.67, c: 0.61, d: 0.67, e: 0.61, f: 0.41, g: 0.65, h: 0.59, i: 0.25, j: 0.25, k: 0.58, l: 0.25, m: 0.92,
+  n: 0.59, o: 0.65, p: 0.67, q: 0.67, r: 0.37, s: 0.51, t: 0.41, u: 0.59, v: 0.57, w: 0.88, x: 0.56, y: 0.59, z: 0.48,
+  0: 0.71, 1: 0.4, 2: 0.6, 3: 0.61, 4: 0.65, 5: 0.62, 6: 0.6, 7: 0.56, 8: 0.63, 9: 0.6,
+  '-': 0.6, "'": 0.31, '’': 0.36, ',': 0.36, '.': 0.38, '(': 0.38, ')': 0.38, '&': 0.79, '/': 0.51, ':': 0.38, ';': 0.4,
+  '!': 0.37, '?': 0.58, '%': 1.05, '—': 0.99, '–': 0.66,
+  é: 0.61, è: 0.61, ê: 0.61, ë: 0.61, à: 0.58, â: 0.58, ä: 0.58, ô: 0.65, ö: 0.65, ü: 0.59, ç: 0.61, ñ: 0.59, í: 0.23, ó: 0.65, ú: 0.59,
+}
+/** Anything unmeasured counts as wide as the widest measured character. */
+const UNMEASURED = 1.05
+
+/** How wide a run of text is at a size, px. */
+export function textWidth(s: string, px: number): number {
+  let em = 0
+  for (const ch of s) em += ADVANCE[ch] ?? UNMEASURED
+  return em * px
+}
+
+/** The words of a label too wide for a card's line at 12px, in a ring of n. */
+export function wideWords(label: string, n: number): string[] {
+  return label.trim().split(/\s+/).filter((w) => textWidth(w, LABEL_SIZE) > labelRoom(n))
+}
+
+/**
+ * How a label sits on its card at 12px: its lines, broken only between words,
+ * the way the browser lays them. Null when it cannot fit whole: a word wider
+ * than the card, or more lines than the card holds.
+ */
+export function labelFit(label: string, n: number): { lines: string[] } | null {
+  const room = labelRoom(n)
+  const words = label.trim().split(/\s+/).filter(Boolean)
+  if (wideWords(label, n).length) return null
+  const lines: string[] = []
+  for (const w of words) {
+    const last = lines[lines.length - 1]
+    if (last !== undefined && textWidth(`${last} ${w}`, LABEL_SIZE) <= room) lines[lines.length - 1] = `${last} ${w}`
+    else lines.push(w)
+  }
+  return lines.length <= LABEL_LINES ? { lines } : null
+}
+
 // ── The card's prompt ───────────────────────────────────────────────────────
 
 /** Words that carry a cause on to its consequence, between the two ("drought causes crop failure"). */
@@ -471,12 +542,21 @@ export const causeChainEngine: SceneEngine<CauseChainConfig, CauseChainState> & 
     if (factors.length > LIMITS.maxFactors) out.push(`At most ${LIMITS.maxFactors} factors fit on the card; this one has ${factors.length}: keep the ones that carry the chain.`)
     const ids = new Set<string>()
     const texts = new Set<string>()
+    // The cards are as wide as the ring the factors make allows.
+    const ring = Math.min(LIMITS.maxFactors, Math.max(LIMITS.minFactors, name.size))
     for (const f of factors) {
       if (ids.has(f.id)) out.push(`Two factors share the id "${f.id}": give each factor its own id.`)
       else if (texts.has(f.label.toLowerCase())) out.push(`Two factors are both labelled "${f.label}": give each a label of its own.`)
       ids.add(f.id)
       texts.add(f.label.toLowerCase())
       if (f.label.length > LIMITS.maxLabel) out.push(`"${f.label}" is ${f.label.length} characters, too long for its card: keep each label to ${LIMITS.maxLabel}, a short noun phrase.`)
+      else if (!labelFit(f.label, ring)) {
+        const wide = wideWords(f.label, ring)
+        const wider = ring >= 7 && labelFit(f.label, 6) ? ', or use six factors or fewer, whose cards are wider' : ''
+        out.push(wide.length
+          ? `"${f.label}" has a word too wide for its card at a readable size (${wide.map((w) => `"${w}"`).join(', ')}): say it in shorter words, as "Moving out of cities" says "Counterurbanisation"${wider}.`
+          : `"${f.label}" needs more than ${LABEL_LINES} lines on its card: shorten it to a few short words${wider}.`)
+      }
     }
     if (!ids.has(start)) out.push(`The start "${start}" is not one of the factors: set "start" to a factor's id.`)
 
@@ -554,7 +634,7 @@ export const causeChainEngine: SceneEngine<CauseChainConfig, CauseChainState> & 
   start so the learner sees the consequences spread. For: causes and consequences in history, knock-on effects in
   geography, chains of effects in economics and social studies.
   config: { "task": { "kind":"build-chain", "start":"<id of the first cause>",
-            "factors": [{ "id":"<short-id>", "label":"<a short noun phrase, at most 32 characters>" }, ...],  -- 3 to 7
+            "factors": [{ "id":"<short-id>", "label":"<a short noun phrase in short words, at most 32 characters>" }, ...],  -- 3 to 7
             "links": [{ "from":"<id>", "to":"<id>", "effect":"<causes | increases | decreases>" }, ...] } }  -- 2 to 8
   - every factor follows from the start along your links; no loops; not every link from the start (a star is not
     a chain); each link once, and never a direct link that a longer path of yours already carries.
