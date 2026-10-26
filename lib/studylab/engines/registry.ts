@@ -26,7 +26,7 @@ const words = (text: string) => text.toLowerCase().split(/[^a-z0-9]+/).filter((w
 const same = (a: string, b: string) => a === b || a + 's' === b || b + 's' === a || (a.length >= 5 && b.length >= 5 && a.slice(0, 5) === b.slice(0, 5))
 
 /** Words any topic might use, which say nothing on their own about its idea ("changes" of state, of shape). */
-const GENERIC = ['chang', 'shape', 'model', 'make', 'making', 'using', 'happen', 'process', 'differen', 'type', 'between', 'effect', 'structur', 'graph', 'reading', 'drawing', 'number', 'simple', 'their', 'work']
+const GENERIC = ['chang', 'shape', 'model', 'make', 'making', 'using', 'happen', 'process', 'differen', 'type', 'between', 'effect', 'structur', 'graph', 'reading', 'drawing', 'number', 'simple', 'their', 'work', 'even', 'safe']
 
 /**
  * The catalogue entries for the tutor's prompts. Given a station, only the

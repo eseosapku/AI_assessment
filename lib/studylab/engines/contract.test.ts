@@ -83,6 +83,11 @@ describe('the scenes a station is for', () => {
     expect(station).toContain('SCENE "particles"')
     expect(station).not.toContain('SCENE "orbit"')
     expect(sceneCatalogue('Equivalent fractions')).toBe('')
+    // A word any topic might use is no sign of the idea: break-even is not 'Odd and even numbers'.
+    await import('./business-finance/config')
+    expect(sceneCatalogue('Odd and even numbers')).not.toContain('SCENE "business-finance"')
+    expect(sceneCatalogue('Staying safe in the lab: lab safety rules')).not.toContain('SCENE "business-finance"')
+    expect(sceneCatalogue('Break-even analysis')).toContain('SCENE "business-finance"')
     // A shared stem is not a shared idea.
     await import('./lab-bench/config')
     expect(sceneCatalogue('Equivalent fractions: making equal fractions')).not.toContain('SCENE "lab-bench"')
