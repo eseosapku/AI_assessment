@@ -38,7 +38,11 @@ function tokenize(src: string): Tok[] | null {
       while (j < src.length && /[a-zA-Z0-9_]/.test(src[j])) j++
       out.push({ t: 'id', v: src.slice(i, j) }); i = j; continue
     }
-    if ('+-*/^(),'.includes(c)) { out.push({ t: 'op', v: c }); i++; continue }
+    if ('+-*/^(),?:'.includes(c)) { out.push({ t: 'op', v: c }); i++; continue }
+    // Comparisons, for piecewise curves: < > <= >= == !=
+    const two = src.slice(i, i + 2)
+    if (two === '<=' || two === '>=' || two === '==' || two === '!=') { out.push({ t: 'op', v: two }); i += 2; continue }
+    if (c === '<' || c === '>') { out.push({ t: 'op', v: c }); i++; continue }
     return null // any other character (., [], =>, etc.) is rejected outright
   }
   return out
@@ -55,6 +59,39 @@ export function evaluateExpr(src: string, vars: Record<string, number>): number 
 
   let failed = false
   const fail = () => { failed = true; return 0 }
+  // Inside the branch of a ?: that is not taken: its arithmetic is parsed but
+  // cannot fail it ("x > 0 ? 1 / x : 0" at x = 0); a broken name still does.
+  let quiet = 0
+
+  /** cond ? a : b, nesting to the right; a comparison is 1 or 0. */
+  function conditional(): number {
+    const c = comparison()
+    if (!eat('?')) return c
+    const take = c !== 0
+    if (!take) quiet++
+    const a = conditional()
+    if (!take) quiet--
+    if (!eat(':')) return fail()
+    if (take) quiet++
+    const b = conditional()
+    if (take) quiet--
+    return take ? a : b
+  }
+  function comparison(): number {
+    const a = expr()
+    const t = peek()
+    if (!t || t.t !== 'op' || !['<', '>', '<=', '>=', '==', '!='].includes(t.v)) return a
+    p++
+    const b = expr()
+    switch (t.v) {
+      case '<': return a < b ? 1 : 0
+      case '>': return a > b ? 1 : 0
+      case '<=': return a <= b ? 1 : 0
+      case '>=': return a >= b ? 1 : 0
+      case '==': return a === b ? 1 : 0
+      default: return a !== b ? 1 : 0
+    }
+  }
 
   // expr := term (('+'|'-') term)*
   function expr(): number {
@@ -71,7 +108,7 @@ export function evaluateExpr(src: string, vars: Record<string, number>): number 
     let v = unary()
     for (;;) {
       if (eat('*')) v *= unary()
-      else if (eat('/')) { const d = unary(); if (d === 0) return fail(); v /= d }
+      else if (eat('/')) { const d = unary(); if (d === 0) return quiet ? 0 : fail(); v /= d }
       else return v
       if (failed) return 0
     }
@@ -104,7 +141,7 @@ export function evaluateExpr(src: string, vars: Record<string, number>): number 
         const args: number[] = []
         if (!eat(')')) {
           for (;;) {
-            args.push(expr())
+            args.push(conditional())
             if (failed) return 0
             if (eat(',')) continue
             if (eat(')')) break
@@ -121,7 +158,7 @@ export function evaluateExpr(src: string, vars: Record<string, number>): number 
       return fail()
     }
     if (eat('(')) {
-      const v = expr()
+      const v = conditional()
       if (!eat(')')) return fail()
       return v
     }
@@ -133,7 +170,7 @@ export function evaluateExpr(src: string, vars: Record<string, number>): number 
   // exception that takes the render down.
   let result: number
   try {
-    result = expr()
+    result = conditional()
   } catch {
     return null
   }

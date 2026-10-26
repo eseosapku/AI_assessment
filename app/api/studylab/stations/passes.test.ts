@@ -240,6 +240,17 @@ describe('runPass: practice_check', () => {
     expect(out.partial!.check!.questions[0]).toMatchObject({ id: 'q1', format: 'order' })
   })
 
+  it('says outright when a scene is made for the station’s idea, and not when none is', async () => {
+    reply({ explore: {} })
+    const melt = { ...step, title: 'Changes of state', goal: 'Explain melting and boiling with the particle model' }
+    await runPass('explore', { ...ctx(), step: melt, plan: [melt] })
+    expect(String(call()[0])).toMatch(/A SCENE IS MADE FOR THIS STATION: "particles"/)
+    vi.mocked(callGemma).mockReset()
+    reply({ explore: {} })
+    await runPass('explore', ctx())
+    expect(String(call()[0])).not.toMatch(/A SCENE IS MADE FOR THIS STATION/)
+  })
+
   it('refuses a check whose wrong option says nothing to whoever picks it', async () => {
     reply({ practice, check: { ...check, questions: [{ ...check.questions[0], optionFeedback: ['', 'Yes.'] }] } })
     expect((await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))).ok).toBe(false)

@@ -65,6 +65,17 @@ describe('the scene pattern', () => {
   })
 })
 
+describe('the scenes a station is for', () => {
+  it('finds a scene whose topic every word of is in the station', async () => {
+    await import('./orbit/config')
+    await import('./particles/config')
+    const { scenesFor } = await import('./registry')
+    expect(scenesFor('Changes of state: what happens to particles when ice melts').map((e) => e.id)).toContain('particles')
+    expect(scenesFor('Why the Moon has phases -- phases of the Moon').map((e) => e.id)).toContain('orbit')
+    expect(scenesFor('Equivalent fractions')).toEqual([])
+  })
+})
+
 describe('the registry', () => {
   it('finds an engine by id, and lists every engine for the tutor', () => {
     expect(getEngine('stub')?.id).toBe('stub')

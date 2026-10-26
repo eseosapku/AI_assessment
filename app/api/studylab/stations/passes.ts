@@ -13,6 +13,7 @@ import { stationSystemPrompt } from '../tutor/system-prompt'
 import { stagePrompt } from '../tutor/stagePrompt'
 import { materialRules } from '../tutor/dispatch'
 import { fitPictures } from '@/lib/studylab/meaning/art'
+import { scenesFor } from '@/lib/studylab/engines'
 
 /**
  * The passes that write a station ahead of the learner, one per request, each
@@ -168,13 +169,24 @@ function lastTime(fix: string | undefined): string {
   return fix ? `LAST TIME -- this part was written before and refused for this: "${fix.slice(0, 600)}". Write it again without that fault.` : ''
 }
 
+/**
+ * A scene made for this station's idea, said outright. In the catalogue alone,
+ * "States of matter" still came back as a card to read with the particle
+ * scene listed above it.
+ */
+function sceneHint(ctx: PassContext): string[] {
+  const fits = scenesFor(`${ctx.title} ${ctx.step.title} ${ctx.step.goal}`)
+  if (fits.length === 0) return []
+  return ['', `A SCENE IS MADE FOR THIS STATION: ${fits.map((e) => `"${e.id}"`).join(' or ')}. Build the explore item as that scene -- it draws and marks this idea exactly -- unless it truly cannot show this step.`]
+}
+
 function prompt(pass: Exclude<Pass, 'verify'>, ctx: PassContext): string {
   const head = [stationSystemPrompt(), '', context(ctx), ...(ctx.fix ? ['', lastTime(ctx.fix)] : [])]
   if (pass === 'explore') {
     // Told to fit the schema or switch, logic gates went back to a material every
     // time; after a schema refusal the choice is made for it.
     const predictNow = ctx.fix && SCHEMA_REFUSED.test(ctx.fix) ? ['', PREDICT_NOW] : []
-    return [...head, '', stagePrompt('explore', { missed: [], pace: 'step' }), '', materialRules(), advertiseVocabulary(), '', EXPLORE_ASK, ...predictNow].join('\n')
+    return [...head, '', stagePrompt('explore', { missed: [], pace: 'step' }), '', materialRules(), advertiseVocabulary(), '', EXPLORE_ASK, ...sceneHint(ctx), ...predictNow].join('\n')
   }
   if (pass === 'name') return [...head, '', exploreSummary(ctx), '', NAME_ASK].join('\n')
   return [...head, '', exploreSummary(ctx), '', materialRules(), '', PRACTICE_CHECK_ASK].join('\n')

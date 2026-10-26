@@ -8,7 +8,7 @@ const MAX_SAMPLES = 200
 const MIN_SPAN = 0.05
 
 /** How a curve with a ceiling, a floor or a peak is written in the expression language. */
-const CURVES = 'no ?: and no comparisons -- a ceiling is min(x / 250, 20), a floor max(0, ...), a peak max(0, 100 - abs(t - 40) * 4)'
+const CURVES = 'comparisons (< > <= >= == !=) and cond ? a : b draw a curve that changes shape -- a peak t < 40 ? t * 0.6 : max(0, 24 - (t - 40) * 1.2), a ceiling min(x / 250, 20), a floor max(0, ...)'
 
 const said = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, ''))
 

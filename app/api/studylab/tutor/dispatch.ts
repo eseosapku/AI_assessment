@@ -2206,7 +2206,7 @@ APPARATUS — "vary" — isolates "magnitude", never "consequence" (move ONE sli
   where the axis variable is "x").
   EXPRESSIONS may use ONLY the declared variable id (and "x" in a plot), numbers,
   + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round floor ceil --
-  no ?: and no comparisons -- a ceiling is min(x / 250, 20), a floor max(0, ...), a peak max(0, 100 - abs(t - 40) * 4).
+  comparisons (< > <= >= == !=) and cond ? a : b draw a curve that changes shape -- a peak t < 40 ? t * 0.6 : max(0, 24 - (t - 40) * 1.2), a ceiling min(x / 250, 20), a floor max(0, ...).
   Anything else is rejected and that readout is dropped.
   "max" must be greater than "min", "step" greater than 0, and
   "success.tolerance" at least half of "step" and NEVER 0 — the slider only
