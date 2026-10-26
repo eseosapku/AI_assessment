@@ -8,19 +8,19 @@ import DemoOffer from './DemoOffer'
 import LessonStage from './stage/LessonStage'
 import { useActiveTime } from './stage/useActiveTime'
 import type { CanvasEffects } from './StudyCanvas'
-import { applyActions, toggleStepGroup, autoGroupStep, plainTitle, createImageCard } from '@/lib/studylab/actions'
+import { toggleStepGroup, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { parseHomeworkSheet, mergeSheets, questionCards, type HomeworkSheet } from '@/lib/studylab/homework'
 import { downscaleDataUrl } from '@/lib/studylab/imageScale'
 import { chipAction } from '@/lib/studylab/chips'
+import { boardAfterTurn } from '@/lib/studylab/turnBoard'
 import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
 import { layoutGraph, withMeasuredSizes } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
 import { focusFromTurn } from '@/lib/studylab/spotlight'
 import { checkAnswers, checkpointResultText } from '@/lib/studylab/quiz'
-import { hideChecks } from '@/lib/studylab/checkpointState'
 import { buildCheckpointRecallCards, recallNotice } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
@@ -303,46 +303,35 @@ export default function Workspace({ id }: { id: string }) {
         let nextCanvas: CanvasState = canvasRef.current
         let nextStep = stepRef.current
 
-        if (actions.length > 0) {
-          const { nodes, edges, effects: fx, created } = applyActions(nextCanvas, actions)
-          nextCanvas = { ...nextCanvas, nodes, edges }
-
-          // Deterministic grouping: `run.currentStep` (0-based, -1 while
-          // nothing is being taught) is the source of truth for where
-          // teaching is now — translate to the card-numbering convention
-          // (1-based) and collapse the step just left when it moved forward.
-          nextStep = nextRun && nextRun.currentStep >= 0 ? nextRun.currentStep + 1 : stepRef.current
-          if (nextStep > stepRef.current) {
-            nextCanvas = autoGroupStep(nextCanvas, stepRef.current, runRef.current?.steps[stepRef.current - 1]?.title)
-          }
-
-          // Auto-tidy the AI lesson graph (freeform blocks keep their positions).
-          const layout = layoutGraph(nextCanvas.nodes, nextCanvas.edges)
-          if (Object.keys(layout).length > 0) {
-            nextCanvas = {
-              ...nextCanvas,
-              nodes: nextCanvas.nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)),
+        // Teaching's step, 1-based, from the run (`currentStep` is -1 while
+        // nothing is being taught); the step just left folds into its tile.
+        if (nextRun && nextRun.currentStep >= 0) nextStep = nextRun.currentStep + 1
+        const hide = [...hideAfterTurn.current]
+        hideAfterTurn.current.clear()
+        if (actions.length > 0 || hide.length > 0) {
+          // The turn that answers a failed check takes it off, before the
+          // board is laid out (see boardAfterTurn).
+          const turn = boardAfterTurn({
+            canvas: nextCanvas,
+            actions,
+            hide,
+            foldStep:
+              actions.length > 0 && nextStep > stepRef.current
+                ? { step: stepRef.current, title: runRef.current?.steps[stepRef.current - 1]?.title }
+                : undefined,
+          })
+          nextCanvas = turn.canvas
+          setCanvas(nextCanvas)
+          if (actions.length > 0) {
+            // What this turn built is the new focus; the board's camera follows it.
+            const seen = focusFromTurn(turn.created, turn.effects)
+            if (seen.focus) setFocus(seen.focus)
+            setPointer(seen.point)
+            if (seen.effects.length > 0) {
+              effectVersion.current += 1
+              setEffects({ version: effectVersion.current, list: seen.effects })
             }
           }
-
-          setCanvas(nextCanvas)
-          // What this turn built is the new focus; the board's camera follows it.
-          const turn = focusFromTurn(created, fx)
-          if (turn.focus) setFocus(turn.focus)
-          setPointer(turn.point)
-          const list = turn.effects
-          if (list.length > 0) {
-            effectVersion.current += 1
-            setEffects({ version: effectVersion.current, list })
-          }
-        } else if (nextRun && nextRun.currentStep >= 0) {
-          nextStep = nextRun.currentStep + 1
-        }
-        // The turn that answers a failed check has landed: the check comes off.
-        if (hideAfterTurn.current.size > 0) {
-          nextCanvas = hideChecks(nextCanvas, [...hideAfterTurn.current])
-          hideAfterTurn.current.clear()
-          setCanvas(nextCanvas)
         }
         if (nextStep !== stepRef.current) setCurrentStep(nextStep)
 
