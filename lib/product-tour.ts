@@ -158,32 +158,32 @@ export const TOURS: Record<TourId, Tour> = {
       {
         anchor: 'lesson-board',
         eyebrow: 'The board',
-        title: 'The board is the lesson, not the chat',
+        title: 'The work comes to you',
         body:
-          'Every idea, example and diagram becomes a card here, joined left to right so the lesson reads as a path. The chat on the right is a thin guide that points at what it just built — the teaching itself is always on a card.',
-        action: 'Drag cards anywhere. Nothing you build is ever deleted.',
+          'Each new card, question or material glides into view, and the rest of the board steps back so you know where to look. Everything stays on the board as a map of the lesson.',
+        action: 'Drag the board to look around — "Back to lesson" brings you home.',
       },
       {
         anchor: 'lesson-chat',
-        eyebrow: 'Finding what it made',
-        title: 'Every card it adds is listed here',
+        eyebrow: 'Inky',
+        title: 'Inky talks here',
         body:
-          'When the tutor says "see the card", the block underneath names it. Click that block and the board flies straight to it, so you never have to go hunting across the canvas.',
+          'Its latest line sits in the bubble, with questions you might ask underneath. The chat button — or the / key — opens the whole conversation and the box to type in.',
       },
       {
         anchor: 'lesson-continue',
-        eyebrow: 'Moving and asking',
-        title: 'Continue is the only thing that moves forward',
+        eyebrow: 'Moving on',
+        title: 'One bar moves you on',
         body:
-          'The outlined buttons above it are questions about what is on screen right now — asking one gets you another card without skipping ahead. You can also type your own question, or paste a photo of your working.',
+          'Answer on the card, then press Check down here. After a check, Why? explains it and Continue takes the lesson forward. Asking Inky never skips ahead.',
         action: 'Right-click any card for Simplify, Explain deeper, or Quiz me on this.',
       },
       {
         anchor: 'lesson-plan',
-        eyebrow: 'Your plan',
-        title: 'Click any step to go straight to it',
+        eyebrow: 'Your path',
+        title: 'Click any station to go straight to it',
         body:
-          'Each row shows its own state: waiting, being taught, or done. Clicking a step you have not reached starts teaching it; clicking one you have finished brings its cards back without re-explaining them.',
+          'Ticked stations are done, and Inky sits on the one you are on. Clicking a station you have not reached starts teaching it; clicking one you have finished brings its cards back without re-explaining them.',
       },
       {
         anchor: 'lesson-pace',

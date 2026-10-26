@@ -162,8 +162,8 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     expect: 'continue',
     step: 1,
     cue: {
-      action: 'Press Continue',
-      why: 'Continue is the only control that moves the lesson forward. Everything else explores where you already are.',
+      action: 'Press Continue at the bottom of the board',
+      why: 'The bar under the board is the only control that moves the lesson forward. Everything else explores where you already are.',
       anchor: 'lesson-continue',
     },
     say: 'And the colours differ in one way that matters for all of this.',
@@ -189,8 +189,8 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     expect: 'chip',
     step: 1,
     cue: {
-      action: 'Press the chip “Show me what a prism does”',
-      why: 'The outlined buttons are questions about what is on the board right now. Asking one adds a card without skipping ahead — the lesson stays where it is.',
+      action: 'Press the chip “Show me what a prism does” under Inky',
+      why: 'The buttons under Inky’s bubble are questions about what is on the board right now. Asking one adds a card without skipping ahead — the lesson stays where it is.',
       anchor: 'lesson-chips',
     },
     say: 'Here is the prism itself.',
@@ -215,7 +215,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     compose: 'Why do we see a rainbow after it rains?',
     cue: {
       action: 'Send the question already in the box',
-      why: 'You can ask anything in your own words. The answer arrives as a card joined to the step you are on — not as a line of chat you will scroll past.',
+      why: 'The chat opens from Inky’s button, or the / key. You can ask anything in your own words; the answer arrives as a card joined to the step you are on — not as a line of chat you will scroll past.',
       anchor: 'lesson-composer',
     },
     say: 'Good question — same physics, different glass.',
@@ -256,7 +256,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 1,
     opensCheck: 'demo-cp-1',
     cue: {
-      action: 'Press Continue',
+      action: 'Press Continue at the bottom of the board',
       why: 'The step has covered its idea, so the tutor closes it with a check rather than adding more cards.',
       anchor: 'lesson-continue',
     },
@@ -270,7 +270,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 1,
     completesStep: true,
     cue: {
-      action: 'Pick an answer on the board, then press Check',
+      action: 'Pick an answer, then press Check below it',
       why: 'A check blocks Continue until it is answered. Getting one wrong is not a dead end — the tutor re-teaches that point instead of moving on.',
       anchor: 'lesson-board',
     },
@@ -291,7 +291,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 2,
     opensCheck: 'demo-cp-2',
     cue: {
-      action: 'Press Continue and watch the difference',
+      action: 'Press Continue at the bottom and watch the difference',
       why: 'At this pace the whole step arrives at once — three cards and its check, instead of one card and a wait.',
       anchor: 'lesson-continue',
     },
@@ -347,7 +347,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     expect: 'jump',
     step: 3,
     cue: {
-      action: 'Click step 3 in the plan on the left',
+      action: 'Click station 3 on the path at the left',
       why: 'You do not have to go in order. A step you have not reached starts teaching straight away; one you have finished just shows you what you built.',
       anchor: 'lesson-plan',
     },
@@ -381,7 +381,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 3,
     opensCheck: 'demo-cp-3',
     cue: {
-      action: 'Press Continue for the last card',
+      action: 'Press Continue at the bottom for the last card',
       why: 'One more card, then the check that finishes the lesson.',
       anchor: 'lesson-continue',
     },

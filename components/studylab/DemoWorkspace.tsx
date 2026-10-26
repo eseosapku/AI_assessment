@@ -74,6 +74,7 @@ export default function DemoWorkspace() {
   const [currentStep, setCurrentStep] = useState(0)
   const [busy, setBusy] = useState(false)
   const [cueOpen, setCueOpen] = useState(true)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const effectVersion = useRef(0)
   const submitted = useRef<Set<string>>(new Set())
@@ -336,6 +337,10 @@ export default function DemoWorkspace() {
       focus={focus}
       activeMs={activeMs}
       onAdvance={advance}
+      // The act that sends a question needs the box, which lives in the chat
+      // drawer; the demo opens it for that act and lets it close after.
+      drawerOpen={drawerOpen || (cueOpen && cue.anchor === 'lesson-composer')}
+      onDrawerOpenChange={setDrawerOpen}
       onFocus={goToNode}
       banner={banner}
       boardOverlay={cueCard}
