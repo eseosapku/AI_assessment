@@ -85,6 +85,14 @@ describe('runPass: explore', () => {
     expect(await runPass('explore', ctx())).toMatchObject({ ok: true })
   })
 
+  it('puts an explore split into pieces back together, and says what a list held when it cannot', async () => {
+    reply([{ opening: 'Watch which ones bend.' }, { action: { type: 'createActivity', id: 'x', spec: sortSpec } }, { intent }, { hints: [] }])
+    expect(await runPass('explore', ctx())).toMatchObject({ ok: true, partial: { explore: { opening: 'Watch which ones bend.' } } })
+    vi.mocked(callGemma).mockReset()
+    reply(['Watch which ones bend.', 'Sort them.'])
+    expect(((await runPass('explore', ctx())) as { reason: string }).reason).toMatch(/a list of 2 \(string, string\)/)
+  })
+
   it('says what a reply with no action held instead, so the shape it came back in can be seen', async () => {
     // Break-even explores came back as JSON with no "opening" or "action" three times running.
     reply({ type: 'createActivity', spec: sortSpec })
