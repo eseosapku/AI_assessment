@@ -52,6 +52,18 @@ describe('selfAnswerFaults', () => {
     expect(selfAnswerFaults({ type: 'build_material', id: 'm2', spec: material }).join(' ')).toMatch(/"Nucleus" is both a box and a piece/)
   })
 
+  it('refuses a sequence whose rules name every neighbouring pair: the list reads out the order', () => {
+    const items = [{ id: 'a', label: 'Egg' }, { id: 'b', label: 'Larva' }, { id: 'c', label: 'Pupa' }]
+    const seq = (rules: unknown[]) => activity({
+      pattern: 'sequence', prompt: 'Order the life cycle.', payload: { items, rules }, success: { kind: 'exactOrder', itemIds: ['a', 'b', 'c'] },
+    })
+    const whole = [{ text: 'The egg comes before the larva', before: 'a', after: 'b' }, { text: 'The larva comes before the pupa', before: 'b', after: 'c' }]
+    expect(selfAnswerFaults(seq(whole)).join(' ')).toMatch(/rules spell out the whole order/)
+    // One pair left to work out, or a rule that skips a step, is a clue and not the answer.
+    expect(selfAnswerFaults(seq(whole.slice(0, 1)))).toEqual([])
+    expect(selfAnswerFaults(seq([{ text: 'The egg comes before the pupa', before: 'a', after: 'c' }]))).toEqual([])
+  })
+
   it('passes a naming card whose every item has a picture', () => {
     const fine = { ...IMMUNE, payload: { ...IMMUNE.payload, items: [{ id: 'a', label: 'Plant cell', imageUrl: 'asset:plant-cell' }, { id: 'b', label: 'Animal cell', imageUrl: 'asset:animal-cell' }, { id: 'c', label: 'Bacterium', imageUrl: 'asset:bacterial-cell' }] } }
     expect(selfAnswerFaults(activity(fine))).toEqual([])

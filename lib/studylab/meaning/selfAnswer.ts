@@ -19,6 +19,20 @@ function sharedNames(boxes: unknown[], pieces: unknown[]): string[] {
 }
 
 /**
+ * A sequence whose rules name every neighbouring pair: the rule list is the
+ * order, read out. Rules agree with the order written, so nothing short of
+ * every neighbour fixes it.
+ */
+function ruledOut(payload: Record<string, unknown>): string[] {
+  const items = Array.isArray(payload.items) ? (payload.items as { id?: unknown }[]) : []
+  const rules = Array.isArray(payload.rules) ? (payload.rules as { before?: unknown; after?: unknown }[]) : []
+  if (items.length < 2 || rules.length === 0) return []
+  const said = new Set(rules.map((r) => `${String(r.before)}>${String(r.after)}`))
+  const whole = items.slice(1).every((item, k) => said.has(`${String(items[k].id)}>${String(item.id)}`))
+  return whole ? ['its rules spell out the whole order, so the list gives the answer away: leave at least one neighbouring pair for the learner to work out'] : []
+}
+
+/**
  * Why an activity or material would show its own answer before it is
  * answered; empty when it would not. A naming card draws each item as its
  * picture, so an item with no picture it can show would be drawn as its name
@@ -40,6 +54,7 @@ export function selfAnswerFaults(action: unknown): string[] {
         .map((i) => `"${String((i as { label?: unknown }).label ?? '').trim()}" has no picture, so the card would show its name as the answer: give every item a catalogue picture, or use a different card`)
     }
     if (spec.pattern === 'sort') return sharedNames(Array.isArray(payload.bins) ? payload.bins : [], Array.isArray(payload.items) ? payload.items : [])
+    if (spec.pattern === 'sequence') return ruledOut(payload)
     return []
   }
   if (a.type === 'build_material') {

@@ -15,6 +15,8 @@ import { DisplayView } from './DisplayView'
 import { MaterialFrame } from './MaterialFrame'
 import { PieceChip } from './PieceChip'
 import { SlotTarget } from './SlotTarget'
+import { ConditionList } from '@/components/studylab/check/ConditionList'
+import type { Condition } from '@/lib/studylab/activities/conditions'
 
 const REFUSAL_KEYFRAMES = [
   { transform: 'translateX(0)' },
@@ -42,6 +44,8 @@ export type MaterialRendererProps = {
   checkState?: CheckFlowState
   onCheckAction?: (action: BarAction) => void
   checkLine?: string
+  /** What the answer must make true, ticked as each comes true (a sequence's rules). */
+  conditions?: Condition[]
 }
 
 export function MaterialRenderer({
@@ -61,6 +65,7 @@ export function MaterialRenderer({
   checkState,
   onCheckAction,
   checkLine,
+  conditions = [],
 }: MaterialRendererProps) {
   const controlled = controlledState !== undefined && onStateChange !== undefined
   const [internal, setInternal] = useState(() => createInitialMaterialState(spec))
@@ -180,6 +185,11 @@ export function MaterialRenderer({
           says={result.says}
           solved={solvedProp ?? result.solved}
         />
+        {conditions.length > 0 && (
+          <div className="mt-2.5">
+            <ConditionList items={conditions} label="Rules" />
+          </div>
+        )}
       </div>
     </ActivityFrame>
   )

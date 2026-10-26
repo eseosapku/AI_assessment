@@ -2151,6 +2151,10 @@ APPARATUS — "sequence" — isolates "order" (put scrambled steps into order):
                       {"id":"b","label":"Tadpole"}] }   // authored in the CORRECT order
   success: { "kind":"exactOrder", "itemIds":["a","b"] }
   Two or more items, unique ids. The board is shuffled before the student sees it.
+  Optional "rules": up to four clues the order follows from, each ticked on the card as it
+  comes true -- [{"text":"Melting comes before boiling","before":"<id>","after":"<id>"}].
+  Each must name two items and be true of the order written. Use them where the order is
+  reasoned out from facts; never one for every neighbouring pair, which reads out the answer.
 
 APPARATUS — "compare" — isolates "membership" (a Venn: left / both / right):
   payload: { "sets":[{"id":"left","label":"Mammals"},{"id":"right","label":"Birds"}],

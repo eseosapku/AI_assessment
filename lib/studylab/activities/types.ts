@@ -58,6 +58,8 @@ export interface LabelPayload {
 export interface SequencePayload {
   items: { id: string; label: string; imageUrl?: string }[]        // authored in CORRECT order
   orientation?: 'vertical' | 'horizontal'
+  /** Clues the order follows from ("Melting comes before boiling"), ticked as each comes true. Four at most. */
+  rules?: { text: string; before: string; after: string }[]
 }
 export interface VaryPayload {
   variable: { id: string; label: string; min: number; max: number; step: number; unit?: string }

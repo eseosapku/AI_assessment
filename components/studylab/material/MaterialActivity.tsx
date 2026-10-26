@@ -2,6 +2,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import type { ActivitySpec, ActivityState } from '@/lib/studylab/activities/types'
 import { buildOutcome } from '@/lib/studylab/activities/telemetry'
+import { conditionsFor } from '@/lib/studylab/activities/conditions'
 import { createInitialMaterialState } from '@/lib/studylab/material/initialState'
 import { tick } from '@/lib/studylab/material/interpreter'
 import type { MaterialSpec, MaterialState } from '@/lib/studylab/material/types'
@@ -171,6 +172,13 @@ export function MaterialActivity({
   const checkLine =
     missed && hints.length > 0 ? hints[Math.min(Math.max(activity.hintsUsed - 1, 0), hints.length - 1)] : undefined
 
+  // A sequence's rules, read off the board as it stands.
+  const conditions = conditionsFor(
+    spec.pattern,
+    spec.payload,
+    adapter.workFromPlacement(materialState.placement, materialSpec, spec.payload, materialState.controls),
+  )
+
   const onCheckAction = (action: BarAction) => {
     if (action === 'check') check()
     else if (action === 'tryAgain') dispatch({ type: 'tryAgain' })
@@ -195,6 +203,7 @@ export function MaterialActivity({
       checkState={flow}
       onCheckAction={onCheckAction}
       checkLine={checkLine}
+      conditions={conditions}
     />
   )
 }

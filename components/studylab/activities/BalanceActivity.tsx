@@ -10,6 +10,8 @@ import { BALANCE_PAN, BALANCE_PAN_TOP, BALANCE_VIEW_HEIGHT } from '@/lib/studyla
 import { seededShuffle } from '@/lib/studylab/activities/shuffle'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { ActivityFrame } from './ActivityFrame'
+import { ConditionList } from '@/components/studylab/check/ConditionList'
+import { conditionsFor } from '@/lib/studylab/activities/conditions'
 import { useActivityDrag } from './useActivityDrag'
 import { useActivityState } from './useActivityState'
 
@@ -254,6 +256,7 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             <span className="text-[12px] italic text-ss-slate">All placed — press Check.</span>
           )}
         </div>
+        <ConditionList items={conditionsFor('balance', payload, { left, right })} label="Goal" />
       </div>
     </ActivityFrame>
   )

@@ -155,6 +155,17 @@ const initialNodes: Node[] = [
       success: { kind: 'scene' },
     }, activityState: undefined } as never,
   },
+  {
+    id: 'sequence-rules', type: 'activity', position: { x: 1520, y: 1700 },
+    data: { spec: {
+      pattern: 'sequence', prompt: 'Put the changes in the order they happen as ice is heated.', seed: 1,
+      payload: {
+        items: [{ id: 'm', label: 'Melting' }, { id: 'w', label: 'Water warms' }, { id: 'b', label: 'Boiling' }, { id: 's', label: 'Steam' }],
+        rules: [{ text: 'Melting comes before boiling', before: 'm', after: 'b' }, { text: 'Steam forms only after boiling', before: 'b', after: 's' }],
+      },
+      success: { kind: 'exactOrder', itemIds: ['m', 'w', 'b', 's'] },
+    }, activityState: undefined } as never,
+  },
   { id: 'activity', type: 'activity', position: { x: 380, y: 520 }, data: { spec: SORT, activityState: undefined } as never },
   {
     id: 'concept', type: 'concept', position: { x: 880, y: 520 },

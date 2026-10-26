@@ -4,6 +4,7 @@ import { BALANCE_PAN } from '../dropZoneGeometry'
 import { describe, it, expect } from 'vitest'
 import { balanceModule, sideTotal } from './balance'
 import type { BalancePayload } from '../types'
+import { conditionsFor } from '../conditions'
 
 const payload: BalancePayload = {
   left: [{ id: 'l1', label: 'H2', weight: 2 }],
@@ -91,5 +92,22 @@ describe('balanceModule', () => {
       { id: 'e', label: 'Five', weight: 5 },
     ]
     expect(balanceModule.isPayload({ left: [], right: [], pool: fiveItems, mode: 'weights' })).toBe(true)
+  })
+})
+
+describe('a balance ticks its condition', () => {
+  const level = (work: { left: string[]; right: string[] }) => conditionsFor('balance', payload, work)
+
+  it('ticks "Both sides weigh the same" only when the beam is level', () => {
+    expect(level({ left: ['l1'], right: ['p1'] })).toEqual([{ text: 'Both sides weigh the same', met: false }])
+    expect(level({ left: ['l1'], right: ['p1', 'p2'] })).toEqual([{ text: 'Both sides weigh the same', met: true }])
+  })
+
+  it('does not tick two empty pans: level with nothing on it is not an answer', () => {
+    expect(level({ left: [], right: [] })[0].met).toBe(false)
+  })
+
+  it('has no conditions for a pattern without any', () => {
+    expect(conditionsFor('sort', { bins: [], items: [] }, { assign: {} })).toEqual([])
   })
 })

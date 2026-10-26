@@ -6,6 +6,8 @@ import type { ActivitySpec, ActivityState, SequencePayload } from '@/lib/studyla
 import type { SequenceWork } from '@/lib/studylab/activities/patterns/sequence'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { ActivityFrame } from './ActivityFrame'
+import { ConditionList } from '@/components/studylab/check/ConditionList'
+import { conditionsFor } from '@/lib/studylab/activities/conditions'
 import { useActivityDrag } from './useActivityDrag'
 import { useActivityState } from './useActivityState'
 
@@ -62,6 +64,7 @@ export function SequenceActivity({ id, spec, onOutcome, initialState }: {
       hint={a.hint} hintAvailable={a.hintAvailable} onHint={a.showHint}
       onCheck={() => { const o = a.check(); if (o) onOutcome(o) }}
     >
+      <div className="flex flex-col gap-3">
       <div ref={rootRef} className={`flex gap-2 ${vertical ? 'flex-col' : 'flex-row flex-wrap'}`}>
         {order.map((itemId, idx) => {
           const item = byId.get(itemId)
@@ -91,6 +94,8 @@ export function SequenceActivity({ id, spec, onOutcome, initialState }: {
             </motion.div>
           )
         })}
+      </div>
+      <ConditionList items={conditionsFor('sequence', payload, { order })} label="Rules" />
       </div>
     </ActivityFrame>
   )
