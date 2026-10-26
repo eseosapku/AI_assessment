@@ -166,6 +166,62 @@ const initialNodes: Node[] = [
       success: { kind: 'exactOrder', itemIds: ['m', 'w', 'b', 's'] },
     }, activityState: undefined } as never,
   },
+  {
+    id: 'atom', type: 'activity', position: { x: 2000, y: 1700 },
+    data: { spec: {
+      pattern: 'scene', prompt: "Build an atom of sodium-23: its protons, its neutrons, and its electrons in their shells.", seed: 1,
+      payload: { engine: 'atom', config: {"task":{"kind":"build-atom","element":"Na"}} },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
+  {
+    id: 'bonding', type: 'activity', position: { x: 2500, y: 1700 },
+    data: { spec: {
+      pattern: 'scene', prompt: "Make magnesium chloride: move electrons until every atom has a full outer shell.", seed: 1,
+      payload: { engine: 'bonding', config: {"task":{"kind":"make-ionic","metal":"Mg","nonmetal":"Cl"}} },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
+  {
+    id: 'bonding-co2', type: 'activity', position: { x: 3000, y: 1700 },
+    data: { spec: {
+      pattern: 'scene', prompt: "Make a carbon dioxide molecule: share electrons until every shell is full.", seed: 1,
+      payload: { engine: 'bonding', config: {"task":{"kind":"make-covalent","molecule":"CO2"}} },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
+  {
+    id: 'coordinate-plane', type: 'activity', position: { x: 3500, y: 1700 },
+    data: { spec: {
+      pattern: 'scene', prompt: "Make the line y = 2x + 1.", seed: 1,
+      payload: { engine: 'coordinate-plane', config: {"task":{"kind":"make-line","gradient":2,"intercept":1}} },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
+  {
+    id: 'lab-bench', type: 'activity', position: { x: 2000, y: 2400 },
+    data: { spec: {
+      pattern: 'scene', prompt: "Get the salt out of this salt water.", seed: 1,
+      payload: { engine: 'lab-bench', config: {"task":{"kind":"separate","mixture":"salt water","want":"salt"}} },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
+  {
+    id: 'body-flow', type: 'activity', position: { x: 2500, y: 2400 },
+    data: { spec: {
+      pattern: 'scene', prompt: "Trace the blood from the right ventricle to the aorta.", seed: 1,
+      payload: { engine: 'body-flow', config: {"task":{"kind":"trace-route","system":"circulation","from":"right-ventricle","to":"aorta"}} },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
+  {
+    id: 'cause-chain', type: 'activity', position: { x: 3000, y: 2400 },
+    data: { spec: {
+      pattern: 'scene', prompt: "The interest rate rises. Link what follows, and say how each changes the next.", seed: 1,
+      payload: { engine: 'cause-chain', config: {"task":{"kind":"build-chain","start":"interest-rate","factors":[{"id":"interest-rate","label":"Interest rate"},{"id":"borrowing","label":"Borrowing"},{"id":"spending","label":"Consumer spending"},{"id":"inflation","label":"Inflation"}],"links":[{"from":"interest-rate","to":"borrowing","effect":"decreases"},{"from":"borrowing","to":"spending","effect":"increases"},{"from":"spending","to":"inflation","effect":"increases"}]}} },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
   { id: 'activity', type: 'activity', position: { x: 380, y: 520 }, data: { spec: SORT, activityState: undefined } as never },
   {
     id: 'concept', type: 'concept', position: { x: 880, y: 520 },

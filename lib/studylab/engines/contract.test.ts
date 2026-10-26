@@ -83,6 +83,9 @@ describe('the scenes a station is for', () => {
     expect(station).toContain('SCENE "particles"')
     expect(station).not.toContain('SCENE "orbit"')
     expect(sceneCatalogue('Equivalent fractions')).toBe('')
+    // A shared stem is not a shared idea.
+    await import('./lab-bench/config')
+    expect(sceneCatalogue('Equivalent fractions: making equal fractions')).not.toContain('SCENE "lab-bench"')
     expect(sceneCatalogue()).toContain('SCENE "orbit"')
   })
 })

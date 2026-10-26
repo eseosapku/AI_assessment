@@ -33,9 +33,11 @@ export function sceneCatalogue(station?: string): string {
   const all = [...ENGINES.values()]
   if (station === undefined) return all.map((e) => e.prompt).join('\n\n')
   const telling = (w: string) => w.length >= 4 && !GENERIC.some((g) => w.startsWith(g))
+  // The word or its plural only: by stem, "fractions" found "fractional distillation".
+  const plural = (a: string, b: string) => a === b || a + 's' === b || b + 's' === a || a + 'es' === b || b + 'es' === a
   const said = words(station).filter(telling)
   return all
-    .filter((e) => e.covers.some((topic) => words(topic).some((w) => telling(w) && said.some((s) => same(w, s)))))
+    .filter((e) => e.covers.some((topic) => words(topic).some((w) => telling(w) && said.some((s) => plural(w, s)))))
     .map((e) => e.prompt)
     .join('\n\n')
 }
