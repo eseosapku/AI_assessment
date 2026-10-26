@@ -8,6 +8,7 @@ const h = vi.hoisted(() => ({
   finishPass: vi.fn(),
   failPass: vi.fn(),
   sendBack: vi.fn(),
+  sweepStations: vi.fn(),
   runPass: vi.fn(),
 }))
 vi.mock('@/lib/db', () => ({ db: { query: h.query } }))
@@ -20,6 +21,7 @@ vi.mock('@/lib/studylab/stationJobs', async (orig) => ({
   finishPass: h.finishPass,
   failPass: h.failPass,
   sendBack: h.sendBack,
+  sweepStations: h.sweepStations,
 }))
 vi.mock('@/app/api/studylab/stations/passes', () => ({ runPass: h.runPass }))
 
@@ -72,6 +74,22 @@ describe('POST /api/studylab/[id]/stations/[step]/author', () => {
     h.runPass.mockResolvedValue({ ok: true, partial: {} })
     await post()
     expect(h.runPass.mock.calls[0][1]).toMatchObject({ fix: 'the material cannot be solved' })
+  })
+
+  it('writes the practice beside the name when another request holds the name', async () => {
+    h.authorState.mockResolvedValue({ status: 'authoring', done: ['explore'], partial: {}, retries: 0 })
+    h.claimPass.mockImplementation(async (_s: string, _t: string, _v: string, pass: string) => (pass === 'name' ? null : 'job-p'))
+    h.runPass.mockResolvedValue({ ok: true, partial: {} })
+    const res = await post()
+    expect(h.claimPass.mock.calls.map((c) => c[3])).toEqual(['name', 'practice_check'])
+    expect(h.runPass.mock.calls[0][0]).toBe('practice_check')
+    expect(res.status).toBe(200)
+  })
+
+  it('clears old stations as it goes', async () => {
+    h.claimPass.mockResolvedValue(null)
+    await post()
+    expect(h.sweepStations).toHaveBeenCalled()
   })
 
   it('makes no second model call for a pass another request already holds', async () => {

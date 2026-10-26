@@ -100,6 +100,8 @@ export interface DispatchInput {
   context?: Record<string, unknown>
   /** The lesson's id, where its stations written ahead are found. Absent in tests. */
   spaceId?: string
+  /** How a turn waits for a station nearly written. Tests pass their own. */
+  sleep?: (ms: number) => Promise<void>
   requestId?: string
   /**
    * When the route must answer by, as epoch ms. Amplify ends a request at
@@ -640,7 +642,7 @@ async function authoredTurn(
   // from anywhere else in it.
   if (run.pace === 'run' && !deciding) return { run: live }
 
-  const bundle = await readyBundle(input, run, step)
+  const bundle = await readyBundle(input, run, step, deciding)
   if (!bundle) return { run: live }
   const origin: LessonRun = deciding ? { ...run, stationOrigin: 'authored' } : run
   const result = run.pace === 'run' ? serveWhole(bundle, origin, step, board) : serveStage(stage, bundle, origin, step, board)
@@ -669,13 +671,33 @@ function serveWhole(bundle: StationBundle, run: LessonRun, step: LessonStep, boa
   }
 }
 
-/** The bundle written for this step as it stands now, if it is ready and still passes its checks. */
-async function readyBundle(input: DispatchInput, run: LessonRun, step: LessonStep): Promise<StationBundle | null> {
+/** Longest a station's first turn waits for a bundle with only its verify left: a live turn takes as long. */
+const WAIT_FOR_VERIFY_MS = 10_000
+const WAIT_POLL_MS = 1_000
+/** What a live turn needs if the wait comes to nothing. */
+const LIVE_TURN_MS = 14_000
+
+/**
+ * The bundle written for this step as it stands now, if it is ready and still
+ * passes its checks. At a station's start, one with only its verify left is
+ * waited for, briefly: the plan is usually accepted before station 1 is done,
+ * and a live first turn takes as long as the wait.
+ */
+async function readyBundle(input: DispatchInput, run: LessonRun, step: LessonStep, mayWait: boolean): Promise<StationBundle | null> {
   // Exactly as the author route computes it, or nothing written is ever found.
   const subject = input.context?.subject ? String(input.context.subject) : undefined
   const version = stationVersion({ title: step.title, goal: step.goal, position: run.currentStep, subject })
+  const sleep = input.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)))
   try {
-    const state = await authorState(input.spaceId!, step.id, version)
+    let state = await authorState(input.spaceId!, step.id, version)
+    const nearly = (['explore', 'name', 'practice_check'] as const).every((p) => state.done.includes(p))
+    const room = Math.min(WAIT_FOR_VERIFY_MS, (input.deadline ?? Infinity) - Date.now() - LIVE_TURN_MS)
+    if (mayWait && state.status === 'authoring' && nearly) {
+      for (let waited = 0; state.status === 'authoring' && waited + WAIT_POLL_MS <= room; waited += WAIT_POLL_MS) {
+        await sleep(WAIT_POLL_MS)
+        state = await authorState(input.spaceId!, step.id, version)
+      }
+    }
     if (state.status !== 'ready' || !state.bundle) return null
     const verdict = verifyBundleCode(state.bundle)
     if (!verdict.ok) {

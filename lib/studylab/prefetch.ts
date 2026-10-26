@@ -96,3 +96,18 @@ export async function driveStation(d: DriveStation): Promise<AuthorStatus | null
     return d.signal.aborted ? null : 'failed'
   }
 }
+
+/** Requests the page keeps open on one station: the name and the practice can be written at once. */
+const LANES = 2
+
+/**
+ * Drives one station in two lanes, so a second request claims the practice
+ * while the first writes the name. Ready if either lane sees it ready; null if
+ * the lesson moved on; failed otherwise.
+ */
+export async function driveInLanes(d: DriveStation): Promise<AuthorStatus | null> {
+  const results = await Promise.all(Array.from({ length: LANES }, () => driveStation(d)))
+  if (results.includes('ready')) return 'ready'
+  if (d.signal.aborted || results.includes(null)) return null
+  return 'failed'
+}

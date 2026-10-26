@@ -6,7 +6,7 @@ import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscri
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 import type { LessonRun, LessonStep } from '@/lib/studylab/lessonRun'
 import {
-  ERROR_MARK, PASSES, authorState, claimPass, failPass, finishPass, nextPass, sendBack, stationVersion,
+  ERROR_MARK, authorState, builtOn, claimPass, failPass, finishPass, nextPass, openPasses, sendBack, stationVersion, sweepStations,
   type AuthorState, type Pass,
 } from '@/lib/studylab/stationJobs'
 import { runPass } from '@/app/api/studylab/stations/passes'
@@ -86,12 +86,19 @@ export async function POST(request: NextRequest, { params }: Params) {
     const { spaceId, version } = station
     const state = await authorState(spaceId, stepId, version)
     if (state.status === 'ready' || state.status === 'failed') return NextResponse.json(standing(state))
-    const pass = nextPass(state.done)
-    if (!pass) return NextResponse.json(standing(state))
-
-    const jobId = await claimPass(spaceId, stepId, version, pass)
-    // Another tab or request holds this pass: no second model call.
-    if (!jobId) return NextResponse.json({ ...standing(state), status: 'authoring' }, { status: 202 })
+    await sweepStations()
+    // The first pass that can be written now and that no other request holds:
+    // name and practice are written side by side.
+    const open = openPasses(state.done)
+    if (!open.length) return NextResponse.json(standing(state))
+    let pass: Pass | null = null
+    let jobId: string | null = null
+    for (const candidate of open) {
+      jobId = await claimPass(spaceId, stepId, version, candidate)
+      if (jobId) { pass = candidate; break }
+    }
+    // Another tab or request holds every pass that can be written: no second model call.
+    if (!pass || !jobId) return NextResponse.json({ ...standing(state), status: 'authoring' }, { status: 202 })
 
     let result
     try {
@@ -120,7 +127,7 @@ export async function POST(request: NextRequest, { params }: Params) {
       // The part the verifier faulted is written again, and so is everything
       // written on top of it: a name cut quotes the explore it follows. One
       // transaction, so no other request claims anything halfway through.
-      const again = PASSES.slice(PASSES.indexOf(result.redo), PASSES.indexOf('verify')) as Pass[]
+      const again = builtOn(result.redo)
       await sendBack(spaceId, stepId, version, jobId, result.reason, result.redo)
       done = done.filter((p) => !again.includes(p))
     } else {

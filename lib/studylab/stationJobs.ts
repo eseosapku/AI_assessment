@@ -45,6 +45,53 @@ export function nextPass(done: Pass[]): Pass | null {
   return PASSES.find((p) => !done.includes(p)) ?? null
 }
 
+/**
+ * What each pass is written from. Name and practice build on the explore
+ * alone, so they are written side by side: four calls in a row took 40-60 s,
+ * and the plan was accepted long before station 1 was ready.
+ */
+const BUILDS_ON: Record<Pass, Pass[]> = {
+  explore: [],
+  name: ['explore'],
+  practice_check: ['explore'],
+  verify: ['explore', 'name', 'practice_check'],
+}
+
+/** The passes that can be written now: not yet written, with what they build on in place. */
+export function openPasses(done: Pass[]): Pass[] {
+  return PASSES.filter((p) => !done.includes(p) && BUILDS_ON[p].every((d) => done.includes(d)))
+}
+
+/** A faulted part and every part built on it: what a send-back writes again. */
+export function builtOn(redo: Pass): Pass[] {
+  return PASSES.filter((p) => p !== 'verify' && (p === redo || BUILDS_ON[p].includes(redo)))
+}
+
+/** How long a station written ahead is kept: past this, no learner is coming back for it. */
+const KEEP_DAYS = 30
+const SWEEP_EVERY_MS = 60 * 60 * 1000
+let lastSweep = -Infinity
+
+/**
+ * Clears stations written more than 30 days ago, at most once an hour per
+ * server, riding on the author route as the rate limiter's sweep does. Never
+ * fails the request it rides on. Returns whether it ran.
+ */
+export async function sweepStations(now = Date.now()): Promise<boolean> {
+  if (now - lastSweep < SWEEP_EVERY_MS) return false
+  lastSweep = now
+  try {
+    await db.query(
+      `DELETE FROM ai_jobs WHERE id IN (
+         SELECT id FROM ai_jobs WHERE job_type = $1 AND created_at < NOW() - INTERVAL '${KEEP_DAYS} days' LIMIT 1000)`,
+      [JOB],
+    )
+    return true
+  } catch {
+    return false
+  }
+}
+
 export interface AuthorState {
   status: 'none' | 'authoring' | 'ready' | 'failed'
   done: Pass[]
@@ -105,10 +152,10 @@ export async function authorState(spaceId: string, stepId: string, version: stri
  * Returns the row's id, or null when the pass is already running or done.
  */
 export async function claimPass(spaceId: string, stepId: string, version: string, pass: Pass): Promise<string | null> {
-  // Every pass before this one must stand written: a tab holding an old view
+  // What this pass builds on must stand written: a tab holding an old view
   // claimed verify between a send-back's writes and judged the parts being
   // sent back. Under the station's lock, a send-back is never half done here.
-  const before = PASSES.slice(0, PASSES.indexOf(pass))
+  const before = BUILDS_ON[pass]
   return db.withStatementTimeout(10_000, async (q) => {
     await q('SELECT pg_advisory_xact_lock(hashtext($1))', [stationLock(spaceId, stepId, version)])
     const { rows } = await q<{ id: string }>(
@@ -162,7 +209,7 @@ export async function failPass(id: string, reason: string, charged = true): Prom
  * carries the charge (two to a part); what was built on it is superseded.
  */
 export async function sendBack(spaceId: string, stepId: string, version: string, verifyJobId: string, reason: string, redo: Pass): Promise<void> {
-  const again = PASSES.slice(PASSES.indexOf(redo), PASSES.indexOf('verify'))
+  const again = builtOn(redo)
   const why = reason.slice(0, 3900)
   await db.withStatementTimeout(10_000, async (q) => {
     await q('SELECT pg_advisory_xact_lock(hashtext($1))', [stationLock(spaceId, stepId, version)])

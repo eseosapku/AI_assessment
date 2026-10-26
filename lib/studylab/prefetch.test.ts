@@ -1,6 +1,6 @@
 // lib/studylab/prefetch.test.ts
 import { describe, it, expect, vi } from 'vitest'
-import { whatToAuthor, stationKey, driveStation, type AuthorStatus } from './prefetch'
+import { whatToAuthor, stationKey, driveStation, driveInLanes, type AuthorStatus } from './prefetch'
 import type { LessonRun, LessonStep } from './lessonRun'
 
 const step = (id: string, over: Partial<LessonStep> = {}): LessonStep =>
@@ -98,5 +98,29 @@ describe('driveStation', () => {
     const deps = { fetch: vi.fn(async () => reply(200, { status: 'authoring' })), sleep: vi.fn(async () => {}) }
     expect(await drive(deps as never)).toBe('failed')
     expect(deps.fetch.mock.calls.length).toBeLessThanOrEqual(20)
+  })
+})
+
+describe('driveInLanes', () => {
+  const reply = (status: number, body: Record<string, unknown>) => ({ status, ok: status < 300, json: async () => body })
+  const lanes = (fetch: ReturnType<typeof vi.fn>, signal = new AbortController().signal) =>
+    driveInLanes({ spaceId: 'sp', stepId: 'b', userId: 'u1', signal, fetch: fetch as never, sleep: async () => {} })
+
+  it('asks for two passes at once, so the name and the practice are written side by side', async () => {
+    const fetch = vi.fn(async () => reply(200, { status: 'ready' }))
+    expect(await lanes(fetch)).toBe('ready')
+    expect(fetch).toHaveBeenCalledTimes(2)
+  })
+
+  it('is ready when either lane sees it ready, though the other stopped on a dropped request', async () => {
+    let n = 0
+    const fetch = vi.fn(async () => { n += 1; if (n === 1) throw new Error('network'); return reply(200, { status: 'ready' }) })
+    expect(await lanes(fetch)).toBe('ready')
+  })
+
+  it('records nothing once the lesson has moved on', async () => {
+    const ctrl = new AbortController()
+    ctrl.abort()
+    expect(await lanes(vi.fn(async () => reply(200, { status: 'ready' })), ctrl.signal)).toBeNull()
   })
 })

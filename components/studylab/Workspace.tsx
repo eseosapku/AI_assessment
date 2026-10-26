@@ -26,7 +26,7 @@ import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } f
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import type { ChatPlan } from '@/lib/studylab/types'
 import { measuredBefore, type LessonRun } from '@/lib/studylab/lessonRun'
-import { whatToAuthor, stationKey, driveStation, type AuthorStatus } from '@/lib/studylab/prefetch'
+import { whatToAuthor, stationKey, driveInLanes, type AuthorStatus } from '@/lib/studylab/prefetch'
 import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
@@ -1147,7 +1147,7 @@ export default function Workspace({ id }: { id: string }) {
     if (!authorStep || !authorKey || !user?.id || !loaded) return
     const ctrl = new AbortController()
     authored.current[authorKey] = 'authoring'
-    void driveStation({ spaceId: id, stepId: authorStep, userId: user.id, signal: ctrl.signal }).then((status) => {
+    void driveInLanes({ spaceId: id, stepId: authorStep, userId: user.id, signal: ctrl.signal }).then((status) => {
       if (!status) return
       authored.current[authorKey] = status
       setAuthoredTick((t) => t + 1)

@@ -124,6 +124,46 @@ describe('an authored station is served at once', () => {
   })
 })
 
+describe('station 1 nearly written when the plan is accepted', () => {
+  const almost = { status: 'authoring', done: ['explore', 'name', 'practice_check'], partial: {}, retries: 0 }
+  const accept = (sleep: (ms: number) => Promise<void>) =>
+    applyAction({ run: planning(), policy: GAP, userId: 'u1', spaceId: 'sp1', action: { type: 'accept_plan' }, context: { title: 'Elements', subject: 'Chemistry' }, sleep })
+
+  it('waits for a station with only its check left, and serves it -- a live turn would take as long', async () => {
+    authorState.mockResolvedValueOnce(almost).mockResolvedValueOnce(almost)
+    authorState.mockResolvedValue({ status: 'ready', done: ['explore', 'name', 'practice_check', 'verify'], partial: {}, retries: 0, bundle: bundle() })
+    const sleep = vi.fn(async () => {})
+    const out = await accept(sleep)
+    expect(callGemma).not.toHaveBeenCalled()
+    expect(out.run.stationOrigin).toBe('authored')
+    expect(sleep).toHaveBeenCalledTimes(2)
+  })
+
+  it('does not wait for a station far from ready', async () => {
+    authorState.mockResolvedValue({ status: 'authoring', done: ['explore'], partial: {}, retries: 0 })
+    const sleep = vi.fn(async () => {})
+    const out = await accept(sleep)
+    expect(sleep).not.toHaveBeenCalled()
+    expect(out.run.stationOrigin).toBe('live')
+  })
+
+  it('teaches live after waiting at most ten seconds', async () => {
+    authorState.mockResolvedValue(almost)
+    const sleep = vi.fn(async () => {})
+    const out = await accept(sleep)
+    expect(sleep.mock.calls.reduce((ms, c) => ms + (c as unknown as [number])[0], 0)).toBeLessThanOrEqual(10_000)
+    expect(callGemma).toHaveBeenCalled()
+    expect(out.run.stationOrigin).toBe('live')
+  })
+
+  it('does not wait when the turn has no time left to teach live after', async () => {
+    authorState.mockResolvedValue(almost)
+    const sleep = vi.fn(async () => {})
+    await applyAction({ run: planning(), policy: GAP, userId: 'u1', spaceId: 'sp1', action: { type: 'accept_plan' }, context: { title: 'Elements', subject: 'Chemistry' }, sleep, deadline: Date.now() + 14_500 })
+    expect(sleep).not.toHaveBeenCalled()
+  })
+})
+
 describe('a practice that is a material', () => {
   const sortTwin = { ...sortSpec, prompt: 'Sort these too', payload: { ...sortSpec.payload, items: [{ id: 'i3', label: 'Copper', binId: 'b1', imageUrl: 'copper' }, { id: 'i4', label: 'Carbon', binId: 'b2', imageUrl: 'carbon' }] }, success: { kind: 'binAssignment', assign: { i3: 'b1', i4: 'b2' } } }
   const withMaterialPractice = () => bundle({ practice: { say: 'Two more.', action: { type: 'createActivity', id: 's1-practice', spec: sortTwin, step: 1 }, intent } })

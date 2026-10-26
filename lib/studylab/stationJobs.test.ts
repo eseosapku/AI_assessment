@@ -9,7 +9,7 @@ vi.mock('@/lib/db', () => ({
   },
 }))
 
-import { stationVersion, nextPass, claimPass, authorState, finishPass, failPass, sendBack } from './stationJobs'
+import { stationVersion, nextPass, openPasses, claimPass, authorState, finishPass, failPass, sendBack, sweepStations } from './stationJobs'
 
 beforeEach(() => {
   query.mockReset()
@@ -41,6 +41,16 @@ describe('nextPass', () => {
   })
 })
 
+describe('openPasses -- what can be written now', () => {
+  it('writes name and practice side by side once the explore stands: both build on it alone', () => {
+    expect(openPasses([])).toEqual(['explore'])
+    expect(openPasses(['explore'])).toEqual(['name', 'practice_check'])
+    expect(openPasses(['explore', 'practice_check'])).toEqual(['name'])
+    expect(openPasses(['explore', 'name', 'practice_check'])).toEqual(['verify'])
+    expect(openPasses(['explore', 'name', 'practice_check', 'verify'])).toEqual([])
+  })
+})
+
 describe('claimPass -- a pass is written once', () => {
   it('takes the station’s lock before it looks, so two tabs cannot both claim', async () => {
     txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [{ id: 'job-1' }] })
@@ -55,7 +65,7 @@ describe('claimPass -- a pass is written once', () => {
     await claimPass('space', 's1', 'v1', 'verify')
     expect(txQuery.mock.calls[0][1]).toEqual(['author_station:space:s1:v1'])
   })
-  it('claims a pass only while every pass before it stands written -- never verify over parts being sent back', async () => {
+  it('claims a pass only while what it builds on stands written -- never verify over parts being sent back', async () => {
     txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [] })
     await claimPass('space', 's1', 'v1', 'verify')
     const [sql, values] = txQuery.mock.calls[1]
@@ -65,6 +75,11 @@ describe('claimPass -- a pass is written once', () => {
     txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [{ id: 'job-2' }] })
     await claimPass('space', 's1', 'v1', 'explore')
     expect(txQuery.mock.calls[1][1].slice(6)).toEqual([[], 0])
+    // Practice builds on the explore alone, so it can be written beside the name.
+    txQuery.mockReset()
+    txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [{ id: 'job-3' }] })
+    await claimPass('space', 's1', 'v1', 'practice_check')
+    expect(txQuery.mock.calls[1][1].slice(6)).toEqual([['explore'], 1])
   })
   it('returns null when the pass is already running or done', async () => {
     txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [] })
@@ -162,14 +177,39 @@ describe('sendBack', () => {
     expect(String(sql)).toMatch(/status = 'succeeded'/)
     expect(values).toEqual(['author_station', 'space', 's1', 'v1', ['explore', 'name', 'practice_check'], 'explore', 'the series is upside down'])
   })
-  it('sends back only the faulted part and what follows it', async () => {
+  it('sends back only the faulted part and what was built on it', async () => {
     txQuery.mockResolvedValue({ rows: [] })
     await sendBack('space', 's1', 'v1', 'job-4', 'feedback on option 2 is wrong', 'practice_check')
     expect(txQuery.mock.calls[2][1][4]).toEqual(['practice_check'])
+    // The practice is not built on the name: a wrong name leaves it standing.
+    txQuery.mockReset()
+    txQuery.mockResolvedValue({ rows: [] })
+    await sendBack('space', 's1', 'v1', 'job-4', 'the name claims a result', 'name')
+    expect(txQuery.mock.calls[2][1][4]).toEqual(['name'])
   })
   it('records a verify that sent a part back without charging it -- the part it faulted is charged', async () => {
     query.mockResolvedValue({ rows: [] })
     await failPass('job-4', 'the series is upside down', false)
     expect(query.mock.calls[0][1]).toEqual(['job-4', 'superseded: the series is upside down'])
+  })
+})
+
+describe('sweepStations -- old stations are cleared', () => {
+  it('clears stations written more than 30 days ago, at most once an hour', async () => {
+    query.mockResolvedValue({ rows: [], rowCount: 3 })
+    const t = 1_000_000_000
+    expect(await sweepStations(t)).toBe(true)
+    const [sql, values] = query.mock.calls[0]
+    expect(String(sql)).toMatch(/DELETE FROM ai_jobs/)
+    expect(String(sql)).toMatch(/created_at < NOW\(\) - INTERVAL '30 days'/)
+    expect(values).toEqual(['author_station'])
+    expect(await sweepStations(t + 30 * 60_000)).toBe(false)
+    expect(query).toHaveBeenCalledTimes(1)
+    expect(await sweepStations(t + 61 * 60_000)).toBe(true)
+  })
+
+  it('never fails the request it rides on', async () => {
+    query.mockRejectedValue(new Error('connection reset'))
+    await expect(sweepStations(5_000_000_000)).resolves.toBe(false)
   })
 })
