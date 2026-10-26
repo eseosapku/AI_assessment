@@ -2095,6 +2095,8 @@ one carries is printed beside it; that is the value your intent must state:
 - the parts of a diagram, an anatomy, a structure → label (isolates "position")
 - cause and effect, or one variable's influence on an outcome → vary (isolates "magnitude")
 - equality, conservation, balancing an equation, a budget → balance (isolates "structure"; "quantity" ONLY when "mode" is "weights")
+  -- always the "balance" activity with its pans already loaded so they do NOT balance at the start; never a
+  "balance-beam" material, which starts empty, is balanced before anything is placed, and is refused.
 - an ethical, civic, financial or safety decision → scenario (isolates "consequence")
 - building a valid whole out of parts → compose          (isolates "structure")
 - something that looks to have no hands-on angle → still take the CLOSEST

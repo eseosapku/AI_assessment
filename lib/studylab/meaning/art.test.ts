@@ -1,6 +1,6 @@
 // lib/studylab/meaning/art.test.ts
 import { describe, it, expect } from 'vitest'
-import { pictureFits, artFaults } from './art'
+import { pictureFits, artFaults, fitPictures } from './art'
 
 /**
  * A picture shows its item, or it is not there. The neuron stayed on "Memory
@@ -22,6 +22,39 @@ describe('pictureFits', () => {
 
   it('is false for a name the catalogue does not have', () => {
     expect(pictureFits('asset:no-such-thing', 'No such thing')).toBe(false)
+  })
+})
+
+describe('short names', () => {
+  it('match a three-letter item to its picture', () => {
+    expect(pictureFits('asset:cow', 'Cow')).toBe(true)
+  })
+})
+
+describe('fitPictures', () => {
+  const activity = (spec: Record<string, unknown>) => ({ type: 'createActivity', id: 'm1', spec })
+  it('takes off each picture that does not show its item, keeps the ones that do, and says what came off', () => {
+    const spec = {
+      pattern: 'sort', prompt: 'Sort by density.', seed: 1,
+      payload: { bins: [{ id: 'f', label: 'Floats' }, { id: 's', label: 'Sinks' }], items: [{ id: 'c', label: 'Cork', binId: 'f', imageUrl: 'asset:mushroom' }, { id: 'k', label: 'Cow', binId: 's', imageUrl: 'asset:cow' }] },
+      success: { kind: 'binAssignment', assign: { c: 'f', k: 's' } },
+    }
+    const { action, removed } = fitPictures(activity(spec))
+    const items = (action as unknown as { spec: { payload: { items: { id: string; imageUrl?: string }[] } } }).spec.payload.items
+    expect(items.find((i) => i.id === 'c')?.imageUrl).toBeUndefined()
+    expect(items.find((i) => i.id === 'k')?.imageUrl).toBe('asset:cow')
+    expect(removed.join(' ')).toMatch(/mushroom.*Cork/)
+  })
+
+  it('takes a slider card’s scene off when it is not the thing', () => {
+    const moon = activity({ pattern: 'vary', prompt: 'Move the Moon.', seed: 1, payload: { variable: { id: 'a', label: 'Moon position', min: 0, max: 360, step: 15 }, model: { kind: 'bars', bars: [] }, readouts: [], scene: 'asset:globe' }, success: { kind: 'numericWithin', target: 0, tolerance: 1 } })
+    const { action } = fitPictures(moon)
+    expect((action as unknown as { spec: { payload: { scene?: string } } }).spec.payload.scene).toBeUndefined()
+  })
+
+  it('leaves a labelled diagram for the gates to refuse: the card cannot work without it', () => {
+    const label = activity({ pattern: 'label', prompt: 'Label the climate graph.', seed: 1, payload: { image: { imageUrl: 'asset:bar-chart', width: 200, height: 200 }, hotspots: [] }, success: { kind: 'pairing', pairs: [] } })
+    expect((fitPictures(label).action as unknown as { spec: { payload: { image: { imageUrl: string } } } }).spec.payload.image.imageUrl).toBe('asset:bar-chart')
   })
 })
 

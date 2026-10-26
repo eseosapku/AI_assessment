@@ -12,6 +12,7 @@ import type { LessonStep } from '@/lib/studylab/lessonRun'
 import { stationSystemPrompt } from '../tutor/system-prompt'
 import { stagePrompt } from '../tutor/stagePrompt'
 import { materialRules } from '../tutor/dispatch'
+import { fitPictures } from '@/lib/studylab/meaning/art'
 
 /**
  * The passes that write a station ahead of the learner, one per request, each
@@ -223,7 +224,9 @@ async function explore(ctx: PassContext, opts: PassOptions): Promise<PassResult>
   // live path keeps it off the board.
   const { intent: onAction, ...bare } = (got.action ?? {}) as Record<string, unknown>
   const intent = got.intent ?? onAction
-  const action = stepped({ ...bare, id: `${ctx.step.id}-explore` }, ctx.stepNo)
+  // Pictures that do not show their items come off here, as they would at
+  // serve time: the card keeps its words, and the writer is not sent back.
+  const { action } = fitPictures(stepped({ ...bare, id: `${ctx.step.id}-explore` }, ctx.stepNo))
   const e = {
     opening: String(got.opening ?? '').trim(),
     action: action as never,
@@ -303,7 +306,7 @@ async function practiceCheck(ctx: PassContext, opts: PassOptions): Promise<PassR
   const practiceIntent = (p as { intent?: unknown } | undefined)?.intent ?? onAction
   const practice = {
     say: String(p?.say ?? '').trim(),
-    action: stepped({ ...bare, id: `${ctx.step.id}-practice` }, ctx.stepNo) as never,
+    action: fitPictures(stepped({ ...bare, id: `${ctx.step.id}-practice` }, ctx.stepNo)).action as never,
     ...(practiceIntent ? { intent: practiceIntent as never } : {}),
   }
   const check = { say: String(c?.say ?? '').trim(), questions: (Array.isArray(c?.questions) ? c.questions.map(fromSlips) : []) as never }

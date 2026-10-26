@@ -65,6 +65,7 @@ import { refuseUnjustifiedActivities, refuseUnjustifiedMaterials } from '@/app/a
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
 import { modelForJob } from '@/lib/studylab/lessonJobs'
 import { isSolvable } from '@/lib/studylab/material/solvable'
+import { meaningFaults } from '@/lib/studylab/meaning'
 import { validateMaterial } from '@/lib/studylab/material/validate'
 import type { LessonStep } from '@/lib/studylab/lessonRun'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
@@ -178,7 +179,21 @@ interface Report {
   /** The key check's own calls, priced apart from the authoring. */
   keysRequestId: string
   bundle?: StationBundle
+  /** What the meaning gates still find on the items that would be served: should always be nothing. */
+  meaning?: string[]
 }
+
+/**
+ * The meaning gates' refusals, by what they found: the rate at which a pass
+ * was written again for each, which is what the prompts are tuned on.
+ */
+const MEANING_KINDS: [string, RegExp][] = [
+  ['responds', /at every slider position|hardly moves|cannot be worked out from the slider|stays where it is|does not change as the slider moves|slider is named "x"/],
+  ['marked-on-output', /give a "target"|reaches the target/],
+  ['solved-at-start', /solved before (anything is moved|the slider moves)/],
+  ['self-answer', /has no picture, so the card|is both a box and a piece/],
+  ['picture-fits', /does not show/],
+]
 
 const asSteps = (s: Station): LessonStep[] =>
   s.steps.map(([title, goal], i) => ({ id: `s${i + 1}`, title, goal, status: 'pending', cardIds: [] }) as LessonStep)
@@ -263,6 +278,7 @@ function inspect(report: Report, bundle: StationBundle, step: LessonStep) {
   report.serveDrop = [...r1, ...r2]
   report.cutsAlike = cutsAlike(bundle.name)
   verifyBundleCode(bundle).ok || (report.servedWhole = false)
+  report.meaning = [...meaningFaults(a), ...meaningFaults(p)]
 }
 
 /** How alike the three name cuts are: the mean word overlap of their cards, 0 to 1. */
@@ -491,6 +507,9 @@ describe('the live authoring audit', () => {
       materials: ready.filter((r) => r.exploreKind !== 'card:practice').length,
       unsolvable: ready.filter((r) => r.solvable === false).length,
       servedWholeAtServeTime: `${ready.filter((r) => r.servedWhole).length}/${ready.length}`,
+      // The meaning gates: faults left on served items (must be 0), and the passes they sent back, by kind.
+      meaningFaultsServed: ready.reduce((n, r) => n + (r.meaning?.length ?? 0), 0),
+      meaningRewrites: Object.fromEntries(MEANING_KINDS.map(([kind, re]) => [kind, reports.reduce((n, r) => n + r.calls.filter((c) => !c.ok && re.test(c.reason ?? '')).length, 0)])),
       cutsAlikeMean: Number((ready.reduce((s, r) => s + (r.cutsAlike ?? 0), 0) / Math.max(1, ready.length)).toFixed(2)),
       cutsAlikeOver60: ready.filter((r) => (r.cutsAlike ?? 0) > 0.6).length,
       costAuthoring: Number(cost((f) => f.startsWith('station_') && f !== 'station_audit_keycheck').toFixed(3)),
@@ -519,6 +538,7 @@ describe('the live authoring audit', () => {
 
     expect(keys.every((k) => k.correct !== false)).toBe(true)
     expect(summary.readyRate).toBeGreaterThanOrEqual(0.9)
+    expect(summary.meaningFaultsServed).toBe(0)
     expect(summary.passSeconds.over20).toBe(0)
   }, 60 * 60 * 1000)
 })
