@@ -1478,6 +1478,11 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     finished
       ? 'The lesson is FINISHED. The student has a follow-up question about it — answer it against the whole lesson, adding a card if that is the clearest way. Do not restart the lesson and do not emit a checkpoint.'
       : "The student has a question about the current step — answer it. You may add or update a card if that's the clearest way to explain, but do NOT advance to a new beat or step.",
+    // On a station, asked about a material they were working, the tutor built
+    // a labelled diagram of it -- the material's answers, handed over.
+    !finished && stationStage(advanced, step)
+      ? 'If the question is about work on the board they have not finished -- a material, a practice problem, a question -- do not show its answer: no labelled, sorted or solved version of it, in a card or in "say". Explain the one idea they are stuck on with a different example, then hand the work back to them.'
+      : '',
     photo
       ? 'THEY HAVE ATTACHED A PHOTO OF THEIR OWN WORK. Read it and answer what is actually on it — say what is right before what is wrong, and name the first line that goes wrong rather than listing everything. Do not write out a corrected version for them to copy.'
       : '',

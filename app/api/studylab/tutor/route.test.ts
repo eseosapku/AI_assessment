@@ -2658,3 +2658,22 @@ describe('a busy model', () => {
     for (const call of vi.mocked(callGemma).mock.calls) expect(call[1]).toMatchObject({ fallbackModel: modelForJob('plan') })
   })
 })
+
+describe('a question about work still open', () => {
+  const ask = (run: LessonRun) =>
+    applyAction({ run, policy: GAP, userId: 'u1', action: { type: 'ask', question: 'I do not get the drag activity' }, context: {} })
+
+  it('is answered without the answer to that work, on a station', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Look at the left side first.', actions: [] }))
+    await ask(stationRun('name'))
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toMatch(/do not show its answer/i)
+    expect(prompt).toMatch(/hand the work back/i)
+  })
+
+  it('leaves a lesson from before stations asking as it did', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Here.', actions: [] }))
+    await ask(openRun())
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).not.toMatch(/do not show its answer/i)
+  })
+})
