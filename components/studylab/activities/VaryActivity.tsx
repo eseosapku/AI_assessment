@@ -42,7 +42,7 @@ function BarsModel({ payload, value, model }: { payload: VaryPayload; value: num
               {b.label}
             </text>
             {readings.has(b.label) && (
-              <text x={x + barW / 2} y={Math.max(9, VB_H - 24 - h)} textAnchor="middle" className="fill-[color:var(--ss-ink)] text-[11px] font-bold">
+              <text x={x + barW / 2} y={Math.max(9, VB_H - 24 - h)} textAnchor="middle" className="fill-[color:var(--ss-ink)] text-[12px] font-bold">
                 {said(readings.get(b.label)!.value)}{readings.get(b.label)!.unit ? ` ${readings.get(b.label)!.unit}` : ''}
               </text>
             )}
