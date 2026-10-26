@@ -19,6 +19,7 @@ import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
 import { focusFromTurn } from '@/lib/studylab/spotlight'
 import { checkAnswers, checkpointResultText } from '@/lib/studylab/quiz'
+import { hideChecks } from '@/lib/studylab/checkpointState'
 import { buildCheckpointRecallCards, recallNotice } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
@@ -96,6 +97,8 @@ export default function Workspace({ id }: { id: string }) {
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const addOffset = useRef(0)
   const submitted = useRef<Set<string>>(new Set())
+  // Failed checks to take off the board once the next turn has landed.
+  const hideAfterTurn = useRef<Set<string>>(new Set())
 
   const suggestions = useMemo(() => {
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -329,6 +332,12 @@ export default function Workspace({ id }: { id: string }) {
           }
         } else if (nextRun && nextRun.currentStep >= 0) {
           nextStep = nextRun.currentStep + 1
+        }
+        // The turn that answers a failed check has landed: the check comes off.
+        if (hideAfterTurn.current.size > 0) {
+          nextCanvas = hideChecks(nextCanvas, [...hideAfterTurn.current])
+          hideAfterTurn.current.clear()
+          setCanvas(nextCanvas)
         }
         if (nextStep !== stepRef.current) setCurrentStep(nextStep)
 
@@ -922,19 +931,11 @@ export default function Workspace({ id }: { id: string }) {
         // already been asked, from the board — wrote the retry with nothing to
         // avoid and asked the same question in different words. The learner
         // missed it again and could not get past the step.
-        if (!passed) {
-          setCanvas((prev) => ({
-            ...prev,
-            nodes: prev.nodes.map((n) =>
-              n.data.quiz?.checkpointId === cpId || n.id === `${cpId}-hdr`
-                ? { ...n, hidden: true }
-                : n,
-            ),
-            edges: prev.edges.filter(
-              (e) => !e.source.startsWith(cpId) && !e.target.startsWith(cpId),
-            ),
-          }))
-        }
+        //
+        // Not at once, though: hidden the moment it was marked, the question
+        // vanished before its result could be read -- no "Incorrect", no
+        // answer, no Why?. It stays until the tutor's next turn lands.
+        if (!passed) hideAfterTurn.current.add(cpId)
 
         // `passed` is only the page's view; the tutor marks `answers` itself.
         void sendAction({

@@ -361,7 +361,8 @@ function McqOptions({
     e.preventDefault()
     // The board moves a selected card with the arrow keys; here they choose.
     e.stopPropagation()
-    const from = chosen ?? -1
+    // From the chosen option, or -- before any is chosen -- the one with focus.
+    const from = chosen ?? buttons.current.findIndex((b) => b === document.activeElement)
     const next = (from + step + q.options.length) % q.options.length
     onChoose(next)
     buttons.current[next]?.focus()

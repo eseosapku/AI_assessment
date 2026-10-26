@@ -10,6 +10,7 @@ import {
   Panel,
   useReactFlow,
   useNodesState,
+  useNodesInitialized,
   getNodesBounds,
   MarkerType,
   type Node,
@@ -594,13 +595,22 @@ function FlowInner({
       maxZoom: 1,
     })
   }, [rf, focusKey, primaryId, insets.top, insets.right, insets.bottom, insets.left])
+  // Only once the board has measured its cards: before that there is nothing
+  // to frame, and the board's own fit-everything on load would land after us.
+  // Each focus is framed once: adding a note of your own must not pull the
+  // camera back.
+  const initialized = useNodesInitialized()
+  const framedKey = useRef('')
   useEffect(() => {
-    if (!focusKey) return
+    if (!focusKey || !initialized || framedKey.current === focusKey) return
     setExploring(false)
     // New cards need a frame to be measured before they can be framed.
-    const timer = setTimeout(frameFocus, 120)
+    const timer = setTimeout(() => {
+      framedKey.current = focusKey
+      frameFocus()
+    }, 120)
     return () => clearTimeout(timer)
-  }, [focusKey, frameFocus])
+  }, [focusKey, frameFocus, initialized])
 
   // The board narrows when the drawer opens, and the window can change: the
   // work in focus is framed again once the size settles, unless the learner
