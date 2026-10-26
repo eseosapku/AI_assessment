@@ -608,8 +608,8 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
  * for this exact version of the step is ready and still passes its checks,
  * live otherwise -- and live it stays. Live too, as before bundles, for a
  * near-twin after a miss, everything after a missed check (a second naming has
- * to be a different way), and run pace, where one turn builds the rest of the
- * station. The learner is never told which they got.
+ * to be a different way), and a run-pace station anywhere but its start, where
+ * it is served whole. The learner is never told which they got.
  */
 async function authoredTurn(
   input: DispatchInput,
@@ -623,13 +623,38 @@ async function authoredTurn(
   const deciding = stage === 'explore' && !run.stationOrigin
   if (!deciding && run.stationOrigin !== 'authored') return { run }
   const live: LessonRun = deciding ? { ...run, stationOrigin: 'live' } : run
-  if (run.pace === 'run' || missed.length > 0 || (run.stationMisses ?? 0) > 0) return { run: live }
+  if (missed.length > 0 || (run.stationMisses ?? 0) > 0) return { run: live }
+  // At run pace a station is one turn: served whole at its explore, and live
+  // from anywhere else in it.
+  if (run.pace === 'run' && !deciding) return { run: live }
 
   const bundle = await readyBundle(input, run, step)
   if (!bundle) return { run: live }
   const origin: LessonRun = deciding ? { ...run, stationOrigin: 'authored' } : run
-  const result = serveStage(stage, bundle, origin, step, board)
+  const result = run.pace === 'run' ? serveWhole(bundle, origin, step, board) : serveStage(stage, bundle, origin, step, board)
   return result ? { run: result.run, result } : { run: live }
+}
+
+/**
+ * The whole station in one turn, as a live run-pace turn builds it: the
+ * explore, the naming card -- written true whatever the student did, so it
+ * claims no result -- the practice, and the check. Topic lessons start at run
+ * pace, so without this most would pay for a station and never be served it.
+ */
+function serveWhole(bundle: StationBundle, run: LessonRun, step: LessonStep, board: BoardSummary): DispatchResult | null {
+  const explore = serveStage('explore', bundle, run, step, board)
+  const named = keptAuthored(bundle.name.solved.actions, run, step)
+  const practice = keptAuthored([bundle.practice.action], run, step)
+  if (!explore || !named || !practice) return null
+  const check = serveStage('check', bundle, run, step, board)
+  if (!check) return null
+  return {
+    run: check.run,
+    say: bundle.explore.opening,
+    actions: [...explore.actions, ...onePoint(named), ...practice, ...check.actions],
+    suggestions: [],
+    ...(explore.intents ? { intents: explore.intents } : {}),
+  }
 }
 
 /** The bundle written for this step as it stands now, if it is ready and still passes its checks. */

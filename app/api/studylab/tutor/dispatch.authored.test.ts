@@ -165,12 +165,27 @@ describe('live beats take over whenever it cannot be', () => {
     expect(callGemma).toHaveBeenCalled()
   })
 
-  it('teaches the whole station live at run pace', async () => {
+  it('serves the whole station at once at run pace, as a live run-pace turn builds it', async () => {
+    // Topic lessons start at run pace by default: without this, most lessons
+    // would pay for a station and never be served one.
     ready()
-    const p = planning()
-    const out = await turn({ ...p, pace: 'run' }, { type: 'accept_plan' })
+    const out = await turn({ ...planning(), pace: 'run' }, { type: 'accept_plan' })
+    expect(callGemma).not.toHaveBeenCalled()
+    expect(out.say).toBe('Watch which ones bend.')
+    const ids = out.actions.map((a) => (a as { id?: string; type: string }).id ?? (a as { type: string }).type)
+    // The explore, the name -- true whatever they did, so no outcome is claimed -- the practice, the check.
+    expect(ids.slice(0, 2)).toEqual(['s1-explore', 's1-solved-1'])
+    expect(ids).toContain('s1-practice')
+    expect(ids).not.toContain('s1-untried-1')
+    expect((out.actions.at(-1) as { type: string }).type).toBe('checkpoint')
+    expect(out.run.openCheck).toMatchObject({ gate: 'hard' })
+    expect(out.run.stationOrigin).toBe('authored')
+  })
+
+  it('keeps a run-pace station live once it is under way', async () => {
+    ready()
+    await turn(station('name', { pace: 'run' }), { type: 'next_beat' })
     expect(callGemma).toHaveBeenCalled()
-    expect(out.run.stationOrigin).toBe('live')
   })
 
   it('teaches live when the bundle cannot be looked up', async () => {
