@@ -6,7 +6,7 @@ import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
-import { modeForCell, feedbackFor, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { modeForCell, feedbackFor, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
@@ -121,8 +121,14 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   const showAnswer = state.phase === 'revealed' || (state.phase === 'wrong' && mode === 'test')
 
   // A miss sways the card once; then focus goes to the bar's first button, so
-  // a keyboard learner lands on "Try again" or "Why?" without hunting.
+  // a keyboard learner lands on "Try again" or "Why?" without hunting. Only for
+  // a result marked now: a card restored on load stays still and leaves focus
+  // where it is.
+  const seen = useRef<Pick<CheckFlowState, 'phase' | 'attempts'>>()
   useEffect(() => {
+    const live = isLiveChange(seen.current, state)
+    seen.current = { phase: state.phase, attempts: state.attempts }
+    if (!live) return
     if (state.phase === 'retry' || state.phase === 'wrong') {
       const m = motionFor('shakeSoft', reduced)
       if (m.animate) void shake.start({ ...m.animate, transition: m.transition })

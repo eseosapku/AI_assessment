@@ -1,11 +1,11 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence, MotionConfig, useAnimationControls, useReducedMotion } from 'framer-motion'
 import { Handle, Position } from '@xyflow/react'
 import { Lightbulb, Check, Hand } from 'lucide-react'
 import { handleClass } from '../canvasShared'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
-import type { CheckFlowState } from '@/lib/studylab/checkFlow'
+import { isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from '../check/CheckBar'
@@ -84,7 +84,13 @@ export function ActivityFrame({
   const surface = useAnimationControls()
   const phase = checkState?.phase
   const attempts = checkState?.attempts
+  // Only for a result marked now: a material restored solved does not hop on load.
+  const seen = useRef<Pick<CheckFlowState, 'phase' | 'attempts'>>()
   useEffect(() => {
+    if (phase === undefined || attempts === undefined) return
+    const live = isLiveChange(seen.current, { phase, attempts })
+    seen.current = { phase, attempts }
+    if (!live) return
     const m =
       phase === 'correct' ? motionFor('stagger', reduced)
       : phase === 'retry' || phase === 'wrong' ? motionFor('shakeSoft', reduced)

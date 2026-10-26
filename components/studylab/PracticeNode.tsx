@@ -8,7 +8,7 @@ import type { StudyNodeData } from '@/lib/studylab/types'
 import { CardFrame, SafeLatex, CanvasContext } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
 import { localVerdict, isAttemptable, type PracticeCell, type PracticeState } from '@/lib/studylab/practice'
-import { MAX_LEARN_TRIES, restoreEvent, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { MAX_LEARN_TRIES, restoreEvent, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from './check/CheckBar'
@@ -78,7 +78,12 @@ export function PracticeNode({ id, data }: NodeProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Results marked now sway the card and move focus; a restored card does neither.
+  const seen = useRef<Pick<CheckFlowState, 'phase' | 'attempts'>>()
   useEffect(() => {
+    const live = isLiveChange(seen.current, state)
+    seen.current = { phase: state.phase, attempts: state.attempts }
+    if (!live) return
     if (state.phase === 'retry' || state.phase === 'wrong') {
       const m = motionFor('shakeSoft', reduced)
       if (m.animate) void shake.start({ ...m.animate, transition: m.transition })

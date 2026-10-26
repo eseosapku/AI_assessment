@@ -94,6 +94,18 @@ export function restoreEvent(state: CheckFlowState, hasWork: boolean): CheckEven
   return state.phase === 'idle' && hasWork ? { type: 'answer', present: true } : null
 }
 
+/**
+ * Whether a card's state just changed in front of the learner. The first state
+ * a card renders (`prev` undefined) is where it already was -- a restored miss
+ * must not shake, and a restored card must not take focus, as the lesson opens.
+ */
+export function isLiveChange(
+  prev: Pick<CheckFlowState, 'phase' | 'attempts'> | undefined,
+  next: Pick<CheckFlowState, 'phase' | 'attempts'>,
+): boolean {
+  return !!prev && (prev.phase !== next.phase || prev.attempts !== next.attempts)
+}
+
 /** Hard checkpoints and test-outs are tests; everything else is learning. */
 export function modeForGate(
   gate: 'hard' | 'soft' | undefined,
