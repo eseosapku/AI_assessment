@@ -1,6 +1,6 @@
 // lib/studylab/planRail.test.ts
 import { describe, it, expect } from 'vitest'
-import { railSteps, railIsLive } from './planRail'
+import { railSteps, railIsLive, pathSections, type RailStep } from './planRail'
 import { policyFor } from './lessonPolicy'
 import type { LessonRun } from './lessonRun'
 
@@ -112,5 +112,32 @@ describe('the rail while a plan is still being agreed', () => {
     expect(railIsLive(planning)).toBe(false)
     expect(railIsLive(run)).toBe(true)
     expect(railIsLive(null)).toBe(false)
+  })
+})
+
+describe('pathSections', () => {
+  const row = (id: string, status: RailStep['status'], current = false): RailStep => ({
+    id, title: id, status, measured: null, canTestOut: false, lockedReason: null, current,
+  })
+
+  it('splits the path into what you know, where you start and what comes later', () => {
+    const rail = [row('a', 'known'), row('b', 'done'), row('c', 'teaching', true), row('d', 'pending'), row('e', 'pending')]
+    const s = pathSections(rail)
+    expect(s.known.map((r) => r.id)).toEqual(['a', 'b'])
+    expect(s.current?.id).toBe('c')
+    expect(s.later.map((r) => r.id)).toEqual(['d', 'e'])
+  })
+
+  it('starts at the first waiting step when none is being taught yet', () => {
+    const s = pathSections([row('a', 'known'), row('b', 'pending'), row('c', 'pending')])
+    expect(s.current?.id).toBe('b')
+    expect(s.later.map((r) => r.id)).toEqual(['c'])
+  })
+
+  it('has no start once everything is settled', () => {
+    const s = pathSections([row('a', 'done'), row('b', 'known')])
+    expect(s.current).toBeNull()
+    expect(s.later).toEqual([])
+    expect(pathSections([])).toEqual({ known: [], current: null, later: [] })
   })
 })

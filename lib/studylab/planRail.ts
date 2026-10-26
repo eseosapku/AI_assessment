@@ -42,6 +42,22 @@ export function railIsLive(run: LessonRun | null): boolean {
   return !!run && run.phase !== 'planning'
 }
 
+/** The plan as a path: what you already know, where you start, what comes later. */
+export interface PathSections {
+  known: RailStep[]
+  current: RailStep | null
+  later: RailStep[]
+}
+
+export function pathSections(rail: RailStep[]): PathSections {
+  const known = rail.filter((r) => r.status === 'done' || r.status === 'known')
+  const open = rail.filter((r) => r.status !== 'done' && r.status !== 'known')
+  // Before the plan is accepted nothing is current yet; the start is the
+  // first step still waiting.
+  const current = open.find((r) => r.current) ?? open.find((r) => r.status === 'pending') ?? null
+  return { known, current, later: open.filter((r) => r !== current) }
+}
+
 export function railSteps(run: LessonRun | null, policy: LessonPolicy): RailStep[] {
   if (!run) return []
   return run.steps.map((step, i) => {
