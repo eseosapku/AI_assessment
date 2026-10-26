@@ -139,6 +139,14 @@ const initialNodes: Node[] = [
     id: 'code-js', type: 'code', position: { x: 1900, y: 1180 },
     data: { kind: 'code', title: 'Counting down', language: 'javascript', runnable: true, code: 'let n = 3\nwhile (n > 0) {\n  console.log(n)\n  n = n - 1\n}\nconsole.log("lift off")' } as never,
   },
+  {
+    id: 'orbit', type: 'activity', position: { x: 2280, y: 1180 },
+    data: { spec: {
+      pattern: 'scene', prompt: 'Move the Moon to where we see a first quarter.', seed: 1,
+      payload: { engine: 'orbit', config: { task: { kind: 'make-phase', phase: 'first quarter' } } },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
   { id: 'activity', type: 'activity', position: { x: 380, y: 520 }, data: { spec: SORT, activityState: undefined } as never },
   {
     id: 'concept', type: 'concept', position: { x: 880, y: 520 },
