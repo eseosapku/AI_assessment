@@ -13,9 +13,12 @@ vi.mock('@/lib/db', () => ({ db: { query: vi.fn() } }))
 
 import { callGemma } from '@/lib/bedrock'
 import { applyAction, draftPlan } from './dispatch'
+import { systemPrompt } from './system-prompt'
 import type { Database } from '@/lib/db'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
-import { emptyRun, proposePlan, acceptPlan, beginCheck, type LessonRun } from '@/lib/studylab/lessonRun'
+import { emptyRun, proposePlan, acceptPlan, beginCheck, type LessonRun, type Stage } from '@/lib/studylab/lessonRun'
+import type { Pace } from '@/lib/studylab/lessonPolicy'
+import { COMPREHENSION_CHIPS } from '@/lib/studylab/chips'
 
 const GAP = policyFor('gap')
 // Test-out is offered on gap and homework lessons, never on one the learner
@@ -24,6 +27,16 @@ const TEST_OUTABLE = policyFor('homework')
 
 const dbWith = (rows: Record<string, unknown>[]): Database =>
   ({ query: vi.fn().mockResolvedValue({ rows }) }) as unknown as Database
+
+/**
+ * A run from before stations. Most of this file pins how those are taught --
+ * the card-first beats, the card count that closes a step -- and lessons saved
+ * then are still taught that way. Station runs have their own section below.
+ */
+function legacy(run: LessonRun): LessonRun {
+  const { recipe: _recipe, stage: _stage, ...rest } = run
+  return rest
+}
 
 function lockedRun(): LessonRun {
   const planned = proposePlan(emptyRun(GAP), [
@@ -34,18 +47,28 @@ function lockedRun(): LessonRun {
   if (!planned.ok) throw new Error(planned.reason)
   const started = acceptPlan(planned.run)
   if (!started.ok) throw new Error(started.reason)
-  return started.run
+  return legacy(started.run)
 }
 
-/** A run mid-lesson with a single step, teaching it. */
-function openRun(): LessonRun {
+/** A plan waiting to be accepted: one step. */
+function planningRun(): LessonRun {
   const planned = proposePlan(emptyRun(GAP), [
     { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
   ])
   if (!planned.ok) throw new Error(planned.reason)
-  const started = acceptPlan(planned.run)
+  return planned.run
+}
+
+/** A lesson accepted today, on its one step: a station run. */
+function stationRun(stage: Stage = 'explore', pace: Pace = 'step'): LessonRun {
+  const started = acceptPlan(planningRun())
   if (!started.ok) throw new Error(started.reason)
-  return started.run
+  return { ...started.run, stage, pace }
+}
+
+/** A run mid-lesson with a single step, teaching it -- from before stations. */
+function openRun(): LessonRun {
+  return legacy(stationRun())
 }
 
 beforeEach(() => vi.mocked(callGemma).mockReset())
@@ -2307,5 +2330,124 @@ describe('a step that keeps being missed changes tack', () => {
     const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
     expect(prompt).not.toContain("MISSED THIS STEP'S CHECK")
     expect(prompt).toContain('MISSED THIS QUESTION TWICE')
+  })
+})
+
+/**
+ * One tutor. A lesson accepted today is a run of stations, and each turn is
+ * decided by the station's stage: explore with the hands, name what they did,
+ * practise a near-twin, then check. The prompt asks for it; these pin the parts
+ * the server enforces.
+ */
+describe('a station turn follows its stage', () => {
+  const PRACTICE = {
+    type: 'createCard', id: 'p1', card: 'practice', step: 1,
+    title: 'Predict: which lands first?',
+    body: 'A heavy ball and a light ball are dropped together from the same height.',
+    answer: 'They land together', rubric: 'Says both land at the same time', steps: ['Both fall with the same acceleration'],
+  }
+  const CONCEPT = { type: 'createCard', id: 'c1', card: 'concept', step: 1, title: 'What gravity does', body: 'Gravity pulls every mass toward the Earth.' }
+  const CHECKPOINT = {
+    type: 'checkpoint', id: 'cp-1', step: 1, gate: 'hard',
+    questions: [{ id: 'q1', format: 'mcq', prompt: 'Which lands first?', options: ['Heavy', 'Together'], answer: 1 }],
+  }
+  const reply = (actions: unknown[], extra: Record<string, unknown> = {}) =>
+    JSON.stringify({ say: 'Watch where they land.', actions, suggestions: ['Tell me more'], ...extra })
+  const accept = (pace?: Pace) =>
+    applyAction({ run: planningRun(), policy: GAP, userId: 'u1', action: { type: 'accept_plan', ...(pace ? { pace } : {}) }, context: {} })
+  const beat = (from: Stage) =>
+    applyAction({ run: stationRun(from), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
+  const prompt = (n = 0) => String(vi.mocked(callGemma).mock.calls[n][0])
+  const types = (actions: unknown[]) => actions.map((a) => (a as { type?: string; card?: string }).card ?? (a as { type?: string }).type)
+
+  it('teaches from the station prompt and the stage, not the card-first beats', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE]))
+    await accept()
+    expect(prompt()).toContain('A station never opens with a card to read')
+    expect(prompt()).toContain('STAGE: EXPLORE')
+    expect(prompt()).not.toContain('Almost every teaching turn MUST emit createCard')
+    expect(prompt()).not.toContain('add exactly ONE new card')
+  })
+
+  it('opens with something to handle: an explore turn that came back as reading is asked again, once', async () => {
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(reply([CONCEPT]))
+      .mockResolvedValueOnce(reply([PRACTICE]))
+    const result = await accept()
+    expect(callGemma).toHaveBeenCalledTimes(2)
+    expect(prompt(1)).toMatch(/EXPLORE, AGAIN/)
+    expect(types(result.actions)).toEqual(['practice'])
+  })
+
+  it('takes the second answer even when it is reading again -- a lesson that goes on beats a refusal', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([CONCEPT]))
+    const result = await accept()
+    expect(callGemma).toHaveBeenCalledTimes(2)
+    expect(result.refusal).toBeUndefined()
+    expect(types(result.actions)).toEqual(['concept'])
+  })
+
+  it('does not ask again when the station opened with something to handle', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE]))
+    await accept()
+    expect(callGemma).toHaveBeenCalledOnce()
+  })
+
+  it('ends a name turn on exactly the two comprehension chips', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([CONCEPT], { suggestions: ['Why?', 'More', 'Example'] }))
+    const result = await beat('explore')
+    expect(prompt()).toContain('STAGE: NAME IT')
+    expect(result.suggestions).toEqual([...COMPREHENSION_CHIPS])
+  })
+
+  it('keeps a check out of a turn before the check stage', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([CONCEPT, CHECKPOINT]))
+    const result = await beat('explore')
+    expect(types(result.actions)).toEqual(['concept'])
+    expect(result.run.openCheck).toBeUndefined()
+  })
+
+  it('opens the check at the check stage, with no chips beside it', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([CHECKPOINT]))
+    const result = await beat('practice')
+    expect(prompt()).toContain('STAGE: CHECK')
+    expect(result.run.openCheck?.stepId).toBe('a')
+    expect(result.suggestions).toEqual([])
+  })
+
+  it('writes the check itself when the check stage came back without one', async () => {
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(reply([CONCEPT]))
+      .mockResolvedValueOnce(JSON.stringify({ questions: [{ id: 'q1', format: 'mcq', prompt: 'Which?', options: ['a', 'b'], answer: 0 }] }))
+    const result = await beat('practice')
+    expect(types(result.actions)).toContain('checkpoint')
+    expect(result.run.openCheck?.stepId).toBe('a')
+  })
+
+  it('builds the whole station in one turn at run pace, and lets it close', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE, CONCEPT, CHECKPOINT]))
+    const result = await accept('run')
+    expect(prompt()).toContain('WHOLE STATION')
+    expect(result.run.openCheck?.stepId).toBe('a')
+    expect(result.suggestions).toEqual([])
+  })
+
+  it('tells the turns that may build a material how to, and never orders one on a check', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE]))
+    await accept()
+    expect(prompt()).toContain('WHICH APPARATUS')
+    expect(prompt()).not.toContain('MONTESSORI MODE')
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(reply([CHECKPOINT]))
+    await beat('practice')
+    expect(prompt()).not.toContain('WHICH APPARATUS')
+    expect(prompt()).not.toContain('Emit AT LEAST ONE "createActivity"')
+  })
+
+  it('teaches a run from before stations exactly as before', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Here', actions: [] }))
+    await applyAction({ run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
+    expect(prompt()).toContain(systemPrompt('classic'))
+    expect(prompt()).not.toContain('STAGE:')
   })
 })

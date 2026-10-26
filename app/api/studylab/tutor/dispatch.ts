@@ -4,8 +4,8 @@ import { modelForJob } from '@/lib/studylab/lessonJobs'
 import type { LessonPolicy } from '@/lib/studylab/lessonPolicy'
 import {
   nextBeat, passCheck, failCheck, requestTestOut, skipStep, jumpTo,
-  setPace, stop, finish, acceptPlan, editPlan, proposePlan, beginCheck,
-  type LessonRun, type LessonStep, type Transition,
+  setPace, stop, finish, acceptPlan, editPlan, proposePlan, beginCheck, stageOf,
+  type LessonRun, type LessonStep, type Transition, type Stage,
 } from '@/lib/studylab/lessonRun'
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
@@ -19,7 +19,9 @@ import { fenceStudentText, MAX_TYPED_CHARS } from '@/lib/studylab/untrusted'
 import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
-import { systemPrompt } from './system-prompt'
+import { systemPrompt, stationSystemPrompt } from './system-prompt'
+import { stagePrompt } from './stagePrompt'
+import { COMPREHENSION_CHIPS } from '@/lib/studylab/chips'
 import { validateSpec } from '@/lib/studylab/activities/validate'
 import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from '@/lib/studylab/activities/intent'
 import { getApparatus } from '@/lib/studylab/material/canon'
@@ -236,6 +238,10 @@ const CARDS_BEFORE_CHECK = 3
  * apart; a count of turns can.
  */
 function shouldCloseStep(board: BoardSummary, stepNo: number, run: LessonRun): boolean {
+  // A station closes on its stage, not on a count of cards: at its check, or at
+  // the end of a whole-station turn at run pace. Only the station being taught.
+  const stage = stationStage(run, run.steps[stepNo - 1])
+  if (stage) return stepNo === run.currentStep + 1 && (run.pace === 'run' || stage === 'check')
   if (run.pace === 'step' && run.beats < 1) return false
   // After three misses the turn is spent re-teaching the idea a different way,
   // and a check on the end of that is a fourth attempt at the same ground with
@@ -247,6 +253,45 @@ function shouldCloseStep(board: BoardSummary, stepNo: number, run: LessonRun): b
     board.cards.filter((c) => c.step === stepNo && !c.aside).length
   const retry = board.checkedSteps.includes(stepNo)
   return since >= (retry ? 1 : CARDS_BEFORE_CHECK)
+}
+
+/**
+ * The stage a teaching turn on this step follows, or null when it is taught the
+ * way lessons were before stations: a run from before them, or a homework step
+ * -- a question the student was set is worked through from their own attempt,
+ * not explored from scratch.
+ */
+function stationStage(run: LessonRun, step: LessonStep | undefined): Stage | null {
+  return step && !step.homework ? stageOf(run) : null
+}
+
+/**
+ * Said when an explore turn came back with only reading. Asked once: the first
+ * answer of a lesson that goes on beats a refusal, so a second miss is taken.
+ */
+const EXPLORE_AGAIN = [
+  'EXPLORE, AGAIN: your reply opened this station with reading and nothing to handle.',
+  'Reply again with the explore turn THE STAGE asks for: ONE material ("createActivity" or',
+  '"build_material"), or where no material honestly fits, ONE "practice" card titled "Predict: ..." --',
+  'and no "concept", "table", "callout", "mermaid" or "worked" card.',
+].join('\n')
+
+/** Time a second explore call needs; with less left, the first answer stands. */
+const EXPLORE_AGAIN_BUDGET_MS = 12_000
+
+/**
+ * Whether a turn's actions, as they would be kept, give the student something
+ * to handle: a material, or a problem to work.
+ */
+function opensWithHands(actions: unknown, run: LessonRun): boolean {
+  const returned = Array.isArray(actions) ? actions : []
+  const { kept: activities } = refuseUnjustifiedActivities(fitCardsToLesson(returned, run))
+  const { kept } = refuseUnjustifiedMaterials(activities)
+  return kept.some((a) => {
+    if (!isValidAction(a)) return false
+    const type = (a as { type?: unknown }).type
+    return type === 'createActivity' || type === 'build_material' || (type === 'createCard' && (a as { card?: unknown }).card === 'practice')
+  })
 }
 
 /**
@@ -340,15 +385,20 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const step = advanced.steps[advanced.currentStep]
   if (!step) return { run: advanced, say: '', actions: [], suggestions: [] }
 
-  const raw = await callGemma(buildTeachPrompt(advanced, step, input.context ?? {}, false), {
-    maxTokens: 2600,
-    temperature: 0.6,
-    model: modelForJob('teach_beat'),
-    usage: input.requestId
-      ? { feature: 'lesson_teach_beat', requestId: input.requestId, userId: input.userId }
-      : undefined,
-    signal: signalFor(input.deadline),
-  })
+  // The station stage this turn teaches; null on a run from before stations.
+  const stage = stationStage(advanced, step)
+  const prompt = buildTeachPrompt(advanced, step, input.context ?? {}, false)
+  const teach = (text: string) =>
+    callGemma(text, {
+      maxTokens: 2600,
+      temperature: 0.6,
+      model: modelForJob('teach_beat'),
+      usage: input.requestId
+        ? { feature: 'lesson_teach_beat', requestId: input.requestId, userId: input.userId }
+        : undefined,
+      signal: signalFor(input.deadline),
+    })
+  const raw = await teach(prompt)
 
   let parsed: { say?: unknown; actions?: unknown; suggestions?: unknown }
   try {
@@ -363,6 +413,24 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
       retry: true,
+    }
+  }
+
+  // A station opens with the student's hands. Told so, the model still opens
+  // with a reading card often enough to matter, and a reading card first is the
+  // whole thing stations exist to undo -- so it is asked once more, saying what
+  // was wrong. The second answer is taken whatever it holds.
+  if (
+    stage === 'explore' &&
+    !opensWithHands(parsed?.actions, advanced) &&
+    (input.deadline === undefined || input.deadline - Date.now() > EXPLORE_AGAIN_BUDGET_MS)
+  ) {
+    try {
+      const again = parseJsonRobust(await teach(`${prompt}\n\n${EXPLORE_AGAIN}`)) as typeof parsed
+      const built = Array.isArray(again?.actions) && again.actions.length > 0
+      if (built || (typeof again?.say === 'string' && again.say.trim())) parsed = again
+    } catch {
+      /* the first answer stands */
     }
   }
 
@@ -442,13 +510,25 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const materialRefusals = [...activityRefusals, ...buildMaterialRefusals]
   for (const reason of materialRefusals) console.log(`Refused a material: ${reason}`)
 
+  const offered = Array.isArray(parsed?.suggestions)
+    ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
+    : []
+  // On a station the stage decides the chips: none beside a check, and on a
+  // name turn exactly the two that ask whether it landed.
+  const suggestions =
+    stage === null
+      ? offered
+      : stage === 'check' || stageOf(closed.run) === 'check'
+        ? []
+        : stage === 'name'
+          ? [...COMPREHENSION_CHIPS]
+          : offered
+
   return {
     run: closed.run,
     say,
     actions: kept,
-    suggestions: Array.isArray(parsed?.suggestions)
-      ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
-      : [],
+    suggestions,
     intents: intents.length > 0 ? intents : undefined,
     materialRefusals: materialRefusals.length > 0 ? materialRefusals : undefined,
   }
@@ -1485,7 +1565,18 @@ conflicts with it — specifically:
 - Text cards are supporting material only: AT MOST ONE may accompany a material,
   and it comes AFTER it — never before it, and never instead of it.
 - NEVER return a turn of cards and connects alone with no "createActivity".
-- Before reaching for a "mermaid" or "concept" card for anything with a
+` + materialRules()
+}
+
+/**
+ * How to build a material well, without montessori's order to build one on
+ * every turn. A station builds one only where its stage asks (explore, a
+ * practice variant), so its turns take these rules and not that mandate --
+ * a check turn told to emit `createActivity` "without exception" was being
+ * told to contradict its own stage.
+ */
+function materialRules(): string {
+  return `- Before reaching for a "mermaid" or "concept" card for anything with a
   structure, a flow or a process, check WHICH APPARATUS first: a flow of stages
   is "sequence", the parts of a structure are "label" or "compose", a trend or
   an influence is "vary". A text card is the last resort, never the default.
@@ -1793,9 +1884,14 @@ function buildTeachPrompt(
   // beats in, the lesson was still on step 1 with no checkpoint in sight and
   // no way for the learner to finish it.
   const wrapUp = shouldCloseStep(board, stepNo, run)
+  // A station's turn is decided by its stage. Asides and homework steps are
+  // taught as lessons were before stations.
+  const stage = aside ? null : stationStage(run, step)
 
   const pace =
-    wrapUp
+    stage
+      ? stagePrompt(stage, { missed: [], pace: run.pace })
+      : wrapUp
       ? [
           `PACE — CLOSE THIS STEP: it has had ${run.beats} turn(s) already.`,
           'If this step taught a method, a procedure or a calculation, add ONE "practice"',
@@ -1829,7 +1925,8 @@ function buildTeachPrompt(
   const sameKindRun =
     recentKinds.length >= 2 && new Set(recentKinds).size === 1 ? recentKinds[0] : null
 
-  const variety = sameKindRun
+  // A station's stage already says what kind of thing each turn is.
+  const variety = sameKindRun && !stage
     ? `VARIETY: your last ${recentKinds.length} cards were all "${sameKindRun}" cards. Do NOT make another one — pick a different type that fits the content (mermaid, worked, table, callout).`
     : ''
 
@@ -1897,8 +1994,10 @@ function buildTeachPrompt(
   // a real learner is long gone by then. Driving a lesson while answering
   // vaguely produced exactly that: seven checks on one step, twenty-three more
   // cards, and the rail never moved.
+  // On a station a miss goes back to practice, then the check again; the stage
+  // carries what this did.
   const struggling =
-    !hw && asked >= 3
+    !hw && !stage && asked >= 3
       ? [
           '',
           `THEY HAVE MISSED THIS STEP'S CHECK ${asked} TIMES. Stop explaining it the`,
@@ -1923,7 +2022,8 @@ function buildTeachPrompt(
   // separately is how they would come apart — an aside turn told "you MUST
   // emit createActivity" with no schema anywhere under it is the failure this
   // whole fix is about, in miniature.
-  const montessori = run.mode === 'montessori' && !aside
+  const montessori = run.mode === 'montessori' && !aside && !stage
+  const builds = !!stage && (run.pace === 'run' || stage === 'explore' || stage === 'practice')
 
   return [
     // Mode-aware: in montessori the card-first mandate is REPLACED rather than
@@ -1933,7 +2033,7 @@ function buildTeachPrompt(
     // both this — and an instruction contradicting the authoritative ACTION
     // TYPES list from lower down the same prompt is precisely the arrangement
     // that produced zero materials on five topics out of five.
-    systemPrompt(montessori ? 'montessori' : 'classic'),
+    stage ? stationSystemPrompt() : systemPrompt(montessori ? 'montessori' : 'classic'),
     '',
     `LESSON: ${String(context.title ?? 'this topic')}`,
     context.subject ? `SUBJECT: ${String(context.subject)}` : '',
@@ -1962,7 +2062,9 @@ function buildTeachPrompt(
     freshOpener,
     '',
     montessori ? materialContract() : '',
-    montessori ? advertiseVocabulary() : '',
+    // A station builds a material where its stage may ask for one.
+    builds ? `HOW TO BUILD A MATERIAL, when THE STAGE asks for one:\n\n${materialRules()}` : '',
+    montessori || builds ? advertiseVocabulary() : '',
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',
   ]

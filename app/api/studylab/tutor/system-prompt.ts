@@ -67,7 +67,8 @@ const CREATE_ACTIVITY_ACTION_TYPE = `
 const BUILD_MATERIAL_ACTION_TYPE = `
 - { "type":"build_material", "id":"...", "step":<int>, "intent":{...}, "spec": <MaterialSpec> } — free-form material from the composable vocabulary. BOTH intent and spec required. Apparatus names, box caps, and schema notes are in the BUILD MATERIAL VOCABULARY block at the END of the prompt (with the MATERIAL CONTRACT). Prefer createActivity for the nine known patterns; use build_material when composing freely within the box.`
 
-const SYSTEM_ACTION_TYPES = `
+/** The action types the tutor may emit, and the card schemas. Shared by every prompt. */
+const ACTION_LIST = `
 - { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"mermaid"|"worked"|"table"|"callout"|"web"|"practice", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
     • "concept": use title + body (and optional items for key terms / bullet lists).
     • In a "concept", "worked" or "callout" body you may mark up to three key terms as [[term|one-sentence definition]] — the student taps the term to see the definition. Only for a word the student may not know yet; never mark the answer to a check.
@@ -97,7 +98,10 @@ const SYSTEM_ACTION_TYPES = `
     • Do NOT use "code" format unless the lesson itself is teaching programming. Even then, keep it to a SINGLE tiny expression or line (e.g. "write the discriminant b**2 - 4*a*c") — NEVER ask the student to write a whole multi-case function, handle edge cases, or use libraries the lesson never covered. A maths lesson (e.g. the quadratic formula) must use mcq/short/match, never "code".
     • Test the CONCEPT just taught, not unrelated or harder material.
 
-CHOOSING THE RIGHT CARD (use VARIETY — not only "concept" cards):
+`
+
+/** Which card fits which content, and what a chip is for. Shared. */
+const CARD_GUIDE = `CHOOSING THE RIGHT CARD (use VARIETY — not only "concept" cards):
 - STRUCTURE / TREE / FLOW / RELATIONSHIP → "mermaid" (reach for this often; it is the only diagram type).
 - PROCEDURE / DERIVATION / STEP-BY-STEP → "worked" (numbered steps).
 - COMPARISON / structured data → "table".
@@ -111,7 +115,10 @@ NEVER use a "code" or "web" card to hold prose, dialogue, a quotation or an exam
 
 SUGGESTIONS: 2-3 short chips, each a REQUEST ABOUT THE MATERIAL you just taught — e.g. "Show another example", "Why does that happen?", "Go deeper on the second stage", "Quiz me on this". Each one is sent to you as a question, so it must read as something worth asking. NEVER offer a chip that just means "carry on" ("Continue", "I'm ready", "Next step") — the student already has a Continue button, and a chip that duplicates it is a second button doing the same thing. NEVER suggest an action the student performs on a card (no "Run the code", "Run it", "Click the card").
 
-RULES:
+`
+
+/** The beat-by-beat rules of a lesson from before stations. */
+const LEGACY_RULES = `RULES:
 1. Use LaTeX wrapped in $...$ for any math, in "say" and in card BODY text. NEVER in a "title" — titles are rendered as plain text, so a title like "Practice: Expanding $(x + 5)^2$" shows the dollar signs to the student. Write "Practice: Expanding (x + 5)squared" or just "Practice: Expanding a Binomial".
 2. On "Continue"/"ready": if the CURRENT step's goal is NOT yet fully covered, teach the NEXT beat — add 1-2 new cards that advance toward the goal (connect them parent→child to existing cards), awaitUser=true. ONLY when the step's goal is fully covered do you emit ONE hard "checkpoint" (1-2 questions); fit the format to the material (concept→mcq/short, procedure→match, coding→code). CRITICAL: if your "say" mentions a checkpoint/quiz/"test your understanding", you MUST include the "checkpoint" action in the SAME response — never announce one without emitting it. Give every question an "id", a "prompt", and (for mcq) "options" + an integer "answer".
 3. PRACTICE BEFORE THE CHECK: any step teaching a METHOD, a PROCEDURE or a CALCULATION must include ONE "practice" card after the worked example and before the checkpoint. Watching a method done twice is not the same as doing it, and the student cannot tell the difference until an exam. A step that is purely descriptive (a definition, a piece of history, what something is called) does not need one — do not force it.
@@ -125,7 +132,9 @@ RULES:
 11. CHECKPOINT INTEGRITY: use "code" questions ONLY for programming lessons (otherwise mcq/short/match). An MCQ's options MUST include the genuinely correct answer and "answer" must index it, consistent with what you taught.
 12. ACCURACY: keep card content factually correct and consistent with chat (balance equations, etc.). Mermaid = RAW syntax, no code fences. Keep "connect" labels to 1-3 words.
 
-EXAMPLE of one good turn (the student just said they're ready; topic = Binary Search Trees, advancing to step 2):
+`
+
+const LEGACY_EXAMPLE = `EXAMPLE of one good turn (the student just said they're ready; topic = Binary Search Trees, advancing to step 2):
 {
   "say": "Here's how a BST is organised — take a look.",
   "actions": [
@@ -137,6 +146,9 @@ EXAMPLE of one good turn (the student just said they're ready; topic = Binary Se
   "suggestions": ["Show an example lookup","Go deeper","I'm ready to continue"],
   "done": false
 }`
+
+/** The legacy block, assembled exactly as it always was. */
+const SYSTEM_ACTION_TYPES = ACTION_LIST + CARD_GUIDE + LEGACY_RULES + LEGACY_EXAMPLE
 
 /**
  * The system prompt for one run, by mode.
@@ -155,5 +167,41 @@ export function systemPrompt(mode: 'classic' | 'montessori' = 'classic'): string
     montessori ? CREATE_ACTIVITY_ACTION_TYPE : '',
     montessori ? BUILD_MATERIAL_ACTION_TYPE : '',
     SYSTEM_ACTION_TYPES,
+  ].join('')
+}
+
+/**
+ * One tutor, for every lesson started on the station recipe.
+ *
+ * Not a third mode beside classic and montessori: it replaces both. Materials
+ * are always on offer, the card-first mandate is gone (a mandate argued with
+ * from below loses -- see the montessori note above), and the beat rules that
+ * decided when to check are replaced by THE STAGE, which the server holds and
+ * names in every turn.
+ */
+const STATION_MANDATE = `- A station never opens with a card to read. It opens with the student's hands -- a MATERIAL (createActivity or build_material) or a predict-or-notice item -- and the explanation comes after, naming what they did.`
+
+const STATION_RULES = `RULES:
+1. Use LaTeX wrapped in $...$ for any math, in "say" and in card BODY text. NEVER in a "title" -- titles are plain text.
+2. THE STAGE below decides this turn: emit exactly what it asks for and nothing from a later stage.
+3. "say" is ONE line on what to notice or what changed ("Same constant, different middle term."). Never read out the instructions or the question -- the student can see them.
+4. Never hand over the answer to something the student is about to work. Answers are shown only when the student asks to see one.
+5. CARDS MUST TEACH: real sentences with a concrete example, built on what the student did. Never a bare title or a lone list.
+6. BUILD ON THE BOARD: read the EXISTING CARDS list; never duplicate one; "connect" each new card to the card it follows from.
+7. EVERY card carries real content -- worked->"steps", table->"rows", concept->"body".
+8. CHECKPOINT INTEGRITY: "code" questions only in programming lessons; an MCQ's options include the correct answer and "answer" indexes it.
+9. ACCURACY: keep cards factually correct and consistent with "say".
+`
+
+export function stationSystemPrompt(): string {
+  return [
+    SYSTEM_INTRO,
+    STATION_MANDATE,
+    SYSTEM_REPLY_SHAPE,
+    CREATE_ACTIVITY_ACTION_TYPE,
+    BUILD_MATERIAL_ACTION_TYPE,
+    ACTION_LIST,
+    CARD_GUIDE,
+    STATION_RULES,
   ].join('')
 }
