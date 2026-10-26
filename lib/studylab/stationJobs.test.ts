@@ -9,7 +9,7 @@ vi.mock('@/lib/db', () => ({
   },
 }))
 
-import { stationVersion, nextPass, claimPass, authorState, finishPass, failPass } from './stationJobs'
+import { stationVersion, nextPass, claimPass, authorState, finishPass, failPass, redoPass } from './stationJobs'
 
 beforeEach(() => {
   query.mockReset()
@@ -93,5 +93,16 @@ describe('finishPass and failPass', () => {
     await failPass('job-2', 'no feedback on option 2')
     expect(String(query.mock.calls[1][0])).toMatch(/status = 'failed'/)
     expect(query.mock.calls[1][1]).toEqual(['job-2', 'no feedback on option 2'])
+  })
+})
+
+describe('redoPass', () => {
+  it('turns a written pass back into a failure, so it is written again -- and counts against it', async () => {
+    query.mockResolvedValue({ rows: [] })
+    await redoPass('space', 's1', 'v1', 'explore', 'the vary models a false relationship')
+    const [sql, values] = query.mock.calls[0]
+    expect(String(sql)).toMatch(/UPDATE ai_jobs SET status = 'failed'/)
+    expect(String(sql)).toMatch(/status = 'succeeded'/)
+    expect(values).toEqual(['author_station', 'space', 's1', 'v1', 'explore', 'redone: the vary models a false relationship'])
   })
 })

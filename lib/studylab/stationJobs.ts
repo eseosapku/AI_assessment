@@ -117,3 +117,17 @@ export async function finishPass(id: string, result: { partial?: Partial<Station
 export async function failPass(id: string, reason: string): Promise<void> {
   await db.query(`UPDATE ai_jobs SET status = 'failed', error_message = $2, finished_at = NOW() WHERE id = $1`, [id, reason.slice(0, 4000)])
 }
+
+/**
+ * Sends a written pass back to be written again: the verifier found its part
+ * wrong. Its row becomes a failure, so it counts toward the two a pass gets
+ * before the station runs live.
+ */
+export async function redoPass(spaceId: string, stepId: string, version: string, pass: Pass, reason: string): Promise<void> {
+  await db.query(
+    `UPDATE ai_jobs SET status = 'failed', error_message = $6, finished_at = NOW()
+      WHERE job_type = $1 AND input_payload->>'spaceId' = $2 AND input_payload->>'stepId' = $3
+        AND input_payload->>'version' = $4 AND input_payload->>'pass' = $5 AND status = 'succeeded'`,
+    [JOB, spaceId, stepId, version, pass, `redone: ${reason}`.slice(0, 4000)],
+  )
+}
