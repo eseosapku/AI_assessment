@@ -1,4 +1,72 @@
 import type { CheckpointQuestion, QuizCell } from './types'
+import { regionsFor } from './check/diagramRegions'
+
+export type FillQuestion = Extract<CheckpointQuestion, { format: 'fill' }>
+export type OrderQuestion = Extract<CheckpointQuestion, { format: 'order' }>
+export type TapQuestion = Extract<CheckpointQuestion, { format: 'tap' }>
+
+/** How a blank is written in a fill question's sentence. */
+export const BLANK = '___'
+const BLANKS = /_{3,}/g
+
+/** The blanks in a sentence: each run of three or more underscores is one. */
+export function blanksIn(text: string): number {
+  return typeof text === 'string' ? (text.match(BLANKS) ?? []).length : 0
+}
+
+const same = (a: unknown, b: unknown) => typeof a === 'string' && typeof b === 'string' && a.trim().toLowerCase() === b.trim().toLowerCase()
+
+/** Each blank holds its own tile; spacing and capitals do not count against it. */
+export function gradeFill(q: FillQuestion, given: string[]): boolean {
+  return given.length === q.answer.length && q.answer.every((a, i) => same(given[i], a))
+}
+
+export function gradeOrder(q: OrderQuestion, given: string[]): boolean {
+  return given.length === q.items.length && q.items.every((item, i) => given[i] === item)
+}
+
+/** The same parts tapped, in any order. */
+export function gradeTap(q: TapQuestion, given: string[]): boolean {
+  const want = new Set(q.answer)
+  const got = new Set(given)
+  return got.size === want.size && [...want].every((id) => got.has(id))
+}
+
+/** One per clue: met once both of its items are placed and in that order. */
+export function clueStates(q: OrderQuestion, arrangement: string[]): boolean[] {
+  return (q.clues ?? []).map((c) => {
+    const i = arrangement.indexOf(c.before)
+    const j = arrangement.indexOf(c.after)
+    return i >= 0 && j >= 0 && i < j
+  })
+}
+
+const text = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0
+const distinct = (xs: string[]) => new Set(xs.map((x) => x.trim().toLowerCase())).size === xs.length
+
+/** A fill whose tiles can fill its blanks: one answer a blank, every answer a tile, no tile twice, eight at most. */
+function validFill(q: any): boolean {
+  const n = blanksIn(q.text)
+  if (n < 1 || !Array.isArray(q.answer) || q.answer.length !== n || !q.answer.every(text)) return false
+  if (!Array.isArray(q.tiles) || q.tiles.length > 8 || !q.tiles.every(text) || !distinct(q.tiles) || !distinct(q.answer)) return false
+  return q.answer.every((a: string) => q.tiles.some((t: string) => same(t, a)))
+}
+
+/** Three to six different items; every clue names two of them and holds in the right order. */
+function validOrder(q: any): boolean {
+  if (!Array.isArray(q.items) || q.items.length < 3 || q.items.length > 6 || !q.items.every(text) || !distinct(q.items)) return false
+  if (q.clues === undefined) return true
+  if (!Array.isArray(q.clues) || q.clues.length > 4) return false
+  return q.clues.every((c: any) => text(c?.text) && c.before !== c.after && q.items.indexOf(c.before) >= 0 && q.items.indexOf(c.before) < q.items.indexOf(c.after))
+}
+
+/** Parts we have mapped on one of our own diagrams, each once, and never every part of it. */
+function validTap(q: any): boolean {
+  const map = regionsFor(q.figure)
+  if (!map || !Array.isArray(q.answer) || q.answer.length === 0 || new Set(q.answer).size !== q.answer.length) return false
+  const ids = new Set(map.regions.map((r) => r.id))
+  return q.answer.length < ids.size && q.answer.every((id: unknown) => typeof id === 'string' && ids.has(id))
+}
 
 export function gradeMcq(q: Extract<CheckpointQuestion, { format: 'mcq' }>, given: number): boolean {
   return given === q.answer
@@ -78,6 +146,12 @@ export function isValidQuestion(q: any): q is CheckpointQuestion {
       return typeof q.goal === 'string'
     case 'match':
       return Array.isArray(q.pairs) && q.pairs.length > 0 && q.pairs.every((p: any) => typeof p?.left === 'string' && typeof p?.right === 'string')
+    case 'fill':
+      return validFill(q)
+    case 'order':
+      return validOrder(q)
+    case 'tap':
+      return validTap(q)
     default:
       return false
   }
@@ -94,6 +168,9 @@ export function coerceQuestion(q: CheckpointQuestion): CheckpointQuestion {
       optionFeedback.every((f) => typeof f === 'string')
     return { ...rest, answer: Number(q.answer), ...(linesUp ? { optionFeedback } : {}) }
   }
+  if (q.format === 'fill') return { ...q, tiles: q.tiles.map((t) => t.trim()), answer: q.answer.map((a) => a.trim()) }
+  if (q.format === 'order') return { ...q, items: q.items.map((i) => i.trim()) }
+  if (q.format === 'tap') return { ...q, figure: q.figure.trim() }
   return q
 }
 
@@ -143,9 +220,12 @@ export function missedQuestions(questions: CheckpointQuestion[], answers: CheckA
 
 function answeredRight(q: CheckpointQuestion, a: CheckAnswers[string] | undefined): boolean {
   if (q.format === 'mcq') return typeof a?.given === 'number' && gradeMcq(q, a.given)
-  if (q.format === 'match') {
-    const given = a?.given
-    return Array.isArray(given) && given.every((g) => typeof g === 'string') && gradeMatch(q, given)
-  }
+  const given = a?.given
+  const strings = Array.isArray(given) && given.every((g) => typeof g === 'string') ? (given as string[]) : null
+  if (q.format === 'match') return !!strings && gradeMatch(q, strings)
+  // Marked from what was given, never from the page's word that it was right.
+  if (q.format === 'fill') return !!strings && gradeFill(q, strings)
+  if (q.format === 'order') return !!strings && gradeOrder(q, strings)
+  if (q.format === 'tap') return !!strings && gradeTap(q, strings)
   return a?.state === 'correct'
 }

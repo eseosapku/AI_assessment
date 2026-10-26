@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, missedQuestions, salvageQuestions, checkAnswers, coerceQuestion } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, missedQuestions, salvageQuestions, checkAnswers, coerceQuestion, blanksIn, gradeFill, gradeOrder, gradeTap, clueStates } from '@/lib/studylab/quiz'
 import type { CheckpointQuestion, QuizCell } from '@/lib/studylab/types'
+import type { FillQuestion, OrderQuestion, TapQuestion } from '@/lib/studylab/quiz'
 
 const mcq: CheckpointQuestion = { id: 'q1', format: 'mcq', prompt: 'p', options: ['a', 'b'], answer: 1 }
 const match: CheckpointQuestion = {
@@ -179,5 +180,66 @@ describe('missedQuestions -- what a near-twin is made from', () => {
   })
   it('counts an unanswered question as missed, and a right one as not', () => {
     expect(missedQuestions([mcq, short], { q3: { state: 'correct' } })).toEqual(['What is 4 + 8?'])
+  })
+})
+
+describe('fill, order and tap', () => {
+  const fill: FillQuestion = { id: 'f1', format: 'fill', prompt: 'Complete the sentence.', text: 'Plants make ___ from carbon dioxide and ___.', tiles: ['glucose', 'water', 'oxygen'], answer: ['glucose', 'water'] }
+  const order: OrderQuestion = { id: 'o1', format: 'order', prompt: 'Put the stages in order.', items: ['Egg', 'Larva', 'Pupa', 'Adult'], clues: [{ text: 'The larva hatches from the egg.', before: 'Egg', after: 'Larva' }, { text: 'The adult comes out of the pupa.', before: 'Pupa', after: 'Adult' }] }
+  const tap: TapQuestion = { id: 't1', format: 'tap', prompt: 'Tap the nucleus.', figure: 'asset:plant-cell', answer: ['nucleus'] }
+
+  it('counts the blanks in a sentence', () => {
+    expect(blanksIn(fill.text)).toBe(2)
+    expect(blanksIn('No blanks here.')).toBe(0)
+  })
+
+  it('accepts a fill whose tiles can fill its blanks, and refuses one that cannot', () => {
+    expect(isValidQuestion(fill)).toBe(true)
+    expect(isValidQuestion({ ...fill, answer: ['glucose'] })).toBe(false) // blanks != answers
+    expect(isValidQuestion({ ...fill, tiles: ['glucose', 'oxygen'] })).toBe(false) // an answer missing from the tiles
+    expect(isValidQuestion({ ...fill, tiles: ['glucose', 'water', 'water'] })).toBe(false) // a tile repeated
+    expect(isValidQuestion({ ...fill, tiles: ['glucose', 'water', 'a', 'b', 'c', 'd', 'e', 'f', 'g'] })).toBe(false) // more than 8
+  })
+
+  it('accepts an order of 3 to 6 different items whose clues hold, and refuses one that does not', () => {
+    expect(isValidQuestion(order)).toBe(true)
+    expect(isValidQuestion({ ...order, items: ['Egg', 'Larva', 'Egg'] })).toBe(false)
+    expect(isValidQuestion({ ...order, items: ['Egg', 'Adult'], clues: [] })).toBe(false)
+    expect(isValidQuestion({ ...order, clues: [{ text: 'x', before: 'Egg', after: 'Caterpillar' }] })).toBe(false)
+    expect(isValidQuestion({ ...order, clues: [{ text: 'x', before: 'Adult', after: 'Egg' }] })).toBe(false) // false in the right order
+  })
+
+  it('accepts a tap on parts we have mapped, and refuses anything else', () => {
+    expect(isValidQuestion(tap)).toBe(true)
+    expect(isValidQuestion({ ...tap, figure: 'asset:made-up' })).toBe(false)
+    expect(isValidQuestion({ ...tap, answer: ['golgi'] })).toBe(false)
+    expect(isValidQuestion({ ...tap, answer: [] })).toBe(false)
+    expect(isValidQuestion({ ...tap, answer: ['nucleus', 'nucleus'] })).toBe(false)
+    // Every part an answer: tapping everything would win.
+    expect(isValidQuestion({ ...tap, answer: ['cell-wall', 'cell-membrane', 'vacuole', 'nucleus', 'chloroplast'] })).toBe(false)
+  })
+
+  it('marks each from what was given', () => {
+    expect(gradeFill(fill, ['Glucose ', 'water'])).toBe(true)
+    expect(gradeFill(fill, ['water', 'glucose'])).toBe(false)
+    expect(gradeOrder(order, ['Egg', 'Larva', 'Pupa', 'Adult'])).toBe(true)
+    expect(gradeOrder(order, ['Egg', 'Pupa', 'Larva', 'Adult'])).toBe(false)
+    expect(gradeTap({ ...tap, answer: ['nucleus', 'vacuole'] }, ['vacuole', 'nucleus'])).toBe(true)
+    expect(gradeTap(tap, ['nucleus', 'vacuole'])).toBe(false)
+  })
+
+  it('marks them on the server from what was given, never from a page that says it was right', () => {
+    const qs = [fill, order, tap] as unknown as CheckpointQuestion[]
+    const lying = { f1: { given: ['water', 'glucose'], state: 'correct' }, o1: { given: ['Adult'], state: 'correct' }, t1: { given: ['vacuole'], state: 'correct' } }
+    expect(markCheck(qs, lying)).toBe(false)
+    expect(missedQuestions(qs, lying)).toHaveLength(3)
+    const right = { f1: { given: ['glucose', 'water'] }, o1: { given: ['Egg', 'Larva', 'Pupa', 'Adult'] }, t1: { given: ['nucleus'] } }
+    expect(markCheck(qs, right)).toBe(true)
+  })
+
+  it('ticks a clue only when both of its items are placed, in that order', () => {
+    expect(clueStates(order, ['Egg', 'Larva', '', ''])).toEqual([true, false])
+    expect(clueStates(order, ['Larva', 'Egg', 'Pupa', 'Adult'])).toEqual([false, true])
+    expect(clueStates(order, [])).toEqual([false, false])
   })
 })

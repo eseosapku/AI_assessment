@@ -29,6 +29,18 @@ export type CheckpointQuestion =
   | { id: string; format: 'short'; prompt: string; rubric?: string }
   | { id: string; format: 'code'; prompt: string; language?: string; starter?: string; goal: string }
   | { id: string; format: 'match'; prompt: string; pairs: { left: string; right: string }[] }
+  /**
+   * A sentence with blanks, each written "___", and a bank of tiles: every
+   * answer (answer[i] fills blank i) and one to three that do not belong.
+   */
+  | { id: string; format: 'fill'; prompt: string; text: string; tiles: string[]; answer: string[] }
+  /**
+   * Items to put in order, written here in the right order and shown shuffled;
+   * each clue says one item comes before another, and ticks as it comes true.
+   */
+  | { id: string; format: 'order'; prompt: string; items: string[]; clues?: { text: string; before: string; after: string }[] }
+  /** Tap the part(s) of one of our own diagrams: region ids from lib/studylab/check/diagramRegions. */
+  | { id: string; format: 'tap'; prompt: string; figure: string; answer: string[] }
 
 export interface QuizCell {
   checkpointId: string

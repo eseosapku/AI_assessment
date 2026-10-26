@@ -199,6 +199,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       dispatch({ type: 'result', verdict: right ? 'correct' : 'incorrect' })
       return
     }
+    // Only written and code answers go to the grade route.
+    if (q.format !== 'short' && q.format !== 'code') return
     const payload =
       q.format === 'short'
         ? { prompt: q.prompt, format: 'short', answer, rubric: q.rubric }
@@ -312,6 +314,9 @@ const FORMAT_LABEL: Record<CheckpointQuestion['format'], string> = {
   short: 'In your words',
   match: 'Match',
   code: 'Code',
+  fill: 'Fill the blanks',
+  order: 'Put in order',
+  tap: 'Tap the part',
 }
 
 function initialAnswer(q: CheckpointQuestion, given: QuizCell['given']): Answer {

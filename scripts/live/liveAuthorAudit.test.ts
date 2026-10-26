@@ -328,6 +328,9 @@ async function checkKeys(bundle: StationBundle, s: Station, requestId: string): 
     } else {
       const key = q.format === 'short' ? `rubric: ${q.rubric ?? '(none)'}`
         : q.format === 'match' ? `pairs: ${q.pairs.map((p) => `${p.left} -> ${p.right}`).join('; ')}`
+        : q.format === 'fill' ? `sentence: ${q.text}; blanks in order: ${q.answer.join(' | ')}; tiles: ${q.tiles.join(', ')}`
+        : q.format === 'order' ? `right order: ${q.items.join(' -> ')}`
+        : q.format === 'tap' ? `parts to tap on ${q.figure}: ${q.answer.join(', ')}`
         : `goal: ${q.goal}`
       const got = await ask([head, '', q.prompt, '', `MARKING KEY -- ${key}`, '',
         'Solve the question yourself first, then say whether the key is correct and would accept a right answer and refuse a wrong one.',
