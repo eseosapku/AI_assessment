@@ -48,13 +48,18 @@ export async function createAiJob(jobType: AiJobType, payload: Record<string, un
   return mapJobRow(result.rows[0])
 }
 
+/**
+ * A job the public API created. The table also holds stations written ahead
+ * (`author_station`), whose result is a whole station, check answers and all;
+ * this route takes no owner, so those are never read through it.
+ */
 export async function getAiJob(jobId: string) {
   const result = await db.query(
     `SELECT id, job_type, status, input_payload, result_payload, error_message, created_at, started_at, finished_at, attempts
      FROM ai_jobs
-     WHERE id = $1
+     WHERE id = $1 AND job_type = ANY($2)
      LIMIT 1`,
-    [jobId],
+    [jobId, [...AI_JOB_TYPES]],
   )
   if (result.rows.length === 0) return null
   return mapJobRow(result.rows[0])
