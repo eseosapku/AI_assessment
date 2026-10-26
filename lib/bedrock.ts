@@ -133,7 +133,7 @@ export interface ImageInput {
   mimeType: string
 }
 
-function buildInvokeBody(
+export function buildInvokeBody(
   modelId: string,
   prompt: string,
   maxTokens: number,
@@ -141,6 +141,20 @@ function buildInvokeBody(
   image?: ImageInput
 ): string {
   const m = stripPrefix(modelId)
+  // Claude: the Anthropic messages body. Sent the OpenAI-style shape below,
+  // Bedrock refuses it for want of anthropic_version.
+  if (m.startsWith('anthropic.')) {
+    const content: any[] = [{ type: 'text', text: prompt }]
+    if (image) {
+      content.unshift({ type: 'image', source: { type: 'base64', media_type: image.mimeType, data: image.base64 } })
+    }
+    return JSON.stringify({
+      anthropic_version: 'bedrock-2023-05-31',
+      max_tokens: maxTokens,
+      temperature,
+      messages: [{ role: 'user', content }],
+    })
+  }
   if (m.startsWith('amazon.nova')) {
     const content: any[] = [{ text: prompt }]
     if (image) {
@@ -179,8 +193,12 @@ function buildInvokeBody(
   return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature })
 }
 
-function extractText(modelId: string, payload: any): string {
+export function extractText(modelId: string, payload: any): string {
   const m = stripPrefix(modelId)
+  if (m.startsWith('anthropic.')) {
+    const blocks = Array.isArray(payload?.content) ? payload.content : []
+    return blocks.filter((b: any) => b?.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('').trim()
+  }
   if (m.startsWith('amazon.nova')) return payload?.output?.message?.content?.[0]?.text ?? ''
   if (m.startsWith('meta.llama')) return payload?.generation ?? ''
   const raw =

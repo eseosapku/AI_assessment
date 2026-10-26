@@ -14,13 +14,20 @@
  * Nova Lite ever since and its name says otherwise.
  */
 
-export type LessonJob = 'plan' | 'teach_beat' | 'check' | 'grade'
+export type LessonJob = 'plan' | 'teach_beat' | 'check' | 'grade' | 'help'
 
+/**
+ * Claude for the lesson itself (the redesign's model table): Sonnet drafts the
+ * plan -- one or two short calls that shape everything after -- and Haiku runs
+ * the live turns, the checks (whose keys must be right) and help. Grading stays
+ * on Nova Lite: the grade route is frozen, and the practice route shares it.
+ */
 export const JOB_MODELS: Record<LessonJob, string> = {
-  plan: 'google.gemma-3-27b-it',
-  teach_beat: 'google.gemma-3-27b-it',
-  check: 'amazon.nova-lite-v1:0',
+  plan: 'anthropic.claude-sonnet-4-5-20250929-v1:0',
+  teach_beat: 'anthropic.claude-haiku-4-5-20251001-v1:0',
+  check: 'anthropic.claude-haiku-4-5-20251001-v1:0',
   grade: 'amazon.nova-lite-v1:0',
+  help: 'anthropic.claude-haiku-4-5-20251001-v1:0',
 }
 
 const ENV_KEYS: Record<LessonJob, string> = {
@@ -28,6 +35,7 @@ const ENV_KEYS: Record<LessonJob, string> = {
   teach_beat: 'AWS_LESSON_TEACH_MODEL_ID',
   check: 'AWS_LESSON_CHECK_MODEL_ID',
   grade: 'AWS_LESSON_GRADE_MODEL_ID',
+  help: 'AWS_LESSON_HELP_MODEL_ID',
 }
 
 /** The model a job runs on right now, honouring its own override only. */

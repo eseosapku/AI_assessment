@@ -1,4 +1,5 @@
 // app/api/studylab/tutor/route.test.ts
+import { modelForJob } from '@/lib/studylab/lessonJobs'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 vi.mock('@/lib/bedrock', () => ({
@@ -122,9 +123,8 @@ describe('draftPlan', () => {
       title: 'Chemistry', subject: null, policy: GAP,
       userId: 'u1', subtopics: [], database: dbWith([]),
     })
-    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({
-      model: 'google.gemma-3-27b-it',
-    })
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: modelForJob('plan') })
+    expect(modelForJob('plan')).not.toBe(modelForJob('teach_beat'))
   })
 
   it('locks a drafted step the learner was measured weak on', async () => {
@@ -178,15 +178,13 @@ describe('test_out', () => {
     expect(checkpoint).toMatchObject({ kind: 'testout' })
   })
 
-  it('uses the check model, not the teaching one', async () => {
+  it("uses the check job's model", async () => {
     vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ questions: [] }))
     await applyAction({
       run: lockedRun(), policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
-    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({
-      model: 'amazon.nova-lite-v1:0',
-    })
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: modelForJob('check') })
   })
 
   it('refuses a locked step without spending a model call', async () => {
