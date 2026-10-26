@@ -4,7 +4,7 @@ import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
-import { sortAdapter, sequenceAdapter, compareAdapter, balanceAdapter, labelAdapter, varyAdapter, scenarioAdapter, composeAdapter, threePeriodAdapter } from '@/components/studylab/material/adapters'
+import { sortAdapter, sequenceAdapter, compareAdapter, balanceAdapter, labelAdapter, scenarioAdapter, composeAdapter, threePeriodAdapter } from '@/components/studylab/material/adapters'
 import { CardFrame } from '../canvasShared'
 import { SortActivity } from './SortActivity'
 import { ThreePeriodActivity } from './ThreePeriodActivity'
@@ -164,22 +164,10 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'vary': {
-      const material = getApparatus('variable-model')?.legacy?.fromLegacy(
-        spec.payload,
-        spec.success,
-      )
-      if (material) {
-        return (
-          <MaterialActivity
-            id={id}
-            spec={spec}
-            materialSpec={material}
-            adapter={varyAdapter}
-            onOutcome={emitActivityOutcome}
-            initialState={initialState}
-          />
-        )
-      }
+      // Not through the material apparatus: it kept only the slider -- a fixed
+      // prompt, one unlabelled bar echoing the slider's own number -- and a
+      // river lesson read as nothing. This draws what the lesson wrote: its
+      // prompt, labelled bars from the model's formula, tank, curve, readouts.
       return (
         <VaryActivity
           id={id}

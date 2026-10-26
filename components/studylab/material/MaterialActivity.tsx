@@ -8,6 +8,7 @@ import type { MaterialSpec, MaterialState } from '@/lib/studylab/material/types'
 import { CanvasContext } from '@/components/studylab/canvasShared'
 import type { MaterialWorkAdapter } from './adapters'
 import { MaterialRenderer } from './MaterialRenderer'
+import { withLessonPrompt } from '@/lib/studylab/material/lessonPrompt'
 import { useCheckFlow } from '../check/useCheckFlow'
 import { restoreEvent } from '@/lib/studylab/checkFlow'
 import type { BarAction } from '@/lib/studylab/checkBarModel'
@@ -176,7 +177,7 @@ export function MaterialActivity({
 
   return (
     <MaterialRenderer
-      spec={materialSpec}
+      spec={withLessonPrompt(materialSpec, spec)}
       state={materialState}
       onStateChange={handleStateChange}
       onRefusal={handleRefusal}
