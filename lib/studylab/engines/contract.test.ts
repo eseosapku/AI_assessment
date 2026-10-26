@@ -96,4 +96,9 @@ describe('the registry', () => {
     expect(getEngine('nothing')).toBeNull()
     expect(sceneCatalogue()).toContain('stub -- a test engine')
   })
+
+  it('lists every engine, for the evals that hold each to the bar', async () => {
+    const { engines } = await import('./registry')
+    expect(engines().map((e) => e.id)).toContain('stub')
+  })
 })

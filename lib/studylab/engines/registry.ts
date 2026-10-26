@@ -14,6 +14,11 @@ export function getEngine(id: unknown): SceneEngine<unknown, unknown> | null {
   return typeof id === 'string' ? ENGINES.get(id) ?? null : null
 }
 
+/** Every engine registered, for the evals that hold each to the bar. */
+export function engines(): SceneEngine<unknown, unknown>[] {
+  return [...ENGINES.values()]
+}
+
 /** Words that say nothing about which idea a station is on. */
 const SMALL = new Set(['the', 'and', 'for', 'with', 'what', 'when', 'why', 'how', 'into', 'from', 'that', 'this', 'about', 'always'])
 const words = (text: string) => text.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 3 && !SMALL.has(w))
