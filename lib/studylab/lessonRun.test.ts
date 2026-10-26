@@ -611,3 +611,39 @@ describe('stations', () => {
     expect(stageOf(run)).toBeNull()
   })
 })
+
+describe('final review: stations hold their place', () => {
+  it('keeps the stage when the learner clicks the station they are on (I1)', () => {
+    const atPractice = unwrap(nextBeat(unwrap(nextBeat(teaching()))))
+    expect(atPractice.stage).toBe('practice')
+    expect(unwrap(jumpTo(atPractice, 'a', GAP)).stage).toBe('practice')
+  })
+
+  it('has no stage on a homework step -- a question they were set is not explored from scratch (I2)', () => {
+    const hw = teaching(OPEN, [step('q1', { homework: { label: 'Q1' } as LessonStep['homework'] })])
+    expect(stageOf(hw)).toBeNull()
+    expect(stageOf(unwrap(nextBeat(unwrap(nextBeat(hw)))))).toBeNull()
+  })
+
+  it('goes back to name it, a different way, after the second missed check on a station (I4)', () => {
+    const check = (run: LessonRun) => {
+      const b = beginCheck(run, 'a', `cp-${Math.random()}`, 'checkpoint', 'hard')
+      if (!b.ok) throw new Error(b.reason)
+      return b.run
+    }
+    const once = unwrap(failCheck(check(teaching()), ['q']))
+    expect(once.stage).toBe('practice')
+    expect(once.stationMisses).toBe(1)
+    const twice = unwrap(failCheck(check(once), ['q']))
+    expect(twice.stage).toBe('name')
+    expect(twice.stationMisses).toBe(2)
+    // The next station starts with a clean slate.
+    expect(unwrap(passCheck(check(twice))).stationMisses).toBeUndefined()
+  })
+
+  it('never re-accepts a plan once the lesson is under way -- an old lesson keeps its recipe (M5)', () => {
+    const legacy: LessonRun = { ...teaching(), recipe: undefined, stage: undefined }
+    const again = acceptPlan(legacy)
+    expect(again.ok).toBe(false)
+  })
+})

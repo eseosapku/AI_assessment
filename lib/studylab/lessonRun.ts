@@ -104,19 +104,31 @@ export interface LessonRun {
   recipe?: 'station'
   /** Where the current station is. Only on a station run. */
   stage?: Stage
+  /**
+   * Checks missed on the current station. The second sends the station back
+   * to name it, a different way: near-twins alone after every miss repeat an
+   * explanation that is not landing.
+   */
+  stationMisses?: number
 }
 
 export type Stage = 'explore' | 'name' | 'practice' | 'check'
 
 export const STAGES: readonly Stage[] = ['explore', 'name', 'practice', 'check']
 
-/** The current station's stage; null on a run from before stations. */
+/**
+ * The current station's stage; null on a run from before stations, and on a
+ * homework step -- a question they were set is worked from their attempt, not
+ * explored from scratch, so nothing downstream (the rail, the chips, the bar)
+ * should act on a stage there.
+ */
 export function stageOf(run: LessonRun): Stage | null {
-  return run.recipe === 'station' ? (run.stage ?? 'explore') : null
+  if (run.recipe !== 'station' || run.steps[run.currentStep]?.homework) return null
+  return run.stage ?? 'explore'
 }
 
 /** Sets the stage on a station run, and leaves any other run alone. */
-function withStage(run: LessonRun, stage: Stage): LessonRun {
+export function withStage(run: LessonRun, stage: Stage): LessonRun {
   return run.recipe === 'station' ? { ...run, stage } : run
 }
 
@@ -181,8 +193,10 @@ function focus(run: LessonRun, index: number): LessonRun {
     }
     return s.status === 'teaching' ? { ...s, status: 'pending' as StepStatus } : s
   })
-  // Landing on a step starts its station afresh.
-  return withStage({ ...run, steps, currentStep: index, beats: 0 }, 'explore')
+  // Landing on a step starts its station afresh, misses and all.
+  const { stationMisses: _misses, ...rest } = run
+  const landed = index === run.currentStep ? run : rest
+  return withStage({ ...landed, steps, currentStep: index, beats: 0 }, 'explore')
 }
 
 export function emptyRun(policy: LessonPolicy): LessonRun {
@@ -201,6 +215,10 @@ export function proposePlan(run: LessonRun, steps: LessonStep[]): Transition {
 }
 
 export function acceptPlan(run: LessonRun): Transition {
+  // Only a plan still on the table: a stale plan card in another tab, or a
+  // double press, would otherwise convert a lesson already under way -- an
+  // old one to stations, mid-lesson.
+  if (run.phase !== 'planning') return no('This lesson has already started.')
   if (run.steps.length === 0) return no('There is no plan to start yet.')
   const first = nextUnsettled(run.steps)
   if (first === -1) return ok({ ...run, phase: 'done', currentStep: -1, awaiting: true })
@@ -331,7 +349,12 @@ export function failCheck(run: LessonRun, missed: string[]): Transition {
   // near-twin of what was missed. A missed test-out starts that step's
   // station from the beginning: it was never taught.
   const taught = focus({ ...run, openCheck: undefined, phase: 'teaching' }, index)
-  return ok({ ...(check.kind === 'checkpoint' ? withStage(taught, 'practice') : taught), awaiting: false })
+  if (check.kind !== 'checkpoint') return ok({ ...taught, awaiting: false })
+  // The first miss gets a near-twin; from the second, the idea is named again
+  // a different way before the next try.
+  const misses = (run.stationMisses ?? 0) + 1
+  const counted = run.recipe === 'station' ? { ...taught, stationMisses: misses } : taught
+  return ok({ ...withStage(counted, misses >= 2 ? 'name' : 'practice'), awaiting: false })
 }
 
 export function skipStep(run: LessonRun, stepId: string, policy: LessonPolicy): Transition {
@@ -376,7 +399,10 @@ export function jumpTo(run: LessonRun, stepId: string, policy: LessonPolicy): Tr
   // going to another step changed nothing. Choosing to move on IS an answer.
   const leaving = index !== run.currentStep
   const cleared = leaving ? { ...run, phase, openCheck: undefined } : { ...run, phase }
-  return ok(focus(cleared, index))
+  // Clicking the station you are on is getting back to your work, not
+  // starting it again.
+  const landed = focus(cleared, index)
+  return ok(!leaving && run.stage ? { ...landed, stage: run.stage } : landed)
 }
 
 export function setPace(run: LessonRun, pace: Pace): Transition {

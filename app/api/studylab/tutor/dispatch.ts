@@ -4,7 +4,7 @@ import { modelForJob, fallbackForJob } from '@/lib/studylab/lessonJobs'
 import type { LessonPolicy } from '@/lib/studylab/lessonPolicy'
 import {
   nextBeat, passCheck, failCheck, requestTestOut, skipStep, jumpTo,
-  setPace, stop, finish, acceptPlan, editPlan, proposePlan, beginCheck, stageOf,
+  setPace, stop, finish, acceptPlan, editPlan, proposePlan, beginCheck, stageOf, withStage,
   type LessonRun, type LessonStep, type Transition, type Stage,
 } from '@/lib/studylab/lessonRun'
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
@@ -374,7 +374,19 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     return { run: input.run, say: '', actions: [], suggestions: [], refusal: transition.reason }
   }
 
-  const advanced = transition.run
+  let advanced = transition.run
+
+  // Back on a station that was taught already: its cards are on the board, so
+  // it picks up at practice rather than exploring the same thing again. An
+  // untaught one still opens at explore.
+  if (
+    input.action.type === 'jump' &&
+    advanced.currentStep !== input.run.currentStep &&
+    stageOf(advanced) === 'explore' &&
+    !needsTeaching(input.action, advanced, parseBoardSummary(input.context?.board))
+  ) {
+    advanced = withStage(advanced, 'practice')
+  }
 
   // test_out deliberately bypasses NEEDS_TEACHING: that path calls the
   // teaching job, which writes cards. A test-out needs questions, from the
@@ -421,9 +433,12 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   // What was just missed, for a near-twin: the questions of the check this
   // action failed, marked here from the questions the run kept, and a missed
   // practice problem still on this step.
+  // Only a check that was failed: a pass with one wrong answer left a twin of
+  // it on the next station's turn.
+  const asked = input.action.type === 'answer_check' ? input.run.openCheck?.questions : undefined
   const failed =
-    input.action.type === 'answer_check' && input.run.openCheck?.questions?.length
-      ? missedQuestions(input.run.openCheck.questions, input.action.answers)
+    input.action.type === 'answer_check' && asked?.length && !markCheck(asked, input.action.answers)
+      ? missedQuestions(asked, input.action.answers)
       : []
   const missed = [...new Set([...failed, ...(board.missedByStep[advanced.currentStep + 1] ?? [])])].slice(0, 3)
   const prompt = buildTeachPrompt(advanced, step, input.context ?? {}, false, missed)
@@ -467,8 +482,10 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   ) {
     try {
       const again = parseJsonRobust(await teach(`${prompt}\n\n${EXPLORE_AGAIN}`)) as typeof parsed
-      const built = Array.isArray(again?.actions) && again.actions.length > 0
-      if (built || (typeof again?.say === 'string' && again.say.trim())) parsed = again
+      // Taken only if it has something to handle that survives the checks: a
+      // second answer whose materials are all refused would swap usable cards
+      // for a line about a material that is not there.
+      if (opensWithHands(again?.actions, advanced)) parsed = again
     } catch {
       /* the first answer stands */
     }
@@ -1293,8 +1310,10 @@ function openEmittedCheckpoint(
   if (cpIndex === -1) return { run, actions: rawActions }
 
   const cp = rawActions[cpIndex] as { id: string; step: number; gate?: unknown }
-  const gate: 'hard' | 'soft' = cp.gate === 'soft' ? 'soft' : 'hard'
   const target = run.steps[cp.step - 1] ?? run.steps[run.currentStep]
+  // A station's check is a check: hard, whatever the model asked for. A soft
+  // one is a learning card -- two tries, help, the answer -- and Continue
+  // walked past it.
 
   if (!target) {
     // Neither the emitted step number nor the current step resolves — there
@@ -1328,8 +1347,9 @@ function openEmittedCheckpoint(
   // board, so no new questions appeared, while the run opened a check against
   // that id and waited for an answer to cards that were already answered and
   // gone. Nothing could resolve it and the lesson stopped dead on step three.
+  const gate: 'hard' | 'soft' = cp.gate === 'soft' && !stationStage(run, target) ? 'soft' : 'hard'
   const id = `cp-${target.id}-${Math.random().toString(36).slice(2, 6)}`
-  const renamed = rawActions.map((a, i) => (i === cpIndex ? { ...(a as object), id } : a))
+  const renamed = rawActions.map((a, i) => (i === cpIndex ? { ...(a as object), id, gate } : a))
 
   const opened = beginCheck(run, target.id, id, 'checkpoint', gate)
   if (!opened.ok) {
@@ -1557,9 +1577,23 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     }
   }
 
+  // An answer with nothing left in it -- the model built only what an aside
+  // drops -- is a question that silently vanished. Said so instead.
+  const said = typeof parsed?.say === 'string' ? parsed.say : ''
+  if (!said.trim() && asideActions.length === 0) {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'That did not come through. Try that again.',
+      retry: true,
+    }
+  }
+
   return {
     run: advanced,
-    say: typeof parsed?.say === 'string' ? parsed.say : '',
+    say: said,
     actions: asideActions,
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
@@ -2115,10 +2149,16 @@ function buildTeachPrompt(
   // A station's turn is decided by its stage. Asides and homework steps are
   // taught as lessons were before stations.
   const stage = aside ? null : stationStage(run, step)
+  // A question on a station is answered, not paced: the legacy blocks below
+  // read the station's own close rule and told every ask at run pace to close
+  // the step with a checkpoint -- which an aside drops.
+  const askedOnStation = aside && stationStage(run, step) !== null
 
   const pace =
-    stage
-      ? stagePrompt(stage, { missed, pace: run.pace })
+    askedOnStation
+      ? ''
+      : stage
+      ? stagePrompt(stage, { missed, pace: run.pace, explored: board.exploreByStep[stepNo], misses: run.stationMisses })
       : wrapUp
       ? [
           `PACE — CLOSE THIS STEP: it has had ${run.beats} turn(s) already.`,
@@ -2154,7 +2194,7 @@ function buildTeachPrompt(
     recentKinds.length >= 2 && new Set(recentKinds).size === 1 ? recentKinds[0] : null
 
   // A station's stage already says what kind of thing each turn is.
-  const variety = sameKindRun && !stage
+  const variety = sameKindRun && !stage && !askedOnStation
     ? `VARIETY: your last ${recentKinds.length} cards were all "${sameKindRun}" cards. Do NOT make another one — pick a different type that fits the content (mermaid, worked, table, callout).`
     : ''
 

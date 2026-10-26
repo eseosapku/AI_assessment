@@ -2,6 +2,8 @@
 import type { Stage } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { COMPREHENSION_CHIPS } from '@/lib/studylab/chips'
+import { fenceStudentText } from '@/lib/studylab/untrusted'
+import type { Explored } from '@/lib/studylab/boardSummary'
 
 /**
  * What a station's teaching turn must do, by stage.
@@ -45,6 +47,33 @@ const CHECK = [
   'Your "say" is at most eight words, or empty. "suggestions": [] — no chips during a check.',
 ].join('\n')
 
+/** What the learner did with the explore item, for the name turn to build on. */
+function whatTheyDid(explored: Explored | undefined): string {
+  if (!explored) return ''
+  if (explored.outcome === 'solved') {
+    const when = explored.attempts <= 1 ? 'solved it first time' : `solved it on try ${explored.attempts}`
+    return `WHAT THEY DID: they ${when}. Build on that result -- what they did is the idea.`
+  }
+  const lines =
+    explored.outcome === 'untried'
+      ? ['WHAT THEY DID: they did not try it -- they moved on. Say so lightly, then name the idea from the start.']
+      : [`WHAT THEY DID: they tried it ${explored.attempts === 1 ? 'once' : `${explored.attempts} times`} and have not solved it yet. Name the idea without saying they reached it.`]
+  lines.push('Never describe a result they did not reach.')
+  if (explored.answer) lines.push(fenceStudentText('WHAT THEY WROTE', explored.answer))
+  return lines.join('\n')
+}
+
+/** From the second missed check of a station: the idea, named again a different way. */
+function differentWay(misses: number, missed: string[]): string {
+  if (misses < 2) return ''
+  return [
+    `AGAIN, A DIFFERENT WAY -- they have missed this station's check ${misses} times. What has been said is not`,
+    'landing: name the idea underneath it a completely different way (a new concrete case, an analogy, a',
+    'picture in words), not a rewording of the cards already on the board.',
+    ...(missed.length ? ['They keep missing:', ...missed.map((m) => `  • ${m}`)] : []),
+  ].join('\n')
+}
+
 function nearTwin(missed: string[]): string {
   if (missed.length === 0) return ''
   return [
@@ -55,8 +84,13 @@ function nearTwin(missed: string[]): string {
   ].join('\n')
 }
 
-export function stagePrompt(stage: Stage, ctx: { missed: string[]; pace: Pace }): string {
+export function stagePrompt(
+  stage: Stage,
+  ctx: { missed: string[]; pace: Pace; explored?: Explored; misses?: number },
+): string {
   const twin = nearTwin(ctx.missed)
+  // Only a turn that starts at name it has an explore item behind it.
+  const named = stage === 'name' ? [differentWay(ctx.misses ?? 0, ctx.missed), whatTheyDid(ctx.explored)].filter(Boolean).join('\n\n') : ''
   if (ctx.pace === 'run') {
     // The rest of the station in one turn, in order.
     const order: Stage[] = ['explore', 'name', 'practice', 'check']
@@ -66,11 +100,12 @@ export function stagePrompt(stage: Stage, ctx: { missed: string[]; pace: Pace })
       'checkpoint. Each part below still holds; ignore any line in it that says "this turn".',
       '',
       ...parts.flatMap((p) => [p, '']),
+      named,
       twin,
     ].filter(Boolean).join('\n')
   }
   const block = { explore: EXPLORE, name: NAME, practice: PRACTICE, check: CHECK }[stage]
   // The item after a miss: the practice after a failed check, or the check
   // after a missed practice. A new station starts clean.
-  return [block, stage === 'practice' || stage === 'check' ? twin : ''].filter(Boolean).join('\n\n')
+  return [block, named, stage === 'practice' || stage === 'check' ? twin : ''].filter(Boolean).join('\n\n')
 }

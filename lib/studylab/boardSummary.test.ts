@@ -87,7 +87,7 @@ describe('boardSummary', () => {
 
   it('survives a missing canvas', () => {
     expect(boardSummary(null)).toEqual({
-      cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, recent: [],
+      cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, exploreByStep: {}, recent: [],
     })
   })
 })
@@ -98,7 +98,7 @@ describe('parseBoardSummary', () => {
   })
 
   it('returns an empty board for anything that is not one', () => {
-    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, recent: [] }
+    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, exploreByStep: {}, recent: [] }
     expect(parseBoardSummary(null)).toEqual(empty)
     expect(parseBoardSummary('nope')).toEqual(empty)
     expect(parseBoardSummary({})).toEqual(empty)
@@ -223,5 +223,32 @@ describe('a practice problem the learner missed', () => {
   })
   it('survives the trip to the server', () => {
     expect(parseBoardSummary({ missedByStep: { 1: ['Work out 4 + 8', 7] } }).missedByStep).toEqual({ 1: ['Work out 4 + 8'] })
+  })
+})
+
+describe('what the learner did with a station\'s explore item (I3)', () => {
+  const node = (id: string, type: string, step: number, data: Record<string, unknown>): StudyNode =>
+    ({ id, type, position: { x: 0, y: 0 }, data: { kind: type, step, title: id, ...data } }) as unknown as StudyNode
+
+  it('reads the first hands-on card of each step', () => {
+    const s = boardSummary({ nodes: [
+      node('m1', 'activity', 1, { activityState: { status: 'solved', attempts: 1 } }),
+      node('p1', 'practice', 1, { practice: { state: 'incorrect' } }),
+      node('m2', 'material', 2, { materialState: { status: 'in_progress', attempts: 2 } }),
+      node('p3', 'practice', 3, { practice: { state: 'close', attempt: 'about 10', attempts: 1 } }),
+      node('m4', 'activity', 4, { activityState: { status: 'untouched', attempts: 0 } }),
+    ] })
+    expect(s.exploreByStep).toEqual({
+      1: { outcome: 'solved', attempts: 1 },
+      2: { outcome: 'tried', attempts: 2 },
+      3: { outcome: 'tried', attempts: 1, answer: 'about 10' },
+      4: { outcome: 'untried', attempts: 0 },
+    })
+  })
+
+  it('survives the trip to the server, and drops what is not one', () => {
+    expect(parseBoardSummary({ exploreByStep: { 1: { outcome: 'solved', attempts: 2 }, 2: { outcome: 'bogus' } } }).exploreByStep).toEqual({
+      1: { outcome: 'solved', attempts: 2 },
+    })
   })
 })

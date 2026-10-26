@@ -304,3 +304,10 @@ describe('the bar names the move on a station', () => {
     expect(quietStage(null)).toBe(false)
   })
 })
+
+describe('a homework step on a station run', () => {
+  it('keeps no check stage quiet: homework has no stages (I2)', () => {
+    const hw = run({ recipe: 'station', stage: 'check', steps: [{ id: 's1', title: 'Q1', goal: 'g', status: 'teaching', cardIds: [], homework: { label: 'Q1' } } as unknown as LessonRun['steps'][number]] })
+    expect(quietStage(hw)).toBe(false)
+  })
+})

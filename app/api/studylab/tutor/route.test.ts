@@ -2677,3 +2677,87 @@ describe('a question about work still open', () => {
     expect(String(vi.mocked(callGemma).mock.calls[0][0])).not.toMatch(/do not show its answer/i)
   })
 })
+
+describe('final review fixes', () => {
+  const twoSteps = () => {
+    const planned = proposePlan(emptyRun(GAP), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+      { id: 'b', title: 'Bonds', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!planned.ok) throw new Error(planned.reason)
+    const started = acceptPlan(planned.run)
+    if (!started.ok) throw new Error(started.reason)
+    return started.run
+  }
+  const prompt = (n = 0) => String(vi.mocked(callGemma).mock.calls[n][0])
+
+  it('resumes a taught station at practice when the learner jumps back to it (I1)', async () => {
+    const onB = { ...twoSteps(), currentStep: 1, stage: 'name' as const }
+    const result = await applyAction({
+      run: onB, policy: GAP, userId: 'u1', action: { type: 'jump', stepId: 'a' },
+      context: { board: { cards: [{ id: 'c1', title: 'Atoms', step: 1, kind: 'concept' }] } },
+    })
+    expect(result.run.currentStep).toBe(0)
+    expect(result.run.stage).toBe('practice')
+    expect(callGemma).not.toHaveBeenCalled()
+  })
+
+  it('tells the name turn the learner did not try the explore item (I3)', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Here is the idea.', actions: [] }))
+    await applyAction({
+      run: stationRun('explore'), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      context: { board: { exploreByStep: { 1: { outcome: 'untried', attempts: 0 } } } },
+    })
+    expect(prompt()).toContain('STAGE: NAME IT')
+    expect(prompt()).toMatch(/did not try it/i)
+  })
+
+  it('re-teaches the idea a different way after a second missed check (I4)', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Another way in.', actions: [] }))
+    const begun = beginCheck({ ...stationRun('practice'), stationMisses: 1 }, 'a', 'cp-a-2', 'checkpoint', 'hard')
+    if (!begun.ok) throw new Error(begun.reason)
+    const run = { ...begun.run, openCheck: { ...begun.run.openCheck!, questions: [{ id: 'q1', format: 'mcq' as const, prompt: 'What is 4 + 8?', options: ['11', '12'], answer: 1 }] } }
+    const result = await applyAction({ run, policy: GAP, userId: 'u1', action: { type: 'answer_check', passed: false, answers: { q1: { given: 0 } } }, context: {} })
+    expect(result.run.stage).toBe('name')
+    expect(prompt()).toContain('STAGE: NAME IT')
+    expect(prompt()).toMatch(/completely different way/i)
+  })
+
+  it('keeps the first explore answer when the second has nothing usable in it (M2)', async () => {
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 'Look.', actions: [{ type: 'createCard', id: 'c1', card: 'concept', step: 1, title: 'Gravity', body: 'b' }] }))
+      .mockResolvedValueOnce(JSON.stringify({ say: 'Try this.', actions: [{ type: 'createActivity', id: 'm1', spec: { pattern: 'sort' } }] }))
+    const result = await applyAction({ run: planningRun(), policy: GAP, userId: 'u1', action: { type: 'accept_plan' }, context: {} })
+    expect(callGemma).toHaveBeenCalledTimes(2)
+    expect(result.actions.map((a) => (a as { id?: string }).id)).toEqual(['c1'])
+  })
+
+  it('opens a station check hard, whatever gate the model asked for (M3)', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [
+      { type: 'checkpoint', id: 'cp-1', step: 1, gate: 'soft', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] },
+    ] }))
+    const result = await applyAction({ run: stationRun('practice'), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
+    expect(result.run.openCheck?.gate).toBe('hard')
+    expect((result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as { gate?: string }).gate).toBe('hard')
+  })
+
+  it('sets no near-twin from a check that was passed (M4)', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Next.', actions: [] }))
+    const begun = beginCheck({ ...twoSteps(), pace: 'run' as const }, 'a', 'cp-a-3', 'checkpoint', 'hard')
+    if (!begun.ok) throw new Error(begun.reason)
+    const qs = ['A', 'B', 'C'].map((p, i) => ({ id: `q${i}`, format: 'mcq' as const, prompt: `${p}?`, options: ['x', 'y'], answer: 0 }))
+    const run = { ...begun.run, openCheck: { ...begun.run.openCheck!, questions: qs } }
+    await applyAction({ run, policy: GAP, userId: 'u1', action: { type: 'answer_check', passed: true, answers: { q0: { given: 0 }, q1: { given: 0 }, q2: { given: 1 } } }, context: {} })
+    expect(prompt()).not.toContain('NEAR-TWIN')
+  })
+
+  it('never tells a question on a station to close the step, and refuses a turn that answered nothing (M6)', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [
+      { type: 'checkpoint', id: 'cp-9', step: 1, gate: 'hard', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] },
+    ] }))
+    const result = await applyAction({ run: stationRun('explore', 'run'), policy: GAP, userId: 'u1', action: { type: 'ask', question: 'Why is it heavier?' }, context: {} })
+    expect(prompt()).not.toContain('CLOSE THIS STEP')
+    expect(result.refusal).toBeTruthy()
+    expect(result.retry).toBe(true)
+  })
+})

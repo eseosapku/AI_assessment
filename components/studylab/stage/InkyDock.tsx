@@ -93,7 +93,11 @@ export function InkyDock({
   const findPointed = useCallback((): HTMLElement | null => {
     const board = rootRef.current?.offsetParent as HTMLElement | null
     if (!board || !pointNode) return null
-    return board.querySelector<HTMLElement>(pointSelector(pointNode, pointPart))
+    try {
+      return board.querySelector<HTMLElement>(pointSelector(pointNode, pointPart))
+    } catch {
+      return null
+    }
   }, [pointNode, pointPart])
   const [place, setPlace] = useState<{ x: number; y: number; compact: boolean; tail: 'left' | 'bottom'; w?: number } | null>(null)
   const measure = useCallback(() => {

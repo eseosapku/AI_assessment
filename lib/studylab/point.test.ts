@@ -25,3 +25,9 @@ describe('pointSelector', () => {
     expect(pointSelector('n1', 'x"] *')).toBe('.react-flow__node[data-id="n1"]')
   })
 })
+
+describe('pointSelector and control characters (M9)', () => {
+  it('escapes a newline in a card id rather than writing a selector that throws', () => {
+    expect(pointSelector('a\nb')).toBe('.react-flow__node[data-id="a\\a b"]')
+  })
+})

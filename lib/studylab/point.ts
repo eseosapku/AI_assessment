@@ -17,9 +17,16 @@ export function isValidPart(part: string): boolean {
   return PART.test(part)
 }
 
-/** Escapes a value for a double-quoted attribute selector. */
+/**
+ * Escapes a value for a double-quoted attribute selector. A control character
+ * -- a newline in a model's card id -- is written as its CSS hex escape: left
+ * raw, querySelector threw, and took the stage down with it.
+ */
 function quoted(value: string): string {
-  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/[\u0000-\u001f\u007f]/g, (c) => `\\${c.charCodeAt(0).toString(16)} `)
 }
 
 /** The card on the board, and the part inside it when the part is one; else the whole card. */
