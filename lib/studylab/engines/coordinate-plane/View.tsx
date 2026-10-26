@@ -1,7 +1,7 @@
 'use client'
 import { useId, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react'
 import type { SceneMarked, SceneViewProps } from '../types'
-import type { CoordinatePlaneConfig, CoordinatePlaneState, Line, Point, Rat } from './config'
+import type { CoordinatePlaneConfig, CoordinatePlaneState, Point } from './config'
 import {
   equationText, fromHalves, gridPoint, lineThrough, madeGradient, madeLine, madePick, namedLine, onLine,
   pointText, rat, ratText, samePoint, triangleOn,
@@ -34,8 +34,17 @@ const MINUS = '−'
 const clampGrid = (v: number) => Math.max(-N, Math.min(N, v)) + 0
 const num = (v: number) => (v < 0 ? `${MINUS}${-v}` : `${v + 0}`)
 const ARROWS: Record<string, [number, number]> = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] }
-/** Text on the grid stays legible over lines: a halo of the panel colour behind it. */
-const HALO = { stroke: PANEL, strokeWidth: 3.5, paintOrder: 'stroke', strokeLinejoin: 'round' } as const
+/**
+ * Text on the grid stays legible over whatever is drawn beneath it: a halo of
+ * the panel colour, painted under the letters. It only works for text drawn
+ * after the lines, so the axis numbers sit above the line and the triangle.
+ */
+const HALO = { stroke: PANEL, strokeWidth: 4, paintOrder: 'stroke', strokeLinejoin: 'round' } as const
+
+// Where the axis numbers go: under the x-axis, and left of the y-axis, clear
+// of a point sitting on either axis.
+const X_NUMBER_BASE = O + 20
+const Y_NUMBER_END = O - 12
 
 /** The part of the infinite line through `p` along `d` that lies inside the grid. */
 export function clipToGrid(p: [number, number], d: [number, number]): [[number, number], [number, number]] | null {
@@ -55,6 +64,156 @@ export function clipToGrid(p: [number, number], d: [number, number]): [[number, 
   if (!(t0 < t1)) return null
   return [[p[0] + t0 * d[0], p[1] + t0 * d[1]], [p[0] + t1 * d[0], p[1] + t1 * d[1]]]
 }
+
+// ---------------------------------------------------------------------------
+// Keeping the triangle's labels off everything else. All in picture units.
+
+export type Box = { x0: number; y0: number; x1: number; y1: number }
+type Anchor = 'start' | 'middle' | 'end'
+export type Placed = { text: string; x: number; y: number; anchor: Anchor; box: Box }
+type Seg = [[number, number], [number, number]]
+
+export const overlaps = (a: Box, b: Box) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1
+
+/** A 12 px bold label's box, from its anchor point and baseline (no descenders: letters, digits, a minus). */
+function labelBox(text: string, x: number, y: number, anchor: Anchor): Box {
+  const w = text.length * 7
+  const x0 = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2
+  return { x0: x0 - 1, y0: y - 10, x1: x0 + w + 1, y1: y + 2 }
+}
+
+const TICKS = Array.from({ length: 2 * N + 1 }, (_, i) => i - N).filter((t) => t !== 0)
+
+/** Every axis number's box, halo and all: one each, so a label may sit in the gap between two. */
+export const NUMBER_ZONES: Box[] = [
+  ...TICKS.map((t) => labelBox(num(t), sx(t), X_NUMBER_BASE, 'middle')),
+  ...TICKS.map((t) => labelBox(num(t), Y_NUMBER_END, sy(t) + 4, 'end')),
+  labelBox('0', O - 5, X_NUMBER_BASE, 'end'),
+]
+/** The two axes themselves. */
+export const AXIS_ZONES: Box[] = [
+  { x0: LO, y0: O - 2, x1: HI + 16, y1: O + 2 },
+  { x0: O - 2, y0: LO - 16, x1: O + 2, y1: HI },
+]
+
+/** Whether a segment passes through a box (Liang-Barsky). */
+function crosses([p, q]: Seg, b: Box): boolean {
+  const d = [q[0] - p[0], q[1] - p[1]]
+  let t0 = 0
+  let t1 = 1
+  for (const [k, lo, hi] of [[0, b.x0, b.x1], [1, b.y0, b.y1]] as const) {
+    if (d[k] === 0) {
+      if (p[k] < lo || p[k] > hi) return false
+      continue
+    }
+    let a = (lo - p[k]) / d[k]
+    let c = (hi - p[k]) / d[k]
+    if (a > c) [a, c] = [c, a]
+    t0 = Math.max(t0, a)
+    t1 = Math.min(t1, c)
+    if (t0 > t1) return false
+  }
+  return true
+}
+
+/** How badly a label at `box` would sit: on the axis numbers or an axis worst, then the line, points and the other label. */
+function cost(box: Box, segs: Seg[], solid: Box[]): number {
+  let c = 0
+  if (box.x0 < 0 || box.y0 < 0 || box.x1 > S || box.y1 > S) c += 20
+  for (const z of NUMBER_ZONES) if (overlaps(box, z)) c += 6
+  for (const z of AXIS_ZONES) if (overlaps(box, z)) c += 5
+  for (const s of segs) if (crosses(s, box)) c += 4
+  for (const z of solid) if (overlaps(box, z)) c += 4
+  // Off the grid's own square is allowed, but a little worse than on it.
+  if (box.x0 < LO || box.y0 < LO || box.x1 > HI || box.y1 > HI) c += 1
+  // Clear, but crowding an axis number or an axis: a tie-break, not a fault.
+  const near = { x0: box.x0 - 5, y0: box.y0 - 3, x1: box.x1 + 5, y1: box.y1 + 3 }
+  if (NUMBER_ZONES.some((z) => overlaps(near, z)) || AXIS_ZONES.some((z) => overlaps(near, z))) c += 0.4
+  return c
+}
+
+/**
+ * A candidate spot: anchor point, baseline, anchor, and a preference under 1
+ * (nearer the middle of its leg, outside the triangle, close to the leg) that
+ * only ever breaks ties -- any real overlap costs at least 1.
+ */
+type Spot = [number, number, Anchor, number]
+
+function best(spots: Spot[], text: string, segs: Seg[], solid: Box[]): Placed {
+  let pick: Placed | null = null
+  let low = Infinity
+  // Most preferred first; once nothing left could beat the best so far (a
+  // spot never costs less than its own preference), stop looking.
+  for (const [x, y, anchor, lean] of [...spots].sort((p, q) => p[3] - q[3])) {
+    if (lean >= low) break
+    const box = labelBox(text, x, y, anchor)
+    const c = cost(box, segs, solid) + lean
+    if (c < low) { low = c; pick = { text, x, y, anchor, box } }
+  }
+  return pick!
+}
+
+/** Fractions along a leg of `length` px, every 4 px, from 16 px before one end to 16 px past the other. */
+const stops = (length: number) => {
+  const len = Math.max(1, Math.abs(length))
+  const out: number[] = []
+  for (let px = -16; px <= len + 16; px += 4) out.push(px / len)
+  return out
+}
+/** How far a fraction along a leg is from its middle, as a tie-break under 0.3. */
+const offMiddle = (f: number) => Math.min(0.29, Math.abs(f - 0.5) * 0.25)
+
+/**
+ * Where the "run" and "rise" labels go for the triangle from one grid point
+ * to another: beside their legs, outside the triangle when that is clear,
+ * and moved along or across the leg to keep off the axis numbers, the axes,
+ * the line and the points. `shown` adds the numbers, once the card is marked.
+ */
+export function placeTriangleLabels(from: [number, number], to: [number, number], shown: boolean, line: Seg | null): { run: Placed; rise: Placed } | null {
+  const [l, r] = from[0] <= to[0] ? [from, to] : [to, from]
+  const run = r[0] - l[0]
+  const rise = r[1] - l[1]
+  if (run === 0) return null
+  const lx = sx(l[0])
+  const cx = sx(r[0])
+  const cy = sy(l[1])
+  const ry = sy(r[1])
+  const pt = (x: number, y: number): Box => ({ x0: x - 10, y0: y - 10, x1: x + 10, y1: y + 10 })
+  const segs: Seg[] = [...(line ? [line] : []), [[lx, cy], [cx, cy]], [[cx, cy], [cx, ry]]]
+  const points = [pt(lx, cy), pt(cx, ry)]
+
+  // "run": under or over the horizontal leg (outside the triangle preferred),
+  // anywhere along it, then a little further off if all of that is taken.
+  const runText = shown ? `run ${run}` : 'run'
+  const outside = rise > 0 ? 1 : -1
+  const runSpots: Spot[] = []
+  for (const [side, away, lean] of [[outside, 0, 0], [-outside, 0, 0.3], [outside, 14, 0.5], [-outside, 14, 0.6]] as const) {
+    // These two rows are exactly the gaps between the y-axis numbers either side of the leg's row.
+    const y = side > 0 ? cy + 16 + away : cy - 8 - away
+    for (const f of stops(cx - lx)) runSpots.push([lx + (cx - lx) * f, y, 'middle', lean + offMiddle(f)])
+  }
+  const runLabel = best(runSpots, runText, segs, points)
+
+  // "rise": right of the vertical leg (outside) or left of it, anywhere along it.
+  const riseText = shown ? `rise ${num(rise)}` : 'rise'
+  const riseSpots: Spot[] = []
+  if (rise === 0) {
+    // A flat triangle has no rise leg: its label sits by the corner.
+    for (const [dx, dy, anchor, lean] of [[12, -5, 'start', 0], [12, 15, 'start', 0.1], [-12, -5, 'end', 0.2], [-12, 15, 'end', 0.3], [12, -19, 'start', 0.5], [12, 29, 'start', 0.6]] as const) {
+      riseSpots.push([cx + dx, cy + dy, anchor, lean])
+    }
+  } else {
+    for (const [anchor, away, lean] of [['start', 0, 0], ['end', 0, 0.3], ['start', 12, 0.5], ['end', 12, 0.6]] as const) {
+      const x = anchor === 'start' ? cx + 6 + away : cx - 6 - away
+      for (const f of stops(ry - cy)) riseSpots.push([x, cy + (ry - cy) * f + 4, anchor, lean + offMiddle(f)])
+    }
+  }
+  const riseLabel = best(riseSpots, riseText, segs, [...points, runLabel.box])
+  return { run: runLabel, rise: riseLabel }
+}
+
+// ---------------------------------------------------------------------------
+// Pointers.
 
 /** Where a pointer is, in grid units: exactly, and snapped to the nearest grid point. */
 function useGridPointer() {
@@ -77,9 +236,11 @@ function useGridPointer() {
 }
 
 // ---------------------------------------------------------------------------
-// The drawing.
+// The drawing, back to front: the grid and axes, the lines, the axis numbers
+// (haloed, so a line passing under them never strikes through one), then the
+// labels and the points.
 
-function Grid() {
+function GridBack() {
   const ticks = Array.from({ length: 2 * N + 1 }, (_, i) => i - N)
   return (
     <g aria-hidden="true">
@@ -100,21 +261,39 @@ function Grid() {
       <path d={`M ${HI + 15} ${O} l -9 -4.5 v 9 z M ${O} ${LO - 15} l -4.5 9 h 9 z`} fill={INK} />
       <text x={HI + 10} y={O - 9} textAnchor="middle" fontSize={14} fontWeight={700} fontStyle="italic" fill={INK}>x</text>
       <text x={O + 9} y={LO - 7} fontSize={14} fontWeight={700} fontStyle="italic" fill={INK}>y</text>
-      <g fontSize={12} fontWeight={600} fill={SLATE} {...HALO}>
-        {ticks.filter((t) => t !== 0).map((t) => (
-          <g key={t}>
-            <text x={sx(t)} y={O + 16} textAnchor="middle">{num(t)}</text>
-            <text x={O - 6} y={sy(t) + 4} textAnchor="end">{num(t)}</text>
-          </g>
-        ))}
-        <text x={O - 6} y={O + 16} textAnchor="end">0</text>
-      </g>
     </g>
   )
 }
 
-function Plane({ grid, label, onMove, onUp, children }: {
-  grid: ReturnType<typeof useGridPointer>; label: string; onMove(e: PointerEvent): void; onUp(): void; children: ReactNode
+/** The box a round mark of radius `r` covers at a grid point. */
+export const dotBox = (p: [number, number], r: number): Box => ({ x0: sx(p[0]) - r, y0: sy(p[1]) - r, x1: sx(p[0]) + r, y1: sy(p[1]) + r })
+
+/**
+ * The axis numbers, haloed. A point on the column just left of the y-axis or
+ * the row just under the x-axis would sit on a number -- the gap between grid
+ * lines holds one or the other, not both -- so a number under a point is left
+ * out while the point is there.
+ */
+function AxisNumbers({ under }: { under: Box[] }) {
+  const clear = (b: Box) => !under.some((u) => overlaps(b, u))
+  return (
+    <g aria-hidden="true" data-axis-numbers="" fontSize={12} fontWeight={600} fill={SLATE} {...HALO}>
+      {TICKS.map((t) => (
+        <g key={t}>
+          {clear(labelBox(num(t), sx(t), X_NUMBER_BASE, 'middle')) && <text x={sx(t)} y={X_NUMBER_BASE} textAnchor="middle">{num(t)}</text>}
+          {clear(labelBox(num(t), Y_NUMBER_END, sy(t) + 4, 'end')) && <text x={Y_NUMBER_END} y={sy(t) + 4} textAnchor="end">{num(t)}</text>}
+        </g>
+      ))}
+      <text x={O - 5} y={X_NUMBER_BASE} textAnchor="end">0</text>
+    </g>
+  )
+}
+
+function Plane({ grid, label, lines, marks = [], onMove, onUp, children }: {
+  grid: ReturnType<typeof useGridPointer>; label: string; lines: ReactNode
+  /** Where the points are, so no axis number is drawn under one. */
+  marks?: Box[]
+  onMove(e: PointerEvent): void; onUp(): void; children: ReactNode
 }) {
   return (
     <svg
@@ -127,38 +306,47 @@ function Plane({ grid, label, onMove, onUp, children }: {
       onPointerUp={onUp}
       onPointerCancel={onUp}
     >
-      <Grid />
+      <GridBack />
+      {lines}
+      <AxisNumbers under={marks} />
       {children}
     </svg>
   )
 }
 
-/** A line across the whole grid, through `p` along `d`. */
-function DrawnLine({ p, d }: { p: [number, number]; d: [number, number] }) {
-  const seg = clipToGrid(p, d)
-  if (!seg) return null
-  return <line x1={sx(seg[0][0])} y1={sy(seg[0][1])} x2={sx(seg[1][0])} y2={sy(seg[1][1])} stroke={LINE} strokeWidth={3} strokeLinecap="round" aria-hidden="true" />
+/** A line across the whole grid, through `p` along `d`, in picture units; null when it misses the grid. */
+export function lineSeg(p: [number, number], d: [number, number]): Seg | null {
+  const g = clipToGrid(p, d)
+  return g ? [[sx(g[0][0]), sy(g[0][1])], [sx(g[1][0]), sy(g[1][1])]] : null
 }
 
-/** Rise over run between two points: along from the left one, then up or down to the right one. */
-function Triangle({ from, to }: { from: [number, number]; to: [number, number] }) {
+function DrawnLine({ seg }: { seg: Seg | null }) {
+  if (!seg) return null
+  return <line data-line="" x1={seg[0][0]} y1={seg[0][1]} x2={seg[1][0]} y2={seg[1][1]} stroke={LINE} strokeWidth={3} strokeLinecap="round" aria-hidden="true" />
+}
+
+/** The triangle's legs: along from the left point, then up or down to the right one, with its right angle. */
+function TriangleLegs({ from, to }: { from: [number, number]; to: [number, number] }) {
   const [l, r] = from[0] <= to[0] ? [from, to] : [to, from]
-  const run = r[0] - l[0]
   const rise = r[1] - l[1]
-  if (run === 0) return null
+  if (r[0] === l[0]) return null
   const cx = sx(r[0])
   const cy = sy(l[1])
   const up = rise > 0 ? 1 : -1
-  // The rise label sits outside the triangle, unless that would leave the picture.
-  const outside = cx + 58 <= S
   return (
     <g aria-hidden="true">
       <path d={`M ${sx(l[0])} ${cy} H ${cx} V ${sy(r[1])}`} fill="none" stroke={MARK} strokeWidth={2.5} strokeDasharray="5 4" />
       {rise !== 0 && <path d={`M ${cx - 8} ${cy} v ${-8 * up} h 8`} fill="none" stroke={MARK} strokeWidth={1.5} />}
-      <g fontSize={12} fontWeight={800} fill={MARK} {...HALO}>
-        <text x={(sx(l[0]) + cx) / 2} y={cy + (rise > 0 ? 17 : -8)} textAnchor="middle">run {run}</text>
-        <text x={outside ? cx + 7 : cx - 7} y={(cy + sy(r[1])) / 2 + 4} textAnchor={outside ? 'start' : 'end'}>rise {num(rise)}</text>
-      </g>
+    </g>
+  )
+}
+
+function TriangleLabels({ from, to, shown, line }: { from: [number, number]; to: [number, number]; shown: boolean; line: Seg | null }) {
+  const at = placeTriangleLabels(from, to, shown, line)
+  if (!at) return null
+  return (
+    <g aria-hidden="true" data-triangle-labels="" fontSize={12} fontWeight={800} fill={MARK} {...HALO}>
+      {[at.run, at.rise].map((p) => <text key={p.text} x={p.x} y={p.y} textAnchor={p.anchor}>{p.text}</text>)}
     </g>
   )
 }
@@ -201,40 +389,32 @@ function PointHandle({ at, label, valuetext, value, fill, locked, onKeyMove, onG
   )
 }
 
-/** A fraction's size, stacked, as a school writes it; a whole number as itself. */
-function Frac({ r }: { r: Rat }) {
-  const n = Math.abs(r.n)
-  if (r.d === 1) return <>{n}</>
-  return (
-    <span className="mx-[2px] inline-flex flex-col items-center align-middle text-[13px] leading-[1.1]">
-      <span className="border-b-[1.5px] border-current px-[3px]">{n}</span>
-      <span className="px-[3px]">{r.d}</span>
-    </span>
-  )
+/**
+ * Keeps an equation, a coordinate or a line of working whole when the text
+ * wraps: "y = (1/2)x − 2", "(0, 1/2)" and "2 ÷ 6 = 1/3" never break inside.
+ */
+export function unbroken(text: string): string {
+  const tie = (m: string) => m.replace(/ /g, ' ')
+  return text
+    .replace(/\b[xy] = [^:;,]*?(?=[:;,]|\.(?:\s|$)|$)/g, tie)
+    .replace(/\([^()]*\)/g, tie)
+    .replace(/ ([÷=]) /g, ' $1 ')
 }
 
-function Equation({ line }: { line: Line }) {
-  if (line.kind === 'vertical') return <><i className="font-serif">x</i> = {num(line.x)}</>
-  const { m, c } = line
-  const unit = m.d === 1 && Math.abs(m.n) === 1
-  return (
-    <>
-      <i className="font-serif">y</i> ={' '}
-      {m.n !== 0 && <>{m.n < 0 && MINUS}{!unit && <Frac r={m} />}<i className="font-serif">x</i></>}
-      {m.n === 0 ? <>{c.n < 0 && MINUS}<Frac r={c} /></> : c.n !== 0 && <> {c.n < 0 ? MINUS : '+'} <Frac r={c} /></>}
-    </>
-  )
-}
-
-function Verdict({ marked, children }: { marked: SceneMarked; children: ReactNode }) {
+function Verdict({ marked, text }: { marked: SceneMarked; text: string }) {
   if (marked === 'idle') return null
-  return <p className="max-w-[340px] text-center text-[13px] font-extrabold leading-snug text-ss-ink">{children}</p>
+  return <p className="max-w-[340px] text-center text-[13px] font-extrabold leading-snug text-ss-ink">{unbroken(text)}</p>
 }
+
+const Hint = ({ children }: { children: ReactNode }) => <p className="text-center text-[12px] font-semibold text-ss-slate">{children}</p>
 
 type Props = SceneViewProps<CoordinatePlaneConfig, CoordinatePlaneState>
 
 // ---------------------------------------------------------------------------
-// make-line: two points, the line through them, and its equation.
+// make-line: two points and the line through them. Until it is marked the
+// learner sees only the line, the points and an unnumbered triangle -- no
+// equation and no working -- so they make the line from the grid, not by
+// matching a string.
 
 function MakeLine({ config, state, setState, marked, locked }: Props) {
   const a = gridPoint(state?.a) ?? [-3, -2]
@@ -258,12 +438,13 @@ function MakeLine({ config, state, setState, marked, locked }: Props) {
   }
 
   const line = lineThrough(a, b)
+  const seg = line ? lineSeg(a, [b[0] - a[0], b[1] - a[1]]) : null
   const [l, r] = a[0] <= b[0] ? [a, b] : [b, a]
   const run = r[0] - l[0]
   const rise = r[1] - l[1]
-  const crossing = line?.kind === 'sloped' && Math.abs(line.c.n / line.c.d) <= N ? line.c.n / line.c.d : null
-  const words = !line ? '' : line.kind === 'vertical' ? `x = ${num(line.x)}` : equationText(line.m, line.c)
+  const marks = marked !== 'idle'
   const named = marked === 'right' || marked === 'shown'
+  const crossing = marks && line?.kind === 'sloped' && Math.abs(line.c.n / line.c.d) <= N ? line.c.n / line.c.d : null
   const handle = (which: 'a' | 'b', p: Point, name: string) => (
     <PointHandle
       key={which}
@@ -283,39 +464,27 @@ function MakeLine({ config, state, setState, marked, locked }: Props) {
       <Plane
         grid={grid}
         label="A coordinate grid from −6 to 6, with your line through two points"
+        lines={<><DrawnLine seg={seg} /><TriangleLegs from={a} to={b} /></>}
+        marks={[dotBox(a, 9), dotBox(b, 9)]}
         onMove={(e) => { if (!drag) return; const p = grid.snapped(e); if (p) place(drag, p) }}
         onUp={() => setDrag(null)}
       >
-        {line && <DrawnLine p={a} d={[b[0] - a[0], b[1] - a[1]]} />}
-        <Triangle from={a} to={b} />
+        <TriangleLabels from={a} to={b} shown={marks} line={seg} />
         {crossing !== null && <circle cx={O} cy={sy(crossing)} r={5} fill={PANEL} stroke={LINE} strokeWidth={2} aria-hidden="true" />}
         {handle('a', a, 'First point')}
         {handle('b', b, 'Second point')}
       </Plane>
       <div className="flex flex-col items-center gap-1 text-center">
-        <p className="flex min-h-[34px] items-center text-[19px] font-extrabold tabular-nums text-ss-ink" aria-hidden="true">
-          {/* Inline, not a flex item: a flex box drops the spaces between the terms. */}
-          <span>{line && <Equation line={line} />}</span>
-        </p>
-        <p className="text-[12px] font-semibold leading-snug text-ss-slate" aria-hidden="true">
-          {line?.kind === 'sloped' ? (
-            <>
-              gradient = rise ÷ run = {num(rise)} ÷ {run} = {ratText(line.m)}
-              <span className="block">crosses the y-axis at {pointText([rat(0), line.c])}</span>
-            </>
-          ) : line?.kind === 'vertical' ? (
-            <>
-              run 0: a vertical line has no gradient
-              <span className="block">{line.x === 0 ? 'it is the y-axis itself' : 'it never crosses the y-axis'}</span>
-            </>
-          ) : null}
-        </p>
-        <p className="sr-only" aria-live="polite">
-          {line ? `Your line goes through ${pointText(a)} and ${pointText(b)}: ${words}. Rise ${num(rise)}, run ${run}.` : ''}
-        </p>
-        <Verdict marked={marked}>
-          {named ? `${namedLine(config)}.` : madeLine(config, a, b)}
-        </Verdict>
+        <p className="sr-only" aria-live="polite">{`Your line goes through ${pointText(a)} and ${pointText(b)}.`}</p>
+        {!marks && <Hint>Drag a point, or Tab to it and use the arrow keys.</Hint>}
+        <Verdict marked={marked} text={named ? `${namedLine(config)}.` : madeLine(config, a, b)} />
+        {marks && line && (
+          <p className="text-[12px] font-semibold leading-snug text-ss-slate">
+            {unbroken(line.kind === 'sloped'
+              ? `Gradient = rise ÷ run = ${num(rise)} ÷ ${run} = ${ratText(line.m)}; it crosses the y-axis at ${pointText([rat(0), line.c])}.`
+              : `Run 0: a vertical line has no gradient, and ${line.x === 0 ? 'it is the y-axis itself' : 'it never crosses the y-axis'}.`)}
+          </p>
+        )}
       </div>
     </>
   )
@@ -356,10 +525,11 @@ function FindIntercept({ config, state, setState, marked, locked }: Props) {
       <Plane
         grid={grid}
         label="A coordinate grid from −6 to 6, with a straight line drawn on it"
+        lines={<DrawnLine seg={lineSeg([0, c], [1, m])} />}
+        marks={pick ? [dotBox(pick, 13)] : []}
         onMove={(e) => { if (down) choose(grid.snapped(e)) }}
         onUp={() => setDown(false)}
       >
-        <DrawnLine p={[0, c]} d={[1, m]} />
         <rect
           role="slider"
           tabIndex={locked ? -1 : 0}
@@ -399,11 +569,10 @@ function FindIntercept({ config, state, setState, marked, locked }: Props) {
           {pick ? <>Your point: <span className="tabular-nums text-ss-ink">{pointText(pick)}</span></> : 'Tap a grid point, or use the arrow keys.'}
         </p>
         <p className="sr-only" aria-live="polite">{pick ? `${pointText(pick)}, ${where}` : ''}</p>
-        <Verdict marked={marked}>
-          {named
-            ? `It crosses the y-axis at ${pointText([0, c])}: the line is ${equationText(fromHalves(m), fromHalves(c))}.`
-            : madePick(config, pick)}
-        </Verdict>
+        <Verdict
+          marked={marked}
+          text={named ? `It crosses the y-axis at ${pointText([0, c])}: the line is ${equationText(fromHalves(m), fromHalves(c))}.` : madePick(config, pick)}
+        />
       </div>
     </>
   )
@@ -411,7 +580,8 @@ function FindIntercept({ config, state, setState, marked, locked }: Props) {
 
 // ---------------------------------------------------------------------------
 // read-gradient: the engine's line and a triangle on it; the learner stretches
-// the triangle and writes the gradient.
+// the triangle, counts its squares and writes the gradient. Until it is marked
+// the legs say only "rise" and "run": the counting is the learner's.
 
 function ReadGradient({ config, state, setState, marked, locked }: Props) {
   const { gradient: m, intercept: c } = config.task
@@ -428,12 +598,15 @@ function ReadGradient({ config, state, setState, marked, locked }: Props) {
   const from: [number, number] = tri?.from ?? [0, c]
   const rise = m * run
   const to: [number, number] = [from[0] + run, from[1] + rise]
+  const corner: [number, number] = [to[0], from[1]]
+  const seg = lineSeg([0, c], [1, m])
 
   const stretch = (next: number) => {
     if (locked) return
     const fitted = fit(next)
     if (fitted !== run) setState({ run: fitted, answer })
   }
+  const marks = marked !== 'idle'
   const named = marked === 'right' || marked === 'shown'
   const M = fromHalves(m)
 
@@ -442,6 +615,8 @@ function ReadGradient({ config, state, setState, marked, locked }: Props) {
       <Plane
         grid={grid}
         label="A coordinate grid from −6 to 6, with a straight line and a rise-over-run triangle on it"
+        lines={<><DrawnLine seg={seg} /><TriangleLegs from={from} to={to} /></>}
+        marks={[dotBox(from, 6), dotBox(to, 9)]}
         onMove={(e) => {
           if (!drag) return
           const p = grid.exact(e)
@@ -450,21 +625,21 @@ function ReadGradient({ config, state, setState, marked, locked }: Props) {
         }}
         onUp={() => setDrag(false)}
       >
-        <DrawnLine p={[0, c]} d={[1, m]} />
-        <Triangle from={from} to={to} />
+        <TriangleLabels from={from} to={to} shown={marks} line={seg} />
         <circle cx={sx(from[0])} cy={sy(from[1])} r={5} fill={MARK} stroke={PANEL} strokeWidth={2} aria-hidden="true" />
         <PointHandle
           at={to}
-          label="The corner of the triangle on the line. Drag it along the line, or use the arrow keys, to change the run"
-          valuetext={`run ${run}, rise ${num(rise)}`}
-          value={{ now: run, min: step, max: most }}
+          label="The corner of the triangle on the line. Drag it along the line, or use the arrow keys, to make the triangle bigger or smaller"
+          // Where the corner is, as a sighted learner sees it; its run and rise are theirs to count.
+          valuetext={`corner at ${pointText(to)}`}
+          value={{ now: to[0], min: from[0] + step, max: from[0] + most }}
           fill={MARK}
           locked={locked}
           onKeyMove={(dx, dy) => stretch(run + (dx + dy > 0 ? step : -step))}
           onGrab={(e) => { setDrag(true); grid.capture(e) }}
         />
       </Plane>
-      <p className="sr-only" aria-live="polite">{`The triangle has run ${run} and rise ${num(rise)}.`}</p>
+      <p className="sr-only" aria-live="polite">{`The triangle's corners are at ${pointText(from)}, ${pointText(corner)} and ${pointText(to)}.`}</p>
       <div className="flex items-center justify-center gap-2">
         <label htmlFor={`${id}-gradient`} className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">Gradient</label>
         <input
@@ -482,20 +657,19 @@ function ReadGradient({ config, state, setState, marked, locked }: Props) {
           className="nodrag w-24 rounded-lg border-2 border-ss-line bg-ss-panel px-2 py-1 text-center text-[16px] font-extrabold tabular-nums text-ss-ink outline-none focus:border-[color:var(--subject)]"
         />
       </div>
-      <p id={`${id}-how`} className="text-center text-[12px] text-ss-slate">A whole number, a fraction like 3/2, or a decimal.</p>
-      <Verdict marked={marked}>
-        {named
-          ? `Gradient = rise ÷ run = ${num(rise)} ÷ ${run} = ${ratText(M)}. The line is ${equationText(M, fromHalves(c))}.`
-          : madeGradient(answer)}
-      </Verdict>
+      <p id={`${id}-how`} className="text-center text-[12px] text-ss-slate">Count the squares. A whole number, a fraction like 3/2, or a decimal.</p>
+      <Verdict
+        marked={marked}
+        text={named ? `Gradient = rise ÷ run = ${num(rise)} ÷ ${run} = ${ratText(M)}. The line is ${equationText(M, fromHalves(c))}.` : madeGradient(answer)}
+      />
     </>
   )
 }
 
 /**
  * Straight-line graphs on a grid from -6 to 6: the learner's own line with its
- * rise-over-run triangle and equation (make-line), or the engine's line to read
- * a crossing (find-intercept) or a gradient (read-gradient) from.
+ * rise-over-run triangle (make-line), or the engine's line to read a crossing
+ * (find-intercept) or a gradient (read-gradient) from.
  */
 export function CoordinatePlaneView(props: Props) {
   const kind = props.config.task.kind

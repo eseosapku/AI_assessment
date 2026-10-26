@@ -319,8 +319,9 @@ export const coordinatePlaneEngine: SceneEngine<CoordinatePlaneConfig, Coordinat
   View: CoordinatePlaneView,
 
   prompt: `SCENE "coordinate-plane" -- a coordinate grid from -6 to 6 on both axes with a straight line. The learner
-  drags points that snap to the grid (or moves them with the arrow keys); the engine draws the line, its
-  rise-over-run triangle and, for make-line, the equation y = mx + c of the line the learner has made.
+  drags points that snap to the grid (or moves them with the arrow keys); the engine draws the line and its
+  rise-over-run triangle, labelled "rise" and "run" without numbers: the learner counts the squares. The
+  numbers, and the equation of the line the learner made, appear once the card is marked.
   For: straight-line graphs, gradient as rise over run, the y-intercept, y = mx + c.
   gradient and intercept: whole numbers or halves from -5 to 5 (2, -1, "1/2", -1.5).
   config: { "task": { "kind":"make-line", "gradient":2, "intercept":1 } }  -- drag two points to make y = 2x + 1
@@ -328,7 +329,8 @@ export const coordinatePlaneEngine: SceneEngine<CoordinatePlaneConfig, Coordinat
        or { "task": { "kind":"find-intercept", "gradient":-1, "intercept":3 } }  -- the engine draws the line, the
             learner taps where it crosses the y-axis (a whole-number intercept; do NOT write the equation in the prompt)
        or { "task": { "kind":"read-gradient", "gradient":"1/2", "intercept":-2 } }  -- the engine draws the line and a
-            rise-over-run triangle the learner stretches; they type the gradient (not 0; do NOT write the equation)
+            rise-over-run triangle the learner stretches; they count its rise and run and type the gradient
+            (not 0; do NOT write the equation)
   { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Make the line y = 2x + 1.",
     "payload": { "engine":"coordinate-plane", "config": { "task": { "kind":"make-line", "gradient":2, "intercept":1 } } },
     "success": { "kind":"scene" } }, "intent": { "goal":"...", "isolates":"position", "apparatus":"scene:coordinate-plane", "why":"..." } }
