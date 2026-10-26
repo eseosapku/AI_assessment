@@ -103,18 +103,27 @@ export type DockView =
   | { kind: 'none' }
   | { kind: 'working'; label: string }
   | { kind: 'continue'; target: ContinueTarget }
+  | { kind: 'retry'; label: string }
   | { kind: 'done' }
 
-/** What the dock shows when no card has put its own bar there. */
+/**
+ * What the dock shows. A failed turn that can be sent again comes first: the
+ * bar is the one control that moves the lesson on, so the way past a failure
+ * belongs there, not only in the chat. A refusal ("press continue again")
+ * offers Continue; an error, Try again.
+ */
 export function dockModel(input: {
   nodes: StudyNode[]
   run: LessonRun | null
   busy: boolean
   working: string
+  /** The last turn failed and can be sent again. */
+  failed?: 'refusal' | 'error' | null
 }): DockView {
-  const { run, busy, working } = input
+  const { run, busy, working, failed } = input
   if (run?.phase === 'done') return { kind: 'done' }
   if (busy) return { kind: 'working', label: working }
+  if (failed) return { kind: 'retry', label: failed === 'refusal' ? 'Continue' : 'Try again' }
   if (!run || run.phase === 'planning') return { kind: 'none' }
   const target = continueFor(null, input)
   return target ? { kind: 'continue', target } : { kind: 'none' }

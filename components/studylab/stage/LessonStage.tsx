@@ -15,6 +15,7 @@ import { InkyDock } from './InkyDock'
 import { TutorDrawer } from './TutorDrawer'
 import { drawerKey } from '@/lib/studylab/drawerKey'
 import { settledSince, lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
+import { latestLine } from '@/lib/studylab/bubble'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { StationScene } from './StationScene'
 import { LessonCompleteScene } from './LessonCompleteScene'
@@ -117,7 +118,10 @@ export default function LessonStage({
     }),
     [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, runContinue, claim, prefer],
   )
-  const view = dockModel({ ...flow, working: chat.working ?? 'Thinking…' })
+  // A failed turn that can be sent again: the dock offers it.
+  const last = latestLine(chat.messages)
+  const failed = last?.retryAction ? (last.tone === 'refusal' ? 'refusal' : 'error') : null
+  const view = dockModel({ ...flow, working: chat.working ?? 'Thinking…', failed })
   // A check with questions left: Inky keeps its chips to itself.
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
   const [viewTick, setViewTick] = useState(0)
@@ -205,6 +209,7 @@ export default function LessonStage({
               onSummary={() => setSummaryOpen(true)}
               onProveIt={chat.onProveIt}
               provingIt={chat.provingIt}
+              onRetry={last?.retryAction ? () => chat.onRetry?.(last.retryAction!) : undefined}
             />
             <StationScene title={stamp} onDone={clearStamp} />
             {finished && summaryOpen && board.run && (

@@ -180,3 +180,22 @@ describe('focusFromTurn', () => {
     expect(focusFromTurn([], [])).toEqual({ focus: null, effects: [] })
   })
 })
+
+describe('dockModel after a failed turn', () => {
+  const base = { nodes: [card('a', 1)], working: 'Working…' }
+
+  it('offers the turn again in the bar, whatever else it would show', () => {
+    expect(dockModel({ ...base, run: run(), busy: false, failed: 'refusal' })).toEqual({ kind: 'retry', label: 'Continue' })
+    expect(dockModel({ ...base, run: run(), busy: false, failed: 'error' })).toEqual({ kind: 'retry', label: 'Try again' })
+    // Even while a finished check is being handed in -- the hand-in is what failed.
+    const handedIn = [cell('q1', 'cp', 'correct')]
+    expect(dockModel({ ...base, nodes: handedIn, run: run({ openCheck: open('cp') }), busy: false, failed: 'refusal' })).toEqual({
+      kind: 'retry', label: 'Continue',
+    })
+  })
+
+  it('does not offer it while a turn is running, or once the lesson is done', () => {
+    expect(dockModel({ ...base, run: run(), busy: true, failed: 'error' })).toEqual({ kind: 'working', label: 'Working…' })
+    expect(dockModel({ ...base, run: run({ phase: 'done' }), busy: false, failed: 'error' })).toEqual({ kind: 'done' })
+  })
+})

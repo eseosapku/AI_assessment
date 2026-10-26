@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef } from 'react'
-import { ArrowRight, Loader2, Trophy } from 'lucide-react'
+import { ArrowRight, Loader2, RotateCcw, Trophy } from 'lucide-react'
 import type { ContinueTarget, DockView } from '@/lib/studylab/spotlight'
 
 /**
@@ -21,7 +21,9 @@ export const ActionDock = forwardRef<HTMLDivElement, {
   onSummary?: () => void
   onProveIt?: () => void
   provingIt?: boolean
-}>(function ActionDock({ view, claimed, onContinue, onSummary, onProveIt, provingIt }, slotRef) {
+  /** Sends the failed turn again. */
+  onRetry?: () => void
+}>(function ActionDock({ view, claimed, onContinue, onSummary, onProveIt, provingIt, onRetry }, slotRef) {
   return (
     <div
       data-tour="lesson-continue"
@@ -35,7 +37,20 @@ export const ActionDock = forwardRef<HTMLDivElement, {
           ref={slotRef}
           className="rounded-2xl border border-ss-line bg-ss-panel p-3 shadow-[0_18px_44px_-18px_rgba(20,60,90,0.45)] empty:hidden"
         />
-        {!claimed && view.kind === 'done' ? (
+        {view.kind === 'retry' && onRetry ? (
+          // Shown even beside a card's bar: the turn that failed is what the
+          // lesson is waiting on.
+          <button
+            type="button"
+            onClick={onRetry}
+            className="ss-press inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-5 text-[14px] font-bold shadow-[0_18px_44px_-18px_rgba(20,60,90,0.45)]"
+            style={{ backgroundColor: 'var(--subject)', color: 'var(--ss-panel)' }}
+          >
+            {view.label === 'Try again' ? <RotateCcw className="h-4 w-4" aria-hidden /> : null}
+            {view.label}
+            {view.label === 'Try again' ? null : <ArrowRight className="h-4 w-4" aria-hidden />}
+          </button>
+        ) : !claimed && view.kind === 'done' ? (
           <div className="flex items-center gap-2 rounded-2xl border border-ss-line bg-ss-panel p-3 shadow-[0_18px_44px_-18px_rgba(20,60,90,0.45)]">
             {onSummary && (
               <button
