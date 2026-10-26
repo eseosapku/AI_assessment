@@ -110,6 +110,27 @@ const initialNodes: Node[] = [
       steps: ['Respiration happens in the mitochondria.', 'They are the small oval parts with folded insides.'],
     } as never,
   },
+  {
+    id: 'balance', type: 'activity', position: { x: 1900, y: 640 },
+    data: { spec: {
+      pattern: 'balance', prompt: 'Balance the scale.', seed: 1,
+      payload: { left: [{ id: 'l1', label: 'Box', weight: 5 }], right: [], pool: [{ id: 'p1', label: 'Bag', weight: 3 }, { id: 'p2', label: 'Tin', weight: 2 }, { id: 'p3', label: 'Jar', weight: 4 }], mode: 'weights' },
+      success: { kind: 'numericWithin', target: 0, tolerance: 0 },
+    }, activityState: undefined } as never,
+  },
+  {
+    id: 'vary', type: 'activity', position: { x: 2400, y: 640 },
+    data: { spec: {
+      pattern: 'vary', prompt: "Move the slider to change the river's gradient.", seed: 1,
+      payload: {
+        variable: { id: 'g', label: 'Gradient', min: 0, max: 20, step: 1, unit: 'degrees' },
+        model: { kind: 'bars', bars: [{ label: 'Flow speed', expr: 'g * 2', max: 40 }, { label: 'Erosion', expr: 'g * g / 10', max: 40 }] },
+        readouts: [{ label: 'Flow speed', expr: 'g * 2', unit: 'cm/s' }],
+        scene: 'asset:river-profile',
+      },
+      success: { kind: 'numericWithin', target: 15, tolerance: 1 },
+    }, activityState: undefined } as never,
+  },
   { id: 'activity', type: 'activity', position: { x: 380, y: 520 }, data: { spec: SORT, activityState: undefined } as never },
   {
     id: 'concept', type: 'concept', position: { x: 880, y: 520 },

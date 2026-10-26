@@ -178,6 +178,7 @@ export function MaterialRenderer({
             </div>
           ) : undefined}
           says={result.says}
+          solved={solvedProp ?? result.solved}
         />
       </div>
     </ActivityFrame>

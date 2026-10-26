@@ -46,6 +46,12 @@ export const MOTION = {
   slide: {
     transition: { duration: 0.28, ease: 'easeOut' },
   },
+  /** A solved bin's lid dropping shut over it. */
+  close: {
+    initial: { scaleY: 0, opacity: 0 },
+    animate: { scaleY: 1, opacity: 1 },
+    transition: { duration: 0.22, ease: 'easeOut' },
+  },
   /** A container whose children bounce in one after another. */
   stagger: {
     initial: { y: 0 },

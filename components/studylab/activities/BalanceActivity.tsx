@@ -1,7 +1,9 @@
 // components/studylab/activities/BalanceActivity.tsx
 'use client'
 import { useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
+import { Check } from 'lucide-react'
+import { motionFor } from '@/lib/studylab/motionPresets'
 import type { ActivitySpec, ActivityState, BalancePayload } from '@/lib/studylab/activities/types'
 import { sideTotal, type BalanceWork } from '@/lib/studylab/activities/patterns/balance'
 import { BALANCE_PAN, BALANCE_PAN_TOP, BALANCE_VIEW_HEIGHT } from '@/lib/studylab/activities/dropZoneGeometry'
@@ -110,6 +112,9 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
   // The beam's own physical statement of the difference — this IS the feedback,
   // so nothing else in the UI should also announce "balanced"/"unbalanced".
   const tiltDeg = Math.max(-12, Math.min(12, (leftTotal - rightTotal) * 3))
+  // The beam swings to show which side is heavier; under reduced motion it is simply there.
+  const reduced = useReducedMotion() ?? false
+  const swing = reduced ? { duration: 0 } : { type: 'spring' as const, stiffness: 130, damping: 16 }
   const showWeight = payload.mode === 'weights'
 
   return (
@@ -127,7 +132,7 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             <motion.g
               style={{ transformOrigin: `${BEAM.pivotX}px ${BEAM.pivotY}px` }}
               animate={{ rotate: -tiltDeg }}
-              transition={{ type: 'spring', stiffness: 130, damping: 16 }}
+              transition={swing}
             >
               <line
                 x1={BEAM.pivotX - BEAM.halfSpan} y1={BEAM.pivotY}
@@ -180,13 +185,19 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
           <motion.div
             {...drag.dropTargetProps('left')}
             animate={{ y: tiltDeg * 1.1 }}
-            transition={{ type: 'spring', stiffness: 130, damping: 16 }}
+            transition={swing}
             aria-label="Left pan"
             style={{ left: '4%', width: '33%', top: `${(BALANCE_PAN_TOP / BALANCE_VIEW_HEIGHT) * 100}%`, maxHeight: PAN_MAX_HEIGHT }}
             className={`absolute flex min-h-[96px] flex-col gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'left' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >
+            {a.solved && (
+              // Inside the pan's edge: the pan scrolls, and a badge over its corner was clipped and grew a scrollbar.
+              <motion.span data-pan-settled aria-hidden {...motionFor('pop', reduced)} className="absolute right-1 top-1 grid h-4 w-4 place-items-center rounded-full" style={{ backgroundColor: 'var(--ss-good)' }}>
+                <Check className="h-3 w-3 text-white" strokeWidth={3} />
+              </motion.span>
+            )}
             <div className="flex flex-wrap content-start justify-center gap-1">
               {leftItems.map((item) => (
                 <Chip
@@ -201,13 +212,19 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
           <motion.div
             {...drag.dropTargetProps('right')}
             animate={{ y: -(tiltDeg * 1.1) }}
-            transition={{ type: 'spring', stiffness: 130, damping: 16 }}
+            transition={swing}
             aria-label="Right pan"
             style={{ left: '63%', width: '33%', top: `${(BALANCE_PAN_TOP / BALANCE_VIEW_HEIGHT) * 100}%`, maxHeight: PAN_MAX_HEIGHT }}
             className={`absolute flex min-h-[96px] flex-col gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'right' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >
+            {a.solved && (
+              // Inside the pan's edge: the pan scrolls, and a badge over its corner was clipped and grew a scrollbar.
+              <motion.span data-pan-settled aria-hidden {...motionFor('pop', reduced)} className="absolute right-1 top-1 grid h-4 w-4 place-items-center rounded-full" style={{ backgroundColor: 'var(--ss-good)' }}>
+                <Check className="h-3 w-3 text-white" strokeWidth={3} />
+              </motion.span>
+            )}
             <div className="flex flex-wrap content-start justify-center gap-1">
               {rightItems.map((item) => (
                 <Chip
