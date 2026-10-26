@@ -193,6 +193,25 @@ export function InkyDock({
     window.addEventListener('resize', remeasure)
     return () => window.removeEventListener('resize', remeasure)
   }, [remeasure])
+  // The bar under the work changes size on its own -- the working pill turns
+  // into a full-width Continue, a card's bar docks with a result line -- and a
+  // bubble placed beside the small one ended up underneath the big one, its
+  // Try again hidden behind Continue.
+  useEffect(() => {
+    const board = rootRef.current?.offsetParent as HTMLElement | null
+    const dock = board?.querySelector('[data-tour="lesson-continue"]')
+    if (!dock || typeof ResizeObserver === 'undefined') return
+    let first = true
+    const ro = new ResizeObserver(() => {
+      if (first) {
+        first = false
+        return
+      }
+      remeasure()
+    })
+    ro.observe(dock)
+    return () => ro.disconnect()
+  }, [remeasure])
 
   // A long line is clamped to four lines; the rest is in the chat.
   const textRef = useRef<HTMLDivElement>(null)
