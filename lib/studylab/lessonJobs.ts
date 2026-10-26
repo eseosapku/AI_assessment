@@ -44,3 +44,14 @@ export function modelForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env
   const model = configured || JOB_MODELS[job]
   return model.replace(/^(us|eu|ap)\./, '')
 }
+
+/**
+ * The model a lesson job falls back to when its own is busy: Sonnet for the
+ * Haiku jobs. Dearer, and used only for the call Haiku could not take. The
+ * plan is Sonnet already, and marking has its own path.
+ */
+export function fallbackForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env): string | undefined {
+  if (job === 'plan' || job === 'grade') return undefined
+  const fallback = modelForJob('plan', env)
+  return fallback === modelForJob(job, env) ? undefined : fallback
+}

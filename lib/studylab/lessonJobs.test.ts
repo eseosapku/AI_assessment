@@ -1,6 +1,6 @@
 // lib/studylab/lessonJobs.test.ts
 import { describe, it, expect } from 'vitest'
-import { modelForJob, JOB_MODELS, type LessonJob } from './lessonJobs'
+import { modelForJob, fallbackForJob, JOB_MODELS, type LessonJob } from './lessonJobs'
 
 const JOBS: LessonJob[] = ['plan', 'teach_beat', 'check', 'grade', 'help']
 
@@ -49,5 +49,15 @@ describe('modelForJob', () => {
   it('ignores an override that is only whitespace', () => {
     expect(modelForJob('check', { AWS_LESSON_CHECK_MODEL_ID: '   ' } as never))
       .toBe(JOB_MODELS.check)
+  })
+})
+
+describe('fallbackForJob', () => {
+  it('hands the Haiku jobs to Sonnet when Haiku is busy', () => {
+    for (const job of ['teach_beat', 'check', 'help'] as const) expect(fallbackForJob(job)).toBe(modelForJob('plan'))
+  })
+  it('has none for the plan, which is Sonnet already, or for marking', () => {
+    expect(fallbackForJob('plan')).toBeUndefined()
+    expect(fallbackForJob('grade')).toBeUndefined()
   })
 })

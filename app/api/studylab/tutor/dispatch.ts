@@ -1,6 +1,6 @@
 // app/api/studylab/tutor/dispatch.ts
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
-import { modelForJob } from '@/lib/studylab/lessonJobs'
+import { modelForJob, fallbackForJob } from '@/lib/studylab/lessonJobs'
 import type { LessonPolicy } from '@/lib/studylab/lessonPolicy'
 import {
   nextBeat, passCheck, failCheck, requestTestOut, skipStep, jumpTo,
@@ -432,6 +432,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       maxTokens: 2600,
       temperature: 0.6,
       model: modelForJob('teach_beat'),
+      fallbackModel: fallbackForJob('teach_beat'),
       usage: input.requestId
         ? { feature: 'lesson_teach_beat', requestId: input.requestId, userId: input.userId }
         : undefined,
@@ -610,6 +611,7 @@ async function applyDiagnose(input: DispatchInput, run: LessonRun): Promise<Disp
     maxTokens: 300,
     temperature: 0.4,
     model: modelForJob('help'),
+    fallbackModel: fallbackForJob('help'),
     usage: input.requestId ? { feature: 'lesson_diagnose', requestId: input.requestId, userId: input.userId } : undefined,
     signal: signalFor(input.deadline),
   })
@@ -675,6 +677,7 @@ async function applyHelp(
     maxTokens: 350,
     temperature: 0.4,
     model: modelForJob('help'),
+    fallbackModel: fallbackForJob('help'),
     usage: input.requestId ? { feature: 'lesson_help', requestId: input.requestId, userId: input.userId } : undefined,
     signal: signalFor(input.deadline),
   })
@@ -1487,6 +1490,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     maxTokens: 2600,
     temperature: 0.6,
     model: modelForJob('teach_beat'),
+    fallbackModel: fallbackForJob('teach_beat'),
     ...(photo ? { image: photo } : {}),
     usage: input.requestId
       ? { feature: photo ? 'lesson_ask_photo' : 'lesson_ask', requestId: input.requestId, userId: input.userId }
@@ -1660,6 +1664,7 @@ async function writeCheck(
     maxTokens: 900,
     temperature: 0.3,
     model: modelForJob('check'),
+    fallbackModel: fallbackForJob('check'),
     usage: requestId
       ? { feature: 'lesson_check', requestId, userId }
       : undefined,

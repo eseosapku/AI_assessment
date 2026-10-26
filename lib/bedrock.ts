@@ -14,6 +14,7 @@ import {
   hasBedrockCredentials as hasCredentials,
 } from '@/lib/aws-config'
 import { withUsageTracking } from '@/lib/ai-usage-recorder'
+import { isTransientModelError } from '@/lib/studylab/tutorErrors'
 
 const PREFIXES = ['eu', 'us', 'ap'] as const
 
@@ -250,14 +251,32 @@ export interface CallGemmaOptions {
    * one so the call stops in time to answer properly instead.
    */
   signal?: AbortSignal
+  /**
+   * Another model to ask when this one is busy -- throttled, unavailable, still
+   * warming up -- and only then. Haiku 4.5 answered every call in eu-west-1
+   * with ServiceUnavailable for a stretch of a real lesson while Sonnet
+   * answered at once; without this the lesson stopped.
+   */
+  fallbackModel?: string
 }
 
 /**
  * Call Gemma (or whichever Bedrock model is configured) with a single prompt.
  * Tries the configured model id across region prefixes/variants, then falls back
- * to google.gemma-3-12b-it. Returns the raw text response.
+ * to google.gemma-3-12b-it. Returns the raw text response. A busy model is
+ * handed to `fallbackModel`, when one is named.
  */
 export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Promise<string> {
+  try {
+    return await callModel(prompt, opts)
+  } catch (err) {
+    if (!opts.fallbackModel || !isTransientModelError(err) || opts.signal?.aborted) throw err
+    console.warn(`Model busy (${(err as { name?: string }).name}); asking ${opts.fallbackModel}`)
+    return callModel(prompt, { ...opts, model: opts.fallbackModel, fallbackModel: undefined })
+  }
+}
+
+async function callModel(prompt: string, opts: CallGemmaOptions): Promise<string> {
   if (!hasBedrockCredentials()) {
     throw new Error(BEDROCK_CREDENTIALS_ERROR)
   }

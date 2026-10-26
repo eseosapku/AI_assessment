@@ -2649,3 +2649,12 @@ describe('a near-twin after a miss', () => {
     for (const call of vi.mocked(callGemma).mock.calls) expect(String(call[0])).not.toContain('NEAR-TWIN')
   })
 })
+
+describe('a busy model', () => {
+  it('names Sonnet as the fallback on every Haiku lesson job', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Here', actions: [] }))
+    await applyAction({ run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
+    await applyAction({ run: stationRun('name'), policy: GAP, userId: 'u1', action: { type: 'diagnose' }, context: {} })
+    for (const call of vi.mocked(callGemma).mock.calls) expect(call[1]).toMatchObject({ fallbackModel: modelForJob('plan') })
+  })
+})
