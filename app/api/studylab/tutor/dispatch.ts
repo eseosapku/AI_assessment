@@ -30,6 +30,7 @@ import { getApparatus } from '@/lib/studylab/material/canon'
 import { validateMaterial } from '@/lib/studylab/material/validate'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
 import { unmatchedArt, sameName } from '@/lib/studylab/activities/artMatch'
+import { pictureFits } from '@/lib/studylab/meaning/art'
 import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
 import { assetCatalogPromptBlock, assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { BALANCE_PAN, COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
@@ -1318,29 +1319,38 @@ function dropStrayArt(
   intent: TeachingIntent,
   refused: string[],
 ): unknown {
-  const topicTerms = terms(`${topic.title} ${topic.goal}`)
-  const intentTerms = terms(`${intent.goal} ${intent.why}`)
+  const about = `${topic.title} ${topic.goal}`
   const strip = (node: unknown): unknown => {
     if (Array.isArray(node)) return node.map(strip)
     if (!node || typeof node !== 'object') return node
     const out: Record<string, unknown> = {}
     for (const [k, v] of Object.entries(node as Record<string, unknown>)) out[k] = strip(v)
     const image = out.imageUrl
-    const hint = typeof image === 'string' ? assetHint(image) : null
-    if (typeof image !== 'string' || hint === null) return out
+    if (typeof image !== 'string' || assetHint(image) === null) return out
     const name = image.replace(/^asset:/, '')
     const label = typeof out.label === 'string' ? out.label : ''
-    const pictured = terms(`${name} ${hint}`)
-    const belongs =
-      (label && sameName(label, name)) ||
-      pictured.some((p) => topicTerms.some((t) => sameTerm(p, t))) ||
-      terms(name).some((n) => intentTerms.some((t) => sameTerm(n, t)))
-    if (belongs) return out
-    refused.push(`Took the picture "${name}" off "${label || 'an item'}": nothing in it is about ${topic.title}.`)
+    // An item's picture must show that item, not just the step: a neuron on
+    // "Memory cell" passed because the step was about cells. A picture with no
+    // item (a diagram, a situation) must show what the step is about.
+    if (label ? pictureFits(image, label) : pictureFits(image, about)) return out
+    refused.push(label ? `Took the picture "${name}" off "${label}": it does not show ${label}.` : `Took the picture "${name}" off: nothing in it is about ${topic.title}.`)
     const { imageUrl: _stray, ...rest } = out
     return rest
   }
-  return strip(spec)
+  const stripped = strip(spec) as { pattern?: unknown; prompt?: unknown; payload?: Record<string, unknown> }
+  // A slider card's scene must be the thing the slider changes: a globe stood for the Moon.
+  const scene = stripped?.payload?.scene
+  if (stripped?.pattern === 'vary' && typeof scene === 'string') {
+    const variable = stripped.payload?.variable as { label?: unknown } | undefined
+    const card = `${typeof stripped.prompt === 'string' ? stripped.prompt : ''} ${typeof variable?.label === 'string' ? variable.label : ''}`
+    if (!pictureFits(scene, card, true)) {
+      refused.push(`Took the scene "${scene.replace(/^asset:/, '')}" off: it is not the thing the slider changes.`)
+      const { scene: _scene, ...payload } = stripped.payload!
+      return { ...stripped, payload }
+    }
+  }
+  void intent
+  return stripped
 }
 
 /**

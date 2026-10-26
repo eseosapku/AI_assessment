@@ -202,7 +202,7 @@ describe('a catalogue picture on a material', () => {
     expect(refused.join(' ')).toContain('fern')
   })
 
-  it('stays when the intent names it', () => {
+  it('comes off even when the intent names it: a picture must show its item', () => {
     const { kept } = refuseUnjustifiedActivities(
       [{ type: 'createActivity', id: 'a1', intent: { ...orderIntent, why: 'A fern frond unrolling stands in for each stage.' }, spec: sequence([
         { id: 'p', label: 'Prophase', imageUrl: 'fern' },
@@ -210,7 +210,19 @@ describe('a catalogue picture on a material', () => {
       ]) }],
       mitosis,
     )
-    expect(imageOf(kept, 'p')).toBe('fern')
+    expect(imageOf(kept, 'p')).toBeUndefined()
+  })
+
+  it('comes off an item it does not show, even when the step is about it', () => {
+    const { kept, refused } = refuseUnjustifiedActivities(
+      [{ type: 'createActivity', id: 'a1', intent: orderIntent, spec: sequence([
+        { id: 'c', label: 'Memory cell', imageUrl: 'neuron' },
+        { id: 'm', label: 'Metaphase' },
+      ]) }],
+      { title: 'Cells of the immune system', goal: 'Name the cells that fight infection' },
+    )
+    expect(imageOf(kept, 'c')).toBeUndefined()
+    expect(refused.join(' ')).toContain('does not show Memory cell')
   })
 
   it('stays when it pictures the item itself', () => {
