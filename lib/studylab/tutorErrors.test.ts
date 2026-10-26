@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { friendlyTutorError } from './tutorErrors'
+import { friendlyTutorError, isTransientModelError } from './tutorErrors'
 
 describe('what a student reads when the tutor call fails', () => {
   it('says the tutor took too long, not "AbortError"', () => {
@@ -30,5 +30,21 @@ describe('what a student reads when the tutor call fails', () => {
   })
   it('says a lesson that is not theirs is not available', () => {
     expect(friendlyTutorError({ status: 404, bodyError: 'Lesson not found' })).toMatch(/not available/i)
+  })
+})
+
+describe('isTransientModelError -- the model was busy, not wrong', () => {
+  it('knows Bedrock throttling, outages and a model still warming up', () => {
+    for (const name of ['ThrottlingException', 'ServiceUnavailableException', 'ModelNotReadyException', 'InternalServerException', 'ModelTimeoutException']) {
+      expect(isTransientModelError({ name }), name).toBe(true)
+    }
+    expect(isTransientModelError({ name: 'Error', $metadata: { httpStatusCode: 503 } })).toBe(true)
+    expect(isTransientModelError({ name: 'Error', $metadata: { httpStatusCode: 429 } })).toBe(true)
+  })
+  it('leaves everything else to the error path', () => {
+    expect(isTransientModelError({ name: 'ValidationException', $metadata: { httpStatusCode: 400 } })).toBe(false)
+    expect(isTransientModelError({ name: 'AccessDeniedException', $metadata: { httpStatusCode: 403 } })).toBe(false)
+    expect(isTransientModelError(new Error('boom'))).toBe(false)
+    expect(isTransientModelError(null)).toBe(false)
   })
 })

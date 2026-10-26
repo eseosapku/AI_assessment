@@ -8,6 +8,7 @@ import { runFromLegacy } from '@/lib/studylab/lessonRunMigrate'
 import { proposePlan, type LessonRun } from '@/lib/studylab/lessonRun'
 import { keepMeasuredSteps } from '@/lib/studylab/stepLocks'
 import { applyAction, draftPlan } from './dispatch'
+import { isTransientModelError } from '@/lib/studylab/tutorErrors'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 // The system prompt lives in `./system-prompt`: a route module may export
@@ -160,6 +161,9 @@ export async function POST(request: NextRequest) {
     // The board travels with the action. The client's canvas is authoritative
     // here — `space.canvas_state` is a debounced autosave and can be a beat
     // behind, which is exactly the window a duplicate card gets created in.
+    // A model that was busy or briefly down (throttled, a 503) failed nothing
+    // about the lesson: the turn did not come through, it can be sent again,
+    // and the run stays where it was -- the same as a reply that did not parse.
     const result = await applyAction({
       run, policy, userId, action, requestId, deadline,
       context: {
@@ -174,6 +178,10 @@ export async function POST(request: NextRequest) {
           ? space.canvas_state.homework.given
           : [],
       },
+    }).catch((error: unknown) => {
+      if (!isTransientModelError(error)) throw error
+      console.warn('Tutor model busy:', (error as { name?: string }).name)
+      return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
     })
     if (!result.refusal) await saveRun(learnspaceId, result.run, space.lesson_run)
     return NextResponse.json(result)
