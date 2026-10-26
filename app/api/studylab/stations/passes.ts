@@ -160,9 +160,10 @@ const PRACTICE_CHECK_ASK = [
 ].join('\n')
 
 /** A refusal that means the material tried fits no apparatus: the next try is a predict item. */
-const SCHEMA_REFUSED = /apparatus's schema|which the board cannot draw|not something the board can build/
+// A missing picture is the same dead end: "Reading climate graphs" labelled a bar chart three times over it.
+const SCHEMA_REFUSED = /apparatus's schema|which the board cannot draw|not something the board can build|the catalogue has no diagram of it/
 const PREDICT_NOW =
-  'This time, open with a "Predict: ..." practice card -- no material: the one tried last time fits no apparatus.'
+  'This time, open with a "Predict: ..." practice card -- no material: the one tried last time cannot be drawn here.'
 
 /** Said to a pass written again: what was refused last time. */
 function lastTime(fix: string | undefined): string {

@@ -163,8 +163,10 @@ export function checkExplore(e: Partial<AuthoredExplore> | undefined): string[] 
     const { problems, intent } = materialProblems(e.action, e.intent, !isPredict)
     out.push(...problems)
     // A `vary` models a relationship; one the model made up passed every
-    // other check. It has to say what it is and where it comes from.
-    if (intent?.isolates === 'magnitude' && !(text(e.relationship?.statement) && text(e.relationship?.source))) {
+    // other check. It has to say what it is and where it comes from. A scene
+    // isolates magnitude too, but its numbers are the engine's, sourced in its code.
+    const scene = (e.action as { spec?: { pattern?: unknown } }).spec?.pattern === 'scene'
+    if (intent?.isolates === 'magnitude' && !scene && !(text(e.relationship?.statement) && text(e.relationship?.source))) {
       out.push('a vary material must cite the relationship it models, with a source')
     }
   }

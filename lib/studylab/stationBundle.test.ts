@@ -96,6 +96,20 @@ describe('verifyBundleCode', () => {
     expect(fails(b).reasons.join(' ')).toMatch(/relationship/i)
   })
 
+  it('asks a scene for no relationship: its data is the engine own, sourced in its code', () => {
+    const b = good()
+    b.explore.action = {
+      type: 'createActivity', id: 'm1', step: 1,
+      spec: {
+        pattern: 'scene', prompt: 'Heat the wax until it is a liquid.',
+        payload: { engine: 'particles', config: { substance: 'wax', task: { kind: 'make-state', state: 'liquid' } } },
+        success: { kind: 'scene' },
+      },
+    } as never
+    b.explore.intent = { goal: 'See wax melt as its particles speed up.', isolates: 'magnitude', apparatus: 'scene:particles', why: 'The temperature is the one handle.' } as never
+    expect(verifyBundleCode(b)).toEqual({ ok: true, bundle: expect.anything() })
+  })
+
   it('refuses a name cut of more than two cards, or a point at something not in the station', () => {
     const b = good()
     b.name.helped.actions = [card('a', 'One'), card('b', 'Two'), card('c', 'Three')] as never

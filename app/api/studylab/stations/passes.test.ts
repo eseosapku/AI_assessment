@@ -85,6 +85,13 @@ describe('runPass: explore', () => {
     expect(String(call()[0])).not.toMatch(/This time, open with a "Predict/)
   })
 
+  it('asks for a predict item outright once the catalogue has no picture of what was to be labelled', async () => {
+    // "Reading climate graphs" tried a bar-chart label three times over this refusal.
+    reply({ opening: 'Guess first.', action: { type: 'createCard', id: 'x', card: 'practice', title: 'Predict: which month is wettest?', body: 'Look at the bars.', answer: 'July', rubric: 'r', steps: ['s'] }, hints: [] })
+    await runPass('explore', { ...ctx(), fix: 'the picture "bar-chart" does not show what is to be labelled: use one that does, or none -- the catalogue has no diagram of it, so use a different apparatus, or a predict item' })
+    expect(String(call()[0])).toMatch(/This time, open with a "Predict: \.\.\." practice card/)
+  })
+
   it('never lets a refused authoring model fall through to another model', async () => {
     // Found live: with the author model refused, the call quietly moved on to
     // Gemma 3 12B, and stations were being written by it.
