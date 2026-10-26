@@ -2512,3 +2512,46 @@ describe('diagnose', () => {
     expect(result.run).toEqual(run())
   })
 })
+
+/**
+ * Get help, after a miss. The tutor reads the learner's own attempt back and
+ * asks one question that narrows the gap -- never the answer, never a card.
+ */
+describe('help', () => {
+  const base = stationRun('practice')
+  const help = (over: Record<string, unknown> = {}) =>
+    applyAction({
+      run: base, policy: GAP, userId: 'u1',
+      action: { type: 'help', nodeId: 'q-7', prompt: 'Expand (x + 2)(x + 1).', attempt: 'Wrote: "x^2 + 2"', ...over },
+      context: { title: 'Expanding brackets' },
+    })
+
+  it('reads the attempt back from inside the student-text fence', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'You wrote x^2 + 2. What does x times 1 give?' }))
+    await help()
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('Expand (x + 2)(x + 1).')
+    expect(prompt).toMatch(/<student_text>\s*Wrote: "x\^2 \+ 2"\s*<\/student_text>/)
+    expect(prompt).toMatch(/ONE question/)
+    expect(prompt).toMatch(/never give the answer/i)
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: modelForJob('help') })
+  })
+
+  it('makes no cards and leaves the lesson where it was', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({
+      say: 'You wrote x^2 + 2. What does x times 1 give?',
+      actions: [{ type: 'createCard', id: 'c9', card: 'worked', step: 1, title: 'The answer', body: 'x^2 + 3x + 2' }],
+    }))
+    const result = await help()
+    expect(result.say).toContain('What does x times 1 give?')
+    expect(result.actions).toEqual([])
+    expect(result.suggestions).toEqual([])
+    expect(result.run).toEqual(base)
+  })
+
+  it('does not call the tutor without a question to help with', async () => {
+    const result = await help({ prompt: '  ' })
+    expect(result.refusal).toBeTruthy()
+    expect(callGemma).not.toHaveBeenCalled()
+  })
+})

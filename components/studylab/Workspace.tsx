@@ -662,6 +662,17 @@ export default function Workspace({ id }: { id: string }) {
     [busy, handleSend, handleAdvance, sendAction, sayToTutor]
   )
 
+  // Get help after a miss. The learner's line is the question they would ask;
+  // the attempt goes with it for the tutor to read back.
+  const handleHelp = useCallback(
+    (request: { nodeId: string; prompt: string; attempt: string }) => {
+      if (busy) return
+      sayToTutor({ role: 'user', content: 'Why was my answer wrong?' })
+      void sendAction({ type: 'help', ...request })
+    },
+    [busy, sendAction, sayToTutor]
+  )
+
   // A card's context-menu action ("Explain this deeper", "Quiz me on this"…)
   // is card-scoped content, not an "advance" gesture — routing it through
   // handleSend's silent path would wrongly fire next_beat/accept_plan instead.
@@ -1252,6 +1263,7 @@ export default function Workspace({ id }: { id: string }) {
         done,
         onSend: handleSend,
         onChip: handleChip,
+        onHelp: handleHelp,
         onFocusCard: goToNode,
         defaultPace: policy.defaultPace,
         onProveIt: handleProveIt,

@@ -9,6 +9,7 @@ import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/stu
 import { modeForCell, feedbackFor, isLiveChange, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { useDock } from './stage/StageContext'
+import { attemptText } from '@/lib/studylab/attempt'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
 import { getEngine, normalizeLanguage } from '@/lib/studylab/runner'
@@ -177,7 +178,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       canReveal: true,
       hasWhy: Boolean(why),
       whyOpened: whyOpen,
-      hasHelp: false,
+      // Only while learning, and only from the dock; the bar offers it after a miss.
+      hasHelp: mode === 'learn' && !!dock.help,
       hasContinue: false,
       revealLabel: 'Show answer',
     },
@@ -221,6 +223,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       else if (q.format === 'match') setAnswer(q.pairs.map(() => ''))
       dispatch({ type: 'tryAgain' })
     } else if (action === 'reveal') dispatch({ type: 'reveal' })
+    else if (action === 'getHelp') dock.help?.({ prompt: q.prompt, attempt: attemptOf(q, answer) })
     else if (action === 'why') setWhyOpen(true)
     else if (action === 'continue') dock.onContinue()
   }
@@ -316,6 +319,13 @@ function initialAnswer(q: CheckpointQuestion, given: QuizCell['given']): Answer 
   if (q.format === 'match') return Array.isArray(given) ? given : q.pairs.map(() => '')
   if (q.format === 'code') return typeof given === 'string' ? given : q.starter ?? ''
   return typeof given === 'string' ? given : ''
+}
+
+/** The answer as given, in words: what Get help sends for the tutor to read back. */
+function attemptOf(q: CheckpointQuestion, a: Answer): string {
+  if (q.format === 'mcq') return attemptText({ kind: 'mcq', options: q.options, chosen: typeof a === 'number' ? a : undefined })
+  if (q.format === 'match') return attemptText({ kind: 'match', pairs: q.pairs, given: Array.isArray(a) ? a : [] })
+  return attemptText({ kind: 'text', text: typeof a === 'string' ? a : '' })
 }
 
 /** Blank is not an answer: an empty box or a half-matched list cannot be checked. */

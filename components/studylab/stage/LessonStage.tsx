@@ -9,7 +9,7 @@ import ChatMouthpiece, { type ChatMouthpieceProps } from '../ChatMouthpiece'
 import type { StudyCanvasProps } from '../StudyCanvas'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
 import { focusIds, continueFor, dockModel, cameraInsets, type ContinueTarget } from '@/lib/studylab/spotlight'
-import { StageContext, type StageValue } from './StageContext'
+import { StageContext, type StageValue, type HelpRequest } from './StageContext'
 import { ActionDock } from './ActionDock'
 import { InkyDock } from './InkyDock'
 import { TutorDrawer } from './TutorDrawer'
@@ -87,6 +87,36 @@ export default function LessonStage({
     [board.nodes, board.run, focus],
   )
 
+  // The chat drawer, closed by default.
+  const [ownOpen, setOwnOpen] = useState(false)
+  const open = drawerOpen ?? ownOpen
+  const opener = useRef<HTMLElement | null>(null)
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (next) opener.current = document.activeElement as HTMLElement | null
+      if (onDrawerOpenChange) onDrawerOpenChange(next)
+      else setOwnOpen(next)
+      // Closing hands focus back to whatever opened it.
+      if (!next) requestAnimationFrame(() => opener.current?.isConnected && opener.current.focus({ preventScroll: true }))
+    },
+    [onDrawerOpenChange],
+  )
+
+  // Get help on a card: the chat opens on the learner's question, and the
+  // tutor gets their attempt to read back. Closing the chat hands focus back
+  // to the Get help button that opened it.
+  const onHelp = chat.onHelp
+  const help = useMemo(
+    () =>
+      onHelp
+        ? (nodeId: string, request: HelpRequest) => {
+            setOpen(true)
+            onHelp({ nodeId, ...request })
+          }
+        : undefined,
+    [onHelp, setOpen],
+  )
+
   // The dock: cards in the spotlight ask for it, and the first of them in the
   // spotlight's order gets it -- so with a whole step on screen, the bar
   // belongs to the first thing to answer, then the next.
@@ -127,8 +157,9 @@ export default function LessonStage({
       runContinue,
       claim,
       prefer,
+      help,
     }),
-    [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, runContinue, claim, prefer],
+    [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, runContinue, claim, prefer, help],
   )
   // A failed turn that can be sent again: the dock offers it.
   const last = latestLine(chat.messages)
@@ -155,20 +186,6 @@ export default function LessonStage({
   const closeSummary = useCallback(() => setSummaryOpen(false), [])
   const finished = board.run?.phase === 'done'
 
-  // The chat drawer, closed by default.
-  const [ownOpen, setOwnOpen] = useState(false)
-  const open = drawerOpen ?? ownOpen
-  const opener = useRef<HTMLElement | null>(null)
-  const setOpen = useCallback(
-    (next: boolean) => {
-      if (next) opener.current = document.activeElement as HTMLElement | null
-      if (onDrawerOpenChange) onDrawerOpenChange(next)
-      else setOwnOpen(next)
-      // Closing hands focus back to whatever opened it.
-      if (!next) requestAnimationFrame(() => opener.current?.isConnected && opener.current.focus({ preventScroll: true }))
-    },
-    [onDrawerOpenChange],
-  )
   const openChat = useCallback(() => setOpen(true), [setOpen])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

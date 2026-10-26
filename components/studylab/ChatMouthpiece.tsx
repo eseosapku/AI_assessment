@@ -54,6 +54,11 @@ export interface ChatMouthpieceProps {
    * this, a chip is sent as if typed.
    */
   onChip?: (label: string) => void
+  /**
+   * Get help on a card, after a miss: its question and the learner's attempt.
+   * The stage opens the drawer; this sends "Why was my answer wrong?".
+   */
+  onHelp?: (request: { nodeId: string; prompt: string; attempt: string }) => void
   /** What the tutor is doing right now, shown while busy. */
   working?: string
   /** Bring a card the tutor just made into view. */

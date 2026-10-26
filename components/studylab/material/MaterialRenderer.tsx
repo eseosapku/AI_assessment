@@ -1,6 +1,7 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ActivityFrame } from '@/components/studylab/activities/ActivityFrame'
+import { materialAttempt } from '@/lib/studylab/attempt'
 import { useActivityDrag } from '@/components/studylab/activities/useActivityDrag'
 import { shakeElement } from '@/lib/studylab/activities/motion'
 import { createInitialMaterialState } from '@/lib/studylab/material/initialState'
@@ -136,6 +137,7 @@ export function MaterialRenderer({
       checkState={checkState}
       onCheckAction={onCheckAction}
       checkLine={checkLine}
+      attempt={() => materialAttempt(spec, state)}
     >
       <div ref={rootRef}>
         <MaterialFrame

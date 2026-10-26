@@ -25,6 +25,17 @@ export interface StageValue {
   claim: (nodeId: string) => () => void
   /** The learner started working on this card: the dock is its, if it asked. */
   prefer: (nodeId: string) => void
+  /**
+   * Get help: the lesson opens the chat on "Why was my answer wrong?" and sends
+   * the attempt. Absent where nothing can answer it (the demo).
+   */
+  help?: (nodeId: string, request: HelpRequest) => void
+}
+
+/** What a card sends on Get help: its question, and the learner's attempt in words. */
+export interface HelpRequest {
+  prompt: string
+  attempt: string
 }
 
 export const StageContext = createContext<StageValue | null>(null)
@@ -47,6 +58,8 @@ export function useDock(opts: { enabled?: boolean } = {}): {
   place: (bar: ReactNode) => ReactNode
   /** Spread on the card's root: working on a card hands it the dock. */
   engage: { onPointerDownCapture?: () => void; onFocusCapture?: () => void }
+  /** Get help, for the card whose bar is in the dock; null anywhere else. */
+  help: ((request: HelpRequest) => void) | null
 } {
   const stage = useContext(StageContext)
   const nodeId = useNodeId()
@@ -89,6 +102,7 @@ export function useDock(opts: { enabled?: boolean } = {}): {
         bar
       ),
     engage: candidate && !docked ? { onPointerDownCapture: take, onFocusCapture: take } : {},
+    help: docked && stage?.help && nodeId ? (request) => stage.help!(nodeId, request) : null,
   }
 }
 

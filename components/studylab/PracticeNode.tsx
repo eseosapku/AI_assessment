@@ -11,6 +11,7 @@ import { localVerdict, isAttemptable, type PracticeCell, type PracticeState } fr
 import { MAX_LEARN_TRIES, restoreEvent, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { useDock } from './stage/StageContext'
+import { attemptText } from '@/lib/studylab/attempt'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from './check/CheckBar'
 import { useCheckFlow } from './check/useCheckFlow'
@@ -150,7 +151,8 @@ export function PracticeNode({ id, data }: NodeProps) {
       canReveal: hasSteps,
       hasWhy: false,
       whyOpened: false,
-      hasHelp: false,
+      // From the dock only; the bar offers it after a miss.
+      hasHelp: !!dock.help,
       hasContinue: false,
       revealLabel: 'Show me how',
       canSkip: true,
@@ -166,6 +168,8 @@ export function PracticeNode({ id, data }: NodeProps) {
       setShowSteps(true)
       patch({ revealed: true })
       dispatch({ type: 'reveal' })
+    } else if (action === 'getHelp') {
+      dock.help?.({ prompt: d.body || d.title || 'this problem', attempt: attemptText({ kind: 'text', text: attempt }) })
     } else if (action === 'continue') dock.onContinue()
   }
 

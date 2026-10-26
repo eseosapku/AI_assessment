@@ -33,6 +33,8 @@ export function busyLabel(action: { type?: string; pace?: string } | null | unde
       return 'Adding those questions…'
     case 'diagnose':
       return 'Working out what is unclear…'
+    case 'help':
+      return 'Looking at your answer…'
     default:
       return 'Thinking…'
   }

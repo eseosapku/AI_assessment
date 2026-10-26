@@ -110,3 +110,34 @@ describe('the check bar', () => {
     expect(barModel(s('learn', 'idle'), { ...opts, hasContinue: false, canSkip: true }).secondary).toBeUndefined()
   })
 })
+
+describe('Get help on a learning card', () => {
+  const learn = { canReveal: true, hasWhy: false, whyOpened: false, hasHelp: true }
+
+  it('keeps the answer in reach when help leads after the second miss', () => {
+    expect(barModel(s('learn', 'wrong', 2), learn)).toMatchObject({
+      primary: { action: 'getHelp' }, secondary: { action: 'tryAgain' }, tertiary: { action: 'reveal' },
+    })
+    expect(barModel(s('learn', 'wrong', 2), { ...learn, canReveal: false }).tertiary).toBeUndefined()
+    // Without help nothing moves: the answer leads, as before.
+    expect(barModel(s('learn', 'wrong', 2), { ...learn, hasHelp: false }).tertiary).toBeUndefined()
+  })
+
+  it('keeps that quiet answer link when the bar has no Continue', () => {
+    expect(barModel(s('learn', 'wrong', 2), { ...learn, hasContinue: false }).tertiary).toMatchObject({ action: 'reveal' })
+  })
+
+  it('never offers help in a test, before or after an answer', () => {
+    for (const [phase, attempts] of [['idle', 0], ['ready', 0], ['checking', 0], ['wrong', 1], ['correct', 1]] as const) {
+      const m = barModel(s('test', phase, attempts), learn)
+      expect([m.primary?.action, m.secondary?.action, m.tertiary?.action]).not.toContain('getHelp')
+    }
+  })
+
+  it('never offers help before a learning card has been answered', () => {
+    for (const phase of ['idle', 'ready', 'checking'] as const) {
+      const m = barModel(s('learn', phase, 0), learn)
+      expect([m.primary?.action, m.secondary?.action, m.tertiary?.action]).not.toContain('getHelp')
+    }
+  })
+})

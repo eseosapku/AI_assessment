@@ -76,6 +76,15 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
           />
         )}
       </div>
+      {model.tertiary && (
+        <button
+          type="button"
+          onClick={() => onAction(model.tertiary!.action)}
+          className="ss-press min-h-[32px] self-center rounded-lg px-3 text-[12.5px] font-bold text-ss-subject-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-[color:var(--subject)]"
+        >
+          {model.tertiary.label}
+        </button>
+      )}
     </div>
   )
 })

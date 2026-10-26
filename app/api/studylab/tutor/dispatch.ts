@@ -65,6 +65,12 @@ export type LessonAction =
    */
   | { type: 'diagnose'; about?: string }
   /**
+   * Get help, after a miss: the question, and what the learner did, described
+   * on the page (lib/studylab/attempt.ts). The tutor reads the attempt back and
+   * asks one question that narrows the gap. Nothing moves.
+   */
+  | { type: 'help'; nodeId: string; prompt: string; attempt: string }
+  /**
    * Homework only, and the replacement for `draft_plan` + `accept_plan` there.
    *
    * The questions the learner picked off their own sheet become the steps, so
@@ -204,6 +210,7 @@ function transitionFor(input: DispatchInput): Transition {
     // A question is not progress: state passes through unchanged.
     case 'ask': return { ok: true, run }
     case 'diagnose': return { ok: true, run }
+    case 'help': return { ok: true, run }
   }
 }
 
@@ -375,6 +382,10 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
 
   if (input.action.type === 'diagnose') {
     return applyDiagnose(input, advanced)
+  }
+
+  if (input.action.type === 'help') {
+    return applyHelp(input, input.action, advanced)
   }
 
   const board = parseBoardSummary(input.context?.board)
@@ -598,6 +609,61 @@ async function applyDiagnose(input: DispatchInput, run: LessonRun): Promise<Disp
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string' && s.trim().length > 0).slice(0, 3)
       : [],
   }
+}
+
+/**
+ * Get help: read the attempt back, then ONE question that narrows the gap.
+ *
+ * The attempt is the learner's own -- typed text, or a description of what they
+ * chose or placed -- so it goes in fenced, as student text the tutor reads and
+ * never follows. Never the answer: the reveal button is how an answer is seen,
+ * after two misses. No cards: the help is in the conversation.
+ */
+async function applyHelp(
+  input: DispatchInput,
+  action: { nodeId: string; prompt: string; attempt: string },
+  run: LessonRun,
+): Promise<DispatchResult> {
+  const question = String(action.prompt ?? '').trim().slice(0, 1200)
+  if (!question) {
+    return { run, say: '', actions: [], suggestions: [], refusal: 'Which question? Press Get help on the card you are stuck on.' }
+  }
+  const attempt = String(action.attempt ?? '').trim().slice(0, MAX_TYPED_CHARS) || '(nothing given)'
+  const step = run.steps[run.currentStep]
+  const prompt = [
+    'You are Inky, a patient tutor. The student missed this question and pressed Get help: "Why was my answer wrong?"',
+    '',
+    `LESSON: ${String(input.context?.title ?? 'this topic')}`,
+    step ? `STEP: ${step.title} -- ${step.goal}` : '',
+    '',
+    'THE QUESTION:',
+    question,
+    '',
+    fenceStudentText('WHAT THEY DID', attempt),
+    '',
+    'First read their attempt back in your own words: what they did, specifically ("You chose 2x + 3", "You put the enzyme on the left").',
+    'Then ask ONE question that narrows the gap between what they did and what is right, so they can see it for themselves.',
+    'Never give the answer, the right option or the rule outright. Build nothing.',
+    '',
+    'Reply with JSON only: { "say": "<the read-back, then the one question>" }',
+  ].filter((l, i, all) => l !== '' || all[i - 1] !== '').join('\n')
+
+  const raw = await callGemma(prompt, {
+    maxTokens: 350,
+    temperature: 0.4,
+    model: modelForJob('help'),
+    usage: input.requestId ? { feature: 'lesson_help', requestId: input.requestId, userId: input.userId } : undefined,
+    signal: signalFor(input.deadline),
+  })
+  let parsed: { say?: unknown }
+  try {
+    parsed = parseJsonRobust(raw)
+  } catch {
+    return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  }
+  const say = typeof parsed?.say === 'string' ? parsed.say.trim() : ''
+  if (!say) return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  return { run, say, actions: [], suggestions: [] }
 }
 
 /**

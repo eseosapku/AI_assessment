@@ -37,6 +37,8 @@ interface Props {
   onCheckAction?: (action: BarAction) => void
   /** What Inky says on the bar: the hint after a miss, for instance. */
   checkLine?: string
+  /** The learner's attempt in words, for Get help; without it there is no Get help. */
+  attempt?: () => string
   children: React.ReactNode
 }
 
@@ -73,7 +75,7 @@ const MATERIAL_BAR: BarOptions = {
  */
 export function ActivityFrame({
   prompt, solved, reveal, revealed, hint, hintAvailable, onHint, onCheck, checkLabel = 'Check', texture,
-  checkState, onCheckAction, checkLine, children,
+  checkState, onCheckAction, checkLine, attempt, children,
 }: Props) {
   // Unknown/uncatalogued names (all 25 tactile textures are not yet catalogued)
   // resolve to null, so this is a no-op whenever no texture is supplied or the
@@ -83,7 +85,7 @@ export function ActivityFrame({
   // Only a frame with the shared bar takes the dock; a legacy activity draws
   // its own controls, and claiming the dock would leave it empty.
   const dock = useDock({ enabled: !!(checkState && onCheckAction) })
-  const bar = barOptionsFor(MATERIAL_BAR, dock.docked, dock.cont)
+  const bar = barOptionsFor({ ...MATERIAL_BAR, hasHelp: !!(dock.help && attempt) }, dock.docked, dock.cont)
   const tone = checkState ? barModel(checkState, bar).tone : 'neutral'
   // Solved: the surface gives one little hop. A miss sways it. Driven by
   // controls rather than a remount, so the pieces inside keep their state.
@@ -146,7 +148,13 @@ export function ActivityFrame({
                 ref={primaryRef}
                 state={checkState}
                 options={bar}
-                onAction={(a) => (a === 'continue' ? dock.onContinue() : onCheckAction(a))}
+                onAction={(a) =>
+                  a === 'continue'
+                    ? dock.onContinue()
+                    : a === 'getHelp'
+                      ? attempt && dock.help?.({ prompt, attempt: attempt() })
+                      : onCheckAction(a)
+                }
                 line={checkLine}
               />,
             )

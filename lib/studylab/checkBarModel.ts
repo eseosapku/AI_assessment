@@ -23,6 +23,12 @@ export interface BarModel {
   /** Absent only when nothing is left to press (no Continue here, no Why?). */
   primary?: BarButton
   secondary?: BarButton
+  /**
+   * A quiet third choice, drawn as a link under the buttons. After a second
+   * miss with help on, Get help leads and Try again stays; the answer is still
+   * one press away here, as it was before help existed.
+   */
+  tertiary?: BarButton
   line?: string
 }
 
@@ -130,6 +136,7 @@ function fullModel(state: CheckFlowState, opts: BarOptions): BarModel & { primar
         tone: 'warn',
         primary: opts.hasHelp ? B.getHelp : opts.canReveal ? reveal : cont,
         secondary: B.tryAgain,
+        ...(opts.hasHelp && opts.canReveal ? { tertiary: reveal } : {}),
         line: state.message ?? 'Still not quite.',
       }
     case 'revealed':
