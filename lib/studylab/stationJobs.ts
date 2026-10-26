@@ -14,6 +14,11 @@ export const PASSES: readonly Pass[] = ['explore', 'name', 'practice_check', 've
 
 const JOB = 'author_station'
 
+/** One lock for a station's every claim and send-back, so neither lands inside the other. */
+function stationLock(spaceId: string, stepId: string, version: string): string {
+  return `${JOB}:${spaceId}:${stepId}:${version}`
+}
+
 /** A running claim older than this belongs to a request that died. */
 const STALE_CLAIM_SECONDS = 60
 
@@ -100,8 +105,12 @@ export async function authorState(spaceId: string, stepId: string, version: stri
  * Returns the row's id, or null when the pass is already running or done.
  */
 export async function claimPass(spaceId: string, stepId: string, version: string, pass: Pass): Promise<string | null> {
+  // Every pass before this one must stand written: a tab holding an old view
+  // claimed verify between a send-back's writes and judged the parts being
+  // sent back. Under the station's lock, a send-back is never half done here.
+  const before = PASSES.slice(0, PASSES.indexOf(pass))
   return db.withStatementTimeout(10_000, async (q) => {
-    await q('SELECT pg_advisory_xact_lock(hashtext($1))', [`${JOB}:${spaceId}:${stepId}:${version}:${pass}`])
+    await q('SELECT pg_advisory_xact_lock(hashtext($1))', [stationLock(spaceId, stepId, version)])
     const { rows } = await q<{ id: string }>(
       // $1 is both selected and compared: typed here, or Postgres deduces text
       // for one and varchar for the other and refuses the statement.
@@ -114,8 +123,15 @@ export async function claimPass(spaceId: string, stepId: string, version: string
              AND input_payload->>'version' = $5 AND input_payload->>'pass' = $6
              AND (status = 'succeeded' OR (status = 'running' AND started_at > NOW() - INTERVAL '${STALE_CLAIM_SECONDS} seconds'))
         )
+          AND (
+          SELECT COUNT(DISTINCT input_payload->>'pass') FROM ai_jobs
+           WHERE job_type = $1
+             AND input_payload->>'spaceId' = $3 AND input_payload->>'stepId' = $4
+             AND input_payload->>'version' = $5 AND status = 'succeeded'
+             AND input_payload->>'pass' = ANY($7::text[])
+        ) = $8
        RETURNING id`,
-      [JOB, JSON.stringify({ spaceId, stepId, version, pass }), spaceId, stepId, version, pass],
+      [JOB, JSON.stringify({ spaceId, stepId, version, pass }), spaceId, stepId, version, pass, before, before.length],
     )
     return rows[0]?.id ?? null
   })
@@ -139,16 +155,25 @@ export async function failPass(id: string, reason: string, charged = true): Prom
 }
 
 /**
- * Sends a written pass back to be written again. The pass the verifier found
- * wrong is charged: its row counts toward the two a pass gets before the
- * station runs live. A pass written again only because what it built on
- * changed is superseded, and is not charged -- it was not at fault.
+ * Verify faulted a part: it goes back to be written again, and so does every
+ * part built on it. One transaction under the station's lock -- written as
+ * four statements, a second tab could claim verify between them and pass the
+ * very parts this one refused. Verify is recorded uncharged; the faulted part
+ * carries the charge (two to a part); what was built on it is superseded.
  */
-export async function redoPass(spaceId: string, stepId: string, version: string, pass: Pass, reason: string, blame = true): Promise<void> {
-  await db.query(
-    `UPDATE ai_jobs SET status = 'failed', error_message = $6, finished_at = NOW()
-      WHERE job_type = $1 AND input_payload->>'spaceId' = $2 AND input_payload->>'stepId' = $3
-        AND input_payload->>'version' = $4 AND input_payload->>'pass' = $5 AND status = 'succeeded'`,
-    [JOB, spaceId, stepId, version, pass, `${blame ? 'redone' : SUPERSEDED}: ${reason}`.slice(0, 4000)],
-  )
+export async function sendBack(spaceId: string, stepId: string, version: string, verifyJobId: string, reason: string, redo: Pass): Promise<void> {
+  const again = PASSES.slice(PASSES.indexOf(redo), PASSES.indexOf('verify'))
+  const why = reason.slice(0, 3900)
+  await db.withStatementTimeout(10_000, async (q) => {
+    await q('SELECT pg_advisory_xact_lock(hashtext($1))', [stationLock(spaceId, stepId, version)])
+    await q(`UPDATE ai_jobs SET status = 'failed', error_message = $2, finished_at = NOW() WHERE id = $1`, [verifyJobId, `${SUPERSEDED}: ${why}`])
+    await q(
+      `UPDATE ai_jobs
+          SET status = 'failed', finished_at = NOW(),
+              error_message = CASE WHEN input_payload->>'pass' = $6 THEN 'redone: ' ELSE '${SUPERSEDED}: ' END || $7
+        WHERE job_type = $1 AND input_payload->>'spaceId' = $2 AND input_payload->>'stepId' = $3
+          AND input_payload->>'version' = $4 AND input_payload->>'pass' = ANY($5::text[]) AND status = 'succeeded'`,
+      [JOB, spaceId, stepId, version, again, redo, why],
+    )
+  })
 }

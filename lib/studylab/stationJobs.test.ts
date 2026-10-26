@@ -9,7 +9,7 @@ vi.mock('@/lib/db', () => ({
   },
 }))
 
-import { stationVersion, nextPass, claimPass, authorState, finishPass, failPass, redoPass } from './stationJobs'
+import { stationVersion, nextPass, claimPass, authorState, finishPass, failPass, sendBack } from './stationJobs'
 
 beforeEach(() => {
   query.mockReset()
@@ -49,6 +49,22 @@ describe('claimPass -- a pass is written once', () => {
     expect(String(txQuery.mock.calls[1][0])).toMatch(/INSERT INTO ai_jobs/)
     expect(String(txQuery.mock.calls[1][0])).toMatch(/NOT EXISTS/)
     expect(txQuery.mock.calls[1][1]).toContain('author_station')
+  })
+  it('takes one lock for the whole station, so a claim never lands between a send-back\'s writes', async () => {
+    txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [{ id: 'job-1' }] })
+    await claimPass('space', 's1', 'v1', 'verify')
+    expect(txQuery.mock.calls[0][1]).toEqual(['author_station:space:s1:v1'])
+  })
+  it('claims a pass only while every pass before it stands written -- never verify over parts being sent back', async () => {
+    txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [] })
+    await claimPass('space', 's1', 'v1', 'verify')
+    const [sql, values] = txQuery.mock.calls[1]
+    expect(String(sql)).toMatch(/= ANY\(\$7/)
+    expect(values.slice(6)).toEqual([['explore', 'name', 'practice_check'], 3])
+    txQuery.mockReset()
+    txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [{ id: 'job-2' }] })
+    await claimPass('space', 's1', 'v1', 'explore')
+    expect(txQuery.mock.calls[1][1].slice(6)).toEqual([[], 0])
   })
   it('returns null when the pass is already running or done', async () => {
     txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [] })
@@ -132,24 +148,28 @@ describe('finishPass and failPass', () => {
   })
 })
 
-describe('redoPass', () => {
-  it('turns a written pass back into a failure, so it is written again -- and counts against it', async () => {
-    query.mockResolvedValue({ rows: [] })
-    await redoPass('space', 's1', 'v1', 'explore', 'the vary models a false relationship')
-    const [sql, values] = query.mock.calls[0]
-    expect(String(sql)).toMatch(/UPDATE ai_jobs SET status = 'failed'/)
+describe('sendBack', () => {
+  it("sends a verified station's faulted part back in one transaction, under the station's lock", async () => {
+    txQuery.mockResolvedValue({ rows: [] })
+    await sendBack('space', 's1', 'v1', 'job-4', 'the series is upside down', 'explore')
+    expect(String(txQuery.mock.calls[0][0])).toMatch(/pg_advisory_xact_lock/)
+    expect(txQuery.mock.calls[0][1]).toEqual(['author_station:space:s1:v1'])
+    // Verify did its job: recorded, uncharged.
+    expect(txQuery.mock.calls[1][1]).toEqual(['job-4', 'superseded: the series is upside down'])
+    // The faulted part charged, what was built on it superseded -- in one statement.
+    const [sql, values] = txQuery.mock.calls[2]
+    expect(String(sql)).toMatch(/CASE WHEN input_payload->>'pass' = \$6/)
     expect(String(sql)).toMatch(/status = 'succeeded'/)
-    expect(values).toEqual(['author_station', 'space', 's1', 'v1', 'explore', 'redone: the vary models a false relationship'])
+    expect(values).toEqual(['author_station', 'space', 's1', 'v1', ['explore', 'name', 'practice_check'], 'explore', 'the series is upside down'])
+  })
+  it('sends back only the faulted part and what follows it', async () => {
+    txQuery.mockResolvedValue({ rows: [] })
+    await sendBack('space', 's1', 'v1', 'job-4', 'feedback on option 2 is wrong', 'practice_check')
+    expect(txQuery.mock.calls[2][1][4]).toEqual(['practice_check'])
   })
   it('records a verify that sent a part back without charging it -- the part it faulted is charged', async () => {
     query.mockResolvedValue({ rows: [] })
     await failPass('job-4', 'the series is upside down', false)
     expect(query.mock.calls[0][1]).toEqual(['job-4', 'superseded: the series is upside down'])
-  })
-
-  it('marks a pass written again only because what it built on changed as superseded, not at fault', async () => {
-    query.mockResolvedValue({ rows: [] })
-    await redoPass('space', 's1', 'v1', 'name', 'the vary models a false relationship', false)
-    expect(query.mock.calls[0][1][5]).toBe('superseded: the vary models a false relationship')
   })
 })

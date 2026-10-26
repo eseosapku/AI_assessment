@@ -7,7 +7,7 @@ const h = vi.hoisted(() => ({
   authorState: vi.fn(),
   finishPass: vi.fn(),
   failPass: vi.fn(),
-  redoPass: vi.fn(),
+  sendBack: vi.fn(),
   runPass: vi.fn(),
 }))
 vi.mock('@/lib/db', () => ({ db: { query: h.query } }))
@@ -19,7 +19,7 @@ vi.mock('@/lib/studylab/stationJobs', async (orig) => ({
   authorState: h.authorState,
   finishPass: h.finishPass,
   failPass: h.failPass,
-  redoPass: h.redoPass,
+  sendBack: h.sendBack,
 }))
 vi.mock('@/app/api/studylab/stations/passes', () => ({ runPass: h.runPass }))
 
@@ -94,12 +94,11 @@ describe('POST /api/studylab/[id]/stations/[step]/author', () => {
     h.authorState.mockResolvedValue({ status: 'authoring', done: ['explore', 'name', 'practice_check'], partial: {}, retries: 0 })
     h.claimPass.mockResolvedValue('job-4')
     h.runPass.mockResolvedValue({ ok: false, reason: 'false relationship', redo: 'explore' })
-    await post()
-    // Verify did its job; the part it faulted is what is charged.
-    expect(h.failPass).toHaveBeenCalledWith('job-4', 'false relationship', false)
-    // The faulted part is charged; what was written on top of it is written again, uncharged.
-    expect(h.redoPass.mock.calls.map((c) => [c[3], c[5]])).toEqual([['explore', true], ['name', false], ['practice_check', false]])
-    expect(h.redoPass).toHaveBeenCalledWith('space-1', 's2', v2, 'explore', 'false relationship', true)
+    const res = await post()
+    // One atomic send-back: verify uncharged, the faulted part charged, what follows superseded.
+    expect(h.sendBack).toHaveBeenCalledWith('space-1', 's2', v2, 'job-4', 'false relationship', 'explore')
+    expect(h.failPass).not.toHaveBeenCalled()
+    expect(await res.json()).toMatchObject({ done: [], next: 'explore' })
   })
 
   it('starts a fresh chain when the step was rewritten since the last pass', async () => {

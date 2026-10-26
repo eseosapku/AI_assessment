@@ -6,7 +6,7 @@ import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscri
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 import type { LessonRun, LessonStep } from '@/lib/studylab/lessonRun'
 import {
-  ERROR_MARK, PASSES, authorState, claimPass, failPass, finishPass, nextPass, redoPass, stationVersion,
+  ERROR_MARK, PASSES, authorState, claimPass, failPass, finishPass, nextPass, sendBack, stationVersion,
   type AuthorState, type Pass,
 } from '@/lib/studylab/stationJobs'
 import { runPass } from '@/app/api/studylab/stations/passes'
@@ -115,16 +115,16 @@ export async function POST(request: NextRequest, { params }: Params) {
       return NextResponse.json(standing({ ...state, done, status: pass === 'verify' ? 'ready' : 'authoring' }))
     }
 
-    // A verify that sent a part back is not charged; the part it faulted is.
-    await failPass(jobId, result.reason, !result.redo)
     let done = state.done
     if (result.redo) {
       // The part the verifier faulted is written again, and so is everything
-      // written on top of it: a name cut quotes the explore it follows. Only
-      // the faulted part is charged for it.
+      // written on top of it: a name cut quotes the explore it follows. One
+      // transaction, so no other request claims anything halfway through.
       const again = PASSES.slice(PASSES.indexOf(result.redo), PASSES.indexOf('verify')) as Pass[]
-      for (const p of again) await redoPass(spaceId, stepId, version, p, result.reason, p === result.redo)
+      await sendBack(spaceId, stepId, version, jobId, result.reason, result.redo)
       done = done.filter((p) => !again.includes(p))
+    } else {
+      await failPass(jobId, result.reason)
     }
     return NextResponse.json(standing({ ...state, done, status: 'authoring' }))
   } catch (err) {
