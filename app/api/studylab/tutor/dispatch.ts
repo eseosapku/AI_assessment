@@ -2105,6 +2105,11 @@ APPARATUS — "vary" — isolates "magnitude", never "consequence" (move ONE sli
              "model":{"kind":"bars","bars":[{"label":"Upthrust","expr":"d * 10 / 1000","max":20}]},
              "readouts":[{"label":"Upthrust","expr":"d * 10 / 1000","unit":"N"}] }
   success: { "kind":"numericWithin", "target":1000, "tolerance":50 }
+  "scene": "asset:<name>" — a picture of the thing the slider changes, from ACTIVITY
+  ARTWORK ("asset:river-profile" for a river's gradient, "asset:circuit-series" for a
+  circuit's resistance). Set it whenever the list has the thing; leave it out otherwise.
+  Give a readout with the same label as each bar, in its unit, so every bar says what
+  it reads ("Flow speed" bar, "Flow speed" readout in cm/s) — a bare height says nothing.
   "model.kind" is one of: "bars" ("bars":[{label,expr,max}], every "max" > 0),
   "tank" ({"fluidExpr","objectExpr"} — the object floats or sinks as its density
   crosses the fluid's), or "plot" ({"fn","xRange":[lo,hi],"yRange":[lo,hi]},

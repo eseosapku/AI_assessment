@@ -60,6 +60,11 @@ export interface VaryPayload {
   model: ModelSpec
   readouts: { label: string; expr: string; unit?: string }[]
   target?: { expr: string; value: number; tolerance: number }
+  /**
+   * A picture of the thing the slider changes, as a catalogue name
+   * ("asset:river-profile"), so the card is about a river and not a slider.
+   */
+  scene?: string
 }
 export interface BalancePayload {
   left: { id: string; label: string; weight: number; imageUrl?: string }[]

@@ -1,6 +1,7 @@
 import type { PatternModule, SuccessRule, ValidateResult, VaryPayload } from '../types'
 import { evaluateSuccess } from '../success'
 import { evaluateExpr } from '../expr'
+import { assetUrl } from '../assetCatalog'
 
 export interface VaryWork { value: number }
 
@@ -32,6 +33,35 @@ export function computeReadouts(payload: VaryPayload, value: number): VaryReadou
 /** Evaluate one model expression, or null if it is unusable. */
 export function modelValue(payload: VaryPayload, expr: string, value: number): number | null {
   return evaluateExpr(expr, { [payload.variable.id]: value })
+}
+
+/**
+ * Each bar read out: its value now, in the unit of the readout of the same
+ * name. A bar showed only a height, and a height with no number and no unit
+ * says nothing about the river it stands for.
+ */
+export function barReadings(payload: VaryPayload, value: number): VaryReadout[] {
+  if (payload.model.kind !== 'bars') return []
+  const units = new Map(payload.readouts.map((r) => [r.label.trim().toLowerCase(), r.unit]))
+  const out: VaryReadout[] = []
+  for (const bar of payload.model.bars) {
+    const v = modelValue(payload, bar.expr, value)
+    if (v === null) continue
+    const unit = units.get(bar.label.trim().toLowerCase())
+    out.push({ label: bar.label, value: v, ...(unit ? { unit } : {}) })
+  }
+  return out
+}
+
+/** The readouts no bar already says: a bar now carries its own reading. */
+export function extraReadouts(payload: VaryPayload, value: number): VaryReadout[] {
+  const onBars = payload.model.kind === 'bars' ? new Set(payload.model.bars.map((b) => b.label.trim().toLowerCase())) : new Set<string>()
+  return computeReadouts(payload, value).filter((r) => !onBars.has(r.label.trim().toLowerCase()))
+}
+
+/** The picture of the thing the slider changes, from the catalogue only; nothing for any other name. */
+export function sceneUrl(payload: VaryPayload): string | null {
+  return typeof payload.scene === 'string' ? assetUrl(payload.scene) : null
 }
 
 const finite = (n: unknown): boolean => typeof n === 'number' && Number.isFinite(n)

@@ -1,6 +1,7 @@
 'use client'
 import type { ActivitySpec, ActivityState, ModelSpec, VaryPayload } from '@/lib/studylab/activities/types'
-import { computeReadouts, modelValue } from '@/lib/studylab/activities/patterns/vary'
+import { barReadings, extraReadouts, modelValue, sceneUrl } from '@/lib/studylab/activities/patterns/vary'
+import { assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { evaluateExpr } from '@/lib/studylab/activities/expr'
 import { ActivityFrame } from './ActivityFrame'
 import { useActivityState } from './useActivityState'
@@ -10,11 +11,18 @@ const VB_H = 150
 
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n)
 
-/** Bars: height is expr/max, clamped so a runaway expression stays in the chart. */
+/** A reading as it is said: whole numbers whole, the rest to one place. */
+const said = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1))
+
+/**
+ * Bars: height is expr/max, clamped so a runaway expression stays in the
+ * chart, and each one says what it reads, in its unit.
+ */
 function BarsModel({ payload, value, model }: { payload: VaryPayload; value: number; model: Extract<ModelSpec, { kind: 'bars' }> }) {
   const bars = model.bars
   const slot = VB_W / Math.max(bars.length, 1)
   const barW = Math.min(slot * 0.5, 56)
+  const readings = new Map(barReadings(payload, value).map((r) => [r.label, r]))
   return (
     <g>
       {bars.map((b, i) => {
@@ -33,6 +41,11 @@ function BarsModel({ payload, value, model }: { payload: VaryPayload; value: num
             <text x={x + barW / 2} y={VB_H - 6} textAnchor="middle" className="fill-[color:var(--ss-slate)] text-[12px]">
               {b.label}
             </text>
+            {readings.has(b.label) && (
+              <text x={x + barW / 2} y={Math.max(9, VB_H - 24 - h)} textAnchor="middle" className="fill-[color:var(--ss-ink)] text-[11px] font-bold">
+                {said(readings.get(b.label)!.value)}{readings.get(b.label)!.unit ? ` ${readings.get(b.label)!.unit}` : ''}
+              </text>
+            )}
           </g>
         )
       })}
@@ -125,8 +138,9 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
     ? (a.work as { value: number }).value
     : payload.variable.min
 
-  const readouts = computeReadouts(payload, value)
+  const readouts = extraReadouts(payload, value)
   const v = payload.variable
+  const scene = sceneUrl(payload)
 
   return (
     <ActivityFrame
@@ -135,6 +149,11 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
       onCheck={() => { const o = a.check(); if (o) onOutcome(o) }}
     >
       <div className="flex flex-col gap-3">
+        {scene && (
+          // The thing the slider changes, so the card is about a river and not a slider.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={scene} alt={assetHint(payload.scene ?? '') ?? ''} className="mx-auto max-h-40 w-full rounded-xl object-contain" />
+        )}
         <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="w-full" style={{ height: 'auto' }} role="img" aria-label={v.label}>
           {payload.model.kind === 'bars' && <BarsModel payload={payload} value={value} model={payload.model} />}
           {payload.model.kind === 'tank' && <TankModel payload={payload} value={value} model={payload.model} />}
