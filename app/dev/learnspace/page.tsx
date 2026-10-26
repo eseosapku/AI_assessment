@@ -67,6 +67,21 @@ const SORT: ActivitySpec = {
   reveal: 'Acids release H+; bases release OH-.',
 }
 
+const FILL: CheckpointQuestion = {
+  id: 'b-fill', format: 'fill', prompt: 'Complete the sentence about photosynthesis.',
+  text: 'Plants take in ___ and water, and use light to make ___ and oxygen.',
+  tiles: ['carbon dioxide', 'glucose', 'nitrogen', 'starch'], answer: ['carbon dioxide', 'glucose'],
+}
+const ORDER: CheckpointQuestion = {
+  id: 'b-order', format: 'order', prompt: 'Put the stages of a butterfly’s life in order.',
+  items: ['Egg', 'Caterpillar', 'Pupa', 'Butterfly'],
+  clues: [
+    { text: 'The caterpillar hatches from the egg.', before: 'Egg', after: 'Caterpillar' },
+    { text: 'The butterfly comes out of the pupa.', before: 'Pupa', after: 'Butterfly' },
+  ],
+}
+const TAP: CheckpointQuestion = { id: 'b-tap', format: 'tap', prompt: 'Tap the part that controls what the cell does.', figure: 'asset:plant-cell', answer: ['nucleus'] }
+
 function quizNode(id: string, q: CheckpointQuestion, gate: 'hard' | 'soft', x: number, y: number): Node {
   return { id, type: 'quiz', position: { x, y }, data: { kind: 'quiz', quiz: { checkpointId: 'bench', gate, question: q, state: 'unanswered' } } as never }
 }
@@ -76,6 +91,9 @@ const initialNodes: Node[] = [
   quizNode('q-test', MCQ_TEST, 'hard', 380, 0),
   quizNode('q-short', SHORT, 'soft', 760, 0),
   quizNode('q-match', MATCH, 'soft', 1140, 0),
+  quizNode('q-fill', FILL, 'soft', 1520, 0),
+  quizNode('q-order', ORDER, 'soft', 1900, 0),
+  quizNode('q-tap', TAP, 'hard', 2280, 0),
   {
     id: 'practice', type: 'practice', position: { x: 0, y: 520 },
     data: {
@@ -127,7 +145,7 @@ function Bench() {
         value={{ onToggleGroup: () => {}, onNodeDataChange, onDeleteNode: () => {}, onAskTutor: () => {}, onNodeResize: () => {} }}
       >
         <ReactFlowProvider key={epoch}>
-          <ReactFlow nodeTypes={studyNodeTypes} nodes={nodes} onNodesChange={onNodesChange} defaultViewport={{ x: 24, y: 120, zoom: 1 }} minZoom={0.2} maxZoom={2}>
+          <ReactFlow nodeTypes={studyNodeTypes} nodes={nodes} onNodesChange={onNodesChange} deleteKeyCode={null} defaultViewport={{ x: 24, y: 120, zoom: 1 }} minZoom={0.2} maxZoom={2}>
             <Background />
           </ReactFlow>
         </ReactFlowProvider>

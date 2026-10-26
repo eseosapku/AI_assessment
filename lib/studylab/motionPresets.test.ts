@@ -9,7 +9,12 @@ function totalSeconds(t: { duration?: number; delay?: number } | undefined): num
 
 describe('motion presets', () => {
   it('names the whole vocabulary', () => {
-    expect(NAMES.sort()).toEqual(['dim', 'fly', 'glow', 'pop', 'rise', 'settle', 'shakeSoft', 'stagger'])
+    expect(NAMES.sort()).toEqual(['dim', 'fly', 'glow', 'pop', 'rise', 'settle', 'shakeSoft', 'slide', 'stagger'])
+  })
+
+  it('slides a piece to its new place, and under reduced motion puts it there at once', () => {
+    expect(MOTION.slide.transition.duration).toBe(0.28)
+    expect(motionFor('slide', true).transition).toEqual({ duration: 0 })
   })
 
   it('keeps every state change within 300 ms', () => {

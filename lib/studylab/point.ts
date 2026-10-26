@@ -10,7 +10,7 @@
  * `slot-<id>`). The tutor names one; the board glows it and the bubble's arrow
  * reaches it.
  */
-const PART = /^(?:item-\d{1,3}|step-\d{1,3}|r\d{1,3}c\d{1,3}|option-\d{1,2}|piece-[A-Za-z0-9_-]{1,60}|slot-[A-Za-z0-9_-]{1,60})$/
+const PART = /^(?:item-\d{1,3}|step-\d{1,3}|r\d{1,3}c\d{1,3}|option-\d{1,2}|blank-\d{1,2}|piece-[A-Za-z0-9_-]{1,60}|slot-[A-Za-z0-9_-]{1,60}|region-[a-z0-9-]{1,60})$/
 
 /** Whether a part name is one the renderers draw. It goes into a selector, so nothing else is. */
 export function isValidPart(part: string): boolean {

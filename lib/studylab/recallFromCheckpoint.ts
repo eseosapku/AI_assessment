@@ -1,4 +1,6 @@
 import type { QuizCell } from './types'
+import { filledSentence } from './check/placement'
+import { regionsFor } from './check/diagramRegions'
 import type { RecallCardInput } from '@/lib/recall/types'
 
 // Turn the questions a student got WRONG in a LearnSpace checkpoint into
@@ -24,6 +26,17 @@ export function buildCheckpointRecallCards(cells: QuizCell[]): RecallCardInput[]
       case 'match':
         back = q.pairs.map((p) => `${p.left} → ${p.right}`).join('\n')
         break
+      case 'fill':
+        back = filledSentence(q.text, q.answer)
+        break
+      case 'order':
+        back = q.items.join(' → ')
+        break
+      case 'tap': {
+        const labels = new Map((regionsFor(q.figure)?.regions ?? []).map((r) => [r.id, r.label]))
+        back = q.answer.map((id) => labels.get(id) ?? id).join(', ')
+        break
+      }
     }
     back = back.trim()
     if (front && back) out.push({ front, back })

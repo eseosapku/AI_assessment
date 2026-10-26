@@ -38,3 +38,19 @@ describe('telling the student about Recall', () => {
     expect(recallNotice(0)).toBe('')
   })
 })
+
+describe('recall cards from the new formats', () => {
+  const missed = (question: unknown): QuizCell => ({ checkpointId: 'cp', gate: 'hard', state: 'incorrect', question } as QuizCell)
+  it('backs a fill with the sentence as it should read', () => {
+    const [card] = buildCheckpointRecallCards([missed({ id: 'f', format: 'fill', prompt: 'Complete it.', text: 'Plants make ___ from ___.', tiles: ['glucose', 'water', 'oxygen'], answer: ['glucose', 'water'] })])
+    expect(card).toEqual({ front: 'Complete it.', back: 'Plants make glucose from water.' })
+  })
+  it('backs an order with its right order', () => {
+    const [card] = buildCheckpointRecallCards([missed({ id: 'o', format: 'order', prompt: 'Order them.', items: ['Egg', 'Larva', 'Pupa'] })])
+    expect(card.back).toBe('Egg → Larva → Pupa')
+  })
+  it('backs a tap with the names of the parts', () => {
+    const [card] = buildCheckpointRecallCards([missed({ id: 't', format: 'tap', prompt: 'Tap the nucleus.', figure: 'asset:plant-cell', answer: ['nucleus'] })])
+    expect(card.back).toBe('Nucleus')
+  })
+})

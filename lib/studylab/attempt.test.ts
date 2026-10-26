@@ -70,3 +70,16 @@ describe('materialAttempt -- a material read off its board', () => {
     )
   })
 })
+
+describe('attemptText -- the new question formats', () => {
+  it('reads a fill back as the sentence it made', () => {
+    expect(attemptText({ kind: 'fill', text: 'Plants make ___ from ___.', given: ['water', ''] })).toBe('Filled in: "Plants make water from ___."')
+  })
+  it('reads an order back in the order it was put', () => {
+    expect(attemptText({ kind: 'order', given: ['Egg', 'Pupa', '', 'Adult'] })).toBe('Put in order: Egg, Pupa, (empty), Adult')
+  })
+  it('reads a tap back by the parts tapped', () => {
+    expect(attemptText({ kind: 'tap', parts: ['Vacuole'] })).toBe('Tapped: Vacuole')
+    expect(attemptText({ kind: 'tap', parts: [] })).toBe('Tapped nothing yet')
+  })
+})

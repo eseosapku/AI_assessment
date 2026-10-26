@@ -1,5 +1,6 @@
 // lib/studylab/attempt.ts
 import type { MaterialSpec, MaterialState } from './material/types'
+import { filledSentence } from './check/placement'
 
 /**
  * What the learner did, in words the tutor can read back.
@@ -12,6 +13,9 @@ export type AttemptInput =
   | { kind: 'mcq'; options: string[]; chosen?: number }
   | { kind: 'match'; pairs: { left: string }[]; given: string[] }
   | { kind: 'text'; text: string }
+  | { kind: 'fill'; text: string; given: string[] }
+  | { kind: 'order'; given: string[] }
+  | { kind: 'tap'; parts: string[] }
   | {
       kind: 'material'
       /** Each placed piece, by its label, and the label of the group it sits in. */
@@ -40,6 +44,12 @@ function describe(input: AttemptInput): string {
       const text = input.text.trim()
       return text ? `Wrote: "${text}"` : 'Wrote nothing yet'
     }
+    case 'fill':
+      return `Filled in: "${filledSentence(input.text, input.given)}"`
+    case 'order':
+      return `Put in order: ${input.given.map((g) => g.trim() || '(empty)').join(', ')}`
+    case 'tap':
+      return input.parts.length ? `Tapped: ${input.parts.join(', ')}` : 'Tapped nothing yet'
     case 'material': {
       // Grouped by where the pieces went, with repeats counted: "3 tile in Area".
       const bySlot = new Map<string, Map<string, number>>()

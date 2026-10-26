@@ -31,3 +31,10 @@ describe('pointSelector and control characters (M9)', () => {
     expect(pointSelector('a\nb')).toBe('.react-flow__node[data-id="a\\a b"]')
   })
 })
+
+describe('the parts of the new question formats', () => {
+  it('names a blank, a slot and a region of a diagram', () => {
+    for (const part of ['blank-1', 'blank-12', 'slot-3', 'region-nucleus', 'region-optic-nerve']) expect(isValidPart(part), part).toBe(true)
+    for (const part of ['blank-', 'region-', 'region-Nucleus Bad', 'region-a"b']) expect(isValidPart(part), part).toBe(false)
+  })
+})

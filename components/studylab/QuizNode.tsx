@@ -5,7 +5,9 @@ import { Handle, Position, type NodeProps } from '@xyflow/react'
 import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
-import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, gradeFill, gradeOrder, gradeTap, blanksIn, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
+import { regionsFor } from '@/lib/studylab/check/diagramRegions'
+import { filledSentence } from '@/lib/studylab/check/placement'
 import { modeForCell, feedbackFor, isLiveChange, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { useDock } from './stage/StageContext'
@@ -18,6 +20,11 @@ import { useAuth } from '@/components/AuthProvider'
 import { CheckBar, toneBorder } from './check/CheckBar'
 import { ResultBadge } from './check/ResultBadge'
 import { useCheckFlow } from './check/useCheckFlow'
+import { ANSWER_TARGETS } from './check/targets'
+import { FillBlanks } from './check/FillBlanks'
+import { OrderSlots } from './check/OrderSlots'
+import { TapFigure } from './check/TapFigure'
+import type { PartsState } from './check/parts'
 
 export function CheckpointHeaderNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
@@ -145,7 +152,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     }
     // Try again: back to the answer, which is where the next go starts.
     if (state.phase === 'idle' && (prev?.phase === 'retry' || prev?.phase === 'wrong')) {
-      rootRef.current?.querySelector<HTMLElement>('[role="radio"]:not([disabled]), textarea:not([disabled]), select:not([disabled])')?.focus({ preventScroll: true })
+      rootRef.current?.querySelector<HTMLElement>(ANSWER_TARGETS)?.focus({ preventScroll: true })
     }
   }, [state.phase, state.attempts, reduced, shake])
 
@@ -199,6 +206,13 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       dispatch({ type: 'result', verdict: right ? 'correct' : 'incorrect' })
       return
     }
+    if (q.format === 'fill' || q.format === 'order' || q.format === 'tap') {
+      const given = answer as string[]
+      const right = q.format === 'fill' ? gradeFill(q, given) : q.format === 'order' ? gradeOrder(q, given) : gradeTap(q, given)
+      extras.current = { given }
+      dispatch({ type: 'result', verdict: right ? 'correct' : 'incorrect' })
+      return
+    }
     // Only written and code answers go to the grade route.
     if (q.format !== 'short' && q.format !== 'code') return
     const payload =
@@ -220,7 +234,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     if (action === 'check') void check()
     else if (action === 'tryAgain') {
       setLine(undefined)
-      // A fresh choice for the fresh try; written answers stay, to be edited.
+      // A fresh choice for the fresh try; written answers stay, to be edited,
+      // and so do placed tiles and tapped parts: the next go moves what was wrong.
       if (q.format === 'mcq') setAnswer(undefined)
       else if (q.format === 'match') setAnswer(q.pairs.map(() => ''))
       dispatch({ type: 'tryAgain' })
@@ -232,6 +247,12 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
 
   const codeOutput = useRef('')
   const tone = barModel(state, options).tone
+  const parts: PartsState = {
+    locked,
+    marked: state.phase === 'correct' || state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'revealed',
+    showAnswer,
+    mode,
+  }
   // Only the line the learner should read now: the written feedback after a
   // miss or a right answer, nothing in a test miss (the bar says "Incorrect").
   const barLine =
@@ -281,6 +302,9 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
         {q.format === 'match' && (
           <MatchRows q={q} given={(answer as string[]) ?? q.pairs.map(() => '')} marked={state.phase !== 'idle' && state.phase !== 'ready' && state.phase !== 'checking'} showAnswer={showAnswer} locked={locked} onChange={give} />
         )}
+        {q.format === 'fill' && <FillBlanks q={q} value={answer as string[]} onChange={give} state={parts} />}
+        {q.format === 'order' && <OrderSlots q={q} value={answer as string[]} onChange={give} state={parts} />}
+        {q.format === 'tap' && <TapFigure q={q} value={answer as string[]} onChange={give} state={parts} />}
         {q.format === 'code' && (
           <CodeBox q={q} code={(answer as string) ?? ''} locked={locked} onChange={give} onOutput={(o) => { codeOutput.current = o }} />
         )}
@@ -323,13 +347,28 @@ function initialAnswer(q: CheckpointQuestion, given: QuizCell['given']): Answer 
   if (q.format === 'mcq') return typeof given === 'number' ? given : undefined
   if (q.format === 'match') return Array.isArray(given) ? given : q.pairs.map(() => '')
   if (q.format === 'code') return typeof given === 'string' ? given : q.starter ?? ''
+  if (q.format === 'fill') return places(given, blanksIn(q.text))
+  if (q.format === 'order') return places(given, q.items.length)
+  if (q.format === 'tap') return Array.isArray(given) ? given.filter((g): g is string => typeof g === 'string') : []
   return typeof given === 'string' ? given : ''
+}
+
+/** A saved fill or order back in its places, '' where nothing was put. */
+function places(given: QuizCell['given'], n: number): string[] {
+  const saved = Array.isArray(given) ? given : []
+  return Array.from({ length: n }, (_, i) => (typeof saved[i] === 'string' ? saved[i] : ''))
 }
 
 /** The answer as given, in words: what Get help sends for the tutor to read back. */
 function attemptOf(q: CheckpointQuestion, a: Answer): string {
   if (q.format === 'mcq') return attemptText({ kind: 'mcq', options: q.options, chosen: typeof a === 'number' ? a : undefined })
   if (q.format === 'match') return attemptText({ kind: 'match', pairs: q.pairs, given: Array.isArray(a) ? a : [] })
+  if (q.format === 'fill') return attemptText({ kind: 'fill', text: q.text, given: Array.isArray(a) ? a : [] })
+  if (q.format === 'order') return attemptText({ kind: 'order', given: Array.isArray(a) ? a : [] })
+  if (q.format === 'tap') {
+    const labels = new Map((regionsFor(q.figure)?.regions ?? []).map((r) => [r.id, r.label]))
+    return attemptText({ kind: 'tap', parts: (Array.isArray(a) ? a : []).map((id) => labels.get(id) ?? id) })
+  }
   return attemptText({ kind: 'text', text: typeof a === 'string' ? a : '' })
 }
 
@@ -337,12 +376,21 @@ function attemptOf(q: CheckpointQuestion, a: Answer): string {
 function isAnswered(q: CheckpointQuestion, a: Answer): boolean {
   if (q.format === 'mcq') return typeof a === 'number'
   if (q.format === 'match') return Array.isArray(a) && a.length === q.pairs.length && a.every((g) => g.trim() !== '')
+  // Every blank and every place filled; at least one part tapped.
+  if (q.format === 'fill' || q.format === 'order') return Array.isArray(a) && a.length > 0 && a.every((g) => g.trim() !== '')
+  if (q.format === 'tap') return Array.isArray(a) && a.length > 0
   return typeof a === 'string' && a.trim() !== ''
 }
 
 function whyText(q: CheckpointQuestion, cell: QuizCell, line: string | undefined): string | undefined {
   if (q.format === 'mcq') return q.explain ?? q.optionFeedback?.[q.answer]
   if (q.format === 'match') return q.pairs.map((p) => `${p.left} → ${p.right}`).join(' · ')
+  if (q.format === 'fill') return filledSentence(q.text, q.answer)
+  if (q.format === 'order') return q.items.join(' → ')
+  if (q.format === 'tap') {
+    const labels = new Map((regionsFor(q.figure)?.regions ?? []).map((r) => [r.id, r.label]))
+    return q.answer.map((id) => labels.get(id) ?? id).join(', ')
+  }
   return line ?? cell.feedback
 }
 

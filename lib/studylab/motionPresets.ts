@@ -42,6 +42,10 @@ export const MOTION = {
     animate: { scale: 1 },
     transition: { duration: 0.25, ease: 'easeOut' },
   },
+  /** A piece moving to a new place (a tile into a blank, an item into its slot); framer's layout transition. */
+  slide: {
+    transition: { duration: 0.28, ease: 'easeOut' },
+  },
   /** A container whose children bounce in one after another. */
   stagger: {
     initial: { y: 0 },
@@ -94,6 +98,8 @@ function stripTransforms<T extends Target | TargetAndTransition>(frame: T | unde
 export function motionFor(name: MotionName, reduced: boolean): MotionPreset {
   const preset: MotionPreset = MOTION[name]
   if (!reduced) return preset
+  // Nothing but movement from one place to another: it simply arrives.
+  if (!preset.initial && !preset.animate && !preset.exit) return { transition: { duration: 0 } }
   return {
     initial: stripTransforms(preset.initial),
     animate: stripTransforms(preset.animate),
