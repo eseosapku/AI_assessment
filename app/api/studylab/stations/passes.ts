@@ -292,24 +292,30 @@ function judgeAsk(hasRelationship: boolean): string {
   return [
     'You check one station of a lesson before a student sees it. First write, in "truth", one line on what is',
     'actually true about the idea this station teaches' + (hasRelationship ? ' -- and how the quantity the student varies really affects the output' : '') + '.',
-    'Then compare the station with that. Fail it ONLY for a definite error you can quote from it, word for word:',
-    '  - a statement that is false (quote it, and say what is true);',
-    '  - an answer key that is wrong;',
-    '  - a feedback line that does not fit the option it is written for;',
-    '  - a sort, match or order with an item whose right place a teacher could argue (quote the item).',
+    'Then compare the station with that. Fail it ONLY for a definite error you can quote from it, word for word,',
+    'of one of these kinds:',
+    '  - "false-statement": a statement that is false (quote it, and say what is true);',
+    '  - "wrong-key": an answer key that is wrong;',
+    '  - "feedback-mismatch": a feedback line that does not fit the option it is written for;',
+    '  - "arguable-item": a sort, match or order with an item whose right place a teacher could argue (quote the item).',
     ...(hasRelationship
-      ? ['  - a material whose slider and output model a relationship that is not true -- a "relationship" that disagrees with your "truth" is a definite error: quote it.']
+      ? ['  - "false-statement" too: a material whose slider and output model a relationship that is not true -- a "relationship" that disagrees with your "truth": quote it.']
       : []),
+    'Whether an item tests the goal well, or could be harder or clearer, is not one of these kinds.',
     'Never fail it for style, difficulty, or a way you would have taught it differently. If you cannot quote a',
     'definite error, it passes. Name the part to write again -- the earliest part the error starts in: when a later',
     'part only follows an error an earlier part made, name the earlier one. "explore" (the material, opening, hints' + (hasRelationship ? ', relationship' : '') + '),',
     '"name" (the three name-it versions) or "practice_check" (the practice item and the check).',
     '',
     'Reply with JSON only: { "truth": "...", "ok": true } or',
-    '{ "truth": "...", "ok": false, "pass": "explore" | "name" | "practice_check", "quote": "<the exact wrong text>", "reason": "<what is true>" }',
+    '{ "truth": "...", "ok": false, "kind": "false-statement" | "wrong-key" | "feedback-mismatch" | "arguable-item",',
+    '  "pass": "explore" | "name" | "practice_check", "quote": "<the exact wrong text>", "reason": "<what is true>" }',
     COMPACT,
   ].join('\n')
 }
+
+/** The errors a judge may fail a station for. Anything else is a view on teaching, and the station stands. */
+const ERROR_KINDS = new Set(['false-statement', 'wrong-key', 'feedback-mismatch', 'arguable-item'])
 
 /** Every string in the station, flattened: what a judge's quote must come from. */
 function stationText(value: unknown): string {
@@ -334,13 +340,17 @@ async function verify(ctx: PassContext, opts: PassOptions): Promise<PassResult> 
       usage: opts.usage ? { feature: 'station_judge', requestId: opts.usage.requestId, userId: opts.usage.userId } : undefined,
     },
   )
-  let verdict: { ok?: unknown; pass?: unknown; quote?: unknown; reason?: unknown }
+  let verdict: { ok?: unknown; kind?: unknown; pass?: unknown; quote?: unknown; reason?: unknown }
   try {
     verdict = parseJsonRobust(raw)
   } catch {
     return { ok: false, reason: 'the judge did not come back as JSON' }
   }
   if (verdict?.ok === true) return { ok: true, bundle: code.bundle }
+  // A failure has to be a definite error of a kind the judge was given. A
+  // practice failed twice live for "not assessing the goal" -- a judgement on
+  // teaching -- and it quoted the station, so the quote alone let it through.
+  if (!ERROR_KINDS.has(String(verdict?.kind))) return { ok: true, bundle: code.bundle }
   // A failure has to quote the station. A judge that names an error which is
   // not in it -- "3/9 does not match", a vary complaint about a sort -- invented
   // it, and the station stands.

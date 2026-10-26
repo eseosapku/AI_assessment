@@ -233,7 +233,7 @@ describe('runPass: verify', () => {
     expect(callGemma).not.toHaveBeenCalled()
   })
   it('hands a judge failure back as the pass to write again, when it quotes the wrong text', async () => {
-    reply({ ok: false, pass: 'name', quote: 'You split them by behaviour', reason: 'Not what the sort shows.' })
+    reply({ ok: false, kind: 'false-statement', pass: 'name', quote: 'You split them by behaviour', reason: 'Not what the sort shows.' })
     expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: false, redo: 'name' })
   })
 
@@ -246,10 +246,10 @@ describe('runPass: verify', () => {
   })
 
   it('finds the pass to write again from where the quote is, when the judge names none', async () => {
-    reply({ ok: false, quote: 'Watch which ones bend', reason: 'Nothing bends in a sort.' })
+    reply({ ok: false, kind: 'false-statement', quote: 'Watch which ones bend', reason: 'Nothing bends in a sort.' })
     expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: false, redo: 'explore' })
     vi.mocked(callGemma).mockReset()
-    reply({ ok: false, pass: 'nonsense', quote: 'Sulfur is brittle', reason: 'It is.' })
+    reply({ ok: false, kind: 'false-statement', pass: 'nonsense', quote: 'Sulfur is brittle', reason: 'It is.' })
     expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: false, redo: 'practice_check' })
   })
 
@@ -257,6 +257,21 @@ describe('runPass: verify', () => {
     reply({ ok: true })
     await runPass('verify', ctx(whole))
     expect(String(call()[0])).toMatch(/earliest part/i)
+  })
+
+  it('passes a station the judge fails for anything but a definite error of a kind it was given', async () => {
+    // Found live: a practice failed twice for "not assessing the goal" -- a
+    // judgement on teaching, which the brief rules out. It quoted the station,
+    // so the quote check alone let it through.
+    reply({ ok: false, kind: 'pedagogy', pass: 'practice_check', quote: 'Same idea.', reason: 'It does not assess the goal.' })
+    expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: true })
+    vi.mocked(callGemma).mockReset()
+    reply({ ok: false, pass: 'practice_check', quote: 'Same idea.', reason: 'Weak.' })
+    expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: true })
+    vi.mocked(callGemma).mockReset()
+    reply({ ok: false, kind: 'wrong-key', pass: 'practice_check', quote: 'Sulfur is brittle', reason: 'The key is wrong.' })
+    expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: false, redo: 'practice_check' })
+    expect(String(call()[0])).toMatch(/"kind"/)
   })
 
   it('has the judge fail an item whose right place a teacher could argue', async () => {
