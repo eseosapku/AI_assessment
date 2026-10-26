@@ -23,7 +23,8 @@ export async function POST(request: NextRequest) {
     const studentIdInput = normalizeStudentId(body.studentId ?? body.student_id)
     const password = String(body.password ?? '')
     const className = String(body.className ?? '').trim()
-    const role = body.role ?? 'student'
+    // Stored as sent, a role of 'platform_admin' opened the admin dashboard.
+    const role = body.role === 'teacher' ? 'teacher' : 'student'
     const country = normalizeCountry(body.country)
     const educationLevel = body.educationLevel === 'university' ? 'university' : 'school'
     // Optional at sign-up. Left null, the one-time prompt asks after sign-in

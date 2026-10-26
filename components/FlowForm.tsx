@@ -42,6 +42,8 @@ import {
   sanitizeScope,
   type QuizScope,
 } from '@/lib/quiz-topic'
+import { PDF_MAX_BYTES, PDF_TEXT_MAX_CHARS, pdfCanStartQuiz, type UploadedPdf } from '@/lib/pdf-upload'
+import { quizBuilderShouldConfirm } from '@/lib/quiz-builder-close'
 
 
 type TextbookRow = { id: number; name: string; subjectName?: string; displayName?: string; curriculum: number; filename?: string | null }
@@ -246,6 +248,10 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
   const [customSource, setCustomSource] = useState<CustomSource>('topic')
   const [customTopic, setCustomTopic] = useState('')
   const [customNotes, setCustomNotes] = useState('')
+  const [pdfDoc, setPdfDoc] = useState<UploadedPdf | null>(null)
+  const [pdfPrompt, setPdfPrompt] = useState('')
+  const [pdfBusy, setPdfBusy] = useState(false)
+  const [pdfError, setPdfError] = useState('')
   const [scope, setScope] = useState<QuizScope | null>(null)
   const [scopeLoading, setScopeLoading] = useState(false)
   const [scopeDegraded, setScopeDegraded] = useState(false)
@@ -253,6 +259,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
   const [recentTopics, setRecentTopics] = useState<string[]>([])
   const isCustom = sourceMode === 'custom'
   const isCustomNotes = isCustom && customSource === 'notes'
+  const isCustomPdf = isCustom && customSource === 'pdf'
   // Which topic the loaded scope belongs to, so re-entering the step without
   // editing doesn't re-run the model, but editing the topic does.
   const scopedTopicRef = useRef('')
@@ -318,6 +325,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
    * opened it.
    */
   const dialogRef = useRef<HTMLDivElement>(null)
+  const requestCloseRef = useRef<() => void>(() => {})
+  const [discardAsk, setDiscardAsk] = useState(false)
   useEffect(() => {
     const openedFrom = document.activeElement as HTMLElement | null
     const panel = dialogRef.current
@@ -332,7 +341,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose()
+        e.preventDefault()
+        requestCloseRef.current()
         return
       }
       if (e.key !== 'Tab' || !panel) return
@@ -385,15 +395,52 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
    * failing — and it does so the same way, by falling back to the raw topic
    * rather than trapping the student on the step.
    */
+  const uploadPdf = async (file: File) => {
+    setPdfError('')
+    if (file.size > PDF_MAX_BYTES) {
+      setPdfError('PDF must be 10 MB or smaller.')
+      return
+    }
+    setPdfBusy(true)
+    try {
+      const body = new FormData()
+      body.set('file', file)
+      const res = await fetch('/api/extract-pdf', { method: 'POST', body })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || 'Failed to read that PDF.')
+      setPdfDoc({
+        filename: String(data.filename || file.name),
+        text: String(data.text || ''),
+        pageCount: Number.isFinite(Number(data.pageCount)) ? Number(data.pageCount) : null,
+        truncated: data.truncated === true,
+        figures: Array.isArray(data.figures) ? data.figures : [],
+      })
+      scopedTopicRef.current = ''
+    } catch (err) {
+      setPdfDoc(null)
+      setPdfError(err instanceof Error ? err.message : 'Failed to read that PDF.')
+    } finally {
+      setPdfBusy(false)
+    }
+  }
+
   const loadScope = async () => {
     const fromNotes = customSource === 'notes'
-    const clean = normalizeTopic(customTopic)
-    const notes = normalizeNotes(customNotes)
-    if (fromNotes ? !isUsableNotes(notes) : !isUsableTopic(clean)) return
+    const fromPdf = customSource === 'pdf'
+    const clean = normalizeTopic(fromPdf ? pdfPrompt : customTopic)
+    const notes = normalizeNotes(fromPdf ? pdfDoc?.text ?? '' : customNotes)
+    const material = fromPdf && clean ? `Focus: ${clean}\n\n${notes}` : notes
+    if (fromPdf) {
+      if (!pdfDoc || !pdfCanStartQuiz({ text: pdfDoc.text, figureCount: pdfDoc.figures.length, prompt: pdfPrompt })) return
+    } else if (fromNotes ? !isUsableNotes(notes) : !isUsableTopic(clean)) return
 
     // Cache key covers both inputs so switching tabs, or editing either field,
     // re-scopes — but merely stepping back and forward does not.
-    const key = fromNotes ? `notes:${notes.length}:${notes.slice(0, 200)}` : `topic:${clean}`
+    const key = fromPdf
+      ? `pdf:${pdfDoc?.filename}:${notes.length}:${clean}`
+      : fromNotes
+        ? `notes:${notes.length}:${notes.slice(0, 200)}`
+        : `topic:${clean}`
     if (scopedTopicRef.current === key && scope) return
 
     setScopeLoading(true)
@@ -402,15 +449,16 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
       const res = await fetch('/api/quiz-topic/scope', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(fromNotes ? { notes } : { topic: clean }),
+        body: JSON.stringify(fromPdf || fromNotes ? { notes: material || notes, topic: clean } : { topic: clean }),
       })
       const data = await res.json()
-      const next = sanitizeScope(data?.scope, clean || 'My notes')
+      const pdfTitle = pdfDoc?.filename.replace(/\.pdf$/i, '') || 'My PDF'
+      const next = sanitizeScope(data?.scope, clean || (fromPdf ? pdfTitle : 'My notes'))
       setScope(next)
       setScopeDegraded(data?.degraded === true)
       setSelectedAreas(next.focusAreas)
     } catch {
-      setScope(sanitizeScope(null, clean || 'My notes'))
+      setScope(sanitizeScope(null, clean || (fromPdf ? pdfDoc?.filename.replace(/\.pdf$/i, '') || 'My PDF' : 'My notes')))
       setScopeDegraded(true)
       setSelectedAreas([])
     } finally {
@@ -960,6 +1008,14 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
         ...(isCustom && customSource === 'notes' && isUsableNotes(customNotes)
           ? { sourceText: normalizeNotes(customNotes), sourceName: scope?.topic || 'My notes' }
           : {}),
+        ...(isCustom && customSource === 'pdf' && pdfDoc
+          ? {
+              sourceText: (pdfPrompt.trim() ? `Focus: ${pdfPrompt.trim()}\n\n${pdfDoc.text}` : pdfDoc.text).slice(0, PDF_TEXT_MAX_CHARS),
+              sourceName: pdfDoc.filename.replace(/\.pdf$/i, '') || 'My PDF',
+              sourceKind: 'pdf',
+              sourceFigures: pdfDoc.figures,
+            }
+          : {}),
       }
       let data: any = null
 
@@ -1068,7 +1124,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
         setFlowMode('')
         return
       }
-      onClose()
+      requestClose()
       return
     }
     if (isUniStudent && step === 5) { setStep(3); return }
@@ -1077,9 +1133,40 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     setStep((s) => Math.max(1, s - 1))
   }
 
+  const builderHasEntry = Boolean(
+    customTopic.trim() ||
+    customNotes.trim() ||
+    pdfDoc ||
+    pdfPrompt.trim() ||
+    formData.curriculum ||
+    formData.class_name ||
+    formData.subject ||
+    formData.topics.length ||
+    formData.difficultyLevel ||
+    formData.style ||
+    formData.questionType ||
+    formData.count,
+  )
+  const requestClose = () => {
+    if (discardAsk) return
+    if (quizBuilderShouldConfirm({ step, generating: isLoading, hasEntry: builderHasEntry })) {
+      setDiscardAsk(true)
+      return
+    }
+    onClose()
+  }
+  requestCloseRef.current = () => {
+    if (discardAsk) {
+      setDiscardAsk(false)
+      return
+    }
+    requestClose()
+  }
+
   const canStepForward =
     (step === 1 && isCustom && customSource === 'topic' && isUsableTopic(customTopic)) ||
     (step === 1 && isCustomNotes && isUsableNotes(customNotes)) ||
+    (step === 1 && isCustomPdf && !!pdfDoc && pdfCanStartQuiz({ text: pdfDoc.text, figureCount: pdfDoc.figures.length, prompt: pdfPrompt })) ||
     // Scope is a refinement, not a gate: a topic with no areas picked is still
     // a valid (broader) quiz, so this step never blocks.
     (step === 2 && isCustom && !scopeLoading) ||
@@ -1104,6 +1191,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     if (canStepForward) return ''
     if (step === 1 && isCustom && customSource === 'topic') return 'Type what you want to be quizzed on.'
     if (step === 1 && isCustomNotes) return `Paste at least ${NOTES_MIN_LENGTH} characters of notes.`
+    if (step === 1 && isCustomPdf) return pdfBusy ? 'Reading the PDF…' : 'Add a PDF of 10 MB or smaller.'
     if (step === 2 && isCustom && scopeLoading) return 'Just working out what to cover…'
     if (step === 1) return 'Choose a curriculum to carry on.'
     if (step === 2) return 'Choose a class to carry on.'
@@ -1165,7 +1253,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
   const stepPosition = Math.max(1, visibleStepNums.filter((n) => n <= step).length)
 
   const summaryRows = isCustom ? [
-    { label: 'Source', value: isCustomNotes ? 'Your pasted notes' : 'Your own topic' },
+    { label: 'Source', value: isCustomPdf ? (pdfDoc?.filename || 'Your PDF') : isCustomNotes ? 'Your pasted notes' : 'Your own topic' },
     { label: 'Subject', value: scope?.subject ?? '' },
     { label: 'Topic', value: scope?.topic ?? formData.subject },
     { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
@@ -1205,7 +1293,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-6"
-        onClick={onClose}
+        onClick={requestClose}
       >
         <motion.div
           initial={{ scale: 0.96, opacity: 0, y: 16 }}
@@ -1218,8 +1306,50 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
           aria-modal="true"
           aria-labelledby="flowform-title"
           tabIndex={-1}
-          className="flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-gray-200/60 bg-white shadow-2xl shadow-black/20 dark:border-gray-800/60 dark:bg-gray-950 md:max-h-[90vh] md:flex-row"
+          className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-gray-200/60 bg-white shadow-2xl shadow-black/20 dark:border-gray-800/60 dark:bg-gray-950 md:max-h-[90vh] md:flex-row"
         >
+          {discardAsk && (
+            <div
+              className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 p-4"
+              onClick={(e) => {
+                e.stopPropagation()
+                setDiscardAsk(false)
+              }}
+            >
+              <div
+                role="alertdialog"
+                aria-labelledby="discard-quiz-title"
+                aria-describedby="discard-quiz-body"
+                className="w-full max-w-sm rounded-2xl border border-ss-line bg-ss-panel p-5 shadow-xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h3 id="discard-quiz-title" className="text-base font-black text-ss-ink">
+                  Leave this quiz?
+                </h3>
+                <p id="discard-quiz-body" className="mt-1.5 text-[13px] font-medium text-ss-slate">
+                  {isLoading
+                    ? 'A quiz is still being built. Leaving now clears it.'
+                    : 'The steps you have already filled in will be cleared.'}
+                </p>
+                <div className="mt-4 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setDiscardAsk(false)}
+                    className="flex-1 rounded-xl bg-ss-accent py-2.5 text-[13px] font-extrabold text-white"
+                  >
+                    Keep editing
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="flex-1 rounded-xl border border-ss-line py-2.5 text-[13px] font-extrabold text-ss-ink"
+                  >
+                    Leave
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           {/* Step rail */}
           {flowMode === 'ai' && (
             <aside className="hidden border-r border-gray-100 bg-[color:var(--ss-canvas)]/80 px-4 py-6 dark:border-gray-800 md:flex md:w-52 md:flex-col">
@@ -1289,7 +1419,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                 </p>
               </div>
               <button
-                onClick={onClose}
+                onClick={requestClose}
                 aria-label="Close the quiz builder"
                 className="flex h-9 w-9 items-center justify-center rounded-lg text-ss-slate transition-colors hover:bg-gray-100 hover:text-ss-ink dark:hover:bg-gray-800 dark:hover:text-gray-200"
               >
@@ -1377,6 +1507,13 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   matches={topicMatches}
                   onUseMatch={useSyllabusMatch}
                   onSubmit={goForward}
+                  pdf={pdfDoc}
+                  pdfPrompt={pdfPrompt}
+                  onPdfPromptChange={setPdfPrompt}
+                  pdfBusy={pdfBusy}
+                  pdfError={pdfError}
+                  onPdfFile={(file) => { void uploadPdf(file) }}
+                  onPdfClear={() => { setPdfDoc(null); setPdfError(''); scopedTopicRef.current = '' }}
                 />
               </div>
             )}
@@ -1458,7 +1595,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                         Quiz me on anything
                       </span>
                       <span className="block text-[12px] text-ss-slate">
-                        Type any topic, or paste your own notes — no curriculum needed.
+                        Type a topic, paste notes, or upload a PDF — no curriculum needed.
                       </span>
                     </span>
                     <ChevronRight className="h-4 w-4 flex-shrink-0 text-ss-slate transition-transform group-hover:translate-x-0.5" />

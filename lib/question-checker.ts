@@ -191,8 +191,7 @@ const strings = (x: unknown): string[] | null =>
 function applyFix(q: Q, v: Verdict): boolean {
   let applied = false
   const accepted = strings(v.accepted)
-  if (accepted) {
-    if (!q.short_answer) return false
+  if (accepted && q.short_answer) {
     q.short_answer = { ...q.short_answer, accepted }
     applied = true
   }

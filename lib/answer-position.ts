@@ -48,7 +48,9 @@ function optionTexts(q: PositionedQuestion): string[] | null {
 
 /** Compare the way a reader would: case and surrounding punctuation are noise. */
 function sameValue(a: string, b: string): boolean {
-  const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}.\-/]/gu, '')
+  // `<` and `>` stay. Stripping them made "x < 3" and "x > 3" the same value,
+  // and the key was moved onto the wrong inequality.
+  const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}.\-<>/]/gu, '')
   return norm(a) === norm(b) && norm(a).length > 0
 }
 
@@ -207,7 +209,10 @@ export function repairAnswerKeys<T extends PositionedQuestion>(questions: readon
       q && typeof q === 'object'
         ? // Labels come off BEFORE balancing: rotating a self-labelled option
           // is how "A. Opening a book" ends up in position B.
-          stripOptionLabels(delexicaliseExplanation(reconcileKeyWithExplanation(q)))
+          // Strip the "A. " prefix before reconciling. Done afterwards, the
+          // explanation's "7" never matches the option "A. 6" and the key
+          // stays on 6 once the letter is gone.
+          delexicaliseExplanation(reconcileKeyWithExplanation(stripOptionLabels(q)))
         : q,
     ),
   )

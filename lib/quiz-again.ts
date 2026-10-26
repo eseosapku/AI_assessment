@@ -32,6 +32,8 @@ export interface QuizAgainParams {
   textbook_id: number | null
   topic_ids: number[]
   subtopic_ids: number[]
+  /** Names taken off the paper, so a repeat still has a topic when the ids were not stored. */
+  topics: string[]
   customTime?: number
 }
 
@@ -43,8 +45,39 @@ const DEFAULT_DIFFICULTY = 'intermediate'
 const MAX_COUNT = 40
 
 function intArray(value: unknown): number[] {
-  if (!Array.isArray(value)) return []
-  return value.map((v) => Number(v)).filter((n) => Number.isInteger(n) && n > 0)
+  // node-pg usually hands back a real array. A text form ("{7,8}" or a JSON
+  // array) used to be dropped, and the repeat then went out with no topics.
+  let items: unknown[] = []
+  if (Array.isArray(value)) {
+    items = value
+  } else if (typeof value === 'string') {
+    const text = value.trim()
+    if (text.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(text)
+        items = Array.isArray(parsed) ? parsed : []
+      } catch {
+        items = []
+      }
+    } else {
+      items = text.replace(/[{}]/g, '').split(',')
+    }
+  }
+  return items.map((v) => Number(v)).filter((n) => Number.isInteger(n) && n > 0)
+}
+
+function topicNames(questions: unknown): string[] {
+  if (!Array.isArray(questions)) return []
+  const names = new Set<string>()
+  for (const q of questions) {
+    if (!q || typeof q !== 'object') continue
+    const row = q as Record<string, unknown>
+    for (const key of ['topic_label', 'topic', 'focus']) {
+      const name = String(row[key] ?? '').trim()
+      if (name) names.add(name)
+    }
+  }
+  return [...names]
 }
 
 /**
@@ -77,15 +110,19 @@ export function deriveQuizAgainParams(
 
   const asked = Array.isArray(questions) ? questions.length : 0
   const duration = Number(assessment?.duration)
+  const textbookId = Number(assessment?.textbook_id)
+  // Number(null) is 0, and 0 is an integer. A missing book was being sent as
+  // textbook 0, which is not a book, and the generator then refused the quiz.
 
   return {
     subject,
     difficultyLevel: String(assessment?.difficulty ?? '').trim() || DEFAULT_DIFFICULTY,
     questionType: questionTypeOf(questions),
     count: asked > 0 ? Math.min(asked, MAX_COUNT) : DEFAULT_COUNT,
-    textbook_id: Number.isInteger(Number(assessment?.textbook_id)) ? Number(assessment?.textbook_id) : null,
+    textbook_id: Number.isInteger(textbookId) && textbookId > 0 ? textbookId : null,
     topic_ids: intArray(assessment?.topic_ids),
     subtopic_ids: intArray(assessment?.subtopic_ids),
+    topics: topicNames(questions),
     ...(Number.isFinite(duration) && duration > 0 ? { customTime: Math.round(duration) } : {}),
   }
 }
@@ -99,5 +136,10 @@ export function deriveQuizAgainParams(
  */
 export function canQuizAgain(params: QuizAgainParams | null): boolean {
   if (!params) return false
-  return params.topic_ids.length > 0 || params.subtopic_ids.length > 0 || params.textbook_id !== null
+  return (
+    params.topic_ids.length > 0 ||
+    params.subtopic_ids.length > 0 ||
+    params.topics.length > 0 ||
+    params.textbook_id !== null
+  )
 }

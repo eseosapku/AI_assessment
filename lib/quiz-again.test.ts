@@ -72,6 +72,21 @@ describe('deriveQuizAgainParams', () => {
     expect(deriveQuizAgainParams(stored, long)!.count).toBe(40)
   })
 
+  it('does not turn a missing book into textbook 0', () => {
+    const p = deriveQuizAgainParams({ subject: 'Biology', textbook_id: null }, [mcq])!
+    expect(p.textbook_id).toBeNull()
+    expect(canQuizAgain(p)).toBe(false)
+  })
+
+  it('reads topic ids stored as text, and names written on the questions', () => {
+    const p = deriveQuizAgainParams(
+      { subject: 'Biology', topic_ids: '{7,8}' },
+      [{ type: 'mcq', topic_label: 'Cells' }, { type: 'mcq', topic_label: 'Cells' }],
+    )!
+    expect(p.topic_ids).toEqual([7, 8])
+    expect(p.topics).toEqual(['Cells'])
+  })
+
   it('drops malformed ids rather than passing them on', () => {
     const p = deriveQuizAgainParams({ ...stored, topic_ids: [7, null, 'x', -2, 9] }, [mcq])!
     expect(p.topic_ids).toEqual([7, 9])

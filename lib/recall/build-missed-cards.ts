@@ -22,8 +22,13 @@ export function buildMissedRecallCards(
 
     const userAns = (mcqAnswers as Record<string | number, unknown>)[idx]
       ?? (mcqAnswers as Record<string | number, unknown>)[String(idx)]
+    // A missing key means the question was not on this attempt. null and ""
+    // are a blank, and Number(null) is 0, which used to count as option A.
+    if (userAns === undefined) return
     const correct = Number(q.correct_answer)
-    if (userAns === undefined || Number(userAns) === correct) return
+    const chosen = typeof userAns === 'number' ? userAns : Number(String(userAns).trim())
+    const answered = userAns !== null && userAns !== '' && Number.isInteger(chosen) && chosen >= 0 && chosen < options.length
+    if (answered && chosen === correct) return
 
     const front = cleanRecallText(String(q.question ?? 'Question'))
     const correctText = cleanRecallText(String(options[correct] ?? ''))

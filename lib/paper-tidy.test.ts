@@ -106,6 +106,16 @@ describe('never take a picture out from under a stem that points at it', () => {
     expect(questions[2].image_url).toBe('/m.png')
   })
 
+  it('keeps the next part when the repeated figure was kept on purpose', () => {
+    const { questions } = dropRepeatedFigures([
+      { question: 'Name part A.', image_url: '/a.png' },
+      { question: 'Something else.' },
+      { question: 'Look at the diagram. Name part A.', image_url: '/a.png' },
+      { question: 'Name part B.', image_url: '/a.png' },
+    ])
+    expect(questions[3].image_url).toBe('/a.png')
+  })
+
   it('still removes one the question never mentions', () => {
     const { questions, removed } = dropRepeatedFigures([
       { question: 'Look at the diagram. Name the organelle.', image_url: '/m.png' },

@@ -149,6 +149,13 @@ describe('applying the verdicts', () => {
 
   it('does not trust a fix that would break the question', () => {
     const mcq = { id: 1, type: 'mcq', marks: 1, question: 'Ring the prime.', options: ['4', '7', '9', '12'], correct_answer: 1 }
+    const kept = applyVerdicts(
+      [{ id: 1, type: 'mcq', options: ['6', '7', '8', '5'], correct_answer: 0, question: '3+4?' }],
+      [{ id: 1, verdict: 'fix', why: 'index', right: [1], explain: '7 is the sum of 3 and 4.', correct_option: 1, accepted: ['7'] }],
+    )
+    expect(kept.kept).toHaveLength(1)
+    expect(kept.kept[0].correct_answer).toBe(1)
+
     const out = applyVerdicts([mcq], [{ id: 1, verdict: 'fix', correct_option: 9 }])
     expect(out.kept).toHaveLength(0)
   })

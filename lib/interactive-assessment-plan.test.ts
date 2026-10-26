@@ -35,3 +35,22 @@ describe('a table answered by column name', () => {
     expect(q.correct_category).toEqual([0, 1, 0, 1])
   })
 })
+
+describe('true or false statements written as words', () => {
+  const raw = {
+    kind: 'true_false',
+    question: 'Mark each statement true or false.',
+    statements: ['Water boils at 100 C.', 'Ice is a gas.', 'Plants make food.', 'The sun is cold.'],
+    correct_answers: ['true', 'false', 'true', 'false'],
+  }
+
+  it('keeps a false statement false', () => {
+    const q = normalizeInteractiveQuestion(raw) as { correct_answers: boolean[] }
+    expect(q.correct_answers).toEqual([true, false, true, false])
+  })
+
+  it('still accepts real booleans', () => {
+    const q = normalizeInteractiveQuestion({ ...raw, correct_answers: [true, false, true, false] }) as { correct_answers: boolean[] }
+    expect(q.correct_answers).toEqual([true, false, true, false])
+  })
+})

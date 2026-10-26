@@ -4,7 +4,7 @@
  */
 
 import { createHmac, timingSafeEqual } from 'crypto'
-import { convertUsd, roundForCurrency } from '@/lib/fx-rates'
+import type { FlutterwaveTransaction } from '@/lib/subscription-payment'
 
 export { convertUsd, roundForCurrency } from '@/lib/fx-rates'
 
@@ -172,40 +172,73 @@ export async function createFlutterwaveCheckout(opts: {
   return { link, txRef: opts.txRef }
 }
 
-export async function findTransactionByTxRef(txRef: string): Promise<{ status: string; id?: string } | null> {
+function metaUserId(meta: unknown): string | undefined {
+  if (!meta || typeof meta !== 'object') return undefined
+  if (Array.isArray(meta)) {
+    for (const item of meta) {
+      if (item && typeof item === 'object') {
+        const row = item as Record<string, unknown>
+        if (row.meta_name === 'user_id' || row.name === 'user_id') {
+          const value = String(row.meta_value ?? row.value ?? '').trim()
+          return value || undefined
+        }
+      }
+    }
+    return undefined
+  }
+  const value = (meta as Record<string, unknown>).user_id
+  return value != null && String(value).trim() ? String(value).trim() : undefined
+}
+
+export function parseFlutterwaveTransaction(txn: any, fallbackId?: string): FlutterwaveTransaction {
+  const amount = Number(txn?.amount)
+  return {
+    status: String(txn?.status ?? ''),
+    id: txn?.id != null ? String(txn.id) : fallbackId,
+    txRef: txn?.tx_ref != null ? String(txn.tx_ref) : undefined,
+    amount: Number.isFinite(amount) ? amount : undefined,
+    currency: txn?.currency != null ? String(txn.currency).toUpperCase() : undefined,
+    metaUserId: metaUserId(txn?.meta),
+    customerEmail: txn?.customer?.email != null ? String(txn.customer.email).toLowerCase() : undefined,
+  }
+}
+
+export async function findTransactionByTxRef(txRef: string): Promise<FlutterwaveTransaction | null> {
   const data = await flwFetch(`/v3/transactions?tx_ref=${encodeURIComponent(txRef)}`)
   const rows = Array.isArray(data?.data) ? data.data : []
   if (!rows.length) return null
-  const txn = rows[0]
-  return { status: String(txn?.status ?? ''), id: txn?.id != null ? String(txn.id) : undefined }
+  return parseFlutterwaveTransaction(rows[0])
 }
 
-export async function verifyTransactionById(transactionId: string): Promise<{ status: string; id?: string; txRef?: string } | null> {
+export async function verifyTransactionById(transactionId: string): Promise<FlutterwaveTransaction | null> {
   const id = String(transactionId).trim()
   if (!id) return null
   try {
     const data = await flwFetch(`/v3/transactions/${encodeURIComponent(id)}/verify`)
-    const txn = data?.data ?? {}
-    return {
-      status: String(txn?.status ?? ''),
-      id: txn?.id != null ? String(txn.id) : id,
-      txRef: txn?.tx_ref != null ? String(txn.tx_ref) : undefined,
-    }
+    return parseFlutterwaveTransaction(data?.data ?? {}, id)
   } catch {
     return null
   }
+}
+
+function safeEqual(a: string, b: string): boolean {
+  const left = Buffer.from(a)
+  const right = Buffer.from(b)
+  return left.length === right.length && timingSafeEqual(left, right)
 }
 
 export function verifyWebhookSignature(
   rawBody: string,
   headers: { verifHash: string | null; flutterwaveSignature: string | null },
 ): boolean {
+  // An unset secret used to accept every request, so anyone could POST a
+  // "successful" charge naming any user.
   const secret = process.env.FLW_WEBHOOK_SECRET ?? ''
-  if (!secret) return true
+  if (!secret) return false
 
   // V3: plain verif-hash header matches secret
   if (headers.verifHash) {
-    return headers.verifHash === secret
+    return safeEqual(headers.verifHash, secret)
   }
 
   // V4: HMAC-SHA256 of raw body, base64, in flutterwave-signature header

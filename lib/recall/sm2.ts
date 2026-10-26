@@ -23,30 +23,35 @@ export function scheduleReview(
   rating: RecallRating,
   now = new Date(),
 ): RecallCardState {
-  let { ease_factor, interval_days, repetitions } = state
+  // DECIMAL columns come back as text. "2.50" + -0.14 is the string "2.50-0.14",
+  // and the ease factor becomes NaN for every review after that.
+  let ease_factor = Number(state.ease_factor)
+  let interval_days = Number(state.interval_days)
+  let repetitions = Number(state.repetitions)
+  if (!Number.isFinite(ease_factor)) ease_factor = 2.5
+  if (!Number.isFinite(interval_days)) interval_days = 0
+  if (!Number.isFinite(repetitions)) repetitions = 0
 
   if (rating === 1) {
     repetitions = 0
     interval_days = 0
   } else {
-    const q = rating
+    // The buttons are 2, 3 and 4. Fed straight into the SM-2 formula, "Got it"
+    // always lowers the ease and "Too easy" never raises it, and after the
+    // first review all three buttons were given the same next day.
+    const quality = rating === 2 ? 3 : rating === 3 ? 4 : 5
+    const easeDelta = 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)
     if (repetitions === 0) {
-      interval_days = q === 2 ? 1 : q === 3 ? 3 : 6
+      interval_days = rating === 2 ? 1 : rating === 3 ? 3 : 6
       repetitions = 1
-      ease_factor = Math.max(
-        1.3,
-        ease_factor + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02)),
-      )
     } else {
       if (repetitions === 1) interval_days = 6
       else interval_days = Math.max(1, Math.round(interval_days * ease_factor))
-
+      const scale = rating === 2 ? 0.5 : rating === 4 ? 1.3 : 1
+      interval_days = Math.max(1, Math.round(interval_days * scale))
       repetitions += 1
-      ease_factor = Math.max(
-        1.3,
-        ease_factor + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02)),
-      )
     }
+    ease_factor = Math.max(1.3, ease_factor + easeDelta)
   }
 
   const due = new Date(now)

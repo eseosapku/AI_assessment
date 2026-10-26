@@ -120,6 +120,10 @@ function containsAccepted(answer: string, accepted: readonly string[]): boolean 
     const core = words(stripLeadIn(dropArticle(a)))
     // A real word in it, not labels joined by "and": "A and C" is not "and c".
     if (!core.split(' ').some((w) => /^[a-z]{4,}$/.test(w)) || toNumber(core) !== null) return false
+    // "evaporation or condensation" contains the accepted word and is still a
+    // guess. A connector the accepted answer does not itself use is a hedge.
+    const connectors = (s: string) => (s.match(/\b(?:or|and|then)\b|[,/]/gi) ?? []).map((c) => c.toLowerCase())
+    if (connectors(answer).some((c) => !connectors(core).includes(c))) return false
     return padded.includes(` ${core} `)
   })
 }
@@ -177,7 +181,20 @@ function spellingAllowance(word: string): number {
  * number and every short word must be exactly right, each long word may slip
  * only within its own allowance, and spacing or punctuation may differ.
  */
+/**
+ * Digits and the marks that change what they mean, with the words removed.
+ *
+ * A hyphen between two letters is a word break ("well-known"), not a minus,
+ * so it is joined away first. What is left — signs, decimals, fractions,
+ * inequalities, exponents — has to be identical. Spelling slack is only for
+ * the words.
+ */
+function marksThatCount(s: string): string {
+  return s.replace(/(\p{L})-(\p{L})/gu, '$1$2').replace(/\p{L}+/gu, '').replace(/\s+/g, '')
+}
+
 function isSlipOf(text: string, form: string): boolean {
+  if (marksThatCount(text) !== marksThatCount(form)) return false
   const words = (s: string) => s.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
   const numbers = (s: string) => (s.match(/\d+/g) ?? []).join(' ')
   if (numbers(text) !== numbers(form)) return false

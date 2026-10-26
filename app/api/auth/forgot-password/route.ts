@@ -30,7 +30,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const rateLimit = checkRateLimit('forgot-password', identify(null, request.headers))
+    const byIp = checkRateLimit('forgot-password', identify(null, request.headers))
+    // Each new code resets the wrong-guess count, so codes for one address are
+    // limited by the address and not only by a spoofable forwarded IP.
+    const rateLimit = byIp.allowed ? checkRateLimit('forgot-password', `e:${normalizedEmail}`) : byIp
     if (!rateLimit.allowed) {
       return NextResponse.json(
         { error: 'Too many requests. Please wait a few minutes and try again.' },
@@ -57,6 +60,7 @@ export async function POST(request: NextRequest) {
       `UPDATE users
        SET reset_token = $2,
            reset_token_expires = $3,
+           reset_attempts = 0,
            updated_at = NOW()
        WHERE id = $1`,
       [user.id, otp, resetTokenExpires.toISOString()],

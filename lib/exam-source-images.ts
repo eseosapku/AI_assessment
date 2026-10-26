@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { sameExamPaperSubject } from '@/lib/exam-subject-aliases'
 
 export interface ExamSourceImage {
   key: string
@@ -79,8 +80,7 @@ export function getImagesForPaper(opts: {
   return manifest.images.filter((img) => {
     if (img.exam !== opts.exam) return false
     if (img.year !== opts.year) return false
-    const imgSubject = normalizeText(img.subject)
-    return imgSubject === subjectNorm || imgSubject.includes(subjectNorm) || subjectNorm.includes(imgSubject)
+    return sameExamPaperSubject(opts.subject, img.subject) || sameExamPaperSubject(subjectNorm, normalizeText(img.subject))
   })
 }
 
@@ -99,6 +99,16 @@ export function matchQuestionToImage(
   if (!needsFigure) return null
 
   const qNorm = normalizeText(questionText)
+  const qPrefix = qNorm.slice(0, 60)
+  const sharesPrefix = (c: ExamSourceImage) =>
+    Boolean(
+      c.questionNorm &&
+        qPrefix.length >= 40 &&
+        (qNorm.includes(c.questionNorm.slice(0, 60)) || c.questionNorm.includes(qPrefix)),
+    )
+  // Two different questions can open with the same 60 characters. A boost
+  // then attached the first of them, whichever the generated question was.
+  const prefixIsUnique = candidates.filter(sharesPrefix).length === 1
   let best: ExamSourceImage | null = null
   let bestScore = 0
 
@@ -109,17 +119,13 @@ export function matchQuestionToImage(
       bestScore = score
       best = c
     }
-    if (c.questionNorm && (qNorm.includes(c.questionNorm.slice(0, 60)) || c.questionNorm.includes(qNorm.slice(0, 60)))) {
-      const boost = 0.85
-      if (boost > bestScore) {
-        bestScore = boost
-        best = c
-      }
+    if (prefixIsUnique && sharesPrefix(c) && 0.85 > bestScore) {
+      bestScore = 0.85
+      best = c
     }
   }
 
-  const threshold = Math.min(minScore, 0.4)
-  return bestScore >= threshold ? best : null
+  return bestScore >= minScore ? best : null
 }
 
 export function attachSourceImages(

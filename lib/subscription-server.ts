@@ -7,6 +7,16 @@ import {
   type SubscriptionSnapshot,
   type SubscriptionUser,
 } from '@/lib/subscription'
+import { convertUsd, roundForCurrency } from '@/lib/fx-rates'
+import { fixedLocalAmount, isSupportedCheckoutCurrency, type SubscriptionCurrency } from '@/lib/subscription-pricing'
+import {
+  checkSubscriptionPayment,
+  isPaidFlutterwaveStatus,
+  userIdFromTxRef,
+  type FlutterwaveTransaction,
+  type RecordedCheckout,
+  type SubscriptionQuote,
+} from '@/lib/subscription-payment'
 
 export async function fetchSubscriptionUser(userId: string): Promise<SubscriptionUser | null> {
   const result = await db.query<SubscriptionUser>(
@@ -78,62 +88,127 @@ export async function incrementFreeAssessmentUsage(userId: string): Promise<void
   )
 }
 
-export function userIdFromTxRef(txRef: string): string | null {
-  const match = /^sub_([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})_/i.exec(String(txRef).trim())
-  return match?.[1] ?? null
+/** The monthly price the server charges in `currency`. Never taken from the request. */
+export async function quoteSubscription(currency: SubscriptionCurrency): Promise<SubscriptionQuote> {
+  const fixedCurrency = (process.env.FLW_SUBSCRIPTION_CURRENCY ?? '').toUpperCase()
+  const fixedAmount = process.env.FLW_SUBSCRIPTION_AMOUNT ? Number(process.env.FLW_SUBSCRIPTION_AMOUNT) : null
+  const amountUsd = Number(process.env.FLW_SUBSCRIPTION_AMOUNT_USD ?? 5)
+
+  const fixedLocal = fixedLocalAmount(currency)
+  if (fixedLocal != null) return { amount: roundForCurrency(fixedLocal, currency), currency, converted: false }
+  if (fixedAmount != null && currency === fixedCurrency) {
+    return { amount: roundForCurrency(fixedAmount, currency), currency, converted: false }
+  }
+  if (currency === 'USD') return { amount: roundForCurrency(amountUsd, currency), currency, converted: false }
+  return { amount: roundForCurrency(await convertUsd(amountUsd, currency), currency), currency, converted: true }
 }
 
-export async function resolveUserIdFromTxRef(txRef: string): Promise<string | null> {
-  return userIdFromTxRef(txRef)
-}
-
-export async function activateSubscription(params: {
-  userId?: string | null
-  email?: string | null
-  ref?: string | null
-  expiresAt?: string | null
-  provider?: string
-}): Promise<{ ok: boolean; userId?: string; error?: string }> {
-  let userId = params.userId ?? null
-
-  if (!userId && params.email) {
-    const lookup = await db.query<{ id: string }>(
-      `SELECT id FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1`,
-      [params.email],
-    )
-    userId = lookup.rows[0]?.id ?? null
-  }
-
-  if (!userId) {
-    return { ok: false, error: 'userId or email required' }
-  }
-
-  const userCheck = await db.query<{ id: string }>(`SELECT id FROM users WHERE id = $1 LIMIT 1`, [userId])
-  if (!userCheck.rows[0]) {
-    return { ok: false, error: 'User not found' }
-  }
-
-  const expiresAt = params.expiresAt ?? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-
-  const update = await db.query<{ subscription_status: string }>(
-    `UPDATE users
-     SET subscription_status = 'active',
-         subscription_started_at = NOW(),
-         subscription_expires_at = $2,
-         flutterwave_ref = $3,
-         updated_at = NOW()
-     WHERE id = $1
-     RETURNING subscription_status`,
-    [userId, expiresAt, params.ref ?? null],
+export async function recordCheckout(txRef: string, userId: string, quote: SubscriptionQuote): Promise<void> {
+  await db.query(
+    `INSERT INTO subscription_checkouts (tx_ref, user_id, amount, currency) VALUES ($1, $2, $3, $4)`,
+    [txRef, userId, quote.amount, quote.currency],
   )
+}
 
-  const status = update.rows[0]?.subscription_status
-  if (status !== 'active') {
-    return {
-      ok: false,
-      error: 'Subscription columns missing or not writable. Run migrations/full-platform-schema.sql on RDS.',
-    }
+export async function findCheckout(txRef: string | undefined | null): Promise<RecordedCheckout | null> {
+  const ref = String(txRef ?? '').trim()
+  if (!ref) return null
+  const { rows } = await db.query<{ user_id: string; amount: string | number; currency: string }>(
+    `SELECT user_id, amount, currency FROM subscription_checkouts WHERE tx_ref = $1 LIMIT 1`,
+    [ref],
+  )
+  const row = rows[0]
+  return row ? { userId: String(row.user_id), amount: Number(row.amount), currency: String(row.currency) } : null
+}
+
+export async function userIdForEmail(email: string | undefined | null): Promise<string | null> {
+  const value = String(email ?? '').trim()
+  if (!value) return null
+  const { rows } = await db.query<{ id: string }>(`SELECT id FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1`, [value])
+  return rows[0]?.id ? String(rows[0].id) : null
+}
+
+/** A fallback price for charges with no recorded checkout, or null for an unsupported currency. */
+export async function fallbackQuoteFor(currency: string | undefined | null): Promise<SubscriptionQuote | null> {
+  const code = String(currency ?? '').toUpperCase()
+  return isSupportedCheckoutCurrency(code) ? quoteSubscription(code) : null
+}
+
+/**
+ * Check a transaction Flutterwave reported as paid, then spend it. Shared by
+ * /verify (which names the account asking) and the webhook (which does not).
+ */
+export async function settleSubscriptionPayment(
+  txn: FlutterwaveTransaction | null,
+  claimedUserId?: string | null,
+): Promise<{ ok: true; userId: string; transactionId: string; applied: boolean } | { ok: false; status: number; error: string }> {
+  if (!txn || !isPaidFlutterwaveStatus(txn.status)) {
+    return { ok: false, status: 402, error: 'Payment not confirmed.' }
   }
+  const checkout = await findCheckout(txn.txRef)
+  const fallbackQuote = checkout ? null : await fallbackQuoteFor(txn.currency)
+  const needsEmail = !checkout && !userIdFromTxRef(txn.txRef) && !txn.metaUserId
+  const emailUserId = needsEmail ? await userIdForEmail(txn.customerEmail) : null
 
-  return { ok: true, userId }
+  const check = checkSubscriptionPayment(txn, { claimedUserId, checkout, fallbackQuote, emailUserId })
+  if (!check.ok) return check
+
+  const result = await applySubscriptionPayment({
+    userId: check.userId,
+    transactionId: check.transactionId,
+    txRef: txn.txRef,
+    amount: txn.amount,
+    currency: txn.currency,
+  })
+  if (!result.ok) return result
+  return { ok: true, userId: check.userId, transactionId: check.transactionId, applied: result.applied }
+}
+
+export type ApplyPaymentResult =
+  | { ok: true; applied: boolean }
+  | { ok: false; status: number; error: string }
+
+/**
+ * Spend one Flutterwave transaction on one account, once.
+ *
+ * The claim and the extension are one statement so a /verify and a webhook
+ * for the same payment cannot both extend. Renewing early adds 30 days to
+ * what is left instead of resetting the clock.
+ */
+export async function applySubscriptionPayment(params: {
+  userId: string
+  transactionId: string
+  txRef?: string | null
+  amount?: number | null
+  currency?: string | null
+}): Promise<ApplyPaymentResult> {
+  const update = await db.query<{ subscription_status: string }>(
+    `WITH claimed AS (
+       INSERT INTO subscription_payments (transaction_id, user_id, tx_ref, amount, currency)
+       VALUES ($1, $2, $3, $4, $5)
+       ON CONFLICT (transaction_id) DO NOTHING
+       RETURNING user_id
+     )
+     UPDATE users
+        SET subscription_status = 'active',
+            subscription_started_at = NOW(),
+            subscription_expires_at = GREATEST(COALESCE(subscription_expires_at, NOW()), NOW()) + INTERVAL '30 days',
+            flutterwave_ref = $1,
+            updated_at = NOW()
+      WHERE id = (SELECT user_id FROM claimed)
+      RETURNING subscription_status`,
+    [params.transactionId, params.userId, params.txRef ?? null, params.amount ?? null, params.currency ?? null],
+  )
+  if (update.rows[0]?.subscription_status === 'active') return { ok: true, applied: true }
+
+  const prior = await db.query<{ user_id: string }>(
+    `SELECT user_id FROM subscription_payments WHERE transaction_id = $1 LIMIT 1`,
+    [params.transactionId],
+  )
+  const spentBy = prior.rows[0]?.user_id
+  if (!spentBy) return { ok: false, status: 500, error: 'Activation failed' }
+  if (String(spentBy).toLowerCase() !== params.userId.toLowerCase()) {
+    return { ok: false, status: 409, error: 'This payment has already been used.' }
+  }
+  return { ok: true, applied: false }
 }

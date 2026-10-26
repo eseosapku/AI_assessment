@@ -116,6 +116,15 @@ describe('spelling', () => {
     expect(gradeShortAnswer('3 hydrogan bonds', key(['3', '3 hydrogen bonds'])).correct).toBe(true)
   })
 
+  it('never lets a slip change a sign, a comparison or a fraction', () => {
+    // The spelling check split on anything that was not a letter or a digit,
+    // so the minus, the inequality and the slash were thrown away first.
+    expect(gradeShortAnswer('3', key(['-3'], { numeric: true })).correct).toBe(false)
+    expect(gradeShortAnswer('x > 3', key(['x < 3'])).correct).toBe(false)
+    expect(gradeShortAnswer('3.4', key(['3/4'])).correct).toBe(false)
+    expect(gradeShortAnswer('10^5', key(['10^-5'])).correct).toBe(false)
+  })
+
   it('never lets a slip turn a word into its opposite', () => {
     expect(gradeShortAnswer('5% increase in mass', key(['-5', '5% decrease in mass'])).correct).toBe(false)
     expect(gradeShortAnswer('increase of 5%', key(['5', 'decrease of 5%'])).correct).toBe(false)
@@ -248,6 +257,11 @@ describe('an answer written as a short sentence', () => {
   it('does not find a label or a number inside a longer answer', () => {
     expect(gradeShortAnswer('B and C', key(['C'])).correct).toBe(false)
     expect(gradeShortAnswer('It is 45 or 90', key(['45'], { numeric: true })).correct).toBe(false)
+  })
+
+  it('does not credit an answer that hedges between alternatives', () => {
+    expect(gradeShortAnswer('evaporation or condensation', key(['condensation'])).correct).toBe(false)
+    expect(gradeShortAnswer('first increases then decreases', key(['decreases'])).correct).toBe(false)
   })
 
   it('does not credit a long answer for mentioning the word in passing', () => {

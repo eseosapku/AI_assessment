@@ -40,7 +40,10 @@ export function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: st
   const hasDigits = /\d/.test(question)
   // Detect arithmetic expressions (e.g., "12 + 7", "9/3"), not unit notation like m/s.
   const hasArithmeticExpression = /\d\s*[+\-*=/]\s*\d/.test(question)
-  const arithmeticWords = /\b(add|added|sum|total|altogether|in\s+all|difference|subtract|minus|plus|left|remain|remaining|increase|decrease|multiply|product|times|divide|quotient|share)\b/.test(question)
+  // "left", "share", "difference" and "times" on their own deleted English
+  // and History questions that merely contained a paragraph number. A real
+  // word problem still matches "how many are left" below, or an operator.
+  const arithmeticWords = /\b(add|added|sum|total|altogether|in\s+all|subtract|minus|plus|remain|remaining|increase|decrease|multiply|product|divide|quotient)\b/.test(question)
   const storyPattern = /\bhas\s+\d+.*\b(give|gives|gave|get|gets|got|buy|buys|bought|take|takes|took|lose|loses|lost|more|less)\b.*\bhow\s+many\b/.test(question)
   const howManyTotal = /\bhow\s+many\b/.test(question) && /\b(total|altogether|left|remain|remaining|now|in\s+all|sum)\b/.test(question)
 

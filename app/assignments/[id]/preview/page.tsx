@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Loader2, Save, Send, ChevronLeft, Trash2, Printer } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
+import { figureSrc } from '@/lib/figure-src'
 
 interface AssignmentData {
     id: string
@@ -76,10 +77,15 @@ function buildQuestionsPrintHtml(assignment: AssignmentData, questions: any[]) {
             ? `<div class="passage">${escapeHtml(q.passage)}</div>`
             : ''
 
+        const imageHtml = typeof q?.image_url === 'string' && q.image_url
+            ? `<img src="${escapeHtml(figureSrc(q.image_url))}" alt="" style="display:block;max-width:100%;max-height:280px;margin:8px 0;" />`
+            : ''
+
         return `
                 <div class="qcard">
                     <div class="qheader">Question ${idx + 1} ${marks}</div>
                     ${passageHtml}
+                    ${imageHtml}
                     <div class="qtext">${questionText}</div>
                     ${optionsHtml}
                     ${isLongForm ? '<div class="answer-space">Answer:</div><div class="line"></div><div class="line"></div><div class="line"></div>' : ''}

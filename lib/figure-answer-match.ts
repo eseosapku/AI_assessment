@@ -27,12 +27,19 @@
 import type { FigureSpec } from './figure-spec'
 
 /** Accepted answers, however the question happens to carry them. */
-function acceptedNumbers(q: AnswerableQuestion): number[] {
+function acceptedNumbers(q: AnswerableQuestion, scaleFractions: boolean): number[] {
   const raw: unknown[] = []
   const sa = q?.short_answer as { accepted?: unknown } | undefined
   if (Array.isArray(sa?.accepted)) raw.push(...sa!.accepted!)
   if (Array.isArray(q?.correct_answers)) raw.push(...q.correct_answers)
-  if (q?.correct_answer !== undefined) raw.push(q.correct_answer)
+  // An MCQ's correct_answer is an index. Pushing 0 made "10%" read as 0.
+  const options = Array.isArray(q?.options) ? q.options : null
+  const index = Number(q?.correct_answer)
+  if (options && Number.isInteger(index) && index >= 0 && index < options.length) {
+    raw.push(options[index])
+  } else if (q?.correct_answer !== undefined && q.correct_answer !== null && !options) {
+    raw.push(q.correct_answer)
+  }
 
   const out: number[] = []
   for (const item of raw) {
@@ -44,10 +51,10 @@ function acceptedNumbers(q: AnswerableQuestion): number[] {
     const n = Number(m[0])
     if (!Number.isFinite(n)) continue
     out.push(n)
-    // A bare fraction of one is the same claim as a percentage. Both forms
-    // are offered by the model as alternatives to each other, so both are
-    // compared and only a disagreement with EVERY form is reported.
-    if (n > 0 && n <= 1) out.push(n * 100)
+    // A bare fraction of one is the same claim as a percentage, but only when
+    // the question asked for a share. Scaling it on a bar chart made 0.12
+    // agree with a bar of height 12.
+    if (scaleFractions && n > 0 && n <= 1) out.push(n * 100)
   }
   return out
 }
@@ -139,7 +146,10 @@ function extremeContradiction(q: AnswerableQuestion, spec: FigureSpec, stem: str
     .map((a) => String(a ?? '').toLowerCase().trim())
     .map((a) => parts.find((p) => {
       const label = p.label.toLowerCase().trim()
-      return a === label || a.includes(label) || label.includes(a)
+      // "non-fiction" contains "fiction". That is not the same bar.
+      if (a === label) return true
+      const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      return new RegExp(`(?:^|\\s)${escaped}(?:$|\\s)`).test(a)
     }))
     .filter((p): p is { label: string; value: unknown } => Boolean(p))
   if (named.length === 0) return null
@@ -160,7 +170,7 @@ export function answerContradictsFigure(
   const extreme = extremeContradiction(q, spec, stem)
   if (extreme) return extreme
 
-  const answers = acceptedNumbers(q)
+  const answers = acceptedNumbers(q, asksForAShare(stem))
   if (answers.length === 0) return null
 
   if (spec.kind === 'piechart') {
@@ -278,6 +288,9 @@ export function figureCannotAnswer(
     for (let c = 0; c < spec.columns.length; c++) {
       const col = columnValues(spec.rows, c)
       if (col.length >= 2 && col.length === spec.rows.length) {
+        // "Trial 1, Trial 2, Trial 3" parses as 1, 2, 3. That column is a
+        // label, and it is never tied, so it used to hide a tied probability.
+        if (col.every((v, i) => Math.abs(v - (i + 1)) < 1e-9)) continue
         if (!extremeIsTied(col, wantsHighest)) return null
         values = col
         what = 'table'

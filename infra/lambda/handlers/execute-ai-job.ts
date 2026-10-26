@@ -18,7 +18,9 @@ async function processMessage(record: any) {
     },
   })
 
-  if (response.ok) return
+  // 409 means this delivery lost the claim: the job is already running or
+  // finished. Marking it failed here overwrote a completed quiz.
+  if (response.ok || response.status === 409) return
 
   const raw = await response.text()
   let message = `Execute endpoint failed (${response.status})`
@@ -34,7 +36,8 @@ async function processMessage(record: any) {
      SET status = 'failed',
          error_message = $2,
          finished_at = NOW()
-     WHERE id = $1`,
+     WHERE id = $1
+       AND status IN ('queued', 'running')`,
     [jobId, message.slice(0, 4000)],
   )
 }
