@@ -267,14 +267,28 @@ export interface CallGemmaOptions {
  * handed to `fallbackModel`, when one is named.
  */
 export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Promise<string> {
+  const fallback = opts.fallbackModel
+  const own = stripPrefix(opts.model || DEFAULT_GEMMA_MODEL)
+  if (fallback && (BUSY_UNTIL.get(own) ?? 0) > Date.now()) {
+    return callModel(prompt, { ...opts, model: fallback, fallbackModel: undefined })
+  }
   try {
     return await callModel(prompt, opts)
   } catch (err) {
-    if (!opts.fallbackModel || !isTransientModelError(err) || opts.signal?.aborted) throw err
-    console.warn(`Model busy (${(err as { name?: string }).name}); asking ${opts.fallbackModel}`)
-    return callModel(prompt, { ...opts, model: opts.fallbackModel, fallbackModel: undefined })
+    if (!fallback || !isTransientModelError(err) || opts.signal?.aborted) throw err
+    BUSY_UNTIL.set(own, Date.now() + BUSY_COOLDOWN_MS)
+    console.warn(`Model busy (${(err as { name?: string }).name}); asking ${fallback}`)
+    return callModel(prompt, { ...opts, model: fallback, fallbackModel: undefined })
   }
 }
+
+/**
+ * Models that answered busy, and until when calls with a fallback skip them.
+ * Each busy answer took about six seconds, of a lesson turn's 24: tried first
+ * on every turn of an outage, it pushed whole-step turns past the deadline.
+ */
+const BUSY_UNTIL = new Map<string, number>()
+const BUSY_COOLDOWN_MS = 60_000
 
 async function callModel(prompt: string, opts: CallGemmaOptions): Promise<string> {
   if (!hasBedrockCredentials()) {

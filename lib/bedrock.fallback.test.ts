@@ -38,6 +38,9 @@ const reply = (text: string) => ({ body: new TextEncoder().encode(JSON.stringify
 
 beforeEach(() => {
   send.mockReset()
+  // Past any minute a model was left alone for in an earlier test.
+  vi.useFakeTimers({ toFake: ['Date'] })
+  vi.setSystemTime(Date.now() + 10 * 60_000)
 })
 
 describe('callGemma with a fallback model', () => {
@@ -60,5 +63,20 @@ describe('callGemma with a fallback model', () => {
     send.mockRejectedValue(Object.assign(new Error('messages: Field required'), { name: 'ValidationException' }))
     await expect(callGemma('p', { model: HAIKU, fallbackModel: SONNET })).rejects.toMatchObject({ name: 'ValidationException' })
     expect(send.mock.calls.some(([c]) => c.input.modelId.includes('sonnet'))).toBe(false)
+  })
+
+  it('leaves a busy model alone for a minute -- each try cost six seconds of a 24-second turn -- then asks it again', async () => {
+    send.mockImplementation(async (cmd: { input: { modelId: string } }) => {
+      if (cmd.input.modelId.includes('haiku')) throw busy()
+      return reply('{"ok":true}')
+    })
+    const haikuTries = () => send.mock.calls.filter(([c]) => c.input.modelId.includes('haiku')).length
+    await callGemma('p', { model: HAIKU, fallbackModel: SONNET })
+    expect(haikuTries()).toBe(1)
+    await callGemma('p', { model: HAIKU, fallbackModel: SONNET })
+    expect(haikuTries()).toBe(1)
+    vi.setSystemTime(Date.now() + 61_000)
+    await callGemma('p', { model: HAIKU, fallbackModel: SONNET })
+    expect(haikuTries()).toBe(2)
   })
 })
