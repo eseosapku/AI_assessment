@@ -3,7 +3,7 @@
 import { useContext } from 'react'
 import type { ComponentType } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
-import { BookOpen, GitBranch, Layers, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react'
+import { BookOpen, GitBranch, Check, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import type { BlockType } from '@/lib/studylab/blocks'
 import { CanvasContext, CardFrame, NodeHeader, SafeLatex, handleClass } from './canvasShared'
@@ -66,25 +66,37 @@ export function DiagramNode({ data }: NodeProps) {
   )
 }
 
+/**
+ * A finished station, folded down to one tile on the board's path: ticked in
+ * the lesson's colour, and opening back up to its cards when tapped.
+ */
 export function StepGroupNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   const { onToggleGroup } = useContext(CanvasContext)
   const collapsed = d.collapsed !== false
+  const count = d.cardIds?.length ?? 0
   return (
     <button
       onClick={() => onToggleGroup(id)}
-      className="w-[260px] text-left rounded-2xl bg-gradient-to-br from-emerald-50 to-white dark:from-emerald-900/20 dark:to-[#1c1c1e] border border-emerald-200 dark:border-emerald-800/50 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] px-4 py-3.5 hover:border-emerald-400 transition-colors"
+      className="sl-node-enter ss-press w-[260px] rounded-2xl border-2 px-4 py-3.5 text-left shadow-[0_10px_30px_-14px_rgba(20,60,90,0.35)] transition-colors"
+      style={{ borderColor: 'var(--subject)', backgroundColor: 'var(--subject-soft)' }}
     >
       <Handle type="target" position={Position.Left} className={handleClass} />
-      <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-xl bg-emerald-500/15 flex items-center justify-center shrink-0">
-          <Layers className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-        </div>
+      <div className="flex items-center gap-3">
+        <span
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full"
+          style={{ backgroundColor: 'var(--subject)', color: 'var(--ss-panel)' }}
+        >
+          <Check className="h-4.5 w-4.5" strokeWidth={3} aria-hidden />
+        </span>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-[14px] leading-tight truncate">{d.label}</p>
-          <p className="text-[12px] text-ss-slate flex items-center gap-1">
-            {collapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-            {d.cardIds?.length ?? 0} {(d.cardIds?.length ?? 0) === 1 ? 'card' : 'cards'} · {collapsed ? 'click to expand' : 'click to collapse'}
+          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-ss-subject-ink">
+            Station{typeof d.step === 'number' ? ` ${d.step}` : ''}
+          </p>
+          <p className="truncate text-[14px] font-bold leading-tight text-ss-ink">{d.label}</p>
+          <p className="mt-0.5 flex items-center gap-1 text-[12px] font-medium text-ss-slate">
+            {collapsed ? <ChevronRight className="h-3 w-3" aria-hidden /> : <ChevronDown className="h-3 w-3" aria-hidden />}
+            {count} {count === 1 ? 'card' : 'cards'} · {collapsed ? 'open it' : 'fold it'}
           </p>
         </div>
       </div>

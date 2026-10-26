@@ -102,6 +102,8 @@ export interface StudyCanvasProps {
   onExploreChange?: (exploring: boolean) => void
   /** Told when the camera comes to rest, so overlays can check what they cover. */
   onViewSettled?: () => void
+  /** The lesson is over: show the whole of it, as a map. */
+  overview?: boolean
 }
 
 const NO_FOCUS: string[] = []
@@ -119,6 +121,7 @@ function FlowInner({
   primaryId = null,
   onExploreChange,
   onViewSettled,
+  overview = false,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -616,6 +619,15 @@ function FlowInner({
     }
   }, [frameFocus])
 
+  // The end of the lesson: the camera pulls back to the whole board.
+  useEffect(() => {
+    if (!overview) return
+    const timer = setTimeout(() => {
+      rf.fitView({ duration: prefersReducedMotion() ? 0 : 900, padding: 0.2, maxZoom: 1 })
+    }, 200)
+    return () => clearTimeout(timer)
+  }, [overview, rf])
+
   const backToLesson = useCallback(() => {
     setExploring(false)
     frameFocus()
@@ -864,6 +876,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             insets={props.insets}
             primaryId={props.primaryId}
             onViewSettled={props.onViewSettled}
+            overview={props.overview}
             onExploreChange={props.onExploreChange}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}

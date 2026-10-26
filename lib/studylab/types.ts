@@ -170,6 +170,12 @@ export interface CanvasState {
    * kilobytes per card on a page that shows twenty of them.
    */
   thumb?: string
+  /**
+   * Time spent actually learning in this lesson, in milliseconds: the page
+   * visible and the learner active in the last two minutes. Shown on the
+   * lesson-complete scene. Absent on boards saved before it was counted.
+   */
+  activeMs?: number
 }
 
 /**

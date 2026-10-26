@@ -349,37 +349,6 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         </div>
       )}
 
-      {done && (
-        <div className="mx-4 mb-2 rounded-xl bg-emerald-50 px-3.5 py-3 dark:bg-emerald-900/20">
-          <p className="flex items-center gap-2 text-[13px] text-emerald-700 dark:text-emerald-400">
-            <Sparkles className="w-4 h-4 shrink-0" />
-            You&apos;ve completed this topic. Great work!
-          </p>
-          {onProveIt && (
-            <>
-              {before && (
-                <p className="mt-2 text-[12.5px] font-semibold text-ss-ink">
-                  Before this lesson: {before.accuracy}% on {before.title}. Take the quiz to see where you are now.
-                </p>
-              )}
-              {/* The lesson is only half the loop — a saved result is what
-                  moves the gap map, so offer the test right here. */}
-              <button
-                type="button"
-                onClick={onProveIt}
-                disabled={provingIt}
-                className="mt-2.5 flex w-full items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-[12.5px] font-extrabold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-              >
-                {provingIt ? 'Building your quiz…' : 'Prove it — take the quiz'}
-              </button>
-              <p className="mt-1.5 text-center text-[12px] text-emerald-700/80 dark:text-emerald-400/70">
-                {proveUpdatesGapMap ? 'Fresh questions on this topic. Your score updates your gap map.' : 'Fresh questions on this topic.'}
-              </p>
-            </>
-          )}
-        </div>
-      )}
-
       {/* Input */}
       <div className="p-3 border-t border-gray-100 dark:border-gray-800">
         {attachment && (

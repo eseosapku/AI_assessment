@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Sparkles, RotateCcw, ArrowRight } from 'lucide-react'
 import LessonStage from './stage/LessonStage'
+import { useActiveTime } from './stage/useActiveTime'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
@@ -67,6 +68,9 @@ export default function DemoWorkspace() {
   const [act, setAct] = useState(0)
   const [effects, setEffects] = useState<CanvasEffects>({ version: 0, list: [] })
   const [focus, setFocus] = useState<string[]>([])
+  // Counted for the closing scene; the demo saves nothing.
+  const [activeMs, setActiveMs] = useState(0)
+  useActiveTime(0, setActiveMs)
   const [currentStep, setCurrentStep] = useState(0)
   const [busy, setBusy] = useState(false)
   const [cueOpen, setCueOpen] = useState(true)
@@ -88,7 +92,7 @@ export default function DemoWorkspace() {
       let next: CanvasState = { ...prev, nodes, edges }
 
       setCurrentStep((was) => {
-        if (stepNo > was) next = autoGroupStep(next, was)
+        if (stepNo > was) next = autoGroupStep(next, was, DEMO_STEPS[was - 1]?.title)
         return stepNo
       })
 
@@ -330,6 +334,7 @@ export default function DemoWorkspace() {
     <LessonStage
       subjectKey={DEMO_SUBJECT}
       focus={focus}
+      activeMs={activeMs}
       onAdvance={advance}
       onFocus={goToNode}
       banner={banner}

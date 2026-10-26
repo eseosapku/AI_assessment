@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef } from 'react'
-import { ArrowRight, Loader2 } from 'lucide-react'
+import { ArrowRight, Loader2, Trophy } from 'lucide-react'
 import type { ContinueTarget, DockView } from '@/lib/studylab/spotlight'
 
 /**
@@ -17,7 +17,11 @@ export const ActionDock = forwardRef<HTMLDivElement, {
   /** A card's bar is in the slot; the lesson's own controls stand aside. */
   claimed: boolean
   onContinue: (target: ContinueTarget) => void
-}>(function ActionDock({ view, claimed, onContinue }, slotRef) {
+  /** The lesson is over: reopen its summary, and take the quiz. */
+  onSummary?: () => void
+  onProveIt?: () => void
+  provingIt?: boolean
+}>(function ActionDock({ view, claimed, onContinue, onSummary, onProveIt, provingIt }, slotRef) {
   return (
     <div
       data-tour="lesson-continue"
@@ -31,7 +35,34 @@ export const ActionDock = forwardRef<HTMLDivElement, {
           ref={slotRef}
           className="rounded-2xl border border-ss-line bg-ss-panel p-3 shadow-[0_18px_44px_-18px_rgba(20,60,90,0.45)] empty:hidden"
         />
-        {!claimed && <LessonBar view={view} onContinue={onContinue} />}
+        {!claimed && view.kind === 'done' ? (
+          <div className="flex items-center gap-2 rounded-2xl border border-ss-line bg-ss-panel p-3 shadow-[0_18px_44px_-18px_rgba(20,60,90,0.45)]">
+            {onSummary && (
+              <button
+                type="button"
+                onClick={onSummary}
+                className="ss-press inline-flex min-h-[48px] items-center gap-2 rounded-xl bg-ss-chip px-4 text-[13.5px] font-bold text-ss-ink"
+              >
+                <Trophy className="h-4 w-4" aria-hidden />
+                Lesson summary
+              </button>
+            )}
+            {onProveIt && (
+              <button
+                type="button"
+                onClick={onProveIt}
+                disabled={provingIt}
+                className="ss-press inline-flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl px-5 text-[14px] font-bold disabled:opacity-60"
+                style={{ backgroundColor: 'var(--subject)', color: 'var(--ss-panel)' }}
+              >
+                {provingIt ? 'Building your quiz…' : 'Prove it — take the quiz'}
+                {!provingIt && <ArrowRight className="h-4 w-4" aria-hidden />}
+              </button>
+            )}
+          </div>
+        ) : (
+          !claimed && <LessonBar view={view} onContinue={onContinue} />
+        )}
       </div>
     </div>
   )

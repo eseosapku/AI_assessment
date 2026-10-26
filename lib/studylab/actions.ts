@@ -451,15 +451,16 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
 // When the tutor advances past a step, collapse that step's AI cards (content +
 // its answered checkpoint) into one group node — deterministically, so grouping
 // no longer depends on the model remembering to emit groupStep. No-op if the step
-// is already grouped or has no cards.
-export function autoGroupStep(state: CanvasState, step: number): CanvasState {
+// is already grouped or has no cards. `title` names the folded station on the
+// board's path; without it the station is called by its number.
+export function autoGroupStep(state: CanvasState, step: number, title?: string): CanvasState {
   if (step < 1) return state
   if (state.nodes.some((n) => n.type === 'stepGroup' && n.data.step === step)) return state
   const cardIds = state.nodes
     .filter((n) => n.data.step === step && n.type !== 'stepGroup' && n.source !== 'freeform' && !n.hidden)
     .map((n) => n.id)
   if (cardIds.length === 0) return state
-  const { nodes, edges } = applyActions(state, [{ type: 'groupStep', step, label: `Step ${step}`, cardIds }])
+  const { nodes, edges } = applyActions(state, [{ type: 'groupStep', step, label: title?.trim() || `Step ${step}`, cardIds }])
   // Chain this step's pill to the previous one so completed steps form a
   // connected backbone rather than floating disconnected.
   const prevId = `step-${step - 1}`

@@ -6,6 +6,7 @@ import { Loader2, AlertCircle } from 'lucide-react'
 import ProductTour from '@/components/studio/ProductTour'
 import DemoOffer from './DemoOffer'
 import LessonStage from './stage/LessonStage'
+import { useActiveTime } from './stage/useActiveTime'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
@@ -305,7 +306,7 @@ export default function Workspace({ id }: { id: string }) {
           // (1-based) and collapse the step just left when it moved forward.
           nextStep = nextRun && nextRun.currentStep >= 0 ? nextRun.currentStep + 1 : stepRef.current
           if (nextStep > stepRef.current) {
-            nextCanvas = autoGroupStep(nextCanvas, stepRef.current)
+            nextCanvas = autoGroupStep(nextCanvas, stepRef.current, runRef.current?.steps[stepRef.current - 1]?.title)
           }
 
           // Auto-tidy the AI lesson graph (freeform blocks keep their positions).
@@ -696,6 +697,14 @@ export default function Workspace({ id }: { id: string }) {
     },
     [scheduleCanvasSave]
   )
+
+  // Time actually spent learning. Kept on the board in memory and carried by
+  // its ordinary saves (each turn, and when the page is hidden) -- not worth a
+  // save of its own every few seconds.
+  const handleActive = useCallback((ms: number) => {
+    setCanvas((prev) => (prev.activeMs === ms ? prev : { ...prev, activeMs: ms }))
+  }, [])
+  useActiveTime(canvas.activeMs ?? 0, handleActive)
 
   // ── Freeform blocks (palette) ────────────────────────────────────────────────
   const handleAddBlock = useCallback(
@@ -1124,6 +1133,7 @@ export default function Workspace({ id }: { id: string }) {
     <LessonStage
       subjectKey={space.subject ?? space.title}
       focus={focus}
+      activeMs={canvas.activeMs ?? 0}
       onAdvance={handleAdvance}
       onFocus={goToNode}
       rail={{

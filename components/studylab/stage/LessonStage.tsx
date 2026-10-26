@@ -14,6 +14,10 @@ import { ActionDock } from './ActionDock'
 import { InkyDock } from './InkyDock'
 import { TutorDrawer } from './TutorDrawer'
 import { drawerKey } from '@/lib/studylab/drawerKey'
+import { settledSince, lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
+import type { LessonRun } from '@/lib/studylab/lessonRun'
+import { StationScene } from './StationScene'
+import { LessonCompleteScene } from './LessonCompleteScene'
 
 // React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('../StudyCanvas'), {
@@ -37,6 +41,8 @@ export interface LessonStageProps {
   onAdvance: () => void
   /** Sends the learner to a card: the next question, the open check. */
   onFocus: (nodeId: string) => void
+  /** Time spent learning so far, for the lesson-complete scene. */
+  activeMs?: number
   /** The chat drawer, when the caller holds it (the demo opens it for a cue). */
   drawerOpen?: boolean
   onDrawerOpenChange?: (open: boolean) => void
@@ -62,7 +68,7 @@ const INSETS = { top: 72, right: 32, bottom: 128, left: 32 }
  * copies of the layout, and drifted.
  */
 export default function LessonStage({
-  subjectKey, focus, rail, board, chat, onAdvance, onFocus, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children,
+  subjectKey, focus, rail, board, chat, onAdvance, onFocus, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children,
 }: LessonStageProps) {
   const spotlight = useMemo(
     () => focusIds({ nodes: board.nodes, run: board.run, explicit: focus }),
@@ -116,6 +122,22 @@ export default function LessonStage({
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
   const [viewTick, setViewTick] = useState(0)
   const onViewSettled = useCallback(() => setViewTick((t) => t + 1), [])
+  // The moments worth marking, read off the run as it changes: a station done
+  // (a short stamp) and the lesson done (the summary over the whole board).
+  // A reload has no previous run, so it never replays either.
+  const prevRun = useRef<LessonRun | null>(null)
+  const [stamp, setStamp] = useState<string | null>(null)
+  const [summaryOpen, setSummaryOpen] = useState(false)
+  useEffect(() => {
+    const prev = prevRun.current
+    prevRun.current = board.run
+    const done = settledSince(prev, board.run)
+    if (lessonFinished(prev, board.run)) setSummaryOpen(true)
+    else if (done.length > 0) setStamp(done[done.length - 1].title)
+  }, [board.run])
+  const clearStamp = useCallback(() => setStamp(null), [])
+  const finished = board.run?.phase === 'done'
+
   // The chat drawer, closed by default.
   const [ownOpen, setOwnOpen] = useState(false)
   const open = drawerOpen ?? ownOpen
@@ -161,7 +183,7 @@ export default function LessonStage({
               onAnswerPlan={chat.onAnswerPlan}
               onStartHomework={chat.onStartHomework}
             />
-            <StudyCanvas {...board} focusIds={spotlight} insets={INSETS} primaryId={owner} onViewSettled={onViewSettled} />
+            <StudyCanvas {...board} focusIds={spotlight} insets={INSETS} primaryId={owner} onViewSettled={onViewSettled} overview={finished} />
             <InkyDock
               messages={chat.messages}
               suggestions={chat.suggestions}
@@ -175,7 +197,27 @@ export default function LessonStage({
               onAsk={(text) => chat.onSend(text)}
               onRetry={(action) => chat.onRetry?.(action)}
             />
-            <ActionDock ref={setDockEl} view={view} claimed={owner !== null} onContinue={runContinue} />
+            <ActionDock
+              ref={setDockEl}
+              view={view}
+              claimed={owner !== null}
+              onContinue={runContinue}
+              onSummary={() => setSummaryOpen(true)}
+              onProveIt={chat.onProveIt}
+              provingIt={chat.provingIt}
+            />
+            <StationScene title={stamp} onDone={clearStamp} />
+            {finished && summaryOpen && board.run && (
+              <LessonCompleteScene
+                title={rail.title}
+                summary={lessonSummary(board.run, board.nodes, activeMs)}
+                before={chat.before}
+                onProveIt={chat.onProveIt}
+                provingIt={chat.provingIt}
+                proveUpdatesGapMap={chat.proveUpdatesGapMap}
+                onClose={() => setSummaryOpen(false)}
+              />
+            )}
           </div>
           <TutorDrawer open={open} onClose={() => setOpen(false)}>
             <ChatMouthpiece {...chat} onClose={() => setOpen(false)} focusInput={open} />
