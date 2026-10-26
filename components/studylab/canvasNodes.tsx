@@ -35,7 +35,7 @@ export function ConceptNode({ data }: NodeProps) {
         {d.items && d.items.length > 0 && (
           <ul className="space-y-1.5 mt-1">
             {d.items.map((item, i) => (
-              <li key={i} className="flex gap-2">
+              <li key={i} data-part={`item-${i + 1}`} className="flex gap-2">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ss-accent shrink-0" />
                 <span><SafeLatex>{item}</SafeLatex></span>
               </li>

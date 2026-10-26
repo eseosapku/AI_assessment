@@ -16,6 +16,7 @@ export function SlotTarget({
   return (
     <div
       data-drop-target={slot.id}
+      data-part={`slot-${slot.id}`}
       className="flex flex-wrap content-start items-start rounded-md border border-dashed"
       style={{
         minWidth: size,

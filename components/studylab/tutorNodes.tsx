@@ -17,7 +17,7 @@ export function WorkedNode({ data }: NodeProps) {
         {steps.length > 0 ? (
           <ol className="space-y-1.5">
             {steps.map((s, i) => (
-              <li key={i} className="flex gap-2">
+              <li key={i} data-part={`step-${i + 1}`} className="flex gap-2">
                 <span className="shrink-0 w-5 h-5 rounded-full bg-[color:var(--ss-good)]/15 text-ss-good text-[12px] font-bold flex items-center justify-center">{i + 1}</span>
                 <span className="pt-0.5"><SafeLatex>{s}</SafeLatex></span>
               </li>
@@ -47,7 +47,7 @@ export function TableNode({ data }: NodeProps) {
               <thead>
                 <tr>
                   {head.map((c, i) => (
-                    <th key={i} className="border border-ss-line px-2 py-1 text-left font-semibold bg-ss-chip">
+                    <th key={i} data-part={`r0c${i + 1}`} className="border border-ss-line px-2 py-1 text-left font-semibold bg-ss-chip">
                       <SafeLatex>{c}</SafeLatex>
                     </th>
                   ))}
@@ -58,7 +58,7 @@ export function TableNode({ data }: NodeProps) {
               {body.map((r, ri) => (
                 <tr key={ri}>
                   {r.map((c, ci) => (
-                    <td key={ci} className="border border-ss-line px-2 py-1">
+                    <td key={ci} data-part={`r${ri + 1}c${ci + 1}`} className="border border-ss-line px-2 py-1">
                       <SafeLatex>{c}</SafeLatex>
                     </td>
                   ))}
@@ -137,7 +137,7 @@ function QuestionBody({ text }: { text: string }) {
           <thead>
             <tr>
               {head.map((c, i) => (
-                <th key={i} className="border border-ss-line bg-ss-chip px-2 py-1 text-left font-semibold">
+                <th key={i} data-part={`r0c${i + 1}`} className="border border-ss-line bg-ss-chip px-2 py-1 text-left font-semibold">
                   <SafeLatex>{c}</SafeLatex>
                 </th>
               ))}
@@ -147,7 +147,7 @@ function QuestionBody({ text }: { text: string }) {
             {body.map((r, ri) => (
               <tr key={ri}>
                 {r.map((c, ci) => (
-                  <td key={ci} className="border border-ss-line px-2 py-1 tabular-nums">
+                  <td key={ci} data-part={`r${ri + 1}c${ci + 1}`} className="border border-ss-line px-2 py-1 tabular-nums">
                     <SafeLatex>{c}</SafeLatex>
                   </td>
                 ))}

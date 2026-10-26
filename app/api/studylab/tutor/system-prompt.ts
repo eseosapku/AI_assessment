@@ -181,6 +181,16 @@ export function systemPrompt(mode: 'classic' | 'montessori' = 'classic'): string
  */
 const STATION_MANDATE = `- A station never opens with a card to read. It opens with the student's hands -- a MATERIAL (createActivity or build_material) or a predict-or-notice item -- and the explanation comes after, naming what they did.`
 
+/**
+ * Station runs only: the legacy prompts are pinned byte for byte, and lessons
+ * from before stations never learned to point.
+ */
+const POINT_ACTION = `
+- { "type":"point", "nodeId":"<an id on the board>", "part":"<optional>" }
+    Makes that part glow and aims your bubble at it. Use it whenever your "say" is about the student's work or one part of a card -- at most one per turn.
+    Parts, counted from 1: "item-N" (a concept card's Nth bullet), "step-N" (a worked card's Nth step), "rRcC" (a table cell: r0 is the header row, body rows from r1), "option-N" (a question's Nth option), "piece-<id>" / "slot-<id>" (a material's piece or slot, by its id). No part: the whole card.
+`
+
 const STATION_RULES = `RULES:
 1. Use LaTeX wrapped in $...$ for any math, in "say" and in card BODY text. NEVER in a "title" -- titles are plain text.
 2. THE STAGE below decides this turn: emit exactly what it asks for and nothing from a later stage.
@@ -201,6 +211,7 @@ export function stationSystemPrompt(): string {
     CREATE_ACTIVITY_ACTION_TYPE,
     BUILD_MATERIAL_ACTION_TYPE,
     ACTION_LIST,
+    POINT_ACTION,
     CARD_GUIDE,
     STATION_RULES,
   ].join('')

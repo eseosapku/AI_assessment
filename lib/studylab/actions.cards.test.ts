@@ -134,3 +134,19 @@ describe('duplicate titles, however they are worded', () => {
     expect(state.nodes).toHaveLength(3)
   })
 })
+
+describe('point', () => {
+  const board: CanvasState = {
+    nodes: [{ id: 'n1', type: 'table', position: { x: 0, y: 0 }, data: { kind: 'table', title: 'Rates', rows: [['a', 'b'], ['1', '2']] } }],
+    edges: [],
+  }
+  it('turns into an effect for the board to show, never a node', () => {
+    const res = applyActions(board, [{ type: 'point', nodeId: 'n1', part: 'r1c2' }])
+    expect(res.nodes).toHaveLength(1)
+    expect(res.created).toEqual([])
+    expect(res.effects).toEqual([{ kind: 'point', nodeId: 'n1', part: 'r1c2' }])
+  })
+  it('does nothing for a card that is not on the board', () => {
+    expect(applyActions(board, [{ type: 'point', nodeId: 'gone' }]).effects).toEqual([])
+  })
+})

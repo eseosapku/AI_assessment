@@ -1,6 +1,6 @@
 // lib/studylab/bubble.test.ts
 import { describe, it, expect } from 'vitest'
-import { latestLine, placeBubble, type Rect } from './bubble'
+import { latestLine, placeBubble, arrowBetween, type Rect } from './bubble'
 import type { ChatMessage } from './types'
 
 const say = (content: string, extra: Partial<ChatMessage> = {}): ChatMessage => ({ role: 'assistant', content, ...extra })
@@ -111,5 +111,19 @@ describe('placeBubble', () => {
     expect(placed).toMatchObject({ x: 16, compact: false, tail: 'bottom' })
     expect(placed.y + size.h).toBeLessThanOrEqual(dock.y - 8)
     expect(placed.y).toBeGreaterThan(400)
+  })
+})
+
+describe("arrowBetween -- from Inky's bubble to the part it points at", () => {
+  it('runs from the edge of the bubble to just short of the part', () => {
+    expect(arrowBetween({ x: 0, y: 0, w: 100, h: 50 }, { x: 300, y: 0, w: 50, h: 50 })).toEqual({ x1: 100, y1: 25, x2: 294, y2: 25 })
+  })
+  it('aims up at a part above the bubble', () => {
+    expect(arrowBetween({ x: 0, y: 200, w: 100, h: 50 }, { x: 25, y: 0, w: 50, h: 40 })).toEqual({ x1: 50, y1: 200, x2: 50, y2: 46 })
+  })
+  it('draws nothing when the bubble sits on the part, or right against it', () => {
+    const r: Rect = { x: 0, y: 0, w: 100, h: 50 }
+    expect(arrowBetween(r, { x: 50, y: 10, w: 100, h: 50 })).toBeNull()
+    expect(arrowBetween(r, { x: 104, y: 0, w: 50, h: 50 })).toBeNull()
   })
 })

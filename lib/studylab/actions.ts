@@ -7,10 +7,13 @@ import { salvageQuestions } from './quiz'
 import { validateSpec } from './activities/validate'
 import { parseMaterialSpec } from './material/parse'
 import { createInitialMaterialState } from './material/initialState'
+import { isValidPart } from './point'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
   | { kind: 'fitNodes'; nodeIds: string[] }
+  /** Not the camera's: the stage glows the part and aims Inky's bubble at it. */
+  | { kind: 'point'; nodeId: string; part?: string }
 
 const CARD_W = 300
 const CARD_H = 200
@@ -151,6 +154,8 @@ export function isValidAction(a: any): a is TutorAction {
       return ['fit', 'node', 'reset'].includes(a.target)
     case 'highlight':
       return typeof a.nodeId === 'string'
+    case 'point':
+      return typeof a.nodeId === 'string' && (a.part === undefined || (typeof a.part === 'string' && isValidPart(a.part)))
     case 'checkpoint':
       // Lenient: the reducer salvages valid questions, so accept any checkpoint
       // with an id and a non-empty questions array (don't reject the whole thing
@@ -441,6 +446,12 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
       case 'highlight':
         // Highlight is rendered via a transient selection effect.
         effects.push({ kind: 'zoom', target: 'node', nodeId: action.nodeId })
+        break
+      case 'point':
+        // A card that is not on the board has nothing to point at.
+        if (nodes.some((n) => n.id === action.nodeId)) {
+          effects.push({ kind: 'point', nodeId: action.nodeId, ...(action.part ? { part: action.part } : {}) })
+        }
         break
     }
   }

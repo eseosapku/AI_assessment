@@ -309,6 +309,15 @@ function opensWithHands(actions: unknown, run: LessonRun): boolean {
 }
 
 /**
+ * At most one point a turn, the first valid one: two glowing parts and one
+ * arrow is a turn that points at nothing in particular.
+ */
+function onePoint(actions: unknown[]): unknown[] {
+  const first = actions.find((a) => isValidAction(a) && (a as { type?: unknown }).type === 'point')
+  return actions.filter((a) => !(a && typeof a === 'object' && (a as { type?: unknown }).type === 'point') || a === first)
+}
+
+/**
  * The board with the cards this turn just made counted in.
  *
  * The summary arrives from the client and predates the turn, so without this
@@ -545,7 +554,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   return {
     run: closed.run,
     say,
-    actions: kept,
+    actions: onePoint(kept),
     suggestions,
     intents: intents.length > 0 ? intents : undefined,
     materialRefusals: materialRefusals.length > 0 ? materialRefusals : undefined,
@@ -644,8 +653,11 @@ async function applyHelp(
     'First read their attempt back in your own words: what they did, specifically ("You chose 2x + 3", "You put the enzyme on the left").',
     'Then ask ONE question that narrows the gap between what they did and what is right, so they can see it for themselves.',
     'Never give the answer, the right option or the rule outright. Build nothing.',
+    /^[\w:.-]{1,80}$/.test(String(action.nodeId ?? ''))
+      ? `You may point at their work on card "${action.nodeId}" with ONE action: {"type":"point","nodeId":"${action.nodeId}","part":"option-N" (a question's Nth option, from 1) | "piece-<id>" | "slot-<id>"}.`
+      : '',
     '',
-    'Reply with JSON only: { "say": "<the read-back, then the one question>" }',
+    'Reply with JSON only: { "say": "<the read-back, then the one question>", "actions": [] }',
   ].filter((l, i, all) => l !== '' || all[i - 1] !== '').join('\n')
 
   const raw = await callGemma(prompt, {
@@ -655,7 +667,7 @@ async function applyHelp(
     usage: input.requestId ? { feature: 'lesson_help', requestId: input.requestId, userId: input.userId } : undefined,
     signal: signalFor(input.deadline),
   })
-  let parsed: { say?: unknown }
+  let parsed: { say?: unknown; actions?: unknown }
   try {
     parsed = parseJsonRobust(raw)
   } catch {
@@ -663,7 +675,10 @@ async function applyHelp(
   }
   const say = typeof parsed?.say === 'string' ? parsed.say.trim() : ''
   if (!say) return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
-  return { run, say, actions: [], suggestions: [] }
+  // One point at their work, and nothing else: help is said, not built.
+  const returned = Array.isArray(parsed.actions) ? parsed.actions : []
+  const point = returned.find((a) => isValidAction(a) && (a as { type?: unknown }).type === 'point')
+  return { run, say, actions: point ? [point] : [], suggestions: [] }
 }
 
 /**

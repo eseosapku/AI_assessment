@@ -144,14 +144,20 @@ export function dockModel(input: {
 export function focusFromTurn(
   created: string[],
   effects: CanvasEffect[],
-): { focus: string[] | null; effects: CanvasEffect[] } {
-  const toNode = effects.filter((e): e is Extract<CanvasEffect, { kind: 'zoom' }> & { nodeId: string } =>
+): { focus: string[] | null; effects: CanvasEffect[]; point: { nodeId: string; part?: string } | null } {
+  // A point is the bubble's, not the camera's or the spotlight's: the turn's
+  // last one is handed back on its own.
+  const points = effects.filter((e): e is Extract<CanvasEffect, { kind: 'point' }> => e.kind === 'point')
+  const last = points[points.length - 1]
+  const point = last ? { nodeId: last.nodeId, ...(last.part ? { part: last.part } : {}) } : null
+  const view = effects.filter((e) => e.kind !== 'point')
+  const toNode = view.filter((e): e is Extract<CanvasEffect, { kind: 'zoom' }> & { nodeId: string } =>
     e.kind === 'zoom' && e.target === 'node' && typeof e.nodeId === 'string',
   )
-  const rest = effects.filter((e) => !toNode.includes(e as (typeof toNode)[number]))
-  if (created.length > 0) return { focus: created, effects: rest }
-  if (toNode.length > 0) return { focus: toNode.map((e) => e.nodeId), effects: rest }
-  return { focus: null, effects }
+  const rest = view.filter((e) => !toNode.includes(e as (typeof toNode)[number]))
+  if (created.length > 0) return { focus: created, effects: rest, point }
+  if (toNode.length > 0) return { focus: toNode.map((e) => e.nodeId), effects: rest, point }
+  return { focus: null, effects: view, point }
 }
 
 /**

@@ -7,7 +7,8 @@ import { Inky, type InkyMood } from '../inky/Inky'
 import { SafeLatex } from '../canvasShared'
 import { useMuted } from '@/lib/studylab/sound'
 import { motionFor } from '@/lib/studylab/motionPresets'
-import { latestLine, placeBubble, type Rect } from '@/lib/studylab/bubble'
+import { latestLine, placeBubble, arrowBetween, type Rect } from '@/lib/studylab/bubble'
+import { pointSelector } from '@/lib/studylab/point'
 import type { ChatMessage } from '@/lib/studylab/types'
 
 const COMPACT = { w: 240, h: 44 }
@@ -32,6 +33,8 @@ export function InkyDock({
   onOpenChat,
   onAsk,
   onRetry,
+  pointer = null,
+  onReveal,
 }: {
   messages: ChatMessage[]
   suggestions: string[]
@@ -48,6 +51,10 @@ export function InkyDock({
   onOpenChat: () => void
   onAsk: (text: string) => void
   onRetry: (action: Record<string, unknown>) => void
+  /** The part the latest turn pointed at, until the next turn. */
+  pointer?: { nodeId: string; part?: string } | null
+  /** Brings a card into view: a part pointed at off screen. */
+  onReveal?: (nodeId: string) => void
 }) {
   const reduced = useReducedMotion() ?? false
   const line = latestLine(messages)
@@ -77,6 +84,17 @@ export function InkyDock({
   const rootRef = useRef<HTMLDivElement>(null)
   const inkyRef = useRef<HTMLDivElement>(null)
   const bubbleRef = useRef<HTMLDivElement>(null)
+
+  // The part Inky is talking about. Found on the board, it glows, the bubble
+  // keeps off it and the bubble's arrow reaches it; not found, nothing shows.
+  const pointNode = pointer?.nodeId
+  const pointPart = pointer?.part
+  const pointKey = pointNode ? `${pointNode}|${pointPart ?? ''}` : ''
+  const findPointed = useCallback((): HTMLElement | null => {
+    const board = rootRef.current?.offsetParent as HTMLElement | null
+    if (!board || !pointNode) return null
+    return board.querySelector<HTMLElement>(pointSelector(pointNode, pointPart))
+  }, [pointNode, pointPart])
   const [place, setPlace] = useState<{ x: number; y: number; compact: boolean; tail: 'left' | 'bottom'; w?: number } | null>(null)
   const measure = useCallback(() => {
     const board = rootRef.current?.offsetParent as HTMLElement | null
@@ -94,6 +112,8 @@ export function InkyDock({
     if (dock && dock.getBoundingClientRect().height > 0) avoid.push(rel(dock.getBoundingClientRect()))
     // The opening card, and anything else that marks itself as the stage's.
     board.querySelectorAll('[data-stage-avoid]').forEach((el) => avoid.push(rel(el.getBoundingClientRect())))
+    const pointed = findPointed()
+    if (pointed) avoid.push(rel(pointed.getBoundingClientRect()))
     setPlace(
       placeBubble({
         board: { x: 0, y: 0, w: origin.width, h: origin.height },
@@ -103,7 +123,7 @@ export function InkyDock({
         compact: COMPACT,
       }),
     )
-  }, [focusIds])
+  }, [focusIds, findPointed])
 
   // Every change re-measures from the full bubble: rendered unplaced (and
   // hidden) for a moment, measured, then placed -- all before the paint. A
@@ -122,7 +142,50 @@ export function InkyDock({
   }, [])
   useLayoutEffect(() => {
     remeasure()
-  }, [text, chips.length, viewTick, hidden, focusKey, remeasure])
+  }, [text, chips.length, viewTick, hidden, focusKey, pointKey, remeasure])
+
+  // The glow: on the part while it is pointed at. Kept on across camera moves
+  // rather than set again, which would restart its pulse.
+  const marked = useRef<HTMLElement | null>(null)
+  useEffect(() => {
+    const el = findPointed()
+    if (marked.current && marked.current !== el) marked.current.removeAttribute('data-pointed')
+    if (el && !el.hasAttribute('data-pointed')) el.setAttribute('data-pointed', '')
+    marked.current = el
+  }, [findPointed, viewTick])
+  useEffect(() => () => marked.current?.removeAttribute('data-pointed'), [])
+
+  // A part pointed at off screen is brought into view, once -- after the
+  // camera has framed the turn's new work, which may have brought it in.
+  const revealed = useRef('')
+  useEffect(() => {
+    if (!pointKey || revealed.current === pointKey || !pointNode) return
+    const t = setTimeout(() => {
+      const board = rootRef.current?.offsetParent as HTMLElement | null
+      const el = findPointed()
+      if (!board || !el) return
+      revealed.current = pointKey
+      const r = el.getBoundingClientRect()
+      const b = board.getBoundingClientRect()
+      if (r.right < b.left || r.left > b.right || r.bottom < b.top || r.top > b.bottom) onReveal?.(pointNode)
+    }, 700)
+    return () => clearTimeout(t)
+  }, [pointKey, pointNode, findPointed, onReveal])
+
+  // The arrow, from the placed bubble to the part.
+  const [arrow, setArrow] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
+  useLayoutEffect(() => {
+    const board = rootRef.current?.offsetParent as HTMLElement | null
+    const el = findPointed()
+    const bubble = bubbleRef.current
+    if (!board || !el || !bubble || !place || hidden) {
+      setArrow(null)
+      return
+    }
+    const origin = board.getBoundingClientRect()
+    const rel = (r: DOMRect): Rect => ({ x: r.left - origin.left, y: r.top - origin.top, w: r.width, h: r.height })
+    setArrow(arrowBetween(rel(bubble.getBoundingClientRect()), rel(el.getBoundingClientRect())))
+  }, [place, findPointed, viewTick, hidden])
   useLayoutEffect(() => {
     if (!place) measure()
   }, [nonce, place, measure])
@@ -150,6 +213,27 @@ export function InkyDock({
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {hidden || !text ? null : busy ? text : <SafeLatex>{text}</SafeLatex>}
       </div>
+      {arrow && (
+        <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" aria-hidden>
+          <defs>
+            <marker id="inky-point" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--subject)" />
+            </marker>
+          </defs>
+          <motion.path
+            key={pointKey}
+            d={`M${arrow.x1},${arrow.y1} L${arrow.x2},${arrow.y2}`}
+            fill="none"
+            stroke="var(--subject)"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            markerEnd="url(#inky-point)"
+            initial={reduced ? false : { pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+          />
+        </svg>
+      )}
       {/* Inky, its chat button and the one sound switch. */}
       {/* Measured as one: the bubble must not cover Inky's buttons either. */}
       <div ref={inkyRef} className="pointer-events-auto absolute bottom-5 left-4 flex items-end gap-2">

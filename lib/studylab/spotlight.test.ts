@@ -179,16 +179,17 @@ describe('focusFromTurn', () => {
     expect(focusFromTurn(['a', 'b'], [{ kind: 'zoom', target: 'fit' }])).toEqual({
       focus: ['a', 'b'],
       effects: [{ kind: 'zoom', target: 'fit' }],
+      point: null,
     })
   })
 
   it('focuses a rewritten card when nothing new was built', () => {
-    expect(focusFromTurn([], [{ kind: 'zoom', target: 'node', nodeId: 'c' }])).toEqual({ focus: ['c'], effects: [] })
+    expect(focusFromTurn([], [{ kind: 'zoom', target: 'node', nodeId: 'c' }])).toEqual({ focus: ['c'], effects: [], point: null })
   })
 
   it('leaves the focus alone when a turn built and rewrote nothing', () => {
-    expect(focusFromTurn([], [{ kind: 'zoom', target: 'reset' }])).toEqual({ focus: null, effects: [{ kind: 'zoom', target: 'reset' }] })
-    expect(focusFromTurn([], [])).toEqual({ focus: null, effects: [] })
+    expect(focusFromTurn([], [{ kind: 'zoom', target: 'reset' }])).toEqual({ focus: null, effects: [{ kind: 'zoom', target: 'reset' }], point: null })
+    expect(focusFromTurn([], [])).toEqual({ focus: null, effects: [], point: null })
   })
 })
 
@@ -257,5 +258,16 @@ describe('cameraInsets -- room for the dock', () => {
     expect(wide.bottom).toBe(128)
     expect(phone.bottom).toBeGreaterThanOrEqual(wide.bottom + DOCK_LIFT_PHONE - 24)
     expect(phone.top).toBe(wide.top)
+  })
+})
+
+describe('focusFromTurn and a point', () => {
+  const point = { kind: 'point' as const, nodeId: 'n1', part: 'item-2' }
+  it('keeps a point out of the focus and out of the camera, and hands it back on its own', () => {
+    expect(focusFromTurn(['c1'], [point])).toEqual({ focus: ['c1'], effects: [], point: { nodeId: 'n1', part: 'item-2' } })
+    expect(focusFromTurn([], [point])).toEqual({ focus: null, effects: [], point: { nodeId: 'n1', part: 'item-2' } })
+  })
+  it('has no point when the turn made none', () => {
+    expect(focusFromTurn(['c1'], []).point).toBeNull()
   })
 })

@@ -739,6 +739,8 @@ function FlowInner({
 
     const timer = setTimeout(() => {
       for (const effect of effects.list) {
+        // Points are the stage's to draw, never the camera's.
+        if (effect.kind === 'point') continue
         if (effect.kind === 'fitNodes') {
           // Fit the new cards, but never below the point where they can be
           // read. Fitting everything with generous padding is what drove a

@@ -410,3 +410,18 @@
     animation: none;
   }
 }
+
+/* Inky points at a part: it glows in the lesson's colour, pulses twice, and
+   holds. Set on the part itself (lib/studylab/point.ts names them). */
+[data-pointed] {
+  outline: 2px solid var(--subject, var(--ss-accent));
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--subject, var(--ss-accent)) 20%, transparent);
+  animation: ss-pointed 1.2s ease-in-out 2;
+}
+@keyframes ss-pointed {
+  50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--subject, var(--ss-accent)) 10%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-pointed] { animation: none; }
+}

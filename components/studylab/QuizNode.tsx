@@ -401,6 +401,7 @@ function McqOptions({
             ref={(el) => { buttons.current[i] = el }}
             type="button"
             role="radio"
+            data-part={`option-${i + 1}`}
             aria-checked={isChosen}
             tabIndex={isChosen || (chosen === undefined && i === 0) ? 0 : -1}
             disabled={locked}

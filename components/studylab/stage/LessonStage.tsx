@@ -44,6 +44,10 @@ export interface LessonStageProps {
   onFocus: (nodeId: string) => void
   /** Hands a finished check in again, when its hand-in never got through. */
   onHandIn?: () => void
+  /** The part the latest turn pointed at, until the next turn. */
+  pointer?: { nodeId: string; part?: string } | null
+  /** Brings a card into view without changing what is in the spotlight. */
+  onShowNode?: (nodeId: string) => void
   /** Time spent learning so far, for the lesson-complete scene. */
   activeMs?: number
   /** The chat drawer, when the caller holds it (the demo opens it for a cue). */
@@ -79,7 +83,7 @@ function usePhone(): boolean {
  * copies of the layout, and drifted.
  */
 export default function LessonStage({
-  subjectKey, focus, rail, board, chat, onAdvance, onFocus, onHandIn, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children,
+  subjectKey, focus, rail, board, chat, onAdvance, onFocus, onHandIn, pointer = null, onShowNode, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children,
 }: LessonStageProps) {
   const phone = usePhone()
   const spotlight = useMemo(
@@ -230,6 +234,8 @@ export default function LessonStage({
               onOpenChat={openChat}
               onAsk={(text) => (chat.onChip ? chat.onChip(text) : chat.onSend(text))}
               onRetry={(action) => chat.onRetry?.(action)}
+              pointer={pointer}
+              onReveal={onShowNode}
             />
             <ActionDock
               ref={setDockEl}

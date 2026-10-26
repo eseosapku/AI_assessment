@@ -22,6 +22,7 @@ export function PieceChip({
   return (
     <span
       data-item={piece.id}
+      data-part={`piece-${piece.id}`}
       {...restDragProps}
       className={`nodrag flex cursor-grab items-center justify-center gap-1 active:cursor-grabbing touch-none rounded-lg border border-ss-line px-1.5 text-[12px] font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--ss-accent)] ${
         wrong ? 'bg-red-500/10 text-red-600 dark:text-red-400' : 'text-ss-ink'

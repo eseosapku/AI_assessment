@@ -2555,3 +2555,39 @@ describe('help', () => {
     expect(callGemma).not.toHaveBeenCalled()
   })
 })
+
+describe('Inky points at a part', () => {
+  it('lets one point through a teaching turn, and drops the rest', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({
+      say: 'Look at the second row.',
+      actions: [
+        { type: 'createCard', id: 'c1', card: 'concept', step: 1, title: 'Rates', body: 'b' },
+        { type: 'point', nodeId: 'c1', part: 'item-2' },
+        { type: 'point', nodeId: 'c1', part: 'item-3' },
+      ],
+    }))
+    const result = await applyAction({ run: stationRun('explore'), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
+    expect(result.actions.filter((a) => (a as { type?: string }).type === 'point')).toEqual([{ type: 'point', nodeId: 'c1', part: 'item-2' }])
+  })
+
+  it('lets Get help point once at the learner\'s own work', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({
+      say: 'You chose B. What does x times 1 give?',
+      actions: [{ type: 'point', nodeId: 'q-7', part: 'option-2' }, { type: 'createCard', id: 'c', card: 'concept', step: 1, title: 't', body: 'b' }],
+    }))
+    const result = await applyAction({
+      run: stationRun('practice'), policy: GAP, userId: 'u1',
+      action: { type: 'help', nodeId: 'q-7', prompt: 'Expand (x + 2)(x + 1).', attempt: 'Chose: B) x^2 + 2' },
+    })
+    expect(result.actions).toEqual([{ type: 'point', nodeId: 'q-7', part: 'option-2' }])
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).toContain('"point"')
+  })
+
+  it('tells the station tutor what it can point at', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'x', actions: [{ type: 'createCard', id: 'p', card: 'practice', step: 1, title: 'Predict: t', body: 'b', answer: 'a', rubric: 'r', steps: ['s'] }] }))
+    await applyAction({ run: planningRun(), policy: GAP, userId: 'u1', action: { type: 'accept_plan' }, context: {} })
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('"type":"point"')
+    expect(prompt).toMatch(/option-N/)
+  })
+})

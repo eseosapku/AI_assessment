@@ -58,6 +58,8 @@ export default function Workspace({ id }: { id: string }) {
   const [canvas, setCanvas] = useState<CanvasState>(EMPTY_CANVAS)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [effects, setEffects] = useState<CanvasEffects>({ version: 0, list: [] })
+  // The part the latest turn pointed at, held until the next turn.
+  const [pointer, setPointer] = useState<{ nodeId: string; part?: string } | null>(null)
   const [currentStep, setCurrentStep] = useState(0)
   const [busy, setBusy] = useState(false)
   // What the tutor is doing right now, so the wait names its own cause.
@@ -224,6 +226,7 @@ export default function Workspace({ id }: { id: string }) {
     async (action: Record<string, unknown>) => {
       if (busyRef.current) return
       busyRef.current = true
+      setPointer(null)
       setWorking(busyLabel(action as { type?: string }))
       setBusy(true)
       // A stalled request spun forever. The route gives up at 24 s and
@@ -326,6 +329,7 @@ export default function Workspace({ id }: { id: string }) {
           // What this turn built is the new focus; the board's camera follows it.
           const turn = focusFromTurn(created, fx)
           if (turn.focus) setFocus(turn.focus)
+          setPointer(turn.point)
           const list = turn.effects
           if (list.length > 0) {
             effectVersion.current += 1
@@ -923,6 +927,13 @@ export default function Workspace({ id }: { id: string }) {
     setFocus([nodeId])
   }, [])
 
+  // Brings a card into view and leaves the spotlight where it is: a part Inky
+  // pointed at off screen.
+  const showNode = useCallback((nodeId: string) => {
+    effectVersion.current += 1
+    setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId }] })
+  }, [])
+
   // When every quiz node in a checkpoint is answered, report the result to the
   // run's state machine once. Passing more than half the checkpoint's
   // questions clears it (passCheck); anything less re-teaches the step
@@ -1202,6 +1213,8 @@ export default function Workspace({ id }: { id: string }) {
       onAdvance={handleAdvance}
       onFocus={goToNode}
       onHandIn={handIn}
+      pointer={pointer}
+      onShowNode={showNode}
       rail={{
         title: space.title,
         subject: space.subject,

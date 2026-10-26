@@ -104,3 +104,35 @@ export function placeBubble(input: {
   const { x, y } = fallback.rect
   return room < compact.w ? { x, y, compact: true, tail: 'left', w: Math.max(room, 0) } : { x, y, compact: true, tail: 'left' }
 }
+
+/** Room between the arrow's tip and the part, so the part's glow stays clear. */
+const ARROW_GAP = 6
+
+/**
+ * The arrow from Inky's bubble to the part it points at: from the bubble's edge,
+ * along the line between the two centres, to just short of the part. Null when
+ * they touch or overlap -- there is nowhere for an arrow to go.
+ */
+export function arrowBetween(from: Rect, to: Rect): { x1: number; y1: number; x2: number; y2: number } | null {
+  const room: Rect = { x: to.x - ARROW_GAP, y: to.y - ARROW_GAP, w: to.w + 2 * ARROW_GAP, h: to.h + 2 * ARROW_GAP }
+  const touching =
+    from.x < room.x + room.w && from.x + from.w > room.x && from.y < room.y + room.h && from.y + from.h > room.y
+  if (touching) return null
+  const start = edgeToward(from, centre(to))
+  const end = edgeToward(room, centre(from))
+  const r = (v: number) => Math.round(v * 10) / 10
+  return { x1: r(start.x), y1: r(start.y), x2: r(end.x), y2: r(end.y) }
+}
+
+function centre(r: Rect): { x: number; y: number } {
+  return { x: r.x + r.w / 2, y: r.y + r.h / 2 }
+}
+
+/** Where the line from a rect's centre toward a point leaves the rect. */
+function edgeToward(r: Rect, target: { x: number; y: number }): { x: number; y: number } {
+  const c = centre(r)
+  const dx = target.x - c.x
+  const dy = target.y - c.y
+  const s = Math.min(dx ? r.w / 2 / Math.abs(dx) : Infinity, dy ? r.h / 2 / Math.abs(dy) : Infinity)
+  return { x: c.x + dx * s, y: c.y + dy * s }
+}
