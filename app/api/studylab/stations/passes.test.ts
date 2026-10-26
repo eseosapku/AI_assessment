@@ -135,6 +135,13 @@ describe('runPass: name', () => {
     expect(p).toMatch(/true whatever the student did/i)
   })
 
+  it('keeps the words the passes are briefed in off the board', async () => {
+    // Found live: a naming card read "The explore item shows this".
+    replyName()
+    await runPass('name', ctx({ explore: explore as never }))
+    expect(String(call()[0])).toMatch(/never sees the words "explore item"/i)
+  })
+
   it('takes a helped cut with no card of its own as the name alone', async () => {
     replyName({ helped: { say: 'Iron gave it away.' } })
     const out = await runPass('name', ctx({ explore: explore as never }))

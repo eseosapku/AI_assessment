@@ -74,6 +74,9 @@ function context(ctx: PassContext): string {
     '',
     `THIS STATION (step ${ctx.stepNo}): ${ctx.step.title} -- ${ctx.step.goal}`,
     `Set "step": ${ctx.stepNo} on everything you write.`,
+    // Found live: a naming card read "The explore item shows this".
+    'The student never sees the words "explore item", "station", "stage" or "pass": in anything they read, name',
+    'a thing as it appears (the slider, the sort, the bars).',
   ].filter((l) => l !== '').join('\n')
 }
 
