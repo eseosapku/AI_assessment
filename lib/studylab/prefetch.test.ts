@@ -74,11 +74,11 @@ describe('driveStation', () => {
     expect(deps.sleep).not.toHaveBeenCalled()
   })
 
-  it('backs off from 1 s to 8 s while another request holds the pass', async () => {
+  it('backs off from 1 s to 3 s while another request holds the pass -- the second lane picks the practice up within 3 s of the explore', async () => {
     const held = reply(202, { status: 'authoring' })
     const deps = setup(held, held, held, held, held, reply(200, { status: 'failed' }))
     expect(await drive(deps)).toBe('failed')
-    expect(deps.sleep.mock.calls.map((c) => (c as unknown[])[0])).toEqual([1000, 2000, 4000, 8000, 8000])
+    expect(deps.sleep.mock.calls.map((c) => (c as unknown[])[0])).toEqual([1000, 2000, 3000, 3000, 3000])
   })
 
   it('gives up on a station the route will not write, without trying again', async () => {
@@ -97,7 +97,7 @@ describe('driveStation', () => {
   it('stops after a bounded number of requests, whatever the route answers', async () => {
     const deps = { fetch: vi.fn(async () => reply(200, { status: 'authoring' })), sleep: vi.fn(async () => {}) }
     expect(await drive(deps as never)).toBe('failed')
-    expect(deps.fetch.mock.calls.length).toBeLessThanOrEqual(20)
+    expect(deps.fetch.mock.calls.length).toBeLessThanOrEqual(30)
   })
 })
 

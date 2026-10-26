@@ -32,9 +32,10 @@ export const RATE_LIMITS: Record<string, RateLimitRule> = {
   // One vision call per sheet, and a sheet is read once. Anyone past this is
   // not doing homework.
   'studylab-homework-read': { limit: 40, windowMs: 60 * 60 * 1000 },
-  // Four or five short calls write a station ahead, and the browser writes at
-  // most the next two; a lesson of ten steps sits well inside this.
-  'studylab-author': { limit: 200, windowMs: 60 * 60 * 1000 },
+  // Four or five short calls write a station ahead, in two lanes that poll
+  // every few seconds while the other writes; a lesson of ten steps sits well
+  // inside this.
+  'studylab-author': { limit: 400, windowMs: 60 * 60 * 1000 },
   // Tighter windows than the rest: these send email to an address the caller
   // typed, so the limit is there to stop someone else's inbox being used.
   'forgot-password': { limit: 5, windowMs: 15 * 60 * 1000 },

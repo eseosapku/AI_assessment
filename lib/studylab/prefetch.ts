@@ -37,10 +37,12 @@ export function whatToAuthor(run: LessonRun | null, known: Record<string, Author
   return status === 'ready' || status === 'failed' ? null : step.id
 }
 
-/** Requests one station may make before the page stops asking. A station is four passes, six with retries. */
-const MAX_REQUESTS = 20
+/** Requests one lane may make before the page stops asking: four passes, six with retries, and the polls between them. */
+const MAX_REQUESTS = 30
 const FIRST_WAIT_MS = 1000
-const LONGEST_WAIT_MS = 8000
+// Short: the second lane waits on the explore, and an 8 s wait started the
+// practice up to 7 s after it could have been.
+const LONGEST_WAIT_MS = 3000
 
 function pause(ms: number, signal: AbortSignal): Promise<void> {
   return new Promise((resolve) => {
@@ -61,7 +63,7 @@ export interface DriveStation {
 
 /**
  * Asks for pass after pass until the station is ready or has failed. A pass
- * another request holds is waited on, 1 s doubling to 8 s. Returns null when
+ * another request holds is waited on, 1 s, 2 s, then 3 s. Returns null when
  * aborted, so nothing is recorded about a station the lesson moved past.
  */
 export async function driveStation(d: DriveStation): Promise<AuthorStatus | null> {
