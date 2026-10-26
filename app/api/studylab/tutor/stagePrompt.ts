@@ -70,5 +70,7 @@ export function stagePrompt(stage: Stage, ctx: { missed: string[]; pace: Pace })
     ].filter(Boolean).join('\n')
   }
   const block = { explore: EXPLORE, name: NAME, practice: PRACTICE, check: CHECK }[stage]
-  return [block, stage === 'practice' ? twin : ''].filter(Boolean).join('\n\n')
+  // The item after a miss: the practice after a failed check, or the check
+  // after a missed practice. A new station starts clean.
+  return [block, stage === 'practice' || stage === 'check' ? twin : ''].filter(Boolean).join('\n\n')
 }

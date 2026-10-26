@@ -28,6 +28,13 @@ describe('stagePrompt', () => {
     expect(stagePrompt('practice', { missed: [], pace: 'step' })).not.toContain('NEAR-TWIN')
   })
 
+  it('makes the check after a missed practice a near-twin too', () => {
+    const p = stagePrompt('check', { missed: ['Work out 4 + 8'], pace: 'step' })
+    expect(p).toContain('NEAR-TWIN')
+    expect(p).toContain('Work out 4 + 8')
+    expect(stagePrompt('explore', { missed: ['Work out 4 + 8'], pace: 'step' })).not.toContain('NEAR-TWIN')
+  })
+
   it('checks quietly: one checkpoint, no chips, almost nothing said', () => {
     const p = stagePrompt('check', { missed: [], pace: 'step' })
     expect(p).toContain('STAGE: CHECK')

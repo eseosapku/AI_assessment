@@ -2591,3 +2591,61 @@ describe('Inky points at a part', () => {
     expect(prompt).toMatch(/option-N/)
   })
 })
+
+/**
+ * After a miss, the next item is the same idea with one thing changed --
+ * 4 + 7 after missing 4 + 8 -- never a harder one.
+ */
+describe('a near-twin after a miss', () => {
+  const MISSED = 'What is 4 + 8?'
+  const RIGHT = 'What is 2 + 2?'
+  const checking = (): LessonRun => {
+    const begun = beginCheck(stationRun('practice'), 'a', 'cp-a-1', 'checkpoint', 'hard')
+    if (!begun.ok) throw new Error(begun.reason)
+    return {
+      ...begun.run,
+      openCheck: {
+        ...begun.run.openCheck!,
+        questions: [
+          { id: 'q1', format: 'mcq', prompt: MISSED, options: ['11', '12'], answer: 1 },
+          { id: 'q2', format: 'mcq', prompt: RIGHT, options: ['4', '5'], answer: 0 },
+        ],
+      },
+    }
+  }
+  const reply = JSON.stringify({ say: 'One more like it.', actions: [] })
+  const prompt = () => String(vi.mocked(callGemma).mock.calls[0][0])
+
+  it('lists what a failed check missed, and only that, for the practice that follows', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply)
+    await applyAction({
+      run: checking(), policy: GAP, userId: 'u1',
+      action: { type: 'answer_check', passed: false, answers: { q1: { given: 0 }, q2: { given: 0 } } },
+      context: {},
+    })
+    expect(prompt()).toContain('STAGE: PRACTICE')
+    expect(prompt()).toContain('NEAR-TWIN')
+    expect(prompt()).toContain(MISSED)
+    expect(prompt()).not.toContain(RIGHT)
+    expect(prompt()).toMatch(/one thing changed/i)
+    expect(prompt()).toMatch(/never harder/i)
+  })
+
+  it('makes the check after a missed practice a near-twin of it', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply)
+    await applyAction({
+      run: stationRun('practice'), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      context: { board: { missedByStep: { 1: ['Work out 4 + 8'] } } },
+    })
+    expect(prompt()).toContain('STAGE: CHECK')
+    expect(prompt()).toContain('NEAR-TWIN')
+    expect(prompt()).toContain('Work out 4 + 8')
+  })
+
+  it('sets no near-twin without a miss', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply)
+    await applyAction({ run: stationRun('explore'), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
+    await applyAction({ run: stationRun('practice'), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
+    for (const call of vi.mocked(callGemma).mock.calls) expect(String(call[0])).not.toContain('NEAR-TWIN')
+  })
+})

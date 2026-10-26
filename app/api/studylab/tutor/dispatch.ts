@@ -10,7 +10,7 @@ import {
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
-import { isValidQuestion, coerceQuestion, markCheck, salvageQuestions, type CheckAnswers } from '@/lib/studylab/quiz'
+import { isValidQuestion, coerceQuestion, markCheck, missedQuestions, salvageQuestions, type CheckAnswers } from '@/lib/studylab/quiz'
 import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
 import { parseHomeworkSheet, stepsFromQuestions } from '@/lib/studylab/homework'
 import { isCardKind } from '@/lib/studylab/blocks'
@@ -418,7 +418,15 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
 
   // The station stage this turn teaches; null on a run from before stations.
   const stage = stationStage(advanced, step)
-  const prompt = buildTeachPrompt(advanced, step, input.context ?? {}, false)
+  // What was just missed, for a near-twin: the questions of the check this
+  // action failed, marked here from the questions the run kept, and a missed
+  // practice problem still on this step.
+  const failed =
+    input.action.type === 'answer_check' && input.run.openCheck?.questions?.length
+      ? missedQuestions(input.run.openCheck.questions, input.action.answers)
+      : []
+  const missed = [...new Set([...failed, ...(board.missedByStep[advanced.currentStep + 1] ?? [])])].slice(0, 3)
+  const prompt = buildTeachPrompt(advanced, step, input.context ?? {}, false, missed)
   const teach = (text: string) =>
     callGemma(text, {
       maxTokens: 2600,
@@ -1996,6 +2004,7 @@ function buildTeachPrompt(
   step: LessonStep,
   context: Record<string, unknown>,
   aside = false,
+  missed: string[] = [],
 ): string {
   const board = parseBoardSummary(context.board)
   const stepNo = run.currentStep + 1
@@ -2037,7 +2046,7 @@ function buildTeachPrompt(
 
   const pace =
     stage
-      ? stagePrompt(stage, { missed: [], pace: run.pace })
+      ? stagePrompt(stage, { missed, pace: run.pace })
       : wrapUp
       ? [
           `PACE — CLOSE THIS STEP: it has had ${run.beats} turn(s) already.`,

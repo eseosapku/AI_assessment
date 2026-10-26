@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, salvageQuestions, checkAnswers, coerceQuestion } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, missedQuestions, salvageQuestions, checkAnswers, coerceQuestion } from '@/lib/studylab/quiz'
 import type { CheckpointQuestion, QuizCell } from '@/lib/studylab/types'
 
 const mcq: CheckpointQuestion = { id: 'q1', format: 'mcq', prompt: 'p', options: ['a', 'b'], answer: 1 }
@@ -163,5 +163,21 @@ describe('per-option feedback on a multiple-choice question', () => {
     expect(short.format === 'mcq' && 'optionFeedback' in short).toBe(false)
     const notText = coerceQuestion({ ...base, optionFeedback: ['no', 3, 'no'] as unknown as string[] })
     expect(notText.format === 'mcq' && 'optionFeedback' in notText).toBe(false)
+  })
+})
+
+describe('missedQuestions -- what a near-twin is made from', () => {
+  const mcq = { id: 'q1', format: 'mcq' as const, prompt: 'What is 4 + 8?', options: ['11', '12'], answer: 1 }
+  const match = { id: 'q2', format: 'match' as const, prompt: 'Pair them', pairs: [{ left: 'x', right: '1' }, { left: 'y', right: '2' }] }
+  const short = { id: 'q3', format: 'short' as const, prompt: 'Why?' }
+
+  it('lists the prompts of the questions answered wrong, marked the way the check is', () => {
+    expect(missedQuestions([mcq, match, short], { q1: { given: 0 }, q2: { given: ['1', '2'] }, q3: { state: 'incorrect' } })).toEqual([
+      'What is 4 + 8?',
+      'Why?',
+    ])
+  })
+  it('counts an unanswered question as missed, and a right one as not', () => {
+    expect(missedQuestions([mcq, short], { q3: { state: 'correct' } })).toEqual(['What is 4 + 8?'])
   })
 })

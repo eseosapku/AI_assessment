@@ -128,17 +128,24 @@ export function checkAnswers(cells: QuizCell[]): CheckAnswers {
  * nothing this route can read, so their verdict is still the page's.
  */
 export function markCheck(questions: CheckpointQuestion[], answers: CheckAnswers | undefined): boolean {
-  let correct = 0
-  for (const q of questions) {
-    const a = answers?.[q.id]
-    if (q.format === 'mcq') {
-      if (typeof a?.given === 'number' && gradeMcq(q, a.given)) correct++
-    } else if (q.format === 'match') {
-      const given = a?.given
-      if (Array.isArray(given) && given.every((g) => typeof g === 'string') && gradeMatch(q, given)) correct++
-    } else if (a?.state === 'correct') {
-      correct++
-    }
-  }
+  const correct = questions.filter((q) => answeredRight(q, answers?.[q.id])).length
   return correct > questions.length / 2
+}
+
+/**
+ * The prompts of the questions a check's answers got wrong, marked the way
+ * `markCheck` marks them -- what the near-twin after a failed check is made
+ * from. An unanswered question is a missed one.
+ */
+export function missedQuestions(questions: CheckpointQuestion[], answers: CheckAnswers | undefined): string[] {
+  return questions.filter((q) => !answeredRight(q, answers?.[q.id])).map((q) => q.prompt)
+}
+
+function answeredRight(q: CheckpointQuestion, a: CheckAnswers[string] | undefined): boolean {
+  if (q.format === 'mcq') return typeof a?.given === 'number' && gradeMcq(q, a.given)
+  if (q.format === 'match') {
+    const given = a?.given
+    return Array.isArray(given) && given.every((g) => typeof g === 'string') && gradeMatch(q, given)
+  }
+  return a?.state === 'correct'
 }

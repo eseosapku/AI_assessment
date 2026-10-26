@@ -87,7 +87,7 @@ describe('boardSummary', () => {
 
   it('survives a missing canvas', () => {
     expect(boardSummary(null)).toEqual({
-      cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, recent: [],
+      cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, recent: [],
     })
   })
 })
@@ -98,7 +98,7 @@ describe('parseBoardSummary', () => {
   })
 
   it('returns an empty board for anything that is not one', () => {
-    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, recent: [] }
+    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, recent: [] }
     expect(parseBoardSummary(null)).toEqual(empty)
     expect(parseBoardSummary('nope')).toEqual(empty)
     expect(parseBoardSummary({})).toEqual(empty)
@@ -202,5 +202,26 @@ describe('a card made in answer to a question', () => {
     expect(round.cards.find((c) => c.id === 'asked-1')?.aside).toBe(true)
     expect(round.cards.find((c) => c.id === 'taught')?.aside).toBeUndefined()
     expect(round.cardsSinceCheck[1]).toBe(1)
+  })
+})
+
+describe('a practice problem the learner missed', () => {
+  const practice = (id: string, step: number, state: string, body = `Work out ${id}`): StudyNode => ({
+    id, type: 'practice', position: { x: 0, y: 0 },
+    data: { kind: 'practice', title: `Practice ${id}`, body, step, practice: { state } } as unknown as StudyNode['data'],
+  })
+
+  it('is listed against its step while it is the latest practice there', () => {
+    const s = boardSummary({ nodes: [practice('a', 1, 'correct'), practice('b', 1, 'incorrect', 'Work out 4 + 8')] })
+    expect(s.missedByStep).toEqual({ 1: ['Work out 4 + 8'] })
+  })
+  it('counts a close answer as a miss', () => {
+    expect(boardSummary({ nodes: [practice('a', 2, 'close', 'Find x')] }).missedByStep).toEqual({ 2: ['Find x'] })
+  })
+  it('is cleared by a near-twin answered right after it', () => {
+    expect(boardSummary({ nodes: [practice('a', 1, 'incorrect'), practice('b', 1, 'correct')] }).missedByStep).toEqual({})
+  })
+  it('survives the trip to the server', () => {
+    expect(parseBoardSummary({ missedByStep: { 1: ['Work out 4 + 8', 7] } }).missedByStep).toEqual({ 1: ['Work out 4 + 8'] })
   })
 })
