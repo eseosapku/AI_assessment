@@ -105,7 +105,8 @@ function materialProblems(action: unknown, rawIntent: unknown, needIntent: boole
   return { problems: [`"${type || 'nothing'}" is not a material or a practice item`], intent }
 }
 
-function exploreProblems(e: Partial<AuthoredExplore> | undefined): string[] {
+/** What is wrong with an explore item, if anything. */
+export function checkExplore(e: Partial<AuthoredExplore> | undefined): string[] {
   if (!e || typeof e !== 'object') return ['no explore item']
   const out: string[] = []
   if (!text(e.opening)) out.push('no opening line')
@@ -162,7 +163,8 @@ function questionProblems(q: CheckpointQuestion, i: number): string[] {
   return []
 }
 
-function practiceCheckProblems(p: Partial<AuthoredItem> | undefined, c: Partial<AuthoredCheck> | undefined): string[] {
+/** What is wrong with a practice item and its check, if anything. */
+export function checkPracticeCheck(p: Partial<AuthoredItem> | undefined, c: Partial<AuthoredCheck> | undefined): string[] {
   const out: string[] = []
   if (!p || typeof p !== 'object' || !isValidAction(p.action)) out.push('no valid practice item')
   else out.push(...materialProblems(p.action, undefined, false).problems)
@@ -174,19 +176,24 @@ function practiceCheckProblems(p: Partial<AuthoredItem> | undefined, c: Partial<
   return out
 }
 
+/** What is wrong with the three name-it cuts, given the explore item's id. */
+export function checkName(name: Partial<Record<Outcome, AuthoredCut>> | undefined, exploreId: string): string[] {
+  const ids = new Set<string>([exploreId])
+  for (const o of OUTCOMES) for (const a of name?.[o]?.actions ?? []) if (typeOf(a) === 'createCard') ids.add(String((a as { id?: unknown }).id))
+  return OUTCOMES.flatMap((o) => cutProblems(name?.[o], o, ids))
+}
+
 /** Every check code can make on a station, by the pass that wrote what failed. */
 export function verifyBundleCode(raw: unknown): BundleVerdict {
   const b = (raw ?? {}) as Partial<StationBundle>
-  const explore = exploreProblems(b.explore)
+  const explore = checkExplore(b.explore)
   if (!text(b.version) || !text(b.stepId)) explore.unshift('no version or step')
   if (explore.length) return { ok: false, pass: 'explore', reasons: explore }
 
-  const ids = new Set<string>([String((b.explore!.action as { id?: unknown }).id ?? '')])
-  for (const o of OUTCOMES) for (const a of b.name?.[o]?.actions ?? []) if (typeOf(a) === 'createCard') ids.add(String((a as { id?: unknown }).id))
-  const name = OUTCOMES.flatMap((o) => cutProblems(b.name?.[o], o, ids))
+  const name = checkName(b.name, String((b.explore!.action as { id?: unknown }).id ?? ''))
   if (name.length) return { ok: false, pass: 'name', reasons: name }
 
-  const pc = practiceCheckProblems(b.practice, b.check)
+  const pc = checkPracticeCheck(b.practice, b.check)
   if (pc.length) return { ok: false, pass: 'practice_check', reasons: pc }
   return { ok: true, bundle: b as StationBundle }
 }

@@ -14,7 +14,7 @@
  * Nova Lite ever since and its name says otherwise.
  */
 
-export type LessonJob = 'plan' | 'teach_beat' | 'check' | 'grade' | 'help'
+export type LessonJob = 'plan' | 'teach_beat' | 'check' | 'grade' | 'help' | 'author' | 'judge'
 
 /**
  * Claude for the lesson itself (the redesign's model table): Sonnet drafts the
@@ -28,6 +28,10 @@ export const JOB_MODELS: Record<LessonJob, string> = {
   check: 'anthropic.claude-haiku-4-5-20251001-v1:0',
   grade: 'amazon.nova-lite-v1:0',
   help: 'anthropic.claude-haiku-4-5-20251001-v1:0',
+  // Writing a station ahead is judgement about the subject; checking it is a
+  // bounded read against code that already ran.
+  author: 'anthropic.claude-sonnet-4-5-20250929-v1:0',
+  judge: 'anthropic.claude-haiku-4-5-20251001-v1:0',
 }
 
 const ENV_KEYS: Record<LessonJob, string> = {
@@ -36,6 +40,8 @@ const ENV_KEYS: Record<LessonJob, string> = {
   check: 'AWS_LESSON_CHECK_MODEL_ID',
   grade: 'AWS_LESSON_GRADE_MODEL_ID',
   help: 'AWS_LESSON_HELP_MODEL_ID',
+  author: 'AWS_LESSON_AUTHOR_MODEL_ID',
+  judge: 'AWS_LESSON_JUDGE_MODEL_ID',
 }
 
 /** The model a job runs on right now, honouring its own override only. */
@@ -51,7 +57,9 @@ export function modelForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env
  * plan is Sonnet already, and marking has its own path.
  */
 export function fallbackForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env): string | undefined {
-  if (job === 'plan' || job === 'grade') return undefined
+  // Authoring is never urgent: a busy author fails the pass, and the station
+  // runs live -- better than a station written by a weaker model.
+  if (job === 'plan' || job === 'grade' || job === 'author') return undefined
   const fallback = modelForJob('plan', env)
   return fallback === modelForJob(job, env) ? undefined : fallback
 }

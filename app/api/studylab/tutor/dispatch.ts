@@ -1836,7 +1836,7 @@ conflicts with it — specifically:
  * a check turn told to emit `createActivity` "without exception" was being
  * told to contradict its own stage.
  */
-function materialRules(): string {
+export function materialRules(): string {
   return `- Before reaching for a "mermaid" or "concept" card for anything with a
   structure, a flow or a process, check WHICH APPARATUS first: a flow of stages
   is "sequence", the parts of a structure are "label" or "compose", a trend or
