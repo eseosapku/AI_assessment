@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { Loader2 } from 'lucide-react'
-import { PathRail, type PathRailProps } from './PathRail'
+import { LessonTopBar, type LessonTopBarProps } from './LessonTopBar'
 import { OpeningCard } from './OpeningCard'
 import ChatMouthpiece, { type ChatMouthpieceProps } from '../ChatMouthpiece'
 import type { StudyCanvasProps } from '../StudyCanvas'
@@ -35,7 +35,7 @@ export interface LessonStageProps {
   subjectKey: string
   /** What the last turn built, or what the learner was sent to. */
   focus: string[]
-  rail: PathRailProps
+  rail: LessonTopBarProps
   board: StudyCanvasProps
   chat: ChatMouthpieceProps
   /** Continue / Finish lesson: the lesson's way forward. */
@@ -207,8 +207,12 @@ export default function LessonStage({
     <StageContext.Provider value={stage}>
       <div className="ss-lesson h-screen w-full flex flex-col overflow-hidden" style={subjectStyle(subjectKey)}>
         {banner}
+        <LessonTopBar {...rail} busy={rail.busy ?? chat.busy} />
         <div className="flex min-h-0 flex-1">
-          <PathRail {...rail} busy={rail.busy ?? chat.busy} />
+          {/* The chat on the left, as Brilliant has it; the board narrows beside it. */}
+          <TutorDrawer open={open} onClose={() => setOpen(false)}>
+            <ChatMouthpiece {...chat} onClose={() => setOpen(false)} focusInput={open} />
+          </TutorDrawer>
           <div data-tour="lesson-board" data-stage-board className="relative flex-1 min-w-0 h-full">
             {boardOverlay}
             <OpeningCard
@@ -260,9 +264,6 @@ export default function LessonStage({
               />
             )}
           </div>
-          <TutorDrawer open={open} onClose={() => setOpen(false)}>
-            <ChatMouthpiece {...chat} onClose={() => setOpen(false)} focusInput={open} />
-          </TutorDrawer>
         </div>
         {children}
       </div>

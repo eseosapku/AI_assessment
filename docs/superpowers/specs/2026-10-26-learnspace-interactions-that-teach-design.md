@@ -178,6 +178,59 @@ The engine works out where the lit half is, what Earth sees, and whether the lea
 - **C. The rest of the first wave,** two scenes at a time, each one live only after it meets the bar.
 - **D. The vision check in the authoring verify pass.**
 
+### 7. Every kind of idea gets its engine, gaps filled like the figure library
+
+The user (2026-10-26): "we really need to look at all kinds of interactions, all kinds of engines … like how we were doing the image thing, so all gaps are filled … we need to ensure the best quality".
+
+So coverage is run the way the figure library was:
+
+- **Taxonomy.** Every engine type the subjects need (40–60), drawn from:
+  - PhET's full catalogue, by subject;
+  - Brilliant's game types;
+  - Desmos and GeoGebra;
+  - Montessori materials.
+
+  Ideas no simulation serves (history narratives, source work) get the interactions that do serve them: timelines, source comparison, cause-and-consequence chains, card sorts.
+- **Coverage map.** Every curriculum topic in the database is classified, once, by the engine that shows its central idea best (Sonnet on Bedrock, a few dollars for all of them), the way P0 mapped figure concepts. Topics with no fitting engine are the gaps.
+- **Waves.** Engines are built in waves of four to six, one writer agent per engine, each with its contract, property tests, golden screenshots and the eval bar, like figure families. A wave ships only when every engine in it meets the bar.
+- **Report.** The coverage report (topics covered, by subject) is published after each wave, as the figure library's was.
+
+### 8. The lesson screen, rebuilt Brilliant-style (user, 2026-10-26)
+
+**One pace.** "Run ahead" and the pace choice go. Every lesson is step by step.
+- New lessons default to `step`.
+- A stored run at `run` pace is moved to `step` when it loads.
+- The pace radios leave the plan card, and the toggle leaves the screen.
+
+**A top bar replaces the left rail.**
+- ✕ on the left, back to all LearnSpaces.
+- One wide progress bar across the middle, a segment per station:
+  - finished stations are filled, with a tick;
+  - the station being taught fills by its four stages;
+  - later stations are empty.
+- One control opens the steps: a "2 / 5 ▾" button beside the bar (clicking the bar opens it too). It drops down a list of every station, each with:
+  - its status (✓ done, ● now, ○ later);
+  - its stage pips if current;
+  - Go to, or Skip ahead / Test out;
+  - why a locked one can't be skipped.
+- No "You already know / Start here / Later" sections: the ticks already say it.
+- Homework's "Add another page" moves into the dropdown.
+- The bar is keyboard-operable: Escape closes the list and focus returns to the button.
+
+**The chat moves to the left and grows.** It is 440 px wide, the board narrows beside it, and on a phone it stays a sheet. Messages before the latest exchange fade, Brilliant-style:
+- they drop to 70% opacity, which still passes 4.5:1, and lose their fill;
+- the scroll area fades out at its top edge;
+- the tutor's newest reply is lit in the subject colour.
+
+**The planning phase, simplified.** A calm, centred opening with one obvious action:
+- the subject chip;
+- the lesson title, large;
+- "5 steps · about 20 minutes";
+- the stations as a clean numbered path of titles (no goals, no section labels; a measured weak step keeps its "You scored 40%" note);
+- the tutor's question, if it has one, as a single line with an answer box beneath it;
+- one big **Start** button;
+- a quiet "Change the plan" link that opens "Shorter", "Deeper", "I know the basics" and a box to write in.
+
 ## Non-goals
 
 - Hand-authoring lessons. The tutor still writes every lesson; scenes give it better things to write with.
@@ -190,8 +243,13 @@ The engine works out where the lit half is, what Earth sees, and whether the lea
 - Scenes draw their own SVG, so the picture catalogue stops being the weak point.
 - The 90% bar and the dimensions follow Brilliant's published practice.
 
-## For the user to decide
+## Decided (user, 2026-10-26: "do what you recommend even if it costs a bit")
 
-1. The order of the first scenes. I proposed orbit, particles, circuit, forces, light, food web, number line, coordinate plane, atom, then body flow.
-2. Kenney skins (Phase 4, Task 9): cut them, or keep them for maths counters only?
-3. A vision model (Claude on Bedrock) in the authoring check, at about a cent an item: yes?
+1. **Scene order:** as proposed — orbit, particles, circuit, forces, light, food web, number line, coordinate plane, atom, body flow — then the waves the coverage map calls for.
+2. **Kenney skins:** cut. Phase 4 Task 9 is dropped, because engines draw their own visuals.
+3. **The vision check** runs on every authored item.
+4. **Order of work:**
+   - the lesson-screen rebuild (section 8) first;
+   - then the meaning gates (A);
+   - then the taxonomy and coverage map;
+   - then the scene waves.

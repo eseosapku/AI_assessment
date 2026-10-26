@@ -103,12 +103,12 @@ describe('applyAction', () => {
     expect(callGemma).toHaveBeenCalledOnce()
   })
 
-  it('changes pace without calling a model', async () => {
+  it('keeps a lesson step by step when a stale page asks for run-ahead, without calling a model', async () => {
     const result = await applyAction({
       run: lockedRun(), policy: GAP, userId: 'u1',
       action: { type: 'set_pace', pace: 'run' },
     })
-    expect(result.run.pace).toBe('run')
+    expect(result.run.pace).toBe('step')
     expect(callGemma).not.toHaveBeenCalled()
   })
 
@@ -1840,8 +1840,8 @@ describe('"step by step" never closes a step on its first turn', () => {
     expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(true)
   })
 
-  it('leaves "run ahead" alone — a whole step in one turn is what it is for', async () => {
-    expect(await startAt('run')).toBe(true)
+  it('teaches one card at a time even when a stale page accepts at run-ahead pace', async () => {
+    expect(await startAt('run')).toBe(false)
   })
 })
 
@@ -2431,12 +2431,11 @@ describe('a station turn follows its stage', () => {
     expect(result.run.openCheck?.stepId).toBe('a')
   })
 
-  it('builds the whole station in one turn at run pace, and lets it close', async () => {
+  it('never builds a whole station in one turn now, even when accepted at run-ahead pace', async () => {
     vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE, CONCEPT, CHECKPOINT]))
     const result = await accept('run')
-    expect(prompt()).toContain('WHOLE STATION')
-    expect(result.run.openCheck?.stepId).toBe('a')
-    expect(result.suggestions).toEqual([])
+    expect(prompt()).not.toContain('WHOLE STATION')
+    expect(result.run.pace).toBe('step')
   })
 
   it('offers no chips while the student is handling or practising -- a chip that asks why gives the idea away', async () => {

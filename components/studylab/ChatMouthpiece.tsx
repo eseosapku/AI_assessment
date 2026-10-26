@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { chatEmphasis } from '@/lib/studylab/chatFade'
 import Latex from 'react-latex-next'
 import { PlanCard } from './PlanCard'
 import { QuestionPicker } from './QuestionPicker'
@@ -111,6 +112,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const fade = chatEmphasis(messages)
   const fileRef = useRef<HTMLInputElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -195,11 +197,17 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      {/* Brilliant-style: the scroll fades out at its top edge, what came
+          before the latest exchange fades, and the newest reply is lit. */}
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto px-4 py-4 space-y-4"
+        style={{ maskImage: 'linear-gradient(to bottom, transparent 0, #000 40px)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0, #000 40px)' }}
+      >
         {messages.length === 0 && !busy && (
           <p className="text-sm text-ss-slate text-center mt-8">Starting your session…</p>
         )}
-        {messages.map((m, i) =>
+        {messages.map((m, i) => (<Fade key={i} older={i < fade.before}>{
           // A turn that said nothing and built nothing is not a turn. One left
           // a bare avatar floating in the transcript with no bubble beside it,
           // which reads as the tutor having failed rather than as nothing
@@ -277,7 +285,10 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               ) : (
                 <div className="max-w-[85%] space-y-1.5">
                   {m.content && (
-                    <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap">
+                    <div
+                      className={`rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap ${i === fade.lit ? 'text-ss-ink' : 'bg-ss-chip dark:bg-white/5'}`}
+                      style={i === fade.lit ? { backgroundColor: 'color-mix(in srgb, var(--subject) 13%, var(--ss-panel))', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--subject) 30%, transparent)' } : undefined}
+                    >
                       <SafeLatex>{m.content}</SafeLatex>
                     </div>
                   )}
@@ -325,7 +336,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               </div>
             </div>
           )
-        )}
+        }</Fade>))}
 
         {busy && (
           <div className="flex gap-2.5">
@@ -467,5 +478,18 @@ function MuteToggle() {
     >
       {muted ? <VolumeX className="h-4.5 w-4.5" /> : <Volume2 className="h-4.5 w-4.5" />}
     </button>
+  )
+}
+
+/**
+ * A message from before the latest exchange: still readable (70% keeps the
+ * text above 4.5:1), without its fill, so the latest exchange stands out.
+ */
+function Fade({ older, children }: { older: boolean; children: ReactNode }) {
+  if (children === null || children === undefined || children === false) return null
+  return (
+    <div className={`transition-opacity duration-300 motion-reduce:transition-none ${older ? 'opacity-70 [&_.bg-ss-chip]:bg-transparent' : ''}`}>
+      {children}
+    </div>
   )
 }

@@ -12,8 +12,8 @@ import type { CheckpointQuestion, TutorAction } from './types'
  *
  * It is a SCRIPT OF ACTS rather than a lesson that reacts. Each act names the
  * one thing the learner should do next, and the tutor's answer to it is already
- * written. That is what lets the demo cover the whole surface — the plan, the
- * pace, chips, asking, rewriting a card, checks, jumping, your own blocks —
+ * written. That is what lets the demo cover the whole surface — the plan,
+ * chips, asking, rewriting a card, checks, jumping, your own blocks —
  * in a fixed order, instead of hoping the learner stumbles into each one.
  */
 
@@ -56,7 +56,6 @@ export type DemoTrigger =
   | 'ask'
   | 'card-menu'
   | 'answer-check'
-  | 'set-pace'
   | 'jump'
   | 'add-block'
 
@@ -276,26 +275,17 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     },
   },
 
-  // ── Step 2: the same lesson at the other pace ────────────────────────────
-  {
-    expect: 'set-pace',
-    step: 2,
-    cue: {
-      action: 'Switch the pace to “Run ahead”',
-      why: '“Step by step” adds one card and waits, which is what you have had so far. “Run ahead” builds a whole step in one turn and finishes with the check. Switch whenever a step is covering something you already know.',
-      anchor: 'lesson-pace',
-    },
-  },
+  // ── Step 2: why the sky is blue ─────────────────────────────────────────
   {
     expect: 'continue',
     step: 2,
     opensCheck: 'demo-cp-2',
     cue: {
-      action: 'Press Continue at the bottom and watch the difference',
-      why: 'At this pace the whole step arrives at once — three cards and its check, instead of one card and a wait.',
+      action: 'Press Continue at the bottom',
+      why: 'The next step arrives: why the sky is blue, and the check that closes it.',
       anchor: 'lesson-continue',
     },
-    say: 'Whole step this time: why the sky is blue, and the check.',
+    say: 'Why the sky is blue, and the check.',
     actions: [
       {
         type: 'createCard',
@@ -337,7 +327,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     completesStep: true,
     cue: {
       action: 'Answer this one too',
-      why: 'Both paces end the same way. The check is what tells you the step actually landed.',
+      why: 'Every step ends this way. The check is what tells you the step actually landed.',
       anchor: 'lesson-board',
     },
   },

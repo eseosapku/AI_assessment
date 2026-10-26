@@ -364,23 +364,6 @@ export default function DemoWorkspace() {
           if (!moved.ok) return
           perform('jump', moved.run)
         },
-        onSetPace: (pace) => {
-          const paced = setPace(run, pace)
-          if (!paced.ok) return
-          setRun(paced.run)
-          setMessages((prev) => [
-            ...prev,
-            {
-              role: 'assistant',
-              kind: 'status',
-              content:
-                pace === 'run'
-                  ? 'Switched to whole steps — the next Continue builds the entire step and its check.'
-                  : 'Switched to one card at a time.',
-            },
-          ])
-          perform('set-pace', paced.run)
-        },
       }}
       board={{
         nodes: canvas.nodes,

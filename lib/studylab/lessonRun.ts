@@ -412,8 +412,18 @@ export function jumpTo(run: LessonRun, stepId: string, policy: LessonPolicy): Tr
   return ok(!leaving && run.stage ? { ...landed, stage: run.stage } : landed)
 }
 
-export function setPace(run: LessonRun, pace: Pace): Transition {
-  return ok({ ...run, pace })
+/**
+ * Every lesson is step by step. Run-ahead (a whole station in one turn) was
+ * taken out (user, 2026-10-26): whatever pace is asked for, the lesson stays
+ * at one card at a time.
+ */
+export function setPace(run: LessonRun, _pace: Pace): Transition {
+  return ok(stepPaced(run))
+}
+
+/** A run as it is taught now: one stored at run-ahead pace is moved to step by step. */
+export function stepPaced(run: LessonRun): LessonRun {
+  return run.pace === 'step' ? run : { ...run, pace: 'step' }
 }
 
 export function stop(run: LessonRun): Transition {

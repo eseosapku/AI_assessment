@@ -5,7 +5,7 @@ import { jsonbParam } from '@/lib/pg-json'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import { runFromLegacy } from '@/lib/studylab/lessonRunMigrate'
-import { proposePlan, type LessonRun } from '@/lib/studylab/lessonRun'
+import { proposePlan, stepPaced, type LessonRun } from '@/lib/studylab/lessonRun'
 import { keepMeasuredSteps } from '@/lib/studylab/stepLocks'
 import { applyAction, draftPlan } from './dispatch'
 import { isTransientModelError } from '@/lib/studylab/tutorErrors'
@@ -69,12 +69,14 @@ export async function POST(request: NextRequest) {
     }
 
     const policy = policyFor(space.origin)
-    let run: LessonRun =
+    // Every lesson is step by step; a run stored at run-ahead pace is moved over as it is read.
+    let run: LessonRun = stepPaced(
       space.lesson_run ??
-      runFromLegacy(
-        { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
-        policy,
-      )
+        runFromLegacy(
+          { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
+          policy,
+        ),
+    )
     // The space owns its mode, not the request. Reading it off the row rather
     // than the body means a lesson cannot be switched mid-way by anything a
     // client sends, and a run stored before this column existed reads as the

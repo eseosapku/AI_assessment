@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { Inky } from '../inky/Inky'
-import { PlanCard } from '../PlanCard'
+import { PlanOpening } from './PlanOpening'
 import { QuestionPicker } from '../QuestionPicker'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import type { ChatMessage } from '@/lib/studylab/types'
@@ -10,7 +10,7 @@ import type { Pace } from '@/lib/studylab/lessonPolicy'
 
 /**
  * The lesson's opening, on the board: the path it proposes, the questions the
- * tutor wants answered, how to pace it, and the way to start.
+ * tutor wants answered, and the way to start.
  *
  * It used to be a card in the chat column. The chat is a drawer now, and the
  * moment a lesson begins is the one moment everything else on the screen is
@@ -55,8 +55,19 @@ export function OpeningCard({
         initial={rise.initial}
         animate={rise.animate}
         transition={rise.transition}
-        className="pointer-events-auto h-max w-full max-w-[560px] overflow-hidden rounded-3xl border border-ss-line bg-ss-panel shadow-[0_28px_60px_-28px_rgba(20,60,90,0.5)]"
+        className="pointer-events-auto h-max w-full max-w-[560px] overflow-hidden rounded-[28px] border border-ss-line bg-ss-panel shadow-[0_28px_60px_-28px_rgba(20,60,90,0.5)]"
       >
+        {plan ? (
+          <PlanOpening
+            title={title}
+            subject={subject}
+            plan={plan}
+            busy={busy}
+            onStart={() => onAcceptPlan?.('step')}
+            onAnswer={(answer) => onAnswerPlan?.(answer)}
+          />
+        ) : (
+        <>
         <header
           className="flex items-start gap-4 px-6 pb-5 pt-6"
           style={{ backgroundColor: 'color-mix(in srgb, var(--subject) 12%, var(--ss-panel))' }}
@@ -75,22 +86,11 @@ export function OpeningCard({
           <Inky size={64} mood="happy" className="shrink-0" title="Inky, ready to start" />
         </header>
         <div className="px-6 py-5">
-          {plan ? (
-            <PlanCard
-              plan={plan}
-              busy={busy}
-              defaultPace={defaultPace}
-              onAccept={(pace) => onAcceptPlan?.(pace)}
-              onAnswer={(answer) => onAnswerPlan?.(answer)}
-              variant="stage"
-            />
-          ) : (
-            <>
-              {sheetMsg?.content && <p className="mb-3 text-[14px] font-medium leading-relaxed text-ss-ink">{sheetMsg.content}</p>}
-              <QuestionPicker questions={sheet!.questions} live busy={busy} onStart={(ids) => onStartHomework?.(ids)} />
-            </>
-          )}
+          {sheetMsg?.content && <p className="mb-3 text-[14px] font-medium leading-relaxed text-ss-ink">{sheetMsg.content}</p>}
+          <QuestionPicker questions={sheet!.questions} live busy={busy} onStart={(ids) => onStartHomework?.(ids)} />
         </div>
+        </>
+        )}
       </motion.section>
     </div>
   )

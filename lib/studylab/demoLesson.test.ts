@@ -34,7 +34,7 @@ describe('the demo script', () => {
     const used = new Set(DEMO_ACTS.map((a) => a.expect))
     const expected: DemoTrigger[] = [
       'accept-plan', 'continue', 'chip', 'ask', 'card-menu',
-      'answer-check', 'set-pace', 'jump', 'add-block',
+      'answer-check', 'jump', 'add-block',
     ]
     for (const trigger of expected) {
       expect(used.has(trigger), `nothing in the demo exercises "${trigger}"`).toBe(true)

@@ -845,6 +845,10 @@ function FlowInner({
             className="!rounded-xl !border !border-ss-line !bg-ss-panel"
           />
         )}
+        {/* While the plan is still being agreed the board is empty and the
+            opening card is the one thing to look at: no tools around it. */}
+        {run?.phase !== 'planning' && (
+        <>
         <Panel position="top-right">
           <PaletteToolbar onAdd={addAtCenter} />
         </Panel>
@@ -931,6 +935,8 @@ function FlowInner({
           )}
           </div>
         </Panel>
+        </>
+        )}
       </ReactFlow>
 
       {cardMenu && (

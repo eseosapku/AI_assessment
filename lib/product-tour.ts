@@ -180,18 +180,10 @@ export const TOURS: Record<TourId, Tour> = {
       },
       {
         anchor: 'lesson-plan',
-        eyebrow: 'Your path',
-        title: 'Click any station to go straight to it',
+        eyebrow: 'Your steps',
+        title: 'The bar fills as you go; open the list to move',
         body:
-          'Ticked stations are done, and Inky sits on the one you are on. Clicking a station you have not reached starts teaching it; clicking one you have finished brings its cards back without re-explaining them.',
-      },
-      {
-        anchor: 'lesson-pace',
-        eyebrow: 'How fast',
-        title: 'Change the pace whenever it stops fitting',
-        body:
-          'Step by step adds one card and waits for you. Run ahead builds a whole step at once and finishes with a quick check. Switch when a step covers something you already know, and switch back when it gets hard.',
-        action: 'Takes effect on the next turn.',
+          'Each segment is a step, ticked when it is done. Open the list to go back to a step you finished, or skip ahead to one you have not reached.',
       },
     ],
   },

@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { policyFor } from './lessonPolicy'
 import {
   emptyRun, proposePlan, acceptPlan, editPlan, nextBeat, beginCheck,
-  passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stop, finish, measuredBefore,
+  passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stepPaced, stop, finish, measuredBefore,
   stageOf, type LessonRun, type LessonStep,
 } from './lessonRun'
 
@@ -39,13 +39,10 @@ describe('emptyRun', () => {
     expect(run.currentStep).toBe(-1)
   })
 
-  it('takes its starting pace from the policy', () => {
-    // Remediation and homework open step-by-step; browsing a topic opens
-    // running. Homework moved: at "run ahead" a step is built in one turn, and
-    // a homework step is a question the learner has to hand in.
+  it('opens every kind of lesson step by step -- run-ahead is gone', () => {
     expect(emptyRun(GAP).pace).toBe('step')
     expect(emptyRun(policyFor('homework')).pace).toBe('step')
-    expect(emptyRun(policyFor('scratch')).pace).toBe('run')
+    expect(emptyRun(policyFor('scratch')).pace).toBe('step')
   })
 })
 
@@ -227,10 +224,18 @@ describe('invariants', () => {
 })
 
 describe('setPace and stop', () => {
-  it('changes pace without disturbing anything else', () => {
+  it('keeps every lesson step by step: there is one pace now, whatever is asked for', () => {
     const run = unwrap(setPace(teaching(GAP), 'run'))
-    expect(run.pace).toBe('run')
+    expect(run.pace).toBe('step')
     expect(run.currentStep).toBe(0)
+  })
+
+  it('moves a lesson stored at run-ahead pace to step by step when it is read', () => {
+    const stored = { ...teaching(GAP), pace: 'run' as const }
+    expect(stepPaced(stored).pace).toBe('step')
+    expect(stepPaced(stored).currentStep).toBe(stored.currentStep)
+    const already = teaching(GAP)
+    expect(stepPaced(already)).toBe(already)
   })
 
   it('marks the run as awaiting the learner', () => {
