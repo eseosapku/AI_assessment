@@ -85,6 +85,15 @@ export function initialCheckFlow(
   return { mode, phase: final ? 'wrong' : 'retry', attempts }
 }
 
+/**
+ * What a card's own saved work means when it is reloaded: an answer ready to
+ * check, but only if nothing has been marked yet. A card restored mid-retry
+ * keeps its retry -- its old work is the answer that was missed, not a new one.
+ */
+export function restoreEvent(state: CheckFlowState, hasWork: boolean): CheckEvent | null {
+  return state.phase === 'idle' && hasWork ? { type: 'answer', present: true } : null
+}
+
 /** Hard checkpoints and test-outs are tests; everything else is learning. */
 export function modeForGate(
   gate: 'hard' | 'soft' | undefined,

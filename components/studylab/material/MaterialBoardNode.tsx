@@ -9,6 +9,7 @@ import type { BarAction } from '@/lib/studylab/checkBarModel'
 import { CanvasContext, CardFrame } from '@/components/studylab/canvasShared'
 import { MaterialRenderer } from './MaterialRenderer'
 import { useCheckFlow } from '../check/useCheckFlow'
+import { restoreEvent } from '@/lib/studylab/checkFlow'
 
 export function MaterialBoardNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
@@ -29,7 +30,8 @@ export function MaterialBoardNode({ id, data }: NodeProps) {
     () => {},
   )
   useEffect(() => {
-    if (materialState.status === 'in_progress') dispatch({ type: 'answer', present: true })
+    const restored = restoreEvent(flow, materialState.status === 'in_progress')
+    if (restored) dispatch(restored)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

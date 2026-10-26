@@ -9,6 +9,7 @@ import { CanvasContext } from '@/components/studylab/canvasShared'
 import type { MaterialWorkAdapter } from './adapters'
 import { MaterialRenderer } from './MaterialRenderer'
 import { useCheckFlow } from '../check/useCheckFlow'
+import { restoreEvent } from '@/lib/studylab/checkFlow'
 import type { BarAction } from '@/lib/studylab/checkBarModel'
 
 
@@ -87,7 +88,8 @@ export function MaterialActivity({
   )
   // Work already on the material is an answer that can be checked.
   useEffect(() => {
-    if (activity.status === 'in_progress') dispatch({ type: 'answer', present: true })
+    const restored = restoreEvent(flow, activity.status === 'in_progress')
+    if (restored) dispatch(restored)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

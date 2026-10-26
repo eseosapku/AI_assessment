@@ -8,7 +8,7 @@ import type { StudyNodeData } from '@/lib/studylab/types'
 import { CardFrame, SafeLatex, CanvasContext } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
 import { localVerdict, isAttemptable, type PracticeCell, type PracticeState } from '@/lib/studylab/practice'
-import { MAX_LEARN_TRIES, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { MAX_LEARN_TRIES, restoreEvent, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from './check/CheckBar'
@@ -73,7 +73,8 @@ export function PracticeNode({ id, data }: NodeProps) {
   // disabled for good. On mount only: a request in flight belongs to this one.
   useEffect(() => {
     if (cell.state === 'marking') patch({ state: 'unattempted' })
-    if (isAttemptable(attempt)) dispatch({ type: 'answer', present: true })
+    const restored = restoreEvent(state, isAttemptable(attempt))
+    if (restored) dispatch(restored)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

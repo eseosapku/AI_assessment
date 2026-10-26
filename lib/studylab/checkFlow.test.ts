@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  checkFlow, initialCheckFlow, modeForGate, modeForCell, feedbackFor, MAX_LEARN_TRIES,
+  checkFlow, initialCheckFlow, modeForGate, modeForCell, feedbackFor, restoreEvent, MAX_LEARN_TRIES,
   type CheckFlowState, type CheckEvent,
 } from './checkFlow'
 import type { CheckpointQuestion } from './types'
@@ -130,5 +130,15 @@ describe('feedback for an answer', () => {
   it('says nothing for formats without written feedback', () => {
     const short: CheckpointQuestion = { id: 's', format: 'short', prompt: 'Why?' }
     expect(feedbackFor(short, 'because', 'incorrect')).toBeUndefined()
+  })
+
+  it('treats work found on a reloaded card as an answer only if nothing was marked yet', () => {
+    // A card restored mid-retry must stay in its retry -- amber, the hint
+    // showing -- rather than be armed for a fresh Check by its own old work.
+    expect(restoreEvent(initialCheckFlow('learn'), true)).toEqual({ type: 'answer', present: true })
+    expect(restoreEvent(initialCheckFlow('learn'), false)).toBeNull()
+    expect(restoreEvent(initialCheckFlow('learn', { attempts: 1 }), true)).toBeNull()
+    expect(restoreEvent(initialCheckFlow('learn', { attempts: 2 }), true)).toBeNull()
+    expect(restoreEvent(initialCheckFlow('learn', { settled: 'correct' }), true)).toBeNull()
   })
 })
