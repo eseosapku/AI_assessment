@@ -93,8 +93,8 @@ const circulation: Diagram = {
       flow: [[300, 362], [300, 402], [40, 402], [40, 362]],
     },
     'vena-cava': {
-      draw: [{ d: 'M 40 362 V 196 H 92', stroke: BLUE, sw: VESSEL }],
-      reach: ['M 40 362 V 196 H 92'],
+      draw: [{ d: 'M 40 362 V 196 H 88', stroke: BLUE, sw: VESSEL }],
+      reach: ['M 40 362 V 196 H 88'],
       label: { x: 50, y: 338, anchor: 'start', lines: ['vena cava'] },
       badge: [40, 262],
       flow: [[40, 362], [40, 196], [88, 196]],
@@ -196,27 +196,31 @@ const breathing: Diagram = {
     'bronchus': {
       draw: tube(BRONCHI, 14, AIR, AIR_EDGE),
       reach: [BRONCHI],
-      label: { x: 108, y: 180, anchor: 'end', lines: ['bronchus'] },
-      badge: [143, 187],
+      // Just above the left bronchus, where it leaves the trachea.
+      label: { x: 126, y: 181, anchor: 'end', lines: ['bronchus'] },
+      badge: [146, 184],
       flow: [[170, 166], [116, 210]],
     },
     'bronchiole': {
       draw: tube(BRONCHIOLES, 6, AIR, AIR_EDGE),
       reach: [BRONCHIOLES],
-      label: { x: 330, y: 222, anchor: 'end', lines: ['bronchiole'] },
-      badge: [96, 228],
+      // Against the first small branch in the left lung.
+      label: { x: 90, y: 232, anchor: 'end', lines: ['bronchiole'] },
+      badge: [121, 236],
       flow: [[116, 210], [86, 246], [68, 270]],
     },
     'alveolus': {
       draw: [{ d: ALVEOLI.join(' '), fill: ALV, stroke: ALV_EDGE, sw: 1.5 }],
-      label: { x: 30, y: 328, anchor: 'start', lines: ['alveolus'] },
-      badge: [42, 296],
+      // Between two clusters in the right lung, clear of the diaphragm.
+      label: { x: 272, y: 308, anchor: 'start', lines: ['alveolus'] },
+      // By the left cluster, where the flow starts or ends.
+      badge: [34, 304],
       flow: [[68, 270], [64, 280]],
     },
     'diaphragm': {
       draw: [{ d: 'M 20 364 Q 170 286 320 364', stroke: '#B4533F', sw: 8, round: true }],
       reach: ['M 20 364 Q 170 286 320 364'],
-      label: { x: 150, y: 358, anchor: 'middle', lines: ['diaphragm'] },
+      label: { x: 150, y: 350, anchor: 'middle', lines: ['diaphragm'] },
       badge: [276, 345],
     },
   },
@@ -274,15 +278,15 @@ const digestion: Diagram = {
     'rectum': {
       draw: tube('M 180 410 V 436', 18, '#D9AE7C', COLON_EDGE),
       reach: ['M 180 410 V 436'],
-      label: { x: 198, y: 430, anchor: 'start', lines: ['rectum'] },
-      badge: [158, 422],
+      label: { x: 164, y: 428, anchor: 'end', lines: ['rectum'] },
+      badge: [180, 423],
       flow: [[180, 410], [180, 436]],
     },
     'anus': {
       draw: [{ d: rect(168, 438, 24, 10, 5), fill: COLON_EDGE, stroke: COLON_EDGE, sw: 1 }],
       reach: ['M 180 438 V 450'],
       label: { x: 198, y: 454, anchor: 'start', lines: ['anus'] },
-      badge: [158, 446],
+      badge: [156, 448],
       flow: [[180, 436], [180, 448]],
     },
     'liver': {

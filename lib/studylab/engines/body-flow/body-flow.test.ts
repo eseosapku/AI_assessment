@@ -191,7 +191,131 @@ describe('every config the engine accepts', () => {
   })
 })
 
+type P = [number, number]
+/** Points along an SVG path (absolute M L H V Q C S A Z, all the drawings use), about every two units, by subpath. */
+function sample(d: string): P[][] {
+  const tokens = d.match(/[MLHVQCSAZ]|-?\d*\.?\d+/g) ?? []
+  const subs: P[][] = []
+  let cur: P = [0, 0]
+  let start: P = [0, 0]
+  let lastCtrl: P | null = null
+  let i = 0
+  const num = () => Number(tokens[i++])
+  const steps = (a: P, b: P) => Math.max(2, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 2))
+  const push = (pts: P[]) => subs[subs.length - 1].push(...pts)
+  const line = (to: P) => {
+    const n = steps(cur, to)
+    push(Array.from({ length: n }, (_, k) => [cur[0] + ((to[0] - cur[0]) * (k + 1)) / n, cur[1] + ((to[1] - cur[1]) * (k + 1)) / n] as P))
+    cur = to
+  }
+  const bezier = (ctrl: P[], to: P) => {
+    const all = [cur, ...ctrl, to]
+    const n = 24
+    for (let k = 1; k <= n; k++) {
+      let pts = all
+      const t = k / n
+      while (pts.length > 1) pts = pts.slice(1).map((p, j) => [pts[j][0] + (p[0] - pts[j][0]) * t, pts[j][1] + (p[1] - pts[j][1]) * t] as P)
+      push([pts[0]])
+    }
+    lastCtrl = ctrl[ctrl.length - 1]
+    cur = to
+  }
+  // An elliptical arc, by its centre (SVG 1.1, F.6.5); the drawings use circular ones.
+  const arc = (r: number, large: number, sweep: number, to: P) => {
+    const [x1, y1] = cur
+    const [x2, y2] = to
+    const dx = (x1 - x2) / 2
+    const dy = (y1 - y2) / 2
+    const rr = Math.max(r, Math.hypot(dx, dy))
+    const f = Math.sqrt(Math.max(0, (rr * rr - dx * dx - dy * dy) / (dx * dx + dy * dy))) * (large === sweep ? -1 : 1)
+    const cx = f * dy + (x1 + x2) / 2
+    const cy = -f * dx + (y1 + y2) / 2
+    const a1 = Math.atan2(y1 - cy, x1 - cx)
+    let da = Math.atan2(y2 - cy, x2 - cx) - a1
+    if (sweep && da < 0) da += 2 * Math.PI
+    if (!sweep && da > 0) da -= 2 * Math.PI
+    const n = 24
+    push(Array.from({ length: n }, (_, k) => [cx + rr * Math.cos(a1 + (da * (k + 1)) / n), cy + rr * Math.sin(a1 + (da * (k + 1)) / n)] as P))
+    cur = to
+  }
+  while (i < tokens.length) {
+    const c = tokens[i++]
+    if (c === 'M') { cur = [num(), num()]; start = cur; subs.push([cur]); lastCtrl = null }
+    else if (c === 'L') { line([num(), num()]); lastCtrl = null }
+    else if (c === 'H') { line([num(), cur[1]]); lastCtrl = null }
+    else if (c === 'V') { line([cur[0], num()]); lastCtrl = null }
+    else if (c === 'Q') { const q: P = [num(), num()]; bezier([q], [num(), num()]) }
+    else if (c === 'C') { const a: P = [num(), num()]; const b: P = [num(), num()]; bezier([a, b], [num(), num()]) }
+    else if (c === 'S') { const a: P = lastCtrl ? [2 * cur[0] - lastCtrl[0], 2 * cur[1] - lastCtrl[1]] : cur; const b: P = [num(), num()]; bezier([a, b], [num(), num()]) }
+    else if (c === 'A') { const r = num(); num(); num(); const large = num(); const sweep = num(); arc(r, large, sweep, [num(), num()]); lastCtrl = null }
+    else if (c === 'Z') { line(start); lastCtrl = null }
+    else throw new Error(`unread path command ${c} in ${d}`)
+  }
+  return subs
+}
+
+const inside = (p: P, poly: P[]) => {
+  let hit = false
+  for (let a = 0, b = poly.length - 1; a < poly.length; b = a++) {
+    const [xa, ya] = poly[a]
+    const [xb, yb] = poly[b]
+    if (ya > p[1] !== yb > p[1] && p[0] < ((xb - xa) * (p[1] - ya)) / (yb - ya) + xa) hit = !hit
+  }
+  return hit
+}
+
+/** The box a label's text takes, at about 7.4 units a letter. */
+function textBox(l: { x: number; y: number; anchor?: string; lines: string[] }) {
+  const w = Math.max(...l.lines.map((s) => s.length)) * 7.4
+  const x = l.anchor === 'start' ? l.x : l.anchor === 'end' ? l.x - w : l.x - w / 2
+  return { x, y: l.y - 11, w, h: (l.lines.length - 1) * 15 + 14 }
+}
+
+/** How far a label's text is from a part as drawn: its stroke's edge, or 0 when the text sits on it. */
+function gap(box: ReturnType<typeof textBox>, part: { draw: { d: string; fill?: string; sw?: number }[] }): number {
+  const centre: P = [box.x + box.w / 2, box.y + box.h / 2]
+  let best = Infinity
+  for (const prim of part.draw) {
+    const subs = sample(prim.d)
+    if (prim.fill && prim.fill !== 'none' && subs.some((s) => inside(centre, s))) return 0
+    for (const s of subs) {
+      for (const [px, py] of s) {
+        const dx = Math.max(box.x - px, 0, px - (box.x + box.w))
+        const dy = Math.max(box.y - py, 0, py - (box.y + box.h))
+        best = Math.min(best, Math.max(0, Math.hypot(dx, dy) - (prim.sw ?? 0) / 2))
+      }
+    }
+  }
+  return best
+}
+
 describe('the drawings', () => {
+  it('reads its own shapes the way a browser draws them', () => {
+    // A rounded square: every sampled point on its edge, none off it.
+    const pts = sample('M 20 10 H 40 A 10 10 0 0 1 50 20 V 40 A 10 10 0 0 1 40 50 H 20 A 10 10 0 0 1 10 40 V 20 A 10 10 0 0 1 20 10 Z').flat()
+    expect(Math.min(...pts.map((p) => p[0]))).toBeCloseTo(10, 0)
+    expect(Math.max(...pts.map((p) => p[1]))).toBeCloseTo(50, 0)
+    expect(inside([30, 30], sample('M 10 10 H 50 V 50 H 10 Z')[0])).toBe(true)
+    expect(gap({ x: 60, y: 25, w: 10, h: 10 }, { draw: [{ d: 'M 10 10 H 50 V 50 H 10 Z', sw: 4 }] })).toBeCloseTo(8, 5)
+  })
+
+  it('puts every label next to its own part, nearer it than any other part, in every system', () => {
+    const wrong: string[] = []
+    for (const system of SYSTEM_IDS) {
+      const art = DIAGRAMS[system]
+      for (const id of art.order) {
+        const box = textBox(art.parts[id].label)
+        const own = gap(box, art.parts[id])
+        if (own > 8) wrong.push(`${system}: the ${nameOf(system, id)} label is ${own.toFixed(1)} from its part`)
+        for (const other of art.order) {
+          const theirs = other === id ? Infinity : gap(box, art.parts[other])
+          if (own >= theirs) wrong.push(`${system}: the ${nameOf(system, id)} label is ${own.toFixed(1)} from its part but ${theirs.toFixed(1)} from the ${nameOf(system, other)}`)
+        }
+      }
+    }
+    expect(wrong).toEqual([])
+  })
+
   it('draws and labels every part by its own name, inside the picture, with no two labels on top of each other', () => {
     for (const system of SYSTEM_IDS) {
       const art = DIAGRAMS[system]
