@@ -127,17 +127,23 @@ const PRACTICE_CHECK_ASK = [
   'STAGE: PRACTICE -- ONE near-twin of the explore: the same kind of thing with one thing changed, not harder.',
   'A "practice" card with "answer", "rubric" and the full "steps", or a material variant.',
   '',
-  'STAGE: CHECK -- one or two questions on this station, gate "hard". Every MCQ gives "optionFeedback": one line',
-  'for EACH option, written for a student who picked it -- why it is right, or what it missed. For each wrong',
-  'option, first work out the exact slip that produces it, with the numbers (which part was changed, by what),',
-  'and write its feedback from that: feedback naming the wrong slip is worse than none. A "short"',
-  'question carries a "rubric" that accepts the idea in any words.',
+  'STAGE: CHECK -- one or two questions on this station, gate "hard". Write each multiple-choice question from its',
+  'slips: decide the mistake first, then work out the option that mistake gives, then write the feedback for it:',
+  '  { "format": "mcq", "prompt": "...", "right": { "option": "...", "feedback": "<why it is right>" },',
+  '    "wrong": [ { "slip": "<the mistake, in words>", "option": "<what that mistake gives, worked out from it>",',
+  '                 "feedback": "<for a student who made that slip>" } ] }   -- two or three wrong options.',
+  'A "short" question carries a "rubric" that accepts the idea in any words.',
   '',
   'Reply with JSON only: { "practice": { "say": "...", "action": {...} },',
   '  "check": { "say": "<at most eight words>", "questions": [...] } }',
   UNARGUABLE,
   COMPACT,
 ].join('\n')
+
+/** A refusal that means the material tried fits no apparatus: the next try is a predict item. */
+const SCHEMA_REFUSED = /apparatus's schema|which the board cannot draw|not something the board can build/
+const PREDICT_NOW =
+  'This time, open with a "Predict: ..." practice card -- no material: the one tried last time fits no apparatus.'
 
 /** Said to a pass written again: what was refused last time. */
 function lastTime(fix: string | undefined): string {
@@ -147,7 +153,10 @@ function lastTime(fix: string | undefined): string {
 function prompt(pass: Exclude<Pass, 'verify'>, ctx: PassContext): string {
   const head = [stationSystemPrompt(), '', context(ctx), ...(ctx.fix ? ['', lastTime(ctx.fix)] : [])]
   if (pass === 'explore') {
-    return [...head, '', stagePrompt('explore', { missed: [], pace: 'step' }), '', materialRules(), advertiseVocabulary(), '', EXPLORE_ASK].join('\n')
+    // Told to fit the schema or switch, logic gates went back to a material every
+    // time; after a schema refusal the choice is made for it.
+    const predictNow = ctx.fix && SCHEMA_REFUSED.test(ctx.fix) ? ['', PREDICT_NOW] : []
+    return [...head, '', stagePrompt('explore', { missed: [], pace: 'step' }), '', materialRules(), advertiseVocabulary(), '', EXPLORE_ASK, ...predictNow].join('\n')
   }
   if (pass === 'name') return [...head, '', exploreSummary(ctx), '', NAME_ASK].join('\n')
   return [...head, '', exploreSummary(ctx), '', materialRules(), '', PRACTICE_CHECK_ASK].join('\n')
@@ -244,13 +253,33 @@ async function name(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
   return problems.length ? { ok: false, reason: problems.join('; ') } : { ok: true, partial: { name: cuts as StationBundle['name'] } }
 }
 
+/**
+ * A multiple-choice question written from its slips, as the board takes it:
+ * options and feedback in step, the right one at a place set by the prompt.
+ * Written the other way -- an option first, its slip explained after -- the
+ * feedback misdescribed its own option on fractions and binary, retry after
+ * retry. A question already in the board's shape passes through.
+ */
+function fromSlips(raw: unknown, i: number): unknown {
+  const q = raw as { id?: unknown; prompt?: unknown; right?: { option?: unknown; feedback?: unknown }; wrong?: unknown } | null
+  if (!q || typeof q !== 'object' || !q.right || typeof q.right !== 'object' || !Array.isArray(q.wrong)) return raw
+  const wrong = (q.wrong as { option?: unknown; feedback?: unknown }[]).filter((w) => w && typeof w === 'object')
+  const prompt = String(q.prompt ?? '')
+  const at = [...prompt].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % (wrong.length + 1)
+  const options = wrong.map((w) => String(w.option ?? ''))
+  const optionFeedback = wrong.map((w) => String(w.feedback ?? ''))
+  options.splice(at, 0, String(q.right.option ?? ''))
+  optionFeedback.splice(at, 0, String(q.right.feedback ?? ''))
+  return { id: typeof q.id === 'string' && q.id ? q.id : `q${i + 1}`, format: 'mcq', prompt, options, answer: at, optionFeedback }
+}
+
 async function practiceCheck(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
   const got = await ask('practice_check', ctx, opts)
   if (!got) return { ok: false, reason: 'the practice and check pass did not come back as JSON' }
   const p = got.practice as { say?: unknown; action?: unknown } | undefined
   const c = got.check as { say?: unknown; questions?: unknown } | undefined
   const practice = { say: String(p?.say ?? '').trim(), action: stepped({ ...((p?.action as object) ?? {}), id: `${ctx.step.id}-practice` }, ctx.stepNo) as never }
-  const check = { say: String(c?.say ?? '').trim(), questions: (Array.isArray(c?.questions) ? c.questions : []) as never }
+  const check = { say: String(c?.say ?? '').trim(), questions: (Array.isArray(c?.questions) ? c.questions.map(fromSlips) : []) as never }
   const problems = checkPracticeCheck(practice, check)
   return problems.length ? { ok: false, reason: problems.join('; ') } : { ok: true, partial: { practice, check } }
 }

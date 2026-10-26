@@ -73,6 +73,16 @@ describe('runPass: explore', () => {
     expect(String(call()[0])).toMatch(/refused/i)
   })
 
+  it('asks for a predict item outright after a material was refused for its schema', async () => {
+    reply({ opening: 'Guess first.', action: { type: 'createCard', id: 'x', card: 'practice', title: 'Predict: what does AND output?', body: 'For each input pair.', answer: '1 only for 1,1', rubric: 'r', steps: ['s'] }, hints: [] })
+    await runPass('explore', { ...ctx(), fix: 'the "compose" material does not match its apparatus\'s schema (its payload, prompt or success rule).' })
+    expect(String(call()[0])).toMatch(/This time, open with a "Predict: \.\.\." practice card/)
+    vi.mocked(callGemma).mockReset()
+    reply({ opening: 'Watch which ones bend.', action: { type: 'createActivity', id: 'x', spec: sortSpec }, intent, hints: [] })
+    await runPass('explore', { ...ctx(), fix: 'a vary material must cite the relationship it models, with a source' })
+    expect(String(call()[0])).not.toMatch(/This time, open with a "Predict/)
+  })
+
   it('refuses a reading card in place of something to handle', async () => {
     reply({ opening: 'Read this.', action: card('x'), hints: [] })
     expect((await runPass('explore', ctx())).ok).toBe(false)
@@ -158,6 +168,44 @@ describe('runPass: name', () => {
 })
 
 describe('runPass: practice_check', () => {
+  it('builds a question from its slips: each wrong option worked out from the mistake that gives it', async () => {
+    reply({ practice, check: { say: 'Quick check.', questions: [{
+      format: 'mcq', prompt: 'Which fraction equals 2/5?',
+      right: { option: '4/10', feedback: 'Yes -- top and bottom both doubled.' },
+      wrong: [
+        { slip: 'multiplied only the top by 2', option: '4/5', feedback: 'Only the top was doubled; the bottom has to be too.' },
+        { slip: 'added 2 to top and bottom', option: '4/7', feedback: 'Adding changes the amount; multiply both instead.' },
+      ],
+    }] } })
+    const out = await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))
+    expect(out.ok).toBe(true)
+    if (!out.ok) return
+    const q = out.partial!.check!.questions[0] as { id: string; format: string; options: string[]; answer: number; optionFeedback: string[] }
+    expect(q.format).toBe('mcq')
+    expect(q.id).toBeTruthy()
+    expect(q.options).toHaveLength(3)
+    expect(q.options[q.answer]).toBe('4/10')
+    expect(q.optionFeedback[q.answer]).toBe('Yes -- top and bottom both doubled.')
+    expect(q.optionFeedback[q.options.indexOf('4/5')]).toBe('Only the top was doubled; the bottom has to be too.')
+    expect(q.optionFeedback[q.options.indexOf('4/7')]).toBe('Adding changes the amount; multiply both instead.')
+    // The working is how the options were made, not something the learner reads.
+    expect(JSON.stringify(q)).not.toContain('multiplied only the top')
+    expect(String(call()[0])).toMatch(/"slip"/)
+  })
+
+  it('does not always put the right option first', async () => {
+    const answers = new Set<number>()
+    for (const prompt of ['Which equals 1/2?', 'Which equals 3/4?', 'Which equals 2/3?', 'Which equals 1/5?', 'Which equals 5/6?', 'Which equals 3/8?']) {
+      vi.mocked(callGemma).mockReset()
+      reply({ practice, check: { say: 'Check.', questions: [{ format: 'mcq', prompt,
+        right: { option: 'R', feedback: 'Yes.' },
+        wrong: [{ slip: 'a', option: 'A', feedback: 'No, a.' }, { slip: 'b', option: 'B', feedback: 'No, b.' }] }] } })
+      const out = await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))
+      if (out.ok) answers.add((out.partial!.check!.questions[0] as { answer: number }).answer)
+    }
+    expect(answers.size).toBeGreaterThan(1)
+  })
+
   it('refuses a check whose wrong option says nothing to whoever picks it', async () => {
     reply({ practice, check: { ...check, questions: [{ ...check.questions[0], optionFeedback: ['', 'Yes.'] }] } })
     expect((await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))).ok).toBe(false)
@@ -166,14 +214,13 @@ describe('runPass: practice_check', () => {
     reply({ practice, check })
     const out = await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))
     expect(out.ok).toBe(true)
-    expect(String(call()[0])).toMatch(/optionFeedback/)
     expect(String(call()[0])).toMatch(/near-twin/i)
     // A near-twin of the explore item as it is, items and all.
     expect(String(call()[0])).toContain('Sulfur')
     expect(String(call()[0])).toMatch(/no indentation/i)
     expect(String(call()[0])).toMatch(/could argue/i)
-    // Each distractor's slip is worked out before its feedback is written.
-    expect(String(call()[0])).toMatch(/work out the exact slip/i)
+    // Each wrong option is worked out from its slip, and its feedback written for that slip.
+    expect(String(call()[0])).toMatch(/decide the mistake first/i)
   })
 })
 
