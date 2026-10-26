@@ -34,8 +34,8 @@ export interface SubjectFamily {
 
 export const SUBJECT_FAMILIES: readonly SubjectFamily[] = [
   { name: 'number', label: 'Number', light: { accent: '#2563EB', soft: '#E8F0FE', ink: '#1E40AF' }, dark: { accent: '#60A5FA', soft: '#1E2A44', ink: '#BFDBFE' } },
-  { name: 'matter', label: 'Matter', light: { accent: '#B7791F', soft: '#FDF3DC', ink: '#7A4E0A' }, dark: { accent: '#F6C35B', soft: '#3A2E14', ink: '#FDE7B0' } },
-  { name: 'life', label: 'Life', light: { accent: '#0F8F7E', soft: '#E1F5F1', ink: '#0B5F55' }, dark: { accent: '#3FD1B8', soft: '#123A34', ink: '#B5F0E5' } },
+  { name: 'matter', label: 'Matter', light: { accent: '#9A6412', soft: '#FDF3DC', ink: '#7A4E0A' }, dark: { accent: '#F6C35B', soft: '#3A2E14', ink: '#FDE7B0' } },
+  { name: 'life', label: 'Life', light: { accent: '#0C7A6C', soft: '#E1F5F1', ink: '#0B5F55' }, dark: { accent: '#3FD1B8', soft: '#123A34', ink: '#B5F0E5' } },
   { name: 'world', label: 'World', light: { accent: '#2F855A', soft: '#E6F4EA', ink: '#1F5C3D' }, dark: { accent: '#68D391', soft: '#163423', ink: '#C6F6D5' } },
   { name: 'code', label: 'Code', light: { accent: '#7C3AED', soft: '#F1EAFE', ink: '#5B21B6' }, dark: { accent: '#B794F4', soft: '#2B1F45', ink: '#E9D8FD' } },
   { name: 'data', label: 'Data', light: { accent: '#C05621', soft: '#FDEDE2', ink: '#8A3A12' }, dark: { accent: '#F6AD55', soft: '#3B2614', ink: '#FEEBC8' } },

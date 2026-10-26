@@ -47,6 +47,16 @@ describe('subject families', () => {
     }
   })
 
+  it('keeps the label on a filled button readable: panel-coloured text on the accent, 4.5:1', () => {
+    // The Check and Continue buttons are filled with the accent and lettered in
+    // the panel colour (white in light mode, near-black in dark). Small bold
+    // text needs 4.5:1, not the 3:1 that is enough for a tick or a ring.
+    for (const f of SUBJECT_FAMILIES) {
+      expect(contrastRatio(f.light.accent, '#FFFFFF'), `${f.name} light button`).toBeGreaterThanOrEqual(4.5)
+      expect(contrastRatio(f.dark.accent, '#161B21'), `${f.name} dark button`).toBeGreaterThanOrEqual(4.5)
+    }
+  })
+
   it('hands the lesson root its custom properties for both themes', () => {
     const style = subjectStyle('Physics') as Record<string, string>
     const matter = familyFor('Physics')
