@@ -4,7 +4,7 @@ import { policyFor } from './lessonPolicy'
 import {
   emptyRun, proposePlan, acceptPlan, editPlan, nextBeat, beginCheck,
   passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stop, finish, measuredBefore,
-  type LessonRun, type LessonStep,
+  stageOf, type LessonRun, type LessonStep,
 } from './lessonRun'
 
 const GAP = policyFor('gap')
@@ -547,5 +547,67 @@ describe('where the student stood before the lesson', () => {
   it('is nothing when no step was measured', () => {
     expect(measuredBefore({ ...emptyRun(policyFor('gap')), steps: [step('a')] })).toBeNull()
     expect(measuredBefore(null)).toBeNull()
+  })
+})
+
+describe('stations', () => {
+  it('starts a new lesson on the station recipe, at explore', () => {
+    const run = teaching()
+    expect(run.recipe).toBe('station')
+    expect(run.stage).toBe('explore')
+    expect(stageOf(run)).toBe('explore')
+  })
+
+  it('walks a station: explore, name it, practice, check -- and holds at check', () => {
+    let run = teaching()
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('name')
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('practice')
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('check')
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('check')
+  })
+
+  it('is at check while a check is open, at practice after missing it, and starts the next station at explore', () => {
+    const run = teaching()
+    const open = unwrap(beginCheck(run, 'a', 'cp-a', 'checkpoint', 'hard'))
+    expect(open.stage).toBe('check')
+    expect(unwrap(failCheck(open, ['q'])).stage).toBe('practice')
+    const passed = unwrap(passCheck(open))
+    expect(passed.currentStep).toBe(1)
+    expect(passed.stage).toBe('explore')
+  })
+
+  it('leaves the current station alone during a test-out of another step', () => {
+    const run = unwrap(nextBeat(teaching(OPEN)))
+    expect(run.stage).toBe('name')
+    const testing = unwrap(requestTestOut(run, 'c', 'to-c', OPEN))
+    expect(testing.stage).toBe('name')
+    expect(unwrap(passCheck(testing)).stage).toBe('name')
+    // Missing it teaches that step from the start: it was never taught.
+    const missed = unwrap(failCheck(testing, []))
+    expect(missed.currentStep).toBe(2)
+    expect(missed.stage).toBe('explore')
+  })
+
+  it('starts at explore on a step jumped to', () => {
+    const run = unwrap(nextBeat(teaching()))
+    expect(unwrap(jumpTo(run, 'c', GAP)).stage).toBe('explore')
+  })
+
+  it('leaves a lesson saved before stations exactly as it was', () => {
+    // An old run: no recipe. Every transition must leave it without one.
+    const { recipe: _r, stage: _s, ...old } = teaching()
+    let run: LessonRun = old
+    run = unwrap(nextBeat(run))
+    expect(run.recipe).toBeUndefined()
+    expect(run.stage).toBeUndefined()
+    const open = unwrap(beginCheck(run, 'a', 'cp-a', 'checkpoint', 'hard'))
+    expect(open.stage).toBeUndefined()
+    expect(unwrap(failCheck(open, [])).stage).toBeUndefined()
+    expect(unwrap(passCheck(open)).stage).toBeUndefined()
+    expect(stageOf(run)).toBeNull()
   })
 })
