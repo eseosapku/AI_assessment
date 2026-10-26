@@ -52,8 +52,9 @@ describe('runPass: explore', () => {
     expect(String(prompt)).toMatch(/cite where it comes from/i)
     // Compact replies: indentation is output the pass waits for and nobody reads.
     expect(String(prompt)).toMatch(/no indentation/i)
-    // Nothing in a sort that a teacher could argue.
-    expect(String(prompt)).toMatch(/could argue/i)
+    // Nothing in a sort, match or order that a teacher could argue, and no sorting by a judgement.
+    expect(String(prompt)).toMatch(/sort, a match or an order/i)
+    expect(String(prompt)).toMatch(/never sort by a judgement/i)
     expect(opts).toMatchObject({ model: modelForJob('author'), maxTokens: expect.any(Number) })
     expect((opts as { maxTokens: number }).maxTokens).toBeLessThanOrEqual(1500)
   })
@@ -256,6 +257,12 @@ describe('runPass: verify', () => {
     reply({ ok: true })
     await runPass('verify', ctx(whole))
     expect(String(call()[0])).toMatch(/earliest part/i)
+  })
+
+  it('has the judge fail an item whose right place a teacher could argue', async () => {
+    reply({ ok: true })
+    await runPass('verify', ctx(whole))
+    expect(String(call()[0])).toMatch(/place a teacher could argue/i)
   })
 
   it('asks about a relationship only when the station has one', async () => {

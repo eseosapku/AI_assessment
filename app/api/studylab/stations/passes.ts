@@ -50,8 +50,11 @@ const BUDGET: Record<Pass, number> = { explore: 1500, name: 1000, practice_check
 const COMPACT = 'Write the JSON compact -- no indentation or line breaks.'
 
 /** A sort or match with an arguable item has no right answer to check. */
-const UNARGUABLE =
-  'In a sort or a match, every item belongs in exactly one place by the textbook definition -- leave out any item a teacher could argue (an omnivore in a food chain).'
+const UNARGUABLE = [
+  'In a sort, a match or an order, every item has exactly one right place by the textbook definition -- leave out',
+  'any item or step a teacher could argue (an omnivore in a food chain; dressing before or after brushing teeth).',
+  'Never sort by a judgement (more or less reliable, more or less important): sort by a property the topic defines.',
+].join('\n')
 
 /** As much of the explore item as a later pass reads: enough for any material the catalogue builds. */
 const EXPLORE_CHARS = 3000
@@ -292,7 +295,8 @@ function judgeAsk(hasRelationship: boolean): string {
     'Then compare the station with that. Fail it ONLY for a definite error you can quote from it, word for word:',
     '  - a statement that is false (quote it, and say what is true);',
     '  - an answer key that is wrong;',
-    '  - a feedback line that does not fit the option it is written for.',
+    '  - a feedback line that does not fit the option it is written for;',
+    '  - a sort, match or order with an item whose right place a teacher could argue (quote the item).',
     ...(hasRelationship
       ? ['  - a material whose slider and output model a relationship that is not true -- a "relationship" that disagrees with your "truth" is a definite error: quote it.']
       : []),
