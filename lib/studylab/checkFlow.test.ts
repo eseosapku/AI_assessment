@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  checkFlow, initialCheckFlow, modeForGate, feedbackFor, MAX_LEARN_TRIES,
+  checkFlow, initialCheckFlow, modeForGate, modeForCell, feedbackFor, MAX_LEARN_TRIES,
   type CheckFlowState, type CheckEvent,
 } from './checkFlow'
 import type { CheckpointQuestion } from './types'
@@ -90,6 +90,16 @@ describe('the check flow', () => {
     expect(modeForGate(undefined)).toBe('learn')
     expect(modeForGate(undefined, 'testout')).toBe('test')
     expect(modeForGate('soft', 'testout')).toBe('test')
+  })
+
+  it('reads a question card as a test when it belongs to a test-out', () => {
+    // Test-outs open with a soft gate, so the gate alone said "learn": two
+    // tries and the explanation, and a step passed after being shown the answer.
+    expect(modeForCell({ gate: 'soft', kind: 'testout', checkpointId: 'x' })).toBe('test')
+    // Cards saved before the kind was stamped: the page names test-outs `to-<step>`.
+    expect(modeForCell({ gate: 'soft', checkpointId: 'to-s2' })).toBe('test')
+    expect(modeForCell({ gate: 'soft', checkpointId: 'cp-1' })).toBe('learn')
+    expect(modeForCell({ gate: 'hard', checkpointId: 'cp-1' })).toBe('test')
   })
 })
 

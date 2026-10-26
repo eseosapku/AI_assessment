@@ -1120,7 +1120,7 @@ async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<
     run: keepQuestions(advanced, check.checkpointId, questions),
     say: '',
     actions: [
-      { type: 'checkpoint', id: check.checkpointId, step: stepIndex + 1, gate: check.gate, questions },
+      { type: 'checkpoint', id: check.checkpointId, step: stepIndex + 1, gate: check.gate, kind: 'testout', questions },
     ],
     suggestions: [],
   }

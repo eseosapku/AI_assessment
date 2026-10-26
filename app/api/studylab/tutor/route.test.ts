@@ -173,6 +173,9 @@ describe('test_out', () => {
     )
     expect(checkpoint).toBeTruthy()
     expect(checkpoint!.questions).toHaveLength(1)
+    // Its gate is soft (a missed test-out teaches the step rather than
+    // blocking), so the cards need telling it is a test: one try, no hints.
+    expect(checkpoint).toMatchObject({ kind: 'testout' })
   })
 
   it('uses the check model, not the teaching one', async () => {

@@ -91,6 +91,17 @@ export function modeForGate(
 }
 
 /**
+ * A question card's mode. Test-outs open with a soft gate -- a miss teaches
+ * the step instead of blocking it -- so the gate alone would read them as
+ * learning. Cards saved before `kind` was stamped are recognised by the id the
+ * page gives test-outs, `to-<step>`.
+ */
+export function modeForCell(cell: { gate: 'hard' | 'soft'; kind?: 'testout'; checkpointId: string }): CheckMode {
+  const testOut = cell.kind === 'testout' || cell.checkpointId.startsWith('to-')
+  return modeForGate(cell.gate, testOut ? 'testout' : 'checkpoint')
+}
+
+/**
  * What to say about an answer. A multiple-choice question with feedback
  * written per option speaks to the one chosen. Without it, the explanation is
  * shown only once the answer is final; a first miss gets no explanation, so the

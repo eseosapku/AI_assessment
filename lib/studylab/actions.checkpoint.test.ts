@@ -130,3 +130,15 @@ describe('two checkpoints whose questions share ids', () => {
     expect(state.nodes).toHaveLength(before)
   })
 })
+
+describe('applyActions checkpoint kind', () => {
+  it('stamps a test-out on every one of its questions, and nothing on an ordinary check', () => {
+    const testOut = applyActions(empty, [{ ...checkpoint, id: 'to-a', gate: 'soft' as const, kind: 'testout' as const }])
+    const cells = testOut.nodes.filter((n) => n.type === 'quiz')
+    expect(cells).toHaveLength(2)
+    expect(cells.every((n) => n.data.quiz?.kind === 'testout')).toBe(true)
+
+    const plain = applyActions(empty, [checkpoint])
+    expect(plain.nodes.filter((n) => n.type === 'quiz').every((n) => n.data.quiz?.kind === undefined)).toBe(true)
+  })
+})

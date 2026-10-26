@@ -363,7 +363,17 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             id: nodeId,
             type: 'quiz',
             position: autoPosition(nodes, step, 'quiz'),
-            data: { kind: 'quiz', step, quiz: { checkpointId: action.id, gate, question: q, state: 'unanswered' } },
+            data: {
+              kind: 'quiz',
+              step,
+              quiz: {
+                checkpointId: action.id,
+                gate,
+                ...(action.kind === 'testout' ? { kind: 'testout' as const } : {}),
+                question: q,
+                state: 'unanswered',
+              },
+            },
           })
           created.push(nodeId)
           edges.push({ id: `e-${headerId}-${nodeId}`, source: headerId, target: nodeId, animated: false })

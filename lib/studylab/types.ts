@@ -33,6 +33,8 @@ export type CheckpointQuestion =
 export interface QuizCell {
   checkpointId: string
   gate: 'hard' | 'soft'
+  /** Set on a test-out's questions, whose gate is soft but which are a test. */
+  kind?: 'testout'
   question: CheckpointQuestion
   state: 'unanswered' | 'pending' | 'correct' | 'incorrect'
   given?: number | string | string[]
@@ -290,7 +292,15 @@ export type TutorAction =
   | { type: 'groupStep'; step: number; label: string; cardIds: string[] }
   | { type: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
   | { type: 'highlight'; nodeId: string }
-  | { type: 'checkpoint'; id: string; step: number; gate: 'hard' | 'soft'; questions: CheckpointQuestion[] }
+  | {
+      type: 'checkpoint'
+      id: string
+      step: number
+      gate: 'hard' | 'soft'
+      questions: CheckpointQuestion[]
+      /** A test-out: soft-gated (a miss teaches the step) but marked as a test. */
+      kind?: 'checkpoint' | 'testout'
+    }
 
 export interface TutorResponse {
   say: string

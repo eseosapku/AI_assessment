@@ -6,7 +6,7 @@ import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
-import { modeForGate, feedbackFor, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { modeForCell, feedbackFor, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
@@ -88,7 +88,7 @@ type Answer = number | string | string[] | undefined
 
 function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCell>) => void }) {
   const q = cell.question
-  const mode = modeForGate(cell.gate)
+  const mode = modeForCell(cell)
   const grade = useGrade()
   const reduced = useReducedMotion() ?? false
   const shake = useAnimationControls()
