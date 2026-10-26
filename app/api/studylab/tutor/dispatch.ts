@@ -727,6 +727,17 @@ function withIntent(item: { action: unknown; intent?: TeachingIntent }): unknown
 }
 
 /**
+ * The explore with the hints written for it on its activity's spec, where the
+ * card gives them after a miss. They were written ahead and paid for, then
+ * dropped here: a scene missed in a real lesson had nothing to say.
+ */
+function hinted(explore: StationBundle['explore']): StationBundle['explore'] {
+  const a = explore.action as { type?: unknown; spec?: { hints?: unknown } }
+  if (a.type !== 'createActivity' || !a.spec || a.spec.hints !== undefined || !explore.hints?.length) return explore
+  return { ...explore, action: { ...a, spec: { ...a.spec, hints: explore.hints } } as never }
+}
+
+/**
  * Authored actions through the same gates a live turn's pass, or null when any
  * of them would be dropped: a station is served whole or not at all.
  */
@@ -756,7 +767,7 @@ function serveStage(stage: Stage, bundle: StationBundle, run: LessonRun, step: L
       ? {
           say: bundle.explore.opening,
           // The material's intent goes back on for the gates, which take it off again.
-          actions: [withIntent(bundle.explore)] as unknown[],
+          actions: [withIntent(hinted(bundle.explore))] as unknown[],
           intent: bundle.explore.intent,
         }
       : stage === 'name'

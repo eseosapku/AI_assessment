@@ -89,6 +89,19 @@ describe('an authored station is served at once', () => {
     expect(out.suggestions).toEqual([])
   })
 
+  it('serves its explore with the hints written for it, for the card to give after a miss', async () => {
+    // Written ahead and paid for, then dropped at serve time: a scene missed in a real lesson gave no hint.
+    ready()
+    const out = await turn(planning(), { type: 'accept_plan' })
+    expect(out.actions[0]).toMatchObject({ spec: { hints: ['Shiny?'] } })
+  })
+
+  it('keeps an explore\'s own hints where its spec already has them', async () => {
+    ready(bundle({ explore: { opening: 'Watch.', action: { type: 'createActivity', id: 's1-explore', spec: { ...sortSpec, hints: ['Its own.'] }, step: 1 }, intent, hints: ['Shiny?'] } }))
+    const out = await turn(planning(), { type: 'accept_plan' })
+    expect(out.actions[0]).toMatchObject({ spec: { hints: ['Its own.'] } })
+  })
+
   it.each([
     [{ outcome: 'solved', attempts: 1 }, 'You split them by behaviour.'],
     [{ outcome: 'solved', attempts: 3 }, 'Iron told you.'],
