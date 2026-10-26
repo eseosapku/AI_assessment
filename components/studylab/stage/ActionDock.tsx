@@ -76,7 +76,9 @@ export const ActionDock = forwardRef<HTMLDivElement, {
             )}
           </div>
         ) : (
-          !claimed && <LessonBar view={view} onContinue={onContinue} />
+          // What the tutor is doing shows even beside a card's bar: an answer
+          // was just handed in, and the next thing is on its way.
+          (!claimed || view.kind === 'working') && <LessonBar view={view} onContinue={onContinue} />
         )}
       </div>
     </div>

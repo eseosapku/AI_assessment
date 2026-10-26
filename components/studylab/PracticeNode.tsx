@@ -153,6 +153,7 @@ export function PracticeNode({ id, data }: NodeProps) {
       hasHelp: false,
       hasContinue: false,
       revealLabel: 'Show me how',
+      canSkip: true,
     },
     dock.docked,
     dock.cont,
@@ -165,7 +166,7 @@ export function PracticeNode({ id, data }: NodeProps) {
       setShowSteps(true)
       patch({ revealed: true })
       dispatch({ type: 'reveal' })
-    }
+    } else if (action === 'continue') dock.onContinue()
   }
 
   const tone = barModel(state, options).tone

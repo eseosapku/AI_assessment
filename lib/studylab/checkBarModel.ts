@@ -44,6 +44,12 @@ export interface BarOptions {
   hasContinue?: boolean
   /** Label for revealing: "Show me how" on practice, "Show answer" elsewhere. */
   revealLabel?: string
+  /**
+   * Practice and materials are learning, not a gate: before an answer, a quiet
+   * Skip moves the lesson on (it is the bar's Continue under another name).
+   * Never on a check question.
+   */
+  canSkip?: boolean
 }
 
 export const CORRECT_LINES = ["That's it.", 'Yes.', 'Right.'] as const
@@ -92,12 +98,13 @@ function fullModel(state: CheckFlowState, opts: BarOptions): BarModel & { primar
   const cont: BarButton = { action: 'continue', label: opts.continueLabel ?? 'Continue' }
   const reveal: BarButton = { action: 'reveal', label: opts.revealLabel ?? 'Show answer' }
   const why = opts.hasWhy ? B.why : undefined
+  const skip: BarButton | undefined = opts.canSkip ? { action: 'continue', label: 'Skip' } : undefined
 
   switch (state.phase) {
     case 'idle':
-      return { tone: 'neutral', primary: { ...B.check, disabled: true }, line: state.message }
+      return { tone: 'neutral', primary: { ...B.check, disabled: true }, secondary: skip, line: state.message }
     case 'ready':
-      return { tone: 'neutral', primary: B.check, line: state.message }
+      return { tone: 'neutral', primary: B.check, secondary: skip, line: state.message }
     case 'checking':
       return { tone: 'neutral', primary: { ...B.check, disabled: true, busy: true } }
     case 'correct':

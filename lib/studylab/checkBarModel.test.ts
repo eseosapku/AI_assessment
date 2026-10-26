@@ -95,4 +95,18 @@ describe('the check bar', () => {
     // A disabled button cannot take focus either.
     expect(resultFocus(barModel(s('learn', 'idle'), opts))).toBe('card')
   })
+
+  it('lets a learner skip practice from the dock, but never a check', () => {
+    // A practice card that owned the dock offered only a disabled Check: the
+    // lesson could not move on until it was answered.
+    const docked = { ...opts, hasContinue: true }
+    expect(barModel(s('learn', 'idle'), { ...docked, canSkip: true })).toMatchObject({
+      primary: { action: 'check', disabled: true },
+      secondary: { action: 'continue', label: 'Skip' },
+    })
+    expect(barModel(s('learn', 'ready'), { ...docked, canSkip: true }).secondary).toMatchObject({ action: 'continue', label: 'Skip' })
+    expect(barModel(s('learn', 'idle'), docked).secondary).toBeUndefined()
+    // Not docked, nothing to skip to.
+    expect(barModel(s('learn', 'idle'), { ...opts, hasContinue: false, canSkip: true }).secondary).toBeUndefined()
+  })
 })

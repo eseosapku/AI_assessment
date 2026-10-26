@@ -46,6 +46,7 @@ const MATERIAL_BAR: BarOptions = {
   whyOpened: false,
   hasHelp: false,
   hasContinue: false,
+  canSkip: true,
 }
 
 /**
