@@ -52,7 +52,9 @@ export function artFaults(action: unknown): string[] {
   if (!spec || typeof spec !== 'object') return []
   const out: string[] = []
   const shows = (asset: unknown, label: string, what: string, byName = false) => {
-    if (typeof asset !== 'string' || !asset.trim()) return
+    // A name the catalogue does not have draws no picture (the card shows the
+    // word); a naming card left without one is selfAnswerFaults' to refuse.
+    if (typeof asset !== 'string' || !asset.trim() || assetHint(asset) === null) return
     if (!pictureFits(asset, label, byName)) out.push(`the picture "${asset.replace(/^asset:/, '')}" does not show ${what}: use one that does, or none`)
   }
   if (a.type === 'createActivity') {

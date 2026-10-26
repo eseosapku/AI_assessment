@@ -31,6 +31,7 @@ import { validateMaterial } from '@/lib/studylab/material/validate'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
 import { unmatchedArt, sameName } from '@/lib/studylab/activities/artMatch'
 import { pictureFits } from '@/lib/studylab/meaning/art'
+import { meaningFaults } from '@/lib/studylab/meaning'
 import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
 import { assetCatalogPromptBlock, assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { BALANCE_PAN, COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
@@ -1283,6 +1284,15 @@ export function refuseUnjustifiedActivities(
     // Pictures that do not belong to the step come off, and the material keeps
     // its words: a fern on "Prophase" taught nothing about prophase.
     const spec = topic ? dropStrayArt(a.spec, topic, intent, refused) : a.spec
+    // Well-formed is not enough. What is left after the stray pictures came
+    // off must still move when moved, start unsolved and keep its answers to
+    // itself: the immune card, its pictures gone, printed every name it asked.
+    const faults = meaningFaults({ type: 'createActivity', spec })
+    if (faults.length) {
+      const pattern = (spec as { pattern?: unknown }).pattern
+      refused.push(`The ${typeof pattern === 'string' ? `"${pattern}"` : 'activity'} would teach nothing as it is: ${faults.join('; ')}.`)
+      continue
+    }
     // The intent is why the material exists, not part of it; keeping it on the
     // action would carry it into the node's data and onto the screen.
     const { intent: _dropped, ...action } = a
@@ -1401,6 +1411,11 @@ export function refuseUnjustifiedMaterials(actions: unknown[]): {
     const verdict = checkMaterialIntent(intent, validation.spec)
     if (!verdict.ok) {
       refused.push(verdict.reason)
+      continue
+    }
+    const faults = meaningFaults({ type: 'build_material', spec: validation.spec })
+    if (faults.length) {
+      refused.push(`The material would teach nothing as it is: ${faults.join('; ')}.`)
       continue
     }
 
@@ -2109,6 +2124,11 @@ APPARATUS — "threePeriod" — isolates "identity" (name → identify → recal
              "phases":["present","identify","recall"] }
   success: { "kind":"pairing", "pairs":[["cu","Copper"]] }    // [item id, its label]
   TWO or more items with DIFFERENT labels, unique ids — one label names nothing.
+  EVERY ITEM NEEDS A PICTURE THAT SHOWS IT: an "imageUrl" from the catalogue whose
+  name or description IS that item (copper for "Copper", not a test tube for
+  "Antibody"). The card asks "What is this?" of the picture — an item with no
+  fitting picture would show its own name as the answer. If the catalogue lacks
+  pictures for the items, use a different apparatus.
 
 APPARATUS — "sort" — isolates "category" (drop each item into the bin it belongs to):
   payload: { "bins":[{"id":"acid","label":"Acid"},{"id":"base","label":"Base"}],
@@ -2155,11 +2175,20 @@ APPARATUS — "label" — isolates "position" (drag names onto points on a pictu
 APPARATUS — "vary" — isolates "magnitude", never "consequence" (move ONE slider, watch a live model respond):
   payload: { "variable":{"id":"d","label":"Density","min":0,"max":2000,"step":10,"unit":"kg/m3"},
              "model":{"kind":"bars","bars":[{"label":"Upthrust","expr":"d * 10 / 1000","max":20}]},
-             "readouts":[{"label":"Upthrust","expr":"d * 10 / 1000","unit":"N"}] }
+             "readouts":[{"label":"Upthrust","expr":"d * 10 / 1000","unit":"N"}],
+             "target":{"expr":"d * 10 / 1000","value":10,"tolerance":0.5} }
   success: { "kind":"numericWithin", "target":1000, "tolerance":50 }
-  "scene": "asset:<name>" — a picture of the thing the slider changes, from ACTIVITY
-  ARTWORK ("asset:river-profile" for a river's gradient, "asset:circuit-series" for a
-  circuit's resistance). Set it whenever the list has the thing; leave it out otherwise.
+  "target" IS REQUIRED: the card is marked on what the learner WATCHES, never on the
+  slider's own number — "expr" is a reading of the slider (usually a bar's), "value"
+  what it must reach. Some slider position must reach it, and the starting one must not.
+  EVERY BAR MUST MOVE as the slider moves, and visibly: an expression without the
+  slider's id ("50") reads the same everywhere and shows nothing; set each bar's
+  "max" near its largest reading. If what the idea shows is not a number that
+  changes (which half of the Moon is lit, which way a ray bends), this is the wrong
+  apparatus: use another, or a predict item.
+  "scene": "asset:<name>" — a picture that must BE the thing the slider changes, by its
+  name ("asset:river-profile" for a river's gradient, "asset:circuit-series" for a
+  circuit's resistance). Leave it out unless the catalogue has that very thing.
   Give a readout with the same label as each bar, in its unit, so every bar says what
   it reads ("Flow speed" bar, "Flow speed" readout in cm/s) — a bare height says nothing.
   "model.kind" is one of: "bars" ("bars":[{label,expr,max}], every "max" > 0),

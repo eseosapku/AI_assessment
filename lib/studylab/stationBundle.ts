@@ -3,6 +3,7 @@ import type { CheckpointQuestion, TutorAction } from './types'
 import { isValidAction } from './actions'
 import { isValidQuestion, questionFault } from './quiz'
 import { practiceQuestion } from './practice'
+import { meaningFaults } from './meaning'
 import { validateSpec } from './activities/validate'
 import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from './activities/intent'
 import { unmatchedArt } from './activities/artMatch'
@@ -102,6 +103,9 @@ function materialProblems(action: unknown, rawIntent: unknown, needIntent: boole
     if (!verdict.ok) return { problems: [verdict.reason], intent }
     const wordy = unmatchedArt(a.spec as never)
     if (wordy.length) return { problems: [`words where the catalogue has pictures: ${wordy.join(', ')}`], intent }
+    // Well-formed is not enough: it must move when moved, start unsolved, keep its answers to itself, and picture what it names.
+    const meaning = meaningFaults(a)
+    if (meaning.length) return { problems: meaning, intent }
     return { problems: [], intent }
   }
   if (type === 'build_material') {
@@ -113,6 +117,8 @@ function materialProblems(action: unknown, rawIntent: unknown, needIntent: boole
     const verdict = checkMaterialIntent(intent, validation.spec)
     if (!verdict.ok) return { problems: [verdict.reason], intent }
     if (!isSolvable(validation.spec).ok) return { problems: ['the material cannot be solved'], intent }
+    const meaning = meaningFaults({ ...a, spec: validation.spec })
+    if (meaning.length) return { problems: meaning, intent }
     return { problems: [], intent }
   }
   return { problems: [`"${type || 'nothing'}" is not a material or a practice item`], intent }
