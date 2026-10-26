@@ -9,8 +9,12 @@ describe('busyLabel', () => {
     expect(busyLabel({ type: 'test_out' })).toBe('Writing a few questions…')
   })
 
+  it('says it is working out what is unclear after "Not really"', () => {
+    expect(busyLabel({ type: 'diagnose' })).toBe('Working out what is unclear…')
+  })
+
   it('gives every action a distinct label, so the label confirms the click', () => {
-    const types = ['draft_plan', 'accept_plan', 'next_beat', 'jump', 'test_out', 'answer_check', 'ask', 'edit_plan']
+    const types = ['draft_plan', 'accept_plan', 'next_beat', 'jump', 'test_out', 'answer_check', 'ask', 'edit_plan', 'diagnose']
     const labels = types.map((type) => busyLabel({ type }))
     expect(new Set(labels).size).toBe(types.length)
   })

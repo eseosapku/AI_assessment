@@ -13,6 +13,7 @@ import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { parseHomeworkSheet, mergeSheets, questionCards, type HomeworkSheet } from '@/lib/studylab/homework'
 import { downscaleDataUrl } from '@/lib/studylab/imageScale'
+import { chipAction } from '@/lib/studylab/chips'
 import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
 import { layoutGraph, withMeasuredSizes } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
@@ -645,6 +646,22 @@ export default function Workspace({ id }: { id: string }) {
     [busy, handleAdvance, sendAction, sayToTutor]
   )
 
+  // A chip, under Inky or in the drawer. "Makes sense" is Continue in the
+  // learner's words; "Not really" asks what is unclear before anything is
+  // explained again; any other chip -- a sticking point the diagnosis offered,
+  // or a question the tutor suggested -- is asked.
+  const handleChip = useCallback(
+    (label: string) => {
+      if (busy) return
+      const act = chipAction(label)
+      if (act === 'ask') return handleSend(label)
+      sayToTutor({ role: 'user', content: label })
+      if (act === 'advance') handleAdvance()
+      else void sendAction({ type: 'diagnose' })
+    },
+    [busy, handleSend, handleAdvance, sendAction, sayToTutor]
+  )
+
   // A card's context-menu action ("Explain this deeper", "Quiz me on this"…)
   // is card-scoped content, not an "advance" gesture — routing it through
   // handleSend's silent path would wrongly fire next_beat/accept_plan instead.
@@ -1234,6 +1251,7 @@ export default function Workspace({ id }: { id: string }) {
         working,
         done,
         onSend: handleSend,
+        onChip: handleChip,
         onFocusCard: goToNode,
         defaultPace: policy.defaultPace,
         onProveIt: handleProveIt,

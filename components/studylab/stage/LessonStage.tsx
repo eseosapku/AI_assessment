@@ -211,7 +211,7 @@ export default function LessonStage({
               focusIds={spotlight}
               viewTick={viewTick}
               onOpenChat={openChat}
-              onAsk={(text) => chat.onSend(text)}
+              onAsk={(text) => (chat.onChip ? chat.onChip(text) : chat.onSend(text))}
               onRetry={(action) => chat.onRetry?.(action)}
             />
             <ActionDock

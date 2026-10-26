@@ -59,6 +59,12 @@ export type LessonAction =
    */
   | { type: 'ask'; question: string; image?: string }
   /**
+   * "Not really" after an explanation. Not a request to hear it again: the
+   * tutor asks which part is unclear, with the likeliest sticking points as
+   * chips, and explains only the one the learner picks. Nothing moves.
+   */
+  | { type: 'diagnose'; about?: string }
+  /**
    * Homework only, and the replacement for `draft_plan` + `accept_plan` there.
    *
    * The questions the learner picked off their own sheet become the steps, so
@@ -197,6 +203,7 @@ function transitionFor(input: DispatchInput): Transition {
     case 'finish': return finish(run, policy)
     // A question is not progress: state passes through unchanged.
     case 'ask': return { ok: true, run }
+    case 'diagnose': return { ok: true, run }
   }
 }
 
@@ -366,6 +373,10 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     return applyAsk(input, advanced)
   }
 
+  if (input.action.type === 'diagnose') {
+    return applyDiagnose(input, advanced)
+  }
+
   const board = parseBoardSummary(input.context?.board)
 
   if (!needsTeaching(input.action, advanced, board) || advanced.phase === 'done') {
@@ -513,16 +524,12 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const offered = Array.isArray(parsed?.suggestions)
     ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
     : []
-  // On a station the stage decides the chips: none beside a check, and on a
-  // name turn exactly the two that ask whether it landed.
+  // On a station the stage decides the chips, and only a name turn has any:
+  // exactly the two that ask whether it landed. Beside a check there are none,
+  // and while the student is handling or practising a chip asking "why does it
+  // do that?" gives away what they are there to find.
   const suggestions =
-    stage === null
-      ? offered
-      : stage === 'check' || stageOf(closed.run) === 'check'
-        ? []
-        : stage === 'name'
-          ? [...COMPREHENSION_CHIPS]
-          : offered
+    stage === null ? offered : stage === 'name' && stageOf(closed.run) !== 'check' ? [...COMPREHENSION_CHIPS] : []
 
   return {
     run: closed.run,
@@ -531,6 +538,65 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     suggestions,
     intents: intents.length > 0 ? intents : undefined,
     materialRefusals: materialRefusals.length > 0 ? materialRefusals : undefined,
+  }
+}
+
+/**
+ * "Not really": one question about what is unclear, before any re-explaining.
+ *
+ * The tutor reads back what it just said and built on this step, and names the
+ * two or three likeliest sticking points as chips ("the tiles, or how they
+ * make 7x?"). It builds nothing -- the learner's pick comes back as a question,
+ * and that is answered with a card about that one point. Only the tutor's own
+ * lines and card titles go into the prompt, never the learner's typing.
+ */
+async function applyDiagnose(input: DispatchInput, run: LessonRun): Promise<DispatchResult> {
+  const board = parseBoardSummary(input.context?.board)
+  const step = run.steps[run.currentStep]
+  const stepNo = run.currentStep + 1
+  const said = board.recent.filter((m) => m.role === 'assistant').slice(-2).map((m) => `  "${m.text}"`)
+  const built = board.cards.filter((c) => c.step === stepNo && !c.aside).slice(-4).map((c) => `  [${c.kind}] ${c.title}`)
+  const prompt = [
+    'You are Inky, a patient tutor. You just explained something and the student said "Not really": it has not landed.',
+    '',
+    `LESSON: ${String(input.context?.title ?? 'this topic')}`,
+    step ? `STEP: ${step.title} -- ${step.goal}` : '',
+    '',
+    'WHAT YOU JUST SAID:',
+    said.length ? said.join('\n') : '  (nothing on record)',
+    'WHAT IS ON THE BOARD FOR THIS STEP:',
+    built.length ? built.join('\n') : '  (nothing yet)',
+    '',
+    'Ask ONE question, a short one, that finds out which part is unclear, before explaining anything again.',
+    'Offer the two or three likeliest sticking points as the choices, each a few words the student',
+    'would pick ("The tiles", "How they make 7x"). Name parts of what is on the board, not the whole topic.',
+    'Do not explain, do not build anything, and do not give an answer.',
+    '',
+    'Reply with JSON only: { "say": "<the one question>", "suggestions": ["<sticking point>", "<sticking point>"] }',
+  ].filter((l) => l !== '').join('\n')
+
+  const raw = await callGemma(prompt, {
+    maxTokens: 300,
+    temperature: 0.4,
+    model: modelForJob('help'),
+    usage: input.requestId ? { feature: 'lesson_diagnose', requestId: input.requestId, userId: input.userId } : undefined,
+    signal: signalFor(input.deadline),
+  })
+  let parsed: { say?: unknown; suggestions?: unknown }
+  try {
+    parsed = parseJsonRobust(raw)
+  } catch {
+    return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  }
+  const say = typeof parsed?.say === 'string' ? parsed.say.trim() : ''
+  if (!say) return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  return {
+    run,
+    say,
+    actions: [],
+    suggestions: Array.isArray(parsed.suggestions)
+      ? parsed.suggestions.filter((s): s is string => typeof s === 'string' && s.trim().length > 0).slice(0, 3)
+      : [],
   }
 }
 

@@ -31,6 +31,8 @@ export function busyLabel(action: { type?: string; pace?: string } | null | unde
       return 'Setting up your question…'
     case 'add_homework_page':
       return 'Adding those questions…'
+    case 'diagnose':
+      return 'Working out what is unclear…'
     default:
       return 'Thinking…'
   }

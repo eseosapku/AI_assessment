@@ -2432,6 +2432,14 @@ describe('a station turn follows its stage', () => {
     expect(result.suggestions).toEqual([])
   })
 
+  it('offers no chips while the student is handling or practising -- a chip that asks why gives the idea away', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE], { suggestions: ['Why do they land together?'] }))
+    expect((await accept()).suggestions).toEqual([])
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE], { suggestions: ['Show me another'] }))
+    expect((await beat('name')).suggestions).toEqual([])
+  })
+
   it('tells the turns that may build a material how to, and never orders one on a check', async () => {
     vi.mocked(callGemma).mockResolvedValue(reply([PRACTICE]))
     await accept()
@@ -2449,5 +2457,58 @@ describe('a station turn follows its stage', () => {
     await applyAction({ run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
     expect(prompt()).toContain(systemPrompt('classic'))
     expect(prompt()).not.toContain('STAGE:')
+  })
+})
+
+/**
+ * "Not really" is not a request to hear it again. The tutor asks which part is
+ * unclear, with the likeliest sticking points as chips, and explains only the
+ * one the learner picks.
+ */
+describe('diagnose', () => {
+  const base = stationRun('name')
+  const run = () => base
+  const diagnose = (context: Record<string, unknown> = {}) =>
+    applyAction({ run: base, policy: GAP, userId: 'u1', action: { type: 'diagnose' }, context })
+  const context = {
+    title: 'Factorising quadratics',
+    board: {
+      cards: [{ id: 'c1', title: 'Tiles make the area', step: 1, kind: 'concept' }],
+      recent: [
+        { role: 'assistant', text: 'The two x-tiles and the five ones make the rectangle: x^2 + 7x + 10.' },
+        { role: 'user', text: 'Not really' },
+      ],
+    },
+  }
+
+  it('asks one question with the likeliest sticking points as chips, and builds nothing', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({
+      say: 'Which part -- the tiles, or how they make 7x?',
+      actions: [{ type: 'createCard', id: 'c2', card: 'concept', step: 1, title: 'Again', body: 'b' }],
+      suggestions: ['The tiles', 'How they make 7x', 'Both', 'Something else'],
+    }))
+    const result = await diagnose(context)
+    expect(result.say).toBe('Which part -- the tiles, or how they make 7x?')
+    expect(result.actions).toEqual([])
+    expect(result.suggestions).toEqual(['The tiles', 'How they make 7x', 'Both'])
+    expect(result.run).toEqual(run())
+  })
+
+  it('reads back what it just explained, and is told not to explain again yet', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Which part?', suggestions: ['a', 'b'] }))
+    await diagnose(context)
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('x^2 + 7x + 10')
+    expect(prompt).toContain('Tiles make the area')
+    expect(prompt).toMatch(/ONE question/)
+    expect(prompt).toMatch(/before explaining anything again/i)
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: modelForJob('help') })
+  })
+
+  it('says so and leaves the lesson where it was when the reply does not come through', async () => {
+    vi.mocked(callGemma).mockResolvedValue('not json')
+    const result = await diagnose(context)
+    expect(result.retry).toBe(true)
+    expect(result.run).toEqual(run())
   })
 })

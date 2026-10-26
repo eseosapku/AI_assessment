@@ -48,6 +48,12 @@ export interface ChatMouthpieceProps {
   /** Whether the end-of-lesson quiz files its score where the Gap Map can read it. */
   proveUpdatesGapMap?: boolean
   onSend: (text: string, opts?: { image?: string; silent?: boolean }) => void
+  /**
+   * A suggestion chip was clicked. "Makes sense" moves on and "Not really" asks
+   * what is unclear, where typing the same words is just a question; without
+   * this, a chip is sent as if typed.
+   */
+  onChip?: (label: string) => void
   /** What the tutor is doing right now, shown while busy. */
   working?: string
   /** Bring a card the tutor just made into view. */
@@ -95,7 +101,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null, onClose, focusInput = false }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, onChip, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null, onClose, focusInput = false }: ChatMouthpieceProps) {
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
@@ -156,7 +162,8 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   // is asked, and it shows in the transcript as something they said.
   const askSuggestion = (text: string) => {
     if (busy) return
-    onSend(text)
+    if (onChip) onChip(text)
+    else onSend(text)
   }
 
   return (
