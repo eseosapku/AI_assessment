@@ -9,7 +9,8 @@ import { CardFrame, SafeLatex, CanvasContext } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
 import { localVerdict, isAttemptable, type PracticeCell, type PracticeState } from '@/lib/studylab/practice'
 import { MAX_LEARN_TRIES, restoreEvent, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
-import { barModel, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { useDock } from './stage/StageContext'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from './check/CheckBar'
 import { useCheckFlow } from './check/useCheckFlow'
@@ -143,14 +144,19 @@ export function PracticeNode({ id, data }: NodeProps) {
   }
 
   const hasSteps = Boolean(d.steps && d.steps.length > 0)
-  const options: BarOptions = {
-    canReveal: hasSteps,
-    hasWhy: false,
-    whyOpened: false,
-    hasHelp: false,
-    hasContinue: false,
-    revealLabel: 'Show me how',
-  }
+  const dock = useDock()
+  const options: BarOptions = barOptionsFor(
+    {
+      canReveal: hasSteps,
+      hasWhy: false,
+      whyOpened: false,
+      hasHelp: false,
+      hasContinue: false,
+      revealLabel: 'Show me how',
+    },
+    dock.docked,
+    dock.cont,
+  )
 
   const onAction = (action: BarAction) => {
     if (action === 'check') void submit()
@@ -169,7 +175,7 @@ export function PracticeNode({ id, data }: NodeProps) {
       : state.message
 
   return (
-    <motion.div ref={rootRef} tabIndex={-1} animate={shake} className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]">
+    <motion.div ref={rootRef} tabIndex={-1} {...dock.engage} animate={shake} className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]">
       <CardFrame accent="violet" borderColor={tone === 'neutral' ? undefined : toneBorder(tone)}>
           <div className="flex items-center gap-2 px-4 pt-4">
             <div
@@ -207,7 +213,7 @@ export function PracticeNode({ id, data }: NodeProps) {
               className="w-full resize-none rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[13px] text-ss-ink outline-none placeholder:text-ss-slate focus:border-[color:var(--subject)] disabled:opacity-80 nodrag nowheel"
             />
 
-            <CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={line} />
+            {dock.place(<CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={line} />)}
 
             {/* Never gated behind failing first. Someone stuck should be able to
                 see how it goes; someone who got it is not shown it. */}

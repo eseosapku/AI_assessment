@@ -6,7 +6,8 @@ import { Lightbulb, Check, Hand } from 'lucide-react'
 import { handleClass } from '../canvasShared'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
-import { barModel, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { useDock } from '../stage/StageContext'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from '../check/CheckBar'
 
@@ -78,7 +79,9 @@ export function ActivityFrame({
   // name doesn't resolve — the surface renders exactly as it did before.
   const textureUrl = texture ? assetUrl(texture) : null
   const reduced = useReducedMotion() ?? false
-  const tone = checkState ? barModel(checkState, MATERIAL_BAR).tone : 'neutral'
+  const dock = useDock()
+  const bar = barOptionsFor(MATERIAL_BAR, dock.docked, dock.cont)
+  const tone = checkState ? barModel(checkState, bar).tone : 'neutral'
   // Solved: the surface gives one little hop. A miss sways it. Driven by
   // controls rather than a remount, so the pieces inside keep their state.
   const surface = useAnimationControls()
@@ -99,7 +102,7 @@ export function ActivityFrame({
     // After a result, focus goes to the bar's first button -- or to the card
     // when solving it left nothing to press.
     if (phase === 'retry' || phase === 'wrong' || phase === 'correct' || phase === 'revealed') {
-      const target = checkState && resultFocus(barModel(checkState, MATERIAL_BAR)) === 'primary' ? primaryRef.current : rootRef.current
+      const target = checkState && resultFocus(barModel(checkState, bar)) === 'primary' ? primaryRef.current : rootRef.current
       target?.focus({ preventScroll: true })
     }
     const m =
@@ -113,6 +116,7 @@ export function ActivityFrame({
       <div
         ref={rootRef}
         tabIndex={-1}
+        {...dock.engage}
         className="sl-node-enter w-[420px] overflow-hidden rounded-2xl border-2 bg-ss-panel shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] transition-colors duration-200 motion-reduce:transition-none outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
         style={{ borderColor: checkState ? toneBorder(tone) : 'var(--ss-line)' }}
       >
@@ -134,7 +138,15 @@ export function ActivityFrame({
           </motion.div>
 
           {checkState && onCheckAction ? (
-            <CheckBar ref={primaryRef} state={checkState} options={MATERIAL_BAR} onAction={onCheckAction} line={checkLine} />
+            dock.place(
+              <CheckBar
+                ref={primaryRef}
+                state={checkState}
+                options={bar}
+                onAction={(a) => (a === 'continue' ? dock.onContinue() : onCheckAction(a))}
+                line={checkLine}
+              />,
+            )
           ) : (
             <div className="flex items-center gap-2">
               {onCheck && !solved && (

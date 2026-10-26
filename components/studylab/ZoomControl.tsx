@@ -22,7 +22,7 @@ export function ZoomControl() {
     'grid h-8 w-8 place-items-center rounded-lg border border-ss-line text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent disabled:cursor-not-allowed disabled:opacity-40'
 
   return (
-    <div className="flex items-center gap-1.5 rounded-xl border border-ss-line bg-[color:var(--ss-panel)]/95 px-2.5 py-2 shadow-ss-panel backdrop-blur">
+    <div className="flex items-center gap-1.5 rounded-xl border border-ss-line bg-ss-panel px-2.5 py-2 shadow-ss-panel">
       <button
         type="button"
         onClick={() => rf.zoomOut({ duration: 200 })}

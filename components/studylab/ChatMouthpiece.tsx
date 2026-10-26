@@ -48,9 +48,6 @@ export interface ChatMouthpieceProps {
   /** Whether the end-of-lesson quiz files its score where the Gap Map can read it. */
   proveUpdatesGapMap?: boolean
   onSend: (text: string, opts?: { image?: string; silent?: boolean }) => void
-  pendingCheckpoint?: { total: number; remaining: number; nextId: string | null } | null
-  onGoToCheck?: (nodeId: string) => void
-  onQuizMe?: () => void
   /** What the tutor is doing right now, shown while busy. */
   working?: string
   /** Bring a card the tutor just made into view. */
@@ -94,10 +91,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null }: ChatMouthpieceProps) {
-  // A plan is awaiting a decision when the newest plan card is still live.
-  const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
-
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null }: ChatMouthpieceProps) {
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
@@ -148,15 +142,6 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
     setInput('')
     setAttachment(null)
     setAttachError(null)
-  }
-
-  // Continue advances the lesson. It is deliberately the only control that
-  // does: suggestions used to travel this path too, which discarded their text
-  // and fired the same "next beat" — so "Show an example", "Go deeper" and
-  // "Continue" were three differently worded buttons doing one thing.
-  const advance = () => {
-    if (busy) return
-    onSend("I'm ready — let's continue.", { silent: true })
   }
 
   // A suggestion is a request about the material in front of the student, so it
@@ -323,29 +308,9 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         )}
       </div>
 
-      {/* Pending checkpoint banner — finish the check before advancing */}
-      {pendingCheckpoint && !busy && (
-        <button
-          type="button"
-          disabled={!pendingCheckpoint.nextId || !onGoToCheck}
-          onClick={() => pendingCheckpoint.nextId && onGoToCheck?.(pendingCheckpoint.nextId)}
-          className="mx-4 mb-2 w-[calc(100%-2rem)] text-left px-3.5 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 text-[13px] font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors disabled:cursor-default"
-        >
-          {/* One check, several questions. Calling them "checks" made two
-              questions read as two separate things to get past. */}
-          {pendingCheckpoint.total === 1
-            ? 'Answer the check on the canvas to continue.'
-            : pendingCheckpoint.remaining === pendingCheckpoint.total
-              ? `Answer the ${pendingCheckpoint.total} questions on the canvas to continue.`
-              : `${pendingCheckpoint.remaining} of the ${pendingCheckpoint.total} questions still to answer.`}
-          {pendingCheckpoint.nextId && onGoToCheck && (
-            <span className="block mt-0.5 text-[12px] font-medium opacity-80">Tap to jump to it →</span>
-          )}
-        </button>
-      )}
-
-      {/* Suggestions (hidden while a check is pending so the student finishes it first) */}
-      {!busy && !pendingCheckpoint && suggestions.length > 0 && !done && (
+      {/* Suggestions. Continue is not here any more: the bar under the work
+          is the one control that moves the lesson on. */}
+      {!busy && suggestions.length > 0 && !done && (
         <div data-tour="lesson-chips" className="px-4 pb-2 flex flex-col gap-2">
           {suggestions.map((s, i) => (
             <button
@@ -356,31 +321,6 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               {s}
             </button>
           ))}
-        </div>
-      )}
-
-      {/* Persistent forward controls — reliable lesson navigation.
-          Hidden while a plan is still awaiting a decision: the plan card
-          carries its own "Looks good, start", and offering a second, differently
-          worded way forward beside it is how a learner ends up unsure which
-          button is the real one. */}
-      {!busy && !pendingCheckpoint && !done && !awaitingPlan && (
-        <div className="px-4 pb-2 flex gap-2">
-          <button
-            onClick={advance}
-            data-tour="lesson-continue"
-            className="flex-1 text-[13px] px-3.5 py-2 rounded-xl bg-ss-accent text-white font-semibold hover:brightness-95 transition-all"
-          >
-            Continue →
-          </button>
-          {onQuizMe && (
-            <button
-              onClick={onQuizMe}
-              className="text-[13px] px-3.5 py-2 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold hover:bg-emerald-500/20 transition-colors"
-            >
-              Quiz me
-            </button>
-          )}
         </div>
       )}
 

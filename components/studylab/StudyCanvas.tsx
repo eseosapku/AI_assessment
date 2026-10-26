@@ -92,6 +92,11 @@ export interface StudyCanvasProps {
   focusIds?: string[]
   /** Room the camera leaves around the focus, in screen pixels. */
   insets?: { top: number; right: number; bottom: number; left: number }
+  /**
+   * The one thing to do among the focus (the card whose bar is in the dock).
+   * Framed on its own when the whole focus will not fit at a readable size.
+   */
+  primaryId?: string | null
   /** Told when the learner starts or stops looking around the board on their own. */
   onExploreChange?: (exploring: boolean) => void
 }
@@ -108,6 +113,7 @@ function FlowInner({
   run,
   focusIds = NO_FOCUS,
   insets = NO_INSETS,
+  primaryId = null,
   onExploreChange,
   onNodesPositionChange,
   onToggleGroup,
@@ -550,14 +556,27 @@ function FlowInner({
   const frameFocus = useCallback(() => {
     if (!focusKey) return
     const px = (n: number) => `${n + 24}px` as const
+    // A whole step at once does not fit at a size anyone can read. Then the
+    // camera goes to the thing to do, and the rest stays lit around it.
+    const all = focusKey.split('|')
+    const box = wrapperRef.current
+    let ids = all
+    if (box && all.length > 1) {
+      const b = rf.getNodesBounds(all)
+      const room = Math.min(
+        (box.clientWidth - insets.left - insets.right - 48) / Math.max(b.width, 1),
+        (box.clientHeight - insets.top - insets.bottom - 48) / Math.max(b.height, 1),
+      )
+      if (room < READABLE_ZOOM) ids = [primaryId && all.includes(primaryId) ? primaryId : all[0]]
+    }
     rf.fitView({
-      nodes: focusKey.split('|').map((id) => ({ id })),
+      nodes: ids.map((id) => ({ id })),
       duration: prefersReducedMotion() ? 0 : 450,
       padding: { top: px(insets.top), right: px(insets.right), bottom: px(insets.bottom), left: px(insets.left) },
       minZoom: READABLE_ZOOM,
       maxZoom: 1,
     })
-  }, [rf, focusKey, insets.top, insets.right, insets.bottom, insets.left])
+  }, [rf, focusKey, primaryId, insets.top, insets.right, insets.bottom, insets.left])
   useEffect(() => {
     if (!focusKey) return
     setExploring(false)
@@ -646,9 +665,6 @@ function FlowInner({
         className="bg-ss-canvas dark:bg-[#0a0a0a]"
       >
         <Background variant={BackgroundVariant.Dots} gap={28} size={1.5} className="!text-[#BFE0F2] dark:!text-[#1d3543]" />
-        <Panel position="bottom-right">
-          <ZoomControl />
-        </Panel>
         {exploring && focused.size > 0 && (
           // Above the bar at the foot of the board, where the work goes on --
           // the top centre is the demo's cue card.
@@ -690,6 +706,8 @@ function FlowInner({
             <Wrench className="h-4 w-4" aria-hidden />
             Board tools
           </button>
+          {/* Up here, clear of the bar along the foot of the board. */}
+          <ZoomControl />
           {tools && (
           <div className="relative">
             <button
@@ -812,6 +830,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             run={props.run}
             focusIds={props.focusIds}
             insets={props.insets}
+            primaryId={props.primaryId}
             onExploreChange={props.onExploreChange}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}
@@ -828,12 +847,6 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             <Loader2 className="w-8 h-8 text-ss-accent animate-spin" />
             <p className="text-sm font-semibold text-ss-slate">Drafting your lesson plan…</p>
             <p className="text-xs text-[color:var(--ss-slate)]/70">Mapping out the first few steps — one moment.</p>
-          </div>
-        )}
-        {props.busy && props.nodes.length > 0 && (
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-ss-panel border border-ss-line shadow-lg px-3.5 py-1.5 text-[12px] font-semibold text-ss-accent pointer-events-none">
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            Building the board…
           </div>
         )}
         {!props.busy && props.nodes.length === 0 && (

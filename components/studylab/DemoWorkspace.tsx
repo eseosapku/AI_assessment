@@ -151,6 +151,13 @@ export default function DemoWorkspace() {
     [act, busy, play],
   )
 
+  // Continue, from the bar under the work. The run advances first, so the
+  // rail and the cue agree with the cards that are about to land.
+  const advance = useCallback(() => {
+    const moved = nextBeat(run)
+    perform('continue', moved.ok ? moved.run : undefined)
+  }, [run, perform])
+
   const settlePlan = useCallback(() => {
     setMessages((prev) =>
       prev.map((m) => (m.kind === 'plan' && m.plan ? { ...m, plan: { ...m.plan, live: false } } : m)),
@@ -158,25 +165,6 @@ export default function DemoWorkspace() {
   }, [])
 
   // ── Checks, resolved the way Workspace resolves them ──────────────────────
-  const pendingCheckpoint = useMemo(() => {
-    const byCp = new Map<string, { id: string; gate: 'hard' | 'soft'; answered: boolean }[]>()
-    for (const n of canvas.nodes) {
-      const q = n.data.quiz
-      if (!q) continue
-      byCp.set(q.checkpointId, [
-        ...(byCp.get(q.checkpointId) ?? []),
-        { id: n.id, gate: q.gate, answered: q.state === 'correct' || q.state === 'incorrect' },
-      ])
-    }
-    for (const cells of byCp.values()) {
-      if (cells.some((c) => c.gate === 'hard') && !cells.every((c) => c.answered)) {
-        const unanswered = cells.filter((c) => !c.answered)
-        return { total: cells.length, remaining: unanswered.length, nextId: unanswered[0]?.id ?? null }
-      }
-    }
-    return null
-  }, [canvas.nodes])
-
   useEffect(() => {
     const byCp = new Map<string, QuizCell[]>()
     for (const n of canvas.nodes) {
@@ -342,6 +330,8 @@ export default function DemoWorkspace() {
     <LessonStage
       subjectKey={DEMO_SUBJECT}
       focus={focus}
+      onAdvance={advance}
+      onFocus={goToNode}
       banner={banner}
       boardOverlay={cueCard}
       rail={{
@@ -433,14 +423,9 @@ export default function DemoWorkspace() {
         locked: true,
         lockedHint: 'Typing is off in the demo — follow the prompt on the board.',
         onFocusCard: goToNode,
-        pendingCheckpoint,
-        onGoToCheck: goToNode,
         onSend: (text, opts) => {
           if (opts?.silent) {
-            // Continue. The run advances first, so the rail and the cue
-            // agree with the cards that are about to land.
-            const moved = nextBeat(run)
-            perform('continue', moved.ok ? moved.run : undefined)
+            advance()
             return
           }
           // A chip, or the composed question — both arrive as real text.

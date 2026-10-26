@@ -858,34 +858,7 @@ export default function Workspace({ id }: { id: string }) {
     }
   }, [provingIt, space, user?.id, user?.class])
 
-  // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
-  // Surface the count + the node ids still unanswered so the chat banner can tell
-  // the student how many remain and jump the canvas to the next one.
-  const pendingCheckpoint = useMemo(() => {
-    const byCp = new Map<string, { id: string; gate: 'hard' | 'soft'; answered: boolean }[]>()
-    for (const n of canvas.nodes) {
-      const q = n.data.quiz
-      if (!q) continue
-      byCp.set(q.checkpointId, [
-        ...(byCp.get(q.checkpointId) ?? []),
-        { id: n.id, gate: q.gate, answered: q.state === 'correct' || q.state === 'incorrect' },
-      ])
-    }
-    // Only the check the RUN is holding open gates anything. Scanning every
-    // quiz ever placed meant one abandoned checkpoint blocked the lesson for
-    // good — three of them stacked up, Continue refused, and moving to another
-    // step made no difference because the board still had them.
-    const openId = run?.openCheck?.checkpointId
-    if (!openId) return null
-    const cells = byCp.get(openId)
-    if (!cells || cells.length === 0) return null
-    if (!cells.some((c) => c.gate === 'hard') || cells.every((c) => c.answered)) return null
-
-    const unanswered = cells.filter((c) => !c.answered)
-    return { total: cells.length, remaining: unanswered.length, nextId: unanswered[0]?.id ?? null }
-  }, [canvas.nodes, run?.openCheck?.checkpointId])
-
-  // Pan/zoom the canvas to a specific node (used by the "show me the check" banner).
+  // Puts a card in the spotlight: the next question, the check, a card the chat names.
   const goToNode = useCallback((nodeId: string) => {
     setFocus([nodeId])
   }, [])
@@ -1151,6 +1124,8 @@ export default function Workspace({ id }: { id: string }) {
     <LessonStage
       subjectKey={space.subject ?? space.title}
       focus={focus}
+      onAdvance={handleAdvance}
+      onFocus={goToNode}
       rail={{
         title: space.title,
         subject: space.subject,
@@ -1212,8 +1187,6 @@ export default function Workspace({ id }: { id: string }) {
         onSend: handleSend,
         onFocusCard: goToNode,
         defaultPace: policy.defaultPace,
-        pendingCheckpoint,
-        onGoToCheck: goToNode,
         onProveIt: handleProveIt,
         provingIt,
         proveUpdatesGapMap: Boolean(space?.textbook_id && space?.topic_id),

@@ -50,7 +50,9 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
   const text = line ?? model.line
   return (
     <div className="nodrag flex flex-col gap-2.5">
-      {(text || state.phase !== 'idle') && (
+      {/* Inky speaks when there is something to say, or while marking --
+          not beside a Check waiting to be pressed. */}
+      {(text || state.phase === 'checking') && (
         <InkyLine mood={moodForCheck(state.phase)} text={text} tone={model.tone} />
       )}
       <div className="flex items-center gap-2">

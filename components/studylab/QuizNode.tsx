@@ -7,7 +7,8 @@ import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
 import { modeForCell, feedbackFor, isLiveChange, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
-import { barModel, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { useDock } from './stage/StageContext'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
 import { getEngine, normalizeLanguage } from '@/lib/studylab/runner'
@@ -168,14 +169,21 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       ? state.phase === 'wrong' && mode === 'test' ? whyText(q, cell, line) : undefined
       : whyText(q, cell, line)
 
-  const options: BarOptions = {
-    canReveal: true,
-    hasWhy: Boolean(why),
-    whyOpened: whyOpen,
-    hasHelp: false,
-    hasContinue: false,
-    revealLabel: 'Show answer',
-  }
+  // In the spotlight, the bar is drawn into the dock under the work, and its
+  // Continue goes to the next question, the check, or on through the lesson.
+  const dock = useDock()
+  const options: BarOptions = barOptionsFor(
+    {
+      canReveal: true,
+      hasWhy: Boolean(why),
+      whyOpened: whyOpen,
+      hasHelp: false,
+      hasContinue: false,
+      revealLabel: 'Show answer',
+    },
+    dock.docked,
+    dock.cont,
+  )
 
   const check = async () => {
     if (state.phase !== 'ready') return
@@ -214,6 +222,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       dispatch({ type: 'tryAgain' })
     } else if (action === 'reveal') dispatch({ type: 'reveal' })
     else if (action === 'why') setWhyOpen(true)
+    else if (action === 'continue') dock.onContinue()
   }
 
   const codeOutput = useRef('')
@@ -229,6 +238,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     <motion.div
       ref={rootRef}
       tabIndex={-1}
+      {...dock.engage}
       animate={shake}
       className="sl-node-enter w-[340px] rounded-2xl border-2 bg-ss-panel shadow overflow-visible outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
       style={{ borderColor: toneBorder(tone) }}
@@ -243,7 +253,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       <div className="px-4 pb-4 pt-1.5 flex flex-col gap-3">
         <p className="text-[14px] font-semibold"><SafeLatex>{q.prompt}</SafeLatex></p>
         {q.format === 'mcq' && (
-          <McqOptions q={q} chosen={answer as number | undefined} phase={state.phase} mode={mode} showAnswer={showAnswer} locked={locked} onChoose={(i) => { playSound('tap'); give(i) }} />
+          <McqOptions q={q} chosen={answer as number | undefined} phase={state.phase} mode={mode} showAnswer={showAnswer} locked={locked} onChoose={(i) => { playSound('tap'); give(i) }} onSubmit={() => void check()} />
         )}
         {q.format === 'short' && (
           <textarea
@@ -254,6 +264,13 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
             aria-label="Your answer"
             onMouseDown={(e) => e.stopPropagation()}
             onChange={(e) => give(e.target.value)}
+            onKeyDown={(e) => {
+              // Ctrl or Cmd + Enter checks; Enter alone is a new line.
+              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault()
+                void check()
+              }
+            }}
           />
         )}
         {q.format === 'match' && (
@@ -280,7 +297,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
             </motion.div>
           )}
         </AnimatePresence>
-        <CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={barLine} />
+        {dock.place(<CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={barLine} />)}
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
     </motion.div>
@@ -315,7 +332,7 @@ function whyText(q: CheckpointQuestion, cell: QuizCell, line: string | undefined
 }
 
 function McqOptions({
-  q, chosen, phase, mode, showAnswer, locked, onChoose,
+  q, chosen, phase, mode, showAnswer, locked, onChoose, onSubmit,
 }: {
   q: Extract<CheckpointQuestion, { format: 'mcq' }>
   chosen: number | undefined
@@ -324,6 +341,8 @@ function McqOptions({
   showAnswer: boolean
   locked: boolean
   onChoose: (i: number) => void
+  /** Enter on the chosen option checks it, as the Check button would. */
+  onSubmit: () => void
 }) {
   const marked = phase === 'correct' || phase === 'retry' || phase === 'wrong' || phase === 'revealed'
   const buttons = useRef<(HTMLButtonElement | null)[]>([])
@@ -331,9 +350,17 @@ function McqOptions({
   // radio group does.
   const onKey = (e: KeyboardEvent) => {
     if (locked) return
+    if (e.key === 'Enter' && chosen !== undefined && document.activeElement === buttons.current[chosen] && phase === 'ready') {
+      e.preventDefault()
+      e.stopPropagation()
+      onSubmit()
+      return
+    }
     const step = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0
     if (!step) return
     e.preventDefault()
+    // The board moves a selected card with the arrow keys; here they choose.
+    e.stopPropagation()
     const from = chosen ?? -1
     const next = (from + step + q.options.length) % q.options.length
     onChoose(next)
