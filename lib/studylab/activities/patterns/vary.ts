@@ -112,6 +112,20 @@ export const varyModule: PatternModule<VaryPayload, VaryWork> = {
   },
 
   validate(payload, work, success: SuccessRule): ValidateResult {
+    // Marked on what the learner watches when the card names it: the target's
+    // reading at this slider position. A card marked on the slider's own value
+    // counted the Moon as solved at 45 degrees of slider, whatever it showed.
+    // Within half a step's change of the reading, so a target between two
+    // positions can still be reached.
+    const t = payload.target
+    if (t && typeof t.expr === 'string' && Number.isFinite(t.value)) {
+      const step = positive(payload.variable.step) ? payload.variable.step : 1
+      const here = modelValue(payload, t.expr, work.value)
+      const next = modelValue(payload, t.expr, Math.min(work.value + step, payload.variable.max))
+      const slack = here !== null && next !== null ? Math.abs(next - here) / 2 : 0
+      const ok = here !== null && Math.abs(here - t.value) <= Math.max(t.tolerance, slack)
+      return { ok, wrongIds: [] }
+    }
     // Defence in depth: a `numericWithin` rule with a tolerance tighter than
     // half the slider's step is often unreachable — the student can only ever
     // land ON a step boundary, and the target may sit between two of them.

@@ -8,7 +8,8 @@ const payload: VaryPayload = {
   variable: { id: 'd', label: 'Density', min: 0, max: 2000, step: 10, unit: 'kg/m3' },
   model: { kind: 'bars', bars: [{ label: 'Buoyant force', expr: 'd * 10 / 1000', max: 20 }] },
   readouts: [{ label: 'Upthrust', expr: 'd * 10 / 1000', unit: 'N' }],
-  target: { expr: 'd', value: 1000, tolerance: 50 },
+  // No target: these pin the slider rule old cards are still marked by (a
+  // card with a target is marked on its reading: meaning/vary.test.ts).
 }
 const success = { kind: 'numericWithin', target: 1000, tolerance: 50 } as const
 
