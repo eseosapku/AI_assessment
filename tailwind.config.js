@@ -4,6 +4,8 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    // Scene engines draw their own views beside their maths.
+    './lib/studylab/engines/**/*.tsx',
     '!./app/api/**/*',
     '!./app/**/route.{js,ts}',
   ],
