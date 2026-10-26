@@ -401,3 +401,11 @@
     transition: none;
   }
 }
+
+/* The board's animated links march; under reduced motion they hold still. */
+@media (prefers-reduced-motion: reduce) {
+  /* Scoped under .react-flow to outrank the library's own rule, which loads later. */
+  .react-flow .react-flow__edge.animated path {
+    animation: none;
+  }
+}
