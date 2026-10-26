@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { Loader2 } from 'lucide-react'
-import StudyLabSidebar, { type StudyLabSidebarProps } from '../StudyLabSidebar'
+import { PathRail, type PathRailProps } from './PathRail'
+import { OpeningCard } from './OpeningCard'
 import ChatMouthpiece, { type ChatMouthpieceProps } from '../ChatMouthpiece'
 import type { StudyCanvasProps } from '../StudyCanvas'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
@@ -29,7 +30,7 @@ export interface LessonStageProps {
   subjectKey: string
   /** What the last turn built, or what the learner was sent to. */
   focus: string[]
-  rail: StudyLabSidebarProps
+  rail: PathRailProps
   board: StudyCanvasProps
   chat: ChatMouthpieceProps
   /** Continue / Finish lesson: the lesson's way forward. */
@@ -115,13 +116,9 @@ export default function LessonStage({
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
   const [viewTick, setViewTick] = useState(0)
   const onViewSettled = useCallback(() => setViewTick((t) => t + 1), [])
-  // The chat drawer, closed by default. Until the plan card has a place on the
-  // board, a plan (or a page of questions) waiting for an answer opens it.
+  // The chat drawer, closed by default.
   const [ownOpen, setOwnOpen] = useState(false)
-  const awaitingChoice = chat.messages.some(
-    (m) => (m.kind === 'plan' && m.plan?.live) || (m.kind === 'homework' && m.sheet?.live),
-  )
-  const open = (drawerOpen ?? ownOpen) || awaitingChoice
+  const open = drawerOpen ?? ownOpen
   const opener = useRef<HTMLElement | null>(null)
   const setOpen = useCallback(
     (next: boolean) => {
@@ -151,9 +148,19 @@ export default function LessonStage({
       <div className="ss-lesson h-screen w-full flex flex-col overflow-hidden" style={subjectStyle(subjectKey)}>
         {banner}
         <div className="flex min-h-0 flex-1">
-          <StudyLabSidebar {...rail} />
+          <PathRail {...rail} busy={rail.busy ?? chat.busy} />
           <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
             {boardOverlay}
+            <OpeningCard
+              title={rail.title}
+              subject={rail.subject}
+              messages={chat.messages}
+              busy={chat.busy}
+              defaultPace={chat.defaultPace}
+              onAcceptPlan={chat.onAcceptPlan}
+              onAnswerPlan={chat.onAnswerPlan}
+              onStartHomework={chat.onStartHomework}
+            />
             <StudyCanvas {...board} focusIds={spotlight} insets={INSETS} primaryId={owner} onViewSettled={onViewSettled} />
             <InkyDock
               messages={chat.messages}
@@ -171,7 +178,7 @@ export default function LessonStage({
             <ActionDock ref={setDockEl} view={view} claimed={owner !== null} onContinue={runContinue} />
           </div>
           <TutorDrawer open={open} onClose={() => setOpen(false)}>
-            <ChatMouthpiece {...chat} onClose={() => setOpen(false)} focusInput={open && !awaitingChoice} />
+            <ChatMouthpiece {...chat} onClose={() => setOpen(false)} focusInput={open} />
           </TutorDrawer>
         </div>
         {children}

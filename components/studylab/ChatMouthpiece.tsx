@@ -217,7 +217,13 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   ordinary teaching line used to be the same grey bubble, so
                   nothing in the conversation read as more important than
                   anything else. */}
-              {m.kind === 'homework' && m.sheet ? (
+              {(m.kind === 'plan' && m.plan?.live) || (m.kind === 'homework' && m.sheet?.live) ? (
+                // The live card is on the board, where the lesson begins; the
+                // conversation keeps a pointer to it, not a second copy.
+                <div className="rounded-2xl rounded-tl-sm bg-ss-chip px-3.5 py-2.5 text-[13.5px] font-semibold leading-relaxed text-ss-ink dark:bg-white/5">
+                  {m.kind === 'plan' ? 'Your plan is on the board.' : 'Pick your questions on the board.'}
+                </div>
+              ) : m.kind === 'homework' && m.sheet ? (
                 <div className="max-w-[92%] w-full space-y-2">
                   {m.content && (
                     <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed">
@@ -232,7 +238,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   />
                 </div>
               ) : m.kind === 'plan' && m.plan ? (
-                <div data-tour="lesson-plan-card" className="max-w-[92%] w-full">
+                <div className="max-w-[92%] w-full">
                   <PlanCard
                     plan={m.plan}
                     busy={busy}

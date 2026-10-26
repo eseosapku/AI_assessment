@@ -92,6 +92,8 @@ export function InkyDock({
     }
     const dock = board.querySelector('[data-tour="lesson-continue"] > div')
     if (dock && dock.getBoundingClientRect().height > 0) avoid.push(rel(dock.getBoundingClientRect()))
+    // The opening card, and anything else that marks itself as the stage's.
+    board.querySelectorAll('[data-stage-avoid]').forEach((el) => avoid.push(rel(el.getBoundingClientRect())))
     setPlace(
       placeBubble({
         board: { x: 0, y: 0, w: origin.width, h: origin.height },

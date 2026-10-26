@@ -22,6 +22,7 @@ import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
 import { Loader2, Download, Wrench, Crosshair } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
+import { Inky } from './inky/Inky'
 import PaletteToolbar from './PaletteToolbar'
 import { exportLayout, exportFileName, triggerDownload, brandExport } from '@/lib/studylab/exportCanvas'
 import type { CanvasEffect } from '@/lib/studylab/actions'
@@ -875,10 +876,10 @@ export default function StudyCanvas(props: StudyCanvasProps) {
           />
         </ReactFlowProvider>
         {props.busy && props.nodes.length === 0 && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[color:var(--ss-canvas)]/70 dark:bg-black/50 backdrop-blur-sm pointer-events-none">
-            <Loader2 className="w-8 h-8 text-ss-accent animate-spin" />
-            <p className="text-sm font-semibold text-ss-slate">Drafting your lesson plan…</p>
-            <p className="text-xs text-[color:var(--ss-slate)]/70">Mapping out the first few steps — one moment.</p>
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 pointer-events-none" role="status">
+            <Inky size={72} mood="thinking" title="Inky is drafting your plan" />
+            <p className="text-[15px] font-bold text-ss-ink">Drafting your plan…</p>
+            <p className="text-[13px] font-medium text-ss-slate">Mapping out the stations — one moment.</p>
           </div>
         )}
         {!props.busy && props.nodes.length === 0 && (
@@ -887,7 +888,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             <img src="/art/tutor-canvas.png" alt="" aria-hidden className="mb-1 h-28 w-auto opacity-95 drop-shadow" />
             <p className="text-[15px] font-extrabold text-ss-ink">Your board is empty</p>
             <p className="max-w-xs text-[13px] font-semibold text-ss-slate">
-              Ask the tutor below to explain a topic, or drag a block from the palette to start building.
+              Ask Inky to explain a topic, or add a block to start building.
             </p>
           </div>
         )}
