@@ -8,6 +8,13 @@ import type { StationBundle } from './stationBundle'
  * row's payload. No new table -- the rows are additive, and the passes are
  * short enough to run one a request.
  */
+/**
+ * Tries a pass gets before its station runs live. Three, not two: the meaning
+ * gates and the judge send parts back for real faults, and a third try, told
+ * what was wrong, readied stations that two left to run live.
+ */
+export const MAX_PASS_TRIES = 3
+
 export type Pass = 'explore' | 'name' | 'practice_check' | 'verify'
 
 export const PASSES: readonly Pass[] = ['explore', 'name', 'practice_check', 'verify']
@@ -140,7 +147,7 @@ export async function authorState(spaceId: string, stepId: string, version: stri
     } else if (r.status === 'running') running = true
   }
   const retries = Math.max(0, ...failures.values())
-  const spent = [...failures.entries()].some(([pass, n]) => n >= 2 && !done.includes(pass as Pass))
+  const spent = [...failures.entries()].some(([pass, n]) => n >= MAX_PASS_TRIES && !done.includes(pass as Pass))
   const status: AuthorState['status'] = bundle ? 'ready' : spent ? 'failed' : done.length || running ? 'authoring' : 'none'
   return { status, done, partial, ...(bundle ? { bundle } : {}), retries, lastFailure }
 }

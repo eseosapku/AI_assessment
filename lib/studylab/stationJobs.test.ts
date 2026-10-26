@@ -110,9 +110,14 @@ describe('authorState', () => {
     query.mockResolvedValue({ rows: [row('explore', 'succeeded', { partial: {} }), row('name', 'succeeded', { partial: {} }), row('practice_check', 'succeeded', { partial: {} }), row('verify', 'succeeded', { bundle: { version: 'v1' } })] })
     expect(await authorState('space', 's1', 'v1')).toMatchObject({ status: 'ready', bundle: { version: 'v1' } })
   })
-  it('is failed when one pass failed twice -- the station runs live', async () => {
+  it('is failed when one pass failed three times -- the station runs live', async () => {
+    query.mockResolvedValue({ rows: [row('explore', 'failed'), row('explore', 'failed'), row('explore', 'failed')] })
+    expect(await authorState('space', 's1', 'v1')).toMatchObject({ status: 'failed', retries: 3 })
+  })
+
+  it('is still authoring after two failures: the meaning gates and the judge send parts back, and a third try is told why', async () => {
     query.mockResolvedValue({ rows: [row('explore', 'failed'), row('explore', 'failed')] })
-    expect(await authorState('space', 's1', 'v1')).toMatchObject({ status: 'failed', retries: 2 })
+    expect((await authorState('space', 's1', 'v1')).status).not.toBe('failed')
   })
   it('hands back what was last found wrong with each pass, so the next try is told', async () => {
     const failed = (pass: string, error_message: string) => ({ ...row(pass, 'failed'), error_message })

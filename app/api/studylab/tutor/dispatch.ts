@@ -36,6 +36,7 @@ import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
 import { assetCatalogPromptBlock, assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { BALANCE_PAN, COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
 import { byHandFormats } from './questionFormats'
+import { sceneCatalogue } from '@/lib/studylab/engines'
 
 export type LessonAction =
   /** `answer` is present on a re-draft, carrying what the learner said back. */
@@ -2044,7 +2045,13 @@ conflicts with it — specifically:
  * told to contradict its own stage.
  */
 export function materialRules(): string {
-  return `- Before reaching for a "mermaid" or "concept" card for anything with a
+  return `SCENES -- purpose-built engines that draw one idea exactly and mark it themselves. When the idea is one a
+scene is for, USE THE SCENE before any apparatus below: it is always right, starts unsolved, and never shows its
+answer -- you only name what to ask. Its intent's "apparatus" is "scene:<engine>".
+
+${sceneCatalogue()}
+
+- Before reaching for a "mermaid" or "concept" card for anything with a
   structure, a flow or a process, check WHICH APPARATUS first: a flow of stages
   is "sequence", the parts of a structure are "label" or "compose", a trend or
   an influence is "vary". A text card is the last resort, never the default.

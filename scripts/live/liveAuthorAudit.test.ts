@@ -59,7 +59,7 @@ vi.mock('@/lib/ai-usage-recorder', async (orig) => {
 })
 
 import { runPass, type PassContext } from '@/app/api/studylab/stations/passes'
-import { PASSES, stationVersion, type Pass } from '@/lib/studylab/stationJobs'
+import { PASSES, MAX_PASS_TRIES, stationVersion, type Pass } from '@/lib/studylab/stationJobs'
 import { verifyBundleCode, type StationBundle, type Outcome } from '@/lib/studylab/stationBundle'
 import { refuseUnjustifiedActivities, refuseUnjustifiedMaterials } from '@/app/api/studylab/tutor/dispatch'
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
@@ -212,10 +212,10 @@ async function author(s: Station): Promise<Report> {
   const calls: PassCall[] = []
   let bundle: StationBundle | undefined
 
-  for (let guard = 0; guard < 16; guard += 1) {
+  for (let guard = 0; guard < 24; guard += 1) {
     const pass = PASSES.find((p) => !done.has(p))
     if (!pass) break
-    if (PASSES.some((p) => (failures[p] ?? 0) >= 2 && !done.has(p))) break
+    if (PASSES.some((p) => (failures[p] ?? 0) >= MAX_PASS_TRIES && !done.has(p))) break
     // What the route's authorState merges: the parts of the passes still standing.
     const partial = PASSES.filter((p) => done.has(p)).reduce((acc, p) => ({ ...acc, ...results[p] }), {} as Partial<StationBundle>)
     const ctx: PassContext = { title: s.lesson, subject: s.subject, step, stepNo: s.at + 1, plan, version, partial, fix: lastFailure[pass] }

@@ -79,6 +79,15 @@ describe('the authoring code checks', () => {
   })
 })
 
+describe('the scenes the writers are offered', () => {
+  it('come first in the rules, with each scene’s config and an example', () => {
+    const rules = materialRules()
+    expect(rules).toMatch(/SCENES/)
+    expect(rules).toContain('SCENE "orbit"')
+    expect(rules.indexOf('SCENE "orbit"')).toBeLessThan(rules.indexOf('APPARATUS'))
+  })
+})
+
 describe('the rules the writers are given', () => {
   it('ask for a target on a reading, moving bars, pictures for every named item, and a scene that is the thing', () => {
     const rules = materialRules()
