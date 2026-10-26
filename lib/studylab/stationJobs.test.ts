@@ -135,6 +135,12 @@ describe('redoPass', () => {
     expect(String(sql)).toMatch(/status = 'succeeded'/)
     expect(values).toEqual(['author_station', 'space', 's1', 'v1', 'explore', 'redone: the vary models a false relationship'])
   })
+  it('records a verify that sent a part back without charging it -- the part it faulted is charged', async () => {
+    query.mockResolvedValue({ rows: [] })
+    await failPass('job-4', 'the series is upside down', false)
+    expect(query.mock.calls[0][1]).toEqual(['job-4', 'superseded: the series is upside down'])
+  })
+
   it('marks a pass written again only because what it built on changed as superseded, not at fault', async () => {
     query.mockResolvedValue({ rows: [] })
     await redoPass('space', 's1', 'v1', 'name', 'the vary models a false relationship', false)

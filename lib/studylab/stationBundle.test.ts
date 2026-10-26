@@ -117,6 +117,17 @@ describe('verifyBundleCode', () => {
     const v = fails(b)
     expect(v.reasons.join(' ')).toMatch(/"compose".*schema/)
     expect(v.reasons.join(' ')).toMatch(/Predict:/)
+    // A retry is sent to a different item, not back into the same apparatus.
+    expect(v.reasons.join(' ')).toMatch(/different explore item/)
+  })
+
+  it('tells a malformed practice item what it is missing', () => {
+    const b = good()
+    b.practice = { ...b.practice, action: { type: 'createActivity', id: 'p1', spec: { pattern: 'compose', prompt: 'x', payload: {}, success: { kind: 'exactSet', itemIds: [] } }, step: 1 } as never }
+    expect(fails(b).reasons.join(' ')).toMatch(/different practice item.*"practice" card/)
+    const c = good()
+    c.practice = { ...c.practice, action: { type: 'createCard', id: 'p1', card: 'binary-converter', title: 'x', body: 'y', step: 1 } as never }
+    expect(fails(c).reasons.join(' ')).toMatch(/"binary-converter".*"practice"/)
   })
 
   it('accepts a predict item where no material fits', () => {

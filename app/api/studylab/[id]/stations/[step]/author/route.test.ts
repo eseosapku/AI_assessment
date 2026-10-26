@@ -95,7 +95,8 @@ describe('POST /api/studylab/[id]/stations/[step]/author', () => {
     h.claimPass.mockResolvedValue('job-4')
     h.runPass.mockResolvedValue({ ok: false, reason: 'false relationship', redo: 'explore' })
     await post()
-    expect(h.failPass).toHaveBeenCalledWith('job-4', 'false relationship')
+    // Verify did its job; the part it faulted is what is charged.
+    expect(h.failPass).toHaveBeenCalledWith('job-4', 'false relationship', false)
     // The faulted part is charged; what was written on top of it is written again, uncharged.
     expect(h.redoPass.mock.calls.map((c) => [c[3], c[5]])).toEqual([['explore', true], ['name', false], ['practice_check', false]])
     expect(h.redoPass).toHaveBeenCalledWith('space-1', 's2', v2, 'explore', 'false relationship', true)

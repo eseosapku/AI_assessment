@@ -50,6 +50,10 @@ describe('runPass: explore', () => {
     expect(String(prompt)).toContain('STAGE: EXPLORE')
     expect(String(prompt)).toContain('Sort elements into metals and non-metals')
     expect(String(prompt)).toMatch(/cite where it comes from/i)
+    // Compact replies: indentation is output the pass waits for and nobody reads.
+    expect(String(prompt)).toMatch(/no indentation/i)
+    // Nothing in a sort that a teacher could argue.
+    expect(String(prompt)).toMatch(/could argue/i)
     expect(opts).toMatchObject({ model: modelForJob('author'), maxTokens: expect.any(Number) })
     expect((opts as { maxTokens: number }).maxTokens).toBeLessThanOrEqual(1500)
   })
@@ -166,6 +170,8 @@ describe('runPass: practice_check', () => {
     expect(String(call()[0])).toMatch(/near-twin/i)
     // A near-twin of the explore item as it is, items and all.
     expect(String(call()[0])).toContain('Sulfur')
+    expect(String(call()[0])).toMatch(/no indentation/i)
+    expect(String(call()[0])).toMatch(/could argue/i)
     // Each distractor's slip is worked out before its feedback is written.
     expect(String(call()[0])).toMatch(/work out the exact slip/i)
   })
@@ -197,6 +203,12 @@ describe('runPass: verify', () => {
     vi.mocked(callGemma).mockReset()
     reply({ ok: false, pass: 'nonsense', quote: 'Sulfur is brittle', reason: 'It is.' })
     expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: false, redo: 'practice_check' })
+  })
+
+  it('asks the judge for the earliest part an error starts in, not the last place it shows', async () => {
+    reply({ ok: true })
+    await runPass('verify', ctx(whole))
+    expect(String(call()[0])).toMatch(/earliest part/i)
   })
 
   it('asks about a relationship only when the station has one', async () => {

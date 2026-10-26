@@ -46,6 +46,13 @@ export interface PassOptions {
 /** Output budgets that keep each call inside the 20 s a pass may take. Measured in the live audit. */
 const BUDGET: Record<Pass, number> = { explore: 1500, name: 1000, practice_check: 1400, verify: 350 }
 
+/** Indentation is output a pass waits for and nobody reads. */
+const COMPACT = 'Write the JSON compact -- no indentation or line breaks.'
+
+/** A sort or match with an arguable item has no right answer to check. */
+const UNARGUABLE =
+  'In a sort or a match, every item belongs in exactly one place by the textbook definition -- leave out any item a teacher could argue (an omnivore in a food chain).'
+
 /** As much of the explore item as a later pass reads: enough for any material the catalogue builds. */
 const EXPLORE_CHARS = 3000
 
@@ -93,6 +100,8 @@ const EXPLORE_ASK = [
   '  "intent": { "goal", "isolates", "apparatus", "why" } (required for a material),',
   '  "relationship": { "statement": "...", "source": "..." } (a vary material only),',
   '  "hints": ["<after a first miss>", "<after a second>"] }',
+  UNARGUABLE,
+  COMPACT,
 ].join('\n')
 
 const NAME_ASK = [
@@ -111,6 +120,7 @@ const NAME_ASK = [
   '',
   'Reply with JSON only: { "card": {...}, "solved": { "say": "..." }, "helped": { "say": "...", "card": {...} },',
   '  "untried": { "say": "...", "card": {...} }, "point": "piece-..." }',
+  COMPACT,
 ].join('\n')
 
 const PRACTICE_CHECK_ASK = [
@@ -125,6 +135,8 @@ const PRACTICE_CHECK_ASK = [
   '',
   'Reply with JSON only: { "practice": { "say": "...", "action": {...} },',
   '  "check": { "say": "<at most eight words>", "questions": [...] } }',
+  UNARGUABLE,
+  COMPACT,
 ].join('\n')
 
 /** Said to a pass written again: what was refused last time. */
@@ -256,11 +268,13 @@ function judgeAsk(hasRelationship: boolean): string {
       ? ['  - a material whose slider and output model a relationship that is not true -- a "relationship" that disagrees with your "truth" is a definite error: quote it.']
       : []),
     'Never fail it for style, difficulty, or a way you would have taught it differently. If you cannot quote a',
-    'definite error, it passes. Name the part to write again: "explore" (the material, opening, hints' + (hasRelationship ? ', relationship' : '') + '),',
+    'definite error, it passes. Name the part to write again -- the earliest part the error starts in: when a later',
+    'part only follows an error an earlier part made, name the earlier one. "explore" (the material, opening, hints' + (hasRelationship ? ', relationship' : '') + '),',
     '"name" (the three name-it versions) or "practice_check" (the practice item and the check).',
     '',
     'Reply with JSON only: { "truth": "...", "ok": true } or',
     '{ "truth": "...", "ok": false, "pass": "explore" | "name" | "practice_check", "quote": "<the exact wrong text>", "reason": "<what is true>" }',
+    COMPACT,
   ].join('\n')
 }
 

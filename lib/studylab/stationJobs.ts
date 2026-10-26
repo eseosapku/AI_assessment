@@ -127,9 +127,13 @@ export async function finishPass(id: string, result: { partial?: Partial<Station
   )
 }
 
-/** A pass that could not, and why. */
-export async function failPass(id: string, reason: string): Promise<void> {
-  await db.query(`UPDATE ai_jobs SET status = 'failed', error_message = $2, finished_at = NOW() WHERE id = $1`, [id, reason.slice(0, 4000)])
+/**
+ * A pass that could not, and why. A verify that sent a part back did its job:
+ * it is recorded uncharged, and the part it faulted carries the charge.
+ */
+export async function failPass(id: string, reason: string, charged = true): Promise<void> {
+  const message = charged ? reason : `${SUPERSEDED}: ${reason}`
+  await db.query(`UPDATE ai_jobs SET status = 'failed', error_message = $2, finished_at = NOW() WHERE id = $1`, [id, message.slice(0, 4000)])
 }
 
 /**

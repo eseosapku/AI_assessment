@@ -115,7 +115,8 @@ export async function POST(request: NextRequest, { params }: Params) {
       return NextResponse.json(standing({ ...state, done, status: pass === 'verify' ? 'ready' : 'authoring' }))
     }
 
-    await failPass(jobId, result.reason)
+    // A verify that sent a part back is not charged; the part it faulted is.
+    await failPass(jobId, result.reason, !result.redo)
     let done = state.done
     if (result.redo) {
       // The part the verifier faulted is written again, and so is everything

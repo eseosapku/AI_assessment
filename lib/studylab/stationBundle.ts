@@ -107,24 +107,35 @@ function materialProblems(action: unknown, rawIntent: unknown, needIntent: boole
 
 /** What is wrong with an explore item, if anything. */
 /**
- * Why an explore item is not a valid action, put so the next try can act on
- * it: "not a valid action" alone sent a truth table back into "compose" twice.
+ * Why an explore or practice item is not a valid action, put so the next try
+ * can act on it: "not a valid action" alone sent a truth table back into
+ * "compose" twice, and "no valid practice item" told the binary station
+ * nothing at all.
  */
-function invalidExplore(action: unknown): string {
+function invalidItem(action: unknown, what: 'explore' | 'practice'): string {
   const type = typeOf(action)
-  if (type !== 'createActivity' && type !== 'build_material') return 'the explore item is not a valid action'
-  const pattern = String((action as { spec?: { pattern?: unknown } } | null)?.spec?.pattern ?? type)
-  return (
-    `the "${pattern}" material does not match its apparatus's schema (its payload, prompt or success rule) -- ` +
-    'fit that schema exactly, or, where no material honestly fits this station, open with a "Predict: ..." practice card instead'
-  )
+  const instead = what === 'explore'
+    ? 'or, where none honestly fits this station, a "Predict: ..." practice card'
+    : 'or a "practice" card with "answer", "rubric" and "steps"'
+  if (type === 'createActivity' || type === 'build_material') {
+    const pattern = String((action as { spec?: { pattern?: unknown } } | null)?.spec?.pattern ?? type)
+    return (
+      `the "${pattern}" material does not match its apparatus's schema (its payload, prompt or success rule). ` +
+      `Write a different ${what} item: a material whose schema you can fill exactly, ${instead}`
+    )
+  }
+  if (type === 'createCard') {
+    const kind = String((action as { card?: unknown }).card ?? '')
+    return `the ${what} item is a card of kind "${kind}", which the board cannot draw -- use a "practice" card${what === 'explore' ? ' titled "Predict: ..."' : ''}`
+  }
+  return `the ${what} item is not something the board can build (type "${type}")`
 }
 
 export function checkExplore(e: Partial<AuthoredExplore> | undefined): string[] {
   if (!e || typeof e !== 'object') return ['no explore item']
   const out: string[] = []
   if (!text(e.opening)) out.push('no opening line')
-  if (!isValidAction(e.action)) out.push(invalidExplore(e.action))
+  if (!isValidAction(e.action)) out.push(invalidItem(e.action, 'explore'))
   else {
     const isPredict = typeOf(e.action) === 'createCard'
     if (isPredict && !/^\s*predict\b/i.test(String((e.action as { title?: unknown }).title ?? ''))) {
@@ -180,7 +191,8 @@ function questionProblems(q: CheckpointQuestion, i: number): string[] {
 /** What is wrong with a practice item and its check, if anything. */
 export function checkPracticeCheck(p: Partial<AuthoredItem> | undefined, c: Partial<AuthoredCheck> | undefined): string[] {
   const out: string[] = []
-  if (!p || typeof p !== 'object' || !isValidAction(p.action)) out.push('no valid practice item')
+  if (!p || typeof p !== 'object' || !p.action) out.push('no practice item')
+  else if (!isValidAction(p.action)) out.push(invalidItem(p.action, 'practice'))
   else out.push(...materialProblems(p.action, undefined, false).problems)
   if (!c || typeof c !== 'object' || !Array.isArray(c.questions)) out.push('no check')
   else {
