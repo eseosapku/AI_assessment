@@ -83,9 +83,14 @@ export function PracticeNode({ id, data }: NodeProps) {
   // Results marked now sway the card and move focus; a restored card does neither.
   const seen = useRef<Pick<CheckFlowState, 'phase' | 'attempts'>>()
   useEffect(() => {
-    const live = isLiveChange(seen.current, state)
+    const prev = seen.current
+    const live = isLiveChange(prev, state)
     seen.current = { phase: state.phase, attempts: state.attempts }
     if (!live) return
+    // Try again: back to the answer, which is where the next go starts.
+    if (state.phase === 'idle' && (prev?.phase === 'retry' || prev?.phase === 'wrong')) {
+      rootRef.current?.querySelector<HTMLElement>('[role="radio"]:not([disabled]), textarea:not([disabled]), select:not([disabled])')?.focus({ preventScroll: true })
+    }
     if (state.phase === 'retry' || state.phase === 'wrong') {
       const m = motionFor('shakeSoft', reduced)
       if (m.animate) void shake.start({ ...m.animate, transition: m.transition })

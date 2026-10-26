@@ -90,9 +90,12 @@ export function ActivityFrame({
   const rootRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (phase === undefined || attempts === undefined) return
-    const live = isLiveChange(seen.current, { phase, attempts })
+    const prev = seen.current
+    const live = isLiveChange(prev, { phase, attempts })
     seen.current = { phase, attempts }
     if (!live) return
+    // Try again waits for a move, so Check is disabled; keep focus on the card.
+    if (phase === 'idle' && (prev?.phase === 'retry' || prev?.phase === 'wrong')) rootRef.current?.focus({ preventScroll: true })
     // After a result, focus goes to the bar's first button -- or to the card
     // when solving it left nothing to press.
     if (phase === 'retry' || phase === 'wrong' || phase === 'correct' || phase === 'revealed') {

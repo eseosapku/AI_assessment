@@ -24,8 +24,8 @@ describe('the check flow', () => {
     s = run(s, [wrong])
     expect(s).toMatchObject({ phase: 'retry', attempts: 1 })
     s = run(s, [{ type: 'tryAgain' }])
-    expect(s.phase).toBe('ready')
-    s = run(s, [check, wrong])
+    expect(s.phase).toBe('idle')
+    s = run(s, [answer, check, wrong])
     expect(s).toMatchObject({ phase: 'wrong', attempts: 2 })
     expect(MAX_LEARN_TRIES).toBe(2)
     s = run(s, [{ type: 'reveal' }])
@@ -33,11 +33,11 @@ describe('the check flow', () => {
   })
 
   it('still lets a learner have another go after the second miss, but not in a test', () => {
-    const learnWrong = run(initialCheckFlow('learn'), [answer, check, wrong, { type: 'tryAgain' }, check, wrong])
+    const learnWrong = run(initialCheckFlow('learn'), [answer, check, wrong, { type: 'tryAgain' }, answer, check, wrong])
     const again = checkFlow(learnWrong, { type: 'tryAgain' })
-    expect(again).toMatchObject({ phase: 'ready', attempts: 2 })
-    expect(run(again, [check, wrong])).toMatchObject({ phase: 'wrong', attempts: 3 })
-    expect(run(again, [check, right])).toMatchObject({ phase: 'correct', attempts: 3 })
+    expect(again).toMatchObject({ phase: 'idle', attempts: 2 })
+    expect(run(again, [answer, check, wrong])).toMatchObject({ phase: 'wrong', attempts: 3 })
+    expect(run(again, [answer, check, right])).toMatchObject({ phase: 'correct', attempts: 3 })
     const testWrong = run(initialCheckFlow('test'), [answer, check, wrong])
     expect(checkFlow(testWrong, { type: 'tryAgain' })).toBe(testWrong)
   })
@@ -45,7 +45,7 @@ describe('the check flow', () => {
   it('accepts a right answer on either try', () => {
     expect(run(initialCheckFlow('learn'), [answer, check, right])).toMatchObject({ phase: 'correct', attempts: 1 })
     expect(
-      run(initialCheckFlow('learn'), [answer, check, wrong, { type: 'tryAgain' }, check, right]),
+      run(initialCheckFlow('learn'), [answer, check, wrong, { type: 'tryAgain' }, answer, check, right]),
     ).toMatchObject({ phase: 'correct', attempts: 2 })
   })
 
@@ -150,5 +150,15 @@ describe('feedback for an answer', () => {
     expect(isLiveChange({ phase: 'checking', attempts: 0 }, { phase: 'retry', attempts: 1 })).toBe(true)
     // A second miss from a retry: the phase may not change, the try count does.
     expect(isLiveChange({ phase: 'wrong', attempts: 2 }, { phase: 'wrong', attempts: 3 })).toBe(true)
+  })
+
+  it('waits for a new answer after Try again, so a double press marks nothing twice', () => {
+    // Try again used to leave the same answer armed under the same button, now
+    // reading Check: a second press re-marked the old miss and spent the last try.
+    const retry = run(initialCheckFlow('learn'), [answer, check, wrong])
+    const after = run(retry, [{ type: 'tryAgain' }, check])
+    expect(after).toMatchObject({ phase: 'idle', attempts: 1 })
+    const fromWrong = run(initialCheckFlow('learn', { attempts: 2 }), [{ type: 'tryAgain' }, check])
+    expect(fromWrong).toMatchObject({ phase: 'idle', attempts: 2 })
   })
 })

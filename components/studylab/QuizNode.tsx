@@ -129,7 +129,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   // where it is.
   const seen = useRef<Pick<CheckFlowState, 'phase' | 'attempts'>>()
   useEffect(() => {
-    const live = isLiveChange(seen.current, state)
+    const prev = seen.current
+    const live = isLiveChange(prev, state)
     seen.current = { phase: state.phase, attempts: state.attempts }
     if (!live) return
     if (state.phase === 'retry' || state.phase === 'wrong') {
@@ -139,6 +140,10 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     if (state.phase !== 'idle' && state.phase !== 'ready' && state.phase !== 'checking') {
       const target = resultFocus(barModel(state, options)) === 'primary' ? primaryRef.current : rootRef.current
       target?.focus({ preventScroll: true })
+    }
+    // Try again: back to the answer, which is where the next go starts.
+    if (state.phase === 'idle' && (prev?.phase === 'retry' || prev?.phase === 'wrong')) {
+      rootRef.current?.querySelector<HTMLElement>('[role="radio"]:not([disabled]), textarea:not([disabled]), select:not([disabled])')?.focus({ preventScroll: true })
     }
   }, [state.phase, state.attempts, reduced, shake])
 
@@ -203,6 +208,9 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     if (action === 'check') void check()
     else if (action === 'tryAgain') {
       setLine(undefined)
+      // A fresh choice for the fresh try; written answers stay, to be edited.
+      if (q.format === 'mcq') setAnswer(undefined)
+      else if (q.format === 'match') setAnswer(q.pairs.map(() => ''))
       dispatch({ type: 'tryAgain' })
     } else if (action === 'reveal') dispatch({ type: 'reveal' })
     else if (action === 'why') setWhyOpen(true)

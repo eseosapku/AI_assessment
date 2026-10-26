@@ -39,8 +39,10 @@ const SETTLED: readonly CheckPhase[] = ['correct', 'wrong', 'revealed']
 export function checkFlow(state: CheckFlowState, event: CheckEvent): CheckFlowState {
   // While learning, two misses hand the lead to help and the answer, but
   // another go is never taken away. In a test, a miss is final.
+  // Another go waits for a new answer: the old one was the miss, and leaving
+  // it armed under the same button let a double press mark it twice.
   if (state.phase === 'wrong' && state.mode === 'learn' && event.type === 'tryAgain') {
-    return { ...state, phase: 'ready', message: undefined }
+    return { ...state, phase: 'idle', message: undefined }
   }
   if (SETTLED.includes(state.phase)) {
     return event.type === 'reveal' && state.phase === 'wrong' ? { ...state, phase: 'revealed' } : state
@@ -61,7 +63,7 @@ export function checkFlow(state: CheckFlowState, event: CheckEvent): CheckFlowSt
       return { ...state, phase: final ? 'wrong' : 'retry', attempts, message: event.message }
     }
     case 'tryAgain':
-      return state.phase === 'retry' ? { ...state, phase: 'ready', message: undefined } : state
+      return state.phase === 'retry' ? { ...state, phase: 'idle', message: undefined } : state
     case 'reveal':
       // Learning: the answer can be asked for after a miss, not before trying.
       return state.phase === 'retry' ? { ...state, phase: 'revealed' } : state
