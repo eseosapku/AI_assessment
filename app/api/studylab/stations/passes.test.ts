@@ -233,6 +233,16 @@ describe('the scenes a pass is offered', () => {
 })
 
 describe('runPass: practice_check', () => {
+  it('asks for a check of two kinds: a multiple choice, then one answered by hand where the idea allows', async () => {
+    // Twenty audited stations wrote nineteen multiple choices and one short answer: the fill, order
+    // and tap formats were offered as an aside and never chosen.
+    reply({ practice, check })
+    await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))
+    const asked = String(call()[0])
+    expect(asked).toMatch(/CHECK -- two questions on this station/)
+    expect(asked).toMatch(/The second is answered\s+by hand -- a fill, an order or a tap/)
+  })
+
   it('asks for a practice card outright once the material tried last time cannot be drawn', async () => {
     // "Reading climate graphs" wrote its practice as a bar-chart label three times over this refusal.
     reply({ practice, check })
