@@ -51,6 +51,8 @@ const MIN_ITEMS = 5
 const SUBJECT: Record<string, string> = {
   orbit: 'Physics', particles: 'Chemistry', atom: 'Chemistry', bonding: 'Chemistry', 'lab-bench': 'Chemistry',
   'coordinate-plane': 'Mathematics', 'body-flow': 'Biology', 'cause-chain': 'History',
+  'algebra-tiles': 'Mathematics', 'food-web': 'Biology', 'supply-demand': 'Economics', 'business-finance': 'Business Studies',
+  ledger: 'Accounting', 'counters-place-value': 'Mathematics',
 }
 
 const DIMENSIONS = ['valid', 'solvable', 'unsolvedStart', 'noSelfAnswer', 'noAnswerVisible', 'picturesFit', 'noOverlap', 'changes'] as const
@@ -63,6 +65,8 @@ type Item = {
   usedScene: boolean
   tries: number
   reason?: string
+  /** Every try's refusal, in order: the first is what turned a scene into something else. */
+  reasons?: string[]
   prompt?: string
   config?: unknown
   scores?: Partial<Record<Dimension, boolean>>
@@ -82,10 +86,12 @@ function stations(e: SceneEngine<unknown, unknown>): { lesson: string; step: Les
   })
 }
 
-const VISION = (prompt: string, config: unknown) => [
+const VISION = (prompt: string, config: unknown, about: string) => [
   'You check one learning card before a student sees it. Image 1 is the card as the student first sees it.',
   'Image 2 is the same card holding the right answer, before it is marked.',
   `The card's instruction: "${prompt}". The task it was configured with: ${JSON.stringify(config)}.`,
+  `What its maker says the card shows, and what it keeps until marked: ${about}`,
+  'Data a task gives the student to work from (a table of facts, the equation to make) is not the answer.',
   'Answer from what you can see:',
   '1. answer_visible: in image 1, is the answer already given -- the finished arrangement image 2 reaches, or the name,',
   '   value or result the task asks the student to find, printed on the card? (The instruction itself may name the task.)',
@@ -115,6 +121,7 @@ async function evaluate(e: SceneEngine<unknown, unknown>, s: { lesson: string; s
   const version = stationVersion({ title: s.step.title, goal: s.step.goal, position: 0, subject })
   const requestId = randomUUID()
   let fix: string | undefined
+  const reasons: string[] = []
   let action: Record<string, unknown> | undefined
   let tries = 0
   for (; tries < MAX_PASS_TRIES && !action; tries++) {
@@ -122,18 +129,19 @@ async function evaluate(e: SceneEngine<unknown, unknown>, s: { lesson: string; s
     try {
       const out = await runPass('explore', ctx, { signal: AbortSignal.timeout(PASS_DEADLINE_MS), usage: { requestId, userId: null } })
       if (out.ok) action = (out.partial as { explore?: { action?: Record<string, unknown> } } | undefined)?.explore?.action
-      else fix = out.reason
+      else { fix = out.reason; reasons.push(out.reason) }
     } catch (err) {
       fix = `[error] ${(err as Error)?.message ?? String(err)}`
+      reasons.push(fix)
     }
   }
-  if (!action) return { scene: e.id, station, served: false, usedScene: false, tries, reason: fix }
+  if (!action) return { scene: e.id, station, served: false, usedScene: false, tries, reason: fix, reasons }
   const spec = action.spec as { pattern?: unknown; prompt?: unknown; payload?: { engine?: unknown; config?: unknown } } | undefined
   if (action.type !== 'createActivity' || spec?.pattern !== 'scene' || spec.payload?.engine !== e.id) {
-    return { scene: e.id, station, served: true, usedScene: false, tries, reason: `wrote ${String(spec?.pattern ?? action.type)} instead` }
+    return { scene: e.id, station, served: true, usedScene: false, tries, reason: `wrote ${String(spec?.pattern ?? action.type)} instead`, reasons }
   }
   const config = e.parse(spec.payload.config)
-  const item: Item = { scene: e.id, station, served: true, usedScene: true, tries, prompt: String(spec.prompt ?? ''), config: spec.payload.config }
+  const item: Item = { scene: e.id, station, served: true, usedScene: true, tries, reasons, prompt: String(spec.prompt ?? ''), config: spec.payload.config }
   const scores: Partial<Record<Dimension, boolean>> = {
     valid: validateSpec(spec) && !!config,
     solvable: !!config && e.check(config, e.solve(config)).ok,
@@ -147,7 +155,7 @@ async function evaluate(e: SceneEngine<unknown, unknown>, s: { lesson: string; s
     try {
       const a = await shoot(browser, spec, undefined, subject, shots[0])
       const b = await shoot(browser, spec, e.solve(config), subject, shots[1])
-      const reply = await send(SONNET, VISION(item.prompt!, item.config), 700, [
+      const reply = await send(SONNET, VISION(item.prompt!, item.config, e.prompt.split('config:')[0].replace(/s+/g, ' ').slice(0, 900)), 700, [
         { mediaType: 'image/png', data: a.toString('base64') },
         { mediaType: 'image/png', data: b.toString('base64') },
       ])

@@ -75,6 +75,14 @@ describe('runPass: explore', () => {
     expect(String(call()[0])).toMatch(/refused/i)
   })
 
+  it('says what a reply with no action held instead, so the shape it came back in can be seen', async () => {
+    // Break-even explores came back as JSON with no "opening" or "action" three times running.
+    reply({ type: 'createActivity', spec: sortSpec })
+    const out = await runPass('explore', ctx())
+    expect(out).toMatchObject({ ok: false })
+    expect((out as { reason: string }).reason).toMatch(/no "action" -- it held: type, spec/)
+  })
+
   it('asks for a predict item outright after a material was refused for its schema', async () => {
     reply({ opening: 'Guess first.', action: { type: 'createCard', id: 'x', card: 'practice', title: 'Predict: what does AND output?', body: 'For each input pair.', answer: '1 only for 1,1', rubric: 'r', steps: ['s'] }, hints: [] })
     await runPass('explore', { ...ctx(), fix: 'the "compose" material does not match its apparatus\'s schema (its payload, prompt or success rule).' })

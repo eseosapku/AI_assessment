@@ -240,6 +240,10 @@ async function ask(pass: Exclude<Pass, 'verify'>, ctx: PassContext, opts: PassOp
 async function explore(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
   const got = await ask('explore', ctx, opts)
   if (!got) return { ok: false, reason: 'the explore pass did not come back as JSON' }
+  // What it held instead tells a misread shape from an empty reply.
+  if (!got.action || typeof got.action !== 'object') {
+    return { ok: false, reason: `the reply had no "action" -- it held: ${Object.keys(got).join(', ') || 'nothing'}. Reply in the shape asked: { "opening", "action", "intent", "hints" }` }
+  }
   // The live schema puts the intent on the material itself, and the model
   // follows it; it is taken from either place and kept off the action, as the
   // live path keeps it off the board.

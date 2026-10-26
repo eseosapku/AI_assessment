@@ -45,6 +45,8 @@ function Render() {
   }]
   return (
     <div className="ss-lesson bg-ss-canvas" style={{ width: '100vw', height: '100vh', ...subjectStyle(drawn.subject ?? 'Science') }}>
+      {/* Next's dev badge ("Compiling") sat over a card's Check in a screenshot. */}
+      <style>{'nextjs-portal{display:none!important}'}</style>
       <CanvasContext.Provider value={{ onToggleGroup: () => {}, onNodeDataChange: () => {}, onDeleteNode: () => {}, onAskTutor: () => {}, onNodeResize: () => {} }}>
         <ReactFlowProvider>
           <ReactFlow nodeTypes={studyNodeTypes} nodes={nodes} deleteKeyCode={null} defaultViewport={{ x: 0, y: 0, zoom: 1 }} proOptions={{ hideAttribution: true }} />
