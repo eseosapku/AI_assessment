@@ -104,6 +104,8 @@ export interface StudyCanvasProps {
   onViewSettled?: () => void
   /** The lesson is over: show the whole of it, as a map. */
   overview?: boolean
+  /** The cards' drawn sizes, so the layout can space them by what they are. */
+  onNodesMeasured?: (sizes: Record<string, { w: number; h: number }>) => void
 }
 
 const NO_FOCUS: string[] = []
@@ -122,6 +124,7 @@ function FlowInner({
   onExploreChange,
   onViewSettled,
   overview = false,
+  onNodesMeasured,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -350,6 +353,13 @@ function FlowInner({
   )
 
   const drawnNodes = useMemo<Node[]>(() => [...regionNodes, ...rfNodes], [regionNodes, rfNodes])
+
+  // Once the sizes settle, the layout is told what each card really measures.
+  useEffect(() => {
+    if (!onNodesMeasured || Object.keys(sizes).length === 0) return
+    const timer = setTimeout(() => onNodesMeasured(sizes), 200)
+    return () => clearTimeout(timer)
+  }, [sizes, onNodesMeasured])
 
   const exportCanvas = useCallback(
     async (format: 'png' | 'pdf') => {
@@ -877,6 +887,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             primaryId={props.primaryId}
             onViewSettled={props.onViewSettled}
             overview={props.overview}
+            onNodesMeasured={props.onNodesMeasured}
             onExploreChange={props.onExploreChange}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}

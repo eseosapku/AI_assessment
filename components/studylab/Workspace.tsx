@@ -14,7 +14,7 @@ import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHand
 import { parseHomeworkSheet, mergeSheets, questionCards, type HomeworkSheet } from '@/lib/studylab/homework'
 import { downscaleDataUrl } from '@/lib/studylab/imageScale'
 import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
-import { layoutGraph } from '@/lib/studylab/layout'
+import { layoutGraph, withMeasuredSizes } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
 import { focusFromTurn } from '@/lib/studylab/spotlight'
@@ -698,6 +698,20 @@ export default function Workspace({ id }: { id: string }) {
     [scheduleCanvasSave]
   )
 
+  // The board measured the cards: keep the sizes, and if any card is not the
+  // size the layout assumed, tidy again so nothing sits on top of anything.
+  const handleMeasured = useCallback(
+    (sizes: Record<string, { w: number; h: number }>) => {
+      if (!withMeasuredSizes(canvasRef.current, sizes)) return
+      setCanvas((prev) => {
+        const next = withMeasuredSizes(prev, sizes)
+        return next ? { ...prev, ...next } : prev
+      })
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave],
+  )
+
   // Time actually spent learning. Kept on the board in memory and carried by
   // its ordinary saves (each turn, and when the page is hidden) -- not worth a
   // save of its own every few seconds.
@@ -1187,6 +1201,7 @@ export default function Workspace({ id }: { id: string }) {
         busy,
         title: space?.title,
         plan: canvas.plan,
+        onNodesMeasured: handleMeasured,
       }}
       chat={{
         messages,

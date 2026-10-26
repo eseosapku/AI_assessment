@@ -8,7 +8,7 @@ import { useActiveTime } from './stage/useActiveTime'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
-import { layoutGraph } from '@/lib/studylab/layout'
+import { layoutGraph, withMeasuredSizes } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import { markDemoSeen } from '@/lib/studylab/demoGate'
@@ -385,6 +385,10 @@ export default function DemoWorkspace() {
         run,
         busy,
         title: DEMO_TITLE,
+        onNodesMeasured: (sizes) => setCanvas((prev) => {
+          const next = withMeasuredSizes(prev, sizes)
+          return next ? { ...prev, ...next } : prev
+        }),
         onNodesPositionChange: (updates) =>
           setCanvas((prev) => ({
             ...prev,

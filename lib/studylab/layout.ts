@@ -9,6 +9,16 @@ function isLayoutNode(n: StudyNode): boolean {
   return !n.hidden && n.source !== 'freeform' && !isFreeform(n.type)
 }
 
+/**
+ * A card's size: as the board measured it when it has been drawn, else the
+ * guess for its kind. Guesses alone stacked a tall question on top of the card
+ * below it.
+ */
+function sizeOf(n: StudyNode): { w: number; h: number } {
+  const guess = blockSize(n.type)
+  return { w: n.width ?? guess.w, h: n.height ?? guess.h }
+}
+
 /** Clear space between one step's column of cards and the next one's. */
 const STEP_GAP = 240
 
@@ -35,7 +45,7 @@ function layoutBand(
   g.setDefaultEdgeLabel(() => ({}))
 
   for (const n of members) {
-    const s = blockSize(n.type)
+    const s = sizeOf(n)
     g.setNode(n.id, { width: s.w, height: s.h })
   }
   for (const e of edges) {
@@ -116,11 +126,34 @@ export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<stri
       const member = members.find((m) => m.id === id)
       const x = p.x - minX + offsetX
       out[id] = { x, y: p.y - minY }
-      bandRight = Math.max(bandRight, x + (member ? blockSize(member.type).w : 0))
+      bandRight = Math.max(bandRight, x + (member ? sizeOf(member).w : 0))
     }
 
     offsetX = bandRight + STEP_GAP
   }
 
   return out
+}
+
+/**
+ * Records the sizes the board measured on the cards that were laid out by a
+ * guess, and lays the lesson out again if any changed by more than a few
+ * pixels. Returns the same board when nothing changed, so a caller can skip
+ * the update.
+ */
+export function withMeasuredSizes(
+  board: { nodes: StudyNode[]; edges: StudyEdge[] },
+  sizes: Record<string, { w: number; h: number }>,
+): { nodes: StudyNode[]; edges: StudyEdge[] } | null {
+  let changed = false
+  const nodes = board.nodes.map((n) => {
+    const s = sizes[n.id]
+    if (!s || !isLayoutNode(n)) return n
+    if (Math.abs((n.width ?? -99) - s.w) <= 4 && Math.abs((n.height ?? -99) - s.h) <= 4) return n
+    changed = true
+    return { ...n, width: s.w, height: s.h }
+  })
+  if (!changed) return null
+  const layout = layoutGraph(nodes, board.edges)
+  return { ...board, nodes: nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)) }
 }
