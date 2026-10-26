@@ -195,6 +195,21 @@ So coverage is run the way the figure library was:
 - **Waves.** Engines are built in waves of four to six, one writer agent per engine, each with its contract, property tests, golden screenshots and the eval bar, like figure families. A wave ships only when every engine in it meets the bar.
 - **Report.** The coverage report (topics covered, by subject) is published after each wave, as the figure library's was.
 
+**The map (built 2026-10-26).**
+- **Scope:** 2,960 in-scope topics, classified once with Sonnet ($5.61), against 64 engines: 56 scenes, 7 structured interactions and the fill/order/tap fallback.
+- **Coverage:** 87% have an interaction that fits, 55% of them a scene.
+- **By subject:**
+  - Science and maths are at 95–98%.
+  - Computing is at 76%.
+  - Accounting is at 48%. Its gap is a double-entry ledger workbench (50 topics), the largest buildable gap.
+  - Art is low priority.
+- **The build order follows the map, not the first guess.** Topics are weighted towards secondary science and maths, and towards ideas today's cards show worst:
+  - orbit, particles (built);
+  - then bonding, cause-chain, coordinate-plane, lab-bench, business-finance, body-flow, algorithm-tracer, measure-shape, counters-place-value, magnetism, supply-demand, atom, algebra-tiles, food-web, stats-explorer.
+  - forces, circuit and light fall lower: each owns few topics.
+- **Wave 1 (writer agents, one engine each):** bonding, atom, coordinate-plane, body-flow, cause-chain, lab-bench.
+- **Files:** the map and report are in the session scratchpad `coverage/`.
+
 ### 8. The lesson screen, rebuilt Brilliant-style (user, 2026-10-26)
 
 **One pace.** "Run ahead" and the pace choice go. Every lesson is step by step.
