@@ -164,6 +164,8 @@ const PRACTICE_CHECK_ASK = [
 const SCHEMA_REFUSED = /apparatus's schema|which the board cannot draw|not something the board can build|the catalogue has no diagram of it/
 const PREDICT_NOW =
   'This time, open with a "Predict: ..." practice card -- no material: the one tried last time cannot be drawn here.'
+const PRACTICE_CARD_NOW =
+  'This time, make the practice item a "practice" card -- no material: the one tried last time cannot be drawn here.'
 
 /** Said to a pass written again: what was refused last time. */
 function lastTime(fix: string | undefined): string {
@@ -190,7 +192,8 @@ function prompt(pass: Exclude<Pass, 'verify'>, ctx: PassContext): string {
     return [...head, '', stagePrompt('explore', { missed: [], pace: 'step' }), '', materialRules(), advertiseVocabulary(), '', EXPLORE_ASK, ...sceneHint(ctx), ...predictNow].join('\n')
   }
   if (pass === 'name') return [...head, '', exploreSummary(ctx), '', NAME_ASK].join('\n')
-  return [...head, '', exploreSummary(ctx), '', materialRules(), '', PRACTICE_CHECK_ASK].join('\n')
+  const cardNow = ctx.fix && SCHEMA_REFUSED.test(ctx.fix) ? ['', PRACTICE_CARD_NOW] : []
+  return [...head, '', exploreSummary(ctx), '', materialRules(), '', PRACTICE_CHECK_ASK, ...cardNow].join('\n')
 }
 
 /** The station's ids, whatever the model chose: nothing it writes may collide on the board. */
@@ -385,7 +388,9 @@ async function verify(ctx: PassContext, opts: PassOptions): Promise<PassResult> 
   try {
     verdict = parseJsonRobust(raw)
   } catch {
-    return { ok: false, reason: 'the judge did not come back as JSON' }
+    // How it ended tells a reply cut off at its budget from one that was never JSON.
+    const text = String(raw ?? '')
+    return { ok: false, reason: `the judge did not come back as JSON (${text.length} characters, ending "${text.slice(-60)}")` }
   }
   if (verdict?.ok === true) return { ok: true, bundle: code.bundle }
   // A failure has to be a definite error of a kind the judge was given. A

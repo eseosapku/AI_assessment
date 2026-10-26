@@ -192,6 +192,17 @@ describe('runPass: name', () => {
 })
 
 describe('runPass: practice_check', () => {
+  it('asks for a practice card outright once the material tried last time cannot be drawn', async () => {
+    // "Reading climate graphs" wrote its practice as a bar-chart label three times over this refusal.
+    reply({ practice, check })
+    await runPass('practice_check', { ...ctx({ explore: explore as never, name: name as never }), fix: 'the picture "bar-chart" does not show what is to be labelled: use one that does, or none -- the catalogue has no diagram of it, so use a different apparatus, or a predict item' })
+    expect(String(call()[0])).toMatch(/This time, make the practice item a "practice" card/)
+    vi.mocked(callGemma).mockReset()
+    reply({ practice, check })
+    await runPass('practice_check', { ...ctx({ explore: explore as never, name: name as never }), fix: 'option 2 feedback does not fit' })
+    expect(String(call()[0])).not.toMatch(/This time, make the practice item/)
+  })
+
   it('builds a question from its slips: each wrong option worked out from the mistake that gives it', async () => {
     reply({ practice, check: { say: 'Quick check.', questions: [{
       format: 'mcq', prompt: 'Which fraction equals 2/5?',
@@ -303,6 +314,14 @@ describe('runPass: verify', () => {
     vi.mocked(callGemma).mockReset()
     reply({ ok: false, pass: 'explore', reason: 'The vary relationship is wrong.' })
     expect(await runPass('verify', ctx(whole))).toMatchObject({ ok: true })
+  })
+
+  it('says how a judge reply that is not JSON ended, so a reply cut off at its budget shows as one', async () => {
+    const cut = JSON.stringify({ truth: 'Milk is close to neutral. '.repeat(20), ok: false, kind: 'arguable-item', quote: 'Milk' }).slice(0, 300)
+    vi.mocked(callGemma).mockResolvedValueOnce(cut)
+    const out = await runPass('verify', ctx(whole))
+    expect(out).toMatchObject({ ok: false })
+    expect((out as { reason: string }).reason).toMatch(/the judge did not come back as JSON \(300 characters, ending ".*Milk is close to neutral\./)
   })
 
   it('finds the pass to write again from where the quote is, when the judge names none', async () => {
