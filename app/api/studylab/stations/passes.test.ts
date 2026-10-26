@@ -75,6 +75,16 @@ describe('runPass: explore', () => {
     expect(String(call()[0])).toMatch(/refused/i)
   })
 
+  it('reads an explore written in the live turn shape, or wrapped in a list, rather than spending a try', async () => {
+    // Seen in the scene eval: { say, actions, awaitUser, suggestions, done }, and a bare [ { ... } ].
+    reply({ say: 'Watch which ones bend.', actions: [{ type: 'createActivity', id: 'x', spec: sortSpec, intent }], suggestions: [] })
+    const turn = await runPass('explore', ctx())
+    expect(turn).toMatchObject({ ok: true, partial: { explore: { opening: 'Watch which ones bend.', action: { type: 'createActivity' } } } })
+    vi.mocked(callGemma).mockReset()
+    reply([{ opening: 'Watch which ones bend.', action: { type: 'createActivity', id: 'x', spec: sortSpec }, intent, hints: [] }])
+    expect(await runPass('explore', ctx())).toMatchObject({ ok: true })
+  })
+
   it('says what a reply with no action held instead, so the shape it came back in can be seen', async () => {
     // Break-even explores came back as JSON with no "opening" or "action" three times running.
     reply({ type: 'createActivity', spec: sortSpec })

@@ -237,8 +237,25 @@ async function ask(pass: Exclude<Pass, 'verify'>, ctx: PassContext, opts: PassOp
   }
 }
 
+/**
+ * The explore reply as asked, read out of the two other shapes it came back
+ * in: the live turn's ({ say, actions }), which the system prompt teaches, and
+ * a list around the one object. Each cost a whole try before.
+ */
+function asExplore(got: Record<string, unknown> | null): Record<string, unknown> | null {
+  if (!got) return null
+  if (Array.isArray(got)) {
+    const one = (got as unknown[]).find((x) => x && typeof x === 'object' && 'action' in (x as object))
+    return (one as Record<string, unknown> | undefined) ?? got
+  }
+  if (got.action || !Array.isArray(got.actions)) return got
+  const item = (got.actions as Record<string, unknown>[]).find((a) =>
+    a?.type === 'createActivity' || a?.type === 'build_material' || (a?.type === 'createCard' && a.card === 'practice'))
+  return item ? { ...got, opening: got.opening ?? got.say, action: item } : got
+}
+
 async function explore(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
-  const got = await ask('explore', ctx, opts)
+  const got = asExplore(await ask('explore', ctx, opts))
   if (!got) return { ok: false, reason: 'the explore pass did not come back as JSON' }
   // What it held instead tells a misread shape from an empty reply.
   if (!got.action || typeof got.action !== 'object') {
