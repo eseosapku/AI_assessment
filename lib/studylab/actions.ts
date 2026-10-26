@@ -4,6 +4,7 @@
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 import { isCardKind, blockSize } from './blocks'
 import { salvageQuestions } from './quiz'
+import { practiceQuestion } from './practice'
 import { validateSpec } from './activities/validate'
 import { parseMaterialSpec } from './material/parse'
 import { createInitialMaterialState } from './material/initialState'
@@ -224,6 +225,8 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
           action.position && action.position !== 'auto'
             ? action.position
             : autoPosition(nodes, step, cardType)
+        // A practice card's question to answer by hand, if it can be answered as written.
+        const question = cardType === 'practice' ? practiceQuestion(action.question, action.id) : null
         nodes.push({
           id: action.id,
           type: cardType,
@@ -246,6 +249,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             variant: action.variant,
             answer: action.answer,
             rubric: action.rubric,
+            ...(question ? { question } : {}),
             // Only ever set by the server, on a turn that answered a question.
             ...(action.aside ? { aside: true as const } : {}),
             step,

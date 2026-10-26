@@ -1,20 +1,28 @@
 'use client'
 
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { type NodeProps } from '@xyflow/react'
 import { PenLine, Eye } from 'lucide-react'
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { CardFrame, SafeLatex, CanvasContext } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
-import { localVerdict, isAttemptable, type PracticeCell, type PracticeState } from '@/lib/studylab/practice'
-import { MAX_LEARN_TRIES, restoreEvent, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { localVerdict, isAttemptable, practiceQuestion, markPracticeQuestion, type PracticeCell, type PracticeState } from '@/lib/studylab/practice'
+import { MAX_LEARN_TRIES, restoreEvent, isLiveChange, feedbackFor, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { useDock } from './stage/StageContext'
 import { attemptText } from '@/lib/studylab/attempt'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from './check/CheckBar'
 import { useCheckFlow } from './check/useCheckFlow'
+import { ANSWER_TARGETS } from './check/targets'
+import { McqOptions } from './check/McqOptions'
+import { FillBlanks } from './check/FillBlanks'
+import { OrderSlots } from './check/OrderSlots'
+import { TapFigure } from './check/TapFigure'
+import type { PartsState } from './check/parts'
+import { initialAnswer, attemptOf, isAnswered, type Answer } from '@/lib/studylab/check/answers'
+import { playSound } from '@/lib/studylab/sound'
 
 /**
  * A problem the learner works, rather than reads.
@@ -35,12 +43,21 @@ import { useCheckFlow } from './check/useCheckFlow'
  * Checking runs through the shared check flow: a miss gives another go with the
  * tutor's feedback on what was written; after two, "Show me how" takes the
  * lead -- but another go is never taken away.
+ *
+ * A card may instead carry a question answered by hand -- choose one, fill the
+ * blanks, put in order, tap the part -- marked here on the card, for nothing,
+ * from what was chosen or placed. One that cannot be answered as written was
+ * never kept, and the card asks for working.
  */
 export function PracticeNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData & { practice?: PracticeCell }
   const cell: PracticeCell = d.practice ?? { state: 'unattempted' }
 
+  // Checked again here, not only when the card was made: a board saved
+  // before, or edited, may carry anything.
+  const q = useMemo(() => (d.question ? practiceQuestion(d.question, id) : null), [d.question, id])
   const [attempt, setAttempt] = useState(cell.attempt ?? '')
+  const [given, setGiven] = useState<Answer>(() => (q ? initialAnswer(q, cell.given) : undefined))
   const [showSteps, setShowSteps] = useState(Boolean(cell.revealed))
   const reduced = useReducedMotion() ?? false
   const shake = useAnimationControls()
@@ -77,7 +94,7 @@ export function PracticeNode({ id, data }: NodeProps) {
   // disabled for good. On mount only: a request in flight belongs to this one.
   useEffect(() => {
     if (cell.state === 'marking') patch({ state: 'unattempted' })
-    const restored = restoreEvent(state, isAttemptable(attempt))
+    const restored = restoreEvent(state, q ? isAnswered(q, given) : isAttemptable(attempt))
     if (restored) dispatch(restored)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -91,7 +108,7 @@ export function PracticeNode({ id, data }: NodeProps) {
     if (!live) return
     // Try again: back to the answer, which is where the next go starts.
     if (state.phase === 'idle' && (prev?.phase === 'retry' || prev?.phase === 'wrong')) {
-      rootRef.current?.querySelector<HTMLElement>('[role="radio"]:not([disabled]), textarea:not([disabled]), select:not([disabled])')?.focus({ preventScroll: true })
+      rootRef.current?.querySelector<HTMLElement>(ANSWER_TARGETS)?.focus({ preventScroll: true })
     }
     if (state.phase === 'retry' || state.phase === 'wrong') {
       const m = motionFor('shakeSoft', reduced)
@@ -104,8 +121,27 @@ export function PracticeNode({ id, data }: NodeProps) {
   }, [state.phase, state.attempts, reduced, shake])
 
   const locked = state.phase === 'checking' || state.phase === 'correct' || state.phase === 'revealed'
+  // Marked parts stay as they were marked until Try again, as in a check.
+  const marked = state.phase === 'correct' || state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'revealed'
+  const parts: PartsState = { locked: locked || state.phase === 'retry' || state.phase === 'wrong', marked, showAnswer: state.phase === 'revealed', mode: 'learn' }
+  const give = (next: Answer) => {
+    if (!q || parts.locked) return
+    setGiven(next)
+    dispatch({ type: 'answer', present: isAnswered(q, next) })
+  }
 
   const submit = async () => {
+    if (q) {
+      if (state.phase !== 'ready' || !isAnswered(q, given)) return
+      dispatch({ type: 'check' })
+      const right = markPracticeQuestion(q, given)
+      const v = right ? 'correct' : 'incorrect'
+      verdict.current = v
+      const said = q.format === 'mcq' ? feedbackFor(q, given, v, { final: answerIsFinal('learn', v) }) : undefined
+      patch({ given: given as number | string[], feedback: said })
+      dispatch({ type: 'result', verdict: v })
+      return
+    }
     if (state.phase !== 'ready' || !isAttemptable(attempt)) return
     dispatch({ type: 'check' })
 
@@ -148,7 +184,8 @@ export function PracticeNode({ id, data }: NodeProps) {
   const dock = useDock()
   const options: BarOptions = barOptionsFor(
     {
-      canReveal: hasSteps,
+      // A question by hand can always show its answer, steps or not.
+      canReveal: hasSteps || !!q,
       hasWhy: false,
       whyOpened: false,
       // From the dock only; the bar offers it after a miss.
@@ -163,13 +200,20 @@ export function PracticeNode({ id, data }: NodeProps) {
 
   const onAction = (action: BarAction) => {
     if (action === 'check') void submit()
-    else if (action === 'tryAgain') dispatch({ type: 'tryAgain' })
+    else if (action === 'tryAgain') {
+      // A fresh choice for an mcq; what was placed or tapped stays, to be moved.
+      if (q?.format === 'mcq') setGiven(undefined)
+      dispatch({ type: 'tryAgain' })
+    }
     else if (action === 'reveal') {
       setShowSteps(true)
       patch({ revealed: true })
       dispatch({ type: 'reveal' })
     } else if (action === 'getHelp') {
-      dock.help?.({ prompt: d.body || d.title || 'this problem', attempt: attemptText({ kind: 'text', text: attempt }) })
+      dock.help?.({
+        prompt: q?.prompt || d.body || d.title || 'this problem',
+        attempt: q ? attemptOf(q, given) : attemptText({ kind: 'text', text: attempt }),
+      })
     } else if (action === 'continue') dock.onContinue()
   }
 
@@ -193,13 +237,25 @@ export function PracticeNode({ id, data }: NodeProps) {
           </div>
 
           <div className="flex flex-col gap-3 px-4 pb-4 pt-2.5">
-            {d.body && (
+            {d.body && d.body.trim() !== q?.prompt.trim() && (
               <p className="text-[13.5px] leading-relaxed text-ss-ink">
                 <SafeLatex>{d.body}</SafeLatex>
               </p>
             )}
 
-            <textarea
+            {q && (
+              <p className="text-[13.5px] font-semibold leading-relaxed text-ss-ink">
+                <SafeLatex>{q.prompt}</SafeLatex>
+              </p>
+            )}
+            {q?.format === 'mcq' && (
+              <McqOptions q={q} chosen={given as number | undefined} phase={state.phase} mode="learn" showAnswer={parts.showAnswer} locked={parts.locked} onChoose={(i) => { playSound('tap'); give(i) }} onSubmit={() => void submit()} />
+            )}
+            {q?.format === 'fill' && <FillBlanks q={q} value={given as string[]} onChange={give} state={parts} />}
+            {q?.format === 'order' && <OrderSlots q={q} value={given as string[]} onChange={give} state={parts} />}
+            {q?.format === 'tap' && <TapFigure q={q} value={given as string[]} onChange={give} state={parts} />}
+
+            {!q && <textarea
               value={attempt}
               disabled={locked}
               onChange={(e) => {
@@ -216,7 +272,7 @@ export function PracticeNode({ id, data }: NodeProps) {
               placeholder="Work it through here…"
               aria-label="Your working"
               className="w-full resize-none rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[13px] text-ss-ink outline-none placeholder:text-ss-slate focus:border-[color:var(--subject)] disabled:opacity-80 nodrag nowheel"
-            />
+            />}
 
             {dock.place(<CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={line} />)}
 

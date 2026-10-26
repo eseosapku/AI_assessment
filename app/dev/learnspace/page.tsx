@@ -102,6 +102,14 @@ const initialNodes: Node[] = [
       steps: ['Find two numbers that multiply to $6$ and add to $5$: $2$ and $3$.', 'So $x^2 + 5x + 6 = (x+2)(x+3)$.'],
     } as never,
   },
+  {
+    id: 'practice-tap', type: 'practice', position: { x: 1520, y: 640 },
+    data: {
+      kind: 'practice', title: 'Your turn', body: 'Animal cells release energy from food in their own small organs.',
+      question: { id: 'practice-tap-q', format: 'tap', prompt: 'Tap where the cell releases energy from glucose.', figure: 'asset:animal-cell', answer: ['mitochondrion'] },
+      steps: ['Respiration happens in the mitochondria.', 'They are the small oval parts with folded insides.'],
+    } as never,
+  },
   { id: 'activity', type: 'activity', position: { x: 380, y: 520 }, data: { spec: SORT, activityState: undefined } as never },
   {
     id: 'concept', type: 'concept', position: { x: 880, y: 520 },

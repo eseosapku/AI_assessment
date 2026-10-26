@@ -1,4 +1,6 @@
 // lib/studylab/practice.ts
+import type { CheckpointQuestion } from './types'
+import { isValidQuestion, coerceQuestion, gradeMcq, gradeFill, gradeOrder, gradeTap } from './quiz'
 
 /**
  * Marking a learner's attempt at a practice problem.
@@ -29,6 +31,8 @@ export interface PracticeCell {
   revealed?: boolean
   /** Tries spent on this problem. Absent on cells saved before. */
   attempts?: number
+  /** A by-hand question's answer as given: the option chosen, or what was placed or tapped. */
+  given?: number | string[]
 }
 
 /**
@@ -113,6 +117,32 @@ export function localVerdict(expected: unknown, attempt: unknown): 'correct' | '
 /** Whether an attempt is substantial enough to be worth marking at all. */
 export function isAttemptable(attempt: string): boolean {
   return attempt.trim().length > 0
+}
+
+/** The questions a practice card can ask to be answered by hand rather than written. */
+export type PracticeQuestion = Extract<CheckpointQuestion, { format: 'mcq' | 'fill' | 'order' | 'tap' }>
+
+const BY_HAND = new Set(['mcq', 'fill', 'order', 'tap'])
+
+/**
+ * A practice card's question as the card will ask it, or null: a question
+ * that cannot be answered as written (tiles that cannot fill the blanks, a
+ * figure with no map) is dropped, and the card asks for working instead.
+ */
+export function practiceQuestion(raw: unknown, cardId: string): PracticeQuestion | null {
+  if (!raw || typeof raw !== 'object') return null
+  const q: Record<string, unknown> = { ...(raw as Record<string, unknown>), id: `${cardId}-q` }
+  if (!BY_HAND.has(q.format as string) || !isValidQuestion(q)) return null
+  return coerceQuestion(q) as PracticeQuestion
+}
+
+/** Marks a by-hand answer on the card; anything not shaped like an answer is not right. */
+export function markPracticeQuestion(q: PracticeQuestion, given: unknown): boolean {
+  if (q.format === 'mcq') return typeof given === 'number' && gradeMcq(q, given)
+  if (!Array.isArray(given) || !given.every((g) => typeof g === 'string')) return false
+  if (q.format === 'fill') return gradeFill(q, given)
+  if (q.format === 'order') return gradeOrder(q, given)
+  return gradeTap(q, given)
 }
 
 /** Narrows a verdict off the wire without trusting it. */

@@ -102,6 +102,8 @@ export interface StudyNodeData {
   rubric?: string
   /** Practice card: the learner's attempt and how it was marked. */
   practice?: PracticeCell
+  /** Practice card: a question answered by hand (mcq, fill, order or tap) in place of written working. */
+  question?: CheckpointQuestion
   /** Made in answer to a question rather than to teach the step. */
   aside?: boolean
   /** Callout variant. */
@@ -265,6 +267,8 @@ export type TutorAction =
       /** Practice card: the expected answer, and what a good one shows. */
       answer?: string
       rubric?: string
+      /** Practice card: a question to answer by hand; checked before it lands, and dropped if it cannot be answered. */
+      question?: CheckpointQuestion
       step?: number
       position?: 'auto' | { x: number; y: number }
       /**

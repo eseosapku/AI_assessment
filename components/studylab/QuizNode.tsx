@@ -1,25 +1,25 @@
 'use client'
 
-import { useContext, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
-import { gradeMcq, gradeMatch, gradeFill, gradeOrder, gradeTap, blanksIn, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, gradeFill, gradeOrder, gradeTap, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
 import { regionsFor } from '@/lib/studylab/check/diagramRegions'
 import { filledSentence } from '@/lib/studylab/check/placement'
 import { modeForCell, feedbackFor, isLiveChange, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { useDock } from './stage/StageContext'
-import { attemptText } from '@/lib/studylab/attempt'
+import { initialAnswer, attemptOf, isAnswered, type Answer } from '@/lib/studylab/check/answers'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
 import { getEngine, normalizeLanguage } from '@/lib/studylab/runner'
 import { CanvasContext, handleClass, SafeLatex } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
 import { CheckBar, toneBorder } from './check/CheckBar'
-import { ResultBadge } from './check/ResultBadge'
 import { useCheckFlow } from './check/useCheckFlow'
+import { McqOptions } from './check/McqOptions'
 import { ANSWER_TARGETS } from './check/targets'
 import { FillBlanks } from './check/FillBlanks'
 import { OrderSlots } from './check/OrderSlots'
@@ -92,8 +92,6 @@ export function QuizNode({ id, data }: NodeProps) {
   const cell = stale ? { ...quiz, ...stale } : quiz
   return <QuizCard key={cell.question.id} cell={cell} save={(patch) => onNodeDataChange(id, { quiz: { ...cell, ...patch } })} />
 }
-
-type Answer = number | string | string[] | undefined
 
 function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCell>) => void }) {
   const q = cell.question
@@ -343,45 +341,6 @@ const FORMAT_LABEL: Record<CheckpointQuestion['format'], string> = {
   tap: 'Tap the part',
 }
 
-function initialAnswer(q: CheckpointQuestion, given: QuizCell['given']): Answer {
-  if (q.format === 'mcq') return typeof given === 'number' ? given : undefined
-  if (q.format === 'match') return Array.isArray(given) ? given : q.pairs.map(() => '')
-  if (q.format === 'code') return typeof given === 'string' ? given : q.starter ?? ''
-  if (q.format === 'fill') return places(given, blanksIn(q.text))
-  if (q.format === 'order') return places(given, q.items.length)
-  if (q.format === 'tap') return Array.isArray(given) ? given.filter((g): g is string => typeof g === 'string') : []
-  return typeof given === 'string' ? given : ''
-}
-
-/** A saved fill or order back in its places, '' where nothing was put. */
-function places(given: QuizCell['given'], n: number): string[] {
-  const saved = Array.isArray(given) ? given : []
-  return Array.from({ length: n }, (_, i) => (typeof saved[i] === 'string' ? saved[i] : ''))
-}
-
-/** The answer as given, in words: what Get help sends for the tutor to read back. */
-function attemptOf(q: CheckpointQuestion, a: Answer): string {
-  if (q.format === 'mcq') return attemptText({ kind: 'mcq', options: q.options, chosen: typeof a === 'number' ? a : undefined })
-  if (q.format === 'match') return attemptText({ kind: 'match', pairs: q.pairs, given: Array.isArray(a) ? a : [] })
-  if (q.format === 'fill') return attemptText({ kind: 'fill', text: q.text, given: Array.isArray(a) ? a : [] })
-  if (q.format === 'order') return attemptText({ kind: 'order', given: Array.isArray(a) ? a : [] })
-  if (q.format === 'tap') {
-    const labels = new Map((regionsFor(q.figure)?.regions ?? []).map((r) => [r.id, r.label]))
-    return attemptText({ kind: 'tap', parts: (Array.isArray(a) ? a : []).map((id) => labels.get(id) ?? id) })
-  }
-  return attemptText({ kind: 'text', text: typeof a === 'string' ? a : '' })
-}
-
-/** Blank is not an answer: an empty box or a half-matched list cannot be checked. */
-function isAnswered(q: CheckpointQuestion, a: Answer): boolean {
-  if (q.format === 'mcq') return typeof a === 'number'
-  if (q.format === 'match') return Array.isArray(a) && a.length === q.pairs.length && a.every((g) => g.trim() !== '')
-  // Every blank and every place filled; at least one part tapped.
-  if (q.format === 'fill' || q.format === 'order') return Array.isArray(a) && a.length > 0 && a.every((g) => g.trim() !== '')
-  if (q.format === 'tap') return Array.isArray(a) && a.length > 0
-  return typeof a === 'string' && a.trim() !== ''
-}
-
 function whyText(q: CheckpointQuestion, cell: QuizCell, line: string | undefined): string | undefined {
   if (q.format === 'mcq') return q.explain ?? q.optionFeedback?.[q.answer]
   if (q.format === 'match') return q.pairs.map((p) => `${p.left} → ${p.right}`).join(' · ')
@@ -392,86 +351,6 @@ function whyText(q: CheckpointQuestion, cell: QuizCell, line: string | undefined
     return q.answer.map((id) => labels.get(id) ?? id).join(', ')
   }
   return line ?? cell.feedback
-}
-
-function McqOptions({
-  q, chosen, phase, mode, showAnswer, locked, onChoose, onSubmit,
-}: {
-  q: Extract<CheckpointQuestion, { format: 'mcq' }>
-  chosen: number | undefined
-  phase: CheckFlowState['phase']
-  mode: 'learn' | 'test'
-  showAnswer: boolean
-  locked: boolean
-  onChoose: (i: number) => void
-  /** Enter on the chosen option checks it, as the Check button would. */
-  onSubmit: () => void
-}) {
-  const marked = phase === 'correct' || phase === 'retry' || phase === 'wrong' || phase === 'revealed'
-  const buttons = useRef<(HTMLButtonElement | null)[]>([])
-  // Arrow keys move through the options and choose as they go, the way a
-  // radio group does.
-  const onKey = (e: KeyboardEvent) => {
-    if (locked) return
-    if (e.key === 'Enter' && chosen !== undefined && document.activeElement === buttons.current[chosen] && phase === 'ready') {
-      e.preventDefault()
-      e.stopPropagation()
-      onSubmit()
-      return
-    }
-    const step = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0
-    if (!step) return
-    e.preventDefault()
-    // The board moves a selected card with the arrow keys; here they choose.
-    e.stopPropagation()
-    // From the chosen option, or -- before any is chosen -- the one with focus.
-    const from = chosen ?? buttons.current.findIndex((b) => b === document.activeElement)
-    const next = (from + step + q.options.length) % q.options.length
-    onChoose(next)
-    buttons.current[next]?.focus()
-  }
-  return (
-    <div role="radiogroup" aria-label="Options" className="flex flex-col gap-2" onKeyDown={onKey}>
-      {q.options.map((opt, i) => {
-        const isChosen = chosen === i
-        const isAnswer = i === q.answer
-        const faded = marked && !isChosen && !(showAnswer && isAnswer)
-        // Inline, not Tailwind's /10: opacity modifiers render nothing on
-        // these CSS-variable colours.
-        const toneVar =
-          !marked ? null
-          : phase === 'correct' ? 'var(--ss-good)'
-          : mode === 'learn' ? 'var(--ss-warn)'
-          : 'var(--ss-bad)'
-        const chosenStyle = !isChosen
-          ? undefined
-          : toneVar
-            ? { borderColor: toneVar, backgroundColor: `color-mix(in srgb, ${toneVar} 10%, transparent)` }
-            : { borderColor: 'var(--subject)', backgroundColor: 'var(--subject-soft)' }
-        return (
-          <button
-            key={i}
-            ref={(el) => { buttons.current[i] = el }}
-            type="button"
-            role="radio"
-            data-part={`option-${i + 1}`}
-            aria-checked={isChosen}
-            tabIndex={isChosen || (chosen === undefined && i === 0) ? 0 : -1}
-            disabled={locked}
-            onClick={() => onChoose(i)}
-            className={`nodrag relative w-full rounded-xl border-2 px-3 py-2.5 text-left text-[13.5px] transition-[opacity,border-color,background-color] duration-200 motion-reduce:transition-none ${
-              isChosen ? '' : 'border-ss-line hover:border-[color:var(--subject)]'
-            } ${faded ? 'opacity-45' : ''} disabled:cursor-default`}
-            style={chosenStyle}
-          >
-            <SafeLatex>{opt}</SafeLatex>
-            {marked && isChosen && <ResultBadge kind={phase === 'correct' ? 'correct' : 'wrong'} tone={mode === 'learn' ? 'warn' : 'bad'} />}
-            {showAnswer && isAnswer && !isChosen && <ResultBadge kind="answer" />}
-          </button>
-        )
-      })}
-    </div>
-  )
 }
 
 function MatchRows({
