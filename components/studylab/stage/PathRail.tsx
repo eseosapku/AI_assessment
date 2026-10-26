@@ -356,7 +356,9 @@ function StagePips({ stage }: { stage: Stage }) {
           className={`h-1.5 rounded-full ${i === at ? 'w-5' : 'w-3'}`}
           style={{
             backgroundColor:
-              i === at ? 'var(--subject)' : i < at ? 'color-mix(in srgb, var(--subject) 40%, transparent)' : 'var(--ss-line)',
+              // Ahead: a neutral that still shows on the current station's
+              // tinted row, where the line colour all but vanished.
+              i === at ? 'var(--subject)' : i < at ? 'color-mix(in srgb, var(--subject) 40%, transparent)' : 'color-mix(in srgb, var(--ss-slate) 35%, transparent)',
           }}
         />
       ))}
