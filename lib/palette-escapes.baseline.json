@@ -47,7 +47,7 @@
   "components/studylab/GapMap.tsx": 48,
   "components/studylab/MermaidNode.tsx": 2,
   "components/studylab/QuizNode.tsx": 33,
-  "components/studylab/RunnableCodeCard.tsx": 15,
+  "components/studylab/RunnableCodeCard.tsx": 21,
   "components/studylab/StudyLabHub.tsx": 3,
   "components/studylab/StudyLabSidebar.tsx": 6,
   "components/studylab/tutorNodes.tsx": 15,

@@ -131,6 +131,14 @@ const initialNodes: Node[] = [
       success: { kind: 'numericWithin', target: 15, tolerance: 1 },
     }, activityState: undefined } as never,
   },
+  {
+    id: 'code-py', type: 'code', position: { x: 1520, y: 1180 },
+    data: { kind: 'code', title: 'Doubling in a loop', language: 'python', runnable: true, code: 'def double(x):\n    return x * 2\n\ntotal = 0\nfor i in range(3):\n    total = total + double(i)\n    print(i, total)\nprint("done", total)' } as never,
+  },
+  {
+    id: 'code-js', type: 'code', position: { x: 1900, y: 1180 },
+    data: { kind: 'code', title: 'Counting down', language: 'javascript', runnable: true, code: 'let n = 3\nwhile (n > 0) {\n  console.log(n)\n  n = n - 1\n}\nconsole.log("lift off")' } as never,
+  },
   { id: 'activity', type: 'activity', position: { x: 380, y: 520 }, data: { spec: SORT, activityState: undefined } as never },
   {
     id: 'concept', type: 'concept', position: { x: 880, y: 520 },

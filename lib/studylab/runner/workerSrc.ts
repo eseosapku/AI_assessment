@@ -80,18 +80,48 @@ function cleanTraceback(msg) {
 }
 `
 
+/** Most steps a run's trace keeps; replay.ts plays back no more than this. */
+export const TRACE_LIMIT = 500
+
+/**
+ * The line of the learner's code a print came from, read off the stack. Their
+ * code runs inside `new Function`, whose body starts two lines down; the
+ * innermost frame of it is the line that printed (V8 writes it
+ * "..., <anonymous>:L:C)", Firefox "... > Function:L:C"). 0 when it cannot tell.
+ */
+export const CALLER_LINE_SRC = `
+function callerLine() {
+  var frames = String((new Error()).stack || '').split('\\n');
+  for (var i = 0; i < frames.length; i++) {
+    var m = /, <anonymous>:(\\d+):\\d+\\)$/.exec(frames[i]) || /> Function:(\\d+):\\d+$/.exec(frames[i]);
+    if (m) return Number(m[1]) - 2;
+  }
+  return 0;
+}
+`
+
 export const JS_WORKER_SRC = `
 ${SERIALIZE_SRC}
 ${SINK_SRC}
 ${LOCKDOWN_SRC}
+${CALLER_LINE_SRC}
 var out = makeSink(${OUTPUT_LIMIT});
 var err = makeSink(${OUTPUT_LIMIT});
+var trace = [];
 var fmt = function (args) { return args.map(serializeArg).join(' ') + '\\n'; };
+var print = function (args) {
+  var text = fmt([].slice.call(args));
+  out.push(text);
+  if (trace.length < ${TRACE_LIMIT}) {
+    var line = callerLine();
+    if (line > 0) trace.push({ line: line, out: text });
+  }
+};
 self.console = {
-  log: function () { out.push(fmt([].slice.call(arguments))); },
-  info: function () { out.push(fmt([].slice.call(arguments))); },
-  warn: function () { out.push(fmt([].slice.call(arguments))); },
-  debug: function () { out.push(fmt([].slice.call(arguments))); },
+  log: function () { print(arguments); },
+  info: function () { print(arguments); },
+  warn: function () { print(arguments); },
+  debug: function () { print(arguments); },
   error: function () { err.push(fmt([].slice.call(arguments))); },
 };
 lockDown(self);
@@ -99,11 +129,68 @@ self.onmessage = async function (e) {
   try {
     var fn = new Function('return (async () => {' + e.data + '\\n})()');
     await fn();
-    self.postMessage({ type: 'done', stdout: out.text(), stderr: err.text() });
+    self.postMessage({ type: 'done', stdout: out.text(), stderr: err.text(), trace: trace });
   } catch (ex) {
-    self.postMessage({ type: 'error', stdout: out.text(), stderr: String((ex && ex.stack) || ex) });
+    self.postMessage({ type: 'error', stdout: out.text(), stderr: String((ex && ex.stack) || ex), trace: trace });
   }
 };
+`
+
+/**
+ * The Python tracer, as Python. Compiled under its own file name, '<lstrace>',
+ * so tracing never records its own lines; only frames of the learner's code
+ * ('<exec>', as Pyodide names it) are traced. Each line run is a step; what
+ * is printed while a line runs is that step's output. At the limit it stops
+ * tracing, and _ls_stop always puts the tracer and stdout back.
+ */
+export const PY_TRACE_SRC = `
+import sys as _sys
+
+class _LsOut:
+    def __init__(self, inner, trace, state):
+        self.inner = inner
+        self.trace = trace
+        self.state = state
+    def write(self, text):
+        if self.trace and not self.state['full']:
+            self.trace[-1][1] += text
+        return self.inner.write(text)
+    def flush(self):
+        return self.inner.flush()
+    def __getattr__(self, name):
+        return getattr(self.inner, name)
+
+def _ls_start(limit):
+    trace = []
+    state = {'full': False}
+    def tracer(frame, event, arg):
+        if frame.f_code.co_filename != '<exec>':
+            return None
+        line = frame.f_lineno
+        if event == 'return':
+            # Back in the line that called it: print(f(x)) prints from there, not from f.
+            caller = frame.f_back
+            if caller is None or caller.f_code.co_filename != '<exec>':
+                return tracer
+            line = caller.f_lineno
+        elif event != 'line':
+            return tracer
+        if len(trace) >= limit:
+            state['full'] = True
+            _sys.settrace(None)
+            return None
+        trace.append([line, ''])
+        return tracer
+    out = _LsOut(_sys.stdout, trace, state)
+    _sys.stdout = out
+    _sys.settrace(tracer)
+    return [trace, out]
+
+def _ls_stop(started):
+    _sys.settrace(None)
+    if _sys.stdout is started[1]:
+        _sys.stdout = started[1].inner
+    return started[0]
 `
 
 /**
@@ -119,6 +206,17 @@ export function pythonWorkerSrc(version: string): string {
 ${SINK_SRC}
 ${LOCKDOWN_SRC}
 ${TRACEBACK_SRC}
+var TRACE_PY = ${JSON.stringify(PY_TRACE_SRC)};
+var tracer = null;
+// The tracer's own namespace, compiled once as '<lstrace>' so it is never traced itself.
+function ensureTracer(py) {
+  if (!tracer) {
+    tracer = py.toPy({});
+    tracer.set('__src', TRACE_PY);
+    py.runPython("exec(compile(__src, '<lstrace>', 'exec'), globals())", { globals: tracer });
+  }
+  return tracer;
+}
 var pyReady = null;
 function ensurePy() {
   if (!pyReady) {
@@ -141,16 +239,34 @@ self.onmessage = async function (e) {
   var out = makeSink(${OUTPUT_LIMIT});
   var err = makeSink(${OUTPUT_LIMIT});
   var ns = null;
+  var started = null;
+  var trace;
+  // The run line by line; a run that cannot be traced still runs, just without one.
+  var stopTrace = function () {
+    if (!started) return;
+    try {
+      var steps = tracer.get('_ls_stop')(started);
+      trace = steps.toJs().map(function (s) { return { line: s[0], out: s[1] }; });
+      steps.destroy();
+    } catch (e) { trace = undefined; }
+    started.destroy();
+    started = null;
+  };
   try {
     var py = await ensurePy();
     py.setStdout({ batched: function (s) { out.push(s + '\\n'); } });
     py.setStderr({ batched: function (s) { err.push(s + '\\n'); } });
     ns = py.toPy({});
     ns.set('__name__', '__main__');
-    await py.runPythonAsync(msg.code, { globals: ns });
-    self.postMessage({ type: 'done', stdout: out.text(), stderr: err.text() });
+    try { started = ensureTracer(py).get('_ls_start')(${TRACE_LIMIT}); } catch (e) { started = null; }
+    try {
+      await py.runPythonAsync(msg.code, { globals: ns });
+    } finally {
+      stopTrace();
+    }
+    self.postMessage({ type: 'done', stdout: out.text(), stderr: err.text(), trace: trace });
   } catch (ex) {
-    self.postMessage({ type: 'error', stdout: out.text(), stderr: cleanTraceback(String((ex && ex.message) || ex)) });
+    self.postMessage({ type: 'error', stdout: out.text(), stderr: cleanTraceback(String((ex && ex.message) || ex)), trace: trace });
   } finally {
     if (ns) ns.destroy();
   }
