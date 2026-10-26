@@ -74,6 +74,10 @@ export interface ChatMouthpieceProps {
   onRetry?: (action: Record<string, unknown>) => void
   /** The measured score this lesson was opened for, shown beside "Prove it". */
   before?: { title: string; accuracy: number } | null
+  /** In the drawer: closes it. */
+  onClose?: () => void
+  /** Put the cursor in the box (the drawer was just opened). */
+  focusInput?: boolean
 }
 
 /**
@@ -91,12 +95,16 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null, onClose, focusInput = false }: ChatMouthpieceProps) {
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    if (focusInput) inputRef.current?.focus({ preventScroll: true })
+  }, [focusInput])
 
   // A composed question owns the box while it is on offer.
   const value = composed ?? input
@@ -161,6 +169,17 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <p className="text-[12px] text-ss-slate">Your tutor</p>
         </div>
         <MuteToggle />
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close the chat"
+            title="Close (Esc)"
+            className="grid h-11 w-11 place-items-center rounded-xl text-ss-slate transition hover:bg-ss-chip hover:text-ss-ink motion-reduce:transition-none"
+          >
+            <X className="h-5 w-5" aria-hidden />
+          </button>
+        )}
       </div>
 
       {/* Messages */}
@@ -395,6 +414,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             <ImagePlus className="w-4.5 h-4.5" />
           </button>
           <textarea
+            ref={inputRef}
             value={value}
             readOnly={locked}
             onChange={(e) => !locked && setInput(e.target.value)}
@@ -414,7 +434,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                 ? lockedHint ?? 'Typing is off in the demo.'
                 : 'Ask anything, or paste your work…'
             }
-            className={`flex-1 bg-transparent resize-none outline-none text-[13.5px] max-h-28 py-1 ${
+            className={`flex-1 bg-transparent resize-none outline-none focus-visible:outline-none text-[13.5px] max-h-28 py-1 ${
               locked && composed === null ? 'text-ss-slate' : ''
             }`}
           />
@@ -456,7 +476,7 @@ function MuteToggle() {
       aria-pressed={muted}
       aria-label={muted ? 'Turn sound on' : 'Turn sound off'}
       title={muted ? 'Sound off' : 'Sound on'}
-      className="ml-auto grid h-9 w-9 place-items-center rounded-xl text-ss-slate transition hover:bg-ss-chip hover:text-ss-ink motion-reduce:transition-none"
+      className="ml-auto grid h-11 w-11 place-items-center rounded-xl text-ss-slate transition hover:bg-ss-chip hover:text-ss-ink motion-reduce:transition-none"
     >
       {muted ? <VolumeX className="h-4.5 w-4.5" /> : <Volume2 className="h-4.5 w-4.5" />}
     </button>

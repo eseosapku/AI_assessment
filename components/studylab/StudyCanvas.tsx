@@ -588,6 +588,33 @@ function FlowInner({
     return () => clearTimeout(timer)
   }, [focusKey, frameFocus])
 
+  // The board narrows when the drawer opens, and the window can change: the
+  // work in focus is framed again once the size settles, unless the learner
+  // is looking around on their own.
+  const exploringRef = useRef(exploring)
+  exploringRef.current = exploring
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    let timer: ReturnType<typeof setTimeout> | null = null
+    let first = true
+    const ro = new ResizeObserver(() => {
+      if (first) {
+        first = false
+        return
+      }
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        if (!exploringRef.current) frameFocus()
+      }, 180)
+    })
+    ro.observe(el)
+    return () => {
+      ro.disconnect()
+      if (timer) clearTimeout(timer)
+    }
+  }, [frameFocus])
+
   const backToLesson = useCallback(() => {
     setExploring(false)
     frameFocus()

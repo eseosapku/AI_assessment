@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { Loader2 } from 'lucide-react'
 import StudyLabSidebar, { type StudyLabSidebarProps } from '../StudyLabSidebar'
@@ -11,6 +11,8 @@ import { focusIds, continueFor, dockModel, type ContinueTarget } from '@/lib/stu
 import { StageContext, type StageValue } from './StageContext'
 import { ActionDock } from './ActionDock'
 import { InkyDock } from './InkyDock'
+import { TutorDrawer } from './TutorDrawer'
+import { drawerKey } from '@/lib/studylab/drawerKey'
 
 // React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('../StudyCanvas'), {
@@ -34,6 +36,9 @@ export interface LessonStageProps {
   onAdvance: () => void
   /** Sends the learner to a card: the next question, the open check. */
   onFocus: (nodeId: string) => void
+  /** The chat drawer, when the caller holds it (the demo opens it for a cue). */
+  drawerOpen?: boolean
+  onDrawerOpenChange?: (open: boolean) => void
   /** Above everything: the demo's "this is a demo" bar. */
   banner?: ReactNode
   /** Over the board: the unsaved notice, the demo's cue card. */
@@ -56,7 +61,7 @@ const INSETS = { top: 72, right: 32, bottom: 128, left: 32 }
  * copies of the layout, and drifted.
  */
 export default function LessonStage({
-  subjectKey, focus, rail, board, chat, onAdvance, onFocus, banner, boardOverlay, children,
+  subjectKey, focus, rail, board, chat, onAdvance, onFocus, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children,
 }: LessonStageProps) {
   const spotlight = useMemo(
     () => focusIds({ nodes: board.nodes, run: board.run, explicit: focus }),
@@ -110,9 +115,36 @@ export default function LessonStage({
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
   const [viewTick, setViewTick] = useState(0)
   const onViewSettled = useCallback(() => setViewTick((t) => t + 1), [])
-  const openChat = useCallback(() => {
-    document.querySelector<HTMLTextAreaElement>('[data-tour="lesson-composer"] textarea')?.focus()
-  }, [])
+  // The chat drawer, closed by default. Until the plan card has a place on the
+  // board, a plan (or a page of questions) waiting for an answer opens it.
+  const [ownOpen, setOwnOpen] = useState(false)
+  const awaitingChoice = chat.messages.some(
+    (m) => (m.kind === 'plan' && m.plan?.live) || (m.kind === 'homework' && m.sheet?.live),
+  )
+  const open = (drawerOpen ?? ownOpen) || awaitingChoice
+  const opener = useRef<HTMLElement | null>(null)
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (next) opener.current = document.activeElement as HTMLElement | null
+      if (onDrawerOpenChange) onDrawerOpenChange(next)
+      else setOwnOpen(next)
+      // Closing hands focus back to whatever opened it.
+      if (!next) requestAnimationFrame(() => opener.current?.isConnected && opener.current.focus({ preventScroll: true }))
+    },
+    [onDrawerOpenChange],
+  )
+  const openChat = useCallback(() => setOpen(true), [setOpen])
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null
+      const act = drawerKey({ key: e.key, target: t ? { tagName: t.tagName, isContentEditable: t.isContentEditable } : null, open })
+      if (!act) return
+      e.preventDefault()
+      setOpen(act === 'open')
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open, setOpen])
 
   return (
     <StageContext.Provider value={stage}>
@@ -129,7 +161,7 @@ export default function LessonStage({
               busy={chat.busy}
               working={chat.working ?? 'Thinking…'}
               quiet={gating}
-              hidden={false}
+              hidden={open}
               focusIds={spotlight}
               viewTick={viewTick}
               onOpenChat={openChat}
@@ -138,9 +170,9 @@ export default function LessonStage({
             />
             <ActionDock ref={setDockEl} view={view} claimed={owner !== null} onContinue={runContinue} />
           </div>
-          <div className="w-[360px] shrink-0 h-full border-l border-ss-line">
-            <ChatMouthpiece {...chat} />
-          </div>
+          <TutorDrawer open={open} onClose={() => setOpen(false)}>
+            <ChatMouthpiece {...chat} onClose={() => setOpen(false)} focusInput={open && !awaitingChoice} />
+          </TutorDrawer>
         </div>
         {children}
       </div>
