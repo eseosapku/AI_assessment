@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
     // about the lesson: the turn did not come through, it can be sent again,
     // and the run stays where it was -- the same as a reply that did not parse.
     const result = await applyAction({
-      run, policy, userId, action, requestId, deadline,
+      run, policy, userId, action, requestId, deadline, spaceId: learnspaceId,
       context: {
         title: space.title,
         subject: space.subject,

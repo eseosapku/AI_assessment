@@ -11,7 +11,9 @@ import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
 import { isValidQuestion, coerceQuestion, markCheck, missedQuestions, salvageQuestions, type CheckAnswers } from '@/lib/studylab/quiz'
-import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
+import { parseBoardSummary, type BoardSummary, type Explored } from '@/lib/studylab/boardSummary'
+import { authorState, stationVersion } from '@/lib/studylab/stationJobs'
+import { verifyBundleCode, type Outcome, type StationBundle } from '@/lib/studylab/stationBundle'
 import { parseHomeworkSheet, stepsFromQuestions } from '@/lib/studylab/homework'
 import { isCardKind } from '@/lib/studylab/blocks'
 import { parseImageDataUrl } from '@/lib/studylab/imageMime'
@@ -96,6 +98,8 @@ export interface DispatchInput {
   action: LessonAction
   /** Everything the teaching job needs to write its cards. Absent in tests. */
   context?: Record<string, unknown>
+  /** The lesson's id, where its stations written ahead are found. Absent in tests. */
+  spaceId?: string
   requestId?: string
   /**
    * When the route must answer by, as epoch ms. Amplify ends a request at
@@ -441,6 +445,12 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       ? missedQuestions(asked, input.action.answers)
       : []
   const missed = [...new Set([...failed, ...(board.missedByStep[advanced.currentStep + 1] ?? [])])].slice(0, 3)
+
+  // A station written ahead is served as written, with no model call.
+  const authored = await authoredTurn(input, advanced, step, stage, board, missed)
+  if (authored.result) return authored.result
+  advanced = authored.run
+
   const prompt = buildTeachPrompt(advanced, step, input.context ?? {}, false, missed)
   const teach = (text: string) =>
     callGemma(text, {
@@ -587,6 +597,111 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     suggestions,
     intents: intents.length > 0 ? intents : undefined,
     materialRefusals: materialRefusals.length > 0 ? materialRefusals : undefined,
+  }
+}
+
+/**
+ * The turn a station written ahead has for this stage, with the run it leaves,
+ * or no result to teach the turn live.
+ *
+ * A station's origin is decided once, at its explore: authored when a bundle
+ * for this exact version of the step is ready and still passes its checks,
+ * live otherwise -- and live it stays. Live too, as before bundles, for a
+ * near-twin after a miss, everything after a missed check (a second naming has
+ * to be a different way), and run pace, where one turn builds the rest of the
+ * station. The learner is never told which they got.
+ */
+async function authoredTurn(
+  input: DispatchInput,
+  run: LessonRun,
+  step: LessonStep,
+  stage: Stage | null,
+  board: BoardSummary,
+  missed: string[],
+): Promise<{ run: LessonRun; result?: DispatchResult }> {
+  if (!stage || !input.spaceId) return { run }
+  const deciding = stage === 'explore' && !run.stationOrigin
+  if (!deciding && run.stationOrigin !== 'authored') return { run }
+  const live: LessonRun = deciding ? { ...run, stationOrigin: 'live' } : run
+  if (run.pace === 'run' || missed.length > 0 || (run.stationMisses ?? 0) > 0) return { run: live }
+
+  const bundle = await readyBundle(input, run, step)
+  if (!bundle) return { run: live }
+  const origin: LessonRun = deciding ? { ...run, stationOrigin: 'authored' } : run
+  const result = serveStage(stage, bundle, origin, step, board)
+  return result ? { run: result.run, result } : { run: live }
+}
+
+/** The bundle written for this step as it stands now, if it is ready and still passes its checks. */
+async function readyBundle(input: DispatchInput, run: LessonRun, step: LessonStep): Promise<StationBundle | null> {
+  // Exactly as the author route computes it, or nothing written is ever found.
+  const subject = input.context?.subject ? String(input.context.subject) : undefined
+  const version = stationVersion({ title: step.title, goal: step.goal, position: run.currentStep, subject })
+  try {
+    const state = await authorState(input.spaceId!, step.id, version)
+    if (state.status !== 'ready' || !state.bundle) return null
+    const verdict = verifyBundleCode(state.bundle)
+    if (!verdict.ok) {
+      console.log(`Authored station refused at serve time (${verdict.pass}): ${verdict.reasons.join('; ')}`)
+      return null
+    }
+    return verdict.bundle.version === version && verdict.bundle.stepId === step.id ? verdict.bundle : null
+  } catch (error) {
+    console.warn('Authored station lookup failed:', (error as { message?: string })?.message)
+    return null
+  }
+}
+
+/** Which name cut fits how the explore went: never one claiming a result they did not reach. */
+function cutFor(explored: Explored | undefined): Outcome {
+  if (explored?.outcome === 'solved') return explored.attempts <= 1 ? 'solved' : 'helped'
+  return 'untried'
+}
+
+/**
+ * Authored actions through the same gates a live turn's pass, or null when any
+ * of them would be dropped: a station is served whole or not at all.
+ */
+function keptAuthored(actions: unknown[], run: LessonRun, step: LessonStep): unknown[] | null {
+  const { kept: activities } = refuseUnjustifiedActivities(fitCardsToLesson(actions, run), { title: step.title, goal: step.goal })
+  const { kept } = refuseUnjustifiedMaterials(activities)
+  const valid = kept.filter(isValidAction)
+  return valid.length === actions.length && valid.length > 0 ? valid : null
+}
+
+function serveStage(stage: Stage, bundle: StationBundle, run: LessonRun, step: LessonStep, board: BoardSummary): DispatchResult | null {
+  const stepNo = run.currentStep + 1
+  if (stage === 'check') {
+    const checkpointId = `cp-${step.id}-${Math.random().toString(36).slice(2, 6)}`
+    const begun = beginCheck(run, step.id, checkpointId, 'checkpoint', 'hard')
+    if (!begun.ok) return null
+    const questions = bundle.check.questions
+    return {
+      run: keepQuestions(begun.run, checkpointId, questions),
+      say: bundle.check.say,
+      actions: [{ type: 'checkpoint', id: checkpointId, step: stepNo, gate: 'hard', questions }],
+      suggestions: [],
+    }
+  }
+  const { say, actions, intent } =
+    stage === 'explore'
+      ? {
+          say: bundle.explore.opening,
+          // The material's intent goes back on for the gates, which take it off again.
+          actions: [bundle.explore.intent ? { ...bundle.explore.action, intent: bundle.explore.intent } : bundle.explore.action] as unknown[],
+          intent: bundle.explore.intent,
+        }
+      : stage === 'name'
+        ? { ...bundle.name[cutFor(board.exploreByStep[stepNo])], intent: undefined }
+        : { say: bundle.practice.say, actions: [bundle.practice.action] as unknown[], intent: undefined }
+  const kept = keptAuthored(actions, run, step)
+  if (!kept || isAllRepeats(kept, board)) return null
+  return {
+    run,
+    say,
+    actions: onePoint(kept),
+    suggestions: stage === 'name' ? [...COMPREHENSION_CHIPS] : [],
+    ...(intent ? { intents: [intent] } : {}),
   }
 }
 

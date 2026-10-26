@@ -110,6 +110,13 @@ export interface LessonRun {
    * explanation that is not landing.
    */
   stationMisses?: number
+  /**
+   * Where the current station's beats come from, decided once at its explore:
+   * written ahead and served as written, or taught live. A bundle that turns
+   * up mid-station is never switched to -- its name cards point at an explore
+   * item the learner never saw. Cleared on landing on another step.
+   */
+  stationOrigin?: 'authored' | 'live'
 }
 
 export type Stage = 'explore' | 'name' | 'practice' | 'check'
@@ -193,8 +200,8 @@ function focus(run: LessonRun, index: number): LessonRun {
     }
     return s.status === 'teaching' ? { ...s, status: 'pending' as StepStatus } : s
   })
-  // Landing on a step starts its station afresh, misses and all.
-  const { stationMisses: _misses, ...rest } = run
+  // Landing on a step starts its station afresh, misses, origin and all.
+  const { stationMisses: _misses, stationOrigin: _origin, ...rest } = run
   const landed = index === run.currentStep ? run : rest
   return withStage({ ...landed, steps, currentStep: index, beats: 0 }, 'explore')
 }
