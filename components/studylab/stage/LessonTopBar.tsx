@@ -123,23 +123,6 @@ export function LessonTopBar({
         <X className="h-5 w-5" aria-hidden />
       </button>
 
-      {segments.length > 0 && (
-        <button
-          ref={trigger}
-          type="button"
-          data-tour="lesson-plan"
-          onClick={() => setOpen((o) => !o)}
-          aria-expanded={open}
-          aria-haspopup="true"
-          aria-label={here ? `${capital(noun)} ${at + 1} of ${segments.length}: ${here.title}. Show all ${noun}s` : `${title}: show all ${noun}s`}
-          title={heading}
-          className="inline-flex h-10 min-w-0 max-w-[42vw] shrink items-center gap-1.5 rounded-xl px-2.5 text-left text-[14px] font-extrabold text-ss-ink transition-colors hover:bg-ss-chip sm:max-w-[340px]"
-        >
-          <span className="truncate">{heading}</span>
-          <ChevronDown className={`h-4 w-4 shrink-0 text-ss-slate transition-transform duration-200 motion-reduce:transition-none ${open ? 'rotate-180' : ''}`} aria-hidden />
-        </button>
-      )}
-
       {/* The whole lesson in one bar; pressing it opens the steps, as the button beside it does. */}
       <button
         type="button"
@@ -158,6 +141,23 @@ export function LessonTopBar({
         {done} of {segments.length} {noun}s done, {Math.round(progress * 100)}% of the lesson
       </span>
 
+      {segments.length > 0 && (
+        <button
+          ref={trigger}
+          type="button"
+          data-tour="lesson-plan"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          aria-haspopup="true"
+          aria-label={here ? `${capital(noun)} ${at + 1} of ${segments.length}: ${here.title}. Show all ${noun}s` : `${title}: show all ${noun}s`}
+          title={heading}
+          className="inline-flex h-10 min-w-0 max-w-[42vw] shrink items-center gap-1.5 rounded-xl px-2.5 text-left text-[14px] font-extrabold text-ss-ink transition-colors hover:bg-ss-chip sm:max-w-[340px]"
+        >
+          <span className="truncate">{heading}</span>
+          <ChevronDown className={`h-4 w-4 shrink-0 text-ss-slate transition-transform duration-200 motion-reduce:transition-none ${open ? 'rotate-180' : ''}`} aria-hidden />
+        </button>
+      )}
+
       <AnimatePresence>
         {open && (
           <motion.div
@@ -165,7 +165,7 @@ export function LessonTopBar({
             role="dialog"
             aria-label={`All ${noun}s`}
             {...motionFor('rise', reduced)}
-            className="absolute left-2 top-[calc(100%+6px)] z-50 flex max-h-[min(72vh,620px)] w-[min(400px,calc(100vw-16px))] flex-col overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-[0_24px_60px_-24px_rgba(20,60,90,0.45)] sm:left-14"
+            className="absolute right-2 top-[calc(100%+6px)] z-50 flex max-h-[min(72vh,620px)] w-[min(400px,calc(100vw-16px))] flex-col overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-[0_24px_60px_-24px_rgba(20,60,90,0.45)] sm:right-4"
           >
             <div className="flex items-start gap-3 px-5 pb-3 pt-4">
               <div className="min-w-0 flex-1">
