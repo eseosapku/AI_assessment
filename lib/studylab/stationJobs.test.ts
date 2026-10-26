@@ -54,6 +54,12 @@ describe('claimPass -- a pass is written once', () => {
     txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [] })
     expect(await claimPass('space', 's1', 'v1', 'name')).toBeNull()
   })
+  it('names the type of the job it inserts -- Postgres refused a parameter selected as text and compared as varchar', async () => {
+    txQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [{ id: 'job-1' }] })
+    await claimPass('space', 's1', 'v1', 'name')
+    // Found live: "inconsistent types deduced for parameter $1 -- text versus character varying".
+    expect(String(txQuery.mock.calls[1][0])).toMatch(/SELECT \$1::varchar,/)
+  })
 })
 
 describe('authorState', () => {

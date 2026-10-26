@@ -103,8 +103,10 @@ export async function claimPass(spaceId: string, stepId: string, version: string
   return db.withStatementTimeout(10_000, async (q) => {
     await q('SELECT pg_advisory_xact_lock(hashtext($1))', [`${JOB}:${spaceId}:${stepId}:${version}:${pass}`])
     const { rows } = await q<{ id: string }>(
+      // $1 is both selected and compared: typed here, or Postgres deduces text
+      // for one and varchar for the other and refuses the statement.
       `INSERT INTO ai_jobs (job_type, status, input_payload, attempts, started_at)
-       SELECT $1, 'running', $2::jsonb, 1, NOW()
+       SELECT $1::varchar, 'running', $2::jsonb, 1, NOW()
         WHERE NOT EXISTS (
           SELECT 1 FROM ai_jobs
            WHERE job_type = $1
