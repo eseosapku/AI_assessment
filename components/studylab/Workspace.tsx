@@ -26,6 +26,7 @@ import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } f
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import type { ChatPlan } from '@/lib/studylab/types'
 import { measuredBefore, type LessonRun } from '@/lib/studylab/lessonRun'
+import { whatToAuthor, stationKey, driveStation, type AuthorStatus } from '@/lib/studylab/prefetch'
 import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
@@ -1126,6 +1127,33 @@ export default function Workspace({ id }: { id: string }) {
       cancelled = true
     }
   }, [id, user?.id])
+
+  // ── Writing the next station ahead ──────────────────────────────────────────
+  // While the learner works on this step, the next one is written in the
+  // background, one pass a request. It never waits on a turn and shows
+  // nothing; a station not ready in time is taught live.
+  const authored = useRef<Record<string, AuthorStatus>>({})
+  const [authoredTick, setAuthoredTick] = useState(0)
+  const authorTarget = useMemo(() => {
+    const stepId = whatToAuthor(run, authored.current)
+    const index = stepId && run ? run.steps.findIndex((s) => s.id === stepId) : -1
+    return stepId && run && index >= 0 ? { stepId, key: stationKey(run.steps[index], index) } : null
+    // authoredTick re-reads the ref once a station settles.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [run, authoredTick])
+  const authorStep = authorTarget?.stepId
+  const authorKey = authorTarget?.key
+  useEffect(() => {
+    if (!authorStep || !authorKey || !user?.id || !loaded) return
+    const ctrl = new AbortController()
+    authored.current[authorKey] = 'authoring'
+    void driveStation({ spaceId: id, stepId: authorStep, userId: user.id, signal: ctrl.signal }).then((status) => {
+      if (!status) return
+      authored.current[authorKey] = status
+      setAuthoredTick((t) => t + 1)
+    })
+    return () => ctrl.abort()
+  }, [authorStep, authorKey, user?.id, loaded, id])
 
   // The lesson no longer starts itself. A space with a run already in progress
   // resumes it; one that has never been planned asks for a plan and nothing

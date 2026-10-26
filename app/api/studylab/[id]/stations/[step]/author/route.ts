@@ -48,8 +48,9 @@ async function loadStation(spaceId: string, stepId: string, caller: string): Pro
   if (!run || position < 0) return NextResponse.json({ error: 'Step not found' }, { status: 404 })
   const step = run.steps[position]
   // A homework step is worked from the learner's own attempt, and a lesson from
-  // before stations has no stages to write.
-  if (run.recipe !== 'station' || step.homework) {
+  // before stations has no stages to write. A plan still on the table takes
+  // stations when it is accepted, so its first step is written now.
+  if ((run.recipe !== 'station' && run.phase !== 'planning') || step.homework) {
     return NextResponse.json({ error: 'This step is taught live' }, { status: 409 })
   }
   const title = String(space.title ?? '')

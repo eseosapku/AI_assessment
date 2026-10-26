@@ -1,0 +1,98 @@
+// lib/studylab/prefetch.ts
+import { nextToTeach, type LessonRun, type LessonStep } from './lessonRun'
+
+/**
+ * Writing the next station while the learner works on this one. The page
+ * drives the author route one pass a request, in the background; nothing here
+ * ever waits on a turn or shows anything.
+ */
+export type AuthorStatus = 'none' | 'authoring' | 'ready' | 'failed'
+
+/**
+ * Which station the page has heard about. A step renamed, rewritten or moved is
+ * a different station, so what the old one came to says nothing about it.
+ */
+export function stationKey(step: LessonStep, position: number): string {
+  return [step.id, position, step.title.trim(), step.goal.trim()].join('␟')
+}
+
+/**
+ * The station to drive next: the first step while the plan is still on the
+ * table (it takes stations when accepted), and the step the lesson goes to
+ * after this one while teaching -- never further ahead, never a homework step,
+ * never a lesson from before stations, never one already ready or failed.
+ */
+export function whatToAuthor(run: LessonRun | null, known: Record<string, AuthorStatus>): string | null {
+  if (!run) return null
+  let index = -1
+  if (run.phase === 'planning') index = nextToTeach(run.steps, 0)
+  else if (run.phase === 'teaching' && run.recipe === 'station') {
+    index = nextToTeach(run.steps, run.currentStep + 1)
+    // Only the step being taught is left: there is nothing ahead to write.
+    if (index === run.currentStep) index = -1
+  }
+  const step = index >= 0 ? run.steps[index] : undefined
+  if (!step || step.homework) return null
+  const status = known[stationKey(step, index)]
+  return status === 'ready' || status === 'failed' ? null : step.id
+}
+
+/** Requests one station may make before the page stops asking. A station is four passes, six with retries. */
+const MAX_REQUESTS = 20
+const FIRST_WAIT_MS = 1000
+const LONGEST_WAIT_MS = 8000
+
+function pause(ms: number, signal: AbortSignal): Promise<void> {
+  return new Promise((resolve) => {
+    const t = setTimeout(resolve, ms)
+    signal.addEventListener('abort', () => { clearTimeout(t); resolve() }, { once: true })
+  })
+}
+
+export interface DriveStation {
+  spaceId: string
+  stepId: string
+  userId: string
+  /** Aborted when the page unmounts or the lesson moves on. */
+  signal: AbortSignal
+  fetch?: typeof fetch
+  sleep?: (ms: number) => Promise<void>
+}
+
+/**
+ * Asks for pass after pass until the station is ready or has failed. A pass
+ * another request holds is waited on, 1 s doubling to 8 s. Returns null when
+ * aborted, so nothing is recorded about a station the lesson moved past.
+ */
+export async function driveStation(d: DriveStation): Promise<AuthorStatus | null> {
+  const send = d.fetch ?? fetch
+  const sleep = d.sleep ?? ((ms: number) => pause(ms, d.signal))
+  const url = `/api/studylab/${encodeURIComponent(d.spaceId)}/stations/${encodeURIComponent(d.stepId)}/author`
+  let wait = FIRST_WAIT_MS
+  try {
+    for (let i = 0; i < MAX_REQUESTS; i += 1) {
+      if (d.signal.aborted) return null
+      const res = await send(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: d.userId }),
+        signal: d.signal,
+      })
+      if (d.signal.aborted) return null
+      if (res.status === 202) {
+        await sleep(wait)
+        wait = Math.min(wait * 2, LONGEST_WAIT_MS)
+        continue
+      }
+      // Refused (taught live, not the owner, over the limit) or broken: this
+      // station runs live, and the page does not ask again.
+      if (!res.ok) return 'failed'
+      const body = (await res.json().catch(() => ({}))) as { status?: string }
+      if (body.status === 'ready' || body.status === 'failed') return body.status
+      wait = FIRST_WAIT_MS
+    }
+    return 'failed'
+  } catch {
+    return d.signal.aborted ? null : 'failed'
+  }
+}

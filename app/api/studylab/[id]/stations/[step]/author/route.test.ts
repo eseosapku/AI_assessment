@@ -127,6 +127,13 @@ describe('POST /api/studylab/[id]/stations/[step]/author', () => {
     expect(h.claimPass).not.toHaveBeenCalled()
   })
 
+  it('writes ahead for a lesson whose plan is still on the table -- it takes stations when the plan is accepted', async () => {
+    h.query.mockResolvedValue({ rows: [space({ lesson_run: { ...space().lesson_run, phase: 'planning', currentStep: -1, recipe: undefined, stage: undefined } })] })
+    h.claimPass.mockResolvedValue(null)
+    expect((await post()).status).toBe(202)
+    expect(h.claimPass).toHaveBeenCalled()
+  })
+
   it('records a pass that could not finish, and asks for nothing more', async () => {
     h.claimPass.mockResolvedValue('job-1')
     h.runPass.mockRejectedValue(Object.assign(new Error('busy'), { name: 'ServiceUnavailableException' }))

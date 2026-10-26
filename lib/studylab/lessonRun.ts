@@ -173,7 +173,7 @@ function nextUnsettled(steps: LessonStep[], from = 0): number {
  * still a step nobody has done; a step deliberately skipped is marked 'known'
  * and this never comes back to it.
  */
-function nextToTeach(steps: LessonStep[], from: number): number {
+export function nextToTeach(steps: LessonStep[], from: number): number {
   const ahead = nextUnsettled(steps, from)
   return ahead === -1 ? nextUnsettled(steps, 0) : ahead
 }
