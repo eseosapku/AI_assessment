@@ -10,6 +10,13 @@ const N = 30
 const R = 7
 const COLS = 6
 const FILL = '#2F7FD1'
+/** Clear space between a particle and the box's edge, so none is clipped by its border or corners. */
+const INSET = 4
+/** The box's measures, for the tests that hold every frame to them. */
+export const BOX = { w: W, h: H, r: R, inset: INSET } as const
+const LO = R + INSET
+const HI_X = W - R - INSET
+const HI_Y = H - R - INSET
 
 /** What the box shows, in words that describe the arrangement and never name the state. */
 const SEEN: Record<MatterState, string> = {
@@ -60,26 +67,49 @@ function step(ps: P[], state: MatterState, speed: number) {
     }
     p.x += p.vx
     p.y += p.vy
-    if (p.x < R) { p.x = R; p.vx = Math.abs(p.vx) }
-    if (p.x > W - R) { p.x = W - R; p.vx = -Math.abs(p.vx) }
-    if (p.y < R) { p.y = R; p.vy = Math.abs(p.vy) }
-    if (p.y > H - R) { p.y = H - R; p.vy = -Math.abs(p.vy) * (state === 'liquid' ? 0.2 : 1) }
+    if (p.x < LO) { p.x = LO; p.vx = Math.abs(p.vx) }
+    if (p.x > HI_X) { p.x = HI_X; p.vx = -Math.abs(p.vx) }
+    if (p.y < LO) { p.y = LO; p.vy = Math.abs(p.vy) }
+    if (p.y > HI_Y) { p.y = HI_Y; p.vy = -Math.abs(p.vy) * (state === 'liquid' ? 0.2 : 1) }
   }
-  if (state === 'liquid') {
-    // Close, never overlapping: a gentle push apart.
+  if (state === 'solid') {
+    for (const p of ps) clamp(p)
+    return
+  }
+  // Close in a liquid, apart in a gas, and never one over another: pushed
+  // apart and back inside until they settle. A still frame caught a liquid
+  // piled over itself on the box's floor.
+  for (let round = 0; round < 16; round++) {
+    let moved = false
     for (let i = 0; i < ps.length; i++) {
       for (let j = i + 1; j < ps.length; j++) {
         const a = ps[i], b = ps[j]
         const dx = b.x - a.x, dy = b.y - a.y
         const d = Math.hypot(dx, dy) || 0.01
         if (d < R * 2) {
-          const push = (R * 2 - d) / 2
+          const push = (R * 2 - d) / 2 + 0.01
           a.x -= (dx / d) * push; a.y -= (dy / d) * push
           b.x += (dx / d) * push; b.y += (dy / d) * push
+          moved = true
         }
       }
     }
+    for (const p of ps) clamp(p)
+    if (!moved) break
   }
+}
+
+/** Back inside the box, clear of its edge. */
+function clamp(p: P) {
+  p.x = Math.min(HI_X, Math.max(LO, p.x))
+  p.y = Math.min(HI_Y, Math.max(LO, p.y))
+}
+
+/** The box after some frames in one state, as the tests and a still frame see it. */
+export function simulate(state: MatterState, speed: number, frames: number): P[] {
+  const ps = start()
+  for (let i = 0; i < frames; i++) step(ps, state, speed)
+  return ps
 }
 
 function draw(ctx: CanvasRenderingContext2D, ps: P[]) {
