@@ -130,6 +130,18 @@ describe('verifyBundleCode', () => {
     expect(fails(c).reasons.join(' ')).toMatch(/"binary-converter".*"practice"/)
   })
 
+  it('refuses a practice material with no intent -- serving would refuse it, and the station would run live', () => {
+    const b = good()
+    b.practice = { say: 'Same idea.', action: { type: 'createActivity', id: 'p1', spec: sortSpec, step: 1 } as never }
+    expect(fails(b).pass).toBe('practice_check')
+  })
+
+  it('accepts a practice material whose intent is kept beside it, as the explore keeps its own', () => {
+    const b = good()
+    b.practice = { say: 'Same idea.', action: { type: 'createActivity', id: 'p1', spec: sortSpec, step: 1 } as never, intent: sortIntent as never }
+    expect(verifyBundleCode(b).ok).toBe(true)
+  })
+
   it('accepts a predict item where no material fits', () => {
     const b = good()
     b.explore = { opening: 'Guess before you read.', action: { type: 'createCard', id: 'm1', card: 'practice', title: 'Predict: which city grew first?', body: 'Look at the map.', answer: 'The one on the river', rubric: 'Names the river city', steps: ['Water and trade'], step: 1 } as never, hints: [] }

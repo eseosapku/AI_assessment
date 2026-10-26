@@ -227,6 +227,15 @@ describe('runPass: practice_check', () => {
     reply({ practice, check: { ...check, questions: [{ ...check.questions[0], optionFeedback: ['', 'Yes.'] }] } })
     expect((await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))).ok).toBe(false)
   })
+  it('keeps a practice material\'s intent beside it, off the action, as the explore does', async () => {
+    reply({ practice: { say: 'Same idea.', action: { type: 'createActivity', id: 'x', spec: sortSpec, intent } }, check })
+    const out = await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))
+    expect(out.ok).toBe(true)
+    if (!out.ok) return
+    expect(out.partial?.practice?.intent).toMatchObject({ isolates: 'category' })
+    expect(out.partial?.practice?.action).not.toHaveProperty('intent')
+  })
+
   it('writes a near-twin practice item and a hard check with feedback on every option', async () => {
     reply({ practice, check })
     const out = await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))

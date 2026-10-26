@@ -124,6 +124,28 @@ describe('an authored station is served at once', () => {
   })
 })
 
+describe('a practice that is a material', () => {
+  const sortTwin = { ...sortSpec, prompt: 'Sort these too', payload: { ...sortSpec.payload, items: [{ id: 'i3', label: 'Copper', binId: 'b1', imageUrl: 'copper' }, { id: 'i4', label: 'Carbon', binId: 'b2', imageUrl: 'carbon' }] }, success: { kind: 'binAssignment', assign: { i3: 'b1', i4: 'b2' } } }
+  const withMaterialPractice = () => bundle({ practice: { say: 'Two more.', action: { type: 'createActivity', id: 's1-practice', spec: sortTwin, step: 1 }, intent } })
+
+  it('is served at its beat, its intent back on for the gates and off again for the board', async () => {
+    ready(withMaterialPractice())
+    const out = await turn(station('name'), { type: 'next_beat' })
+    expect(callGemma).not.toHaveBeenCalled()
+    expect(out.say).toBe('Two more.')
+    expect(out.actions[0]).toMatchObject({ type: 'createActivity', id: 's1-practice' })
+    expect(out.actions[0]).not.toHaveProperty('intent')
+  })
+
+  it('does not send a run-pace station live', async () => {
+    ready(withMaterialPractice())
+    const out = await turn({ ...planning(), pace: 'run' }, { type: 'accept_plan' })
+    expect(callGemma).not.toHaveBeenCalled()
+    expect(out.run.stationOrigin).toBe('authored')
+    expect(out.actions.map((a) => (a as { id?: string }).id)).toContain('s1-practice')
+  })
+})
+
 describe('live beats take over whenever it cannot be', () => {
   it('teaches a station live when its bundle is not ready, and keeps it live', async () => {
     const out = await turn(planning(), { type: 'accept_plan' })

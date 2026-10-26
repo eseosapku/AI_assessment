@@ -294,7 +294,14 @@ async function practiceCheck(ctx: PassContext, opts: PassOptions): Promise<PassR
   if (!got) return { ok: false, reason: 'the practice and check pass did not come back as JSON' }
   const p = got.practice as { say?: unknown; action?: unknown } | undefined
   const c = got.check as { say?: unknown; questions?: unknown } | undefined
-  const practice = { say: String(p?.say ?? '').trim(), action: stepped({ ...((p?.action as object) ?? {}), id: `${ctx.step.id}-practice` }, ctx.stepNo) as never }
+  // A material's intent comes off the action and is kept beside it, as the explore's is.
+  const { intent: onAction, ...bare } = ((p?.action as Record<string, unknown>) ?? {})
+  const practiceIntent = (p as { intent?: unknown } | undefined)?.intent ?? onAction
+  const practice = {
+    say: String(p?.say ?? '').trim(),
+    action: stepped({ ...bare, id: `${ctx.step.id}-practice` }, ctx.stepNo) as never,
+    ...(practiceIntent ? { intent: practiceIntent as never } : {}),
+  }
   const check = { say: String(c?.say ?? '').trim(), questions: (Array.isArray(c?.questions) ? c.questions.map(fromSlips) : []) as never }
   const problems = checkPracticeCheck(practice, check)
   return problems.length ? { ok: false, reason: problems.join('; ') } : { ok: true, partial: { practice, check } }

@@ -248,11 +248,18 @@ function inspect(report: Report, bundle: StationBundle, step: LessonStep) {
     const v = validateMaterial(a.spec as never)
     report.solvable = v.ok ? isSolvable(v.spec as never).ok : false
   } else report.solvable = null
-  // The serve-time gates, as dispatch runs them on an authored explore.
-  const withIntent = bundle.explore.intent ? { ...a, intent: bundle.explore.intent } : a
-  const { kept: acts, refused: r1 } = refuseUnjustifiedActivities([withIntent], { title: step.title, goal: step.goal })
+  // The serve-time gates, as dispatch runs them on the authored explore and
+  // practice, each with its intent back on. The explore alone once stood in
+  // for "served whole" while a practice material without its intent would
+  // have been refused.
+  const p = bundle.practice.action as unknown as Record<string, unknown>
+  const items = [
+    bundle.explore.intent ? { ...a, intent: bundle.explore.intent } : a,
+    bundle.practice.intent ? { ...p, intent: bundle.practice.intent } : p,
+  ]
+  const { kept: acts, refused: r1 } = refuseUnjustifiedActivities(items, { title: step.title, goal: step.goal })
   const { kept, refused: r2 } = refuseUnjustifiedMaterials(acts)
-  report.servedWhole = kept.length === 1
+  report.servedWhole = kept.length === items.length
   report.serveDrop = [...r1, ...r2]
   report.cutsAlike = cutsAlike(bundle.name)
   verifyBundleCode(bundle).ok || (report.servedWhole = false)

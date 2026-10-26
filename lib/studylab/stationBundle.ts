@@ -39,6 +39,8 @@ export interface AuthoredCut {
 export interface AuthoredItem {
   say: string
   action: TutorAction
+  /** A material's intent, kept beside it as the explore keeps its own; put back on for the gates when served. */
+  intent?: TeachingIntent
 }
 
 export interface AuthoredCheck {
@@ -193,7 +195,9 @@ export function checkPracticeCheck(p: Partial<AuthoredItem> | undefined, c: Part
   const out: string[] = []
   if (!p || typeof p !== 'object' || !p.action) out.push('no practice item')
   else if (!isValidAction(p.action)) out.push(invalidItem(p.action, 'practice'))
-  else out.push(...materialProblems(p.action, undefined, false).problems)
+  // Judged as serving judges it: a material without its intent passed here and
+  // was refused at serve time, sending a station that was ready live.
+  else out.push(...materialProblems(p.action, p.intent, true).problems)
   if (!c || typeof c !== 'object' || !Array.isArray(c.questions)) out.push('no check')
   else {
     if (c.questions.length < 1 || c.questions.length > 2) out.push(`a check has one or two questions, not ${c.questions.length}`)

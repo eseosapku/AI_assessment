@@ -644,7 +644,7 @@ async function authoredTurn(
 function serveWhole(bundle: StationBundle, run: LessonRun, step: LessonStep, board: BoardSummary): DispatchResult | null {
   const explore = serveStage('explore', bundle, run, step, board)
   const named = keptAuthored(bundle.name.solved.actions, run, step)
-  const practice = keptAuthored([bundle.practice.action], run, step)
+  const practice = keptAuthored([withIntent(bundle.practice)], run, step)
   if (!explore || !named || !practice) return null
   const check = serveStage('check', bundle, run, step, board)
   if (!check) return null
@@ -683,6 +683,11 @@ function cutFor(explored: Explored | undefined): Outcome {
   return 'untried'
 }
 
+/** An authored item's action with its intent back on, for the gates, which take it off again. */
+function withIntent(item: { action: unknown; intent?: TeachingIntent }): unknown {
+  return item.intent ? { ...(item.action as object), intent: item.intent } : item.action
+}
+
 /**
  * Authored actions through the same gates a live turn's pass, or null when any
  * of them would be dropped: a station is served whole or not at all.
@@ -713,12 +718,12 @@ function serveStage(stage: Stage, bundle: StationBundle, run: LessonRun, step: L
       ? {
           say: bundle.explore.opening,
           // The material's intent goes back on for the gates, which take it off again.
-          actions: [bundle.explore.intent ? { ...bundle.explore.action, intent: bundle.explore.intent } : bundle.explore.action] as unknown[],
+          actions: [withIntent(bundle.explore)] as unknown[],
           intent: bundle.explore.intent,
         }
       : stage === 'name'
         ? { ...bundle.name[cutFor(board.exploreByStep[stepNo])], intent: undefined }
-        : { say: bundle.practice.say, actions: [bundle.practice.action] as unknown[], intent: undefined }
+        : { say: bundle.practice.say, actions: [withIntent(bundle.practice)] as unknown[], intent: bundle.practice.intent }
   const kept = keptAuthored(actions, run, step)
   if (!kept || isAllRepeats(kept, board)) return null
   return {
