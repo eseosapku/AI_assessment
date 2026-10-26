@@ -6,7 +6,7 @@ import { Lightbulb, Check, Hand } from 'lucide-react'
 import { handleClass } from '../canvasShared'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
-import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { barModel, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from '../check/CheckBar'
 
@@ -86,11 +86,19 @@ export function ActivityFrame({
   const attempts = checkState?.attempts
   // Only for a result marked now: a material restored solved does not hop on load.
   const seen = useRef<Pick<CheckFlowState, 'phase' | 'attempts'>>()
+  const primaryRef = useRef<HTMLButtonElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (phase === undefined || attempts === undefined) return
     const live = isLiveChange(seen.current, { phase, attempts })
     seen.current = { phase, attempts }
     if (!live) return
+    // After a result, focus goes to the bar's first button -- or to the card
+    // when solving it left nothing to press.
+    if (phase === 'retry' || phase === 'wrong' || phase === 'correct' || phase === 'revealed') {
+      const target = checkState && resultFocus(barModel(checkState, MATERIAL_BAR)) === 'primary' ? primaryRef.current : rootRef.current
+      target?.focus({ preventScroll: true })
+    }
     const m =
       phase === 'correct' ? motionFor('stagger', reduced)
       : phase === 'retry' || phase === 'wrong' ? motionFor('shakeSoft', reduced)
@@ -100,7 +108,9 @@ export function ActivityFrame({
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className="sl-node-enter w-[420px] overflow-hidden rounded-2xl border-2 bg-ss-panel shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] transition-colors duration-200 motion-reduce:transition-none"
+        ref={rootRef}
+        tabIndex={-1}
+        className="sl-node-enter w-[420px] overflow-hidden rounded-2xl border-2 bg-ss-panel shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] transition-colors duration-200 motion-reduce:transition-none outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
         style={{ borderColor: checkState ? toneBorder(tone) : 'var(--ss-line)' }}
       >
         <Handle type="target" position={Position.Left} className={handleClass} />
@@ -121,7 +131,7 @@ export function ActivityFrame({
           </motion.div>
 
           {checkState && onCheckAction ? (
-            <CheckBar state={checkState} options={MATERIAL_BAR} onAction={onCheckAction} line={checkLine} />
+            <CheckBar ref={primaryRef} state={checkState} options={MATERIAL_BAR} onAction={onCheckAction} line={checkLine} />
           ) : (
             <div className="flex items-center gap-2">
               {onCheck && !solved && (

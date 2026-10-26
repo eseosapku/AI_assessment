@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
 import { modeForCell, feedbackFor, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
-import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { barModel, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
 import { getEngine, normalizeLanguage } from '@/lib/studylab/runner'
@@ -93,6 +93,9 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   const reduced = useReducedMotion() ?? false
   const shake = useAnimationControls()
   const primaryRef = useRef<HTMLButtonElement>(null)
+  // Where focus goes when a result leaves no button to press.
+  const rootRef = useRef<HTMLDivElement>(null)
+  const whyRef = useRef<HTMLDivElement>(null)
 
   const [answer, setAnswer] = useState<Answer>(() => initialAnswer(q, cell.given))
   const [line, setLine] = useState<string | undefined>(cell.feedback)
@@ -134,9 +137,17 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
       if (m.animate) void shake.start({ ...m.animate, transition: m.transition })
     }
     if (state.phase !== 'idle' && state.phase !== 'ready' && state.phase !== 'checking') {
-      primaryRef.current?.focus({ preventScroll: true })
+      const target = resultFocus(barModel(state, options)) === 'primary' ? primaryRef.current : rootRef.current
+      target?.focus({ preventScroll: true })
     }
   }, [state.phase, state.attempts, reduced, shake])
+
+  // Reading "Why?" can take away the last button on the bar; the explanation
+  // it opened is then the place to be.
+  useEffect(() => {
+    if (whyOpen && resultFocus(barModel(state, options)) === 'card') whyRef.current?.focus({ preventScroll: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [whyOpen])
 
   const give = (next: Answer) => {
     if (locked) return
@@ -208,8 +219,10 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
 
   return (
     <motion.div
+      ref={rootRef}
+      tabIndex={-1}
       animate={shake}
-      className="sl-node-enter w-[340px] rounded-2xl border-2 bg-ss-panel shadow overflow-visible"
+      className="sl-node-enter w-[340px] rounded-2xl border-2 bg-ss-panel shadow overflow-visible outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
       style={{ borderColor: toneBorder(tone) }}
     >
       <Handle type="target" position={Position.Left} className={handleClass} />
@@ -249,8 +262,10 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
         <AnimatePresence>
           {whyOpen && why && (
             <motion.div
+              ref={whyRef}
+              tabIndex={-1}
               {...motionFor('rise', reduced)}
-              className="rounded-xl border border-ss-line bg-ss-chip px-3 py-2.5"
+              className="rounded-xl border border-ss-line bg-ss-chip px-3 py-2.5 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
             >
               <p className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">Why</p>
               <p className="mt-1 text-[13px] leading-relaxed text-ss-ink"><SafeLatex>{why}</SafeLatex></p>

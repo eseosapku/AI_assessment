@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { barModel, barOptionsFor, CORRECT_LINES } from './checkBarModel'
+import { barModel, barOptionsFor, resultFocus, CORRECT_LINES } from './checkBarModel'
 import type { CheckFlowState } from './checkFlow'
 
 const opts = { canReveal: true, hasWhy: true, whyOpened: false, hasHelp: false }
@@ -82,5 +82,17 @@ describe('the check bar', () => {
     const m = barModel({ mode: 'learn', phase: 'ready', attempts: 0, message: 'Couldn’t mark that — try again.' }, opts)
     expect(m.line).toBe('Couldn’t mark that — try again.')
     expect(m.tone).toBe('neutral')
+  })
+
+  it('sends focus to the card when the result leaves nothing to press', () => {
+    // Pressing the last button removed it, and focus fell to the page: a
+    // keyboard learner was thrown back to the top of the lesson.
+    const none = { ...opts, hasContinue: false, hasWhy: false }
+    expect(resultFocus(barModel(s('learn', 'correct', 1), none))).toBe('card')
+    expect(resultFocus(barModel(s('test', 'wrong', 1), { ...opts, hasContinue: false, whyOpened: true }))).toBe('card')
+    expect(resultFocus(barModel(s('learn', 'retry', 1), none))).toBe('primary')
+    expect(resultFocus(barModel(s('learn', 'correct', 1), opts))).toBe('primary')
+    // A disabled button cannot take focus either.
+    expect(resultFocus(barModel(s('learn', 'idle'), opts))).toBe('card')
   })
 })

@@ -9,7 +9,7 @@ import { CardFrame, SafeLatex, CanvasContext } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
 import { localVerdict, isAttemptable, type PracticeCell, type PracticeState } from '@/lib/studylab/practice'
 import { MAX_LEARN_TRIES, restoreEvent, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
-import { barModel, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { barModel, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from './check/CheckBar'
 import { useCheckFlow } from './check/useCheckFlow'
@@ -43,6 +43,8 @@ export function PracticeNode({ id, data }: NodeProps) {
   const reduced = useReducedMotion() ?? false
   const shake = useAnimationControls()
   const primaryRef = useRef<HTMLButtonElement>(null)
+  // Where focus goes when a result leaves no button to press.
+  const rootRef = useRef<HTMLDivElement>(null)
 
   const { onNodeDataChange } = useContext(CanvasContext)
   const { user } = useAuth()
@@ -89,7 +91,8 @@ export function PracticeNode({ id, data }: NodeProps) {
       if (m.animate) void shake.start({ ...m.animate, transition: m.transition })
     }
     if (state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'correct' || state.phase === 'revealed') {
-      primaryRef.current?.focus({ preventScroll: true })
+      const target = resultFocus(barModel(state, options)) === 'primary' ? primaryRef.current : rootRef.current
+      target?.focus({ preventScroll: true })
     }
   }, [state.phase, state.attempts, reduced, shake])
 
@@ -161,7 +164,7 @@ export function PracticeNode({ id, data }: NodeProps) {
       : state.message
 
   return (
-    <motion.div animate={shake}>
+    <motion.div ref={rootRef} tabIndex={-1} animate={shake} className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]">
       <CardFrame accent="violet" borderColor={tone === 'neutral' ? undefined : toneBorder(tone)}>
           <div className="flex items-center gap-2 px-4 pt-4">
             <div

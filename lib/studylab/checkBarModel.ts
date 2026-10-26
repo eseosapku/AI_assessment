@@ -79,6 +79,15 @@ export function barOptionsFor(base: BarOptions, docked: boolean, cont: { label: 
   return { ...base, hasContinue: true, continueLabel: cont.label }
 }
 
+/**
+ * Where focus goes after a result: the bar's primary button, or -- when the
+ * result left nothing to press -- the card itself, so a keyboard learner stays
+ * where they were working instead of falling back to the top of the page.
+ */
+export function resultFocus(model: BarModel): 'primary' | 'card' {
+  return model.primary && !model.primary.disabled ? 'primary' : 'card'
+}
+
 function fullModel(state: CheckFlowState, opts: BarOptions): BarModel & { primary: BarButton } {
   const cont: BarButton = { action: 'continue', label: opts.continueLabel ?? 'Continue' }
   const reveal: BarButton = { action: 'reveal', label: opts.revealLabel ?? 'Show answer' }
