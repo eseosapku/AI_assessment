@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { barModel, CORRECT_LINES } from './checkBarModel'
+import { barModel, barOptionsFor, CORRECT_LINES } from './checkBarModel'
 import type { CheckFlowState } from './checkFlow'
 
 const opts = { canReveal: true, hasWhy: true, whyOpened: false, hasHelp: false }
@@ -69,6 +69,13 @@ describe('the check bar', () => {
 
   it('carries on once the answer has been shown', () => {
     expect(barModel(s('learn', 'revealed', 2), opts)).toMatchObject({ primary: { action: 'continue' } })
+  })
+
+  it('gives a card Continue only while its bar sits in the dock', () => {
+    const base = { ...opts, hasContinue: false }
+    expect(barOptionsFor(base, false, { label: 'Next question' })).toMatchObject({ hasContinue: false })
+    expect(barOptionsFor(base, true, { label: 'Next question' })).toMatchObject({ hasContinue: true, continueLabel: 'Next question' })
+    expect(barOptionsFor(base, true, null)).toMatchObject({ hasContinue: false })
   })
 
   it('shows a marking problem on the bar without counting it', () => {

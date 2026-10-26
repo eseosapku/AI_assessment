@@ -66,6 +66,19 @@ export function barModel(state: CheckFlowState, opts: BarOptions): BarModel {
   return { ...model, primary: keep[0], secondary: keep[1] }
 }
 
+/**
+ * A card's bar options, given where the bar is.
+ *
+ * In the dock under the spotlight, the bar's Continue is the lesson's way on
+ * (`cont`, from `continueFor`). Left inline on a card the learner has moved
+ * past, it has none: a Continue on an old card would be a second, stale way
+ * forward.
+ */
+export function barOptionsFor(base: BarOptions, docked: boolean, cont: { label: string } | null): BarOptions {
+  if (!docked || !cont) return { ...base, hasContinue: false }
+  return { ...base, hasContinue: true, continueLabel: cont.label }
+}
+
 function fullModel(state: CheckFlowState, opts: BarOptions): BarModel & { primary: BarButton } {
   const cont: BarButton = { action: 'continue', label: opts.continueLabel ?? 'Continue' }
   const reveal: BarButton = { action: 'reveal', label: opts.revealLabel ?? 'Show answer' }
