@@ -108,7 +108,7 @@ export interface LessonRun {
 
 export type Stage = 'explore' | 'name' | 'practice' | 'check'
 
-const STAGES: readonly Stage[] = ['explore', 'name', 'practice', 'check']
+export const STAGES: readonly Stage[] = ['explore', 'name', 'practice', 'check']
 
 /** The current station's stage; null on a run from before stations. */
 export function stageOf(run: LessonRun): Stage | null {

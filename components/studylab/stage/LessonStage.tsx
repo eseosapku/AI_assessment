@@ -8,7 +8,7 @@ import { OpeningCard } from './OpeningCard'
 import ChatMouthpiece, { type ChatMouthpieceProps } from '../ChatMouthpiece'
 import type { StudyCanvasProps } from '../StudyCanvas'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
-import { focusIds, continueFor, dockModel, cameraInsets, type ContinueTarget } from '@/lib/studylab/spotlight'
+import { focusIds, continueFor, dockModel, cameraInsets, quietStage, type ContinueTarget } from '@/lib/studylab/spotlight'
 import { StageContext, type StageValue, type HelpRequest } from './StageContext'
 import { ActionDock } from './ActionDock'
 import { InkyDock } from './InkyDock'
@@ -227,7 +227,7 @@ export default function LessonStage({
               suggestions={chat.suggestions}
               busy={chat.busy}
               working={chat.working ?? 'Thinking…'}
-              quiet={gating}
+              quiet={gating || quietStage(board.run ?? null)}
               hidden={open}
               focusIds={spotlight}
               viewTick={viewTick}

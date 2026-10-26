@@ -1,6 +1,6 @@
 // lib/studylab/spotlight.test.ts
 import { describe, it, expect } from 'vitest'
-import { focusIds, continueFor, dockModel, focusFromTurn, viewportMoved, dockCandidate, takesArrivalFocus, cameraInsets, DOCK_LIFT_PHONE } from './spotlight'
+import { focusIds, continueFor, dockModel, focusFromTurn, viewportMoved, dockCandidate, takesArrivalFocus, cameraInsets, DOCK_LIFT_PHONE, quietStage } from './spotlight'
 import type { LessonRun, OpenCheck } from './lessonRun'
 import type { QuizCell, StudyNode } from './types'
 
@@ -269,5 +269,38 @@ describe('focusFromTurn and a point', () => {
   })
   it('has no point when the turn made none', () => {
     expect(focusFromTurn(['c1'], []).point).toBeNull()
+  })
+})
+
+describe('the bar names the move on a station', () => {
+  const station = (stage: 'explore' | 'name' | 'practice' | 'check') => run({ recipe: 'station', stage })
+  const material = (status: string): StudyNode => ({
+    id: 'm1', type: 'activity', position: { x: 0, y: 0 },
+    data: { kind: 'activity', step: 1, activityState: { status } } as unknown as StudyNode['data'],
+  })
+  const practice = (state: string, extra: Record<string, unknown> = {}): StudyNode => ({
+    id: 'p1', type: 'practice', position: { x: 0, y: 0 },
+    data: { kind: 'practice', step: 1, title: 'Predict: which lands first?', practice: { state, ...extra } } as unknown as StudyNode['data'],
+  })
+  const label = (nodes: StudyNode[], r: LessonRun) => continueFor(null, { nodes, run: r, busy: false })?.label
+
+  it(`says "I've tried it" once the explore material is solved, and Continue before`, () => {
+    expect(label([material('solved')], station('explore'))).toBe("I've tried it")
+    expect(label([material('in_progress')], station('explore'))).toBe('Continue')
+  })
+  it('counts a predict item as tried once it is answered, right or wrong', () => {
+    expect(label([practice('incorrect')], station('explore'))).toBe("I've tried it")
+    expect(label([practice('unattempted')], station('explore'))).toBe('Continue')
+    expect(label([practice('unattempted', { revealed: true })], station('explore'))).toBe("I've tried it")
+  })
+  it('keeps Continue on the other stages, and on lessons from before stations', () => {
+    expect(label([material('solved')], station('name'))).toBe('Continue')
+    expect(label([material('solved')], run())).toBe('Continue')
+  })
+  it('keeps the check stage quiet: no chips there', () => {
+    expect(quietStage(station('check'))).toBe(true)
+    expect(quietStage(station('name'))).toBe(false)
+    expect(quietStage(run())).toBe(false)
+    expect(quietStage(null)).toBe(false)
   })
 })

@@ -1,7 +1,7 @@
 // lib/studylab/spotlight.ts
 import { isFreeform } from './blocks'
 import type { CanvasEffect } from './actions'
-import type { LessonRun } from './lessonRun'
+import { stageOf, type LessonRun } from './lessonRun'
 import type { StudyNode } from './types'
 
 /**
@@ -97,7 +97,37 @@ export function continueFor(
     }
   }
   if (run.currentStep === -1) return { kind: 'finish', label: 'Finish lesson' }
-  return { kind: 'advance', label: 'Continue' }
+  return { kind: 'advance', label: triedIt(nodes, run) ? "I've tried it" : 'Continue' }
+}
+
+/**
+ * Whether the station's explore item has been tried: its material solved, or
+ * its predict item answered, right or wrong, or its solution shown. Then
+ * moving on is the learner's own account of it -- "I've tried it" -- and the
+ * next turn names what they did.
+ */
+function triedIt(nodes: StudyNode[], run: LessonRun): boolean {
+  if (stageOf(run) !== 'explore') return false
+  const step = run.currentStep + 1
+  const first = nodes.find(
+    (n) => !n.hidden && Number(n.data.step) === step && (n.type === 'activity' || n.type === 'material' || n.type === 'practice'),
+  )
+  if (!first) return false
+  const data = first.data as {
+    activityState?: { status?: string }
+    materialState?: { status?: string }
+    practice?: { state?: string; revealed?: boolean }
+  }
+  if (first.type === 'practice') {
+    const s = data.practice?.state
+    return s === 'correct' || s === 'incorrect' || s === 'close' || data.practice?.revealed === true
+  }
+  return (first.type === 'activity' ? data.activityState?.status : data.materialState?.status) === 'solved'
+}
+
+/** The check stage keeps quiet: no chips beside it, whatever the last turn offered. */
+export function quietStage(run: LessonRun | null): boolean {
+  return !!run && stageOf(run) === 'check'
 }
 
 function hintFor(remaining: number, total: number): string {

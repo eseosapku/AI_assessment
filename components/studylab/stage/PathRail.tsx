@@ -6,7 +6,7 @@ import { ArrowLeft, Check, Lock, FastForward, Plus, PanelLeftClose, PanelLeftOpe
 import { Inky } from '../inky/Inky'
 import { PACES, paceOption } from '../paceOptions'
 import type { PlanStep } from '@/lib/studylab/types'
-import type { LessonRun } from '@/lib/studylab/lessonRun'
+import { STAGES, stageOf, type LessonRun, type Stage } from '@/lib/studylab/lessonRun'
 import { railSteps, railIsLive, pathSections, railStartsFolded, type RailStep } from '@/lib/studylab/planRail'
 import { policyFor, type LessonPolicy, type Pace } from '@/lib/studylab/lessonPolicy'
 import { motionFor } from '@/lib/studylab/motionPresets'
@@ -107,12 +107,15 @@ export function PathRail({
   })
 
   const planning = !!run && run.phase === 'planning'
+  // Where the station being taught is in its four stages; null before stations.
+  const stage = run && run.phase === 'teaching' ? stageOf(run) : null
   const station = (step: RailStep, index: number, last: boolean) => (
     <Station
       key={step.id}
       step={step}
       index={index}
       last={last}
+      stage={step.current ? stage : null}
       folded={folded}
       live={live}
       busy={busy}
@@ -336,10 +339,40 @@ function SectionLabel({ folded, children }: { folded: boolean; children: ReactNo
   )
 }
 
+const STAGE_NAMES: Record<Stage, string> = { explore: 'Try it', name: 'Name it', practice: 'Practise', check: 'Check' }
+
+/**
+ * The four stages of the station being taught, as pips: the ones behind it
+ * soft, the one it is on solid, the ones ahead outlined -- and its name.
+ */
+function StagePips({ stage }: { stage: Stage }) {
+  const at = STAGES.indexOf(stage)
+  return (
+    <span className="mt-1.5 flex items-center gap-1.5">
+      {STAGES.map((s, i) => (
+        <span
+          key={s}
+          aria-hidden
+          className={`h-1.5 rounded-full ${i === at ? 'w-5' : 'w-3'}`}
+          style={{
+            backgroundColor:
+              i === at ? 'var(--subject)' : i < at ? 'color-mix(in srgb, var(--subject) 40%, transparent)' : 'var(--ss-line)',
+          }}
+        />
+      ))}
+      <span className="ml-0.5 text-[12px] font-semibold text-ss-slate">
+        <span className="sr-only">Part {at + 1} of 4: </span>
+        {STAGE_NAMES[stage]}
+      </span>
+    </span>
+  )
+}
+
 function Station({
   step,
   index,
   last,
+  stage,
   folded,
   live,
   busy,
@@ -350,6 +383,8 @@ function Station({
   step: RailStep
   index: number
   last: boolean
+  /** The current station's stage, drawn as pips under its title. */
+  stage: Stage | null
   folded: boolean
   live: boolean
   busy: boolean
@@ -407,6 +442,7 @@ function Station({
               <span className="sr-only">{index + 1}. </span>
               {step.title}
             </span>
+            {stage && <StagePips stage={stage} />}
             {step.status === 'known' && <span className="mt-0.5 block text-[12px] font-semibold text-ss-good">Tested out</span>}
             {step.measured !== null && !settled && (
               <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">Scored {step.measured}% before</span>
