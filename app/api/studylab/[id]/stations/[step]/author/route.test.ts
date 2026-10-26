@@ -66,6 +66,14 @@ describe('POST /api/studylab/[id]/stations/[step]/author', () => {
     expect(await res.json()).toMatchObject({ status: 'authoring', next: 'name' })
   })
 
+  it('hands a pass written again what was found wrong with it last time', async () => {
+    h.authorState.mockResolvedValue({ status: 'authoring', done: [], partial: {}, retries: 1, lastFailure: { explore: 'the material cannot be solved' } })
+    h.claimPass.mockResolvedValue('job-2')
+    h.runPass.mockResolvedValue({ ok: true, partial: {} })
+    await post()
+    expect(h.runPass.mock.calls[0][1]).toMatchObject({ fix: 'the material cannot be solved' })
+  })
+
   it('makes no second model call for a pass another request already holds', async () => {
     h.claimPass.mockResolvedValue(null)
     const res = await post()
@@ -139,6 +147,8 @@ describe('POST /api/studylab/[id]/stations/[step]/author', () => {
     h.runPass.mockRejectedValue(Object.assign(new Error('busy'), { name: 'ServiceUnavailableException' }))
     const res = await post()
     expect(h.failPass).toHaveBeenCalledWith('job-1', expect.stringContaining('busy'))
+    // Marked as an error, so the next try is not told a model outage was its fault.
+    expect(h.failPass.mock.calls[0][1]).toMatch(/^\[error\] /)
     expect(res.status).toBe(200)
   })
 })

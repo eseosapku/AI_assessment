@@ -62,6 +62,13 @@ describe('runPass: explore', () => {
     expect(out.partial?.explore?.action).not.toHaveProperty('intent')
   })
 
+  it('tells a pass written again what was wrong with it last time', async () => {
+    reply({ opening: 'Watch which ones bend.', action: { type: 'createActivity', id: 'x', spec: sortSpec }, intent, hints: [] })
+    await runPass('explore', { ...ctx(), fix: 'the material cannot be solved' })
+    expect(String(call()[0])).toContain('the material cannot be solved')
+    expect(String(call()[0])).toMatch(/refused/i)
+  })
+
   it('refuses a reading card in place of something to handle', async () => {
     reply({ opening: 'Read this.', action: card('x'), hints: [] })
     expect((await runPass('explore', ctx())).ok).toBe(false)
@@ -102,6 +109,8 @@ describe('runPass: practice_check', () => {
     expect(out.ok).toBe(true)
     expect(String(call()[0])).toMatch(/optionFeedback/)
     expect(String(call()[0])).toMatch(/near-twin/i)
+    // Each distractor's slip is worked out before its feedback is written.
+    expect(String(call()[0])).toMatch(/work out the exact slip/i)
   })
 })
 

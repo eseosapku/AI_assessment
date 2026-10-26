@@ -77,6 +77,22 @@ describe('authorState', () => {
     query.mockResolvedValue({ rows: [row('explore', 'failed'), row('explore', 'failed')] })
     expect(await authorState('space', 's1', 'v1')).toMatchObject({ status: 'failed', retries: 2 })
   })
+  it('hands back what was last found wrong with each pass, so the next try is told', async () => {
+    const failed = (pass: string, error_message: string) => ({ ...row(pass, 'failed'), error_message })
+    query.mockResolvedValue({ rows: [
+      failed('practice_check', 'redone: feedback on option 2 names the wrong multiplier'),
+      failed('verify', 'feedback on option 2 names the wrong multiplier'),
+      failed('explore', 'the material cannot be solved'),
+      failed('name', '[error] ServiceUnavailableException: busy'),
+    ] })
+    const s = await authorState('space', 's1', 'v1')
+    expect(s.lastFailure).toEqual({
+      practice_check: 'feedback on option 2 names the wrong multiplier',
+      verify: 'feedback on option 2 names the wrong multiplier',
+      explore: 'the material cannot be solved',
+    })
+  })
+
   it('reads only this station and this version', async () => {
     query.mockResolvedValue({ rows: [] })
     await authorState('space', 's1', 'v1')

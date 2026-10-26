@@ -6,7 +6,7 @@ import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscri
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 import type { LessonRun, LessonStep } from '@/lib/studylab/lessonRun'
 import {
-  PASSES, authorState, claimPass, failPass, finishPass, nextPass, redoPass, stationVersion,
+  ERROR_MARK, PASSES, authorState, claimPass, failPass, finishPass, nextPass, redoPass, stationVersion,
   type AuthorState, type Pass,
 } from '@/lib/studylab/stationJobs'
 import { runPass } from '@/app/api/studylab/stations/passes'
@@ -97,12 +97,15 @@ export async function POST(request: NextRequest, { params }: Params) {
     try {
       result = await runPass(
         pass,
-        { title: station.title, subject: station.subject, step: station.step, stepNo: station.position + 1, plan: station.run.steps, version, partial: state.partial },
+        {
+          title: station.title, subject: station.subject, step: station.step, stepNo: station.position + 1,
+          plan: station.run.steps, version, partial: state.partial, fix: state.lastFailure?.[pass],
+        },
         { signal: AbortSignal.timeout(PASS_DEADLINE_MS), usage: { requestId: randomUUID(), userId: station.userId } },
       )
     } catch (err) {
       const e = err as { name?: string; message?: string }
-      await failPass(jobId, `${e?.name ?? 'Error'}: ${e?.message ?? String(err)}`)
+      await failPass(jobId, `${ERROR_MARK}${e?.name ?? 'Error'}: ${e?.message ?? String(err)}`)
       return NextResponse.json(standing({ ...state, status: 'authoring' }))
     }
 

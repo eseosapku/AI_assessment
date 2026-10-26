@@ -29,6 +29,8 @@ export interface PassContext {
   plan: LessonStep[]
   version: string
   partial: Partial<StationBundle>
+  /** What a checker found wrong with this pass last time it was written. */
+  fix?: string
 }
 
 export type PassResult =
@@ -101,15 +103,22 @@ const PRACTICE_CHECK_ASK = [
   'A "practice" card with "answer", "rubric" and the full "steps", or a material variant.',
   '',
   'STAGE: CHECK -- one or two questions on this station, gate "hard". Every MCQ gives "optionFeedback": one line',
-  'for EACH option, written for a student who picked it -- why it is right, or what it missed. A "short"',
+  'for EACH option, written for a student who picked it -- why it is right, or what it missed. For each wrong',
+  'option, first work out the exact slip that produces it, with the numbers (which part was changed, by what),',
+  'and write its feedback from that: feedback naming the wrong slip is worse than none. A "short"',
   'question carries a "rubric" that accepts the idea in any words.',
   '',
   'Reply with JSON only: { "practice": { "say": "...", "action": {...} },',
   '  "check": { "say": "<at most eight words>", "questions": [...] } }',
 ].join('\n')
 
+/** Said to a pass written again: what was refused last time. */
+function lastTime(fix: string | undefined): string {
+  return fix ? `LAST TIME -- this part was written before and refused for this: "${fix.slice(0, 600)}". Write it again without that fault.` : ''
+}
+
 function prompt(pass: Exclude<Pass, 'verify'>, ctx: PassContext): string {
-  const head = [stationSystemPrompt(), '', context(ctx)]
+  const head = [stationSystemPrompt(), '', context(ctx), ...(ctx.fix ? ['', lastTime(ctx.fix)] : [])]
   if (pass === 'explore') {
     return [...head, '', stagePrompt('explore', { missed: [], pace: 'step' }), '', materialRules(), advertiseVocabulary(), '', EXPLORE_ASK].join('\n')
   }

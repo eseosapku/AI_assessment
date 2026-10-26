@@ -48,12 +48,17 @@ export interface AuthorState {
   bundle?: StationBundle
   /** The most failures of any one pass. A pass is tried twice, then the station runs live. */
   retries: number
+  /** What was last found wrong with each pass, for its next try. Outages are left out: they were nobody's fault. */
+  lastFailure: Partial<Record<Pass, string>>
 }
+
+/** Marks a reason as an outage or a timeout rather than something the pass wrote. */
+export const ERROR_MARK = '[error] '
 
 /** Where this station's authoring stands, for this version only. */
 export async function authorState(spaceId: string, stepId: string, version: string): Promise<AuthorState> {
-  const { rows } = await db.query<{ id: string; pass: string; status: string; result_payload: Record<string, unknown> | null }>(
-    `SELECT id, input_payload->>'pass' AS pass, status, result_payload
+  const { rows } = await db.query<{ id: string; pass: string; status: string; result_payload: Record<string, unknown> | null; error_message?: string | null }>(
+    `SELECT id, input_payload->>'pass' AS pass, status, result_payload, error_message
        FROM ai_jobs
       WHERE job_type = $1 AND input_payload->>'spaceId' = $2 AND input_payload->>'stepId' = $3 AND input_payload->>'version' = $4
       ORDER BY created_at`,
@@ -63,6 +68,7 @@ export async function authorState(spaceId: string, stepId: string, version: stri
   let partial: Partial<StationBundle> = {}
   let bundle: StationBundle | undefined
   const failures = new Map<string, number>()
+  const lastFailure: Partial<Record<Pass, string>> = {}
   let running = false
   for (const r of rows) {
     if (r.status === 'succeeded' && PASSES.includes(r.pass as Pass) && !done.includes(r.pass as Pass)) {
@@ -70,13 +76,16 @@ export async function authorState(spaceId: string, stepId: string, version: stri
       const result = r.result_payload ?? {}
       if (result.partial && typeof result.partial === 'object') partial = { ...partial, ...(result.partial as Partial<StationBundle>) }
       if (r.pass === 'verify' && result.bundle && typeof result.bundle === 'object') bundle = result.bundle as StationBundle
-    } else if (r.status === 'failed') failures.set(r.pass, (failures.get(r.pass) ?? 0) + 1)
-    else if (r.status === 'running') running = true
+    } else if (r.status === 'failed') {
+      failures.set(r.pass, (failures.get(r.pass) ?? 0) + 1)
+      const reason = String(r.error_message ?? '').replace(/^redone: /, '').trim()
+      if (reason && !reason.startsWith(ERROR_MARK) && PASSES.includes(r.pass as Pass)) lastFailure[r.pass as Pass] = reason
+    } else if (r.status === 'running') running = true
   }
   const retries = Math.max(0, ...failures.values())
   const spent = [...failures.entries()].some(([pass, n]) => n >= 2 && !done.includes(pass as Pass))
   const status: AuthorState['status'] = bundle ? 'ready' : spent ? 'failed' : done.length || running ? 'authoring' : 'none'
-  return { status, done, partial, ...(bundle ? { bundle } : {}), retries }
+  return { status, done, partial, ...(bundle ? { bundle } : {}), retries, lastFailure }
 }
 
 /**
