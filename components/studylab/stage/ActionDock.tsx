@@ -21,7 +21,9 @@ export const ActionDock = forwardRef<HTMLDivElement, {
   return (
     <div
       data-tour="lesson-continue"
-      className="pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center px-4"
+      // Inky and its buttons own the bottom-left corner; the bar centres in
+      // the width that is left.
+      className="pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center pl-4 pr-4 sm:pl-[140px]"
     >
       <div className="pointer-events-auto flex w-full max-w-[560px] flex-col items-stretch gap-2">
         {/* Cards draw their bar in here. React never renders into it. */}

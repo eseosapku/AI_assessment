@@ -85,4 +85,15 @@ describe('placeBubble', () => {
     // A 320-wide bubble right of Inky would run past 360; above Inky it fits.
     expect(placeBubble({ board: narrow, inky, avoid: [], size, compact })).toMatchObject({ tail: 'bottom', compact: false })
   })
+
+  it('lifts the bubble clear of a bar that reaches across under it', () => {
+    // The dock at the foot of the board starts just right of Inky and rises to
+    // Inky's height: beside is blocked, and right above Inky the bubble would
+    // still touch the bar's corner. A little higher, it is clear.
+    const dock: Rect = { x: 120, y: 613, w: 560, h: 67 }
+    const placed = placeBubble({ board, inky, avoid: [dock], size, compact })
+    expect(placed).toMatchObject({ x: 16, compact: false, tail: 'bottom' })
+    expect(placed.y + size.h).toBeLessThanOrEqual(dock.y - 8)
+    expect(placed.y).toBeGreaterThan(400)
+  })
 })

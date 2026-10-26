@@ -99,6 +99,8 @@ export interface StudyCanvasProps {
   primaryId?: string | null
   /** Told when the learner starts or stops looking around the board on their own. */
   onExploreChange?: (exploring: boolean) => void
+  /** Told when the camera comes to rest, so overlays can check what they cover. */
+  onViewSettled?: () => void
 }
 
 const NO_FOCUS: string[] = []
@@ -115,6 +117,7 @@ function FlowInner({
   insets = NO_INSETS,
   primaryId = null,
   onExploreChange,
+  onViewSettled,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -651,6 +654,7 @@ function FlowInner({
         onMoveStart={(e) => {
           if (e) setExploring(true)
         }}
+        onMoveEnd={() => onViewSettled?.()}
         nodesConnectable={tools}
         deleteKeyCode={null}
         onEdgeDoubleClick={tools ? (_, edge) => {
@@ -831,6 +835,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             focusIds={props.focusIds}
             insets={props.insets}
             primaryId={props.primaryId}
+            onViewSettled={props.onViewSettled}
             onExploreChange={props.onExploreChange}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}

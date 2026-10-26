@@ -45,6 +45,9 @@ export interface Rect {
 const MARGIN = 8
 /** Gap between Inky and its bubble. */
 const GAP = 12
+/** How far above Inky the bubble may rise to clear the bar, and in what steps. */
+const LIFT_STEP = 24
+const MAX_LIFT = 96
 
 function inside(r: Rect, board: Rect): boolean {
   return r.x >= board.x && r.y >= board.y && r.x + r.w <= board.x + board.w && r.y + r.h <= board.y + board.h
@@ -61,9 +64,10 @@ function clear(r: Rect, avoid: Rect[]): boolean {
 }
 
 /**
- * Where the bubble goes: beside Inky, then above it, then the same two places
- * as a one-line pill. If none is free, the pill beside Inky -- the smallest
- * thing that can still be read and opened.
+ * Where the bubble goes: beside Inky, then above it (rising a little if a bar
+ * reaches in underneath), then the same places as a one-line pill. If none is
+ * free, the pill beside Inky -- the smallest thing that can still be read and
+ * opened.
  */
 export function placeBubble(input: {
   board: Rect
@@ -76,12 +80,22 @@ export function placeBubble(input: {
   const beside = (s: { w: number; h: number }) => ({ x: inky.x + inky.w + GAP, y: inky.y + inky.h - s.h, ...s })
   const above = (s: { w: number; h: number }) => ({ x: inky.x, y: inky.y - GAP - s.h, ...s })
 
+  // A bar along the foot of the board can reach in under Inky; a little
+  // higher than just-above is still Inky's bubble, and clear of it.
+  const lifted = (s: { w: number; h: number }) => {
+    const out: Rect[] = []
+    for (let up = LIFT_STEP; up <= MAX_LIFT; up += LIFT_STEP) out.push({ ...above(s), y: above(s).y - up })
+    return out
+  }
+  const fallback = { rect: beside(compact), compact: true, tail: 'left' as const }
   const candidates = [
     { rect: beside(size), compact: false, tail: 'left' as const },
     { rect: above(size), compact: false, tail: 'bottom' as const },
-    { rect: beside(compact), compact: true, tail: 'left' as const },
+    ...lifted(size).map((rect) => ({ rect, compact: false, tail: 'bottom' as const })),
+    fallback,
     { rect: above(compact), compact: true, tail: 'bottom' as const },
+    ...lifted(compact).map((rect) => ({ rect, compact: true, tail: 'bottom' as const })),
   ]
-  const pick = candidates.find((c) => inside(c.rect, board) && clear(c.rect, avoid)) ?? candidates[2]
+  const pick = candidates.find((c) => inside(c.rect, board) && clear(c.rect, avoid)) ?? fallback
   return { x: pick.rect.x, y: pick.rect.y, compact: pick.compact, tail: pick.tail }
 }

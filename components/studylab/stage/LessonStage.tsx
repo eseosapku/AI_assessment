@@ -10,6 +10,7 @@ import { subjectStyle } from '@/lib/studylab/subjectFamily'
 import { focusIds, continueFor, dockModel, type ContinueTarget } from '@/lib/studylab/spotlight'
 import { StageContext, type StageValue } from './StageContext'
 import { ActionDock } from './ActionDock'
+import { InkyDock } from './InkyDock'
 
 // React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('../StudyCanvas'), {
@@ -105,6 +106,13 @@ export default function LessonStage({
     [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, runContinue, claim, prefer],
   )
   const view = dockModel({ ...flow, working: chat.working ?? 'Thinking…' })
+  // A check with questions left: Inky keeps its chips to itself.
+  const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
+  const [viewTick, setViewTick] = useState(0)
+  const onViewSettled = useCallback(() => setViewTick((t) => t + 1), [])
+  const openChat = useCallback(() => {
+    document.querySelector<HTMLTextAreaElement>('[data-tour="lesson-composer"] textarea')?.focus()
+  }, [])
 
   return (
     <StageContext.Provider value={stage}>
@@ -114,7 +122,20 @@ export default function LessonStage({
           <StudyLabSidebar {...rail} />
           <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
             {boardOverlay}
-            <StudyCanvas {...board} focusIds={spotlight} insets={INSETS} primaryId={owner} />
+            <StudyCanvas {...board} focusIds={spotlight} insets={INSETS} primaryId={owner} onViewSettled={onViewSettled} />
+            <InkyDock
+              messages={chat.messages}
+              suggestions={chat.suggestions}
+              busy={chat.busy}
+              working={chat.working ?? 'Thinking…'}
+              quiet={gating}
+              hidden={false}
+              focusIds={spotlight}
+              viewTick={viewTick}
+              onOpenChat={openChat}
+              onAsk={(text) => chat.onSend(text)}
+              onRetry={(action) => chat.onRetry?.(action)}
+            />
             <ActionDock ref={setDockEl} view={view} claimed={owner !== null} onContinue={runContinue} />
           </div>
           <div className="w-[360px] shrink-0 h-full border-l border-ss-line">

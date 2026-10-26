@@ -164,7 +164,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
       </div>
 
       {/* Messages */}
-      <div data-tour="lesson-chat" ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {messages.length === 0 && !busy && (
           <p className="text-sm text-ss-slate text-center mt-8">Starting your session…</p>
         )}
