@@ -27,9 +27,9 @@ import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } fr
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { validateMaterial } from '@/lib/studylab/material/validate'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
-import { unmatchedArt } from '@/lib/studylab/activities/artMatch'
+import { unmatchedArt, sameName } from '@/lib/studylab/activities/artMatch'
 import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
-import { assetCatalogPromptBlock } from '@/lib/studylab/activities/assetCatalog'
+import { assetCatalogPromptBlock, assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { BALANCE_PAN, COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
 
 export type LessonAction =
@@ -544,7 +544,10 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const intents = closed.actions
     .map((a) => (a && typeof a === 'object' ? parseIntent((a as Record<string, unknown>).intent) : null))
     .filter((i): i is TeachingIntent => i !== null)
-  const { kept: afterActivities, refused: activityRefusals } = refuseUnjustifiedActivities(closed.actions)
+  const { kept: afterActivities, refused: activityRefusals } = refuseUnjustifiedActivities(
+    closed.actions,
+    step ? { title: step.title, goal: step.goal } : undefined,
+  )
   const { kept, refused: buildMaterialRefusals } = refuseUnjustifiedMaterials(afterActivities)
   const materialRefusals = [...activityRefusals, ...buildMaterialRefusals]
   for (const reason of materialRefusals) console.log(`Refused a material: ${reason}`)
@@ -1024,7 +1027,10 @@ function coerceCardAction(a: Record<string, unknown>): Record<string, unknown> {
  * mismatch so the next turn has something to act on — telling it only that the
  * turn failed produces the same turn again.
  */
-export function refuseUnjustifiedActivities(actions: unknown[]): {
+export function refuseUnjustifiedActivities(
+  actions: unknown[],
+  topic?: { title: string; goal: string },
+): {
   kept: unknown[]
   refused: string[]
 } {
@@ -1073,12 +1079,68 @@ export function refuseUnjustifiedActivities(actions: unknown[]): {
       )
       continue
     }
+    // Pictures that do not belong to the step come off, and the material keeps
+    // its words: a fern on "Prophase" taught nothing about prophase.
+    const spec = topic ? dropStrayArt(a.spec, topic, intent, refused) : a.spec
     // The intent is why the material exists, not part of it; keeping it on the
     // action would carry it into the node's data and onto the screen.
     const { intent: _dropped, ...action } = a
-    kept.push(action)
+    kept.push({ ...action, spec })
   }
   return { kept, refused }
+}
+
+/** Words too common to say a picture and a step are about the same thing. */
+const STRAY_STOP = new Set([
+  'with', 'from', 'that', 'this', 'their', 'into', 'about', 'each', 'which', 'what', 'when', 'where',
+  'there', 'these', 'those', 'have', 'more', 'most', 'used', 'uses', 'using', 'show', 'shows',
+  'half', 'section', 'cross', 'diagram', 'picture', 'image', 'simple', 'small', 'large', 'labelled',
+])
+
+function terms(text: string): string[] {
+  return text.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 4 && !STRAY_STOP.has(w))
+}
+
+/** The same word, as a plural or by a shared stem of five letters or more. */
+function sameTerm(a: string, b: string): boolean {
+  return sameName(a, b) || (a.length >= 5 && b.length >= 5 && a.slice(0, 5) === b.slice(0, 5))
+}
+
+/**
+ * Takes off every catalogue picture on a material that has nothing to do with
+ * the step -- no term of its name or hint in the step's title or goal -- unless
+ * it pictures the item it is on ("Fern" with the fern), or the intent names
+ * it. What comes off is said, in `refused`.
+ */
+function dropStrayArt(
+  spec: unknown,
+  topic: { title: string; goal: string },
+  intent: TeachingIntent,
+  refused: string[],
+): unknown {
+  const topicTerms = terms(`${topic.title} ${topic.goal}`)
+  const intentTerms = terms(`${intent.goal} ${intent.why}`)
+  const strip = (node: unknown): unknown => {
+    if (Array.isArray(node)) return node.map(strip)
+    if (!node || typeof node !== 'object') return node
+    const out: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(node as Record<string, unknown>)) out[k] = strip(v)
+    const image = out.imageUrl
+    const hint = typeof image === 'string' ? assetHint(image) : null
+    if (typeof image !== 'string' || hint === null) return out
+    const name = image.replace(/^asset:/, '')
+    const label = typeof out.label === 'string' ? out.label : ''
+    const pictured = terms(`${name} ${hint}`)
+    const belongs =
+      (label && sameName(label, name)) ||
+      pictured.some((p) => topicTerms.some((t) => sameTerm(p, t))) ||
+      terms(name).some((n) => intentTerms.some((t) => sameTerm(n, t)))
+    if (belongs) return out
+    refused.push(`Took the picture "${name}" off "${label || 'an item'}": nothing in it is about ${topic.title}.`)
+    const { imageUrl: _stray, ...rest } = out
+    return rest
+  }
+  return strip(spec)
 }
 
 /**

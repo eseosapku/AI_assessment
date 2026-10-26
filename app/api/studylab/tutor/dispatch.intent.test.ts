@@ -172,3 +172,55 @@ describe('applyAsk on a montessori run', () => {
     expect(result.actions).toEqual([])
   })
 })
+
+/**
+ * Art that belongs to the topic. "Concrete before abstract" had the tutor
+ * hang any picture on an item -- a fern on "Prophase" -- and nothing refused it.
+ */
+describe('a catalogue picture on a material', () => {
+  const sequence = (items: { id: string; label: string; imageUrl?: string }[]) => ({
+    pattern: 'sequence',
+    prompt: 'Put the stages in order',
+    payload: { items },
+    success: { kind: 'exactOrder', itemIds: items.map((i) => i.id) },
+  })
+  const orderIntent = { goal: 'Order the stages of mitosis.', isolates: 'order', apparatus: 'ordering-track', why: 'The order is the whole of what is learned.' }
+  const mitosis = { title: 'Stages of mitosis', goal: 'Order prophase, metaphase, anaphase and telophase' }
+  const imageOf = (kept: unknown[], id: string) =>
+    ((kept[0] as { spec: { payload: { items: { id: string; imageUrl?: string }[] } } }).spec.payload.items.find((i) => i.id === id))?.imageUrl
+
+  it('comes off an item when nothing about it touches the step', () => {
+    const { kept, refused } = refuseUnjustifiedActivities(
+      [{ type: 'createActivity', id: 'a1', intent: orderIntent, spec: sequence([
+        { id: 'p', label: 'Prophase', imageUrl: 'fern' },
+        { id: 'm', label: 'Metaphase' },
+      ]) }],
+      mitosis,
+    )
+    expect(kept).toHaveLength(1)
+    expect(imageOf(kept, 'p')).toBeUndefined()
+    expect(refused.join(' ')).toContain('fern')
+  })
+
+  it('stays when the intent names it', () => {
+    const { kept } = refuseUnjustifiedActivities(
+      [{ type: 'createActivity', id: 'a1', intent: { ...orderIntent, why: 'A fern frond unrolling stands in for each stage.' }, spec: sequence([
+        { id: 'p', label: 'Prophase', imageUrl: 'fern' },
+        { id: 'm', label: 'Metaphase' },
+      ]) }],
+      mitosis,
+    )
+    expect(imageOf(kept, 'p')).toBe('fern')
+  })
+
+  it('stays when it pictures the item itself', () => {
+    const { kept } = refuseUnjustifiedActivities(
+      [{ type: 'createActivity', id: 'a1', intent: orderIntent, spec: sequence([
+        { id: 'f', label: 'Fern', imageUrl: 'fern' },
+        { id: 'm', label: 'Metaphase' },
+      ]) }],
+      mitosis,
+    )
+    expect(imageOf(kept, 'f')).toBe('fern')
+  })
+})

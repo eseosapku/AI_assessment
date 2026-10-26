@@ -1,4 +1,6 @@
 // lib/studylab/activities/patterns/balance.test.ts
+import { readFileSync } from 'node:fs'
+import { BALANCE_PAN } from '../dropZoneGeometry'
 import { describe, it, expect } from 'vitest'
 import { balanceModule, sideTotal } from './balance'
 import type { BalancePayload } from '../types'
@@ -51,28 +53,28 @@ describe('balanceModule', () => {
     expect(Number.isNaN(sideTotal(payload, ['ghost']))).toBe(false)
   })
 
-  it('accepts a group right at the 2-item cap (fills a pan without scrolling)', () => {
-    // Two 28px chip rows plus one 4px gap is 60px, inside the 64px a pan has
-    // left once its own border, padding and label are paid for - see
-    // dropZoneGeometry.ts.
-    const twoItems = [
-      { id: 'a', label: 'One', weight: 1 },
-      { id: 'b', label: 'Two', weight: 2 },
-    ]
-    expect(balanceModule.isPayload({ left: twoItems, right: [], pool: [], mode: 'weights' })).toBe(true)
-    expect(balanceModule.isPayload({ left: [], right: twoItems, pool: [], mode: 'weights' })).toBe(true)
+  const items = (n: number) => Array.from({ length: n }, (_, i) => ({ id: `i${i}`, label: `Item ${i}`, weight: i + 1 }))
+
+  it('holds four items on a pan, now its label sits on the beam (fills a pan without scrolling)', () => {
+    // Four 28px chip rows and three 4px gaps is 124px, inside what a pan has
+    // left once its border and padding are paid for -- see dropZoneGeometry.ts.
+    expect(BALANCE_PAN.maxItems).toBe(4)
+    expect(balanceModule.isPayload({ left: items(4), right: [], pool: [], mode: 'weights' })).toBe(true)
+    expect(balanceModule.isPayload({ left: [], right: items(4), pool: [], mode: 'weights' })).toBe(true)
   })
 
   it('rejects a pan one item over the cap (a pan the student cannot see across without scrolling)', () => {
-    const threeItems = [
-      { id: 'a', label: 'One', weight: 1 },
-      { id: 'b', label: 'Two', weight: 2 },
-      { id: 'c', label: 'Three', weight: 3 },
-    ]
-    expect(balanceModule.isPayload({ left: threeItems, right: [], pool: [], mode: 'weights' })).toBe(false)
+    expect(balanceModule.isPayload({ left: items(5), right: [], pool: [], mode: 'weights' })).toBe(false)
     // The cap applies to right too, not only left - a student can drag items
     // onto either pan, so either group could end up rendered there unchanged.
-    expect(balanceModule.isPayload({ left: [], right: threeItems, pool: [], mode: 'weights' })).toBe(false)
+    expect(balanceModule.isPayload({ left: [], right: items(5), pool: [], mode: 'weights' })).toBe(false)
+  })
+
+  it('labels the pans on the beam, not inside them, where the label cost a row', () => {
+    const src = readFileSync('components/studylab/activities/BalanceActivity.tsx', 'utf8')
+    expect(src).toMatch(/<text[^>]*>\s*Left\s*<\/text>/)
+    expect(src).toMatch(/<text[^>]*>\s*Right\s*<\/text>/)
+    expect(src).not.toMatch(/<p[^>]*>Left<\/p>/)
   })
 
   it('does not cap `pool` - it renders as an ordinary unbounded strip, not a pan', () => {

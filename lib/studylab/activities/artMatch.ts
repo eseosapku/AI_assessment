@@ -14,14 +14,35 @@ import { assetNames } from './assetCatalog'
  * Rejecting a material because we happen to lack art for its topic would make
  * whole subjects unteachable, which is a worse failure than a plain label.
  */
-const normalise = (s: string): string =>
-  s.toLowerCase().replace(/[^a-z0-9]+/g, '').replace(/s$/, '')
+const normalise = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, '')
+
+/**
+ * The singular of a regular English plural, or the word as it is. Only the
+ * endings that make plurals: "berries", "boxes", "glasses", "beans". A word
+ * that merely ends in s -- "glass", "gas", "bus", "virus", "axis" -- is left
+ * alone, which stripping every trailing s did not do.
+ */
+function singular(w: string): string {
+  if (/[^aeiou]ies$/.test(w)) return w.slice(0, -3) + 'y'
+  if (/(?:x|z|ch|sh|ss)es$/.test(w)) return w.slice(0, -2)
+  // Not a three-letter word: "gas", "yes" and "his" are not plurals.
+  if (w.length >= 4 && /[^sui]s$/.test(w)) return w.slice(0, -1)
+  return w
+}
+
+/** Two names for the same thing: exactly, or one is the other's plural. */
+export function sameName(a: string, b: string): boolean {
+  const x = normalise(a)
+  const y = normalise(b)
+  if (!x || !y) return false
+  return x === y || singular(x) === y || x === singular(y)
+}
 
 export function unmatchedArt(spec: ActivitySpec): string[] {
   const payload = spec?.payload as unknown as Record<string, unknown> | null | undefined
   if (!payload || typeof payload !== 'object') return []
 
-  const catalogue = new Set(assetNames().map(normalise))
+  const catalogue = assetNames()
   const gaps: string[] = []
 
   // 'left'/'right' are BalancePayload's pre-placed pans — the same shape as
@@ -36,7 +57,7 @@ export function unmatchedArt(spec: ActivitySpec): string[] {
       const item = raw as { label?: unknown; imageUrl?: unknown }
       if (typeof item.imageUrl === 'string' && item.imageUrl.trim()) continue
       const label = typeof item.label === 'string' ? item.label : ''
-      if (label && catalogue.has(normalise(label))) gaps.push(label)
+      if (label && catalogue.some((name) => sameName(label, name))) gaps.push(label)
     }
   }
   return gaps

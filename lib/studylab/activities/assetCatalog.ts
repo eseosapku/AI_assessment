@@ -151,6 +151,12 @@ export function assetNames(): string[] {
   return ACTIVITY_ASSETS.map((a) => a.name)
 }
 
+/** What a catalogue picture shows, by its name ("asset:" or not); null when it is not one. */
+export function assetHint(name: string): string | null {
+  if (typeof name !== 'string') return null
+  return BY_NAME.get(name.trim().replace(/^asset:/, ''))?.hint ?? null
+}
+
 /** Resolve a tutor-supplied asset name to a bundled path, or null. */
 export function assetUrl(name: string): string | null {
   if (typeof name !== 'string') return null

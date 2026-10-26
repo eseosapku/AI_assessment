@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, BalancePayload } from '@/lib/studylab/activities/types'
 import { sideTotal, type BalanceWork } from '@/lib/studylab/activities/patterns/balance'
-import { BALANCE_PAN } from '@/lib/studylab/activities/dropZoneGeometry'
+import { BALANCE_PAN, BALANCE_PAN_TOP, BALANCE_VIEW_HEIGHT } from '@/lib/studylab/activities/dropZoneGeometry'
 import { seededShuffle } from '@/lib/studylab/activities/shuffle'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { ActivityFrame } from './ActivityFrame'
@@ -15,11 +15,12 @@ type Item = BalancePayload['left'][number]
 type Target = 'left' | 'right' | 'pool'
 const TARGETS: Target[] = ['left', 'right', 'pool']
 
-// Beam geometry for the "0 0 300 190" viewBox. The stand is static; the beam,
-// hangers and pan glyphs live in one rotating group pivoted at BEAM.pivot.
+// Beam geometry for the "0 0 300 240" viewBox. The stand is static; the beam,
+// hangers, pan glyphs and the pans' names live in one rotating group pivoted
+// at BEAM.pivot.
 const BEAM = { pivotX: 150, pivotY: 60, halfSpan: 95, hangDown: 35 }
 
-// A pan is anchored at `top: 50%` of the beam box, leaving BALANCE_PAN's
+// A pan is anchored under its hanger (BALANCE_PAN_TOP), leaving BALANCE_PAN's
 // headroom below it before a pan would grow past the container and into the
 // pool strip beneath it (see dropZoneGeometry.ts for the shared derivation
 // this and balance.ts's MAX_ITEMS_PER_GROUP both read from). Reading the
@@ -118,8 +119,8 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
       onCheck={() => { const o = a.check(); if (o) onOutcome(o) }}
     >
       <div className="flex flex-col gap-3">
-        <div className="relative w-full" style={{ aspectRatio: '300 / 190' }}>
-          <svg viewBox="0 0 300 190" className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
+        <div className="relative w-full" style={{ aspectRatio: `300 / ${BALANCE_VIEW_HEIGHT}` }}>
+          <svg viewBox={`0 0 300 ${BALANCE_VIEW_HEIGHT}`} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
             {/* Static stand: this never rotates, only the beam does. */}
             <polygon points="130,150 170,150 150,60" className="fill-ss-line" />
             <line x1="105" y1="150" x2="195" y2="150" className="stroke-ss-line" strokeWidth={4} strokeLinecap="round" />
@@ -134,6 +135,14 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
                 className="stroke-ss-ink" strokeWidth={4} strokeLinecap="round"
               />
               <circle cx={BEAM.pivotX} cy={BEAM.pivotY} r={5} className="fill-ss-ink" />
+              {/* Each pan's name, on the beam over its hanger: inside the pan
+                  the label line cost a row of items. */}
+              <text x={BEAM.pivotX - BEAM.halfSpan} y={BEAM.pivotY - 9} textAnchor="middle" className="fill-ss-slate text-[12px] font-bold uppercase tracking-wide">
+                Left
+              </text>
+              <text x={BEAM.pivotX + BEAM.halfSpan} y={BEAM.pivotY - 9} textAnchor="middle" className="fill-ss-slate text-[12px] font-bold uppercase tracking-wide">
+                Right
+              </text>
               {/* Left hanger + pan glyph */}
               <line
                 x1={BEAM.pivotX - BEAM.halfSpan} y1={BEAM.pivotY}
@@ -172,12 +181,12 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             {...drag.dropTargetProps('left')}
             animate={{ y: tiltDeg * 1.1 }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
-            style={{ left: '4%', width: '33%', top: '50%', maxHeight: PAN_MAX_HEIGHT }}
+            aria-label="Left pan"
+            style={{ left: '4%', width: '33%', top: `${(BALANCE_PAN_TOP / BALANCE_VIEW_HEIGHT) * 100}%`, maxHeight: PAN_MAX_HEIGHT }}
             className={`absolute flex min-h-[96px] flex-col gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'left' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >
-            <p className="mb-1 shrink-0 text-center text-[12px] font-bold uppercase tracking-wide text-ss-slate">Left</p>
             <div className="flex flex-wrap content-start justify-center gap-1">
               {leftItems.map((item) => (
                 <Chip
@@ -193,12 +202,12 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             {...drag.dropTargetProps('right')}
             animate={{ y: -(tiltDeg * 1.1) }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
-            style={{ left: '63%', width: '33%', top: '50%', maxHeight: PAN_MAX_HEIGHT }}
+            aria-label="Right pan"
+            style={{ left: '63%', width: '33%', top: `${(BALANCE_PAN_TOP / BALANCE_VIEW_HEIGHT) * 100}%`, maxHeight: PAN_MAX_HEIGHT }}
             className={`absolute flex min-h-[96px] flex-col gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'right' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >
-            <p className="mb-1 shrink-0 text-center text-[12px] font-bold uppercase tracking-wide text-ss-slate">Right</p>
             <div className="flex flex-wrap content-start justify-center gap-1">
               {rightItems.map((item) => (
                 <Chip
