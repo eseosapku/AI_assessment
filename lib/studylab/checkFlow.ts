@@ -76,7 +76,10 @@ export function initialCheckFlow(
   const attempts = saved.attempts ?? (saved.settled ? 1 : 0)
   if (saved.settled === 'correct') return { mode, phase: 'correct', attempts }
   if (saved.revealed) return { mode, phase: 'revealed', attempts }
-  if (saved.settled === 'incorrect') return { mode, phase: 'wrong', attempts }
+  // Learning settles a card as incorrect only through showing the answer, so
+  // that is what a saved one is; coming back as 'wrong' offered Try again on a
+  // question its check had already handed in.
+  if (saved.settled === 'incorrect') return { mode, phase: mode === 'learn' ? 'revealed' : 'wrong', attempts }
   if (attempts <= 0) return { mode, phase: 'idle', attempts: 0 }
   const final = mode === 'test' || attempts >= MAX_LEARN_TRIES
   return { mode, phase: final ? 'wrong' : 'retry', attempts }

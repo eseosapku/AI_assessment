@@ -82,6 +82,12 @@ describe('the check flow', () => {
     expect(initialCheckFlow('learn', { settled: 'correct', attempts: 1 })).toMatchObject({ phase: 'correct' })
     expect(initialCheckFlow('learn', { attempts: 2, revealed: true })).toMatchObject({ phase: 'revealed' })
     expect(initialCheckFlow('learn', {})).toMatchObject({ phase: 'idle', attempts: 0 })
+    // A learning card is only ever saved as incorrect once its answer has
+    // been shown, so that is how it comes back -- never with Try again, which
+    // would reopen a question its check has already handed in. Old cards
+    // saved without `revealed` included.
+    expect(initialCheckFlow('learn', { settled: 'incorrect' })).toMatchObject({ phase: 'revealed' })
+    expect(initialCheckFlow('learn', { settled: 'incorrect', attempts: 1 })).toMatchObject({ phase: 'revealed', attempts: 1 })
   })
 
   it('makes hard checks and test-outs tests, everything else learning', () => {
