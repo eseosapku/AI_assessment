@@ -39,6 +39,18 @@ describe('stationSystemPrompt -- one tutor', () => {
     expect(p).toMatch(/never read out the instructions/i)
   })
 
+  it('teaches the formats done by hand, with the diagrams a tap can use, from the region maps', () => {
+    for (const f of ['"format":"fill"', '"format":"order"', '"format":"tap"']) expect(p).toContain(f)
+    expect(p).toContain('asset:plant-cell: cell-wall (Cell wall)')
+    expect(p).toMatch(/a tap question names a figure and parts from this list/i)
+    expect(systemPrompt('classic')).not.toContain('"format":"tap"')
+  })
+
+  it('can point at a blank or a part of a diagram', () => {
+    expect(p).toContain('"blank-N"')
+    expect(p).toContain('"region-<id>"')
+  })
+
   it('leaves the stage to decide each turn, and drops the old beat rules', () => {
     expect(p).toMatch(/THE STAGE below decides this turn/)
     expect(p).not.toContain('On "Continue"/"ready": if the CURRENT step')

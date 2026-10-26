@@ -230,6 +230,11 @@ export function regionsFor(figure: string): DiagramRegions | null {
   return Object.prototype.hasOwnProperty.call(DIAGRAM_REGIONS, key) ? DIAGRAM_REGIONS[key] : null
 }
 
+/** Every mapped diagram as a prompt line, `asset:<name>: part-id (Label), ...` -- generated, so it never drifts from the maps. */
+export function tapFigureLines(): string[] {
+  return Object.entries(DIAGRAM_REGIONS).map(([name, map]) => `asset:${name}: ${map.regions.map((r) => `${r.id} (${r.label})`).join(', ')}`)
+}
+
 /** The part under a point: the smallest spot that holds it, so a part inside another wins; null in empty space. */
 export function regionAt(map: DiagramRegions, x: number, y: number): Region | null {
   let best: { region: Region; r: number } | null = null

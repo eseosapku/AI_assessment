@@ -33,6 +33,7 @@ import { unmatchedArt, sameName } from '@/lib/studylab/activities/artMatch'
 import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
 import { assetCatalogPromptBlock, assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { BALANCE_PAN, COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
+import { byHandFormats } from './questionFormats'
 
 export type LessonAction =
   /** `answer` is present on a re-draft, carrying what the learner said back. */
@@ -1874,6 +1875,8 @@ async function writeCheck(
     '  { "id": "q3", "format": "match", "prompt": "Match each term to its description.",',
     '    "pairs": [ { "left": "...", "right": "..." }, { "left": "...", "right": "..." } ] }',
     '] }',
+    '',
+    byHandFormats(),
     '',
     '"answer" is the zero-based index into "options". Reply with that JSON and nothing else.',
   ].join('\n')

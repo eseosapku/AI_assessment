@@ -140,14 +140,16 @@ const NAME_ASK = [
 
 const PRACTICE_CHECK_ASK = [
   'STAGE: PRACTICE -- ONE near-twin of the explore: the same kind of thing with one thing changed, not harder.',
-  'A "practice" card with "answer", "rubric" and the full "steps", or a material variant.',
+  'A "practice" card with "answer", "rubric" and the full "steps"; a "practice" card carrying a "question" to answer by',
+  'hand (an mcq, or a fill, order or tap from QUESTION FORMATS) and the full "steps"; or a material variant.',
   '',
   'STAGE: CHECK -- one or two questions on this station, gate "hard". Write each multiple-choice question from its',
   'slips: decide the mistake first, then work out the option that mistake gives, then write the feedback for it:',
   '  { "format": "mcq", "prompt": "...", "right": { "option": "...", "feedback": "<why it is right>" },',
   '    "wrong": [ { "slip": "<the mistake, in words>", "option": "<what that mistake gives, worked out from it>",',
   '                 "feedback": "<for a student who made that slip>" } ] }   -- two or three wrong options.',
-  'A "short" question carries a "rubric" that accepts the idea in any words.',
+  'A "short" question carries a "rubric" that accepts the idea in any words. A fill, order or tap is written as QUESTION',
+  'FORMATS shows -- use one where it fits the idea better than a multiple choice.',
   '',
   'Reply with JSON only: { "practice": { "say": "...", "action": {...} },',
   '  "check": { "say": "<at most eight words>", "questions": [...] } }',
@@ -278,7 +280,9 @@ async function name(ctx: PassContext, opts: PassOptions): Promise<PassResult> {
  */
 function fromSlips(raw: unknown, i: number): unknown {
   const q = raw as { id?: unknown; prompt?: unknown; right?: { option?: unknown; feedback?: unknown }; wrong?: unknown } | null
-  if (!q || typeof q !== 'object' || !q.right || typeof q.right !== 'object' || !Array.isArray(q.wrong)) return raw
+  // Any other question is kept as written, with an id if it came without one.
+  if (!q || typeof q !== 'object') return raw
+  if (!q.right || typeof q.right !== 'object' || !Array.isArray(q.wrong)) return typeof q.id === 'string' && q.id ? q : { ...q, id: `q${i + 1}` }
   const wrong = (q.wrong as { option?: unknown; feedback?: unknown }[]).filter((w) => w && typeof w === 'object')
   const prompt = String(q.prompt ?? '')
   const at = [...prompt].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % (wrong.length + 1)
@@ -317,7 +321,7 @@ function judgeAsk(hasRelationship: boolean): string {
     '  - "false-statement": a statement that is false (quote it, and say what is true);',
     '  - "wrong-key": an answer key that is wrong;',
     '  - "feedback-mismatch": a feedback line that does not fit the option it is written for;',
-    '  - "arguable-item": a sort, match or order with an item whose right place a teacher could argue (quote the item).',
+    '  - "arguable-item": a sort, match, order or fill with an item whose right place a teacher could argue (quote the item).',
     ...(hasRelationship
       ? ['  - "false-statement" too: a material whose slider and output model a relationship that is not true -- a "relationship" that disagrees with your "truth": quote it.']
       : []),

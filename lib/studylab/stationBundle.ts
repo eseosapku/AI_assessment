@@ -1,13 +1,17 @@
 // lib/studylab/stationBundle.ts
 import type { CheckpointQuestion, TutorAction } from './types'
 import { isValidAction } from './actions'
-import { isValidQuestion } from './quiz'
+import { isValidQuestion, questionFault } from './quiz'
+import { practiceQuestion } from './practice'
 import { validateSpec } from './activities/validate'
 import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from './activities/intent'
 import { unmatchedArt } from './activities/artMatch'
 import { getApparatus } from './material/canon'
 import { validateMaterial } from './material/validate'
 import { isSolvable } from './material/solvable'
+
+/** The question formats a practice card may carry. */
+const BY_HAND_FORMATS = ['mcq', 'fill', 'order', 'tap']
 
 /**
  * A station written ahead of the learner: the explore item, name-it cards for
@@ -79,6 +83,13 @@ function materialProblems(action: unknown, rawIntent: unknown, needIntent: boole
   const intent = parseIntent(rawIntent)
   if (type === 'createCard') {
     if (a.card !== 'practice') return { problems: ['a card to read is not something to handle'], intent }
+    // A question answered by hand carries its own key; the worked steps are still Show me how.
+    if (a.question !== undefined) {
+      const fault = !BY_HAND_FORMATS.includes(String((a.question as { format?: unknown } | null)?.format)) ? 'it must be an mcq, fill, order or tap' : questionFault(a.question)
+      if (fault || !practiceQuestion(a.question, String(a.id))) return { problems: [`the practice question cannot be answered: ${fault ?? 'it is malformed'}`], intent }
+      if (!Array.isArray(a.steps) || a.steps.length === 0) return { problems: ['a practice item needs its worked steps'], intent }
+      return { problems: [], intent }
+    }
     if (!text(a.answer) || !Array.isArray(a.steps) || a.steps.length === 0) {
       return { problems: ['a practice item needs its answer and worked steps'], intent }
     }
@@ -175,6 +186,9 @@ function cutProblems(cut: Partial<AuthoredCut> | undefined, outcome: Outcome, id
 }
 
 function questionProblems(q: CheckpointQuestion, i: number): string[] {
+  // Said in words a pass can fix, where the format says why.
+  const fault = questionFault(q)
+  if (fault) return [`question ${i + 1} (${(q as { format?: unknown }).format}) cannot be answered: ${fault}`]
   if (!isValidQuestion(q)) return [`question ${i + 1} is malformed`]
   if (q.format === 'mcq') {
     const out: string[] = []

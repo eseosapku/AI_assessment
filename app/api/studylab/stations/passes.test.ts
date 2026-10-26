@@ -223,6 +223,23 @@ describe('runPass: practice_check', () => {
     expect(answers.size).toBeGreaterThan(1)
   })
 
+  it('offers a practice card that carries a question to answer by hand, and the formats to write it in', async () => {
+    reply({ practice, check })
+    await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))
+    const p = String(call()[0])
+    expect(p).toMatch(/"practice" card carrying a "question"/)
+    expect(p).toContain('"format":"fill"')
+    expect(p).toContain('asset:plant-cell')
+  })
+
+  it('gives a fill, order or tap question an id when the model leaves it out', async () => {
+    reply({ practice, check: { say: 'Check.', questions: [{ format: 'order', prompt: 'Put them in order.', items: ['Solid', 'Liquid', 'Gas'] }] } })
+    const out = await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))
+    expect(out.ok).toBe(true)
+    if (!out.ok) return
+    expect(out.partial!.check!.questions[0]).toMatchObject({ id: 'q1', format: 'order' })
+  })
+
   it('refuses a check whose wrong option says nothing to whoever picks it', async () => {
     reply({ practice, check: { ...check, questions: [{ ...check.questions[0], optionFeedback: ['', 'Yes.'] }] } })
     expect((await runPass('practice_check', ctx({ explore: explore as never, name: name as never }))).ok).toBe(false)
@@ -282,6 +299,12 @@ describe('runPass: verify', () => {
     reply({ ok: true })
     await runPass('verify', ctx(whole))
     expect(String(call()[0])).toMatch(/earliest part/i)
+  })
+
+  it('asks the judge about a fill or an order a teacher could argue, as it asks about a sort', async () => {
+    reply({ ok: true })
+    await runPass('verify', ctx(whole))
+    expect(String(call()[0])).toMatch(/"arguable-item": a sort, match, order or fill/)
   })
 
   it('passes a station the judge fails for anything but a definite error of a kind it was given', async () => {

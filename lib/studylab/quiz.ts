@@ -44,28 +44,53 @@ export function clueStates(q: OrderQuestion, arrangement: string[]): boolean[] {
 const text = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0
 const distinct = (xs: string[]) => new Set(xs.map((x) => x.trim().toLowerCase())).size === xs.length
 
-/** A fill whose tiles can fill its blanks: one answer a blank, every answer a tile, no tile twice, eight at most. */
-function validFill(q: any): boolean {
+/** What stops a fill from being answered: one answer a blank, every answer a tile, no tile twice, eight at most. */
+function fillFault(q: any): string | null {
   const n = blanksIn(q.text)
-  if (n < 1 || !Array.isArray(q.answer) || q.answer.length !== n || !q.answer.every(text)) return false
-  if (!Array.isArray(q.tiles) || q.tiles.length > 8 || !q.tiles.every(text) || !distinct(q.tiles) || !distinct(q.answer)) return false
-  return q.answer.every((a: string) => q.tiles.some((t: string) => same(t, a)))
+  if (n < 1) return 'its "text" has no blank written as ___'
+  if (!Array.isArray(q.answer) || q.answer.length !== n || !q.answer.every(text)) return `it has ${n} blank${n === 1 ? '' : 's'} but not one answer for each`
+  if (!distinct(q.answer)) return 'two of its blanks have the same answer'
+  if (!Array.isArray(q.tiles) || !q.tiles.every(text) || !distinct(q.tiles)) return 'its "tiles" must be different words'
+  if (q.tiles.length > 8) return 'it has more than eight tiles'
+  const missing = q.answer.find((a: string) => !q.tiles.some((t: string) => same(t, a)))
+  return missing ? `its tiles do not include the answer "${missing}"` : null
 }
 
-/** Three to six different items; every clue names two of them and holds in the right order. */
-function validOrder(q: any): boolean {
-  if (!Array.isArray(q.items) || q.items.length < 3 || q.items.length > 6 || !q.items.every(text) || !distinct(q.items)) return false
-  if (q.clues === undefined) return true
-  if (!Array.isArray(q.clues) || q.clues.length > 4) return false
-  return q.clues.every((c: any) => text(c?.text) && c.before !== c.after && q.items.indexOf(c.before) >= 0 && q.items.indexOf(c.before) < q.items.indexOf(c.after))
+/** What stops an order from being answered: three to six different items, and every clue true of the right order. */
+function orderFault(q: any): string | null {
+  if (!Array.isArray(q.items) || q.items.length < 3 || q.items.length > 6 || !q.items.every(text)) return 'it needs three to six "items"'
+  if (!distinct(q.items)) return 'two of its items are the same'
+  if (q.clues === undefined) return null
+  if (!Array.isArray(q.clues) || q.clues.length > 4) return 'it has more than four clues'
+  for (const c of q.clues) {
+    if (!text(c?.text)) return 'a clue has no text'
+    if (q.items.indexOf(c.before) < 0 || q.items.indexOf(c.after) < 0 || c.before === c.after) return `clue "${c.text}" must name two of its items, exactly as written`
+    if (q.items.indexOf(c.before) > q.items.indexOf(c.after)) return `clue "${c.text}" is not true of the right order`
+  }
+  return null
 }
 
-/** Parts we have mapped on one of our own diagrams, each once, and never every part of it. */
-function validTap(q: any): boolean {
+/** What stops a tap from being answered: parts we have mapped on one of our own diagrams, each once, and never every part. */
+function tapFault(q: any): string | null {
   const map = regionsFor(q.figure)
-  if (!map || !Array.isArray(q.answer) || q.answer.length === 0 || new Set(q.answer).size !== q.answer.length) return false
+  if (!map) return `"${q.figure}" has no mapped parts; use a diagram from the list`
+  if (!Array.isArray(q.answer) || q.answer.length === 0 || new Set(q.answer).size !== q.answer.length) return 'its "answer" must list the parts to tap, each once'
   const ids = new Set(map.regions.map((r) => r.id))
-  return q.answer.length < ids.size && q.answer.every((id: unknown) => typeof id === 'string' && ids.has(id))
+  const unknown = q.answer.find((id: unknown) => typeof id !== 'string' || !ids.has(id))
+  if (unknown !== undefined) return `"${unknown}" is not a part of "${q.figure}"`
+  return q.answer.length < ids.size ? null : 'it asks for every part of the figure'
+}
+
+/**
+ * Why a fill, order or tap cannot be answered as written, in words a writer
+ * can fix; null when it can, or when it is another format.
+ */
+export function questionFault(q: any): string | null {
+  if (!q || typeof q !== 'object') return 'it is not a question'
+  if (q.format === 'fill') return fillFault(q)
+  if (q.format === 'order') return orderFault(q)
+  if (q.format === 'tap') return tapFault(q)
+  return null
 }
 
 export function gradeMcq(q: Extract<CheckpointQuestion, { format: 'mcq' }>, given: number): boolean {
@@ -147,11 +172,11 @@ export function isValidQuestion(q: any): q is CheckpointQuestion {
     case 'match':
       return Array.isArray(q.pairs) && q.pairs.length > 0 && q.pairs.every((p: any) => typeof p?.left === 'string' && typeof p?.right === 'string')
     case 'fill':
-      return validFill(q)
+      return fillFault(q) === null
     case 'order':
-      return validOrder(q)
+      return orderFault(q) === null
     case 'tap':
-      return validTap(q)
+      return tapFault(q) === null
     default:
       return false
   }

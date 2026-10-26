@@ -1190,6 +1190,13 @@ describe('a check is sized to why it is being written', () => {
     const prompt = await promptFor('testout')
     expect(prompt).toContain('Two or three questions')
   })
+
+  it('shows a fill, an order and a tap, and the diagrams a tap can use', async () => {
+    const prompt = await promptFor('testout')
+    for (const f of ['"format":"fill"', '"format":"order"', '"format":"tap"']) expect(prompt).toContain(f)
+    expect(prompt).toMatch(/a tap question names a figure and parts from this list/i)
+    expect(prompt).toContain('asset:animal-cell: cell-membrane (Cell membrane)')
+  })
 })
 
 /**

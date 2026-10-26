@@ -1,3 +1,5 @@
+import { byHandFormats } from './questionFormats'
+
 /**
  * The tutor's system prompt.
  *
@@ -188,7 +190,7 @@ const STATION_MANDATE = `- A station never opens with a card to read. It opens w
 const POINT_ACTION = `
 - { "type":"point", "nodeId":"<an id on the board>", "part":"<optional>" }
     Makes that part glow and aims your bubble at it. Use it whenever your "say" is about the student's work or one part of a card -- at most one per turn.
-    Parts, counted from 1: "item-N" (a concept card's Nth bullet), "step-N" (a worked card's Nth step), "rRcC" (a table cell: r0 is the header row, body rows from r1), "option-N" (a question's Nth option), "piece-<id>" / "slot-<id>" (a material's piece or slot, by its id). No part: the whole card.
+    Parts, counted from 1: "item-N" (a concept card's Nth bullet), "step-N" (a worked card's Nth step), "rRcC" (a table cell: r0 is the header row, body rows from r1), "option-N" (a question's Nth option), "blank-N" (a fill question's Nth blank), "region-<id>" (a part of a tap question's diagram, by its id), "piece-<id>" / "slot-<id>" (a material's piece or slot, by its id). No part: the whole card.
 `
 
 const STATION_RULES = `RULES:
@@ -203,6 +205,12 @@ const STATION_RULES = `RULES:
 9. ACCURACY: keep cards factually correct and consistent with "say".
 `
 
+/** Station runs only, for the same reason as POINT_ACTION: checks and practice in the formats done by hand. */
+const QUESTION_FORMATS = `
+${byHandFormats()}
+A "practice" card may carry one of these, or an mcq, as "question" in place of written working: it is marked on the card.
+`
+
 export function stationSystemPrompt(): string {
   return [
     SYSTEM_INTRO,
@@ -213,6 +221,7 @@ export function stationSystemPrompt(): string {
     ACTION_LIST,
     POINT_ACTION,
     CARD_GUIDE,
+    QUESTION_FORMATS,
     STATION_RULES,
   ].join('')
 }

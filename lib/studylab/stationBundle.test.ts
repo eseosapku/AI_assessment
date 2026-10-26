@@ -142,6 +142,39 @@ describe('verifyBundleCode', () => {
     expect(verifyBundleCode(b).ok).toBe(true)
   })
 
+  it('says what is wrong with a fill, an order or a tap, so the pass can write it again without the fault', () => {
+    const withQ = (q: Record<string, unknown>) => {
+      const b = good()
+      b.check.questions[1] = { id: 'q2', prompt: 'Try this.', ...q } as never
+      return fails(b).reasons.join(' ')
+    }
+    expect(withQ({ format: 'fill', text: 'Iron is a ___.', tiles: ['gas', 'liquid'], answer: ['metal'] })).toMatch(/tiles.*"metal"/)
+    expect(withQ({ format: 'order', items: ['Egg', 'Larva', 'Adult'], clues: [{ text: 'Adults come first.', before: 'Adult', after: 'Egg' }] })).toMatch(/clue "Adults come first\." is not true/)
+    expect(withQ({ format: 'tap', figure: 'asset:volcano-photo', answer: ['crater'] })).toMatch(/"asset:volcano-photo" has no mapped parts/)
+    expect(withQ({ format: 'tap', figure: 'asset:plant-cell', answer: ['crater'] })).toMatch(/"crater" is not a part of "asset:plant-cell"/)
+  })
+
+  it('accepts a well-made fill, order and tap -- whether an item is arguable is for the judge', () => {
+    const b = good()
+    b.check.questions = [
+      { id: 'q1', format: 'fill', prompt: 'Complete it.', text: 'Metals are good ___ of heat.', tiles: ['conductors', 'insulators'], answer: ['conductors'] },
+      { id: 'q2', format: 'tap', prompt: 'Tap the part that controls the cell.', figure: 'asset:plant-cell', answer: ['nucleus'] },
+    ] as never
+    expect(verifyBundleCode(b).ok).toBe(true)
+  })
+
+  it('accepts a practice card that carries a question to answer by hand, with its steps and no written answer', () => {
+    const b = good()
+    b.practice = { say: 'Your turn.', action: { type: 'createCard', id: 'p1', card: 'practice', title: 'Which part?', body: 'Find it.', question: { format: 'tap', prompt: 'Tap the part that makes food.', figure: 'asset:plant-cell', answer: ['chloroplast'] }, steps: ['Chloroplasts hold the green pigment that traps light.'], step: 1 } as never }
+    expect(verifyBundleCode(b).ok).toBe(true)
+  })
+
+  it('refuses a practice card whose question cannot be answered as written, and says why', () => {
+    const b = good()
+    b.practice = { say: 'Your turn.', action: { type: 'createCard', id: 'p1', card: 'practice', title: 'Which part?', body: 'Find it.', question: { format: 'tap', prompt: 'Tap the crater.', figure: 'asset:volcano-photo', answer: ['crater'] }, steps: ['Look at the top.'], step: 1 } as never }
+    expect(fails(b).reasons.join(' ')).toMatch(/practice question.*no mapped parts/)
+  })
+
   it('accepts a predict item where no material fits', () => {
     const b = good()
     b.explore = { opening: 'Guess before you read.', action: { type: 'createCard', id: 'm1', card: 'practice', title: 'Predict: which city grew first?', body: 'Look at the map.', answer: 'The one on the river', rubric: 'Names the river city', steps: ['Water and trade'], step: 1 } as never, hints: [] }
