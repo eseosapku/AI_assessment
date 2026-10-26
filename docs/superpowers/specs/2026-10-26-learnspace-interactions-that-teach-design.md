@@ -210,6 +210,23 @@ So coverage is run the way the figure library was:
 - **Wave 1 (writer agents, one engine each):** bonding, atom, coordinate-plane, body-flow, cause-chain, lab-bench.
 - **Files:** the map and report are in the session scratchpad `coverage/`.
 
+**Where it stands (2026-10-27).**
+- **Fourteen scenes are offered to the tutor:**
+  - orbit, particles, atom, bonding, coordinate-plane, lab-bench, body-flow and cause-chain;
+  - food-web, supply-demand, business-finance (break-even), ledger, algebra-tiles and counters-place-value.
+- **Each scene is held to the eval's bar.** Every scene with five or more items meets 90% on every dimension; a scene's uptake (how often the writer chose it) is reported apart.
+- **The eval earned its place.** It caught what no unit test could see:
+  - answers printed before marking (the coordinate plane's "rise 1, run 2" and its live equation);
+  - a mislabelled airway;
+  - particles clipped by their box;
+  - words broken mid-word.
+- **Each fix is pinned by a test of its own:** labels nearer their own part than any other, still frames that keep things inside and apart, text never under 12px nor split.
+- **Wave 3 is being written:** algorithm-tracer, measure-shape, magnetism, stats-explorer, geometry-construction and forces. Next by the map: rates-equilibrium, motion, calculus-grapher, cell-lab, circuit, map-reader, timeline.
+- **How a scene reaches a prompt.** A station's prompt carries only the catalogue entries near its idea (a topic word or its plural, generic words ignored); at sixty engines, every entry in every prompt would not fit. A scene can refuse a prompt that gives away what it hides (`promptFaults`).
+- **Real lessons pick scenes unprompted:**
+  - a heart lesson opened on the body-flow scene, then a ruled sequence;
+  - a linear-equations lesson opened on algebra tiles.
+
 ### 8. The lesson screen, rebuilt Brilliant-style (user, 2026-10-26)
 
 **One pace.** "Run ahead" and the pace choice go. Every lesson is step by step.
