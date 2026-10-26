@@ -12,6 +12,7 @@ import {
   useNodesState,
   useNodesInitialized,
   getNodesBounds,
+  getViewportForBounds,
   MarkerType,
   type Node,
   type Edge,
@@ -44,6 +45,16 @@ const LESSON_CARD_TYPES = new Set(['concept', 'code', 'diagram', 'mermaid', 'wor
  * 12-13px): below roughly 0.6 they stop being legible on a normal display.
  */
 const READABLE_ZOOM = 0.62
+/** New cards are framed together only if they fit at least this large. */
+const COMFORT_ZOOM = 0.85
+/**
+ * A constant, not an inline object. React Flow keeps this prop in its store
+ * and rewrites it whenever the prop changes -- and an inline object changes
+ * every render, which replaced the options of any fitView still waiting to run
+ * with these: "Back to lesson" zoomed out to the whole board instead of to the
+ * card.
+ */
+const FIT_VIEW_OPTIONS = { padding: 0.3, maxZoom: 1 }
 
 const CARD_ACTIONS = [
   { label: 'Explain this deeper', text: 'explain this deeper.' },
@@ -571,11 +582,34 @@ function FlowInner({
   // The camera follows the focus: whatever is new to work on glides into the
   // frame, clear of the board's controls and the bar along the bottom. A new
   // focus also ends looking around -- the learner asked for it by moving on.
+  // What the camera last went to, or the lit card the learner has since put
+  // their hands on: "Back to lesson" returns here, to that card at full size,
+  // not to a zoomed-out view of everything that is lit.
+  const target = useRef<string[]>([])
+  // The viewport is worked out here and set directly. rf.fitView only queues
+  // a request for the next node update, and a re-render in between could
+  // swap its options for others.
+  const fitIds = useCallback(
+    (ids: string[]) => {
+      const box = wrapperRef.current
+      if (ids.length === 0 || !box) return
+      const px = (n: number) => `${n + 24}px` as const
+      const viewport = getViewportForBounds(
+        rf.getNodesBounds(ids),
+        box.clientWidth,
+        box.clientHeight,
+        READABLE_ZOOM,
+        1,
+        { top: px(insets.top), right: px(insets.right), bottom: px(insets.bottom), left: px(insets.left) },
+      )
+      void rf.setViewport(viewport, { duration: prefersReducedMotion() ? 0 : 450 })
+    },
+    [rf, insets.top, insets.right, insets.bottom, insets.left],
+  )
+  // New work arrives: the new cards together if they fit at a comfortable
+  // reading size, otherwise the first of them, where reading starts.
   const frameFocus = useCallback(() => {
     if (!focusKey) return
-    const px = (n: number) => `${n + 24}px` as const
-    // A whole step at once does not fit at a size anyone can read. Then the
-    // camera goes to the thing to do, and the rest stays lit around it.
     const all = focusKey.split('|')
     const box = wrapperRef.current
     let ids = all
@@ -585,16 +619,25 @@ function FlowInner({
         (box.clientWidth - insets.left - insets.right - 48) / Math.max(b.width, 1),
         (box.clientHeight - insets.top - insets.bottom - 48) / Math.max(b.height, 1),
       )
-      if (room < READABLE_ZOOM) ids = [primaryId && all.includes(primaryId) ? primaryId : all[0]]
+      if (room < COMFORT_ZOOM) ids = [all[0]]
     }
-    rf.fitView({
-      nodes: ids.map((id) => ({ id })),
-      duration: prefersReducedMotion() ? 0 : 450,
-      padding: { top: px(insets.top), right: px(insets.right), bottom: px(insets.bottom), left: px(insets.left) },
-      minZoom: READABLE_ZOOM,
-      maxZoom: 1,
-    })
-  }, [rf, focusKey, primaryId, insets.top, insets.right, insets.bottom, insets.left])
+    target.current = ids
+    fitIds(ids)
+  }, [rf, focusKey, fitIds, insets.top, insets.right, insets.bottom, insets.left])
+  const returnToWork = useCallback(() => {
+    if (!focusKey) return
+    const all = focusKey.split('|')
+    const kept = target.current.filter((id) => all.includes(id) && rf.getNode(id))
+    fitIds(kept.length > 0 ? kept : [primaryId && all.includes(primaryId) ? primaryId : all[0]])
+  }, [rf, focusKey, primaryId, fitIds])
+  // Clicking or tabbing into a lit card makes it the one being worked on.
+  const engage = useCallback(
+    (e: React.SyntheticEvent) => {
+      const id = (e.target as HTMLElement | null)?.closest?.('.react-flow__node')?.getAttribute('data-id')
+      if (id && focused.has(id)) target.current = [id]
+    },
+    [focused],
+  )
   // Only once the board has measured its cards: before that there is nothing
   // to frame, and the board's own fit-everything on load would land after us.
   // Each focus is framed once: adding a note of your own must not pull the
@@ -629,7 +672,7 @@ function FlowInner({
       }
       if (timer) clearTimeout(timer)
       timer = setTimeout(() => {
-        if (!exploringRef.current) frameFocus()
+        if (!exploringRef.current) returnToWork()
       }, 180)
     })
     ro.observe(el)
@@ -637,7 +680,7 @@ function FlowInner({
       ro.disconnect()
       if (timer) clearTimeout(timer)
     }
-  }, [frameFocus])
+  }, [returnToWork])
 
   // The end of the lesson: the camera pulls back to the whole board.
   useEffect(() => {
@@ -650,8 +693,8 @@ function FlowInner({
 
   const backToLesson = useCallback(() => {
     setExploring(false)
-    frameFocus()
-  }, [frameFocus])
+    returnToWork()
+  }, [returnToWork])
 
   // Run queued view effects (zoom/fit/center) when a new batch arrives.
   useEffect(() => {
@@ -699,7 +742,14 @@ function FlowInner({
   }, [effects, rf])
 
   return (
-    <div ref={wrapperRef} className={`w-full h-full ${tools ? '' : 'ss-board-plain'}`} onDrop={onDrop} onDragOver={onDragOver}>
+    <div
+      ref={wrapperRef}
+      className={`w-full h-full ${tools ? '' : 'ss-board-plain'}`}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      onPointerDownCapture={engage}
+      onFocusCapture={engage}
+    >
       <ReactFlow
         nodes={drawnNodes}
         edges={rfEdges}
@@ -722,7 +772,7 @@ function FlowInner({
           if (v !== null) onEdgeLabel(edge.id, v)
         } : undefined}
         fitView
-        fitViewOptions={{ padding: 0.3, maxZoom: 1 }}
+        fitViewOptions={FIT_VIEW_OPTIONS}
         minZoom={0.15}
         maxZoom={2}
         proOptions={{ hideAttribution: true }}

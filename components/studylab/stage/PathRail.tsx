@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft, Check, Lock, FastForward, Plus, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { Inky } from '../inky/Inky'
@@ -116,6 +116,35 @@ export function PathRail({
       onTestOut={() => onTestOut(step.id)}
     />
   )
+  // The path itself: one line behind the stations, from the first to the last,
+  // in the lesson's colour as far as the station Inky is on. Measured off the
+  // stations rather than drawn per row, so section labels and the folded rail
+  // cannot break it into pieces.
+  const pathRef = useRef<HTMLOListElement>(null)
+  const [path, setPath] = useState<{ x: number; top: number; reached: number; bottom: number } | null>(null)
+  useLayoutEffect(() => {
+    const ol = pathRef.current
+    if (!ol) return
+    const measure = () => {
+      const dots = [...ol.querySelectorAll<HTMLElement>('[data-path-dot]')]
+      if (dots.length < 2) return setPath(null)
+      const origin = ol.getBoundingClientRect()
+      const mid = (el: HTMLElement) => {
+        const r = el.getBoundingClientRect()
+        return { x: r.left + r.width / 2 - origin.left, y: r.top + r.height / 2 - origin.top }
+      }
+      const first = mid(dots[0])
+      const last = mid(dots[dots.length - 1])
+      const here = dots.find((d) => d.dataset.pathDot === 'current')
+      setPath({ x: first.x, top: first.y, reached: here ? mid(here).y : sections.current ? first.y : last.y, bottom: last.y })
+    }
+    measure()
+    if (typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(measure)
+    ro.observe(ol)
+    return () => ro.disconnect()
+  }, [rail.length, folded, sections.current?.id, settled])
+
   const indexOf = (id: string) => rail.findIndex((r) => r.id === id)
   const all = [...sections.known, ...(sections.current ? [sections.current] : []), ...sections.later]
   const lastId = all[all.length - 1]?.id
@@ -216,7 +245,13 @@ export function PathRail({
 
       <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-3">
         {rail.length > 0 ? (
-          <ol data-tour="lesson-plan" className="list-none">
+          <ol ref={pathRef} data-tour="lesson-plan" className="relative list-none">
+            {path && (
+              <>
+                <li aria-hidden className="pointer-events-none absolute w-0.5 rounded-full" style={{ left: path.x - 1, top: path.top, height: Math.max(0, path.reached - path.top), backgroundColor: 'var(--subject)' }} />
+                <li aria-hidden className="pointer-events-none absolute w-0.5 rounded-full" style={{ left: path.x - 1, top: path.reached, height: Math.max(0, path.bottom - path.reached), backgroundColor: 'var(--ss-line)' }} />
+              </>
+            )}
             {planning ? (
               <>
                 <SectionLabel folded={folded}>Proposed</SectionLabel>
@@ -288,9 +323,11 @@ export function PathRail({
 }
 
 function SectionLabel({ folded, children }: { folded: boolean; children: ReactNode }) {
-  if (folded) return <li aria-hidden className="mx-auto my-2 h-px w-6 bg-ss-line" />
+  // Folded, the path is just its stations: a divider here cut the line.
+  if (folded) return null
   return (
-    <li className="px-2 pb-1 pt-3 text-[12px] font-bold uppercase tracking-[0.12em] text-ss-slate">{children}</li>
+    // Indented to the titles, beside the path rather than across it.
+    <li className="pb-1 pl-[60px] pr-2 pt-3 text-[12px] font-bold uppercase tracking-[0.12em] text-ss-slate">{children}</li>
   )
 }
 
@@ -319,19 +356,6 @@ function Station({
   const locked = !!step.lockedReason
   return (
     <li className="relative">
-      {/* The path: a line from this station down to the next. */}
-      {!last && (
-        <span
-          aria-hidden
-          className="absolute w-0.5 rounded-full"
-          style={{
-            left: folded ? 31 : 27,
-            top: 34,
-            bottom: -6,
-            backgroundColor: settled ? 'var(--subject)' : 'var(--ss-line)',
-          }}
-        />
-      )}
       <button
         type="button"
         disabled={busy || !live}
@@ -342,7 +366,7 @@ function Station({
           step.current && !folded ? 'bg-[color:var(--subject-soft)]' : live ? 'hover:bg-ss-chip' : ''
         } ${folded ? 'justify-center' : ''}`}
       >
-        <span className="relative grid h-9 w-9 shrink-0 place-items-center">
+        <span data-path-dot={step.current ? 'current' : 'station'} className="relative z-[1] grid h-9 w-9 shrink-0 place-items-center">
           {settled ? (
             <motion.span
               initial={stamp?.initial}
