@@ -15,10 +15,26 @@ describe('tap-to-define terms in card text', () => {
     expect(splitGlossary('')).toEqual([])
   })
 
-  it('shows a malformed mark as its plain word, without brackets', () => {
-    expect(splitGlossary('See the [[corpus]] first.')).toEqual([{ kind: 'text', text: 'See the corpus first.' }])
+  it('shows a mark missing one half as its plain word, without brackets', () => {
     expect(splitGlossary('An [[|no term]] here.')).toEqual([{ kind: 'text', text: 'An  here.' }])
     expect(splitGlossary('A [[term|]] here.')).toEqual([{ kind: 'text', text: 'A term here.' }])
+  })
+
+  it('leaves double brackets with no bar exactly as written -- they are code, not marks', () => {
+    // Stripping them turned a nested list [[1, 2]] into "1, 2", so a Python
+    // question could show its right answer as a wrong-looking one.
+    expect(splitGlossary('x = [[1, 2]]')).toEqual([{ kind: 'text', text: 'x = [[1, 2]]' }])
+    expect(splitGlossary('See the [[corpus]] first.')).toEqual([{ kind: 'text', text: 'See the [[corpus]] first.' }])
+  })
+
+  it('never reads a mark inside code or maths', () => {
+    expect(splitGlossary('Index with `grid[[i|j]]` here.')).toEqual([{ kind: 'text', text: 'Index with `grid[[i|j]]` here.' }])
+    expect(splitGlossary('The matrix $[[a|b]]$ and a [[term|its meaning]].')).toEqual([
+      { kind: 'text', text: 'The matrix $[[a|b]]$ and a ' },
+      { kind: 'term', term: 'term', definition: 'its meaning' },
+      { kind: 'text', text: '.' },
+    ])
+    expect(splitGlossary('$$[[x|y]]$$')).toEqual([{ kind: 'text', text: '$$[[x|y]]$$' }])
   })
 
   it('keeps an unclosed bracket as typed', () => {
@@ -40,7 +56,7 @@ describe('tap-to-define terms in card text', () => {
   })
 
   it('joins neighbouring plain text so nothing renders in pieces', () => {
-    const parts = splitGlossary('x [[bad]] y')
+    const parts = splitGlossary('x [[bad|]] y')
     expect(parts).toEqual([{ kind: 'text', text: 'x bad y' }])
   })
 })
