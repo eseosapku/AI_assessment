@@ -96,6 +96,21 @@ describe('verifyBundleCode', () => {
     expect(fails(b).reasons.join(' ')).toMatch(/relationship/i)
   })
 
+  it('says which scene could not read its config, shows it what it wrote, and the shape it takes', () => {
+    // Algebra-tile explores were refused as "does not match its apparatus's schema", which sent
+    // the next try off the scene altogether.
+    const b = good()
+    b.explore.action = {
+      type: 'createActivity', id: 'm1', step: 1,
+      spec: { pattern: 'scene', prompt: 'Heat the wax.', payload: { engine: 'particles', config: { substance: 'butter', task: { kind: 'make-state', state: 'liquid' } } }, success: { kind: 'scene' } },
+    } as never
+    b.explore.intent = { goal: 'See wax melt.', isolates: 'magnitude', apparatus: 'scene:particles', why: 'One handle.' } as never
+    const said = fails(b).reasons.join(' ')
+    expect(said).toMatch(/the "particles" scene could not read its config \{"substance":"butter"/)
+    expect(said).toMatch(/substances: water, ethanol/)
+    expect(said).not.toMatch(/apparatus's schema/)
+  })
+
   it('asks a scene for no relationship: its data is the engine own, sourced in its code', () => {
     const b = good()
     b.explore.action = {

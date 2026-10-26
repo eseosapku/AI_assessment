@@ -8,6 +8,7 @@ import { validateSpec } from './activities/validate'
 import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from './activities/intent'
 import { unmatchedArt } from './activities/artMatch'
 import { getApparatus } from './material/canon'
+import { getEngine } from './engines/registry'
 import { validateMaterial } from './material/validate'
 import { isSolvable } from './material/solvable'
 
@@ -138,6 +139,16 @@ function invalidItem(action: unknown, what: 'explore' | 'practice'): string {
     : 'or a "practice" card with "answer", "rubric" and "steps"'
   if (type === 'createActivity' || type === 'build_material') {
     const pattern = String((action as { spec?: { pattern?: unknown } } | null)?.spec?.pattern ?? type)
+    // A scene its engine cannot read is a config to write again, not a dead end:
+    // called a schema fault, the next try left the scene for a predict card.
+    if (pattern === 'scene') {
+      const p = (action as { spec?: { payload?: { engine?: unknown; config?: unknown } } }).spec?.payload
+      const engine = getEngine(p?.engine)
+      if (!engine) return `there is no scene "${String(p?.engine ?? '')}": use one from the SCENES list, or a different ${what} item`
+      const shape = engine.prompt.slice(engine.prompt.indexOf('config:'), engine.prompt.indexOf('{ "type"')).replace(/\s+/g, ' ').trim()
+      const before = engine.prompt.match(/substances?:[^\n]*|elements?:[^\n]*/)?.[0] ?? ''
+      return `the "${engine.id}" scene could not read its config ${JSON.stringify(p?.config ?? null).slice(0, 240)}: write it exactly in the shape its catalogue entry gives -- ${[before, shape].filter(Boolean).join(' ').slice(0, 700)}`
+    }
     return (
       `the "${pattern}" material does not match its apparatus's schema (its payload, prompt or success rule). ` +
       `Write a different ${what} item: a material whose schema you can fill exactly, ${instead}`

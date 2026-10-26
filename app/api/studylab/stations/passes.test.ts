@@ -93,6 +93,12 @@ describe('runPass: explore', () => {
     expect(String(call()[0])).not.toMatch(/This time, open with a "Predict/)
   })
 
+  it('keeps a scene its engine could not read on the scene: the config is written again, not the card changed', async () => {
+    reply({ opening: 'Watch which ones bend.', action: { type: 'createActivity', id: 'x', spec: sortSpec }, intent, hints: [] })
+    await runPass('explore', { ...ctx(), fix: 'the "algebra-tiles" scene could not read its config {"equation":"3x + 2 = 8"}: write it exactly in the shape its catalogue entry gives' })
+    expect(String(call()[0])).not.toMatch(/This time, open with a "Predict/)
+  })
+
   it('asks for a predict item outright once the catalogue has no picture of what was to be labelled', async () => {
     // "Reading climate graphs" tried a bar-chart label three times over this refusal.
     reply({ opening: 'Guess first.', action: { type: 'createCard', id: 'x', card: 'practice', title: 'Predict: which month is wettest?', body: 'Look at the bars.', answer: 'July', rubric: 'r', steps: ['s'] }, hints: [] })
