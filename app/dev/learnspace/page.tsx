@@ -147,6 +147,14 @@ const initialNodes: Node[] = [
       success: { kind: 'scene' },
     }, activityState: undefined } as never,
   },
+  {
+    id: 'particles', type: 'activity', position: { x: 2780, y: 1180 },
+    data: { spec: {
+      pattern: 'scene', prompt: 'Heat the wax until it is a liquid.', seed: 1,
+      payload: { engine: 'particles', config: { substance: 'wax', task: { kind: 'make-state', state: 'liquid' } } },
+      success: { kind: 'scene' },
+    }, activityState: undefined } as never,
+  },
   { id: 'activity', type: 'activity', position: { x: 380, y: 520 }, data: { spec: SORT, activityState: undefined } as never },
   {
     id: 'concept', type: 'concept', position: { x: 880, y: 520 },

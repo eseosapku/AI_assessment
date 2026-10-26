@@ -8,3 +8,4 @@ export type { SceneEngine, SceneViewProps, SceneMarked } from './types'
 
 // The engines, each registering itself as it loads.
 import './orbit/config'
+import './particles/config'
