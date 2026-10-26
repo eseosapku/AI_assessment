@@ -14,7 +14,7 @@ describe('chipAction', () => {
     expect(chipAction('NOT REALLY')).toBe('diagnose')
   })
   it(`moves on for a chip that only says to move on -- the tutor offers "I'm ready to continue"`, () => {
-    for (const label of ["I'm ready to continue", 'Ready to move on', 'Continue', "Let's keep going", 'Next', 'I get it now']) {
+    for (const label of ["I'm ready to continue", "I'm ready now", 'Ready to move on', 'Continue', "Let's keep going", 'Next', 'I get it now']) {
       expect(chipAction(label), label).toBe('advance')
     }
   })

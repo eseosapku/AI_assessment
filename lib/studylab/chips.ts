@@ -26,4 +26,4 @@ export function chipAction(label: string): 'advance' | 'diagnose' | 'ask' {
 }
 
 const MOVE_ON =
-  /^(?:i'?m ready(?: to (?:continue|move on))?|ready to (?:continue|move on)|continue|next|move on|let'?s (?:keep going|continue|move on)|i get it(?: now)?|got it)[.!]*$/
+  /^(?:i'?m ready(?: now| to (?:continue|move on))?|ready to (?:continue|move on)|continue|next|move on|let'?s (?:keep going|continue|move on)|i get it(?: now)?|got it)[.!]*$/
