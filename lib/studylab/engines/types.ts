@@ -32,6 +32,12 @@ export interface SceneEngine<C, S> {
   parse(raw: unknown): C | null
   /** Why a config would teach nothing or wrongly, in words a writer can fix. */
   faults(config: C): string[]
+  /**
+   * What the card's prompt gives away that the scene keeps hidden until it is
+   * marked -- an equation, a method's name, a charge. The engine cannot see the
+   * prompt, so without this a writer could print the answer above it.
+   */
+  promptFaults?(config: C, prompt: string): string[]
   initial(config: C): S
   check(config: C, state: S): { ok: boolean; wrongIds: string[] }
   /** A state that passes check: proves the scene can be solved. */

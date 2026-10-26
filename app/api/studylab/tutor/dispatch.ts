@@ -2010,7 +2010,7 @@ function acceptsParaphrase(q: CheckpointQuestion): CheckpointQuestion {
  * the apparatus, and both materials were refused for a claim rather than for
  * anything wrong with what they taught.
  */
-function materialContract(): string {
+function materialContract(station?: string): string {
   return `★ MATERIAL CONTRACT — MONTESSORI MODE. THE STUDENT LEARNS BY DOING, NOT READING. ★
 
 This is the authoritative contract for this turn. It REPLACES the card-first
@@ -2034,7 +2034,7 @@ conflicts with it — specifically:
 - Text cards are supporting material only: AT MOST ONE may accompany a material,
   and it comes AFTER it — never before it, and never instead of it.
 - NEVER return a turn of cards and connects alone with no "createActivity".
-` + materialRules()
+` + materialRules(station)
 }
 
 /**
@@ -2044,13 +2044,15 @@ conflicts with it — specifically:
  * a check turn told to emit `createActivity` "without exception" was being
  * told to contradict its own stage.
  */
-export function materialRules(): string {
-  return `SCENES -- purpose-built engines that draw one idea exactly and mark it themselves. When the idea is one a
+export function materialRules(station?: string): string {
+  // Only the scenes near the station: every entry in every prompt would not fit once there are dozens.
+  const scenes = sceneCatalogue(station)
+  return `${scenes ? `SCENES -- purpose-built engines that draw one idea exactly and mark it themselves. When the idea is one a
 scene is for, USE THE SCENE before any apparatus below: it is always right, starts unsolved, and never shows its
 answer -- you only name what to ask. Its intent's "apparatus" is "scene:<engine>".
 
-${sceneCatalogue()}
-
+${scenes}
+` : ''}
 - Before reaching for a "mermaid" or "concept" card for anything with a
   structure, a flow or a process, check WHICH APPARATUS first: a flow of stages
   is "sequence", the parts of a structure are "label" or "compose", a trend or
@@ -2569,9 +2571,9 @@ function buildTeachPrompt(
     variety,
     freshOpener,
     '',
-    montessori ? materialContract() : '',
+    montessori ? materialContract(`${String(context.title ?? '')} ${step.title} ${step.goal}`) : '',
     // A station builds a material where its stage may ask for one.
-    builds ? `HOW TO BUILD A MATERIAL, when THE STAGE asks for one:\n\n${materialRules()}` : '',
+    builds ? `HOW TO BUILD A MATERIAL, when THE STAGE asks for one:\n\n${materialRules(`${String(context.title ?? '')} ${step.title} ${step.goal}`)}` : '',
     montessori || builds ? advertiseVocabulary() : '',
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',

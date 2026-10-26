@@ -20,3 +20,13 @@ describe('the vary brief', () => {
     expect(vary.slice(0, 2000)).toMatch(/readout with the same label as each bar/i)
   })
 })
+
+describe('the scenes block', () => {
+  it('carries only the scenes near the station, and is left out where none is', async () => {
+    await import('@/lib/studylab/engines')
+    expect(materialRules('Phases of the Moon: why the Moon changes shape')).toMatch(/SCENE "orbit"/)
+    expect(materialRules('Phases of the Moon: why the Moon changes shape')).not.toMatch(/SCENE "particles"/)
+    expect(materialRules('Equivalent fractions: making equal fractions')).not.toMatch(/^SCENES --/m)
+    expect(materialRules()).toMatch(/SCENE "particles"/)
+  })
+})

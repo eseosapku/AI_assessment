@@ -191,6 +191,15 @@ describe('runPass: name', () => {
   })
 })
 
+describe('the scenes a pass is offered', () => {
+  it('are the ones near the station, never the whole catalogue', async () => {
+    await import('@/lib/studylab/engines')
+    reply({ opening: 'Watch which ones bend.', action: { type: 'createActivity', id: 'x', spec: sortSpec }, intent, hints: [] })
+    await runPass('explore', ctx())
+    expect(String(call()[0])).not.toMatch(/SCENE "orbit"/)
+  })
+})
+
 describe('runPass: practice_check', () => {
   it('asks for a practice card outright once the material tried last time cannot be drawn', async () => {
     // "Reading climate graphs" wrote its practice as a bar-chart label three times over this refusal.

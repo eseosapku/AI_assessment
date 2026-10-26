@@ -16,7 +16,7 @@ export { varyFaults, startStateFaults, selfAnswerFaults, artFaults }
  */
 export function meaningFaults(action: unknown): string[] {
   if (!action || typeof action !== 'object') return []
-  const a = action as { type?: unknown; spec?: { pattern?: unknown; payload?: unknown } }
+  const a = action as { type?: unknown; spec?: { pattern?: unknown; payload?: unknown; prompt?: unknown } }
   const out: string[] = []
   if (a.type === 'createActivity' && a.spec?.pattern === 'vary' && a.spec.payload && typeof a.spec.payload === 'object') {
     try {
@@ -31,6 +31,7 @@ export function meaningFaults(action: unknown): string[] {
     const engine = getEngine(p.engine)
     const config = engine?.parse(p.config)
     out.push(...(engine && config ? engine.faults(config) : ["the scene's engine or config cannot be read"]))
+    if (engine?.promptFaults && config) out.push(...engine.promptFaults(config, String(a.spec.prompt ?? '')))
   }
   out.push(...startStateFaults(action), ...selfAnswerFaults(action), ...artFaults(action))
   return out

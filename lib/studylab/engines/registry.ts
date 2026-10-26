@@ -14,16 +14,31 @@ export function getEngine(id: unknown): SceneEngine<unknown, unknown> | null {
   return typeof id === 'string' ? ENGINES.get(id) ?? null : null
 }
 
-/** Every engine's catalogue entry, for the tutor's prompts. */
-export function sceneCatalogue(): string {
-  return [...ENGINES.values()].map((e) => e.prompt).join('\n\n')
-}
-
 /** Words that say nothing about which idea a station is on. */
 const SMALL = new Set(['the', 'and', 'for', 'with', 'what', 'when', 'why', 'how', 'into', 'from', 'that', 'this', 'about', 'always'])
 const words = (text: string) => text.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 3 && !SMALL.has(w))
 /** The same word, as a plural or by a shared stem of five letters or more. */
 const same = (a: string, b: string) => a === b || a + 's' === b || b + 's' === a || (a.length >= 5 && b.length >= 5 && a.slice(0, 5) === b.slice(0, 5))
+
+/** Words any topic might use, which say nothing on their own about its idea ("changes" of state, of shape). */
+const GENERIC = ['chang', 'shape', 'model', 'make', 'making', 'using', 'happen', 'process', 'differen', 'type', 'between', 'effect', 'structur', 'graph', 'reading', 'drawing', 'number', 'simple', 'their', 'work']
+
+/**
+ * The catalogue entries for the tutor's prompts. Given a station, only the
+ * scenes near its idea -- any word of a topic in the station -- and nothing
+ * when none is: every entry in every prompt runs to tens of thousands of
+ * tokens once there are dozens of engines.
+ */
+export function sceneCatalogue(station?: string): string {
+  const all = [...ENGINES.values()]
+  if (station === undefined) return all.map((e) => e.prompt).join('\n\n')
+  const telling = (w: string) => w.length >= 4 && !GENERIC.some((g) => w.startsWith(g))
+  const said = words(station).filter(telling)
+  return all
+    .filter((e) => e.covers.some((topic) => words(topic).some((w) => telling(w) && said.some((s) => same(w, s)))))
+    .map((e) => e.prompt)
+    .join('\n\n')
+}
 
 /**
  * The scenes made for the idea a station is on: those with a topic whose every

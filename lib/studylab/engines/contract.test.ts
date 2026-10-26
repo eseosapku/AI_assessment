@@ -74,6 +74,17 @@ describe('the scenes a station is for', () => {
     expect(scenesFor('Why the Moon has phases -- phases of the Moon').map((e) => e.id)).toContain('orbit')
     expect(scenesFor('Equivalent fractions')).toEqual([])
   })
+
+  it('gives a station the catalogue entries near its idea, not all of them', async () => {
+    // Every entry in every prompt would run to tens of thousands of tokens at sixty engines.
+    await import('./orbit/config')
+    await import('./particles/config')
+    const station = sceneCatalogue('Melting and freezing: what happens to the particles in ice')
+    expect(station).toContain('SCENE "particles"')
+    expect(station).not.toContain('SCENE "orbit"')
+    expect(sceneCatalogue('Equivalent fractions')).toBe('')
+    expect(sceneCatalogue()).toContain('SCENE "orbit"')
+  })
 })
 
 describe('the registry', () => {

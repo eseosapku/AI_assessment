@@ -4,6 +4,7 @@ import { describe, it, expect, vi } from 'vitest'
 vi.mock('@/lib/bedrock', async (orig) => ({ ...(await orig<typeof import('@/lib/bedrock')>()), callGemma: vi.fn() }))
 
 import { meaningFaults } from './index'
+import { registerEngine } from '../engines/registry'
 import { verifyBundleCode } from '../stationBundle'
 import { refuseUnjustifiedActivities, materialRules } from '@/app/api/studylab/tutor/dispatch'
 
@@ -95,5 +96,19 @@ describe('the rules the writers are given', () => {
     expect(rules).toMatch(/every bar must move/i)
     expect(rules).toMatch(/every item needs a picture that shows it/i)
     expect(rules).toMatch(/scene.*must BE the thing/i)
+  })
+})
+
+describe('the prompt on a scene', () => {
+  it('is refused when it says what the scene keeps hidden until marked', () => {
+    registerEngine({
+      id: 'test-hidden', covers: [], isolates: 'category', prompt: '', View: () => null,
+      parse: (raw: unknown) => raw, faults: () => [], initial: () => ({}), solve: () => ({}),
+      check: () => ({ ok: false, wrongIds: [] }),
+      promptFaults: (_config: unknown, prompt: string) => (/secret/.test(prompt) ? ['the prompt names the secret'] : []),
+    } as never)
+    const scene = (prompt: string) => ({ type: 'createActivity', id: 's1', spec: { pattern: 'scene', prompt, payload: { engine: 'test-hidden', config: {} }, success: { kind: 'scene' } } })
+    expect(meaningFaults(scene('Find the secret.'))).toContain('the prompt names the secret')
+    expect(meaningFaults(scene('Find it.'))).toEqual([])
   })
 })
