@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  checkFlow, initialCheckFlow, modeForGate, modeForCell, feedbackFor, restoreEvent, isLiveChange, MAX_LEARN_TRIES,
+  checkFlow, initialCheckFlow, modeForGate, modeForCell, feedbackFor, restoreEvent, isLiveChange, answerIsFinal, MAX_LEARN_TRIES,
   type CheckFlowState, type CheckEvent,
 } from './checkFlow'
 import type { CheckpointQuestion } from './types'
@@ -160,5 +160,13 @@ describe('feedback for an answer', () => {
     expect(after).toMatchObject({ phase: 'idle', attempts: 1 })
     const fromWrong = run(initialCheckFlow('learn', { attempts: 2 }), [{ type: 'tryAgain' }, check])
     expect(fromWrong).toMatchObject({ phase: 'idle', attempts: 2 })
+  })
+
+  it('never treats a learning miss as final, so its explanation waits for Show answer', () => {
+    // The second learning miss used to count as final: the explanation (which
+    // usually names the answer) appeared, and Try again was still on offer.
+    expect(answerIsFinal('learn', 'incorrect')).toBe(false)
+    expect(answerIsFinal('learn', 'correct')).toBe(true)
+    expect(answerIsFinal('test', 'incorrect')).toBe(true)
   })
 })

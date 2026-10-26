@@ -128,6 +128,16 @@ export function modeForCell(cell: { gate: 'hard' | 'soft'; kind?: 'testout'; che
 }
 
 /**
+ * Whether marking an answer ends the question -- the point at which its
+ * explanation may be shown. A test miss does. A learning miss never does, not
+ * even the second: another go is still offered, and an explanation that names
+ * the answer would make that go a formality.
+ */
+export function answerIsFinal(mode: CheckMode, verdict: 'correct' | 'incorrect'): boolean {
+  return verdict === 'correct' || mode === 'test'
+}
+
+/**
  * What to say about an answer. A multiple-choice question with feedback
  * written per option speaks to the one chosen. Without it, the explanation is
  * shown only once the answer is final; a first miss gets no explanation, so the

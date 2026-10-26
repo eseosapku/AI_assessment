@@ -6,7 +6,7 @@ import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
-import { modeForCell, feedbackFor, isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { modeForCell, feedbackFor, isLiveChange, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
@@ -182,8 +182,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     dispatch({ type: 'check' })
     if (q.format === 'mcq' || q.format === 'match') {
       const right = q.format === 'mcq' ? gradeMcq(q, answer as number) : gradeMatch(q, answer as string[])
-      const finalMiss = !right && (mode === 'test' || state.attempts + 1 >= 2)
-      const said = q.format === 'mcq' ? feedbackFor(q, answer, right ? 'correct' : 'incorrect', { final: finalMiss && mode === 'learn' }) : undefined
+      const verdict = right ? 'correct' : 'incorrect'
+      const said = q.format === 'mcq' ? feedbackFor(q, answer, verdict, { final: answerIsFinal(mode, verdict) }) : undefined
       setLine(said)
       extras.current = { given: answer as number | string[], feedback: said }
       dispatch({ type: 'result', verdict: right ? 'correct' : 'incorrect' })
