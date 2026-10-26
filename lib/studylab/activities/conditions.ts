@@ -5,16 +5,25 @@ import { sideTotal } from './patterns/balance'
 export interface Condition { text: string; met: boolean }
 
 /**
+ * A clue as the one pair it checks. The writer's own sentence can claim more
+ * than its tick tests: a heart lesson ticked "Each chamber relaxes after it
+ * contracts" for the atria alone, with the ventricles still out of order.
+ */
+export const pairText = (before: string, after: string) => `${before} before ${after}`
+
+/**
  * What a constraint answer must make true, each ticked as it comes true: a
  * sequence's rules, a balance's level beam. Patterns without any give none.
  */
 export function conditionsFor(pattern: ActivityPattern, payload: unknown, work: Record<string, unknown>): Condition[] {
   if (pattern === 'sequence') {
     const order = Array.isArray(work.order) ? (work.order as string[]) : []
-    return ((payload as SequencePayload).rules ?? []).map((r) => {
+    const p = payload as SequencePayload
+    const label = (id: string) => p.items.find((item) => item.id === id)?.label ?? id
+    return (p.rules ?? []).map((r) => {
       const i = order.indexOf(r.before)
       const j = order.indexOf(r.after)
-      return { text: r.text, met: i >= 0 && j >= 0 && i < j }
+      return { text: pairText(label(r.before), label(r.after)), met: i >= 0 && j >= 0 && i < j }
     })
   }
   if (pattern === 'balance') {

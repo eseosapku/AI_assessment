@@ -47,7 +47,9 @@ describe('put in order', () => {
     const shown = q.items.map((i) => [i, html.indexOf(`>${i}</button>`)] as const).sort((a, b) => a[1] - b[1]).map(([i]) => i)
     expect(shown.every((_, i) => html.indexOf(`>${q.items[i]}</button>`) >= 0)).toBe(true)
     expect(shown).not.toEqual(q.items)
-    expect(html).toContain('The larva hatches from the egg.')
+    // A clue is shown as the pair it checks, never the writer's sentence, which can claim more than it ticks.
+    expect(html).toContain('Egg before Larva')
+    expect(html).not.toContain('The larva hatches from the egg.')
   })
 })
 

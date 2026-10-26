@@ -20,7 +20,7 @@ describe('constraint answers on the board', () => {
       success: { kind: 'exactOrder', itemIds: ['a', 'b', 'c'] },
     })
     expect(html).toMatch(/aria-label="Rules"/)
-    expect(html).toMatch(/Prophase comes before anaphase/)
+    expect(html).toMatch(/Prophase before Anaphase/)
   })
 
   it('shows a balance its one condition', () => {

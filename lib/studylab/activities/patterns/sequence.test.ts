@@ -69,7 +69,14 @@ describe('a sequence ticks its rules', () => {
     expect(met(['c', 'a', 'b'])).toEqual([false, false])
     expect(met(['a', 'c', 'b'])).toEqual([true, false])
     expect(met(['a', 'b', 'c'])).toEqual([true, true])
-    expect(conditionsFor('sequence', ruled, { order: ['a', 'b', 'c'] })[0].text).toBe('Prophase comes before anaphase')
+    expect(conditionsFor('sequence', ruled, { order: ['a', 'b', 'c'] })[0].text).toBe('Prophase before Anaphase')
+  })
+
+  it('words each rule as the one pair it checks, whatever its writer said', () => {
+    // A real heart lesson ticked "Each chamber relaxes after it contracts" for the atria
+    // alone, with the ventricles still out of order.
+    const broad: SequencePayload = { ...payload, rules: [{ text: 'Each phase follows the one before it', before: 'a', after: 'c' }] }
+    expect(conditionsFor('sequence', broad, { order: ['c', 'a', 'b'] })).toEqual([{ text: 'Prophase before Anaphase', met: false }])
   })
 
   it('leaves a rule unticked while one of its items is not placed', () => {

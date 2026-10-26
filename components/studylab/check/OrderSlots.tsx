@@ -8,6 +8,7 @@ import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
 import { SafeLatex } from '../canvasShared'
 import { ConditionList } from './ConditionList'
+import { pairText } from '@/lib/studylab/activities/conditions'
 import { onPartsKey, partTone, PartBadge, type PartsState } from './parts'
 
 /**
@@ -100,7 +101,7 @@ export function OrderSlots({ q, value, onChange, state }: {
           ),
         )}
       </div>
-      <ConditionList items={(q.clues ?? []).map((c, i) => ({ text: c.text, met: met[i] }))} />
+      <ConditionList items={(q.clues ?? []).map((c, i) => ({ text: pairText(c.before, c.after), met: met[i] }))} />
     </div>
   )
 }
