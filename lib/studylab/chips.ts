@@ -14,8 +14,16 @@ export const COMPREHENSION_CHIPS = ['Makes sense', 'Not really'] as const
  * point.
  */
 export function chipAction(label: string): 'advance' | 'diagnose' | 'ask' {
-  const said = label.trim().toLowerCase()
+  const said = label.trim().toLowerCase().replace(/[’‘]/g, "'")
   if (said === COMPREHENSION_CHIPS[0].toLowerCase()) return 'advance'
   if (said === COMPREHENSION_CHIPS[1].toLowerCase()) return 'diagnose'
+  // A chip that only says to move on. The tutor offers "I'm ready to
+  // continue" beside its questions, and asked as a question it got an answer
+  // instead of the next step. The whole chip has to say it: "Continue
+  // explaining" is still a question.
+  if (MOVE_ON.test(said)) return 'advance'
   return 'ask'
 }
+
+const MOVE_ON =
+  /^(?:i'?m ready(?: to (?:continue|move on))?|ready to (?:continue|move on)|continue|next|move on|let'?s (?:keep going|continue|move on)|i get it(?: now)?|got it)[.!]*$/

@@ -13,6 +13,12 @@ describe('chipAction', () => {
     expect(chipAction('  makes sense ')).toBe('advance')
     expect(chipAction('NOT REALLY')).toBe('diagnose')
   })
+  it(`moves on for a chip that only says to move on -- the tutor offers "I'm ready to continue"`, () => {
+    for (const label of ["I'm ready to continue", 'Ready to move on', 'Continue', "Let's keep going", 'Next', 'I get it now']) {
+      expect(chipAction(label), label).toBe('advance')
+    }
+  })
+
   it('asks anything else as a question -- a diagnosis chip names the point to explain', () => {
     expect(chipAction('The tiles')).toBe('ask')
     expect(chipAction('How they make 7x')).toBe('ask')
