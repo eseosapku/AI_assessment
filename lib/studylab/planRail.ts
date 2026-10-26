@@ -79,3 +79,12 @@ export function railSteps(run: LessonRun | null, policy: LessonPolicy): RailStep
     }
   })
 }
+
+/**
+ * Whether the rail starts folded. On a phone it always does: a rail unfolded
+ * once, and remembered, took 264px of a 390px screen on every lesson after.
+ * Wider screens keep the learner's choice, open until they fold it.
+ */
+export function railStartsFolded(input: { saved: string | null; phone: boolean }): boolean {
+  return input.phone || input.saved === 'folded'
+}

@@ -33,13 +33,18 @@ export function LessonCompleteScene({
   const reduced = useReducedMotion() ?? false
   const rise = motionFor('rise', reduced)
   const closeRef = useRef<HTMLButtonElement>(null)
+  // Once, when the scene opens. The stage re-renders under it -- the camera
+  // settling, the time-on-task tick every 15s -- and each re-run replayed the
+  // fanfare and pulled focus back from whatever the learner had tabbed to.
+  const close = useRef(onClose)
+  close.current = onClose
   useEffect(() => {
     playSound('lessonComplete')
     closeRef.current?.focus({ preventScroll: true })
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close.current()
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  }, [])
 
   return (
     <div

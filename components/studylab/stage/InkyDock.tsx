@@ -77,7 +77,7 @@ export function InkyDock({
   const rootRef = useRef<HTMLDivElement>(null)
   const inkyRef = useRef<HTMLDivElement>(null)
   const bubbleRef = useRef<HTMLDivElement>(null)
-  const [place, setPlace] = useState<{ x: number; y: number; compact: boolean; tail: 'left' | 'bottom' } | null>(null)
+  const [place, setPlace] = useState<{ x: number; y: number; compact: boolean; tail: 'left' | 'bottom'; w?: number } | null>(null)
   const measure = useCallback(() => {
     const board = rootRef.current?.offsetParent as HTMLElement | null
     const inky = inkyRef.current
@@ -90,7 +90,7 @@ export function InkyDock({
       const el = board.querySelector(`.react-flow__node[data-id="${CSS.escape(id)}"]`)
       if (el) avoid.push(rel(el.getBoundingClientRect()))
     }
-    const dock = board.querySelector('[data-tour="lesson-continue"] > div')
+    const dock = board.querySelector('[data-tour="lesson-continue"]')
     if (dock && dock.getBoundingClientRect().height > 0) avoid.push(rel(dock.getBoundingClientRect()))
     // The opening card, and anything else that marks itself as the stage's.
     board.querySelectorAll('[data-stage-avoid]').forEach((el) => avoid.push(rel(el.getBoundingClientRect())))
@@ -108,19 +108,28 @@ export function InkyDock({
   // Every change re-measures from the full bubble: rendered unplaced (and
   // hidden) for a moment, measured, then placed -- all before the paint. A
   // bubble measured while it was the pill would think the full one fits.
+  //
+  // The counter is what makes a request always register: resetting `place` to
+  // null alone did nothing when it was null already (the bubble was not drawn
+  // while the chat was open), so it was never measured again and stayed
+  // hidden -- line, chips and all -- after the chat closed.
   const text = busy ? working : line?.text
   const focusKey = focusIds.join('|')
-  useLayoutEffect(() => {
+  const [nonce, setNonce] = useState(0)
+  const remeasure = useCallback(() => {
     setPlace(null)
-  }, [text, chips.length, viewTick, hidden, focusKey])
+    setNonce((n) => n + 1)
+  }, [])
+  useLayoutEffect(() => {
+    remeasure()
+  }, [text, chips.length, viewTick, hidden, focusKey, remeasure])
   useLayoutEffect(() => {
     if (!place) measure()
-  }, [place, measure])
+  }, [nonce, place, measure])
   useEffect(() => {
-    const again = () => setPlace(null)
-    window.addEventListener('resize', again)
-    return () => window.removeEventListener('resize', again)
-  }, [])
+    window.addEventListener('resize', remeasure)
+    return () => window.removeEventListener('resize', remeasure)
+  }, [remeasure])
 
   // A long line is clamped to four lines; the rest is in the chat.
   const textRef = useRef<HTMLDivElement>(null)
@@ -135,6 +144,12 @@ export function InkyDock({
 
   return (
     <div ref={rootRef} data-tour="lesson-chat" className="pointer-events-none absolute inset-0 z-20">
+      {/* What Inky says, for screen readers, from a region that stays put:
+          the bubble is remounted for every line and can shrink to a pill. With
+          the chat open, the chat is what speaks. */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {hidden || !text ? null : busy ? text : <SafeLatex>{text}</SafeLatex>}
+      </div>
       {/* Inky, its chat button and the one sound switch. */}
       {/* Measured as one: the bubble must not cover Inky's buttons either. */}
       <div ref={inkyRef} className="pointer-events-auto absolute bottom-5 left-4 flex items-end gap-2">
@@ -182,14 +197,13 @@ export function InkyDock({
                 <button
                   type="button"
                   onClick={onOpenChat}
-                  className="flex h-11 w-[240px] items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 text-left text-[13px] font-semibold text-ss-ink shadow-[0_12px_30px_-14px_rgba(20,60,90,0.45)]"
+                  style={{ width: place.w ?? COMPACT.w }}
+                  className="flex h-11 items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 text-left text-[13px] font-semibold text-ss-ink shadow-[0_12px_30px_-14px_rgba(20,60,90,0.45)]"
                 >
                   <span className="truncate">{firstSentence(text)}</span>
                 </button>
               ) : (
                 <div
-                  role="status"
-                  aria-live="polite"
                   className="rounded-2xl border bg-ss-panel px-4 py-3 shadow-[0_14px_36px_-16px_rgba(20,60,90,0.5)]"
                   style={{ borderColor: line && line.tone !== 'say' && !busy ? 'var(--ss-warn)' : 'var(--ss-line)' }}
                 >

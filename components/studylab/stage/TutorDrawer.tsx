@@ -11,7 +11,9 @@ import type { ReactNode } from 'react'
  * it is inert: nothing in it can be tabbed to or read out.
  */
 export function TutorDrawer({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
-  // Not in this React's types yet, but React passes it through as a boolean.
+  // Next vendors React 19, which takes `inert` as a boolean; the installed
+  // @types/react is 18's and does not list it, hence the spread. React 18
+  // would have needed '' -- and dropped `false` -- so this must stay `true`.
   const inert = open ? {} : ({ inert: true } as Record<string, boolean>)
   return (
     <>

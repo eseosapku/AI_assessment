@@ -57,6 +57,8 @@ export function focusIds(input: { nodes: StudyNode[]; run: LessonRun | null; exp
 export type ContinueTarget =
   | { kind: 'advance' | 'finish'; label: string }
   | { kind: 'focus'; label: string; nodeId: string; hint: string }
+  /** A finished check the run still holds open: send its answers again. */
+  | { kind: 'handIn'; label: string; hint: string }
 
 /**
  * What Continue does from `nodeId` (or from the lesson as a whole, for null).
@@ -83,7 +85,10 @@ export function continueFor(
     if (left.length > 0) return null
   }
   if (gating) {
-    if (left.length === 0) return null
+    // Every question answered and nothing running: the answers were never
+    // taken in (a refused or failed hand-in). Without this the lesson had
+    // nothing to press anywhere. While a turn runs, it is being handed in.
+    if (left.length === 0) return { kind: 'handIn', label: 'Hand in', hint: 'Your answers are in — hand them in' }
     return {
       kind: 'focus',
       label: cells.length === 1 ? 'Go to the check' : 'Go to the questions',
@@ -147,4 +152,58 @@ export function focusFromTurn(
   if (created.length > 0) return { focus: created, effects: rest }
   if (toNode.length > 0) return { focus: toNode.map((e) => e.nodeId), effects: rest }
   return { focus: null, effects }
+}
+
+/**
+ * Whether the learner actually moved the board. React Flow reports the start
+ * of a move on mousedown, before anything has moved, so a plain click on the
+ * background looked like exploring: the spotlight lifted for a click.
+ */
+export function viewportMoved(
+  from: { x: number; y: number; zoom: number },
+  to: { x: number; y: number; zoom: number },
+): boolean {
+  return Math.abs(to.x - from.x) > 2 || Math.abs(to.y - from.y) > 2 || Math.abs(to.zoom - from.zoom) > 0.001
+}
+
+/**
+ * Whether a card may ask for the dock: there is a stage with a dock up, the
+ * card is in the spotlight, and it has a bar to put there. A legacy activity
+ * draws its own controls; claiming the dock without a bar left it empty, and
+ * the lesson with nothing to press.
+ */
+export function dockCandidate(input: {
+  staged: boolean
+  dockReady: boolean
+  nodeId: string | null
+  focused: ReadonlySet<string>
+  enabled: boolean
+}): boolean {
+  return input.staged && input.dockReady && input.enabled && !!input.nodeId && input.focused.has(input.nodeId)
+}
+
+/**
+ * Whether the card a new focus lands on should take the keyboard. Continue
+ * unmounts as the dock changes, so focus has usually fallen to the page; left
+ * there, a keyboard learner started again from the top of the page every step.
+ * Focus in the chat, the rail or a card already in the spotlight is the
+ * learner's own, and the page opening on a lesson is not an arrival.
+ */
+export function takesArrivalFocus(input: { where: 'body' | 'board' | 'card' | 'outside'; firstFrame: boolean }): boolean {
+  return !input.firstFrame && (input.where === 'body' || input.where === 'board')
+}
+
+/**
+ * How far the dock sits off the foot of the board below `sm`: clear of Inky
+ * and its two buttons, which it covered there -- and with them the only way
+ * into the chat on a touch screen. ActionDock's `bottom-[126px]` is this.
+ */
+export const DOCK_LIFT_PHONE = 126
+
+/**
+ * Room the camera leaves around the work in focus: the board's own controls
+ * along the top, and the bar and Inky along the bottom -- stacked on phones.
+ */
+export function cameraInsets(phone: boolean): { top: number; right: number; bottom: number; left: number } {
+  return { top: 72, right: phone ? 16 : 32, bottom: phone ? 128 + DOCK_LIFT_PHONE - 24 : 128, left: phone ? 16 : 32 }
 }

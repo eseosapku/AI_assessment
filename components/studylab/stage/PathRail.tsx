@@ -7,7 +7,7 @@ import { Inky } from '../inky/Inky'
 import { PACES, paceOption } from '../paceOptions'
 import type { PlanStep } from '@/lib/studylab/types'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
-import { railSteps, railIsLive, pathSections, type RailStep } from '@/lib/studylab/planRail'
+import { railSteps, railIsLive, pathSections, railStartsFolded, type RailStep } from '@/lib/studylab/planRail'
 import { policyFor, type LessonPolicy, type Pace } from '@/lib/studylab/lessonPolicy'
 import { motionFor } from '@/lib/studylab/motionPresets'
 
@@ -71,16 +71,21 @@ export function PathRail({
 
   const [folded, setFolded] = useState(false)
   useEffect(() => {
+    const phone = window.matchMedia('(max-width: 767px)').matches
+    let saved: string | null = null
     try {
-      const saved = localStorage.getItem(RAIL_KEY)
-      setFolded(saved ? saved === 'folded' : window.matchMedia('(max-width: 767px)').matches)
+      saved = localStorage.getItem(RAIL_KEY)
     } catch {
-      /* storage blocked: start open */
+      /* storage blocked: the default for the screen */
     }
+    setFolded(railStartsFolded({ saved, phone }))
   }, [])
   const toggleFold = () => {
     const next = !folded
     setFolded(next)
+    // Unfolding on a phone is for this visit; it is not the choice to bring
+    // back to a wider screen, or to the next lesson.
+    if (window.matchMedia('(max-width: 767px)').matches) return
     try {
       localStorage.setItem(RAIL_KEY, next ? 'folded' : 'open')
     } catch {

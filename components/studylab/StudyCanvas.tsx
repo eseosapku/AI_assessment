@@ -33,6 +33,7 @@ import { ZoomControl } from './ZoomControl'
 import { stepRegions } from '@/lib/studylab/stepRegions'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
+import { viewportMoved, takesArrivalFocus } from '@/lib/studylab/spotlight'
 
 const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
@@ -149,6 +150,8 @@ function FlowInner({
   // zoom they make) nothing dims and the camera stays where they put it, until
   // the next thing to work on arrives or they ask to go back.
   const [exploring, setExploring] = useState(false)
+  // Where a learner's move began, to tell a pan from a click.
+  const moveFrom = useRef<{ x: number; y: number; zoom: number } | null>(null)
   const focusKey = focusIds.join('|')
   const focused = useMemo(() => new Set(focusKey ? focusKey.split('|') : []), [focusKey])
   const dimming = focused.size > 0 && !exploring
@@ -644,13 +647,45 @@ function FlowInner({
   // camera back.
   const initialized = useNodesInitialized()
   const framedKey = useRef('')
+  // Then the keyboard follows the camera to the new card, once it is there:
+  // React Flow pans to a card focused off screen, which would cut the glide
+  // short. Kept apart from the framing timer, so a re-render after the frame
+  // cannot cancel it.
+  const handOver = useRef<ReturnType<typeof setTimeout> | null>(null)
+  useEffect(
+    () => () => {
+      if (handOver.current) clearTimeout(handOver.current)
+    },
+    [],
+  )
   useEffect(() => {
     if (!focusKey || !initialized || framedKey.current === focusKey) return
     setExploring(false)
     // New cards need a frame to be measured before they can be framed.
     const timer = setTimeout(() => {
+      const firstFrame = framedKey.current === ''
       framedKey.current = focusKey
       frameFocus()
+      if (handOver.current) clearTimeout(handOver.current)
+      handOver.current = setTimeout(() => {
+        const box = wrapperRef.current
+        // Only on the lesson stage, which marks its board column.
+        const board = box?.closest('[data-stage-board]')
+        const id = target.current[0]
+        const card = id ? box?.querySelector<HTMLElement>(`.react-flow__node[data-id="${CSS.escape(id)}"]`) : null
+        if (!board || !card) return
+        const active = document.activeElement
+        const inCard = active?.closest('.react-flow__node')?.getAttribute('data-id')
+        const where =
+          !active || active === document.body
+            ? 'body'
+            : inCard && focusKey.split('|').includes(inCard)
+              ? 'card'
+              : board.contains(active)
+                ? 'board'
+                : 'outside'
+        if (takesArrivalFocus({ where, firstFrame })) card.focus({ preventScroll: true })
+      }, prefersReducedMotion() ? 0 : 480)
     }, 120)
     return () => clearTimeout(timer)
   }, [focusKey, frameFocus, initialized])
@@ -760,9 +795,14 @@ function FlowInner({
         onNodeDragStop={onNodeDragStop}
         onNodeClick={onNodeClick}
         onConnect={onConnect}
-        // Only the learner's own moves pass an event; the camera's do not.
-        onMoveStart={(e) => {
-          if (e) setExploring(true)
+        // Only the learner's own moves pass an event; the camera's do not. And
+        // a move only counts once the board has actually moved -- a click on
+        // the background starts a "move" that goes nowhere.
+        onMoveStart={(e, vp) => {
+          moveFrom.current = e ? vp : null
+        }}
+        onMove={(e, vp) => {
+          if (e && moveFrom.current && viewportMoved(moveFrom.current, vp)) setExploring(true)
         }}
         onMoveEnd={() => onViewSettled?.()}
         nodesConnectable={tools}
@@ -782,7 +822,7 @@ function FlowInner({
         {exploring && focused.size > 0 && (
           // Above the bar at the foot of the board, where the work goes on --
           // the top centre is the demo's cue card.
-          <Panel position="bottom-center" style={{ marginBottom: 104 }}>
+          <Panel position="bottom-center" style={{ marginBottom: insets.bottom - 24 }}>
             <button
               type="button"
               onClick={backToLesson}

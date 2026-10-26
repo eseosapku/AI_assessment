@@ -3,7 +3,7 @@
 import { createContext, useContext, useLayoutEffect, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useNodeId } from '@xyflow/react'
-import type { ContinueTarget } from '@/lib/studylab/spotlight'
+import { dockCandidate, type ContinueTarget } from '@/lib/studylab/spotlight'
 
 /**
  * What a card on the board needs to know about the stage it sits on: whether
@@ -29,6 +29,8 @@ export interface StageValue {
 
 export const StageContext = createContext<StageValue | null>(null)
 
+const NO_FOCUS: ReadonlySet<string> = new Set()
+
 /**
  * A card's way into the dock.
  *
@@ -38,7 +40,7 @@ export const StageContext = createContext<StageValue | null>(null)
  * on means from here. Anywhere else -- off the spotlight, on the dev bench, in
  * an older board -- the bar stays at the card's foot, as it always was.
  */
-export function useDock(): {
+export function useDock(opts: { enabled?: boolean } = {}): {
   docked: boolean
   cont: ContinueTarget | null
   onContinue: () => void
@@ -48,7 +50,13 @@ export function useDock(): {
 } {
   const stage = useContext(StageContext)
   const nodeId = useNodeId()
-  const candidate = !!stage?.dockEl && !!nodeId && stage.focus.has(nodeId)
+  const candidate = dockCandidate({
+    staged: !!stage,
+    dockReady: !!stage?.dockEl,
+    nodeId,
+    focused: stage?.focus ?? NO_FOCUS,
+    enabled: opts.enabled ?? true,
+  })
   const claim = stage?.claim
 
   useLayoutEffect(() => {

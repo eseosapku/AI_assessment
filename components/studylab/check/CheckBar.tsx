@@ -6,6 +6,7 @@ import type { CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarButton, type BarModel, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { moodForCheck } from '@/lib/studylab/inkyMood'
 import { InkyLine } from './InkyLine'
+import { SafeLatex } from '../canvasShared'
 
 const PRIMARY_FILL: Record<BarModel['tone'], string> = {
   neutral: 'var(--subject)',
@@ -50,6 +51,12 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
   const text = line ?? model.line
   return (
     <div className="nodrag flex flex-col gap-2.5">
+      {/* The result, for screen readers, in a region mounted with the bar:
+          a region inserted already holding its words is often skipped, and a
+          multiple-choice answer is marked in the same click that shows it. */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {text ? <SafeLatex>{text}</SafeLatex> : null}
+      </div>
       {/* Inky speaks when there is something to say, or while marking --
           not beside a Check waiting to be pressed. */}
       {(text || state.phase === 'checking') && (

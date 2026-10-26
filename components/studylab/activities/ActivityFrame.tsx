@@ -80,7 +80,9 @@ export function ActivityFrame({
   // name doesn't resolve — the surface renders exactly as it did before.
   const textureUrl = texture ? assetUrl(texture) : null
   const reduced = useReducedMotion() ?? false
-  const dock = useDock()
+  // Only a frame with the shared bar takes the dock; a legacy activity draws
+  // its own controls, and claiming the dock would leave it empty.
+  const dock = useDock({ enabled: !!(checkState && onCheckAction) })
   const bar = barOptionsFor(MATERIAL_BAR, dock.docked, dock.cont)
   const tone = checkState ? barModel(checkState, bar).tone : 'neutral'
   // Solved: the surface gives one little hop. A miss sways it. Driven by

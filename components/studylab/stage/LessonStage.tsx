@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { Loader2 } from 'lucide-react'
 import { PathRail, type PathRailProps } from './PathRail'
@@ -8,7 +8,7 @@ import { OpeningCard } from './OpeningCard'
 import ChatMouthpiece, { type ChatMouthpieceProps } from '../ChatMouthpiece'
 import type { StudyCanvasProps } from '../StudyCanvas'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
-import { focusIds, continueFor, dockModel, type ContinueTarget } from '@/lib/studylab/spotlight'
+import { focusIds, continueFor, dockModel, cameraInsets, type ContinueTarget } from '@/lib/studylab/spotlight'
 import { StageContext, type StageValue } from './StageContext'
 import { ActionDock } from './ActionDock'
 import { InkyDock } from './InkyDock'
@@ -42,6 +42,8 @@ export interface LessonStageProps {
   onAdvance: () => void
   /** Sends the learner to a card: the next question, the open check. */
   onFocus: (nodeId: string) => void
+  /** Hands a finished check in again, when its hand-in never got through. */
+  onHandIn?: () => void
   /** Time spent learning so far, for the lesson-complete scene. */
   activeMs?: number
   /** The chat drawer, when the caller holds it (the demo opens it for a cue). */
@@ -55,11 +57,19 @@ export interface LessonStageProps {
   children?: ReactNode
 }
 
-/**
- * Room the camera leaves around the work in focus: the board's own controls
- * along the top, and the bar and Inky along the bottom.
- */
-const INSETS = { top: 72, right: 32, bottom: 128, left: 32 }
+const INSETS = cameraInsets(false)
+const INSETS_PHONE = cameraInsets(true)
+
+/** Below `sm`, where the dock stands on top of Inky instead of beside it. */
+const PHONE = '(max-width: 639px)'
+function subscribePhone(onChange: () => void) {
+  const mq = window.matchMedia(PHONE)
+  mq.addEventListener('change', onChange)
+  return () => mq.removeEventListener('change', onChange)
+}
+function usePhone(): boolean {
+  return useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE).matches, () => false)
+}
 
 /**
  * The lesson screen: the plan, the board and the tutor, laid out once.
@@ -69,8 +79,9 @@ const INSETS = { top: 72, right: 32, bottom: 128, left: 32 }
  * copies of the layout, and drifted.
  */
 export default function LessonStage({
-  subjectKey, focus, rail, board, chat, onAdvance, onFocus, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children,
+  subjectKey, focus, rail, board, chat, onAdvance, onFocus, onHandIn, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children,
 }: LessonStageProps) {
+  const phone = usePhone()
   const spotlight = useMemo(
     () => focusIds({ nodes: board.nodes, run: board.run, explicit: focus }),
     [board.nodes, board.run, focus],
@@ -102,9 +113,10 @@ export default function LessonStage({
   const runContinue = useCallback(
     (target: ContinueTarget) => {
       if (target.kind === 'focus') onFocus(target.nodeId)
+      else if (target.kind === 'handIn') onHandIn?.()
       else onAdvance()
     },
-    [onAdvance, onFocus],
+    [onAdvance, onFocus, onHandIn],
   )
   const stage = useMemo<StageValue>(
     () => ({
@@ -140,6 +152,7 @@ export default function LessonStage({
     else if (done.length > 0) setStamp(done[done.length - 1].title)
   }, [board.run])
   const clearStamp = useCallback(() => setStamp(null), [])
+  const closeSummary = useCallback(() => setSummaryOpen(false), [])
   const finished = board.run?.phase === 'done'
 
   // The chat drawer, closed by default.
@@ -175,7 +188,7 @@ export default function LessonStage({
         {banner}
         <div className="flex min-h-0 flex-1">
           <PathRail {...rail} busy={rail.busy ?? chat.busy} />
-          <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
+          <div data-tour="lesson-board" data-stage-board className="relative flex-1 min-w-0 h-full">
             {boardOverlay}
             <OpeningCard
               title={rail.title}
@@ -187,7 +200,7 @@ export default function LessonStage({
               onAnswerPlan={chat.onAnswerPlan}
               onStartHomework={chat.onStartHomework}
             />
-            <StudyCanvas {...board} focusIds={spotlight} insets={INSETS} primaryId={owner} onViewSettled={onViewSettled} overview={finished} />
+            <StudyCanvas {...board} focusIds={spotlight} insets={phone ? INSETS_PHONE : INSETS} primaryId={owner} onViewSettled={onViewSettled} overview={finished} />
             <InkyDock
               messages={chat.messages}
               suggestions={chat.suggestions}
@@ -220,7 +233,7 @@ export default function LessonStage({
                 onProveIt={chat.onProveIt}
                 provingIt={chat.provingIt}
                 proveUpdatesGapMap={chat.proveUpdatesGapMap}
-                onClose={() => setSummaryOpen(false)}
+                onClose={closeSummary}
               />
             )}
           </div>

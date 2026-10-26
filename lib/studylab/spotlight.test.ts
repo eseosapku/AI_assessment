@@ -1,6 +1,6 @@
 // lib/studylab/spotlight.test.ts
 import { describe, it, expect } from 'vitest'
-import { focusIds, continueFor, dockModel, focusFromTurn } from './spotlight'
+import { focusIds, continueFor, dockModel, focusFromTurn, viewportMoved, dockCandidate, takesArrivalFocus, cameraInsets, DOCK_LIFT_PHONE } from './spotlight'
 import type { LessonRun, OpenCheck } from './lessonRun'
 import type { QuizCell, StudyNode } from './types'
 
@@ -115,8 +115,17 @@ describe('continueFor', () => {
 
   it('offers no Continue while a finished check is being handed in', () => {
     const nodes = [card('a', 1), cell('q1', 'cp', 'correct'), cell('q2', 'cp', 'incorrect')]
-    expect(continueFor(null, { nodes, run: run({ openCheck: open('cp') }), busy: false })).toBeNull()
-    expect(continueFor('q2', { nodes, run: run({ openCheck: open('cp') }), busy: false })).toBeNull()
+    expect(continueFor(null, { nodes, run: run({ openCheck: open('cp') }), busy: true })).toBeNull()
+    expect(continueFor('q2', { nodes, run: run({ openCheck: open('cp') }), busy: true })).toBeNull()
+  })
+
+  it('offers to hand a finished check in when nothing is running -- the hand-in did not get through', () => {
+    // A refused or failed hand-in left a settled check open with nothing to
+    // press anywhere: the lesson was stuck.
+    const nodes = [card('a', 1), cell('q1', 'cp', 'correct'), cell('q2', 'cp', 'incorrect')]
+    const target = { kind: 'handIn', label: 'Hand in', hint: 'Your answers are in — hand them in' }
+    expect(continueFor(null, { nodes, run: run({ openCheck: open('cp') }), busy: false })).toEqual(target)
+    expect(continueFor('q2', { nodes, run: run({ openCheck: open('cp') }), busy: false })).toEqual(target)
   })
 
   it('never lets a soft check block the lesson', () => {
@@ -154,12 +163,14 @@ describe('dockModel', () => {
     expect(dockModel({ ...base, run: run({ phase: 'planning' }), busy: false })).toEqual({ kind: 'none' })
   })
 
-  it('offers the lesson-level Continue, or nothing while a check is handed in', () => {
+  it('offers the lesson-level Continue, or the hand-in of a finished check', () => {
     expect(dockModel({ ...base, run: run(), busy: false })).toEqual({
       kind: 'continue', target: { kind: 'advance', label: 'Continue' },
     })
     const handedIn = [cell('q1', 'cp', 'correct')]
-    expect(dockModel({ ...base, nodes: handedIn, run: run({ openCheck: open('cp') }), busy: false })).toEqual({ kind: 'none' })
+    expect(dockModel({ ...base, nodes: handedIn, run: run({ openCheck: open('cp') }), busy: false })).toMatchObject({
+      kind: 'continue', target: { kind: 'handIn' },
+    })
   })
 })
 
@@ -197,5 +208,54 @@ describe('dockModel after a failed turn', () => {
   it('does not offer it while a turn is running, or once the lesson is done', () => {
     expect(dockModel({ ...base, run: run(), busy: true, failed: 'error' })).toEqual({ kind: 'working', label: 'Working…' })
     expect(dockModel({ ...base, run: run({ phase: 'done' }), busy: false, failed: 'error' })).toEqual({ kind: 'done' })
+  })
+})
+
+describe('viewportMoved', () => {
+  it('counts a real pan or zoom, not a click that starts and ends in place', () => {
+    const at = { x: 100, y: 50, zoom: 1 }
+    expect(viewportMoved(at, { ...at })).toBe(false)
+    expect(viewportMoved(at, { x: 101.5, y: 50.5, zoom: 1 })).toBe(false)
+    expect(viewportMoved(at, { x: 140, y: 50, zoom: 1 })).toBe(true)
+    expect(viewportMoved(at, { x: 100, y: 50, zoom: 0.9 })).toBe(true)
+  })
+})
+
+describe('dockCandidate', () => {
+  it('lets a card ask for the dock only when it is in the spotlight, the dock is up, and it has a bar to put there', () => {
+    const base = { staged: true, dockReady: true, nodeId: 'a', focused: new Set(['a']), enabled: true }
+    expect(dockCandidate(base)).toBe(true)
+    // A legacy activity draws its own controls and no bar: it must not take
+    // the dock and leave it empty.
+    expect(dockCandidate({ ...base, enabled: false })).toBe(false)
+    expect(dockCandidate({ ...base, staged: false })).toBe(false)
+    expect(dockCandidate({ ...base, dockReady: false })).toBe(false)
+    expect(dockCandidate({ ...base, nodeId: null })).toBe(false)
+    expect(dockCandidate({ ...base, focused: new Set(['b']) })).toBe(false)
+  })
+})
+
+describe('takesArrivalFocus -- the new card gets the keyboard', () => {
+  it('takes focus that the board, the dock or nobody holds', () => {
+    // Continue unmounts as the dock changes, so focus is usually on the page itself.
+    expect(takesArrivalFocus({ where: 'body', firstFrame: false })).toBe(true)
+    expect(takesArrivalFocus({ where: 'board', firstFrame: false })).toBe(true)
+  })
+  it('leaves focus alone in the chat, the rail or a card already in the spotlight', () => {
+    expect(takesArrivalFocus({ where: 'outside', firstFrame: false })).toBe(false)
+    expect(takesArrivalFocus({ where: 'card', firstFrame: false })).toBe(false)
+  })
+  it('does not grab focus when the page first opens on a lesson', () => {
+    expect(takesArrivalFocus({ where: 'body', firstFrame: true })).toBe(false)
+  })
+})
+
+describe('cameraInsets -- room for the dock', () => {
+  it('leaves more room at the foot on phones, where the dock is lifted over Inky', () => {
+    const wide = cameraInsets(false)
+    const phone = cameraInsets(true)
+    expect(wide.bottom).toBe(128)
+    expect(phone.bottom).toBeGreaterThanOrEqual(wide.bottom + DOCK_LIFT_PHONE - 24)
+    expect(phone.top).toBe(wide.top)
   })
 })

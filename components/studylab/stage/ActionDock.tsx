@@ -26,12 +26,12 @@ export const ActionDock = forwardRef<HTMLDivElement, {
 }>(function ActionDock({ view, claimed, onContinue, onSummary, onProveIt, provingIt, onRetry }, slotRef) {
   return (
     <div
-      data-tour="lesson-continue"
       // Inky and its buttons own the bottom-left corner; the bar centres in
-      // the width that is left.
-      className="pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center pl-4 pr-4 sm:pl-[140px]"
+      // the width that is left. A phone has no width to spare, so there the
+      // bar stands on top of them instead (DOCK_LIFT_PHONE in spotlight.ts).
+      className="pointer-events-none absolute inset-x-0 bottom-[126px] z-30 flex justify-center pl-4 pr-4 sm:bottom-5 sm:pl-[140px]"
     >
-      <div className="pointer-events-auto flex w-full max-w-[560px] flex-col items-stretch gap-2">
+      <div data-tour="lesson-continue" className="pointer-events-auto flex w-full max-w-[560px] flex-col items-stretch gap-2">
         {/* Cards draw their bar in here. React never renders into it. */}
         <div
           ref={slotRef}
@@ -86,33 +86,37 @@ export const ActionDock = forwardRef<HTMLDivElement, {
 })
 
 function LessonBar({ view, onContinue }: { view: DockView; onContinue: (target: ContinueTarget) => void }) {
-  if (view.kind === 'working') {
-    return (
-      <div role="status" aria-live="polite" className="flex justify-center">
-        <span className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2 text-[13px] font-semibold text-ss-slate shadow-ss-panel">
-          <Loader2 className="h-4 w-4 animate-spin text-ss-subject motion-reduce:animate-none" aria-hidden />
-          {view.label}
-        </span>
-      </div>
-    )
-  }
-  if (view.kind !== 'continue') return null
-  const { target } = view
+  if (view.kind !== 'working' && view.kind !== 'continue') return null
+  // One button for both: pressing Continue turns it into the working state in
+  // place. Swapping it for a pill took the keyboard focus with it, to the top
+  // of the page. What the tutor is doing is said by Inky's bubble, so this is
+  // not a second live region.
+  const working = view.kind === 'working'
+  const target = view.kind === 'continue' ? view.target : null
+  const hint = target && 'hint' in target ? target.hint : null
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-ss-line bg-ss-panel p-3 shadow-[0_18px_44px_-18px_rgba(20,60,90,0.45)]">
-      {target.kind === 'focus' && (
-        <p className="min-w-0 flex-1 text-[13px] font-semibold leading-snug text-ss-slate">{target.hint}</p>
-      )}
+    <div
+      className={
+        working
+          ? 'flex justify-center'
+          : 'flex items-center gap-3 rounded-2xl border border-ss-line bg-ss-panel p-3 shadow-[0_18px_44px_-18px_rgba(20,60,90,0.45)]'
+      }
+    >
+      {hint && <p className="min-w-0 flex-1 text-[13px] font-semibold leading-snug text-ss-slate">{hint}</p>}
       <button
         type="button"
-        onClick={() => onContinue(target)}
-        className={`ss-press inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-5 text-[14px] font-bold ${
-          target.kind === 'focus' ? 'shrink-0' : 'flex-1'
-        }`}
-        style={{ backgroundColor: 'var(--subject)', color: 'var(--ss-panel)' }}
+        aria-disabled={working || undefined}
+        onClick={() => target && onContinue(target)}
+        className={
+          working
+            ? 'inline-flex cursor-default items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2 text-[13px] font-semibold text-ss-slate shadow-ss-panel'
+            : `ss-press inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-5 text-[14px] font-bold ${hint ? 'shrink-0' : 'flex-1'}`
+        }
+        style={working ? undefined : { backgroundColor: 'var(--subject)', color: 'var(--ss-panel)' }}
       >
-        {target.label}
-        <ArrowRight className="h-4 w-4" aria-hidden />
+        {working && <Loader2 className="h-4 w-4 animate-spin text-ss-subject motion-reduce:animate-none" aria-hidden />}
+        {view.kind === 'working' ? view.label : view.target.label}
+        {!working && <ArrowRight className="h-4 w-4" aria-hidden />}
       </button>
     </div>
   )

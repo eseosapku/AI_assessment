@@ -80,6 +80,22 @@ describe('placeBubble', () => {
     expect(placeBubble({ board, inky, avoid: [everything], size, compact })).toEqual({ x: 84, y: 636, compact: true, tail: 'left' })
   })
 
+  it('narrows the last-resort pill to the room beside Inky on a phone, rather than run off the board', () => {
+    // 390px phone: a 326px board, Inky and its buttons bottom-left, and the
+    // dock stood on top of them. Nothing else fits.
+    const phone: Rect = { x: 0, y: 0, w: 326, h: 844 }
+    const cluster: Rect = { x: 16, y: 726, w: 108, h: 98 }
+    const dock: Rect = { x: 16, y: 588, w: 294, h: 130 }
+    const placed = placeBubble({ board: phone, inky: cluster, avoid: [dock], size, compact })
+    expect(placed).toMatchObject({ x: 136, compact: true, tail: 'left' })
+    expect(placed.w).toBe(326 - 8 - 136)
+  })
+
+  it('keeps the pill its own width wherever it fits', () => {
+    const everything: Rect = { x: 0, y: 0, w: 1000, h: 700 }
+    expect(placeBubble({ board, inky, avoid: [everything], size, compact }).w).toBeUndefined()
+  })
+
   it('never places a bubble outside the board', () => {
     const narrow: Rect = { x: 0, y: 0, w: 360, h: 700 }
     // A 320-wide bubble right of Inky would run past 360; above Inky it fits.

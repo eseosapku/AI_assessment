@@ -966,6 +966,28 @@ export default function Workspace({ id }: { id: string }) {
   }, [canvas.nodes, busy, sendAction, user?.id, space?.subject, space?.title, id])
 
   /**
+   * Hands the open check in again, from the dock's "Hand in". The answers are
+   * on the board; the hand-in that should have taken them was refused or
+   * failed, and nothing else would send it again.
+   */
+  const handIn = useCallback(() => {
+    const cpId = runRef.current?.openCheck?.checkpointId
+    if (!cpId) return
+    const cells = canvasRef.current.nodes
+      .filter((n) => n.data.quiz?.checkpointId === cpId)
+      .map((n) => n.data.quiz!)
+    if (cells.length === 0) return
+    const passed = cells.filter((c) => c.state === 'correct').length > cells.length / 2
+    if (!passed) hideAfterTurn.current.add(cpId)
+    void sendAction({
+      type: 'answer_check',
+      passed,
+      missed: cells.filter((c) => c.state !== 'correct').map((c) => c.question.prompt),
+      answers: checkAnswers(cells),
+    })
+  }, [sendAction])
+
+  /**
    * Lets go of a check the learner has no way to answer.
    *
    * The run can end up holding a check open whose questions are all settled —
@@ -1151,6 +1173,7 @@ export default function Workspace({ id }: { id: string }) {
       activeMs={canvas.activeMs ?? 0}
       onAdvance={handleAdvance}
       onFocus={goToNode}
+      onHandIn={handIn}
       rail={{
         title: space.title,
         subject: space.subject,

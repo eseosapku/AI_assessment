@@ -20,7 +20,7 @@ function sources(dir: string): string[] {
 describe('cards in the dock', () => {
   it('act on Continue wherever they take the dock', () => {
     // Callers, not the file that defines the hook.
-    const takers = sources('components/studylab').filter((f) => /=\s*useDock\(\)/.test(readFileSync(f, 'utf8')))
+    const takers = sources('components/studylab').filter((f) => /=\s*useDock\(/.test(readFileSync(f, 'utf8')))
     expect(takers.length).toBeGreaterThanOrEqual(3)
     for (const file of takers) {
       expect(readFileSync(file, 'utf8'), `${file} takes the dock but never runs its Continue`).toMatch(/dock\.onContinue\(\)/)

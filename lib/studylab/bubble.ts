@@ -75,7 +75,7 @@ export function placeBubble(input: {
   avoid: Rect[]
   size: { w: number; h: number }
   compact: { w: number; h: number }
-}): { x: number; y: number; compact: boolean; tail: 'left' | 'bottom' } {
+}): { x: number; y: number; compact: boolean; tail: 'left' | 'bottom'; w?: number } {
   const { board, inky, avoid, size, compact } = input
   const beside = (s: { w: number; h: number }) => ({ x: inky.x + inky.w + GAP, y: inky.y + inky.h - s.h, ...s })
   const above = (s: { w: number; h: number }) => ({ x: inky.x, y: inky.y - GAP - s.h, ...s })
@@ -96,6 +96,11 @@ export function placeBubble(input: {
     { rect: above(compact), compact: true, tail: 'bottom' as const },
     ...lifted(compact).map((rect) => ({ rect, compact: true, tail: 'bottom' as const })),
   ]
-  const pick = candidates.find((c) => inside(c.rect, board) && clear(c.rect, avoid)) ?? fallback
-  return { x: pick.rect.x, y: pick.rect.y, compact: pick.compact, tail: pick.tail }
+  const pick = candidates.find((c) => inside(c.rect, board) && clear(c.rect, avoid))
+  if (pick) return { x: pick.rect.x, y: pick.rect.y, compact: pick.compact, tail: pick.tail }
+  // Nothing is free. On a phone even the pill beside Inky runs off the board,
+  // so there it narrows to the room there is, and its line truncates.
+  const room = board.x + board.w - MARGIN - fallback.rect.x
+  const { x, y } = fallback.rect
+  return room < compact.w ? { x, y, compact: true, tail: 'left', w: Math.max(room, 0) } : { x, y, compact: true, tail: 'left' }
 }

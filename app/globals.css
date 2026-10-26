@@ -351,8 +351,9 @@
 /* ── Guided demo ───────────────────────────────────────────────────
    The control the current step is asking for. A ring rather than an overlay:
    the control has to stay usable, because pressing it is the whole point. */
+/* A ring only: it must not reposition what it rings (the docked bar is
+   absolutely placed, and `position: relative` here dropped it out of view). */
 [data-demo-here] {
-  position: relative;
   border-radius: 12px;
   box-shadow: 0 0 0 2px var(--ss-accent), 0 0 0 6px var(--ss-accent-soft);
   animation: ss-demo-pulse 2.4s ease-in-out infinite;

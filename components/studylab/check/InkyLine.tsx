@@ -15,8 +15,8 @@ const TONE_TEXT = {
 
 /**
  * Inky's one line about the answer: "That's it.", "Not quite — have another
- * go.", or the feedback written for the option chosen. Announced politely to
- * screen readers, so the result is heard as well as seen.
+ * go.", or the feedback written for the option chosen. Shown only when there
+ * is a line, so CheckBar announces it from a region of its own.
  */
 export function InkyLine({
   mood,
@@ -30,7 +30,7 @@ export function InkyLine({
   const reduced = useReducedMotion() ?? false
   const m = motionFor('rise', reduced)
   return (
-    <div className="flex min-h-[28px] items-start gap-2" aria-live="polite">
+    <div className="flex min-h-[28px] items-start gap-2">
       <Inky size={28} mood={mood} className="shrink-0" />
       <AnimatePresence mode="wait">
         {text && (

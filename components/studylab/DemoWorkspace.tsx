@@ -337,6 +337,10 @@ export default function DemoWorkspace() {
       focus={focus}
       activeMs={activeMs}
       onAdvance={advance}
+      onHandIn={() => setRun((r) => {
+        const passed = passCheck(r)
+        return passed.ok ? passed.run : r
+      })}
       // The act that sends a question needs the box, which lives in the chat
       // drawer; the demo opens it for that act and lets it close after.
       drawerOpen={drawerOpen || (cueOpen && cue.anchor === 'lesson-composer')}

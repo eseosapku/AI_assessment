@@ -1,6 +1,6 @@
 // lib/studylab/planRail.test.ts
 import { describe, it, expect } from 'vitest'
-import { railSteps, railIsLive, pathSections, type RailStep } from './planRail'
+import { railSteps, railIsLive, pathSections, railStartsFolded, type RailStep } from './planRail'
 import { policyFor } from './lessonPolicy'
 import type { LessonRun } from './lessonRun'
 
@@ -139,5 +139,17 @@ describe('pathSections', () => {
     expect(s.current).toBeNull()
     expect(s.later).toEqual([])
     expect(pathSections([])).toEqual({ known: [], current: null, later: [] })
+  })
+})
+
+describe('railStartsFolded', () => {
+  it('folds on phones even after the rail was unfolded once -- a 264px rail leaves the board 126px', () => {
+    expect(railStartsFolded({ saved: 'open', phone: true })).toBe(true)
+    expect(railStartsFolded({ saved: null, phone: true })).toBe(true)
+  })
+  it('keeps the saved choice on wider screens, open by default', () => {
+    expect(railStartsFolded({ saved: 'folded', phone: false })).toBe(true)
+    expect(railStartsFolded({ saved: 'open', phone: false })).toBe(false)
+    expect(railStartsFolded({ saved: null, phone: false })).toBe(false)
   })
 })
