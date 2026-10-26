@@ -1,4 +1,5 @@
 """Findings of the P3b blind review (job p3b-blind), each pinned so it cannot come back."""
+import math
 import random
 import re
 
@@ -73,6 +74,19 @@ def test_a_line_question_reads_well_and_gives_nothing_away():
 
 
 PLURALS = r"\b1 (books|hours|years|students|eggs|mangoes|patients|bottles|trees|goals|people|brothers|cars|days)\b"
+# "an" before a vowel sound ("a addition" was written, P6). Two things are not that slip: a vowel letter said as a
+# consonant, which takes "a" ("a uniform lamina", "a unit", "a one-off"), and a constant named a ("y = a e^x",
+# "where a and c are constants") -- no article stands after "=" or before "and", "or", "is" or "are".
+WRONG_A = r"(?<!= )\ba (?!uniform|unit|uniqu|univers|union|us[eu]|util|one\b|(?:and|or|is|are)\b)[aeiou]"
+
+
+def test_the_article_check_spares_good_english_and_still_catches_the_slip():
+    for good in ("cuts a uniform lamina", "a unit square", "a one-off cost", "a useful rule", "y = a e^x + c",
+                 "y = a cosh x + c, where a and c are constants", "if a is positive"):
+        assert not re.search(WRONG_A, good), good
+    for bad in ("sets out a addition", "a even number", "a integer", "a angle", "a odd one", "a unhappy result",
+                "a unidentified point", "a onion"):
+        assert re.search(WRONG_A, bad), bad
 
 
 @pytest.mark.parametrize("fid", MATHS)
@@ -81,7 +95,7 @@ def test_one_of_a_thing_is_singular(fid):
         _, qs = run(FAMILIES[fid], s)
         for q in qs:
             assert not re.search(PLURALS, q.stem), (fid, s, q.stem)
-            assert not re.search(r"\ba [aeiou]", q.stem), (fid, s, q.stem)
+            assert not re.search(WRONG_A, q.stem), (fid, s, q.stem)
 
 
 def test_a_ruler_object_is_one_the_figure_draws():
@@ -217,6 +231,12 @@ def test_a_curve_reading_window_takes_in_no_wrong_method_answer():
             assert not _numbers(q.accepted) & wrong, (s, q.stem, sorted(_numbers(q.accepted) & wrong))
 
 
+# Not a curve, but a 3 s.f. answer worked through a square root from a printed table value: one unit in the third
+# figure either way is the slack a mark scheme gives, stated on the question (its size is pinned in
+# test_p6_maths_answers.test_paired_t_test). The family's other questions, and every other family's, stay exact.
+SIG3_SLACK = ("paired_t_test",)
+
+
 def test_curve_readings_carry_their_tolerance():
     """The slack is stated on the question, so the review allows it there and nowhere else."""
     for s in range(1, 101):
@@ -226,7 +246,12 @@ def test_curve_readings_carry_their_tolerance():
     for fid in MATHS:
         if fid != "cumulative_frequency":
             for s in range(1, 21):
-                assert all(q.tolerance == 0 for q in run(FAMILIES[fid], s)[1]), fid
+                for q in run(FAMILIES[fid], s)[1]:
+                    if fid in SIG3_SLACK and "correct to 3 significant figures" in q.stem:
+                        unit = 10.0 ** (math.floor(math.log10(abs(float(q.answer.replace("−", "-"))))) - 2)
+                        assert 0 < q.tolerance <= unit * (1 + 1e-9), (fid, s, q.stem, q.answer, q.tolerance)
+                    else:
+                        assert q.tolerance == 0, (fid, s, q.stem, q.tolerance)
 
 
 def test_a_question_tolerance_is_stored_and_an_old_store_gains_the_column(tmp_path):

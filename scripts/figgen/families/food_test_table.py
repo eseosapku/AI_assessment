@@ -21,6 +21,9 @@ CONCEPTS = tuple(f"biology.{c}" for c in ("food-components-identification", "bio
 # Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
 ALSO = tuple(f"science.{c}" for c in ('food-groups', 'nutrients-and-diet'))
 AVOID = r"cell structure|genetic|inherit|immun|disease|reproduc|photosynth|hormone|ecolog|population|respiration|enzyme|autotroph|protein synthesis|plant nutrition|glossary|thinking and working scientifically|science in context|scientific method|science skills"
+# The same four tests on four foods are the AS Level chapter's own practical (Benedict's, iodine, biuret, the emulsion
+# test): an UP figure also serves AS Level "Biological molecules", whose name NEEDS matches (P6).
+ALSO_BANDS = {"UP": ("AL",)}
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"food test|tests? for|testing for|benedict|iodine|biuret|food components|biological molecules|carbohydrate|lipid|protein"
 NUTRIENTS = ["starch", "reducing sugar", "protein", "fat"]

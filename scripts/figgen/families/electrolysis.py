@@ -1,9 +1,10 @@
-"""Electrolysis (UP, AL): a cell of two electrodes, lettered, dipping into an electrolyte named under the
+"""Electrolysis (UP, AL; LS from P6): a cell of two electrodes, lettered, dipping into an electrolyte named under the
 beaker, wired to a battery whose + and − sides are marked. The product at each electrode by the
 discharge rules, which electrode is the cathode, and the ion discharged there. With copper electrodes in
 copper(II) sulfate the anode dissolves; it is asked what happens to it, not what it gives off.
 
-The cathode is the electrode joined to the battery's − side.
+The cathode is the electrode joined to the battery's − side. Rwanda's S3 "Electrolysis and its applications" teaches
+the same cells (molten compounds, solutions, copper electrodes), so the same figure serves Lower Secondary (P6).
 """
 from __future__ import annotations
 
@@ -16,7 +17,7 @@ from ..core import INK, NAMES, formula_forms, mcq, new_figure, short, sup
 ID = "electrolysis"
 KIND = "chem.structure"
 SUBJECT = "chemistry"
-BANDS = ("UP", "AL")
+BANDS = ("UP", "AL", "LS")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("electrolysis", "redox-reactions", "electrochemistry"))
 AVOID = r"organic|alkane|titration|isotope|chromatograph|rate|enthalpy|cell-potential|electrode-potential|group|transition|carboxylic|masses of atoms|write equations|acids and bases|chemical analysis|formulae|environment|npk|fertili|stoichiometry|reactivity"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.

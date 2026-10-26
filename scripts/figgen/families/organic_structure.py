@@ -1,8 +1,12 @@
-"""Organic structures (UP, AL): the displayed formula of a C1–C5 alkane, alkene, alcohol or carboxylic acid,
+"""Organic structures (LS, UP, AL): the displayed formula of a C1–C5 alkane, alkene, alcohol or carboxylic acid,
 every bond drawn. Its name, molecular formula, homologous series and number of hydrogen atoms.
 
 The functional group sits at the end of the chain (an alkene's double bond from carbon 1); at AL an alcohol's
 OH may sit on carbon 2. No but-2-ene: its displayed formula would draw one of two geometric isomers.
+
+P6: the same drawings at LS for Rwanda S2 (alkanes) and S3 (alkenes, alcohols, carboxylic acids), worded for those
+classes; an LS figure carries only its own series' concepts, so an alcohol is no figure for the S2 alkanes chapter.
+UP and AL draw, word and link exactly as before.
 """
 from __future__ import annotations
 
@@ -13,9 +17,17 @@ from ..core import INK, NAMES, formula_forms, mcq, new_figure, short, sub
 ID = "organic_structure"
 KIND = "chem.structure"
 SUBJECT = "chemistry"
-BANDS = ("UP", "AL")
+BANDS = ("UP", "AL", "LS")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("alkanes", "alkene-chemistry", "alcohols", "carboxylic-acids",
                                              "organic-functional-groups", "homologous-series"))
+# An LS figure teaches its own series only: Rwanda S2 is alkanes and the homologous series, S3 alkenes, alcohols and
+# carboxylic acids (P6).
+LS_CONCEPTS = {"alkane": ("chemistry.alkanes", "chemistry.homologous-series"), "alkene": ("chemistry.alkene-chemistry",),
+               "alcohol": ("chemistry.alcohols",), "acid": ("chemistry.carboxylic-acids",)}
+
+
+def concepts_for(p: dict) -> tuple[str, ...]:
+    return LS_CONCEPTS[p["series"]] if p["band"] == "LS" else CONCEPTS
 AVOID = r"ionic|electrolysis|equilibrium|rate|titration|metal|periodic|isotope|bonding-ionic|masses of atoms|amine|benzene|carbonyl|analysis|halogeno|polymer"
 STEM = ["meth", "eth", "prop", "but", "pent"]
 SERIES = {"alkane": "alkanes", "alkene": "alkenes", "alcohol": "alcohols", "acid": "carboxylic acids"}
@@ -137,7 +149,36 @@ MET = ["drew the displayed formula of an organic compound", "copied this display
        "built a model of a molecule and drew its displayed formula", "found this displayed formula in a textbook"]
 
 
+LS_SETTINGS = ["in a Senior 2 chemistry lesson", "in a Senior 3 lesson on carbon compounds", "at the science club in Nyagatare",
+               "while revising in Huye", "in a practical lesson in Muhanga", "for a class quiz in Rubavu"]
+LS_MET = ["drew the structure of a carbon compound with every bond shown", "built a ball-and-stick model and drew it",
+          "copied this structure into a notebook", "showed the class this structure on a card"]
+
+
+def _ls_questions(p: dict, rng: random.Random) -> list:
+    """The LS wording (P6): the same four keys, asked as a Senior 2 or 3 class would be asked."""
+    who, friend = rng.sample(NAMES, 2)
+    key, others = name(p)
+    names = [key] + others
+    names += [x[0].upper() + x[1:] for x in names]
+    f, fs = formulas(p)
+    forms = formula_forms(f)
+    for x in fs:
+        forms += [y for y in formula_forms(x) if y not in forms]
+    atoms, _ = structure(p)
+    h = sum(1 for a in atoms if a[0] == "H")
+    series = SERIES[p["series"]]
+    return [short(f"{who} {rng.choice(LS_MET)} {rng.choice(LS_SETTINGS)}. What is the name of this compound?", key, names),
+            short("Write the molecular formula of the compound shown.", sub(f), forms),
+            mcq("Which homologous series does the compound shown belong to?", series,
+                [v for v in SERIES.values() if v != series], rng),
+            short(f"{friend} counts the atoms in the drawing. How many hydrogen atoms does one molecule of the compound have?",
+                  h, [str(h), f"{h} hydrogen atoms", f"{h} atoms"])]
+
+
 def questions(p: dict, rng: random.Random) -> list:
+    if p["band"] == "LS":
+        return _ls_questions(p, rng)
     who, friend = rng.sample(NAMES, 2)
     key, others = name(p)
     names = [key] + others

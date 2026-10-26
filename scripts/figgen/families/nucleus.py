@@ -20,6 +20,8 @@ SUBJECT = "physics"
 BANDS = ("UP",)  # the lower-secondary physics topics never reach the atom
 CONCEPTS = tuple(f"physics.{c}" for c in ("atomic-structure", "nuclear-structure", "nuclear-atom", "radioactivity"))
 AVOID = r"fission|fusion|reactor|half-life|static electricity|electromagnetic spectrum|particle nature"
+# Rwanda's S6 Chemistry "Radioactivity" teaches the nucleus and nuclear equations of beta decay too (P6).
+ALSO = ("chemistry.radioactivity",)
 ELEMENTS = ["hydrogen", "helium", "lithium", "beryllium", "boron", "carbon", "nitrogen", "oxygen", "fluorine", "neon", "sodium",
             "magnesium", "aluminium", "silicon", "phosphorus", "sulfur", "chlorine", "argon", "potassium", "calcium", "scandium"]
 SYMBOLS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc"]
