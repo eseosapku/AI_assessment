@@ -54,6 +54,12 @@ const nextConfig = {
       // both readers fall back to empty when the files are absent.
       './data/textbook-images/manifest.curated.json',
       './data/textbook-images/vision-cache.json',
+      // The past-paper corpus is read by scripts, not by the server. The
+      // route traces data/ by computed path, so committing it pulled 63 MB
+      // into .next and Amplify rejected the artifact (270 MB, limit 220 MB,
+      // 2026-10-29). The quiz reads systems/cambridge/style only.
+      './data/past-paper-corpus/**/*',
+      './curriculum/snapshot.json',
     ],
   },
 }
