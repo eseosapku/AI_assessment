@@ -1,0 +1,224 @@
+{
+  "system": "cambridge",
+  "level": "o_level",
+  "subject": "math",
+  "question_count": 2071,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "find": 535,
+    "calculate": 118,
+    "write": 208,
+    "estimate": 22,
+    "complete": 60,
+    "show": 105,
+    "draw": 15,
+    "describe": 5,
+    "give": 33,
+    "state": 10,
+    "sketch": 38,
+    "name": 6,
+    "explain": 1,
+    "plot": 1,
+    "determine": 1,
+    "identify": 1
+  },
+  "marks": {
+    "count": 1830,
+    "min": 1,
+    "max": 25,
+    "median": 5
+  },
+  "marks_per_command": {
+    "find": {
+      "count": 478,
+      "median": 5
+    },
+    "calculate": {
+      "count": 107,
+      "median": 4
+    },
+    "write": {
+      "count": 148,
+      "median": 3
+    },
+    "estimate": {
+      "count": 21,
+      "median": 2
+    },
+    "complete": {
+      "count": 56,
+      "median": 5
+    },
+    "show": {
+      "count": 97,
+      "median": 7
+    },
+    "draw": {
+      "count": 13,
+      "median": 4
+    },
+    "describe": {
+      "count": 5,
+      "median": 3
+    },
+    "give": {
+      "count": 28,
+      "median": 3
+    },
+    "state": {
+      "count": 10,
+      "median": 7
+    },
+    "sketch": {
+      "count": 27,
+      "median": 3
+    },
+    "name": {
+      "count": 3,
+      "median": 4
+    },
+    "explain": {
+      "count": 1,
+      "median": 7
+    },
+    "plot": {
+      "count": 1,
+      "median": 8
+    },
+    "determine": {
+      "count": 1,
+      "median": 8
+    },
+    "identify": {
+      "count": 1,
+      "median": 7
+    }
+  },
+  "parts": {
+    "single": 557,
+    "multi": 1514,
+    "median_parts": 2
+  },
+  "stem_words": {
+    "median": 12,
+    "p25": 0,
+    "p75": 30
+  },
+  "context": {
+    "named": 49,
+    "abstract": 2022
+  },
+  "units_rate": 0.13906325446644133,
+  "figure_rate": 0.11492032834379527,
+  "openings": [
+    {
+      "phrase": "the diagram shows",
+      "count": 52
+    },
+    {
+      "phrase": "solve the equation",
+      "count": 38
+    },
+    {
+      "phrase": "do not use",
+      "count": 36
+    },
+    {
+      "phrase": "in this question",
+      "count": 32
+    },
+    {
+      "phrase": "it is given",
+      "count": 29
+    },
+    {
+      "phrase": "by writing each",
+      "count": 23
+    },
+    {
+      "phrase": "solve the simultaneous",
+      "count": 21
+    },
+    {
+      "phrase": "the table shows",
+      "count": 21
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "in this margin dfd",
+      "count": 35
+    },
+    {
+      "phrase": "write in this margin",
+      "count": 27
+    },
+    {
+      "phrase": "calculator in this question.",
+      "count": 10
+    },
+    {
+      "phrase": "factorise.",
+      "count": 8
+    },
+    {
+      "phrase": "equation of the curve.",
+      "count": 8
+    },
+    {
+      "phrase": "work out.",
+      "count": 7
+    },
+    {
+      "phrase": "traceable. trace id: pc-207577c0c5",
+      "count": 7
+    },
+    {
+      "phrase": "solve the equation",
+      "count": 7
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": 2,
+      "command_word": "calculate",
+      "text": "A bottle full of liquid has a total mass of  1.27 kg.\n When the bottle is half-full of liquid the total mass is  900 grams.\n Calculate the mass of the bottle.\n Answer  .................................. grams"
+    },
+    {
+      "marks": 3,
+      "command_word": null,
+      "text": "Factorise completely\nxyxy320512-+- . \n Answer  .............................................[2]\n()fx   x29=-"
+    },
+    {
+      "marks": 4,
+      "command_word": null,
+      "text": "A sequence of diagrams is made using counters.\nDiagram 1Diagram 2Diagram 3Diagram 4"
+    },
+    {
+      "marks": 5,
+      "command_word": null,
+      "text": "Henri did a survey of the lengths of the leaves on a plant.\n The results are summarised in the table.\nLength (x cm)\nx131Gx341Gx451Gx581G\nFrequency68106"
+    },
+    {
+      "marks": 12,
+      "command_word": null,
+      "text": "The diagram shows the speed-time graph of a train which slows down from 20 m/s to a stop in T seconds.\nSpeed\n(m/s)\nTime (t seconds)\nT"
+    },
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "The table shows some information about the temperatures in a city.\nDateMaximum temperatureMinimum temperature"
+    },
+    {
+      "marks": 8,
+      "command_word": "show",
+      "text": "The table and histogram show some information about the times taken by a group of\n students to travel to school one day.\nTime (t minutes)\nt0101Gt10201Gt20301Gt30601Gt601201G\nFrequency28405218m\n0203010405060708090100120\n110\nFrequency\ndensity\nTime (t minutes)"
+    },
+    {
+      "marks": 7,
+      "command_word": null,
+      "text": "\b\nA=\n-\nJ\nL\nK\nK\nN\nP\nO\nO\n\b\b\b\b\b\b\b\b\b\nB=\n-\nJ\nL\nK\nK\nN\nP\nO\nO"
+    }
+  ]
+}

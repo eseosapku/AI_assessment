@@ -1,0 +1,14 @@
+{
+  "files": 2394,
+  "extracted": 1531,
+  "needs_review": 863,
+  "unreadable": 0,
+  "questions": 23309,
+  "scans": 181,
+  "reasons": {
+    "question numbers are not in order": 553,
+    "no question numbers found": 129,
+    "no text layer": 181
+  },
+  "igcse": "skipped"
+}

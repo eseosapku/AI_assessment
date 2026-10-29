@@ -1,0 +1,195 @@
+{
+  "system": "cambridge",
+  "level": "primary_checkpoint",
+  "subject": "science",
+  "question_count": 207,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "state": 1,
+    "describe": 6,
+    "complete": 18,
+    "show": 16,
+    "plot": 3,
+    "suggest": 3,
+    "find": 2,
+    "write": 5,
+    "identify": 2,
+    "explain": 4,
+    "draw": 1,
+    "name": 2
+  },
+  "marks": {
+    "count": 179,
+    "min": 1,
+    "max": 6,
+    "median": 3
+  },
+  "marks_per_command": {
+    "state": {
+      "count": 1,
+      "median": 4
+    },
+    "describe": {
+      "count": 5,
+      "median": 2
+    },
+    "complete": {
+      "count": 14,
+      "median": 2
+    },
+    "show": {
+      "count": 15,
+      "median": 2
+    },
+    "plot": {
+      "count": 1,
+      "median": 2
+    },
+    "suggest": {
+      "count": 3,
+      "median": 1
+    },
+    "find": {
+      "count": 2,
+      "median": 2
+    },
+    "write": {
+      "count": 4,
+      "median": 2
+    },
+    "explain": {
+      "count": 4,
+      "median": 1.5
+    },
+    "draw": {
+      "count": 1,
+      "median": 3
+    },
+    "name": {
+      "count": 2,
+      "median": 4
+    }
+  },
+  "parts": {
+    "single": 68,
+    "multi": 139,
+    "median_parts": 2
+  },
+  "stem_words": {
+    "median": 23,
+    "p25": 11,
+    "p75": 45
+  },
+  "context": {
+    "named": 12,
+    "abstract": 195
+  },
+  "units_rate": 0.11594202898550725,
+  "figure_rate": 0.26570048309178745,
+  "openings": [
+    {
+      "phrase": "the diagram shows",
+      "count": 18
+    },
+    {
+      "phrase": "look at the",
+      "count": 13
+    },
+    {
+      "phrase": "this question is",
+      "count": 10
+    },
+    {
+      "phrase": "the table shows",
+      "count": 5
+    },
+    {
+      "phrase": "blessy investigates a",
+      "count": 3
+    },
+    {
+      "phrase": "malaria is a",
+      "count": 3
+    },
+    {
+      "phrase": "blessy makes an",
+      "count": 2
+    },
+    {
+      "phrase": "yuri draws a",
+      "count": 2
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "of cambridge blank page",
+      "count": 5
+    },
+    {
+      "phrase": "angle b in degrees",
+      "count": 4
+    },
+    {
+      "phrase": "not drawn to scale",
+      "count": 4
+    },
+    {
+      "phrase": "is measured in grams.",
+      "count": 3
+    },
+    {
+      "phrase": "another and causes disease.",
+      "count": 2
+    },
+    {
+      "phrase": "evaporation and boiling. evaporationboiling",
+      "count": 2
+    },
+    {
+      "phrase": "cushion cue oliver ball",
+      "count": 2
+    },
+    {
+      "phrase": "sun = million km",
+      "count": 2
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": 6,
+      "command_word": null,
+      "text": "The diagram shows part of a food web.\notter\ntrout\nmoorhen\ninsects\nsnail\npondweed\neel\nfrog"
+    },
+    {
+      "marks": 4,
+      "command_word": "state",
+      "text": "Lily investigates changes of state.\n She places 10\n g of ice in a boiling tube with a thermometer. \n She places the boiling tube into a beaker of hot water. \nbeaker\nice\nboiling tube\nthermometer\nhot water\n She records the temperature when the ice changes to water. \n She repeats her investigation using butter, chocolate and wax."
+    },
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Chen does an investigation.\n      Chen:      \n•    pours    50\n cm\n of water into a measuring cylinder \n•    puts the measuring cylinder on a balance \n•    adds a rock to the water. \n The water level in the measuring cylinder is now 75\n cm\n. \n Look at the diagram."
+    },
+    {
+      "marks": 2,
+      "command_word": "describe",
+      "text": "One    similarity between boiling and evaporation is they both change a liquid into\n  a gas. \n      Describe      two differences between boiling and evaporation."
+    },
+    {
+      "marks": 3,
+      "command_word": null,
+      "text": "Pierre has an infectious disease.\n The infectious disease makes Pierre sneeze."
+    },
+    {
+      "marks": 1,
+      "command_word": null,
+      "text": "Lily investigates what happens to a ray of light when it touches a mirror.\nmirror\nray of\nlight\nA\nB\nC"
+    },
+    {
+      "marks": 5,
+      "command_word": null,
+      "text": "Safia draws two electrical circuits.\n+\n–\ncircuit B\nswitch\n+\n–\nlamp\ncell\ncircuit A"
+    }
+  ]
+}

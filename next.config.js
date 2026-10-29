@@ -14,6 +14,13 @@ const nextConfig = {
     'pdfjs-dist',
     'pg',
   ],
+  // The Cambridge paper style is read with fs at request time, so the tracer
+  // does not see the JSON. Without this include, a deployed build has the
+  // route and none of the papers, and every Cambridge quiz is generated
+  // with no past-paper style.
+  outputFileTracingIncludes: {
+    '/api/generate-assessment': ['./systems/cambridge/style/**/*'],
+  },
   outputFileTracingExcludes: {
     '*': [
       './public/textbook-images/**/*',

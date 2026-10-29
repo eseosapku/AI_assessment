@@ -1,0 +1,231 @@
+{
+  "system": "cambridge",
+  "level": "o_level",
+  "subject": "physics",
+  "question_count": 3639,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "describe": 30,
+    "show": 85,
+    "compare": 32,
+    "name": 67,
+    "complete": 21,
+    "state": 54,
+    "determine": 57,
+    "find": 26,
+    "plot": 4,
+    "calculate": 22,
+    "explain": 24,
+    "suggest": 5,
+    "draw": 16,
+    "give": 13,
+    "sketch": 1,
+    "estimate": 8,
+    "write": 11,
+    "identify": 1,
+    "outline": 2
+  },
+  "marks": {
+    "count": 931,
+    "min": 1,
+    "max": 15,
+    "median": 5
+  },
+  "marks_per_command": {
+    "show": {
+      "count": 7,
+      "median": 4
+    },
+    "complete": {
+      "count": 12,
+      "median": 6
+    },
+    "describe": {
+      "count": 17,
+      "median": 8
+    },
+    "state": {
+      "count": 30,
+      "median": 5.5
+    },
+    "determine": {
+      "count": 42,
+      "median": 3
+    },
+    "find": {
+      "count": 15,
+      "median": 5
+    },
+    "plot": {
+      "count": 4,
+      "median": 4.5
+    },
+    "calculate": {
+      "count": 4,
+      "median": 5.5
+    },
+    "explain": {
+      "count": 15,
+      "median": 4
+    },
+    "suggest": {
+      "count": 4,
+      "median": 7
+    },
+    "draw": {
+      "count": 11,
+      "median": 3
+    },
+    "sketch": {
+      "count": 1,
+      "median": 1
+    },
+    "estimate": {
+      "count": 8,
+      "median": 4
+    },
+    "write": {
+      "count": 7,
+      "median": 6
+    },
+    "identify": {
+      "count": 1,
+      "median": 3
+    },
+    "outline": {
+      "count": 2,
+      "median": 4
+    },
+    "compare": {
+      "count": 2,
+      "median": 3.5
+    }
+  },
+  "parts": {
+    "single": 2698,
+    "multi": 941,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 45,
+    "p25": 28,
+    "p75": 62
+  },
+  "context": {
+    "named": 261,
+    "abstract": 3378
+  },
+  "units_rate": 0.24045067326188513,
+  "figure_rate": 0.3110744710085188,
+  "openings": [
+    {
+      "phrase": "the diagram shows",
+      "count": 248
+    },
+    {
+      "phrase": "in this experiment,",
+      "count": 114
+    },
+    {
+      "phrase": "a student investigates",
+      "count": 77
+    },
+    {
+      "phrase": "which statement about",
+      "count": 36
+    },
+    {
+      "phrase": "in this experiment",
+      "count": 35
+    },
+    {
+      "phrase": "minutes. for the",
+      "count": 33
+    },
+    {
+      "phrase": "what is the",
+      "count": 29
+    },
+    {
+      "phrase": "a ray of",
+      "count": 28
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "a b c d",
+      "count": 49
+    },
+    {
+      "phrase": "questions in this section.",
+      "count": 31
+    },
+    {
+      "phrase": "decreases d increases increases",
+      "count": 18
+    },
+    {
+      "phrase": "university of blank page",
+      "count": 17
+    },
+    {
+      "phrase": "cambridge local blank page",
+      "count": 14
+    },
+    {
+      "phrase": "........................................................................................................................................ ...........................................................................................................................................",
+      "count": 12
+    },
+    {
+      "phrase": "• a set square.",
+      "count": 11
+    },
+    {
+      "phrase": "the university of cambridge",
+      "count": 11
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Power is measured in watts.\nWhat is the correct symbol for millions of watts? \nA   mw   B   mW   C   Mw   D   MW"
+    },
+    {
+      "marks": 4,
+      "command_word": null,
+      "text": "Fig. 1.1 shows the speed-time graph of a ball. The ball is dropped at time t = 0.\n0.5\n1.0\n1.5\n2.0\n2.5\n3.0\n00.04  0.08  0.12  0.16  0.20  0.24  0.28\nt  / s\nspeed\n–––––\nm\n / s\n                                                                           Fig.                                                                           1.1"
+    },
+    {
+      "marks": 3,
+      "command_word": null,
+      "text": "Fig. 2.1 shows a weight of 4.0 N attached to a spring.\nrule\nspring\npointer\nweight\n4.0\n N\n                                                                           Fig.                                                                           2.1\n The unstretched length of the spring is 8.0 cm. With the 4.0 N weight attached to the spring, \nthe length is 14.0 cm. The spring is within its limit of proportionality."
+    },
+    {
+      "marks": 6,
+      "command_word": null,
+      "text": "Fig. 3.1 shows a student rubbing her hands together.\n                                                                           Fig.                                                                           3.1"
+    },
+    {
+      "marks": 10,
+      "command_word": null,
+      "text": "Fig. 9.1 shows a laboratory thermometer.\n°C–100102030405060708090100110\n                                                                           Fig.                                                                           9.1"
+    },
+    {
+      "marks": 12,
+      "command_word": null,
+      "text": "Fig. 10.1 shows a car braking system. The brake fluid is an oily liquid.\nbrake pedal\nmaster piston\npivot\nbrake drum\nbrake shoe\nreturn spring\nmaster cylinder\nbrake fluid\nslave pistons\npivot\n                                                                          Fig.                                                                          10.1\n The brake drum rotates with the wheel of the car."
+    },
+    {
+      "marks": 5,
+      "command_word": null,
+      "text": "Fig. 2.1 shows a motor used to operate a lift (elevator). There is a man in the lift.\nmotor\nlift\ncable\nFig. 2.1 (not to scale)\n The input power to the motor is 6200 watts."
+    },
+    {
+      "marks": 2,
+      "command_word": null,
+      "text": "A student notices puddles of water on a road, as shown in Fig. 4.1.\npuddle of water\nFig. 4.1\n Later in the day, he passes the puddles again and some of the water has evaporated."
+    }
+  ]
+}

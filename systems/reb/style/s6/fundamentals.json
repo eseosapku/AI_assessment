@@ -1,0 +1,93 @@
+{
+  "system": "reb",
+  "level": "s6",
+  "subject": "fundamentals",
+  "question_count": 6,
+  "thin": true,
+  "derived": false,
+  "command_words": {
+    "identify": 1
+  },
+  "marks": {
+    "count": 0,
+    "min": null,
+    "max": null,
+    "median": null
+  },
+  "marks_per_command": {},
+  "parts": {
+    "single": 6,
+    "multi": 0,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 6.5,
+    "p25": 4,
+    "p75": 9
+  },
+  "context": {
+    "named": 1,
+    "abstract": 5
+  },
+  "units_rate": 0.3333333333333333,
+  "figure_rate": 0.16666666666666666,
+  "openings": [
+    {
+      "phrase": "sweet, fruity ketones",
+      "count": 1
+    },
+    {
+      "phrase": "sweet, heavy, thick",
+      "count": 1
+    },
+    {
+      "phrase": "alcohol g bowel",
+      "count": 1
+    },
+    {
+      "phrase": "body odor h",
+      "count": 1
+    },
+    {
+      "phrase": "halitosis i hyperhidrosis,",
+      "count": 1
+    },
+    {
+      "phrase": "stale urine j",
+      "count": 1
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "tract infection, renal failure",
+      "count": 1
+    },
+    {
+      "phrase": "odor f malabsorption syndrome",
+      "count": 1
+    },
+    {
+      "phrase": "alcohol g bowel obstruction",
+      "count": 1
+    },
+    {
+      "phrase": "h infection inside cast",
+      "count": 1
+    },
+    {
+      "phrase": "halitosis i hyperhidrosis, bromhidrosis",
+      "count": 1
+    },
+    {
+      "phrase": "care. (10 marks) -end-",
+      "count": 1
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Sweet, fruity ketones E Urinary tract infection, renal failure"
+    }
+  ]
+}

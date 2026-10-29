@@ -1,0 +1,40 @@
+{
+  "system": "cambridge",
+  "level": "igcse",
+  "subject": "history",
+  "question_count": 0,
+  "thin": true,
+  "derived": true,
+  "command_words": {},
+  "marks": {
+    "count": 0,
+    "min": null,
+    "max": null,
+    "median": null
+  },
+  "marks_per_command": {},
+  "parts": {
+    "single": 0,
+    "multi": 0,
+    "median_parts": null
+  },
+  "stem_words": {
+    "median": null,
+    "p25": null,
+    "p75": null
+  },
+  "context": {
+    "named": 0,
+    "abstract": 0
+  },
+  "units_rate": 0,
+  "figure_rate": 0,
+  "openings": [],
+  "closings": [],
+  "exemplars": [],
+  "provenance": {
+    "based_on": [],
+    "validation_files": 0,
+    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 0. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+  }
+}

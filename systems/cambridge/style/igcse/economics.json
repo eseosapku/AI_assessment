@@ -1,0 +1,192 @@
+{
+  "system": "cambridge",
+  "level": "igcse",
+  "subject": "economics",
+  "question_count": 0,
+  "thin": true,
+  "derived": true,
+  "command_words": {
+    "write": 10,
+    "describe": 3,
+    "give": 11,
+    "identify": 4,
+    "explain": 8,
+    "suggest": 9,
+    "draw": 1,
+    "show": 11,
+    "calculate": 27,
+    "name": 24,
+    "state": 20,
+    "find": 10,
+    "plot": 1,
+    "estimate": 1,
+    "compare": 1,
+    "complete": 1
+  },
+  "marks": {
+    "count": 239,
+    "min": 1,
+    "max": 25,
+    "median": 20
+  },
+  "marks_per_command": {
+    "explain": {
+      "count": 3,
+      "median": 4
+    },
+    "draw": {
+      "count": 1,
+      "median": 3
+    },
+    "suggest": {
+      "count": 8,
+      "median": 20
+    },
+    "show": {
+      "count": 2,
+      "median": 12
+    },
+    "write": {
+      "count": 2,
+      "median": 1.5
+    },
+    "give": {
+      "count": 3,
+      "median": 24
+    },
+    "state": {
+      "count": 10,
+      "median": 20
+    },
+    "find": {
+      "count": 1,
+      "median": 24
+    },
+    "estimate": {
+      "count": 1,
+      "median": 20
+    },
+    "calculate": {
+      "count": 25,
+      "median": 24
+    },
+    "identify": {
+      "count": 1,
+      "median": 20
+    }
+  },
+  "parts": {
+    "single": 819,
+    "multi": 239,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 51,
+    "p25": 36,
+    "p75": 64
+  },
+  "context": {
+    "named": 120,
+    "abstract": 938
+  },
+  "units_rate": 0.026465028355387523,
+  "figure_rate": 0.08412098298676748,
+  "openings": [
+    {
+      "phrase": "the table shows",
+      "count": 78
+    },
+    {
+      "phrase": "the diagram shows",
+      "count": 57
+    },
+    {
+      "phrase": "what is the",
+      "count": 22
+    },
+    {
+      "phrase": "what is a",
+      "count": 20
+    },
+    {
+      "phrase": "what is an",
+      "count": 16
+    },
+    {
+      "phrase": "what is most",
+      "count": 15
+    },
+    {
+      "phrase": "which combination of",
+      "count": 10
+    },
+    {
+      "phrase": "which statement about",
+      "count": 10
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "university of cambridge local",
+      "count": 7
+    },
+    {
+      "phrase": "the rate of interest",
+      "count": 7
+    },
+    {
+      "phrase": "university of blank page",
+      "count": 6
+    },
+    {
+      "phrase": "of the university of",
+      "count": 6
+    },
+    {
+      "phrase": "cambridge local blank page",
+      "count": 5
+    },
+    {
+      "phrase": "had the lowest inflation.",
+      "count": 4
+    },
+    {
+      "phrase": "balance of trade deficit",
+      "count": 4
+    },
+    {
+      "phrase": "d lower higher lower",
+      "count": 4
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": "describe",
+      "text": "Describe  how  music  affected  you  in  different  ways  on  two  separate  occasions.  (Remember,  as\nwell as how it made you feel, you can  describe the music itself and the atmosphere it created.)"
+    },
+    {
+      "marks": 3,
+      "command_word": null,
+      "text": "Read Paragraph 1, and decide whether each of the following statements is true, false or not stated\nin the paragraph and tick the box you have chosen.\nTrueFalseNS\nSugar is added to chocolate to take away its bitter flavour.  \nCocoa mass is the same as cocoa butter. \nWhite chocolate contains no cocoa solids."
+    },
+    {
+      "marks": 20,
+      "command_word": null,
+      "text": "Burundi is a country in Sub-Saharan Africa. In 2013 the government of Burundi introduced VAT, an\nindirect tax, while lowering corporation tax (the tax on firms’ profits), from 35% to 30%. The United \nNations  has  encouraged  Sub-Saharan  African  countries  to  increase  their  tax  revenue  in  order  \nto  have  more  funds  available  to  spend  on  reducing  poverty.  There  is,  however,  a  debate  about  \nwhether imposing more taxes or removing some taxes is more beneficial for an economy."
+    },
+    {
+      "marks": 12,
+      "command_word": null,
+      "text": "In 2014 Cuban doctors were given pay rises that significantly increased their salaries. This made\ndoctors’  pay  more  than  twice  that  received  by  nurses.  Cuba  is  devoting  more  resources  to  both  \nmedical care and tourism, altering the country’s production possibility curve. Living standards are \nincreasing in the country but at a slower rate than some other nearby countries."
+    }
+  ],
+  "provenance": {
+    "based_on": [
+      "cambridge/o_level/economics",
+      "cambridge/as_and_a_level/econ"
+    ],
+    "validation_files": 0,
+    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 27. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+  }
+}

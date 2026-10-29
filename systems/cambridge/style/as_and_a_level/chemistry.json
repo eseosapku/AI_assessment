@@ -1,0 +1,244 @@
+{
+  "system": "cambridge",
+  "level": "as_and_a_level",
+  "subject": "chemistry",
+  "question_count": 1741,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "give": 37,
+    "find": 20,
+    "explain": 32,
+    "name": 47,
+    "determine": 70,
+    "complete": 57,
+    "write": 58,
+    "deduce": 8,
+    "state": 80,
+    "compare": 6,
+    "draw": 18,
+    "calculate": 11,
+    "identify": 26,
+    "show": 36,
+    "sketch": 4,
+    "describe": 23,
+    "define": 30,
+    "predict": 9,
+    "suggest": 4,
+    "plot": 1
+  },
+  "marks": {
+    "count": 710,
+    "min": 1,
+    "max": 25,
+    "median": 9
+  },
+  "marks_per_command": {
+    "determine": {
+      "count": 68,
+      "median": 8
+    },
+    "name": {
+      "count": 10,
+      "median": 11
+    },
+    "complete": {
+      "count": 49,
+      "median": 10
+    },
+    "write": {
+      "count": 28,
+      "median": 8
+    },
+    "deduce": {
+      "count": 8,
+      "median": 9
+    },
+    "state": {
+      "count": 34,
+      "median": 9
+    },
+    "draw": {
+      "count": 17,
+      "median": 10
+    },
+    "calculate": {
+      "count": 8,
+      "median": 11
+    },
+    "identify": {
+      "count": 25,
+      "median": 9
+    },
+    "sketch": {
+      "count": 4,
+      "median": 7.5
+    },
+    "describe": {
+      "count": 23,
+      "median": 10
+    },
+    "explain": {
+      "count": 27,
+      "median": 8
+    },
+    "show": {
+      "count": 15,
+      "median": 10
+    },
+    "define": {
+      "count": 30,
+      "median": 10
+    },
+    "predict": {
+      "count": 9,
+      "median": 9
+    },
+    "find": {
+      "count": 14,
+      "median": 10.5
+    },
+    "give": {
+      "count": 13,
+      "median": 6
+    },
+    "compare": {
+      "count": 5,
+      "median": 15
+    },
+    "suggest": {
+      "count": 4,
+      "median": 10
+    },
+    "plot": {
+      "count": 1,
+      "median": 11
+    }
+  },
+  "parts": {
+    "single": 970,
+    "multi": 771,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 25,
+    "p25": 5,
+    "p75": 59
+  },
+  "context": {
+    "named": 64,
+    "abstract": 1677
+  },
+  "units_rate": 0.22802986789201607,
+  "figure_rate": 0.04480183802412407,
+  "openings": [
+    {
+      "phrase": "reactions of anions",
+      "count": 36
+    },
+    {
+      "phrase": "tests for gases",
+      "count": 36
+    },
+    {
+      "phrase": "reactions of cations",
+      "count": 22
+    },
+    {
+      "phrase": "tests for elements",
+      "count": 22
+    },
+    {
+      "phrase": "and 2 only",
+      "count": 16
+    },
+    {
+      "phrase": "and 3 only",
+      "count": 16
+    },
+    {
+      "phrase": "only is correct",
+      "count": 16
+    },
+    {
+      "phrase": "in this experiment",
+      "count": 16
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "ppt. soluble in excess",
+      "count": 36
+    },
+    {
+      "phrase": "relights a glowing splint",
+      "count": 22
+    },
+    {
+      "phrase": "write in this margin",
+      "count": 18
+    },
+    {
+      "phrase": "2 only are correct",
+      "count": 16
+    },
+    {
+      "phrase": "3 only are correct",
+      "count": 16
+    },
+    {
+      "phrase": "and 3 are correct",
+      "count": 15
+    },
+    {
+      "phrase": "in this margin dfd",
+      "count": 15
+    },
+    {
+      "phrase": "excess dilute strong acids)",
+      "count": 14
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Which compound contains two different elements with identical oxidation states?\nA    HCl\n O B    Mg(OH)\n C    Na\nSO\n D    NH\nCl"
+    },
+    {
+      "marks": 11,
+      "command_word": null,
+      "text": "This question is about Period 3 elements and their compounds."
+    },
+    {
+      "marks": 8,
+      "command_word": null,
+      "text": "Spathose is an iron ore that contains iron(II) carbonate, FeCO\n. The percentage of iron(II) carbonate \nin spathose can be determined by titration with acidified potassium dichromate(\nVI) solution using \na suitable indicator.\n  The ionic equation is shown below.\nCr\nO\n2–\n(aq)  +  14H\n+\n(aq)  +  6Fe\n2+\n(aq)  →  2Cr\n3+\n(aq)  +  6Fe\n3+\n(aq)  +  7H\nO(l)"
+    },
+    {
+      "marks": 12,
+      "command_word": null,
+      "text": "Over  one  million  tonnes  of  hydrogen  cyanide,  HCN,  are  produced  each  year  using  the\nAndrussow process. The overall equation for the reaction is shown.\nCH"
+    },
+    {
+      "marks": 10,
+      "command_word": null,
+      "text": "The following compounds were all found to be components of a sample of petrol.\nCH\n(CH\n)\nCH\n(CH\n)\nCCH\nCH(CH\n)\nH\nC\nH\nH\nJG\nH\nC\nCH\nH\nCCOH"
+    },
+    {
+      "marks": 6,
+      "command_word": null,
+      "text": "Some reactions of compound P, C\nH\nO, are shown.\nH"
+    },
+    {
+      "marks": 4,
+      "command_word": "determine",
+      "text": "You will determine the enthalpy change, ∆H, of the reaction between magnesium and hydrochloric\nacid. To do this you will measure the change in temperature when a piece of magnesium ribbon \nreacts with an excess of hydrochloric acid.\nMg(s)  +  2HCl (aq)  →  MgCl \n(aq)  +  H"
+    },
+    {
+      "marks": 7,
+      "command_word": null,
+      "text": "Some reactions of chromium ions are shown below.\n[Cr(H\nO)\n]\n2+\n(aq)[Cr(H\nO)\n]\n3+\n(aq)Cr\nO\n2–\n(aq)\nCrO\n2–\n(aq)\nmetal + H\nSO\nreaction 1reaction 2\nreaction 3\nOH\n–\n(aq)\nH\nO\n+\n(aq)"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "system": "cambridge",
+  "level": "primary_checkpoint",
+  "subject": "math",
+  "question_count": 154,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "write": 41,
+    "calculate": 26,
+    "show": 10,
+    "draw": 17,
+    "complete": 8,
+    "find": 3,
+    "state": 1,
+    "give": 1,
+    "plot": 1,
+    "explain": 1,
+    "name": 1
+  },
+  "marks": {
+    "count": 122,
+    "min": 1,
+    "max": 2,
+    "median": 1
+  },
+  "marks_per_command": {
+    "write": {
+      "count": 39,
+      "median": 1
+    },
+    "calculate": {
+      "count": 25,
+      "median": 1
+    },
+    "show": {
+      "count": 8,
+      "median": 1
+    },
+    "draw": {
+      "count": 14,
+      "median": 1
+    },
+    "complete": {
+      "count": 7,
+      "median": 1
+    },
+    "find": {
+      "count": 3,
+      "median": 2
+    },
+    "state": {
+      "count": 1,
+      "median": 1
+    },
+    "give": {
+      "count": 1,
+      "median": 1
+    },
+    "plot": {
+      "count": 1,
+      "median": 1
+    },
+    "name": {
+      "count": 1,
+      "median": 1
+    }
+  },
+  "parts": {
+    "single": 141,
+    "multi": 13,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 19,
+    "p25": 9,
+    "p75": 33
+  },
+  "context": {
+    "named": 9,
+    "abstract": 145
+  },
+  "units_rate": 0.06493506493506493,
+  "figure_rate": 0.05194805194805195,
+  "openings": [
+    {
+      "phrase": "here is a",
+      "count": 22
+    },
+    {
+      "phrase": "here are some",
+      "count": 5
+    },
+    {
+      "phrase": "draw a ring",
+      "count": 5
+    },
+    {
+      "phrase": "here are two",
+      "count": 5
+    },
+    {
+      "phrase": "write a number",
+      "count": 4
+    },
+    {
+      "phrase": "here are the",
+      "count": 3
+    },
+    {
+      "phrase": "+ 5 ×",
+      "count": 3
+    },
+    {
+      "phrase": "a teacher wants",
+      "count": 2
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "the smallest. smallest largest",
+      "count": 2
+    },
+    {
+      "phrase": "make the calculation correct.",
+      "count": 2
+    },
+    {
+      "phrase": "here is a calculation.",
+      "count": 2
+    },
+    {
+      "phrase": "explain how you know.",
+      "count": 2
+    },
+    {
+      "phrase": "of cambridge blank page",
+      "count": 2
+    },
+    {
+      "phrase": "correct. = 0.25 100",
+      "count": 1
+    },
+    {
+      "phrase": "in the same way.",
+      "count": 1
+    },
+    {
+      "phrase": "term of this sequence.",
+      "count": 1
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": 1,
+      "command_word": "write",
+      "text": "Write a number in the box to make this statement correct.\n = 0.25\n100"
+    },
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Here are the first four terms of a sequence.\n The sequence continues in the same way."
+    },
+    {
+      "marks": 2,
+      "command_word": null,
+      "text": "Here is a centimetre coordinate grid.\ny\nx\n–5\n–5\n–4\n–4\n–3\n–3\n–2\n–2\n–112345\n–1\nD\nBE\nCA\ny\nx\n–5\n–5\n–4\n–4\n–3\n–3\n–2\n–2\n–112345\n–1\nD\nBE\nCA\n      Mia      plots      points      A, B, C, D and E on the grid."
+    }
+  ]
+}

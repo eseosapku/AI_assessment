@@ -1,0 +1,231 @@
+[
+  {
+    "label": "igcse physics: Cambridge IGCSE™ Physics Workbook with Digital Access",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "35eb3341-5cf3-4fba-b96b-901bf6a99b1f",
+    "broken": [],
+    "copied": null,
+    "ms": 16526
+  },
+  {
+    "label": "igcse chemistry: Cambridge IGCSE™ Chemistry Workbook with Digital Access ",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "53311cd9-e7d2-4089-8b03-0c2a23bbd02f",
+    "broken": [],
+    "copied": null,
+    "ms": 16977
+  },
+  {
+    "label": "igcse biology: Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "9ede2136-44bc-4c65-96d4-44b7b158e789",
+    "broken": [],
+    "copied": null,
+    "ms": 17717
+  },
+  {
+    "label": "igcse maths: Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Cor",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "682eda98-f9fe-4ef0-b005-07dba31daaa6",
+    "broken": [],
+    "copied": null,
+    "ms": 17561
+  },
+  {
+    "label": "igcse economics: Cambridge IGCSE and O Level Economics Coursebook",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "62309a93-ca4e-40f8-a4ea-4be27ea3a61f",
+    "broken": [],
+    "copied": null,
+    "ms": 18669
+  },
+  {
+    "label": "igcse computer science: Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambri",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 1,
+    "assessmentId": "d5d824c2-3986-4c48-a7ac-fdacd5dd5029",
+    "broken": [],
+    "copied": null,
+    "ms": 18592
+  },
+  {
+    "label": "igcse geography: Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "3e3e0acd-5244-4894-92af-f5ee1e272d08",
+    "broken": [],
+    "copied": null,
+    "ms": 8087
+  },
+  {
+    "label": "primary maths: CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "75e91b4a-b63d-4774-83e2-70116f8c3004",
+    "broken": [],
+    "copied": null,
+    "ms": 6967
+  },
+  {
+    "label": "primary science: Cambridge Primary Science 1 Learner’s Book ",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 1,
+    "assessmentId": "acabd1e8-c0fc-4d83-89a2-6d45a86754f3",
+    "broken": [],
+    "copied": null,
+    "ms": 10410
+  },
+  {
+    "label": "primary english: Oxford English for Cambridge Primary Student Book 2 ",
+    "expectStyle": true,
+    "error": "Failed to generate 5 questions. The AI produced 1. Please try again.",
+    "count": 0,
+    "figures": 0,
+    "assessmentId": null,
+    "broken": [],
+    "copied": null,
+    "ms": 21033
+  },
+  {
+    "label": "as biology: Cambridge International AS and A Level Biology Coursebook ",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "61b37f48-0887-43f3-80fd-a3932e7cf98b",
+    "broken": [],
+    "copied": null,
+    "ms": 8814
+  },
+  {
+    "label": "as chemistry: Cambridge International AS _ A Level Chemistry Coursebook with D",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "50b501b4-ed35-4895-982a-222e220a9714",
+    "broken": [],
+    "copied": null,
+    "ms": 7663
+  },
+  {
+    "label": "as physics: Cambridge International AS & A Level Physics Coursebook",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "2eb39417-ba43-4ead-907d-fa1144828615",
+    "broken": [],
+    "copied": null,
+    "ms": 7992
+  },
+  {
+    "label": "as maths: Cambridge International AS  A Level Further Mathematics Coursebo",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 3,
+    "assessmentId": "45613e5b-2b21-4e7d-8843-390403459dbc",
+    "broken": [],
+    "copied": null,
+    "ms": 23220
+  },
+  {
+    "label": "as economics: Cambridge International AS _ A Level Economics Fourth edition Co",
+    "expectStyle": true,
+    "error": null,
+    "count": 5,
+    "figures": 0,
+    "assessmentId": "742fc2dd-1bf1-4ed6-966f-9cfbcbc27031",
+    "broken": [
+      {
+        "code": "no-question-asked",
+        "detail": "no question mark and no command word: \"The fundamental economic problem arises because of:\""
+      },
+      {
+        "code": "no-question-asked",
+        "detail": "no question mark and no command word: \"Opportunity cost is best defined as:\""
+      }
+    ],
+    "copied": null,
+    "ms": 13449
+  },
+  {
+    "label": "ict no papers: Cambridge IGCSE™ ICT Coursebook ",
+    "expectStyle": false,
+    "error": null,
+    "count": 5,
+    "figures": 1,
+    "assessmentId": "450a4c93-cd23-4110-ad6f-8e64a70c4f9c",
+    "broken": [],
+    "copied": null,
+    "ms": 11065
+  },
+  {
+    "label": "lower secondary science: Cambridge Lower Secondary Science 8 Learners Book",
+    "expectStyle": false,
+    "error": null,
+    "count": 5,
+    "figures": 2,
+    "assessmentId": "abccd0a0-c8a1-40ff-9053-a7d540c96074",
+    "broken": [],
+    "copied": null,
+    "ms": 9176
+  },
+  {
+    "label": "as english: Cambridge International AS and A Level English Language Coursebo",
+    "expectStyle": false,
+    "error": null,
+    "count": 5,
+    "figures": 0,
+    "assessmentId": "662d5ffc-4ae2-4c14-9dc3-839eb741e96a",
+    "broken": [],
+    "copied": null,
+    "ms": 12243
+  },
+  {
+    "label": "rwanda biology: Biology S2 SB",
+    "expectStyle": false,
+    "error": null,
+    "count": 5,
+    "figures": 2,
+    "assessmentId": "67fbfa04-a4c6-45f1-aa38-94ca851978e6",
+    "broken": [],
+    "copied": null,
+    "ms": 7211
+  },
+  {
+    "label": "pdf figure",
+    "expectStyle": false,
+    "error": null,
+    "count": 5,
+    "figures": 0,
+    "assessmentId": "5179e235-83a0-40a4-830e-d382f9d9096d",
+    "broken": [],
+    "copied": null,
+    "ms": 9400
+  }
+]

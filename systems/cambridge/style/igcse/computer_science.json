@@ -1,0 +1,218 @@
+{
+  "system": "cambridge",
+  "level": "igcse",
+  "subject": "computer_science",
+  "question_count": 0,
+  "thin": true,
+  "derived": true,
+  "command_words": {
+    "show": 10,
+    "identify": 26,
+    "give": 5,
+    "state": 12,
+    "name": 17,
+    "explain": 4,
+    "describe": 5,
+    "complete": 22,
+    "write": 19,
+    "draw": 12,
+    "calculate": 4,
+    "outline": 3,
+    "find": 3,
+    "suggest": 1
+  },
+  "marks": {
+    "count": 234,
+    "min": 1,
+    "max": 27,
+    "median": 6
+  },
+  "marks_per_command": {
+    "show": {
+      "count": 10,
+      "median": 5
+    },
+    "identify": {
+      "count": 18,
+      "median": 4
+    },
+    "give": {
+      "count": 4,
+      "median": 4.5
+    },
+    "state": {
+      "count": 11,
+      "median": 5
+    },
+    "explain": {
+      "count": 3,
+      "median": 3
+    },
+    "describe": {
+      "count": 4,
+      "median": 7
+    },
+    "name": {
+      "count": 6,
+      "median": 4
+    },
+    "write": {
+      "count": 7,
+      "median": 5
+    },
+    "draw": {
+      "count": 8,
+      "median": 4
+    },
+    "calculate": {
+      "count": 3,
+      "median": 4
+    },
+    "complete": {
+      "count": 15,
+      "median": 4
+    },
+    "outline": {
+      "count": 1,
+      "median": 6
+    },
+    "suggest": {
+      "count": 1,
+      "median": 4
+    }
+  },
+  "parts": {
+    "single": 330,
+    "multi": 179,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 8,
+    "p25": 2,
+    "p75": 35
+  },
+  "context": {
+    "named": 13,
+    "abstract": 496
+  },
+  "units_rate": 0.019646365422396856,
+  "figure_rate": 0.003929273084479371,
+  "openings": [
+    {
+      "phrase": "................................................................................................................................................",
+      "count": 19
+    },
+    {
+      "phrase": "................................................................................................................................................ ...................................................................................................................................................",
+      "count": 12
+    },
+    {
+      "phrase": "consider the logic",
+      "count": 10
+    },
+    {
+      "phrase": "tick (✓) one",
+      "count": 9
+    },
+    {
+      "phrase": "....................................................................................................................................................... ..........................................................................................................................................................",
+      "count": 6
+    },
+    {
+      "phrase": "this pseudocode algorithm",
+      "count": 6
+    },
+    {
+      "phrase": "endwhile",
+      "count": 6
+    },
+    {
+      "phrase": "........................................................................................................................................",
+      "count": 5
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "................................................................................................................................................",
+      "count": 19
+    },
+    {
+      "phrase": "................................................................................................................................................ ...................................................................................................................................................",
+      "count": 12
+    },
+    {
+      "phrase": "write in this margin",
+      "count": 10
+    },
+    {
+      "phrase": ".......................................................................................................................................................... .......................................................................................................................................................... .......................................................................................................................................................... ....................................................................................................................................................",
+      "count": 8
+    },
+    {
+      "phrase": "....................................................................................................................................................... ..........................................................................................................................................................",
+      "count": 6
+    },
+    {
+      "phrase": "endwhile",
+      "count": 6
+    },
+    {
+      "phrase": "traceable. trace id: pc-86bb9d3cd8",
+      "count": 6
+    },
+    {
+      "phrase": "........................................................................................................................................",
+      "count": 5
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": 9,
+      "command_word": null,
+      "text": "Consider the logic statement:\nX = (((A NAND B) OR (B XOR C)) AND NOT C)"
+    },
+    {
+      "marks": 8,
+      "command_word": null,
+      "text": "Carla’s computer has a USB port.\n Carla uses the USB port to connect her mobile device to her computer, to transfer her photos."
+    },
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Two error detection methods that Allison’s computer uses are check digit and checksum."
+    },
+    {
+      "marks": 6,
+      "command_word": "show",
+      "text": "Six components of a computer are given.\n Some  are  part  of  the  central  processing  unit  (CPU)  of  the  Von  Neumann  model  for  a  computer  \nsystem. \n Tick (✓) to show if each component is a CPU component or is Not a CPU component.\nComponent\nCPU \ncomponent \n(✓)\nNot a CPU \ncomponent \n(✓)\nArithmetic logic unit (ALU)\nHard disk drive (HDD)\nMemory address register (MAR)\nRandom access memory (RAM)\nSolid state drive (SSD)\nControl unit (CU)"
+    },
+    {
+      "marks": 4,
+      "command_word": "identify",
+      "text": "Four scenarios are given.\n Identify the most suitable sensor for each scenario. \n A different sensor must be used for each scenario.\nSensorScenario\nDetecting when a person is approaching an automatic \ndoor system\nMonitoring the pollution level in a river\nChecking if a tropical aquarium is 25 degrees Celsius\nCounting the number of cars that cross a bridge"
+    },
+    {
+      "marks": 10,
+      "command_word": null,
+      "text": "Hans  has  a  website  selling  comic  books.  Customers  can  create  an  account  to  buy  the  comic\nbooks.\n Customers enter a username and password to log in to their account."
+    },
+    {
+      "marks": 7,
+      "command_word": null,
+      "text": "Both an interpreter and a compiler can be used when writing a program in a high-level language."
+    },
+    {
+      "marks": 16,
+      "command_word": null,
+      "text": "All variables, constants and other identifiers must have meaningful names."
+    }
+  ],
+  "provenance": {
+    "based_on": [
+      "cambridge/o_level/computerscience",
+      "cambridge/as_and_a_level/compscience"
+    ],
+    "validation_files": 0,
+    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 4. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+  }
+}

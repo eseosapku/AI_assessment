@@ -1,0 +1,163 @@
+{
+  "system": "cambridge",
+  "level": "as_and_a_level",
+  "subject": "math",
+  "question_count": 1223,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "find": 259,
+    "show": 100,
+    "complete": 38,
+    "state": 13,
+    "give": 8,
+    "sketch": 5,
+    "write": 41,
+    "determine": 3,
+    "calculate": 5,
+    "name": 2,
+    "estimate": 3,
+    "draw": 2,
+    "explain": 1
+  },
+  "marks": {
+    "count": 58,
+    "min": 1,
+    "max": 6,
+    "median": 3
+  },
+  "marks_per_command": {
+    "sketch": {
+      "count": 5,
+      "median": 2
+    },
+    "write": {
+      "count": 1,
+      "median": 3
+    },
+    "show": {
+      "count": 4,
+      "median": 3
+    },
+    "complete": {
+      "count": 4,
+      "median": 4
+    }
+  },
+  "parts": {
+    "single": 315,
+    "multi": 908,
+    "median_parts": 2
+  },
+  "stem_words": {
+    "median": 27,
+    "p25": 11,
+    "p75": 72
+  },
+  "context": {
+    "named": 57,
+    "abstract": 1166
+  },
+  "units_rate": 0.17661488143908421,
+  "figure_rate": 0.03434178250204415,
+  "openings": [
+    {
+      "phrase": "the curve c",
+      "count": 92
+    },
+    {
+      "phrase": "a particle p",
+      "count": 40
+    },
+    {
+      "phrase": "it is given",
+      "count": 32
+    },
+    {
+      "phrase": "the continuous random",
+      "count": 30
+    },
+    {
+      "phrase": "the cubic equation",
+      "count": 24
+    },
+    {
+      "phrase": "find the particular",
+      "count": 24
+    },
+    {
+      "phrase": "the matrix a",
+      "count": 23
+    },
+    {
+      "phrase": "prove by mathematical",
+      "count": 21
+    }
+  ],
+  "closings": [
+    {
+      "phrase": ".................................................................................................................................................................... .................................................................................................................................................................... .................................................................................................................................................................... ....................................................................................................................................................................",
+      "count": 129
+    },
+    {
+      "phrase": "write in this margin",
+      "count": 49
+    },
+    {
+      "phrase": "in this margin dfd",
+      "count": 17
+    },
+    {
+      "phrase": "k is a constant.",
+      "count": 15
+    },
+    {
+      "phrase": "to the origin o.",
+      "count": 12
+    },
+    {
+      "phrase": "roots a, b, c.",
+      "count": 11
+    },
+    {
+      "phrase": "is denoted by x.",
+      "count": 11
+    },
+    {
+      "phrase": "is a positive constant.",
+      "count": 10
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "The cubic equation\nxpxx6350\n+--=\n, where p is a constant, has roots a, b, c."
+    },
+    {
+      "marks": 3,
+      "command_word": null,
+      "text": "The curve C has equation\ny\nx\nx21\n=\n+\n."
+    },
+    {
+      "marks": 2,
+      "command_word": null,
+      "text": "The curve C has polar equation tanrai=, where a is a positive constant and\nr0\nGGi\n."
+    },
+    {
+      "marks": 6,
+      "command_word": null,
+      "text": "The curve C has equation\ny\nx\nx\n=\n-\n."
+    },
+    {
+      "marks": 1,
+      "command_word": null,
+      "text": "The continuous random variable X has probability density function f given by\n()()\n,\n,f\notherwise,\nx\nkx\nkx\nx\nx5\n1G\nGG=-\n*\n where k is a constant."
+    },
+    {
+      "marks": 4,
+      "command_word": "complete",
+      "text": "The times taken, in minutes, by 150 students to complete a puzzle are summarised in the table.\nTime taken  \n(\nt\n minutes)\nt0201Gt02031Gt30351Gt03541Gt04051Gt05071G\nFrequency82335522012"
+    }
+  ]
+}

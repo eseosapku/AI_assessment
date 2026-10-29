@@ -1,0 +1,235 @@
+{
+  "system": "cambridge",
+  "level": "as_and_a_level",
+  "subject": "biology",
+  "question_count": 2999,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "show": 55,
+    "explain": 76,
+    "name": 55,
+    "identify": 33,
+    "complete": 54,
+    "draw": 4,
+    "state": 43,
+    "describe": 78,
+    "sketch": 1,
+    "give": 18,
+    "calculate": 12,
+    "suggest": 19,
+    "determine": 15,
+    "write": 19,
+    "outline": 39,
+    "estimate": 13,
+    "compare": 6,
+    "find": 12,
+    "define": 4
+  },
+  "marks": {
+    "count": 693,
+    "min": 1,
+    "max": 20,
+    "median": 6
+  },
+  "marks_per_command": {
+    "show": {
+      "count": 18,
+      "median": 6.5
+    },
+    "complete": {
+      "count": 40,
+      "median": 6
+    },
+    "identify": {
+      "count": 24,
+      "median": 7
+    },
+    "draw": {
+      "count": 3,
+      "median": 7
+    },
+    "state": {
+      "count": 24,
+      "median": 6
+    },
+    "describe": {
+      "count": 54,
+      "median": 7.5
+    },
+    "name": {
+      "count": 35,
+      "median": 6
+    },
+    "explain": {
+      "count": 46,
+      "median": 6
+    },
+    "calculate": {
+      "count": 6,
+      "median": 6
+    },
+    "suggest": {
+      "count": 14,
+      "median": 4
+    },
+    "write": {
+      "count": 12,
+      "median": 6
+    },
+    "outline": {
+      "count": 33,
+      "median": 6
+    },
+    "determine": {
+      "count": 13,
+      "median": 6
+    },
+    "compare": {
+      "count": 4,
+      "median": 5
+    },
+    "give": {
+      "count": 3,
+      "median": 7
+    },
+    "find": {
+      "count": 4,
+      "median": 10
+    },
+    "estimate": {
+      "count": 6,
+      "median": 12.5
+    },
+    "define": {
+      "count": 4,
+      "median": 5.5
+    }
+  },
+  "parts": {
+    "single": 2240,
+    "multi": 759,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 15,
+    "p25": 6,
+    "p75": 44
+  },
+  "context": {
+    "named": 101,
+    "abstract": 2898
+  },
+  "units_rate": 0.07302434144714905,
+  "figure_rate": 0.09903301100366789,
+  "openings": [
+    {
+      "phrase": "the diagram shows",
+      "count": 57
+    },
+    {
+      "phrase": "which statements about",
+      "count": 22
+    },
+    {
+      "phrase": "which row correctly",
+      "count": 21
+    },
+    {
+      "phrase": "the graph shows",
+      "count": 21
+    },
+    {
+      "phrase": "the photomicrograph shows",
+      "count": 17
+    },
+    {
+      "phrase": "less / no,",
+      "count": 15
+    },
+    {
+      "phrase": "which statement about",
+      "count": 14
+    },
+    {
+      "phrase": "which row shows",
+      "count": 14
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "2 and 3 only",
+      "count": 67
+    },
+    {
+      "phrase": "only d 3 only",
+      "count": 24
+    },
+    {
+      "phrase": "traceable. trace id: pc-e53a7e1da0",
+      "count": 18
+    },
+    {
+      "phrase": "2, 3 and 4",
+      "count": 16
+    },
+    {
+      "phrase": "........................................................................................................................................ ........................................................................................................................................... ...........................................................................................................................................",
+      "count": 13
+    },
+    {
+      "phrase": "3 and 4 only",
+      "count": 11
+    },
+    {
+      "phrase": "write in this margin",
+      "count": 11
+    },
+    {
+      "phrase": "d 3 and 4",
+      "count": 10
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "A student has drawn a cell structure as seen using a light microscope.\nThe magnification of the drawing is ×600. \nThe length of the structure on the drawing is 6\n mm. \nWhat is the actual length of the cell structure? \nA 1 × 10\n–1\n μm B 1 × 10\n μm C 1 × 10\n μm D 1 × 10\n μm"
+    },
+    {
+      "marks": 3,
+      "command_word": null,
+      "text": "Fig. 2.1 shows a root tip cell in interphase.\nXY\nFig. 2.1"
+    },
+    {
+      "marks": 13,
+      "command_word": null,
+      "text": "Erythropoietin, also known as EPO, is a large glycoprotein synthesised by specialised cells in the\nkidney.  These  cells  are  very  sensitive  to  changes  in  oxygen  concentration  in  the  blood  passing  \nthrough the kidney and respond to a low oxygen concentration by increasing the synthesis of EPO. \n EPO acts at the surface of particular target cells, such as cells in the bone marrow. These bone \nmarrow cells are stimulated to produce red blood cells."
+    },
+    {
+      "marks": 14,
+      "command_word": null,
+      "text": "Morbillivirus,  which  causes  measles,  and  the  human  immunodeficiency  virus  (HIV)  share  these\ncommon features:\n • outer envelope surrounding the protein coat \n • RNA as the genetic material\n • infect cells of the immune system."
+    },
+    {
+      "marks": 10,
+      "command_word": null,
+      "text": "The  process  of  gametogenesis  in  male  and  female  vertebrates,  including  humans,  involves\nmeiosis."
+    },
+    {
+      "marks": 6,
+      "command_word": null,
+      "text": "Paramecium is a ciliated, unicellular protoctist. The cilia are similar in structure to those found in\nthe trachea of a human. The cilia beat to move Paramecium through the water in which it lives.\n Fig. 6.1 shows Paramecium.\nFig. 6.1"
+    },
+    {
+      "marks": 5,
+      "command_word": null,
+      "text": "Catalase is an enzyme that catalyses the breakdown of hydrogen peroxide, a toxic waste product\nof metabolism.\ncatalase\n2H\nO\n    2H\nO  +  O\n Fig. 3.1 shows the results of an investigation into the effect of hydrogen peroxide concentration \non  the  rate  of  the  catalase-controlled  reaction,  with  and  without  the  presence  of  two  different  \ninhibitors.\n0510152025\nhydrogen peroxide concentration\n / mmol dm\n–3\nrate of reaction\n/\n arbitrary units\nX\nY\nZ\nFig. 3.1"
+    },
+    {
+      "marks": 7,
+      "command_word": null,
+      "text": "The transport systems of plants and mammals both function to transport substances to and from\ncells."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "system": "reb",
+  "level": "s6",
+  "subject": "al",
+  "question_count": 10,
+  "thin": true,
+  "derived": false,
+  "command_words": {
+    "find": 2,
+    "explain": 1
+  },
+  "marks": {
+    "count": 0,
+    "min": null,
+    "max": null,
+    "median": null
+  },
+  "marks_per_command": {},
+  "parts": {
+    "single": 8,
+    "multi": 2,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 10.5,
+    "p25": 9,
+    "p75": 104
+  },
+  "context": {
+    "named": 0,
+    "abstract": 10
+  },
+  "units_rate": 0.4,
+  "figure_rate": 0,
+  "openings": [
+    {
+      "phrase": "4.80 × 10",
+      "count": 4
+    },
+    {
+      "phrase": "n 13.2 ×",
+      "count": 2
+    },
+    {
+      "phrase": "1.60 × 10",
+      "count": 2
+    },
+    {
+      "phrase": "-188 chlorine",
+      "count": 1
+    },
+    {
+      "phrase": "-35 bromine 80",
+      "count": 1
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "10.4 × 10 –3",
+      "count": 2
+    },
+    {
+      "phrase": "× 10 –2 m",
+      "count": 2
+    },
+    {
+      "phrase": "5.20 × 10 –3",
+      "count": 2
+    },
+    {
+      "phrase": "dm –3 s –1",
+      "count": 1
+    },
+    {
+      "phrase": "+ 2e – h",
+      "count": 1
+    },
+    {
+      "phrase": "-188 chlorine",
+      "count": 1
+    },
+    {
+      "phrase": "with sodium hydroxide: cl",
+      "count": 1
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "4.80 × 10\n–2\n 6.60 × 10\n–2\n 10.4 × 10\n–3"
+    }
+  ]
+}

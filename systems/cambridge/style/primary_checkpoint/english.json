@@ -1,0 +1,133 @@
+{
+  "system": "cambridge",
+  "level": "primary_checkpoint",
+  "subject": "english",
+  "question_count": 110,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "complete": 4,
+    "find": 7,
+    "name": 5,
+    "write": 3,
+    "draw": 2,
+    "show": 2,
+    "give": 1
+  },
+  "marks": {
+    "count": 72,
+    "min": 1,
+    "max": 1,
+    "median": 1
+  },
+  "marks_per_command": {
+    "find": {
+      "count": 7,
+      "median": 1
+    },
+    "write": {
+      "count": 2,
+      "median": 1
+    },
+    "draw": {
+      "count": 1,
+      "median": 1
+    }
+  },
+  "parts": {
+    "single": 110,
+    "multi": 0,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 32,
+    "p25": 12,
+    "p75": 39
+  },
+  "context": {
+    "named": 2,
+    "abstract": 108
+  },
+  "units_rate": 0.03636363636363636,
+  "figure_rate": 0,
+  "openings": [
+    {
+      "phrase": "you will hear",
+      "count": 29
+    },
+    {
+      "phrase": "............ [1] i",
+      "count": 4
+    },
+    {
+      "phrase": "where do the",
+      "count": 3
+    },
+    {
+      "phrase": "where does the",
+      "count": 2
+    },
+    {
+      "phrase": "what will the",
+      "count": 2
+    },
+    {
+      "phrase": "sylvia says that",
+      "count": 2
+    },
+    {
+      "phrase": "............ [1] i’m",
+      "count": 2
+    },
+    {
+      "phrase": "............ [1] but",
+      "count": 2
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "a, b or c.",
+      "count": 12
+    },
+    {
+      "phrase": "of cambridge blank page",
+      "count": 6
+    },
+    {
+      "phrase": "of cambridge. blank page",
+      "count": 4
+    },
+    {
+      "phrase": "to buy for you?",
+      "count": 1
+    },
+    {
+      "phrase": "from that big bookstore.",
+      "count": 1
+    },
+    {
+      "phrase": "check for you. why?",
+      "count": 1
+    },
+    {
+      "phrase": "in some other shops.",
+      "count": 1
+    },
+    {
+      "phrase": "find most challenging? abc",
+      "count": 1
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "............ [1]\nOK. Is there anything you want \nme to buy for you?"
+    },
+    {
+      "marks": 1,
+      "command_word": "find",
+      "text": "Which race did the girl find most challenging?\nABC"
+    }
+  ]
+}

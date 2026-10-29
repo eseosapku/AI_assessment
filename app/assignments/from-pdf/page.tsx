@@ -255,6 +255,8 @@ export default function PdfAssignmentPage() {
                 difficultyLevel: difficulty,
                 sourceText: extractJson.text,
                 sourceName: extractJson.filename || pdfFile.name,
+                sourceKind: 'pdf',
+                sourceFigures: Array.isArray(extractJson.figures) ? extractJson.figures : [],
             }
             let data: any
             if (USE_ASYNC_AI_JOBS) {

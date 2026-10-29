@@ -1,0 +1,233 @@
+{
+  "system": "cambridge",
+  "level": "igcse",
+  "subject": "biology",
+  "question_count": 0,
+  "thin": true,
+  "derived": true,
+  "command_words": {
+    "complete": 21,
+    "compare": 15,
+    "show": 57,
+    "identify": 3,
+    "state": 13,
+    "describe": 44,
+    "name": 52,
+    "define": 4,
+    "suggest": 3,
+    "explain": 24,
+    "draw": 7,
+    "give": 12,
+    "write": 6,
+    "outline": 4,
+    "calculate": 4,
+    "determine": 1,
+    "find": 7
+  },
+  "marks": {
+    "count": 377,
+    "min": 1,
+    "max": 27,
+    "median": 6
+  },
+  "marks_per_command": {
+    "complete": {
+      "count": 4,
+      "median": 11.5
+    },
+    "compare": {
+      "count": 8,
+      "median": 6
+    },
+    "show": {
+      "count": 12,
+      "median": 6
+    },
+    "identify": {
+      "count": 1,
+      "median": 10
+    },
+    "state": {
+      "count": 5,
+      "median": 5
+    },
+    "describe": {
+      "count": 35,
+      "median": 7
+    },
+    "define": {
+      "count": 4,
+      "median": 5
+    },
+    "suggest": {
+      "count": 2,
+      "median": 4.5
+    },
+    "explain": {
+      "count": 19,
+      "median": 6
+    },
+    "draw": {
+      "count": 5,
+      "median": 4
+    },
+    "outline": {
+      "count": 3,
+      "median": 5
+    },
+    "name": {
+      "count": 5,
+      "median": 6
+    },
+    "calculate": {
+      "count": 4,
+      "median": 18.5
+    },
+    "find": {
+      "count": 4,
+      "median": 6
+    },
+    "write": {
+      "count": 4,
+      "median": 8.5
+    },
+    "give": {
+      "count": 2,
+      "median": 7
+    }
+  },
+  "parts": {
+    "single": 1944,
+    "multi": 421,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 33,
+    "p25": 13,
+    "p75": 52
+  },
+  "context": {
+    "named": 30,
+    "abstract": 2335
+  },
+  "units_rate": 0.05750528541226216,
+  "figure_rate": 0.2723044397463002,
+  "openings": [
+    {
+      "phrase": "the diagram shows",
+      "count": 357
+    },
+    {
+      "phrase": "the graph shows",
+      "count": 60
+    },
+    {
+      "phrase": "which statements about",
+      "count": 31
+    },
+    {
+      "phrase": "what is the",
+      "count": 27
+    },
+    {
+      "phrase": "the table shows",
+      "count": 26
+    },
+    {
+      "phrase": "which row shows",
+      "count": 25
+    },
+    {
+      "phrase": "which statement about",
+      "count": 25
+    },
+    {
+      "phrase": "what is a",
+      "count": 24
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "a b c d",
+      "count": 39
+    },
+    {
+      "phrase": "2 and 3 only",
+      "count": 24
+    },
+    {
+      "phrase": "................................................................................................................................................",
+      "count": 21
+    },
+    {
+      "phrase": "........................................................................................................................................",
+      "count": 16
+    },
+    {
+      "phrase": "........................................................................................................................................ ...........................................................................................................................................",
+      "count": 15
+    },
+    {
+      "phrase": "................................................................................................................................................ ...................................................................................................................................................",
+      "count": 14
+    },
+    {
+      "phrase": "of cambridge blank page",
+      "count": 11
+    },
+    {
+      "phrase": "a d b c",
+      "count": 9
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Which two structures are found in all plant epidermal cells?\nA   cell wall and chloroplasts \nB   cell wall and nucleus \nC   chloroplasts and starch grains \nD   nucleus and starch grains"
+    },
+    {
+      "marks": 4,
+      "command_word": null,
+      "text": "Fig.  1.1  shows  a  plant  with  a  magnified  transverse  section  (TS)  of  the  root  and  an  incomplete,\nmagnified transverse section (TS) of the stem.\nincomplete, magnified\ntransverse section (TS)\nof stem\nmagnified\ntransverse section (TS)\nof root\nFig. 1.1"
+    },
+    {
+      "marks": 8,
+      "command_word": null,
+      "text": "Dry mass is the mass of all chemicals, excluding water, present in an organism.\n Fig. 2.1 shows the stages of germination of a seed. Fig. 2.1 also shows the changes in dry mass of \nthe plant during these stages of germination.\nstage Astage Bstage C\nD\nE\n+\n–\nchange in\ndry mass\ntime\nFig. 2.1"
+    },
+    {
+      "marks": 6,
+      "command_word": null,
+      "text": "Digestion in the human alimentary canal is carried out by the action of enzymes. Each food group\nis the substrate for a specific enzyme."
+    },
+    {
+      "marks": 10,
+      "command_word": null,
+      "text": "Fig. 4.1 shows the stages in the process of genetic engineering to produce the hormone insulin.\nisolated DNA with\ninsulin gene\nisolated\nplasmids\nDNA plasmid\nDNA thread\nbacterial enzyme\ncuts the plasmid\ninsulin gene inserted into\nthe plasmid\nisolated\ninsulin gene\ntransformed plasmid\ninserted into bacterium to\nform transformed bacterium\nreproduction of the bacterium\nproduction of insulin\nhuman cellbacterium\nstage K\nstage L\nstage M\nstage N\nFig. 4.1"
+    },
+    {
+      "marks": 1,
+      "command_word": null,
+      "text": "Malaria  is  a  disease  caused  by  a  parasite  that  is  transmitted  from  one  person  to  another  by  a\nvector."
+    },
+    {
+      "marks": 7,
+      "command_word": null,
+      "text": "Enzyme Q is active in the human alimentary canal. Fig. 6.1 shows the effect of pH on the rate of\nreaction of enzyme Q.\n100\n12345\npH\nrate of reaction\n/ arbitrary units\nFig. 6.1"
+    },
+    {
+      "marks": 5,
+      "command_word": null,
+      "text": "Fig. 2.1 shows a fetus developing inside its mother.\nB\nC\nD\nE\nF\nFig. 2.1"
+    }
+  ],
+  "provenance": {
+    "based_on": [
+      "cambridge/o_level/biology",
+      "cambridge/as_and_a_level/biology"
+    ],
+    "validation_files": 0,
+    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 4. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+  }
+}

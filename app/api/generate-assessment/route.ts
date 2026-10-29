@@ -59,6 +59,7 @@ import { leastCoveredSections, pointShares, sectionShares, type BookSection } fr
 import { toBritish } from '@/lib/british-spelling'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
 import { isLazyChoiceQuestion, sourceNeedsWorkedProblems, workedProblemRules } from '@/lib/worked-problems'
+import { cambridgeStylePrompt, loadCambridgeStyle } from '@/lib/past-paper/cambridge-style'
 import { normaliseWrittenType } from '@/lib/written-type'
 import { prettyMaths } from '@/lib/maths-notation'
 import { correctParagraphLetter, citesAMissingParagraph, paragraphNumberToLetter, paragraphMismatch } from '@/lib/paragraph-reference'
@@ -647,6 +648,8 @@ function buildPrompt(opts: {
   batchFocusCovered?: boolean
   /** A PDF of problems: every question in this batch must make the student compute a result. */
   requireWorkedProblems?: boolean
+  /** Wording counted from real Cambridge papers. IGCSE uses the O Level and AS/A Level papers for that subject. */
+  cambridgePaperStyle?: string
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
@@ -988,6 +991,7 @@ ${sourceBlock ? `\n${sourceBlock}\n` : ''}
 **Style:** ${style}
 ${gradeAgeNote ? `\n${gradeAgeNote}\n` : ''}
 ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
+${opts.cambridgePaperStyle ? `\n${opts.cambridgePaperStyle}\n` : ''}
 
 **Task:** ${questionInstruction}
 ${opts.batchFocus?.length ? `
@@ -1619,6 +1623,18 @@ ${commandBlock}`
     }
 
     const isCambridge = curriculumSlug === 'cambridge'
+    const cambridgePaper = textbookCurriculum === 1 && textbookName
+      ? loadCambridgeStyle(textbookName, 1)
+      : null
+    const cambridgePaperStyle = cambridgePaper ? cambridgeStylePrompt(cambridgePaper) : ''
+    if (cambridgePaper) {
+      const from = (cambridgePaper.sources ?? [cambridgePaper])
+        .map((item) => `${item.level}/${item.subject} (${item.question_count})`)
+        .join(', ')
+      console.log(`Past-paper style: ${cambridgePaper.level} ${cambridgePaper.subject} from ${from}`)
+    } else if (textbookCurriculum === 1) {
+      console.log(`Past-paper style: none for ${textbookName}`)
+    }
     // What the learner's book teaches in these chapters at this stage, and
     // what it has not taught yet. None of the Cambridge Primary, Lower
     // Secondary or IGCSE books has stored text, so the writer had the chapter's
@@ -2525,6 +2541,7 @@ ${commandBlock}`
         scopeBrief: scopeBrief || undefined,
         batchFocus,
         batchFocusCovered,
+        cambridgePaperStyle: cambridgePaperStyle || undefined,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).

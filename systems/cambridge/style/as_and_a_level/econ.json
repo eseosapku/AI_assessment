@@ -1,0 +1,121 @@
+{
+  "system": "cambridge",
+  "level": "as_and_a_level",
+  "subject": "econ",
+  "question_count": 1134,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "give": 5,
+    "state": 15,
+    "name": 35,
+    "explain": 16,
+    "show": 20,
+    "calculate": 4,
+    "describe": 3,
+    "complete": 2,
+    "suggest": 2,
+    "write": 8,
+    "find": 2,
+    "determine": 1,
+    "predict": 1
+  },
+  "marks": {
+    "count": 0,
+    "min": null,
+    "max": null,
+    "median": null
+  },
+  "marks_per_command": {},
+  "parts": {
+    "single": 1134,
+    "multi": 0,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 57,
+    "p25": 43,
+    "p75": 74
+  },
+  "context": {
+    "named": 40,
+    "abstract": 1094
+  },
+  "units_rate": 0.04938271604938271,
+  "figure_rate": 0.17901234567901234,
+  "openings": [
+    {
+      "phrase": "the diagram shows",
+      "count": 131
+    },
+    {
+      "phrase": "the table shows",
+      "count": 48
+    },
+    {
+      "phrase": "what would be",
+      "count": 18
+    },
+    {
+      "phrase": "what is a",
+      "count": 18
+    },
+    {
+      "phrase": "what is not",
+      "count": 18
+    },
+    {
+      "phrase": "what is an",
+      "count": 16
+    },
+    {
+      "phrase": "what is the",
+      "count": 14
+    },
+    {
+      "phrase": "in the diagram,",
+      "count": 13
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "of cambridge blank page",
+      "count": 15
+    },
+    {
+      "phrase": "university of blank page",
+      "count": 11
+    },
+    {
+      "phrase": "a b c d",
+      "count": 9
+    },
+    {
+      "phrase": "write in this margin",
+      "count": 9
+    },
+    {
+      "phrase": "in the money supply",
+      "count": 6
+    },
+    {
+      "phrase": "the university of cambridge",
+      "count": 6
+    },
+    {
+      "phrase": "good d public good",
+      "count": 6
+    },
+    {
+      "phrase": "decreases d increases increases",
+      "count": 5
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "The  diagram  shows  the  production  possibility  curve  of  a  desert  island  economy  where  the\ninhabitants produce just two commodities, coconuts and fish. \nfish\ncoconuts\nO\nWhat explains the shape of the production possibility curve? \nA    Coconuts and fish are perfect complements. \nB    Coconuts and fish are perfect substitutes. \nC    The inhabitants consume more fish than coconuts. \nD    The opportunity cost of increasing fish production is constant."
+    }
+  ]
+}

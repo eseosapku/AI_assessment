@@ -1,0 +1,227 @@
+{
+  "system": "cambridge",
+  "level": "as_and_a_level",
+  "subject": "physics",
+  "question_count": 2068,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "describe": 23,
+    "calculate": 12,
+    "name": 29,
+    "determine": 15,
+    "define": 113,
+    "state": 341,
+    "explain": 122,
+    "show": 20,
+    "complete": 10,
+    "suggest": 9,
+    "estimate": 3,
+    "outline": 9,
+    "draw": 32,
+    "give": 3,
+    "sketch": 8,
+    "plot": 1,
+    "write": 24,
+    "compare": 1,
+    "identify": 1
+  },
+  "marks": {
+    "count": 1102,
+    "min": 1,
+    "max": 19,
+    "median": 6
+  },
+  "marks_per_command": {
+    "determine": {
+      "count": 10,
+      "median": 4
+    },
+    "define": {
+      "count": 113,
+      "median": 6
+    },
+    "state": {
+      "count": 332,
+      "median": 6
+    },
+    "complete": {
+      "count": 10,
+      "median": 6
+    },
+    "show": {
+      "count": 12,
+      "median": 7.5
+    },
+    "describe": {
+      "count": 20,
+      "median": 6
+    },
+    "explain": {
+      "count": 105,
+      "median": 6
+    },
+    "suggest": {
+      "count": 9,
+      "median": 5
+    },
+    "draw": {
+      "count": 19,
+      "median": 15
+    },
+    "sketch": {
+      "count": 8,
+      "median": 3.5
+    },
+    "calculate": {
+      "count": 3,
+      "median": 8
+    },
+    "give": {
+      "count": 2,
+      "median": 6
+    },
+    "outline": {
+      "count": 7,
+      "median": 5
+    },
+    "compare": {
+      "count": 1,
+      "median": 12
+    },
+    "write": {
+      "count": 6,
+      "median": 15
+    },
+    "identify": {
+      "count": 1,
+      "median": 5
+    }
+  },
+  "parts": {
+    "single": 946,
+    "multi": 1122,
+    "median_parts": 2
+  },
+  "stem_words": {
+    "median": 15,
+    "p25": 0,
+    "p75": 66
+  },
+  "context": {
+    "named": 346,
+    "abstract": 1722
+  },
+  "units_rate": 0.16827852998065765,
+  "figure_rate": 0.2311411992263056,
+  "openings": [
+    {
+      "phrase": "........................................................................................................................................ ...........................................................................................................................................",
+      "count": 257
+    },
+    {
+      "phrase": "in this experiment,",
+      "count": 106
+    },
+    {
+      "phrase": "a student investigates",
+      "count": 47
+    },
+    {
+      "phrase": "................................................................................................................................................ ...................................................................................................................................................",
+      "count": 42
+    },
+    {
+      "phrase": "a student is",
+      "count": 40
+    },
+    {
+      "phrase": "........................................................................................................................................ ........................................................................................................................................... [4]",
+      "count": 32
+    },
+    {
+      "phrase": "the diagram shows",
+      "count": 24
+    },
+    {
+      "phrase": "......................................................................................................................................... ...........................................................................................................................................",
+      "count": 21
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "........................................................................................................................................ ...........................................................................................................................................",
+      "count": 257
+    },
+    {
+      "phrase": "................................................................................................................................................ ...................................................................................................................................................",
+      "count": 42
+    },
+    {
+      "phrase": ".................................................................................................................................................................. .................................................................................................................................................................. .................................................................................................................................................................. ..........................................................................................................................................................",
+      "count": 33
+    },
+    {
+      "phrase": "traceable. trace id: pc-6c5d1e8a1a",
+      "count": 32
+    },
+    {
+      "phrase": "write in this margin",
+      "count": 25
+    },
+    {
+      "phrase": "......................................................................................................................................... ...........................................................................................................................................",
+      "count": 21
+    },
+    {
+      "phrase": "investigate an electrical circuit.",
+      "count": 12
+    },
+    {
+      "phrase": "........................................................................................................................................... [4] [total: 20]",
+      "count": 10
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "The prefixes nano (n), micro (μ) and pico (p) are often used with units.\nWhich row shows their correct values? \n       n       \nμ \np \nA 10\n–6\n–9\n–12\nB 10\n–6\n–12\n–9\nC 10\n–9\n–6\n–12\nD 10\n–12\n–9\n–6"
+    },
+    {
+      "marks": 3,
+      "command_word": "determine",
+      "text": "The speed v of a transverse wave on a uniform string is given by the expression\nv = \nT l\nm\n where T  is the tension in the string, l is its length and m is its mass.\n An experiment is performed to determine the speed v of the wave. The measurements are shown \nin Fig. 1.1.\nquantitymeasurementuncertainty\nT\nl\nm\n1.8\n N\n126\n cm\n5.1\n g\n± 5%\n± 1%\n± 2%\nFig. 1.1"
+    },
+    {
+      "marks": 11,
+      "command_word": null,
+      "text": "m\nFig. 2.1 (not to scale)\n  The horizontal distance between the initial position of the ball and the base of the wall is 24 m. \nThe ball is kicked with an initial velocity v at an angle of 28° to the horizontal. The ball hits the \ntop of the wall after a time of 1.5 s. Air resistance may be assumed to be negligible."
+    },
+    {
+      "marks": 5,
+      "command_word": null,
+      "text": "A neutron decays by emitting a β\n−\n particle."
+    },
+    {
+      "marks": 18,
+      "command_word": null,
+      "text": "In  this  experiment  you  will  investigate  the  behaviour  of  a  sphere  rolling  across  a  sloping\nboard."
+    },
+    {
+      "marks": 16,
+      "command_word": null,
+      "text": "In this experiment you will investigate the motion of a sphere launched from a ramp."
+    },
+    {
+      "marks": 1,
+      "command_word": null,
+      "text": "An  object  of  mass  80  g  oscillates  with  simple  harmonic  motion.  The  variation  with  time  t  of  the\ndisplacement x of the object is shown in Fig. 4.1.\n2.0\n1.0\n–2.0\n–1.0\n00.10.20.30.40.5\nt / s\nx\n / cm\nFig. 4.1"
+    },
+    {
+      "marks": 4,
+      "command_word": null,
+      "text": "Beryllium-7  (\n  Be)  is  produced  in  the  upper  atmosphere  and  then  sinks  down  onto  the  Earth’s  \nsurface. Nuclei of beryllium-7 decay with a half-life of 53.3 days to form stable nuclei.\n The activity of a sample of beryllium-7 on a tree leaf is 39 mBq."
+    }
+  ]
+}

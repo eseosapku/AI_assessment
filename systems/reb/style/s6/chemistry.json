@@ -1,0 +1,104 @@
+{
+  "system": "reb",
+  "level": "s6",
+  "subject": "chemistry",
+  "question_count": 9,
+  "thin": true,
+  "derived": false,
+  "command_words": {
+    "find": 1,
+    "give": 1
+  },
+  "marks": {
+    "count": 0,
+    "min": null,
+    "max": null,
+    "median": null
+  },
+  "marks_per_command": {},
+  "parts": {
+    "single": 9,
+    "multi": 0,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 5,
+    "p25": 4,
+    "p75": 5
+  },
+  "context": {
+    "named": 0,
+    "abstract": 9
+  },
+  "units_rate": 0.1111111111111111,
+  "figure_rate": 0.2222222222222222,
+  "openings": [
+    {
+      "phrase": "0.150 0.25 1.4x10",
+      "count": 1
+    },
+    {
+      "phrase": "0.150 0.50 5.6x10",
+      "count": 1
+    },
+    {
+      "phrase": "0.075 0.50 2.8x10",
+      "count": 1
+    },
+    {
+      "phrase": "0.075 0.25 7.0x10",
+      "count": 1
+    },
+    {
+      "phrase": "50 00 10",
+      "count": 1
+    },
+    {
+      "phrase": "40 10 10",
+      "count": 1
+    },
+    {
+      "phrase": "30 20 10",
+      "count": 1
+    },
+    {
+      "phrase": "20 30 10",
+      "count": 1
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "0.150 0.25 1.4x10 -5",
+      "count": 1
+    },
+    {
+      "phrase": "0.150 0.50 5.6x10 -5",
+      "count": 1
+    },
+    {
+      "phrase": "0.075 0.50 2.8x10 -5",
+      "count": 1
+    },
+    {
+      "phrase": "of 12 blank page",
+      "count": 1
+    },
+    {
+      "phrase": "00 10 23 r",
+      "count": 1
+    },
+    {
+      "phrase": "10 10 27 r",
+      "count": 1
+    },
+    {
+      "phrase": "20 10 35 r",
+      "count": 1
+    },
+    {
+      "phrase": "30 10 56 r",
+      "count": 1
+    }
+  ],
+  "exemplars": []
+}

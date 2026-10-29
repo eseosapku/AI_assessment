@@ -1,0 +1,239 @@
+{
+  "system": "cambridge",
+  "level": "igcse",
+  "subject": "chemistry",
+  "question_count": 0,
+  "thin": true,
+  "derived": true,
+  "command_words": {
+    "state": 33,
+    "complete": 67,
+    "describe": 19,
+    "name": 78,
+    "find": 13,
+    "determine": 34,
+    "show": 44,
+    "write": 10,
+    "suggest": 2,
+    "give": 32,
+    "identify": 14,
+    "explain": 12,
+    "outline": 3,
+    "predict": 2,
+    "draw": 5,
+    "calculate": 7,
+    "compare": 2,
+    "plot": 1,
+    "deduce": 1
+  },
+  "marks": {
+    "count": 529,
+    "min": 1,
+    "max": 22,
+    "median": 7
+  },
+  "marks_per_command": {
+    "determine": {
+      "count": 24,
+      "median": 13
+    },
+    "write": {
+      "count": 7,
+      "median": 4
+    },
+    "suggest": {
+      "count": 1,
+      "median": 9
+    },
+    "complete": {
+      "count": 19,
+      "median": 7
+    },
+    "give": {
+      "count": 6,
+      "median": 4
+    },
+    "find": {
+      "count": 3,
+      "median": 6
+    },
+    "identify": {
+      "count": 8,
+      "median": 8
+    },
+    "show": {
+      "count": 7,
+      "median": 10
+    },
+    "predict": {
+      "count": 2,
+      "median": 6.5
+    },
+    "draw": {
+      "count": 1,
+      "median": 9
+    },
+    "calculate": {
+      "count": 5,
+      "median": 9
+    },
+    "explain": {
+      "count": 3,
+      "median": 7
+    },
+    "name": {
+      "count": 10,
+      "median": 9.5
+    },
+    "describe": {
+      "count": 4,
+      "median": 6
+    },
+    "compare": {
+      "count": 1,
+      "median": 3
+    },
+    "state": {
+      "count": 17,
+      "median": 4
+    },
+    "plot": {
+      "count": 1,
+      "median": 4
+    }
+  },
+  "parts": {
+    "single": 2172,
+    "multi": 668,
+    "median_parts": 0
+  },
+  "stem_words": {
+    "median": 31,
+    "p25": 12,
+    "p75": 54
+  },
+  "context": {
+    "named": 70,
+    "abstract": 2770
+  },
+  "units_rate": 0.15035211267605633,
+  "figure_rate": 0.07323943661971831,
+  "openings": [
+    {
+      "phrase": "which statement about",
+      "count": 103
+    },
+    {
+      "phrase": "the diagram shows",
+      "count": 85
+    },
+    {
+      "phrase": "................................................................................................................................................",
+      "count": 59
+    },
+    {
+      "phrase": "this question is",
+      "count": 39
+    },
+    {
+      "phrase": "the table shows",
+      "count": 34
+    },
+    {
+      "phrase": "a student investigates",
+      "count": 30
+    },
+    {
+      "phrase": "you are provided",
+      "count": 29
+    },
+    {
+      "phrase": "........................................................................................................................................",
+      "count": 27
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "................................................................................................................................................",
+      "count": 59
+    },
+    {
+      "phrase": "2 and 3 only",
+      "count": 46
+    },
+    {
+      "phrase": "175103 lr lawrencium –",
+      "count": 37
+    },
+    {
+      "phrase": "........................................................................................................................................",
+      "count": 27
+    },
+    {
+      "phrase": "d 3 and 4",
+      "count": 25
+    },
+    {
+      "phrase": "1, 2 and 3",
+      "count": 25
+    },
+    {
+      "phrase": "which statements are correct?",
+      "count": 20
+    },
+    {
+      "phrase": "of the periodic table.",
+      "count": 18
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": null,
+      "command_word": null,
+      "text": "Which oxide is amphoteric?\nA Al\nO\n B   CO\nC   Na\nO\nD   SO"
+    },
+    {
+      "marks": 9,
+      "command_word": "determine",
+      "text": "A student is given a sample of an organic acid, V, and asked to\n  • determine its relative molecular mass,\n  • suggest its molecular formula.\n A sample of the acid is placed in a previously weighed container and reweighed.\n mass of container + V   =   8.38 g\n mass of container          =   6.92 g"
+    },
+    {
+      "marks": 4,
+      "command_word": null,
+      "text": "seconds\n20406080100\n90 seconds\n20406080100\n120 seconds\ntime /s\nexperiment 1 \nvolume of oxygen \ncollected /cm\nexperiment 2 \nvolume of oxygen \ncollected /cm\n  3030\n  6050\n  9064\n12074\n1508084\n1808484"
+    },
+    {
+      "marks": 6,
+      "command_word": null,
+      "text": "A  student  separates  hexane,  C\nH\n,  (b.p.  69°C)  and  heptane,  C\nH\n,  (b.p.  98°C)  using  the  \napparatus shown.\nthermometer\nA\nB\nC\nwater out\nwater in\nhexane and\nheptane\nmixture\nheat"
+    },
+    {
+      "marks": 7,
+      "command_word": null,
+      "text": "The reaction between aqueous barium chloride and dilute sulfuric acid produces a precipitate of\nbarium sulfate.\nBaCl \n(aq)    +    H\nSO\n(aq)        2HCl (aq)    +    BaSO\n(s)"
+    },
+    {
+      "marks": 8,
+      "command_word": null,
+      "text": "A sample of ethanoic acid, CH\nCOOH, can be prepared in the apparatus shown.\nheat\nwater in\nwater\nout\nethanol + aqueous acidified\npotassium manganate(VII) \nC"
+    },
+    {
+      "marks": 14,
+      "command_word": "find",
+      "text": "A student is given a bottle containing small pieces of scrap iron. She is asked to find the purity of\nthis sample of iron.\n A small quantity of the iron is placed in a previously weighed container which is then reweighed.\n mass of container + scrap iron =    7.16 g\n mass of container =    5.72 g"
+    },
+    {
+      "marks": 5,
+      "command_word": "identify",
+      "text": "A student is given compound M which contains a cation and an anion. He does the following tests\nto identify the two ions."
+    }
+  ],
+  "provenance": {
+    "based_on": [
+      "cambridge/o_level/chemistry",
+      "cambridge/as_and_a_level/chemistry"
+    ],
+    "validation_files": 0,
+    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 7. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+  }
+}
