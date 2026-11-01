@@ -169,6 +169,8 @@ export const MINI_LOOK = { cell: 16, pad: 8 } as const
 const sizeOf = (cols: number, rows: number, look: { cell: number; pad: number }) => ({ w: cols * look.cell + 2 * look.pad, h: rows * look.cell + 2 * look.pad })
 
 const BUTTON = 'nodrag inline-flex min-h-[44px] items-center justify-center rounded-xl border-2 border-ss-line bg-ss-panel px-4 py-1.5 text-[14px] font-bold text-ss-ink touch-manipulation hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:opacity-50'
+/** A chosen option, set inline: as classes, the base's border-ss-line won and a pick looked like no pick. */
+const CHOSEN = { borderColor: 'var(--subject)', background: 'color-mix(in srgb, var(--subject) 14%, transparent)' }
 
 /** The board moves a selected card with the arrows; inside the scene they belong to the scene. */
 const keepArrows = (e: KeyboardEvent) => {
@@ -727,7 +729,8 @@ function CompareCard({ task, state, setState, marked, locked }: {
           aria-disabled={locked || undefined}
           onClick={() => choose(side)}
           onKeyDown={onKey}
-          className={`${BUTTON} w-full ${chosen ? 'border-[color:var(--subject)] bg-ss-chip' : ''}`}
+          className={`${BUTTON} w-full`}
+          style={chosen ? CHOSEN : undefined}
         >
           {chosen ? `Shape ${letter} picked` : `Pick shape ${letter}`}
         </button>
