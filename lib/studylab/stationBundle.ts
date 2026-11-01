@@ -78,6 +78,26 @@ const OUTCOMES: readonly Outcome[] = ['solved', 'helped', 'untried']
 const text = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0
 const typeOf = (a: unknown): string => String((a as { type?: unknown } | null)?.type ?? '')
 
+/**
+ * A ranking by a judgement has no key a teacher could not argue. The prompt
+ * says never sort by one, but on a station about reliability the writer did,
+ * twice (audit 9: a diary "more reliable" than a news report a week later),
+ * and the judge let it through. A multiple choice may still ask for the best.
+ */
+const JUDGED = /\b(?:more|less|most|least|how)\s+(?:reliable|trustworthy|important|significant|useful|valuable|effective|successful)\b|\bby\s+(?:their\s+|its\s+)?(?:reliability|importance|significance|usefulness)\b/i
+const allText = (v: unknown): string =>
+  typeof v === 'string' ? v : Array.isArray(v) ? v.map(allText).join(' ') : v && typeof v === 'object' ? Object.values(v).map(allText).join(' ') : ''
+
+/** The judgement a sort, an order or a match ranks by, if it ranks by one. */
+function judgedRanking(item: unknown): string | null {
+  const x = item as { type?: unknown; format?: unknown; question?: unknown } | null
+  const ranks = ['createActivity', 'build_material'].includes(typeOf(x)) || ['order', 'match'].includes(String(x?.format))
+  const ranked = ranks ? allText(item).match(JUDGED) : x?.question !== undefined ? judgedRanking(x.question) : null
+  return ranked ? ranked[0] : null
+}
+
+const JUDGED_FIX = 'which a teacher could argue: rank by a property the topic defines (made at the time or later; primary or secondary), or ask for the best one as a multiple choice'
+
 /** A material or a predict item, judged as the live path judges one. */
 function materialProblems(action: unknown, rawIntent: unknown, needIntent: boolean): { problems: string[]; intent: TeachingIntent | null } {
   const a = action as Record<string, unknown>
@@ -173,6 +193,8 @@ export function checkExplore(e: Partial<AuthoredExplore> | undefined): string[] 
     }
     const { problems, intent } = materialProblems(e.action, e.intent, !isPredict)
     out.push(...problems)
+    const judged = judgedRanking(e.action)
+    if (judged) out.push(`the explore item ranks by a judgement ("${judged}"), ${JUDGED_FIX}`)
     // A `vary` models a relationship; one the model made up passed every
     // other check. It has to say what it is and where it comes from. A scene
     // isolates magnitude too, but its numbers are the engine's, sourced in its code.
@@ -231,10 +253,16 @@ export function checkPracticeCheck(p: Partial<AuthoredItem> | undefined, c: Part
   // Judged as serving judges it: a material without its intent passed here and
   // was refused at serve time, sending a station that was ready live.
   else out.push(...materialProblems(p.action, p.intent, true).problems)
+  const judged = p && typeof p === 'object' ? judgedRanking(p.action) : null
+  if (judged) out.push(`the practice item ranks by a judgement ("${judged}"), ${JUDGED_FIX}`)
   if (!c || typeof c !== 'object' || !Array.isArray(c.questions)) out.push('no check')
   else {
     if (c.questions.length < 1 || c.questions.length > 2) out.push(`a check has one or two questions, not ${c.questions.length}`)
-    c.questions.forEach((q, i) => out.push(...questionProblems(q, i)))
+    c.questions.forEach((q, i) => {
+      out.push(...questionProblems(q, i))
+      const ranked = judgedRanking(q)
+      if (ranked) out.push(`question ${i + 1} ranks by a judgement ("${ranked}"), ${JUDGED_FIX}`)
+    })
   }
   return out
 }

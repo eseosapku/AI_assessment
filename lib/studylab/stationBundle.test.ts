@@ -192,6 +192,27 @@ describe('verifyBundleCode', () => {
     expect(verifyBundleCode(b).ok).toBe(true)
   })
 
+  it('refuses a sort or an order by a judgement -- audit 9 keyed a diary "more reliable" than a news report a week later', () => {
+    const b = good()
+    b.check.questions[1] = { id: 'q2', format: 'order', prompt: 'Put these sources in order from most reliable to least reliable for finding out what happened.', items: ['A diary entry written on the day', 'A news report published the next week', 'A memoir written 20 years later'] } as never
+    const r = fails(b)
+    expect(r.pass).toBe('practice_check')
+    expect(r.reasons.join(' ')).toMatch(/question 2 ranks by a judgement \("most reliable"\)/)
+
+    const e = good()
+    e.explore.action = { type: 'createActivity', id: 'm1', spec: { ...sortSpec, prompt: 'Sort these sources by how reliable they are.' }, step: 1 } as never
+    expect(fails(e).reasons.join(' ')).toMatch(/explore item ranks by a judgement \("how reliable"\)/)
+  })
+
+  it('accepts an order by a property the topic defines, and a multiple choice that asks for the most reliable', () => {
+    const b = good()
+    b.check.questions = [
+      { id: 'q1', format: 'mcq', prompt: 'Which source would be most reliable?', options: ['A novel', 'A soldier\'s letter'], answer: 1, optionFeedback: ['Written long after, by someone who was not there.', 'Yes -- written at the time by someone there.'] },
+      { id: 'q2', format: 'order', prompt: 'Put these metals in order from most reactive to least reactive.', items: ['Potassium', 'Magnesium', 'Copper'] },
+    ] as never
+    expect(verifyBundleCode(b).ok).toBe(true)
+  })
+
   it('accepts a practice card that carries a question to answer by hand, with its steps and no written answer', () => {
     const b = good()
     b.practice = { say: 'Your turn.', action: { type: 'createCard', id: 'p1', card: 'practice', title: 'Which part?', body: 'Find it.', question: { format: 'tap', prompt: 'Tap the part that makes food.', figure: 'asset:plant-cell', answer: ['chloroplast'] }, steps: ['Chloroplasts hold the green pigment that traps light.'], step: 1 } as never }
