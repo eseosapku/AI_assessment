@@ -7,6 +7,8 @@ import { checkBudget, recordSpend } from './spend'
 
 export const HAIKU = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
 export const SONNET = 'eu.anthropic.claude-sonnet-5-5'
+/** Answers where this account is refused Sonnet 5.5 (2026-11-01); it takes no effort setting. */
+export const SONNET_45 = 'eu.anthropic.claude-sonnet-4-5-20250929-v1:0'
 export const NOVA_LITE = 'eu.amazon.nova-lite-v1:0'
 const isNova = (model: string) => /nova/.test(model)
 
@@ -54,7 +56,7 @@ export function requestBody(model: string, prompt: string, maxTokens: number, im
   return {
     anthropic_version: 'bedrock-2023-05-31',
     max_tokens: maxTokens,
-    ...(/sonnet|opus/.test(model) ? { output_config: { effort: 'low' } } : {}),
+    ...(/sonnet|opus/.test(model) && model !== SONNET_45 ? { output_config: { effort: 'low' } } : {}),
     messages: [{ role: 'user', content }],
   }
 }

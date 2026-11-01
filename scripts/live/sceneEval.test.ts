@@ -35,10 +35,12 @@ import { MAX_PASS_TRIES, stationVersion } from '@/lib/studylab/stationJobs'
 import { engines, type SceneEngine } from '@/lib/studylab/engines'
 import { validateSpec } from '@/lib/studylab/activities/validate'
 import { meaningFaults } from '@/lib/studylab/meaning'
-import { bedrockSender, extractJson, SONNET } from '../figure-library/claude'
+import { bedrockSender, extractJson, SONNET_45 } from '../figure-library/claude'
 import type { LessonStep } from '@/lib/studylab/lessonRun'
 
 const OUT_DIR = process.env.SCRATCH ?? os.tmpdir()
+/** The eye on each card. Sonnet 5.5 set the bar, but this account is refused it (2026-11-01). */
+const VISION_MODEL = process.env.SCENE_EVAL_VISION ?? SONNET_45
 const BASE = process.env.SCENE_EVAL_URL ?? 'http://localhost:3107'
 const PER_SCENE = Number(process.env.SCENE_EVAL_N ?? 10)
 const ONLY = process.env.SCENE_EVAL_ONLY?.split(',')
@@ -155,7 +157,7 @@ async function evaluate(e: SceneEngine<unknown, unknown>, s: { lesson: string; s
     try {
       const a = await shoot(browser, spec, undefined, subject, shots[0])
       const b = await shoot(browser, spec, e.solve(config), subject, shots[1])
-      const reply = await send(SONNET, VISION(item.prompt!, item.config, e.prompt.split('config:')[0].replace(/s+/g, ' ').slice(0, 900)), 700, [
+      const reply = await send(VISION_MODEL, VISION(item.prompt!, item.config, e.prompt.split('config:')[0].replace(/s+/g, ' ').slice(0, 900)), 700, [
         { mediaType: 'image/png', data: a.toString('base64') },
         { mediaType: 'image/png', data: b.toString('base64') },
       ])
