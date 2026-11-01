@@ -52,7 +52,7 @@ const SUBJECT: Record<string, string> = {
   orbit: 'Physics', particles: 'Chemistry', atom: 'Chemistry', bonding: 'Chemistry', 'lab-bench': 'Chemistry',
   'coordinate-plane': 'Mathematics', 'body-flow': 'Biology', 'cause-chain': 'History',
   'algebra-tiles': 'Mathematics', 'food-web': 'Biology', 'supply-demand': 'Economics', 'business-finance': 'Business Studies',
-  ledger: 'Accounting', 'counters-place-value': 'Mathematics',
+  ledger: 'Accounting', 'counters-place-value': 'Mathematics', 'algorithm-tracer': 'Computer Science',
 }
 
 const DIMENSIONS = ['valid', 'solvable', 'unsolvedStart', 'noSelfAnswer', 'noAnswerVisible', 'picturesFit', 'noOverlap', 'changes'] as const
