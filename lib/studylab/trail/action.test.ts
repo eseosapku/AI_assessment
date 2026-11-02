@@ -46,6 +46,13 @@ describe('trailAction', () => {
   it('a finished lesson offers its summary', () => {
     expect(trailAction({ ...base, view: { kind: 'done' } })).toEqual({ kind: 'summary' })
   })
+  it('Start is the button while planning with a plan; drafting and redrafting offer none', () => {
+    const planningWith = (n: number) => run({ phase: 'planning', currentStep: -1, steps: steps(Array.from({ length: n }, () => 'pending')) })
+    expect(trailAction({ ...base, run: planningWith(5), view: { kind: 'none' } })).toEqual({ kind: 'start' })
+    expect(trailAction({ ...base, run: planningWith(0), view: { kind: 'none' } })).toEqual({ kind: 'none' })
+    expect(trailAction({ ...base, run: planningWith(5), view: { kind: 'working', label: 'Drafting' } })).toEqual({ kind: 'working' })
+    expect(trailAction({ ...base, run: planningWith(5), view: { kind: 'retry', label: 'Try again' } })).toEqual({ kind: 'retry', label: 'Try again' })
+  })
   it('nothing to press is nothing to press', () => {
     expect(trailAction(base)).toEqual({ kind: 'none' })
   })

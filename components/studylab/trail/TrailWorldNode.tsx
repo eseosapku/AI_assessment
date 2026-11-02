@@ -2,9 +2,11 @@
 
 import { memo, useContext } from 'react'
 import type { NodeProps } from '@xyflow/react'
+import { Lock } from 'lucide-react'
 import type { PlotBox, Tile, TrailWorld } from '@/lib/studylab/trail/types'
 import { TILE } from '@/lib/studylab/trail/layout'
 import { TrailPlacementContext } from './TrailFrame'
+import { TrailTitleBlock, type TrailHeading } from './TrailTitleBlock'
 
 /** Rounded like the mark's own squares, but never so far that a big plot's corner cuts across a card. */
 const radiusOf = (w: number, h: number) => Math.min(Math.min(w, h) * 0.18, 120)
@@ -44,10 +46,11 @@ function Plot({ plot, onStation }: { plot: PlotBox; onStation: (index: number) =
  * cards on top of it.
  */
 function TrailWorldNodeInner({ data }: NodeProps) {
-  const { world } = data as unknown as { world: TrailWorld }
+  const { world, heading, opening } = data as unknown as { world: TrailWorld; heading: TrailHeading; opening: boolean }
   const { onStation } = useContext(TrailPlacementContext)
   return (
-    <div className="ss-trail-world">
+    <div className={`ss-trail-world${opening ? ' ss-trail-world-opening' : ''}`}>
+      <TrailTitleBlock rect={world.title} heading={heading} stations={world.plots.length} />
       <svg width={1} height={1} aria-hidden>
         {world.links.map((l, i) => (
           <line key={i} className="ss-trail-link" x1={l.from.x} y1={l.from.y} x2={l.to.x} y2={l.to.y} />
@@ -64,7 +67,7 @@ function TrailWorldNodeInner({ data }: NodeProps) {
             width={TILE}
             height={TILE}
             rx={TILE * 0.24}
-            style={{ transform: `translate(${t.x}px, ${t.y}px) rotate(${t.angle}deg)`, fill: tileFill(t) }}
+            style={{ transform: `translate(${t.x}px, ${t.y}px) rotate(${t.angle}deg)`, fill: tileFill(t), ...(opening ? { animationDelay: `${i * 14}ms` } : {}) }}
           />
         ))}
       </svg>
@@ -74,7 +77,10 @@ function TrailWorldNodeInner({ data }: NodeProps) {
           className={`ss-trail-label ss-trail-label-${p.state}`}
           style={{ transform: `translate(${p.label.x}px, ${p.label.y}px)`, width: p.label.w, height: p.label.h - BADGE / 2 }}
         >
-          <span>{p.title}</span>
+          <span>
+            {p.locked && <Lock className="ss-trail-label-lock" aria-label="We will cover this one" />}
+            {p.title}
+          </span>
         </div>
       ))}
     </div>

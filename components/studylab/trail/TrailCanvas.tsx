@@ -9,6 +9,7 @@ import { studyNodeTypes } from '../canvasNodes'
 import { CARD_ACTIONS } from '../StudyCanvas'
 import { withTrailFrame } from './TrailFrame'
 import { TrailWorldNode } from './TrailWorldNode'
+import type { TrailHeading } from './TrailTitleBlock'
 import type { TrailModel } from './useTrailModel'
 import type { StudyNode } from '@/lib/studylab/types'
 import type { Rect } from '@/lib/studylab/trail/types'
@@ -39,6 +40,9 @@ interface TrailCanvasProps {
   nodes: StudyNode[]
   insets: Insets
   onCardPrompt: (prompt: string, label: string) => void
+  heading: TrailHeading
+  /** The plan is on the table: the trail draws itself in. */
+  opening: boolean
   /** Drawn inside the board: Kana. */
   children?: ReactNode
 }
@@ -49,7 +53,7 @@ interface TrailCanvasProps {
  * nothing here is written back: the classic view's positions are not the
  * Trail's to touch.
  */
-export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(function TrailCanvas({ model, nodes, insets, onCardPrompt, children }, ref) {
+export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(function TrailCanvas({ model, nodes, insets, onCardPrompt, heading, opening, children }, ref) {
   const { world, placement, focusId, sizes } = model
   const rf = useReactFlow()
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -114,7 +118,8 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
   )
   const sized = !focusId || !!sizes[focusId]
   useEffect(() => {
-    const key = focusId ?? WORLD
+    // With no card in focus the camera shows the whole board, again whenever a new plan redraws it.
+    const key = focusId ?? `${WORLD}-${world.plots.length}`
     if (!sized || framed.current === key) return
     setExploring(false)
     const timer = setTimeout(() => {
@@ -136,7 +141,7 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
       }, prefersReducedMotion() ? 0 : 480)
     }, 120)
     return () => clearTimeout(timer)
-  }, [focusId, sized, frameWork])
+  }, [focusId, sized, frameWork, world.plots.length])
 
   // A plot beside this one grew and the focus card slid with it: the camera
   // keeps pace, at the same zoom, so the card stays still under the learner.
@@ -227,7 +232,7 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
       id: WORLD,
       type: 'trailWorld',
       position: { x: 0, y: 0 },
-      data: { world } as unknown as Record<string, unknown>,
+      data: { world, heading, opening } as unknown as Record<string, unknown>,
       width: 1,
       height: 1,
       measured: { width: 1, height: 1 },
@@ -239,7 +244,7 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
       style: { pointerEvents: 'none' },
     }
     return [worldNode, ...cards]
-  }, [nodes, placement.drawn, world])
+  }, [nodes, placement.drawn, world, heading, opening])
 
   // Tapping the card in focus opens its prompt menu, as on the classic board.
   const [cardMenu, setCardMenu] = useState<{ id: string; title: string; x: number; y: number } | null>(null)

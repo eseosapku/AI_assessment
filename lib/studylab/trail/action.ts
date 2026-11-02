@@ -48,6 +48,7 @@ export function trailAction(input: {
     return { kind: 'continue', label, target: { kind: 'focus', label, nodeId: nextInQueue, hint: '' } }
   }
   if (view.kind === 'working') return { kind: 'working' }
+  if (run?.phase === 'planning' && run.steps.length > 0) return { kind: 'start' }
   if (view.kind === 'continue') {
     const { target } = view
     const finishing = target.kind === 'advance' && !!run && stageOf(run) === 'check'

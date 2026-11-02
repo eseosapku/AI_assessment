@@ -8,10 +8,10 @@ import type { ChatPlan } from '@/lib/studylab/types'
 import { motionFor } from '@/lib/studylab/motionPresets'
 
 /** About how long a station takes, for the line under the title. */
-const MINUTES_A_STEP = 4
+export const MINUTES_A_STEP = 4
 
 /** The three things people actually want to change about a plan, said as instructions the redraft can act on. */
-const ADJUSTMENTS: { label: string; instruction: string }[] = [
+export const ADJUSTMENTS: { label: string; instruction: string }[] = [
   { label: 'Shorter', instruction: 'Make it shorter — fewer steps, just the essentials.' },
   { label: 'Deeper', instruction: 'Go deeper. I want the detail and the why, not an overview.' },
   { label: 'I know the basics', instruction: 'Skip the introductory material, I already know it. Start from the harder parts.' },

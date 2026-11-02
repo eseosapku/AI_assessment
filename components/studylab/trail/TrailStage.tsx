@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
 import type { LessonStageProps } from '../stage/LessonStage'
-import { OpeningCard } from '../stage/OpeningCard'
 import ChatMouthpiece from '../ChatMouthpiece'
 import { Kana } from '../kana/Kana'
 import { StageContext, type StageValue, type HelpRequest } from '../stage/StageContext'
@@ -14,12 +13,15 @@ import { FiledCardsList } from './FiledCardsList'
 import { KanaOnBoard } from './KanaOnBoard'
 import { TrailCanvas, type TrailCanvasHandle } from './TrailCanvas'
 import { TrailChatPanel } from './TrailChatPanel'
+import { ThroughTheSquare } from './ThroughTheSquare'
 import { TrailDock } from './TrailDock'
+import { TrailOpeningControls } from './TrailOpeningControls'
 import { TrailTopBar } from './TrailTopBar'
 import { TrailPlacementContext, type TrailPlacement } from './TrailFrame'
 import { useTrailModel } from './useTrailModel'
 import { trailAction, trailContinue } from '@/lib/studylab/trail/action'
 import { escapeTarget, stationPills, topBarLabel } from '@/lib/studylab/trail/furniture'
+import { nextQuestion, openingChips, openingInsets, planFrom } from '@/lib/studylab/trail/opening'
 import { cardTitle } from '@/lib/studylab/trail/placement'
 import { bubbleLine, lineTone, withDisplayLines } from '@/lib/studylab/trail/voice'
 import type { BarModel } from '@/lib/studylab/checkBarModel'
@@ -162,9 +164,41 @@ function TrailStageInner(props: LessonStageProps) {
   const action = trailAction({ view, claimed: owner !== null, run: board.run, focusType, nextInQueue, interlude: model.interlude, lookBack: null, detourFooter: false })
   // A check with questions left: Kana keeps the chips to herself.
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
-  const line = bubbleLine(chat.messages, lines, { busy: chat.busy, working: chat.working ?? 'Thinking…' })
-  const chips = !chat.busy && !open && !gating && !quietStage(board.run ?? null) ? chat.suggestions.slice(0, 3) : []
+  // The opening: the plan on the table, and Kana asking its questions one at a time.
+  const planning = board.run?.phase === 'planning'
+  const plan = useMemo(() => (planning ? planFrom(chat.messages) : null), [planning, chat.messages])
+  const [asked, setAsked] = useState<ReadonlySet<string>>(new Set())
+  const question = plan ? nextQuestion(plan.questions, asked) : null
+  const answerPlan = useCallback(
+    (answer: string) => {
+      if (question) setAsked((prev) => new Set(prev).add(question))
+      chat.onAnswerPlan?.(answer)
+    },
+    [question, chat],
+  )
+  const [intro, setIntro] = useState(planning)
+  const endIntro = useCallback(() => setIntro(false), [])
+
+  const said = bubbleLine(chat.messages, lines, { busy: chat.busy, working: chat.working ?? 'Thinking…' })
+  const asking = planning && !chat.busy && !failed
+  const line = asking ? (question ? { key: `q:${question}`, text: question, more: false, tone: 'say' as const } : null) : said
+  const chips = asking
+    ? question
+      ? openingChips(question)
+      : []
+    : !chat.busy && !open && !gating && !quietStage(board.run ?? null)
+      ? chat.suggestions.slice(0, 3)
+      : []
   const shownMessages = useMemo(() => withDisplayLines(chat.messages, lines), [chat.messages, lines])
+  // While a plan is on the table, what is typed in the chat answers it, as the classic plan card's box does.
+  const sendFromChat = useCallback<typeof chat.onSend>(
+    (text, opts) => {
+      if (plan && !opts?.silent && text.trim()) answerPlan(text.trim())
+      else chat.onSend(text, opts)
+    },
+    [plan, answerPlan, chat],
+  )
+  const heading = useMemo(() => ({ title: rail.title, subject: rail.subject }), [rail.title, rail.subject])
   const showCard = useCallback((rect: Rect) => canvas.current?.flyTo(rect), [])
 
   // The moments worth marking, read off the run as it changes. A reload has no
@@ -219,30 +253,28 @@ function TrailStageInner(props: LessonStageProps) {
             <div className="flex min-h-0 flex-1">
               {/* The chat on the left; the board narrows beside it. */}
               <TrailChatPanel open={open}>
-                <ChatMouthpiece {...chat} messages={shownMessages} look="trail" onClose={() => setOpen(false)} focusInput={open} />
+                <ChatMouthpiece {...chat} messages={shownMessages} onSend={sendFromChat} look="trail" onClose={() => setOpen(false)} focusInput={open} />
               </TrailChatPanel>
               <div data-tour="lesson-board" data-stage-board className="relative h-full min-w-0 flex-1">
                 {boardOverlay}
-                <OpeningCard
-                  title={rail.title}
-                  subject={rail.subject}
-                  messages={chat.messages}
-                  busy={chat.busy}
-                  defaultPace={chat.defaultPace}
-                  onAcceptPlan={chat.onAcceptPlan}
-                  onAnswerPlan={chat.onAnswerPlan}
-                  onStartHomework={chat.onStartHomework}
-                />
-                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={phone ? INSETS_PHONE : INSETS} onCardPrompt={board.onCardPrompt}>
+                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning ? openingInsets(phone ? INSETS_PHONE : INSETS) : phone ? INSETS_PHONE : INSETS} onCardPrompt={board.onCardPrompt} heading={heading} opening={planning}>
                   <KanaOnBoard
                     world={world}
                     focusId={focusId}
                     line={line}
                     chips={chips}
                     hidden={open}
+                    band={planning}
                     pointer={pointer}
                     onMore={openChat}
-                    onChip={(text) => (chat.onChip ? chat.onChip(text) : chat.onSend(text))}
+                    onChip={(text) => (asking ? answerPlan(text) : chat.onChip ? chat.onChip(text) : chat.onSend(text))}
+                    extra={
+                      asking && question ? (
+                        <button type="button" className="ss-trail-more" onClick={openChat}>
+                          Type an answer
+                        </button>
+                      ) : undefined
+                    }
                     onShowCard={showCard}
                   />
                 </TrailCanvas>
@@ -251,6 +283,8 @@ function TrailStageInner(props: LessonStageProps) {
                   action={action}
                   onContinue={runContinue}
                   onGoToStation={model.endInterlude}
+                  onStart={() => chat.onAcceptPlan?.('step')}
+                  secondary={plan ? <TrailOpeningControls onAnswer={answerPlan} /> : undefined}
                   onSummary={() => setSummaryOpen(true)}
                   onProveIt={chat.onProveIt}
                   provingIt={chat.provingIt}
@@ -266,7 +300,7 @@ function TrailStageInner(props: LessonStageProps) {
                   <span>Ask Kana</span>
                 </button>
                 <TrailTopBar
-                  pills={stationPills(board.run)}
+                  pills={stationPills(board.run, plan?.steps)}
                   label={topBarLabel({ run: board.run, lookingBack: null, detourOpen: false }) || rail.title}
                   plots={world.plots}
                   canClassic={!!trail?.onClassic}
@@ -294,6 +328,7 @@ function TrailStageInner(props: LessonStageProps) {
               </div>
             </div>
             {children}
+            {intro && <ThroughTheSquare onDone={endIntro} />}
           </div>
         </TrailPlacementContext.Provider>
       </CanvasContext.Provider>

@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef } from 'react'
+import { forwardRef, type ReactNode } from 'react'
 import { ArrowRight, RotateCcw, Trophy } from 'lucide-react'
 import type { ContinueTarget } from '@/lib/studylab/spotlight'
 import type { TrailAction } from '@/lib/studylab/trail/action'
@@ -21,7 +21,9 @@ export const TrailDock = forwardRef<HTMLDivElement, {
   provingIt?: boolean
   /** Sends the failed turn again. */
   onRetry?: () => void
-}>(function TrailDock({ action, onContinue, onGoToStation, onStart, onTryAgain, onSummary, onProveIt, provingIt, onRetry }, slotRef) {
+  /** Beside Start: Change the plan. */
+  secondary?: ReactNode
+}>(function TrailDock({ action, onContinue, onGoToStation, onStart, onTryAgain, onSummary, onProveIt, provingIt, onRetry, secondary }, slotRef) {
   return (
     <div className="ss-trail-dock pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center px-4">
       <div className="pointer-events-auto flex w-full max-w-[560px] flex-col items-stretch gap-2">
@@ -43,7 +45,10 @@ export const TrailDock = forwardRef<HTMLDivElement, {
             )}
           </div>
         ) : (
-          <MainButton action={action} onContinue={onContinue} onGoToStation={onGoToStation} onStart={onStart} onTryAgain={onTryAgain} onRetry={onRetry} />
+          <div className="flex items-stretch gap-2">
+            {action.kind === 'start' && secondary}
+            <MainButton action={action} onContinue={onContinue} onGoToStation={onGoToStation} onStart={onStart} onTryAgain={onTryAgain} onRetry={onRetry} />
+          </div>
         )}
       </div>
     </div>

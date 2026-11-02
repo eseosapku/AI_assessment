@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import type { LessonStageProps } from '../stage/LessonStage'
 import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { interludeFrom } from '@/lib/studylab/trail/action'
+import { planFrom } from '@/lib/studylab/trail/opening'
 import { assignBlocks, placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
 import { syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
@@ -78,9 +79,10 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
     return next
   }, [nodes, currentStep])
 
+  const planSteps = useMemo(() => planFrom(chat.messages)?.steps, [chat.messages])
   const placement = useMemo(
-    () => placeCards({ nodes, run, queue, detours: [], openDetour: null, blocks, sizes, interlude, notes: [] }),
-    [nodes, run, queue, blocks, sizes, interlude],
+    () => placeCards({ nodes, run, planSteps, queue, detours: [], openDetour: null, blocks, sizes, interlude, notes: [] }),
+    [nodes, run, planSteps, queue, blocks, sizes, interlude],
   )
   const world = useMemo(
     () => trailLayout({ stations: placement.stations, detours: placement.detours, focusWidth: FOCUS_W, speaker: true }),

@@ -519,6 +519,124 @@
 .ss-trail-label-future span {
   color: var(--ss-slate);
 }
+/* The opening: through the square, then the lesson's name above the whole journey. */
+.ss-trail-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: var(--trail-canvas);
+  animation: ss-trail-intro-out 1.2s ease-in forwards;
+}
+.ss-trail-intro-mark {
+  width: 180px;
+  height: 180px;
+  animation: ss-trail-through 1.2s cubic-bezier(0.6, 0, 0.2, 1) forwards;
+}
+.ss-trail-intro-tile {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ss-trail-tile-land 300ms cubic-bezier(0.3, 1.6, 0.5, 1) backwards;
+}
+.ss-trail-intro-quiet {
+  animation: ss-trail-intro-fade 200ms linear forwards;
+}
+.ss-trail-intro-quiet .ss-trail-intro-mark,
+.ss-trail-intro-quiet .ss-trail-intro-tile {
+  animation: none;
+}
+@keyframes ss-trail-tile-land {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes ss-trail-through {
+  0%, 60% { transform: scale(1); }
+  100% { transform: scale(26); }
+}
+@keyframes ss-trail-intro-out {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes ss-trail-intro-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.ss-trail-world-opening .ss-trail-tile {
+  animation: ss-trail-tile-in 240ms ease-out backwards;
+}
+@keyframes ss-trail-tile-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.ss-trail-title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--ss-ink);
+}
+.ss-trail-title-brand {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+}
+.ss-trail-title-subject {
+  border-radius: 999px;
+  background: var(--subject-soft);
+  color: var(--subject-ink);
+  padding: 6px 18px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.ss-trail-title h1 {
+  margin-top: 12px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 60px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.ss-trail-title p {
+  margin-top: 8px;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ss-slate);
+}
+.ss-trail-label-lock {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  vertical-align: -3px;
+  color: var(--ss-warn);
+}
+
+/* While the whole board is in view, Kana stands on the screen, above the button. */
+.ss-trail .react-flow .ss-trail-band {
+  display: flex;
+  max-width: min(760px, 92%);
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 96px;
+  pointer-events: none;
+}
+.ss-trail-band-speech {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 12px;
+}
+.ss-trail-band-speech .ss-trail-more {
+  margin-left: 4px;
+  align-self: center;
+  font-size: 18px;
+}
+
 /* Kana on the board. Her big bubble stands above the card in focus; it hangs from
    the foot of its strip, so a long line grows up and away from the card. */
 .ss-trail-kana {
@@ -582,6 +700,7 @@
 .ss-trail-chips {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   pointer-events: auto;
 }
@@ -624,6 +743,9 @@
   font-size: 16px;
 }
 @media (prefers-reduced-motion: reduce) {
+  .ss-trail-world-opening .ss-trail-tile {
+    animation: none;
+  }
   .ss-trail-kana {
     transition: none;
   }

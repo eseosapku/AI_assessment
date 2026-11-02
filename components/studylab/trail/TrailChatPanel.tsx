@@ -16,7 +16,7 @@ export function TrailChatPanel({ open, children }: { open: boolean; children: Re
       aria-label="Chat with Kana"
       {...inert}
       className={`fixed inset-0 z-50 overflow-hidden bg-ss-panel transition-transform duration-[250ms] ease-out motion-reduce:transition-none md:static md:z-auto md:h-full md:shrink-0 md:transition-[width] ${
-        open ? 'translate-y-0 md:w-[460px] md:border-r md:border-ss-line' : 'translate-y-full md:w-0'
+        open ? 'translate-y-0 md:w-[460px] md:border-r md:border-ss-line' : 'invisible translate-y-full md:w-0'
       } md:translate-y-0`}
     >
       <div className="h-full md:w-[460px]">{children}</div>

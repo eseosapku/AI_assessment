@@ -1,38 +1,30 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { ViewportPortal } from '@xyflow/react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { Panel, ViewportPortal } from '@xyflow/react'
 import { Kana } from '../kana/Kana'
 import { flightPoint } from '@/lib/studylab/kana/poses'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { pointSelector } from '@/lib/studylab/point'
-import { PAD, SPEAKER_H } from '@/lib/studylab/trail/layout'
+import { KANA_W, restingSpot } from '@/lib/studylab/trail/opening'
 import type { Point, Rect, TrailWorld } from '@/lib/studylab/trail/types'
 import { kanaPoseFor, type BubbleLine } from '@/lib/studylab/trail/voice'
 
-const KANA_SIZE = 150
+const KANA_SIZE = KANA_W
 const FLIGHT_MS = 1500
 const SAY_MS = 2400
+const BAND_KANA = 104
 const SPARK_EVERY_MS = 110
 const SPARKS = 10
 /** About 30 frames a second is plenty for an idle bob, and easy on a phone. */
 const FRAME_MS = 33
-const RESTING_BUBBLE_W = 420
-
-/** With no card in focus, Kana waits on the plot the journey is at. */
-function restingSpot(world: TrailWorld): { kana: Point; bubble: Rect } | null {
-  const plot = world.plots.find((p) => p.state === 'next' || p.state === 'current') ?? world.plots[world.plots.length - 1]
-  if (!plot) return null
-  const { x, y } = plot.rect
-  return { kana: { x: x + PAD, y: y + PAD }, bubble: { x: x + PAD + KANA_SIZE, y: y + PAD, w: RESTING_BUBBLE_W, h: SPEAKER_H } }
-}
 
 const place = (el: HTMLElement, p: Point) => {
   el.style.transform = `translate(${p.x}px, ${p.y}px)`
 }
 
 /** Kana herself: bobbing, blinking and talking off a clock, or perfectly still under reduced motion. */
-function KanaLive({ pose }: { pose: ReturnType<typeof kanaPoseFor> }) {
+function KanaLive({ pose, size = KANA_SIZE }: { pose: ReturnType<typeof kanaPoseFor>; size?: number }) {
   const [t, setT] = useState<number | undefined>(undefined)
   useEffect(() => {
     if (prefersReducedMotion()) return
@@ -49,27 +41,31 @@ function KanaLive({ pose }: { pose: ReturnType<typeof kanaPoseFor> }) {
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
   }, [])
-  return <Kana size={KANA_SIZE} pose={pose} t={t} title="Kana" />
+  return <Kana size={size} pose={pose} t={t} title="Kana" />
 }
 
 /**
  * Kana on the board with the tutor's latest line. The bubble is the newest thing
  * said; open the chat and it hides, because the same line is there.
  */
-export function KanaOnBoard({ world, focusId, line, chips, hidden, pointer, onMore, onChip, onShowCard }: {
+export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, pointer, onMore, onChip, onShowCard }: {
   world: TrailWorld
   focusId: string | null
   line: BubbleLine | null
   chips: string[]
+  /** Beside the chips: the opening's "Type an answer". */
+  extra?: ReactNode
   /** The chat is open: the line is in there. */
   hidden: boolean
+  /** The whole board is in view, too small to read on: she stands on the screen, above the button. */
+  band?: boolean
   pointer: { nodeId: string; part?: string } | null
   onMore: () => void
   onChip: (text: string) => void
   /** The tutor pointed at a card not in view: the camera goes there. */
   onShowCard: (rect: Rect) => void
 }) {
-  const spot = world.speaker ?? restingSpot(world)
+  const spot = band ? null : (world.speaker ?? restingSpot(world))
   const target = spot?.kana ?? null
   // State, not a ref: the portal mounts a beat after this component does, and the
   // move below has to run again once there is something to move.
@@ -203,12 +199,43 @@ export function KanaOnBoard({ world, focusId, line, chips, hidden, pointer, onMo
   }, [pointNode, pointPart, focusId])
 
   const pose = kanaPoseFor({ flying, reaction, talking, pointing: !!pointer })
+  const words = line && !hidden && (
+    <div key={line.key} className={`ss-trail-bubble ss-trail-bubble-${line.tone}`}>
+      <span>{line.text}</span>
+      {line.more && (
+        <button type="button" className="ss-trail-more nopan" onClick={onMore}>
+          More
+        </button>
+      )}
+    </div>
+  )
+  const answers = line && !hidden && (chips.length > 0 || extra) && (
+    <div className="ss-trail-chips nopan">
+      {chips.map((c) => (
+        <button key={c} type="button" className="ss-press ss-trail-chip" onClick={() => onChip(c)}>
+          {c}
+        </button>
+      ))}
+      {extra}
+    </div>
+  )
 
   return (
     <>
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {line?.text}
       </div>
+      {band && (
+        <Panel position="bottom-center" className="ss-trail-band">
+          <div className="shrink-0">
+            <KanaLive pose={pose} size={BAND_KANA} />
+          </div>
+          <div className="ss-trail-band-speech">
+            {words}
+            {answers}
+          </div>
+        </Panel>
+      )}
       <ViewportPortal>
         {SPARK_POOL.map((i) => (
           <span key={i} ref={(el) => void (sparks.current[i] = el)} className="ss-trail-spark" aria-hidden />
@@ -222,23 +249,8 @@ export function KanaOnBoard({ world, focusId, line, chips, hidden, pointer, onMo
         )}
         {spot && line && !hidden && (
           <div className="ss-trail-speech" style={{ left: spot.bubble.x, top: spot.bubble.y, width: spot.bubble.w, height: spot.bubble.h }}>
-            <div key={line.key} className={`ss-trail-bubble ss-trail-bubble-${line.tone}`}>
-              <span>{line.text}</span>
-              {line.more && (
-                <button type="button" className="ss-trail-more nopan" onClick={onMore}>
-                  More
-                </button>
-              )}
-            </div>
-            {chips.length > 0 && (
-              <div className="ss-trail-chips nopan">
-                {chips.map((c) => (
-                  <button key={c} type="button" className="ss-press ss-trail-chip" onClick={() => onChip(c)}>
-                    {c}
-                  </button>
-                ))}
-              </div>
-            )}
+            {words}
+            {answers}
           </div>
         )}
       </ViewportPortal>
