@@ -7,15 +7,16 @@ import { LessonTopBar } from '../stage/LessonTopBar'
 import { OpeningCard } from '../stage/OpeningCard'
 import ChatMouthpiece from '../ChatMouthpiece'
 import { StageContext, type StageValue, type HelpRequest } from '../stage/StageContext'
-import { ActionDock } from '../stage/ActionDock'
 import { InkyDock } from '../stage/InkyDock'
 import { TutorDrawer } from '../stage/TutorDrawer'
 import { StationScene } from '../stage/StationScene'
 import { LessonCompleteScene } from '../stage/LessonCompleteScene'
 import { CanvasContext } from '../canvasShared'
 import { TrailCanvas, type TrailCanvasHandle } from './TrailCanvas'
+import { TrailDock } from './TrailDock'
 import { TrailPlacementContext, type TrailPlacement } from './TrailFrame'
 import { useTrailModel } from './useTrailModel'
+import { trailAction, trailContinue } from '@/lib/studylab/trail/action'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
 import { continueFor, dockModel, cameraInsets, quietStage, type ContinueTarget } from '@/lib/studylab/spotlight'
 import { drawerKey } from '@/lib/studylab/drawerKey'
@@ -45,7 +46,7 @@ const NO_RESIZE = () => {}
 /**
  * The Trail look of a lesson: the same props as the classic stage, and the same
  * lesson underneath. It has its own board, whose positions are worked out from
- * the run; its dock, chat and top bar are the classic ones for now.
+ * the run and one button; its chat and top bar are the classic ones for now.
  */
 export default function TrailStage(props: LessonStageProps) {
   return (
@@ -59,7 +60,7 @@ function TrailStageInner(props: LessonStageProps) {
   const { subjectKey, rail, board, chat, onAdvance, onFocus, onHandIn, pointer = null, onShowNode, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children, trail } = props
   const phone = usePhone()
   const model = useTrailModel(props)
-  const { focusId, world } = model
+  const { focusId, world, nextInQueue } = model
   const canvas = useRef<TrailCanvasHandle>(null)
   const spotlight = useMemo(() => (focusId ? [focusId] : []), [focusId])
 
@@ -120,14 +121,14 @@ function TrailStageInner(props: LessonStageProps) {
       dockEl,
       focus: new Set(spotlight),
       owner,
-      continueFor: (nodeId) => continueFor(nodeId, { nodes: board.nodes, run: board.run, busy: chat.busy }),
+      continueFor: (nodeId) => trailContinue(nodeId, { nodes: board.nodes, run: board.run, busy: chat.busy }, nextInQueue),
       runContinue,
       claim,
       prefer,
       help,
       look: 'trail',
     }),
-    [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, runContinue, claim, prefer, help],
+    [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, nextInQueue, runContinue, claim, prefer, help],
   )
   const canvasValue = useMemo(
     () => ({
@@ -148,6 +149,8 @@ function TrailStageInner(props: LessonStageProps) {
   const last = latestLine(chat.messages)
   const failed = last?.retryAction ? (last.tone === 'refusal' ? 'refusal' : 'error') : null
   const view = dockModel({ ...flow, working: chat.working ?? 'Thinking…', failed })
+  const focusType = focusId ? (board.nodes.find((n) => n.id === focusId)?.type ?? null) : null
+  const action = trailAction({ view, claimed: owner !== null, run: board.run, focusType, nextInQueue, interlude: model.interlude, lookBack: null, detourFooter: false })
   // A check with questions left: Inky keeps its chips to itself.
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
   const [viewTick, setViewTick] = useState(0)
@@ -229,11 +232,11 @@ function TrailStageInner(props: LessonStageProps) {
                   pointer={pointer}
                   onReveal={onShowNode}
                 />
-                <ActionDock
+                <TrailDock
                   ref={setDockEl}
-                  view={view}
-                  claimed={owner !== null}
+                  action={action}
                   onContinue={runContinue}
+                  onGoToStation={model.endInterlude}
                   onSummary={() => setSummaryOpen(true)}
                   onProveIt={chat.onProveIt}
                   provingIt={chat.provingIt}

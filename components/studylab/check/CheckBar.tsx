@@ -1,11 +1,12 @@
 'use client'
 
-import { forwardRef } from 'react'
+import { forwardRef, useContext, useEffect } from 'react'
 import { Loader2 } from 'lucide-react'
 import type { CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarButton, type BarModel, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { moodForCheck } from '@/lib/studylab/inkyMood'
 import { InkyLine } from './InkyLine'
+import { StageContext } from '../stage/StageContext'
 import { SafeLatex } from '../canvasShared'
 
 const PRIMARY_FILL: Record<BarModel['tone'], string> = {
@@ -49,6 +50,14 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
 }>(function CheckBar({ state, options, onAction, line }, primaryRef) {
   const model = barModel(state, options)
   const text = line ?? model.line
+  // On the Trail the feedback is Kana's to say, and the primary is the one button.
+  const stage = useContext(StageContext)
+  const trail = stage?.look === 'trail'
+  const sayLine = stage?.sayLine
+  const tone = model.tone
+  useEffect(() => {
+    if (trail && text) sayLine?.(text, tone)
+  }, [trail, text, tone, sayLine])
   return (
     <div className="nodrag flex flex-col gap-2.5">
       {/* The result, for screen readers, in a region mounted with the bar:
@@ -59,7 +68,7 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
       </div>
       {/* Inky speaks when there is something to say, or while marking --
           not beside a Check waiting to be pressed. */}
-      {(text || state.phase === 'checking') && (
+      {!trail && (text || state.phase === 'checking') && (
         <InkyLine mood={moodForCheck(state.phase)} text={text} tone={model.tone} />
       )}
       <div className="flex items-center gap-2">
@@ -73,6 +82,7 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
             onAction={onAction}
             variant="primary"
             fill={PRIMARY_FILL[model.tone]}
+            trailClass={trail ? `ss-trail-go${model.tone === 'good' ? ' ss-trail-go-good' : ''}` : undefined}
           />
         )}
       </div>
@@ -94,7 +104,9 @@ const BarButtonView = forwardRef<HTMLButtonElement, {
   onAction: (action: BarAction) => void
   variant: 'primary' | 'secondary'
   fill?: string
-}>(function BarButtonView({ button, onAction, variant, fill }, ref) {
+  /** On the Trail the primary wears the one button's look instead of a fill. */
+  trailClass?: string
+}>(function BarButtonView({ button, onAction, variant, fill, trailClass }, ref) {
   const primary = variant === 'primary'
   return (
     <button
@@ -104,7 +116,9 @@ const BarButtonView = forwardRef<HTMLButtonElement, {
       aria-busy={button.busy || undefined}
       onClick={() => onAction(button.action)}
       className={
-        primary
+        trailClass
+          ? trailClass
+          : primary
           ? `ss-press inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-xl px-4 text-[13.5px] font-bold ${
               button.disabled && !button.busy ? 'cursor-not-allowed bg-ss-chip text-ss-slate shadow-none' : ''
             }`
@@ -113,7 +127,7 @@ const BarButtonView = forwardRef<HTMLButtonElement, {
       // Waiting for an answer: a quiet grey, not a faded version of the colour.
       // Text takes the panel colour, which flips with the theme: white on the
       // darker light-mode fills, near-black on the brighter dark-mode ones.
-      style={primary && !(button.disabled && !button.busy) ? { backgroundColor: fill, color: 'var(--ss-panel)' } : undefined}
+      style={!trailClass && primary && !(button.disabled && !button.busy) ? { backgroundColor: fill, color: 'var(--ss-panel)' } : undefined}
     >
       {button.busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
       {button.label}
