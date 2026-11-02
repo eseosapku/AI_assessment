@@ -4,6 +4,7 @@ import { createContext, useContext, useLayoutEffect, type ReactNode } from 'reac
 import { createPortal } from 'react-dom'
 import { useNodeId } from '@xyflow/react'
 import { dockCandidate, type ContinueTarget } from '@/lib/studylab/spotlight'
+import type { BarModel } from '@/lib/studylab/checkBarModel'
 
 /**
  * What a card on the board needs to know about the stage it sits on: whether
@@ -30,6 +31,10 @@ export interface StageValue {
    * the attempt. Absent where nothing can answer it (the demo).
    */
   help?: (nodeId: string, request: HelpRequest) => void
+  /** The Trail's stage: only the card in focus has a bar, and it is in the dock. */
+  look?: 'trail'
+  /** On the Trail, check feedback is said by Kana rather than beside the button. */
+  sayLine?: (text: string, tone: BarModel['tone']) => void
 }
 
 /** What a card sends on Get help: its question, and the learner's attempt in words. */
@@ -98,7 +103,7 @@ export function useDock(opts: { enabled?: boolean } = {}): {
           {createPortal(bar, stage.dockEl)}
           <JumpToBar dock={stage.dockEl} />
         </>
-      ) : candidate ? null : (
+      ) : candidate || stage?.look === 'trail' ? null : (
         bar
       ),
     engage: candidate && !docked ? { onPointerDownCapture: take, onFocusCapture: take } : {},

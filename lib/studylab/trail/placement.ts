@@ -18,6 +18,15 @@ export function isTrailCard(n: StudyNode): boolean {
 
 const isBlock = (n: StudyNode) => n.source === 'freeform' || isFreeform(n.type)
 
+const TITLE_MAX = 60
+
+/** What to call a card on a button or a ribbon: a question card has no title, only its question. */
+export function cardTitle(n: Pick<StudyNode, 'data'>): string {
+  const said = String(n.data.title ?? n.data.quiz?.question?.prompt ?? '').trim()
+  if (!said) return 'this card'
+  return said.length > TITLE_MAX ? `${said.slice(0, TITLE_MAX).trimEnd()}…` : said
+}
+
 /** The spotlight, minus what the Trail never draws. A focus that was only a check's header falls to the newest real card. */
 export function trailSpotlight(input: { nodes: StudyNode[]; run: LessonRun | null; explicit: string[] }): string[] {
   const { nodes, run } = input

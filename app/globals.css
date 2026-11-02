@@ -385,6 +385,153 @@
   pointer-events: none;
 }
 
+/* The Trail. One board, drawn from the run: plots, a tiled path, and cards that
+   slide and scale into place. The values are lib/studylab/trail/colours.ts. */
+.ss-trail {
+  --trail-tile-0: #0C6FAE;
+  --trail-tile-1: #0C86CE;
+  --trail-done-0: #047857;
+  --trail-done-1: #059669;
+  --trail-grid: #D5E0E7;
+  --trail-canvas: #E8EEF3;
+  --trail-rest: #5B6B78;
+  --trail-glide: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dark .ss-trail,
+.dark.ss-trail {
+  --trail-tile-0: #2ACBF2;
+  --trail-tile-1: #0C86CE;
+  --trail-done-0: #34D399;
+  --trail-done-1: #059669;
+  --trail-grid: #64748B;
+  --trail-canvas: #0a0a0a;
+  --trail-rest: #64748B;
+}
+.ss-trail .react-flow.ss-trail-canvas {
+  background: var(--trail-canvas);
+}
+.ss-trail .react-flow .react-flow__node {
+  transition: transform 1.1s var(--trail-glide);
+}
+/* A card keeps its own width and is scaled from the corner, so the box around it
+   is what React Flow and the layout see. A card is one surface, not a frame in a frame. */
+.ss-trail-frame {
+  position: relative;
+  transition: width 1.1s var(--trail-glide), height 1.1s var(--trail-glide);
+}
+.ss-trail-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+  transform-origin: 0 0;
+  transition: transform 1.1s var(--trail-glide);
+}
+.ss-trail-open {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  cursor: pointer;
+  background: transparent;
+}
+.ss-trail-open:hover {
+  outline: 3px solid var(--subject);
+  outline-offset: 2px;
+}
+.ss-trail-world,
+.ss-trail-world svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.ss-trail-plot {
+  transition: transform 1.1s var(--trail-glide);
+}
+.ss-trail-plot-shape {
+  pointer-events: all;
+  cursor: pointer;
+  fill: color-mix(in srgb, var(--trail-rest) 6%, transparent);
+  stroke: var(--trail-rest);
+  stroke-width: 4;
+  transition: width 1.1s var(--trail-glide), height 1.1s var(--trail-glide), fill 0.5s, stroke 0.5s;
+}
+.ss-trail-plot-future .ss-trail-plot-shape {
+  stroke-dasharray: 10 8;
+}
+.ss-trail-plot-next .ss-trail-plot-shape,
+.ss-trail-plot-current .ss-trail-plot-shape {
+  fill: var(--subject-soft);
+  stroke: var(--subject);
+}
+.ss-trail-plot-done .ss-trail-plot-shape {
+  fill: color-mix(in srgb, var(--ss-good) 12%, transparent);
+  stroke: var(--ss-good);
+}
+.ss-trail-badge rect {
+  fill: var(--trail-rest);
+  transition: fill 0.5s;
+}
+.ss-trail-plot-next .ss-trail-badge rect,
+.ss-trail-plot-current .ss-trail-badge rect {
+  fill: var(--subject);
+}
+.ss-trail-plot-done .ss-trail-badge rect {
+  fill: var(--ss-good);
+}
+.ss-trail-badge text {
+  fill: #fff;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+}
+.ss-trail-tile {
+  transition: transform 1.1s var(--trail-glide), fill 0.6s;
+}
+.ss-trail-link {
+  stroke: var(--trail-rest);
+  stroke-width: 3;
+  stroke-dasharray: 8 10;
+}
+.ss-trail-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ss-ink);
+  transition: transform 1.1s var(--trail-glide), width 1.1s var(--trail-glide);
+}
+.ss-trail-label span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.ss-trail-label-future span {
+  color: var(--ss-slate);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ss-trail .react-flow .react-flow__node,
+  .ss-trail-frame,
+  .ss-trail-card,
+  .ss-trail-plot,
+  .ss-trail-plot-shape,
+  .ss-trail-badge rect,
+  .ss-trail-tile,
+  .ss-trail-label {
+    transition: none;
+  }
+}
+
 /* The lesson spotlight: everything but the work in focus steps back. Still
    readable and clickable, and fully back on hover or keyboard focus. */
 .react-flow__node.ss-dim,

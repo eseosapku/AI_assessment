@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { blockSize } from '../blocks'
 import type { LessonRun } from '../lessonRun'
 import type { StudyNode } from '../types'
-import { assignBlocks, isTrailCard, placeCards, trailSpotlight, type PlacementInput } from './placement'
+import { cardTitle, assignBlocks, isTrailCard, placeCards, trailSpotlight, type PlacementInput } from './placement'
 import { focusOf, syncQueue, waitingIds } from './queue'
 import type { CardInput } from './types'
 
@@ -173,5 +173,17 @@ describe('placeCards', () => {
     expect(p.stations[1].focus?.natural).toEqual(blockSize('concept'))
     const measured = place({ run, nodes: [node('a', 2)], queue: { ids: ['a'], at: 0 }, sizes: { a: { w: 500, h: 321 } } })
     expect(measured.stations[1].focus?.natural).toEqual({ w: 500, h: 321 })
+  })
+})
+
+describe('cardTitle', () => {
+  const data = (d: object) => ({ data: d }) as never
+  it('a card says its own title', () => expect(cardTitle(data({ title: 'Demand' }))).toBe('Demand'))
+  it('a question card has no title, so it says its question', () => {
+    expect(cardTitle(data({ quiz: { question: { prompt: 'Why does it fall?' } } }))).toBe('Why does it fall?')
+  })
+  it('a long one is cut short, and one with nothing to say still reads', () => {
+    expect(cardTitle(data({ title: 'x'.repeat(90) })).length).toBeLessThanOrEqual(61)
+    expect(cardTitle(data({}))).toBe('this card')
   })
 })
