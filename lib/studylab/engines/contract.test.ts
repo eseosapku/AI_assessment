@@ -1,4 +1,6 @@
 // lib/studylab/engines/contract.test.ts
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -72,7 +74,7 @@ describe('the scenes a station is for', () => {
     const { scenesFor } = await import('./registry')
     expect(scenesFor('Changes of state: what happens to particles when ice melts').map((e) => e.id)).toContain('particles')
     expect(scenesFor('Why the Moon has phases -- phases of the Moon').map((e) => e.id)).toContain('orbit')
-    expect(scenesFor('Equivalent fractions')).toEqual([])
+    expect(scenesFor('Sonnets and rhyme schemes')).toEqual([])
   })
 
   it('gives a station the catalogue entries near its idea, not all of them', async () => {
@@ -82,7 +84,7 @@ describe('the scenes a station is for', () => {
     const station = sceneCatalogue('Melting and freezing: what happens to the particles in ice')
     expect(station).toContain('SCENE "particles"')
     expect(station).not.toContain('SCENE "orbit"')
-    expect(sceneCatalogue('Equivalent fractions')).toBe('')
+    expect(sceneCatalogue('Sonnets and rhyme schemes')).toBe('')
     // A word any topic might use is no sign of the idea: break-even is not 'Odd and even numbers'.
     await import('./business-finance/config')
     expect(sceneCatalogue('Odd and even numbers')).not.toContain('SCENE "business-finance"')
@@ -105,5 +107,58 @@ describe('the registry', () => {
   it('lists every engine, for the evals that hold each to the bar', async () => {
     const { engines } = await import('./registry')
     expect(engines().map((e) => e.id)).toContain('stub')
+  })
+})
+
+
+describe('the examples a scene shows the tutor', () => {
+  it('name the isolates the scene is registered with', async () => {
+    // A wrong one is copied, then refused: map-reader's example said magnitude, and the tutor lost 6 cards in 10 to it.
+    await import('./index')
+    const { engines } = await import('./registry')
+    const wrong = engines().flatMap((e) =>
+      [...e.prompt.matchAll(/"isolates":\s*"(\w+)"/g)].filter((m) => m[1] !== e.isolates).map((m) => `${e.id} says ${m[1]}, registered ${e.isolates}`))
+    expect(wrong).toEqual([])
+  })
+})
+
+describe('a view and its config import each other', () => {
+  // config.ts imports View.tsx to register it, so when the view's module runs, config's constants do not
+  // exist yet. Next crashes the whole page ("Cannot access 'COLS' before initialization"); Vitest quietly
+  // reads undefined, so no other test sees it. map-reader took the lesson page down this way.
+  const root = join(process.cwd(), 'lib/studylab/engines')
+  const scenes = readdirSync(root, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)
+
+  /** Each statement at the top of a file: `const NAME = initialiser`, read to where its brackets close. */
+  const topLevel = (source: string) => {
+    const out: { name: string; init: string }[] = []
+    for (const m of source.matchAll(/^(?:export )?const (\w+)[^=\n]*= /gm)) {
+      let depth = 0
+      let i = m.index + m[0].length
+      const start = i
+      for (; i < source.length; i++) {
+        const c = source[i]
+        if ('([{'.includes(c)) depth++
+        else if (')]}'.includes(c)) depth--
+        else if (c === '\n' && depth === 0) break
+      }
+      out.push({ name: m[1], init: source.slice(start, i) })
+    }
+    return out
+  }
+
+  it.each(scenes)('%s reads nothing from its config while it loads', (id) => {
+    const view = join(root, id, 'View.tsx')
+    const config = join(root, id, 'config.ts')
+    if (!existsSync(view) || !existsSync(config)) return
+    const source = readFileSync(view, 'utf8')
+    const imported = [...source.matchAll(/^import \{([^}]*)\} from '\.\/config'/gm)].flatMap((m) => m[1].split(',').map((n) => n.trim().split(' as ').pop()!.trim()).filter(Boolean))
+    const constants = new Set([...readFileSync(config, 'utf8').matchAll(/^export const (\w+)/gm)].map((m) => m[1]))
+    const risky = imported.filter((n) => constants.has(n))
+    const found = topLevel(source)
+      // A function's body runs later, once everything has loaded.
+      .filter(({ init }) => !/^(?:async\s+)?(?:\([^)]*\)|\w+)\s*(?::[^=]+)?=>/.test(init.trim()))
+      .flatMap(({ name, init }) => risky.filter((n) => new RegExp(`\\b${n}\\b`).test(init)).map((n) => `${name} uses ${n}`))
+    expect(found).toEqual([])
   })
 })

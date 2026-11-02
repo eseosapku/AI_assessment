@@ -28,11 +28,13 @@ const same = (a: string, b: string) => a === b || a + 's' === b || b + 's' === a
 /** Words any topic might use, which say nothing on their own about its idea ("changes" of state, of shape). */
 const GENERIC = ['chang', 'shape', 'model', 'make', 'making', 'using', 'happen', 'process', 'differen', 'type', 'between', 'effect', 'structur', 'graph', 'reading', 'drawing', 'number', 'simple', 'their', 'work', 'even', 'safe']
 
-/** One of the engine's phrases, its words side by side in the station. */
-const namesPhrase = (engine: SceneEngine<unknown, unknown>, station: string) => {
+/** Any of these phrases, its words side by side in the station. */
+const namesAny = (phrases: string[] | undefined, station: string) => {
   const said = ` ${words(station).join(' ')} `
-  return (engine.phrases ?? []).some((phrase) => said.includes(` ${words(phrase).join(' ')} `))
+  return (phrases ?? []).some((phrase) => said.includes(` ${words(phrase).join(' ')} `))
 }
+const namesPhrase = (engine: SceneEngine<unknown, unknown>, station: string) => namesAny(engine.phrases, station)
+const ruledOut = (engine: SceneEngine<unknown, unknown>, station: string) => namesAny(engine.notFor, station)
 
 /**
  * The catalogue entries for the tutor's prompts. Given a station, only the
@@ -49,7 +51,7 @@ export function sceneCatalogue(station?: string): string {
   const plural = (a: string, b: string) => a === b || a + 's' === b || b + 's' === a || a + 'es' === b || b + 'es' === a
   const said = words(station).filter(telling)
   return all
-    .filter((e) => namesPhrase(e, station) || e.covers.some((topic) => words(topic).some((w) => telling(w) && said.some((s) => plural(w, s)))))
+    .filter((e) => !ruledOut(e, station) && (namesPhrase(e, station) || e.covers.some((topic) => words(topic).some((w) => telling(w) && said.some((s) => plural(w, s))))))
     .map((e) => e.prompt)
     .join('\n\n')
 }
@@ -62,9 +64,9 @@ export function sceneCatalogue(station?: string): string {
 export function scenesFor(station: string): SceneEngine<unknown, unknown>[] {
   const said = words(station)
   return [...ENGINES.values()].filter((e) =>
-    namesPhrase(e, station) || e.covers.some((topic) => {
+    !ruledOut(e, station) && (namesPhrase(e, station) || e.covers.some((topic) => {
       const need = words(topic)
       return need.length > 0 && need.every((w) => said.some((s) => same(w, s)))
-    }),
+    })),
   )
 }

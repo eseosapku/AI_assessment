@@ -5,11 +5,11 @@ import { ReactFlowProvider } from '@xyflow/react'
 // The engine first: it registers itself, and its view comes with it.
 import {
   algorithmTracerEngine as engine, ALGORITHMS, BUGS, MAX_ITEMS, MAX_LINE_CHARS, MAX_ROWS, MAX_SORT_ITEMS, MAX_VALUE, MIN_ITEMS,
-  answerCells, canon, correctRun, expectedAnswer, explain, faultFound, faultLine, faultSaid, fixedLine, judgePredict, judgeTrace,
+  answerCells, canon, cellKey, correctRun, expectedAnswer, explain, faultFound, faultLine, faultSaid, fixedLine, judgePredict, judgeTrace,
   layout, lineText, predictSaid, readState, symptom, traceSaid, traceSolution,
   type AlgoId, type AlgorithmTracerConfig, type AlgorithmTracerState, type BugId, type Kind,
 } from './config'
-import { AlgorithmTracerView, arrayBefore, CELL_MIN, stripGeometry, TABLE_LABEL_WIDTH } from './View'
+import { AlgorithmTracerView, ArrayStrip, arrayBefore, CELL_MIN, stripGeometry, TABLE_LABEL_WIDTH } from './View'
 import { getEngine, sceneCatalogue, scenesFor } from '../registry'
 import type { SceneMarked } from '../types'
 import { meaningFaults } from '../../meaning'
@@ -736,7 +736,7 @@ describe('the algorithm-tracer scene on the board', () => {
     expect(words).toContain('Target = 7')
     expect(html).toContain('aria-label="Data: position 1 holds 4, position 2 holds 9, position 3 holds 2, position 4 holds 7, position 5 holds 5."')
     expect(html).toContain('<table')
-    for (const label of ['Start, Index', 'Start, Found', 'Pass 1, Index', 'Pass 5, Found', 'Finish, OUTPUT']) expect(html).toContain(`aria-label="${label}"`)
+    for (const label of ['Start, Index', 'Start, Found', 'Pass 1, Index', 'Pass 1, Found']) expect(html).toContain(`aria-label="${label}"`)
     expect(html).toContain('Next row')
     // Every cell the learner fills is empty.
     for (const m of html.matchAll(/<input[^>]*>/g)) expect(m[0]).toContain('value=""')
@@ -1013,5 +1013,42 @@ describe('the catalogue entry', () => {
       expect(b.what.length, b.id).toBeGreaterThan(30)
       expect(b.what, b.id).toMatch(/\.$/)
     }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// The drawing answers what the learner types, before anything is marked.
+
+describe('the drawing answers the trace table', () => {
+  const L = layout(TOTAL)
+  const passIndex = L.rows.findIndex((r) => r.kind === 'pass')
+  const filled = (r: number) => {
+    const row = L.rows[r]
+    return L.columns.filter((c) => row.cells[c.id] === 'fill')
+  }
+  it('says back only the typed value in a big box', () => {
+    const col = filled(0)[0]
+    const typed = view(TOTAL, { cells: { [cellKey(L.rows[0].id, col.id)]: '777' }, pick: null }, 'idle')
+    expect(typed).toContain('data-typed-box')
+    expect(text(typed)).toContain('777')
+    expect(view(TOTAL, { cells: {}, pick: null }, 'idle')).not.toContain('data-typed-box')
+  })
+  it('lights the data box the row reads, and only that one', () => {
+    const lit = renderToStaticMarkup(createElement(ArrayStrip, { values: [4, 9, 2], style: 'boxes', pointer: 2 }))
+    expect((lit.match(/data-lit/g) ?? []).length).toBe(1)
+    expect(renderToStaticMarkup(createElement(ArrayStrip, { values: [4, 9, 2], style: 'boxes' }))).not.toContain('data-lit')
+  })
+  it('never shows the true value before marking', () => {
+    const col = filled(0)[0]
+    const right = traceSolution(TOTAL)[cellKey(L.rows[0].id, col.id)]
+    const html = view(TOTAL, { cells: { [cellKey(L.rows[0].id, col.id)]: '777' }, pick: null }, 'idle')
+    expect(html).not.toContain(`value="${right}"`)
+    expect(text(html.match(/<div data-typed-box[\s\S]*?<\/div>/)![0])).not.toContain(`${right}`)
+  })
+  it('draws only the rows near the active one before marking, and all of them after', () => {
+    const before = view(TOTAL, { cells: {}, pick: null }, 'idle')
+    const after = view(TOTAL, { cells: {}, pick: null }, 'wrong')
+    const inputs = (h: string) => (h.match(/<input/g) ?? []).length
+    expect(inputs(before)).toBeLessThan(inputs(after))
   })
 })

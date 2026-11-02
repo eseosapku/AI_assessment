@@ -74,12 +74,13 @@ export function ArrayStrip({ values, style, pointer, pair }: {
             {on && <path d={`M ${s.cx - 5} 3 L ${s.cx + 5} 3 L ${s.cx} 12 Z`} fill={HOT} />}
             <rect
               x={s.x} y={s.y} width={s.w} height={s.h} rx={4}
-              fill={style === 'bars' ? (v === null ? PANEL : on ? HOT : BAR) : PANEL}
+              data-lit={on ? '' : undefined}
+              fill={style === 'bars' ? (v === null ? PANEL : on ? HOT : BAR) : on ? HOT : PANEL}
               stroke={on ? HOT : style === 'bars' ? (v === null ? SLATE : BAR) : SLATE}
               strokeWidth={on ? 3 : 2}
               strokeDasharray={v === null ? '4 3' : undefined}
             />
-            <text x={s.cx} y={s.valueY} textAnchor="middle" fontSize={14} fontWeight={800} fill={INK}>{v === null ? '?' : v}</text>
+            <text x={s.cx} y={s.valueY} textAnchor="middle" fontSize={14} fontWeight={800} fill={on && style === 'boxes' ? '#FFFFFF' : INK}>{v === null ? '?' : v}</text>
             <text x={s.cx} y={s.indexY} textAnchor="middle" fontSize={12} fontWeight={700} fill={SLATE}>{s.i}</text>
           </g>
         )
@@ -197,7 +198,7 @@ function Code({ lines, lit, pickable, frozen, pick, onPick, marked, faultAt }: {
 
 type Cells = Record<string, string>
 
-function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnly, truth }: {
+function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnly, truth, windowed }: {
   L: Layout
   refs: { current: Record<string, HTMLInputElement | null> }
   cells: Cells
@@ -209,6 +210,8 @@ function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnl
   readOnly: boolean
   /** Show the true value of every cell, not what was typed. */
   truth: boolean
+  /** Before marking, only the rows near the active one are drawn: one before it, one after. */
+  windowed?: boolean
 }) {
   const data = L.columns.filter((c) => /^D\d+$/.test(c.id))
   const plain = L.columns.filter((c) => !/^D\d+$/.test(c.id))
@@ -254,6 +257,7 @@ function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnl
       <tbody>
         {L.rows.map((row, r) => {
           const on = r === active
+          if (windowed && (r < active - 1 || r > active + 1)) return null
           return (
             <tr key={row.id} style={on ? { background: 'var(--subject-soft)' } : undefined}>
               <th scope="row" className="py-0.5 pl-1 pr-1 text-left">
@@ -325,7 +329,12 @@ function Note({ children }: { children: ReactNode }) {
  */
 export function AlgorithmTracerView({ config, state, setState, marked, locked }: SceneViewProps<AlgorithmTracerConfig, AlgorithmTracerState>) {
   const t = config.task
-  const [active, setActive] = useState(0)
+  // A saved card opens on the last row the learner filled, not back at the start.
+  const [active, setActive] = useState(() => {
+    if (t.kind !== 'trace' || t.unread?.length || t.values.length === 0) return 0
+    const { cells } = readState(state)
+    return layout(config).rows.reduce((last, row, i) => (Object.keys(row.cells).some((c) => (cells[cellKey(row.id, c)] ?? '').trim()) ? i : last), 0)
+  })
   const cellRefs = useRef<Record<string, HTMLInputElement | null>>({})
   const runRefs = useRef<Record<string, HTMLInputElement | null>>({})
   if (t.unread?.length || t.values.length === 0) return <p className="text-[12px] text-ss-slate">This scene could not be loaded.</p>
@@ -361,6 +370,16 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
     ? `Comparing Data[${pair[0]}] and Data[${pair[1]}].`
     : pointer !== undefined && row?.kind === 'pass' ? `Looking at Data[${pointer}].` : ''
 
+  // The variable the learner just typed in this row: the last filled cell, said back plainly.
+  let typedBox: { label: string; value: string } | null = null
+  if (t.kind === 'trace' && row && !shown) {
+    for (const c of L.columns) {
+      if (row.cells[c.id] !== 'fill') continue
+      const v = (s.cells[cellKey(row.id, c.id)] ?? '').trim()
+      if (v) typedBox = { label: c.label, value: v }
+    }
+  }
+
   const go = (to: number) => {
     const next = Math.max(0, Math.min(L.rows.length - 1, to))
     setActive(next)
@@ -382,10 +401,18 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
 
       <div className="rounded-xl bg-ss-chip px-1 py-1.5">
         <ArrayStrip values={shownArray} style={bars ? 'bars' : 'boxes'} pointer={pointer} pair={pair} />
-        <p className="px-1 text-[12px] font-semibold leading-snug text-ss-slate">
-          {`Data, positions 1 to ${t.values.length}`}{gv.map((g) => ` · ${g.name} = ${g.value}`).join('')}
-          {look && ` · ${look}`}
-        </p>
+        <div className="flex items-center gap-2 px-1">
+          <p className="min-w-0 flex-1 text-[12px] font-semibold leading-snug text-ss-slate">
+            {`Data, positions 1 to ${t.values.length}`}{gv.map((g) => ` · ${g.name} = ${g.value}`).join('')}
+            {look && ` · ${look}`}
+          </p>
+          {typedBox && (
+            <div data-typed-box="" className="flex shrink-0 flex-col items-center rounded-lg border-2 bg-ss-panel px-3 py-0.5" style={{ borderColor: BAR }} aria-label={`You typed ${typedBox.value} for ${typedBox.label}`}>
+              <span className="text-[12px] font-bold leading-tight text-ss-slate">{typedBox.label}</span>
+              <span className="max-w-[90px] truncate text-[22px] font-extrabold leading-tight tabular-nums text-ss-ink">{typedBox.value}</span>
+            </div>
+          )}
+        </div>
       </div>
 
       <Code
@@ -419,7 +446,7 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
           )}
           <TraceTable
             L={L} refs={cellRefs} cells={s.cells} active={Math.min(active, L.rows.length - 1)} setActive={setActive} onType={type}
-            judged={judged} readOnly={frozen} truth={shown}
+            judged={judged} readOnly={frozen} truth={shown} windowed={idle}
           />
           <div className="flex items-center gap-1.5">
             <button type="button" className={BUTTON} onClick={() => go(active - 1)} disabled={active <= 0}>Previous row</button>

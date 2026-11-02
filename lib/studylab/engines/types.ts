@@ -31,6 +31,11 @@ export interface SceneEngine<C, S> {
    * match alone: "completing the square" must not catch "square numbers".
    */
   phrases?: string[]
+  /**
+   * Phrases that rule the scene out even when a topic matches: "fractions" is right
+   * for a bar, "algebraic fractions" is not.
+   */
+  notFor?: string[]
   /** What the learner's actions vary, for the teaching-intent check. */
   isolates: Dimension
   /** The config as the engine reads it, or null when it cannot. */

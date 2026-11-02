@@ -1206,3 +1206,35 @@ describe('the measure-shape scene on the board', { timeout: 60_000 }, () => {
     }
   })
 })
+
+// ---------------------------------------------------------------------------
+// The drawing answers the typed reading, before anything is marked.
+
+describe('measure-shape: your reading is drawn on the instrument', () => {
+  const draw = (c: MeasureShapeConfig, reading?: string) =>
+    renderToStaticMarkup(createElement(MeasureShapeView, {
+      config: c, state: (reading === undefined ? { reading: '' } : { reading }) as never, setState: () => {}, marked: 'idle', reduced: false, locked: false,
+    }))
+  const cases: [string, MeasureShapeConfig, string][] = [
+    ['cylinder', CYL, '34'], ['thermometer', scale('read', 'thermometer', 23), '23'],
+    ['ruler', scale('read', 'ruler', 7.4), '7'], ['dial', scale('read', 'scales', 340), '300'],
+  ]
+  for (const [name, c, typed] of cases) {
+    it(`${name}: a pointer appears at the typed value, and not before`, () => {
+      expect(draw(c, typed)).toContain('data-your-reading')
+      expect(draw(c, typed)).toContain('your reading')
+      expect(draw(c)).not.toContain('data-your-reading')
+      expect(draw(c, 'abc')).not.toContain('data-your-reading')
+    })
+  }
+  it('moves with the number and says nothing about being right', () => {
+    const a = draw(CYL, '10'), b = draw(CYL, '30')
+    expect(a).not.toEqual(b)
+    expect(draw(CYL, '34')).not.toMatch(/Right|Not quite|correct|wrong/i)
+  })
+  it('a value off the scale draws no pointer and says so plainly', () => {
+    const html = draw(CYL, '9999')
+    expect(html).not.toContain('data-your-reading')
+    expect(html).toContain('off the end of this scale')
+  })
+})

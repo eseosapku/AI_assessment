@@ -6,7 +6,7 @@ import type {
 } from './config'
 import {
   GRID_COLS, GRID_ROWS, MINI, INSTRUMENT_NAMES, areaText, comparePair, compareSaid, divisionsOf, fmtTenths, makeSaid,
-  perimeterText, positionWords, readCells, readGridUnit, readScaleState, resolveScale, runsText, scaleSaid, scaleWords, READING_MAX,
+  parseReading, perimeterText, positionWords, readCells, readGridUnit, readScaleState, resolveScale, runsText, scaleSaid, scaleWords, READING_MAX,
   snapLevel, ticksOf,
 } from './config'
 
@@ -30,6 +30,7 @@ const HANDLE = '#1D4ED8'
 const SHADE = '#3B82D6'
 const OUTLINE = '#0B1D33'
 const LINES = '#AEBBC8'
+const YOURS = '#B3126E' // magenta: the learner's own reading
 
 // ---------------------------------------------------------------------------
 // Where everything sits on a scale: pure, so the tests can hold it to the bar
@@ -299,6 +300,46 @@ function Body({ inst, layout, t }: { inst: Instrument; layout: ScaleLayout; t: n
   )
 }
 
+
+/** The learner's typed reading, drawn on the instrument at exactly that value: it says nothing about whether it is right. */
+function YourReading({ inst, layout, t }: { inst: Instrument; layout: ScaleLayout; t: number }) {
+  const at = layout.at(t)
+  const text = { fill: YOURS, fontSize: 12, fontWeight: 800, fontFamily: 'system-ui, sans-serif' } as const
+  let mark: ReactNode
+  if (layout.shape === 'ruler') {
+    const lx = Math.min(layout.w - 44, Math.max(44, at.x))
+    mark = (
+      <g>
+        <line x1={at.x} y1={RULER_BOX.y - 44} x2={at.x} y2={RULER_BOX.y + 10} stroke={YOURS} strokeWidth={4} />
+        <path d={`M ${at.x - 7} ${RULER_BOX.y + 22} L ${at.x} ${RULER_BOX.y + 8} L ${at.x + 7} ${RULER_BOX.y + 22} Z`} fill={YOURS} />
+        <text x={lx} y={RULER_BOX.y - 50} textAnchor="middle" {...text}>your reading</text>
+      </g>
+    )
+  } else if (layout.shape === 'dial') {
+    const k = 100 / DIAL.needle
+    const x = DIAL.cx + (at.x - DIAL.cx) * k
+    const y = DIAL.cy + (at.y - DIAL.cy) * k
+    mark = (
+      <g>
+        <line x1={DIAL.cx} y1={DIAL.cy} x2={x} y2={y} stroke={YOURS} strokeWidth={4} strokeLinecap="round" />
+        <circle cx={x} cy={y} r={5} fill={YOURS} />
+        <text x={DIAL.cx} y={DIAL.cy + 88} textAnchor="middle" {...text}>your reading</text>
+      </g>
+    )
+  } else {
+    const right = VERT[inst === 'balance' ? 'balance' : inst === 'thermometer' ? 'thermometer' : 'cylinder'].x + 16
+    mark = (
+      <g>
+        <line x1={14} y1={at.y} x2={right} y2={at.y} stroke={YOURS} strokeWidth={4} />
+        <path d={`M 6 ${at.y - 7} L 20 ${at.y} L 6 ${at.y + 7} Z`} fill={YOURS} />
+        <rect x={6} y={at.y - 25} width={86} height={16} rx={3} fill={PLATE} />
+        <text x={10} y={at.y - 13} {...text}>your reading</text>
+      </g>
+    )
+  }
+  return <g data-your-reading="">{mark}</g>
+}
+
 /** Where a learner takes hold: beside the level, so the level itself stays in view. */
 function handlePoint(inst: Instrument, layout: ScaleLayout, t: number): { x: number; y: number; turn: number } {
   const at = layout.at(t)
@@ -372,6 +413,9 @@ function ScaleCard({ task, state, setState, marked, locked }: {
   }
 
   const handle = handlePoint(inst, layout, level)
+  const typed = !set ? parseReading(s.reading, r.unit) : null
+  const yours = typed && typed.ok && typed.t >= g.min && typed.t <= g.max ? typed.t : null
+  const offScale = !!typed && typed.ok && yours === null
   const picture = (
     <svg
       ref={svg}
@@ -400,6 +444,7 @@ function ScaleCard({ task, state, setState, marked, locked }: {
       <Ticks layout={layout} />
       <Labels layout={layout} />
       <UnitMark inst={inst} unit={g.unit} />
+      {yours !== null && <YourReading inst={inst} layout={layout} t={yours} />}
       {live && (
         <g
           role="slider"
@@ -432,6 +477,7 @@ function ScaleCard({ task, state, setState, marked, locked }: {
             {name.charAt(0).toUpperCase() + name.slice(1)}, in {g.unit}
           </figcaption>
         </figure>
+        {offScale && <p className="w-full text-center text-[12px] font-bold" style={{ color: YOURS }}>That number is off the end of this scale.</p>}
         {!set && (
           <div className="flex items-center gap-2">
             <label htmlFor={`${id}-reading`} className="text-[13px] font-bold text-ss-slate">Your reading</label>
