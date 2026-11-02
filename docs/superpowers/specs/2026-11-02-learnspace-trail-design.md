@@ -73,11 +73,7 @@ The tokens and assets come from the app, so the builder should not invent any.
   - the opening dives "through the square".
 
   Never use the BrainInk brain.
-- **Inky.** Use the real `components/studylab/inky/Inky.tsx` with its moods:
-  - talking while a line is new;
-  - happy on a right answer;
-  - concerned on a wrong one;
-  - celebrating at station end.
+- **The mascot is Kana, the StudySquare owl** (section 4.16). Kana replaces Inky in the Trail view. Wherever this document says "Inky", the Trail view shows Kana. The classic view keeps Inky until it is retired.
 - **Pressed buttons.** The primary button has a hard bottom shadow and travels down on press.
 
 ### 4.3 The opening
@@ -114,7 +110,7 @@ This replaces `PlanOpening`'s card list for the Trail view. Drafting states ("Dr
 ### 4.6 Inky and the chat are one voice
 - **Inky's place.** Inky stands on the board next to the focus card, with one large bubble (about 21 px, at most about 25 words) holding the tutor's latest line.
 - **One voice.** The bubble *is* the latest chat message. Open the chat and the bubble's lines are in it, and the bubble on the board hides while the chat is open.
-- **The chat.** It opens from an **"Ask Inky"** pill as a full-height panel about 460 px wide, with 18 px messages. It stays on the **left**, where the owner previously asked for it; the demo put it on the right, and that was not a request. The board re-centres to the remaining space.
+- **The chat.** It opens from an **"Ask Kana"** pill as a full-height panel about 460 px wide, with 18 px messages. It stays on the **left**, where the owner previously asked for it; the demo put it on the right, and that was not a request. The board re-centres to the remaining space.
 - **"Added to the board" notices go.** The camera flying to the new card is the notice.
 - **Reply chips** ("Makes sense" / "Not really") appear under the bubble on the board, not at the bottom of the chat.
 
@@ -169,7 +165,7 @@ After about three tries without "back", Inky **parks** it ("Let's park this and 
   - **×** to leave;
   - progress: one short pill per station (done green, current subject colour, rest grey) plus the station name, which opens the station list;
   - **⋯ Board**, a menu with: See the whole board, Back to my card, Zoom in, Zoom out, Add a block, Sound on/off, Try the new look / Back to the classic look.
-- **Bottom.** The action button sits at bottom centre, and the **Ask Inky** pill bottom-left.
+- **Bottom.** The action button sits at bottom centre, and the **Ask Kana** pill bottom-left.
 - **Nothing else is permanently on screen.** The Board tools, zoom and Add block toolbar move into the menu.
 
 ### 4.12 Station and lesson end
@@ -182,7 +178,7 @@ After about three tries without "back", Inky **parks** it ("Let's park this and 
 - **Lesson complete:** the whole board with every plot green, the trail fully green, and Inky celebrating. This is a Trail-styled version of `LessonCompleteScene`; the builder keeps its content.
 
 ### 4.13 Accessibility and motion
-- Every control is reachable by keyboard. Focus order: focus card → action button → Ask Inky → top bar.
+- Every control is reachable by keyboard. Focus order: focus card → action button → Ask Kana → top bar.
 - **Esc** closes the chat, then the ribbon. The ribbon and Inky's new lines are announced politely to screen readers.
 - Body text is at least 16 px everywhere and 18 px on the focus card. Text has 4.5:1 contrast, and parts that carry meaning have 3:1.
 - **Under reduced motion:**
@@ -228,6 +224,40 @@ These were the lead's calls, made without the owner. The owner was told them and
    - The check's two questions come one at a time.
    - Answers go on the picture only where the question already carries positions (tap and label figures). Otherwise the standard layout is used, enlarged.
    - Activities and scenes keep their own controls, except that those already using `useDock` (`ActivityFrame`, `PracticeNode`, `QuizNode`) route their action through the dock's button.
+
+### 4.16 Kana, the mascot
+The owner supplied the rig and approved a premium redraw (2026-11-02).
+- **Rig:** `.superpowers/mascot/kana-owl/`. Read its README and `src/Owl.tsx`: named parts, and the props `eyes`, `wing`, `wingT`, `beak`, `flap`, `talking`, `t`, `bob`, `tilt`, `look`, `blush`.
+- **Approved look:** `kana-premium.html`, in the brainstorm content folder.
+- **Never the `badge` outfit.** It has the brain on the belly. Kana always wears the suit.
+
+**The approved redraw.** Port it into a React component in the app (for example `components/studylab/kana/Kana.tsx`), keeping the rig's prop API so poses stay simple to call.
+- **Silhouette:** a rounded owl body, soft ear tufts, and a heart-shaped white face disc with a faint shadow under it.
+- **Eyes:** open eyes have a blue iris (`#0B7CC4`), an ink pupil (`#0F3A5C`) and two white catch-lights.
+- **Light:** the body in the brand gradient (`#2ACBF2 → #14A9EA → #0E92D6`) with a soft highlight on the head.
+- **Suit:** a gradient jacket, lapels in the body blue, a knotted ink tie, and the StudySquare four-tile mark as the lapel pin.
+- **Wings and feet:** feathered wings, raised and at rest; rounded toes.
+- **Edge:** a white sticker edge around the silhouette and raised wings, and a soft ground shadow, not on the owl.
+- **Colour:** only the brand blues, ink and white.
+
+**Poses.** The rig's set (happy, open, wink, think, talking, surprised, sleepy, wave) plus four new ones:
+
+| Pose | Used when | How it looks |
+|---|---|---|
+| **point** | Directing attention to the focus card | Right wing out, eyes on the card |
+| **fly** | Moving | Both wings beating, body leaning into the motion |
+| **celebrate** | A right answer, the end of a station | Both wings up, happy eyes, blush |
+| **concerned** | A wrong answer | Brows up, head tilted |
+
+**On the board.**
+- **Kana flies** when the focus moves to another card, station or detour: a short arc of about 1.5 s with wings beating and a trail of small StudySquare tiles. Kana lands beside the card with a small squash.
+- **Talking:** the beak moves while a new line appears in the bubble.
+- **A right answer:** a hop and a short burst of tiles.
+- **A wrong answer:** the concerned pose.
+- **Idle:** a gentle bob and a blink every few seconds.
+- **Under reduced motion,** Kana appears in place and changes pose, with no flight, trail, hop or confetti.
+
+**Sizes.** On the board Kana stands about 130–170 px tall. In small places (the Ask Kana pill, chat avatars) use the happy pose with no extra detail, as the rig's README advises for small sizes.
 
 ## 5. Left to the builder
 - **The trail and plot layout algorithm** for 4–8 stations. Its constraints: no overlaps among plots, labels, title or detour plots; a readable zoomed-out view; detours branch away from the next station's plot.
