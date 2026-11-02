@@ -1,5 +1,6 @@
 // components/studylab/activities/SortActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, SortPayload } from '@/lib/studylab/activities/types'
@@ -78,7 +79,7 @@ export function SortActivity({ id, spec, onOutcome, initialState }: {
               className={`nodrag flex cursor-grab items-center gap-1.5 active:cursor-grabbing touch-none rounded-lg border border-ss-line bg-ss-panel px-2.5 py-1.5 text-[12px] font-semibold text-ss-ink shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--ss-accent)] ${drag.dragId === item.id ? 'opacity-50' : ''}`}
             >
               <ItemArt item={item} />
-              {item.label}
+              <SafeLatex>{item.label}</SafeLatex>
             </motion.span>
           ))}
           {unplaced.length === 0 && (
@@ -96,7 +97,7 @@ export function SortActivity({ id, spec, onOutcome, initialState }: {
                   drag.overId === bin.id ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
                 }`}
               >
-                <p className="mb-1.5 text-[12px] font-bold uppercase tracking-widest text-ss-slate">{bin.label}</p>
+                <p className="mb-1.5 text-[12px] font-bold uppercase tracking-widest text-ss-slate"><SafeLatex>{bin.label}</SafeLatex></p>
                 <div className="flex flex-wrap gap-1.5">
                   {mine.map((i) => (
                     <motion.span

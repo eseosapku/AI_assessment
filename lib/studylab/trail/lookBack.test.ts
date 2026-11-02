@@ -2,6 +2,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import type { LessonRun } from '../lessonRun'
 import type { QuizCell, StudyNode, StudyNodeData } from '../types'
+import { applyActions } from '../actions'
 import { FOCUS_W, trailLayout } from './layout'
 import { canRetry, freshAttempt, openLookBack, sandboxCallbacks } from './lookBack'
 import { placeCards } from './placement'
@@ -102,5 +103,24 @@ describe('a turn while looking back', () => {
     const w = trailLayout({ stations: placed.stations, detours: placed.detours, focusWidth: FOCUS_W, speaker: true, reopened: { id: 'old', natural: { w: 300, h: 300 }, at: { x: 0, y: 0 } } })
     expect(w.cards.old.role).toBe('reopened')
     expect(w.cards.new.role).toBe('focus')
+  })
+})
+
+describe('a card the learner has already solved', () => {
+  const spec = { pattern: 'scenario', prompt: 'Label the three terminals.', payload: { situation: 'A circuit.', choices: [{ id: 'a', label: 'A', consequence: 'It lights.' }, { id: 'b', label: 'B', consequence: 'It stays dark.' }] }, success: { kind: 'exactSet', itemIds: ['a'] } } as never
+  const solved = { id: 'a', type: 'activity', position: { x: 0, y: 0 }, source: 'ai', data: { kind: 'activity', step: 1, spec, activityState: { status: 'solved', attempts: 1, hintsUsed: 0, elapsedMs: 0, rejectedMoves: [], work: {} } } } as unknown as StudyNode
+  const untouched = { ...solved, data: { ...solved.data, activityState: undefined } } as unknown as StudyNode
+  const state = (n: StudyNode) => ({ nodes: [n], edges: [] }) as never
+  const again = { type: 'createActivity', id: 'b', spec, step: 1 } as never
+
+  it('asking for the same prompt again makes a fresh card', () => {
+    const r = applyActions(state(solved), [again])
+    expect(r.created).toEqual(['b'])
+    expect(r.nodes.find((n) => n.id === 'b')?.data.activityState?.status).toBe('untouched')
+  })
+  it('a true duplicate, nobody having solved it, still goes to the one that exists', () => {
+    const r = applyActions(state(untouched), [again])
+    expect(r.created).toEqual([])
+    expect(r.effects).toMatchObject([{ kind: 'zoom', nodeId: 'a' }])
   })
 })

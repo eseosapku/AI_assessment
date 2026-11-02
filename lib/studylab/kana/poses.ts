@@ -66,6 +66,21 @@ export const FLIGHT_MS = 1500
 const FLIGHT_LIFT = 180
 
 /** Where Kana is, `k` (0..1) of the way through a flight: a quadratic arc, easing in and out. */
+const POKES: KanaPose[] = ['wink', 'surprised', 'celebrate']
+/** How far off the pointer has to be for her eyes to reach the edge. */
+const LOOK_REACH = 300
+
+/** What she does when tapped, in turn. */
+export function pokePose(times: number): KanaPose {
+  return POKES[times % POKES.length]
+}
+
+/** Where to look to see the pointer, as far as her eyes go. */
+export function lookAt(from: { x: number; y: number }, to: { x: number; y: number }): { x: number; y: number } {
+  const along = (d: number) => Math.max(-1, Math.min(1, d / LOOK_REACH))
+  return { x: along(to.x - from.x), y: along(to.y - from.y) }
+}
+
 export function flightPoint(from: { x: number; y: number }, to: { x: number; y: number }, k: number): { x: number; y: number } {
   const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2
   const q = (a: number, b: number, c: number) => (1 - e) * (1 - e) * a + 2 * (1 - e) * e * b + e * e * c

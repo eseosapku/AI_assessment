@@ -1,5 +1,6 @@
 // components/studylab/activities/BalanceActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { useMemo } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Check } from 'lucide-react'
@@ -63,7 +64,7 @@ function Chip({ item, showWeight, dragging, itemProps }: {
       className="nodrag flex cursor-grab items-center gap-1 touch-none rounded-lg bg-[color:var(--ss-accent)]/10 px-1.5 py-1 text-[12px] font-semibold leading-tight text-ss-accent active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--ss-accent)]"
     >
       <ItemArt item={item} />
-      <span>{item.label}</span>
+      <span><SafeLatex>{item.label}</SafeLatex></span>
       {showWeight && (
         <span className="text-[12px] font-bold opacity-70">
           {item.weight > 0 ? `+${item.weight}` : item.weight}

@@ -1,5 +1,6 @@
 // components/studylab/activities/CompareActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ComparePayload } from '@/lib/studylab/activities/types'
 import type { CompareWork } from '@/lib/studylab/activities/patterns/compare'
@@ -70,7 +71,7 @@ function Chip({ item, wrong, dragging, itemProps }: {
       }`}
     >
       <ItemArt item={item} />
-      <span>{item.label}</span>
+      <span><SafeLatex>{item.label}</SafeLatex></span>
     </motion.span>
   )
 }

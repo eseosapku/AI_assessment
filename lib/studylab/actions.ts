@@ -130,6 +130,10 @@ function findByMaterialPrompt(nodes: StudyNode[], prompt: string): StudyNode | u
   const p = prompt.trim().toLowerCase()
   return nodes.find((n) => {
     if (n.hidden) return false
+    // A card already solved is not a duplicate of a new one: the same prompt again
+    // is the tutor asking for another go, and sending the learner back to the old
+    // card would hand them their own finished answer.
+    if (n.data.activityState?.status === 'solved' || n.data.materialState?.status === 'solved') return false
     if (n.type === 'material') {
       return (n.data.materialSpec?.prompt ?? '').trim().toLowerCase() === p
     }

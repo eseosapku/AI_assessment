@@ -7,6 +7,7 @@ import type { LessonRun } from '../lessonRun'
 import { lessonSummary } from '../scenes'
 import { cameraInsets } from '../spotlight'
 import { cameraFor, easeOut, focusFraming, focusWidthFor, journeyFrame, panForKey, MIN_ZOOM } from './camera'
+import { lookAt, pokePose } from '../kana/poses'
 import { FOCUS_W, trailLayout } from './layout'
 import type { PlotInput } from './types'
 
@@ -134,5 +135,21 @@ describe('focusWidthFor', () => {
     expect(focusWidthFor(390)).toBe(358)
     const v = cameraFor({ x: 0, y: 0, w: focusWidthFor(390), h: 400 }, { w: 390, h: 844 }, cameraInsets(true))
     expect(v.zoom).toBe(1)
+  })
+})
+
+describe('poked', () => {
+  it('Kana reacts in turn, and comes round again', () => {
+    expect(pokePose(0)).toBe('wink')
+    expect(pokePose(1)).toBe('surprised')
+    expect(pokePose(2)).toBe('celebrate')
+    expect(pokePose(3)).toBe('wink')
+  })
+  it('looks toward the pointer, and no further than her eyes can go', () => {
+    expect(lookAt({ x: 100, y: 100 }, { x: 100, y: 100 })).toEqual({ x: 0, y: 0 })
+    expect(lookAt({ x: 100, y: 100 }, { x: 5000, y: 100 })).toEqual({ x: 1, y: 0 })
+    const near = lookAt({ x: 0, y: 0 }, { x: 100, y: 0 })
+    expect(near.x).toBeGreaterThan(0)
+    expect(near.x).toBeLessThan(1)
   })
 })

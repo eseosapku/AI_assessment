@@ -48,6 +48,14 @@ describe('where Kana waits with no card in focus', () => {
     expect(spot.kana.y).toBeGreaterThanOrEqual(plot.y)
     expect(spot.kana.x).toBeLessThan(plot.x + plot.w)
   })
+  it('her words stay inside the plot, clear of the trail', () => {
+    const w = world(['done', 'next', 'future'])
+    const { bubble } = restingSpot(w)!
+    const plot = w.plots[1].rect
+    expect(bubble.x).toBeGreaterThanOrEqual(plot.x)
+    expect(bubble.x + bubble.w).toBeLessThanOrEqual(plot.x + plot.w)
+    expect(bubble.y + bubble.h).toBeLessThanOrEqual(plot.y + plot.h)
+  })
   it('nowhere on the board before there are plots', () => {
     expect(restingSpot(world([]))).toBeNull()
   })

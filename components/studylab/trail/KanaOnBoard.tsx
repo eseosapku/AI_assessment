@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Panel, ViewportPortal } from '@xyflow/react'
-import { Kana } from '../kana/Kana'
+import { SafeLatex } from '../canvasShared'
+import { KanaLive } from './KanaLive'
 import { flightPoint } from '@/lib/studylab/kana/poses'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { pointSelector } from '@/lib/studylab/point'
@@ -16,39 +17,18 @@ const SAY_MS = 2400
 const BAND_KANA = 104
 const SPARK_EVERY_MS = 110
 const SPARKS = 10
-/** About 30 frames a second is plenty for an idle bob, and easy on a phone. */
-const FRAME_MS = 33
+/** How long the offer to ask her stays up after she is tapped. */
+const ASK_OFFER_MS = 5000
 
 const place = (el: HTMLElement, p: Point) => {
   el.style.transform = `translate(${p.x}px, ${p.y}px)`
-}
-
-/** Kana herself: bobbing, blinking and talking off a clock, or perfectly still under reduced motion. */
-function KanaLive({ pose, size = KANA_SIZE }: { pose: ReturnType<typeof kanaPoseFor>; size?: number }) {
-  const [t, setT] = useState<number | undefined>(undefined)
-  useEffect(() => {
-    if (prefersReducedMotion()) return
-    let raf = 0
-    let last = 0
-    const start = performance.now()
-    const tick = (now: number) => {
-      if (now - last >= FRAME_MS) {
-        last = now
-        setT((now - start) / 1000)
-      }
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [])
-  return <Kana size={size} pose={pose} t={t} title="Kana" />
 }
 
 /**
  * Kana on the board with the tutor's latest line. The bubble is the newest thing
  * said; open the chat and it hides, because the same line is there.
  */
-export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, bandKana = BAND_KANA, onAskBand, steppedBack, cheer, celebrating, pointer, onMore, onChip, onShowCard }: {
+export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, bandKana = BAND_KANA, onAskBand, steppedBack, cheer, celebrating, pointer, onMore, onChip, onShowCard, onSpeechHeight }: {
   world: TrailWorld
   focusId: string | null
   line: BubbleLine | null
@@ -73,6 +53,8 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
   onChip: (text: string) => void
   /** The tutor pointed at a card not in view: the camera goes there. */
   onShowCard: (rect: Rect) => void
+  /** How much room her words take, so the card sits clear of them. */
+  onSpeechHeight?: (height: number) => void
 }) {
   const spot = band ? null : (world.speaker ?? restingSpot(world))
   const target = spot?.kana ?? null
@@ -225,10 +207,40 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
     }
   }, [pointNode, pointPart, focusId])
 
+  // Tapping her: she reacts, and offers to talk.
+  const [askOffer, setAskOffer] = useState(false)
+  const askTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const offerToTalk = () => {
+    setAskOffer(true)
+    if (askTimer.current) clearTimeout(askTimer.current)
+    askTimer.current = setTimeout(() => setAskOffer(false), ASK_OFFER_MS)
+  }
+  useEffect(
+    () => () => {
+      if (askTimer.current) clearTimeout(askTimer.current)
+    },
+    [],
+  )
+
+  // Her strip on the board grows to fit what she says.
+  const [speech, setSpeech] = useState<HTMLDivElement | null>(null)
+  const reportHeight = useRef(onSpeechHeight)
+  reportHeight.current = onSpeechHeight
+  useEffect(() => {
+    if (!speech || typeof ResizeObserver === 'undefined') return
+    const report = () => reportHeight.current?.(speech.offsetHeight)
+    report()
+    const ro = new ResizeObserver(report)
+    ro.observe(speech)
+    return () => ro.disconnect()
+  }, [speech])
+
   const pose = kanaPoseFor({ flying, reaction: celebrating ? 'good' : reaction, talking, pointing: !!pointer })
   const words = line && !hidden && (
     <div key={line.key} className={`ss-trail-bubble ss-trail-bubble-${line.tone}`}>
-      <span>{line.text}</span>
+      <span>
+        <SafeLatex>{line.text}</SafeLatex>
+      </span>
       {line.more && (
         <button type="button" className="ss-trail-more nopan" onClick={onMore}>
           More
@@ -255,14 +267,11 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
       {band && (
         <Panel position="bottom-center" className="ss-trail-band">
           {onAskBand ? (
-            <button type="button" className="ss-press ss-trail-band-ask" onClick={onAskBand}>
-              <KanaLive pose={pose} size={bandKana} />
+            <KanaLive pose={pose} size={bandKana} label="Ask Kana" onPoke={onAskBand} className="ss-trail-band-ask">
               <span>Ask Kana</span>
-            </button>
+            </KanaLive>
           ) : (
-            <div className="shrink-0">
-              <KanaLive pose={pose} size={bandKana} />
-            </div>
+            <KanaLive pose={pose} size={bandKana} className="shrink-0" />
           )}
           <div className="ss-trail-band-speech">
             {words}
@@ -277,12 +286,17 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
         {spot && (
           <div ref={setMover} className={`ss-trail-kana${steppedBack ? ' ss-trail-kana-back' : ''}`} style={{ width: KANA_SIZE }}>
             <div ref={body} style={{ transformOrigin: '50% 100%' }}>
-              <KanaLive pose={pose} />
+              <KanaLive pose={pose} size={KANA_SIZE} onPoke={offerToTalk} />
             </div>
+            {askOffer && !hidden && (
+              <button type="button" className="ss-press ss-trail-ask-chip nopan" onClick={onMore}>
+                Ask Kana
+              </button>
+            )}
           </div>
         )}
         {spot && line && !hidden && (
-          <div className="ss-trail-speech" style={{ left: spot.bubble.x, top: spot.bubble.y, width: spot.bubble.w, height: spot.bubble.h }}>
+          <div ref={setSpeech} className="ss-trail-speech" style={{ left: spot.bubble.x, top: spot.bubble.y, width: spot.bubble.w }}>
             {words}
             {answers}
           </div>

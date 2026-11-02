@@ -1,5 +1,6 @@
 // components/studylab/activities/ThreePeriodActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { useEffect, useMemo, useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ThreePeriodPayload } from '@/lib/studylab/activities/types'
@@ -100,7 +101,7 @@ export function ThreePeriodActivity({ id, spec, onOutcome, initialState }: {
       >
         <div ref={rootRef} className="flex flex-col items-center gap-3 py-2">
           <ItemArt item={item} size={112} named />
-          <p className="text-[13px] font-semibold text-ss-ink">This is {item.label}.</p>
+          <p className="text-[13px] font-semibold text-ss-ink">This is <SafeLatex>{item.label}</SafeLatex>.</p>
           <button
             type="button"
             onClick={() => (isLast ? setPhase(1) : setPresentIdx(presentIdx + 1))}
@@ -125,7 +126,7 @@ export function ThreePeriodActivity({ id, spec, onOutcome, initialState }: {
         hint={a.hint} hintAvailable={a.hintAvailable} onHint={a.showHint}
       >
         <div ref={rootRef} className="flex flex-col gap-3">
-          <p className="text-center text-[13px] font-semibold text-ss-ink">Show me: {target.label}</p>
+          <p className="text-center text-[13px] font-semibold text-ss-ink">Show me: <SafeLatex>{target.label}</SafeLatex></p>
           <div className="flex flex-wrap justify-center gap-2.5">
             {options.map((item, k) => (
               <motion.button

@@ -1,13 +1,13 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, MotionConfig, useAnimationControls, useReducedMotion } from 'framer-motion'
 import { Handle, Position } from '@xyflow/react'
 import { Lightbulb, Check, Hand } from 'lucide-react'
-import { handleClass } from '../canvasShared'
+import { handleClass, SafeLatex } from '../canvasShared'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { isLiveChange, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
-import { useDock } from '../stage/StageContext'
+import { StageContext, useDock } from '../stage/StageContext'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { CheckBar, toneBorder } from '../check/CheckBar'
 
@@ -51,6 +51,9 @@ const MATERIAL_BAR: BarOptions = {
   canSkip: true,
 }
 
+/** An activity keeps no check state of its own: its work can always be checked. */
+const READY_TO_CHECK: CheckFlowState = { mode: 'learn', phase: 'ready', attempts: 0 }
+
 /**
  * Shared chrome for every activity.
  *
@@ -84,7 +87,11 @@ export function ActivityFrame({
   const reduced = useReducedMotion() ?? false
   // Only a frame with the shared bar takes the dock; a legacy activity draws
   // its own controls, and claiming the dock would leave it empty.
-  const dock = useDock({ enabled: !!(checkState && onCheckAction) })
+  // On the Trail an activity's own Check goes there too: it is the one button, and
+  // down on a tall card it sat out of sight while the dock offered Continue.
+  const trail = useContext(StageContext)?.look === 'trail'
+  const ownCheck = trail && !checkState && !!onCheck && !solved
+  const dock = useDock({ enabled: !!(checkState && onCheckAction) || ownCheck })
   const bar = barOptionsFor({ ...MATERIAL_BAR, hasHelp: !!(dock.help && attempt) }, dock.docked, dock.cont)
   const tone = checkState ? barModel(checkState, bar).tone : 'neutral'
   // Solved: the surface gives one little hop. A miss sways it. Driven by
@@ -131,7 +138,7 @@ export function ActivityFrame({
             <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: 'var(--subject-soft)' }}>
               <Hand className="h-3.5 w-3.5 text-ss-subject" />
             </span>
-            <p className="text-[13px] font-semibold leading-snug text-ss-ink">{prompt}</p>
+            <p className="text-[13px] font-semibold leading-snug text-ss-ink"><SafeLatex>{prompt}</SafeLatex></p>
           </div>
 
           <motion.div
@@ -160,7 +167,8 @@ export function ActivityFrame({
             )
           ) : (
             <div className="flex items-center gap-2">
-              {onCheck && !solved && (
+              {ownCheck && dock.place(<CheckBar state={READY_TO_CHECK} options={bar} onAction={(a) => (a === 'continue' ? dock.onContinue() : onCheck?.())} />)}
+              {!trail && onCheck && !solved && (
                 <button
                   type="button"
                   onClick={onCheck}
@@ -193,7 +201,7 @@ export function ActivityFrame({
                 initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
                 className="rounded-lg border border-amber-300/40 bg-amber-50 px-3 py-2 text-[12px] text-amber-800 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300"
               >
-                {hint}
+                <SafeLatex>{hint}</SafeLatex>
               </motion.p>
             )}
             {revealed && reveal && (
@@ -204,7 +212,7 @@ export function ActivityFrame({
                 style={{ backgroundColor: 'var(--subject-soft)', borderColor: 'color-mix(in srgb, var(--subject) 30%, transparent)' }}
               >
                 <p className="text-[12px] font-bold uppercase tracking-widest text-ss-subject-ink">What you just found</p>
-                <p className="mt-1 text-[12.5px] leading-relaxed text-ss-ink">{reveal}</p>
+                <p className="mt-1 text-[12.5px] leading-relaxed text-ss-ink"><SafeLatex>{reveal}</SafeLatex></p>
               </motion.div>
             )}
           </AnimatePresence>

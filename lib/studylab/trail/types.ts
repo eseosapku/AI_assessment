@@ -48,6 +48,10 @@ export interface TrailLayoutInput {
   focusWidth: number
   /** Whether Kana and the bubble stand on the board above the focus card. */
   speaker: boolean
+  /** How tall her strip is, from what she is saying now. Default SPEAKER_H. */
+  speakerH?: number
+  /** How tall the focus card can be and still be on screen, when that is known. */
+  focusRoom?: number
   /** A finished card opened again, over the plot in view. Its own slot stays empty. */
   reopened?: { id: string; natural: Size; at: Point } | null
 }

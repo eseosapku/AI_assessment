@@ -27,12 +27,13 @@ describe('statementOf', () => {
   it('a card with only items leads with the first', () => {
     expect(statementOf(concept({ items: ['a', 'b'] }))).toEqual({ statement: 'a', rest: '', items: ['b'] })
   })
-  it('a first sentence too long to be a statement is cut, and the whole of it folds', () => {
+  it('a first sentence too long to be a statement is not cut: it is all body', () => {
     const body = Array.from({ length: 60 }, (_, i) => `w${i}`).join(' ')
-    const r = statementOf(concept({ body }))
-    expect(r.statement.split(' ').length).toBeLessThanOrEqual(30)
-    expect(r.statement.endsWith('…')).toBe(true)
-    expect(r.rest).toBe(body)
+    expect(statementOf(concept({ body }))).toEqual({ statement: '', rest: body, items: [] })
+  })
+  it('a glossary term is never cut in half', () => {
+    const body = 'A transistor reaches [[saturation|the point where it conducts. All it can.]] at high voltage. Then more.'
+    expect(statementOf(concept({ body })).statement).toBe('A transistor reaches [[saturation|the point where it conducts. All it can.]] at high voltage.')
   })
   it('an empty card has nothing to say', () => {
     expect(statementOf(concept({}))).toEqual({ statement: '', rest: '', items: [] })
@@ -52,14 +53,12 @@ describe('checkSteps', () => {
 })
 
 describe('the concept card', () => {
-  it('the statement big, details folded, nothing more', () => {
-    const html = renderConcept({ title: 'Demand', body: 'Demand falls. More here.' })
+  it('the statement big, and the whole of the text under it', () => {
+    const html = renderConcept({ title: 'Demand', body: 'Demand falls. More here.', items: ['A point'] })
     expect(html).toContain('Demand falls.')
-    expect(html).toContain('Tell me more')
-    expect(html).not.toContain('More here.')
-  })
-  it('with nothing folded, nothing to unfold', () => {
-    expect(renderConcept({ title: 'Demand', body: 'Demand falls.' })).not.toContain('Tell me more')
+    expect(html).toContain('More here.')
+    expect(html).toContain('A point')
+    expect(html).not.toContain('Tell me more')
   })
   it('offers a way to go deeper', () => {
     expect(renderConcept({ title: 'Demand', body: 'Demand falls.' })).toContain('Go deeper')
@@ -77,9 +76,10 @@ describe('the concept card', () => {
 })
 
 describe('the result on the Trail', () => {
-  it('a wrong answer drops the red, and classic keeps it', () => {
-    expect(badge('wrong', true)).not.toContain('--ss-bad')
-    expect(badge('wrong', false)).toContain('--ss-bad')
+  it('wrong and right are told apart at a glance: red cross, green tick', () => {
+    expect(badge('wrong', true)).toContain('--ss-bad')
+    expect(renderToStaticMarkup(createElement(StageContext.Provider, { value: stage }, createElement(ResultBadge, { kind: 'answer' })))).toContain('--ss-good')
+    expect(renderToStaticMarkup(createElement(ResultBadge, { kind: 'answer' }))).toContain('--ss-slate')
   })
   it('a right answer is a bigger green tile', () => {
     expect(badge('correct', true)).toContain('--ss-good')

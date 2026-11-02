@@ -171,3 +171,35 @@ describe('trailLayout', () => {
     }
   })
 })
+
+describe('a speech that needs more room', () => {
+  it('pushes the card down rather than running over it', () => {
+    const input = oneCurrent({ focus: card('f', 640) })
+    const roomy = trailLayout({ ...input, speakerH: 320 })
+    expect(roomy.speaker!.bubble.h).toBe(320)
+    expect(roomy.cards.f.y).toBeGreaterThanOrEqual(roomy.speaker!.bubble.y + 320)
+    expect(roomy.speaker!.frame.h).toBeGreaterThan(trailLayout(input).speaker!.frame.h)
+  })
+  it('a column of small filed cards takes only the room they need', () => {
+    const detour = { id: 'x', station: 0, focus: card('d', 640), filed: [card('old', 300)] }
+    const w = trailLayout({ ...allFuture(3), detours: [detour] })
+    expect(w.cards.d.x - (w.cards.old.x + w.cards.old.w)).toBeLessThan(120)
+  })
+})
+
+describe('a tall card in focus', () => {
+  const tall = { id: 'f', type: 'activity', natural: { w: 420, h: 800 } }
+  it('comes down to fit the screen, so its controls are not under the button', () => {
+    const big = trailLayout(oneCurrent({ focus: tall }))
+    const fitted = trailLayout({ ...oneCurrent({ focus: tall }), speakerH: 176, focusRoom: 1200 })
+    expect(fitted.cards.f.h).toBeLessThan(big.cards.f.h)
+    expect(fitted.cards.f.h).toBeLessThanOrEqual(1200 - 176)
+  })
+  it('stays big enough to read', () => {
+    expect(trailLayout({ ...oneCurrent({ focus: tall }), focusRoom: 300 }).cards.f.scale).toBeGreaterThanOrEqual(1.15)
+  })
+  it('a short card is left alone', () => {
+    const short = { id: 'f', type: 'quiz', natural: { w: 640, h: 300 } }
+    expect(trailLayout({ ...oneCurrent({ focus: short }), focusRoom: 700 }).cards.f.w).toBe(640)
+  })
+})

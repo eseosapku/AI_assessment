@@ -99,6 +99,21 @@ describe('the chat', () => {
     expect(html).not.toContain('Added to the board')
     expect(renderChat({ messages: [{ role: 'assistant', content: 'Hi', actions: [conceptAction] }] })).toContain('Added to the board')
   })
+  it('renders emphasis and glossary terms, rather than showing their marks', () => {
+    const html = renderChat({ messages: [say('How you *control* each one, and [[gain|how much bigger]].')] })
+    expect(html).not.toContain('*control*')
+    expect(html).not.toContain('[[gain')
+    expect(html).toContain('control')
+  })
+  it('in the Trail look an old plan is not repeated: the plan is on the board', () => {
+    const old: ChatMessage = { role: 'assistant', kind: 'plan', content: '', plan: { steps: [{ id: 's', title: 'Doping', goal: 'g', measured: null, locked: false }], questions: [], live: false } }
+    expect(renderChat({ look: 'trail', messages: [old] })).not.toContain('Doping')
+    expect(renderChat({ messages: [old] })).toContain('Doping')
+  })
+  it('in the Trail look suggestions stay under the bubble, not in the chat', () => {
+    const html = renderToStaticMarkup(createElement(ChatMouthpiece, { suggestions: ['Show me another'], busy: false, done: false, onSend: () => {}, messages: [say('Hi')], look: 'trail' }))
+    expect(html).not.toContain('Show me another')
+  })
   it('a turn whose only content was built cards says nothing in the Trail look', () => {
     const turn: ChatMessage = { role: 'assistant', content: '', actions: [conceptAction] }
     const avatars = (html: string) => html.split('<svg').length

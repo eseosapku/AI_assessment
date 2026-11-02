@@ -20,6 +20,9 @@ const isBlock = (n: StudyNode) => n.source === 'freeform' || isFreeform(n.type)
 
 const TITLE_MAX = 60
 
+/** What Kana says on the way back from a detour. */
+export const reminderOf = (n: Pick<StudyNode, 'data'>) => `Back where you were: ${cardTitle(n)}`
+
 /** What to call a card on a button or a ribbon: a question card has no title, only its question. */
 export function cardTitle(n: Pick<StudyNode, 'data'>): string {
   const said = String(n.data.title ?? n.data.quiz?.question?.prompt ?? '').trim()

@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { chatEmphasis } from '@/lib/studylab/chatFade'
-import Latex from 'react-latex-next'
 import { PlanCard } from './PlanCard'
 import { QuestionPicker } from './QuestionPicker'
 import { Send, Sparkles, ImagePlus, X, ArrowRight, Volume2, VolumeX } from 'lucide-react'
 import { Inky } from './inky/Inky'
 import { Kana } from './kana/Kana'
+import { KanaLive } from './trail/KanaLive'
+import { SafeLatex } from './canvasShared'
 import { useMuted } from '@/lib/studylab/sound'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
 import { plainTitle } from '@/lib/studylab/actions'
-import { toDollarMath } from '@/lib/studylab/mathText'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5 MB
@@ -23,16 +23,6 @@ function readFileAsDataUrl(file: File): Promise<string> {
     reader.onerror = reject
     reader.readAsDataURL(file)
   })
-}
-
-function SafeLatex({ children }: { children?: string }) {
-  if (!children) return null
-  const text = toDollarMath(children)
-  try {
-    return <Latex>{text}</Latex>
-  } catch {
-    return <>{text}</>
-  }
 }
 
 export interface ChatMouthpieceProps {
@@ -116,6 +106,8 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   const [attachError, setAttachError] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fade = chatEmphasis(messages)
+  const trail = look === 'trail'
+  const avatar = trail ? <span className="ss-chat-avatar"><Kana simple pose="happy" size={40} /></span> : <Inky size={28} className="shrink-0 mt-0.5" />
   const fileRef = useRef<HTMLInputElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -177,12 +169,12 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   }
 
   return (
-    <div className={`flex flex-col h-full bg-white dark:bg-[#161617]${look === 'trail' ? ' ss-trail-chat' : ''}`}>
+    <div className={`flex flex-col h-full${trail ? ' ss-trail-chat' : ' bg-white dark:bg-[#161617]'}`}>
       {/* Header */}
-      <div className="flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-800">
-        {look === 'trail' ? <Kana simple pose="happy" size={34} /> : <Inky size={34} mood={busy ? 'thinking' : 'idle'} />}
+      <div className={trail ? 'ss-chat-head' : 'flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-800'}>
+        {trail ? <KanaLive pose={busy ? 'think' : 'happy'} size={64} still={!focusInput} /> : <Inky size={34} mood={busy ? 'thinking' : 'idle'} />}
         <div className="leading-tight">
-          <p className="font-semibold text-[14px]">{look === 'trail' ? 'Kana' : 'Inky'}</p>
+          <p className={trail ? 'ss-chat-name' : 'font-semibold text-[14px]'}>{trail ? 'Kana' : 'Inky'}</p>
           <p className="text-[12px] text-ss-slate">Your tutor</p>
         </div>
         <MuteToggle />
@@ -210,7 +202,9 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         {messages.length === 0 && !busy && (
           <p className="text-sm text-ss-slate text-center mt-8">Starting your session…</p>
         )}
-        {messages.map((m, i) => (<Fade key={i} older={i < fade.before}>{
+        {messages.map((m, i) => (<Fade key={i} older={!trail && i < fade.before}>{
+          // On the Trail the plan is on the board; an old draft is not worth repeating.
+          trail && m.kind === 'plan' && !m.plan?.live ? null :
           // A turn that said nothing and built nothing is not a turn. One left
           // a bare avatar floating in the transcript with no bubble beside it,
           // which reads as the tutor having failed rather than as nothing
@@ -219,7 +213,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           m.role === 'assistant' &&
           m.kind !== 'plan' &&
           !m.content?.trim() &&
-          (look === 'trail' || builtCards(m.actions).length === 0) ? null :
+          (trail || builtCards(m.actions).length === 0) ? null :
           // A status line is the system reporting what an action did, not the
           // tutor speaking. It gets no avatar and no bubble, so the transcript
           // still reads as a conversation with the run's bookkeeping beside it.
@@ -235,7 +229,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             </div>
           ) : m.role === 'assistant' ? (
             <div key={i} className="flex gap-2.5">
-              {look === 'trail' ? <span className="shrink-0 mt-0.5"><Kana simple pose="happy" size={28} /></span> : <Inky size={28} className="shrink-0 mt-0.5" />}
+              {avatar}
               {/* Rendered by kind. A proposed plan, a refusal, an error and an
                   ordinary teaching line used to be the same grey bubble, so
                   nothing in the conversation read as more important than
@@ -243,7 +237,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               {(m.kind === 'plan' && m.plan?.live) || (m.kind === 'homework' && m.sheet?.live) ? (
                 // The live card is on the board, where the lesson begins; the
                 // conversation keeps a pointer to it, not a second copy.
-                <div className="rounded-2xl rounded-tl-sm bg-ss-chip px-3.5 py-2.5 text-[13.5px] font-semibold leading-relaxed text-ss-ink dark:bg-white/5">
+                <div className={trail ? 'ss-chat-say' : 'rounded-2xl rounded-tl-sm bg-ss-chip px-3.5 py-2.5 text-[13.5px] font-semibold leading-relaxed text-ss-ink dark:bg-white/5'}>
                   {m.kind === 'plan' ? 'Your plan is on the board.' : 'Pick your questions on the board.'}
                 </div>
               ) : m.kind === 'homework' && m.sheet ? (
@@ -271,14 +265,14 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   />
                 </div>
               ) : m.kind === 'refusal' ? (
-                <div className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
+                <div className={trail ? 'ss-chat-say ss-chat-warn whitespace-pre-wrap' : 'rounded-2xl rounded-tl-sm border border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap'}>
                   <SafeLatex>{m.content}</SafeLatex>
                   {m.retryAction && onRetry && i === messages.length - 1 && (
                     <RetryButton onClick={() => onRetry(m.retryAction!)} disabled={busy} />
                   )}
                 </div>
               ) : m.kind === 'error' ? (
-                <div role="alert" className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-bad)]/40 bg-[color:var(--ss-bad)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
+                <div role="alert" className={trail ? 'ss-chat-say ss-chat-warn whitespace-pre-wrap' : 'rounded-2xl rounded-tl-sm border border-[color:var(--ss-bad)]/40 bg-[color:var(--ss-bad)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap'}>
                   <SafeLatex>{m.content}</SafeLatex>
                   {/* Only on the latest message: an old error retrying an old action would surprise. */}
                   {m.retryAction && onRetry && i === messages.length - 1 && (
@@ -286,11 +280,11 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   )}
                 </div>
               ) : (
-                <div className="max-w-[85%] space-y-1.5">
+                <div className={trail ? 'min-w-0 flex-1' : 'max-w-[85%] space-y-1.5'}>
                   {m.content && (
                     <div
-                      className={`rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap ${i === fade.lit ? 'text-ss-ink' : 'bg-ss-chip dark:bg-white/5'}`}
-                      style={i === fade.lit ? { backgroundColor: 'color-mix(in srgb, var(--subject) 13%, var(--ss-panel))', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--subject) 30%, transparent)' } : undefined}
+                      className={trail ? 'ss-chat-say whitespace-pre-wrap' : `rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap ${i === fade.lit ? 'text-ss-ink' : 'bg-ss-chip dark:bg-white/5'}`}
+                      style={!trail && i === fade.lit ? { backgroundColor: 'color-mix(in srgb, var(--subject) 13%, var(--ss-panel))', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--subject) 30%, transparent)' } : undefined}
                     >
                       <SafeLatex>{m.content}</SafeLatex>
                     </div>
@@ -299,7 +293,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                       "Here's how it ionizes — see the card" is only useful if
                       the card is findable; and a turn that built nothing now
                       visibly lists nothing. */}
-                  {look !== 'trail' && builtCards(m.actions).map((c) => (
+                  {!trail && builtCards(m.actions).map((c) => (
                     <button
                       key={c.id}
                       type="button"
@@ -326,7 +320,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             </div>
           ) : (
             <div key={i} className="flex justify-end">
-              <div className="rounded-2xl rounded-tr-sm bg-ss-accent text-white px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
+              <div className={trail ? 'ss-chat-you whitespace-pre-wrap' : 'rounded-2xl rounded-tr-sm bg-ss-accent text-white px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap'}>
                 {m.imageUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -343,8 +337,8 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
         {busy && (
           <div className="flex gap-2.5">
-            {look === 'trail' ? <span className="shrink-0"><Kana simple pose="think" size={28} /></span> : <Inky size={28} mood="thinking" className="shrink-0" />}
-            <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-2">
+            {trail ? <span className="ss-chat-avatar"><Kana simple pose="think" size={40} /></span> : <Inky size={28} mood="thinking" className="shrink-0" />}
+            <div className={trail ? 'ss-chat-say flex items-center gap-2' : 'rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-2'}>
               <span className="flex items-center gap-1.5" aria-hidden>
                 <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.3s]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.15s]" />
@@ -361,7 +355,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
       {/* Suggestions. Continue is not here any more: the bar under the work
           is the one control that moves the lesson on. */}
-      {!busy && suggestions.length > 0 && !done && (
+      {!trail && !busy && suggestions.length > 0 && !done && (
         <div data-tour="lesson-chips" className="px-4 pb-2 flex flex-col gap-2">
           {suggestions.map((s, i) => (
             <button
@@ -376,7 +370,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
       )}
 
       {/* Input */}
-      <div className="p-3 border-t border-gray-100 dark:border-gray-800">
+      <div className={trail ? 'ss-chat-foot' : 'p-3 border-t border-gray-100 dark:border-gray-800'}>
         {attachment && (
           <div className="mb-2 relative inline-block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -393,7 +387,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         {attachError && <p className="text-[12px] text-red-500 mb-1.5">{attachError}</p>}
         <div
           data-tour="lesson-composer"
-          className="flex items-end gap-2 rounded-2xl border border-ss-line bg-ss-chip dark:bg-black/30 px-3 py-2 focus-within:ring-2 focus-within:ring-[color:var(--ss-accent)]/40"
+          className={trail ? 'ss-chat-box' : 'flex items-end gap-2 rounded-2xl border border-ss-line bg-ss-chip dark:bg-black/30 px-3 py-2 focus-within:ring-2 focus-within:ring-[color:var(--ss-accent)]/40'}
         >
           <input
             ref={fileRef}
@@ -442,7 +436,8 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <button
             onClick={() => send(value)}
             disabled={!canSend || busy}
-            className="w-8 h-8 rounded-xl bg-ss-accent text-white flex items-center justify-center disabled:opacity-60 hover:brightness-95 transition-all shrink-0"
+            aria-label="Send"
+            className={trail ? 'ss-chat-send' : 'w-8 h-8 rounded-xl bg-ss-accent text-white flex items-center justify-center disabled:opacity-60 hover:brightness-95 transition-all shrink-0'}
           >
             <Send className="w-4 h-4" />
           </button>

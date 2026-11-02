@@ -9,8 +9,8 @@ import { absorbTurn, backFromDetour, dueNotes, loadMemory, memoryKey, onAskAnswe
 import { interludeFrom } from '@/lib/studylab/trail/action'
 import { freshAttempt, openLookBack, sandboxCallbacks, type LookBack } from '@/lib/studylab/trail/lookBack'
 import type { StudyNodeData } from '@/lib/studylab/types'
-import { planFrom } from '@/lib/studylab/trail/opening'
-import { assignBlocks, cardTitle, placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
+import { KANA_TALL, planFrom } from '@/lib/studylab/trail/opening'
+import { assignBlocks, placeCards, reminderOf, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
 import { focusOf, pinnedFocus, syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
 import type { DisplayLine } from '@/lib/studylab/trail/voice'
@@ -39,10 +39,10 @@ export interface TrailModel {
   dataOf: (id: string) => StudyNodeData | null
   /** The branch the learner is on. */
   detour: Detour | null
-  /** The card they go back to, by name, when there is one. */
-  returnTitle: string | null
   leaveDetour: () => void
   stillNotSure: () => void
+  /** How much room what Kana is saying takes, so the card sits clear of it. */
+  setSpeechHeight: (height: number) => void
   /** A parked question being brought up again. */
   note: UnsureNote | null
   showNote: (station: number) => void
@@ -75,8 +75,8 @@ function readMemory(spaceId: string | undefined): string | null {
  * Everything the Trail shows, derived from the lesson's own state on each render:
  * the same run always gives the same board, and none of it is saved.
  */
-export function useTrailModel(props: LessonStageProps, view: { focusWidth: number; speaker: boolean } = { focusWidth: FOCUS_W, speaker: true }): TrailModel {
-  const { focusWidth, speaker } = view
+export function useTrailModel(props: LessonStageProps, view: { focusWidth: number; speaker: boolean; focusRoom?: number } = { focusWidth: FOCUS_W, speaker: true }): TrailModel {
+  const { focusWidth, speaker, focusRoom } = view
   const { board, focus, chat, onFocus, trail } = props
   const { nodes, run } = board
   const spaceId = trail?.spaceId
@@ -231,6 +231,11 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
     () => placeCards({ nodes, run, planSteps, queue, detours: memory.detours, openDetour: memory.open, blocks, sizes, interlude, notes: memory.notes }),
     [nodes, run, planSteps, queue, memory.detours, memory.open, memory.notes, blocks, sizes, interlude],
   )
+  // Her strip fits what she is saying, and small changes are not worth moving a card for.
+  const [speechH, setSpeechH] = useState(0)
+  const setSpeechHeight = useCallback((height: number) => setSpeechH((prev) => (Math.abs(prev - height) < 4 ? prev : height)), [])
+  const speakerH = Math.max(KANA_TALL, speechH)
+
   // A card that has gone (a regenerated one) cannot stay open.
   const reopenedId = lookBack?.id ?? null
   const reopenedGone = !!reopenedId && !placement.drawn.includes(reopenedId)
@@ -246,9 +251,11 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
         detours: placement.detours,
         focusWidth,
         speaker,
+        speakerH,
+        focusRoom,
         reopened: reopenedId && reopenedAt && !reopenedGone ? { id: reopenedId, natural: sizes[reopenedId] ?? blockSize(reopenedType ?? ''), at: reopenedAt } : null,
       }),
-    [placement, focusWidth, speaker, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
+    [placement, focusWidth, speaker, speakerH, focusRoom, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
   )
 
   useEffect(() => {
@@ -280,7 +287,7 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
     const { memory: next, restore } = backFromDetour(memoryRef.current)
     setMemory(next)
     const card = land(restore)
-    if (card) say(`You were on ${cardTitle(card)}.`, 'say')
+    if (card) say(reminderOf(card), 'say')
   }, [land, say])
   const { onSend } = chat
   const stillNotSure = useCallback(() => {
@@ -315,11 +322,8 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
   )
 
   const detour = memory.detours.find((d) => d.id === memory.open) ?? null
-  const returnFocus = focusOf(detour?.returnTo ?? null)
-  const returnNode = returnFocus ? nodes.find((n) => n.id === returnFocus) : undefined
-  const returnTitle = returnNode ? cardTitle(returnNode) : null
 
   const nextInQueue = interlude ? null : (placement.waiting.find((id) => queue?.ids.includes(id)) ?? null)
 
-  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, sandboxFor, open, closeLookBack, tryAgain, epochOf, dataOf, detour, returnTitle, leaveDetour, stillNotSure, note, showNote, settleNote, sizes, onMeasure }
+  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, sandboxFor, open, closeLookBack, tryAgain, epochOf, dataOf, detour, leaveDetour, stillNotSure, setSpeechHeight, note, showNote, settleNote, sizes, onMeasure }
 }

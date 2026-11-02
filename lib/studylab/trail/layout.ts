@@ -28,6 +28,8 @@ export const TILE_EVERY = 40
 export const TITLE = { w: 900, h: 260 }
 
 const MAX_FOCUS_SCALE = 1.5
+/** A tall card comes down to fit the screen, but no further than it can be read. */
+const MIN_TALL_SCALE = 1.15
 const CARD_GAP = 24
 const FILED_GAP = 16
 const COLUMN_SIZE = 3
@@ -46,7 +48,11 @@ function placeAt(card: CardInput, w: number, role: CardPlace['role'], x = 0, y =
   return { x, y, w, h: card.natural.h * scale, scale, role }
 }
 
-const focusWidthOf = (card: CardInput, focusWidth: number) => Math.min(card.natural.w * MAX_FOCUS_SCALE, focusWidth)
+function focusWidthOf(card: CardInput, focusWidth: number, room?: number): number {
+  const wide = Math.min(card.natural.w * MAX_FOCUS_SCALE, focusWidth)
+  if (!room || card.natural.h <= 0) return wide
+  return Math.min(wide, card.natural.w * Math.max(MIN_TALL_SCALE, room / card.natural.h))
+}
 
 interface Contents {
   w: number
@@ -59,25 +65,27 @@ interface Contents {
 const centre = (r: Rect): Point => ({ x: r.x + r.w / 2, y: r.y + r.h / 2 })
 
 /** A plot in use: what is finished down one side, the focus card beside it, the speaker above that. */
-function openContents(finished: CardInput[], filed: CardInput[], focus: CardInput | null, focusWidth: number, speaker: boolean): Contents {
+function openContents(finished: CardInput[], filed: CardInput[], focus: CardInput | null, focusWidth: number, speaker: boolean, speakerH: number, focusRoom?: number): Contents {
   const cards: Contents['cards'] = {}
   const side: { card: CardInput; w: number; role: CardPlace['role'] }[] = [
     ...finished.map((card) => ({ card, w: FINISHED_W, role: 'finished' as const })),
     ...filed.map((card) => ({ card, w: FILED_W, role: 'filed' as const })),
   ]
   const columns = Math.ceil(side.length / COLUMN_SIZE)
+  // Only as wide as what is in them, or small filed cards leave a gap beside the focus.
+  const sideW = finished.length > 0 ? FINISHED_W : FILED_W
   let sideH = 0
   side.forEach(({ card, w, role }, i) => {
     const column = Math.floor(i / COLUMN_SIZE)
     const above = i % COLUMN_SIZE === 0 ? PAD : cards[side[i - 1].card.id].y + cards[side[i - 1].card.id].h + CARD_GAP
-    cards[card.id] = placeAt(card, w, role, PAD + column * (FINISHED_W + CARD_GAP), above)
+    cards[card.id] = placeAt(card, w, role, PAD + column * (sideW + CARD_GAP), above)
     sideH = Math.max(sideH, cards[card.id].y + cards[card.id].h - PAD)
   })
 
-  const slotX = PAD + columns * (FINISHED_W + CARD_GAP)
+  const slotX = PAD + columns * (sideW + CARD_GAP)
   const showSpeaker = speaker && focus !== null
-  const strip = showSpeaker ? SPEAKER_H + CARD_GAP : 0
-  const focusW = focus ? focusWidthOf(focus, focusWidth) : focusWidth
+  const strip = showSpeaker ? speakerH + CARD_GAP : 0
+  const focusW = focus ? focusWidthOf(focus, focusWidth, focusRoom === undefined ? undefined : focusRoom - strip) : focusWidth
   const slotW = Math.max(focusW, speaker ? KANA_W + BUBBLE_MIN_W : 0)
   let slotH = strip
   if (focus) {
@@ -92,13 +100,13 @@ function openContents(finished: CardInput[], filed: CardInput[], focus: CardInpu
   let spoken: Contents['speaker'] = null
   if (showSpeaker && focus) {
     const place = cards[focus.id]
-    const bubble = { x: slotX + KANA_W, y: PAD, w: slotW - KANA_W, h: SPEAKER_H }
+    const bubble = { x: slotX + KANA_W, y: PAD, w: slotW - KANA_W, h: speakerH }
     const right = Math.max(bubble.x + bubble.w, place.x + place.w)
     spoken = { kana: { x: slotX, y: PAD }, bubble, frame: { x: slotX, y: PAD, w: right - slotX, h: place.y + place.h - PAD } }
   }
 
   return {
-    w: Math.max(PLOT_MIN, PAD + columns * (FINISHED_W + CARD_GAP) + slotW + PAD),
+    w: Math.max(PLOT_MIN, PAD + columns * (sideW + CARD_GAP) + slotW + PAD),
     h: Math.max(PLOT_MIN, PAD + Math.max(sideH, slotH) + PAD),
     cards,
     links,
@@ -128,8 +136,8 @@ function restingContents(filed: CardInput[]): Contents {
   }
 }
 
-function plotContents(p: PlotInput, focusWidth: number, speaker: boolean): Contents {
-  return p.focus || p.state === 'current' ? openContents(p.finished, p.filed, p.focus, focusWidth, speaker) : restingContents([...p.finished, ...p.filed])
+function plotContents(p: PlotInput, focusWidth: number, speaker: boolean, speakerH: number, focusRoom?: number): Contents {
+  return p.focus || p.state === 'current' ? openContents(p.finished, p.filed, p.focus, focusWidth, speaker, speakerH, focusRoom) : restingContents([...p.finished, ...p.filed])
 }
 
 /** Every `TILE_EVERY` along a path, clear of the plots at either end, two tones like the mark's squares. */
@@ -184,10 +192,10 @@ function branchPath(from: Point, to: Point, gapY: number): Point[] {
 }
 
 export function trailLayout(input: TrailLayoutInput): TrailWorld {
-  const { stations, detours, focusWidth, speaker, reopened } = input
+  const { stations, detours, focusWidth, speaker, speakerH = SPEAKER_H, focusRoom, reopened } = input
   const n = stations.length
-  const contents = stations.map((s) => plotContents(s, focusWidth, speaker))
-  const detourContents = detours.map((d) => (d.focus ? openContents([], d.filed, d.focus, focusWidth, speaker) : restingContents(d.filed)))
+  const contents = stations.map((s) => plotContents(s, focusWidth, speaker, speakerH, focusRoom))
+  const detourContents = detours.map((d) => (d.focus ? openContents([], d.filed, d.focus, focusWidth, speaker, speakerH, focusRoom) : restingContents(d.filed)))
 
   const firstRow = n <= ONE_ROW_UP_TO ? n : Math.ceil(n / 2)
   const rows = [stations.map((_, i) => i).slice(0, firstRow), stations.map((_, i) => i).slice(firstRow)].filter((r) => r.length > 0)

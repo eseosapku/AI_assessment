@@ -58,6 +58,19 @@ function subscribeWidth(onChange: () => void) {
   window.addEventListener('resize', onChange)
   return () => window.removeEventListener('resize', onChange)
 }
+/** The top bar and the button: what is left of the screen for a card goes between them. */
+const CHROME_H = 64 + 110
+
+function useViewportHeight(): number {
+  const [height, setHeight] = useState(() => (typeof window === 'undefined' ? 900 : window.innerHeight))
+  useEffect(() => {
+    const onResize = () => setHeight(window.innerHeight)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+  return height
+}
+
 function useViewportWidth(): number {
   return useSyncExternalStore(subscribeWidth, () => window.innerWidth, () => DESKTOP_WIDTH)
 }
@@ -93,7 +106,8 @@ function TrailStageInner(props: LessonStageProps) {
   const baseInsets = phone ? INSETS_PHONE : INSETS
   const focusWidth = focusWidthFor(useViewportWidth())
   // A phone has no room on the board for Kana: she stands on the screen, above the button.
-  const trailView = useMemo(() => ({ focusWidth, speaker: !phone }), [focusWidth, phone])
+  const viewportH = useViewportHeight()
+  const trailView = useMemo(() => ({ focusWidth, speaker: !phone, focusRoom: phone ? undefined : viewportH - CHROME_H }), [focusWidth, phone, viewportH])
   const model = useTrailModel(props, trailView)
   const { focusId, world, nextInQueue, say, lines, lookBack, epochOf, dataOf, sandboxFor } = model
   const lookingBack = lookBack?.id ?? null
@@ -196,11 +210,11 @@ function TrailStageInner(props: LessonStageProps) {
   // A detour card ends with "Did that clear it up?", once nothing more of it waits.
   const focusNode = focusId ? board.nodes.find((n) => n.id === focusId) : undefined
   const footerShown = showsDetourFooter({ detourOpen: !!model.detour, nextInQueue, claimed: owner !== null, settled: !!focusNode && canRetry(focusNode.data), busy: chat.busy })
-  const { leaveDetour, stillNotSure, returnTitle } = model
+  const { leaveDetour, stillNotSure } = model
   const openChatPanel = useCallback(() => setOpen(true), [setOpen])
   const detourFooter = useMemo(
-    () => (footerShown ? { backTo: returnTitle ?? 'my card', onBack: leaveDetour, onStillNotSure: stillNotSure, onAnother: openChatPanel } : null),
-    [footerShown, returnTitle, leaveDetour, stillNotSure, openChatPanel],
+    () => (footerShown ? { backTo: 'my card', onBack: leaveDetour, onStillNotSure: stillNotSure, onAnother: openChatPanel } : null),
+    [footerShown, leaveDetour, stillNotSure, openChatPanel],
   )
   const plotsRef = useRef(world.plots)
   plotsRef.current = world.plots
@@ -387,6 +401,7 @@ function TrailStageInner(props: LessonStageProps) {
                       ) : undefined
                     }
                     onShowCard={showCard}
+                    onSpeechHeight={model.setSpeechHeight}
                   />
                 </TrailCanvas>
                 <TrailDock

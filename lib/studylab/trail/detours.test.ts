@@ -1,5 +1,8 @@
 // lib/studylab/trail/detours.test.ts
 import { describe, it, expect } from 'vitest'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { DetourFooter } from '@/components/studylab/trail/DetourFooter'
 import { PARK_AFTER, absorbTurn, backFromDetour, dueNotes, emptyMemory, loadMemory, onAskAnswered, plainQuestion, pruneMemory, saveMemory, showsDetourFooter, stillNotSure } from './detours'
 
 const ask = (created: string[], question = 'Why?', version = 1) => ({ version, question, created })
@@ -142,5 +145,14 @@ describe('memory', () => {
   it('nothing gone is the same memory, so saving does not spin', () => {
     const m = opened()
     expect(pruneMemory(m, new Set(['c1', 'c2', 'd1']))).toBe(m)
+  })
+})
+
+describe('the footer, on a card', () => {
+  it('goes back to "my card": the card names itself on the board', () => {
+    const html = renderToStaticMarkup(createElement(DetourFooter, { backTo: 'my card', onBack: () => {}, onStillNotSure: () => {}, onAnother: () => {} }))
+    expect(html).toContain('Back to my card')
+    expect(html).toContain('Still not sure')
+    expect(html).toContain('I have another question')
   })
 })

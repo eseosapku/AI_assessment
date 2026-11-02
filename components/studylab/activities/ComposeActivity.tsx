@@ -1,5 +1,6 @@
 // components/studylab/activities/ComposeActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { useMemo, useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ComposePayload } from '@/lib/studylab/activities/types'
@@ -148,7 +149,7 @@ export function ComposeActivity({ id, spec, onOutcome, initialState }: {
                   }`}
                 >
                   <PartArt part={part} />
-                  <span className="whitespace-nowrap text-[12px] font-semibold leading-tight text-ss-ink">{part.label}</span>
+                  <span className="whitespace-nowrap text-[12px] font-semibold leading-tight text-ss-ink"><SafeLatex>{part.label}</SafeLatex></span>
                   {part.slots > 1 && (
                     <span className="text-[12px] font-bold text-ss-slate">{used}/{part.slots}</span>
                   )}

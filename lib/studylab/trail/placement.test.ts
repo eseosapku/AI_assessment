@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { blockSize } from '../blocks'
 import type { LessonRun } from '../lessonRun'
 import type { StudyNode } from '../types'
-import { cardTitle, assignBlocks, isTrailCard, placeCards, trailSpotlight, type PlacementInput } from './placement'
+import { cardTitle, reminderOf, assignBlocks, isTrailCard, placeCards, trailSpotlight, type PlacementInput } from './placement'
 import { focusOf, pinnedFocus, syncQueue, waitingIds } from './queue'
 import type { CardInput } from './types'
 
@@ -240,5 +240,12 @@ describe('a detour from an open check', () => {
   it('the next one still waits', () => {
     expect(p.waiting).toEqual(['q2'])
     expect(p.drawn).not.toContain('q2')
+  })
+})
+
+describe('a reminder of where the learner was', () => {
+  it('reads cleanly, even when the card name was cut short', () => {
+    expect(reminderOf({ data: { title: 'x'.repeat(90) } } as never)).not.toMatch(/…\s*\.$/)
+    expect(reminderOf({ data: { title: 'Demand' } } as never)).toBe('Back where you were: Demand')
   })
 })

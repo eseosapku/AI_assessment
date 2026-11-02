@@ -36,6 +36,14 @@ export function firstSentence(text: string): string {
   let inMath = false
   for (let i = 0; i < s.length; i++) {
     const c = s[i]
+    // A glossary term carries its definition inside it, full stops and all.
+    if (!inMath && c === '[' && s[i + 1] === '[') {
+      const end = s.indexOf(']]', i)
+      if (end !== -1) {
+        i = end + 1
+        continue
+      }
+    }
     if (c === '$') {
       // A lone dollar is a price: a formula has a closing one.
       if (inMath || s.indexOf('$', i + 1) !== -1) inMath = !inMath

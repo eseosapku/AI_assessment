@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useMemo, useRef, type ComponentType, type PointerEvent } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, type ComponentType, type CSSProperties, type PointerEvent } from 'react'
 import type { NodeProps } from '@xyflow/react'
 import { CanvasContext, type CanvasCallbacks } from '../canvasShared'
 import { CheckStepBar } from './CheckStepBar'
@@ -119,7 +119,7 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
           key={epoch}
           ref={inner}
           className={`ss-trail-card${live ? ' nopan' : ''}${ANSWERED.has(type) ? ' ss-trail-answer' : ''}`}
-          style={{ transform: `scale(${place.scale})` }}
+          style={{ transform: `scale(${place.scale})`, '--trail-scale': place.scale } as CSSProperties}
           onPointerDownCapture={live ? panOnlyOffControls : undefined}
           {...quiet}
         >

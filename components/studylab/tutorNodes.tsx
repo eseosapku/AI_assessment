@@ -9,7 +9,8 @@ import { splitMarkdownTable } from '@/lib/studylab/markdownTable'
 
 export function WorkedNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
-  const steps = Array.isArray(d.steps) ? d.steps : []
+  // The model sometimes leaves a blank line between groups of steps: not a step to number.
+  const steps = (Array.isArray(d.steps) ? d.steps : []).filter((s) => String(s ?? '').trim())
   return (
     <CardFrame>
       <NodeHeader icon={ListOrdered} title={d.title} tone="green" />

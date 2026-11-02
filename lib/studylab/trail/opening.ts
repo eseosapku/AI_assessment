@@ -1,7 +1,7 @@
 // lib/studylab/trail/opening.ts
 import type { ChatMessage, ChatPlan } from '../types'
 import type { Insets } from './camera'
-import { PAD, SPEAKER_H } from './layout'
+import { PAD } from './layout'
 import type { Point, Rect, TrailWorld } from './types'
 
 /**
@@ -31,7 +31,8 @@ export function planFrom(messages: ChatMessage[]): ChatPlan | null {
 }
 
 export const KANA_W = 150
-const RESTING_BUBBLE_W = 420
+/** How much room she takes standing up, at that width. */
+export const KANA_TALL = 176
 /** Kana and her question stand in this much of the screen, above the button, while the whole board is in view. */
 const OPENING_BAND = 150
 
@@ -40,7 +41,8 @@ export function restingSpot(world: TrailWorld): { kana: Point; bubble: Rect } | 
   const plot = world.plots.find((p) => p.state === 'next' || p.state === 'current') ?? world.plots[world.plots.length - 1]
   if (!plot) return null
   const at = { x: plot.rect.x + PAD, y: plot.rect.y + PAD }
-  return { kana: at, bubble: { x: at.x + KANA_W, y: at.y, w: RESTING_BUBBLE_W, h: SPEAKER_H } }
+  // Under her, not beside: a small plot has no room across, and the trail runs just outside it.
+  return { kana: at, bubble: { x: at.x, y: at.y + KANA_TALL, w: plot.rect.w - 2 * PAD, h: plot.rect.h - 2 * PAD - KANA_TALL } }
 }
 
 /**

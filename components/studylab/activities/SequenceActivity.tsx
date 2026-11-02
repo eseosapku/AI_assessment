@@ -1,5 +1,6 @@
 // components/studylab/activities/SequenceActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, SequencePayload } from '@/lib/studylab/activities/types'
@@ -89,7 +90,7 @@ export function SequenceActivity({ id, spec, onOutcome, initialState }: {
               </span>
               <StepArt item={item} />
               <span className={`text-[12.5px] font-semibold ${wrong ? 'text-red-600 dark:text-red-400' : 'text-ss-ink'}`}>
-                {item.label}
+                <SafeLatex>{item.label}</SafeLatex>
               </span>
             </motion.div>
           )

@@ -7,6 +7,8 @@ import { ReactFlowProvider } from '@xyflow/react'
 import { withTrailFrame, TrailPlacementContext, type TrailPlacement } from '@/components/studylab/trail/TrailFrame'
 import { StageContext, useDock, type StageValue } from '@/components/studylab/stage/StageContext'
 import { CheckBar } from '@/components/studylab/check/CheckBar'
+import { WorkedNode } from '@/components/studylab/tutorNodes'
+import { withoutVerdict } from '../whyLine'
 import type { CardRole } from './types'
 
 const placementBase: TrailPlacement = { places: {}, onMeasure: () => {}, onOpen: () => {}, onStation: () => {}, onDeeper: () => {}, epochOf: () => 0 }
@@ -106,5 +108,43 @@ describe('the Trail board', () => {
       )
     expect(html()).toContain('BAR')
     expect(html('trail')).not.toContain('BAR')
+  })
+})
+
+describe('why, after an answer', () => {
+  it('never opens with a verdict the learner may not have earned', () => {
+    expect(withoutVerdict('Correct — the base controls the transistor like a switch.')).toBe('The base controls the transistor like a switch.')
+    expect(withoutVerdict("That's right! It flows from the collector.")).toBe('It flows from the collector.')
+    expect(withoutVerdict('Yes, because the base is thin.')).toBe('Because the base is thin.')
+    expect(withoutVerdict('Right — it is.')).toBe('It is.')
+  })
+  it('leaves ordinary sentences alone', () => {
+    expect(withoutVerdict('Correctly biased, the base lets current through.')).toBe('Correctly biased, the base lets current through.')
+    expect(withoutVerdict('Rights of way are a separate matter.')).toBe('Rights of way are a separate matter.')
+    expect(withoutVerdict('')).toBe('')
+  })
+})
+
+describe('Kana speaks with the lesson\'s own text', () => {
+  it('her bubble renders maths and emphasis', () => {
+    expect(readFileSync('components/studylab/trail/KanaOnBoard.tsx', 'utf8')).toContain('<SafeLatex>{line.text}</SafeLatex>')
+  })
+})
+
+describe('a worked card', () => {
+  it('numbers its steps, not the blank lines between them', () => {
+    const html = renderToStaticMarkup(createElement(ReactFlowProvider, null, createElement(WorkedNode as never, { id: 'w', type: 'worked', data: { kind: 'worked', title: 'T', steps: ['One', '', '  ', 'Two'] } })))
+    expect(html.split('data-part="step-').length - 1).toBe(2)
+  })
+})
+
+describe('an activity on the Trail', () => {
+  const frame = readFileSync('components/studylab/activities/ActivityFrame.tsx', 'utf8')
+  it('takes the dock for its own Check, so it is never hidden under Continue', () => {
+    expect(frame).toContain('const ownCheck = trail && !checkState && !!onCheck && !solved')
+    expect(frame).toContain('|| ownCheck')
+  })
+  it('renders its prompt as lesson text, not as raw marks', () => {
+    expect(frame).toContain('<SafeLatex>{prompt}</SafeLatex>')
   })
 })

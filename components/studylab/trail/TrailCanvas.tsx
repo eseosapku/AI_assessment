@@ -360,7 +360,8 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
         <Background variant={BackgroundVariant.Lines} gap={64} color="var(--trail-grid)" />
         {children}
         {exploring && focusId && !lookingBack && (
-          <Panel position="bottom-center" style={{ marginBottom: insets.bottom - 24 }}>
+          // In a corner: over the work it hid the very buttons the learner was reading.
+          <Panel position="bottom-right" className="ss-trail-pill" style={{ marginBottom: 24 }}>
             <button
               type="button"
               onClick={() => {
