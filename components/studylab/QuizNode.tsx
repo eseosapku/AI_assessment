@@ -10,7 +10,7 @@ import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab
 import { gradeMcq, gradeMatch, gradeFill, gradeOrder, gradeTap, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
 import { regionsFor } from '@/lib/studylab/check/diagramRegions'
 import { filledSentence } from '@/lib/studylab/check/placement'
-import { modeForCell, feedbackFor, isLiveChange, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { modeForCell, feedbackFor, isLiveChange, idleLine, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
 import { StageContext, useDock } from './stage/StageContext'
 import { initialAnswer, attemptOf, isAnswered, type Answer } from '@/lib/studylab/check/answers'
@@ -277,7 +277,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   const barLine =
     state.phase === 'wrong' && mode === 'test' ? (trail ? (q.format === 'mcq' ? 'Not quite. The right answer is in green.' : 'Not quite. Here is the right answer.') : undefined)
     : state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'correct' ? line
-    : state.message
+    : state.message ?? (trail ? idleLine(state) : undefined)
 
   return (
     <motion.div

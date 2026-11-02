@@ -97,6 +97,14 @@ export function restoreEvent(state: CheckFlowState, hasWork: boolean): CheckEven
 }
 
 /**
+ * After Try again the answer is the one that was missed, so Check waits for a
+ * change. Say so, or it sits grey with no reason. Nothing before the first go.
+ */
+export function idleLine(state: Pick<CheckFlowState, 'phase' | 'attempts'>): string | undefined {
+  return state.phase === 'idle' && state.attempts > 0 ? 'Change your answer to check again.' : undefined
+}
+
+/**
  * Whether a card's state just changed in front of the learner. The first state
  * a card renders (`prev` undefined) is where it already was -- a restored miss
  * must not shake, and a restored card must not take focus, as the lesson opens.

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  checkFlow, initialCheckFlow, modeForGate, modeForCell, feedbackFor, restoreEvent, isLiveChange, answerIsFinal, MAX_LEARN_TRIES,
+  checkFlow, initialCheckFlow, modeForGate, modeForCell, feedbackFor, restoreEvent, isLiveChange, idleLine, answerIsFinal, MAX_LEARN_TRIES,
   type CheckFlowState, type CheckEvent,
 } from './checkFlow'
 import type { CheckpointQuestion } from './types'
@@ -140,6 +140,12 @@ describe('feedback for an answer', () => {
     expect(restoreEvent(initialCheckFlow('learn', { attempts: 1 }), true)).toBeNull()
     expect(restoreEvent(initialCheckFlow('learn', { attempts: 2 }), true)).toBeNull()
     expect(restoreEvent(initialCheckFlow('learn', { settled: 'correct' }), true)).toBeNull()
+  })
+
+  it('says what to do when Check waits after Try again, and nothing before a first go', () => {
+    expect(idleLine({ phase: 'idle', attempts: 1 })).toBe('Change your answer to check again.')
+    expect(idleLine({ phase: 'idle', attempts: 0 })).toBeUndefined()
+    expect(idleLine({ phase: 'ready', attempts: 1 })).toBeUndefined()
   })
 
   it('counts a change of state only when it happens in front of the learner', () => {

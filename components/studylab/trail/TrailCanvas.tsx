@@ -16,6 +16,7 @@ import type { TrailModel } from './useTrailModel'
 import type { StudyNode } from '@/lib/studylab/types'
 import type { Rect } from '@/lib/studylab/trail/types'
 import { CAMERA_MS, cameraFor, easeOut, fitFrame, focusFraming, footClearance, panForKey, type Insets } from '@/lib/studylab/trail/camera'
+import { BACK_TO_CARD_HINT } from '@/lib/studylab/trail/furniture'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { takesArrivalFocus, viewportMoved } from '@/lib/studylab/spotlight'
 
@@ -390,6 +391,8 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
           <Panel position="bottom-right" className="ss-trail-pill" style={{ marginBottom: 24 }}>
             <button
               type="button"
+              title={BACK_TO_CARD_HINT}
+              aria-description={BACK_TO_CARD_HINT}
               onClick={() => {
                 setExploring(false)
                 frameWork()

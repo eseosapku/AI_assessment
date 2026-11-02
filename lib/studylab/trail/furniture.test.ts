@@ -1,7 +1,14 @@
 // lib/studylab/trail/furniture.test.ts
 import { describe, it, expect } from 'vitest'
 import type { LessonRun } from '../lessonRun'
-import { escapeTarget, stationPills, topBarLabel, trailMenu } from './furniture'
+import { BACK_TO_CARD_HINT, escapeTarget, stationPills, topBarLabel, trailMenu } from './furniture'
+
+describe('the back-to-my-card pill', () => {
+  it('explains itself in plain words', () => {
+    expect(BACK_TO_CARD_HINT).toMatch(/moved the board/)
+    expect(BACK_TO_CARD_HINT).toMatch(/back to the card/)
+  })
+})
 
 const runWith = (statuses: string[], currentStep: number) =>
   ({ phase: 'teaching', pace: 'step', recipe: 'station', currentStep, beats: 0, awaiting: false, steps: statuses.map((status, i) => ({ id: `s${i}`, title: `S${i}`, goal: '', status, cardIds: [] })) }) as unknown as LessonRun

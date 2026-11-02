@@ -76,9 +76,27 @@ export function SafeLatex({ children }: { children?: unknown }) {
  */
 const INLINE_MATH = /(\$(?=\S)[^$]+?(?<=\S)\$(?!\d)|\$\s[^$]*[=^_\+][^$]*\s\$(?!\d))/g
 
+const HTML_TAG = /<\/?(?:p|br|b|i|u|em|strong|span|div|ul|ol|li|sup|sub|small|code|a|h[1-6])(?:\s[^<>]*)?\/?>/gi
+
+/**
+ * Model text now and then carries HTML tags. They are escaped on the way out,
+ * so they showed as typed. Drop the known ones, with a break for the block
+ * kinds; a bare "<" in maths ("x < 3") is not a tag and stays.
+ */
+export function stripHtmlTags(s: string): string {
+  return s.replace(/<(?:br\s*\/?|\/p|\/li|\/div|\/h[1-6])>/gi, ' ').replace(HTML_TAG, '')
+}
+
+function isMathPart(p: string): boolean {
+  return p.length > 2 && p.startsWith('$') && p.endsWith('$') && !NOT_MATH.test(p)
+}
+
+/** Full stops and the like that belong to the formula before them. */
+const TRAILING_PUNCT = /^[.,;:!?)\]]+/
+
 function LatexText({ text: raw }: { text: string }) {
   if (!raw) return null
-  const text = toDollarMath(raw)
+  const text = toDollarMath(stripHtmlTags(raw))
   // Bold around a formula: the marks would be split apart below and show as they are.
   const bold = text.split(/(\*\*[^*]*\$[^*]*\*\*)/g)
   if (bold.length > 1) {
@@ -87,17 +105,21 @@ function LatexText({ text: raw }: { text: string }) {
   const parts = text.split(INLINE_MATH)
   return (
     <>
-      {parts.map((p, i) => {
+      {parts.map((p0, i) => {
+        // Punctuation straight after a formula stays on its line: it wrapped alone.
+        const prevMath = i > 0 && isMathPart(parts[i - 1])
+        const p = prevMath ? p0.replace(TRAILING_PUNCT, '') : p0
+        const tail = isMathPart(p0) ? (parts[i + 1]?.match(TRAILING_PUNCT)?.[0] ?? '') : ''
         // A `$` is a currency symbol far more often than it is a delimiter. A
         // transcribed homework table reading "Initial Cost ($) | 200,000" put
         // everything from that bracket to the next dollar into maths mode, and
         // the whole table came out as one run of italics. A span carrying a
         // table pipe or a line break is not an inline formula.
-        if (p.length > 2 && p.startsWith('$') && p.endsWith('$') && !NOT_MATH.test(p)) {
+        if (isMathPart(p)) {
           try {
-            return <Latex key={i}>{p}</Latex>
+            return tail ? <span key={i} style={{ whiteSpace: 'nowrap' }}><Latex>{p}</Latex>{tail}</span> : <Latex key={i}>{p}</Latex>
           } catch {
-            return <span key={i}>{p}</span>
+            return <span key={i}>{p}{tail}</span>
           }
         }
         return p ? <span key={i} dangerouslySetInnerHTML={{ __html: mdEmphasis(p) }} /> : null

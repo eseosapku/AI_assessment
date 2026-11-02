@@ -25,6 +25,9 @@ export function topBarLabel(input: { run: LessonRun | null; lookingBack: string 
   return run.steps[run.currentStep]?.title ?? 'Lesson complete'
 }
 
+/** What the "Back to my card" pill is for: it shows once the learner has moved the board away. */
+export const BACK_TO_CARD_HINT = 'You moved the board. This takes you back to the card you are working on.'
+
 export type MenuId = 'whole' | 'back' | 'zoomIn' | 'zoomOut' | 'add' | 'sound' | 'classic'
 
 export function trailMenu(input: { canClassic: boolean; muted: boolean }): { id: MenuId; label: string }[] {

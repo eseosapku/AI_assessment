@@ -1,7 +1,7 @@
 'use client'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ModelSpec, VaryPayload } from '@/lib/studylab/activities/types'
-import { barReadings, extraReadouts, goalOf, modelValue, sceneUrl } from '@/lib/studylab/activities/patterns/vary'
+import { barReadings, extraReadouts, goalOf, modelValue, sceneUrl, unitAfter } from '@/lib/studylab/activities/patterns/vary'
 import { assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { evaluateExpr } from '@/lib/studylab/activities/expr'
 import { ActivityFrame } from './ActivityFrame'
@@ -51,7 +51,7 @@ function BarsModel({ payload, value, model }: { payload: VaryPayload; value: num
             </text>
             {readings.has(b.label) && (
               <motion.text x={x + barW / 2} textAnchor="middle" className="fill-[color:var(--ss-ink)] text-[12px] font-bold" initial={false} animate={{ y: Math.max(9, VB_H - 24 - h) }} transition={redraw}>
-                {said(readings.get(b.label)!.value)}{readings.get(b.label)!.unit ? ` ${readings.get(b.label)!.unit}` : ''}
+                {said(readings.get(b.label)!.value)}{unitAfter(readings.get(b.label)!.value, readings.get(b.label)!.unit)}
               </motion.text>
             )}
           </g>
@@ -179,7 +179,7 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
               {v.label}
             </label>
             <span className="text-[13px] font-extrabold text-ss-ink">
-              {value}{v.unit ? ` ${v.unit}` : ''}
+              {value}{unitAfter(value, v.unit)}
             </span>
           </div>
           <input
@@ -199,7 +199,7 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
             {readouts.map((r) => (
               <span key={r.label} className="rounded-lg border border-ss-line px-2.5 py-1.5 text-[12px] font-semibold text-ss-ink">
                 {r.label}: <span className="text-ss-accent">{Number.isInteger(r.value) ? r.value : r.value.toFixed(2)}</span>
-                {r.unit ? ` ${r.unit}` : ''}
+                {unitAfter(r.value, r.unit)}
               </span>
             ))}
           </div>

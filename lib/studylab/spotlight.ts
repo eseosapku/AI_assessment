@@ -101,8 +101,8 @@ export function continueFor(
 }
 
 /**
- * Whether the station's explore item has been tried: its material solved, or
- * its predict item answered, right or wrong, or its solution shown. Then
+ * Whether the station's explore item has been tried: its predict item
+ * answered, right or wrong, or its solution shown. Then
  * moving on is the learner's own account of it -- "I've tried it" -- and the
  * next turn names what they did.
  */
@@ -122,7 +122,9 @@ function triedIt(nodes: StudyNode[], run: LessonRun): boolean {
     const s = data.practice?.state
     return s === 'correct' || s === 'incorrect' || s === 'close' || data.practice?.revealed === true
   }
-  return (first.type === 'activity' ? data.activityState?.status : data.materialState?.status) === 'solved'
+  // A scene or activity that is solved shows a green "Solved" beside the button,
+  // so it says Continue. "I've tried it" is for what was tried but not settled.
+  return false
 }
 
 /** The check stage keeps quiet: no chips beside it, whatever the last turn offered. */

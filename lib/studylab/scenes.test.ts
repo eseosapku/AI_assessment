@@ -1,6 +1,6 @@
 // lib/studylab/scenes.test.ts
 import { describe, it, expect } from 'vitest'
-import { settledSince, lessonFinished, lessonSummary, addActive, IDLE_CAP_MS } from './scenes'
+import { settledSince, lessonFinished, lessonSummary, addActive, IDLE_CAP_MS, SUMMARY_DELAY_MS } from './scenes'
 import type { LessonRun, LessonStep, StepStatus } from './lessonRun'
 import type { StudyNode } from './types'
 
@@ -45,7 +45,7 @@ describe('lessonSummary', () => {
     id, type: 'concept', position: { x: 0, y: 0 }, hidden, data: { kind: 'concept', ...data },
   })
 
-  it('counts stations, tested-out steps, things practised and minutes', () => {
+  it('counts stations, tested-out steps, questions right (not activities) and minutes', () => {
     const nodes = [
       node('q', { quiz: { checkpointId: 'c', gate: 'hard', state: 'correct', question: { id: 'q', format: 'mcq', prompt: 'p', options: ['a'], answer: 0 } } }),
       node('qx', { quiz: { checkpointId: 'c', gate: 'hard', state: 'incorrect', question: { id: 'q', format: 'mcq', prompt: 'p', options: ['a'], answer: 0 } } }),
@@ -57,8 +57,13 @@ describe('lessonSummary', () => {
       node('mx', { materialState: { status: 'in_progress', placement: {}, controls: {}, attempts: 1, rejectedMoves: [] } }),
     ]
     expect(lessonSummary(run(['done', 'known', 'done'], 'done'), nodes, 14.6 * 60_000)).toEqual({
-      stations: 2, known: 1, practised: 4, minutes: 15,
+      stations: 2, known: 1, practised: 2, minutes: 15,
     })
+  })
+
+  it('holds the end screen back long enough to see the last result, but not for long', () => {
+    expect(SUMMARY_DELAY_MS).toBeGreaterThanOrEqual(1500)
+    expect(SUMMARY_DELAY_MS).toBeLessThanOrEqual(4000)
   })
 
   it('is all zeros for an empty lesson', () => {

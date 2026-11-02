@@ -34,7 +34,7 @@ import type { BarModel } from '@/lib/studylab/checkBarModel'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
 import { continueFor, dockModel, cameraInsets, quietStage, type ContinueTarget } from '@/lib/studylab/spotlight'
 import { drawerKey } from '@/lib/studylab/drawerKey'
-import { lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
+import { lessonFinished, lessonSummary, SUMMARY_DELAY_MS } from '@/lib/studylab/scenes'
 import { playSound } from '@/lib/studylab/sound'
 import { focusWidthFor, journeyFrame, RIBBON_ROOM } from '@/lib/studylab/trail/camera'
 import { latestLine } from '@/lib/studylab/bubble'
@@ -293,11 +293,17 @@ function TrailStageInner(props: LessonStageProps) {
   const finished = board.run?.phase === 'done'
   const prevRun = useRef<LessonRun | null>(null)
   const [summaryOpen, setSummaryOpen] = useState(finished)
+  // Held back a moment: the last check's result shows on its card first, or a
+  // right answer would be hidden behind the end screen the instant it landed.
+  const summaryTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   useEffect(() => {
     const prev = prevRun.current
     prevRun.current = board.run
-    if (lessonFinished(prev, board.run)) setSummaryOpen(true)
+    if (lessonFinished(prev, board.run)) {
+      summaryTimer.current = setTimeout(() => setSummaryOpen(true), SUMMARY_DELAY_MS)
+    }
   }, [board.run])
+  useEffect(() => () => { if (summaryTimer.current) clearTimeout(summaryTimer.current) }, [])
   const closeSummary = useCallback(() => setSummaryOpen(false), [])
 
   // A station done: a sound, Kana's hop, and the camera pulled back to show the journey.

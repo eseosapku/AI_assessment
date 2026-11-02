@@ -1,7 +1,18 @@
 // lib/studylab/activities/patterns/vary.test.ts
 import { goalOf } from './vary'
 import { describe, it, expect } from 'vitest'
-import { varyModule, computeReadouts, barReadings, sceneUrl, extraReadouts } from './vary'
+import { varyModule, computeReadouts, barReadings, sceneUrl, extraReadouts, unitAfter } from './vary'
+
+describe('a unit after its number', () => {
+  it('is singular at 1 and only then', () => {
+    expect(unitAfter(1, 'units')).toBe(' unit')
+    expect(unitAfter(1, 'square units')).toBe(' square unit')
+    expect(unitAfter(2, 'square units')).toBe(' square units')
+    expect(unitAfter(1, 'cm')).toBe(' cm')
+    expect(unitAfter(1, 's')).toBe(' s')
+    expect(unitAfter(1)).toBe('')
+  })
+})
 import { evaluateSuccess } from '../success'
 import type { VaryPayload } from '../types'
 

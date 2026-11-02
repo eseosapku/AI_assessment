@@ -27,12 +27,15 @@ export function lessonFinished(prev: LessonRun | null, next: LessonRun | null): 
   return !!prev && !!next && prev.phase !== 'done' && next.phase === 'done'
 }
 
+/** How long the Trail waits before the end screen, so the last check's result is seen. */
+export const SUMMARY_DELAY_MS = 2500
+
 export interface LessonSummary {
   /** Steps taught and passed. */
   stations: number
   /** Steps tested out of. */
   known: number
-  /** Questions, problems, activities and materials got right. */
+  /** Questions and practice problems got right. Activities and scenes are not counted. */
   practised: number
   minutes: number
 }
@@ -44,12 +47,9 @@ export interface LessonSummary {
 export function lessonSummary(run: LessonRun, nodes: StudyNode[], activeMs: number): LessonSummary {
   const practised = nodes.filter((n) => {
     const d = n.data
-    return (
-      d.quiz?.state === 'correct' ||
-      d.practice?.state === 'correct' ||
-      d.activityState?.status === 'solved' ||
-      d.materialState?.status === 'solved'
-    )
+    // Questions only: a solved activity or scene is not a question, and the
+    // end screen calls this number "questions right".
+    return d.quiz?.state === 'correct' || d.practice?.state === 'correct'
   }).length
   return {
     stations: run.steps.filter((s) => s.status === 'done').length,

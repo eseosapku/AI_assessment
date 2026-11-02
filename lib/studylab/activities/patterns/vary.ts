@@ -36,6 +36,16 @@ export function modelValue(payload: VaryPayload, expr: string, value: number): n
 }
 
 /**
+ * A unit after its number, in the singular when the number is 1: "1 unit",
+ * "1 square unit". Only a plural word is changed; "cm" and "s" stay.
+ */
+export function unitAfter(value: number, unit?: string): string {
+  if (!unit) return ''
+  const one = value === 1 && unit.length > 3 && /[^s]s$/.test(unit) ? unit.slice(0, -1) : unit
+  return ` ${one}`
+}
+
+/**
  * Each bar read out: its value now, in the unit of the readout of the same
  * name. A bar showed only a height, and a height with no number and no unit
  * says nothing about the river it stands for.

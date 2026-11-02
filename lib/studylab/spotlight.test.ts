@@ -284,8 +284,8 @@ describe('the bar names the move on a station', () => {
   })
   const label = (nodes: StudyNode[], r: LessonRun) => continueFor(null, { nodes, run: r, busy: false })?.label
 
-  it(`says "I've tried it" once the explore material is solved, and Continue before`, () => {
-    expect(label([material('solved')], station('explore'))).toBe("I've tried it")
+  it(`says Continue once the explore material is solved, beside its Solved`, () => {
+    expect(label([material('solved')], station('explore'))).toBe('Continue')
     expect(label([material('in_progress')], station('explore'))).toBe('Continue')
   })
   it('counts a predict item as tried once it is answered, right or wrong', () => {
