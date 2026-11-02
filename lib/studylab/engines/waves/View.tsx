@@ -7,15 +7,21 @@ import { FREQ_MAX, FREQ_MIN, SLOW_FREQ_MAX, madeText, made, working } from './co
 type Props = SceneViewProps<WavesConfig, WavesState>
 type Task = WavesConfig['task']
 
-// A flat dark stage in both themes, so the rope reads as a bright line. Flat colours only.
-const STAGE = '#0F1722'
-const ROPE = '#7FCBEF'
-const DOT = '#FF8A3D'
-const TARGET = '#6EE7A0'
-const WHITE = '#F2F5F8'
-const TRACK = '#5B6B7E'
-const INK = 'var(--ss-ink, #16202A)'
-const HALO = { stroke: STAGE, strokeWidth: 4, paintOrder: 'stroke', strokeLinejoin: 'round' } as const
+// A quiet light plate in both themes, like measure-shape's: the picture keeps its own colours. Flat colours only.
+const PLATE = '#F8FAFC'
+const PLATE_EDGE = '#CBD5E1'
+const HAIR = '#DCE3EA'
+const INK = '#334155'
+const SOFT = '#475569'
+const ROPE_EDGE = '#7C5A2C'
+const ROPE = '#C29A5C'
+const ROPE_TWIST = '#E6CE9C'
+const DOT = '#D9731F'
+const DOT_EDGE = '#8F4610'
+const TARGET = '#2F7FB8'
+const TARGET_INK = '#1F6397'
+const GRIP = '#475569'
+const GRIP_HI = '#94A3B8'
 
 // ---------------------------------------------------------------------------
 // Geometry (viewBox pixels). Exported for the tests.
@@ -23,16 +29,16 @@ const HALO = { stroke: STAGE, strokeWidth: 4, paintOrder: 'stroke', strokeLinejo
 // each other (the test checks they agree).
 
 export const W = 360
-export const H = 330
+export const H = 316
 export const X0 = 40
 export const X1 = 336
 export const PX_PER_M = (X1 - X0) / 12
-export const PX_PER_AMP = 13
-export const TARGET_Y = 72
-export const BRACKET_Y = 134
+export const PX_PER_AMP = 11
+export const TARGET_Y = 70
+export const BRACKET_Y = 148
 export const ROPE_Y = 226
-export const LABEL_A = 304
-export const LABEL_B = 322
+export const LABEL_A = 292
+export const LABEL_B = 308
 /** Pictures run slower than life, so the eye can follow: a wave crosses the thin rope in 2.5 s. */
 export const TIME_SCALE = 0.4
 export const STILL_PHASE = 0.9
@@ -134,10 +140,12 @@ function ropePath(h: History, task: Task, now: number, from = 0, to = LENGTH): s
   }
   return parts.join('')
 }
+/** The bracket's label sits over its middle, kept inside the plate. */
+const textX = (br: { from: number; to: number }) => clamp((xOf(br.from) + xOf(br.to)) / 2, 36, W - 36)
 function bracketPath(from: number, to: number): string {
   const a = xOf(from)
   const b = xOf(to)
-  return `M${a.toFixed(1)} ${BRACKET_Y - 6}V${BRACKET_Y + 6}M${a.toFixed(1)} ${BRACKET_Y}H${b.toFixed(1)}M${b.toFixed(1)} ${BRACKET_Y - 6}V${BRACKET_Y + 6}`
+  return `M${a.toFixed(1)} ${BRACKET_Y - 5}V${BRACKET_Y + 5}M${a.toFixed(1)} ${BRACKET_Y}H${b.toFixed(1)}M${b.toFixed(1)} ${BRACKET_Y - 5}V${BRACKET_Y + 5}`
 }
 
 /** The target: the wave that has to be made, fixed on the page. */
@@ -159,15 +167,15 @@ export function targetPath(config: WavesConfig): string {
 
 /** The labels under the picture, with where each starts and how much room its words take. */
 export function bottomLabels(task: Task): { text: string; x: number; row: 'A' | 'B'; anchor: 'start' | 'middle' | 'end'; wide: number; color: string }[] {
-  const width = (s: string) => Math.ceil(s.length * 8)
+  const width = (s: string) => Math.ceil(s.length * 7.5)
   const dots = dotsOf(task).map((m) => ({ text: 'orange dot', x: xOf(m), row: 'A' as const, anchor: 'middle' as const, wide: width('orange dot'), color: DOT }))
-  const hand = { text: 'hand', x: X0, row: 'A' as const, anchor: 'middle' as const, wide: width('hand'), color: WHITE }
+  const hand = { text: 'hand', x: X0, row: 'A' as const, anchor: 'middle' as const, wide: width('hand'), color: SOFT }
   const rope = task === 'slow'
     ? [
-        { text: 'thin rope', x: xOf(JOIN_AT / 2), row: 'B' as const, anchor: 'middle' as const, wide: width('thin rope'), color: ROPE },
-        { text: 'thick rope', x: xOf((JOIN_AT + LENGTH) / 2), row: 'B' as const, anchor: 'middle' as const, wide: width('thick rope'), color: ROPE },
+        { text: 'thin rope', x: xOf(JOIN_AT / 2), row: 'B' as const, anchor: 'middle' as const, wide: width('thin rope'), color: SOFT },
+        { text: 'thick rope', x: xOf((JOIN_AT + LENGTH) / 2), row: 'B' as const, anchor: 'middle' as const, wide: width('thick rope'), color: SOFT },
       ]
-    : [{ text: 'blue rope', x: xOf(LENGTH / 2), row: 'B' as const, anchor: 'middle' as const, wide: width('blue rope'), color: ROPE }]
+    : [{ text: 'rope', x: xOf(LENGTH / 2), row: 'B' as const, anchor: 'middle' as const, wide: width('rope'), color: SOFT }]
   return [hand, ...dots, ...rope]
 }
 
@@ -181,44 +189,25 @@ export function labelSpans(task: Task) {
 
 // ---------------------------------------------------------------------------
 
-function Tap({ label, sign, off, onTap }: { label: string; sign: '+' | '-'; off: boolean; onTap: () => void }) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      disabled={off}
-      onClick={onTap}
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ss-panel outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:opacity-40"
-      style={{ border: `2.5px solid ${INK}` }}
-    >
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke={INK} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-        <path d={sign === '+' ? 'M8 2 V14 M2 8 H14' : 'M2 8 H14'} />
-      </svg>
-    </button>
-  )
-}
+const STEP = 'nodrag flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-lg border-2 border-ss-line bg-ss-panel text-[16px] font-extrabold leading-none text-ss-ink touch-manipulation transition-colors hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none'
 
 function Control(props: { name: string; level: number; max: number; less: string; more: string; locked: boolean; set: (v: number) => void; min: number }) {
   const { name, level, max, min, less, more, locked, set } = props
   return (
-    <div className="flex flex-col items-center gap-1.5">
-      <span className="text-[13px] font-extrabold text-ss-ink">{name}</span>
-      <div className="flex items-center gap-1">
-        <Tap label={less} sign="-" off={locked || level <= min} onTap={() => set(level - 1)} />
-        <span className="flex items-center gap-[3px]" aria-hidden="true">
-          {Array.from({ length: max }, (_, i) => (
-            <span key={i} className="h-2.5 w-2.5 rounded-full" style={{ background: i < level ? INK : 'transparent', border: `2px solid ${INK}` }} />
-          ))}
-        </span>
-        <Tap label={more} sign="+" off={locked || level >= max} onTap={() => set(level + 1)} />
-      </div>
+    <div className="flex items-center justify-between gap-1.5">
+      <span className="text-[12px] font-bold text-ss-slate">{name}</span>
+      <span className="flex items-center gap-1">
+        <button type="button" aria-label={less} disabled={locked || level <= min} onClick={() => set(level - 1)} className={STEP}>{'\u2212'}</button>
+        <span className="min-w-[28px] text-center text-[15px] font-extrabold tabular-nums text-ss-ink" aria-hidden="true">{level}</span>
+        <button type="button" aria-label={more} disabled={locked || level >= max} onClick={() => set(level + 1)} className={STEP}>+</button>
+      </span>
     </div>
   )
 }
 
 function describe(config: WavesConfig, f: number): string {
   const crests = config.task === 'slow' ? `${f} crests along the thin rope and ${f * 2} along the thick rope` : `${f} crests along the rope`
-  return `A dark stage. A hand shakes the left end of a rope and the wave travels to the right, ${crests}. ${config.task === 'slow' ? 'The rope is thin on the left and thick on the right. A dashed green wave above the thick part shows the wave to make. ' : 'A dashed green wave above the rope shows the wave to make. '}A white bracket marks how far the first wave has got in one shake. Orange dot${config.task === 'slow' ? 's' : ''} on the rope only move up and down.`
+  return `A hand shakes the left end of a rope and the wave travels to the right, ${crests}. ${config.task === 'slow' ? 'The rope is thin on the left and thick on the right. A dashed blue wave above the thick part shows the wave to make. ' : 'A dashed blue wave above the rope shows the wave to make. '}A bracket marks how far the first wave has got in one shake. Orange dot${config.task === 'slow' ? 's' : ''} on the rope only move up and down.`
 }
 
 export function WavesView({ config, state, setState, marked, reduced, locked }: Props) {
@@ -252,17 +241,17 @@ export function WavesView({ config, state, setState, marked, reduced, locked }: 
     if (reduced || !svg) { hist.current = null; return }
     const start = live.current
     hist.current = { h: steady(start.f, start.a, STILL_PHASE), now: 0, f: start.f, a: start.a, p: STILL_PHASE }
-    const set = (sel: string, name: string, value: string) => svg.querySelector(sel)?.setAttribute(name, value)
+    const set = (sel: string, name: string, value: string) => svg.querySelectorAll(sel).forEach((n) => n.setAttribute(name, value))
     const paint = () => {
       const s = hist.current
       if (!s) return
       set('[data-rope]', 'd', slow ? ropePath(s.h, task, s.now, 0, JOIN_AT) : ropePath(s.h, task, s.now))
       if (slow) set('[data-rope2]', 'd', ropePath(s.h, task, s.now, JOIN_AT, LENGTH))
-      set('[data-hand]', 'cy', (ROPE_Y - heightAt(s.h, task, s.now, 0) * PX_PER_AMP).toFixed(1))
-      dots.forEach((m, i) => set(`[data-dot="${i}"]`, 'cy', (ROPE_Y - heightAt(s.h, task, s.now, m) * PX_PER_AMP).toFixed(1)))
+      set('[data-hand]', 'transform', `translate(${X0} ${(ROPE_Y - heightAt(s.h, task, s.now, 0) * PX_PER_AMP).toFixed(1)})`)
+      dots.forEach((m, i) => set(`[data-dot="${i}"]`, 'transform', `translate(${xOf(m).toFixed(1)} ${(ROPE_Y - heightAt(s.h, task, s.now, m) * PX_PER_AMP).toFixed(1)})`))
       const br = oneWave(s.h, task, s.now)
       set('[data-bracket]', 'd', bracketPath(br.from, br.to))
-      set('[data-bracket-text]', 'x', (Math.max(xOf(br.from), xOf(br.to)) + 8).toFixed(1))
+      set('[data-bracket-text]', 'x', textX(br).toFixed(1))
     }
     let raf = 0
     let last = 0
@@ -297,42 +286,54 @@ export function WavesView({ config, state, setState, marked, reduced, locked }: 
   const labels = bottomLabels(task)
   const trackTop = ROPE_Y - 4 * PX_PER_AMP - 8
   const trackBottom = ROPE_Y + 4 * PX_PER_AMP + 8
-  const targetLabelX = slow ? xOf(JOIN_AT) : 4
+  const targetLabelX = slow ? xOf(JOIN_AT) : 16
+  const thin = slow ? 5 : 6.5
+  const thick = 10
+  const lay = (key: string, d: string, w: number, ext: object) => (
+    <g key={key} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path {...ext} d={d} stroke={ROPE_EDGE} strokeWidth={w + 2.5} />
+      <path {...ext} d={d} stroke={ROPE} strokeWidth={w} />
+      <path {...ext} d={d} stroke={ROPE_TWIST} strokeWidth={Math.max(1.4, w * 0.3)} strokeLinecap="butt" strokeDasharray={`${(w * 0.55).toFixed(1)} ${(w * 0.95).toFixed(1)}`} />
+    </g>
+  )
 
   return (
-    <div className="nodrag flex flex-col items-center gap-2" onKeyDown={onKey}>
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${W} ${H}`}
-        role="img"
-        aria-label={describe(config, f)}
-        className="block h-auto w-full max-w-[360px] select-none"
-        style={{ background: STAGE, borderRadius: 14 }}
-      >
-        {/* the target, dashed green, above the rope */}
-        <path d={targetPath(config)} fill="none" stroke={TARGET} strokeWidth={4} strokeDasharray="9 7" strokeLinecap="round" strokeLinejoin="round" />
-        <text x={targetLabelX} y={16} fontSize={14} fontWeight={700} fill={TARGET} style={HALO}>make this wave</text>
-        {/* how far the first wave got while the hand shook once */}
-        <path data-bracket d={bracketPath(first.br.from, first.br.to)} fill="none" stroke={WHITE} strokeWidth={2.5} strokeLinecap="round" />
-        <text data-bracket-text x={Math.max(xOf(first.br.from), xOf(first.br.to)) + 8} y={BRACKET_Y + 5} textAnchor="start" fontSize={14} fontWeight={700} fill={WHITE} style={HALO}>one wave</text>
-        {/* a thin line through the hand and each dot: they only go up and down */}
-        <line x1={X0} x2={X0} y1={trackTop} y2={trackBottom} stroke={TRACK} strokeWidth={2} strokeDasharray="2 5" strokeLinecap="round" />
-        {dots.map((m) => (
-          <line key={m} x1={xOf(m)} x2={xOf(m)} y1={trackTop} y2={trackBottom} stroke={DOT} strokeWidth={2} strokeDasharray="2 5" strokeLinecap="round" />
-        ))}
-        {/* the rope */}
-        <path data-rope d={first.rope} fill="none" stroke={ROPE} strokeWidth={slow ? 3.5 : 5} strokeLinecap="round" strokeLinejoin="round" />
-        {slow && <path data-rope2 d={first.rope2} fill="none" stroke={ROPE} strokeWidth={8} strokeLinecap="round" strokeLinejoin="round" />}
-        {/* the hand and the dots */}
-        <circle data-hand cx={X0} cy={first.hand} r={11} fill={WHITE} />
-        {dots.map((m, i) => (
-          <circle key={m} data-dot={i} cx={xOf(m)} cy={first.dots[i]} r={9} fill={DOT} stroke={STAGE} strokeWidth={2.5} />
-        ))}
-        {labels.map((l) => (
-          <text key={`${l.text}${l.x}`} x={l.x} y={l.row === 'A' ? LABEL_A : LABEL_B} textAnchor={l.anchor} fontSize={14} fontWeight={700} fill={l.color} style={HALO}>{l.text}</text>
-        ))}
-      </svg>
-      <div className={slow ? 'flex w-full max-w-[360px] justify-center' : 'grid w-full max-w-[360px] grid-cols-2'}>
+    <div className="nodrag flex flex-col items-center gap-3" onKeyDown={onKey}>
+      <figure className="flex w-full max-w-[360px] flex-col gap-1.5">
+        <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={describe(config, f)} className="block h-auto w-full select-none">
+          <rect width={W} height={H} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+          {/* the target, dashed, above the rope */}
+          <path d={targetPath(config)} fill="none" stroke={TARGET} strokeWidth={2.5} strokeDasharray="7 6" strokeLinecap="round" strokeLinejoin="round" />
+          <text x={targetLabelX} y={19} fontSize={12} fontWeight={700} fill={TARGET_INK}>make this wave</text>
+          {/* how far the first wave got while the hand shook once */}
+          <path data-bracket d={bracketPath(first.br.from, first.br.to)} fill="none" stroke={INK} strokeWidth={1.6} strokeLinecap="round" />
+          <text data-bracket-text x={textX(first.br)} y={BRACKET_Y - 10} textAnchor="middle" fontSize={12} fontWeight={700} fill={INK}>one wave</text>
+          {/* where the rope rests, and a line through the hand and each dot: they only go up and down */}
+          <line x1={X0} x2={X1} y1={ROPE_Y} y2={ROPE_Y} stroke={HAIR} strokeWidth={1.5} />
+          {[X0, ...dots.map(xOf)].map((x) => (
+            <line key={x} x1={x} x2={x} y1={trackTop} y2={trackBottom} stroke={PLATE_EDGE} strokeWidth={1.5} strokeDasharray="2 4" strokeLinecap="round" />
+          ))}
+          {/* the rope */}
+          {lay('a', first.rope, thin, { 'data-rope': '' })}
+          {slow && lay('b', first.rope2, thick, { 'data-rope2': '' })}
+          {/* the handle in the hand, and the dots on the rope */}
+          <g data-hand transform={`translate(${X0} ${first.hand})`}>
+            <rect x={-6} y={-14} width={12} height={28} rx={5} fill={GRIP} stroke={INK} strokeWidth={1} />
+            <rect x={-3.2} y={-11} width={2.6} height={22} rx={1.3} fill={GRIP_HI} />
+            <circle r={2.6} fill={ROPE_EDGE} />
+          </g>
+          {dots.map((m, i) => (
+            <circle key={m} data-dot={i} transform={`translate(${xOf(m)} ${first.dots[i]})`} r={6.5} fill={DOT} stroke="#FFFFFF" strokeWidth={2} />
+          ))}
+          {labels.map((l) => (
+            <text key={`${l.text}${l.x}`} x={l.x} y={l.row === 'A' ? LABEL_A : LABEL_B} textAnchor={l.anchor} fontSize={12} fontWeight={700} fill={l.text === 'orange dot' ? DOT_EDGE : l.color}>{l.text}</text>
+          ))}
+        </svg>
+        <figcaption className="text-center text-[12px] font-bold text-ss-slate">
+          Shake the handle: the wave runs down the rope.
+        </figcaption>
+      </figure>
+      <div className="flex w-full max-w-[360px] flex-col gap-1.5">
         <Control name="How fast you shake" level={f} min={FREQ_MIN} max={slow ? SLOW_FREQ_MAX : FREQ_MAX} less="Shake slower" more="Shake faster" locked={locked} set={setF} />
         {!slow && <Control name="How far you shake" level={a} min={1} max={4} less="Shake a shorter distance" more="Shake a longer distance" locked={locked} set={setA} />}
       </div>
@@ -343,5 +344,5 @@ export function WavesView({ config, state, setState, marked, reduced, locked }: 
 
 function Verdict({ marked, text }: { marked: SceneMarked; text: string }) {
   if (marked === 'idle') return null
-  return <p className="max-w-[340px] text-center text-[13px] font-extrabold leading-snug text-ss-ink">{text}</p>
+  return <p className="w-full max-w-[360px] rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-2 text-[13px] font-extrabold leading-snug text-ss-ink" aria-live="polite">{text}</p>
 }

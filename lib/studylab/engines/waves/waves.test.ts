@@ -232,7 +232,7 @@ describe('the waves scene on the board', () => {
     renderToStaticMarkup(createElement(WavesView, { config: cfg, state, setState: () => {}, marked, reduced, locked: marked === 'right' }))
   const text = (html: string) => html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ')
 
-  it('before marking: round buttons, named colours, and none of the answer', () => {
+  it('before marking: steppers, named things, and none of the answer', () => {
     for (const [cfg, prompt] of [
       [{ task: 'match', frequency: 3, amplitude: 2 }, 'Shake the end of the rope so the wave matches the dashed green wave.'],
       [{ task: 'slow', frequency: 2 }, 'The rope gets thicker part way along. Shake the end so the wave on the thick part matches the dashed green wave.'],
@@ -249,7 +249,7 @@ describe('the waves scene on the board', () => {
       expect(shown).toContain('one wave')
       expect(shown).toContain('orange dot')
       expect(shown).toContain('hand')
-      expect(html).toContain(cfg.task === 'slow' ? 'thick rope' : 'blue rope')
+      expect(html).toContain(cfg.task === 'slow' ? 'thick rope' : 'rope')
       expect(html).not.toMatch(/gradient|filter|drop-shadow|box-shadow/i)
       expect(html).not.toMatch(/Hz|hertz/i)
     }
