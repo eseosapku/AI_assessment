@@ -19,6 +19,7 @@ import { latestLine } from '@/lib/studylab/bubble'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { StationScene } from './StationScene'
 import { LessonCompleteScene } from './LessonCompleteScene'
+import type { TrailWiring } from '@/lib/studylab/trail/look'
 
 // React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('../StudyCanvas'), {
@@ -59,6 +60,8 @@ export interface LessonStageProps {
   boardOverlay?: ReactNode
   /** Outside the layout: offers and coach marks. */
   children?: ReactNode
+  /** Read only by the Trail stage, which takes these same props. */
+  trail?: TrailWiring
 }
 
 const INSETS = cameraInsets(false)

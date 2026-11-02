@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -57,7 +57,7 @@ const COMFORT_ZOOM = 0.85
  */
 const FIT_VIEW_OPTIONS = { padding: 0.3, maxZoom: 1 }
 
-const CARD_ACTIONS = [
+export const CARD_ACTIONS = [
   { label: 'Explain this deeper', text: 'explain this deeper.' },
   { label: 'Simplify this', text: 'rewrite this in the simplest possible terms, as if for a beginner — shorter and plainer.' },
   { label: 'Regenerate this card', text: 'regenerate this card from scratch with a fresh explanation, replacing the current one.' },
@@ -119,6 +119,8 @@ export interface StudyCanvasProps {
   overview?: boolean
   /** The cards' drawn sizes, so the layout can space them by what they are. */
   onNodesMeasured?: (sizes: Record<string, { w: number; h: number }>) => void
+  /** Beside the board's tools: the offer to try the Trail. */
+  boardExtra?: ReactNode
 }
 
 const NO_FOCUS: string[] = []
@@ -138,6 +140,7 @@ function FlowInner({
   onViewSettled,
   overview = false,
   onNodesMeasured,
+  boardExtra,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -868,6 +871,7 @@ function FlowInner({
           </button>
           {/* Up here, clear of the bar along the foot of the board. */}
           <ZoomControl />
+          {boardExtra}
           {tools && (
           <div className="relative">
             <button
@@ -996,6 +1000,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             onViewSettled={props.onViewSettled}
             overview={props.overview}
             onNodesMeasured={props.onNodesMeasured}
+            boardExtra={props.boardExtra}
             onExploreChange={props.onExploreChange}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}

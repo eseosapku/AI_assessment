@@ -2,11 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
 import ProductTour from '@/components/studio/ProductTour'
 import DemoOffer from './DemoOffer'
-import LessonStage from './stage/LessonStage'
+import LessonStage, { type LessonStageProps } from './stage/LessonStage'
 import { useActiveTime } from './stage/useActiveTime'
+import { useLook } from './trail/useLook'
+import type { LastAsk } from '@/lib/studylab/trail/look'
 import type { CanvasEffects } from './StudyCanvas'
 import { toggleStepGroup, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
@@ -31,6 +34,16 @@ import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
+
+// Only the learners trying the Trail load it.
+const TrailStage = dynamic<LessonStageProps>(() => import('./trail/TrailStage'), {
+  ssr: false,
+  loading: () => (
+    <div className="h-screen w-full flex items-center justify-center bg-ss-canvas dark:bg-[#0a0a0a]">
+      <Loader2 className="w-8 h-8 text-ss-accent animate-spin" />
+    </div>
+  ),
+})
 
 interface GapFocus {
   topic_name: string | null
@@ -69,6 +82,9 @@ export default function Workspace({ id }: { id: string }) {
   // What the stage is about: the cards the last turn built, or the one the
   // learner was sent to. Empty after a reload; the spotlight falls back.
   const [focus, setFocus] = useState<string[]>([])
+  const { look, eligible: trailOffered, setLook } = useLook(run, messages)
+  // The latest question answered with new cards: a detour, on the Trail.
+  const [lastAsk, setLastAsk] = useState<LastAsk | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -327,6 +343,9 @@ export default function Workspace({ id }: { id: string }) {
             // What this turn built is the new focus; the board's camera follows it.
             const seen = focusFromTurn(turn.created, turn.effects)
             if (seen.focus) setFocus(seen.focus)
+            if (action.type === 'ask' && turn.created.length > 0) {
+              setLastAsk((prev) => ({ version: (prev?.version ?? 0) + 1, question: String(action.question), created: turn.created }))
+            }
             setPointer(seen.point)
             if (seen.effects.length > 0) {
               effectVersion.current += 1
@@ -1222,8 +1241,9 @@ export default function Workspace({ id }: { id: string }) {
     )
   }
 
+  const Stage = look === 'trail' ? TrailStage : LessonStage
   return (
-    <LessonStage
+    <Stage
       subjectKey={space.subject ?? space.title}
       focus={focus}
       activeMs={canvas.activeMs ?? 0}
@@ -1232,6 +1252,7 @@ export default function Workspace({ id }: { id: string }) {
       onHandIn={handIn}
       pointer={pointer}
       onShowNode={showNode}
+      trail={{ spaceId: id, lastAsk, onClassic: () => setLook('classic') }}
       rail={{
         title: space.title,
         subject: space.subject,
@@ -1284,6 +1305,15 @@ export default function Workspace({ id }: { id: string }) {
         title: space?.title,
         plan: canvas.plan,
         onNodesMeasured: handleMeasured,
+        boardExtra: trailOffered && (
+          <button
+            type="button"
+            onClick={() => setLook('trail')}
+            className="flex items-center gap-1.5 rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[12px] font-semibold text-ss-ink shadow-ss-panel hover:border-ss-accent"
+          >
+            Try the new look
+          </button>
+        ),
       }}
       chat={{
         messages,
@@ -1323,7 +1353,7 @@ export default function Workspace({ id }: { id: string }) {
           the pace toggle is hidden during planning, and Continue is replaced by
           the plan card's own buttons — so running it on arrival would spotlight
           things that are not there yet. */}
-      <ProductTour id="lesson" enabled={run?.phase === 'teaching' && canvas.nodes.length > 0} />
-    </LessonStage>
+      <ProductTour id="lesson" enabled={look === 'classic' && run?.phase === 'teaching' && canvas.nodes.length > 0} />
+    </Stage>
   )
 }
