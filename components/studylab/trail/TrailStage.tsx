@@ -6,7 +6,6 @@ import type { LessonStageProps } from '../stage/LessonStage'
 import ChatMouthpiece from '../ChatMouthpiece'
 import { Kana } from '../kana/Kana'
 import { StageContext, type StageValue, type HelpRequest } from '../stage/StageContext'
-import { StationScene } from '../stage/StationScene'
 import { LessonCompleteScene } from '../stage/LessonCompleteScene'
 import { CanvasContext } from '../canvasShared'
 import { CARD_ACTIONS } from '../StudyCanvas'
@@ -33,7 +32,9 @@ import type { BarModel } from '@/lib/studylab/checkBarModel'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
 import { continueFor, dockModel, cameraInsets, quietStage, type ContinueTarget } from '@/lib/studylab/spotlight'
 import { drawerKey } from '@/lib/studylab/drawerKey'
-import { settledSince, lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
+import { lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
+import { playSound } from '@/lib/studylab/sound'
+import { journeyFrame } from '@/lib/studylab/trail/camera'
 import { latestLine } from '@/lib/studylab/bubble'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import type { Rect } from '@/lib/studylab/trail/types'
@@ -251,21 +252,26 @@ function TrailStageInner(props: LessonStageProps) {
   const heading = useMemo(() => ({ title: rail.title, subject: rail.subject }), [rail.title, rail.subject])
   const showCard = useCallback((rect: Rect) => canvas.current?.flyTo(rect), [])
 
-  // The moments worth marking, read off the run as it changes. A reload has no
-  // previous run, so it never replays either.
+  // The end of the lesson, read off the run as it changes; or the lesson opened
+  // already finished, which shows its summary too. A station's end has no previous
+  // run on a reload, so it never replays.
+  const finished = board.run?.phase === 'done'
   const prevRun = useRef<LessonRun | null>(null)
-  const [stamp, setStamp] = useState<string | null>(null)
-  const [summaryOpen, setSummaryOpen] = useState(false)
+  const [summaryOpen, setSummaryOpen] = useState(finished)
   useEffect(() => {
     const prev = prevRun.current
     prevRun.current = board.run
-    const done = settledSince(prev, board.run)
     if (lessonFinished(prev, board.run)) setSummaryOpen(true)
-    else if (done.length > 0) setStamp(done[done.length - 1].title)
   }, [board.run])
-  const clearStamp = useCallback(() => setStamp(null), [])
   const closeSummary = useCallback(() => setSummaryOpen(false), [])
-  const finished = board.run?.phase === 'done'
+
+  // A station done: a sound, Kana's hop, and the camera pulled back to show the journey.
+  const interlude = model.interlude
+  const interludeKey = interlude ? `${interlude.done}-${interlude.next}` : null
+  useEffect(() => {
+    if (interludeKey) playSound('complete')
+  }, [interludeKey])
+  const restFrame = useMemo(() => (interlude ? journeyFrame(world, interlude.done, interlude.next) : null), [interlude, world])
 
   const openChat = useCallback(() => setOpen(true), [setOpen])
   const [menuOpen, setMenuOpen] = useState(false)
@@ -340,14 +346,16 @@ function TrailStageInner(props: LessonStageProps) {
               </TrailChatPanel>
               <div data-tour="lesson-board" data-stage-board className="relative h-full min-w-0 flex-1">
                 {boardOverlay}
-                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning ? openingInsets(baseInsets) : lookBack || detourOpen ? { ...baseInsets, top: baseInsets.top + RIBBON_ROOM } : baseInsets} onCardPrompt={board.onCardPrompt} heading={heading} opening={planning}>
+                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning ? openingInsets(baseInsets) : lookBack || detourOpen ? { ...baseInsets, top: baseInsets.top + RIBBON_ROOM } : baseInsets} onCardPrompt={board.onCardPrompt} heading={heading} restFrame={restFrame} opening={planning}>
                   <KanaOnBoard
                     world={world}
                     focusId={focusId}
                     line={line}
                     chips={chips}
-                    hidden={open || !!lookingBack}
+                    hidden={open || !!lookingBack || finished}
                     steppedBack={!!lookingBack}
+                    cheer={interludeKey}
+                    celebrating={finished}
                     band={planning}
                     pointer={pointer}
                     onMore={openChat}
@@ -403,7 +411,6 @@ function TrailStageInner(props: LessonStageProps) {
                   <TrailRibbon kind="detour" text={`You were on: ${world.plots[detourOpen.station]?.title ?? 'your station'}`} onBack={leaveDetour} />
                 ) : null}
                 <FiledCardsList items={filed} onOpen={model.open} />
-                <StationScene title={stamp} onDone={clearStamp} />
                 {finished && summaryOpen && board.run && (
                   <LessonCompleteScene
                     title={rail.title}
@@ -413,6 +420,7 @@ function TrailStageInner(props: LessonStageProps) {
                     provingIt={chat.provingIt}
                     proveUpdatesGapMap={chat.proveUpdatesGapMap}
                     onClose={closeSummary}
+                    mascot={<Kana pose="celebrate" size={84} />}
                   />
                 )}
               </div>

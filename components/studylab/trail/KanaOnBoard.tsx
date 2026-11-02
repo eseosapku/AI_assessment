@@ -48,7 +48,7 @@ function KanaLive({ pose, size = KANA_SIZE }: { pose: ReturnType<typeof kanaPose
  * Kana on the board with the tutor's latest line. The bubble is the newest thing
  * said; open the chat and it hides, because the same line is there.
  */
-export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, steppedBack, pointer, onMore, onChip, onShowCard }: {
+export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, steppedBack, cheer, celebrating, pointer, onMore, onChip, onShowCard }: {
   world: TrailWorld
   focusId: string | null
   line: BubbleLine | null
@@ -61,6 +61,10 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
   band?: boolean
   /** A finished card is open over everything: she steps back with the rest. */
   steppedBack?: boolean
+  /** Changes when a station ends: a hop and a burst of tiles. */
+  cheer?: string | null
+  /** The lesson is over: she holds the pose. */
+  celebrating?: boolean
   pointer: { nodeId: string; part?: string } | null
   onMore: () => void
   onChip: (text: string) => void
@@ -140,6 +144,17 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
     }
   }, [mover, tx, ty, focusId])
 
+  const hopAndBurst = () => {
+    const c = pos.current
+    if (!c || prefersReducedMotion()) return
+    body.current?.animate([{ transform: 'none' }, { transform: 'translateY(-30px)' }, { transform: 'none' }], { duration: 420, easing: 'ease-out' })
+    const mid = { x: c.x + KANA_SIZE / 2, y: c.y + KANA_SIZE / 2 }
+    for (let i = 0; i < SPARKS; i++) {
+      const a = (i / SPARKS) * Math.PI * 2
+      spark(i, mid, { x: mid.x + Math.cos(a) * 130, y: mid.y + Math.sin(a) * 130 }, 700)
+    }
+  }
+
   // A new line: she talks for a moment, and a right answer gets a hop and a burst of tiles.
   const key = line?.key ?? null
   const tone = line?.tone ?? null
@@ -152,15 +167,7 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
     if (!key || tone === 'working') return
     if (tone === 'good') {
       setReaction('good')
-      const c = pos.current
-      if (c && !prefersReducedMotion()) {
-        body.current?.animate([{ transform: 'none' }, { transform: 'translateY(-30px)' }, { transform: 'none' }], { duration: 420, easing: 'ease-out' })
-        const mid = { x: c.x + KANA_SIZE / 2, y: c.y + KANA_SIZE / 2 }
-        for (let i = 0; i < SPARKS; i++) {
-          const a = (i / SPARKS) * Math.PI * 2
-          spark(i, mid, { x: mid.x + Math.cos(a) * 130, y: mid.y + Math.sin(a) * 130 }, 700)
-        }
-      }
+      hopAndBurst()
     } else if (tone === 'nudge' || tone === 'refusal' || tone === 'error') {
       setReaction('nudge')
     } else {
@@ -172,6 +179,19 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
     }, SAY_MS)
     return () => clearTimeout(timer)
   }, [key, tone])
+
+  // The end of a station is worth the same, with or without a line to go with it.
+  const lastCheer = useRef(cheer ?? null)
+  useEffect(() => {
+    if ((cheer ?? null) === lastCheer.current) return
+    lastCheer.current = cheer ?? null
+    if (!cheer) return
+    setReaction('good')
+    hopAndBurst()
+    const timer = setTimeout(() => setReaction(null), SAY_MS)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cheer])
 
   // What the tutor is talking about glows until the next turn. Off in another
   // card, the camera goes to it.
@@ -200,7 +220,7 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
     }
   }, [pointNode, pointPart, focusId])
 
-  const pose = kanaPoseFor({ flying, reaction, talking, pointing: !!pointer })
+  const pose = kanaPoseFor({ flying, reaction: celebrating ? 'good' : reaction, talking, pointing: !!pointer })
   const words = line && !hidden && (
     <div key={line.key} className={`ss-trail-bubble ss-trail-bubble-${line.tone}`}>
       <span>{line.text}</span>

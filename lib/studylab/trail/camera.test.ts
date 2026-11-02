@@ -1,6 +1,13 @@
 // lib/studylab/trail/camera.test.ts
 import { describe, it, expect } from 'vitest'
-import { cameraFor, easeOut, panForKey, MIN_ZOOM } from './camera'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { LessonCompleteScene } from '@/components/studylab/stage/LessonCompleteScene'
+import type { LessonRun } from '../lessonRun'
+import { lessonSummary } from '../scenes'
+import { cameraFor, easeOut, journeyFrame, panForKey, MIN_ZOOM } from './camera'
+import { FOCUS_W, trailLayout } from './layout'
+import type { PlotInput } from './types'
 
 const box = { w: 1440, h: 900 }
 const insets = { top: 72, right: 32, bottom: 128, left: 32 }
@@ -56,5 +63,38 @@ describe('easeOut', () => {
     expect(easeOut(0)).toBe(0)
     expect(easeOut(1)).toBe(1)
     expect(easeOut(0.5)).toBeGreaterThan(0.5)
+  })
+})
+
+describe('journeyFrame', () => {
+  const plots = (n: number): PlotInput[] => Array.from({ length: n }, (_, i) => ({ id: `s${i}`, title: `S${i}`, state: 'future', focus: null, finished: [], filed: [], notes: 0 }))
+  it('the pull-back shows the finished station and the next one together', () => {
+    const world = trailLayout({ stations: plots(5), detours: [], focusWidth: FOCUS_W, speaker: true })
+    const r = journeyFrame(world, 1, 2)
+    for (const p of [world.plots[1].rect, world.plots[2].rect]) {
+      expect(p.x).toBeGreaterThanOrEqual(r.x)
+      expect(p.x + p.w).toBeLessThanOrEqual(r.x + r.w)
+      expect(p.y).toBeGreaterThanOrEqual(r.y)
+      expect(p.y + p.h).toBeLessThanOrEqual(r.y + r.h)
+    }
+  })
+  it('includes their names, and the bit of trail between rows', () => {
+    const world = trailLayout({ stations: plots(8), detours: [], focusWidth: FOCUS_W, speaker: true })
+    const r = journeyFrame(world, 3, 4)
+    expect(world.plots[3].label.y).toBeGreaterThanOrEqual(r.y)
+    expect(world.plots[4].label.y).toBeGreaterThanOrEqual(r.y)
+  })
+  it('a station with no plot asks for the whole board', () => {
+    const world = trailLayout({ stations: plots(3), detours: [], focusWidth: FOCUS_W, speaker: true })
+    expect(journeyFrame(world, 9, 10)).toEqual(world.bounds)
+  })
+})
+
+describe('the complete scene', () => {
+  const run = { phase: 'done', steps: [], currentStep: -1 } as unknown as LessonRun
+  const html = (p = {}) => renderToStaticMarkup(createElement(LessonCompleteScene, { title: 'T', summary: lessonSummary(run, [], 0), onClose() {}, ...p }))
+  it('takes a mascot, and classic still shows Inky by default', () => {
+    expect(html({ mascot: createElement('i', null, 'KANA') })).toContain('KANA')
+    expect(html()).not.toContain('KANA')
   })
 })

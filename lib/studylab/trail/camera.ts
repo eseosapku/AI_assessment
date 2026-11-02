@@ -1,5 +1,5 @@
 // lib/studylab/trail/camera.ts
-import type { Point, Rect, Size } from './types'
+import type { Point, Rect, Size, TrailWorld } from './types'
 
 /**
  * Where the camera goes on the Trail. Nothing here touches the board; the canvas
@@ -37,6 +37,18 @@ export function cameraFor(frame: Rect, box: Size, insets: Insets, opts: { minZoo
   const along = (start: number, size: number, room: number, inset: number) =>
     size * zoom > room ? inset - start * zoom : inset + (room - size * zoom) / 2 - start * zoom
   return { x: along(frame.x, frame.w, roomW, insets.left), y: along(frame.y, frame.h, roomH, insets.top), zoom }
+}
+
+/** After a station: the one just finished and the one ahead, with the trail between them. */
+export function journeyFrame(world: TrailWorld, done: number, next: number): Rect {
+  const a = world.plots[done]
+  const b = world.plots[next]
+  if (!a || !b) return world.bounds
+  const left = Math.min(a.rect.x, b.rect.x)
+  const top = Math.min(a.label.y, b.label.y)
+  const right = Math.max(a.rect.x + a.rect.w, b.rect.x + b.rect.w)
+  const bottom = Math.max(a.rect.y + a.rect.h, b.rect.y + b.rect.h)
+  return { x: left, y: top, w: right - left, h: bottom - top }
 }
 
 /** How far an arrow key moves the board, in screen pixels. */

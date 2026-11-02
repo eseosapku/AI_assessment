@@ -1,5 +1,6 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { useEffect, useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Map } from 'lucide-react'
@@ -21,7 +22,10 @@ export function LessonCompleteScene({
   provingIt,
   proveUpdatesGapMap,
   onClose,
+  mascot,
 }: {
+  /** Who celebrates. Inky, unless the stage says otherwise. */
+  mascot?: ReactNode
   title: string
   summary: LessonSummary
   before?: { title: string; accuracy: number } | null
@@ -64,7 +68,7 @@ export function LessonCompleteScene({
           className="flex flex-col items-center px-6 pb-5 pt-7 text-center"
           style={{ backgroundColor: 'color-mix(in srgb, var(--subject) 12%, var(--ss-panel))' }}
         >
-          <Inky size={84} mood="celebrating" />
+          {mascot ?? <Inky size={84} mood="celebrating" />}
           <h2 id="lesson-complete-title" className="mt-2 text-[24px] font-extrabold tracking-tight text-ss-ink">Lesson complete</h2>
           <p className="mt-1 text-[14px] font-semibold text-ss-slate [text-wrap:balance]">{title}</p>
         </header>

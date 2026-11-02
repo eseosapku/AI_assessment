@@ -43,6 +43,8 @@ interface TrailCanvasProps {
   insets: Insets
   onCardPrompt: (prompt: string, label: string) => void
   heading: TrailHeading
+  /** Where the camera rests with no card in focus. The whole board, unless a moment asks for less. */
+  restFrame?: Rect | null
   /** The plan is on the table: the trail draws itself in. */
   opening: boolean
   /** Drawn inside the board: Kana. */
@@ -55,7 +57,7 @@ interface TrailCanvasProps {
  * nothing here is written back: the classic view's positions are not the
  * Trail's to touch.
  */
-export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(function TrailCanvas({ model, nodes, insets, onCardPrompt, heading, opening, children }, ref) {
+export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(function TrailCanvas({ model, nodes, insets, onCardPrompt, heading, restFrame, opening, children }, ref) {
   const { world, placement, focusId, sizes, lookBack } = model
   const lookingBack = lookBack?.id ?? null
   const rf = useReactFlow()
@@ -70,6 +72,8 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
   frameRef.current = frame
   const boundsRef = useRef(world.bounds)
   boundsRef.current = world.bounds
+  const restRef = useRef(restFrame ?? world.bounds)
+  restRef.current = restFrame ?? world.bounds
   const insetsRef = useRef(insets)
   insetsRef.current = insets
 
@@ -87,7 +91,7 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     (instant = false) => {
       lastFramed.current = performance.now()
       if (frameRef.current) go(frameRef.current, { instant })
-      else go(boundsRef.current, { minZoom: WHOLE_BOARD_ZOOM, instant })
+      else go(restRef.current, { minZoom: WHOLE_BOARD_ZOOM, instant })
     },
     [go],
   )
@@ -122,9 +126,10 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     [],
   )
   const sized = !focusId || !!sizes[focusId]
+  const restKey = restFrame ? `${Math.round(restFrame.x)},${Math.round(restFrame.y)},${Math.round(restFrame.w)},${Math.round(restFrame.h)}` : ''
   useEffect(() => {
     // With no card in focus the camera shows the whole board, again whenever a new plan redraws it.
-    const key = focusId ?? `${WORLD}-${world.plots.length}`
+    const key = focusId ?? `${WORLD}-${world.plots.length}-${restKey}`
     if (!sized || framed.current === key) return
     setExploring(false)
     const timer = setTimeout(() => {
@@ -146,7 +151,7 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
       }, prefersReducedMotion() ? 0 : 480)
     }, 120)
     return () => clearTimeout(timer)
-  }, [focusId, sized, frameWork, world.plots.length])
+  }, [focusId, sized, frameWork, world.plots.length, restKey])
 
   // A plot beside this one grew and the focus card slid with it: the camera
   // keeps pace, at the same zoom, so the card stays still under the learner.
