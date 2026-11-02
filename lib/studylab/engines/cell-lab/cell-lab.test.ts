@@ -4,12 +4,12 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { ReactFlowProvider } from '@xyflow/react'
 import {
-  cellLabEngine as engine, DOTS_PER_PART, LEFT_MAX, RIGHT_MAX, RIGHT_MIN, SIDE_MAX, SIDE_MIN, TIMES_MAX, TIMES_MIN, WATER,
+  cellLabEngine as engine, LEFT_MAX, RIGHT_MAX, RIGHT_MIN, SIDE_MAX, SIDE_MIN, TIMES_MAX, TIMES_MIN, WATER,
   crossing, goodLefts, madeMembrane, madeSlice, membraneWorking, netOf, rat, ratText, sliceWorking, startLeft,
   type CellLabConfig, type CellLabState,
 } from './config'
 import {
-  BOX_L, BOX_R, DOT_R, MAX_DOTS, E, GAP, LABELS, LANE_X0, LANE_X1, MIN_GAP, PARTS, CellLabView, laneDots, levels, piecesOf, stillDots, tileX, TILE,
+  BOX_L, BOX_R, DOT_R, MAX_DOTS, E, GAP, LANE_X0, LANE_X1, MIN_GAP, CellLabView, laneDots, levels, piecesOf, stillDots, tileX, TILE,
 } from './View'
 import { getEngine, sceneCatalogue, scenesFor } from '../registry'
 import '..'
@@ -69,14 +69,15 @@ describe('the rules, from first principles', () => {
     expect(sliceWorking(5, 2)).toContain('1.2 : 1')
     expect(sliceWorking(5, 2)).toContain('2.4 : 1')
     expect(membraneWorking({ task: 'osmosis', right: 6, net: 'right' }, 2)).toBe(
-      'Water crossed both ways: 10 parts to the right for 6 to the left. The net 4 went to the right, toward the right side, which has more solute and so less water.')
+      'Water crossed both ways: 10 to the right for every 6 to the left. The net movement is to the right, toward the side with more solute and so less water.')
     expect(membraneWorking({ task: 'diffusion', right: 4, net: 'right' }, 7)).toContain('from the left, with more solute, to the right, with less')
     expect(membraneWorking({ task: 'osmosis', right: 6, net: 'none' }, 6)).toContain('never stopped')
   })
 
   it('says what the learner made when wrong, never what to change', () => {
     const c: Membrane = { task: 'osmosis', right: 6, net: 'right' }
-    expect(madeMembrane(c, 8)).toBe('You set the left to 8 parts of solute against 6 on the right: more water crossed to the left than came back.')
+    expect(madeMembrane(c, 8)).toBe('You put 8 solute particles on the left against 6 on the right: more water crossed to the left than came back.')
+    expect(madeMembrane(c, 1)).toContain('You put 1 solute particle on the left')
     expect(madeMembrane({ task: 'diffusion', right: 4, net: 'none' }, 4)).toContain('no net movement')
     expect(madeSlice({ task: 'surface-area', side: 6, times: 3 }, 2)).toBe('You cut it into 8 cubes, 2 along each edge: 2 times the whole block\'s surface for its volume.')
     expect(madeSlice({ task: 'surface-area', side: 6, times: 3 }, 1)).toMatch(/not cut/)
@@ -185,8 +186,8 @@ describe('the prompt must not give the answer away', () => {
     expect(pf(osm, 'Water moves to the more concentrated side. Show no net movement.')).toHaveLength(1)
     expect(pf(osm, 'Find the left setting with the same water potential as the right.')).toHaveLength(1)
     // The fix named fits the task: it asks for water in osmosis and for solute in diffusion.
-    expect(pf(osm, 'Make them equal.' + ' dilute')[0]).toContain('water moves from the left chamber')
-    expect(pf(dif, 'The left is more dilute.')[0]).toContain('solute particles moves from the left chamber')
+    expect(pf(osm, 'Make them equal.' + ' dilute')[0]).toContain('water moves from the left')
+    expect(pf(dif, 'The left is more dilute.')[0]).toContain('solute particles move from the left')
   })
 
   it('surface-area: the question is fine; the count, the cuts and the rule are not', () => {
@@ -232,17 +233,25 @@ describe('when the tutor is shown it', () => {
 })
 
 describe('a still frame is a frame a learner sees', () => {
-  it('has room for every dot the handle can ask for', () => {
-    expect(MAX_DOTS).toBe(LEFT_MAX * DOTS_PER_PART)
-    expect(RIGHT_MAX * DOTS_PER_PART).toBeLessThanOrEqual(MAX_DOTS)
+  it('has room for every dot the buttons can ask for', () => {
+    expect(MAX_DOTS).toBe(LEFT_MAX)
+    expect(RIGHT_MAX).toBeLessThanOrEqual(MAX_DOTS)
+  })
+
+  it('one tap moves the water far enough to see at a glance', () => {
+    for (const right of range(RIGHT_MIN, RIGHT_MAX)) for (const left of range(0, LEFT_MAX - 1)) {
+      const a = levels('osmosis', left, right)
+      const b = levels('osmosis', left + 1, right)
+      expect(Math.abs((a.l - a.r) - (b.l - b.r))).toBeGreaterThanOrEqual(12)
+    }
   })
 
   it('seeded dots are the same every time, inside their box, and never touching', () => {
-    const a = stillDots(11, 30, BOX_L)
-    expect(stillDots(11, 30, BOX_L)).toEqual(a)
-    expect(stillDots(11, 12, BOX_L)).toEqual(a.slice(0, 12))
+    const a = stillDots(11, MAX_DOTS, BOX_L)
+    expect(stillDots(11, MAX_DOTS, BOX_L)).toEqual(a)
+    expect(stillDots(11, 6, BOX_L)).toEqual(a.slice(0, 6))
     for (const [seed, box] of [[11, BOX_L], [23, BOX_R]] as const) {
-      const dots = stillDots(seed, 30, box)
+      const dots = stillDots(seed, MAX_DOTS, box)
       for (const d of dots) {
         expect(d.x - DOT_R).toBeGreaterThanOrEqual(box.x0 - DOT_R)
         expect(d.x).toBeLessThanOrEqual(box.x1)
@@ -255,7 +264,7 @@ describe('a still frame is a frame a learner sees', () => {
     }
   })
 
-  it('the water is always above the dots and the streams always run in water, whatever the handle says', () => {
+  it('the water is always above the dots and the lanes always run in water, whatever the buttons say', () => {
     for (const task of ['diffusion', 'osmosis'] as const) for (const left of range(0, LEFT_MAX)) for (const right of range(RIGHT_MIN, RIGHT_MAX)) {
       const lv = levels(task, left, right)
       expect(lv.l, `${task} ${left} ${right}`).toBeLessThan(BOX_L.y0 - DOT_R - 2)
@@ -283,16 +292,6 @@ describe('a still frame is a frame a learner sees', () => {
     }
   })
 
-  it('every label sits nearer its own part than any other', () => {
-    for (const l of LABELS) {
-      const own = Math.hypot(l.x - PARTS[l.part].x, l.y - PARTS[l.part].y)
-      for (const [name, p] of Object.entries(PARTS)) {
-        if (name === l.part) continue
-        expect(Math.abs(l.x - PARTS[l.part].x), `${l.text} vs ${name}`).toBeLessThan(Math.abs(l.x - p.x) + (own === 0 ? 1 : 0))
-      }
-    }
-  })
-
   it('the cut cube stays inside its picture and its pieces stay apart', () => {
     for (const n of range(1, TIMES_MAX)) {
       const ps = piecesOf(n)
@@ -316,48 +315,55 @@ describe('the cell-lab scene on the board', () => {
     renderToStaticMarkup(createElement(CellLabView, { config: cfg, state, setState: () => {}, marked, reduced: false, locked: marked === 'right' }))
   const text = (html: string) => html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ')
 
-  it('diffusion and osmosis: before marking there is a handle, three labels and no answer', () => {
+  it('diffusion and osmosis: before marking there are two buttons, each colour is named, and no answer', () => {
     for (const [cfg, prompt] of [
-      [{ task: 'diffusion', right: 4, net: 'right' }, 'Set up the left chamber so that, overall, solute particles move from the left chamber to the right chamber.'],
-      [{ task: 'osmosis', right: 6, net: 'none' }, 'The membrane lets only water through. Set up the left chamber so that no water moves across overall.'],
+      [{ task: 'diffusion', right: 4, net: 'right' }, 'Add or take away solute on the left so that, overall, solute particles move from the left to the right.'],
+      [{ task: 'osmosis', right: 6, net: 'none' }, 'The membrane lets only water through. Add or take away solute on the left so that no water moves across overall.'],
     ] as const) {
       const html = card(cfg, prompt)
-      expect(html).toContain('role="slider"')
-      expect(html).toContain('touch-none')
+      expect(html).toContain('aria-label="Add one solute particle to the left side"')
+      expect(html).toContain('aria-label="Take one solute particle out of the left side"')
+      expect(html).not.toContain('role="slider"')
       expect(html).toContain('<canvas')
       const shown = text(html.replace(prompt, ''))
-      for (const secret of ['net', 'crossed both ways', 'You set', 'never stopped', 'more solute', 'less water', 'higher in', 'diffus', 'concentrat', 'toward']) {
+      for (const secret of ['net', 'crossed both ways', 'You put', 'never stopped', 'more solute', 'less water', 'higher', 'diffus', 'concentrat', 'toward']) {
         expect(shown, secret).not.toContain(secret)
       }
-      // Few short labels, each on the thing it names.
-      expect(html.match(/<text /g)?.length).toBe(4)
-      expect(shown).toContain('left')
-      expect(shown).toContain('right')
+      for (const label of ['left', 'right', 'solute']) expect(shown).toContain(label)
     }
     expect(text(card({ task: 'osmosis', right: 6, net: 'right' }, 'x'))).toContain('only water passes')
     expect(text(card({ task: 'diffusion', right: 6, net: 'right' }, 'x'))).toContain('solute passes')
   })
 
+  it('diffusion and osmosis: a button stops at the end of its range, and locks when solved', () => {
+    const c: CellLabConfig = { task: 'osmosis', right: 6, net: 'right' }
+    const disabled = (html: string) => (html.match(/<button[^>]* disabled=""/g) ?? []).length
+    expect(disabled(raw(c, { left: 5 }, 'idle'))).toBe(0)
+    expect(disabled(raw(c, { left: 0 }, 'idle'))).toBe(1)
+    expect(disabled(raw(c, { left: LEFT_MAX }, 'idle'))).toBe(1)
+    expect(disabled(raw(c, { left: 2 }, 'right'))).toBe(2)
+  })
+
   it('diffusion and osmosis: the screen-reader text describes what is seen without saying whether it is right', () => {
     const c: CellLabConfig = { task: 'osmosis', right: 6, net: 'right' }
     const idle = raw(c, engine.initial(c), 'idle')
-    expect(idle).toContain('The left holds 6 parts of solute out of 10 and the right 6')
-    expect(idle).toContain('The water stands level in both.')
-    expect(idle).toContain('aria-valuenow="6"')
-    // Moving the handle changes the picture's description.
-    expect(raw(c, { left: 1 }, 'idle')).toContain('The water stands higher in the right.')
-    expect(raw(c, { left: 9 }, 'idle')).toContain('The water stands higher in the left.')
+    expect(idle).toContain('The left holds 6 solute particles and the right 6')
+    expect(idle).toContain('The water stands level on both sides.')
+    expect(idle).toContain('6 solute particles on the left')
+    // Tapping changes the picture's description.
+    expect(raw(c, { left: 1 }, 'idle')).toContain('The water stands higher on the right.')
+    expect(raw(c, { left: 9 }, 'idle')).toContain('The water stands higher on the left.')
     for (const word of ['correct', 'wrong', 'right answer', 'net movement']) expect(idle).not.toContain(word)
   })
 
   it('diffusion and osmosis: marking says the two ways, and what the learner made', () => {
     const c: Membrane = { task: 'osmosis', right: 6, net: 'right' }
     const wrong = text(raw(c, { left: 8 }, 'wrong'))
-    expect(wrong).toContain('You set the left to 8 parts of solute against 6 on the right: more water crossed to the left than came back.')
+    expect(wrong).toContain('You put 8 solute particles on the left against 6 on the right: more water crossed to the left than came back.')
     expect(wrong).not.toContain('Water crossed both ways')
     const right = text(raw(c, engine.solve(c), 'right'))
-    expect(right).toContain('Water crossed both ways: 12 parts to the right for 6 to the left.')
-    expect(right).toContain('The net 6 went to the right')
+    expect(right).toContain('Water crossed both ways: 12 to the right for every 6 to the left.')
+    expect(right).toContain('The net movement is to the right')
   })
 
   it('surface-area: before marking, a cube, two bars and a handle, with no ratio and no working', () => {

@@ -57,7 +57,7 @@ const SUBJECT: Record<string, string> = {
   ledger: 'Accounting', 'counters-place-value': 'Mathematics', 'algorithm-tracer': 'Computer Science', 'measure-shape': 'Mathematics', 'stats-explorer': 'Mathematics', magnetism: 'Physics', forces: 'Physics', 'geometry-construction': 'Mathematics',
 }
 
-const DIMENSIONS = ['valid', 'solvable', 'unsolvedStart', 'noSelfAnswer', 'noAnswerVisible', 'picturesFit', 'noOverlap', 'changes', 'promptTrue'] as const
+const DIMENSIONS = ['valid', 'solvable', 'unsolvedStart', 'noSelfAnswer', 'noAnswerVisible', 'picturesFit', 'noOverlap', 'changes', 'promptTrue', 'clear'] as const
 type Dimension = (typeof DIMENSIONS)[number]
 
 type Item = {
@@ -103,7 +103,10 @@ const VISION = (prompt: string, config: unknown, about: string) => [
   '4. changes: between images 1 and 2, does the picture itself change -- its colours, shapes or positions -- and not only text typed into a box?',
   '5. prompt_true: can the student do exactly what the instruction says, with what is on this card? false if it speaks of',
   '   things the card does not have (three runners when one is drawn, something to watch when nothing moves by itself).',
-  'Reply with JSON only: {"answer_visible":true|false,"pictures_fit":true|false,"overlap":true|false,"changes":true|false,"prompt_true":true|false,"note":"<one sentence on any problem, or empty>"}',
+  '6. clear: picture a 14-year-old who has never seen this card. In image 1, is every colour and shape named on the card or',
+  '   obvious from what it is? And is the difference between images 1 and 2 big enough to see at a glance, without comparing',
+  '   them carefully? false if either fails: a few pixels of movement, two clouds of similar dots to compare, or coloured marks nobody names.',
+  'Reply with JSON only: {"answer_visible":true|false,"pictures_fit":true|false,"overlap":true|false,"changes":true|false,"prompt_true":true|false,"clear":true|false,"note":"<one sentence on any problem, or empty>"}',
 ].join('\n')
 
 const enc = (o: unknown) => Buffer.from(JSON.stringify(o)).toString('base64url')
@@ -165,12 +168,13 @@ async function evaluate(e: SceneEngine<unknown, unknown>, s: { lesson: string; s
         { mediaType: 'image/png', data: b.toString('base64') },
       ])
       said = reply.text
-      const v = extractJson(reply.text) as { answer_visible?: unknown; pictures_fit?: unknown; overlap?: unknown; changes?: unknown; prompt_true?: unknown; note?: unknown }
+      const v = extractJson(reply.text) as { answer_visible?: unknown; pictures_fit?: unknown; overlap?: unknown; changes?: unknown; prompt_true?: unknown; clear?: unknown; note?: unknown }
       scores.noAnswerVisible = v.answer_visible === false
       scores.picturesFit = v.pictures_fit !== false
       scores.noOverlap = v.overlap === false
       scores.changes = v.changes === true
       scores.promptTrue = v.prompt_true !== false
+      scores.clear = v.clear === true
       item.note = String(v.note ?? '')
       item.shots = shots
     } catch (err) {

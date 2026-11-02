@@ -2,9 +2,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import type { SceneMarked, SceneViewProps } from '../types'
 import type { CellLabConfig, CellLabState } from './config'
-import {
-  DOTS_PER_PART, LEFT_MAX, TIMES_MAX, cubes, crossing, madeMembrane, madeSlice, membraneWorking, sliceWorking,
-} from './config'
+import { LEFT_MAX, TIMES_MAX, cubes, crossing, madeMembrane, madeSlice, membraneWorking, sliceWorking } from './config'
 
 type Props = SceneViewProps<CellLabConfig, CellLabState>
 type MembraneConfig = Extract<CellLabConfig, { right: number }>
@@ -38,74 +36,70 @@ export function mulberry32(seed: number) {
 }
 
 // ---------------------------------------------------------------------------
-// Two chambers and a membrane.
+// One tank, split by a membrane.
 
 export const W = 360
-export const H = 250
+export const H = 270
 export const MID = 180
-export const TOP = 56
-export const BOT = 204
-export const CUP_L = { x0: 58, x1: 178 }
-export const CUP_R = { x0: 182, x1: 302 }
-export const LEVEL = 112
-export const SWING = 1.8
-export const DOT_R = 3.5
-export const MIN_GAP = 9
-export const BOX_L = { x0: 66, x1: 150, y0: 136, y1: 196 }
-export const BOX_R = { x0: 210, x1: 294, y0: 136, y1: 196 }
-export const TRACK = { x: 24, y0: 74, y1: 200 }
-// A literal, not LEFT_MAX * DOTS_PER_PART: config imports this file, so its values are not ready at module load (a test checks they agree).
-export const MAX_DOTS = 30
-export const LANE_X0 = 156
-export const LANE_X1 = 204
+export const TOP = 14
+export const BOT = 258
+export const WALL_L = 14
+export const WALL_R = 346
+export const LEVEL = 92
+// One tap moves the two surfaces 12 px apart: a change to see at a glance, not to compare for.
+export const SWING = 6
+export const DOT_R = 7
+export const WATER_R = 4.5
+export const MIN_GAP = 20
+export const BOX_L = { x0: 34, x1: 158, y0: 208, y1: 244 }
+export const BOX_R = { x0: 202, x1: 326, y0: 208, y1: 244 }
+// A literal, not LEFT_MAX: config imports this file, so its values are not ready at module load (a test checks they agree).
+export const MAX_DOTS = 10
+export const LANE_X0 = 44
+export const LANE_X1 = 316
+export const LANE_TO_RIGHT = 160
+export const LANE_TO_LEFT = 184
+const LANE_MS = 5000
+const HEAD = 9
+const DROP_MS = 700
+const WOBBLE = 2
 
 type Box = typeof BOX_L
 export type Dot = { x: number; y: number }
 
-/** Dots placed at random but never touching, the same every time for a seed. Each dot is independent of how many follow it. */
+/** Ten places in two staggered rows, handed out in an order the seed shuffles: the same every time, and never touching. */
 export function stillDots(seed: number, count: number, box: Box): Dot[] {
   const rnd = mulberry32(seed)
-  const out: Dot[] = []
-  for (let n = 0; n < count; n++) {
-    let best: Dot = { x: box.x0, y: box.y0 }
-    for (let tries = 0; tries < 400; tries++) {
-      const p = { x: box.x0 + rnd() * (box.x1 - box.x0), y: box.y0 + rnd() * (box.y1 - box.y0) }
-      best = p
-      if (out.every((q) => Math.hypot(q.x - p.x, q.y - p.y) >= MIN_GAP)) break
-    }
-    out.push(best)
+  const step = (box.x1 - box.x0) / 4.5
+  const places: Dot[] = Array.from({ length: MAX_DOTS }, (_, n) => {
+    const row = n % 2
+    const x = box.x0 + (Math.floor(n / 2) + row / 2) * step + (rnd() - 0.5) * 6
+    return { x: clamp(x, box.x0, box.x1), y: row ? box.y1 - rnd() * 4 : box.y0 + rnd() * 4 }
+  })
+  for (let i = places.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1))
+    ;[places[i], places[j]] = [places[j], places[i]]
   }
-  return out
+  return places.slice(0, count)
 }
 
-/** Where the water stands in each chamber: level when the two ways match, higher on the side water crosses to. */
+/** Where the water stands on each side: level when the two ways match, higher on the side water crosses to. */
 export function levels(task: 'diffusion' | 'osmosis', left: number, right: number): { l: number; r: number } {
   if (task === 'diffusion') return { l: LEVEL, r: LEVEL }
   const n = clamp(right - left, -10, 10)
   return { l: LEVEL + n * SWING, r: LEVEL - n * SWING }
 }
 
-/** The streams across the membrane: which row each dot rides, and where along the lane it is at phase `t`. */
+/** One lane each way: a lane carries as many dots as cross that way, evenly spaced, so the two can be counted. */
 export function laneDots(count: number, rightward: boolean, t: number): Dot[] {
+  const run = LANE_X1 - LANE_X0 - HEAD * 2
   const out: Dot[] = []
   for (let k = 0; k < count; k++) {
-    const row = k % 4
-    const j = Math.floor(k / 4)
-    const y = (rightward ? 140 : 148) + row * 16
-    const ph = (((t / 1800 + j / 3 + row * 0.21) % 1) + 1) % 1
-    out.push({ x: rightward ? LANE_X0 + ph * (LANE_X1 - LANE_X0) : LANE_X1 - ph * (LANE_X1 - LANE_X0), y })
+    const ph = (((t / LANE_MS + k / count) % 1) + 1) % 1
+    out.push({ x: rightward ? LANE_X0 + ph * run : LANE_X1 - ph * run, y: rightward ? LANE_TO_RIGHT : LANE_TO_LEFT })
   }
   return out
 }
-
-/** Labels and the parts they name: each label sits nearer its own part than any other. */
-export const PARTS = { handle: { x: TRACK.x, y: 130 }, left: { x: 118, y: 130 }, right: { x: 242, y: 130 }, membrane: { x: MID, y: 130 } }
-export const LABELS = [
-  { text: 'solute', x: TRACK.x, y: 48, part: 'handle' as const },
-  { text: 'left', x: 118, y: 224, part: 'left' as const },
-  { text: 'right', x: 242, y: 224, part: 'right' as const },
-  { text: 'membrane', x: MID, y: 44, part: 'membrane' as const },
-]
 
 type Pal = { ink: string; panel: string; water: string; sol: string; aq: string }
 function palette(el: HTMLElement): Pal {
@@ -115,50 +109,74 @@ function palette(el: HTMLElement): Pal {
 }
 
 type Scene = { task: 'diffusion' | 'osmosis'; left: number; right: number }
-type Walker = { x: number; y: number; vx: number; vy: number }
 
-function dot(ctx: CanvasRenderingContext2D, d: Dot, fill: string, ring: string) {
+function dot(ctx: CanvasRenderingContext2D, d: Dot, r: number, fill: string, ring: string) {
   ctx.beginPath()
-  ctx.arc(d.x, d.y, DOT_R, 0, Math.PI * 2)
+  ctx.arc(d.x, d.y, r, 0, Math.PI * 2)
   ctx.fillStyle = fill
   ctx.fill()
-  ctx.lineWidth = 1
+  ctx.lineWidth = 1.5
   ctx.strokeStyle = ring
   ctx.stroke()
 }
 
+function drawLane(ctx: CanvasRenderingContext2D, pal: Pal, rightward: boolean, count: number, fill: string, r: number, t: number) {
+  const y = rightward ? LANE_TO_RIGHT : LANE_TO_LEFT
+  const [from, to] = rightward ? [LANE_X0, LANE_X1] : [LANE_X1, LANE_X0]
+  const back = rightward ? -HEAD : HEAD
+  ctx.strokeStyle = fill
+  ctx.lineWidth = 2
+  ctx.lineCap = 'round'
+  ctx.beginPath()
+  ctx.moveTo(from, y)
+  ctx.lineTo(to, y)
+  ctx.moveTo(to + back, y - HEAD * 0.7)
+  ctx.lineTo(to, y)
+  ctx.lineTo(to + back, y + HEAD * 0.7)
+  ctx.stroke()
+  for (const d of laneDots(count, rightward, t)) dot(ctx, d, r, fill, pal.panel)
+}
+
+/** A solute dot where it rests, bobbing a little, or on its way down from the surface if it has just been dropped in. */
+function placed(home: Dot, i: number, t: number, droppedAt: number, surface: number): Dot {
+  if (!t) return home
+  const x = home.x + Math.sin(t / 1100 + i * 1.7) * WOBBLE
+  const y = home.y + Math.cos(t / 1300 + i * 2.3) * WOBBLE
+  const p = (t - droppedAt) / DROP_MS
+  if (p >= 1) return { x, y }
+  return { x, y: surface + (y - surface) * (1 - (1 - Math.max(0, p)) ** 2) }
+}
+
 function drawMembrane(
-  ctx: CanvasRenderingContext2D, pal: Pal, sc: Scene, lv: { l: number; r: number }, walkL: Dot[], walkR: Dot[], t: number,
+  ctx: CanvasRenderingContext2D, pal: Pal, sc: Scene, lv: { l: number; r: number }, homes: { l: Dot[]; r: Dot[] }, dropAt: number[], t: number,
 ) {
   ctx.clearRect(0, 0, W, H)
-  // Water in each chamber.
+  // The water on each side.
   ctx.fillStyle = pal.water
-  ctx.fillRect(CUP_L.x0, lv.l, CUP_L.x1 - CUP_L.x0, BOT - lv.l)
-  ctx.fillRect(CUP_R.x0, lv.r, CUP_R.x1 - CUP_R.x0, BOT - lv.r)
-  // Dots in the chambers.
-  const nl = sc.left * DOTS_PER_PART
-  const nr = sc.right * DOTS_PER_PART
-  for (let i = 0; i < nl; i++) dot(ctx, walkL[i], pal.sol, pal.panel)
-  for (let i = 0; i < nr; i++) dot(ctx, walkR[i], pal.sol, pal.panel)
+  ctx.fillRect(WALL_L, lv.l, MID - WALL_L, BOT - lv.l)
+  ctx.fillRect(MID, lv.r, WALL_R - MID, BOT - lv.r)
   // What crosses, each way.
   const c = crossing(sc.task, sc.left, sc.right)
   const fill = sc.task === 'diffusion' ? pal.sol : pal.aq
-  for (const d of laneDots(c.toRight, true, t)) dot(ctx, d, fill, pal.panel)
-  for (const d of laneDots(c.toLeft, false, t)) dot(ctx, d, fill, pal.panel)
-  // The cups and the membrane.
+  const r = sc.task === 'diffusion' ? DOT_R : WATER_R
+  drawLane(ctx, pal, true, c.toRight, fill, r, t)
+  drawLane(ctx, pal, false, c.toLeft, fill, r, t)
+  // The solute, one dot a particle.
+  for (let i = 0; i < sc.left; i++) dot(ctx, placed(homes.l[i], i, t, dropAt[i], lv.l), DOT_R, pal.sol, pal.panel)
+  for (let i = 0; i < sc.right; i++) dot(ctx, placed(homes.r[i], i + MAX_DOTS, t, 0, lv.r), DOT_R, pal.sol, pal.panel)
+  // The tank, and the membrane with its gaps.
   ctx.lineWidth = 2.5
   ctx.strokeStyle = pal.ink
   ctx.lineJoin = 'round'
-  for (const cup of [CUP_L, CUP_R]) {
-    ctx.beginPath()
-    ctx.moveTo(cup.x0, TOP)
-    ctx.lineTo(cup.x0, BOT)
-    ctx.lineTo(cup.x1, BOT)
-    ctx.lineTo(cup.x1, TOP)
-    ctx.stroke()
-  }
+  ctx.beginPath()
+  ctx.moveTo(WALL_L, TOP)
+  ctx.lineTo(WALL_L, BOT)
+  ctx.lineTo(WALL_R, BOT)
+  ctx.lineTo(WALL_R, TOP)
+  ctx.stroke()
+  ctx.lineCap = 'butt'
   ctx.lineWidth = 3
-  ctx.setLineDash([6, 4])
+  ctx.setLineDash([8, 7])
   ctx.beginPath()
   ctx.moveTo(MID, TOP)
   ctx.lineTo(MID, BOT)
@@ -166,38 +184,38 @@ function drawMembrane(
   ctx.setLineDash([])
 }
 
-/** One step of every dot's random walk, kept inside its box. */
-function walk(dots: Walker[], box: Box, rnd: () => number) {
-  for (const d of dots) {
-    d.vx = d.vx * 0.85 + (rnd() - 0.5) * 1.8
-    d.vy = d.vy * 0.85 + (rnd() - 0.5) * 1.8
-    d.x += d.vx * 1.2
-    d.y += d.vy * 1.2
-    if (d.x < box.x0) { d.x = box.x0; d.vx = Math.abs(d.vx) }
-    if (d.x > box.x1) { d.x = box.x1; d.vx = -Math.abs(d.vx) }
-    if (d.y < box.y0) { d.y = box.y0; d.vy = Math.abs(d.vy) }
-    if (d.y > box.y1) { d.y = box.y1; d.vy = -Math.abs(d.vy) }
-  }
-}
-
-const seedWalkers = (seed: number, box: Box): Walker[] => stillDots(seed, MAX_DOTS, box).map((d) => ({ ...d, vx: 0, vy: 0 }))
-
-const parts = (n: number) => `${n} ${n === 1 ? 'part' : 'parts'}`
+const particles = (n: number) => `${n} solute ${n === 1 ? 'particle' : 'particles'}`
 
 function describeMembrane(config: MembraneConfig, left: number): string {
   const lv = levels(config.task, left, config.right)
-  const level = lv.l === lv.r ? 'The water stands level in both.' : `The water stands higher in the ${lv.l < lv.r ? 'left' : 'right'}.`
+  const level = lv.l === lv.r ? 'The water stands level on both sides.' : `The water stands higher on the ${lv.l < lv.r ? 'left' : 'right'}.`
   const passes = config.task === 'diffusion' ? 'lets solute particles through' : 'lets only water through'
-  return `Two open chambers side by side, split by a dashed membrane that ${passes}. The left holds ${parts(left)} of solute out of ${LEFT_MAX} and the right ${config.right}. Small dots cross the membrane in both directions. ${config.task === 'osmosis' ? level : ''}`.trim()
+  return `A tank split by a dashed membrane that ${passes}. The left holds ${particles(left)} and the right ${config.right}. Dots cross the membrane along one lane each way. ${config.task === 'osmosis' ? level : ''}`.trim()
+}
+
+function Tap({ label, sign, off, onTap }: { label: string; sign: '+' | '-'; off: boolean; onTap: () => void }) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      disabled={off}
+      onClick={onTap}
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ss-panel outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:opacity-40"
+      style={{ border: `2.5px solid ${INK}` }}
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke={INK} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+        <path d={sign === '+' ? 'M8 2 V14 M2 8 H14' : 'M2 8 H14'} />
+      </svg>
+    </button>
+  )
 }
 
 function Membrane({ config, state, setState, marked, reduced, locked }: Props & { config: MembraneConfig }) {
   const left = Number.isInteger(state?.left) ? clamp(state.left as number, 0, LEFT_MAX) : 0
   const canvas = useRef<HTMLCanvasElement>(null)
-  const track = useRef<HTMLDivElement>(null)
-  const [drag, setDrag] = useState(false)
-  const seeds = useRef<{ l: Walker[]; r: Walker[] } | null>(null)
-  if (!seeds.current) seeds.current = { l: seedWalkers(11, BOX_L), r: seedWalkers(23, BOX_R) }
+  const homes = useRef<{ l: Dot[]; r: Dot[] } | null>(null)
+  if (!homes.current) homes.current = { l: stillDots(11, MAX_DOTS, BOX_L), r: stillDots(23, MAX_DOTS, BOX_R) }
+  const dropAt = useRef<number[]>(Array.from({ length: MAX_DOTS }, () => 0))
   // The latest scene, read by the animation without restarting it.
   const live = useRef<Scene>({ task: config.task as 'diffusion' | 'osmosis', left, right: config.right })
   live.current = { task: config.task as 'diffusion' | 'osmosis', left, right: config.right }
@@ -206,12 +224,13 @@ function Membrane({ config, state, setState, marked, reduced, locked }: Props & 
   const paint = (t: number, still: boolean) => {
     const el = canvas.current
     const ctx = el?.getContext('2d')
-    if (!el || !ctx || !seeds.current) return
+    if (!el || !ctx || !homes.current) return
     const sc = live.current
     const target = levels(sc.task, sc.left, sc.right)
+    // The water takes about a second to find its level, so the eye catches it moving.
     if (still || !shown.current) shown.current = { ...target }
-    else shown.current = { l: shown.current.l + (target.l - shown.current.l) * 0.12, r: shown.current.r + (target.r - shown.current.r) * 0.12 }
-    drawMembrane(ctx, palette(el), sc, shown.current, seeds.current.l, seeds.current.r, still ? 0 : t)
+    else shown.current = { l: shown.current.l + (target.l - shown.current.l) * 0.07, r: shown.current.r + (target.r - shown.current.r) * 0.07 }
+    drawMembrane(ctx, palette(el), sc, shown.current, homes.current, dropAt.current, still ? 0 : t)
   }
 
   useEffect(() => {
@@ -223,18 +242,16 @@ function Membrane({ config, state, setState, marked, reduced, locked }: Props & 
     el.height = H * scale
     ctx.setTransform(scale, 0, 0, scale, 0, 0)
     if (reduced) {
-      // One still frame from the seeded positions, nothing moving.
+      // One still frame, nothing moving.
       paint(0, true)
       return
     }
-    const rnd = mulberry32(7)
     let raf = 0
     let last = 0
     const tick = (t: number) => {
       raf = requestAnimationFrame(tick)
       if (t - last < 33) return // about 30 frames a second
       last = t
-      if (seeds.current) { walk(seeds.current.l, BOX_L, rnd); walk(seeds.current.r, BOX_R, rnd) }
       paint(t, false)
     }
     raf = requestAnimationFrame(tick)
@@ -242,81 +259,44 @@ function Membrane({ config, state, setState, marked, reduced, locked }: Props & 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced])
 
-  // Under reduced motion the still frame follows the handle.
+  // Under reduced motion the still frame follows the buttons.
   useEffect(() => {
     if (reduced) paint(0, true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced, left, config.right, config.task])
 
   const set = (v: number) => {
-    if (!locked) setState({ left: clamp(Math.round(v), 0, LEFT_MAX) })
-  }
-  const fromY = (clientY: number) => {
-    const r = track.current?.getBoundingClientRect()
-    if (!r || r.height === 0) return left
-    return (1 - (clientY - r.top) / r.height) * LEFT_MAX
-  }
-  const onKey = (e: KeyboardEvent) => {
-    const d = e.key === 'ArrowUp' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowDown' || e.key === 'ArrowLeft' ? -1 : 0
-    if (d) { e.preventDefault(); e.stopPropagation(); set(left + d) }
-    else if (e.key === 'Home') { e.preventDefault(); e.stopPropagation(); set(0) }
-    else if (e.key === 'End') { e.preventDefault(); e.stopPropagation(); set(LEFT_MAX) }
+    if (locked || v < 0 || v > LEFT_MAX) return
+    if (v > left) dropAt.current[left] = performance.now()
+    setState({ left: v })
   }
 
   const good = marked === 'right' || marked === 'shown'
-  const ring = marked === 'wrong' ? 'var(--ss-bad, #B91C1C)' : good ? 'var(--ss-good, #15803D)' : INK
   const text = good
     ? membraneWorking(config, left)
     : marked === 'wrong' ? madeMembrane(config, left) : ''
-  const pct = (v: number, of: number) => `${(v / of) * 100}%`
+  const swatch = (colour: string) => <span aria-hidden="true" className="inline-block h-3 w-3 shrink-0 rounded-full" style={{ background: colour }} />
+  const SOLUTE = 'var(--cl-sol, #C2410C)'
 
   return (
-    <div className={`nodrag flex flex-col items-center gap-2 ${PALETTE} [&:has(:focus-visible)_.cl-kbd]:block`}>
-      <div className="relative w-full max-w-[360px]">
-        <canvas ref={canvas} role="img" aria-label={describeMembrane(config, left)} className="block h-auto w-full" style={{ aspectRatio: `${W} / ${H}` }} />
-        <svg viewBox={`0 0 ${W} ${H}`} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
-          {LABELS.map((l) => (
-            <text key={l.part} x={l.x} y={l.y} textAnchor="middle" fontSize={13} fontWeight={800} fill={INK} {...HALO}>
-              {l.part === 'membrane' ? (config.task === 'diffusion' ? 'solute passes' : 'only water passes') : l.text}
-            </text>
-          ))}
-        </svg>
-        <div
-          ref={track}
-          role="slider"
-          tabIndex={locked ? -1 : 0}
-          aria-label="Solute in the left chamber. Move it with the arrow keys"
-          aria-orientation="vertical"
-          aria-valuemin={0}
-          aria-valuemax={LEFT_MAX}
-          aria-valuenow={left}
-          aria-valuetext={`${parts(left)} of solute out of ${LEFT_MAX}`}
-          aria-disabled={locked || undefined}
-          onKeyDown={onKey}
-          onPointerDown={(e: PointerEvent) => {
-            if (locked) return
-            e.currentTarget.setPointerCapture?.(e.pointerId)
-            setDrag(true)
-            set(fromY(e.clientY))
-          }}
-          onPointerMove={(e: PointerEvent) => { if (drag) set(fromY(e.clientY)) }}
-          onPointerUp={() => setDrag(false)}
-          onPointerCancel={() => setDrag(false)}
-          className={`absolute touch-none rounded-lg outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] ${locked ? '' : 'cursor-grab'}`}
-          style={{ left: pct(TRACK.x, W), top: pct(TRACK.y0, H), height: pct(TRACK.y1 - TRACK.y0, H), width: 44, transform: 'translateX(-50%)' }}
-        >
-          <div className="absolute left-1/2 top-0 h-full w-[3px] -translate-x-1/2 rounded bg-ss-slate" />
-          <div
-            className="absolute left-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-ss-panel"
-            style={{ top: `${(1 - left / LEFT_MAX) * 100}%`, border: `3px solid ${ring}` }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke={INK} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M4 6 L8 2 L12 6 M4 10 L8 14 L12 10" />
-            </svg>
+    <div className={`nodrag flex flex-col items-center gap-2 ${PALETTE}`}>
+      <p className="flex items-center gap-1.5 text-[13px] font-extrabold text-ss-ink">
+        {swatch(config.task === 'diffusion' ? SOLUTE : 'var(--cl-aq, #1D4ED8)')}
+        {config.task === 'diffusion' ? 'solute passes' : 'only water passes'}
+      </p>
+      <canvas ref={canvas} role="img" aria-label={describeMembrane(config, left)} className="block h-auto w-full max-w-[360px]" style={{ aspectRatio: `${W} / ${H}` }} />
+      <div className="grid w-full max-w-[360px] grid-cols-2 text-[13px] font-extrabold text-ss-ink">
+        <div className="flex flex-col items-center gap-1.5">
+          <span>left</span>
+          <div className="flex items-center gap-2">
+            <Tap label="Take one solute particle out of the left side" sign="-" off={locked || left <= 0} onTap={() => set(left - 1)} />
+            <span className="flex items-center gap-1.5 whitespace-nowrap">{swatch(SOLUTE)}solute</span>
+            <Tap label="Add one solute particle to the left side" sign="+" off={locked || left >= LEFT_MAX} onTap={() => set(left + 1)} />
           </div>
         </div>
+        <span className="text-center">right</span>
       </div>
-      <p className="cl-kbd hidden text-[12px] text-ss-slate">The up and down arrow keys move the handle.</p>
+      <span className="sr-only" aria-live="polite">{particles(left)} on the left</span>
       <Verdict marked={marked} text={text} />
     </div>
   )

@@ -6,8 +6,8 @@ import { CellLabView } from './View'
 /**
  * Two ideas in cell biology that a hand can make obvious.
  *
- * diffusion / osmosis: two chambers split by a membrane. The learner sets how much
- * solute is in the LEFT chamber (0 to 10 parts); the RIGHT chamber is fixed by the
+ * diffusion / osmosis: a tank split by a membrane. The learner taps solute particles
+ * into or out of the LEFT side (0 to 10); the RIGHT side is fixed by the
  * tutor. The membrane lets solute through (diffusion) or only water through (osmosis).
  * Particles cross both ways all the time; the difference between the two ways is
  * the net movement. The task is to set the left so that the net movement goes the
@@ -40,13 +40,12 @@ export const TASKS = ['diffusion', 'osmosis', 'surface-area'] as const
 export type Task = (typeof TASKS)[number]
 export type Net = 'left' | 'right' | 'none'
 
-/** Parts of solute the learner can put on the left, and the range the tutor may fix the right in. */
+/** Solute particles the learner can put on the left, and the range the tutor may fix the right in. */
 export const LEFT_MAX = 10
 export const RIGHT_MIN = 1
 export const RIGHT_MAX = 9
-/** A side is 12 parts in all: whatever is not solute is water. */
+/** A side is 12 in all: whatever is not solute is water. */
 export const WATER = 12
-export const DOTS_PER_PART = 3
 
 export const SIDE_MIN = 2
 export const SIDE_MAX = 12
@@ -58,7 +57,7 @@ export type CellLabConfig =
   | { task: 'diffusion' | 'osmosis'; right: number; net: Net }
   | { task: 'surface-area'; side: number; times: number }
 
-/** left: solute parts in the left chamber. pieces: cubes along each edge. */
+/** left: solute particles on the left. pieces: cubes along each edge. */
 export type CellLabState = { left?: number; pieces?: number }
 
 // ---------------------------------------------------------------------------
@@ -67,7 +66,7 @@ export type CellLabState = { left?: number; pieces?: number }
 export type Passing = 'solute' | 'water'
 export const passingOf = (task: 'diffusion' | 'osmosis'): Passing => (task === 'diffusion' ? 'solute' : 'water')
 
-/** What crosses the membrane each way, in parts: proportional to how many of the kind are on the side it leaves. */
+/** What crosses the membrane each way: proportional to how many of the kind are on the side it leaves. */
 export function crossing(task: 'diffusion' | 'osmosis', left: number, right: number): { toRight: number; toLeft: number } {
   return passingOf(task) === 'solute'
     ? { toRight: left, toLeft: right }
@@ -108,25 +107,23 @@ export function membraneWorking(config: Extract<CellLabConfig, { right: number }
   const { task, right } = config
   const c = crossing(task, left, right)
   const net = netOf(task, left, right)
-  const diff = Math.abs(c.toRight - c.toLeft)
   const thing = task === 'diffusion' ? 'Solute' : 'Water'
-  const both = `${thing} crossed both ways: ${c.toRight} parts to the right for ${c.toLeft} to the left.`
+  const both = `${thing} crossed both ways: ${c.toRight} to the right for every ${c.toLeft} to the left.`
   if (net === 'none') {
-    return `${both} The two ways are equal, so there is no net movement. The particles never stopped: they carry on crossing both ways, equally.`
+    return `${both} The two ways are equal, so there is no net movement. It never stopped: it carries on crossing both ways, equally.`
   }
   if (task === 'diffusion') {
     const from = net === 'right' ? 'left' : 'right'
-    return `${both} The net ${diff} went to the ${net}: from the ${from}, with more solute, to the ${net}, with less.`
+    return `${both} The net movement is to the ${net}: from the ${from}, with more solute, to the ${net}, with less.`
   }
-  const more = net === 'right' ? 'right' : 'left'
-  return `${both} The net ${diff} went to the ${net}, toward the ${more} side, which has more solute and so less water.`
+  return `${both} The net movement is to the ${net}, toward the side with more solute and so less water.`
 }
 
 /** What the learner made, said back when it is wrong: never what to change. */
 export function madeMembrane(config: Extract<CellLabConfig, { right: number }>, left: number): string {
   const { task, right } = config
   const net = netOf(task, left, right)
-  const made = `You set the left to ${left} parts of solute against ${right} on the right`
+  const made = `You put ${left} solute ${left === 1 ? 'particle' : 'particles'} on the left against ${right} on the right`
   if (net === 'none') return `${made}: the same crossed each way, so there is no net movement.`
   return `${made}: more ${thingOf(task)} crossed to the ${net} than came back.`
 }
@@ -265,7 +262,7 @@ export const cellLabEngine: SceneEngine<CellLabConfig, CellLabState> = {
     const { right } = config
     if (!Number.isInteger(right) || right < RIGHT_MIN || right > RIGHT_MAX) {
       const near = Math.max(RIGHT_MIN, Math.min(RIGHT_MAX, Math.round(Number.isFinite(right) ? right : 5)))
-      out.push(`right must be a whole number of parts of solute from ${RIGHT_MIN} to ${RIGHT_MAX} (the left has 0 to ${LEFT_MAX}), e.g. right ${near}.`)
+      out.push(`right must be a whole number of solute particles from ${RIGHT_MIN} to ${RIGHT_MAX} (the left has 0 to ${LEFT_MAX}), e.g. right ${near}.`)
     }
     return out
   },
@@ -287,7 +284,7 @@ export const cellLabEngine: SceneEngine<CellLabConfig, CellLabState> = {
         : []
     }
     const name = config.task === 'diffusion' ? 'solute particles' : 'water'
-    const example = `Set up the left chamber so that, overall, ${name} moves from the left chamber to the right chamber.`
+    const example = `Add or take away solute on the left so that, overall, ${name} ${config.task === 'diffusion' ? 'move' : 'moves'} from the left to the right.`
     const side =
       /\b(?:dilute|diluted|concentrated|stronger|weaker|more solute|less solute|fewer solute|more particles|fewer particles|more water|less water)\b/i.test(text) ||
       /\b(?:higher|lower|greater|equal|same|unequal|different)\s+(?:concentrations?|strengths?)\b/i.test(text) ||
@@ -324,27 +321,27 @@ export const cellLabEngine: SceneEngine<CellLabConfig, CellLabState> = {
   View: CellLabView,
 
   prompt: `SCENE "cell-lab" -- movement across a membrane, and why cells are small. The learner changes what is on one side; the engine moves the particles, shows what crosses each way, and marks it.
-  diffusion / osmosis: two chambers side by side with a membrane between them. The learner drags the handle beside the LEFT chamber to
-    set how much solute is in it (0 to 10 parts); the RIGHT chamber is fixed by you. Solute dots move at random in each chamber. Little
-    dots stream across the membrane both ways, a busier stream the more of the crossing kind is on its side. In diffusion the membrane lets
-    the solute through; in osmosis only water crosses and the water level rises on one side. Streams carry on both ways even when they are
-    equal. Before marking nothing says which side has more or which way is net. Marking says the two ways in parts and the net.
+  diffusion / osmosis: one tank split by a membrane. The learner taps + and - under the LEFT side to drop solute particles in or take them
+    out (0 to 10 big dots, one a particle); the RIGHT side is fixed by you. Two lanes of dots cross the membrane, one each way, and a lane
+    carries as many dots as cross that way. In diffusion the membrane lets the solute through; in osmosis only water crosses and the water
+    visibly rises on one side. The lanes carry on both ways even when they are equal. Before marking there are no numbers and nothing says
+    which way is net. Marking says the two ways in numbers and the net.
     The task is the net movement of what crosses: toward the right, toward the left, or none.
   surface-area: a cube drawn in the middle, a skin bar and an inside bar below it. The learner drags the handle to cut the cube into 1, 8,
     27 or 64 equal cubes; the pieces spread apart, the skin bar grows in groups, the inside bar stays the same. The task is to cut it so
     each piece has at least "times" the block's surface area for its volume. Marking says the surface and volume in cm.
   For: diffusion, osmosis, concentration gradient, partially permeable membranes, surface area to volume ratio, why cells are small.
-  diffusion/osmosis: right is a whole number of parts of solute, 1 to 9 (or "dilute", "medium", "concentrated"); net is "right", "left" or "none"
+  diffusion/osmosis: right is a whole number of solute particles, 1 to 9 (or "dilute", "medium", "concentrated"); net is "right", "left" or "none"
     (the way the thing that crosses moves overall: solute for diffusion, water for osmosis; right means from the left chamber to the right).
-    Not drawn: a cell wall, animal or plant cells, bursting; say in the prompt that the left chamber is "outside the cell" if you want that.
+    Not drawn: a cell wall, animal or plant cells, bursting; say in the prompt that the left side is "outside the cell" if you want that.
   surface-area: side is the block's edge in whole cm, 2 to 12 (default 6); times is 2 to 4.
-  config: { "task":"diffusion", "right":4, "net":"right" }  -- the prompt says "Set up the left chamber so that, overall, solute particles move from the left chamber to the right chamber." (do NOT say which side has more)
-       or { "task":"osmosis", "right":6, "net":"none" }  -- the prompt says "The membrane lets only water through. Set up the left chamber so that no water moves across overall." (do NOT say equal, balanced or the same)
+  config: { "task":"diffusion", "right":4, "net":"right" }  -- the prompt says "Add or take away solute on the left so that, overall, solute particles move from the left to the right." (do NOT say which side has more)
+       or { "task":"osmosis", "right":6, "net":"none" }  -- the prompt says "The membrane lets only water through. Add or take away solute on the left so that no water moves across overall." (do NOT say equal, balanced or the same)
        or { "task":"surface-area", "side":6, "times":3 }  -- the prompt says "Cut the block into equal cubes so that each has at least 3 times the block's surface area for its volume." (do NOT say how many cubes or cuts)
-  { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Set up the left chamber so that, overall, solute particles move from the left chamber to the right chamber.",
+  { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Add or take away solute on the left so that, overall, solute particles move from the left to the right.",
     "payload": { "engine":"cell-lab", "config": { "task":"diffusion", "right":4, "net":"right" } },
     "success": { "kind":"scene" } }, "intent": { "goal":"...", "isolates":"consequence", "apparatus":"scene:cell-lab", "why":"..." } }
-  { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"The membrane lets only water through. Set up the left chamber so that no water moves across overall.",
+  { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"The membrane lets only water through. Add or take away solute on the left so that no water moves across overall.",
     "payload": { "engine":"cell-lab", "config": { "task":"osmosis", "right":6, "net":"none" } },
     "success": { "kind":"scene" } }, "intent": { "goal":"...", "isolates":"consequence", "apparatus":"scene:cell-lab", "why":"..." } }
   { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Cut the block into equal cubes so that each has at least 3 times the block's surface area for its volume.",
