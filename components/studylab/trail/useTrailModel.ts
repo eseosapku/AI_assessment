@@ -1,12 +1,12 @@
 'use client'
 
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { LessonStageProps } from '../stage/LessonStage'
 import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { interludeFrom } from '@/lib/studylab/trail/action'
 import { planFrom } from '@/lib/studylab/trail/opening'
 import { assignBlocks, placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
-import { syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
+import { pinnedFocus, syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
 import type { DisplayLine } from '@/lib/studylab/trail/voice'
 
@@ -34,13 +34,18 @@ export interface TrailModel {
  * the same run always gives the same board, and none of it is saved.
  */
 export function useTrailModel(props: LessonStageProps): TrailModel {
-  const { board, focus, chat } = props
+  const { board, focus, chat, onFocus } = props
   const { nodes, run } = board
 
   const spotlight = useMemo(() => trailSpotlight({ nodes, run, explicit: focus }), [nodes, run, focus])
   const [held, setHeld] = useState<QueueState | null>(null)
   const queue = syncQueue(held, spotlight)
   if (queue !== held) setHeld(queue)
+
+  const pin = pinnedFocus(focus, spotlight)
+  useEffect(() => {
+    if (pin) onFocus(pin)
+  }, [pin, onFocus])
 
   // A station settling opens the pause, read off the run as it changes, in the
   // same render as the new cards so they never flash up before it.

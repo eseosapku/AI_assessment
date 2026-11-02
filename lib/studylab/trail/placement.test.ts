@@ -4,7 +4,7 @@ import { blockSize } from '../blocks'
 import type { LessonRun } from '../lessonRun'
 import type { StudyNode } from '../types'
 import { cardTitle, assignBlocks, isTrailCard, placeCards, trailSpotlight, type PlacementInput } from './placement'
-import { focusOf, syncQueue, waitingIds } from './queue'
+import { focusOf, pinnedFocus, syncQueue, waitingIds } from './queue'
 import type { CardInput } from './types'
 
 const node = (id: string, step: number | undefined, over: Record<string, unknown> = {}) =>
@@ -185,5 +185,32 @@ describe('cardTitle', () => {
   it('a long one is cut short, and one with nothing to say still reads', () => {
     expect(cardTitle(data({ title: 'x'.repeat(90) })).length).toBeLessThanOrEqual(61)
     expect(cardTitle(data({}))).toBe('this card')
+  })
+})
+
+describe('a check on reload', () => {
+  const quiz = (id: string, state: string, checkpointId = 'cp') => node(id, 2, { type: 'quiz', data: { kind: 'quiz', step: 2, quiz: { checkpointId, state } } })
+  const open = { ...runAt(1, ['done', 'teaching', 'pending']), openCheck: { checkpointId: 'cp' } } as LessonRun
+  const place = (nodes: StudyNode[], ids: string[]) => placeCards({ nodes, run: open, queue: { ids, at: 0 }, detours: [], openDetour: null, blocks: {}, sizes: {}, interlude: null, notes: [] })
+
+  it('a question not reached waits, unplaced, even with no queue holding it', () => {
+    const p = place([quiz('q1', 'unanswered'), quiz('q2', 'unanswered')], ['q1'])
+    expect(p.focus).toBe('q1')
+    expect(p.waiting).toEqual(['q2'])
+    expect(p.drawn).toEqual(['q1'])
+  })
+  it('a question already answered is finished, and so is any question of another check', () => {
+    const p = place([quiz('q1', 'correct'), quiz('q2', 'unanswered'), quiz('old', 'unanswered', 'other')], ['q2'])
+    expect(p.stations[1].finished.map((c) => c.id)).toEqual(['q1', 'old'])
+  })
+})
+
+describe('pinnedFocus', () => {
+  it('a focus arrived at by fallback is pinned, so answering it does not jump to the next card', () => {
+    expect(pinnedFocus([], ['q1'])).toBe('q1')
+  })
+  it('a focus the lesson named needs no pin, and nothing in view has nothing to pin', () => {
+    expect(pinnedFocus(['q1'], ['q1'])).toBeNull()
+    expect(pinnedFocus([], [])).toBeNull()
   })
 })

@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useRef, type ComponentType } from 'react'
 import type { NodeProps } from '@xyflow/react'
+import { CheckStepBar } from './CheckStepBar'
+import type { CheckStep } from '@/lib/studylab/trail/answerStyle'
 import { cardTitle } from '@/lib/studylab/trail/placement'
 import type { CardRole, Size, TrailWorld } from '@/lib/studylab/trail/types'
 import type { StudyNodeData } from '@/lib/studylab/types'
@@ -12,6 +14,12 @@ export interface TrailPlacement {
   onMeasure: (id: string, size: Size) => void
   onOpen: (id: string) => void
   onStation: (index: number) => void
+  /** "Go deeper": asks the tutor, as the card menu does. */
+  onDeeper: (id: string, title: string) => void
+  /** Where the learner is in the open check, when the card in focus is one of its questions. */
+  checkStep?: CheckStep | null
+  /** What the tutor is pointing at, so a folded part can open. */
+  pointer?: { nodeId: string; part?: string } | null
   /** Bumped to remount a card, so a reopened one comes back as it was saved. */
   epochOf: (id: string) => number
 }
@@ -21,10 +29,13 @@ export const TrailPlacementContext = createContext<TrailPlacement>({
   onMeasure: () => {},
   onOpen: () => {},
   onStation: () => {},
+  onDeeper: () => {},
   epochOf: () => 0,
 })
 
 const LIVE: ReadonlySet<CardRole> = new Set<CardRole>(['focus', 'reopened'])
+/** Cards answered in place: drawn wide at scale 1, with big choices. */
+const ANSWERED = new Set(['quiz', 'practice'])
 /** Smaller changes than this are rounding: they must not move the board. */
 const MEASURE_SLOP = 4
 
@@ -38,8 +49,8 @@ const MEASURE_SLOP = 4
  */
 export function withTrailFrame(Inner: ComponentType<NodeProps>) {
   function Framed(props: NodeProps) {
-    const { places, onMeasure, onOpen, epochOf } = useContext(TrailPlacementContext)
-    const { id, data } = props
+    const { places, onMeasure, onOpen, epochOf, checkStep } = useContext(TrailPlacementContext)
+    const { id, data, type } = props
     const place = places[id]
     const inner = useRef<HTMLDivElement>(null)
     const epoch = epochOf(id)
@@ -71,10 +82,11 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
     const title = cardTitle({ data: data as unknown as StudyNodeData })
     return (
       <div className="ss-trail-frame" style={{ width: place.w, height: place.h }} data-role={place.role}>
+        {place.role === 'focus' && type === 'quiz' && checkStep && <CheckStepBar step={checkStep} />}
         <div
           key={epoch}
           ref={inner}
-          className={`ss-trail-card${live ? ' nopan' : ''}`}
+          className={`ss-trail-card${live ? ' nopan' : ''}${ANSWERED.has(type) ? ' ss-trail-answer' : ''}`}
           style={{ transform: `scale(${place.scale})` }}
           {...quiet}
         >

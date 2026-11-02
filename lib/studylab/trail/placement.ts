@@ -90,7 +90,14 @@ export function placeCards(input: PlacementInput): Placement {
   const leftBehind = detours.find((d) => d.id === openDetour)?.returnTo ?? null
   const asked = focusOf(queue)
   const focus = !interlude && asked && onBoard.has(asked) ? asked : null
-  const waiting = (interlude && queue ? queue.ids.slice(queue.at) : [...waitingIds(queue), ...waitingIds(leftBehind)]).filter((id) => onBoard.has(id))
+  // A check's questions come one at a time, even when a reload left only the first
+  // in the queue: one not reached yet is still to come, not finished.
+  const openCheck = run?.openCheck?.checkpointId
+  const notReached = openCheck
+    ? cards.filter((n) => n.id !== focus && n.type === 'quiz' && n.data.quiz?.checkpointId === openCheck && n.data.quiz.state !== 'correct' && n.data.quiz.state !== 'incorrect').map((n) => n.id)
+    : []
+  const queued = (interlude && queue ? queue.ids.slice(queue.at) : [...waitingIds(queue), ...waitingIds(leftBehind)]).filter((id) => onBoard.has(id))
+  const waiting = [...queued, ...notReached.filter((id) => !queued.includes(id))]
   const held = new Set(waiting)
 
   const stateOf = (i: number, status?: string): PlotState => {

@@ -8,7 +8,7 @@ import { withTrailFrame, TrailPlacementContext, type TrailPlacement } from '@/co
 import { StageContext, useDock, type StageValue } from '@/components/studylab/stage/StageContext'
 import type { CardRole } from './types'
 
-const placementBase: TrailPlacement = { places: {}, onMeasure: () => {}, onOpen: () => {}, onStation: () => {}, epochOf: () => 0 }
+const placementBase: TrailPlacement = { places: {}, onMeasure: () => {}, onOpen: () => {}, onStation: () => {}, onDeeper: () => {}, epochOf: () => 0 }
 
 const stageBase: StageValue = {
   dockEl: null,

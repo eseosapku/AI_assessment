@@ -35,3 +35,12 @@ export function focusOf(queue: QueueState | null): string | null {
 export function waitingIds(queue: QueueState | null): string[] {
   return queue ? queue.ids.slice(queue.at + 1) : []
 }
+
+/**
+ * A focus the lesson did not name (a reload) comes from a fallback that moves as
+ * soon as a question is answered, which would jump past its result. Naming it once
+ * keeps the learner there until they move on.
+ */
+export function pinnedFocus(explicit: string[], spotlight: string[]): string | null {
+  return explicit.length === 0 && spotlight.length > 0 ? spotlight[0] : null
+}

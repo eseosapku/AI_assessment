@@ -7,6 +7,7 @@ import 'katex/dist/katex.min.css'
 import { Crosshair } from 'lucide-react'
 import { studyNodeTypes } from '../canvasNodes'
 import { CARD_ACTIONS } from '../StudyCanvas'
+import { TrailConceptCard } from './TrailConceptCard'
 import { withTrailFrame } from './TrailFrame'
 import { TrailWorldNode } from './TrailWorldNode'
 import type { TrailHeading } from './TrailTitleBlock'
@@ -21,6 +22,7 @@ const WORLD = 'trail-world'
 
 export const trailNodeTypes = {
   ...Object.fromEntries(Object.entries(studyNodeTypes).map(([type, Inner]) => [type, withTrailFrame(Inner)])),
+  concept: withTrailFrame(TrailConceptCard),
   trailWorld: TrailWorldNode,
 } as unknown as NodeTypes
 

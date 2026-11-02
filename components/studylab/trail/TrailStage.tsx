@@ -9,6 +9,7 @@ import { StageContext, type StageValue, type HelpRequest } from '../stage/StageC
 import { StationScene } from '../stage/StationScene'
 import { LessonCompleteScene } from '../stage/LessonCompleteScene'
 import { CanvasContext } from '../canvasShared'
+import { CARD_ACTIONS } from '../StudyCanvas'
 import { FiledCardsList } from './FiledCardsList'
 import { KanaOnBoard } from './KanaOnBoard'
 import { TrailCanvas, type TrailCanvasHandle } from './TrailCanvas'
@@ -20,6 +21,7 @@ import { TrailTopBar } from './TrailTopBar'
 import { TrailPlacementContext, type TrailPlacement } from './TrailFrame'
 import { useTrailModel } from './useTrailModel'
 import { trailAction, trailContinue } from '@/lib/studylab/trail/action'
+import { checkSteps } from '@/lib/studylab/trail/answerStyle'
 import { escapeTarget, stationPills, topBarLabel } from '@/lib/studylab/trail/furniture'
 import { nextQuestion, openingChips, openingInsets, planFrom } from '@/lib/studylab/trail/opening'
 import { cardTitle } from '@/lib/studylab/trail/placement'
@@ -151,9 +153,19 @@ function TrailStageInner(props: LessonStageProps) {
     }),
     [board.onToggleGroup, board.onNodeDataChange, board.onDeleteNode, board.onAskTutor],
   )
+  const { onCardPrompt } = board
+  const onDeeper = useCallback(
+    (id: string, title: string) => {
+      // The card menu's own words, so it arrives as an ordinary question.
+      const deeper = CARD_ACTIONS[0]
+      onCardPrompt(`Focusing on the card "${title}" (card id: ${id}): ${deeper.text}`, `${deeper.label} — ${title}`)
+    },
+    [onCardPrompt],
+  )
+  const checkStep = useMemo(() => checkSteps(board.nodes, board.run, focusId), [board.nodes, board.run, focusId])
   const placementValue = useMemo<TrailPlacement>(
-    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: NOTHING_YET, onStation: NOTHING_YET, epochOf: NO_EPOCH }),
-    [world.cards, model.onMeasure],
+    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: NOTHING_YET, onStation: NOTHING_YET, onDeeper, checkStep, pointer, epochOf: NO_EPOCH }),
+    [world.cards, model.onMeasure, onDeeper, checkStep, pointer],
   )
 
   // A failed turn that can be sent again: the dock offers it.
