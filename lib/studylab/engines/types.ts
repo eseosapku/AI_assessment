@@ -26,6 +26,11 @@ export interface SceneEngine<C, S> {
   id: string
   /** The syllabus ideas it teaches, for the tutor's catalogue. */
   covers: string[]
+  /**
+   * Topics offered only as whole phrases, for those whose words are too common to
+   * match alone: "completing the square" must not catch "square numbers".
+   */
+  phrases?: string[]
   /** What the learner's actions vary, for the teaching-intent check. */
   isolates: Dimension
   /** The config as the engine reads it, or null when it cannot. */

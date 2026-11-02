@@ -28,21 +28,28 @@ const same = (a: string, b: string) => a === b || a + 's' === b || b + 's' === a
 /** Words any topic might use, which say nothing on their own about its idea ("changes" of state, of shape). */
 const GENERIC = ['chang', 'shape', 'model', 'make', 'making', 'using', 'happen', 'process', 'differen', 'type', 'between', 'effect', 'structur', 'graph', 'reading', 'drawing', 'number', 'simple', 'their', 'work', 'even', 'safe']
 
+/** One of the engine's phrases, its words side by side in the station. */
+const namesPhrase = (engine: SceneEngine<unknown, unknown>, station: string) => {
+  const said = ` ${words(station).join(' ')} `
+  return (engine.phrases ?? []).some((phrase) => said.includes(` ${words(phrase).join(' ')} `))
+}
+
 /**
  * The catalogue entries for the tutor's prompts. Given a station, only the
- * scenes near its idea -- any word of a topic in the station -- and nothing
- * when none is: every entry in every prompt runs to tens of thousands of
- * tokens once there are dozens of engines.
+ * scenes near its idea -- any word of a topic in the station, or a whole phrase --
+ * and nothing when none is: every entry in every prompt runs to tens of thousands
+ * of tokens once there are dozens of engines.
  */
 export function sceneCatalogue(station?: string): string {
   const all = [...ENGINES.values()]
   if (station === undefined) return all.map((e) => e.prompt).join('\n\n')
-  const telling = (w: string) => w.length >= 4 && !GENERIC.some((g) => w.startsWith(g))
+  // "Different" says nothing; "differentiation" is a whole branch of maths.
+  const telling = (w: string) => w.length >= 4 && (w.startsWith('differentia') || !GENERIC.some((g) => w.startsWith(g)))
   // The word or its plural only: by stem, "fractions" found "fractional distillation".
   const plural = (a: string, b: string) => a === b || a + 's' === b || b + 's' === a || a + 'es' === b || b + 'es' === a
   const said = words(station).filter(telling)
   return all
-    .filter((e) => e.covers.some((topic) => words(topic).some((w) => telling(w) && said.some((s) => plural(w, s)))))
+    .filter((e) => namesPhrase(e, station) || e.covers.some((topic) => words(topic).some((w) => telling(w) && said.some((s) => plural(w, s)))))
     .map((e) => e.prompt)
     .join('\n\n')
 }
@@ -55,7 +62,7 @@ export function sceneCatalogue(station?: string): string {
 export function scenesFor(station: string): SceneEngine<unknown, unknown>[] {
   const said = words(station)
   return [...ENGINES.values()].filter((e) =>
-    e.covers.some((topic) => {
+    namesPhrase(e, station) || e.covers.some((topic) => {
       const need = words(topic)
       return need.length > 0 && need.every((w) => said.some((s) => same(w, s)))
     }),

@@ -81,8 +81,9 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 /** Ten stations for a scene, named from its topics in turn. */
 function stations(e: SceneEngine<unknown, unknown>): { lesson: string; step: LessonStep }[] {
   return Array.from({ length: PER_SCENE }, (_, i) => {
-    const topic = e.covers[i % e.covers.length]
-    const round = Math.floor(i / e.covers.length)
+    const topics = [...e.covers, ...(e.phrases ?? [])]
+    const topic = topics[i % topics.length]
+    const round = Math.floor(i / topics.length)
     const goal = round === 0 ? `Understand ${topic}` : `Work out ${topic} for yourself`
     return { lesson: cap(topic), step: { id: `s${i + 1}`, title: cap(topic), goal, status: 'pending', cardIds: [] } as LessonStep }
   })
@@ -108,7 +109,7 @@ const enc = (o: unknown) => Buffer.from(JSON.stringify(o)).toString('base64url')
 async function shoot(browser: Browser, spec: unknown, state: unknown, subject: string, file: string): Promise<Buffer> {
   const page = await browser.newPage({ viewport: { width: 520, height: 1100 } })
   try {
-    await page.goto(`${BASE}/dev/render#${enc({ spec, state, subject })}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/dev/render#${enc({ spec, state, subject })}`, { waitUntil: 'networkidle', timeout: 120_000 })
     await page.waitForSelector('body[data-ready="1"]', { timeout: 60_000 })
     const png = await page.locator('.react-flow__node').first().screenshot({ path: file })
     return png
@@ -214,6 +215,8 @@ describe('the scenes held to the bar', () => {
         served: mine.filter((i) => i.served).length,
         uptake: mine.length ? +(mine.filter((i) => i.usedScene).length / mine.length).toFixed(2) : 0,
         sceneItems: scored.length,
+        // A vision check that failed leaves no verdict, and must not read as a clean score.
+        visionChecked: scored.filter((i) => i.scores!.changes !== undefined).length,
         ...Object.fromEntries(DIMENSIONS.map((d) => [d, rate(d)])),
       }]
     }))
@@ -222,6 +225,7 @@ describe('the scenes held to the bar', () => {
 
     for (const [id, s] of Object.entries(summary)) {
       if ((s.sceneItems as number) < MIN_ITEMS) continue
+      expect.soft((s.visionChecked as number) / (s.sceneItems as number), `${id} vision checks that ran`).toBeGreaterThanOrEqual(BAR)
       for (const d of DIMENSIONS) expect.soft((s as Record<string, number | null>)[d] ?? 1, `${id} ${d}`).toBeGreaterThanOrEqual(BAR)
     }
   }, 3_600_000)
