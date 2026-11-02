@@ -1,4 +1,4 @@
-// lib/studylab/engines/waves/config.ts
+// lib/studylab/engines/waves-next/config.ts
 //
 // Waves on a rope. The learner shakes one end of a rope (how fast, how far) and one big wave answers.
 // One orange dot marks a point on the rope: it only goes up and down while the wave goes past.
@@ -13,10 +13,23 @@
 // controls, a marked bead on the string), and the classroom literature on the misconceptions "a bigger wave
 // or a faster shake travels faster", "the rope travels along with the wave" and "frequency changes in a new
 // medium" (IOP Spark BEST diagnostics "Faster waves"; The Physics Classroom, Characteristics of Sound Waves).
+//
+// Second pass, with room to look. What the picture does now:
+//   - the wave is drawn from the hand's history, not from a formula: a point on the rope at distance x repeats what the
+//     hand did x / speed seconds earlier. Tap "faster" and the new, shorter waves are seen marching down the rope from
+//     the hand, at the same pace as the old ones; at the join to the thick rope they visibly slow and crowd together
+//     while the orange dot on either side bobs at one rate (Ciechanowski, "Sound": slices that stay put while the
+//     disturbance travels; PhET "Waves Intro": a marked bead and a hand that is the source);
+//   - a white bracket "one wave" spans the rope the first wave has covered in one shake, so the wavelength is seen
+//     as "how far the wave got while the hand shook once" (the speed-times-time reading of v = f x wavelength);
+//   - the commonest wrong ideas, which marking answers: the speed depends on the hand (University of Sydney IISME
+//     wave diagnostic: speed believed to depend on how the hand moves), bigger waves travel faster (higher amplitude
+//     "has more energy, so moves faster"), frequency changes in a new medium (AP Physics 2 boundary notes).
 // Amplitude is kept the same across the join for clarity (a real join would also reflect some of the wave).
 
 import type { SceneEngine } from '../types'
 import { registerEngine } from '../registry'
+import { WavesView } from './View'
 
 export const TASKS = ['match', 'slow'] as const
 export type Task = (typeof TASKS)[number]
@@ -88,10 +101,10 @@ function lengthVs(config: WavesConfig, f: number): Cmp {
 export function working(config: WavesConfig): string {
   if (config.task === 'slow') {
     const f = config.frequency
-    return `Yes. Both ropes were shaken ${f} ${f === 1 ? 'time' : 'times'} a second, and the orange dots rose and fell at that same rate on both. But the wave goes only ${SPEED_THICK} m each second on the thick rope, so its waves are ${ratText(wavelength(SPEED_THICK, f))} m long (${ratText(wavelength(SPEED_THIN, f))} m on the thin rope): ${SPEED_THICK} = ${f} x ${ratText(wavelength(SPEED_THICK, f))}.`
+    return `Yes. Both ropes were shaken ${f} ${f === 1 ? 'time' : 'times'} a second, and the orange dots rose and fell at that same rate on both. The shaking rate is set by the hand, and a new rope cannot change it. But the wave goes only ${SPEED_THICK} m each second on the thick rope, so its waves are ${ratText(wavelength(SPEED_THICK, f))} m long (${ratText(wavelength(SPEED_THIN, f))} m on the thin rope): ${SPEED_THICK} = ${f} x ${ratText(wavelength(SPEED_THICK, f))}.`
   }
   const f = config.frequency
-  return `Yes. You shook ${f} ${f === 1 ? 'time' : 'times'} a second, so each wave is ${ratText(wavelength(SPEED_THIN, f))} m long. The wave goes ${SPEED_THIN} m each second whatever you do: ${SPEED_THIN} = ${f} x ${ratText(wavelength(SPEED_THIN, f))}. The orange dot only went up and down.`
+  return `Yes. You shook ${f} ${f === 1 ? 'time' : 'times'} a second, so each wave is ${ratText(wavelength(SPEED_THIN, f))} m long. The wave goes ${SPEED_THIN} m each second whatever you do: ${SPEED_THIN} = ${f} x ${ratText(wavelength(SPEED_THIN, f))}. The hand sets how often the wave comes; the rope sets how fast it goes. The orange dot only went up and down.`
 }
 
 /** What a wrong card says: what the learner made, against the dashed wave, with no number of the answer. */
@@ -132,9 +145,15 @@ export const wavesEngine: SceneEngine<WavesConfig, WavesState> = {
   // Distinctive single words only. "amplitude" alone would catch sine graphs, "frequency" would catch frequency tables,
   // "wave" would catch a heat wave or a microwave, "sound" would catch "sound reasoning": those are phrases below.
   covers: ['wavelength', 'wavelengths', 'ultrasound', 'infrasound'],
-  notFor: ['heat waves', 'heat wave', 'ocean', 'coast', 'coastal', 'mexican waves', 'waves of migration'],
+  // "sound" is a phrase (not a covers word) so that notFor can rule out the other senses of it.
+  notFor: [
+    'heat waves', 'heat wave', 'ocean', 'coast', 'coastal', 'mexican waves', 'waves of migration',
+    'sound reasoning', 'sound financial', 'sound advice', 'sound judgement', 'sound judgment', 'sound investment', 'sound argument', 'sound logic', 'sound mind',
+    'sound devices', 'sound effects', 'sound design', 'sound recording', 'sound files', 'sound file', 'digital sound', 'representing sound', 'sound sampling',
+    'sound and vision', 'safe and sound', 'sound system', 'sound quality',
+  ],
   phrases: [
-    'waves', 'sound waves', 'wave speed', 'wave motion', 'wave equation', 'wave properties', 'wave model', 'wave behaviour', 'wave behavior',
+    'waves', 'sound', 'sound waves', 'wave speed', 'wave motion', 'wave equation', 'wave properties', 'wave model', 'wave behaviour', 'wave behavior',
     'wave frequency', 'wave amplitude', 'transverse waves', 'longitudinal waves', 'frequency and wavelength', 'wavelength and frequency',
     'amplitude and frequency', 'frequency and amplitude', 'speed of sound', 'speed of waves', 'speed of a wave', 'pitch and loudness',
     'loudness and pitch', 'sound and hearing', 'sound and light', 'light and sound', 'sound energy', 'properties of sound', 'properties of waves',
@@ -201,12 +220,12 @@ export const wavesEngine: SceneEngine<WavesConfig, WavesState> = {
     return config.task === 'slow' ? { f: config.frequency } : { f: config.frequency, a: config.amplitude }
   },
 
-  View: null as never, // set below, once the view module has loaded
+  View: WavesView,
 
-  prompt: `SCENE "waves" -- waves on a rope. The learner shakes one end of a rope with two round +/- buttons (how fast, how far) and one big wave answers, travelling away from the hand. An orange dot marks one point on the rope with a thin vertical line through it: it only goes up and down while the wave goes past. A dashed green wave is the target. The rope's wave speed never changes with the shaking, so a faster shake squeezes the waves shorter. Before marking there are no numbers, no formula and no words for the answer; marking gives the wavelength, the speed and the rule (speed = shakes a second x wavelength) or says what the learner made against the dashed wave.
-  match: make a wave like the dashed green one. Two buttons: how fast (shakes a second, 1 to 6) and how far (height, 1 to 4 m). The learner has to find how fast and how far to shake. Teaches wavelength, frequency, amplitude and v = f x wavelength.
-  slow: the rope turns thick half way (the wave goes half as fast there). One button: how fast. The dashed green target is drawn over the thick part only; the learner finds the shaking that makes that wave. Two orange dots, one on each rope, bob at the same rate; the waves are shorter on the thick rope. Teaches that frequency stays the same and wavelength changes when a wave enters a slower medium.
-  For: waves, wave speed, frequency, wavelength, amplitude, transverse waves, sound waves as pitch (frequency) and loudness (amplitude), waves entering a new medium.
+  prompt: `SCENE "waves" -- waves on a rope, on a flat dark stage. A white hand shakes the left end of a light-blue rope; the wave is drawn as it really travels: each point of the rope repeats what the hand did a moment earlier, so a change in the shaking is seen marching down the rope from the hand, at one steady pace. The learner changes the shaking with round +/- buttons (how fast, how far). An orange dot marks one point on the rope with a dashed vertical line through it: it only goes up and down while the wave goes past. A white bracket labelled "one wave" shows how far the first wave has got while the hand shook once. A dashed green wave above the rope is the target. The rope's wave speed never changes with the shaking, so a faster shake squeezes the waves shorter. Before marking there are no numbers, no formula and no words for the answer; marking gives the wavelength, the speed and the rule (speed = shakes a second x wavelength) or says what the learner made against the dashed wave.
+  match: make a wave like the dashed green one. Two buttons: how fast (shakes a second, 1 to 6) and how far (height, 1 to 4 m). The learner has to find how fast and how far to shake. Teaches wavelength, frequency, amplitude and v = f x wavelength; that the speed is the rope's and not the hand's; that a taller wave is no faster.
+  slow: the rope turns thick half way (the wave goes half as fast there). One button: how fast. The dashed green target is drawn over the thick part only; the learner finds the shaking that makes that wave. Two orange dots, one on each rope, bob at the same rate; the waves crowd shorter on the thick rope, and the white bracket sits on the thick part. Teaches that frequency stays the same and wavelength changes when a wave enters a slower medium.
+  For: waves, wave speed, frequency, wavelength, amplitude, transverse waves, sound as waves, pitch (frequency) and loudness (amplitude), waves entering a new medium.
   match: frequency is a whole number 1 to 6; amplitude is a whole number 1 to 4. slow: frequency is a whole number 1 to 4.
   Not drawn: interference, reflection, longitudinal waves, a sound trace, or amplitude loss. Do not use it for heat waves, microwaves or other things that only share the word.
   config: { "task":"match", "frequency":3, "amplitude":2 }  -- the prompt says "Shake the end of the rope so the wave matches the dashed green wave." (do NOT say faster, slower, a number of shakes, a wavelength or v = f x wavelength)
@@ -219,7 +238,5 @@ export const wavesEngine: SceneEngine<WavesConfig, WavesState> = {
     "success": { "kind":"scene" } }, "intent": { "goal":"...", "isolates":"magnitude", "apparatus":"scene:waves", "why":"..." } }`,
 }
 
-import { WavesView } from './View'
-wavesEngine.View = WavesView
 
 registerEngine(wavesEngine as SceneEngine<unknown, unknown>)

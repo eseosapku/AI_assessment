@@ -1,4 +1,4 @@
-// lib/studylab/engines/waves/waves.test.ts
+// lib/studylab/engines/waves-next/waves.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -7,12 +7,15 @@ import {
   wavesEngine as engine, AMP_MAX, AMP_MIN, FREQ_MAX, FREQ_MIN, SLOW_FREQ_MAX, SPEED_THICK, SPEED_THIN,
   ROPE_LENGTH, cmp, madeText, ratText, startOf, wavelength, working, type WavesConfig, type WavesState,
 } from './config'
-import { WavesView, PX_PER_M, X0, X1, W, dotsOf, labelSpans, targetPath, unitWave } from './View'
-import { getEngine, sceneCatalogue, scenesFor } from '../registry'
-import '..'
+import { WavesView, PX_PER_M, X0, X1, W, H, ROPE_Y, PX_PER_AMP, TARGET_Y, TIME_SCALE, STILL_PHASE, dotsOf, labelSpans, targetPath, unitWave, steady, push, heightAt, oneWave, delayOf, reachOf } from './View'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { getEngine, registerEngine, sceneCatalogue, scenesFor } from '../registry'
 import { ActivityNode } from '@/components/studylab/activities/ActivityNode'
 
 vi.spyOn(console, 'error').mockImplementation(() => {})
+// The board's own imports load the live engines; this test is about the engine in this folder, so it takes the id back.
+registerEngine(engine as never)
 
 const range = (lo: number, hi: number) => Array.from({ length: hi - lo + 1 }, (_, i) => lo + i)
 const MATCH: WavesConfig[] = range(FREQ_MIN, FREQ_MAX).flatMap((frequency) => range(AMP_MIN, AMP_MAX).map((amplitude) => ({ task: 'match' as const, frequency, amplitude })))
@@ -119,6 +122,7 @@ describe('every configuration', { timeout: 30_000 }, () => {
 
   it('is registered, with every example readable and fault-free', () => {
     expect(getEngine('waves')).toBe(engine)
+    expect(engine.id).toBe('waves')
     expect(engine.isolates).toBe('magnitude')
     expect(engine.prompt).toMatch(/SCENE "waves"/)
     expect(engine.prompt).toMatch(/"pattern":"scene"/)
@@ -167,7 +171,7 @@ describe('the prompt must not give the answer away', () => {
 
 describe('when the tutor is shown it', () => {
   it('is offered for the stations that name waves', () => {
-    for (const st of ['Waves', 'Waves (phys AL)', 'Sound waves', 'Wave speed', 'Wavelength and frequency', 'Transverse waves', 'Properties of waves', 'The speed of sound', 'Ultrasound', 'Pitch and loudness']) {
+    for (const st of ['Waves', 'Waves (phys AL)', 'Sound waves', 'Wave speed', 'Wavelength and frequency', 'Transverse waves', 'Properties of waves', 'The speed of sound', 'Ultrasound', 'Pitch and loudness', 'Sound', 'Sound (scie P)', 'Sound and hearing']) {
       expect(sceneCatalogue(st), st).toContain('SCENE "waves"')
       expect(scenesFor(st).some((e) => e.id === 'waves'), st).toBe(true)
     }
@@ -176,7 +180,7 @@ describe('when the tutor is shown it', () => {
   it('is not offered for heat waves, microwaves, sound reasoning and other uses of the words', () => {
     for (const st of [
       'Heat wave warnings', 'A wave of migration', 'Microwave ovens', 'Sound reasoning', 'Sound financial advice', 'Amplitude of a sine graph', 'Frequency tables',
-      'Cumulative frequency', 'Longitudinal studies', 'The first wave of feminism', 'Waveform design in Photoshop', 'Soundtrack design',
+      'Cumulative frequency', 'Longitudinal studies', 'The first wave of feminism', 'Waveform design in Photoshop', 'Soundtrack design', 'Sound judgement in leadership', 'Digital sound files', 'Sound design for games', 'Safe and sound', 'Sound devices in poetry',
     ]) {
       expect(sceneCatalogue(st), st).not.toContain('SCENE "waves"')
       expect(scenesFor(st).some((e) => e.id === 'waves'), st).toBe(false)
@@ -191,8 +195,8 @@ describe('a still frame is a frame a learner sees', () => {
       for (const [x, y] of nums) {
         expect(x).toBeGreaterThanOrEqual(X0 - 0.1)
         expect(x).toBeLessThanOrEqual(X1 + 0.1)
-        expect(y).toBeGreaterThanOrEqual(20)
-        expect(y).toBeLessThan(122)
+        expect(y).toBeGreaterThanOrEqual(TARGET_Y - 4 * PX_PER_AMP - 0.1)
+        expect(y).toBeLessThanOrEqual(TARGET_Y + 4 * PX_PER_AMP + 0.1)
       }
     }
     expect(W).toBeGreaterThan(X1)
@@ -242,9 +246,11 @@ describe('the waves scene on the board', () => {
         expect(shown, secret).not.toContain(secret)
       }
       expect(shown).toContain('make this wave')
+      expect(shown).toContain('one wave')
       expect(shown).toContain('orange dot')
       expect(shown).toContain('hand')
       expect(html).toContain(cfg.task === 'slow' ? 'thick rope' : 'blue rope')
+      expect(html).not.toMatch(/gradient|filter|drop-shadow|box-shadow/i)
       expect(html).not.toMatch(/Hz|hertz/i)
     }
     expect(card({ task: 'match', frequency: 3, amplitude: 2 }, 'x')).toContain('Shake a longer distance')
@@ -279,5 +285,100 @@ describe('the waves scene on the board', () => {
   it('arrow keys are kept inside the card', () => {
     const html = raw({ task: 'match', frequency: 3, amplitude: 2 }, { f: 1, a: 1 }, 'idle')
     expect(html).toContain('nodrag')
+  })
+})
+
+describe('the wave is drawn as it travels', () => {
+  it('a steady history gives the steady wave of the formula, at every point, for every shake', () => {
+    for (const task of ['match', 'slow'] as const) for (const f of range(1, 4)) {
+      const h = steady(f, 1, STILL_PHASE)
+      for (let m = 0; m <= 12; m += 0.25) expect(heightAt(h, task, 0, m), `${task} f${f} m${m}`).toBeCloseTo(unitWave(task, f, m, STILL_PHASE), 2)
+    }
+  })
+
+  it('delay and reach are inverses, and the thick rope takes twice as long per metre', () => {
+    for (const task of ['match', 'slow'] as const) for (let m = 0; m <= 12; m += 1.5) expect(reachOf(task, delayOf(task, m))).toBeCloseTo(m, 9)
+    expect(delayOf('match', 6)).toBeCloseTo(6 / 12 / TIME_SCALE, 9)
+    expect(delayOf('slow', 12) - delayOf('slow', 6)).toBeCloseTo(2 * (delayOf('match', 12) - delayOf('match', 6)), 9)
+  })
+
+  it('one wave is how far the first wave has got in one shake: speed over shakes a second', () => {
+    for (const f of range(1, 6)) {
+      const { from, to } = oneWave(steady(f, 1, STILL_PHASE), 'match', 0)
+      expect(from).toBe(0)
+      expect(to).toBeCloseTo(12 / f, 1)
+    }
+    for (const f of range(1, 4)) {
+      const { from, to } = oneWave(steady(f, 1, STILL_PHASE), 'slow', 0)
+      expect(from).toBe(6)
+      expect(to - from).toBeCloseTo(6 / f, 1)
+    }
+  })
+
+  it('a change of shaking travels down the rope at the rope\'s pace, and the hand\'s own rate is unchanged past the join', () => {
+    // shake at 2 a second, then at 4 from time 0: the new, shorter waves must not be at 6 m until delayOf(6) later.
+    const h = steady(2, 1, 0)
+    let p = 0
+    const dt = 1 / 60
+    let t = 0
+    for (; t < 4; t += dt) { p += 2 * Math.PI * 4 * TIME_SCALE * dt; push(h, t + dt, p, 1) }
+    const now = t
+    const wavesBetween = (a: number, b: number) => {
+      let n = 0
+      let prev = heightAt(h, 'match', now, a)
+      for (let m = a + 0.02; m <= b; m += 0.02) { const v = heightAt(h, 'match', now, m); if (prev < 0 && v >= 0) n++; prev = v }
+      return n
+    }
+    expect(wavesBetween(0, 3)).toBeGreaterThanOrEqual(1)
+    // by now (4 s of picture time) the new waves have gone 4 * 0.4 * 12 = 19 m: all of the rope is the new wave, 4 crests.
+    expect(Math.abs(wavesBetween(0, 12) - 4)).toBeLessThanOrEqual(1)
+    // a hand that shook 2 a second until 1 s ago: the stretch of rope beyond 1 s of travel still holds the old wave
+    const h2 = steady(2, 1, 0)
+    let p2 = 0
+    let t2 = 0
+    for (; t2 < 1; t2 += dt) { p2 += 2 * Math.PI * 4 * TIME_SCALE * dt; push(h2, t2 + dt, p2, 1) }
+    const old = (a: number, b: number) => {
+      let n = 0
+      let prev = heightAt(h2, 'match', t2, a)
+      for (let m = a + 0.02; m <= b; m += 0.02) { const v = heightAt(h2, 'match', t2, m); if (prev < 0 && v >= 0) n++; prev = v }
+      return n
+    }
+    expect(old(6, 12)).toBeGreaterThanOrEqual(0)
+    expect(old(0, 4.8 - 0.2)).toBeGreaterThanOrEqual(1) // 1 s of travel is 4.8 m: the new waves fill only that stretch
+  })
+
+  it('stays inside the picture at the biggest height', () => {
+    for (const task of ['match', 'slow'] as const) {
+      const h = steady(4, 4, STILL_PHASE)
+      for (let m = 0; m <= 12; m += 0.1) {
+        const y = ROPE_Y - heightAt(h, task, 0, m) * PX_PER_AMP
+        expect(y).toBeGreaterThan(ROPE_Y - 4 * PX_PER_AMP - 12)
+        expect(y).toBeLessThanOrEqual(ROPE_Y + 4 * PX_PER_AMP + 0.5)
+        expect(ROPE_Y + 4 * PX_PER_AMP + 8).toBeLessThan(H - 30)
+      }
+    }
+  })
+})
+
+describe('the view and the config agree, and View reads no constant from config at load', () => {
+  it('geometry literals match the config', () => {
+    expect(PX_PER_M * ROPE_LENGTH).toBeCloseTo(X1 - X0, 9)
+    expect(delayOf('match', ROPE_LENGTH) * TIME_SCALE * SPEED_THIN).toBeCloseTo(ROPE_LENGTH, 9)
+    expect(delayOf('slow', ROPE_LENGTH)).toBeCloseTo((6 / SPEED_THIN + (ROPE_LENGTH - 6) / SPEED_THICK) / TIME_SCALE, 9)
+  })
+  it('keeps its top level free of config constants', () => {
+    const src = readFileSync(join(__dirname, 'View.tsx'), 'utf8')
+    const imported = /import \{([^}]*)\} from '\.\/config'/.exec(src)![1].split(',').map((x) => x.trim()).filter(Boolean)
+    const top = src.split('\n').filter((l) => /^(export )?const /.test(l)).join('\n')
+    for (const name of imported) expect(top, name).not.toMatch(new RegExp(`\b${name}\b`))
+  })
+  it('every label sits nearer its own part than another, and the hand and each dot have their line under them', () => {
+    for (const task of ['match', 'slow'] as const) {
+      const spans = labelSpans(task)
+      const own = [X0, ...dotsOf(task).map((m) => X0 + m * PX_PER_M)]
+      const named = spans.filter((s) => s.text === 'hand' || s.text === 'orange dot')
+      expect(named).toHaveLength(own.length)
+      for (const l of named) expect(own.filter((x) => Math.abs(x - l.x) < 1)).toHaveLength(1)
+    }
   })
 })
