@@ -292,9 +292,12 @@ export default function Workspace({ id }: { id: string }) {
           return
         }
         if (body.refusal) {
-          // A refusal is a sentence in the tutor's voice, not an error toast —
-          // and the run is unchanged, so there is nothing else to apply.
+          // A refusal is a sentence in the tutor's voice, not an error toast.
           // One that pressing again can fix offers the button to do it.
+          // The run it comes with is the true one: another tab can have moved it
+          // on, and a page that kept its own copy was refused for ever, with
+          // nothing to press, over a check it had never heard of.
+          if (body.run) setRun(body.run)
           setMessages((prev) => [
             ...prev,
             { role: 'assistant', kind: 'refusal', content: body.refusal!, ...(body.retry ? { retryAction: action } : {}) },

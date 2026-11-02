@@ -259,3 +259,11 @@ describe('a decision card', () => {
     expect(draw('a', true)).not.toContain('This works')
   })
 })
+
+describe('a refused move', () => {
+  it('takes the run it came with, so a page out of step cannot be stuck refused', () => {
+    const page = readFileSync('components/studylab/Workspace.tsx', 'utf8')
+    const refusal = page.slice(page.indexOf('if (body.refusal) {'), page.indexOf('const nextRun = body.run ?? null'))
+    expect(refusal).toContain('if (body.run) setRun(body.run)')
+  })
+})
