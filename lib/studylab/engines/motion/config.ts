@@ -212,6 +212,11 @@ export const motionEngine: SceneEngine<MotionConfig, MotionState> = {
   promptFaults(config, prompt) {
     const { kind } = config.task
     const f: string[] = []
+    // The tutor pictured a race on this card and said so: one runner, one journey, nothing to compare.
+    if (/\b(two|three|four|several|multiple|many)\s+(runners?|journeys?|lines?|graphs?|objects?|people)\b|\bwhich\s+(runner|journey|line|graph|one)\b|\b(fastest|slowest)\b|\bcompare\b/i.test(prompt))
+      f.push('this card has one runner and one journey, so it cannot show several to compare: ask about this one, e.g. "' + (kind === 'read-speed' ? 'How fast is the runner in the bold part?' : 'Hold the runner and move it so your graph follows the dashed path.') + '"')
+    if (kind !== 'read-speed' && /\bwatch\b/i.test(prompt))
+      f.push('nothing moves here by itself, the learner moves the runner: say so, e.g. "Hold the runner and move it so your graph follows the dashed path."')
     if (kind === 'read-speed') {
       if (/\d\s*(m\s*\/\s*s|metres? per second|meters? per second|ms-?1)/i.test(prompt))
         f.push('the prompt gives the speed away, which the learner is to measure from the graph: ask "How fast is the runner in the bold part?" without a number')
@@ -271,6 +276,7 @@ export const motionEngine: SceneEngine<MotionConfig, MotionState> = {
   For: distance-time graphs, steady speed vs stopped vs coming back, speed as the steepness of the line, speed and
   velocity. The graph is not a picture of a hill: it is the runner's own movement over time.
   Before marking it shows only the axes, the runner and the target or story; it names no stage and no speed until marked.
+  It is ONE runner on ONE journey: no race, no comparing runners, and nothing plays by itself. Say what the learner does with the runner.
   config: { "task": { "kind":"walk-graph | walk-story | read-speed",
             "stages":[ { "kind":"out | rest | back", "seconds":<whole 2-6>, "speed":<whole m/s 1-4; leave out for rest> } ],
             "ask":<read-speed only: which stage (1,2,3), a stage that moves; default the first that moves> } }

@@ -339,7 +339,7 @@ export const calculusGrapherEngine: SceneEngine<CalculusConfig, CalculusState> =
       else {
         const hits = Array.from({ length: HALVES }, (_, i) => i + 1).filter((h) => same(areaTo(coef, fromHalves(h)), area))
         const thin = Array.from({ length: HALVES }, (_, i) => i + 1).some((h) => num(add(areaTo(coef, fromHalves(h)), mul(rat(-1), areaTo(coef, fromHalves(h - 1))))) < 0.1)
-        const nice = Array.from({ length: HALVES }, (_, i) => i + 1).map((h) => ({ h, a: areaTo(coef, fromHalves(h)) })).find(({ a }) => (a.n * 100) % a.d === 0)
+        const nice = Array.from({ length: HALVES }, (_, i) => i + 1).map((h) => ({ h, a: areaTo(coef, fromHalves(h)) })).filter(({ a }) => (a.n * 100) % a.d === 0).sort((x, y) => Math.abs(num(x.a) - num(area)) - Math.abs(num(y.a) - num(area)))[0]
         if (!hits.length) out.push(`the area under ${curve} is never exactly ${areaText(area)} at a half-unit position from 0 to 4. Choose a target the area reaches${nice ? `, e.g. ${areaText(nice.a)} (at x = ${nice.h / 2})` : ''}.`)
         else if (thin) out.push(`${curve} is so low in places that the area grows by less than 0.1 in half a unit, which cannot be told apart on the readout. Use a taller curve such as 2x − x²/2.`)
         if ((area.n * 100) % area.d !== 0) out.push('the target area needs at most two decimal places.')

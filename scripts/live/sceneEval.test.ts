@@ -57,7 +57,7 @@ const SUBJECT: Record<string, string> = {
   ledger: 'Accounting', 'counters-place-value': 'Mathematics', 'algorithm-tracer': 'Computer Science', 'measure-shape': 'Mathematics', 'stats-explorer': 'Mathematics', magnetism: 'Physics', forces: 'Physics', 'geometry-construction': 'Mathematics',
 }
 
-const DIMENSIONS = ['valid', 'solvable', 'unsolvedStart', 'noSelfAnswer', 'noAnswerVisible', 'picturesFit', 'noOverlap', 'changes'] as const
+const DIMENSIONS = ['valid', 'solvable', 'unsolvedStart', 'noSelfAnswer', 'noAnswerVisible', 'picturesFit', 'noOverlap', 'changes', 'promptTrue'] as const
 type Dimension = (typeof DIMENSIONS)[number]
 
 type Item = {
@@ -100,8 +100,10 @@ const VISION = (prompt: string, config: unknown, about: string) => [
   '   value or result the task asks the student to find, printed on the card? (The instruction itself may name the task.)',
   '2. pictures_fit: does every picture or drawn object show what its label says? true when there is nothing to check.',
   '3. overlap: in either image, does text or a shape overlap another so it cannot be read, or get cut off at an edge?',
-  '4. changes: do images 1 and 2 differ visibly in the drawing itself?',
-  'Reply with JSON only: {"answer_visible":true|false,"pictures_fit":true|false,"overlap":true|false,"changes":true|false,"note":"<one sentence on any problem, or empty>"}',
+  '4. changes: between images 1 and 2, does the picture itself change -- its colours, shapes or positions -- and not only text typed into a box?',
+  '5. prompt_true: can the student do exactly what the instruction says, with what is on this card? false if it speaks of',
+  '   things the card does not have (three runners when one is drawn, something to watch when nothing moves by itself).',
+  'Reply with JSON only: {"answer_visible":true|false,"pictures_fit":true|false,"overlap":true|false,"changes":true|false,"prompt_true":true|false,"note":"<one sentence on any problem, or empty>"}',
 ].join('\n')
 
 const enc = (o: unknown) => Buffer.from(JSON.stringify(o)).toString('base64url')
@@ -163,11 +165,12 @@ async function evaluate(e: SceneEngine<unknown, unknown>, s: { lesson: string; s
         { mediaType: 'image/png', data: b.toString('base64') },
       ])
       said = reply.text
-      const v = extractJson(reply.text) as { answer_visible?: unknown; pictures_fit?: unknown; overlap?: unknown; changes?: unknown; note?: unknown }
+      const v = extractJson(reply.text) as { answer_visible?: unknown; pictures_fit?: unknown; overlap?: unknown; changes?: unknown; prompt_true?: unknown; note?: unknown }
       scores.noAnswerVisible = v.answer_visible === false
       scores.picturesFit = v.pictures_fit !== false
       scores.noOverlap = v.overlap === false
       scores.changes = v.changes === true
+      scores.promptTrue = v.prompt_true !== false
       item.note = String(v.note ?? '')
       item.shots = shots
     } catch (err) {

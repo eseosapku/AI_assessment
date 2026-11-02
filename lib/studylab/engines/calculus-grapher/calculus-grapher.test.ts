@@ -314,3 +314,12 @@ describe('the scene on the board', () => {
     }
   })
 })
+
+describe('a target the sweep cannot reach', () => {
+  it('is refused with the nearest one it can, so the writer can fix it first time', () => {
+    const e = getEngine('calculus-grapher')!
+    const faults = (x1: number, area: string) => e.faults!(e.parse({ task: { kind: 'sweep-area', curve: { x1 }, area } })).join(' ')
+    expect(faults(2, '8')).toContain('e.g. 9 (at x = 3)')
+    expect(faults(3, '12')).toContain('e.g. 13.5 (at x = 3)')
+  })
+})

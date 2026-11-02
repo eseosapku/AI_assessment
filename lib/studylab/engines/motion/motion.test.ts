@@ -241,6 +241,10 @@ describe('what the prompt may say', () => {
   it('does not give a measured speed or the method away', () => {
     const read = cfg('read-speed', [out(4, 3), rest(2)])
     expect(engine.promptFaults!(read, 'How fast is the runner in the bold part?')).toEqual([])
+    // Written by the real tutor over a card with one runner.
+    expect(engine.promptFaults!(read, 'Three runners move at different steady speeds. Which runner is fastest?')[0]).toMatch(/one runner/)
+    expect(engine.promptFaults!(cfg('walk-graph', [out(4, 3), rest(2)]), 'Watch the lines as they go.')[0]).toMatch(/nothing moves here by itself/)
+    expect(engine.promptFaults!(cfg('walk-graph', [out(4, 3), rest(2)]), 'Hold the runner and move it so your graph follows the dashed path.')).toEqual([])
     expect(engine.promptFaults!(read, 'The runner goes at 3 m/s. Find it.')[0]).toMatch(/gives the speed away/)
     expect(engine.promptFaults!(read, 'Work out the speed in metres per second.')).toEqual([])
     expect(engine.promptFaults!(read, 'Use speed = distance ÷ time to find it.')[0]).toMatch(/method/)
