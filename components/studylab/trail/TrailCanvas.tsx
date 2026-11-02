@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, type ReactNode } from 'react'
 import { ReactFlow, Background, BackgroundVariant, Panel, useReactFlow, type Node, type NodeTypes } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
@@ -39,7 +39,8 @@ interface TrailCanvasProps {
   nodes: StudyNode[]
   insets: Insets
   onCardPrompt: (prompt: string, label: string) => void
-  onViewSettled?: () => void
+  /** Drawn inside the board: Kana. */
+  children?: ReactNode
 }
 
 /**
@@ -48,7 +49,7 @@ interface TrailCanvasProps {
  * nothing here is written back: the classic view's positions are not the
  * Trail's to touch.
  */
-export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(function TrailCanvas({ model, nodes, insets, onCardPrompt, onViewSettled }, ref) {
+export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(function TrailCanvas({ model, nodes, insets, onCardPrompt, children }, ref) {
   const { world, placement, focusId, sizes } = model
   const rf = useReactFlow()
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -301,11 +302,11 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
         onMove={(e, vp) => {
           if (e && moveFrom.current && viewportMoved(moveFrom.current, vp)) setExploring(true)
         }}
-        onMoveEnd={() => onViewSettled?.()}
         proOptions={{ hideAttribution: true }}
         className="ss-trail-canvas"
       >
         <Background variant={BackgroundVariant.Lines} gap={64} color="var(--trail-grid)" />
+        {children}
         {exploring && focusId && (
           <Panel position="bottom-center" style={{ marginBottom: insets.bottom - 24 }}>
             <button

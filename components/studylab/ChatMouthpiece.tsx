@@ -7,6 +7,7 @@ import { PlanCard } from './PlanCard'
 import { QuestionPicker } from './QuestionPicker'
 import { Send, Sparkles, ImagePlus, X, ArrowRight, Volume2, VolumeX } from 'lucide-react'
 import { Inky } from './inky/Inky'
+import { Kana } from './kana/Kana'
 import { useMuted } from '@/lib/studylab/sound'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
 import { plainTitle } from '@/lib/studylab/actions'
@@ -49,6 +50,8 @@ export interface ChatMouthpieceProps {
   /** Whether the end-of-lesson quiz files its score where the Gap Map can read it. */
   proveUpdatesGapMap?: boolean
   onSend: (text: string, opts?: { image?: string; silent?: boolean }) => void
+  /** The Trail's chat: Kana speaks, and new cards are not announced, because the camera goes to them. */
+  look?: 'trail'
   /**
    * A suggestion chip was clicked. "Makes sense" moves on and "Not really" asks
    * what is unclear, where typing the same words is just a question; without
@@ -107,7 +110,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, onChip, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null, onClose, focusInput = false }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, onChip, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null, onClose, focusInput = false, look }: ChatMouthpieceProps) {
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
@@ -174,12 +177,12 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   }
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-[#161617]">
+    <div className={`flex flex-col h-full bg-white dark:bg-[#161617]${look === 'trail' ? ' ss-trail-chat' : ''}`}>
       {/* Header */}
       <div className="flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-800">
-        <Inky size={34} mood={busy ? 'thinking' : 'idle'} />
+        {look === 'trail' ? <Kana simple pose="happy" size={34} /> : <Inky size={34} mood={busy ? 'thinking' : 'idle'} />}
         <div className="leading-tight">
-          <p className="font-semibold text-[14px]">Inky</p>
+          <p className="font-semibold text-[14px]">{look === 'trail' ? 'Kana' : 'Inky'}</p>
           <p className="text-[12px] text-ss-slate">Your tutor</p>
         </div>
         <MuteToggle />
@@ -216,7 +219,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           m.role === 'assistant' &&
           m.kind !== 'plan' &&
           !m.content?.trim() &&
-          builtCards(m.actions).length === 0 ? null :
+          (look === 'trail' || builtCards(m.actions).length === 0) ? null :
           // A status line is the system reporting what an action did, not the
           // tutor speaking. It gets no avatar and no bubble, so the transcript
           // still reads as a conversation with the run's bookkeeping beside it.
@@ -232,7 +235,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             </div>
           ) : m.role === 'assistant' ? (
             <div key={i} className="flex gap-2.5">
-              <Inky size={28} className="shrink-0 mt-0.5" />
+              {look === 'trail' ? <span className="shrink-0 mt-0.5"><Kana simple pose="happy" size={28} /></span> : <Inky size={28} className="shrink-0 mt-0.5" />}
               {/* Rendered by kind. A proposed plan, a refusal, an error and an
                   ordinary teaching line used to be the same grey bubble, so
                   nothing in the conversation read as more important than
@@ -296,7 +299,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                       "Here's how it ionizes — see the card" is only useful if
                       the card is findable; and a turn that built nothing now
                       visibly lists nothing. */}
-                  {builtCards(m.actions).map((c) => (
+                  {look !== 'trail' && builtCards(m.actions).map((c) => (
                     <button
                       key={c.id}
                       type="button"
@@ -340,7 +343,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
         {busy && (
           <div className="flex gap-2.5">
-            <Inky size={28} mood="thinking" className="shrink-0" />
+            {look === 'trail' ? <span className="shrink-0"><Kana simple pose="think" size={28} /></span> : <Inky size={28} mood="thinking" className="shrink-0" />}
             <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-2">
               <span className="flex items-center gap-1.5" aria-hidden>
                 <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.3s]" />

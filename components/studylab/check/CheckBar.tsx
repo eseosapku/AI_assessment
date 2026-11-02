@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useContext, useEffect } from 'react'
+import { forwardRef, useContext, useEffect, useRef } from 'react'
 import { Loader2 } from 'lucide-react'
 import type { CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarButton, type BarModel, type BarOptions } from '@/lib/studylab/checkBarModel'
@@ -55,7 +55,12 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
   const trail = stage?.look === 'trail'
   const sayLine = stage?.sayLine
   const tone = model.tone
+  // Only what changes while the bar is up is news: a bar coming back with its old
+  // result must not talk over whatever the tutor has said since.
+  const said = useRef(text)
   useEffect(() => {
+    if (text === said.current) return
+    said.current = text
     if (trail && text) sayLine?.(text, tone)
   }, [trail, text, tone, sayLine])
   return (

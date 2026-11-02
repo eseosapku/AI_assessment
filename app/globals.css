@@ -519,6 +519,119 @@
 .ss-trail-label-future span {
   color: var(--ss-slate);
 }
+/* Kana on the board. Her big bubble stands above the card in focus; it hangs from
+   the foot of its strip, so a long line grows up and away from the card. */
+.ss-trail-kana {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  transition: transform 1.1s var(--trail-glide);
+}
+.ss-trail-speech {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-left: 16px;
+}
+.ss-trail-bubble {
+  position: relative;
+  border: 1px solid var(--ss-line);
+  border-radius: 22px;
+  background: var(--ss-panel);
+  padding: 14px 20px;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ss-ink);
+  box-shadow: 0 14px 34px -18px rgba(20, 60, 90, 0.45);
+  pointer-events: auto;
+  animation: ss-trail-say 260ms ease-out;
+}
+.ss-trail-bubble::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  bottom: 26px;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+  border-left: 1px solid var(--ss-line);
+  border-bottom: 1px solid var(--ss-line);
+  background: var(--ss-panel);
+}
+.ss-trail-bubble-working {
+  color: var(--ss-slate);
+}
+.ss-trail-bubble-good {
+  border-color: var(--ss-good);
+}
+.ss-trail-bubble-refusal,
+.ss-trail-bubble-error {
+  border-color: var(--ss-warn);
+}
+.ss-trail-more {
+  margin-left: 8px;
+  font-weight: 800;
+  color: var(--ss-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ss-trail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  pointer-events: auto;
+}
+.ss-trail-chip {
+  min-height: 48px;
+  border: 2px solid var(--subject);
+  border-radius: 999px;
+  background: var(--ss-panel);
+  padding: 0 18px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ss-ink);
+}
+.ss-trail-spark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: #14A9EA;
+  opacity: 0;
+  pointer-events: none;
+}
+.ss-trail-pointed {
+  outline: 3px solid var(--subject);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--subject) 22%, transparent);
+}
+@keyframes ss-trail-say {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+/* Chat messages at 18 px, and nothing under 16. */
+.ss-trail-chat .text-\[13\.5px\],
+.ss-trail-chat .text-\[13px\] {
+  font-size: 18px;
+}
+.ss-trail-chat .text-\[12px\] {
+  font-size: 16px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ss-trail-kana {
+    transition: none;
+  }
+  .ss-trail-bubble {
+    animation: none;
+  }
+}
+
 /* The one button: the logo's gradient, an ink label (white fails 4.5:1 at the
    bright end), and a hard shadow it travels down into. */
 .ss-trail-go {

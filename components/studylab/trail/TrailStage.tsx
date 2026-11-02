@@ -6,28 +6,32 @@ import type { LessonStageProps } from '../stage/LessonStage'
 import { LessonTopBar } from '../stage/LessonTopBar'
 import { OpeningCard } from '../stage/OpeningCard'
 import ChatMouthpiece from '../ChatMouthpiece'
+import { Kana } from '../kana/Kana'
 import { StageContext, type StageValue, type HelpRequest } from '../stage/StageContext'
-import { InkyDock } from '../stage/InkyDock'
-import { TutorDrawer } from '../stage/TutorDrawer'
 import { StationScene } from '../stage/StationScene'
 import { LessonCompleteScene } from '../stage/LessonCompleteScene'
 import { CanvasContext } from '../canvasShared'
+import { KanaOnBoard } from './KanaOnBoard'
 import { TrailCanvas, type TrailCanvasHandle } from './TrailCanvas'
+import { TrailChatPanel } from './TrailChatPanel'
 import { TrailDock } from './TrailDock'
 import { TrailPlacementContext, type TrailPlacement } from './TrailFrame'
 import { useTrailModel } from './useTrailModel'
 import { trailAction, trailContinue } from '@/lib/studylab/trail/action'
+import { bubbleLine, lineTone, withDisplayLines } from '@/lib/studylab/trail/voice'
+import type { BarModel } from '@/lib/studylab/checkBarModel'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
 import { continueFor, dockModel, cameraInsets, quietStage, type ContinueTarget } from '@/lib/studylab/spotlight'
 import { drawerKey } from '@/lib/studylab/drawerKey'
 import { settledSince, lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
 import { latestLine } from '@/lib/studylab/bubble'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
+import type { Rect } from '@/lib/studylab/trail/types'
 
 const INSETS = cameraInsets(false)
 const INSETS_PHONE = cameraInsets(true)
 
-/** Below `sm`, where the dock stands on top of Inky instead of beside it. */
+/** Below `sm`. */
 const PHONE = '(max-width: 639px)'
 function subscribePhone(onChange: () => void) {
   const mq = window.matchMedia(PHONE)
@@ -46,7 +50,7 @@ const NO_RESIZE = () => {}
 /**
  * The Trail look of a lesson: the same props as the classic stage, and the same
  * lesson underneath. It has its own board, whose positions are worked out from
- * the run and one button; its chat and top bar are the classic ones for now.
+ * the run, one button, and Kana on the board; its top bar is the classic one for now.
  */
 export default function TrailStage(props: LessonStageProps) {
   return (
@@ -57,10 +61,10 @@ export default function TrailStage(props: LessonStageProps) {
 }
 
 function TrailStageInner(props: LessonStageProps) {
-  const { subjectKey, rail, board, chat, onAdvance, onFocus, onHandIn, pointer = null, onShowNode, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children, trail } = props
+  const { subjectKey, rail, board, chat, onAdvance, onFocus, onHandIn, pointer = null, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children, trail } = props
   const phone = usePhone()
   const model = useTrailModel(props)
-  const { focusId, world, nextInQueue } = model
+  const { focusId, world, nextInQueue, say, lines } = model
   const canvas = useRef<TrailCanvasHandle>(null)
   const spotlight = useMemo(() => (focusId ? [focusId] : []), [focusId])
 
@@ -116,6 +120,7 @@ function TrailStageInner(props: LessonStageProps) {
     },
     [onAdvance, onFocus, onHandIn],
   )
+  const sayLine = useCallback((text: string, tone: BarModel['tone']) => say(text, lineTone(tone)), [say])
   const stage = useMemo<StageValue>(
     () => ({
       dockEl,
@@ -127,8 +132,9 @@ function TrailStageInner(props: LessonStageProps) {
       prefer,
       help,
       look: 'trail',
+      sayLine,
     }),
-    [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, nextInQueue, runContinue, claim, prefer, help],
+    [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, nextInQueue, runContinue, claim, prefer, help, sayLine],
   )
   const canvasValue = useMemo(
     () => ({
@@ -151,10 +157,12 @@ function TrailStageInner(props: LessonStageProps) {
   const view = dockModel({ ...flow, working: chat.working ?? 'Thinking…', failed })
   const focusType = focusId ? (board.nodes.find((n) => n.id === focusId)?.type ?? null) : null
   const action = trailAction({ view, claimed: owner !== null, run: board.run, focusType, nextInQueue, interlude: model.interlude, lookBack: null, detourFooter: false })
-  // A check with questions left: Inky keeps its chips to itself.
+  // A check with questions left: Kana keeps the chips to herself.
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
-  const [viewTick, setViewTick] = useState(0)
-  const onViewSettled = useCallback(() => setViewTick((t) => t + 1), [])
+  const line = bubbleLine(chat.messages, lines, { busy: chat.busy, working: chat.working ?? 'Thinking…' })
+  const chips = !chat.busy && !open && !gating && !quietStage(board.run ?? null) ? chat.suggestions.slice(0, 3) : []
+  const shownMessages = useMemo(() => withDisplayLines(chat.messages, lines), [chat.messages, lines])
+  const showCard = useCallback((rect: Rect) => canvas.current?.flyTo(rect), [])
 
   // The moments worth marking, read off the run as it changes. A reload has no
   // previous run, so it never replays either.
@@ -194,9 +202,9 @@ function TrailStageInner(props: LessonStageProps) {
             <LessonTopBar {...rail} busy={rail.busy ?? chat.busy} />
             <div className="flex min-h-0 flex-1">
               {/* The chat on the left; the board narrows beside it. */}
-              <TutorDrawer open={open} onClose={() => setOpen(false)}>
-                <ChatMouthpiece {...chat} onClose={() => setOpen(false)} focusInput={open} />
-              </TutorDrawer>
+              <TrailChatPanel open={open}>
+                <ChatMouthpiece {...chat} messages={shownMessages} look="trail" onClose={() => setOpen(false)} focusInput={open} />
+              </TrailChatPanel>
               <div data-tour="lesson-board" data-stage-board className="relative h-full min-w-0 flex-1">
                 {boardOverlay}
                 <button
@@ -216,22 +224,28 @@ function TrailStageInner(props: LessonStageProps) {
                   onAnswerPlan={chat.onAnswerPlan}
                   onStartHomework={chat.onStartHomework}
                 />
-                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={phone ? INSETS_PHONE : INSETS} onCardPrompt={board.onCardPrompt} onViewSettled={onViewSettled} />
-                <InkyDock
-                  messages={chat.messages}
-                  suggestions={chat.suggestions}
-                  busy={chat.busy}
-                  working={chat.working ?? 'Thinking…'}
-                  quiet={gating || quietStage(board.run ?? null)}
-                  hidden={open}
-                  focusIds={spotlight}
-                  viewTick={viewTick}
-                  onOpenChat={openChat}
-                  onAsk={(text) => (chat.onChip ? chat.onChip(text) : chat.onSend(text))}
-                  onRetry={(action) => chat.onRetry?.(action)}
-                  pointer={pointer}
-                  onReveal={onShowNode}
-                />
+                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={phone ? INSETS_PHONE : INSETS} onCardPrompt={board.onCardPrompt}>
+                  <KanaOnBoard
+                    world={world}
+                    focusId={focusId}
+                    line={line}
+                    chips={chips}
+                    hidden={open}
+                    pointer={pointer}
+                    onMore={openChat}
+                    onChip={(text) => (chat.onChip ? chat.onChip(text) : chat.onSend(text))}
+                    onShowCard={showCard}
+                  />
+                </TrailCanvas>
+                <button
+                  type="button"
+                  onClick={openChat}
+                  aria-label="Ask Kana"
+                  className="ss-press absolute bottom-5 left-4 z-30 inline-flex min-h-[52px] items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-3 pr-4 text-[16px] font-bold text-ss-ink shadow-ss-panel"
+                >
+                  <Kana simple pose="happy" size={34} />
+                  <span>Ask Kana</span>
+                </button>
                 <TrailDock
                   ref={setDockEl}
                   action={action}

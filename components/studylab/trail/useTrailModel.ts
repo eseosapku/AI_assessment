@@ -1,12 +1,13 @@
 'use client'
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import type { LessonStageProps } from '../stage/LessonStage'
 import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { interludeFrom } from '@/lib/studylab/trail/action'
 import { placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
 import { syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
+import type { DisplayLine } from '@/lib/studylab/trail/voice'
 
 export interface TrailModel {
   world: TrailWorld
@@ -19,6 +20,9 @@ export interface TrailModel {
   /** Between stations: the one just finished, and the one the button goes to. */
   interlude: { done: number; next: number } | null
   endInterlude: () => void
+  /** Check feedback Kana has said. Shown, and never written to the history the tutor sees. */
+  lines: DisplayLine[]
+  say: (text: string, tone: DisplayLine['tone']) => void
   /** The cards' own sizes, as drawn. They place cards here and nowhere else. */
   sizes: Record<string, Size>
   onMeasure: (id: string, size: Size) => void
@@ -29,7 +33,7 @@ export interface TrailModel {
  * the same run always gives the same board, and none of it is saved.
  */
 export function useTrailModel(props: LessonStageProps): TrailModel {
-  const { board, focus } = props
+  const { board, focus, chat } = props
   const { nodes, run } = board
 
   const spotlight = useMemo(() => trailSpotlight({ nodes, run, explicit: focus }), [nodes, run, focus])
@@ -49,6 +53,17 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
   const interlude = pause && run?.phase === 'teaching' && run.currentStep === pause.next ? pause : null
   const endInterlude = useCallback(() => setPause(null), [])
 
+  const said = useRef(chat.messages.length)
+  said.current = chat.messages.length
+  const [lines, setLines] = useState<DisplayLine[]>([])
+  const say = useCallback((text: string, tone: DisplayLine['tone']) => {
+    const afterIndex = said.current
+    setLines((prev) => {
+      const last = prev[prev.length - 1]
+      return last && last.text === text && last.afterIndex === afterIndex ? prev : [...prev, { afterIndex, text, tone }]
+    })
+  }, [])
+
   const [sizes, setSizes] = useState<Record<string, Size>>({})
   const onMeasure = useCallback((id: string, size: Size) => {
     setSizes((prev) => (prev[id]?.w === size.w && prev[id]?.h === size.h ? prev : { ...prev, [id]: size }))
@@ -59,11 +74,11 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
     [nodes, run, queue, sizes, interlude],
   )
   const world = useMemo(
-    () => trailLayout({ stations: placement.stations, detours: placement.detours, focusWidth: FOCUS_W, speaker: false }),
+    () => trailLayout({ stations: placement.stations, detours: placement.detours, focusWidth: FOCUS_W, speaker: true }),
     [placement],
   )
 
   const nextInQueue = interlude ? null : (placement.waiting.find((id) => queue?.ids.includes(id)) ?? null)
 
-  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, sizes, onMeasure }
+  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, sizes, onMeasure }
 }
