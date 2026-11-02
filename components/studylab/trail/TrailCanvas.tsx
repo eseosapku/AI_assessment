@@ -56,7 +56,8 @@ interface TrailCanvasProps {
  * Trail's to touch.
  */
 export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(function TrailCanvas({ model, nodes, insets, onCardPrompt, heading, opening, children }, ref) {
-  const { world, placement, focusId, sizes } = model
+  const { world, placement, focusId, sizes, lookBack } = model
+  const lookingBack = lookBack?.id ?? null
   const rf = useReactFlow()
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [exploring, setExploring] = useState(false)
@@ -198,33 +199,41 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
       const n = byId.get(id)
       const place = world.cards[id]
       if (!n || !place) return []
-      const live = place.role === 'focus' || place.role === 'reopened'
+      const reopened = place.role === 'reopened'
+      const live = place.role === 'focus' || reopened
+      const steppedBack = !!lookingBack && !reopened
+      const zIndex = reopened ? 3 : live ? 2 : 1
+      const focusable = live && !steppedBack
+      const className = steppedBack ? 'ss-trail-dim' : undefined
+      const data = n.data as unknown as Record<string, unknown>
       const prev = cache.current.get(id)
       const same =
         prev &&
-        prev.data === (n.data as unknown) &&
+        prev.data === data &&
         prev.type === n.type &&
         prev.position.x === place.x &&
         prev.position.y === place.y &&
         prev.width === place.w &&
         prev.height === place.h &&
-        prev.focusable === live &&
-        prev.zIndex === (live ? 2 : 1)
+        prev.focusable === focusable &&
+        prev.className === className &&
+        prev.zIndex === zIndex
       const node: Node = same
         ? prev
         : {
             id,
             type: n.type,
             position: { x: place.x, y: place.y },
-            data: n.data as unknown as Record<string, unknown>,
+            data,
+            className,
             width: place.w,
             height: place.h,
             measured: { width: place.w, height: place.h },
             draggable: false,
             selectable: false,
             connectable: false,
-            focusable: live,
-            zIndex: live ? 2 : 1,
+            focusable,
+            zIndex,
           }
       next.set(id, node)
       return [node]
@@ -243,10 +252,11 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
       connectable: false,
       focusable: false,
       zIndex: -1,
+      className: lookingBack ? 'ss-trail-dim' : undefined,
       style: { pointerEvents: 'none' },
     }
     return [worldNode, ...cards]
-  }, [nodes, placement.drawn, world, heading, opening])
+  }, [nodes, placement.drawn, world, heading, opening, lookingBack])
 
   // Tapping the card in focus opens its prompt menu, as on the classic board.
   const [cardMenu, setCardMenu] = useState<{ id: string; title: string; x: number; y: number } | null>(null)
@@ -314,7 +324,7 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
       >
         <Background variant={BackgroundVariant.Lines} gap={64} color="var(--trail-grid)" />
         {children}
-        {exploring && focusId && (
+        {exploring && focusId && !lookingBack && (
           <Panel position="bottom-center" style={{ marginBottom: insets.bottom - 24 }}>
             <button
               type="button"

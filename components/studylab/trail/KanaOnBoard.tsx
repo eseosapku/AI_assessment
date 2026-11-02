@@ -48,7 +48,7 @@ function KanaLive({ pose, size = KANA_SIZE }: { pose: ReturnType<typeof kanaPose
  * Kana on the board with the tutor's latest line. The bubble is the newest thing
  * said; open the chat and it hides, because the same line is there.
  */
-export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, pointer, onMore, onChip, onShowCard }: {
+export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, steppedBack, pointer, onMore, onChip, onShowCard }: {
   world: TrailWorld
   focusId: string | null
   line: BubbleLine | null
@@ -59,6 +59,8 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
   hidden: boolean
   /** The whole board is in view, too small to read on: she stands on the screen, above the button. */
   band?: boolean
+  /** A finished card is open over everything: she steps back with the rest. */
+  steppedBack?: boolean
   pointer: { nodeId: string; part?: string } | null
   onMore: () => void
   onChip: (text: string) => void
@@ -241,7 +243,7 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
           <span key={i} ref={(el) => void (sparks.current[i] = el)} className="ss-trail-spark" aria-hidden />
         ))}
         {spot && (
-          <div ref={setMover} className="ss-trail-kana" style={{ width: KANA_SIZE }}>
+          <div ref={setMover} className={`ss-trail-kana${steppedBack ? ' ss-trail-kana-back' : ''}`} style={{ width: KANA_SIZE }}>
             <div ref={body} style={{ transformOrigin: '50% 100%' }}>
               <KanaLive pose={pose} />
             </div>

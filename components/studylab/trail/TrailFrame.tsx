@@ -16,12 +16,20 @@ export interface TrailPlacement {
   onStation: (index: number) => void
   /** "Go deeper": asks the tutor, as the card menu does. */
   onDeeper: (id: string, title: string) => void
+  /** A finished card opened again: everything else steps back and takes no input. */
+  lookingBack?: string | null
   /** Where the learner is in the open check, when the card in focus is one of its questions. */
   checkStep?: CheckStep | null
   /** What the tutor is pointing at, so a folded part can open. */
   pointer?: { nodeId: string; part?: string } | null
   /** Bumped to remount a card, so a reopened one comes back as it was saved. */
   epochOf: (id: string) => number
+  /**
+   * The card's data as of now. React Flow hands a node its data a tick after this
+   * context changes, so a card remounted on `epochOf` alone would start from the
+   * old data and hold it in its local state.
+   */
+  dataOf?: (id: string) => StudyNodeData | null
 }
 
 export const TrailPlacementContext = createContext<TrailPlacement>({
@@ -49,8 +57,9 @@ const MEASURE_SLOP = 4
  */
 export function withTrailFrame(Inner: ComponentType<NodeProps>) {
   function Framed(props: NodeProps) {
-    const { places, onMeasure, onOpen, epochOf, checkStep } = useContext(TrailPlacementContext)
-    const { id, data, type } = props
+    const { places, onMeasure, onOpen, epochOf, checkStep, lookingBack, dataOf } = useContext(TrailPlacementContext)
+    const { id, type } = props
+    const data = (dataOf?.(id) ?? props.data) as NodeProps['data']
     const place = places[id]
     const inner = useRef<HTMLDivElement>(null)
     const epoch = epochOf(id)
@@ -78,7 +87,8 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
     const live = LIVE.has(place.role)
     // Next vendors React 19, which takes `inert` as a boolean; the installed
     // @types/react is 18's and does not list it, hence the spread.
-    const quiet = live ? {} : ({ inert: true, 'aria-hidden': true } as Record<string, boolean>)
+    const steppedBack = !!lookingBack && lookingBack !== id
+    const quiet = !live ? ({ inert: true, 'aria-hidden': true } as Record<string, boolean>) : steppedBack ? ({ inert: true } as Record<string, boolean>) : {}
     const title = cardTitle({ data: data as unknown as StudyNodeData })
     return (
       <div className="ss-trail-frame" style={{ width: place.w, height: place.h }} data-role={place.role}>
@@ -90,7 +100,7 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
           style={{ transform: `scale(${place.scale})` }}
           {...quiet}
         >
-          <Inner {...props} />
+          <Inner {...props} data={data} />
         </div>
         {!live && (
           <button type="button" tabIndex={-1} aria-label={`Open ${title}`} className="ss-trail-open" onClick={() => onOpen(id)} />

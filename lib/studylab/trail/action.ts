@@ -37,7 +37,9 @@ export function trailAction(input: {
   detourFooter: boolean
 }): TrailAction {
   const { view, claimed, run, focusType, nextInQueue, interlude, lookBack, detourFooter } = input
-  if (lookBack) return lookBack.canRetry ? { kind: 'tryAgain', label: 'Try it again' } : { kind: 'none' }
+  // Looking back owns the button, whatever the lesson is doing: Try it again, or
+  // the card's own Check once it has been cleared.
+  if (lookBack) return lookBack.canRetry ? { kind: 'tryAgain', label: 'Try it again' } : claimed ? { kind: 'bar' } : { kind: 'none' }
   if (view.kind === 'retry') return { kind: 'retry', label: view.label }
   if (view.kind === 'done') return { kind: 'summary' }
   if (interlude) return { kind: 'goToStation', label: `Go to station ${interlude.next + 1}`, station: interlude.next }

@@ -19,9 +19,11 @@ import { TrailDock } from './TrailDock'
 import { TrailOpeningControls } from './TrailOpeningControls'
 import { TrailTopBar } from './TrailTopBar'
 import { TrailPlacementContext, type TrailPlacement } from './TrailFrame'
+import { TrailRibbon } from './TrailRibbon'
 import { useTrailModel } from './useTrailModel'
 import { trailAction, trailContinue } from '@/lib/studylab/trail/action'
 import { checkSteps } from '@/lib/studylab/trail/answerStyle'
+import { canRetry, trailCallbacks } from '@/lib/studylab/trail/lookBack'
 import { escapeTarget, stationPills, topBarLabel } from '@/lib/studylab/trail/furniture'
 import { nextQuestion, openingChips, openingInsets, planFrom } from '@/lib/studylab/trail/opening'
 import { cardTitle } from '@/lib/studylab/trail/placement'
@@ -49,8 +51,8 @@ function usePhone(): boolean {
   return useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE).matches, () => false)
 }
 
-const NO_EPOCH = () => 0
-const NOTHING_YET = () => {}
+const NOTHING = () => {}
+const NO_CONTINUE = () => null
 /** A card's resize handle works in the classic view's sizes; the Trail draws at its own scale. */
 const NO_RESIZE = () => {}
 
@@ -71,7 +73,8 @@ function TrailStageInner(props: LessonStageProps) {
   const { subjectKey, rail, board, chat, onAdvance, onFocus, onHandIn, pointer = null, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children, trail } = props
   const phone = usePhone()
   const model = useTrailModel(props)
-  const { focusId, world, nextInQueue, say, lines } = model
+  const { focusId, world, nextInQueue, say, lines, lookBack, getLookBack, writeSandbox, epochOf, dataOf } = model
+  const lookingBack = lookBack?.id ?? null
   const canvas = useRef<TrailCanvasHandle>(null)
   const spotlight = useMemo(() => (focusId ? [focusId] : []), [focusId])
 
@@ -116,7 +119,8 @@ function TrailStageInner(props: LessonStageProps) {
       })
   }, [])
   const prefer = useCallback(() => {}, [])
-  const owner = focusId && claims.has(focusId) ? focusId : null
+  const dockCard = lookingBack ?? focusId
+  const owner = dockCard && claims.has(dockCard) ? dockCard : null
 
   const flow = { nodes: board.nodes, run: board.run, busy: chat.busy }
   const runContinue = useCallback(
@@ -129,29 +133,38 @@ function TrailStageInner(props: LessonStageProps) {
   )
   const sayLine = useCallback((text: string, tone: BarModel['tone']) => say(text, lineTone(tone)), [say])
   const stage = useMemo<StageValue>(
-    () => ({
-      dockEl,
-      focus: new Set(spotlight),
-      owner,
-      continueFor: (nodeId) => trailContinue(nodeId, { nodes: board.nodes, run: board.run, busy: chat.busy }, nextInQueue),
-      runContinue,
-      claim,
-      prefer,
-      help,
-      look: 'trail',
-      sayLine,
-    }),
-    [dockEl, spotlight, owner, board.nodes, board.run, chat.busy, nextInQueue, runContinue, claim, prefer, help, sayLine],
+    () =>
+      lookingBack
+        ? // A reopened card's bar comes to the dock with no Continue, and it can call no tutor.
+          { dockEl, focus: new Set([lookingBack]), owner, continueFor: NO_CONTINUE, runContinue: NOTHING, claim, prefer, look: 'trail' }
+        : {
+            dockEl,
+            focus: new Set(spotlight),
+            owner,
+            continueFor: (nodeId) => trailContinue(nodeId, { nodes: board.nodes, run: board.run, busy: chat.busy }, nextInQueue),
+            runContinue,
+            claim,
+            prefer,
+            help,
+            look: 'trail',
+            sayLine,
+          },
+    [lookingBack, dockEl, spotlight, owner, board.nodes, board.run, chat.busy, nextInQueue, runContinue, claim, prefer, help, sayLine],
   )
   const canvasValue = useMemo(
-    () => ({
-      onToggleGroup: board.onToggleGroup,
-      onNodeDataChange: board.onNodeDataChange,
-      onDeleteNode: board.onDeleteNode,
-      onAskTutor: board.onAskTutor,
-      onNodeResize: NO_RESIZE,
-    }),
-    [board.onToggleGroup, board.onNodeDataChange, board.onDeleteNode, board.onAskTutor],
+    () =>
+      trailCallbacks(
+        {
+          onToggleGroup: board.onToggleGroup,
+          onNodeDataChange: board.onNodeDataChange,
+          onDeleteNode: board.onDeleteNode,
+          onAskTutor: board.onAskTutor,
+          onNodeResize: NO_RESIZE,
+        },
+        getLookBack,
+        writeSandbox,
+      ),
+    [board.onToggleGroup, board.onNodeDataChange, board.onDeleteNode, board.onAskTutor, getLookBack, writeSandbox],
   )
   const { onCardPrompt } = board
   const onDeeper = useCallback(
@@ -162,10 +175,16 @@ function TrailStageInner(props: LessonStageProps) {
     },
     [onCardPrompt],
   )
+  const plotsRef = useRef(world.plots)
+  plotsRef.current = world.plots
+  const flyToStation = useCallback((index: number) => {
+    const plot = plotsRef.current[index]
+    if (plot) canvas.current?.flyTo(plot.rect)
+  }, [])
   const checkStep = useMemo(() => checkSteps(board.nodes, board.run, focusId), [board.nodes, board.run, focusId])
   const placementValue = useMemo<TrailPlacement>(
-    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: NOTHING_YET, onStation: NOTHING_YET, onDeeper, checkStep, pointer, epochOf: NO_EPOCH }),
-    [world.cards, model.onMeasure, onDeeper, checkStep, pointer],
+    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: model.open, onStation: flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf }),
+    [world.cards, model.onMeasure, model.open, flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf],
   )
 
   // A failed turn that can be sent again: the dock offers it.
@@ -173,7 +192,7 @@ function TrailStageInner(props: LessonStageProps) {
   const failed = last?.retryAction ? (last.tone === 'refusal' ? 'refusal' : 'error') : null
   const view = dockModel({ ...flow, working: chat.working ?? 'Thinking…', failed })
   const focusType = focusId ? (board.nodes.find((n) => n.id === focusId)?.type ?? null) : null
-  const action = trailAction({ view, claimed: owner !== null, run: board.run, focusType, nextInQueue, interlude: model.interlude, lookBack: null, detourFooter: false })
+  const action = trailAction({ view, claimed: owner !== null, run: board.run, focusType, nextInQueue, interlude: model.interlude, lookBack: lookBack ? { canRetry: canRetry(lookBack.data) } : null, detourFooter: false })
   // A check with questions left: Kana keeps the chips to herself.
   const gating = continueFor(null, { ...flow, busy: false })?.kind === 'focus'
   // The opening: the plan on the table, and Kana asking its questions one at a time.
@@ -231,10 +250,37 @@ function TrailStageInner(props: LessonStageProps) {
 
   const openChat = useCallback(() => setOpen(true), [setOpen])
   const [menuOpen, setMenuOpen] = useState(false)
+
+  // Looking back: the camera goes to the card and the keyboard follows; Back
+  // returns both to the card the learner was on.
+  const cardsRef = useRef(world.cards)
+  cardsRef.current = world.cards
+  const lookOpener = useRef<HTMLElement | null>(null)
+  useEffect(() => {
+    if (!lookingBack) return
+    lookOpener.current = document.activeElement as HTMLElement | null
+    const rect = cardsRef.current[lookingBack]
+    if (rect) canvas.current?.flyTo(rect)
+    const raf = requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>(`.react-flow__node[data-id="${CSS.escape(lookingBack)}"]`)?.focus({ preventScroll: true })
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [lookingBack])
+  const { closeLookBack } = model
+  const backFromLooking = useCallback(() => {
+    closeLookBack()
+    canvas.current?.flyToFocus()
+    requestAnimationFrame(() => lookOpener.current?.isConnected && lookOpener.current.focus({ preventScroll: true }))
+  }, [closeLookBack])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // An open menu is on top: its own Esc closes it, and the chat stays as it is.
-      if (e.key === 'Escape' && escapeTarget({ menuOpen, chatOpen: open, lookBack: false, detourOpen: false }) === 'menu') return
+      const closes = e.key === 'Escape' ? escapeTarget({ menuOpen, chatOpen: open, lookBack: !!lookingBack, detourOpen: false }) : null
+      if (closes === 'menu') return
+      if (closes === 'lookBack') {
+        backFromLooking()
+        return
+      }
       const t = e.target as HTMLElement | null
       const act = drawerKey({ key: e.key, target: t ? { tagName: t.tagName, isContentEditable: t.isContentEditable } : null, open })
       if (!act) return
@@ -243,7 +289,7 @@ function TrailStageInner(props: LessonStageProps) {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open, setOpen, menuOpen])
+  }, [open, setOpen, menuOpen, lookingBack, backFromLooking])
 
   // Thumbnails take no Tab stop, so the keyboard reaches them through a list.
   const filed = useMemo(() => {
@@ -275,7 +321,8 @@ function TrailStageInner(props: LessonStageProps) {
                     focusId={focusId}
                     line={line}
                     chips={chips}
-                    hidden={open}
+                    hidden={open || !!lookingBack}
+                    steppedBack={!!lookingBack}
                     band={planning}
                     pointer={pointer}
                     onMore={openChat}
@@ -296,6 +343,7 @@ function TrailStageInner(props: LessonStageProps) {
                   onContinue={runContinue}
                   onGoToStation={model.endInterlude}
                   onStart={() => chat.onAcceptPlan?.('step')}
+                  onTryAgain={model.tryAgain}
                   secondary={plan ? <TrailOpeningControls onAnswer={answerPlan} /> : undefined}
                   onSummary={() => setSummaryOpen(true)}
                   onProveIt={chat.onProveIt}
@@ -313,7 +361,7 @@ function TrailStageInner(props: LessonStageProps) {
                 </button>
                 <TrailTopBar
                   pills={stationPills(board.run, plan?.steps)}
-                  label={topBarLabel({ run: board.run, lookingBack: null, detourOpen: false }) || rail.title}
+                  label={topBarLabel({ run: board.run, lookingBack: lookBack?.title ?? null, detourOpen: false }) || rail.title}
                   plots={world.plots}
                   canClassic={!!trail?.onClassic}
                   onLeave={rail.onBack}
@@ -324,7 +372,8 @@ function TrailStageInner(props: LessonStageProps) {
                   onClassic={trail?.onClassic}
                   onMenuChange={setMenuOpen}
                 />
-                <FiledCardsList items={filed} onOpen={NOTHING_YET} />
+                {lookBack && <TrailRibbon kind="lookBack" text={`Looking back: ${lookBack.title}`} onBack={backFromLooking} />}
+                <FiledCardsList items={filed} onOpen={model.open} />
                 <StationScene title={stamp} onDone={clearStamp} />
                 {finished && summaryOpen && board.run && (
                   <LessonCompleteScene

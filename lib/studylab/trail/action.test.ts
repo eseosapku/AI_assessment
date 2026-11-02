@@ -65,6 +65,10 @@ describe('trailAction', () => {
     expect(trailAction({ ...base, view: { kind: 'working', label: 'x' }, lookBack: { canRetry: true } })).toEqual({ kind: 'tryAgain', label: 'Try it again' })
     expect(trailAction({ ...base, view: cont({ kind: 'advance', label: 'Continue' }), lookBack: { canRetry: false } })).toEqual({ kind: 'none' })
   })
+  it('looking back with a fresh attempt: the card\'s own Check is the button', () => {
+    expect(trailAction({ ...base, claimed: true, lookBack: { canRetry: false } })).toEqual({ kind: 'bar' })
+    expect(trailAction({ ...base, claimed: true, lookBack: { canRetry: true } })).toEqual({ kind: 'tryAgain', label: 'Try it again' })
+  })
   it('the detour footer replaces the button', () => {
     expect(trailAction({ ...base, view: cont({ kind: 'advance', label: 'Continue' }), detourFooter: true })).toEqual({ kind: 'none' })
   })

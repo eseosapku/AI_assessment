@@ -56,6 +56,19 @@ describe('the Trail board', () => {
     expect(at).toEqual([...at].sort((a, b) => a - b))
   })
 
+  it('a card draws the data the board says it has now, not what React Flow last handed it', () => {
+    const Framed = withTrailFrame((({ data }: { data: { title: string } }) => createElement('p', null, data.title)) as never)
+    const html = renderToStaticMarkup(
+      createElement(
+        TrailPlacementContext.Provider,
+        { value: { ...placementBase, places: { c1: { role: 'reopened', scale: 1, x: 0, y: 0, w: 100, h: 100 } }, dataOf: () => ({ kind: 'concept', title: 'The copy' }) as never } },
+        createElement(Framed as never, { id: 'c1', type: 'concept', data: { kind: 'concept', title: 'Stale' } }),
+      ),
+    )
+    expect(html).toContain('The copy')
+    expect(html).not.toContain('Stale')
+  })
+
   it('off the focus, useDock draws no bar on the Trail, and classic still does', () => {
     const Probe = () => useDock().place(createElement('b', null, 'BAR')) as never
     const html = (look?: 'trail') =>
