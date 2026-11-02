@@ -48,7 +48,7 @@ function KanaLive({ pose, size = KANA_SIZE }: { pose: ReturnType<typeof kanaPose
  * Kana on the board with the tutor's latest line. The bubble is the newest thing
  * said; open the chat and it hides, because the same line is there.
  */
-export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, steppedBack, cheer, celebrating, pointer, onMore, onChip, onShowCard }: {
+export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, bandKana = BAND_KANA, onAskBand, steppedBack, cheer, celebrating, pointer, onMore, onChip, onShowCard }: {
   world: TrailWorld
   focusId: string | null
   line: BubbleLine | null
@@ -59,6 +59,9 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
   hidden: boolean
   /** The whole board is in view, too small to read on: she stands on the screen, above the button. */
   band?: boolean
+  bandKana?: number
+  /** On a phone she stands in for the Ask Kana pill: there is no corner to spare for it. */
+  onAskBand?: () => void
   /** A finished card is open over everything: she steps back with the rest. */
   steppedBack?: boolean
   /** Changes when a station ends: a hop and a burst of tiles. */
@@ -249,9 +252,15 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
       </div>
       {band && (
         <Panel position="bottom-center" className="ss-trail-band">
-          <div className="shrink-0">
-            <KanaLive pose={pose} size={BAND_KANA} />
-          </div>
+          {onAskBand ? (
+            <button type="button" aria-label="Ask Kana" className="pointer-events-auto shrink-0" onClick={onAskBand}>
+              <KanaLive pose={pose} size={bandKana} />
+            </button>
+          ) : (
+            <div className="shrink-0">
+              <KanaLive pose={pose} size={bandKana} />
+            </div>
+          )}
           <div className="ss-trail-band-speech">
             {words}
             {answers}

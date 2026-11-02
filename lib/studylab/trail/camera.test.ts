@@ -5,7 +5,8 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { LessonCompleteScene } from '@/components/studylab/stage/LessonCompleteScene'
 import type { LessonRun } from '../lessonRun'
 import { lessonSummary } from '../scenes'
-import { cameraFor, easeOut, journeyFrame, panForKey, MIN_ZOOM } from './camera'
+import { cameraInsets } from '../spotlight'
+import { cameraFor, easeOut, focusWidthFor, journeyFrame, panForKey, MIN_ZOOM } from './camera'
 import { FOCUS_W, trailLayout } from './layout'
 import type { PlotInput } from './types'
 
@@ -96,5 +97,14 @@ describe('the complete scene', () => {
   it('takes a mascot, and classic still shows Inky by default', () => {
     expect(html({ mascot: createElement('i', null, 'KANA') })).toContain('KANA')
     expect(html()).not.toContain('KANA')
+  })
+})
+
+describe('focusWidthFor', () => {
+  it('on a phone the card fills the width, and the camera shows it at full size', () => {
+    expect(focusWidthFor(1440)).toBe(640)
+    expect(focusWidthFor(390)).toBe(358)
+    const v = cameraFor({ x: 0, y: 0, w: focusWidthFor(390), h: 400 }, { w: 390, h: 844 }, cameraInsets(true))
+    expect(v.zoom).toBe(1)
   })
 })

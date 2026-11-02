@@ -76,7 +76,8 @@ function readMemory(spaceId: string | undefined): string | null {
  * Everything the Trail shows, derived from the lesson's own state on each render:
  * the same run always gives the same board, and none of it is saved.
  */
-export function useTrailModel(props: LessonStageProps): TrailModel {
+export function useTrailModel(props: LessonStageProps, view: { focusWidth: number; speaker: boolean } = { focusWidth: FOCUS_W, speaker: true }): TrailModel {
+  const { focusWidth, speaker } = view
   const { board, focus, chat, onFocus, trail } = props
   const { nodes, run } = board
   const spaceId = trail?.spaceId
@@ -179,6 +180,8 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
   const nextEpoch = useRef(1)
   const latest = useRef({ nodes, sizes })
   latest.current = { nodes, sizes }
+  const widthRef = useRef(focusWidth)
+  widthRef.current = focusWidth
   const open = useCallback(
     (id: string) => {
       const node = latest.current.nodes.find((n) => n.id === id)
@@ -187,8 +190,9 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
       const box = document.querySelector('[data-stage-board]')?.getBoundingClientRect()
       const middle = box ? rf.screenToFlowPosition({ x: box.x + box.width / 2, y: box.y + box.height / 2 }) : { x: 0, y: 0 }
       const natural = latest.current.sizes[id] ?? blockSize(node.type)
-      const drawnH = natural.h * Math.min(1.5, FOCUS_W / natural.w)
-      setLookBack(openLookBack(node, { x: middle.x - FOCUS_W / 2, y: middle.y - drawnH / 2 }, nextEpoch.current++))
+      const width = widthRef.current
+      const drawnH = natural.h * Math.min(1.5, width / natural.w)
+      setLookBack(openLookBack(node, { x: middle.x - width / 2, y: middle.y - drawnH / 2 }, nextEpoch.current++))
     },
     [rf],
   )
@@ -233,11 +237,11 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
       trailLayout({
         stations: placement.stations,
         detours: placement.detours,
-        focusWidth: FOCUS_W,
-        speaker: true,
+        focusWidth,
+        speaker,
         reopened: reopenedId && reopenedAt && !reopenedGone ? { id: reopenedId, natural: sizes[reopenedId] ?? blockSize(reopenedType ?? ''), at: reopenedAt } : null,
       }),
-    [placement, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
+    [placement, focusWidth, speaker, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
   )
 
   useEffect(() => {

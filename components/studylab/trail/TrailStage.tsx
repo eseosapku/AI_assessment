@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
 import type { LessonStageProps } from '../stage/LessonStage'
 import ChatMouthpiece from '../ChatMouthpiece'
@@ -34,7 +34,7 @@ import { continueFor, dockModel, cameraInsets, quietStage, type ContinueTarget }
 import { drawerKey } from '@/lib/studylab/drawerKey'
 import { lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
 import { playSound } from '@/lib/studylab/sound'
-import { journeyFrame } from '@/lib/studylab/trail/camera'
+import { focusWidthFor, journeyFrame } from '@/lib/studylab/trail/camera'
 import { latestLine } from '@/lib/studylab/bubble'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import type { Rect } from '@/lib/studylab/trail/types'
@@ -54,7 +54,16 @@ function subscribePhone(onChange: () => void) {
 function usePhone(): boolean {
   return useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE).matches, () => false)
 }
+function subscribeWidth(onChange: () => void) {
+  window.addEventListener('resize', onChange)
+  return () => window.removeEventListener('resize', onChange)
+}
+function useViewportWidth(): number {
+  return useSyncExternalStore(subscribeWidth, () => window.innerWidth, () => DESKTOP_WIDTH)
+}
 
+const DESKTOP_WIDTH = 1440
+const PHONE_KANA = 64
 const NOTHING = () => {}
 const NOTE_CHIPS = ['Look again', 'Keep going']
 const NO_CONTINUE = () => null
@@ -78,7 +87,10 @@ function TrailStageInner(props: LessonStageProps) {
   const { subjectKey, rail, board, chat, onAdvance, onFocus, onHandIn, pointer = null, activeMs = 0, drawerOpen, onDrawerOpenChange, banner, boardOverlay, children, trail } = props
   const phone = usePhone()
   const baseInsets = phone ? INSETS_PHONE : INSETS
-  const model = useTrailModel(props)
+  const focusWidth = focusWidthFor(useViewportWidth())
+  // A phone has no room on the board for Kana: she stands on the screen, above the button.
+  const trailView = useMemo(() => ({ focusWidth, speaker: !phone }), [focusWidth, phone])
+  const model = useTrailModel(props, trailView)
   const { focusId, world, nextInQueue, say, lines, lookBack, getLookBack, writeSandbox, epochOf, dataOf } = model
   const lookingBack = lookBack?.id ?? null
   const detourOpen = model.detour
@@ -271,7 +283,11 @@ function TrailStageInner(props: LessonStageProps) {
   useEffect(() => {
     if (interludeKey) playSound('complete')
   }, [interludeKey])
-  const restFrame = useMemo(() => (interlude ? journeyFrame(world, interlude.done, interlude.next) : null), [interlude, world])
+  // On a phone the opening frames the lesson's name: the whole journey would be too small to read.
+  const restFrame = useMemo(
+    () => (interlude ? journeyFrame(world, interlude.done, interlude.next) : phone && board.run?.phase === 'planning' ? world.title : null),
+    [interlude, world, phone, board.run?.phase],
+  )
 
   const openChat = useCallback(() => setOpen(true), [setOpen])
   const [menuOpen, setMenuOpen] = useState(false)
@@ -337,7 +353,7 @@ function TrailStageInner(props: LessonStageProps) {
     <StageContext.Provider value={stage}>
       <CanvasContext.Provider value={canvasValue}>
         <TrailPlacementContext.Provider value={placementValue}>
-          <div className="ss-lesson ss-trail ss-board-plain flex h-screen w-full flex-col overflow-hidden" style={subjectStyle(subjectKey)}>
+          <div className={`ss-lesson ss-trail ss-board-plain flex h-screen w-full flex-col overflow-hidden${phone ? ' ss-trail-phone' : ''}`} style={{ ...subjectStyle(subjectKey), '--trail-card-w': `${focusWidth}px` } as CSSProperties}>
             {banner}
             <div className="flex min-h-0 flex-1">
               {/* The chat on the left; the board narrows beside it. */}
@@ -346,7 +362,7 @@ function TrailStageInner(props: LessonStageProps) {
               </TrailChatPanel>
               <div data-tour="lesson-board" data-stage-board className="relative h-full min-w-0 flex-1">
                 {boardOverlay}
-                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning ? openingInsets(baseInsets) : lookBack || detourOpen ? { ...baseInsets, top: baseInsets.top + RIBBON_ROOM } : baseInsets} onCardPrompt={board.onCardPrompt} heading={heading} restFrame={restFrame} opening={planning}>
+                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning && !phone ? openingInsets(baseInsets) : lookBack || detourOpen ? { ...baseInsets, top: baseInsets.top + RIBBON_ROOM } : baseInsets} onCardPrompt={board.onCardPrompt} heading={heading} restFrame={restFrame} opening={planning}>
                   <KanaOnBoard
                     world={world}
                     focusId={focusId}
@@ -356,7 +372,9 @@ function TrailStageInner(props: LessonStageProps) {
                     steppedBack={!!lookingBack}
                     cheer={interludeKey}
                     celebrating={finished}
-                    band={planning}
+                    band={planning || phone}
+                    bandKana={phone ? PHONE_KANA : undefined}
+                    onAskBand={phone ? openChat : undefined}
                     pointer={pointer}
                     onMore={openChat}
                     onChip={(text) => (noteLine ? model.settleNote(text === NOTE_CHIPS[0]) : asking ? answerPlan(text) : chat.onChip ? chat.onChip(text) : chat.onSend(text))}
@@ -387,7 +405,7 @@ function TrailStageInner(props: LessonStageProps) {
                   type="button"
                   onClick={openChat}
                   aria-label="Ask Kana"
-                  className="ss-press absolute bottom-5 left-4 z-30 inline-flex min-h-[52px] items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-3 pr-4 text-[16px] font-bold text-ss-ink shadow-ss-panel"
+                  className="ss-press absolute bottom-5 left-4 z-30 hidden min-h-[52px] items-center gap-2 sm:inline-flex rounded-full border border-ss-line bg-ss-panel px-3 pr-4 text-[16px] font-bold text-ss-ink shadow-ss-panel"
                 >
                   <Kana simple pose="happy" size={34} />
                   <span>Ask Kana</span>

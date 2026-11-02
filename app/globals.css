@@ -523,7 +523,8 @@
 /* Answering on the Trail: wide cards at scale 1, one big question, big choices.
    Tailwind 3 has no cascade layers, so specificity is what beats the utilities;
    a result's colour is set inline, hence !important on the quiet states. */
-.ss-trail .ss-trail-answer > * {
+.ss-trail .ss-trail-answer > *,
+.ss-trail .ss-trail-answer .sl-node-enter {
   width: var(--trail-card-w);
   border-color: var(--ss-line) !important;
 }
@@ -617,6 +618,33 @@
   color: var(--ss-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* A phone: the top pills are the trail, so plots and tiles stay away while a card
+   is in focus, and come back for "See the whole board". */
+.ss-trail-phone .ss-trail-on-card .ss-trail-world svg,
+.ss-trail-phone .ss-trail-on-card .ss-trail-label,
+.ss-trail-phone .ss-trail-on-card .ss-trail-title {
+  visibility: hidden;
+}
+.ss-trail-phone .react-flow .react-flow__panel.ss-trail-band {
+  left: 8px;
+  right: 8px;
+  width: auto;
+  max-width: none;
+  transform: none;
+  margin: 0 0 90px;
+}
+.ss-trail-band-speech {
+  flex: 1;
+}
+.ss-trail-phone .ss-trail-bubble {
+  max-height: 28vh;
+  overflow-y: auto;
+  font-size: 18px;
+}
+.ss-trail-phone .ss-trail-go {
+  padding: 0 12px;
 }
 
 /* Detours: a branch off the trail, ending in a plot of its own, in the subject colour. */

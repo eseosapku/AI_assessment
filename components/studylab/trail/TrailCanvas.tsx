@@ -312,7 +312,13 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
   )
 
   return (
-    <div ref={wrapperRef} tabIndex={0} aria-label="The lesson board" onKeyDown={onKeyDown} className="h-full w-full focus-visible:outline-2 focus-visible:outline-[color:var(--subject)]">
+    <div
+      ref={wrapperRef}
+      tabIndex={0}
+      aria-label="The lesson board"
+      onKeyDown={onKeyDown}
+      className={`h-full w-full focus-visible:outline-2 focus-visible:outline-[color:var(--subject)]${focusId && !exploring ? ' ss-trail-on-card' : ''}`}
+    >
       <ReactFlow
         nodes={flowNodes}
         edges={[]}

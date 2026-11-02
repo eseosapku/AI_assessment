@@ -19,6 +19,8 @@ export const MIN_ZOOM = 0.6
 
 const MAX_ZOOM = 1
 const PAN_STEP = 80
+const FULL_CARD = 640
+const PHONE_GUTTERS = 32
 
 /** The same curve the cards slide on, so they arrive together with the camera. */
 export function easeOut(t: number): number {
@@ -37,6 +39,11 @@ export function cameraFor(frame: Rect, box: Size, insets: Insets, opts: { minZoo
   const along = (start: number, size: number, room: number, inset: number) =>
     size * zoom > room ? inset - start * zoom : inset + (room - size * zoom) / 2 - start * zoom
   return { x: along(frame.x, frame.w, roomW, insets.left), y: along(frame.y, frame.h, roomH, insets.top), zoom }
+}
+
+/** How wide the card in focus is drawn: full size on a desktop, the width of the screen on a phone. */
+export function focusWidthFor(viewportWidth: number): number {
+  return Math.min(FULL_CARD, viewportWidth - PHONE_GUTTERS)
 }
 
 /** After a station: the one just finished and the one ahead, with the trail between them. */
