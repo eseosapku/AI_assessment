@@ -260,9 +260,20 @@ export const circuitEngine: SceneEngine<CircuitConfig, CircuitState> = {
 
   promptFaults(config, prompt) {
     const text = prompt.toLowerCase()
+    // The goal is only ever said in the prompt. A real lesson wrote "Close the switch to light the bulb"
+    // over two bulbs and three switches, and told a learner who lit both that it was not quite right.
+    const offOther = /\b(only|just|out|off|dark|unlit)\b/.test(text)
+    const says: Record<typeof config.goal, [boolean, string]> = {
+      both: [/\bboth\b/.test(text), 'Make both bulbs light.'],
+      'only-first': [/\bbulb a\b/.test(text) && offOther, 'Switch the circuit so only bulb A is lit.'],
+      'only-second': [/\bbulb b\b/.test(text) && offOther, 'Switch the circuit so only bulb B is lit.'],
+      dims: [/\bdim/.test(text), 'Add the second bulb so bulb A dims: tap a slot to put it there.'],
+      'stays-bright': [/\bbright/.test(text), 'Add the second bulb so bulb A stays as bright as it was: tap a slot to put it there.'],
+    }
+    const [named, example] = says[config.goal]
     const names = /\b(series|parallel|in[- ]line|in a line|side[- ]by[- ]side|branch(?:es)?|share[sd]?|separate (?:path|route|wire)|own path|one path|two paths|junction|loop)\b/.test(text)
     const reading = /\d+(?:\.\d+)?\s*(?:a|amps?|amperes?|ma)\b/.test(text) || /\bammeters?\b/.test(text)
-    if (!names && !reading) return []
+    if (!names && !reading) return named ? [] : [`the prompt does not say what to make, and nothing else on the card does: say it, e.g. "${example}"`]
     return config.task === 'light'
       ? ['the prompt gives the answer away: it names the arrangement or a current, which the learner is to find by trying the switches -- say only what to achieve ("Switch the circuit so bulb B is lit and bulb A is out.")']
       : ['the prompt gives the answer away: it names how the second bulb joins ("series", "parallel", "in line", "branch") or a current, which the learner is to find by trying both slots -- say only what to achieve ("Add the second bulb so bulb A stays as bright as it was on its own.")']
@@ -314,7 +325,7 @@ export const circuitEngine: SceneEngine<CircuitConfig, CircuitState> = {
     fixed current, Ohm's law (the working shows V / R).
   Optional "volts" (whole number, 1 to 24, default 6) and "ohms" (each bulb, whole number, 1 to 30, default 3); the current through one
     bulb alone must be at most 10 A and V / (2R) must be a clean decimal (6 V with 3 ohms: yes; 5 V with 3 ohms: no).
-  config: { "task":"light", "goal":"both", "volts":6, "ohms":3 }  -- prompt "Make both bulbs light." (do NOT write series, parallel, a current or "separate paths")
+  config: { "task":"light", "goal":"both", "volts":6, "ohms":3 }  -- prompt "Make both bulbs light." (ALWAYS say the goal: nothing else on the card does. Do NOT write series, parallel, a current or "separate paths")
        or { "task":"light", "goal":"only-second", "volts":6, "ohms":3 }  -- prompt "Switch the circuit so bulb B is lit and bulb A is out."
        or { "task":"brightness", "goal":"stays-bright", "volts":6, "ohms":3 }  -- prompt "Add the second bulb so bulb A stays as bright as it was on its own: tap a slot to put it there."
        or { "task":"brightness", "goal":"dims", "volts":12, "ohms":6 }  -- prompt "Add the second bulb so bulb A dims: tap a slot to put it there."

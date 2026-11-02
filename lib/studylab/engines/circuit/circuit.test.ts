@@ -164,18 +164,19 @@ describe('the prompt must not give the answer away', () => {
     expect(engine.promptFaults!(bright, 'Use a parallel circuit.')[0]).toMatch(/slots/)
   })
   it('passes ordinary prompts, and every example in its own catalogue entry', () => {
-    for (const p of ['Make both bulbs light.', 'Switch the circuit so bulb B is lit and bulb A is out.', 'Add the second bulb so bulb A dims.', 'Which keeps bulb A as bright as it was alone? Try it.']) {
-      expect(engine.promptFaults!(light, p), p).toEqual([])
-      expect(engine.promptFaults!(bright, p), p).toEqual([])
-    }
+    const fits: [string, string, string][] = [
+      ['light', 'both', 'Make both bulbs light.'],
+      ['light', 'only-second', 'Switch the circuit so bulb B is lit and bulb A is out.'],
+      ['brightness', 'dims', 'Add the second bulb so bulb A dims.'],
+      ['brightness', 'stays-bright', 'Which keeps bulb A as bright as it was alone? Try it.'],
+    ]
+    for (const [task, goal, p] of fits) expect(engine.promptFaults!(engine.parse({ task, goal })!, p), p).toEqual([])
     const found = [...engine.prompt.matchAll(/"prompt":"([^"]*)",\s*"payload": \{ "engine":"circuit", "config": (\{[^}]*\})/g)]
     expect(found.length).toBe(2)
     for (const m of found) expect(engine.promptFaults!(engine.parse(JSON.parse(m[2]))!, m[1])).toEqual([])
-    const quoted = [...engine.prompt.matchAll(/-- prompt "([^"]*)"/g)]
+    const quoted = [...engine.prompt.matchAll(/(\{ "task"[^}]*\})\s+-- prompt "([^"]*)"/g)]
     expect(quoted.length).toBe(4)
-    for (const m of quoted) {
-      for (const cfg of [light, bright]) expect(engine.promptFaults!(cfg, m[1]), m[1]).toEqual([])
-    }
+    for (const m of quoted) expect(engine.promptFaults!(engine.parse(JSON.parse(m[1]))!, m[2]), m[2]).toEqual([])
   })
 })
 
@@ -298,6 +299,25 @@ describe('the drawing is clean', () => {
       const d = (p: [number, number], q: [number, number]) => Math.hypot(p[0] - q[0], p[1] - q[1])
       const own = d(letter[k], bulbs[k])
       for (const o of Object.keys(bulbs)) if (o !== k) expect(own).toBeLessThan(d(letter[k], bulbs[o]))
+    }
+  })
+})
+
+describe('the prompt says what to make', () => {
+  const pf = (config: Record<string, unknown>, prompt: string) => {
+    const e = getEngine('circuit')!
+    return e.promptFaults!(e.parse({ volts: 6, ohms: 3, ...config }), prompt)
+  }
+  it('refuses the prompt a real lesson wrote, and says what would do', () => {
+    const [fault] = pf({ task: 'light', goal: 'only-first' }, 'Close the switch to light the bulb. Watch how bright it is.')
+    expect(fault).toContain('does not say what to make')
+    expect(fault).toContain('only bulb A')
+  })
+  it('passes the example each goal is refused with', () => {
+    for (const [task, goal] of [['light', 'both'], ['light', 'only-first'], ['light', 'only-second'], ['brightness', 'dims'], ['brightness', 'stays-bright']]) {
+      const config = { task, goal }
+      const example = /e\.g\. "(.+)"$/.exec(pf(config, 'Have a go.')[0])![1]
+      expect(pf(config, example), example).toEqual([])
     }
   })
 })
