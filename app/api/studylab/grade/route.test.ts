@@ -81,3 +81,22 @@ describe('the mark comes from what it found', () => {
     expect(await (await grade()).json()).toEqual({ correct: true, feedback: 'f' })
   })
 })
+
+describe('what it says about a wrong answer', () => {
+  const asked = async (final: boolean) => {
+    vi.mocked(callGemma).mockResolvedValue('{"correct":false,"feedback":"f"}')
+    await POST(new NextRequest('http://localhost/api/studylab/grade', { method: 'POST', body: JSON.stringify({ prompt: 'P', answer: 'no', format: 'short', final }) }))
+    return String(vi.mocked(callGemma).mock.calls[0][0])
+  }
+  it('on a check, the only go: never tells them to try anything', async () => {
+    expect(await asked(true)).toContain('never tell them to try')
+  })
+  it('where they can go again: names the one fix', async () => {
+    const prompt = await asked(false)
+    expect(prompt).toContain('name the one key fix')
+    expect(prompt).not.toContain('never tell them to try')
+  })
+  it('never asks it to praise', async () => {
+    expect(await asked(true)).toContain('Do not thank them or praise effort')
+  })
+})

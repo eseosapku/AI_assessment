@@ -8,6 +8,7 @@ vi.mock('next/navigation', () => ({ useRouter: () => ({ push() {}, replace() {} 
 vi.spyOn(console, 'error').mockImplementation(() => {})
 
 import { QuizNode } from '@/components/studylab/QuizNode'
+import { StageContext } from '@/components/studylab/stage/StageContext'
 import { ANSWER_TARGETS } from '@/components/studylab/check/targets'
 import { DIAGRAM_REGIONS } from '@/lib/studylab/check/diagramRegions'
 
@@ -86,5 +87,28 @@ describe('marked', () => {
 describe('keyboard', () => {
   it('returns focus to the parts of a new-format question after Try again', () => {
     for (const sel of ['[data-part^="blank-"]', '[data-part^="slot-"]', '[data-part^="region-"]', '[data-part^="tile-"]']) expect(ANSWER_TARGETS).toContain(sel)
+  })
+})
+
+describe('a written answer on the Trail', () => {
+  const stage = { look: 'trail', focus: new Set<string>(), owner: null, dockEl: null, continueFor: () => null, runContinue: () => {}, claim: () => () => {}, prefer: () => {} } as never
+  const written = { id: 'q', format: 'short', prompt: 'P', rubric: 'R' }
+  const onTrail = (cell: Record<string, unknown>) =>
+    renderToStaticMarkup(createElement(ReactFlowProvider, null, createElement(StageContext.Provider, { value: stage }, createElement(QuizNode as never, {
+      id: 'n1', data: { quiz: { checkpointId: 'cp', gate: 'hard', question: written, ...cell } },
+    } as never))))
+  it('a miss is marked on the card, in red, whether or not Kana is in view', () => {
+    const html = onTrail({ state: 'incorrect', given: 'no', attempts: 1 })
+    expect(html).toContain('aria-label="Your answer, not right"')
+    expect(html).toContain('--ss-bad')
+    expect(html).toContain('A good answer')
+  })
+  it('a right one in green', () => {
+    const html = onTrail({ state: 'correct', given: 'yes', attempts: 1 })
+    expect(html).toContain('aria-label="Correct"')
+    expect(html).toContain('--ss-good')
+  })
+  it('nothing marks it before it is answered', () => {
+    expect(onTrail({ state: 'unanswered' })).not.toContain('aria-label="Your answer, not right"')
   })
 })

@@ -31,12 +31,17 @@ function buildPrompt(o: {
   rubric?: string
   goal?: string
   output?: string
+  /** A check allows one go: the card moves on, with a good answer shown beside the feedback. */
+  final?: boolean
 }): string {
   const criterion =
     o.format === 'code'
       ? `GOAL the code must meet: ${o.goal ?? '(unspecified)'}\nThe student's program output was:\n${o.output ?? '(not run)'}`
       : `RUBRIC / expected idea: ${o.rubric ?? '(use your judgement)'}`
-  return `You are grading a student's answer to one short practice question. Be encouraging but honest.
+  const whenWrong = o.final
+    ? 'If it is not right, say what the answer needed. They do not get another go at this question and a good answer is shown beside your words, so never tell them to try or do anything.'
+    : 'If it is not right, name the one key fix.'
+  return `You are grading a student's answer to one short practice question. Be kind and honest.
 
 QUESTION: ${o.prompt}
 ${criterion}
@@ -49,7 +54,7 @@ HOW TO MARK. Reply with ONLY a JSON object with these fields, in this order:
 "result_matches": true if the student's result says the same as yours, in any form or wording, and is complete. One of two solutions is not complete. Judge only the result: not their steps, the order of them, or how much they wrote.
 "named_method": the method the question itself tells the student to use, or null if it names none.
 "used_named_method": true if their answer shows that method, false if it shows another or none, null if the question names none.
-"feedback": one or two warm sentences to the student: what was right, and the one key fix if the result does not match or the named method was not used. Do not ask for more detail on an answer that is right.`
+"feedback": one or two plain sentences to the student. If it is right, say what they got right, and do not ask for more detail. ${whenWrong} Do not thank them or praise effort. If what they wrote is not an attempt at all ("no", "idk"), say so simply, without scolding, and say what the question was after.`
 }
 
 export async function POST(request: NextRequest) {
@@ -75,7 +80,7 @@ export async function POST(request: NextRequest) {
     let raw: string
     try {
       raw = await callGemma(
-        buildPrompt({ prompt, format, answer, rubric: body?.rubric, goal: body?.goal, output: body?.output }),
+        buildPrompt({ prompt, format, answer, rubric: body?.rubric, goal: body?.goal, output: body?.output, final: body?.final === true }),
         // Haiku, not Nova Lite, which marks practice: on twelve answers with known marks,
         // run three times each, Haiku got 36 of 36. Nova got 27, and failed right working
         // for not following the rubric. A check is what moves the lesson on.

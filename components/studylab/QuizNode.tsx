@@ -1,5 +1,6 @@
 'use client'
 
+import { ResultBadge } from './check/ResultBadge'
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
@@ -223,8 +224,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     if (q.format !== 'short' && q.format !== 'code') return
     const payload =
       q.format === 'short'
-        ? { prompt: q.prompt, format: 'short', answer, rubric: q.rubric }
-        : { prompt: q.prompt, format: 'code', answer, goal: q.goal, output: codeOutput.current }
+        ? { prompt: q.prompt, format: 'short', answer, rubric: q.rubric, final: mode === 'test' }
+        : { prompt: q.prompt, format: 'code', answer, goal: q.goal, output: codeOutput.current, final: mode === 'test' }
     const r = await grade(payload)
     if (r.verdict === 'ungraded') {
       extras.current = { given: answer as string }
@@ -252,6 +253,18 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   }
 
   const codeOutput = useRef('')
+  // On the Trail a written answer is marked as a chosen option is: at a glance, on the card.
+  const writtenMark =
+    !trail ? null
+    : state.phase === 'correct' ? { kind: 'correct' as const, tone: 'bad' as const, colour: 'var(--ss-good)' }
+    : state.phase === 'wrong' ? { kind: 'wrong' as const, tone: 'bad' as const, colour: 'var(--ss-bad)' }
+    : state.phase === 'retry' ? { kind: 'wrong' as const, tone: 'warn' as const, colour: 'var(--ss-warn)' }
+    : null
+  const goodAnswer = showAnswer && q.format === 'short' && q.rubric ? (
+    <p className="rounded-xl bg-ss-chip px-3 py-2 text-[12.5px] text-ss-ink">
+      <span className="font-bold">A good answer: </span><SafeLatex>{q.rubric}</SafeLatex>
+    </p>
+  ) : null
   const tone = barModel(state, options).tone
   const parts: PartsState = {
     locked,
@@ -288,8 +301,10 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
           <McqOptions q={q} chosen={answer as number | undefined} phase={state.phase} mode={mode} showAnswer={showAnswer} locked={locked} onChoose={(i) => { playSound('tap'); give(i) }} onSubmit={() => void check()} />
         )}
         {q.format === 'short' && (
+          <div className="relative">
           <textarea
             className="nodrag nowheel w-full h-20 rounded-xl border border-ss-line bg-transparent px-3 py-2 text-[13px] outline-none focus:border-[color:var(--subject)]"
+            style={writtenMark ? { borderWidth: 2, borderColor: writtenMark.colour, backgroundColor: `color-mix(in srgb, ${writtenMark.colour} 8%, transparent)` } : undefined}
             value={(answer as string) ?? ''}
             disabled={locked}
             placeholder="Your answer…"
@@ -304,6 +319,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
               }
             }}
           />
+          {writtenMark && <ResultBadge kind={writtenMark.kind} tone={writtenMark.tone} />}
+          </div>
         )}
         {q.format === 'match' && (
           <MatchRows q={q} given={(answer as string[]) ?? q.pairs.map(() => '')} marked={state.phase !== 'idle' && state.phase !== 'ready' && state.phase !== 'checking'} showAnswer={showAnswer} locked={locked} onChange={give} />
@@ -314,11 +331,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
         {q.format === 'code' && (
           <CodeBox q={q} code={(answer as string) ?? ''} locked={locked} onChange={give} onOutput={(o) => { codeOutput.current = o }} />
         )}
-        {showAnswer && q.format === 'short' && q.rubric && (
-          <p className="rounded-xl bg-ss-chip px-3 py-2 text-[12.5px] text-ss-ink">
-            <span className="font-bold">A good answer: </span><SafeLatex>{q.rubric}</SafeLatex>
-          </p>
-        )}
+        {!trail && goodAnswer}
         <AnimatePresence>
           {whyOpen && why && (
             <motion.div
@@ -327,11 +340,17 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
               {...motionFor('rise', reduced)}
               className="rounded-xl border border-ss-line bg-ss-chip px-3 py-2.5 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
             >
-              <p className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">Why</p>
+              {/* A written answer has no coloured option to say how it went, and on a tall card Kana can be off screen. */}
+              {trail && (q.format === 'short' || q.format === 'code') && state.phase === 'wrong' ? (
+                <p className="text-[12px] font-bold uppercase tracking-wide" style={{ color: 'var(--ss-bad)' }}>Not quite</p>
+              ) : (
+                <p className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">Why</p>
+              )}
               <p className="mt-1 text-[13px] leading-relaxed text-ss-ink"><SafeLatex>{why}</SafeLatex></p>
             </motion.div>
           )}
         </AnimatePresence>
+        {trail && goodAnswer}
         {dock.place(<CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={barLine} />)}
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
