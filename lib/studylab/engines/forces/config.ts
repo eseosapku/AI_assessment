@@ -1,4 +1,4 @@
-// lib/studylab/engines/forces/config.ts
+// lib/studylab/engines/forces-next/config.ts
 import type { SceneEngine } from '../types'
 import { registerEngine } from '../registry'
 import { ForcesView } from './View'
