@@ -122,3 +122,22 @@ describe('a worked card, one step at a time', () => {
     expect(firstShown(3)).toBe(3)
   })
 })
+
+describe('what leads a concept card', () => {
+  it('not a sentence full of formulas: all of that reads as the body', () => {
+    const body = 'When you expand $(x + 3)(x + 2)$, you multiply four pairs: $x \\times x$, $x \\times 2$ and $3 \\times 2$. A grid helps.'
+    expect(statementOf(concept({ body }))).toEqual({ statement: '', rest: body, items: [] })
+  })
+  it('the same for the other way of writing maths', () => {
+    expect(statementOf(concept({ body: 'Multiply \\(a\\) by \\(b\\). Then more.' })).statement).toBe('')
+  })
+  it('a sentence with one formula can lead', () => {
+    expect(statementOf(concept({ body: 'Add $b^2$ to both sides. Then more.' })).statement).toBe('Add $b^2$ to both sides.')
+  })
+  it('with no sentence to lead, the title leads, large, once', () => {
+    const html = renderConcept({ title: 'Why the grid never misses', body: 'Multiply $a$ by $b$. Then more.' })
+    expect(html).toContain('ss-trail-concept-statement')
+    expect(html.split('Why the grid never misses').length - 1).toBe(1)
+    expect(html).not.toContain('ss-trail-concept-title')
+  })
+})

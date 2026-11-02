@@ -16,7 +16,8 @@ export function TrailConceptCard({ id, data }: NodeProps) {
   const { statement, rest, items } = statementOf(d)
   const { onDeeper, lookingBack } = useContext(TrailPlacementContext)
 
-  const lead = statement || (rest ? '' : d.title) || ''
+  // With no sentence fit to lead, the title does: it is short, and it says what this is.
+  const lead = statement || d.title || ''
   // Parts are numbered as the classic card numbers them, so a pointer still lands.
   const firstItem = d.body?.trim() ? 1 : 2
 

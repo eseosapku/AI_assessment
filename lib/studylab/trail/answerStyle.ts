@@ -9,6 +9,8 @@ import { firstSentence } from './voice'
  */
 
 const STATEMENT_WORDS = 30
+const FORMULA = /\$[^$]+\$|\\\(.+?\\\)/g
+const FORMULAS_TOO_MANY = 2
 
 /** A "name it" card's lead sentence, and the text that follows it. */
 export function statementOf(d: StudyNodeData): { statement: string; rest: string; items: string[] } {
@@ -21,6 +23,8 @@ export function statementOf(d: StudyNodeData): { statement: string; rest: string
   const statement = firstSentence(body)
   // No sentence to take (a long run-on, say): all of it reads as the body, uncut.
   if (statement.split(/\s+/).length > STATEMENT_WORDS) return { statement: '', rest: body, items }
+  // Nor a sentence that is mostly formulas: large and bold, it could not be followed.
+  if ((statement.match(FORMULA) ?? []).length >= FORMULAS_TOO_MANY) return { statement: '', rest: body, items }
   return { statement, rest: body.slice(statement.length).trim(), items }
 }
 
