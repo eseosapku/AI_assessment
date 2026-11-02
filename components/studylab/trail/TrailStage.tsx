@@ -459,6 +459,7 @@ function TrailStageInner(props: LessonStageProps) {
                     before={chat.before}
                     onProveIt={chat.onProveIt}
                     provingIt={chat.provingIt}
+                    proveFailed={chat.proveFailed}
                     proveUpdatesGapMap={chat.proveUpdatesGapMap}
                     onClose={closeSummary}
                     mascot={<Kana pose="celebrate" size={84} />}

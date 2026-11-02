@@ -2,6 +2,7 @@
 'use client'
 import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
+import type { SequencePayload } from '@/lib/studylab/activities/types'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
 import { sortAdapter, sequenceAdapter, compareAdapter } from '@/components/studylab/material/adapters'
@@ -16,6 +17,8 @@ import { BalanceActivity } from './BalanceActivity'
 import { ScenarioActivity } from './ScenarioActivity'
 import { SceneActivity } from './SceneActivity'
 import { ComposeActivity } from './ComposeActivity'
+
+const TRACK_LABEL_MAX = 24
 
 /** Outcomes travel to Workspace via a DOM event so the canvas stays decoupled. */
 export function emitActivityOutcome(outcome: unknown) {
@@ -72,7 +75,9 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'sequence': {
-      const material = getApparatus('ordering-track')?.legacy?.fromLegacy(
+      // Steps written out do not fit the track's narrow columns: clipped mid-word, they cannot be read.
+      const wordy = (spec.payload as SequencePayload).items.some((item) => item.label.length > TRACK_LABEL_MAX)
+      const material = wordy ? null : getApparatus('ordering-track')?.legacy?.fromLegacy(
         spec.payload,
         spec.success,
       )

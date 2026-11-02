@@ -90,7 +90,6 @@ const ACTION_LIST = `
 - { "type":"zoom", "target":"fit" } — fit the canvas to the content.
 - { "type":"checkpoint", "id":"cp-<step>-<2 random chars>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas. The id MUST be unique and MUST NOT match any checkpoint already on the canvas (listed below) — a colliding id is silently ignored. Question shapes:
     • { "id":"<unique>", "format":"mcq", "prompt":"...", "options":["...","..."], "answer":<0-based index>, "explain":"why", "optionFeedback":["<to a student who picked option 1>","<option 2>", ...] }
-      Exactly ONE option may be right: test every wrong option against the rule before you write it. If two turn out right, change one; never explain it away.
       "optionFeedback" is optional but expected: ONE short line per option, in the same order, written to a student who chose it — for a wrong option, what it misses (never the right answer itself); for the right one, why it is right.
     • { "id":"<unique>", "format":"short", "prompt":"...", "rubric":"what a good answer contains" }
     • { "id":"<unique>", "format":"code", "prompt":"...", "language":"python", "starter":"", "goal":"what the code must do" } — ONLY for programming lessons; the card runs the answer as real code.
@@ -212,6 +211,9 @@ ${byHandFormats()}
 A "practice" card may carry one of these, or an mcq, as "question" in place of written working: it is marked on the card.
 `
 
+/** Stations only: the older prompts stay byte for byte, so a lesson from before them is taught as it was. */
+const ONE_RIGHT_OPTION = `In a multiple choice question exactly ONE option may be right: test every wrong option against the rule before you write it. If two turn out right, change one. Never explain it away in the feedback.`
+
 export function stationSystemPrompt(): string {
   return [
     SYSTEM_INTRO,
@@ -223,6 +225,7 @@ export function stationSystemPrompt(): string {
     POINT_ACTION,
     CARD_GUIDE,
     QUESTION_FORMATS,
+    ONE_RIGHT_OPTION,
     STATION_RULES,
   ].join('')
 }

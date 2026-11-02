@@ -14,7 +14,7 @@ import type { TrailHeading } from './TrailTitleBlock'
 import type { TrailModel } from './useTrailModel'
 import type { StudyNode } from '@/lib/studylab/types'
 import type { Rect } from '@/lib/studylab/trail/types'
-import { CAMERA_MS, cameraFor, easeOut, focusFraming, footClearance, panForKey, type Insets } from '@/lib/studylab/trail/camera'
+import { CAMERA_MS, cameraFor, easeOut, fitFrame, focusFraming, footClearance, panForKey, type Insets } from '@/lib/studylab/trail/camera'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { takesArrivalFocus, viewportMoved } from '@/lib/studylab/spotlight'
 
@@ -69,7 +69,8 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
   exploringRef.current = exploring
   const moveFrom = useRef<{ x: number; y: number; zoom: number } | null>(null)
 
-  const frame: Rect | null = world.speaker?.frame ?? (focusId ? (world.cards[focusId] ?? null) : null)
+  const viewportH = typeof window === 'undefined' ? Infinity : window.innerHeight
+  const frame = fitFrame(world.speaker?.frame ?? null, focusId ? (world.cards[focusId] ?? null) : null, viewportH - insets.top - insets.bottom)
   const frameRef = useRef(frame)
   frameRef.current = frame
   const boundsRef = useRef(world.bounds)

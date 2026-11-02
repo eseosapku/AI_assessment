@@ -104,7 +104,7 @@ export function OrderSlots({ q, value, onChange, state }: {
               onClick={() => pick(item)}
               className="nodrag rounded-lg border-2 px-2.5 py-1 text-[13px] font-semibold disabled:cursor-default"
               style={picked === item ? { borderColor: 'var(--subject)', backgroundColor: 'var(--subject-soft)' } : { borderColor: 'var(--ss-line)' }}
-            >{item}</motion.button>
+            ><SafeLatex>{item}</SafeLatex></motion.button>
           ),
         )}
       </div>

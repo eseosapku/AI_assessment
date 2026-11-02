@@ -262,6 +262,7 @@ export default function LessonStage({
                 before={chat.before}
                 onProveIt={chat.onProveIt}
                 provingIt={chat.provingIt}
+                proveFailed={chat.proveFailed}
                 proveUpdatesGapMap={chat.proveUpdatesGapMap}
                 onClose={closeSummary}
               />

@@ -87,7 +87,7 @@ describe('a lesson card shows what the lesson wrote', () => {
       },
       success: { kind: 'numericWithin', target: 10, tolerance: 1 },
     })
-    expect(html).toContain("Move the slider to change the river&#x27;s gradient.")
+    expect(html).toContain("Move the slider to change the river's gradient.")
     expect(html).not.toContain('Move the control until the model reaches its target')
     expect(html).toContain('/art/montessori/diagrams/river-profile.webp')
   })

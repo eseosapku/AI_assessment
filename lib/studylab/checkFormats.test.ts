@@ -28,7 +28,7 @@ describe('fill the blanks', () => {
     const html = card(q)
     expect(html).toContain('Plants make')
     expect(count(html, /data-part="blank-\d+"/g)).toBe(2)
-    for (const t of q.tiles) expect(count(html, new RegExp(`<button[^>]*>${t}</button>`, 'g')), t).toBe(1)
+    for (const t of q.tiles) expect(count(html, new RegExp(`<button[^>]*>(?:<span[^>]*>)?${t}(?:</span>)?</button>`, 'g')), t).toBe(1)
   })
   it('puts back what was placed when the card is reloaded', () => {
     const html = card(q, { given: ['glucose', ''] })
@@ -44,8 +44,8 @@ describe('put in order', () => {
   it('shows numbered slots, the items out of order as buttons, and each clue as a line to tick', () => {
     const html = card(q)
     expect(count(html, /data-part="slot-\d+"/g)).toBe(4)
-    const shown = q.items.map((i) => [i, html.indexOf(`>${i}</button>`)] as const).sort((a, b) => a[1] - b[1]).map(([i]) => i)
-    expect(shown.every((_, i) => html.indexOf(`>${q.items[i]}</button>`) >= 0)).toBe(true)
+    const shown = q.items.map((i) => [i, html.search(new RegExp(`>(?:<span[^>]*>)?${i}(?:</span>)?</button>`))] as const).sort((a, b) => a[1] - b[1]).map(([i]) => i)
+    expect(shown.every((_, i) => html.search(new RegExp(`>(?:<span[^>]*>)?${q.items[i]}(?:</span>)?</button>`)) >= 0)).toBe(true)
     expect(shown).not.toEqual(q.items)
     // A clue is shown as the pair it checks, never the writer's sentence, which can claim more than it ticks.
     expect(html).toContain('Egg before Larva')

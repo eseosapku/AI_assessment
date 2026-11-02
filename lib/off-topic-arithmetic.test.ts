@@ -31,6 +31,12 @@ describe('a sum on a paper that is not about sums', () => {
     expect(english('In no more than 20 words, explain the difference between the two characters.')).toBe(false)
   })
 
+  it('reads the real subject when the paper is named after a lesson', () => {
+    const q = { question: 'What is the completed square form of $x^2 + 8x + 15$?' }
+    expect(isLikelyOffTopicMathQuestion(q, 'Completing the square', ['Completing the square'])).toBe(true)
+    expect(isLikelyOffTopicMathQuestion(q, 'Mathematics Completing the square', ['Completing the square'])).toBe(false)
+  })
+
   it('leaves a subject that calls for arithmetic alone', () => {
     expect(allowsArithmeticForSelection('Mathematics', [])).toBe(true)
     expect(isLikelyOffTopicMathQuestion({ question: 'What is 12 + 7?' }, 'Mathematics', [])).toBe(false)

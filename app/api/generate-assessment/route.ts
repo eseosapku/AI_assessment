@@ -3142,7 +3142,9 @@ ${commandBlock}`
           console.warn(`Removed unanswerable (visual-dependent) question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
-        if (!sourceNeedsWorkedProblems(sourceText) && isLikelyOffTopicMathQuestion(q, promptSubject, promptTopics)) {
+        // The subject may be a lesson's title, with the real subject in the hint: "Completing the square"
+        // read as a non-maths paper, and every question in it was deleted as a stray sum.
+        if (!sourceNeedsWorkedProblems(sourceText) && isLikelyOffTopicMathQuestion(q, `${figureSubject} ${promptSubject}`, promptTopics)) {
           console.warn(`Removed off-topic arithmetic question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }

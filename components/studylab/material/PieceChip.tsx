@@ -1,4 +1,5 @@
 'use client'
+import { SafeLatex } from '../canvasShared'
 import type { CSSProperties } from 'react'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import type { Piece } from '@/lib/studylab/material/types'
@@ -38,7 +39,7 @@ export function PieceChip({
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt={piece.label} width={22} height={22} style={{ width: 22, height: 22 }} className="object-contain" />
       ) : null}
-      <span>{piece.label}</span>
+      <span><SafeLatex>{piece.label}</SafeLatex></span>
     </span>
   )
 }

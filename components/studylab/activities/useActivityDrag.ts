@@ -21,6 +21,8 @@ import { findFixedContainingBlock, ghostPosition } from './fixedContainingBlock'
  * components re-render to show drag styling; every decision inside a listener
  * reads `dragIdRef`/`overRef` instead.
  */
+const GAP_REACH = 8
+
 export function useActivityDrag(onDrop: (itemId: string, targetId: string) => void) {
   const [dragId, setDragId] = useState<string | null>(null)
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null)
@@ -76,8 +78,10 @@ export function useActivityDrag(onDrop: (itemId: string, targetId: string) => vo
     const hitTest = (clientX: number, clientY: number) => {
       // The floating drag element carries pointer-events:none (see itemProps)
       // specifically so it never shadows the real target underneath it here.
-      const hit = document.elementFromPoint(clientX, clientY)
-      const zone = hit?.closest('[data-drop-target]')
+      // A little either way: a drop in the gap between two rows is meant for one of them.
+      const zone = [0, -GAP_REACH, GAP_REACH]
+        .map((dy) => document.elementFromPoint(clientX, clientY + dy)?.closest('[data-drop-target]'))
+        .find(Boolean)
       return zone?.getAttribute('data-drop-target') ?? null
     }
 

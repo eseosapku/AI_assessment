@@ -20,6 +20,7 @@ export function LessonCompleteScene({
   before,
   onProveIt,
   provingIt,
+  proveFailed,
   proveUpdatesGapMap,
   onClose,
   mascot,
@@ -31,6 +32,8 @@ export function LessonCompleteScene({
   before?: { title: string; accuracy: number } | null
   onProveIt?: () => void
   provingIt?: boolean
+  /** The last try could not build the quiz. The chat is shut behind this screen, so it says so here. */
+  proveFailed?: boolean
   proveUpdatesGapMap?: boolean
   onClose: () => void
 }) {
@@ -95,7 +98,12 @@ export function LessonCompleteScene({
               {!provingIt && <ArrowRight className="h-4 w-4" aria-hidden />}
             </button>
           )}
-          {onProveIt && (
+          {onProveIt && proveFailed && !provingIt && (
+            <p role="alert" className="text-center text-[13px] font-bold" style={{ color: 'var(--ss-bad)' }}>
+              Couldn&apos;t build the quiz just now. Press it again to try.
+            </p>
+          )}
+          {onProveIt && !(proveFailed && !provingIt) && (
             <p className="text-center text-[12px] font-medium text-ss-slate">
               {proveUpdatesGapMap ? 'Fresh questions on this topic. Your score updates your gap map.' : 'Fresh questions on this topic.'}
             </p>

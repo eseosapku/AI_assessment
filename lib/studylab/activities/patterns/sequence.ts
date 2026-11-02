@@ -12,6 +12,20 @@ function rulesHold(x: SequencePayload): boolean {
     at.has(r.before) && at.has(r.after) && at.get(r.before)! < at.get(r.after)!)
 }
 
+/**
+ * The order after dropping one item on another: it takes that place. Inserting it
+ * always before the row it landed on meant the last place could never be reached.
+ */
+export function moved(order: string[], itemId: string, targetId: string): string[] {
+  const from = order.indexOf(itemId)
+  if (itemId === targetId || from === -1) return order
+  const next = order.filter((id) => id !== itemId)
+  const at = next.indexOf(targetId)
+  if (at === -1) return order
+  next.splice(from <= at ? at + 1 : at, 0, itemId)
+  return next
+}
+
 export const sequenceModule: PatternModule<SequencePayload, SequenceWork> = {
   pattern: 'sequence',
   initialWork(payload, seed = 1): SequenceWork {

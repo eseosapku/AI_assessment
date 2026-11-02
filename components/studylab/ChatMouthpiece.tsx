@@ -37,6 +37,8 @@ export interface ChatMouthpieceProps {
   /** Optional: start a real assessment on the studied topic once done. */
   onProveIt?: () => void
   provingIt?: boolean
+  /** The quiz could not be built: the lesson-end screen says so. */
+  proveFailed?: boolean
   /** Whether the end-of-lesson quiz files its score where the Gap Map can read it. */
   proveUpdatesGapMap?: boolean
   onSend: (text: string, opts?: { image?: string; silent?: boolean }) => void

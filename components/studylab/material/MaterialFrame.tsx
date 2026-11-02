@@ -1,4 +1,5 @@
 'use client'
+import { SafeLatex } from '../canvasShared'
 import type { ReactNode } from 'react'
 import { Check } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
@@ -48,7 +49,7 @@ export function MaterialFrame({
             style={{ borderColor: solved ? 'var(--ss-good)' : 'var(--ss-line)', backgroundColor: 'var(--ss-canvas)' }}
           >
             <div className="mb-1.5 flex items-center gap-1.5 text-[12px] font-bold text-ss-ink">
-              {group.label}
+              <SafeLatex>{group.label}</SafeLatex>
               {solved && (
                 <motion.span
                   data-lid

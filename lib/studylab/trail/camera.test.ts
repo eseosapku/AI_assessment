@@ -1,5 +1,5 @@
 // lib/studylab/trail/camera.test.ts
-import { footClearance } from './camera'
+import { fitFrame, footClearance } from './camera'
 import { describe, it, expect } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -166,5 +166,23 @@ describe('a card that grows past the button', () => {
   it('never takes its top under the bar', () => {
     expect(footClearance({ top: 100, bottom: 1500, viewportH: 900, insets })).toBe(36)
     expect(footClearance({ top: 40, bottom: 1500, viewportH: 900, insets })).toBe(0)
+  })
+})
+
+describe('what the camera frames', () => {
+  const rect = (h: number) => ({ x: 0, y: 0, w: 500, h })
+  it('Kana and the card when they fit', () => {
+    expect(fitFrame(rect(600), rect(400), 700)).toEqual(rect(600))
+  })
+  it('the card alone when only it fits, so nothing on it is out of reach', () => {
+    expect(fitFrame(rect(900), rect(700), 700)).toEqual(rect(700))
+  })
+  it('both, from the top, when even the card is too tall', () => {
+    expect(fitFrame(rect(1500), rect(1200), 700)).toEqual(rect(1500))
+  })
+  it('whichever there is', () => {
+    expect(fitFrame(null, rect(400), 700)).toEqual(rect(400))
+    expect(fitFrame(rect(400), null, 700)).toEqual(rect(400))
+    expect(fitFrame(null, null, 700)).toBeNull()
   })
 })

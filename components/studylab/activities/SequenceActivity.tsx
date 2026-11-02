@@ -1,5 +1,6 @@
 // components/studylab/activities/SequenceActivity.tsx
 'use client'
+import { moved } from '@/lib/studylab/activities/patterns/sequence'
 import { SafeLatex } from '../canvasShared'
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
@@ -41,19 +42,10 @@ export function SequenceActivity({ id, spec, onOutcome, initialState }: {
   const rootRef = useRef<HTMLDivElement>(null)
   const byId = new Map(payload.items.map((i) => [i.id, i]))
 
-  // Reordering: dropping item A onto row B removes A from its current spot
-  // and re-inserts it at B's (post-removal) index — a plain array splice, no
-  // control of error at drop time. A wrong order is left to stand until Check.
+  // No control of error at drop time: a wrong order is left to stand until Check.
   const reorder = (itemId: string, targetId: string) => {
-    if (itemId === targetId) return
-    const next = [...order]
-    const from = next.indexOf(itemId)
-    if (from === -1) return
-    next.splice(from, 1)
-    const to = next.indexOf(targetId)
-    if (to === -1) return
-    next.splice(to, 0, itemId)
-    a.setWork({ order: next })
+    const next = moved(order, itemId, targetId)
+    if (next !== order) a.setWork({ order: next })
   }
 
   const drag = useActivityDrag(reorder)

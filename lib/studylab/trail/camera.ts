@@ -52,6 +52,15 @@ export function focusFraming(input: { sized: boolean; alreadyFramed: boolean; lo
 }
 
 /**
+ * What to frame: Kana and the card together, or the card alone when they do not fit
+ * but it does. Everything on a card has to be within reach; she can be scrolled to.
+ */
+export function fitFrame(speaker: Rect | null, card: Rect | null, roomH: number): Rect | null {
+  if (!speaker || !card) return speaker ?? card
+  return speaker.h * MIN_ZOOM > roomH && card.h * MIN_ZOOM <= roomH ? card : speaker
+}
+
+/**
  * How far to pan up when a card grows past the button: a reveal or a reason opens at
  * its foot, and it is the thing to read. Only as far as its top reaching the bar.
  */

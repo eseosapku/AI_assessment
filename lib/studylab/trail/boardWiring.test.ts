@@ -8,7 +8,7 @@ import { withTrailFrame, TrailPlacementContext, type TrailPlacement } from '@/co
 import { StageContext, useDock, type StageValue } from '@/components/studylab/stage/StageContext'
 import { CheckBar } from '@/components/studylab/check/CheckBar'
 import { WorkedNode } from '@/components/studylab/tutorNodes'
-import { withoutVerdict } from '../whyLine'
+import { whyForChoice, withoutVerdict } from '../whyLine'
 import { SafeLatex } from '@/components/studylab/canvasShared'
 import { holdOn, withHold } from './queue'
 import { bubbleLine } from './voice'
@@ -200,5 +200,19 @@ describe('bold around a formula', () => {
     const html = renderToStaticMarkup(createElement(SafeLatex, null, 'always **half of $x$, squared**.'))
     expect(html).not.toContain('**')
     expect(html).toContain('<strong')
+  })
+})
+
+describe('why, after choosing wrong', () => {
+  const q = { answer: 1, explain: 'The middle term doubles.', optionFeedback: ['You forgot to double it.', 'Correct.', 'That squares it.'] }
+  it('names the mistake they made, then the reason', () => {
+    expect(whyForChoice(q, 0)).toBe('You forgot to double it. The middle term doubles.')
+  })
+  it('only the reason when they were right, or nothing was chosen', () => {
+    expect(whyForChoice(q, 1)).toBe('The middle term doubles.')
+    expect(whyForChoice(q, undefined)).toBe('The middle term doubles.')
+  })
+  it('falls back to the right option, without its verdict', () => {
+    expect(whyForChoice({ answer: 0, optionFeedback: ['Correct: it doubles.', 'No.'] }, 0)).toBe('It doubles.')
   })
 })

@@ -251,6 +251,10 @@ describe('a question its writer found broken', () => {
     expect(isValidQuestion({ ...base, optionFeedback: fb })).toBe(false)
     expect(isValidQuestion({ ...base, explain: 'Both are correct, really.' })).toBe(false)
   })
+  it('is refused when a wrong option is said to work', () => {
+    expect(isValidQuestion({ ...base, optionFeedback: ['Right.', 'This works but loses the pattern.'] })).toBe(false)
+    expect(isValidQuestion({ ...base, optionFeedback: ['This works: it is the rule.', 'Halving comes first.'] })).toBe(true)
+  })
   it('ordinary feedback is not', () => {
     expect(isValidQuestion({ ...base, optionFeedback: ['Yes: this is the square of 3.', 'You would wait longer for that.'] })).toBe(true)
     expect(isValidQuestion({ ...base, explain: 'It actually reaches the same value.' })).toBe(true)

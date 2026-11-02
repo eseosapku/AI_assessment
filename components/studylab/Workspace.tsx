@@ -9,6 +9,7 @@ import DemoOffer from './DemoOffer'
 import LessonStage, { type LessonStageProps } from './stage/LessonStage'
 import { useActiveTime } from './stage/useActiveTime'
 import { useLook } from './trail/useLook'
+import { proveItTopics } from '@/lib/studylab/proveIt'
 import type { LastAsk } from '@/lib/studylab/trail/look'
 import type { CanvasEffects } from './StudyCanvas'
 import { toggleStepGroup, plainTitle, createImageCard } from '@/lib/studylab/actions'
@@ -876,9 +877,11 @@ export default function Workspace({ id }: { id: string }) {
    * free-topic path, so it works for a space with no curriculum rows behind it.
    */
   const [provingIt, setProvingIt] = useState(false)
+  const [proveFailed, setProveFailed] = useState(false)
   const handleProveIt = useCallback(async () => {
     if (provingIt) return
     setProvingIt(true)
+    setProveFailed(false)
     try {
       // The lesson's own book and topic, as the Gap Map's "Quiz me" sends
       // them. With the title alone the score landed in a "Mastering ..."
@@ -902,7 +905,7 @@ export default function Workspace({ id }: { id: string }) {
               user_id: user?.id,
               subject: space?.title || space?.subject || 'Study session',
               subjectDomainHint: space?.subject || undefined,
-              topics: [space?.title || space?.subject].filter(Boolean),
+              topics: proveItTopics(runRef.current, space?.title || space?.subject),
               count: 10,
               style: 'Test Style (Textbooks)',
               questionType: 'mcq',
@@ -924,6 +927,7 @@ export default function Workspace({ id }: { id: string }) {
     } catch {
       // It used to fail in silence: a tap, a wait, and nothing.
       setProvingIt(false)
+      setProveFailed(true)
       setMessages((prev) => [
         ...prev,
         { role: 'assistant', kind: 'error', content: "Couldn't build the quiz just now. Check your connection and try again." },
@@ -1328,6 +1332,7 @@ export default function Workspace({ id }: { id: string }) {
         defaultPace: policy.defaultPace,
         onProveIt: handleProveIt,
         provingIt,
+        proveFailed,
         proveUpdatesGapMap: Boolean(space?.textbook_id && space?.topic_id),
         before: measuredBefore(run),
         onAcceptPlan: (pace) => {

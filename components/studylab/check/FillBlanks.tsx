@@ -76,7 +76,7 @@ export function FillBlanks({ q, value, onChange, state }: {
                   ? { borderStyle: 'solid', borderColor: tone, backgroundColor: `color-mix(in srgb, ${tone} 10%, transparent)` }
                   : got ? { borderStyle: 'solid', borderColor: 'var(--subject)', backgroundColor: 'var(--subject-soft)' } : { borderColor: 'var(--ss-slate)' }}
               >
-                {got ? <motion.span layout="position" layoutId={`${q.id}-tile-${got}`} transition={slide}>{got}</motion.span> : ' '}
+                {got ? <motion.span layout="position" layoutId={`${q.id}-tile-${got}`} transition={slide}><SafeLatex>{got}</SafeLatex></motion.span> : ' '}
               </button>
               {state.marked && got && <PartBadge right={right} mode={state.mode} />}
               {state.showAnswer && !right && (
@@ -104,7 +104,7 @@ export function FillBlanks({ q, value, onChange, state }: {
               onClick={() => tile(t)}
               className="nodrag rounded-lg border-2 px-2.5 py-1 text-[13px] font-semibold disabled:cursor-default"
               style={picked === t ? { borderColor: 'var(--subject)', backgroundColor: 'var(--subject-soft)' } : { borderColor: 'var(--ss-line)' }}
-            >{t}</motion.button>
+            ><SafeLatex>{t}</SafeLatex></motion.button>
           ),
         )}
       </div>

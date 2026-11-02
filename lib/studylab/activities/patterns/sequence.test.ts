@@ -1,3 +1,4 @@
+import { moved } from './sequence'
 import { describe, it, expect } from 'vitest'
 import { sequenceModule } from './sequence'
 import type { SequencePayload } from '../types'
@@ -85,5 +86,22 @@ describe('a sequence ticks its rules', () => {
 
   it('shows no rules for a sequence written without them', () => {
     expect(conditionsFor('sequence', payload, { order: ['a', 'b', 'c'] })).toEqual([])
+  })
+})
+
+describe('moving a step', () => {
+  const order = ['a', 'b', 'c', 'd']
+  it('takes the place of the row it lands on, going up or down', () => {
+    expect(moved(order, 'd', 'b')).toEqual(['a', 'd', 'b', 'c'])
+    expect(moved(order, 'a', 'c')).toEqual(['b', 'c', 'a', 'd'])
+  })
+  it('can reach the last place and the first', () => {
+    expect(moved(order, 'a', 'd')).toEqual(['b', 'c', 'd', 'a'])
+    expect(moved(order, 'c', 'a')).toEqual(['c', 'a', 'b', 'd'])
+  })
+  it('leaves the order alone for a drop on itself or something unknown', () => {
+    expect(moved(order, 'a', 'a')).toBe(order)
+    expect(moved(order, 'z', 'a')).toBe(order)
+    expect(moved(order, 'a', 'z')).toBe(order)
   })
 })

@@ -4,7 +4,7 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 import { Target, HelpCircle, Play, Loader2, Check, X } from 'lucide-react'
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
-import { withoutVerdict } from '@/lib/studylab/whyLine'
+import { whyForChoice } from '@/lib/studylab/whyLine'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch, gradeFill, gradeOrder, gradeTap, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
 import { regionsFor } from '@/lib/studylab/check/diagramRegions'
@@ -350,10 +350,7 @@ const FORMAT_LABEL: Record<CheckpointQuestion['format'], string> = {
 }
 
 function whyText(q: CheckpointQuestion, cell: QuizCell, line: string | undefined): string | undefined {
-  if (q.format === 'mcq') {
-    const why = q.explain ?? q.optionFeedback?.[q.answer]
-    return why === undefined ? undefined : withoutVerdict(why)
-  }
+  if (q.format === 'mcq') return whyForChoice(q, cell.given)
   if (q.format === 'match') return q.pairs.map((p) => `${p.left} → ${p.right}`).join(' · ')
   if (q.format === 'fill') return filledSentence(q.text, q.answer)
   if (q.format === 'order') return q.items.join(' → ')
@@ -402,7 +399,7 @@ function MatchRows({
             {marked && (ok
               ? <Check className="h-4 w-4 shrink-0 text-[color:var(--ss-good)]" aria-label="Right" />
               : <X className="h-4 w-4 shrink-0 text-[color:var(--ss-warn)]" aria-label="Not this one" />)}
-            {showAnswer && !ok && <span className="text-[12px] text-ss-slate">→ {p.right}</span>}
+            {showAnswer && !ok && <span className="text-[12px] text-ss-slate">→ <SafeLatex>{p.right}</SafeLatex></span>}
           </div>
         )
       })}

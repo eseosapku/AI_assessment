@@ -158,9 +158,13 @@ export function settleStaleCell(cell: QuizCell): Partial<QuizCell> | null {
  */
 const SECOND_THOUGHTS = /\bwait\s*[\u2014\u2013,:.!-]|\bactually,? (this|that|it|both)\b|\balso (correct|right)\b|\bboth (are |of these are |options are )?(correct|right)\b|\bpick the first\b|\bscratch that\b/i
 
+/** Said of a wrong option, it means the option is right: a second right answer marked wrong. */
+const ACTUALLY_WORKS = /\b(this|that|it) (also |does |would )?(works?|is valid|is also valid)\b/i
+
 function hasSecondThoughts(q: any): boolean {
-  const said = [q.explain, ...(Array.isArray(q.optionFeedback) ? q.optionFeedback : [])]
-  return said.some((text) => typeof text === 'string' && SECOND_THOUGHTS.test(text))
+  const feedback: unknown[] = Array.isArray(q.optionFeedback) ? q.optionFeedback : []
+  if ([q.explain, ...feedback].some((text) => typeof text === 'string' && SECOND_THOUGHTS.test(text))) return true
+  return feedback.some((text, i) => i !== Number(q.answer) && typeof text === 'string' && ACTUALLY_WORKS.test(text))
 }
 
 export function isValidQuestion(q: any): q is CheckpointQuestion {
