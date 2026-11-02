@@ -22,8 +22,18 @@ export async function GET(request: NextRequest) {
         // that could be large, and it is the only origin that has one — reading
         // every space's whole canvas to find out would cost the grid its speed
         // for nothing.
+        //
+        // Of the run, only where the lesson stands: step titles and statuses, never
+        // a step's goal or a homework question's answer. A run with no steps array
+        // must not fail the whole list.
         `SELECT id, title, subject, origin, current_step, status, created_at, updated_at,
-                CASE WHEN origin = 'homework' THEN canvas_state->>'thumb' END AS thumb
+                CASE WHEN origin = 'homework' THEN canvas_state->>'thumb' END AS thumb,
+                lesson_run->>'phase' AS phase,
+                lesson_run->'currentStep' AS step_index,
+                (SELECT jsonb_agg(jsonb_build_object('title', step->>'title', 'status', step->>'status') ORDER BY place)
+                   FROM jsonb_array_elements(
+                     CASE WHEN jsonb_typeof(lesson_run->'steps') = 'array' THEN lesson_run->'steps' ELSE '[]'::jsonb END
+                   ) WITH ORDINALITY AS listed(step, place)) AS steps
          FROM learnspaces WHERE user_id = $1 ORDER BY updated_at DESC`,
         [userId]
       )
@@ -86,12 +96,12 @@ export async function POST(request: NextRequest) {
     // lesson's mode out from under it.
     //
     // Montessori is built but unfinished, so the product does not create
-    // spaces in it. The hub stops offering the choice; this stops a request
-    // that asks for it anyway, because a hidden control is a product decision
+    // spaces in it. The LearnSpace page offers no choice; this stops a request
+    // that asks for it anyway, because a missing control is a product decision
     // and not a guard. Existing montessori spaces are untouched — they read
     // their mode back off their own row.
     //
-    // Phase 2 lifts both together. See OFFER_MONTESSORI in StudyLabHub.tsx.
+    // Phase 2 lifts this, and gives the page's question a way to choose.
     const OFFER_MONTESSORI = false
     if (OFFER_MONTESSORI && body?.mode === 'montessori') {
       columns.push('mode')

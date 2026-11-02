@@ -1,10 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { AlertTriangle, ArrowRight, Loader2, Sparkles, TrendingDown } from 'lucide-react'
+import { AlertTriangle, ArrowRight, Loader2 } from 'lucide-react'
 import type { PersonaSnapshot, WeakArea } from '@/lib/studylab/persona'
 import { openLearnSpace } from '@/lib/studylab/openSpace'
+import { unshout } from '@/lib/studylab/hubLessons'
 
 const STATUS_DOT: Record<string, string> = {
   gap: 'bg-ss-bad',
@@ -12,6 +14,9 @@ const STATUS_DOT: Record<string, string> = {
   mastered: 'bg-ss-accent',
   not_assessed: 'bg-ss-slate',
 }
+
+/** As many as sit beside the lesson card without running past it; the gap map has the rest. */
+const SHOWN = 5
 
 interface PersonaPanelProps {
   persona: PersonaSnapshot | null
@@ -59,7 +64,7 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
 
   if (loading) {
     return (
-      <div className="mb-6 flex items-center justify-center rounded-[20px] border border-ss-line bg-ss-panel p-6">
+      <div className="flex items-center justify-center py-10">
         <Loader2 className="h-5 w-5 animate-spin text-ss-accent" />
       </div>
     )
@@ -67,55 +72,51 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
 
   if (!persona) return null
 
+  const { gaps, developing, mastered } = persona.summary
+  const tally = [
+    gaps > 0 && `${gaps} to close`,
+    developing > 0 && `${developing} developing`,
+    mastered > 0 && `${mastered} mastered`,
+  ].filter(Boolean).join(', ')
+  const areas = persona.weakAreas.slice(0, SHOWN)
+  // The same book under every row says nothing the first one did not.
+  const oneSubject = new Set(areas.map((area) => area.subjectName)).size === 1
+
   return (
-    <section className="mb-6 overflow-hidden rounded-[20px] border border-ss-line bg-ss-panel">
-      <div className="flex items-start justify-between gap-4 border-b border-ss-line px-5 py-5 sm:px-6">
-        <div>
-          <div className="mb-1 flex items-center gap-2">
-            <TrendingDown className="h-4 w-4 text-ss-accent" />
-            <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ss-slate">Your week</p>
-          </div>
-          <h3 className="text-lg font-extrabold text-ss-ink">{persona.headline}</h3>
-          <p className="mt-0.5 text-sm text-ss-slate">{persona.subline}</p>
-        </div>
-        {persona.hasHistory && (
-          <div className="hidden shrink-0 items-center gap-4 text-center sm:flex">
-            <Stat label="Gaps" value={persona.summary.gaps} tone="text-ss-bad" />
-            <Stat label="Developing" value={persona.summary.developing} tone="text-ss-warn" />
-            <Stat label="Mastered" value={persona.summary.mastered} tone="text-ss-accent" />
-          </div>
-        )}
-      </div>
+    <section aria-labelledby="hub-gaps" className="ss-hub-panel">
+      <h2 id="hub-gaps" className="text-[19px] font-extrabold tracking-tight text-ss-ink">
+        {areas.length > 0 ? 'Your gaps' : 'Your week'}
+      </h2>
+      <p className="mt-1 text-[13.5px] text-ss-slate">
+        {persona.hasHistory ? tally || persona.headline : persona.subline}
+      </p>
 
       {startError && (
-        <p role="alert" className="px-5 pt-3 text-[13px] font-semibold text-[color:var(--ss-bad)] sm:px-6">{startError}</p>
+        <p role="alert" className="mt-3 text-[13px] font-semibold text-[color:var(--ss-bad)]">{startError}</p>
       )}
-      {persona.weakAreas.length > 0 ? (
-        <ul className="divide-y divide-ss-line">
-          {persona.weakAreas.map((area) => (
-            <li key={`${area.kind}-${area.topic_id}-${area.subtopic_id ?? 't'}`} className="flex items-center gap-3 px-5 py-3.5 sm:px-6">
+      {areas.length > 0 ? (
+        <ul className="mt-3 divide-y divide-ss-line">
+          {areas.map((area) => (
+            <li key={`${area.kind}-${area.topic_id}-${area.subtopic_id ?? 't'}`} className="flex items-center gap-3 py-3">
               <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${STATUS_DOT[area.status] ?? STATUS_DOT.not_assessed}`} />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-bold text-ss-ink">{area.label}</p>
-                <p className="truncate text-xs text-ss-slate">
-                  {area.subjectName}
-                  {typeof area.accuracy === 'number' ? ` · ${area.accuracy}%` : ''}
-                </p>
+                <p className="line-clamp-2 text-[14px] font-bold leading-snug text-ss-ink">{area.label}</p>
+                {!oneSubject && <p className="truncate text-[12.5px] text-ss-slate">{unshout(area.subjectName)}</p>}
               </div>
               <button
                 type="button"
                 onClick={() => startStudy(area)}
                 disabled={starting !== null}
-                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-ss-accent-soft px-3 py-1.5 text-xs font-bold text-ss-accent transition-colors hover:brightness-95 disabled:opacity-60"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-ss-chip px-3 py-1.5 text-[13px] font-bold text-ss-ink transition-colors hover:brightness-95 disabled:opacity-60"
               >
-                {starting === area.label ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> : <Sparkles className="h-3.5 w-3.5" aria-hidden />}
+                {starting === area.label && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />}
                 {starting === area.label ? 'Starting…' : 'Study'}
               </button>
             </li>
           ))}
         </ul>
       ) : persona.hasHistory ? (
-        <div className="flex items-start gap-3 px-5 py-4 text-sm text-ss-slate sm:px-6">
+        <div className="mt-3 flex items-start gap-3 text-sm text-ss-slate">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-ss-warn" />
           <p>
             You have quiz history, but nothing is mapped to specific topics yet. Open the gap map and take a
@@ -123,15 +124,12 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
           </p>
         </div>
       ) : null}
+      {persona.hasHistory && (
+        <Link href="/studylab/gap-map" className="mt-2 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-ss-accent hover:underline">
+          Open your gap map
+          <ArrowRight className="h-4 w-4" aria-hidden />
+        </Link>
+      )}
     </section>
-  )
-}
-
-function Stat({ label, value, tone }: { label: string; value: number; tone: string }) {
-  return (
-    <div>
-      <p className={`text-xl font-extrabold tabular-nums ${tone}`}>{value}</p>
-      <p className="text-[12px] uppercase tracking-wide text-ss-slate">{label}</p>
-    </div>
   )
 }
