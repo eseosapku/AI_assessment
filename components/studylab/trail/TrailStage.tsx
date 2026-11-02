@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
 import type { LessonStageProps } from '../stage/LessonStage'
-import { LessonTopBar } from '../stage/LessonTopBar'
 import { OpeningCard } from '../stage/OpeningCard'
 import ChatMouthpiece from '../ChatMouthpiece'
 import { Kana } from '../kana/Kana'
@@ -11,13 +10,17 @@ import { StageContext, type StageValue, type HelpRequest } from '../stage/StageC
 import { StationScene } from '../stage/StationScene'
 import { LessonCompleteScene } from '../stage/LessonCompleteScene'
 import { CanvasContext } from '../canvasShared'
+import { FiledCardsList } from './FiledCardsList'
 import { KanaOnBoard } from './KanaOnBoard'
 import { TrailCanvas, type TrailCanvasHandle } from './TrailCanvas'
 import { TrailChatPanel } from './TrailChatPanel'
 import { TrailDock } from './TrailDock'
+import { TrailTopBar } from './TrailTopBar'
 import { TrailPlacementContext, type TrailPlacement } from './TrailFrame'
 import { useTrailModel } from './useTrailModel'
 import { trailAction, trailContinue } from '@/lib/studylab/trail/action'
+import { escapeTarget, stationPills, topBarLabel } from '@/lib/studylab/trail/furniture'
+import { cardTitle } from '@/lib/studylab/trail/placement'
 import { bubbleLine, lineTone, withDisplayLines } from '@/lib/studylab/trail/voice'
 import type { BarModel } from '@/lib/studylab/checkBarModel'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
@@ -50,7 +53,7 @@ const NO_RESIZE = () => {}
 /**
  * The Trail look of a lesson: the same props as the classic stage, and the same
  * lesson underneath. It has its own board, whose positions are worked out from
- * the run, one button, and Kana on the board; its top bar is the classic one for now.
+ * the run, one button, Kana on the board, and three pills along the top.
  */
 export default function TrailStage(props: LessonStageProps) {
   return (
@@ -181,8 +184,11 @@ function TrailStageInner(props: LessonStageProps) {
   const finished = board.run?.phase === 'done'
 
   const openChat = useCallback(() => setOpen(true), [setOpen])
+  const [menuOpen, setMenuOpen] = useState(false)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      // An open menu is on top: its own Esc closes it, and the chat stays as it is.
+      if (e.key === 'Escape' && escapeTarget({ menuOpen, chatOpen: open, lookBack: false, detourOpen: false }) === 'menu') return
       const t = e.target as HTMLElement | null
       const act = drawerKey({ key: e.key, target: t ? { tagName: t.tagName, isContentEditable: t.isContentEditable } : null, open })
       if (!act) return
@@ -191,7 +197,18 @@ function TrailStageInner(props: LessonStageProps) {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open, setOpen])
+  }, [open, setOpen, menuOpen])
+
+  // Thumbnails take no Tab stop, so the keyboard reaches them through a list.
+  const filed = useMemo(() => {
+    const byId = new Map(board.nodes.map((n) => [n.id, n]))
+    return model.placement.stations.flatMap((s) =>
+      [...s.finished, ...s.filed].flatMap((c) => {
+        const n = byId.get(c.id)
+        return n ? [{ id: c.id, title: cardTitle(n), station: s.title }] : []
+      }),
+    )
+  }, [board.nodes, model.placement.stations])
 
   return (
     <StageContext.Provider value={stage}>
@@ -199,7 +216,6 @@ function TrailStageInner(props: LessonStageProps) {
         <TrailPlacementContext.Provider value={placementValue}>
           <div className="ss-lesson ss-trail ss-board-plain flex h-screen w-full flex-col overflow-hidden" style={subjectStyle(subjectKey)}>
             {banner}
-            <LessonTopBar {...rail} busy={rail.busy ?? chat.busy} />
             <div className="flex min-h-0 flex-1">
               {/* The chat on the left; the board narrows beside it. */}
               <TrailChatPanel open={open}>
@@ -207,13 +223,6 @@ function TrailStageInner(props: LessonStageProps) {
               </TrailChatPanel>
               <div data-tour="lesson-board" data-stage-board className="relative h-full min-w-0 flex-1">
                 {boardOverlay}
-                <button
-                  type="button"
-                  onClick={trail?.onClassic}
-                  className="absolute left-3 top-3 z-20 rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[16px] font-semibold text-ss-ink shadow-ss-panel hover:border-ss-accent"
-                >
-                  Back to the classic look
-                </button>
                 <OpeningCard
                   title={rail.title}
                   subject={rail.subject}
@@ -237,15 +246,6 @@ function TrailStageInner(props: LessonStageProps) {
                     onShowCard={showCard}
                   />
                 </TrailCanvas>
-                <button
-                  type="button"
-                  onClick={openChat}
-                  aria-label="Ask Kana"
-                  className="ss-press absolute bottom-5 left-4 z-30 inline-flex min-h-[52px] items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-3 pr-4 text-[16px] font-bold text-ss-ink shadow-ss-panel"
-                >
-                  <Kana simple pose="happy" size={34} />
-                  <span>Ask Kana</span>
-                </button>
                 <TrailDock
                   ref={setDockEl}
                   action={action}
@@ -256,6 +256,29 @@ function TrailStageInner(props: LessonStageProps) {
                   provingIt={chat.provingIt}
                   onRetry={last?.retryAction ? () => chat.onRetry?.(last.retryAction!) : undefined}
                 />
+                <button
+                  type="button"
+                  onClick={openChat}
+                  aria-label="Ask Kana"
+                  className="ss-press absolute bottom-5 left-4 z-30 inline-flex min-h-[52px] items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-3 pr-4 text-[16px] font-bold text-ss-ink shadow-ss-panel"
+                >
+                  <Kana simple pose="happy" size={34} />
+                  <span>Ask Kana</span>
+                </button>
+                <TrailTopBar
+                  pills={stationPills(board.run)}
+                  label={topBarLabel({ run: board.run, lookingBack: null, detourOpen: false }) || rail.title}
+                  plots={world.plots}
+                  canClassic={!!trail?.onClassic}
+                  onLeave={rail.onBack}
+                  onStation={(plot) => canvas.current?.flyTo(plot.rect)}
+                  onWholeBoard={() => canvas.current?.showAll()}
+                  onBackToCard={() => canvas.current?.flyToFocus()}
+                  onAddBlock={(type) => board.onAddBlock(type)}
+                  onClassic={trail?.onClassic}
+                  onMenuChange={setMenuOpen}
+                />
+                <FiledCardsList items={filed} onOpen={NOTHING_YET} />
                 <StationScene title={stamp} onDone={clearStamp} />
                 {finished && summaryOpen && board.run && (
                   <LessonCompleteScene

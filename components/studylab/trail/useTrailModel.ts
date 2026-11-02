@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import type { LessonStageProps } from '../stage/LessonStage'
 import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { interludeFrom } from '@/lib/studylab/trail/action'
-import { placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
+import { assignBlocks, placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
 import { syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
 import type { DisplayLine } from '@/lib/studylab/trail/voice'
@@ -69,9 +69,18 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
     setSizes((prev) => (prev[id]?.w === size.w && prev[id]?.h === size.h ? prev : { ...prev, [id]: size }))
   }, [])
 
+  // The learner's own blocks stay in the station they were made in.
+  const currentStep = run?.currentStep ?? 0
+  const knownBlocks = useRef<Record<string, number>>({})
+  const blocks = useMemo(() => {
+    const next = assignBlocks(nodes, knownBlocks.current, currentStep)
+    knownBlocks.current = next
+    return next
+  }, [nodes, currentStep])
+
   const placement = useMemo(
-    () => placeCards({ nodes, run, queue, detours: [], openDetour: null, blocks: {}, sizes, interlude, notes: [] }),
-    [nodes, run, queue, sizes, interlude],
+    () => placeCards({ nodes, run, queue, detours: [], openDetour: null, blocks, sizes, interlude, notes: [] }),
+    [nodes, run, queue, blocks, sizes, interlude],
   )
   const world = useMemo(
     () => trailLayout({ stations: placement.stations, detours: placement.detours, focusWidth: FOCUS_W, speaker: true }),

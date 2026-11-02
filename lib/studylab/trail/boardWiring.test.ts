@@ -49,6 +49,13 @@ describe('the Trail board', () => {
     expect(html('focus')).toContain('nopan')
   })
 
+  it('the page order is the keyboard order: board, button, Ask Kana, top bar, then the list of finished cards', () => {
+    const src = readFileSync('components/studylab/trail/TrailStage.tsx', 'utf8')
+    const at = ['<TrailCanvas', '<TrailDock', 'aria-label="Ask Kana"', '<TrailTopBar', '<FiledCardsList'].map((s) => src.indexOf(s))
+    expect(at.every((n) => n > 0)).toBe(true)
+    expect(at).toEqual([...at].sort((a, b) => a - b))
+  })
+
   it('off the focus, useDock draws no bar on the Trail, and classic still does', () => {
     const Probe = () => useDock().place(createElement('b', null, 'BAR')) as never
     const html = (look?: 'trail') =>

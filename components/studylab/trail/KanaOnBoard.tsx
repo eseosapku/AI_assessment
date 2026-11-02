@@ -71,7 +71,9 @@ export function KanaOnBoard({ world, focusId, line, chips, hidden, pointer, onMo
 }) {
   const spot = world.speaker ?? restingSpot(world)
   const target = spot?.kana ?? null
-  const mover = useRef<HTMLDivElement>(null)
+  // State, not a ref: the portal mounts a beat after this component does, and the
+  // move below has to run again once there is something to move.
+  const [mover, setMover] = useState<HTMLDivElement | null>(null)
   const body = useRef<HTMLDivElement>(null)
   const sparks = useRef<(HTMLSpanElement | null)[]>([])
   const pos = useRef<Point | null>(null)
@@ -94,7 +96,7 @@ export function KanaOnBoard({ world, focusId, line, chips, hidden, pointer, onMo
   const tx = target?.x
   const ty = target?.y
   useEffect(() => {
-    const el = mover.current
+    const el = mover
     if (!el || tx === undefined || ty === undefined) return
     const to = { x: tx, y: ty }
     const from = pos.current
@@ -138,7 +140,7 @@ export function KanaOnBoard({ world, focusId, line, chips, hidden, pointer, onMo
       place(el, to)
       setFlying(false)
     }
-  }, [tx, ty, focusId])
+  }, [mover, tx, ty, focusId])
 
   // A new line: she talks for a moment, and a right answer gets a hop and a burst of tiles.
   const key = line?.key ?? null
@@ -212,7 +214,7 @@ export function KanaOnBoard({ world, focusId, line, chips, hidden, pointer, onMo
           <span key={i} ref={(el) => void (sparks.current[i] = el)} className="ss-trail-spark" aria-hidden />
         ))}
         {spot && (
-          <div ref={mover} className="ss-trail-kana" style={{ width: KANA_SIZE }}>
+          <div ref={setMover} className="ss-trail-kana" style={{ width: KANA_SIZE }}>
             <div ref={body} style={{ transformOrigin: '50% 100%' }}>
               <KanaLive pose={pose} />
             </div>
