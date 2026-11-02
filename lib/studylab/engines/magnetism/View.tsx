@@ -1,41 +1,33 @@
 'use client'
 import { useId, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import type { SceneMarked, SceneViewProps } from '../types'
-import type { CompassTask, End, FieldTask, InductionTask, MagnetismConfig, MagnetismState, Motion, Pole, PoleTask, Run, Site, Size, Speed, Way } from './config'
+import type { CompassTask, End, FieldTask, InductionTask, MagnetismConfig, MagnetismState, Pole, PoleTask, Run, Site, Size, Way } from './config'
 import {
-  NEEDLE_STEPS, REFERENCE_TEXT, SCALE_STEPS, SIZES, SIZE_NAMES, STEP_DEGREES, THICK, VIEW, WAYS, WAY_NAMES,
   KEY_TURNS, angleFromDelta, turnedTo, bodiesOf, compassSaid, compassVerdict, endsOf, fieldLines, halfOf, hasNeutralPoint, inductionSaid, leftEndOf, movementText, outcomeOf,
-  pointingWords, poleSaid, poleVerdict, readAngles, readEnds, readSize, readWay, referenceSide, sitesOf, toPx, inductionVerdict,
+  pointingWords, poleSaid, poleVerdict, readAngles, readEnds, readSize, readWay, referenceSide, sitesOf, toPx, inductionVerdict, stepsOf, fromSteps,
+  REFERENCE_TEXT, THICK, VIEW,
 } from './config'
 
-// The scene's own drawing sits on a pale plate in both themes, like a diagram in a book, so every part that carries
-// meaning is over 3:1 on it. The controls around it use the design tokens.
-const PLATE = '#F8FAFC'
-const PLATE_EDGE = '#CBD5E1'
-const INK = '#16202A'
-const SOFT = '#475569'
+// Flat palette, each colour over 3:1 on both ss-panel and ss-chip.
+// Literals only — nothing read from config at module load (rule 41).
 const NORTH = '#C81E1E'
 const SOUTH = '#1D4ED8'
 const BARE = '#CBD5E1'
 const LINE = '#3B5B7A'
+const INK = '#16202A'
+const SOFT = '#475569'
 const GOOD = '#047857'
 const BAD = '#B0303C'
 const COPPER = '#B45309'
-const CASE = '#E2E8F0'
-const TAIL = '#F1F5F9'
+const DIAL_BG = '#FFFFFF'
 const FONT = 'system-ui, sans-serif'
 
 const f = (v: number) => (Math.round(v * 10) / 10).toString()
-const own = (o: object, k: string) => Object.prototype.hasOwnProperty.call(o, k)
 
-const BUTTON = 'nodrag inline-flex min-h-[44px] items-center justify-center rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-1.5 text-center text-[13px] font-bold leading-tight text-ss-ink touch-manipulation hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:opacity-50'
-/** A chosen option, set inline: as classes, the base's border-ss-line won and a pick looked like no pick. */
-const CHOSEN = { borderColor: 'var(--subject)', background: 'color-mix(in srgb, var(--subject) 14%, transparent)' }
+const BUTTON = 'nodrag inline-flex min-h-[44px] items-center justify-center rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-1.5 text-center text-[13px] font-bold leading-tight text-ss-ink touch-manipulation whitespace-nowrap hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:opacity-50'
+const CHOSEN = { borderColor: 'var(--subject)', background: 'color-mix(in srgb, var(--subject) 14%, transparent)' } as const
 
-/** The board moves a selected card with the arrows; inside the scene they belong to the scene. */
-const keepArrows = (e: KeyboardEvent) => {
-  if (e.key.startsWith('Arrow')) e.stopPropagation()
-}
+const keepArrows = (e: KeyboardEvent) => { if (e.key.startsWith('Arrow')) e.stopPropagation() }
 
 function Said({ lines }: { lines: string[] }) {
   if (!lines.length) return null
@@ -51,88 +43,29 @@ function Said({ lines }: { lines: string[] }) {
 }
 
 // ---------------------------------------------------------------------------
-// One choice from a few, as radio buttons with one stop on Tab and the arrows to move.
-
-/** The option an arrow key moves to: forward from nothing lands on the first, back on the last; it wraps. */
-export function stepChoice(ids: readonly string[], value: string, move: number): string {
-  const at = ids.indexOf(value)
-  return ids[at < 0 ? (move > 0 ? 0 : ids.length - 1) : (at + move + ids.length) % ids.length]
-}
-
-function Choice<T extends string>({ legend, options, value, onPick, locked, off }: {
-  legend: string; options: { id: T; label: string }[]; value: T | ''; onPick(id: T): void; locked: boolean; off?: boolean
-}) {
-  const id = useId()
-  const refs = useRef<Record<string, HTMLButtonElement | null>>({})
-  const ids = options.map((o) => o.id)
-  const pick = (to: T) => {
-    if (!locked && !off) onPick(to)
-  }
-  const onKey = (e: KeyboardEvent) => {
-    const move = ({ ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 } as Record<string, number>)[e.key]
-    if (move === undefined || locked || off) return
-    e.preventDefault()
-    e.stopPropagation()
-    const next = stepChoice(ids, value, move) as T
-    pick(next)
-    refs.current[next]?.focus()
-  }
-  return (
-    <div className="flex w-full flex-col gap-1">
-      <p id={`${id}-l`} className="text-[13px] font-extrabold text-ss-ink">{legend}</p>
-      <div role="radiogroup" aria-labelledby={`${id}-l`} aria-disabled={off || undefined} className="grid gap-2" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
-        {options.map((o) => {
-          const chosen = value === o.id
-          return (
-            <button
-              key={o.id}
-              type="button"
-              role="radio"
-              aria-checked={chosen}
-              aria-disabled={locked || off || undefined}
-              ref={(el) => { refs.current[o.id] = el }}
-              tabIndex={off ? -1 : chosen || (!value && o.id === ids[0]) ? 0 : -1}
-              onClick={() => pick(o.id)}
-              onKeyDown={onKey}
-              className={`${BUTTON} ${off ? 'opacity-50' : ''}`}
-              style={chosen ? CHOSEN : undefined}
-            >
-              {o.label}
-            </button>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-// ---------------------------------------------------------------------------
 // The field picture: magnets, field lines, plotting compasses.
 
-// In pixels: 12 is NEEDLE * VIEW.scale and 16 is DIAL * VIEW.scale (the tests hold them equal). Not read from config at load, which
-// imports this file: a value used before config has loaded would be undefined.
+// Literals, not config constants: config imports this file so its values are
+// not ready at module load. The test checks they agree.
 export const SIZE = { l: 12, w: 3.6, dial: 16, hit: 24 } as const
 
-/** A compass needle drawn pointing right, turned to `angle` (anticlockwise, as the field is measured). Its north-seeking end is red and pointed. */
 function Needle({ x, y, angle, ghost }: { x: number; y: number; angle: number; ghost?: boolean }) {
   const { l, w } = SIZE
   const stroke = ghost ? GOOD : INK
   return (
     <g transform={`translate(${f(x)} ${f(y)}) rotate(${-angle})`} pointerEvents="none">
       <polygon points={`${l},0 0,${-w} 0,${w}`} fill={ghost ? 'none' : NORTH} stroke={stroke} strokeWidth={ghost ? 1.8 : 1} strokeDasharray={ghost ? '3 2' : undefined} strokeLinejoin="round" />
-      <polygon points={`${-l},0 0,${-w} 0,${w}`} fill={ghost ? 'none' : TAIL} stroke={stroke} strokeWidth={ghost ? 1.8 : 1} strokeDasharray={ghost ? '3 2' : undefined} strokeLinejoin="round" />
+      <polygon points={`${-l},0 0,${-w} 0,${w}`} fill={ghost ? 'none' : '#F1F5F9'} stroke={stroke} strokeWidth={ghost ? 1.8 : 1} strokeDasharray={ghost ? '3 2' : undefined} strokeLinejoin="round" />
       <circle r={2} fill={stroke} />
     </g>
   )
 }
 
-/** Where a compass's number sits: up and in from its dial, towards the middle so it never leaves the picture. */
 export function badgeOf(site: { x: number; y: number }): { x: number; y: number; r: number } {
   const c = toPx(site.x, site.y)
   return { x: c.x + (site.x < 0 ? 19 : -19), y: c.y - 19, r: 8.5 }
 }
 
-/** Where an end's letter sits: just under the end it names. */
 export function markerOf(end: { x: number }): { x: number; y: number; r: number } {
   const c = toPx(end.x, -(THICK + 0.52))
   return { x: c.x, y: c.y, r: 9 }
@@ -148,11 +81,11 @@ function Compass({ site, angle, ghost, mark, focused, live }: {
     <g>
       {live && <circle cx={f(c.x)} cy={f(c.y)} r={SIZE.hit} fill="transparent" />}
       {focused && <circle cx={f(c.x)} cy={f(c.y)} r={SIZE.dial + 5} fill="none" stroke="var(--subject)" strokeWidth={3} />}
-      <circle cx={f(c.x)} cy={f(c.y)} r={SIZE.dial} fill="#FFFFFF" stroke={ring} strokeWidth={mark ? 2.4 : 1.8} strokeDasharray={mark === 'wrong' ? '4 3' : undefined} />
+      <circle cx={f(c.x)} cy={f(c.y)} r={SIZE.dial} fill={DIAL_BG} stroke={ring} strokeWidth={mark ? 2.4 : 1.8} strokeDasharray={mark === 'wrong' ? '4 3' : undefined} />
       {ghost !== undefined && (
         <g aria-hidden="true">
           <Needle x={c.x} y={c.y} angle={ghost} ghost />
-          <polygon points="10,0 0,-5.5 0,5.5" fill={GOOD} stroke="#FFFFFF" strokeWidth={1.2} strokeLinejoin="round" transform={`translate(${f(c.x)} ${f(c.y)}) rotate(${-ghost}) translate(${SIZE.dial + 2} 0)`} />
+          <polygon points="10,0 0,-5.5 0,5.5" fill={GOOD} stroke={DIAL_BG} strokeWidth={1.2} strokeLinejoin="round" transform={`translate(${f(c.x)} ${f(c.y)}) rotate(${-ghost}) translate(${SIZE.dial + 2} 0)`} />
         </g>
       )}
       <Needle x={c.x} y={c.y} angle={angle} />
@@ -166,12 +99,11 @@ function Compass({ site, angle, ghost, mark, focused, live }: {
   )
 }
 
-/** A static compass on a pole card: it shows which way the field points and cannot be turned. */
 function FixedCompass({ site }: { site: Site }) {
   const c = toPx(site.x, site.y)
   return (
     <g>
-      <circle cx={f(c.x)} cy={f(c.y)} r={SIZE.dial} fill="#FFFFFF" stroke={INK} strokeWidth={1.8} />
+      <circle cx={f(c.x)} cy={f(c.y)} r={SIZE.dial} fill={DIAL_BG} stroke={INK} strokeWidth={1.8} />
       <Needle x={c.x} y={c.y} angle={site.truth} />
     </g>
   )
@@ -248,11 +180,10 @@ const ARRANGEMENT_ALT = {
   repel: 'Two bar magnets end to end',
 } as const
 
-/** The poles of a compass card's magnets, left to right, as they are labelled on the picture. */
 const polesWords = (ends: End[]) => ends.map((e) => (e.sign === 'N' ? 'north' : 'south')).join(', ')
 
 // ---------------------------------------------------------------------------
-// Compass cards.
+// Compass cards: turn the needles to show the field.
 
 function CompassCard({ task, state, setState, marked, locked }: {
   task: CompassTask; state: MagnetismState; setState(next: MagnetismState): void; marked: SceneMarked; locked: boolean
@@ -289,7 +220,7 @@ function CompassCard({ task, state, setState, marked, locked }: {
   }
   const onKey = (i: number) => (e: KeyboardEvent) => {
     if (!live) return
-    const step = own(KEY_TURNS, e.key) ? KEY_TURNS[e.key] : undefined
+    const step = (KEY_TURNS as Record<string, number>)[e.key]
     if (step === undefined) return
     e.preventDefault()
     e.stopPropagation()
@@ -305,11 +236,10 @@ function CompassCard({ task, state, setState, marked, locked }: {
         <svg
           ref={svg}
           viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
-          className={`block w-full select-none ${live ? 'touch-none' : ''}`}
+          className={`block w-full select-none rounded-2xl border border-ss-line bg-ss-chip ${live ? 'touch-none' : ''}`}
           role="group"
           aria-label={`${ARRANGEMENT_ALT[task.arrangement]}, with its poles labelled N and S. From left to right the poles are ${polesWords(ends)}. ${sites.length} plotting compasses stand near ${task.arrangement === 'single' ? 'it' : 'them'}, numbered 1 to ${sites.length}.`}
         >
-          <rect width={VIEW.w} height={VIEW.h} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
           <defs><clipPath id={clip}><rect width={VIEW.w} height={VIEW.h} rx={16} /></clipPath></defs>
           {named && <Lines lines={lines} clip={clip} />}
           <Magnets task={task} ends={ends} named={ends.map((e) => e.sign)} />
@@ -372,7 +302,9 @@ function CompassCard({ task, state, setState, marked, locked }: {
 }
 
 // ---------------------------------------------------------------------------
-// Pole cards.
+// Pole cards: tap each end of the magnets to name it N or S.
+
+const POLE_CYCLE: (Pole | '')[] = ['', 'N', 'S']
 
 function PoleCard({ task, state, setState, marked, locked }: {
   task: PoleTask; state: MagnetismState; setState(next: MagnetismState): void; marked: SceneMarked; locked: boolean
@@ -388,15 +320,46 @@ function PoleCard({ task, state, setState, marked, locked }: {
   const verdict = poleVerdict(task, state)
   const shownAs = named ? truth : given
 
-  const name = (i: number, to: Pole) => {
+  const cycle = (i: number) => {
+    if (locked) return
+    const at = POLE_CYCLE.indexOf(given[i])
+    const to = POLE_CYCLE[(at + 1) % POLE_CYCLE.length]
     const next = given.slice()
     next[i] = to
     setState({ ends: next })
-    setSaid(`End ${ends[i].letter} named a ${to === 'N' ? 'north' : 'south'} pole.`)
+    setSaid(to ? `End ${ends[i].letter} named a ${to === 'N' ? 'north' : 'south'} pole.` : `End ${ends[i].letter} cleared.`)
   }
-  const said_ = named ? poleSaid(task, state, marked === 'wrong' ? 'wrong' : marked === 'shown' ? 'shown' : 'right') : []
+  const onEndKey = (i: number) => (e: KeyboardEvent) => {
+    if (locked) return
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault()
+      e.stopPropagation()
+      cycle(i)
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      e.stopPropagation()
+      const next = given.slice()
+      next[i] = 'N'
+      setState({ ends: next })
+      setSaid(`End ${ends[i].letter} named a north pole.`)
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      e.stopPropagation()
+      const next = given.slice()
+      next[i] = 'S'
+      setState({ ends: next })
+      setSaid(`End ${ends[i].letter} named a south pole.`)
+    } else if (e.key === 'Delete' || e.key === 'Backspace') {
+      e.preventDefault()
+      e.stopPropagation()
+      const next = given.slice()
+      next[i] = ''
+      setState({ ends: next })
+      setSaid(`End ${ends[i].letter} cleared.`)
+    }
+  }
 
-  // What the lines do at each end, as seen: they run out of it or into it. Not which pole that makes it.
+  const said_ = named ? poleSaid(task, state, marked === 'wrong' ? 'wrong' : marked === 'shown' ? 'shown' : 'right') : []
   const flow = ends.map((e) => `At end ${e.letter} the lines run ${e.sign === 'N' ? 'out of' : 'into'} the magnet.`).join(' ')
 
   return (
@@ -404,11 +367,10 @@ function PoleCard({ task, state, setState, marked, locked }: {
       <figure className="m-0 w-full" style={{ maxWidth: VIEW.w }}>
         <svg
           viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
-          className="block w-full select-none"
-          role="img"
+          className="block w-full select-none rounded-2xl border border-ss-line bg-ss-chip"
+          role="group"
           aria-label={`${ARRANGEMENT_ALT[task.arrangement]}, with field lines drawn round ${task.arrangement === 'single' ? 'it' : 'them'}, each with an arrow on it, and ${sites.length} compasses. The ends are lettered ${ends.map((e) => e.letter).join(', ')} from left to right. ${flow}`}
         >
-          <rect width={VIEW.w} height={VIEW.h} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
           <defs><clipPath id={clip}><rect width={VIEW.w} height={VIEW.h} rx={16} /></clipPath></defs>
           <Lines lines={lines} clip={clip} />
           <Magnets task={task} ends={ends} named={shownAs} />
@@ -417,31 +379,36 @@ function PoleCard({ task, state, setState, marked, locked }: {
           {ends.map((e) => {
             const m = markerOf(e)
             const bad = named && verdict.wrong.includes(e.id)
+            const current = shownAs[e.id]
             return (
-              <g key={e.id} aria-hidden="true">
-                <circle cx={f(m.x)} cy={f(m.y)} r={m.r} fill={INK} stroke={bad ? BAD : '#FFFFFF'} strokeWidth={bad ? 2.5 : 1.5} />
-                <text x={f(m.x)} y={f(m.y + 4.5)} textAnchor="middle" fill="#FFFFFF" fontSize={12} fontWeight={700} fontFamily={FONT}>{e.letter}</text>
+              <g
+                key={e.id}
+                role="button"
+                tabIndex={locked ? -1 : 0}
+                aria-label={`End ${e.letter}${current ? `: ${current === 'N' ? 'north' : 'south'} pole` : ' (unnamed)'}. ${locked ? '' : 'Tap to cycle north, south, blank. Or press N or S.'}`}
+                onClick={() => cycle(e.id)}
+                onKeyDown={onEndKey(e.id)}
+                className={`outline-none cursor-pointer focus-visible:outline-none ${locked ? 'pointer-events-none' : ''}`}
+              >
+                {!locked && (
+                  <rect x={f(m.x - 14)} y={f(m.y - 14)} width={28} height={28} rx={14} fill="transparent" />
+                )}
+                <circle cx={f(m.x)} cy={f(m.y)} r={m.r} fill={current ? (current === 'N' ? NORTH : SOUTH) : INK} stroke={bad ? BAD : '#FFFFFF'} strokeWidth={bad ? 2.5 : 1.5} />
+                <text x={f(m.x)} y={f(m.y + 4.5)} textAnchor="middle" fill="#FFFFFF" fontSize={12} fontWeight={700} fontFamily={FONT}>{current || e.letter}</text>
+                {!locked && !current && (
+                  <g pointerEvents="none" opacity={0.5}>
+                    <text x={f(m.x)} y={f(m.y - 14)} textAnchor="middle" fill={INK} fontSize={12} fontWeight={700} fontFamily={FONT}>tap</text>
+                  </g>
+                )}
               </g>
             )
           })}
         </svg>
         <figcaption className="mt-1 text-center text-[12px] font-semibold text-ss-slate">
-          {ARRANGEMENT_ALT[task.arrangement]}. An arrow on a field line shows which way the field points.
+          {ARRANGEMENT_ALT[task.arrangement]}. An arrow on a field line shows which way the field points. Tap an end to name it.
           {named && hasNeutralPoint(task.arrangement) ? ' × marks the neutral point.' : ''}
         </figcaption>
       </figure>
-      <div className={`grid w-full gap-x-3 gap-y-2 ${ends.length > 2 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-        {ends.map((e) => (
-          <Choice<Pole>
-            key={e.id}
-            legend={`End ${e.letter}`}
-            options={[{ id: 'N', label: 'North pole' }, { id: 'S', label: 'South pole' }]}
-            value={given[e.id]}
-            onPick={(to) => name(e.id, to)}
-            locked={locked}
-          />
-        ))}
-      </div>
       <p className="sr-only" aria-live="polite">{said}</p>
       <Said lines={said_} />
     </div>
@@ -449,35 +416,35 @@ function PoleCard({ task, state, setState, marked, locked }: {
 }
 
 // ---------------------------------------------------------------------------
-// Induction cards: a magnet, a coil and a centre-zero meter, twice -- the reference, then the case.
+// Induction cards: drag the meter needle to predict its deflection.
 
-export const PANEL = { w: 360, h: 150 } as const
-export const METER = { px: 292, py: 100, needle: 46, arc: 56, window: { x: 244, y: 20, w: 96, h: 88 } } as const
-const COIL = { x0: 118, dx: 11, turns: 6, rx: 6.5, ry: 30, cy: 82 } as const
-const MAGNET = { w: 88, h: 24, cy: 82 } as const
+export const PANEL = { w: 360, h: 130 } as const
+const METER = { px: 292, py: 88, needle: 42, arc: 52, window: { x: 244, y: 12, w: 96, h: 80 } } as const
+const COIL = { x0: 118, dx: 11, turns: 6, rx: 6.5, ry: 26, cy: 72 } as const
+const MAGNET = { w: 88, h: 22, cy: 72 } as const
+
+type Speed = 'same' | 'faster' | 'slower'
 const ARROW_LEN: Record<Speed, number> = { slower: 34, same: 56, faster: 80 }
 
-/** The steps a needle is drawn at: left is negative, right positive. */
-export function stepsOf(way: Way | '', size: Size | '' | null): number | null {
-  if (!way) return null
-  if (way === 'none') return 0
-  const s = NEEDLE_STEPS[size || 'same']
-  return way === 'left' ? -s : s
-}
+const STEP_DEG = 9
+const SCALE_N = 5
 
 const tip = (steps: number, len: number) => {
-  const a = (steps * STEP_DEGREES * Math.PI) / 180
+  const a = (steps * STEP_DEG * Math.PI) / 180
   return { x: METER.px + len * Math.sin(a), y: METER.py - len * Math.cos(a) }
 }
 
-function Meter({ truth, mine, refSteps }: { truth: number | null; mine: number | null; refSteps: number | null }) {
+function Meter({ truth, mine, refSteps, draggable, onDrag }: {
+  truth: number | null; mine: number | null; refSteps: number | null
+  draggable?: boolean; onDrag?: (steps: number) => void
+}) {
   const shown = truth ?? mine ?? 0
   const t = tip(shown, METER.needle)
   const me = mine !== null && truth !== null && mine !== truth ? tip(mine, METER.needle) : null
   const w = METER.window
   const ticks = []
-  for (let k = -SCALE_STEPS; k <= SCALE_STEPS; k++) {
-    const len = k === 0 || Math.abs(k) === SCALE_STEPS ? 10 : 6
+  for (let k = -SCALE_N; k <= SCALE_N; k++) {
+    const len = k === 0 || Math.abs(k) === SCALE_N ? 10 : 6
     const a = tip(k, METER.arc)
     const b = tip(k, METER.arc - len)
     ticks.push(<line key={k} x1={f(a.x)} y1={f(a.y)} x2={f(b.x)} y2={f(b.y)} stroke={INK} strokeWidth={k === 0 ? 2 : 1.4} />)
@@ -488,23 +455,29 @@ function Meter({ truth, mine, refSteps }: { truth: number | null; mine: number |
     const r = tip(refSteps + 0.6, METER.arc + 11)
     return `${f(a.x)},${f(a.y)} ${f(l.x)},${f(l.y)} ${f(r.x)},${f(r.y)}`
   })()
+
+  const needleColor = truth === null && mine !== null ? SOUTH : INK
+
   return (
     <g>
-      <rect x={236} y={12} width={112} height={128} rx={10} fill={CASE} stroke={INK} strokeWidth={2} />
+      <rect x={236} y={4} width={112} height={118} rx={10} fill="#E2E8F0" stroke={INK} strokeWidth={2} />
       <rect x={w.x} y={w.y} width={w.w} height={w.h} rx={6} fill="#FFFFFF" stroke="#94A3B8" strokeWidth={1.2} />
       {ticks}
-      <text x={METER.px} y={METER.py - METER.arc - 8} textAnchor="middle" fill={INK} fontSize={12} fontWeight={700} fontFamily={FONT}>0</text>
+      <text x={METER.px} y={METER.py - METER.arc - 6} textAnchor="middle" fill={INK} fontSize={12} fontWeight={700} fontFamily={FONT}>0</text>
       {marker && <polygon points={marker} fill={COPPER} stroke="#FFFFFF" strokeWidth={0.8} />}
       {me && <line x1={METER.px} y1={METER.py} x2={f(me.x)} y2={f(me.y)} stroke={SOUTH} strokeWidth={2.6} strokeDasharray="4 3" strokeLinecap="round" />}
-      <line x1={METER.px} y1={METER.py} x2={f(t.x)} y2={f(t.y)} stroke={truth === null && mine !== null ? SOUTH : INK} strokeWidth={3} strokeLinecap="round" />
-      {mine !== null && truth === null && <circle cx={METER.px} cy={METER.py} r={9} fill="none" stroke={SOUTH} strokeWidth={2.4} />}
-      <circle cx={METER.px} cy={METER.py} r={5} fill={truth === null && mine !== null ? SOUTH : INK} />
+      <line x1={METER.px} y1={METER.py} x2={f(t.x)} y2={f(t.y)} stroke={needleColor} strokeWidth={3} strokeLinecap="round" />
+      {draggable && mine !== null && (
+        <circle cx={f(t.x)} cy={f(t.y)} r={8} fill="none" stroke={SOUTH} strokeWidth={2.4} />
+      )}
+      <circle cx={METER.px} cy={METER.py} r={5} fill={needleColor} />
     </g>
   )
 }
 
-function Panel({ pole, motion, speed, truth, mine, refSteps, label }: {
-  pole: Pole; motion: Motion; speed: Speed; truth: number | null; mine: number | null; refSteps: number | null; label: string
+function InductionPanel({ pole, motion, speed, truth, mine, refSteps, label, draggable, onDrag, svgRef }: {
+  pole: Pole; motion: string; speed: Speed; truth: number | null; mine: number | null; refSteps: number | null; label: string
+  draggable?: boolean; onDrag?: (steps: number) => void; svgRef?: React.RefObject<SVGSVGElement | null>
 }) {
   const inside = motion !== 'in'
   const rightEnd = inside ? 150 : 96
@@ -514,22 +487,21 @@ function Panel({ pole, motion, speed, truth, mine, refSteps, label }: {
   const rightPole: Pole = pole
   const leftPole: Pole = pole === 'N' ? 'S' : 'N'
   const half = (x: number, p: Pole) => <rect x={x} y={top} width={MAGNET.w / 2} height={MAGNET.h} fill={TINTS[p].fill} />
-  // The letters sit over the coil's near turns, ringed in their own colour so the copper never cuts across them.
   const letter = (x: number, p: Pole) => (
     <text x={x + MAGNET.w / 4} y={MAGNET.cy + 5} textAnchor="middle" fill="#FFFFFF" stroke={TINTS[p].fill} strokeWidth={4} paintOrder="stroke" fontSize={14} fontWeight={800} fontFamily={FONT}>{p}</text>
   )
   const arrowLen = ARROW_LEN[speed]
   const toRight = motion === 'in'
-  const ay = 40
+  const ay = 34
   const ax = (motion === 'in' ? 52 : 106) + (toRight ? -arrowLen / 2 : arrowLen / 2)
   const bx = ax + (toRight ? arrowLen : -arrowLen)
   const verb = motion === 'in' ? 'pushed in' : motion === 'out' ? 'pulled out' : 'held still'
   const caption = motion === 'still' ? verb : speed === 'faster' ? `${verb}, faster` : speed === 'slower' ? `${verb}, slower` : verb
   const labelX = motion === 'still' ? mid : (ax + bx) / 2
   const turns = Array.from({ length: COIL.turns }, (_, k) => COIL.x0 + COIL.dx * k)
+
   return (
-    <svg viewBox={`0 0 ${PANEL.w} ${PANEL.h}`} className="block w-full select-none" role="img" aria-label={label}>
-      <rect width={PANEL.w} height={PANEL.h} rx={14} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+    <svg ref={svgRef as React.LegacyRef<SVGSVGElement>} viewBox={`0 0 ${PANEL.w} ${PANEL.h}`} className={`block w-full select-none rounded-2xl border border-ss-line bg-ss-chip ${draggable ? 'touch-none' : ''}`} role={draggable ? 'group' : 'img'} aria-label={label}>
       <g fill="none" stroke={COPPER} strokeWidth={3} strokeLinecap="round">
         {turns.map((x) => <path key={`b${x}`} d={`M${x} ${COIL.cy - COIL.ry} A${COIL.rx} ${COIL.ry} 0 0 0 ${x} ${COIL.cy + COIL.ry}`} opacity={0.55} />)}
       </g>
@@ -542,8 +514,8 @@ function Panel({ pole, motion, speed, truth, mine, refSteps, label }: {
       {letter(left, leftPole)}
       {letter(mid, rightPole)}
       <g fill="none" stroke={SOFT} strokeWidth={2} strokeLinejoin="round">
-        <path d={`M${COIL.x0 + COIL.dx * (COIL.turns - 1)} ${COIL.cy - COIL.ry} L206 ${COIL.cy - COIL.ry} L206 66 L236 66`} />
-        <path d={`M${COIL.x0 + COIL.dx * (COIL.turns - 1)} ${COIL.cy + COIL.ry} L206 ${COIL.cy + COIL.ry} L206 98 L236 98`} />
+        <path d={`M${COIL.x0 + COIL.dx * (COIL.turns - 1)} ${COIL.cy - COIL.ry} L206 ${COIL.cy - COIL.ry} L206 56 L236 56`} />
+        <path d={`M${COIL.x0 + COIL.dx * (COIL.turns - 1)} ${COIL.cy + COIL.ry} L206 ${COIL.cy + COIL.ry} L206 88 L236 88`} />
       </g>
       {motion !== 'still' && (
         <g stroke={INK} fill={INK} strokeWidth={speed === 'faster' ? 4 : 3} strokeLinecap="round">
@@ -551,13 +523,13 @@ function Panel({ pole, motion, speed, truth, mine, refSteps, label }: {
           <polygon stroke="none" points={toRight ? `${f(bx)},${ay} ${f(bx - 10)},${ay - 6} ${f(bx - 10)},${ay + 6}` : `${f(bx)},${ay} ${f(bx + 10)},${ay - 6} ${f(bx + 10)},${ay + 6}`} />
         </g>
       )}
-      <text x={f(labelX)} y={26} textAnchor="middle" fill={INK} fontSize={12} fontWeight={700} fontFamily={FONT}>{caption}</text>
-      <Meter truth={truth} mine={mine} refSteps={refSteps} />
+      <text x={f(labelX)} y={22} textAnchor="middle" fill={INK} fontSize={12} fontWeight={700} fontFamily={FONT}>{caption}</text>
+      <Meter truth={truth} mine={mine} refSteps={refSteps} draggable={draggable} onDrag={onDrag} />
     </svg>
   )
 }
 
-const sideSteps = (side: 'left' | 'right') => (side === 'left' ? -NEEDLE_STEPS.same : NEEDLE_STEPS.same)
+const sideSteps = (side: 'left' | 'right') => (side === 'left' ? -3 : 3)
 const needleWords = (way: Way | '', size: Size | '') =>
   !way ? 'at zero' : way === 'none' ? 'at zero' : `deflected to the ${way}${size ? `, ${size === 'further' ? 'further than' : size === 'less' ? 'less far than' : 'as far as'} the reference` : ''}`
 
@@ -565,6 +537,8 @@ function InductionCard({ task, state, setState, marked, locked }: {
   task: InductionTask; state: MagnetismState; setState(next: MagnetismState): void; marked: SceneMarked; locked: boolean
 }) {
   const [said, setSaid] = useState('')
+  const caseSvg = useRef<SVGSVGElement>(null)
+  const dragging = useRef(false)
   const way = readWay(state)
   const size = readSize(state)
   const named = marked !== 'idle'
@@ -574,53 +548,86 @@ function InductionCard({ task, state, setState, marked, locked }: {
   const mine = stepsOf(way, size)
   const truth = named ? stepsOf(want.way, want.size) : null
   const shownMine = named ? (verdict.ok ? null : mine) : mine
-  const speed: Speed = task.speed ?? 'same'
+  const speed: Speed = (task.speed ?? 'same') as Speed
   const lines = named ? inductionSaid(task, state, marked === 'wrong' ? 'wrong' : marked === 'shown' ? 'shown' : 'right') : []
 
-  const pickWay = (to: Way) => {
-    setState(to === 'none' ? { way: to, size: '' } : { way: to, size })
-    setSaid(`${WAY_NAMES[to]} chosen for the way the needle swings.`)
+  const dragToAngle = (clientX: number, clientY: number) => {
+    const el = caseSvg.current
+    if (!el || locked) return
+    const box = el.getBoundingClientRect()
+    const scale = box.width / PANEL.w
+    const cx = box.left + METER.px * scale
+    const cy = box.top + METER.py * scale
+    const dx = clientX - cx
+    const dy = cy - clientY
+    if (Math.hypot(dx, dy) < 8) return
+    const rawDeg = (Math.atan2(dx, dy) * 180) / Math.PI
+    const rawSteps = rawDeg / STEP_DEG
+    const clamped = Math.max(-4.5, Math.min(4.5, rawSteps))
+    const { way: w, size: s } = fromSteps(clamped)
+    setState({ way: w, size: s })
+    const sName = s === 'further' ? 'further than' : s === 'less' ? 'less far than' : s === 'same' ? 'as far as' : ''
+    setSaid(w === 'none' ? 'Needle at zero.' : `Needle to the ${w}${sName ? `, ${sName} the reference` : ''}.`)
   }
-  const pickSize = (to: Size) => {
-    setState({ way, size: to })
-    setSaid(`${SIZE_NAMES[to]} chosen for how far the needle swings.`)
+
+  const onNeedleKey = (e: KeyboardEvent) => {
+    if (locked) return
+    const step = { ArrowRight: 1.5, ArrowUp: 1.5, ArrowLeft: -1.5, ArrowDown: -1.5 }[e.key]
+    if (step === undefined) return
+    e.preventDefault()
+    e.stopPropagation()
+    const current = mine ?? 0
+    const next = Math.max(-4.5, Math.min(4.5, current + step))
+    const { way: w, size: s } = fromSteps(next)
+    setState({ way: w, size: s })
+    const sName = s === 'further' ? 'further than' : s === 'less' ? 'less far than' : s === 'same' ? 'as far as' : ''
+    setSaid(w === 'none' ? 'Needle at zero.' : `Needle to the ${w}${sName ? `, ${sName} the reference` : ''}.`)
   }
 
   return (
-    <div className="nodrag flex w-full max-w-[380px] flex-col items-center gap-2.5" onKeyDown={keepArrows}>
+    <div className="nodrag flex w-full max-w-[380px] flex-col items-center gap-2" onKeyDown={keepArrows}>
       <section className="flex w-full flex-col gap-1" aria-label="The reference case">
-        <h3 className="text-[13px] font-extrabold text-ss-ink">The reference case</h3>
-        <Panel
+        <h3 className="text-[13px] font-extrabold text-ss-ink">Reference</h3>
+        <InductionPanel
           pole="N" motion="in" speed="same" truth={sideSteps(ref)} mine={null} refSteps={null}
           label={`${REFERENCE_TEXT} The needle of the centre-zero meter is deflected to the ${ref} of zero.`}
         />
         <p className="text-[12px] font-semibold leading-snug text-ss-slate">{REFERENCE_TEXT} The needle swings to the {ref}.</p>
       </section>
       <section className="flex w-full flex-col gap-1" aria-label="The case to predict">
-        <h3 className="text-[13px] font-extrabold text-ss-ink">The case to predict</h3>
-        <Panel
-          pole={task.pole} motion={task.motion} speed={speed} truth={truth} mine={shownMine} refSteps={sideSteps(ref)}
-          label={`${movementText(task)} The needle of the centre-zero meter is ${named ? 'shown as it really moves' : mine === null ? 'at zero' : needleWords(way, size)}.`}
-        />
+        <h3 className="text-[13px] font-extrabold text-ss-ink">Predict</h3>
+        <div
+          role="slider"
+          tabIndex={locked ? -1 : 0}
+          aria-label="Drag the meter needle to your prediction, or use the arrow keys"
+          aria-valuemin={-4.5}
+          aria-valuemax={4.5}
+          aria-valuenow={mine ?? 0}
+          aria-valuetext={`Needle ${named ? 'shown as it really moves' : mine === null ? 'at zero (no prediction yet)' : needleWords(way, size)}`}
+          aria-readonly={locked || undefined}
+          onKeyDown={onNeedleKey}
+          onPointerDown={(e) => {
+            if (locked) return
+            dragging.current = true
+            e.currentTarget.setPointerCapture?.(e.pointerId)
+            dragToAngle(e.clientX, e.clientY)
+          }}
+          onPointerMove={(e) => dragging.current && dragToAngle(e.clientX, e.clientY)}
+          onPointerUp={() => { dragging.current = false }}
+          onPointerCancel={() => { dragging.current = false }}
+          className={`outline-none focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] rounded-2xl ${locked ? '' : 'cursor-grab'}`}
+        >
+          <InductionPanel
+            svgRef={caseSvg}
+            pole={task.pole} motion={task.motion} speed={speed} truth={truth} mine={shownMine} refSteps={sideSteps(ref)}
+            label={`${movementText(task)} The needle of the centre-zero meter is ${named ? 'shown as it really moves' : mine === null ? 'at zero' : needleWords(way, size)}.`}
+            draggable={!locked}
+          />
+        </div>
         <p className="text-[12px] font-semibold leading-snug text-ss-slate">
-          {movementText(task)} The small triangle on the meter marks how far the needle swung in the reference.
+          {movementText(task)} Drag the needle to your prediction. The triangle marks the reference.
         </p>
       </section>
-      <Choice<Way>
-        legend="Which way does the needle swing?"
-        options={WAYS.map((w) => ({ id: w, label: WAY_NAMES[w] }))}
-        value={way}
-        onPick={pickWay}
-        locked={locked}
-      />
-      <Choice<Size>
-        legend={way === 'none' ? 'How far, compared with the reference? (none needed)' : 'How far, compared with the reference?'}
-        options={SIZES.map((s) => ({ id: s, label: SIZE_NAMES[s] }))}
-        value={size}
-        onPick={pickSize}
-        locked={locked}
-        off={way === 'none'}
-      />
       <p className="sr-only" aria-live="polite">{said}</p>
       <Said lines={lines} />
     </div>
@@ -636,4 +643,3 @@ export function MagnetismView({ config, state, setState, marked, locked }: Scene
   if (task.kind === 'pole') return <PoleCard task={task} {...common} />
   return <InductionCard task={task} {...common} />
 }
-

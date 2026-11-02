@@ -569,6 +569,24 @@ export const NEEDLE_STEPS: Record<Size, number> = { less: 1.5, same: 3, further:
 export const SCALE_STEPS = 5
 export const STEP_DEGREES = 9
 
+/** The needle's drawn position, as steps from centre. Null when no prediction has been made. */
+export function stepsOf(way: Way | '', size: Size | '' | null): number | null {
+  if (!way) return null
+  if (way === 'none') return 0
+  const s = NEEDLE_STEPS[size || 'same']
+  return way === 'left' ? -s : s
+}
+
+/** Map a needle position (in steps from centre) to way and size: the reverse of stepsOf. */
+export function fromSteps(steps: number): { way: Way; size: Size | '' } {
+  if (Math.abs(steps) < 0.75) return { way: 'none', size: '' }
+  const way: Way = steps < 0 ? 'left' : 'right'
+  const abs = Math.abs(steps)
+  if (abs < 2.25) return { way, size: 'less' }
+  if (abs < 3.75) return { way, size: 'same' }
+  return { way, size: 'further' }
+}
+
 export const WAY_NAMES: Record<Way, string> = { left: 'Left', none: 'Stays at zero', right: 'Right' }
 export const SIZE_NAMES: Record<Size, string> = { less: 'Less far', same: 'Same distance', further: 'Further' }
 export const WAYS: Way[] = ['left', 'none', 'right']
