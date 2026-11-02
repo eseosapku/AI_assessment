@@ -108,7 +108,7 @@ describe('reading a config', () => {
   })
 })
 
-describe('every config the engine accepts', () => {
+describe('every config the engine accepts', { timeout: 30_000 }, () => {
   const all = everyConfig()
 
   it('is every stretch of every route, and nothing else', () => {

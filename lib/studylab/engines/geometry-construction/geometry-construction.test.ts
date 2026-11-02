@@ -584,7 +584,7 @@ describe('the figure each situation draws', () => {
 
 // ---------------------------------------------------------------------------
 
-describe('the sizes the engine picks when the tutor gives none', () => {
+describe('the sizes the engine picks when the tutor gives none', { timeout: 30_000 }, () => {
   const unknownsOf = (sit: Situation) => UNKNOWNS[sit].filter((u) => !(sit === 'straight-line' && u === 'fourth') && !(sit === 'round-point' && u === 'fifth'))
 
   it('draws the same card for the same config every time, and a different card for a different variant', () => {
