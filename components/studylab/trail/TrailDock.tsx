@@ -30,6 +30,12 @@ export const TrailDock = forwardRef<HTMLDivElement, {
         {/* Cards draw their bar in here, and it stays mounted while something
             else has the button. React never renders into it. */}
         <div ref={slotRef} className={`ss-trail-slot empty:hidden${action.kind === 'bar' ? '' : ' hidden'}`} />
+        {(action.kind === 'bar' || action.kind === 'continue') && action.retry && (
+          <button type="button" onClick={onRetry} className="ss-press ss-trail-retry">
+            <RotateCcw className="h-4 w-4" aria-hidden />
+            {action.retry}
+          </button>
+        )}
         {action.kind === 'summary' ? (
           <div className="flex items-center gap-2">
             {onSummary && (

@@ -226,3 +226,19 @@ describe('trailSpotlight with closed detours', () => {
     expect(trailSpotlight({ nodes, run, explicit: ['side'], skip: new Set(['side']) })).toEqual(['side'])
   })
 })
+
+describe('a detour from an open check', () => {
+  const quiz = (id: string, state: string) => node(id, 2, { type: 'quiz', data: { kind: 'quiz', step: 2, quiz: { checkpointId: 'cp', state } } })
+  const open = { ...runAt(1, ['done', 'teaching', 'pending']), openCheck: { checkpointId: 'cp' } } as LessonRun
+  const nodes = [quiz('q1', 'unanswered'), quiz('q2', 'unanswered'), node('d1', 2)]
+  const p = placeCards({ nodes, run: open, queue: { ids: ['d1'], at: 0 }, detours: [{ id: 'x', station: 1, cardIds: ['d1'], returnTo: { ids: ['q1'], at: 0 } }], openDetour: 'x', blocks: {}, sizes: {}, interlude: null, notes: [] })
+
+  it('the question the learner left stays on the board, so a half-given answer survives', () => {
+    expect(p.drawn).toContain('q1')
+    expect(p.waiting).not.toContain('q1')
+  })
+  it('the next one still waits', () => {
+    expect(p.waiting).toEqual(['q2'])
+    expect(p.drawn).not.toContain('q2')
+  })
+})

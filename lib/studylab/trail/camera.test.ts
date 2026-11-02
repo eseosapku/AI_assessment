@@ -6,7 +6,7 @@ import { LessonCompleteScene } from '@/components/studylab/stage/LessonCompleteS
 import type { LessonRun } from '../lessonRun'
 import { lessonSummary } from '../scenes'
 import { cameraInsets } from '../spotlight'
-import { cameraFor, easeOut, focusWidthFor, journeyFrame, panForKey, MIN_ZOOM } from './camera'
+import { cameraFor, easeOut, focusFraming, focusWidthFor, journeyFrame, panForKey, MIN_ZOOM } from './camera'
 import { FOCUS_W, trailLayout } from './layout'
 import type { PlotInput } from './types'
 
@@ -21,8 +21,22 @@ describe('cameraFor', () => {
   })
 
   it('zooms out to fit, but not past readable', () => {
-    expect(cameraFor({ x: 0, y: 0, w: 640, h: 1000 }, box, insets).zoom).toBeCloseTo(700 / 1000)
+    expect(cameraFor({ x: 0, y: 0, w: 640, h: 750 }, box, insets).zoom).toBeCloseTo(700 / 750)
     expect(cameraFor({ x: 0, y: 0, w: 640, h: 3000 }, box, insets).zoom).toBe(MIN_ZOOM)
+  })
+
+  it('never lets 18 px text fall under 16 px on screen', () => {
+    expect(18 * MIN_ZOOM).toBeGreaterThanOrEqual(16)
+    const laptop = { w: 1366, h: 768 }
+    expect(18 * cameraFor({ x: 0, y: 0, w: 640, h: 714 }, laptop, insets).zoom).toBeGreaterThanOrEqual(16)
+  })
+
+  it('a phone fits the width and pans for the rest, whatever the height', () => {
+    const phone = { w: 390, h: 844 }
+    const phoneInsets = cameraInsets(true)
+    const v = cameraFor({ x: 0, y: 300, w: 358, h: 800 }, phone, phoneInsets, { minZoom: 1 })
+    expect(v.zoom).toBe(1)
+    expect(300 + v.y).toBeCloseTo(phoneInsets.top)
   })
 
   it('a frame too tall to fit shows its top, below the top bar', () => {
@@ -46,6 +60,20 @@ describe('cameraFor', () => {
 
   it('takes a lower floor when asked: the whole board is not a card to read', () => {
     expect(cameraFor({ x: 0, y: 0, w: 3000, h: 3000 }, box, insets, { minZoom: 0.1 }).zoom).toBeCloseTo(700 / 3000)
+  })
+})
+
+describe('focusFraming', () => {
+  const base = { sized: true, alreadyFramed: false, lookingBack: false }
+  it('a new focus, once measured, is flown to', () => {
+    expect(focusFraming(base)).toBe('frame')
+  })
+  it('waits for a size, and frames each focus once', () => {
+    expect(focusFraming({ ...base, sized: false })).toBe('hold')
+    expect(focusFraming({ ...base, alreadyFramed: true })).toBe('hold')
+  })
+  it('a turn landing while looking back does not take the camera off the reopened card', () => {
+    expect(focusFraming({ ...base, lookingBack: true })).toBe('mark')
   })
 })
 

@@ -7,8 +7,8 @@ import type { Point } from './types'
 /**
  * Going back to a finished card. It works again, but on a copy: whatever the
  * learner does to it stays in the copy and goes when they press Back, so marks,
- * progress and the run's record never see it. Grading a copy is safe, as the
- * grade and practice routes only answer; it is the card's data the hand-in reads.
+ * progress and the run's record never see it. Grading a copy touches nothing, as
+ * the grade and practice routes only answer; it is the card's data the hand-in reads.
  */
 export interface LookBack {
   id: string
@@ -35,7 +35,12 @@ export function freshAttempt(data: StudyNodeData): StudyNodeData {
     delete next.quiz.given
     delete next.quiz.feedback
   }
-  if (next.practice) next.practice = { ...next.practice, state: 'unattempted', revealed: false }
+  if (next.practice) {
+    next.practice = { ...next.practice, state: 'unattempted', revealed: false, attempts: 0 }
+    delete next.practice.attempt
+    delete next.practice.feedback
+    delete next.practice.given
+  }
   delete next.activityState
   delete next.materialState
   return next
@@ -56,23 +61,26 @@ interface Callbacks {
   onNodeResize: (id: string, dims: { x: number; y: number; width: number; height: number }) => void
 }
 
-/** The cards' way back to the lesson, with the reopened card's taken away. */
-export function trailCallbacks(real: Callbacks, lookBack: () => LookBack | null, writeSandbox: (patch: Partial<StudyNodeData>) => void): Callbacks {
-  const sandboxed = (id: string) => {
-    const open = lookBack()
-    return !!open && open.id === id && !open.own
-  }
+const NOTHING = () => {}
+
+/**
+ * All a reopened card has for reaching the lesson: its own copy, and nothing else.
+ *
+ * Bound to the opening it was made for rather than asked at the moment of writing,
+ * because a card's work can finish after it has closed: a written answer still
+ * being marked, a code card flushing as it unmounts. By then nothing is reopened,
+ * and a check made then would have sent the re-try's result to the real card.
+ */
+export function sandboxCallbacks(bound: { id: string; epoch: number; lookBack: () => LookBack | null; writeSandbox: (patch: Partial<StudyNodeData>) => void }): Callbacks {
+  const { id, epoch, lookBack, writeSandbox } = bound
   return {
-    onToggleGroup: real.onToggleGroup,
-    onNodeDataChange: (id, patch) => (sandboxed(id) ? writeSandbox(patch) : real.onNodeDataChange(id, patch)),
-    onDeleteNode: (id) => {
-      if (!sandboxed(id)) real.onDeleteNode(id)
+    onToggleGroup: NOTHING,
+    onNodeDataChange: (_id, patch) => {
+      const open = lookBack()
+      if (open?.id === id && open.epoch === epoch) writeSandbox(patch)
     },
-    onAskTutor: (id) => {
-      if (!sandboxed(id)) real.onAskTutor(id)
-    },
-    onNodeResize: (id, dims) => {
-      if (!sandboxed(id)) real.onNodeResize(id, dims)
-    },
+    onDeleteNode: NOTHING,
+    onAskTutor: NOTHING,
+    onNodeResize: NOTHING,
   }
 }

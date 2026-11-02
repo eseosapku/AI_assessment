@@ -14,7 +14,7 @@ import type { StudyNodeData } from '@/lib/studylab/types'
 export function TrailConceptCard({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   const { statement, rest, items } = statementOf(d)
-  const { onDeeper, pointer } = useContext(TrailPlacementContext)
+  const { onDeeper, pointer, lookingBack } = useContext(TrailPlacementContext)
   const [open, setOpen] = useState(false)
 
   // The tutor pointing at a folded part unfolds it, so the glow has somewhere to land.
@@ -64,9 +64,12 @@ export function TrailConceptCard({ id, data }: NodeProps) {
             {open ? 'Show less' : 'Tell me more'}
           </button>
         )}
-        <button type="button" onClick={() => onDeeper(id, d.title ?? said)}>
-          Go deeper
-        </button>
+        {/* It asks the tutor, and nothing done on a reopened card may change the lesson. */}
+        {lookingBack !== id && (
+          <button type="button" onClick={() => onDeeper(id, d.title ?? said)}>
+            Go deeper
+          </button>
+        )}
       </div>
     </div>
   )

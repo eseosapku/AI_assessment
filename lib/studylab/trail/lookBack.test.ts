@@ -3,10 +3,9 @@ import { describe, it, expect, vi } from 'vitest'
 import type { LessonRun } from '../lessonRun'
 import type { QuizCell, StudyNode, StudyNodeData } from '../types'
 import { FOCUS_W, trailLayout } from './layout'
-import { canRetry, freshAttempt, openLookBack, trailCallbacks } from './lookBack'
+import { canRetry, freshAttempt, openLookBack, sandboxCallbacks } from './lookBack'
 import { placeCards } from './placement'
 
-const spy = () => ({ onToggleGroup: vi.fn(), onNodeDataChange: vi.fn(), onDeleteNode: vi.fn(), onAskTutor: vi.fn(), onNodeResize: vi.fn() })
 const at = { x: 10, y: 20 }
 const dims = { x: 0, y: 0, width: 100, height: 100 }
 const question = { id: 'q', format: 'mcq', prompt: 'Why?', options: ['a', 'b'], answer: 1 } as QuizCell['question']
@@ -24,35 +23,39 @@ describe('openLookBack', () => {
   })
 })
 
-describe('trailCallbacks', () => {
-  it('nothing done to a reopened card reaches the lesson', () => {
-    const real = spy()
+describe('sandboxCallbacks', () => {
+  const open = () => openLookBack(quizNode('q1'), at, 1)
+  const write = { quiz: { ...cell, state: 'incorrect' as const } }
+
+  it('a write from the reopened card goes to its copy, and nothing else does anything', () => {
     const sandbox = vi.fn()
-    const cb = trailCallbacks(real, () => openLookBack(quizNode('q1'), at, 1), sandbox)
-    cb.onNodeDataChange('q1', { quiz: { ...cell, state: 'incorrect' } })
+    const cb = sandboxCallbacks({ id: 'q1', epoch: 1, lookBack: open, writeSandbox: sandbox })
+    cb.onNodeDataChange('q1', write)
     cb.onDeleteNode('q1')
     cb.onAskTutor('q1')
     cb.onNodeResize('q1', dims)
+    cb.onToggleGroup('g')
     expect(sandbox).toHaveBeenCalledOnce()
-    for (const fn of Object.values(real)) expect(fn).not.toHaveBeenCalled()
+    expect(sandbox).toHaveBeenCalledWith(write)
   })
-  it('other cards still write', () => {
-    const real = spy()
-    trailCallbacks(real, () => openLookBack(quizNode('q1'), at, 1), vi.fn()).onNodeDataChange('c2', { title: 'x' })
-    expect(real.onNodeDataChange).toHaveBeenCalledWith('c2', { title: 'x' })
-  })
-  it('everything writes when nothing is reopened', () => {
-    const real = spy()
+  it('a result arriving after Back is dropped: marking finishes after the card has closed', () => {
     const sandbox = vi.fn()
-    trailCallbacks(real, () => null, sandbox).onNodeDataChange('q1', { title: 'x' })
-    expect(real.onNodeDataChange).toHaveBeenCalled()
+    let current: ReturnType<typeof open> | null = open()
+    const cb = sandboxCallbacks({ id: 'q1', epoch: 1, lookBack: () => current, writeSandbox: sandbox })
+    current = null
+    cb.onNodeDataChange('q1', write)
     expect(sandbox).not.toHaveBeenCalled()
   })
-  it("the learner's own notes save, even reopened", () => {
-    const real = spy()
+  it('a result from before Try it again is dropped: it belongs to an attempt that has gone', () => {
     const sandbox = vi.fn()
-    trailCallbacks(real, () => openLookBack(noteNode('free-note-1'), at, 1), sandbox).onNodeDataChange('free-note-1', { body: 'x' })
-    expect(real.onNodeDataChange).toHaveBeenCalled()
+    const cb = sandboxCallbacks({ id: 'q1', epoch: 1, lookBack: () => openLookBack(quizNode('q1'), at, 2), writeSandbox: sandbox })
+    cb.onNodeDataChange('q1', write)
+    expect(sandbox).not.toHaveBeenCalled()
+  })
+  it('a result from a card closed before another was opened does not land on the new one', () => {
+    const sandbox = vi.fn()
+    const cb = sandboxCallbacks({ id: 'q1', epoch: 1, lookBack: () => openLookBack(quizNode('other'), at, 1), writeSandbox: sandbox })
+    cb.onNodeDataChange('q1', write)
     expect(sandbox).not.toHaveBeenCalled()
   })
 })
@@ -69,6 +72,15 @@ describe('freshAttempt', () => {
     expect(freshAttempt({ kind: 'practice', practice: { state: 'correct', revealed: true } } as never).practice).toMatchObject({ state: 'unattempted', revealed: false })
     expect(freshAttempt({ kind: 'activity', activityState: { status: 'solved' } } as never).activityState).toBeUndefined()
     expect(freshAttempt({ kind: 'material', materialState: { status: 'solved' } } as never).materialState).toBeUndefined()
+  })
+})
+
+describe('a fresh try', () => {
+  it('starts a practice card from nothing: its old answer and its count of tries go too', () => {
+    const next = freshAttempt({ kind: 'practice', practice: { state: 'correct', attempt: '1/5', attempts: 3, revealed: true, feedback: 'Yes' } } as never).practice
+    expect(next).toMatchObject({ state: 'unattempted', revealed: false, attempts: 0 })
+    expect(next?.attempt).toBeUndefined()
+    expect((next as { feedback?: string }).feedback).toBeUndefined()
   })
 })
 

@@ -90,9 +90,12 @@ describe('a turn landing mid-detour', () => {
 })
 
 describe('the footer', () => {
-  const base = { detourOpen: true, nextInQueue: null, claimed: false, settled: false }
+  const base = { detourOpen: true, nextInQueue: null, claimed: false, settled: false, busy: false }
   it('ends a detour card when nothing else waits', () => {
     expect(showsDetourFooter(base)).toBe(true)
+  })
+  it('stands aside while a turn runs: its presses would be dropped, and still count', () => {
+    expect(showsDetourFooter({ ...base, busy: true })).toBe(false)
   })
   it('not outside a detour, and not with more of the burst to come', () => {
     expect(showsDetourFooter({ ...base, detourOpen: false })).toBe(false)
@@ -109,6 +112,17 @@ describe('memory', () => {
     for (const raw of [null, '', 'garbage', '{"v":99}', '{"v":1}', '[]']) expect(loadMemory(raw)).toEqual(emptyMemory())
     expect(() => saveMemory({ setItem: () => { throw new Error('blocked') } }, 's', emptyMemory())).not.toThrow()
     expect(() => saveMemory(null, 's', emptyMemory())).not.toThrow()
+  })
+  it('never throws on storage that is the right shape outside and wrong inside', () => {
+    const good = { id: 'd', station: 1, question: 'Why?', cardIds: ['c'], tries: 0, parked: false, returnTo: null }
+    expect(loadMemory('{"v":1,"detours":[null],"notes":[]}').detours).toEqual([])
+    expect(loadMemory(JSON.stringify({ v: 1, detours: [{ id: 'd' }, good], notes: [] })).detours).toEqual([good])
+    expect(loadMemory(JSON.stringify({ v: 1, detours: [{ ...good, returnTo: { at: 0 } }], notes: [] })).detours[0].returnTo).toBeNull()
+    expect(loadMemory(JSON.stringify({ v: 1, detours: [], notes: [7, { id: 'n' }], queue: { at: 1 } }))).toEqual(emptyMemory())
+    expect(loadMemory(JSON.stringify({ v: 1, detours: [], notes: [], blocks: { a: 1, b: 'x' } })).blocks).toEqual({ a: 1 })
+    const m = loadMemory(JSON.stringify({ v: 1, detours: [{ id: 'd' }], notes: [], open: 'd', queue: 5 }))
+    expect(m.open).toBeNull()
+    expect(m.queue).toBeNull()
   })
   it('round trips under its own key', () => {
     const stored: Record<string, string> = {}

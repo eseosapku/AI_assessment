@@ -10,12 +10,12 @@ import { continueFor, type ContinueTarget, type DockView } from '../spotlight'
  */
 export type TrailAction =
   | { kind: 'none' }
-  | { kind: 'bar' }
+  | { kind: 'bar'; retry?: string }
   | { kind: 'working' }
   | { kind: 'summary' }
   | { kind: 'start' }
   | { kind: 'retry'; label: string }
-  | { kind: 'continue'; label: string; target: ContinueTarget }
+  | { kind: 'continue'; label: string; target: ContinueTarget; retry?: string }
   | { kind: 'goToStation'; label: string; station: number }
   | { kind: 'tryAgain'; label: 'Try it again' }
 
@@ -40,14 +40,17 @@ export function trailAction(input: {
   // Looking back owns the button, whatever the lesson is doing: Try it again, or
   // the card's own Check once it has been cleared.
   if (lookBack) return lookBack.canRetry ? { kind: 'tryAgain', label: 'Try it again' } : claimed ? { kind: 'bar' } : { kind: 'none' }
-  if (view.kind === 'retry') return { kind: 'retry', label: view.label }
   if (view.kind === 'done') return { kind: 'summary' }
+  // A failed turn is the button, unless there is something to do that needs no
+  // tutor: a card to check, or more of the burst. Then it waits beside that.
+  const retry = view.kind === 'retry' ? view.label : undefined
+  if (retry && (detourFooter || (!claimed && !nextInQueue))) return { kind: 'retry', label: retry }
   if (interlude) return { kind: 'goToStation', label: `Go to station ${interlude.next + 1}`, station: interlude.next }
   if (detourFooter) return { kind: 'none' }
-  if (claimed) return { kind: 'bar' }
+  if (claimed) return retry ? { kind: 'bar', retry } : { kind: 'bar' }
   if (nextInQueue) {
     const label = focusType && READ_ONLY.has(focusType) ? 'Got it' : 'Continue'
-    return { kind: 'continue', label, target: { kind: 'focus', label, nodeId: nextInQueue, hint: '' } }
+    return { kind: 'continue', label, target: { kind: 'focus', label, nodeId: nextInQueue, hint: '' }, ...(retry ? { retry } : {}) }
   }
   if (view.kind === 'working') return { kind: 'working' }
   if (run?.phase === 'planning' && run.steps.length > 0) return { kind: 'start' }

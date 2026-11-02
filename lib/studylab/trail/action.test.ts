@@ -56,10 +56,16 @@ describe('trailAction', () => {
   it('nothing to press is nothing to press', () => {
     expect(trailAction(base)).toEqual({ kind: 'none' })
   })
-  it('a failed turn comes first, even with a queue, a card bar or the detour footer', () => {
+  it('a failed turn is the button when nothing else can be done', () => {
     const retry = { kind: 'retry', label: 'Try again' } as DockView
-    expect(trailAction({ ...base, claimed: true, nextInQueue: 'b', view: retry })).toEqual({ kind: 'retry', label: 'Try again' })
+    expect(trailAction({ ...base, view: retry })).toEqual({ kind: 'retry', label: 'Try again' })
     expect(trailAction({ ...base, detourFooter: true, view: retry })).toEqual({ kind: 'retry', label: 'Try again' })
+    expect(trailAction({ ...base, claimed: true, detourFooter: true, view: retry })).toEqual({ kind: 'retry', label: 'Try again' })
+  })
+  it('a failed turn does not stop what needs no tutor: the queue still steps, and a card can still be checked', () => {
+    const retry = { kind: 'retry', label: 'Try again' } as DockView
+    expect(trailAction({ ...base, nextInQueue: 'b', view: retry })).toMatchObject({ kind: 'continue', label: 'Got it', retry: 'Try again', target: { nodeId: 'b' } })
+    expect(trailAction({ ...base, claimed: true, nextInQueue: 'b', view: retry })).toEqual({ kind: 'bar', retry: 'Try again' })
   })
   it('looking back owns the button, whatever the lesson is doing', () => {
     expect(trailAction({ ...base, view: { kind: 'working', label: 'x' }, lookBack: { canRetry: true } })).toEqual({ kind: 'tryAgain', label: 'Try it again' })

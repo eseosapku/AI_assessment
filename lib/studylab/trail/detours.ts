@@ -47,12 +47,39 @@ export function emptyMemory(): TrailMemory {
 
 export const memoryKey = (spaceId: string) => `${KEY}${spaceId}`
 
+const isStrings = (v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === 'string')
+
+function isQueue(q: unknown): q is QueueState {
+  const v = q as QueueState | null
+  return !!v && isStrings(v.ids) && typeof v.at === 'number'
+}
+
+function isDetour(d: unknown): d is Detour {
+  const v = d as Detour | null
+  return !!v && typeof v.id === 'string' && typeof v.station === 'number' && typeof v.question === 'string' && isStrings(v.cardIds) && typeof v.tries === 'number'
+}
+
+function isNote(n: unknown): n is UnsureNote {
+  const v = n as UnsureNote | null
+  return !!v && typeof v.id === 'string' && typeof v.station === 'number' && typeof v.question === 'string'
+}
+
 export function loadMemory(raw: string | null): TrailMemory {
   if (!raw) return emptyMemory()
   try {
     const m = JSON.parse(raw) as Partial<TrailMemory> | null
     if (!m || m.v !== 1 || !Array.isArray(m.detours) || !Array.isArray(m.notes)) return emptyMemory()
-    return { v: 1, detours: m.detours, open: m.open ?? null, notes: m.notes, queue: m.queue ?? null, blocks: m.blocks ?? {} }
+    // Each piece is checked: there is no error page behind this, and a bad entry
+    // would crash the lesson on every load until the key was cleared.
+    const detours = m.detours.filter(isDetour).map((d) => ({ ...d, returnTo: isQueue(d.returnTo) ? d.returnTo : null }))
+    return {
+      v: 1,
+      detours,
+      open: detours.some((d) => d.id === m.open) ? (m.open as string) : null,
+      notes: m.notes.filter(isNote),
+      queue: isQueue(m.queue) ? m.queue : null,
+      blocks: Object.fromEntries(Object.entries(m.blocks ?? {}).filter(([, station]) => typeof station === 'number')),
+    }
   } catch {
     return emptyMemory()
   }
@@ -144,8 +171,9 @@ export function dueNotes(m: TrailMemory, doneStation: number): UnsureNote[] {
 
 /**
  * "Did that clear it up?" ends a detour card once there is nothing more of it to
- * read or answer. A question keeps its own Check until it has been marked.
+ * read or answer. A question keeps its own Check until it has been marked, and
+ * while a turn runs there is nothing to answer: a press would be dropped, and counted.
  */
-export function showsDetourFooter(input: { detourOpen: boolean; nextInQueue: string | null; claimed: boolean; settled: boolean }): boolean {
-  return input.detourOpen && !input.nextInQueue && (!input.claimed || input.settled)
+export function showsDetourFooter(input: { detourOpen: boolean; nextInQueue: string | null; claimed: boolean; settled: boolean; busy: boolean }): boolean {
+  return input.detourOpen && !input.busy && !input.nextInQueue && (!input.claimed || input.settled)
 }

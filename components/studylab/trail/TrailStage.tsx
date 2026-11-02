@@ -23,7 +23,7 @@ import { useTrailModel } from './useTrailModel'
 import { trailAction, trailContinue } from '@/lib/studylab/trail/action'
 import { checkSteps } from '@/lib/studylab/trail/answerStyle'
 import { showsDetourFooter } from '@/lib/studylab/trail/detours'
-import { canRetry, trailCallbacks } from '@/lib/studylab/trail/lookBack'
+import { canRetry } from '@/lib/studylab/trail/lookBack'
 import { escapeTarget, stationPills, topBarLabel } from '@/lib/studylab/trail/furniture'
 import { nextQuestion, openingChips, openingInsets, planFrom } from '@/lib/studylab/trail/opening'
 import { cardTitle } from '@/lib/studylab/trail/placement'
@@ -63,6 +63,10 @@ function useViewportWidth(): number {
 }
 
 const DESKTOP_WIDTH = 1440
+/** A station flown to is seen whole, even a big one. */
+const PLOT_ZOOM = 0.35
+/** On a phone a card is always at full size, and moved with a finger. */
+const FULL_SIZE = 1
 const PHONE_KANA = 64
 const NOTHING = () => {}
 const NOTE_CHIPS = ['Look again', 'Keep going']
@@ -91,7 +95,7 @@ function TrailStageInner(props: LessonStageProps) {
   // A phone has no room on the board for Kana: she stands on the screen, above the button.
   const trailView = useMemo(() => ({ focusWidth, speaker: !phone }), [focusWidth, phone])
   const model = useTrailModel(props, trailView)
-  const { focusId, world, nextInQueue, say, lines, lookBack, getLookBack, writeSandbox, epochOf, dataOf } = model
+  const { focusId, world, nextInQueue, say, lines, lookBack, epochOf, dataOf, sandboxFor } = model
   const lookingBack = lookBack?.id ?? null
   const detourOpen = model.detour
   const canvas = useRef<TrailCanvasHandle>(null)
@@ -171,19 +175,14 @@ function TrailStageInner(props: LessonStageProps) {
     [lookingBack, dockEl, spotlight, owner, board.nodes, board.run, chat.busy, nextInQueue, runContinue, claim, prefer, help, sayLine],
   )
   const canvasValue = useMemo(
-    () =>
-      trailCallbacks(
-        {
-          onToggleGroup: board.onToggleGroup,
-          onNodeDataChange: board.onNodeDataChange,
-          onDeleteNode: board.onDeleteNode,
-          onAskTutor: board.onAskTutor,
-          onNodeResize: NO_RESIZE,
-        },
-        getLookBack,
-        writeSandbox,
-      ),
-    [board.onToggleGroup, board.onNodeDataChange, board.onDeleteNode, board.onAskTutor, getLookBack, writeSandbox],
+    () => ({
+      onToggleGroup: board.onToggleGroup,
+      onNodeDataChange: board.onNodeDataChange,
+      onDeleteNode: board.onDeleteNode,
+      onAskTutor: board.onAskTutor,
+      onNodeResize: NO_RESIZE,
+    }),
+    [board.onToggleGroup, board.onNodeDataChange, board.onDeleteNode, board.onAskTutor],
   )
   const { onCardPrompt } = board
   const onDeeper = useCallback(
@@ -196,7 +195,7 @@ function TrailStageInner(props: LessonStageProps) {
   )
   // A detour card ends with "Did that clear it up?", once nothing more of it waits.
   const focusNode = focusId ? board.nodes.find((n) => n.id === focusId) : undefined
-  const footerShown = showsDetourFooter({ detourOpen: !!model.detour, nextInQueue, claimed: owner !== null, settled: !!focusNode && canRetry(focusNode.data) })
+  const footerShown = showsDetourFooter({ detourOpen: !!model.detour, nextInQueue, claimed: owner !== null, settled: !!focusNode && canRetry(focusNode.data), busy: chat.busy })
   const { leaveDetour, stillNotSure, returnTitle } = model
   const openChatPanel = useCallback(() => setOpen(true), [setOpen])
   const detourFooter = useMemo(
@@ -207,12 +206,12 @@ function TrailStageInner(props: LessonStageProps) {
   plotsRef.current = world.plots
   const flyToStation = useCallback((index: number) => {
     const plot = plotsRef.current[index]
-    if (plot) canvas.current?.flyTo(plot.rect)
+    if (plot) canvas.current?.flyTo(plot.rect, { minZoom: PLOT_ZOOM })
   }, [])
   const checkStep = useMemo(() => checkSteps(board.nodes, board.run, focusId), [board.nodes, board.run, focusId])
   const placementValue = useMemo<TrailPlacement>(
-    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: model.open, onStation: flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, detourFooter, onNote: model.showNote }),
-    [world.cards, model.onMeasure, model.open, flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, detourFooter, model.showNote],
+    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: model.open, onStation: flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, detourFooter, onNote: model.showNote }),
+    [world.cards, model.onMeasure, model.open, flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, detourFooter, model.showNote],
   )
 
   // A failed turn that can be sent again: the dock offers it.
@@ -297,11 +296,13 @@ function TrailStageInner(props: LessonStageProps) {
   const cardsRef = useRef(world.cards)
   cardsRef.current = world.cards
   const lookOpener = useRef<HTMLElement | null>(null)
+  const phoneRef = useRef(phone)
+  phoneRef.current = phone
   useEffect(() => {
     if (!lookingBack) return
     lookOpener.current = document.activeElement as HTMLElement | null
     const rect = cardsRef.current[lookingBack]
-    if (rect) canvas.current?.flyTo(rect)
+    if (rect) canvas.current?.flyTo(rect, phoneRef.current ? { minZoom: FULL_SIZE } : undefined)
     const raf = requestAnimationFrame(() => {
       document.querySelector<HTMLElement>(`.react-flow__node[data-id="${CSS.escape(lookingBack)}"]`)?.focus({ preventScroll: true })
     })
@@ -323,7 +324,7 @@ function TrailStageInner(props: LessonStageProps) {
         return
       }
       if (closes === 'detour') {
-        leaveDetour()
+        if (!chat.busy) leaveDetour()
         return
       }
       const t = e.target as HTMLElement | null
@@ -334,7 +335,7 @@ function TrailStageInner(props: LessonStageProps) {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open, setOpen, menuOpen, lookingBack, backFromLooking, detourOpen, leaveDetour])
+  }, [open, setOpen, menuOpen, lookingBack, backFromLooking, detourOpen, leaveDetour, chat.busy])
 
   // Thumbnails take no Tab stop, so the keyboard reaches them through a list.
   const filed = useMemo(() => {
@@ -362,7 +363,7 @@ function TrailStageInner(props: LessonStageProps) {
               </TrailChatPanel>
               <div data-tour="lesson-board" data-stage-board className="relative h-full min-w-0 flex-1">
                 {boardOverlay}
-                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning && !phone ? openingInsets(baseInsets) : lookBack || detourOpen ? { ...baseInsets, top: baseInsets.top + RIBBON_ROOM } : baseInsets} onCardPrompt={board.onCardPrompt} heading={heading} restFrame={restFrame} opening={planning}>
+                <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning && !phone ? openingInsets(baseInsets) : lookBack || detourOpen ? { ...baseInsets, top: baseInsets.top + RIBBON_ROOM } : baseInsets} onCardPrompt={board.onCardPrompt} focusMinZoom={phone ? FULL_SIZE : undefined} heading={heading} restFrame={restFrame} opening={planning}>
                   <KanaOnBoard
                     world={world}
                     focusId={focusId}
@@ -416,7 +417,7 @@ function TrailStageInner(props: LessonStageProps) {
                   plots={world.plots}
                   canClassic={!!trail?.onClassic}
                   onLeave={rail.onBack}
-                  onStation={(plot) => canvas.current?.flyTo(plot.rect)}
+                  onStation={(plot) => canvas.current?.flyTo(plot.rect, { minZoom: PLOT_ZOOM })}
                   onWholeBoard={() => canvas.current?.showAll()}
                   onBackToCard={() => canvas.current?.flyToFocus()}
                   onAddBlock={(type) => board.onAddBlock(type)}
@@ -426,7 +427,7 @@ function TrailStageInner(props: LessonStageProps) {
                 {lookBack ? (
                   <TrailRibbon kind="lookBack" text={`Looking back: ${lookBack.title}`} onBack={backFromLooking} />
                 ) : detourOpen ? (
-                  <TrailRibbon kind="detour" text={`You were on: ${world.plots[detourOpen.station]?.title ?? 'your station'}`} onBack={leaveDetour} />
+                  <TrailRibbon kind="detour" text={`You were on: ${world.plots[detourOpen.station]?.title ?? 'your station'}`} onBack={leaveDetour} waiting={chat.busy} />
                 ) : null}
                 <FiledCardsList items={filed} onOpen={model.open} />
                 {finished && summaryOpen && board.run && (

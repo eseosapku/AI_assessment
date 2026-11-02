@@ -204,6 +204,8 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
   cards.current = world.cards
   const show = useRef(onShowCard)
   show.current = onShowCard
+  const away = useRef(steppedBack)
+  away.current = steppedBack
   useEffect(() => {
     if (!pointNode) return
     let el: Element | null = null
@@ -215,7 +217,7 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
       }
       el?.classList.add('ss-trail-pointed')
       const rect = cards.current[pointNode]
-      if (pointNode !== focusId && rect) show.current(rect)
+      if (pointNode !== focusId && rect && !away.current) show.current(rect)
     }, 150)
     return () => {
       clearTimeout(timer)
@@ -253,8 +255,9 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
       {band && (
         <Panel position="bottom-center" className="ss-trail-band">
           {onAskBand ? (
-            <button type="button" aria-label="Ask Kana" className="pointer-events-auto shrink-0" onClick={onAskBand}>
+            <button type="button" className="ss-press ss-trail-band-ask" onClick={onAskBand}>
               <KanaLive pose={pose} size={bandKana} />
+              <span>Ask Kana</span>
             </button>
           ) : (
             <div className="shrink-0">

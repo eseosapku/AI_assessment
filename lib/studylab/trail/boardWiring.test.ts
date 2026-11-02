@@ -6,6 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { ReactFlowProvider } from '@xyflow/react'
 import { withTrailFrame, TrailPlacementContext, type TrailPlacement } from '@/components/studylab/trail/TrailFrame'
 import { StageContext, useDock, type StageValue } from '@/components/studylab/stage/StageContext'
+import { CheckBar } from '@/components/studylab/check/CheckBar'
 import type { CardRole } from './types'
 
 const placementBase: TrailPlacement = { places: {}, onMeasure: () => {}, onOpen: () => {}, onStation: () => {}, onDeeper: () => {}, epochOf: () => 0 }
@@ -67,6 +68,34 @@ describe('the Trail board', () => {
     )
     expect(html).toContain('The copy')
     expect(html).not.toContain('Stale')
+  })
+
+  it('a reopened card shows its own feedback: Kana is stepped back and cannot say it', () => {
+    const bar = (extra: Partial<StageValue>) =>
+      renderToStaticMarkup(
+        createElement(
+          StageContext.Provider,
+          { value: { ...stageBase, look: 'trail', ...extra } },
+          createElement(CheckBar, { state: { mode: 'test', phase: 'wrong', attempts: 1 } as never, options: {} as never, onAction: () => {}, line: 'Not this one.' }),
+        ),
+      )
+    const visible = (html: string) => html.replace(/<div class="sr-only"[^>]*>.*?<\/div>/, '')
+    expect(visible(bar({}))).toContain('Not this one.')
+    expect(visible(bar({ sayLine: () => {} }))).not.toContain('Not this one.')
+  })
+
+  it('a reopened card writes to its own copy, by a context around it', () => {
+    const Probe = withTrailFrame((() => createElement('p', null, 'inside')) as never)
+    const calls: string[] = []
+    const value = { ...placementBase, places: { c1: { role: 'reopened' as const, scale: 1, x: 0, y: 0, w: 100, h: 100 } }, sandboxFor: (id: string, epoch: number) => (calls.push(`${id}:${epoch}`), null) }
+    renderToStaticMarkup(createElement(TrailPlacementContext.Provider, { value }, createElement(Probe as never, { id: 'c1', type: 'concept', data: { kind: 'concept' } })))
+    expect(calls).toEqual(['c1:0'])
+  })
+
+  it('the wheel moves the board, so a tall card can be read to its end', () => {
+    const src = readFileSync('components/studylab/trail/TrailCanvas.tsx', 'utf8')
+    expect(src).toContain('panOnScroll')
+    expect(src).toContain('zoomOnScroll={false}')
   })
 
   it('off the focus, useDock draws no bar on the Trail, and classic still does', () => {

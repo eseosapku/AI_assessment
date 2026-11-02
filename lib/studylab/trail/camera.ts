@@ -14,8 +14,8 @@ export interface Insets {
 }
 
 export const CAMERA_MS = 1100
-/** Below this a card stops being readable, so a taller one is panned instead. */
-export const MIN_ZOOM = 0.6
+/** 18 px body text stays at 16 px on screen. A taller card is moved with the wheel or a drag, not shrunk. */
+export const MIN_ZOOM = 0.89
 
 const MAX_ZOOM = 1
 const PAN_STEP = 80
@@ -39,6 +39,16 @@ export function cameraFor(frame: Rect, box: Size, insets: Insets, opts: { minZoo
   const along = (start: number, size: number, room: number, inset: number) =>
     size * zoom > room ? inset - start * zoom : inset + (room - size * zoom) / 2 - start * zoom
   return { x: along(frame.x, frame.w, roomW, insets.left), y: along(frame.y, frame.h, roomH, insets.top), zoom }
+}
+
+/**
+ * What the camera does about the card in focus. It waits for a size and goes once.
+ * A turn landing while the learner is looking back leaves the camera with the
+ * reopened card: that focus counts as seen, and Back flies to it.
+ */
+export function focusFraming(input: { sized: boolean; alreadyFramed: boolean; lookingBack: boolean }): 'frame' | 'hold' | 'mark' {
+  if (!input.sized || input.alreadyFramed) return 'hold'
+  return input.lookingBack ? 'mark' : 'frame'
 }
 
 /** How wide the card in focus is drawn: full size on a desktop, the width of the screen on a phone. */

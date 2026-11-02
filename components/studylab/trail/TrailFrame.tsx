@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useEffect, useRef, type ComponentType } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, type ComponentType, type PointerEvent } from 'react'
 import type { NodeProps } from '@xyflow/react'
+import { CanvasContext, type CanvasCallbacks } from '../canvasShared'
 import { CheckStepBar } from './CheckStepBar'
 import { DetourFooter, type DetourFooterModel } from './DetourFooter'
 import type { CheckStep } from '@/lib/studylab/trail/answerStyle'
@@ -17,6 +18,8 @@ export interface TrailPlacement {
   onStation: (index: number) => void
   /** "Go deeper": asks the tutor, as the card menu does. */
   onDeeper: (id: string, title: string) => void
+  /** A reopened card's own way out to its copy. Null for the learner's own notes, which save. */
+  sandboxFor?: (id: string, epoch: number) => CanvasCallbacks | null
   /** "Did that clear it up?", on the card in focus while a detour is open and nothing more of it waits. */
   detourFooter?: DetourFooterModel | null
   /** The tile on a plot with a parked question. */
@@ -51,6 +54,17 @@ const LIVE: ReadonlySet<CardRole> = new Set<CardRole>(['focus', 'reopened'])
 const ANSWERED = new Set(['quiz', 'practice'])
 /** Smaller changes than this are rounding: they must not move the board. */
 const MEASURE_SLOP = 4
+/** What a finger means to use, rather than move the board with. */
+const HANDS_ON = 'button, input, textarea, select, a, label, svg, [draggable="true"], [role="slider"], .nodrag'
+
+/**
+ * On a phone the card fills the screen, so a drag on its words has to move the board,
+ * or a tall card could never be read to its end. `nopan` is decided as the finger lands.
+ */
+function panOnlyOffControls(e: PointerEvent<HTMLDivElement>) {
+  const onControl = !!(e.target as Element).closest?.(HANDS_ON)
+  e.currentTarget.classList.toggle('nopan', e.pointerType !== 'touch' || onControl)
+}
 
 /**
  * Today's card components, drawn at the Trail's scale.
@@ -62,7 +76,7 @@ const MEASURE_SLOP = 4
  */
 export function withTrailFrame(Inner: ComponentType<NodeProps>) {
   function Framed(props: NodeProps) {
-    const { places, onMeasure, onOpen, epochOf, checkStep, lookingBack, dataOf, detourFooter } = useContext(TrailPlacementContext)
+    const { places, onMeasure, onOpen, epochOf, checkStep, lookingBack, dataOf, detourFooter, sandboxFor } = useContext(TrailPlacementContext)
     const { id, type } = props
     const data = (dataOf?.(id) ?? props.data) as NodeProps['data']
     const place = places[id]
@@ -88,6 +102,9 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
       return () => ro.disconnect()
     }, [id, epoch, onMeasure])
 
+    const role = place?.role
+    const sandbox = useMemo(() => (role === 'reopened' ? (sandboxFor?.(id, epoch) ?? null) : null), [role, sandboxFor, id, epoch])
+
     if (!place) return null
     const live = LIVE.has(place.role)
     // Next vendors React 19, which takes `inert` as a boolean; the installed
@@ -103,9 +120,16 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
           ref={inner}
           className={`ss-trail-card${live ? ' nopan' : ''}${ANSWERED.has(type) ? ' ss-trail-answer' : ''}`}
           style={{ transform: `scale(${place.scale})` }}
+          onPointerDownCapture={live ? panOnlyOffControls : undefined}
           {...quiet}
         >
-          <Inner {...props} data={data} />
+          {sandbox ? (
+            <CanvasContext.Provider value={sandbox}>
+              <Inner {...props} data={data} />
+            </CanvasContext.Provider>
+          ) : (
+            <Inner {...props} data={data} />
+          )}
           {place.role === 'focus' && detourFooter && <DetourFooter {...detourFooter} />}
         </div>
         {!live && (

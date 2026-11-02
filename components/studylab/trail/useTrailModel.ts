@@ -7,7 +7,7 @@ import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { blockSize } from '@/lib/studylab/blocks'
 import { absorbTurn, backFromDetour, dueNotes, loadMemory, memoryKey, onAskAnswered, pruneMemory, saveMemory, stillNotSure as nextApproach, type Detour, type TrailMemory, type UnsureNote } from '@/lib/studylab/trail/detours'
 import { interludeFrom } from '@/lib/studylab/trail/action'
-import { freshAttempt, openLookBack, type LookBack } from '@/lib/studylab/trail/lookBack'
+import { freshAttempt, openLookBack, sandboxCallbacks, type LookBack } from '@/lib/studylab/trail/lookBack'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { planFrom } from '@/lib/studylab/trail/opening'
 import { assignBlocks, cardTitle, placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
@@ -31,11 +31,10 @@ export interface TrailModel {
   say: (text: string, tone: DisplayLine['tone']) => void
   /** A finished card opened again, on a copy. */
   lookBack: LookBack | null
-  getLookBack: () => LookBack | null
+  sandboxFor: (id: string, epoch: number) => ReturnType<typeof sandboxCallbacks> | null
   open: (id: string) => void
   closeLookBack: () => void
   tryAgain: () => void
-  writeSandbox: (patch: Partial<StudyNodeData>) => void
   epochOf: (id: string) => number
   dataOf: (id: string) => StudyNodeData | null
   /** The branch the learner is on. */
@@ -203,6 +202,14 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
   }, [])
   const tryAgain = useCallback(() => setLookBack((lb) => lb && { ...lb, data: freshAttempt(lb.data), epoch: nextEpoch.current++ }), [])
   const writeSandbox = useCallback((patch: Partial<StudyNodeData>) => setLookBack((lb) => lb && { ...lb, data: { ...lb.data, ...patch } }), [])
+  const sandboxFor = useCallback(
+    (id: string, epoch: number) => {
+      const open = lookBackRef.current
+      if (!open || open.id !== id || open.own) return null
+      return sandboxCallbacks({ id, epoch, lookBack: getLookBack, writeSandbox })
+    },
+    [getLookBack, writeSandbox],
+  )
   const dataOf = useCallback((id: string) => {
     const open = lookBackRef.current
     if (open?.id === id && !open.own) return open.data
@@ -314,5 +321,5 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
 
   const nextInQueue = interlude ? null : (placement.waiting.find((id) => queue?.ids.includes(id)) ?? null)
 
-  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, getLookBack, open, closeLookBack, tryAgain, writeSandbox, epochOf, dataOf, detour, returnTitle, leaveDetour, stillNotSure, note, showNote, settleNote, sizes, onMeasure }
+  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, sandboxFor, open, closeLookBack, tryAgain, epochOf, dataOf, detour, returnTitle, leaveDetour, stillNotSure, note, showNote, settleNote, sizes, onMeasure }
 }

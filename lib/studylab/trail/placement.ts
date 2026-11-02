@@ -96,9 +96,11 @@ export function placeCards(input: PlacementInput): Placement {
   const focus = !interlude && asked && onBoard.has(asked) ? asked : null
   // A check's questions come one at a time, even when a reload left only the first
   // in the queue: one not reached yet is still to come, not finished.
+  // The one a detour left behind has been reached: it stays on the board, with its half-given answer.
   const openCheck = run?.openCheck?.checkpointId
+  const leftOn = focusOf(leftBehind)
   const notReached = openCheck
-    ? cards.filter((n) => n.id !== focus && n.type === 'quiz' && n.data.quiz?.checkpointId === openCheck && n.data.quiz.state !== 'correct' && n.data.quiz.state !== 'incorrect').map((n) => n.id)
+    ? cards.filter((n) => n.id !== focus && n.id !== leftOn && n.type === 'quiz' && n.data.quiz?.checkpointId === openCheck && n.data.quiz.state !== 'correct' && n.data.quiz.state !== 'incorrect').map((n) => n.id)
     : []
   const queued = (interlude && queue ? queue.ids.slice(queue.at) : [...waitingIds(queue), ...waitingIds(leftBehind)]).filter((id) => onBoard.has(id))
   const waiting = [...queued, ...notReached.filter((id) => !queued.includes(id))]

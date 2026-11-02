@@ -73,6 +73,12 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
       </div>
       {/* Inky speaks when there is something to say, or while marking --
           not beside a Check waiting to be pressed. */}
+      {/* On the Trail Kana says it; on a reopened card she has stepped back, so it stays here. */}
+      {trail && !sayLine && text && (
+        <p className="ss-trail-own-line">
+          <SafeLatex>{text}</SafeLatex>
+        </p>
+      )}
       {!trail && (text || state.phase === 'checking') && (
         <InkyLine mood={moodForCheck(state.phase)} text={text} tone={model.tone} />
       )}

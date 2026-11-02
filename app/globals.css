@@ -633,7 +633,7 @@
   width: auto;
   max-width: none;
   transform: none;
-  margin: 0 0 90px;
+  margin: 0 0 98px;
 }
 .ss-trail-band-speech {
   flex: 1;
@@ -645,6 +645,37 @@
 }
 .ss-trail-phone .ss-trail-go {
   padding: 0 12px;
+}
+
+.ss-trail-band-ask {
+  pointer-events: auto;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  width: 72px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ss-ink);
+}
+.ss-trail-retry {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--ss-warn);
+  border-radius: 14px;
+  background: var(--ss-panel);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ss-ink);
+}
+.ss-trail-own-line {
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--ss-ink);
 }
 
 /* Detours: a branch off the trail, ending in a plot of its own, in the subject colour. */

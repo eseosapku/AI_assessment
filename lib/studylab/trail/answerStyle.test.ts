@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { TrailConceptCard } from '@/components/studylab/trail/TrailConceptCard'
+import { TrailPlacementContext } from '@/components/studylab/trail/TrailFrame'
 import { StageContext, type StageValue } from '@/components/studylab/stage/StageContext'
 import { ResultBadge } from '@/components/studylab/check/ResultBadge'
 import type { LessonRun } from '../lessonRun'
@@ -62,6 +63,16 @@ describe('the concept card', () => {
   })
   it('offers a way to go deeper', () => {
     expect(renderConcept({ title: 'Demand', body: 'Demand falls.' })).toContain('Go deeper')
+  })
+  it('but not once reopened: asking the tutor from there would change the lesson', () => {
+    const html = renderToStaticMarkup(
+      createElement(
+        TrailPlacementContext.Provider,
+        { value: { places: {}, onMeasure: () => {}, onOpen: () => {}, onStation: () => {}, onDeeper: () => {}, epochOf: () => 0, lookingBack: 'c' } },
+        createElement(TrailConceptCard as never, { id: 'c', type: 'concept', data: concept({ title: 'Demand', body: 'Demand falls.' }) }),
+      ),
+    )
+    expect(html).not.toContain('Go deeper')
   })
 })
 
