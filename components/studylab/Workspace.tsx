@@ -900,6 +900,7 @@ export default function Workspace({ id }: { id: string }) {
               style: 'Test Style (Textbooks)',
               questionType: 'mcq',
               difficultyLevel: 'intermediate',
+              lessonQuiz: true,
             }
           : {
               user_id: user?.id,
@@ -910,6 +911,7 @@ export default function Workspace({ id }: { id: string }) {
               style: 'Test Style (Textbooks)',
               questionType: 'mcq',
               difficultyLevel: 'intermediate',
+              lessonQuiz: true,
             }
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',

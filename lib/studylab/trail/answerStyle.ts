@@ -39,3 +39,16 @@ export function checkSteps(nodes: StudyNode[], run: LessonRun | null, focusId: s
   if (cells.length < 2 || at < 0) return null
   return { total: cells.length, at, settled: cells.map((c) => c.data.quiz?.state === 'correct' || c.data.quiz?.state === 'incorrect') }
 }
+
+/** Up to this many steps are simply read: the one-at-a-time is for the long ones. */
+const STEPS_AT_ONCE = 3
+
+/** A worked card's steps. The model sometimes leaves blank lines between groups. */
+export function workedSteps(steps: unknown): string[] {
+  return (Array.isArray(steps) ? steps : []).filter((s) => String(s ?? '').trim()).map(String)
+}
+
+/** How many steps a worked card opens with. */
+export function firstShown(count: number): number {
+  return count > STEPS_AT_ONCE ? 1 : count
+}

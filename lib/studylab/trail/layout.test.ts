@@ -188,7 +188,8 @@ describe('a speech that needs more room', () => {
 })
 
 describe('a tall card in focus', () => {
-  const tall = { id: 'f', type: 'activity', natural: { w: 420, h: 800 } }
+  const tall = { id: 'f', fit: true, natural: { w: 420, h: 800 } }
+  const reading = { id: 'f', natural: { w: 426, h: 900 } }
   it('comes down to fit the screen, so its controls are not under the button', () => {
     const big = trailLayout(oneCurrent({ focus: tall }))
     const fitted = trailLayout({ ...oneCurrent({ focus: tall }), speakerH: 176, focusRoom: 1200 })
@@ -196,7 +197,22 @@ describe('a tall card in focus', () => {
     expect(fitted.cards.f.h).toBeLessThanOrEqual(1200 - 176)
   })
   it('stays big enough to read', () => {
-    expect(trailLayout({ ...oneCurrent({ focus: tall }), focusRoom: 300 }).cards.f.scale).toBeGreaterThanOrEqual(1.15)
+    const w = trailLayout({ ...oneCurrent({ focus: tall }), focusRoom: 300 })
+    expect(w.cards.f.scale).toBeGreaterThanOrEqual(1.15)
+    expect(w.cards.f).toMatchObject({ scrolls: true, h: 300 * 0.5 })
+  })
+  it('a long card to read keeps its full width, and scrolls in its frame', () => {
+    const w = trailLayout({ ...oneCurrent({ focus: reading }), speakerH: 176, focusRoom: 726 })
+    expect(w.cards.f.w).toBeCloseTo(639, 0)
+    expect(w.cards.f).toMatchObject({ scrolls: true, h: 726 - 176 - 24 })
+  })
+  it('a card that fits does not scroll', () => {
+    const w = trailLayout({ ...oneCurrent({ focus: { id: 'f', natural: { w: 426, h: 200 } } }), speakerH: 176, focusRoom: 726 })
+    expect(w.cards.f.scrolls).toBeUndefined()
+  })
+  it('however much she is saying, the card keeps its share of the room', () => {
+    const w = trailLayout({ ...oneCurrent({ focus: reading }), speakerH: 400, focusRoom: 700 })
+    expect(w.cards.f.h).toBe(700 * 0.5)
   })
   it('a short card is left alone', () => {
     const short = { id: 'f', type: 'quiz', natural: { w: 640, h: 300 } }

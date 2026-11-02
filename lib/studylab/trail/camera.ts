@@ -14,6 +14,8 @@ export interface Insets {
 }
 
 export const CAMERA_MS = 1100
+/** What the "You were on" ribbon takes at the top. */
+export const RIBBON_ROOM = 56
 /** 18 px body text stays at 16 px on screen. A taller card is moved with the wheel or a drag, not shrunk. */
 export const MIN_ZOOM = 0.89
 

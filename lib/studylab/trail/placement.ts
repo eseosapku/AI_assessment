@@ -142,7 +142,7 @@ export function placeCards(input: PlacementInput): Placement {
   if (stations.length > 0) {
     for (const n of cards) {
       if (held.has(n.id)) continue
-      const card: CardInput = { id: n.id, natural: sizes[n.id] ?? blockSize(n.type) }
+      const card: CardInput = { id: n.id, natural: sizes[n.id] ?? blockSize(n.type), ...(n.type === 'activity' ? { fit: true } : {}) }
       if (n.id !== focus) drawn.push(n.id)
       const detour = detourOf.get(n.id)
       if (detour !== undefined) {

@@ -1,5 +1,6 @@
 'use client'
 
+import { RIBBON_ROOM } from '@/lib/studylab/trail/camera'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useReactFlow } from '@xyflow/react'
 import type { LessonStageProps } from '../stage/LessonStage'
@@ -79,6 +80,9 @@ function readMemory(spaceId: string | undefined): string | null {
  * Everything the Trail shows, derived from the lesson's own state on each render:
  * the same run always gives the same board, and none of it is saved.
  */
+/** "Did that clear it up?" stands a little taller than the one button it replaces. */
+const DETOUR_DOCK_EXTRA = 24
+
 export function useTrailModel(props: LessonStageProps, view: { focusWidth: number; speaker: boolean; focusRoom?: number } = { focusWidth: FOCUS_W, speaker: true }): TrailModel {
   const { focusWidth, speaker, focusRoom } = view
   const { board, focus, chat, onFocus, trail } = props
@@ -272,10 +276,11 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
         focusWidth,
         speaker,
         speakerH,
-        focusRoom,
+        // The ribbon over a detour or a look back takes its share of the room.
+        focusRoom: focusRoom === undefined ? undefined : focusRoom - (memory.open || reopenedId ? RIBBON_ROOM + DETOUR_DOCK_EXTRA : 0),
         reopened: reopenedId && reopenedAt && !reopenedGone ? { id: reopenedId, natural: sizes[reopenedId] ?? blockSize(reopenedType ?? ''), at: reopenedAt } : null,
       }),
-    [placement, focusWidth, speaker, speakerH, focusRoom, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
+    [placement, focusWidth, speaker, speakerH, focusRoom, memory.open, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
   )
 
   useEffect(() => {

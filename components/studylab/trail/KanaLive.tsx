@@ -12,19 +12,23 @@ const POKE_MS = 1100
 /** Poses that mean something by where she is looking keep their own eyes. */
 const OWN_EYES: ReadonlySet<KanaPose> = new Set<KanaPose>(['think', 'point', 'fly', 'sleepy'])
 const AT_EASE: ReadonlySet<KanaPose> = new Set<KanaPose>(['open', 'happy'])
+/** The blank round her in her 440-wide drawing, as shares of its width. */
+const BLANK = { side: 110 / 440, top: 47 / 440, foot: 3 / 440 }
 
 /**
  * Kana, alive: she bobs and blinks, her eyes follow the pointer, she waves when you
  * come near and reacts when you tap her. Under reduced motion she holds still and
  * only changes pose. `still` stops her clock while nobody can see her.
  */
-export function KanaLive({ pose, size, still = false, label = 'Say hello to Kana', onPoke, className = '', children }: {
+export function KanaLive({ pose, size, still = false, label = 'Say hello to Kana', onPoke, className = '', crop = false, children }: {
   pose: KanaPose
   size: number
   still?: boolean
   label?: string
   onPoke?: () => void
   className?: string
+  /** Her box hugs her drawing, so she lines up with what is beside her. */
+  crop?: boolean
   children?: ReactNode
 }) {
   const [t, setT] = useState<number | undefined>(undefined)
@@ -84,6 +88,7 @@ export function KanaLive({ pose, size, still = false, label = 'Say hello to Kana
       type="button"
       aria-label={label}
       className={`ss-trail-owl nopan ${className}`}
+      style={crop ? { margin: `${-size * BLANK.top}px ${-size * BLANK.side}px ${-size * BLANK.foot}px` } : undefined}
       onClick={poke}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}

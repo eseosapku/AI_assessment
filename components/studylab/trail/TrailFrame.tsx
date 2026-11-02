@@ -4,7 +4,6 @@ import { createContext, useContext, useEffect, useMemo, useRef, type ComponentTy
 import type { NodeProps } from '@xyflow/react'
 import { CanvasContext, type CanvasCallbacks } from '../canvasShared'
 import { CheckStepBar } from './CheckStepBar'
-import { DetourFooter, type DetourFooterModel } from './DetourFooter'
 import type { CheckStep } from '@/lib/studylab/trail/answerStyle'
 import { cardTitle } from '@/lib/studylab/trail/placement'
 import type { CardRole, Size, TrailWorld } from '@/lib/studylab/trail/types'
@@ -20,8 +19,6 @@ export interface TrailPlacement {
   onDeeper: (id: string, title: string) => void
   /** A reopened card's own way out to its copy. Null for the learner's own notes, which save. */
   sandboxFor?: (id: string, epoch: number) => CanvasCallbacks | null
-  /** "Did that clear it up?", on the card in focus while a detour is open and nothing more of it waits. */
-  detourFooter?: DetourFooterModel | null
   /** The tile on a plot with a parked question. */
   onNote?: (station: number) => void
   /** A finished card opened again: everything else steps back and takes no input. */
@@ -76,12 +73,25 @@ function panOnlyOffControls(e: PointerEvent<HTMLDivElement>) {
  */
 export function withTrailFrame(Inner: ComponentType<NodeProps>) {
   function Framed(props: NodeProps) {
-    const { places, onMeasure, onOpen, epochOf, checkStep, lookingBack, dataOf, detourFooter, sandboxFor } = useContext(TrailPlacementContext)
+    const { places, onMeasure, onOpen, epochOf, checkStep, lookingBack, dataOf, sandboxFor } = useContext(TrailPlacementContext)
     const { id, type } = props
     const data = (dataOf?.(id) ?? props.data) as NodeProps['data']
     const place = places[id]
     const inner = useRef<HTMLDivElement>(null)
+    const scroller = useRef<HTMLDivElement>(null)
     const epoch = epochOf(id)
+
+    // A fade at the foot while there is more below it.
+    const scrolls = !!place?.scrolls
+    const height = place?.h
+    useEffect(() => {
+      const el = scroller.current
+      if (!el) return
+      const mark = () => el.toggleAttribute('data-more', scrolls && el.scrollHeight - el.scrollTop - el.clientHeight > MEASURE_SLOP)
+      mark()
+      el.addEventListener('scroll', mark, { passive: true })
+      return () => el.removeEventListener('scroll', mark)
+    }, [scrolls, height])
 
     useEffect(() => {
       const el = inner.current
@@ -115,6 +125,7 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
     return (
       <div className="ss-trail-frame" style={{ width: place.w, height: place.h }} data-role={place.role}>
         {place.role === 'focus' && type === 'quiz' && checkStep && <CheckStepBar step={checkStep} />}
+        <div ref={scroller} className={`ss-trail-scroller${scrolls ? ' ss-trail-scrolls nowheel' : ''}`} tabIndex={scrolls ? 0 : undefined}>
         <div
           key={epoch}
           ref={inner}
@@ -130,7 +141,7 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
           ) : (
             <Inner {...props} data={data} />
           )}
-          {place.role === 'focus' && detourFooter && <DetourFooter {...detourFooter} />}
+        </div>
         </div>
         {!live && (
           <button type="button" tabIndex={-1} aria-label={`Open ${title}`} className="ss-trail-open" onClick={() => onOpen(id)} />

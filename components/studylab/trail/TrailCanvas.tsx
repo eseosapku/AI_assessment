@@ -1,5 +1,6 @@
 'use client'
 
+import { TrailWorkedCard } from './TrailWorkedCard'
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, type ReactNode } from 'react'
 import { ReactFlow, Background, BackgroundVariant, Panel, useReactFlow, type Node, type NodeTypes } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
@@ -23,6 +24,7 @@ const WORLD = 'trail-world'
 export const trailNodeTypes = {
   ...Object.fromEntries(Object.entries(studyNodeTypes).map(([type, Inner]) => [type, withTrailFrame(Inner)])),
   concept: withTrailFrame(TrailConceptCard),
+  worked: withTrailFrame(TrailWorkedCard),
   trailWorld: TrailWorldNode,
 } as unknown as NodeTypes
 
@@ -189,7 +191,8 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     rf.setViewport({ x: view.x - dx * view.zoom, y: view.y - dy * view.zoom, zoom: view.zoom }, { duration: prefersReducedMotion() ? 0 : CAMERA_MS, ease: easeOut })
   }, [frame, focusId, rf, frameWork])
 
-  // Growing downward past the button (a reveal, a reason): it comes up into view.
+  // Growing downward past the button (a reveal, a reason): it comes up into view,
+  // with Kana, not sliding her under the ribbon.
   const focusCard = focusId ? world.cards[focusId] : undefined
   const focusBottom = focusCard ? focusCard.y + focusCard.h : null
   const lastBottom = useRef<{ id: string | null; bottom: number } | null>(null)
@@ -202,14 +205,14 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     lastBottom.current = { id: focusId, bottom: focusBottom }
     if (!prev || prev.id !== focusId || focusBottom <= prev.bottom || framed.current !== focusId || exploringRef.current) return
     const view = rf.getViewport()
-    const pan = footClearance({
+    const past = footClearance({
       top: view.y + focusCard.y * view.zoom,
       bottom: view.y + focusBottom * view.zoom,
       viewportH: window.innerHeight,
       insets: insetsRef.current,
     })
-    if (pan > 0) rf.setViewport({ ...view, y: view.y - pan }, { duration: prefersReducedMotion() ? 0 : CAMERA_MS, ease: easeOut })
-  }, [focusBottom, focusCard, focusId, rf])
+    if (past > 0) frameWork()
+  }, [focusBottom, focusCard, focusId, rf, frameWork])
 
   // The board narrows when the chat opens, and the window can change: the work
   // is framed again once the size settles, unless the learner is looking around.

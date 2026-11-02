@@ -1,5 +1,6 @@
 'use client'
 
+import { MessageSquareText } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Panel, ViewportPortal } from '@xyflow/react'
 import { SafeLatex } from '../canvasShared'
@@ -28,7 +29,7 @@ const place = (el: HTMLElement, p: Point) => {
  * Kana on the board with the tutor's latest line. The bubble is the newest thing
  * said; open the chat and it hides, because the same line is there.
  */
-export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, bandKana = BAND_KANA, onAskBand, steppedBack, cheer, celebrating, pointer, onMore, onChip, onShowCard, onSpeechHeight }: {
+export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, inChat, band, bandKana = BAND_KANA, onAskBand, steppedBack, cheer, celebrating, pointer, onMore, onChip, onShowCard, onSpeechHeight }: {
   world: TrailWorld
   focusId: string | null
   line: BubbleLine | null
@@ -37,6 +38,8 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
   extra?: ReactNode
   /** The chat is open: the line is in there. */
   hidden: boolean
+  /** She is at the foot of the chat, so not on the board as well. */
+  inChat?: boolean
   /** The whole board is in view, too small to read on: she stands on the screen, above the button. */
   band?: boolean
   bandKana?: number
@@ -56,7 +59,7 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
   /** How much room her words take, so the card sits clear of them. */
   onSpeechHeight?: (height: number) => void
 }) {
-  const spot = band ? null : (world.speaker ?? restingSpot(world))
+  const spot = band || inChat ? null : (world.speaker ?? restingSpot(world))
   const target = spot?.kana ?? null
   // State, not a ref: the portal mounts a beat after this component does, and the
   // move below has to run again once there is something to move.
@@ -268,7 +271,9 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, band, 
         <Panel position="bottom-center" className="ss-trail-band">
           {onAskBand ? (
             <KanaLive pose={pose} size={bandKana} label="Ask Kana" onPoke={onAskBand} className="ss-trail-band-ask">
-              <span>Ask Kana</span>
+              <span className="ss-trail-band-icon">
+                <MessageSquareText className="h-5 w-5" aria-hidden />
+              </span>
             </KanaLive>
           ) : (
             <KanaLive pose={pose} size={bandKana} className="shrink-0" />

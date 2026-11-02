@@ -30,6 +30,8 @@ export const TITLE = { w: 900, h: 260 }
 const MAX_FOCUS_SCALE = 1.5
 /** A tall card comes down to fit the screen, but no further than it can be read. */
 const MIN_TALL_SCALE = 1.15
+/** However much Kana is saying, a card keeps this share of the room. */
+const MIN_CARD_ROOM = 0.5
 const CARD_GAP = 24
 const FILED_GAP = 16
 const COLUMN_SIZE = 3
@@ -43,14 +45,15 @@ const MARGIN = 40
 const KANA_W = 150
 const BUBBLE_MIN_W = 360
 
-function placeAt(card: CardInput, w: number, role: CardPlace['role'], x = 0, y = 0): CardPlace {
+function placeAt(card: CardInput, w: number, role: CardPlace['role'], x = 0, y = 0, room?: number): CardPlace {
   const scale = w / card.natural.w
-  return { x, y, w, h: card.natural.h * scale, scale, role }
+  const h = card.natural.h * scale
+  return room !== undefined && h > room ? { x, y, w, h: room, scale, role, scrolls: true } : { x, y, w, h, scale, role }
 }
 
 function focusWidthOf(card: CardInput, focusWidth: number, room?: number): number {
   const wide = Math.min(card.natural.w * MAX_FOCUS_SCALE, focusWidth)
-  if (!room || card.natural.h <= 0) return wide
+  if (!card.fit || !room || card.natural.h <= 0) return wide
   return Math.min(wide, card.natural.w * Math.max(MIN_TALL_SCALE, room / card.natural.h))
 }
 
@@ -85,11 +88,12 @@ function openContents(finished: CardInput[], filed: CardInput[], focus: CardInpu
   const slotX = PAD + columns * (sideW + CARD_GAP)
   const showSpeaker = speaker && focus !== null
   const strip = showSpeaker ? speakerH + CARD_GAP : 0
-  const focusW = focus ? focusWidthOf(focus, focusWidth, focusRoom === undefined ? undefined : focusRoom - strip) : focusWidth
+  const room = focusRoom === undefined ? undefined : Math.max(focusRoom - strip, focusRoom * MIN_CARD_ROOM)
+  const focusW = focus ? focusWidthOf(focus, focusWidth, room) : focusWidth
   const slotW = Math.max(focusW, speaker ? KANA_W + BUBBLE_MIN_W : 0)
   let slotH = strip
   if (focus) {
-    cards[focus.id] = placeAt(focus, focusW, 'focus', slotX, PAD + strip)
+    cards[focus.id] = placeAt(focus, focusW, 'focus', slotX, PAD + strip, room)
     slotH += cards[focus.id].h
   }
 
@@ -304,7 +308,7 @@ export function trailLayout(input: TrailLayoutInput): TrailWorld {
   // Over the plot in view, at reading size. Everything else stays exactly where it was.
   if (reopened) {
     const card = { id: reopened.id, natural: reopened.natural }
-    cards[reopened.id] = placeAt(card, focusWidthOf(card, focusWidth), 'reopened', reopened.at.x, reopened.at.y)
+    cards[reopened.id] = placeAt(card, focusWidthOf(card, focusWidth), 'reopened', reopened.at.x, reopened.at.y, focusRoom)
   }
 
   const everything: Rect[] = [

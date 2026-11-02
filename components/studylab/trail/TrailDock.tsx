@@ -1,5 +1,6 @@
 'use client'
 
+import { DetourFooter, type DetourFooterModel } from './DetourFooter'
 import { forwardRef, type ReactNode } from 'react'
 import { ArrowRight, RotateCcw, Trophy } from 'lucide-react'
 import type { ContinueTarget } from '@/lib/studylab/spotlight'
@@ -14,6 +15,8 @@ export const TrailDock = forwardRef<HTMLDivElement, {
   action: TrailAction
   /** Waiting on the tutor with nothing to press yet: says so, beside the card's own bar. */
   waiting?: string | null
+  /** "Did that clear it up?": here, because on a long card it would scroll out of sight. */
+  footer?: DetourFooterModel | null
   onContinue: (target: ContinueTarget) => void
   onGoToStation: (station: number) => void
   onStart?: () => void
@@ -25,11 +28,12 @@ export const TrailDock = forwardRef<HTMLDivElement, {
   onRetry?: () => void
   /** Beside Start: Change the plan. */
   secondary?: ReactNode
-}>(function TrailDock({ action, waiting, onContinue, onGoToStation, onStart, onTryAgain, onSummary, onProveIt, provingIt, onRetry, secondary }, slotRef) {
+}>(function TrailDock({ action, waiting, footer, onContinue, onGoToStation, onStart, onTryAgain, onSummary, onProveIt, provingIt, onRetry, secondary }, slotRef) {
   return (
     <div className="ss-trail-dock pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center px-4">
       <div className="pointer-events-auto flex w-full max-w-[560px] flex-col items-stretch gap-2">
         {waiting && <p role="status" className="ss-trail-waiting">{waiting}</p>}
+        {footer && <DetourFooter {...footer} />}
         {/* Cards draw their bar in here, and it stays mounted while something
             else has the button. React never renders into it. */}
         <div ref={slotRef} className={`ss-trail-slot empty:hidden${action.kind === 'bar' ? '' : ' hidden'}`} />

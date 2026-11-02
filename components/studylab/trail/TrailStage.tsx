@@ -1,5 +1,7 @@
 'use client'
 
+import { MessageSquareText } from 'lucide-react'
+import { KanaLive } from './KanaLive'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
 import type { LessonStageProps } from '../stage/LessonStage'
@@ -34,7 +36,7 @@ import { continueFor, dockModel, cameraInsets, quietStage, type ContinueTarget }
 import { drawerKey } from '@/lib/studylab/drawerKey'
 import { lessonFinished, lessonSummary } from '@/lib/studylab/scenes'
 import { playSound } from '@/lib/studylab/sound'
-import { focusWidthFor, journeyFrame } from '@/lib/studylab/trail/camera'
+import { focusWidthFor, journeyFrame, RIBBON_ROOM } from '@/lib/studylab/trail/camera'
 import { latestLine } from '@/lib/studylab/bubble'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import type { Rect } from '@/lib/studylab/trail/types'
@@ -42,7 +44,6 @@ import type { Rect } from '@/lib/studylab/trail/types'
 const INSETS = cameraInsets(false)
 const INSETS_PHONE = cameraInsets(true)
 /** The ribbon hangs under the top bar: the camera keeps the card clear of it. */
-const RIBBON_ROOM = 56
 
 /** Below `sm`. */
 const PHONE = '(max-width: 639px)'
@@ -60,6 +61,8 @@ function subscribeWidth(onChange: () => void) {
 }
 /** The top bar and the button: what is left of the screen for a card goes between them. */
 const CHROME_H = 64 + 110
+/** With the chat open the board sits in a frame, this much clear of the page. */
+const DRAWER_MARGINS = 24
 /** Said once her questions about the plan are answered. */
 const PLAN_READY = 'Your plan is ready. Change anything you like, or start when you are.'
 
@@ -107,9 +110,13 @@ function TrailStageInner(props: LessonStageProps) {
   const phone = usePhone()
   const baseInsets = phone ? INSETS_PHONE : INSETS
   const focusWidth = focusWidthFor(useViewportWidth())
-  // A phone has no room on the board for Kana: she stands on the screen, above the button.
+  // The chat drawer, closed by default.
+  const [ownOpen, setOwnOpen] = useState(false)
+  const open = drawerOpen ?? ownOpen
+  // A phone has no room on the board for Kana: she stands on the screen, above the
+  // button. With the chat open she is at its foot, so the card has the whole board.
   const viewportH = useViewportHeight()
-  const trailView = useMemo(() => ({ focusWidth, speaker: !phone, focusRoom: phone ? undefined : viewportH - CHROME_H }), [focusWidth, phone, viewportH])
+  const trailView = useMemo(() => ({ focusWidth, speaker: !phone && !open, focusRoom: phone ? undefined : viewportH - CHROME_H - (open ? DRAWER_MARGINS : 0) }), [focusWidth, phone, open, viewportH])
   const model = useTrailModel(props, trailView)
   const { focusId, world, nextInQueue, say, lines, lookBack, epochOf, dataOf, sandboxFor } = model
   const lookingBack = lookBack?.id ?? null
@@ -117,9 +124,6 @@ function TrailStageInner(props: LessonStageProps) {
   const canvas = useRef<TrailCanvasHandle>(null)
   const spotlight = useMemo(() => (focusId ? [focusId] : []), [focusId])
 
-  // The chat drawer, closed by default.
-  const [ownOpen, setOwnOpen] = useState(false)
-  const open = drawerOpen ?? ownOpen
   const opener = useRef<HTMLElement | null>(null)
   const setOpen = useCallback(
     (next: boolean) => {
@@ -228,8 +232,8 @@ function TrailStageInner(props: LessonStageProps) {
   }, [])
   const checkStep = useMemo(() => checkSteps(board.nodes, board.run, focusId), [board.nodes, board.run, focusId])
   const placementValue = useMemo<TrailPlacement>(
-    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: model.open, onStation: flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, detourFooter, onNote: model.showNote }),
-    [world.cards, model.onMeasure, model.open, flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, detourFooter, model.showNote],
+    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: model.open, onStation: flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, onNote: model.showNote }),
+    [world.cards, model.onMeasure, model.open, flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, model.showNote],
   )
 
   // A failed turn that can be sent again: the dock offers it.
@@ -378,10 +382,10 @@ function TrailStageInner(props: LessonStageProps) {
             {banner}
             <div className="flex min-h-0 flex-1">
               {/* The chat on the left; the board narrows beside it. */}
-              <TrailChatPanel open={open}>
+              <TrailChatPanel open={open} onClose={() => setOpen(false)}>
                 <ChatMouthpiece {...chat} messages={shownMessages} onSend={sendFromChat} look="trail" onClose={() => setOpen(false)} focusInput={open} />
               </TrailChatPanel>
-              <div data-tour="lesson-board" data-stage-board className="relative h-full min-w-0 flex-1">
+              <div data-tour="lesson-board" data-stage-board className={`relative h-full min-w-0 flex-1${open ? ' ss-trail-framed' : ''}`}>
                 {boardOverlay}
                 <TrailCanvas ref={canvas} model={model} nodes={board.nodes} insets={planning && !phone ? openingInsets(baseInsets) : lookBack || detourOpen ? { ...baseInsets, top: baseInsets.top + RIBBON_ROOM } : baseInsets} onCardPrompt={board.onCardPrompt} focusMinZoom={phone ? FULL_SIZE : undefined} heading={heading} restFrame={restFrame} opening={planning}>
                   <KanaOnBoard
@@ -390,6 +394,7 @@ function TrailStageInner(props: LessonStageProps) {
                     line={line}
                     chips={chips}
                     hidden={open || !!lookingBack || finished}
+                    inChat={open && !phone}
                     steppedBack={!!lookingBack}
                     cheer={interludeKey}
                     celebrating={finished}
@@ -414,6 +419,7 @@ function TrailStageInner(props: LessonStageProps) {
                   ref={setDockEl}
                   action={action}
                   waiting={chat.busy && answered && action.kind === 'bar' ? 'Getting your next card…' : null}
+                  footer={detourFooter}
                   onContinue={runContinue}
                   onGoToStation={model.endInterlude}
                   onStart={() => chat.onAcceptPlan?.('step')}
@@ -424,15 +430,14 @@ function TrailStageInner(props: LessonStageProps) {
                   provingIt={chat.provingIt}
                   onRetry={last?.retryAction ? () => chat.onRetry?.(last.retryAction!) : undefined}
                 />
-                <button
-                  type="button"
-                  onClick={openChat}
-                  aria-label="Ask Kana"
-                  className="ss-press absolute bottom-5 left-4 z-30 hidden min-h-[52px] items-center gap-2 sm:inline-flex rounded-full border border-ss-line bg-ss-panel px-3 pr-4 text-[16px] font-bold text-ss-ink shadow-ss-panel"
-                >
-                  <Kana simple pose="happy" size={34} />
-                  <span>Ask Kana</span>
-                </button>
+                {!open && (
+                  <div className="ss-trail-ask">
+                    <KanaLive pose="happy" size={140} label="Ask Kana" onPoke={openChat} crop />
+                    <button type="button" onClick={openChat} aria-label="Ask Kana" title="Ask Kana" className="ss-trail-ask-pill">
+                      <MessageSquareText className="h-7 w-7" strokeWidth={1.75} aria-hidden />
+                    </button>
+                  </div>
+                )}
                 <TrailTopBar
                   pills={stationPills(board.run, plan?.steps)}
                   label={topBarLabel({ run: board.run, lookingBack: lookBack?.title ?? null, detourOpen: !!detourOpen }) || rail.title}

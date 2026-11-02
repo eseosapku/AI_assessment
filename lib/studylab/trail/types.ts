@@ -21,6 +21,8 @@ export interface CardInput {
   id: string
   /** The card's own size, before the Trail scales it. */
   natural: Size
+  /** Worked with the hands: it comes down to fit first, since scrolling away from what you are moving does not work. */
+  fit?: boolean
 }
 
 export interface PlotInput {
@@ -59,6 +61,8 @@ export interface TrailLayoutInput {
 export interface CardPlace extends Rect {
   scale: number
   role: CardRole
+  /** Taller than the room it has: it scrolls inside its frame. */
+  scrolls?: boolean
 }
 
 export interface PlotBox {

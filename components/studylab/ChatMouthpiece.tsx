@@ -4,9 +4,8 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { chatEmphasis } from '@/lib/studylab/chatFade'
 import { PlanCard } from './PlanCard'
 import { QuestionPicker } from './QuestionPicker'
-import { Send, Sparkles, ImagePlus, X, ArrowRight, Volume2, VolumeX } from 'lucide-react'
+import { Send, Sparkles, ImagePlus, X, ArrowRight, Volume2, VolumeX, PanelLeftClose } from 'lucide-react'
 import { Inky } from './inky/Inky'
-import { Kana } from './kana/Kana'
 import { KanaLive } from './trail/KanaLive'
 import { SafeLatex } from './canvasShared'
 import { useMuted } from '@/lib/studylab/sound'
@@ -109,7 +108,8 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   const scrollRef = useRef<HTMLDivElement>(null)
   const fade = chatEmphasis(messages)
   const trail = look === 'trail'
-  const avatar = trail ? <span className="ss-chat-avatar"><Kana simple pose="happy" size={40} /></span> : <Inky size={28} className="shrink-0 mt-0.5" />
+  // On the Trail Kana stands at the foot of the chat, and everything rises from her.
+  const avatar = trail ? null : <Inky size={28} className="shrink-0 mt-0.5" />
   const fileRef = useRef<HTMLInputElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -173,12 +173,14 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   return (
     <div className={`flex flex-col h-full${trail ? ' ss-trail-chat' : ' bg-white dark:bg-[#161617]'}`}>
       {/* Header */}
-      <div className={trail ? 'ss-chat-head' : 'flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-800'}>
-        {trail ? <KanaLive pose={busy ? 'think' : 'happy'} size={64} still={!focusInput} /> : <Inky size={34} mood={busy ? 'thinking' : 'idle'} />}
-        <div className="leading-tight">
-          <p className={trail ? 'ss-chat-name' : 'font-semibold text-[14px]'}>{trail ? 'Kana' : 'Inky'}</p>
-          <p className="text-[12px] text-ss-slate">Your tutor</p>
-        </div>
+      <div className={trail ? 'ss-chat-rail' : 'flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-800'}>
+        {!trail && <Inky size={34} mood={busy ? 'thinking' : 'idle'} />}
+        {!trail && (
+          <div className="leading-tight">
+            <p className="font-semibold text-[14px]">Inky</p>
+            <p className="text-[12px] text-ss-slate">Your tutor</p>
+          </div>
+        )}
         <MuteToggle />
         {onClose && (
           <button
@@ -188,7 +190,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             title="Close (Esc)"
             className="grid h-11 w-11 place-items-center rounded-xl text-ss-slate transition hover:bg-ss-chip hover:text-ss-ink motion-reduce:transition-none"
           >
-            <X className="h-5 w-5" aria-hidden />
+            {trail ? <PanelLeftClose className="h-5 w-5" aria-hidden /> : <X className="h-5 w-5" aria-hidden />}
           </button>
         )}
       </div>
@@ -198,7 +200,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           before the latest exchange fades, and the newest reply is lit. */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 py-4 space-y-4"
+        className={`flex-1 overflow-y-auto px-4 py-4 space-y-4${trail ? ' ss-chat-scroll' : ''}`}
         style={{ maskImage: 'linear-gradient(to bottom, transparent 0, #000 40px)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0, #000 40px)' }}
       >
         {messages.length === 0 && !busy && (
@@ -285,7 +287,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                 <div className={trail ? 'min-w-0 flex-1' : 'max-w-[85%] space-y-1.5'}>
                   {m.content && (
                     <div
-                      className={trail ? 'ss-chat-say whitespace-pre-wrap' : `rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap ${i === fade.lit ? 'text-ss-ink' : 'bg-ss-chip dark:bg-white/5'}`}
+                      className={trail ? `ss-chat-say whitespace-pre-wrap${i === fade.lit ? ' ss-chat-lit' : ''}` : `rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap ${i === fade.lit ? 'text-ss-ink' : 'bg-ss-chip dark:bg-white/5'}`}
                       style={!trail && i === fade.lit ? { backgroundColor: 'color-mix(in srgb, var(--subject) 13%, var(--ss-panel))', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--subject) 30%, transparent)' } : undefined}
                     >
                       <SafeLatex>{m.content}</SafeLatex>
@@ -339,8 +341,8 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
         {busy && (
           <div className="flex gap-2.5">
-            {trail ? <span className="ss-chat-avatar"><Kana simple pose="think" size={40} /></span> : <Inky size={28} mood="thinking" className="shrink-0" />}
-            <div className={trail ? 'ss-chat-say flex items-center gap-2' : 'rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-2'}>
+            {!trail && <Inky size={28} mood="thinking" className="shrink-0" />}
+            <div className={trail ? 'ss-chat-say ss-chat-lit flex flex-1 items-center gap-2' : 'rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-2'}>
               <span className="flex items-center gap-1.5" aria-hidden>
                 <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.3s]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.15s]" />
@@ -373,6 +375,8 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
       {/* Input */}
       <div className={trail ? 'ss-chat-foot' : 'p-3 border-t border-gray-100 dark:border-gray-800'}>
+        {trail && <KanaLive pose={busy ? 'think' : 'happy'} size={132} still={!focusInput} crop />}
+        <div className={trail ? 'ss-chat-compose' : 'contents'}>
         {attachment && (
           <div className="mb-2 relative inline-block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -429,7 +433,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             placeholder={
               locked
                 ? lockedHint ?? 'Typing is off in the demo.'
-                : 'Ask anything, or paste your work…'
+                : trail ? 'How can I help?' : 'Ask anything, or paste your work…'
             }
             className={`flex-1 bg-transparent resize-none outline-none focus-visible:outline-none text-[13.5px] max-h-28 py-1 ${
               locked && composed === null ? 'text-ss-slate' : ''
@@ -445,6 +449,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           </button>
         </div>
         <p className="text-[12px] text-ss-slate text-center mt-2">AI can make mistakes. Check important info.</p>
+        </div>
       </div>
     </div>
   )

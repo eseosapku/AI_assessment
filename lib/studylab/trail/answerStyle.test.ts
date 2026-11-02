@@ -1,4 +1,7 @@
 // lib/studylab/trail/answerStyle.test.ts
+import { ReactFlowProvider } from '@xyflow/react'
+import { TrailWorkedCard } from '@/components/studylab/trail/TrailWorkedCard'
+import { firstShown, workedSteps } from './answerStyle'
 import { describe, it, expect } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -85,5 +88,37 @@ describe('the result on the Trail', () => {
     expect(badge('correct', true)).toContain('--ss-good')
     expect(badge('correct', true)).toContain('h-7')
     expect(badge('correct', false)).toContain('h-5')
+  })
+})
+
+describe('a worked card, one step at a time', () => {
+  const draw = (steps: string[], role: 'focus' | 'filed' = 'focus', lookingBack: string | null = null) =>
+    renderToStaticMarkup(createElement(ReactFlowProvider, null, createElement(TrailPlacementContext.Provider, {
+      value: { places: { w: { x: 0, y: 0, w: 640, h: 300, scale: 1.5, role } }, onMeasure: () => {}, onOpen: () => {}, onStation: () => {}, onDeeper: () => {}, epochOf: () => 0, lookingBack } as never,
+    }, createElement(TrailWorkedCard as never, { id: 'w', data: { kind: 'worked', title: 'T', steps } }))))
+  const nine = Array.from({ length: 9 }, (_, i) => `line ${i + 1}`)
+
+  it('opens a long one on its first step, with the way on', () => {
+    const html = draw(nine)
+    expect(html).toContain('line 1')
+    expect(html).not.toContain('line 2')
+    expect(html).toContain('Next step')
+    expect(html).toContain('Step 1 of 9')
+    expect(html).toContain('Show all')
+  })
+  it('just shows a short one', () => {
+    const html = draw(['one', 'two', 'three'])
+    expect(html).toContain('three')
+    expect(html).not.toContain('Next step')
+  })
+  it('shows all of it when filed or looked back at', () => {
+    expect(draw(nine, 'filed')).toContain('line 9')
+    expect(draw(nine, 'focus', 'w')).toContain('line 9')
+  })
+  it('drops the blank lines, and counts only real steps', () => {
+    expect(workedSteps(['a', '', '  ', 'b', null])).toEqual(['a', 'b'])
+    expect(workedSteps(undefined)).toEqual([])
+    expect(firstShown(4)).toBe(1)
+    expect(firstShown(3)).toBe(3)
   })
 })

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { callGemma, parseJsonRobust, hasBedrockCredentials } from '@/lib/bedrock'
 import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
+import { modelForJob } from '@/lib/studylab/lessonJobs'
 
 function gradedCorrect(value: unknown): boolean | null {
   if (value === true || value === false) return value
@@ -9,6 +10,18 @@ function gradedCorrect(value: unknown): boolean | null {
   if (text === 'true') return true
   if (text === 'false') return false
   return null
+}
+
+/**
+ * The mark comes from what the model found, not from a verdict of its own. Asked for
+ * one it passed a missing second root with feedback naming the miss, and asked to list
+ * problems it invented them for right answers. A reply without the findings is read
+ * as its plain "correct".
+ */
+function markOf(parsed: Record<string, unknown>): boolean | null {
+  const matches = gradedCorrect(parsed?.result_matches)
+  if (matches === null) return gradedCorrect(parsed?.correct)
+  return matches && gradedCorrect(parsed?.used_named_method) !== false
 }
 
 function buildPrompt(o: {
@@ -30,7 +43,13 @@ ${criterion}
 STUDENT'S ANSWER:
 ${o.answer}
 
-Reply with ONLY a JSON object: {"correct": <true|false>, "feedback": "<one or two warm sentences: what was right, and the key fix if wrong>"}`
+HOW TO MARK. Reply with ONLY a JSON object with these fields, in this order:
+"my_result": work the question out yourself and write the result in a few words. The rubric is one good answer, not the only one.
+"student_result": the student's final result, in a few words.
+"result_matches": true if the student's result says the same as yours, in any form or wording, and is complete. One of two solutions is not complete. Judge only the result: not their steps, the order of them, or how much they wrote.
+"named_method": the method the question itself tells the student to use, or null if it names none.
+"used_named_method": true if their answer shows that method, false if it shows another or none, null if the question names none.
+"feedback": one or two warm sentences to the student: what was right, and the one key fix if the result does not match or the named method was not used. Do not ask for more detail on an answer that is right.`
 }
 
 export async function POST(request: NextRequest) {
@@ -57,7 +76,10 @@ export async function POST(request: NextRequest) {
     try {
       raw = await callGemma(
         buildPrompt({ prompt, format, answer, rubric: body?.rubric, goal: body?.goal, output: body?.output }),
-        { maxTokens: 500, temperature: 0.3 }
+        // Haiku, not Nova Lite, which marks practice: on twelve answers with known marks,
+        // run three times each, Haiku got 36 of 36. Nova got 27, and failed right working
+        // for not following the rubric. A check is what moves the lesson on.
+        { maxTokens: 500, temperature: 0.2, model: modelForJob('check') }
       )
     } catch {
       return NextResponse.json({ correct: false, feedback: 'Could not grade right now — try again in a moment.' })
@@ -65,7 +87,7 @@ export async function POST(request: NextRequest) {
 
     try {
       const parsed = parseJsonRobust(raw)
-      const correct = gradedCorrect(parsed?.correct)
+      const correct = markOf(parsed)
       // A reply that is not a boolean is not a mark. Sending correct: false
       // locked the answer, including when the model wrote the word "true".
       if (correct === null) {

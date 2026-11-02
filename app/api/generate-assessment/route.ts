@@ -57,6 +57,7 @@ import { dropRepeatedDemands, sameDemand, stripDeadPointer, stripPrintedMarks, s
 import { parseTopUp, topUpAllowed, TOP_UP_MAX_MISSING } from '@/lib/quiz-top-up'
 import { leastCoveredSections, pointShares, sectionShares, type BookSection } from '@/lib/section-shares'
 import { toBritish } from '@/lib/british-spelling'
+import { lessonQuizScope } from '@/lib/studylab/proveIt'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
 import { isLazyChoiceQuestion, sourceNeedsWorkedProblems, workedProblemRules } from '@/lib/worked-problems'
 import { normaliseWrittenType } from '@/lib/written-type'
@@ -3692,7 +3693,10 @@ ${commandBlock}`
     // Primary Mathematics questions were not -- "25% of 80" keyed 40, a median
     // of 1-5 keyed 2, a square and a rectangle both "the shape with four right
     // angles", the area of a circle at Stage 3.
-    const checksThisPaper = isCheckpoint || isCambridge
+    // And Prove-it: the quiz that tells a learner whether they got it. One had three
+    // right answers, one a wrong key, and it read "A+, nothing to fix".
+    const lessonQuiz = body?.lessonQuiz === true
+    const checksThisPaper = isCheckpoint || isCambridge || lessonQuiz
     // Past this, an ordinary quiz ships what it has unchecked rather than be
     // killed at maxDuration with nothing to show.
     const CHECK_DEADLINE_MS = 25_000
@@ -3707,7 +3711,9 @@ ${commandBlock}`
       // twice, leaving an English paper without its 25 marks.
       // Not a vetted figure question either: Sonnet checked it looking at the
       // figure, and this checker reads a description of it.
-      const todo = list.filter((q) => q && typeof q === 'object' && !q.checked && !q.vetted && !isCompositionQuestion(q))
+      // On a lesson's quiz a vetted question is read too: it was vetted against its
+      // figure, and nothing has asked whether it belongs to this lesson.
+      const todo = list.filter((q) => q && typeof q === 'object' && !q.checked && (lessonQuiz || !q.vetted) && !isCompositionQuestion(q))
       if (todo.length === 0) return list
       const g = Number(grade)
       const stage = isCheckpoint
@@ -3715,8 +3721,9 @@ ${commandBlock}`
         : g >= 10 ? 'Cambridge IGCSE (ages 14-16)'
         : g >= 7 ? `Cambridge Lower Secondary Stage ${g} (age ${g + 5})`
         : g >= 1 ? `Cambridge Primary Stage ${g} (age ${g + 5})`
-        : 'Cambridge'
+        : isCambridge ? 'Cambridge' : 'no fixed school stage'
       const scope = chapterBriefs.map((b) => `"${b.topic}": teaches ${b.teaches}${b.notYet ? ` NOT taught yet: ${b.notYet}` : ''}`).join('\n')
+        || (lessonQuiz ? lessonQuizScope(promptTopics) : '')
       const dropped = new Set<any>()
       let fixed = 0
       const reasons: string[] = []

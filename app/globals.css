@@ -425,6 +425,50 @@
   position: relative;
   transition: width 1.1s var(--trail-glide), height 1.1s var(--trail-glide);
 }
+.ss-trail-scroller {
+  position: absolute;
+  inset: 0;
+}
+/* A card too tall for the screen moves inside its frame: Kana and the button stay. */
+.ss-trail-scrolls {
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ss-ink) 25%, transparent) transparent;
+}
+.ss-trail-scrolls:focus-visible {
+  outline: 2px solid var(--subject);
+  outline-offset: 2px;
+}
+.ss-trail-scrolls[data-more] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
+}
+/* Every card as wide as the focus allows: at its 300 px a nine-step card was a tower. */
+.ss-trail-card .w-\[300px\],
+.ss-trail-card .w-\[340px\] {
+  width: 426px;
+}
+.ss-trail-step {
+  animation: ss-trail-say 200ms ease-out;
+}
+.ss-trail-step-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ss-slate);
+}
+.ss-trail-step-foot button {
+  font-weight: 700;
+  color: var(--ss-subject-ink, var(--ss-ink));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .ss-trail-card {
   position: absolute;
   left: 0;
@@ -516,7 +560,8 @@
   color: var(--ss-ink);
   transition: transform 1.1s var(--trail-glide), width 1.1s var(--trail-glide);
 }
-.ss-trail-on-card .ss-trail-label {
+.ss-trail-on-card .ss-trail-label,
+.ss-trail-on-card .ss-trail-title {
   opacity: 0;
 }
 .ss-trail-label span {
@@ -748,7 +793,7 @@
   border: 2px solid var(--ss-line);
   border-radius: 999px;
   background: var(--ss-panel);
-  padding: 0 1.1em;
+  padding: 0 0.85em;
   font-weight: 700;
   color: var(--ss-ink);
 }
@@ -955,12 +1000,80 @@
   margin: 0 8px 0 0 !important;
 }
 
-/* The chat is Kana talking: her board's squares behind it, her bubbles in front. */
+/* A drawer that opened on the page: the chat and the page are one plain surface,
+   white or dark with the theme, and the board stands on it in its own frame. */
+.ss-trail,
+.ss-trail-chat-panel {
+  background: var(--ss-panel);
+}
+.ss-trail [data-stage-board] {
+  transition: margin 250ms ease-out, border-radius 250ms ease-out;
+}
+@media (min-width: 768px) {
+  .ss-trail .ss-trail-framed {
+    height: auto;
+    margin: 12px 12px 12px 0;
+    overflow: hidden;
+    border: 1.5px solid color-mix(in srgb, var(--ss-ink) 16%, transparent);
+    border-radius: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ss-trail [data-stage-board] {
+    transition: none;
+  }
+}
+.ss-trail-drawer-handle {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ss-trail-drawer-handle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    display: block;
+    width: 20px;
+    height: 72px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .ss-trail-drawer-handle::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    width: 6px;
+    height: 52px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--ss-ink) 24%, transparent);
+    transition: background 120ms;
+  }
+  .ss-trail-drawer-handle:hover::before {
+    background: color-mix(in srgb, var(--ss-ink) 45%, transparent);
+  }
+  .ss-trail-drawer-handle:focus-visible {
+    outline: 2px solid var(--subject);
+    outline-offset: -2px;
+    border-radius: 10px;
+  }
+}
 .ss-trail-chat {
-  background-color: var(--trail-canvas);
-  background-image: linear-gradient(color-mix(in srgb, var(--trail-grid) 45%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--trail-grid) 45%, transparent) 1px, transparent 1px);
-  background-size: 64px 64px;
+  --chat-rail: 94px;
+  position: relative;
   color: var(--ss-ink);
+}
+.ss-chat-rail {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2px;
+}
+.ss-chat-rail button {
+  margin: 0;
 }
 .ss-trail-waiting {
   align-self: center;
@@ -972,98 +1085,168 @@
   color: var(--ss-slate);
   box-shadow: 0 2px 0 var(--ss-line);
 }
-.ss-chat-head {
+.ss-trail-chat .ss-chat-scroll {
   display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  padding: 14px 16px 10px;
+  flex-direction: column;
+  padding: 20px 28px 12px var(--chat-rail);
 }
-.ss-chat-head > .ss-trail-owl {
-  flex-shrink: 0;
+.ss-chat-scroll {
+  scrollbar-width: none;
 }
-.ss-chat-name {
-  font-family: var(--trail-heading);
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
+.ss-chat-scroll::-webkit-scrollbar {
+  display: none;
 }
-.ss-chat-head button:not(.ss-trail-owl) {
-  border-radius: 999px;
-  background: var(--ss-panel);
-  box-shadow: 0 2px 0 var(--ss-line);
-}
-.ss-chat-avatar {
-  flex-shrink: 0;
-  margin-top: 2px;
+.ss-chat-scroll > :first-child {
+  margin-top: auto;
 }
 .ss-chat-say,
 .ss-chat-you {
-  position: relative;
   border-radius: 20px;
-  padding: 12px 16px;
+  padding: 14px 18px;
   font-size: 18px;
   line-height: 1.4;
-  color: var(--ss-ink);
 }
+/* What has been said steps back; what she just said is lit. */
 .ss-chat-say {
-  border: 1px solid var(--ss-line);
-  background: var(--ss-panel);
-  box-shadow: 0 12px 26px -20px rgba(20, 60, 90, 0.5);
+  border: 1.5px solid color-mix(in srgb, var(--ss-ink) 14%, transparent);
+  color: var(--ss-slate);
 }
-.ss-chat-say::before {
-  content: '';
-  position: absolute;
-  left: -8px;
-  top: 14px;
-  width: 14px;
-  height: 14px;
-  transform: rotate(45deg);
-  border-left: 1px solid var(--ss-line);
-  border-bottom: 1px solid var(--ss-line);
-  background: var(--ss-panel);
+.ss-chat-lit {
+  border-color: color-mix(in srgb, var(--subject) 45%, transparent);
+  background: color-mix(in srgb, var(--subject) 10%, transparent);
+  color: var(--ss-ink);
 }
 .ss-chat-warn {
   border-color: var(--ss-warn);
+  color: var(--ss-ink);
 }
 .ss-chat-you {
   max-width: 85%;
-  background: var(--subject-soft);
-  border: 1px solid color-mix(in srgb, var(--subject) 35%, transparent);
-  font-weight: 600;
+  border: 1.5px solid color-mix(in srgb, var(--ss-ink) 14%, transparent);
+  color: var(--ss-ink);
 }
 .ss-chat-foot {
-  padding: 8px 14px 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 8px 28px 14px 16px;
+}
+.ss-chat-foot > .ss-trail-owl {
+  flex-shrink: 0;
+}
+.ss-chat-compose {
+  min-width: 0;
+  flex: 1;
 }
 .ss-chat-box {
   display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  border: 2px solid var(--ss-line);
-  border-radius: 20px;
-  background: var(--ss-panel);
-  padding: 8px 8px 8px 12px;
-  box-shadow: 0 3px 0 var(--ss-line);
+  align-items: center;
+  gap: 4px;
+  min-height: 68px;
+  border-radius: 34px;
+  background: color-mix(in srgb, var(--ss-ink) 7%, transparent);
+  padding: 10px 12px 10px 24px;
 }
 .ss-chat-box:focus-within {
-  border-color: var(--subject);
-  box-shadow: 0 3px 0 color-mix(in srgb, var(--subject) 45%, transparent);
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--ss-ink) 22%, transparent);
+}
+.ss-chat-box textarea {
+  order: -1;
 }
 .ss-chat-send {
   display: flex;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 999px;
   background: linear-gradient(90deg, #2ACBF2, #0C86CE);
   color: #16202A;
-  box-shadow: 0 2px 0 #0A6CA8;
 }
 .ss-chat-send:disabled {
-  background: var(--ss-chip);
+  background: transparent;
   color: var(--ss-slate);
-  box-shadow: none;
+}
+@media (max-width: 767px) {
+  .ss-trail-chat .ss-chat-scroll {
+    padding: 64px 16px 12px;
+  }
+  .ss-chat-rail {
+    flex-direction: row-reverse;
+  }
+  .ss-chat-foot {
+    gap: 8px;
+    padding: 8px 12px 12px 8px;
+  }
+  .ss-chat-foot > .ss-trail-owl {
+    width: 64px;
+    margin: -6px -14px 0 !important;
+  }
+  .ss-chat-foot > .ss-trail-owl svg {
+    width: 64px;
+    height: auto;
+  }
+}
+
+/* With a card's bar in the dock its own row is empty: left in, its gap lifted Check
+   8 px above where Continue sits. */
+.ss-trail-dock .flex.items-stretch:empty {
+  display: none;
+}
+/* Asking Kana: she and the message sign stand on the line the main button stands
+   on, at its height, as the tile beside it does. */
+.ss-trail-ask {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 30;
+  display: none;
+  align-items: flex-end;
+  gap: 8px;
+}
+@media (min-width: 640px) {
+  .ss-trail-ask {
+    display: flex;
+  }
+}
+/* Where the button would run into her, she stands above it. */
+@media (min-width: 640px) and (max-width: 939px) {
+  .ss-trail-ask {
+    bottom: 96px;
+  }
+}
+.ss-trail-ask-pill {
+  display: grid;
+  width: 72px;
+  height: 64px;
+  place-items: center;
+  border-radius: 18px;
+  background: var(--ss-panel);
+  color: var(--ss-ink);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--ss-ink) 16%, transparent);
+  transition: transform 80ms ease-out, box-shadow 80ms ease-out;
+}
+.ss-trail-ask-pill:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--ss-ink) 16%, transparent);
+}
+.ss-trail-ask-pill:focus-visible {
+  outline: 3px solid var(--subject);
+  outline-offset: 3px;
+}
+.ss-trail-band-icon {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1.5px solid var(--ss-line);
+  border-radius: 999px;
+  background: var(--ss-panel);
+  color: var(--ss-ink);
 }
 
 /* Kana on the board. Her big bubble stands above the card in focus; it hangs from
