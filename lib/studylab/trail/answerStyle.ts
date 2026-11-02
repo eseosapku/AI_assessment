@@ -8,6 +8,8 @@ import { firstSentence } from './voice'
  * rest a tap away. The card's data is untouched; only what is drawn first changes.
  */
 
+const STATEMENT_WORDS = 30
+
 /** A "name it" card's one statement, and what folds behind Tell me more. */
 export function statementOf(d: StudyNodeData): { statement: string; rest: string; items: string[] } {
   const items = d.items ?? []
@@ -17,6 +19,9 @@ export function statementOf(d: StudyNodeData): { statement: string; rest: string
     return { statement: first, rest: '', items: others }
   }
   const statement = firstSentence(body)
+  const words = statement.split(/\s+/)
+  // No sentence to take (a long run-on, say): a statement still has to be short.
+  if (words.length > STATEMENT_WORDS) return { statement: `${words.slice(0, STATEMENT_WORDS - 1).join(' ')}…`, rest: body, items }
   return { statement, rest: body.slice(statement.length).trim(), items }
 }
 

@@ -82,8 +82,10 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     },
     [rf],
   )
+  const lastFramed = useRef(0)
   const frameWork = useCallback(
     (instant = false) => {
+      lastFramed.current = performance.now()
       if (frameRef.current) go(frameRef.current, { instant })
       else go(boundsRef.current, { minZoom: WHOLE_BOARD_ZOOM, instant })
     },
@@ -161,9 +163,15 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     const dx = frame.x - prev.x
     const dy = frame.y - prev.y
     if (dx === 0 && dy === 0) return
+    // Mid-glide the camera is still on its way, so it is sent to the new place;
+    // a pan from where it is now would stop it short at whatever zoom it had reached.
+    if (performance.now() - lastFramed.current < CAMERA_MS) {
+      frameWork()
+      return
+    }
     const view = rf.getViewport()
     rf.setViewport({ x: view.x - dx * view.zoom, y: view.y - dy * view.zoom, zoom: view.zoom }, { duration: prefersReducedMotion() ? 0 : CAMERA_MS, ease: easeOut })
-  }, [frame, focusId, rf])
+  }, [frame, focusId, rf, frameWork])
 
   // The board narrows when the chat opens, and the window can change: the work
   // is framed again once the size settles, unless the learner is looking around.

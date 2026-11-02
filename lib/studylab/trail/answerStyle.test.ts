@@ -26,6 +26,13 @@ describe('statementOf', () => {
   it('a card with only items leads with the first', () => {
     expect(statementOf(concept({ items: ['a', 'b'] }))).toEqual({ statement: 'a', rest: '', items: ['b'] })
   })
+  it('a first sentence too long to be a statement is cut, and the whole of it folds', () => {
+    const body = Array.from({ length: 60 }, (_, i) => `w${i}`).join(' ')
+    const r = statementOf(concept({ body }))
+    expect(r.statement.split(' ').length).toBeLessThanOrEqual(30)
+    expect(r.statement.endsWith('…')).toBe(true)
+    expect(r.rest).toBe(body)
+  })
   it('an empty card has nothing to say', () => {
     expect(statementOf(concept({}))).toEqual({ statement: '', rest: '', items: [] })
   })

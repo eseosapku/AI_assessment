@@ -619,6 +619,66 @@
   text-underline-offset: 3px;
 }
 
+/* Detours: a branch off the trail, ending in a plot of its own, in the subject colour. */
+.ss-trail-detour {
+  fill: color-mix(in srgb, var(--subject) 7%, transparent);
+  stroke: var(--subject);
+  stroke-width: 3;
+  stroke-dasharray: 10 8;
+}
+.ss-trail-detour-open {
+  fill: var(--subject-soft);
+  stroke-dasharray: none;
+}
+.ss-trail-note {
+  pointer-events: all;
+  cursor: pointer;
+}
+.ss-trail-note rect {
+  fill: var(--ss-warn);
+}
+.ss-trail-note text {
+  fill: #fff;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+}
+.ss-trail-footer {
+  margin-top: 12px;
+  width: 0;
+  min-width: 100%;
+  border: 1px solid var(--ss-line);
+  border-radius: 18px;
+  background: var(--ss-panel);
+  padding: 14px;
+  box-shadow: 0 12px 28px -18px rgba(20, 60, 90, 0.45);
+}
+.ss-trail-footer p {
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ss-ink);
+}
+.ss-trail-footer button {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 8px;
+  border: 1px solid var(--ss-line);
+  border-radius: 14px;
+  background: var(--ss-chip);
+  padding: 8px 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ss-ink);
+}
+.ss-trail-footer button.ss-trail-footer-primary {
+  border-color: transparent;
+  background: linear-gradient(90deg, #2ACBF2, #0C86CE);
+  color: #16202A;
+}
+
 /* Looking back: the reopened card stands over everything, and a ribbon says so. */
 .ss-trail .react-flow .react-flow__node.ss-trail-dim {
   opacity: 0.22;

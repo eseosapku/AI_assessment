@@ -27,17 +27,21 @@ export function cardTitle(n: Pick<StudyNode, 'data'>): string {
   return said.length > TITLE_MAX ? `${said.slice(0, TITLE_MAX).trimEnd()}…` : said
 }
 
-/** The spotlight, minus what the Trail never draws. A focus that was only a check's header falls to the newest real card. */
-export function trailSpotlight(input: { nodes: StudyNode[]; run: LessonRun | null; explicit: string[] }): string[] {
-  const { nodes, run } = input
+/**
+ * The spotlight, minus what the Trail never draws. A focus that was only a check's
+ * header falls to the newest real card. `skip` holds cards filed on a closed detour:
+ * the fallback passes over them, though a card the lesson names is still shown.
+ */
+export function trailSpotlight(input: { nodes: StudyNode[]; run: LessonRun | null; explicit: string[]; skip?: ReadonlySet<string> }): string[] {
+  const { nodes, run, explicit, skip } = input
   const byId = new Map(nodes.map((n) => [n.id, n]))
   const kept = focusIds(input).filter((id) => {
     const n = byId.get(id)
-    return !!n && isTrailCard(n)
+    return !!n && isTrailCard(n) && (explicit.includes(id) || !skip?.has(id))
   })
   if (kept.length > 0 || !run || run.phase !== 'teaching') return kept
   const step = run.currentStep + 1
-  const newest = [...nodes].reverse().find((n) => !n.hidden && !isBlock(n) && isTrailCard(n) && Number(n.data.step) === step)
+  const newest = [...nodes].reverse().find((n) => !n.hidden && !isBlock(n) && isTrailCard(n) && Number(n.data.step) === step && !skip?.has(n.id))
   return newest ? [newest.id] : []
 }
 

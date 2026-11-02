@@ -214,3 +214,15 @@ describe('pinnedFocus', () => {
     expect(pinnedFocus([], [])).toBeNull()
   })
 })
+
+describe('trailSpotlight with closed detours', () => {
+  const run = runAt(1, ['done', 'teaching', 'pending'])
+  it('the fallback passes over a card filed on a detour', () => {
+    const nodes = [node('real', 2), node('side', 2)]
+    expect(trailSpotlight({ nodes, run, explicit: [], skip: new Set(['side']) })).toEqual(['real'])
+  })
+  it('but a card the lesson names is still shown', () => {
+    const nodes = [node('real', 2), node('side', 2)]
+    expect(trailSpotlight({ nodes, run, explicit: ['side'], skip: new Set(['side']) })).toEqual(['side'])
+  })
+})

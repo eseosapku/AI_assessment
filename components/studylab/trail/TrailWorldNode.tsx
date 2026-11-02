@@ -15,8 +15,8 @@ const BADGE = 56
 const tileFill = (t: Tile) =>
   t.kind === 'branch' ? 'var(--subject)' : `var(--trail-${t.kind === 'done' ? 'done' : 'tile'}-${t.tone})`
 
-function Plot({ plot, onStation }: { plot: PlotBox; onStation: (index: number) => void }) {
-  const { rect, state, index, title } = plot
+function Plot({ plot, onStation, onNote }: { plot: PlotBox; onStation: (index: number) => void; onNote?: (index: number) => void }) {
+  const { rect, state, index, title, notes } = plot
   return (
     <g className={`ss-trail-plot ss-trail-plot-${state}`} style={{ transform: `translate(${rect.x}px, ${rect.y}px)` }}>
       <rect
@@ -35,6 +35,15 @@ function Plot({ plot, onStation }: { plot: PlotBox; onStation: (index: number) =
           {state === 'done' ? '✓' : index + 1}
         </text>
       </g>
+      {notes > 0 && (
+        <g className="ss-trail-note" style={{ transform: `translate(${rect.w - BADGE}px, 0)` }} onClick={() => onNote?.(index)}>
+          <title>Still unsure</title>
+          <rect x={-BADGE / 2} y={-BADGE / 2} width={BADGE} height={BADGE} rx={BADGE * 0.26} />
+          <text textAnchor="middle" dominantBaseline="central">
+            ?
+          </text>
+        </g>
+      )}
     </g>
   )
 }
@@ -47,7 +56,7 @@ function Plot({ plot, onStation }: { plot: PlotBox; onStation: (index: number) =
  */
 function TrailWorldNodeInner({ data }: NodeProps) {
   const { world, heading, opening } = data as unknown as { world: TrailWorld; heading: TrailHeading; opening: boolean }
-  const { onStation } = useContext(TrailPlacementContext)
+  const { onStation, onNote } = useContext(TrailPlacementContext)
   return (
     <div className={`ss-trail-world${opening ? ' ss-trail-world-opening' : ''}`}>
       <TrailTitleBlock rect={world.title} heading={heading} stations={world.plots.length} />
@@ -56,7 +65,18 @@ function TrailWorldNodeInner({ data }: NodeProps) {
           <line key={i} className="ss-trail-link" x1={l.from.x} y1={l.from.y} x2={l.to.x} y2={l.to.y} />
         ))}
         {world.plots.map((p) => (
-          <Plot key={p.id} plot={p} onStation={onStation} />
+          <Plot key={p.id} plot={p} onStation={onStation} onNote={onNote} />
+        ))}
+        {world.detours.map((d) => (
+          <rect
+            key={d.id}
+            className={`ss-trail-detour${d.open ? ' ss-trail-detour-open' : ''}`}
+            x={d.rect.x}
+            y={d.rect.y}
+            width={d.rect.w}
+            height={d.rect.h}
+            rx={radiusOf(d.rect.w, d.rect.h)}
+          />
         ))}
         {world.tiles.map((t, i) => (
           <rect

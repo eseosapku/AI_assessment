@@ -5,12 +5,13 @@ import { useReactFlow } from '@xyflow/react'
 import type { LessonStageProps } from '../stage/LessonStage'
 import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { blockSize } from '@/lib/studylab/blocks'
+import { absorbTurn, backFromDetour, dueNotes, loadMemory, memoryKey, onAskAnswered, pruneMemory, saveMemory, stillNotSure as nextApproach, type Detour, type TrailMemory, type UnsureNote } from '@/lib/studylab/trail/detours'
 import { interludeFrom } from '@/lib/studylab/trail/action'
 import { freshAttempt, openLookBack, type LookBack } from '@/lib/studylab/trail/lookBack'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { planFrom } from '@/lib/studylab/trail/opening'
-import { assignBlocks, placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
-import { pinnedFocus, syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
+import { assignBlocks, cardTitle, placeCards, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
+import { focusOf, pinnedFocus, syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
 import type { DisplayLine } from '@/lib/studylab/trail/voice'
 
@@ -37,9 +38,38 @@ export interface TrailModel {
   writeSandbox: (patch: Partial<StudyNodeData>) => void
   epochOf: (id: string) => number
   dataOf: (id: string) => StudyNodeData | null
+  /** The branch the learner is on. */
+  detour: Detour | null
+  /** The card they go back to, by name, when there is one. */
+  returnTitle: string | null
+  leaveDetour: () => void
+  stillNotSure: () => void
+  /** A parked question being brought up again. */
+  note: UnsureNote | null
+  showNote: (station: number) => void
+  settleNote: (again: boolean) => void
   /** The cards' own sizes, as drawn. They place cards here and nowhere else. */
   sizes: Record<string, Size>
   onMeasure: (id: string, size: Size) => void
+}
+
+const PARKED = "Let's park this and keep going; it often clicks after the next part."
+
+function storage(): Storage | null {
+  try {
+    return window.localStorage
+  } catch {
+    return null
+  }
+}
+
+function readMemory(spaceId: string | undefined): string | null {
+  if (!spaceId) return null
+  try {
+    return storage()?.getItem(memoryKey(spaceId)) ?? null
+  } catch {
+    return null
+  }
 }
 
 /**
@@ -47,18 +77,59 @@ export interface TrailModel {
  * the same run always gives the same board, and none of it is saved.
  */
 export function useTrailModel(props: LessonStageProps): TrailModel {
-  const { board, focus, chat, onFocus } = props
+  const { board, focus, chat, onFocus, trail } = props
   const { nodes, run } = board
+  const spaceId = trail?.spaceId
+  const currentStep = run?.currentStep ?? 0
 
-  const spotlight = useMemo(() => trailSpotlight({ nodes, run, explicit: focus }), [nodes, run, focus])
-  const [held, setHeld] = useState<QueueState | null>(null)
-  const queue = syncQueue(held, spotlight)
+  // What this browser remembers of the run: detours, parked questions, where in a burst the learner was.
+  const [loaded] = useState(() => {
+    const memory = loadMemory(readMemory(spaceId))
+    // A reload keeps the learner's place, if that card is still theirs to be on.
+    const saved = focusOf(memory.queue)
+    const card = saved ? nodes.find((n) => n.id === saved && !n.hidden) : undefined
+    const onDetour = memory.detours.find((d) => d.id === memory.open)?.cardIds.includes(saved ?? '') ?? false
+    const belongs = !!card && (onDetour || Number(card.data.step) === currentStep + 1)
+    return { memory, restored: belongs ? saved : null }
+  })
+  const [storedMemory, setMemory] = useState<TrailMemory>(loaded.memory)
+  const memoryRef = useRef(storedMemory)
+
+  // A turn while on a closed detour's cards never falls back to them.
+  const skip = useMemo(() => new Set(storedMemory.detours.filter((d) => d.id !== storedMemory.open).flatMap((d) => d.cardIds)), [storedMemory])
+  const explicit = focus.length > 0 ? focus : loaded.restored ? [loaded.restored] : focus
+  const spotlight = useMemo(() => trailSpotlight({ nodes, run, explicit, skip }), [nodes, run, explicit, skip])
+  const [held, setHeld] = useState<QueueState | null>(loaded.restored ? loaded.memory.queue : null)
+
+  // A question answered with cards opens a detour, once for each answer, with the
+  // queue as it stood before those cards took the focus.
+  const ask = trail?.lastAsk ?? null
+  const [seenAsk, setSeenAsk] = useState(ask?.version ?? 0)
+  let memory = storedMemory
+  if (ask && ask.version !== seenAsk) {
+    setSeenAsk(ask.version)
+    memory = onAskAnswered(memory, ask, { station: Math.max(0, currentStep), queue: held })
+  }
+  // Work arriving from anywhere else waits: the learner stays on the detour.
+  const openOne = memory.detours.find((d) => d.id === memory.open) ?? null
+  const away = !!openOne && spotlight.length > 0 && !spotlight.every((id) => openOne.cardIds.includes(id))
+  memory = absorbTurn(memory, spotlight)
+  if (memory !== storedMemory) setMemory(memory)
+  memoryRef.current = memory
+
+  const queue = away ? held : syncQueue(held, spotlight)
   if (queue !== held) setHeld(queue)
 
-  const pin = pinnedFocus(focus, spotlight)
+  const pin = pinnedFocus(focus, explicit === focus ? spotlight : explicit)
   useEffect(() => {
     if (pin) onFocus(pin)
   }, [pin, onFocus])
+
+  // Cards can go, and what named them goes with them.
+  useEffect(() => {
+    const ids = new Set(nodes.map((n) => n.id))
+    setMemory((m) => pruneMemory(m, ids))
+  }, [nodes])
 
   // A station settling opens the pause, read off the run as it changes, in the
   // same render as the new cards so they never flash up before it.
@@ -72,6 +143,8 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
   const interlude = pause && run?.phase === 'teaching' && run.currentStep === pause.next ? pause : null
   const endInterlude = useCallback(() => setPause(null), [])
 
+  const currentStepRef = useRef(currentStep)
+  currentStepRef.current = currentStep
   const said = useRef(chat.messages.length)
   said.current = chat.messages.length
   const [lines, setLines] = useState<DisplayLine[]>([])
@@ -89,8 +162,7 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
   }, [])
 
   // The learner's own blocks stay in the station they were made in.
-  const currentStep = run?.currentStep ?? 0
-  const knownBlocks = useRef<Record<string, number>>({})
+  const knownBlocks = useRef<Record<string, number>>(loaded.memory.blocks)
   const blocks = useMemo(() => {
     const next = assignBlocks(nodes, knownBlocks.current, currentStep)
     knownBlocks.current = next
@@ -145,8 +217,8 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
 
   const planSteps = useMemo(() => planFrom(chat.messages)?.steps, [chat.messages])
   const placement = useMemo(
-    () => placeCards({ nodes, run, planSteps, queue, detours: [], openDetour: null, blocks, sizes, interlude, notes: [] }),
-    [nodes, run, planSteps, queue, blocks, sizes, interlude],
+    () => placeCards({ nodes, run, planSteps, queue, detours: memory.detours, openDetour: memory.open, blocks, sizes, interlude, notes: memory.notes }),
+    [nodes, run, planSteps, queue, memory.detours, memory.open, memory.notes, blocks, sizes, interlude],
   )
   // A card that has gone (a regenerated one) cannot stay open.
   const reopenedId = lookBack?.id ?? null
@@ -168,7 +240,75 @@ export function useTrailModel(props: LessonStageProps): TrailModel {
     [placement, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
   )
 
+  useEffect(() => {
+    if (spaceId) saveMemory(storage(), spaceId, { ...memory, queue, blocks })
+  }, [spaceId, memory, queue, blocks])
+
+  // Going back from a detour: the place the learner left, or the newest card of
+  // the lesson's own if that card has gone.
+  const land = useCallback(
+    (restore: QueueState | null) => {
+      const { nodes: all } = latest.current
+      const target = focusOf(restore)
+      const byId = target ? all.find((n) => n.id === target) : undefined
+      if (byId) {
+        setHeld(restore)
+        onFocus(byId.id)
+        return byId
+      }
+      const side = new Set(memoryRef.current.detours.flatMap((d) => d.cardIds))
+      const step = currentStepRef.current + 1
+      const newest = [...all].reverse().find((n) => !n.hidden && n.source !== 'freeform' && n.type !== 'stepGroup' && n.type !== 'checkpointHeader' && Number(n.data.step) === step && !side.has(n.id))
+      setHeld(null)
+      if (newest) onFocus(newest.id)
+      return newest
+    },
+    [onFocus],
+  )
+  const leaveDetour = useCallback(() => {
+    const { memory: next, restore } = backFromDetour(memoryRef.current)
+    setMemory(next)
+    const card = land(restore)
+    if (card) say(`You were on ${cardTitle(card)}.`, 'say')
+  }, [land, say])
+  const { onSend } = chat
+  const stillNotSure = useCallback(() => {
+    const result = nextApproach(memoryRef.current)
+    setMemory(result.memory)
+    if (result.ask) onSend(result.ask)
+    if (result.parked) {
+      land(result.restore)
+      say(PARKED, 'say')
+    }
+  }, [land, onSend, say])
+
+  // Parked questions come up again at the end of their station, or from the tile on the plot.
+  const [shownNote, setShownNote] = useState<string | null>(null)
+  const note = (shownNote ? memory.notes.find((n) => n.id === shownNote) : null) ?? (interlude ? dueNotes(memory, interlude.done)[0] : undefined) ?? null
+  const noteId = note?.id
+  const notesRef = useRef(memory.notes)
+  notesRef.current = memory.notes
+  const showNote = useCallback((station: number) => {
+    const found = notesRef.current.find((n) => n.station === station)
+    if (found) setShownNote(found.id)
+  }, [])
+  const settleNote = useCallback(
+    (again: boolean) => {
+      const n = notesRef.current.find((x) => x.id === noteId)
+      setShownNote(null)
+      if (!n) return
+      setMemory((m) => ({ ...m, notes: m.notes.map((x) => (x.id === n.id ? { ...x, raised: true } : x)) }))
+      if (again) onSend(n.question)
+    },
+    [noteId, onSend],
+  )
+
+  const detour = memory.detours.find((d) => d.id === memory.open) ?? null
+  const returnFocus = focusOf(detour?.returnTo ?? null)
+  const returnNode = returnFocus ? nodes.find((n) => n.id === returnFocus) : undefined
+  const returnTitle = returnNode ? cardTitle(returnNode) : null
+
   const nextInQueue = interlude ? null : (placement.waiting.find((id) => queue?.ids.includes(id)) ?? null)
 
-  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, getLookBack, open, closeLookBack, tryAgain, writeSandbox, epochOf, dataOf, sizes, onMeasure }
+  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, getLookBack, open, closeLookBack, tryAgain, writeSandbox, epochOf, dataOf, detour, returnTitle, leaveDetour, stillNotSure, note, showNote, settleNote, sizes, onMeasure }
 }

@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useRef, type ComponentType } from 'react'
 import type { NodeProps } from '@xyflow/react'
 import { CheckStepBar } from './CheckStepBar'
+import { DetourFooter, type DetourFooterModel } from './DetourFooter'
 import type { CheckStep } from '@/lib/studylab/trail/answerStyle'
 import { cardTitle } from '@/lib/studylab/trail/placement'
 import type { CardRole, Size, TrailWorld } from '@/lib/studylab/trail/types'
@@ -16,6 +17,10 @@ export interface TrailPlacement {
   onStation: (index: number) => void
   /** "Go deeper": asks the tutor, as the card menu does. */
   onDeeper: (id: string, title: string) => void
+  /** "Did that clear it up?", on the card in focus while a detour is open and nothing more of it waits. */
+  detourFooter?: DetourFooterModel | null
+  /** The tile on a plot with a parked question. */
+  onNote?: (station: number) => void
   /** A finished card opened again: everything else steps back and takes no input. */
   lookingBack?: string | null
   /** Where the learner is in the open check, when the card in focus is one of its questions. */
@@ -57,7 +62,7 @@ const MEASURE_SLOP = 4
  */
 export function withTrailFrame(Inner: ComponentType<NodeProps>) {
   function Framed(props: NodeProps) {
-    const { places, onMeasure, onOpen, epochOf, checkStep, lookingBack, dataOf } = useContext(TrailPlacementContext)
+    const { places, onMeasure, onOpen, epochOf, checkStep, lookingBack, dataOf, detourFooter } = useContext(TrailPlacementContext)
     const { id, type } = props
     const data = (dataOf?.(id) ?? props.data) as NodeProps['data']
     const place = places[id]
@@ -101,6 +106,7 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
           {...quiet}
         >
           <Inner {...props} data={data} />
+          {place.role === 'focus' && detourFooter && <DetourFooter {...detourFooter} />}
         </div>
         {!live && (
           <button type="button" tabIndex={-1} aria-label={`Open ${title}`} className="ss-trail-open" onClick={() => onOpen(id)} />
