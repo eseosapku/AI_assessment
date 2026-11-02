@@ -68,6 +68,14 @@ export function SafeLatex({ children }: { children?: unknown }) {
   )
 }
 
+/**
+ * A formula between dollars: tight against them, and the closing one not before a
+ * digit, as TeX renderers rule it. "$1,200. After taxes your net is $950" is two
+ * prices, and it set a whole sentence in maths italics. Spaced out, it needs a
+ * maths sign inside to count: "$ x^2 $".
+ */
+const INLINE_MATH = /(\$(?=\S)[^$]+?(?<=\S)\$(?!\d)|\$\s[^$]*[=^_\+][^$]*\s\$(?!\d))/g
+
 function LatexText({ text: raw }: { text: string }) {
   if (!raw) return null
   const text = toDollarMath(raw)
@@ -76,7 +84,7 @@ function LatexText({ text: raw }: { text: string }) {
   if (bold.length > 1) {
     return <>{bold.map((run, i) => (run.startsWith('**') ? <strong key={i}><LatexText text={run.slice(2, -2)} /></strong> : <LatexText key={i} text={run} />))}</>
   }
-  const parts = text.split(/(\$[^$]+\$)/g)
+  const parts = text.split(INLINE_MATH)
   return (
     <>
       {parts.map((p, i) => {

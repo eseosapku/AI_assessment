@@ -10,6 +10,7 @@ import { CheckBar } from '@/components/studylab/check/CheckBar'
 import { WorkedNode } from '@/components/studylab/tutorNodes'
 import { whyForChoice, withoutVerdict } from '../whyLine'
 import { SafeLatex } from '@/components/studylab/canvasShared'
+import { ScenarioActivity } from '@/components/studylab/activities/ScenarioActivity'
 import { holdOn, withHold } from './queue'
 import { bubbleLine } from './voice'
 import type { ChatMessage } from '../types'
@@ -214,5 +215,47 @@ describe('why, after choosing wrong', () => {
   })
   it('falls back to the right option, without its verdict', () => {
     expect(whyForChoice({ answer: 0, optionFeedback: ['Correct: it doubles.', 'No.'] }, 0)).toBe('It doubles.')
+  })
+})
+
+describe('dollars', () => {
+  const html = (text: string) => renderToStaticMarkup(createElement(SafeLatex, null, text))
+  it('prices stay prices, and the words around them stay words', () => {
+    for (const text of ['Gross: $1,200. After taxes and deductions, your net is $950.', 'It costs $3 or $3 more.', 'Pay $100, $200 and $300.', 'A $5+$3 meal.']) {
+      const out = html(text)
+      expect(out, text).not.toContain('katex')
+      expect(out, text).toContain('$')
+    }
+    expect(html('Gross: $1,200. After taxes your net is $950.')).toContain('After taxes')
+  })
+  it('formulas stay formulas', () => {
+    for (const text of ['Solve $x^2 + 1 = 0$ now.', 'So $x$ and $y$.', 'Add $ x^2 $ here.', 'That is $5$ apples.']) expect(html(text), text).toContain('katex')
+  })
+})
+
+describe('a decision card', () => {
+  const spec = { pattern: 'scenario', prompt: 'P', payload: { situation: 'S', choices: [{ id: 'a', label: 'Save it', consequence: 'You have a cushion.' }, { id: 'b', label: 'Spend it', consequence: 'You have nothing left.' }] }, success: { kind: 'exactSet', itemIds: ['a'] } } as never
+  const state = (chosen: string, solved: boolean) => ({ status: solved ? 'solved' : 'in_progress', attempts: 1, hintsUsed: 0, elapsedMs: 0, rejectedMoves: [], work: { chosen } }) as never
+  const draw = (chosen: string, solved: boolean, look?: 'trail') => {
+    const card = createElement(ScenarioActivity, { id: 'c', spec, onOutcome: () => {}, initialState: state(chosen, solved) })
+    const staged = look ? createElement(StageContext.Provider, { value: { look, focus: new Set<string>(), owner: null, dockEl: null, continueFor: () => null, runContinue: () => {}, claim: () => () => {}, prefer: () => {} } as never }, card) : card
+    return renderToStaticMarkup(createElement(ReactFlowProvider, null, staged))
+  }
+  it('says the choice was good, marks what works, and shows which one is in view', () => {
+    const html = draw('a', true, 'trail')
+    expect(html).toContain('Good choice')
+    expect(html.toLowerCase()).toContain('your choice')
+    expect(html).toContain('aria-label="This works"')
+    expect(html).toContain('border-color:var(--subject')
+    expect(html).toContain('You have a cushion.')
+  })
+  it('says so when it was not the best, and still marks the one that works', () => {
+    const html = draw('b', false, 'trail')
+    expect(html).toContain('Not the best choice')
+    expect(html.split('aria-label="This works"').length - 1).toBe(1)
+  })
+  it('the classic view keeps its plain heading', () => {
+    expect(draw('a', true)).toContain('What happened')
+    expect(draw('a', true)).not.toContain('This works')
   })
 })
