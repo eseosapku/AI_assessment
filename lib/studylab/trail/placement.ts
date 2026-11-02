@@ -68,6 +68,8 @@ export interface PlacementInput {
   /** Between stations: the one just finished, and the one the button goes to. */
   interlude: { done: number; next: number } | null
   notes: { station: number }[]
+  /** A card just answered: it stays on the board even if its check was taken off. */
+  keep?: string | null
 }
 
 export interface Placement {
@@ -81,7 +83,7 @@ export interface Placement {
 }
 
 export function placeCards(input: PlacementInput): Placement {
-  const { nodes, run, planSteps, queue, detours, openDetour, blocks, sizes, interlude, notes } = input
+  const { nodes, run, planSteps, queue, detours, openDetour, blocks, sizes, interlude, notes, keep } = input
   const planning = !run || run.phase === 'planning'
   const steps: { id: string; title: string; locked?: boolean; status?: string }[] = planning ? (planSteps ?? run?.steps ?? []) : run.steps
   const currentStep = planning ? -1 : run.currentStep
@@ -90,7 +92,7 @@ export function placeCards(input: PlacementInput): Placement {
   // The classic view folds a finished station's cards away and hides them; a
   // hidden card in no fold is a failed check, taken off because a retry replaced it.
   const folded = new Set(nodes.flatMap((n) => (n.type === 'stepGroup' ? (n.data.cardIds ?? []) : [])))
-  const cards = nodes.filter((n) => isTrailCard(n) && (!n.hidden || folded.has(n.id)))
+  const cards = nodes.filter((n) => isTrailCard(n) && (!n.hidden || folded.has(n.id) || n.id === keep))
   const onBoard = new Set(cards.map((n) => n.id))
 
   // The burst behind an open detour is still to come when the learner goes back.

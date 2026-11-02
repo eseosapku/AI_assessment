@@ -44,3 +44,20 @@ export function waitingIds(queue: QueueState | null): string[] {
 export function pinnedFocus(explicit: string[], spotlight: string[]): string | null {
   return explicit.length === 0 && spotlight.length > 0 ? spotlight[0] : null
 }
+
+/**
+ * A card just answered keeps the learner until they move on. A turn's new cards
+ * used to take its place as they arrived, so a wrong answer went unexplained and
+ * an activity's reveal unread. Hands back the card to stay on.
+ */
+export function holdOn(input: { from: string | null; queue: QueueState | null; settled: boolean; movedOn: string | null; detour: boolean }): string | null {
+  const { from, queue, settled, movedOn, detour } = input
+  if (!from || !settled || detour || from === movedOn) return null
+  return queue && !queue.ids.includes(from) ? from : null
+}
+
+/** The queue as shown: the card held, with what is new waiting behind it. */
+export function withHold(queue: QueueState | null, hold: string | null): QueueState | null {
+  if (!hold) return queue
+  return { ids: [hold, ...(queue?.ids.filter((id) => id !== hold) ?? [])], at: 0 }
+}

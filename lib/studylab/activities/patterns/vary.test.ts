@@ -1,4 +1,5 @@
 // lib/studylab/activities/patterns/vary.test.ts
+import { goalOf } from './vary'
 import { describe, it, expect } from 'vitest'
 import { varyModule, computeReadouts, barReadings, sceneUrl, extraReadouts } from './vary'
 import { evaluateSuccess } from '../success'
@@ -194,5 +195,16 @@ describe('readouts under the bars', () => {
       readouts: [{ label: 'Density', expr: 'd', unit: 'kg/m3' }],
     }
     expect(extraReadouts(p, 500)).toEqual([{ label: 'Density', value: 500, unit: 'kg/m3' }])
+  })
+})
+
+describe('what the learner is aiming for', () => {
+  const base = { variable: { id: 'b', label: 'Coefficient b', min: 2, max: 20, step: 2, unit: '' }, model: { kind: 'bars', bars: [{ label: 'Constant needed', expr: '(b / 2) ^ 2', max: 100 }] }, readouts: [{ label: 'Middle term', expr: 'b', unit: '' }] }
+  it('is named from what the card shows', () => {
+    expect(goalOf({ ...base, target: { expr: '(b / 2) ^ 2', value: 36, tolerance: 0.5 } } as never)).toEqual({ label: 'Constant needed', value: 36 })
+  })
+  it('falls back to the slider, and is nothing when there is no target', () => {
+    expect(goalOf({ ...base, target: { expr: 'other', value: 3, tolerance: 0 } } as never)?.label).toBe('Coefficient b')
+    expect(goalOf(base as never)).toBeNull()
   })
 })

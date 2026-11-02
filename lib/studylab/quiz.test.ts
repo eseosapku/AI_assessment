@@ -243,3 +243,16 @@ describe('fill, order and tap', () => {
     expect(clueStates(order, [])).toEqual([false, false])
   })
 })
+
+describe('a question its writer found broken', () => {
+  const base = { id: 'q', format: 'mcq', prompt: 'P', options: ['a', 'b'], answer: 0 }
+  it('is refused', () => {
+    const fb = ['Right.', 'Wait—actually, this IS one too. But option A is also correct, so pick the first one.']
+    expect(isValidQuestion({ ...base, optionFeedback: fb })).toBe(false)
+    expect(isValidQuestion({ ...base, explain: 'Both are correct, really.' })).toBe(false)
+  })
+  it('ordinary feedback is not', () => {
+    expect(isValidQuestion({ ...base, optionFeedback: ['Yes: this is the square of 3.', 'You would wait longer for that.'] })).toBe(true)
+    expect(isValidQuestion({ ...base, explain: 'It actually reaches the same value.' })).toBe(true)
+  })
+})

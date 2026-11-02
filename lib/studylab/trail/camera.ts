@@ -51,6 +51,15 @@ export function focusFraming(input: { sized: boolean; alreadyFramed: boolean; lo
   return input.lookingBack ? 'mark' : 'frame'
 }
 
+/**
+ * How far to pan up when a card grows past the button: a reveal or a reason opens at
+ * its foot, and it is the thing to read. Only as far as its top reaching the bar.
+ */
+export function footClearance(input: { top: number; bottom: number; viewportH: number; insets: Pick<Insets, 'top' | 'bottom'> }): number {
+  const over = input.bottom - (input.viewportH - input.insets.bottom)
+  return over <= 0 ? 0 : Math.max(0, Math.min(over, input.top - input.insets.top))
+}
+
 /** How wide the card in focus is drawn: full size on a desktop, the width of the screen on a phone. */
 export function focusWidthFor(viewportWidth: number): number {
   return Math.min(FULL_CARD, viewportWidth - PHONE_GUTTERS)

@@ -1,4 +1,5 @@
 // lib/studylab/trail/camera.test.ts
+import { footClearance } from './camera'
 import { describe, it, expect } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -151,5 +152,19 @@ describe('poked', () => {
     const near = lookAt({ x: 0, y: 0 }, { x: 100, y: 0 })
     expect(near.x).toBeGreaterThan(0)
     expect(near.x).toBeLessThan(1)
+  })
+})
+
+describe('a card that grows past the button', () => {
+  const insets = { top: 64, bottom: 110 }
+  it('comes up just far enough', () => {
+    expect(footClearance({ top: 200, bottom: 840, viewportH: 900, insets })).toBe(50)
+  })
+  it('stays put while it fits', () => {
+    expect(footClearance({ top: 200, bottom: 700, viewportH: 900, insets })).toBe(0)
+  })
+  it('never takes its top under the bar', () => {
+    expect(footClearance({ top: 100, bottom: 1500, viewportH: 900, insets })).toBe(36)
+    expect(footClearance({ top: 40, bottom: 1500, viewportH: 900, insets })).toBe(0)
   })
 })

@@ -89,7 +89,7 @@ export function CalloutNode({ data }: NodeProps) {
       <Handle type="target" position={Position.Left} className={handleClass} />
       <div className="flex items-center gap-2 mb-1">
         <Icon className={`w-4 h-4 ${s.color}`} />
-        <span className={`text-[12px] font-bold uppercase tracking-wide ${s.color}`}>{d.title ?? s.label}</span>
+        <span className={`text-[12px] font-bold uppercase tracking-wide ${s.color}`}><SafeLatex>{d.title ?? s.label}</SafeLatex></span>
       </div>
       <div className="text-[13px] text-ss-ink whitespace-pre-wrap">
         <SafeLatex>{d.body}</SafeLatex>
@@ -175,7 +175,7 @@ export function QuestionNode({ data }: NodeProps) {
         <span aria-hidden className="w-1 shrink-0 rounded-full bg-ss-accent" />
         <div className="min-w-0">
           <p className="text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">
-            {d.title ?? 'Question'}
+            <SafeLatex>{d.title ?? 'Question'}</SafeLatex>
           </p>
           <QuestionBody text={d.body ?? ''} />
         </div>

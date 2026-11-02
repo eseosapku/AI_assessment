@@ -22,7 +22,7 @@ export function TrailConceptCard({ id, data }: NodeProps) {
 
   return (
     <div className="ss-trail-concept sl-node-enter">
-      {d.title && lead !== d.title && <p className="ss-trail-concept-title">{d.title}</p>}
+      {d.title && lead !== d.title && <p className="ss-trail-concept-title"><SafeLatex>{d.title}</SafeLatex></p>}
       {lead && (
         <p className="ss-trail-concept-statement">
           <SafeLatex>{lead}</SafeLatex>

@@ -1,7 +1,7 @@
 'use client'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ModelSpec, VaryPayload } from '@/lib/studylab/activities/types'
-import { barReadings, extraReadouts, modelValue, sceneUrl } from '@/lib/studylab/activities/patterns/vary'
+import { barReadings, extraReadouts, goalOf, modelValue, sceneUrl } from '@/lib/studylab/activities/patterns/vary'
 import { assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { evaluateExpr } from '@/lib/studylab/activities/expr'
 import { ActivityFrame } from './ActivityFrame'
@@ -152,6 +152,7 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
   const readouts = extraReadouts(payload, value)
   const v = payload.variable
   const scene = sceneUrl(payload)
+  const goal = goalOf(payload)
 
   return (
     <ActivityFrame
@@ -160,6 +161,7 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
       onCheck={() => { const o = a.check(); if (o) onOutcome(o) }}
     >
       <div className="flex flex-col gap-3">
+        {goal && <p className="text-[13px] font-bold text-ss-subject-ink">Aim for: {goal.label} = {goal.value}</p>}
         {scene && (
           // The thing the slider changes, so the card is about a river and not a slider.
           // eslint-disable-next-line @next/next/no-img-element

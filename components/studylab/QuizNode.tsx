@@ -11,7 +11,7 @@ import { regionsFor } from '@/lib/studylab/check/diagramRegions'
 import { filledSentence } from '@/lib/studylab/check/placement'
 import { modeForCell, feedbackFor, isLiveChange, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
-import { useDock } from './stage/StageContext'
+import { StageContext, useDock } from './stage/StageContext'
 import { initialAnswer, attemptOf, isAnswered, type Answer } from '@/lib/studylab/check/answers'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
@@ -36,7 +36,7 @@ export function CheckpointHeaderNode({ data }: NodeProps) {
         <Target className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
       </div>
       <div className="min-w-0">
-        <p className="font-bold text-[14px] leading-tight truncate">{d.title ?? 'Check your understanding'}</p>
+        <p className="font-bold text-[14px] leading-tight truncate"><SafeLatex>{d.title ?? 'Check your understanding'}</SafeLatex></p>
         <p className="text-[12px] text-ss-slate">Answer the questions to continue</p>
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
@@ -108,6 +108,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   const [answer, setAnswer] = useState<Answer>(() => initialAnswer(q, cell.given))
   const [line, setLine] = useState<string | undefined>(cell.feedback)
   const [whyOpen, setWhyOpen] = useState(false)
+  const trail = useContext(StageContext)?.look === 'trail'
   // What the next save carries besides the flow state: the answer as given and
   // the line said about it.
   const extras = useRef<Partial<QuizCell>>({})
@@ -155,6 +156,11 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     }
   }, [state.phase, state.attempts, reduced, shake])
 
+  // After a miss the reason is simply there: the learner should not have to ask.
+  useEffect(() => {
+    if (trail && (state.phase === 'wrong' || state.phase === 'revealed')) setWhyOpen(true)
+  }, [trail, state.phase])
+
   // Reading "Why?" can take away the last button on the bar; the explanation
   // it opened is then the place to be.
   useEffect(() => {
@@ -182,7 +188,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   const options: BarOptions = barOptionsFor(
     {
       canReveal: true,
-      hasWhy: Boolean(why),
+      // On the Trail it opens by itself after a miss, so there is no button left to press.
+      hasWhy: Boolean(why) && !(trail && whyOpen),
       whyOpened: whyOpen,
       // Only while learning, and only from the dock; the bar offers it after a miss.
       hasHelp: mode === 'learn' && !!dock.help,
@@ -255,7 +262,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   // Only the line the learner should read now: the written feedback after a
   // miss or a right answer, nothing in a test miss (the bar says "Incorrect").
   const barLine =
-    state.phase === 'wrong' && mode === 'test' ? undefined
+    state.phase === 'wrong' && mode === 'test' ? (trail ? (q.format === 'mcq' ? 'Not quite. The right answer is in green.' : 'Not quite. Here is the right answer.') : undefined)
     : state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'correct' ? line
     : state.message
 

@@ -1,5 +1,5 @@
 'use client'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence, MotionConfig, useAnimationControls, useReducedMotion } from 'framer-motion'
 import { Handle, Position } from '@xyflow/react'
 import { Lightbulb, Check, Hand } from 'lucide-react'
@@ -53,6 +53,7 @@ const MATERIAL_BAR: BarOptions = {
 
 /** An activity keeps no check state of its own: its work can always be checked. */
 const READY_TO_CHECK: CheckFlowState = { mode: 'learn', phase: 'ready', attempts: 0 }
+const MISSED: CheckFlowState = { ...READY_TO_CHECK, message: 'Not quite yet. Have another look.' }
 
 /**
  * Shared chrome for every activity.
@@ -89,8 +90,16 @@ export function ActivityFrame({
   // its own controls, and claiming the dock would leave it empty.
   // On the Trail an activity's own Check goes there too: it is the one button, and
   // down on a tall card it sat out of sight while the dock offered Continue.
-  const trail = useContext(StageContext)?.look === 'trail'
+  const stage = useContext(StageContext)
+  const trail = stage?.look === 'trail'
   const ownCheck = trail && !checkState && !!onCheck && !solved
+  const [missed, setMissed] = useState(false)
+  // Kana says so when it comes right, or "not quite" would stand over a solved card.
+  const wasSolved = useRef(solved)
+  useEffect(() => {
+    if (solved && !wasSolved.current) stage?.sayLine?.("That's it.", 'good')
+    wasSolved.current = solved
+  }, [solved, stage])
   const dock = useDock({ enabled: !!(checkState && onCheckAction) || ownCheck })
   const bar = barOptionsFor({ ...MATERIAL_BAR, hasHelp: !!(dock.help && attempt) }, dock.docked, dock.cont)
   const tone = checkState ? barModel(checkState, bar).tone : 'neutral'
@@ -167,7 +176,15 @@ export function ActivityFrame({
             )
           ) : (
             <div className="flex items-center gap-2">
-              {ownCheck && dock.place(<CheckBar state={READY_TO_CHECK} options={bar} onAction={(a) => (a === 'continue' ? dock.onContinue() : onCheck?.())} />)}
+              {ownCheck && dock.place(<CheckBar
+                  state={missed ? MISSED : READY_TO_CHECK}
+                  options={bar}
+                  onAction={(a) => {
+                    if (a === 'continue') return dock.onContinue()
+                    onCheck?.()
+                    setMissed(true)
+                  }}
+                />)}
               {!trail && onCheck && !solved && (
                 <button
                   type="button"
@@ -195,7 +212,7 @@ export function ActivityFrame({
           )}
 
           <AnimatePresence>
-            {!checkState && hint && (
+            {!checkState && hint && !solved && (
               <motion.p
                 key="hint"
                 initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}

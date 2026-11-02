@@ -15,6 +15,8 @@ export interface DisplayLine {
   afterIndex: number
   text: string
   tone: 'good' | 'nudge' | 'say'
+  /** The card it was said about: it stops being the thing to read once they leave it. */
+  card?: string | null
 }
 
 export interface BubbleLine {
@@ -70,10 +72,12 @@ function shortened(text: string): { text: string; more: boolean } {
   return { text: `${first.split(/\s+/).slice(0, MAX_WORDS - 10).join(' ')}…`, more: true }
 }
 
-export function bubbleLine(messages: ChatMessage[], lines: DisplayLine[], state: { busy: boolean; working: string }): BubbleLine | null {
+export function bubbleLine(messages: ChatMessage[], lines: DisplayLine[], state: { busy: boolean; working: string; holding?: boolean; focus?: string | null }): BubbleLine | null {
+  const last = lines[lines.length - 1]
+  const feedback = last && (!last.card || state.focus === undefined || last.card === state.focus) ? last : undefined
+  if (state.holding && feedback) return { key: `d${lines.length}`, ...shortened(feedback.text), tone: feedback.tone }
   if (state.busy) return { key: 'working', text: state.working, more: false, tone: 'working' }
   const said = latestLine(messages)
-  const feedback = lines[lines.length - 1]
   if (feedback && (!said || feedback.afterIndex > said.index)) {
     return { key: `d${lines.length}`, ...shortened(feedback.text), tone: feedback.tone }
   }

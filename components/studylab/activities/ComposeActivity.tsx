@@ -94,8 +94,8 @@ export function ComposeActivity({ id, spec, onOutcome, initialState }: {
         <div className="flex items-center justify-between gap-2">
           <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">Build</p>
           <p className="text-[12px] font-bold text-ss-accent">
-            {payload.target.label}
-            {payload.target.formula ? ` (${payload.target.formula})` : ''}
+            <SafeLatex>{payload.target.label}</SafeLatex>
+            {payload.target.formula ? <> (<SafeLatex>{payload.target.formula}</SafeLatex>)</> : null}
           </p>
         </div>
 

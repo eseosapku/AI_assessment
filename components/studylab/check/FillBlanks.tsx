@@ -25,6 +25,20 @@ export function FillBlanks({ q, value, onChange, state }: {
   const reduced = useReducedMotion() ?? false
   const slide = motionFor('slide', reduced).transition
 
+  // A tile goes straight to the next empty blank: tapping it and then the blank was
+  // two steps, and after the first nothing seemed to have happened.
+  const tile = (t: string) => {
+    if (state.locked) return
+    const empty = value.findIndex((v) => !v)
+    if (empty !== -1 && !picked) {
+      playSound('drop')
+      onChange(placeInto(value, empty, t))
+      return
+    }
+    playSound('tap')
+    setPicked(picked === t ? null : t)
+  }
+
   const blank = (i: number) => {
     if (state.locked) return
     if (picked) {
@@ -87,7 +101,7 @@ export function FillBlanks({ q, value, onChange, state }: {
               data-part={`tile-${k + 1}`}
               aria-pressed={picked === t}
               disabled={state.locked}
-              onClick={() => { if (!state.locked) { playSound('tap'); setPicked(picked === t ? null : t) } }}
+              onClick={() => tile(t)}
               className="nodrag rounded-lg border-2 px-2.5 py-1 text-[13px] font-semibold disabled:cursor-default"
               style={picked === t ? { borderColor: 'var(--subject)', backgroundColor: 'var(--subject-soft)' } : { borderColor: 'var(--ss-line)' }}
             >{t}</motion.button>

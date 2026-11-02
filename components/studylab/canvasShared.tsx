@@ -71,6 +71,11 @@ export function SafeLatex({ children }: { children?: unknown }) {
 function LatexText({ text: raw }: { text: string }) {
   if (!raw) return null
   const text = toDollarMath(raw)
+  // Bold around a formula: the marks would be split apart below and show as they are.
+  const bold = text.split(/(\*\*[^*]*\$[^*]*\*\*)/g)
+  if (bold.length > 1) {
+    return <>{bold.map((run, i) => (run.startsWith('**') ? <strong key={i}><LatexText text={run.slice(2, -2)} /></strong> : <LatexText key={i} text={run} />))}</>
+  }
   const parts = text.split(/(\$[^$]+\$)/g)
   return (
     <>
@@ -114,7 +119,7 @@ export function NodeHeader({ icon: Icon, title, tone = 'cyan' }: { icon: LucideI
       <div className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl ${t.chip}`}>
         <Icon className={`h-[18px] w-[18px] ${t.icon}`} strokeWidth={2} />
       </div>
-      <h3 className="text-[14.5px] font-extrabold leading-tight text-ss-ink">{title}</h3>
+      <h3 className="text-[14.5px] font-extrabold leading-tight text-ss-ink"><SafeLatex>{title}</SafeLatex></h3>
     </div>
   )
 }

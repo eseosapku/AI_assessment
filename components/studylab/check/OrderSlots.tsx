@@ -30,6 +30,13 @@ export function OrderSlots({ q, value, onChange, state }: {
 
   const pick = (item: string) => {
     if (state.locked) return
+    // Straight to the next empty slot, unless it is one already placed, being moved.
+    const empty = value.findIndex((v) => !v)
+    if (empty !== -1 && !picked && !value.includes(item)) {
+      playSound('drop')
+      onChange(placeInto(value, empty, item))
+      return
+    }
     playSound('tap')
     setPicked(picked === item ? null : item)
   }

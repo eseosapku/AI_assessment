@@ -12,6 +12,8 @@ import type { TrailAction } from '@/lib/studylab/trail/action'
  */
 export const TrailDock = forwardRef<HTMLDivElement, {
   action: TrailAction
+  /** Waiting on the tutor with nothing to press yet: says so, beside the card's own bar. */
+  waiting?: string | null
   onContinue: (target: ContinueTarget) => void
   onGoToStation: (station: number) => void
   onStart?: () => void
@@ -23,10 +25,11 @@ export const TrailDock = forwardRef<HTMLDivElement, {
   onRetry?: () => void
   /** Beside Start: Change the plan. */
   secondary?: ReactNode
-}>(function TrailDock({ action, onContinue, onGoToStation, onStart, onTryAgain, onSummary, onProveIt, provingIt, onRetry, secondary }, slotRef) {
+}>(function TrailDock({ action, waiting, onContinue, onGoToStation, onStart, onTryAgain, onSummary, onProveIt, provingIt, onRetry, secondary }, slotRef) {
   return (
     <div className="ss-trail-dock pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center px-4">
       <div className="pointer-events-auto flex w-full max-w-[560px] flex-col items-stretch gap-2">
+        {waiting && <p role="status" className="ss-trail-waiting">{waiting}</p>}
         {/* Cards draw their bar in here, and it stays mounted while something
             else has the button. React never renders into it. */}
         <div ref={slotRef} className={`ss-trail-slot empty:hidden${action.kind === 'bar' ? '' : ' hidden'}`} />

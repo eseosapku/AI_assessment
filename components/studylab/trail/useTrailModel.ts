@@ -7,11 +7,11 @@ import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { blockSize } from '@/lib/studylab/blocks'
 import { absorbTurn, backFromDetour, dueNotes, loadMemory, memoryKey, onAskAnswered, pruneMemory, saveMemory, stillNotSure as nextApproach, type Detour, type TrailMemory, type UnsureNote } from '@/lib/studylab/trail/detours'
 import { interludeFrom } from '@/lib/studylab/trail/action'
-import { freshAttempt, openLookBack, sandboxCallbacks, type LookBack } from '@/lib/studylab/trail/lookBack'
+import { canRetry, freshAttempt, openLookBack, sandboxCallbacks, type LookBack } from '@/lib/studylab/trail/lookBack'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { KANA_TALL, planFrom } from '@/lib/studylab/trail/opening'
 import { assignBlocks, placeCards, reminderOf, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
-import { focusOf, pinnedFocus, syncQueue, type QueueState } from '@/lib/studylab/trail/queue'
+import { focusOf, holdOn, pinnedFocus, syncQueue, withHold, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
 import type { DisplayLine } from '@/lib/studylab/trail/voice'
 
@@ -41,6 +41,10 @@ export interface TrailModel {
   detour: Detour | null
   leaveDetour: () => void
   stillNotSure: () => void
+  /** Staying on a card just answered, with what comes next waiting behind it. */
+  holding: boolean
+  /** The learner has finished with this card. */
+  moveOn: () => void
   /** How much room what Kana is saying takes, so the card sits clear of it. */
   setSpeechHeight: (height: number) => void
   /** A parked question being brought up again. */
@@ -117,8 +121,23 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
   if (memory !== storedMemory) setMemory(memory)
   memoryRef.current = memory
 
-  const queue = away ? held : syncQueue(held, spotlight)
-  if (queue !== held) setHeld(queue)
+  const synced = away ? held : syncQueue(held, spotlight)
+  if (synced !== held) setHeld(synced)
+
+  const [hold, setHold] = useState<string | null>(null)
+  const [movedOn, setMovedOn] = useState<string | null>(null)
+  const was = focusOf(held)
+  const wasNode = was ? nodes.find((n) => n.id === was) : undefined
+  const asked = hold ?? holdOn({ from: was, queue: synced, settled: !!wasNode && canRetry(wasNode.data), movedOn, detour: !!openOne })
+  const holding = asked && !openOne && nodes.some((n) => n.id === asked) ? asked : null
+  if (holding !== hold) setHold(holding)
+  const queue = withHold(synced, holding)
+  const shownFocus = useRef<string | null>(null)
+  shownFocus.current = focusOf(queue)
+  const moveOn = useCallback(() => {
+    setMovedOn(shownFocus.current)
+    setHold(null)
+  }, [])
 
   const pin = pinnedFocus(focus, explicit === focus ? spotlight : explicit)
   useEffect(() => {
@@ -140,7 +159,8 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
     const fresh = interludeFrom(lastRun, run)
     if (fresh) setPause(fresh)
   }
-  const interlude = pause && run?.phase === 'teaching' && run.currentStep === pause.next ? pause : null
+  // Waits for the learner to finish with a card they just answered.
+  const interlude = !holding && pause && run?.phase === 'teaching' && run.currentStep === pause.next ? pause : null
   const endInterlude = useCallback(() => setPause(null), [])
 
   const currentStepRef = useRef(currentStep)
@@ -148,11 +168,11 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
   const said = useRef(chat.messages.length)
   said.current = chat.messages.length
   const [lines, setLines] = useState<DisplayLine[]>([])
-  const say = useCallback((text: string, tone: DisplayLine['tone']) => {
+  const say = useCallback((text: string, tone: DisplayLine['tone'], card: string | null = shownFocus.current) => {
     const afterIndex = said.current
     setLines((prev) => {
       const last = prev[prev.length - 1]
-      return last && last.text === text && last.afterIndex === afterIndex ? prev : [...prev, { afterIndex, text, tone }]
+      return last && last.text === text && last.afterIndex === afterIndex ? prev : [...prev, { afterIndex, text, tone, card }]
     })
   }, [])
 
@@ -228,8 +248,8 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
 
   const planSteps = useMemo(() => planFrom(chat.messages)?.steps, [chat.messages])
   const placement = useMemo(
-    () => placeCards({ nodes, run, planSteps, queue, detours: memory.detours, openDetour: memory.open, blocks, sizes, interlude, notes: memory.notes }),
-    [nodes, run, planSteps, queue, memory.detours, memory.open, memory.notes, blocks, sizes, interlude],
+    () => placeCards({ nodes, run, planSteps, queue, detours: memory.detours, openDetour: memory.open, blocks, sizes, interlude, notes: memory.notes, keep: holding }),
+    [nodes, run, planSteps, queue, memory.detours, memory.open, memory.notes, blocks, sizes, interlude, holding],
   )
   // Her strip fits what she is saying, and small changes are not worth moving a card for.
   const [speechH, setSpeechH] = useState(0)
@@ -259,8 +279,8 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
   )
 
   useEffect(() => {
-    if (spaceId) saveMemory(storage(), spaceId, { ...memory, queue, blocks })
-  }, [spaceId, memory, queue, blocks])
+    if (spaceId) saveMemory(storage(), spaceId, { ...memory, queue: synced, blocks })
+  }, [spaceId, memory, synced, blocks])
 
   // Going back from a detour: the place the learner left, or the newest card of
   // the lesson's own if that card has gone.
@@ -287,7 +307,7 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
     const { memory: next, restore } = backFromDetour(memoryRef.current)
     setMemory(next)
     const card = land(restore)
-    if (card) say(reminderOf(card), 'say')
+    if (card) say(reminderOf(card), 'say', card.id)
   }, [land, say])
   const { onSend } = chat
   const stillNotSure = useCallback(() => {
@@ -325,5 +345,5 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
 
   const nextInQueue = interlude ? null : (placement.waiting.find((id) => queue?.ids.includes(id)) ?? null)
 
-  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, sandboxFor, open, closeLookBack, tryAgain, epochOf, dataOf, detour, leaveDetour, stillNotSure, setSpeechHeight, note, showNote, settleNote, sizes, onMeasure }
+  return { world, placement, queue, focusId: placement.focus, waiting: placement.waiting, nextInQueue, interlude, endInterlude, lines, say, lookBack, sandboxFor, open, closeLookBack, tryAgain, epochOf, dataOf, detour, leaveDetour, stillNotSure, holding: !!holding, moveOn, setSpeechHeight, note, showNote, settleNote, sizes, onMeasure }
 }

@@ -152,6 +152,17 @@ export function settleStaleCell(cell: QuizCell): Partial<QuizCell> | null {
   return cell.state === 'pending' ? { state: 'unanswered', given: cell.given } : null
 }
 
+/**
+ * The writer changing its mind mid-sentence ("Wait -- actually this is also right,
+ * so pick the first one"): it found its own question broken and shipped it anyway.
+ */
+const SECOND_THOUGHTS = /\bwait\s*[\u2014\u2013,:.!-]|\bactually,? (this|that|it|both)\b|\balso (correct|right)\b|\bboth (are |of these are |options are )?(correct|right)\b|\bpick the first\b|\bscratch that\b/i
+
+function hasSecondThoughts(q: any): boolean {
+  const said = [q.explain, ...(Array.isArray(q.optionFeedback) ? q.optionFeedback : [])]
+  return said.some((text) => typeof text === 'string' && SECOND_THOUGHTS.test(text))
+}
+
 export function isValidQuestion(q: any): q is CheckpointQuestion {
   if (!q || typeof q !== 'object' || typeof q.id !== 'string' || typeof q.prompt !== 'string') return false
   switch (q.format) {
@@ -163,6 +174,7 @@ export function isValidQuestion(q: any): q is CheckpointQuestion {
       if (!Array.isArray(q.options) || q.options.length < 2 || !q.options.every((o: any) => typeof o === 'string')) return false
       if (q.answer === null || q.answer === undefined || String(q.answer).trim() === '') return false
       const answer = Number(q.answer)
+      if (hasSecondThoughts(q)) return false
       return Number.isInteger(answer) && answer >= 0 && answer < q.options.length
     }
     case 'short':

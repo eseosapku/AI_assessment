@@ -24,7 +24,8 @@ import type { Database } from '@/lib/db'
 import { systemPrompt, stationSystemPrompt } from './system-prompt'
 import { stagePrompt } from './stagePrompt'
 import { COMPREHENSION_CHIPS } from '@/lib/studylab/chips'
-import { validateSpec } from '@/lib/studylab/activities/validate'
+import { isAlgebraBuild, validateSpec } from '@/lib/studylab/activities/validate'
+import { COMPOSE_IS_NOT_ALGEBRA } from '@/lib/studylab/activities/patterns/compose'
 import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from '@/lib/studylab/activities/intent'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { validateMaterial } from '@/lib/studylab/material/validate'
@@ -1258,6 +1259,10 @@ export function refuseUnjustifiedActivities(
     }
     const a = raw as Record<string, unknown>
 
+    if (isAlgebraBuild(a.spec)) {
+      refused.push(COMPOSE_IS_NOT_ALGEBRA)
+      continue
+    }
     if (!validateSpec(a.spec)) {
       const pattern = (a.spec as { pattern?: unknown } | null | undefined)?.pattern
       const named = typeof pattern === 'string' && pattern ? `"${pattern}"` : 'activity'
@@ -2118,7 +2123,7 @@ one carries is printed beside it; that is the value your intent must state:
   -- always the "balance" activity with its pans already loaded so they do NOT balance at the start; never a
   "balance-beam" material, which starts empty, is balanced before anything is placed, and is refused.
 - an ethical, civic, financial or safety decision → scenario (isolates "consequence")
-- building a valid whole out of parts → compose          (isolates "structure")
+- building a valid whole out of parts → compose          (isolates "structure") -- only real things joined to real things: atoms into a molecule, components into a circuit. Never algebra or arithmetic: its "bonds" mean nothing for expanding brackets, factorising or adding terms. For a method in maths, use "sequence" on its steps, or "balance", or a practice card that asks for the working.
 - something that looks to have no hands-on angle → still take the CLOSEST
   fitting apparatus above (a "scenario" for why it matters, a "compare" for how
   it differs from its neighbour) rather than falling back to a card.
@@ -2273,7 +2278,10 @@ APPARATUS — "compose" — isolates "structure" (join parts into a valid whole)
   IDS sorted and hyphenated — ["o1","h1"].sort().join("-") -> "h1-o1" — and
   every bond in "success.itemIds" must be written that way. "slots" is a
   positive whole number: how many bonds that part can take. Two or more parts,
-  unique ids.
+  unique ids. A part never bonds to itself, and a rule that needs that, or more
+  bonds than a part's slots, cannot be finished and is refused. "target" is on
+  screen from the start: it names what is being built, so it must never be the
+  answer to the question you ask.
 
 WORKED EXAMPLES — the whole action, intent included:
 {"type":"createActivity","id":"s2-compose-water","step":2,

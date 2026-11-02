@@ -170,4 +170,6 @@ export interface PatternModule<P = ActivityPayload, W = Record<string, unknown>>
   accepts?(payload: P, work: W, move: { itemId: string; targetId: string }): boolean
   /** Structural check of the payload shape for validate.ts. */
   isPayload(p: unknown): p is P
+  /** Can the success rule be met by moves `accepts` allows? A spec that cannot is refused. */
+  canBeMet?(payload: P, success: SuccessRule): boolean
 }

@@ -233,7 +233,7 @@ export function PracticeNode({ id, data }: NodeProps) {
             >
               <PenLine className="h-4 w-4 text-ss-subject" />
             </div>
-            <h3 className="text-[15px] font-semibold leading-tight">{d.title || 'Your turn'}</h3>
+            <h3 className="text-[15px] font-semibold leading-tight"><SafeLatex>{d.title || 'Your turn'}</SafeLatex></h3>
           </div>
 
           <div className="flex flex-col gap-3 px-4 pb-4 pt-2.5">

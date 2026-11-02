@@ -14,7 +14,7 @@ import type { TrailHeading } from './TrailTitleBlock'
 import type { TrailModel } from './useTrailModel'
 import type { StudyNode } from '@/lib/studylab/types'
 import type { Rect } from '@/lib/studylab/trail/types'
-import { CAMERA_MS, cameraFor, easeOut, focusFraming, panForKey, type Insets } from '@/lib/studylab/trail/camera'
+import { CAMERA_MS, cameraFor, easeOut, focusFraming, footClearance, panForKey, type Insets } from '@/lib/studylab/trail/camera'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { takesArrivalFocus, viewportMoved } from '@/lib/studylab/spotlight'
 
@@ -187,6 +187,28 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
     const view = rf.getViewport()
     rf.setViewport({ x: view.x - dx * view.zoom, y: view.y - dy * view.zoom, zoom: view.zoom }, { duration: prefersReducedMotion() ? 0 : CAMERA_MS, ease: easeOut })
   }, [frame, focusId, rf, frameWork])
+
+  // Growing downward past the button (a reveal, a reason): it comes up into view.
+  const focusCard = focusId ? world.cards[focusId] : undefined
+  const focusBottom = focusCard ? focusCard.y + focusCard.h : null
+  const lastBottom = useRef<{ id: string | null; bottom: number } | null>(null)
+  useEffect(() => {
+    if (focusBottom === null || !focusCard) {
+      lastBottom.current = null
+      return
+    }
+    const prev = lastBottom.current
+    lastBottom.current = { id: focusId, bottom: focusBottom }
+    if (!prev || prev.id !== focusId || focusBottom <= prev.bottom || framed.current !== focusId || exploringRef.current) return
+    const view = rf.getViewport()
+    const pan = footClearance({
+      top: view.y + focusCard.y * view.zoom,
+      bottom: view.y + focusBottom * view.zoom,
+      viewportH: window.innerHeight,
+      insets: insetsRef.current,
+    })
+    if (pan > 0) rf.setViewport({ ...view, y: view.y - pan }, { duration: prefersReducedMotion() ? 0 : CAMERA_MS, ease: easeOut })
+  }, [focusBottom, focusCard, focusId, rf])
 
   // The board narrows when the chat opens, and the window can change: the work
   // is framed again once the size settles, unless the learner is looking around.

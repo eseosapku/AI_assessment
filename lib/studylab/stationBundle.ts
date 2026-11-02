@@ -4,7 +4,8 @@ import { isValidAction } from './actions'
 import { isValidQuestion, questionFault } from './quiz'
 import { practiceQuestion } from './practice'
 import { meaningFaults } from './meaning'
-import { validateSpec } from './activities/validate'
+import { isAlgebraBuild, validateSpec } from './activities/validate'
+import { COMPOSE_IS_NOT_ALGEBRA } from './activities/patterns/compose'
 import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from './activities/intent'
 import { unmatchedArt } from './activities/artMatch'
 import { getApparatus } from './material/canon'
@@ -118,6 +119,7 @@ function materialProblems(action: unknown, rawIntent: unknown, needIntent: boole
     return { problems: [], intent }
   }
   if (type === 'createActivity') {
+    if (isAlgebraBuild(a.spec)) return { problems: [COMPOSE_IS_NOT_ALGEBRA], intent }
     if (!validateSpec(a.spec)) return { problems: ['the activity spec is malformed'], intent }
     if (!intent) return { problems: needIntent ? ['a material needs its intent'] : [], intent }
     const verdict = checkIntent(intent, a.spec)

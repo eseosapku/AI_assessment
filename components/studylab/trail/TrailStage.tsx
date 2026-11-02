@@ -60,6 +60,8 @@ function subscribeWidth(onChange: () => void) {
 }
 /** The top bar and the button: what is left of the screen for a card goes between them. */
 const CHROME_H = 64 + 110
+/** Said once her questions about the plan are answered. */
+const PLAN_READY = 'Your plan is ready. Change anything you like, or start when you are.'
 
 function useViewportHeight(): number {
   const [height, setHeight] = useState(() => (typeof window === 'undefined' ? 900 : window.innerHeight))
@@ -160,13 +162,15 @@ function TrailStageInner(props: LessonStageProps) {
   const owner = dockCard && claims.has(dockCard) ? dockCard : null
 
   const flow = { nodes: board.nodes, run: board.run, busy: chat.busy }
+  const { moveOn } = model
   const runContinue = useCallback(
     (target: ContinueTarget) => {
+      moveOn()
       if (target.kind === 'focus') onFocus(target.nodeId)
       else if (target.kind === 'handIn') onHandIn?.()
       else onAdvance()
     },
-    [onAdvance, onFocus, onHandIn],
+    [moveOn, onAdvance, onFocus, onHandIn],
   )
   const sayLine = useCallback((text: string, tone: BarModel['tone']) => say(text, lineTone(tone)), [say])
   const stage = useMemo<StageValue>(
@@ -251,18 +255,20 @@ function TrailStageInner(props: LessonStageProps) {
   const [intro, setIntro] = useState(planning)
   const endIntro = useCallback(() => setIntro(false), [])
 
-  const said = bubbleLine(chat.messages, lines, { busy: chat.busy, working: chat.working ?? 'Thinking…' })
+  // On a card just answered, what was said about it stands until the learner moves on.
+  const answered = !!focusNode && canRetry(focusNode.data)
+  const said = bubbleLine(chat.messages, lines, { busy: chat.busy, working: chat.working ?? 'Thinking…', holding: model.holding || (chat.busy && answered), focus: focusId })
   const asking = planning && !chat.busy && !failed
   // A parked question brought up again takes the bubble until it is answered.
   const noteLine = !chat.busy && model.note ? { key: `note:${model.note.id}`, text: `Before we go on: you parked "${model.note.question}". Want another look?`, more: false, tone: 'say' as const } : null
-  const line = noteLine ?? (asking ? (question ? { key: `q:${question}`, text: question, more: false, tone: 'say' as const } : null) : said)
+  const line = noteLine ?? (asking ? { key: question ? `q:${question}` : 'plan-ready', text: question ?? PLAN_READY, more: false, tone: 'say' as const } : said)
   const chips = noteLine
     ? NOTE_CHIPS
     : asking
     ? question
       ? openingChips(question)
       : []
-    : !chat.busy && !open && !gating && !quietStage(board.run ?? null)
+    : !chat.busy && !open && !gating && !model.holding && !quietStage(board.run ?? null)
       ? chat.suggestions.slice(0, 3)
       : []
   const shownMessages = useMemo(() => withDisplayLines(chat.messages, lines), [chat.messages, lines])
@@ -407,6 +413,7 @@ function TrailStageInner(props: LessonStageProps) {
                 <TrailDock
                   ref={setDockEl}
                   action={action}
+                  waiting={chat.busy && answered && action.kind === 'bar' ? 'Getting your next card…' : null}
                   onContinue={runContinue}
                   onGoToStation={model.endInterlude}
                   onStart={() => chat.onAcceptPlan?.('step')}

@@ -23,6 +23,37 @@ export function joinCount(joins: [string, string][], partId: string): number {
  */
 export const joinId = (a: string, b: string) => [a, b].sort().join('-')
 
+/** The two parts a written bond joins, whichever way its ids read. */
+function partsOf(payload: ComposePayload, bond: string): [ComposePayload['parts'][number], ComposePayload['parts'][number]] | null {
+  for (const a of payload.parts) {
+    for (const b of payload.parts) {
+      if (a.id !== b.id && joinId(a.id, b.id) === bond) return [a, b]
+    }
+  }
+  return null
+}
+
+/** 3, 2.5, 5x, x^2, $x^2$: terms of a sum, not things that bond. */
+const NUMBER = /^\d+(\.\d+)?$/
+const TERM = /^\d+[a-z]$|^\d*[a-z](\^\d+|\u00b2|\u00b3)$/
+
+/**
+ * Bonds mean nothing in algebra. Asked to expand a bracket with this material, the
+ * model wrote rules no reasoning could reach, and it kept doing so when told not to.
+ */
+export function isAlgebra(payload: ComposePayload): boolean {
+  return payload.parts.some((p) => {
+    const label = p.label.replace(/[$\s]/g, '')
+    return NUMBER.test(label) || TERM.test(label)
+  })
+}
+
+export const COMPOSE_IS_NOT_ALGEBRA =
+  'The "compose" material joins real things, like atoms into a molecule. Its bonds mean nothing for algebra or arithmetic, so nothing was built. For a method in maths use a "sequence" of its steps, a "balance", or a practice card that asks for the working.'
+
+/** What a bond means, by the names of what it joins. */
+const namesOf = (a: string, b: string) => [a, b].sort().join('\u0000')
+
 const finite = (n: unknown): boolean => typeof n === 'number' && Number.isFinite(n)
 const positiveInt = (n: unknown): boolean => finite(n) && Number.isInteger(n) && (n as number) > 0
 const nonEmptyString = (s: unknown): boolean => typeof s === 'string' && s.length > 0
@@ -34,7 +65,7 @@ export const composeModule: PatternModule<ComposePayload, ComposeWork> = {
     return { joins: [] }
   },
 
-  validate(_payload, work, success: SuccessRule): ValidateResult {
+  validate(payload, work, success: SuccessRule): ValidateResult {
     // No joins made yet is not "wrong" — an empty board is unfinished, not a
     // misconception. Without this guard, exactSet's `missing` reports the
     // ENTIRE correct answer as wrongIds, and describeOutcome would tell the
@@ -44,7 +75,18 @@ export const composeModule: PatternModule<ComposePayload, ComposeWork> = {
     // The built structure must match the target EXACTLY (exactSet, not a
     // subset relation) - an extra bond is as wrong as a missing one.
     const set = joins.map(([a, b]) => joinId(a, b))
-    return evaluateSuccess(success, { set })
+    const result = evaluateSuccess(success, { set })
+    if (result.ok || success.kind !== 'exactSet') return result
+    // Parts with one name are interchangeable: joining the second H where the rule
+    // names the first builds the same molecule, and must not be marked wrong.
+    const label = (id: string) => payload.parts.find((p) => p.id === id)?.label ?? id
+    const built = joins.map(([a, b]) => namesOf(label(a), label(b))).sort()
+    const wanted = success.itemIds.flatMap((id) => {
+      const pair = partsOf(payload, id)
+      return pair ? [namesOf(pair[0].label, pair[1].label)] : []
+    }).sort()
+    const same = built.length === wanted.length && built.every((name, i) => name === wanted[i])
+    return same ? { ok: true, wrongIds: [] } : result
   },
 
   // Control of error: a join is only legal when it connects two DIFFERENT
@@ -61,6 +103,22 @@ export const composeModule: PatternModule<ComposePayload, ComposeWork> = {
     const joins = work.joins ?? []
     if (joins.some(([a, b]) => joinId(a, b) === joinId(from.id, to.id))) return false
     return joinCount(joins, from.id) < from.slots && joinCount(joins, to.id) < to.slots
+  },
+
+  // Every bond the rule asks for has to be one a learner can make: two different
+  // parts, a legal pair, and no part asked for more bonds than it has slots.
+  canBeMet(payload, success): boolean {
+    if (isAlgebra(payload)) return false
+    if (success.kind !== 'exactSet') return true
+    const used = new Map<string, number>()
+    for (const bond of success.itemIds) {
+      const pair = partsOf(payload, bond)
+      if (!pair) return false
+      const legal = payload.validJoins.some((j) => namesOf(j.a, j.b) === namesOf(pair[0].label, pair[1].label))
+      if (!legal) return false
+      for (const part of pair) used.set(part.id, (used.get(part.id) ?? 0) + 1)
+    }
+    return payload.parts.every((p) => (used.get(p.id) ?? 0) <= p.slots)
   },
 
   isPayload(p: unknown): p is ComposePayload {

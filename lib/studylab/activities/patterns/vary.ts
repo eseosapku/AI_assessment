@@ -59,6 +59,14 @@ export function extraReadouts(payload: VaryPayload, value: number): VaryReadout[
   return computeReadouts(payload, value).filter((r) => !onBars.has(r.label.trim().toLowerCase()))
 }
 
+/** What the learner is asked to reach. Without it, Check marks a goal nothing on the card states. */
+export function goalOf(payload: VaryPayload): { label: string; value: number } | null {
+  const target = payload.target
+  if (!target) return null
+  const shown = [...payload.readouts, ...(payload.model.kind === 'bars' ? payload.model.bars : [])]
+  return { label: shown.find((r) => r.expr === target.expr)?.label ?? payload.variable.label, value: target.value }
+}
+
 /** The picture of the thing the slider changes, from the catalogue only; nothing for any other name. */
 export function sceneUrl(payload: VaryPayload): string | null {
   return typeof payload.scene === 'string' ? assetUrl(payload.scene) : null
