@@ -235,6 +235,11 @@ function BlockBody({ name, x, y, w, h, mass }: { name: string; x: number; y: num
         )}
         <rect x={x} y={y} width={w} height={2.5} fill={m.top} opacity={0.9} />
       </g>
+      {/* Above the block, where the waterline cannot run through it. */}
+      <g>
+        <rect x={x + w / 2 - 36} y={y - 21} width={72} height={17} rx={4} fill={PLATE} opacity={0.88} />
+        <text x={x + w / 2} y={y - 12} textAnchor="middle" dominantBaseline="central" fontSize={12} fontWeight={800} fill={INK} fontFamily={FONT}>{name} {mass} g</text>
+      </g>
     </g>
   )
 }
