@@ -175,7 +175,7 @@ export const springsEngine: SceneEngine<SpringsConfig, SpringsState> = {
       || /\b\d+\s*(?:N\b|newton|cm\b|centi)/i.test(text)
       || /\badd\s+\d|\bremove\s+\d|\bhang\s+\d/i.test(text)
     if (gives) {
-      return ['the prompt gives the answer away: it names a count, a force, a distance, or the rule -- ask for the outcome only ("Hang weights on the spring by its round buttons until it stretches to the dashed line.")']
+      return ['the prompt gives the answer away: it names a count, a force, a distance, or the rule -- ask for the outcome only ("Hang weights on the spring with the + and − buttons until it stretches to the dashed line.")']
     }
     return []
   },
@@ -196,16 +196,16 @@ export const springsEngine: SceneEngine<SpringsConfig, SpringsState> = {
 
   View: SpringsView,
 
-  prompt: `SCENE "springs-oscillators" -- a vertical spring hanging from a bar on a dark stage, with bold orange weight blocks stacking below it and round + and − buttons on either side. The learner taps + to hang a unit mass and − to remove one. Each mass stretches the spring by the same amount (Hooke's law: F = kx), and a dashed target line shows where the bottom of the weight stack must reach. The spring bounces briefly on each change, then settles. There are no force, extension or spring-constant values on the card before marking; marking gives the force, the extension and F = kx.
+  prompt: `SCENE "springs-oscillators" -- a steel spring hanging from a clamp on a lab stand, with slotted brass masses stacking on its hanger and a row of − and + buttons below the picture. The learner taps + to hang a unit mass and − to remove one. Each mass stretches the spring by the same amount (Hooke's law: F = kx), and a dashed target line shows where the bottom of the weight stack must reach. The spring bounces briefly on each change, then settles. There are no force, extension or spring-constant values on the card before marking; marking gives the force, the extension and F = kx.
 For: Hooke's law, springs, spring constant, force and extension, elasticity, elastic deformation.
 config: { "k": <spring constant in N/cm>, "extension": <target extension in cm> }. k × extension must be a whole number from 2 to 8 (the number of unit masses needed). k may also be named: "soft" (1), "medium" (2), "stiff" (3).
   e.g. { "k": 2, "extension": 3 } — 6 masses (6 N stretches a 2 N/cm spring 3 cm).
   e.g. { "k": 1, "extension": 5 } — 5 masses (5 N stretches a 1 N/cm spring 5 cm).
   e.g. { "k": 0.5, "extension": 8 } — 4 masses (4 N stretches a 0.5 N/cm spring 8 cm).
 Not drawn: oscillation, period, elastic limit, parallel or series springs, energy stored in a spring. Do not use it for spring tides, spring seasons, hot springs, or oscillating chemical reactions.
-Before marking the card shows only the spring stretching, the orange weight blocks, the target line, the round buttons and two short labels (spring, target). It holds back every number. The prompt must ask for the outcome only: do NOT name the force, the number of masses, the extension, the spring constant, F = kx, or say "Hooke's law" or "proportional".
-config: { "k": 2, "extension": 3 } -- the prompt says "Hang weights on the spring by its round buttons until it stretches to the dashed line."
-{ "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Hang weights on the spring by its round buttons until it stretches to the dashed line.",
+Before marking the card shows only the spring stretching, the brass masses, the target line, the buttons and two short labels (spring, target). It holds back every number. The prompt must ask for the outcome only: do NOT name the force, the number of masses, the extension, the spring constant, F = kx, or say "Hooke's law" or "proportional".
+config: { "k": 2, "extension": 3 } -- the prompt says "Hang weights on the spring with the + and − buttons until it stretches to the dashed line."
+{ "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Hang weights on the spring with the + and − buttons until it stretches to the dashed line.",
   "payload": { "engine":"springs-oscillators", "config": { "k": 2, "extension": 3 } },
   "success": { "kind":"scene" } }, "intent": { "goal":"show how a spring's extension depends on the number of weights hung from it", "isolates":"quantity", "apparatus":"scene:springs-oscillators", "why":"this is Hooke's law seen as a thing the learner does, not a formula to memorise" } }`,
 }

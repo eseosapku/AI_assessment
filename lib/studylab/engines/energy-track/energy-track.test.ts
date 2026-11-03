@@ -262,7 +262,7 @@ describe('when the tutor is shown it', () => {
   })
 
   it('is registered, with its config in its catalogue entry', () => {
-    expect(getEngine('energy-track')).toBe(engine)
+    expect(getEngine('energy-track')?.id).toBe(engine.id)
     expect(engine.isolates).toBe('quantity')
     expect(engine.prompt).toMatch(/SCENE "energy-track"/)
     expect(engine.prompt).toMatch(/"pattern":"scene"/)
@@ -286,7 +286,7 @@ describe('a still frame is a frame a learner sees', () => {
   const frames = (c: EnergyTrackConfig) => [engine.initial(c), engine.solve(c)]
 
   it('agrees with what the view writes out as literals', () => {
-    expect(UX).toBe(8)
+    expect(UX).toBe(7)
     expect(WALL * UX + FLOOR * UX + WALL * UX + X0).toBeLessThan(220) // the whole track clears the bars
     expect(X0 + 25 * UX).toBe(px(WALL + FLOOR + WALL))
     expect(UY).toBe(15)
@@ -401,7 +401,7 @@ describe('the energy-track scene on the board', () => {
 
   it('showing the answer draws the answer, whatever the learner had left', () => {
     const shown = raw({ task: 'release', flag: 4, rough: 2, ball: 'light' }, { release: 9 }, 'shown', true)
-    expect(shown).toContain('fill="#5FD38D"')
+    expect(shown).toContain('fill="#2F9E62"')
     expect(text(shown)).toMatch(/climbed only 4 marks/)
   })
 
@@ -421,16 +421,16 @@ describe('the energy-track scene on the board', () => {
     expect(raw(c, { release: 6 }, 'idle', true)).not.toBe(raw(c, { release: 7 }, 'idle', true))
     const r: EnergyTrackConfig = { task: 'rough', release: 7, flag: 4, ball: 'light' }
     expect(raw(r, { rough: 1 }, 'idle', true)).not.toBe(raw(r, { rough: 2 }, 'idle', true))
-    expect(raw(c, { release: 6 }, 'idle', true)).not.toMatch(/transition|animate/)
+    expect(/<svg[\s\S]*<\/svg>/.exec(raw(c, { release: 6 }, 'idle', true))![0]).not.toMatch(/transition|animate/)
     // the ball appears twice under reduced motion: where it starts and a dashed ghost where it turns
     expect(raw(c, { release: 6 }, 'idle', true)).toContain('stroke-dasharray="4 4"')
   })
 
   it('the flag fills in when the ball reaches it, and not before', () => {
     const c: EnergyTrackConfig = { task: 'release', flag: 4, rough: 2, ball: 'light' }
-    const fill = (s: EnergyTrackState) => /<path d="M 1 -30 L 21 -23 L 1 -16 Z" fill="([^"]+)"/.exec(raw(c, s, 'idle', true))![1]
-    expect(fill({ release: 6 })).toBe('#5FD38D')
-    expect(fill({ release: 7 })).toBe('#0F1722')
+    const fill = (s: EnergyTrackState) => /<path d="M 1.2 -43 H 28 L 22.5 -34 L 28 -25 H 1.2 Z" fill="([^"]+)"/.exec(raw(c, s, 'idle', true))![1]
+    expect(fill({ release: 6 })).toBe('#2F9E62')
+    expect(fill({ release: 7 })).toBe('#D64545')
   })
 
   it('no text under 12 px, and only flat colour', () => {

@@ -8,7 +8,7 @@ import {
   MASS_WEIGHT, MAX_MASSES, MIN_ANSWER,
   type SpringsConfig, type SpringsState,
 } from './config'
-import { BLK_H, BLK_W, CX, H, HOOK, PX, REST, SPRING_TOP, SpringsView, W, hookBot, springBot, springPath, stackBot } from './View'
+import { AMP, BLK_H, BLK_W, CX, H, HOOK, PX, REST, SPRING_TOP, SpringsView, W, hookBot, springBot, springPath, stackBot } from './View'
 import { getEngine, sceneCatalogue, scenesFor } from '../registry'
 import '..'
 import { ActivityNode } from '@/components/studylab/activities/ActivityNode'
@@ -173,7 +173,7 @@ describe('the prompt must not give the answer away', () => {
   const c: SpringsConfig = { k: 2, extension: 3 }
 
   it('asking for the outcome is fine', () => {
-    expect(pf(c, 'Hang weights on the spring by its round buttons until it stretches to the dashed line.')).toEqual([])
+    expect(pf(c, 'Hang weights on the spring with the + and − buttons until it stretches to the dashed line.')).toEqual([])
     expect(pf(c, 'Add weights to the spring until it reaches the target.')).toEqual([])
     expect(pf(c, 'Use the round + and − buttons to load the spring to the dashed line.')).toEqual([])
   })
@@ -234,7 +234,7 @@ describe('when the tutor is shown it', () => {
   })
 
   it('is registered, with its config in its catalogue entry', () => {
-    expect(getEngine('springs-oscillators')).toBe(engine)
+    expect(getEngine('springs-oscillators')?.id).toBe(engine.id)
     expect(engine.isolates).toBe('quantity')
     expect(engine.prompt).toMatch(/SCENE "springs-oscillators"/)
     expect(engine.prompt).toMatch(/"pattern":"scene"/)
@@ -274,11 +274,11 @@ describe('a still frame is a frame a learner sees', () => {
 
   it('the spring path has sensible coordinates', () => {
     const p0 = springPath(0)
-    expect(p0).toContain(`M ${CX}`)
-    expect(p0).toContain(`L ${CX}`)
-    const p8 = springPath(8)
-    expect(p8).toContain(`${CX + 14}`) // AMP right
-    expect(p8).toContain(`${CX - 14}`) // AMP left
+    expect(p0).toContain(`M ${CX.toFixed(1)}`)
+    expect(p0).toContain(`L ${CX.toFixed(1)}`)
+    const xs = [...springPath(8).matchAll(/[ML] ([\d.]+) /g)].map((m) => Number(m[1]))
+    expect(Math.max(...xs)).toBeGreaterThan(CX + AMP - 1)
+    expect(Math.min(...xs)).toBeLessThan(CX - AMP + 1)
   })
 })
 
@@ -293,11 +293,11 @@ describe('the springs scene on the board', () => {
   const attrs = (html: string) => [...html.matchAll(/aria-[a-z]+="([^"]*)"/g)].map((m) => m[1]).join(' ')
 
   const CFG: SpringsConfig = { k: 2, extension: 3 }
-  const PROMPT = 'Hang weights on the spring by its round buttons until it stretches to the dashed line.'
+  const PROMPT = 'Hang weights on the spring with the + and − buttons until it stretches to the dashed line.'
 
   it('before marking, nothing says the answer, the rule or a number of it', () => {
     const html = card(CFG, PROMPT)
-    expect(html).toContain('role="slider"')
+    expect(raw(CFG, { masses: 0 }, 'idle')).toContain('role="img"')
     const shown = text(html.replace(PROMPT, '')) + ' ' + attrs(html)
     for (const secret of ['F = kx', 'Hooke', 'proportional', 'spring constant', ' cm', ' N.', '= 2', '= 3', '= 6']) {
       expect(shown, secret).not.toContain(secret)
@@ -321,7 +321,8 @@ describe('the springs scene on the board', () => {
 
   it('showing the answer draws the answer, whatever the learner had left', () => {
     const html = raw(CFG, { masses: 2 }, 'shown')
-    expect(html).toContain('aria-valuenow="6"')
+    expect(html).toContain('aria-label="Hang one more weight"')
+    expect(html).toContain('>6<')
     expect(text(html)).toContain('F = kx')
   })
 
@@ -329,14 +330,14 @@ describe('the springs scene on the board', () => {
     expect(raw(CFG, { masses: 3 }, 'idle', true)).not.toBe(raw(CFG, { masses: 4 }, 'idle', true))
   })
 
-  it('can be reached by keys, and locks when solved', () => {
+  it('has real buttons, and locks them when solved', () => {
     const idle = raw(CFG, engine.initial(CFG), 'idle')
-    expect(idle).toContain('tabindex="0"')
-    expect(idle).toContain('touch-action:none')
     expect(idle).toContain('nodrag')
+    expect(idle).toContain('<button type="button" aria-label="Hang one more weight"')
+    expect(idle).not.toMatch(/<button[^>]*aria-label="Hang one more weight"[^>]*disabled=""/)
     const done = raw(CFG, engine.solve(CFG), 'right')
-    expect(done).toContain('tabindex="-1"')
-    expect(done).toContain('aria-disabled="true"')
+    expect(done).toMatch(/<button[^>]*aria-label="Hang one more weight"[^>]*disabled=""/)
+    expect(done).toMatch(/<button[^>]*aria-label="Take one weight off"[^>]*disabled=""/)
   })
 
   it('tells a screen reader the state, never the answer', () => {

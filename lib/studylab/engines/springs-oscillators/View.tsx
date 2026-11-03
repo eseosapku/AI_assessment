@@ -6,31 +6,42 @@ import { answerMasses, extensionFor, fmt, madeText, springsEngine, working } fro
 
 type Props = SceneViewProps<SpringsConfig, SpringsState>
 
-const BG = '#111827'
-const COIL = '#38BDF8'
-const MASS_C = '#F59E0B'
-const WHITE = '#F2F5F8'
-const DIM = '#6B7280'
-const BAR_C = '#4B5563'
-const HALO = { stroke: BG, strokeWidth: 3.5, paintOrder: 'stroke', strokeLinejoin: 'round' } as const
+// A quiet light plate in both themes, like measure-shape's and waves': the picture keeps its own material colours. Flat colours only.
+const PLATE = '#F8FAFC'
+const PLATE_EDGE = '#CBD5E1'
+const HAIR = '#DCE3EA'
+const INK = '#334155'
+const SOFT = '#475569'
+const STEEL = '#94A3B8'
+const STEEL_EDGE = '#475569'
+const STEEL_HI = '#E2E8F0'
+const STAND = '#64748B'
+const STAND_DARK = '#334155'
+const BRASS = '#D2A94A'
+const BRASS_EDGE = '#8A6A22'
+const BRASS_HI = '#EBD28A'
+const TARGET = '#2F7FB8'
+const TARGET_INK = '#1F6397'
 
+// Geometry (viewBox pixels), exported for the tests. MAX_MASSES is 8 and the weight 1 N; written out
+// here because config.ts and this file import each other (the test checks they agree).
 export const W = 360
-export const H = 296
-export const CX = 180
-export const BAR_Y = 10
-const BAR_HALF = 50
-export const SPRING_TOP = 18
-export const REST = 36
-export const PX = 14
-export const HOOK = 3
-export const BLK_W = 30
-export const BLK_H = 14
-const COILS = 6
-const AMP = 14
-const BTN_R = 20
-const BTN_LX = 52
-const BTN_RX = 308
-const BTN_Y = 160
+export const H = 372
+export const CX = 150
+export const SPRING_TOP = 52
+export const REST = 56
+export const PX = 16
+export const HOOK = 8
+export const BLK_W = 44
+export const BLK_H = 11
+export const AMP = 16
+export const COILS = 9
+const ARM_Y = 32
+const ARM_H = 7
+const ROD_X = 47
+const BASE_Y = 350
+const EYE = 4
+const TILT = 3.4
 
 const f = (n: number) => n.toFixed(1)
 
@@ -38,22 +49,22 @@ export const springBot = (m: number) => SPRING_TOP + REST + m * PX
 export const hookBot = (m: number) => springBot(m) + HOOK
 export const stackBot = (m: number) => hookBot(m) + m * BLK_H
 
+/** The spring as a helix seen from the side: a short straight lead, nine coils, a short straight tail. */
 export function springPath(masses: number): string {
   const top = SPRING_TOP
   const bot = springBot(masses)
-  const n = COILS * 2
-  const totalLen = bot - top
-  const lead = Math.min(5, totalLen / 4)
-  const zigLen = totalLen - 2 * lead
-  if (zigLen <= 0) return `M ${CX} ${f(top)} L ${CX} ${f(bot)}`
-  const step = zigLen / (n + 1)
-  const zigTop = top + lead
-  let d = `M ${CX} ${f(top)}`
-  for (let i = 1; i <= n; i++) {
-    const x = i % 2 === 1 ? CX + AMP : CX - AMP
-    d += ` L ${f(x)} ${f(zigTop + i * step)}`
+  const lead = 4
+  const y0 = top + lead
+  const len = bot - top - 2 * lead
+  const steps = COILS * 14
+  let d = `M ${f(CX)} ${f(top)} L ${f(CX)} ${f(y0)}`
+  for (let i = 0; i <= steps; i++) {
+    const th = (i / steps) * COILS * Math.PI * 2
+    const x = CX + AMP * Math.sin(th)
+    const y = y0 + (len - 2 * TILT) * (i / steps) + TILT * (1 - Math.cos(th))
+    d += ` L ${f(x)} ${f(y)}`
   }
-  d += ` L ${CX} ${f(bot)}`
+  d += ` L ${f(CX)} ${f(bot - lead)} L ${f(CX)} ${f(bot)}`
   return d
 }
 
@@ -94,24 +105,7 @@ function useSpringBounce(target: number, reduced: boolean): number {
   return reduced ? target : shown
 }
 
-function animatedPath(m: number): string {
-  const top = SPRING_TOP
-  const bot = SPRING_TOP + REST + m * PX
-  const n = COILS * 2
-  const totalLen = bot - top
-  const lead = Math.min(5, totalLen / 4)
-  const zigLen = totalLen - 2 * lead
-  if (zigLen <= 0) return `M ${CX} ${f(top)} L ${CX} ${f(bot)}`
-  const step = zigLen / (n + 1)
-  const zigTop = top + lead
-  let d = `M ${CX} ${f(top)}`
-  for (let i = 1; i <= n; i++) {
-    const x = i % 2 === 1 ? CX + AMP : CX - AMP
-    d += ` L ${f(x)} ${f(zigTop + i * step)}`
-  }
-  d += ` L ${CX} ${f(bot)}`
-  return d
-}
+const STEP = 'nodrag flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-lg border-2 border-ss-line bg-ss-panel text-[16px] font-extrabold leading-none text-ss-ink touch-manipulation transition-colors hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none'
 
 export function SpringsView({ config, state, setState, marked, reduced, locked }: Props) {
   const now = marked === 'shown' ? springsEngine.solve(config) : state
@@ -123,6 +117,7 @@ export function SpringsView({ config, state, setState, marked, reduced, locked }
   const targetY = stackBot(answer)
   const reached = masses === answer
   const named = marked !== 'idle'
+  const status = reached ? 'The spring has stretched to the target.' : 'The spring has not reached the target.'
 
   const set = (n: number) => {
     if (locked) return
@@ -130,113 +125,119 @@ export function SpringsView({ config, state, setState, marked, reduced, locked }
     if (next !== masses) setState({ masses: next })
   }
 
-  const onKey = (e: KeyboardEvent) => {
-    const map: Record<string, number> = { ArrowUp: -1, ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, PageUp: -2, PageDown: 2 }
-    const d = map[e.key]
-    if (d === undefined) return
-    e.preventDefault()
-    e.stopPropagation()
-    set(masses + d)
-  }
+  // The board moves cards with the arrow keys; inside the card they belong to the card (the buttons are the control).
+  const onKey = (e: KeyboardEvent) => { if (e.key.startsWith('Arrow')) e.stopPropagation() }
 
   const drawnBot = SPRING_TOP + REST + shown * PX
   const drawnHook = drawnBot + HOOK
-  const path = animatedPath(shown)
-
-  const minusOk = !locked && masses > 0
-  const plusOk = !locked && masses < 8
+  const path = springPath(shown)
+  const stemBot = drawnHook + masses * BLK_H + 5
 
   const text = named
     ? (marked === 'right' || marked === 'shown' ? working(config, now) : madeText(config, now))
     : ''
 
+  const extTop = SPRING_TOP + REST
+  const extBot = springBot(masses)
+
   return (
-    <div className="nodrag flex flex-col items-center gap-2 [&:has(:focus-visible)_.li-kbd]:block">
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        role="group"
-        aria-label={`A spring hanging from a bar with ${masses} weight${masses === 1 ? '' : 's'}. ${reached ? 'The spring has stretched to the target.' : 'The spring has not reached the target.'}`}
-        className="block h-auto w-full max-w-[360px] select-none"
-        style={{ background: BG, borderRadius: 14, overflow: 'hidden' }}
-      >
-        {/* Bar */}
-        <rect x={CX - BAR_HALF} y={BAR_Y} width={BAR_HALF * 2} height={6} rx={2} fill={BAR_C} />
-
-        {/* Target line */}
-        <line x1={40} y1={f(targetY)} x2={320} y2={f(targetY)} stroke={WHITE} strokeWidth={1.5} strokeDasharray="8 5" opacity={0.6} />
-
-        {/* Spring coil */}
-        <path d={path} fill="none" stroke={COIL} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
-
-        {/* Hook */}
-        <line x1={CX} y1={f(drawnBot)} x2={CX} y2={f(drawnHook)} stroke={WHITE} strokeWidth={2} />
-
-        {/* Weight blocks */}
-        {Array.from({ length: masses }, (_, i) => (
-          <rect
-            key={i}
-            x={CX - BLK_W / 2}
-            y={f(drawnHook + i * BLK_H)}
-            width={BLK_W}
-            height={BLK_H}
-            fill={MASS_C}
-            stroke={BG}
-            strokeWidth={1.5}
-            rx={3}
-          />
-        ))}
-
-        {/* Labels */}
-        <text x={CX + AMP + 8} y={SPRING_TOP + 12} fontSize={14} fontWeight={700} fill={WHITE} style={HALO}>spring</text>
-        <text x={325} y={f(targetY - 7)} fontSize={13} fontWeight={700} fill={WHITE} style={HALO} textAnchor="end">target</text>
-
-        {/* After marking: extension bracket and force */}
-        {named && masses > 0 && (
-          <g>
-            <line x1={100} y1={f(SPRING_TOP + REST)} x2={110} y2={f(SPRING_TOP + REST)} stroke={WHITE} strokeWidth={1.5} />
-            <line x1={105} y1={f(SPRING_TOP + REST)} x2={105} y2={f(springBot(masses))} stroke={WHITE} strokeWidth={1.5} />
-            <line x1={100} y1={f(springBot(masses))} x2={110} y2={f(springBot(masses))} stroke={WHITE} strokeWidth={1.5} />
-            <text x={98} y={f((SPRING_TOP + REST + springBot(masses)) / 2 + 5)} textAnchor="end" fontSize={13} fontWeight={700} fill={WHITE} style={HALO}>
-              {fmt(extensionFor(config.k, masses))} cm
-            </text>
-            <text x={CX} y={f(hookBot(masses) + masses * BLK_H / 2 + 5)} textAnchor="middle" fontSize={13} fontWeight={700} fill={WHITE} style={HALO}>
-              {masses} N
-            </text>
-          </g>
-        )}
-
-        {/* Interactive: slider with +/- buttons */}
-        <g
-          role="slider"
-          tabIndex={locked ? -1 : 0}
-          aria-label="The spring. Tap the round buttons or use arrow keys to add or remove weights"
-          aria-valuemin={0}
-          aria-valuemax={8}
-          aria-valuenow={masses}
-          aria-valuetext={`${masses} weight${masses === 1 ? '' : 's'}. ${reached ? 'The spring has stretched to the target.' : 'The spring has not reached the target.'}`}
-          aria-disabled={locked || undefined}
-          style={{ touchAction: 'none' }}
-          className="outline-none"
-          onKeyDown={onKey}
+    <div className="nodrag flex flex-col items-center gap-3" onKeyDown={onKey}>
+      <figure className="flex w-full max-w-[360px] flex-col gap-1.5">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          role="img"
+          aria-label={`A spring hanging from a clamp on a lab stand, with ${masses} brass weight${masses === 1 ? '' : 's'} on its hanger. ${status}`}
+          className="block h-auto w-full select-none"
         >
-          {/* − button */}
-          <g onClick={() => set(masses - 1)} style={{ cursor: minusOk ? 'pointer' : 'default' }}>
-            <circle cx={BTN_LX} cy={BTN_Y} r={BTN_R + 8} fill="transparent" />
-            <circle cx={BTN_LX} cy={BTN_Y} r={BTN_R} fill={minusOk ? WHITE : DIM} />
-            <line x1={BTN_LX - 8} y1={BTN_Y} x2={BTN_LX + 8} y2={BTN_Y} stroke={BG} strokeWidth={3} strokeLinecap="round" />
+          <rect width={W} height={H} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+
+          {/* the bench */}
+          <line x1={16} x2={W - 16} y1={BASE_Y + 12} y2={BASE_Y + 12} stroke={HAIR} strokeWidth={1.5} />
+
+          {/* the target: where the bottom of the stack has to come to */}
+          <line x1={CX + 62} y1={f(targetY)} x2={W - 16} y2={f(targetY)} stroke={TARGET} strokeWidth={2.5} strokeDasharray="7 6" strokeLinecap="round" />
+          <text x={W - 16} y={f(targetY - 7)} textAnchor="end" fontSize={12} fontWeight={700} fill={TARGET_INK}>target</text>
+
+          {/* the stand: base, rod, clamp and arm */}
+          <rect x={22} y={BASE_Y} width={78} height={10} rx={3} fill={STAND} stroke={STAND_DARK} strokeWidth={1} />
+          <rect x={26} y={BASE_Y + 1.5} width={70} height={2} rx={1} fill={STEEL_HI} opacity={0.7} />
+          <rect x={ROD_X} y={ARM_Y - 6} width={8} height={BASE_Y - ARM_Y + 6} rx={3} fill={STEEL} stroke={STEEL_EDGE} strokeWidth={1} />
+          <rect x={ROD_X + 1.8} y={ARM_Y - 4} width={2} height={BASE_Y - ARM_Y + 2} rx={1} fill={STEEL_HI} />
+          <rect x={ROD_X + 14} y={ARM_Y} width={CX + 14 - ROD_X - 14} height={ARM_H} rx={2.5} fill={STEEL} stroke={STEEL_EDGE} strokeWidth={1} />
+          <rect x={ROD_X + 16} y={ARM_Y + 1.4} width={CX - ROD_X - 18} height={1.8} rx={0.9} fill={STEEL_HI} />
+          <rect x={ROD_X - 6} y={ARM_Y - 4} width={22} height={ARM_H + 8} rx={3} fill={STAND} stroke={STAND_DARK} strokeWidth={1} />
+          <circle cx={ROD_X - 11} cy={ARM_Y + 3.5} r={4} fill={STAND} stroke={STAND_DARK} strokeWidth={1} />
+          <line x1={ROD_X - 10} x2={ROD_X - 6} y1={ARM_Y + 3.5} y2={ARM_Y + 3.5} stroke={STAND_DARK} strokeWidth={2} />
+          <text x={ROD_X + 22} y={ARM_Y - 10} fontSize={12} fontWeight={700} fill={SOFT}>clamp</text>
+
+          {/* the eye the spring hangs from */}
+          <circle cx={CX} cy={ARM_Y + ARM_H + EYE - 1} r={EYE} fill="none" stroke={STEEL_EDGE} strokeWidth={1.8} />
+
+          {/* the spring: dark edge, steel body, a thin highlight */}
+          <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d={path} stroke={STEEL_EDGE} strokeWidth={5.4} />
+            <path d={path} stroke={STEEL} strokeWidth={3.4} />
+            <path d={path} stroke={STEEL_HI} strokeWidth={1} opacity={0.9} />
           </g>
-          {/* + button */}
-          <g onClick={() => set(masses + 1)} style={{ cursor: plusOk ? 'pointer' : 'default' }}>
-            <circle cx={BTN_RX} cy={BTN_Y} r={BTN_R + 8} fill="transparent" />
-            <circle cx={BTN_RX} cy={BTN_Y} r={BTN_R} fill={plusOk ? WHITE : DIM} />
-            <line x1={BTN_RX - 8} y1={BTN_Y} x2={BTN_RX + 8} y2={BTN_Y} stroke={BG} strokeWidth={3} strokeLinecap="round" />
-            <line x1={BTN_RX} y1={BTN_Y - 8} x2={BTN_RX} y2={BTN_Y + 8} stroke={BG} strokeWidth={3} strokeLinecap="round" />
-          </g>
-        </g>
-      </svg>
-      <p className="li-kbd hidden text-[12px] text-ss-slate">Arrow keys add or remove weights.</p>
-      <span className="sr-only" aria-live="polite">{reached ? 'The spring has stretched to the target.' : 'The spring has not reached the target.'}</span>
-      {named && <p className="max-w-[350px] text-center text-[13px] font-bold leading-snug text-ss-ink">{text}</p>}
+
+          {/* the hanger: a ring under the spring and a stem the slotted masses slide onto */}
+          <circle cx={CX} cy={f(drawnBot + 3)} r={2.8} fill="none" stroke={STEEL_EDGE} strokeWidth={1.6} />
+          <line x1={CX} y1={f(drawnBot + 5.5)} x2={CX} y2={f(stemBot)} stroke={STEEL_EDGE} strokeWidth={3} strokeLinecap="round" />
+          <line x1={CX} y1={f(drawnBot + 5.5)} x2={CX} y2={f(stemBot)} stroke={STEEL_HI} strokeWidth={1} strokeLinecap="round" />
+          <rect x={CX - 9} y={f(stemBot - 2)} width={18} height={4.5} rx={2} fill={STEEL} stroke={STEEL_EDGE} strokeWidth={1} />
+
+          {/* slotted brass masses */}
+          {Array.from({ length: masses }, (_, i) => {
+            const y = drawnHook + i * BLK_H
+            return (
+              <g key={i}>
+                <rect x={CX - BLK_W / 2} y={f(y)} width={BLK_W} height={BLK_H - 0.6} rx={2.5} fill={BRASS} stroke={BRASS_EDGE} strokeWidth={1} />
+                <rect x={CX - BLK_W / 2 + 3} y={f(y + 1.2)} width={BLK_W - 6} height={1.5} rx={0.75} fill={BRASS_HI} />
+                <rect x={CX - BLK_W / 2 - 0.5} y={f(y + BLK_H / 2 - 2)} width={BLK_W / 2 - 1} height={3} fill={BRASS_EDGE} />
+              </g>
+            )
+          })}
+
+          {/* labels, each on the thing it names */}
+          <text x={CX + AMP + 12} y={SPRING_TOP + 16} fontSize={12} fontWeight={700} fill={SOFT}>spring</text>
+          <text x={CX - BLK_W / 2 - 8} y={f(drawnHook + (masses > 0 ? BLK_H / 2 + 4 : 14))} textAnchor="end" fontSize={12} fontWeight={700} fill={BRASS_EDGE}>
+            {masses > 0 ? 'masses' : 'hanger'}
+          </text>
+
+          {/* after marking: how far it stretched, and the force */}
+          {named && masses > 0 && (
+            <g>
+              <path
+                d={`M ${CX + 34} ${f(extTop)} H ${CX + 44} M ${CX + 39} ${f(extTop)} V ${f(extBot)} M ${CX + 34} ${f(extBot)} H ${CX + 44}`}
+                fill="none" stroke={INK} strokeWidth={1.6} strokeLinecap="round"
+              />
+              <text x={CX + 50} y={f((extTop + extBot) / 2 + 4)} fontSize={12} fontWeight={700} fill={INK}>
+                {fmt(extensionFor(config.k, masses))} cm
+              </text>
+              <text x={CX + BLK_W / 2 + 10} y={f(hookBot(masses) + (masses * BLK_H) / 2 + 4)} fontSize={12} fontWeight={700} fill={INK}>
+                {masses} N
+              </text>
+            </g>
+          )}
+        </svg>
+        <figcaption className="text-center text-[12px] font-bold text-ss-slate">
+          Hang weights on the spring until the stack reaches the dashed line.
+        </figcaption>
+      </figure>
+      <div className="flex w-full max-w-[360px] flex-col gap-1.5">
+        <div className="flex items-center justify-between gap-1.5">
+          <span className="text-[12px] font-bold text-ss-slate">Weights hung</span>
+          <span className="flex items-center gap-1">
+            <button type="button" aria-label="Take one weight off" disabled={locked || masses <= 0} onClick={() => set(masses - 1)} className={STEP}>{'−'}</button>
+            <span className="min-w-[28px] text-center text-[15px] font-extrabold tabular-nums text-ss-ink" aria-hidden="true">{masses}</span>
+            <button type="button" aria-label="Hang one more weight" disabled={locked || masses >= 8} onClick={() => set(masses + 1)} className={STEP}>+</button>
+          </span>
+        </div>
+      </div>
+      <span className="sr-only" aria-live="polite">{status}</span>
+      {named && (
+        <p className="w-full max-w-[360px] rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-2 text-[13px] font-extrabold leading-snug text-ss-ink" aria-live="polite">{text}</p>
+      )}
     </div>
   )
 }

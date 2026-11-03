@@ -6,27 +6,43 @@ import { advance, endX, energyTrackEngine, heightAt, madeReach, madeRelease, mad
 
 type Props = SceneViewProps<EnergyTrackConfig, EnergyTrackState>
 
-// One scene look in both themes: a flat dark stage. Flat colours only, every one named on the card.
-const ROOM = '#0F1722'
-const WHITE = '#F2F5F8'
-const DIM = '#93A3B5'
-const HEIGHT = '#5BB8F5'
-const MOTION = '#FFD23F'
-const HEAT = '#FF8A4C'
-const FLAG = '#5FD38D'
-const HALO = { stroke: ROOM, strokeWidth: 4, paintOrder: 'stroke', strokeLinejoin: 'round' } as const
+// A quiet light plate in both themes, like waves' and measure-shape's: the picture keeps its own colours. Flat colours only.
+const PLATE = '#F8FAFC'
+const PLATE_EDGE = '#CBD5E1'
+const HAIR = '#DCE3EA'
+const INK = '#334155'
+const SOFT = '#475569'
+const WOOD = '#C29A5C'
+const WOOD_EDGE = '#7C5A2C'
+const WOOD_LIP = '#E6CE9C'
+const GRIT = '#9C8466'
+const GRIT_DARK = '#5B4630'
+const GRIT_LIGHT = '#D8C7A5'
+const STEEL = '#A9B6C4'
+const STEEL_EDGE = '#475569'
+const IRON = '#6B7A8C'
+const HEIGHT = '#5B8DB8'
+const MOTION = '#E3B93C'
+const HEAT = '#E08A2E'
+const FLAG_OFF = '#D64545'
+const FLAG_ON = '#2F9E62'
+const FLAG_EDGE = '#7F1D1D'
+const FLAG_ON_EDGE = '#14532D'
+const HALO = { stroke: PLATE, strokeWidth: 3.5, paintOrder: 'stroke', strokeLinejoin: 'round' } as const
 
 // The stage, in pixels. The track is drawn in marks: one mark is UX across and UY up. These agree with config.ts
 // (WALL 9, FLOOR 7) and a test holds them together: View cannot read config's constants at load time.
 export const W = 360
-export const H = 270
-export const UX = 8
+export const H = 272
+export const UX = 7
 export const UY = 15
-export const X0 = 10
-export const BASE = 222
+export const X0 = 14
+export const BASE = 236
 export const BAR_UNIT = 15
-export const BAR_X = [246, 294, 340]
+export const BAR_X = [230, 278, 326]
 const BAR_W = 24
+const PANEL_X = 204
+const THICK = 7
 
 export type Pt = { x: number; y: number }
 export type Label = { text: string; x: number; y: number; anchor: 'start' | 'middle' | 'end'; part: Pt }
@@ -57,8 +73,8 @@ export function labelsFor(config: EnergyTrackConfig, state: EnergyTrackState, wi
   const labels: Label[] = []
   if (withBall) labels.push({ text: config.ball === 'heavy' ? 'heavy ball' : 'ball', x: Math.max(4, c.x - 8), y: c.y - R - 6, anchor: 'start', part: c })
   labels.push(
-    { text: 'flag', x: pole.x + 10, y: pole.y - 36, anchor: 'middle', part: { x: pole.x + 6, y: pole.y - 22 } },
-    { text: 'floor', x: (px(9) + px(16)) / 2, y: BASE + 36, anchor: 'middle', part: { x: (px(9) + px(16)) / 2, y: BASE + 4 } },
+    { text: 'flag', x: pole.x + 12, y: pole.y - 56, anchor: 'middle', part: { x: pole.x + 12, y: pole.y - 38 } },
+    { text: 'floor', x: (px(9) + px(16)) / 2, y: BASE + 28, anchor: 'middle', part: { x: (px(9) + px(16)) / 2, y: BASE + 8 } },
     { text: 'height', x: BAR_X[0], y: BASE + 18, anchor: 'middle', part: { x: BAR_X[0], y: BASE - 6 } },
     { text: 'motion', x: BAR_X[1], y: BASE + 18, anchor: 'middle', part: { x: BAR_X[1], y: BASE - 6 } },
     { text: 'heat', x: BAR_X[2], y: BASE + 18, anchor: 'middle', part: { x: BAR_X[2], y: BASE - 6 } },
@@ -69,7 +85,22 @@ export function labelsFor(config: EnergyTrackConfig, state: EnergyTrackState, wi
 export function totalLine(config: EnergyTrackConfig, state: EnergyTrackState) {
   const mass = config.ball === 'heavy' ? 1.5 : 1
   const y = BASE - madeRelease(config, state) * mass * BAR_UNIT
-  return { y, label: { text: 'total', x: 222, y: y - 6, anchor: 'start' as const, part: { x: 241, y } } }
+  return { y, label: { text: 'total', x: PANEL_X + 8, y: y - 6, anchor: 'start' as const, part: { x: PANEL_X + 31, y } } }
+}
+
+/** The track's outline at a perpendicular distance d below its surface: four corners, the walls' angle kept. */
+export function trackEdge(d: number): Pt[] {
+  const a: Pt = { x: px(0), y: py(9) }
+  const b: Pt = { x: px(9), y: BASE }
+  const len = Math.hypot(b.x - a.x, b.y - a.y)
+  const nx = -(b.y - a.y) / len
+  const ny = (b.x - a.x) / len
+  // the left wall's offset line meets the floor's offset line (y = BASE + d / 1)
+  const s = (BASE + d - (a.y + ny * d)) / ((b.y - a.y) / len)
+  const left: Pt = { x: a.x + nx * d + ((b.x - a.x) / len) * s, y: BASE + d }
+  const top: Pt = { x: a.x + nx * d, y: a.y + ny * d }
+  const mirror = (p: Pt): Pt => ({ x: px(25) - (p.x - px(0)), y: p.y })
+  return [top, left, mirror(left), mirror(top)]
 }
 
 function describe(config: EnergyTrackConfig, state: EnergyTrackState): string {
@@ -123,21 +154,50 @@ function Names({ labels }: { labels: Label[] }) {
   return (
     <g aria-hidden="true">
       {labels.map((l) => (
-        <text key={l.text} x={f1(l.x)} y={f1(l.y)} textAnchor={l.anchor} fontSize={14} fontWeight={700} fill={WHITE} style={HALO}>{l.text}</text>
+        <text key={l.text} x={f1(l.x)} y={f1(l.y)} textAnchor={l.anchor} fontSize={12} fontWeight={700} fill={SOFT} style={HALO}>{l.text}</text>
       ))}
     </g>
   )
 }
 
-const Round = ({ label, disabled, onClick, children }: { label: string; disabled: boolean; onClick: () => void; children: string }) => (
-  <button
-    type="button" aria-label={label} disabled={disabled} onClick={onClick}
-    style={{ width: 48, height: 48, borderRadius: 24, fontSize: 26, fontWeight: 700, lineHeight: 1, cursor: disabled ? 'default' : 'pointer', opacity: disabled ? 0.35 : 1 }}
-    className="flex h-12 w-12 select-none items-center justify-center rounded-full border border-ss-line bg-ss-chip text-[26px] font-bold leading-none text-ss-ink outline-none focus-visible:ring-2 focus-visible:ring-ss-ink disabled:opacity-35"
-  >
-    {children}
-  </button>
-)
+const STEP = 'nodrag flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-lg border-2 border-ss-line bg-ss-panel text-[16px] font-extrabold leading-none text-ss-ink touch-manipulation transition-colors hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none'
+
+/** One setting: a slate label, then a take-away button, pips that show where it is set, and an add button. No number, so no answer. */
+function Control(props: { name: string; level: number; min: number; max: number; less: string; more: string; locked: boolean; set: (v: number) => void }) {
+  const { name, level, min, max, less, more, locked, set } = props
+  return (
+    <div className="flex items-center justify-between gap-1.5">
+      <span className="text-[12px] font-bold text-ss-slate">{name}</span>
+      <span className="flex items-center gap-1">
+        <button type="button" aria-label={less} disabled={locked || level <= min} onClick={() => set(level - 1)} className={STEP}>{'−'}</button>
+        <span className="flex min-w-[96px] items-center justify-center gap-[3px]" aria-hidden="true">
+          {Array.from({ length: max - min + 1 }, (_, k) => (
+            <span key={k} className={`block h-2 w-2 rounded-full ${k + min <= level ? 'bg-ss-ink' : 'bg-ss-line'}`} />
+          ))}
+        </span>
+        <button type="button" aria-label={more} disabled={locked || level >= max} onClick={() => set(level + 1)} className={STEP}>+</button>
+      </span>
+    </div>
+  )
+}
+
+/** Sandpaper over the floor: a strip that thickens, and grit that crowds, with every step rougher. */
+function Grit({ rough }: { rough: number }) {
+  if (rough <= 0) return null
+  const a = px(9)
+  const w = px(16) - a
+  const dots = Array.from({ length: rough * 12 }, (_, k) => {
+    const x = a + 2 + (((k * 37 + 11) % 97) / 97) * (w - 4)
+    const y = BASE + 0.4 + (((k * 53 + 5) % 11) / 11) * (1 + rough * 0.8)
+    return { x, y, r: k % 3 === 0 ? 1.3 : 0.9, c: k % 2 ? GRIT_DARK : GRIT_LIGHT }
+  })
+  return (
+    <g aria-hidden="true">
+      <rect x={f1(a)} y={BASE} width={f1(w)} height={f1(1.5 + rough)} fill={GRIT} />
+      {dots.map((d, k) => <circle key={k} cx={f1(d.x)} cy={f1(d.y)} r={d.r} fill={d.c} />)}
+    </g>
+  )
+}
 
 export function EnergyTrackView({ config, state, setState, marked, reduced, locked }: Props) {
   const now = marked === 'shown' ? energyTrackEngine.solve(config) : state
@@ -168,6 +228,11 @@ export function EnergyTrackView({ config, state, setState, marked, reduced, lock
   const flag: Pt = { x: px(16 + config.flag), y: py(config.flag) }
   const said = marked === 'right' || marked === 'shown' ? working(config, now) : marked === 'wrong' ? madeText(config, now) : ''
   const reachText = up === config.flag ? 'The ball climbs to the flag.' : up > config.flag ? 'The ball climbs above the flag.' : 'The ball stops short of the flag.'
+  const ballColour = config.ball === 'heavy' ? IRON : STEEL
+  const pts = (d: number) => trackEdge(d).map((p) => `${f1(p.x)} ${f1(p.y)}`)
+  const flagColour = flagLit ? FLAG_ON : FLAG_OFF
+  const flagEdge = flagLit ? FLAG_ON_EDGE : FLAG_EDGE
+  const sideRun = THICK / 0.906 + 0.6
 
   const key = (e: KeyboardEvent) => {
     const d = ({ ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 } as Record<string, number>)[e.key]
@@ -177,53 +242,62 @@ export function EnergyTrackView({ config, state, setState, marked, reduced, lock
     set(value + d)
   }
 
+  const sphere = (cx: number, cy: number, ghosted: boolean) => (
+    <g>
+      <circle cx={f1(cx)} cy={f1(cy)} r={R} fill={ghosted ? 'none' : ballColour} stroke={STEEL_EDGE} strokeWidth={ghosted ? 2 : 1.5} strokeDasharray={ghosted ? '4 4' : undefined} />
+      {!ghosted && <circle cx={f1(cx - R * 0.35)} cy={f1(cy - R * 0.38)} r={f1(R * 0.26)} fill="#FFFFFF" />}
+    </g>
+  )
+
   return (
-    <div className="nodrag flex flex-col items-center gap-2 [&:has(:focus-visible)_.et-kbd]:block" onKeyDown={key}>
-      <svg
-        viewBox={`0 0 ${W} ${H}`} role="img" aria-label={describe(config, now)}
-        className="block h-auto w-full max-w-[360px] select-none" style={{ background: ROOM, borderRadius: 14 }}
-      >
-        {/* tick marks up both hills: one per mark of height */}
-        <g stroke={DIM} strokeWidth={1.5} strokeLinecap="round">
-          {Array.from({ length: 9 }, (_, k) => k + 1).map((h) => (
-            <g key={h}>
-              <line x1={f1(px(9 - h) - 7)} y1={py(h)} x2={f1(px(9 - h) - 1)} y2={py(h)} />
-              <line x1={f1(px(16 + h) + 1)} y1={py(h)} x2={f1(px(16 + h) + 7)} y2={py(h)} />
-            </g>
+    <div className="nodrag flex flex-col items-center gap-3 [&:has(:focus-visible)_.et-kbd]:block" onKeyDown={key}>
+      <figure className="flex w-full max-w-[360px] flex-col gap-1.5">
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={describe(config, now)} className="block h-auto w-full select-none">
+          <rect width={W} height={H} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+          {/* the wooden track: a thick board with a pale lip, and a notch for every mark of height */}
+          <polygon points={`${pts(0).join(' ')} ${[...pts(THICK)].reverse().join(' ')}`} fill={WOOD} stroke={WOOD_EDGE} strokeWidth={1.5} strokeLinejoin="round" />
+          <polyline points={pts(1.4).join(' ')} fill="none" stroke={WOOD_LIP} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          <g stroke={WOOD_EDGE} strokeWidth={1.2} strokeLinecap="round" aria-hidden="true">
+            {Array.from({ length: 9 }, (_, k) => k + 1).map((h) => (
+              <g key={h}>
+                <line x1={f1(px(9 - h) - 2)} y1={py(h) + 2} x2={f1(px(9 - h) - sideRun)} y2={py(h) + 2} />
+                <line x1={f1(px(16 + h) + 2)} y1={py(h) + 2} x2={f1(px(16 + h) + sideRun)} y2={py(h) + 2} />
+              </g>
+            ))}
+          </g>
+          <Grit rough={rough} />
+          {/* the flag stands on the right hill: a pole, a foot and a bold cloth */}
+          <g transform={`translate(${f1(flag.x)} ${f1(flag.y)})`} aria-hidden="true">
+            <line x1={0} y1={0} x2={0} y2={-46} stroke={INK} strokeWidth={2.5} strokeLinecap="round" />
+            <circle cx={0} cy={-47} r={3} fill={INK} />
+            <circle cx={0} cy={0} r={3.2} fill={INK} />
+            <path d="M 1.2 -43 H 28 L 22.5 -34 L 28 -25 H 1.2 Z" fill={flagColour} stroke={flagEdge} strokeWidth={1.5} strokeLinejoin="round" />
+          </g>
+          {/* the ball, and where it will turn when motion is off */}
+          {reduced && sphere(ghost.x, ghost.y, true)}
+          {sphere(ball.x, ball.y, false)}
+          {/* the bars sit in their own chart card, with the total across them */}
+          <rect x={PANEL_X} y={8} width={W - PANEL_X - 8} height={BASE + 26 - 8} rx={10} fill="#FFFFFF" stroke={HAIR} strokeWidth={1.5} />
+          <line x1={PANEL_X + 8} y1={f1(top.y)} x2={W - 16} y2={f1(top.y)} stroke={INK} strokeWidth={1.6} strokeDasharray="6 5" />
+          {[bars.height, bars.motion, bars.heat].map((v, k) => (
+            <rect key={k} x={BAR_X[k] - BAR_W / 2} y={f1(BASE - v * BAR_UNIT)} width={BAR_W} height={f1(v * BAR_UNIT)} rx={2} fill={[HEIGHT, MOTION, HEAT][k]} stroke={['#3E6C92', '#A9851A', '#A85F12'][k]} strokeWidth={v > 0.05 ? 1 : 0} />
           ))}
-        </g>
-        {/* the track: two smooth hills, and a floor that is rough when it is orange with teeth */}
-        <path d={`M ${px(0)} ${py(9)} L ${px(9)} ${BASE} M ${px(16)} ${BASE} L ${px(25)} ${py(9)}`} fill="none" stroke={WHITE} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
-        <line x1={px(9)} y1={BASE} x2={px(16)} y2={BASE} stroke={rough > 0 ? HEAT : WHITE} strokeWidth={4} strokeLinecap="round" />
-        {Array.from({ length: rough }, (_, k) => {
-          const w = 56 / Math.max(rough, 1)
-          const a = px(9) + k * w
-          return <path key={k} d={`M ${f1(a + 1)} ${BASE + 2} L ${f1(a + w / 2)} ${BASE + 13} L ${f1(a + w - 1)} ${BASE + 2} Z`} fill={HEAT} />
-        })}
-        {/* the flag stands on the right hill */}
-        <g transform={`translate(${f1(flag.x)} ${f1(flag.y)})`} aria-hidden="true">
-          <line x1={0} y1={0} x2={0} y2={-30} stroke={FLAG} strokeWidth={3} strokeLinecap="round" />
-          <path d="M 1 -30 L 21 -23 L 1 -16 Z" fill={flagLit ? FLAG : ROOM} stroke={FLAG} strokeWidth={2.5} strokeLinejoin="round" />
-        </g>
-        {/* the ball, and where it will turn when motion is off */}
-        {reduced && <circle cx={f1(ghost.x)} cy={f1(ghost.y)} r={R} fill="none" stroke={WHITE} strokeWidth={2.5} strokeDasharray="4 4" />}
-        <circle cx={f1(ball.x)} cy={f1(ball.y)} r={R} fill={WHITE} />
-        {/* the three bars, and the total */}
-        <line x1={222} y1={f1(top.y)} x2={W - 4} y2={f1(top.y)} stroke={WHITE} strokeWidth={2} strokeDasharray="6 5" />
-        {[bars.height, bars.motion, bars.heat].map((v, k) => (
-          <rect key={k} x={BAR_X[k] - BAR_W / 2} y={f1(BASE - v * BAR_UNIT)} width={BAR_W} height={f1(v * BAR_UNIT)} fill={[HEIGHT, MOTION, HEAT][k]} />
-        ))}
-        <line x1={222} y1={BASE} x2={W - 4} y2={BASE} stroke={DIM} strokeWidth={2} />
-        <Names labels={[...labels, top.label]} />
-      </svg>
-      <div className="flex items-center gap-4">
-        <Round label={isRelease ? 'Lower the ball' : 'Make the floor smoother'} disabled={locked || value <= lo} onClick={() => set(value - 1)}>−</Round>
-        <span className="min-w-[96px] text-center text-[13px] font-bold text-ss-slate">{isRelease ? 'ball height' : 'floor'}</span>
-        <Round label={isRelease ? 'Raise the ball' : 'Make the floor rougher'} disabled={locked || value >= hi} onClick={() => set(value + 1)}>+</Round>
+          <line x1={PANEL_X + 8} y1={BASE} x2={W - 16} y2={BASE} stroke={SOFT} strokeWidth={1.6} />
+          <Names labels={[...labels, top.label]} />
+        </svg>
+        <figcaption className="text-center text-[12px] font-bold text-ss-slate">
+          {isRelease ? 'Raise or lower the ball so it just climbs to the flag.' : 'Roughen or smooth the floor so the ball just climbs to the flag.'}
+        </figcaption>
+      </figure>
+      <div className="flex w-full max-w-[360px] flex-col gap-1.5">
+        <Control
+          name={isRelease ? 'Ball height' : 'Floor'} level={value} min={lo} max={hi} locked={locked} set={set}
+          less={isRelease ? 'Lower the ball' : 'Make the floor smoother'} more={isRelease ? 'Raise the ball' : 'Make the floor rougher'}
+        />
       </div>
       <p className="et-kbd hidden text-[12px] text-ss-slate">{isRelease ? 'The arrow keys raise and lower the ball.' : 'The arrow keys change the floor.'}</p>
       <span className="sr-only" aria-live="polite">{reachText}</span>
-      {marked !== 'idle' && <p className="max-w-[350px] text-center text-[13px] font-bold leading-snug text-ss-ink">{said}</p>}
+      {marked !== 'idle' && <p className="w-full max-w-[360px] rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-2 text-[13px] font-extrabold leading-snug text-ss-ink">{said}</p>}
     </div>
   )
 }
