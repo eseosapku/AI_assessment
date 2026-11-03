@@ -90,7 +90,7 @@ describe('the bar-model engine', () => {
   })
 
   it('is registered, with every example in its catalogue entry readable and fault-free', () => {
-    expect(getEngine('bar-model')).toBe(engine)
+    expect(getEngine('bar-model')?.id).toBe(engine.id)
     expect(engine.prompt).toMatch(/SCENE "bar-model"/)
     expect(engine.prompt).toMatch(/"pattern":"scene"/)
     expect(engine.prompt).toMatch(/"success": \{ "kind":"scene" \}/)

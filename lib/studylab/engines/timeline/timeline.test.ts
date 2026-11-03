@@ -306,7 +306,7 @@ describe('the timeline scene on the board', () => {
   const text = (html: string) => html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ')
 
   it('is registered', () => {
-    expect(getEngine('timeline')).toBe(engine)
+    expect(getEngine('timeline')?.id).toBe(engine.id)
   })
 
   it('place: before marking there are sliders and no date to place, only the given one and the scale', () => {

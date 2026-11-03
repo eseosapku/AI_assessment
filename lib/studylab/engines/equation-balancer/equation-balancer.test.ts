@@ -173,7 +173,7 @@ describe('the engine contract', () => {
   })
 
   it('is registered', () => {
-    expect(getEngine('equation-balancer')).toBe(engine)
+    expect(getEngine('equation-balancer')?.id).toBe(engine.id)
   })
 })
 

@@ -349,7 +349,7 @@ export const barModelEngine: SceneEngine<BarModelConfig, BarModelState> = {
 
   View: BarModelView,
 
-  prompt: `SCENE "bar-model" -- a bar a hand can cut and fill. The learner taps round - and + to cut a bar into fewer or more equal parts, and taps a part to shade it or give it out. Every move redraws the bar, so a fraction, a percentage or a ratio is something they made. Bars stay in view up to 12 parts.
+  prompt: `SCENE "bar-model" -- a bar a hand can cut and fill. The learner taps - and + to cut a bar into fewer or more equal parts, and taps a part to shade it or give it out. Every move redraws the bar, so a fraction, a percentage or a ratio is something they made. Bars stay in view up to 12 parts.
   match: a given bar (parts shaded, named "Given") sits above the learner's bar, same width. The learner cuts the lower bar into the number of parts you name and shades it to the same length. Equivalent fractions, simplifying, comparing: the lengths are seen to be equal. Before marking there are no numbers on the lower bar except its part count; marking draws a line down from the edge of the top shading and says the fractions.
   part: one bar worth an amount ("whole bar = 60 km"). The learner cuts and shades it to show a fraction or a percentage of the amount (any cut that makes the right length is right: 50% can be 1 of 2, 3 of 6 or 6 of 12). Marking says each part's worth and the total shaded.
   share: one bar worth an amount, and two named people, each with a coloured round button. The learner cuts the bar into equal parts, picks a person, and taps parts to give them out so the parts are in the ratio. Marking says the parts, each part's worth, and each person's amount.
