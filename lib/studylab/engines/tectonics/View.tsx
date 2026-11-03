@@ -1,7 +1,7 @@
 'use client'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import type { SceneViewProps } from '../types'
-import type { Arrow, Dir, Kind, Mark, Mat, Poly, Seg, Tag, TectConfig, TectState } from './config'
+import type { Arrow, Building, Dir, Inset, Kind, Mat, Poly, Scene, Seg, Tag, TectConfig, TectState } from './config'
 import { RUN, STEPS, describe, madeText, sceneOf, tectonicsEngine, working } from './config'
 
 type Props = SceneViewProps<TectConfig, TectState>
@@ -94,14 +94,159 @@ function ArrowMark({ a }: { a: Arrow }) {
   )
 }
 
-/** The sign for a plate moving towards you (a dot) or away from you (a cross), as in any textbook section. */
-function Sign({ m }: { m: Mark }) {
+/** The rock itself: it does not change while an earthquake runs, so it is drawn once. */
+const Rock = memo(function Rock({ polys, segs }: { polys: Poly[]; segs: Seg[] }) {
   return (
-    <g transform={`translate(${m.x} ${m.y})`} data-sign={m.kind}>
-      <circle r={9} fill={PLATE} stroke={FAULT} strokeWidth={1.8} />
-      {m.kind === 'out' ? <circle r={2.8} fill={FAULT} /> : <path d="M -4 -4 L 4 4 M 4 -4 L -4 4" stroke={FAULT} strokeWidth={2} strokeLinecap="round" />}
+    <g>
+      {polys.map((p, i) => <PolyShape key={i} poly={p} />)}
+      {segs.map((g, i) => <SegLine key={i} seg={g} />)}
     </g>
   )
+})
+
+const ease = (v: number) => v * v * (3 - 2 * v)
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
+
+/** A house or a tree on the ground, which rocks or topples when the shaking reaches it. */
+function Thing({ b, i, tilt }: { b: Building; i: number; tilt: number }) {
+  const side = i % 2 === 0 ? 1 : -1
+  return (
+    <g transform={`translate(${f1(b.x)} ${f1(b.y)}) rotate(${f1(tilt * side)})`} data-thing={b.kind}>
+      {b.kind === 'house' ? (
+        <>
+          <rect x={-7} y={-10} width={14} height={11} fill="#EADCC3" stroke="#6E5446" strokeWidth={1.2} />
+          <path d="M -9 -10 L 0 -18 L 9 -10 Z" fill="#B5533C" stroke="#6E5446" strokeWidth={1.2} strokeLinejoin="round" />
+          <rect x={-2} y={-6} width={4} height={7} fill="#6E5446" />
+        </>
+      ) : (
+        <>
+          <rect x={-1.5} y={-8} width={3} height={9} fill="#6E5446" />
+          <circle cy={-13} r={7} fill="#5E8A4E" stroke="#3F6334" strokeWidth={1.2} />
+        </>
+      )}
+    </g>
+  )
+}
+
+/** The earthquake, from the first catch of the rock to the last ring: q runs from 0 to 1. A deep one rings wide and soft, a shallow one tight and hard. */
+function QuakeLayer({ sc, q }: { sc: Scene; q: number }) {
+  const f = sc.focus
+  if (!f) return null
+  const deep = sc.deep
+  const R = deep ? 150 : 85
+  const jolt = clamp01((q - 0.25) / 0.2)
+  const slipD = q < 0.25 ? 0 : 7 * ease(clamp01((q - 0.25) / 0.15))
+  const nx = -sc.slip.y
+  const ny = sc.slip.x
+  const streak = (side: 1 | -1) => {
+    const ox = nx * 3 * side + sc.slip.x * slipD * side
+    const oy = ny * 3 * side + sc.slip.y * slipD * side
+    return <line key={side} x1={f1(f.x + ox - sc.slip.x * 9)} y1={f1(f.y + oy - sc.slip.y * 9)} x2={f1(f.x + ox + sc.slip.x * 9)} y2={f1(f.y + oy + sc.slip.y * 9)} stroke="#FFF1B8" strokeWidth={2.4} strokeLinecap="round" />
+  }
+  return (
+    <g data-quake={q.toFixed(2)} aria-hidden="true">
+      {[0, 1, 2].map((i) => {
+        const p = clamp01((q - 0.25 - i * 0.1) / 0.6)
+        if (p <= 0 || p >= 1) return null
+        return (
+          <g key={i} fill="none" opacity={(1 - p) * 0.95}>
+            <circle cx={f.x} cy={f.y} r={R * p} stroke="#FFFFFF" strokeWidth={deep ? 3 : 4.5} />
+            <circle cx={f.x} cy={f.y} r={R * p} stroke={FOCUS} strokeWidth={deep ? 1.4 : 2.2} />
+          </g>
+        )
+      })}
+      {q > 0 && q < 0.25 && <circle cx={f.x} cy={f.y} r={5 + 3 * Math.sin(q * 90)} fill="none" stroke={FOCUS} strokeWidth={1.6} strokeDasharray="2 2" />}
+      {q > 0 && q < 0.7 && (
+        <>
+          {streak(1)}
+          {streak(-1)}
+        </>
+      )}
+      {q >= 0.25 && q < 0.45 && <circle cx={f.x} cy={f.y} r={4 + 10 * (1 - jolt)} fill="#FFE08A" opacity={0.9 * (1 - jolt)} />}
+      <circle cx={f.x} cy={f.y} r={5.4} fill={FOCUS} stroke="#FFFFFF" strokeWidth={1.6} />
+      {q >= 0.25 && <circle cx={f.x} cy={f.y} r={9} fill="none" stroke={FOCUS} strokeWidth={1.4} />}
+    </g>
+  )
+}
+
+/** Lava and ash leaving each vent. */
+function Eruption({ vents, q }: { vents: { x: number; y: number }[]; q: number }) {
+  const e = clamp01((q - 0.1) / 0.85)
+  if (e <= 0 || e >= 1) return null
+  const fade = e > 0.7 ? 1 - (e - 0.7) / 0.3 : 1
+  return (
+    <g aria-hidden="true" opacity={fade} data-eruption="1">
+      {vents.map((v, vi) => (
+        <g key={vi}>
+          {[0, 1, 2].map((k) => (
+            <circle key={k} cx={f1(v.x + (k - 1) * 3 + Math.sin(e * 6 + k + vi) * 2)} cy={f1(v.y - 12 - e * (18 + k * 9))} r={4 + e * 5 + k * 1.5} fill="#8E9299" opacity={0.75 - k * 0.12} />
+          ))}
+          {[-1.6, -0.8, 0, 0.8, 1.6].map((k, j) => {
+            const s = e * 1.4
+            return <circle key={j} cx={f1(v.x + k * 12 * s)} cy={f1(v.y - (34 * s - 30 * s * s) - 2)} r={2.6} fill={MAGMA} stroke="#FFD08A" strokeWidth={0.8} />
+          })}
+        </g>
+      ))}
+    </g>
+  )
+}
+
+/** From above: two plates sliding past each other, and a road that breaks across the boundary. */
+function InsetView({ inset }: { inset: Inset }) {
+  const b = inset.box
+  return (
+    <g aria-hidden="true" data-inset="1">
+      <rect x={b.x} y={b.y} width={b.w} height={b.h} rx={8} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+      {inset.plates.map((p, i) => <polygon key={i} points={pointsOf(p.pts)} fill={ROCK[p.m]} />)}
+      {inset.road.map((r, i) => (
+        <g key={i} fill="none">
+          <polyline points={pointsOf(r)} stroke="#4B5563" strokeWidth={8} />
+          <polyline points={pointsOf(r)} stroke="#F3F4F6" strokeWidth={1.4} strokeDasharray="5 4" />
+        </g>
+      ))}
+      <polyline points={pointsOf(inset.fault)} fill="none" stroke={FAULT} strokeWidth={1.8} strokeDasharray="4 3" />
+      {inset.arrows.map((a, i) => {
+        const dy = a.y2 > a.y1 ? 1 : -1
+        return (
+          <g key={i} stroke={FAULT} strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" fill="none">
+            <line x1={a.x} y1={a.y1} x2={a.x} y2={a.y2} />
+            <path d={`M ${a.x - 5} ${a.y2 - dy * 6} L ${a.x} ${a.y2} L ${a.x + 5} ${a.y2 - dy * 6}`} />
+          </g>
+        )
+      })}
+    </g>
+  )
+}
+
+/** One run of the earthquake and the eruption once the plates have moved: about two and a half seconds. */
+function useQuake(runKey: string, ready: boolean, active: boolean, reduced: boolean, replay: number): number {
+  const [q, setQ] = useState(reduced ? 0.75 : 0)
+  const last = useRef('')
+  useEffect(() => {
+    if (!reduced) setQ(0)
+  }, [runKey, replay, reduced])
+  useEffect(() => {
+    if (reduced) {
+      setQ(active ? 0.75 : 0)
+      return
+    }
+    if (!active || !ready) return
+    const id = `${runKey}|${replay}`
+    if (last.current === id) return
+    last.current = id
+    let raf = 0
+    let start = 0
+    const tick = (now: number) => {
+      if (!start) start = now
+      const p = Math.min(1, (now - start) / 2500)
+      setQ(p)
+      if (p < 1) raf = requestAnimationFrame(tick)
+    }
+    setQ(0)
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [runKey, ready, active, reduced, replay])
+  return q
 }
 
 function Names({ tags, answer }: { tags: Tag[]; answer: boolean }) {
@@ -149,6 +294,23 @@ export function TectonicsView({ config, state, setState, marked, reduced, locked
   const right = config.right as Kind
   const t = useEased(now.step / STEPS, String(now.dir), reduced)
   const sc = useMemo(() => sceneOf(left, right, now.dir, t), [left, right, now.dir, t])
+  const [replay, setReplay] = useState(0)
+  const settled = Math.abs(t - now.step / STEPS) < 0.01
+  const active = sc.focus !== null || sc.vents.length > 0
+  const q = useQuake(`${now.dir}-${now.step}`, settled, active, reduced, replay)
+  // The shaking reaches the surface later from deeper down, and weaker.
+  const onset = 0.25 + (0.5 * Math.max(0, (sc.focus?.y ?? 100) - 92)) / (sc.deep ? 150 : 85)
+  const env = q <= 0 || reduced ? 0 : clamp01((q - onset) / 0.08) * (1 - clamp01((q - onset) / 0.5))
+  const amp = sc.deep ? 1.4 : 3.2
+  const shx = amp * env * Math.sin(q * 160)
+  const shy = amp * 0.6 * env * Math.cos(q * 190)
+  // A shallow quake topples some houses and trees and rocks the rest; a deep one only rocks them.
+  const tiltOf = (i: number) => {
+    const p = ease(clamp01((q - onset) / 0.3))
+    if (sc.deep) return 5 * env * Math.sin(q * 120 + i)
+    const target = i % 3 === 0 ? 78 : i % 3 === 1 ? 0 : 60
+    return target * p + (i % 3 === 1 ? 7 * env * Math.sin(q * 140 + i) : 0)
+  }
   const finished = marked === 'right' || marked === 'shown'
   const frozen = locked || finished
   const showNames = marked !== 'idle'
@@ -178,17 +340,24 @@ export function TectonicsView({ config, state, setState, marked, reduced, locked
           </defs>
           <rect x={0.75} y={TOP + 0.75} width={W - 1.5} height={H - TOP - 1.5} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
           <g clipPath="url(#tect-clip)">
-            {sc.polys.map((p, i) => <PolyShape key={i} poly={p} />)}
-            {sc.segs.map((s, i) => <SegLine key={i} seg={s} />)}
-            {sc.arrows.map((a, i) => <ArrowMark key={i} a={a} />)}
-            {sc.marks.map((m, i) => <Sign key={i} m={m} />)}
-            {sc.foci.map((p, i) => <circle key={i} cx={f1(p.x)} cy={f1(p.y)} r={3.8} fill={FOCUS} stroke="#FFFFFF" strokeWidth={1.3} data-focus="1" />)}
+            <g transform={`translate(${f1(shx)} ${f1(shy)})`}>
+              <Rock polys={sc.polys} segs={sc.segs} />
+              {q > 0 && sc.segs.filter((g) => g.kind === 'conduit' && g.w > 0.5).map((g, i) => (
+                <polyline key={i} points={pointsOf(g.pts)} fill="none" stroke="#FFD39A" strokeWidth={Math.max(1, g.w * 0.45)} strokeLinecap="round" strokeDasharray="2 7" strokeDashoffset={reduced ? 0 : f1(-q * 90)} />
+              ))}
+              {sc.arrows.map((a, i) => <ArrowMark key={i} a={a} />)}
+              {sc.foci.map((p, i) => <circle key={i} cx={f1(p.x)} cy={f1(p.y)} r={3.8} fill={FOCUS} stroke="#FFFFFF" strokeWidth={1.3} data-focus="1" />)}
+              {sc.buildings.map((b, i) => <Thing key={i} b={b} i={i} tilt={tiltOf(i)} />)}
+              <QuakeLayer sc={sc} q={q} />
+              <Eruption vents={sc.vents} q={q} />
+            </g>
+            {sc.inset && <InsetView inset={sc.inset} />}
             <Names tags={sc.tags} answer={false} />
             {showNames && <Names tags={sc.answerTags} answer />}
           </g>
         </svg>
         <figcaption className="flex flex-wrap justify-center gap-x-3 gap-y-0.5 text-[12px] font-semibold text-ss-slate" aria-hidden="true">
-          <Key colour={FOCUS} ring>Earthquake</Key>
+          <Key colour={FOCUS} ring>Earthquake focus</Key>
           <Key colour={MAGMA}>Magma</Key>
           <span className="whitespace-nowrap">A plate is crust on a slab of stiff mantle</span>
         </figcaption>
@@ -210,7 +379,13 @@ export function TectonicsView({ config, state, setState, marked, reduced, locked
           })}
         </div>
         <div className="flex items-center justify-between gap-1.5">
-          <span className="text-[12px] font-bold text-ss-slate">Time passed</span>
+          <span className="flex items-center gap-2">
+            <span className="text-[12px] font-bold text-ss-slate">Time passed</span>
+            <button
+              type="button" aria-label="Replay the earthquake" disabled={!active} onClick={() => setReplay((n) => n + 1)}
+              className="nodrag h-7 select-none whitespace-nowrap rounded-lg border-2 border-ss-line bg-ss-panel px-2 text-[12px] font-bold text-ss-slate touch-manipulation transition-colors hover:border-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)] motion-reduce:transition-none"
+            >Replay</button>
+          </span>
           <span className="flex items-center gap-1">
             <button type="button" aria-label="Less time" className={btn} disabled={frozen || now.dir === null || now.step <= 0} onClick={() => bump(-1)}>−</button>
             <span className="min-w-[56px] text-center text-[15px] font-extrabold tabular-nums text-ss-ink" data-step={now.step}>{now.step} of {STEPS}</span>

@@ -200,7 +200,7 @@ describe('the drawing', { timeout: 30_000 }, () => {
       for (const r of KINDS) {
         const names = sceneOf(l, r, 'together', 0.75).tags.map((t) => t.text)
         expect(names.length).toBeLessThanOrEqual(5)
-        for (const n of names) expect(['Sea', 'Oceanic crust', 'Continental crust', 'Continent', 'Mantle']).toContain(n)
+        for (const n of names) expect(['Sea', 'Oceanic crust', 'Continental crust', 'Continent', 'Mantle', 'Seen from above']).toContain(n)
       }
     }
   })
@@ -413,7 +413,7 @@ describe('the scene on the board', { timeout: 30_000 }, () => {
     const c: TectConfig = { task: 'landform', left: 'ocean', right: 'continent', target: 'trench' }
     const still = raw(c, { dir: null, step: 0 }, 'idle')
     for (const label of ['Pull the plates apart', 'Slide the plates past each other', 'Push the plates together', 'Less time', 'More time']) expect(still).toContain(`aria-label="${label}"`)
-    expect((still.match(/<button/g) ?? []).length).toBe(5)
+    expect((still.match(/<button/g) ?? []).length).toBe(6)
     expect(still).toMatch(/aria-label="Less time"[^>]*disabled=""/)
     const moved = raw(c, { dir: 'together', step: 2 }, 'idle')
     expect(moved).toMatch(/aria-label="Push the plates together" aria-pressed="true"/)

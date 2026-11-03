@@ -193,9 +193,19 @@ export type Poly = { m: Mat; pts: Pt[] }
 export type Seg = { kind: 'fault' | 'conduit'; pts: Pt[]; w: number }
 export type Tag = { text: string; x: number; y: number; anchor: 'start' | 'middle' | 'end'; part: Pt; leader?: boolean }
 export type Arrow = { x: number; y: number; dx: 1 | -1 }
-export type Mark = { x: number; y: number; kind: 'in' | 'out' }
+export type Building = { x: number; y: number; kind: 'house' | 'tree' }
+/** The view from above for two plates sliding past: plates, a road that breaks across the boundary, the boundary and plain arrows. */
+export type Inset = { box: { x: number; y: number; w: number; h: number }; plates: Poly[]; road: Pt[][]; fault: Pt[]; arrows: { x: number; y1: number; y2: number }[] }
 export type Facts = { cones: number; foci: number; heaved: boolean; dropped: boolean; bent: boolean; newFloor: boolean }
-export type Scene = { polys: Poly[]; segs: Seg[]; foci: Pt[]; arrows: Arrow[]; marks: Mark[]; tags: Tag[]; answerTags: Tag[]; facts: Facts }
+export type Scene = {
+  polys: Poly[]; segs: Seg[]; foci: Pt[]; arrows: Arrow[]; tags: Tag[]; answerTags: Tag[]; facts: Facts
+  /** The earthquake that is played: where it starts, the way the rock slips there, and whether it is a deep one. */
+  focus: Pt | null; slip: Pt; deep: boolean
+  /** Where magma reaches the surface, for an eruption. */
+  vents: Pt[]
+  buildings: Building[]
+  inset: Inset | null
+}
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v))
 /** A smooth bump: 1 at u = 0, 0 at |u| >= 1. */
@@ -217,9 +227,12 @@ const band = (x1: number, x2: number, top: Fn, bot: Fn, step = 3): Pt[] => {
   return [...xs.map((x) => P(x, top(x))), ...xs.slice().reverse().map((x) => P(x, bot(x)))]
 }
 
-type Layers = { back: Poly[]; lith: Poly[]; crust: Poly[]; over: Poly[]; segs: Seg[]; foci: Pt[]; arrows: Arrow[]; marks: Mark[]; tags: Tag[]; answerTags: Tag[]; facts: Facts }
+type Layers = {
+  back: Poly[]; lith: Poly[]; crust: Poly[]; over: Poly[]; segs: Seg[]; foci: Pt[]; arrows: Arrow[]; tags: Tag[]; answerTags: Tag[]; facts: Facts
+  vents: Pt[]; buildings: Building[]; inset: Inset | null; slip: Pt
+}
 const newLayers = (): Layers => ({
-  back: [], lith: [], crust: [], over: [], segs: [], foci: [], arrows: [], marks: [], tags: [], answerTags: [],
+  back: [], lith: [], crust: [], over: [], segs: [], foci: [], arrows: [], tags: [], answerTags: [], vents: [], buildings: [], inset: null, slip: { x: 0, y: 1 },
   facts: { cones: 0, foci: 0, heaved: false, dropped: false, bent: false, newFloor: false },
 })
 
@@ -257,10 +270,37 @@ const cone = (S: Layers, x: number, baseY: number, h: number, hw: number) => {
   if (h < 2) return
   S.over.push({ m: 'cone', pts: [P(x - hw, baseY + 1), P(x - 5, baseY - h), P(x + 5, baseY - h), P(x + hw, baseY + 1)] })
   S.facts.cones += 1
+  S.vents.push(P(x, baseY - h))
 }
 
 const lerp = (a: Pt, b: Pt, f: number): Pt => P(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f)
 const count = (t: number, max = 8) => clamp(Math.floor(t * max + 0.001), 0, max)
+
+/** From above: two plates slide past each other, and a road across the boundary breaks and shifts as they go. */
+function insetOf(t: number): Inset {
+  const d = 11 * t
+  const y0 = 60
+  return {
+    box: { x: 104, y: 20, w: 152, h: 64 },
+    plates: [
+      { m: 'strataB', pts: [P(106, 38), P(180, 38), P(180, 82), P(106, 82)] },
+      { m: 'strataC', pts: [P(180, 38), P(254, 38), P(254, 82), P(180, 82)] },
+    ],
+    road: [[P(106, y0 - d), P(177, y0 - d)], [P(183, y0 + d), P(254, y0 + d)]],
+    fault: [P(180, 38), P(180, 82)],
+    arrows: [{ x: 132, y1: 80, y2: 66 }, { x: 228, y1: 40, y2: 54 }],
+  }
+}
+
+/** A few houses and trees on the land, where there is any. */
+function village(S: Layers, l: Kind, r: Kind) {
+  const spots: Building[] = []
+  const h = (x: number): Building => ({ x, y: LAND, kind: 'house' })
+  const tr = (x: number): Building => ({ x, y: LAND, kind: 'tree' })
+  if (l === 'continent' && r === 'continent') spots.push(tr(34), h(58), h(84), h(290), tr(316), h(338))
+  else if (l === 'ocean' && r === 'continent') spots.push(tr(314), h(326), h(346))
+  S.buildings.push(...spots)
+}
 
 /** Two plates meeting, at rest or sliding past: the section shows no new landform at all. */
 function fault(S: Layers, l: Kind, r: Kind, t: number, withMarks: boolean) {
@@ -275,7 +315,7 @@ function fault(S: Layers, l: Kind, r: Kind, t: number, withMarks: boolean) {
   const topY = l === 'ocean' ? OCF : LAND
   S.segs.push({ kind: 'fault', pts: [P(X0, topY), P(X0, 184)], w: 2 })
   if (withMarks) {
-    S.marks.push({ x: X0 - 64, y: 158, kind: 'out' }, { x: X0 + 64, y: 158, kind: 'in' })
+    S.inset = insetOf(t)
     const REL = [4, 10.5, 17, 23.5, 30, 36.5, 43, 49.5]
     const DX = [6, -6, 6, -6, 6, -6, 6, -6]
     for (let i = 0; i < count(t); i++) S.foci.push(P(X0 + DX[i], topY + REL[i]))
@@ -337,6 +377,7 @@ function rift(S: Layers, t: number) {
   S.arrows.push({ x: 74, y: 160, dx: -1 }, { x: 286, y: 160, dx: 1 })
   const F = [0.3, 0.3, 0.55, 0.55, 0.8, 0.8, 0.15, 0.15]
   for (let i = 0; i < count(t); i++) S.foci.push(lerp(i % 2 === 0 ? left[0] : right[0], i % 2 === 0 ? left[1] : right[1], F[i]))
+  S.slip = P((left[1].x - left[0].x) / Math.hypot(left[1].x - left[0].x, left[1].y - left[0].y), (left[1].y - left[0].y) / Math.hypot(left[1].x - left[0].x, left[1].y - left[0].y))
   S.facts.dropped = t > 0.05
   S.answerTags.push({ text: 'Rift valley', x: X0, y: SKY_Y, anchor: 'middle', part: P(X0, top(X0)), leader: true })
 }
@@ -359,6 +400,7 @@ function collide(S: Layers, t: number) {
   S.arrows.push({ x: 74, y: 160, dx: 1 }, { x: 286, y: 160, dx: -1 })
   const F = [0.35, 0.35, 0.6, 0.6, 0.85, 0.85, 0.2, 0.2]
   for (let i = 0; i < count(t); i++) S.foci.push(lerp(i % 2 === 0 ? l0 : r0, i % 2 === 0 ? l1 : r1, F[i]))
+  S.slip = P((l1.x - l0.x) / Math.hypot(l1.x - l0.x, l1.y - l0.y), (l1.y - l0.y) / Math.hypot(l1.x - l0.x, l1.y - l0.y))
   S.facts.heaved = t > 0.05
   S.answerTags.push({ text: 'Fold mountains', x: X0, y: SKY_Y, anchor: 'middle', part: P(X0, top(X0)), leader: true })
 }
@@ -432,6 +474,7 @@ function subduct(S: Layers, r: Kind, t: number) {
     if (f.y > H - 10 || f.x > W - 10) break
     S.foci.push(f)
   }
+  S.slip = P(u.x, u.y)
   S.facts.bent = D > 20
   S.arrows.push({ x: 74, y: 160, dx: 1 }, { x: 300, y: 160, dx: -1 })
   S.answerTags.push({ text: 'Trench', x: HINGE - 8, y: 117, anchor: 'end', part: P(HINGE, OCF) })
@@ -452,14 +495,16 @@ function build(l: Kind, r: Kind, dir: Dir | null, t: number): Layers {
     else ridge(S, r, t)
   } else if (l === 'continent' && r === 'continent') collide(S, t)
   else subduct(S, r, t)
-  if (dir === 'past') S.answerTags.push({ text: 'Fault line', x: X0, y: SKY_Y, anchor: 'middle', part: P(X0, l === 'ocean' ? OCF : LAND), leader: true })
+  if (dir === 'past') S.answerTags.push({ text: 'Fault line', x: X0 + 6, y: 77, anchor: 'start', part: P(X0, 66) })
   S.facts.foci = S.foci.length
+  village(S, l, r)
   return S
 }
 
 /** The names of the parts, which are not the answer: shown from the start. */
-function partTags(l: Kind, r: Kind): Tag[] {
+function partTags(l: Kind, r: Kind, dir: Dir | null): Tag[] {
   const out: Tag[] = []
+  if (dir === 'past') out.push({ text: 'Seen from above', x: 112, y: 31, anchor: 'start', part: P(150, 34) })
   const anyOcean = l === 'ocean' || r === 'ocean'
   if (anyOcean) out.push({ text: 'Sea', x: 14, y: 116, anchor: 'start', part: P(26, 110) })
   if (l === 'ocean') out.push({ text: 'Oceanic crust', x: 14, y: OCF + 11, anchor: 'start', part: P(50, OCF + 7) })
@@ -474,19 +519,31 @@ function partTags(l: Kind, r: Kind): Tag[] {
 export function sceneOf(left: Kind, right: Kind, dir: Dir | null, t: number): Scene {
   const flip = left === 'continent' && right === 'ocean'
   const S = build(flip ? 'ocean' : left, flip ? 'continent' : right, dir, clamp(t, 0, 1))
-  const tags = partTags(flip ? 'ocean' : left, flip ? 'continent' : right)
+  const tags = partTags(flip ? 'ocean' : left, flip ? 'continent' : right, dir)
   const mx = (p: Pt): Pt => (flip ? P(W - p.x, p.y) : p)
   const mt = (g: Tag): Tag => (flip ? { ...g, x: W - g.x, part: mx(g.part), anchor: g.anchor === 'start' ? 'end' : g.anchor === 'end' ? 'start' : 'middle' } : g)
   const mp = (poly: Poly): Poly => (flip ? { m: poly.m, pts: poly.pts.map(mx) } : poly)
+  const foci = S.foci.map(mx)
+  // The earthquake that is played: the deepest focus where a plate sinks, the first anywhere else.
+  const sinks = dir === 'together' && !(left === 'continent' && right === 'continent')
+  const pick = S.foci.length === 0 ? null : sinks ? S.foci.reduce((a, b) => (b.y > a.y ? b : a)) : S.foci[0]
+  const inset: Inset | null = S.inset && flip
+    ? { ...S.inset, plates: S.inset.plates.map(mp), road: S.inset.road.map((seg) => seg.map(mx)), fault: S.inset.fault.map(mx), arrows: S.inset.arrows.map((a) => ({ ...a, x: W - a.x })) }
+    : S.inset
   return {
     polys: [...S.back, ...S.lith, ...S.crust, ...S.over].map(mp),
-    segs: S.segs.map((s) => (flip ? { ...s, pts: s.pts.map(mx) } : s)),
-    foci: S.foci.map(mx),
+    segs: S.segs.map((g) => (flip ? { ...g, pts: g.pts.map(mx) } : g)),
+    foci,
     arrows: S.arrows.map((a) => (flip ? { ...a, x: W - a.x, dx: (a.dx * -1) as 1 | -1 } : a)),
-    marks: S.marks.map((m) => (flip ? { ...m, x: W - m.x } : m)),
     tags: tags.map(mt),
     answerTags: S.answerTags.map(mt),
     facts: S.facts,
+    focus: pick ? mx(pick) : null,
+    slip: flip ? P(-S.slip.x, S.slip.y) : S.slip,
+    deep: sinks,
+    vents: S.vents.map(mx),
+    buildings: S.buildings.map((b) => (flip ? { ...b, x: W - b.x } : b)),
+    inset,
   }
 }
 
@@ -503,6 +560,7 @@ export function describe(left: Kind, right: Kind, dir: Dir | null, step: number)
   if (f.heaved) bits.push('The ground between them has been heaved up into a high, crumpled heap, with a thick root below.')
   if (f.dropped) bits.push('A block of ground between two faults has dropped, with hot rock rising below it.')
   if (f.newFloor) bits.push('Hot rock rises into the gap and sets as new dark floor, with no empty space left.')
+  if (dir === 'past') bits.push('A small view from above shows the plates sliding past each other, and a road across the boundary breaking and shifting.')
   if (f.cones > 0) bits.push(`${f.cones} cone${f.cones === 1 ? '' : 's'} of hot rock stand${f.cones === 1 ? 's' : ''} where magma reaches the surface.`)
   bits.push(f.foci > 0 ? `${f.foci} red dot${f.foci === 1 ? '' : 's'} mark earthquakes.` : 'No earthquakes yet.')
   return `${base} ${bits.join(' ')}`
