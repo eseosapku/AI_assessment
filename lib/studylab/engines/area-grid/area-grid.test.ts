@@ -280,7 +280,7 @@ describe('the area-grid scene on the board', () => {
     const shown = html.replace(prompt, '').replace(/<[^>]*>/g, ' ')
     for (const secret of ['(x + 3)', '− 9', 'The gap is', 'x + 3<', '>9<', 'Area of the']) expect(shown, secret).not.toContain(secret)
     // The label above the strip says what the cut makes, not the answer.
-    expect(shown).toContain('0.5 + 5.5')
+    expect(shown).not.toContain('0.5 + 5.5')
   })
 
   it('complete-square: turning the piece round brings the gap and its box; marking says the algebra back', () => {

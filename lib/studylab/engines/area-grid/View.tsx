@@ -13,13 +13,13 @@ const PLATE_EDGE = '#CBD5E1'
 const INK = '#1E293B'
 const SOFT = '#475569'
 const DIM = '#64748B'
-const SQ = '#C6D9F3'
+const SQ = '#9EBFEA'
 const SQB = '#3A6AAE'
 const SQ_PALE = '#EDF3FB'
-const ST = '#F7D9B4'
+const ST = '#F3BF84'
 const STB = '#B4662A'
 const ST_PALE = '#FBF1E4'
-const UN = '#CDE8D3'
+const UN = '#9FD4AE'
 const UNB = '#3F8A55'
 const UN_PALE = '#EDF6EF'
 const GOOD = '#2F8A4F'
@@ -373,7 +373,7 @@ function CompleteSquare({ config, state, setState, marked, reduced, locked }: Pr
               ) : (
                 <>
                   {hdim(ML, ML + S, 'x')}
-                  {hdim(ML + S, ML + S + b * u, `${halvesText(cut)} + ${halvesText(2 * b - cut)}`)}
+                  {hdim(ML + S, ML + S + b * u, cut === 1 ? `${b}` : `${halvesText(cut)} + ${halvesText(2 * b - cut)}`)}
                   {vdim(MT, MT + S, 'x')}
                 </>
               )}
