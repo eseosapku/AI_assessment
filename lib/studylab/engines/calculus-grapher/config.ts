@@ -118,11 +118,11 @@ export const PR = 346
 export const PW = PR - PL
 
 export function layout(kind: Kind) {
-  const upper = kind === 'find-stationary' ? { y0: 8, h: 160 } : kind === 'set-gradients' ? { y0: 8, h: 130 } : { y0: 8, h: 140 }
-  const strip = kind === 'find-stationary' ? { y0: upper.y0 + upper.h + 32, h: 100 }
-    : kind === 'set-gradients' ? { y0: upper.y0 + upper.h + 32, h: 144 }
-    : { y0: upper.y0 + upper.h + 32, h: 112 }
-  return { upper, strip, H: strip.y0 + strip.h + 22, xa: kind === 'sweep-area' ? 0 : -3, xb: kind === 'sweep-area' ? 4 : 3 }
+  const upper = kind === 'find-stationary' ? { y0: 24, h: 150 } : kind === 'set-gradients' ? { y0: 24, h: 124 } : { y0: 24, h: 140 }
+  const strip = kind === 'find-stationary' ? { y0: upper.y0 + upper.h + 46, h: 100 }
+    : kind === 'set-gradients' ? { y0: upper.y0 + upper.h + 46, h: 144 }
+    : { y0: upper.y0 + upper.h + 46, h: 112 }
+  return { upper, strip, H: strip.y0 + strip.h + 34, xa: kind === 'sweep-area' ? 0 : -3, xb: kind === 'sweep-area' ? 4 : 3 }
 }
 
 /** The learner's positions: quarters of a unit on the curve, halves for the sweep, whole gradients. */

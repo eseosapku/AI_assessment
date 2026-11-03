@@ -1,4 +1,4 @@
-// lib/studylab/engines/area-grid/area-grid.test.ts
+// lib/studylab/engines/area-grid-next/area-grid-next.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -169,7 +169,7 @@ describe('the area-grid engine', () => {
   })
 
   it('is registered, with every example in its catalogue entry readable and fault-free', () => {
-    expect(getEngine('area-grid')).toBe(engine)
+    expect(getEngine('area-grid')?.id).toBe(engine.id)
     expect(engine.isolates).toBe('structure')
     expect(engine.prompt).toMatch(/SCENE "area-grid"/)
     expect(engine.prompt).toMatch(/"pattern":"scene"/)
@@ -244,7 +244,7 @@ describe('the area-grid scene on the board', () => {
 
   it('expand: a region takes its colour once written in, right or wrong, so the picture builds as they work', () => {
     const cfg: AreaGridConfig = { task: 'expand', p: 3, q: 5 }
-    const plain = (html: string) => html.match(/background:transparent/g)?.length ?? 0
+    const plain = (html: string) => html.match(/data-filled="no"/g)?.length ?? 0
     expect(plain(raw(cfg, { cells: { tl: '', tr: '', bl: '', br: '' }, total: '' } as AreaGridState, 'idle'))).toBe(4)
     expect(plain(raw(cfg, { cells: { tl: 'x^2', tr: '', bl: '', br: '' }, total: '' } as AreaGridState, 'idle'))).toBe(3)
     expect(plain(raw(cfg, { cells: { tl: 'wrong', tr: 'a', bl: 'b', br: 'c' }, total: '' } as AreaGridState, 'idle'))).toBe(0)

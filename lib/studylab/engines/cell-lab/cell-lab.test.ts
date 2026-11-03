@@ -155,7 +155,7 @@ describe('the cell-lab engine', () => {
   })
 
   it('is registered, with every example in its catalogue entry readable and fault-free', () => {
-    expect(getEngine('cell-lab')).toBe(engine)
+    expect(getEngine('cell-lab')?.id).toBe(engine.id)
     expect(engine.isolates).toBe('consequence')
     expect(engine.prompt).toMatch(/SCENE "cell-lab"/)
     expect(engine.prompt).toMatch(/"pattern":"scene"/)

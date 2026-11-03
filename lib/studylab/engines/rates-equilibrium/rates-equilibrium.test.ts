@@ -3,6 +3,8 @@ import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { ReactFlowProvider } from '@xyflow/react'
+// The rest of the registry first, so this folder's own engine registers last and is the one the card finds.
+import '..'
 import {
   ratesEquilibriumEngine as engine, RATE_REACTIONS, EQ_REACTIONS, SPECIES, COUNTS, EXPOSED, FIELD, STOPS, SPEED_MIN, SHIFT_MIN,
   levelsAt, rateOf, speedRatio, successShare, collisionRate, solidLayout, simTemp, needed, deltaMoles,
@@ -11,7 +13,6 @@ import {
 } from './config'
 import { RatesSim, ShiftSim, stillRates, stillShift, rateParams, applyShift, BOX, SHIFT_BOX, radiusOf, RatesEquilibriumView } from './View'
 import { getEngine, sceneCatalogue } from '../registry'
-import '..'
 import { ActivityNode } from '@/components/studylab/activities/ActivityNode'
 
 vi.spyOn(console, 'error').mockImplementation(() => {})

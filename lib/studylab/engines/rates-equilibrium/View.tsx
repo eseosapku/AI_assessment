@@ -9,16 +9,77 @@ import {
 } from './config'
 
 // ---------------------------------------------------------------------------
-// The chamber's own palette: it reads the same in light and dark themes.
+// The apparatus's own palette: a quiet light panel in both themes, glass, and standard atom colours.
 // ---------------------------------------------------------------------------
-const NAVY = '#14213A'
-const SPARK = '#FFE27A'
-const KIND = ['#5AA9F0', '#F29B4B'] as const
-const SOLID = '#DDE3EA'
-const SOLID_INSIDE = '#7E8A9A'
-const LID = '#6B7785'
-/** A thin edge on a key swatch, so a pale one still shows on a white card. */
+const PLATE = '#F8FAFC'
+const PLATE_EDGE = '#CBD5E1'
+const INK = '#334155'
+const SOFT = '#475569'
+const GLASS = '#C3D3E0'
+const GLASS_EDGE = '#8DA4B8'
+const GLASS_HI = '#FFFFFF'
+const LIQUID = '#E2EEF7'
+const GAS = '#F1F6FA'
+const METAL = '#8B97A5'
+const METAL_EDGE = '#5B6673'
+const METAL_HI = '#C2CAD3'
+const ACCENT = '#D9731F'
 const OUTLINE = '#6B7785'
+
+/** Standard atom colours (CPK): radius in units, fill, and a darker edge. */
+const EL = {
+  H: { r: 0.58, c: '#E8EDF3', e: '#64748B' },
+  N: { r: 0.82, c: '#4A78D8', e: '#2B4C9B' },
+  O: { r: 0.8, c: '#E4533F', e: '#9E2F20' },
+  S: { r: 1.05, c: '#E3BE3C', e: '#8F7414' },
+  I: { r: 1.3, c: '#8D5BB8', e: '#5A3379' },
+  Cl: { r: 1.0, c: '#4DAF5A', e: '#2C7335' },
+} as const
+type Element = keyof typeof EL
+type Atom = readonly [Element, number, number]
+
+/** Each molecule as its atoms (element, x, y) in the same units, lightly overlapping like a space-filling model. */
+const MOLS: Record<string, readonly Atom[]> = {
+  n2: [['N', -0.62, 0], ['N', 0.62, 0]],
+  h2: [['H', -0.4, 0], ['H', 0.4, 0]],
+  o2: [['O', -0.6, 0], ['O', 0.6, 0]],
+  i2: [['I', -1, 0], ['I', 1, 0]],
+  hi: [['H', -1.05, 0], ['I', 0.5, 0]],
+  hcl: [['H', -0.95, 0], ['Cl', 0.45, 0]],
+  no2: [['O', -0.95, 0.5], ['O', 0.95, 0.5], ['N', 0, -0.35]],
+  nh3: [['H', 0, -1.05], ['H', 0.95, 0.65], ['H', -0.95, 0.65], ['N', 0, 0.1]],
+  so2: [['O', -1, 0.55], ['O', 1, 0.55], ['S', 0, -0.35]],
+  so3: [['O', 0, -1.5], ['O', 1.3, 0.75], ['O', -1.3, 0.75], ['S', 0, 0]],
+  n2o4: [['O', -1.4, -0.9], ['O', -1.4, 0.9], ['O', 1.4, -0.9], ['O', 1.4, 0.9], ['N', -0.6, 0], ['N', 0.6, 0]],
+  thio: [['O', -1.2, 0.9], ['O', 1.2, 0.9], ['O', 0, 1.55], ['S', 0, -1.45], ['S', 0, 0.2]],
+}
+/** The reaction's movers, as molecules; kind 0 and 1 follow the config's order. */
+const MOVER_MOL: Record<string, readonly string[]> = {
+  marble: ['hcl'], magnesium: ['hcl'], thiosulfate: ['thio', 'hcl'], haber: ['n2', 'h2'], contact: ['so2', 'o2'],
+}
+const extentOf = (id: string) => Math.max(...MOLS[id].map(([el, x, y]) => Math.hypot(x, y) + EL[el].r))
+/** The ring colour for a molecule: the edge of its biggest atom. */
+const markOf = (id: string) => EL[MOLS[id].reduce((a, b) => (EL[b[0]].r > EL[a[0]].r ? b : a))[0]].e
+/** Larger atoms are drawn first so a small one is never hidden behind it. */
+const ORDERED = Object.fromEntries(Object.entries(MOLS).map(([k, v]) => [k, [...v].sort((a, b) => EL[b[0]].r - EL[a[0]].r)]))
+
+/** One molecule on a canvas: atoms as shaded spheres, `radius` px being the reach of the whole model. */
+function drawMolecule(ctx: CanvasRenderingContext2D, id: string, x: number, y: number, radius: number, angle: number) {
+  const k = radius / extentOf(id)
+  const cos = Math.cos(angle)
+  const sin = Math.sin(angle)
+  for (const [el, ax, ay] of ORDERED[id]) {
+    const e = EL[el]
+    const cx = x + (ax * cos - ay * sin) * k
+    const cy = y + (ax * sin + ay * cos) * k
+    ctx.fillStyle = e.c
+    ctx.strokeStyle = e.e
+    ctx.lineWidth = 0.9
+    ctx.beginPath(); ctx.arc(cx, cy, e.r * k, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+    ctx.fillStyle = 'rgba(255,255,255,0.6)'
+    ctx.beginPath(); ctx.arc(cx - e.r * k * 0.3, cy - e.r * k * 0.32, e.r * k * 0.28, 0, Math.PI * 2); ctx.fill()
+  }
+}
 
 // ---------------------------------------------------------------------------
 // A seeded random stream, so a still frame is the same every time.
@@ -234,43 +295,53 @@ export function stillRates(t: SpeedTask, pos: number, frames = 240): RatesSim {
   return sim
 }
 
-function drawRates(ctx: CanvasRenderingContext2D, sim: RatesSim, still: boolean) {
+/** What the solid on the floor is made of, and the catalyst bed if it is on. */
+interface Props2 { mols: readonly string[]; solid?: string; bed?: { c: string; e: string } | null }
+
+function drawRates(ctx: CanvasRenderingContext2D, sim: RatesSim, still: boolean, o: Props2) {
   ctx.clearRect(0, 0, BOX.w, BOX.h)
-  ctx.fillStyle = NAVY
-  ctx.fillRect(0, 0, BOX.w, BOX.h)
+  const marble = o.solid === 'marble chips'
   for (const c of sim.cells) {
-    ctx.fillStyle = c.exposed ? SOLID : SOLID_INSIDE
-    ctx.fillRect(c.x - CELL_R + 0.5, c.y - CELL_R + 0.5, CELL_R * 2 - 1, CELL_R * 2 - 1)
+    ctx.fillStyle = marble ? (c.exposed ? '#ECE8E0' : '#BDB7AB') : (c.exposed ? '#D8DFE6' : '#9AA6B4')
+    ctx.beginPath()
+    ctx.roundRect(c.x - CELL_R + 0.5, c.y - CELL_R + 0.5, CELL_R * 2 - 1, CELL_R * 2 - 1, 1.5)
+    ctx.fill()
+  }
+  if (o.bed) {
+    // Granules of catalyst resting on the floor.
+    for (let i = 0; i < 40; i++) {
+      const x = 5 + i * 9 + (i % 2) * 2
+      const y = BOX.h - 4 - (i % 3 === 0 ? 2.5 : 0)
+      ctx.fillStyle = o.bed.c
+      ctx.strokeStyle = o.bed.e
+      ctx.lineWidth = 0.9
+      ctx.beginPath(); ctx.arc(x, y, 3.4, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
+    }
   }
   for (const m of sim.movers) {
+    const id = o.mols[m.kind] ?? o.mols[0]
     // A tail as long as the particle is fast: the picture of "how hard".
-    ctx.strokeStyle = KIND[m.kind]
-    ctx.globalAlpha = 0.5
-    ctx.lineWidth = 2
+    ctx.strokeStyle = markOf(id)
+    ctx.globalAlpha = 0.28
+    ctx.lineWidth = 1.6
+    ctx.lineCap = 'round'
     ctx.beginPath()
     ctx.moveTo(m.x, m.y)
     ctx.lineTo(m.x - m.vx * 3.5, m.y - m.vy * 3.5)
     ctx.stroke()
     ctx.globalAlpha = 1
-    ctx.fillStyle = KIND[m.kind]
-    ctx.strokeStyle = NAVY
-    ctx.lineWidth = 1
-    if (m.kind === 0) {
-      ctx.beginPath(); ctx.arc(m.x, m.y, BOX.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
-    } else {
-      ctx.fillRect(m.x - BOX.r, m.y - BOX.r, BOX.r * 2, BOX.r * 2)
-    }
+    drawMolecule(ctx, id, m.x, m.y, BOX.r + 1.5, Math.atan2(m.vy, m.vx))
   }
-  // The collisions that were hard enough: a spark, then a ring.
+  // The collisions that were hard enough: a ring that opens and fades.
   const sparks = still ? sim.recent : sim.sparks
   for (const s of sparks) {
     const k = still ? 0.35 : s.age / 16
-    ctx.strokeStyle = SPARK
+    ctx.strokeStyle = ACCENT
     ctx.globalAlpha = 1 - k * 0.85
-    ctx.lineWidth = 2.5
-    ctx.beginPath(); ctx.arc(s.x, s.y, 6 + k * 14, 0, Math.PI * 2); ctx.stroke()
-    ctx.fillStyle = SPARK
-    ctx.beginPath(); ctx.arc(s.x, s.y, 3.5 * (1 - k * 0.5), 0, Math.PI * 2); ctx.fill()
+    ctx.lineWidth = 2
+    ctx.beginPath(); ctx.arc(s.x, s.y, 8 + k * 14, 0, Math.PI * 2); ctx.stroke()
+    ctx.fillStyle = 'rgba(217,115,31,0.14)'
+    ctx.beginPath(); ctx.arc(s.x, s.y, 8 + k * 14, 0, Math.PI * 2); ctx.fill()
     ctx.globalAlpha = 1
   }
 }
@@ -493,51 +564,46 @@ export function applyShift(sim: ShiftSim, t: ShiftTask, pos: number) {
   if (t.lever === 'concentration' && t.adjust) sim.setAdded(termIndex(sim.r, t.adjust), addedAt(sim.r, t.adjust, pos))
 }
 
-function path(ctx: CanvasRenderingContext2D, shape: string, x: number, y: number, r: number) {
-  ctx.beginPath()
-  if (shape === 'circle') ctx.arc(x, y, r, 0, Math.PI * 2)
-  else if (shape === 'square') ctx.rect(x - r, y - r, r * 2, r * 2)
-  else if (shape === 'triangle') { ctx.moveTo(x, y - r * 1.15); ctx.lineTo(x + r * 1.1, y + r * 0.85); ctx.lineTo(x - r * 1.1, y + r * 0.85); ctx.closePath() }
-  else { ctx.moveTo(x, y - r * 1.2); ctx.lineTo(x + r * 1.2, y); ctx.lineTo(x, y + r * 1.2); ctx.lineTo(x - r * 1.2, y); ctx.closePath() }
-}
-
 function drawShift(ctx: CanvasRenderingContext2D, sim: ShiftSim, still: boolean, canvasH: number, lid: boolean) {
   const W = SHIFT_BOX.w
   const C = canvasH
   const h = sim.height
   const top = C - h
   ctx.clearRect(0, 0, W, C)
-  ctx.fillStyle = NAVY
+  ctx.fillStyle = GAS
   ctx.fillRect(0, top, W, h)
   if (lid) {
-    // The lid, its rod and its handle.
-    ctx.fillStyle = LID
-    ctx.fillRect(0, top - 6, W, 6)
-    ctx.fillRect(W / 2 - 2, 8, 4, Math.max(0, top - 14))
-    ctx.fillRect(W / 2 - 16, 2, 32, 6)
+    // The piston: a rod and handle above, and a plate that rides on the gas.
+    ctx.fillStyle = METAL_HI
+    ctx.strokeStyle = METAL_EDGE
+    ctx.lineWidth = 1
+    ctx.beginPath(); ctx.roundRect(W / 2 - 3, 12, 6, Math.max(0, top - 18), 1.5); ctx.fill(); ctx.stroke()
+    ctx.fillStyle = METAL
+    ctx.beginPath(); ctx.roundRect(W / 2 - 18, 3, 36, 9, 4); ctx.fill(); ctx.stroke()
+    ctx.fillStyle = METAL
+    ctx.beginPath(); ctx.roundRect(0, top - 9, W, 9, 2); ctx.fill(); ctx.stroke()
+    ctx.fillStyle = 'rgba(255,255,255,0.45)'
+    ctx.fillRect(6, top - 7, W - 12, 2)
   }
   ctx.translate(0, top)
   for (const p of sim.parts) {
-    const sp = SPECIES[sim.r.terms[p.term].id]
-    ctx.strokeStyle = sp.color
-    ctx.globalAlpha = 0.45
-    ctx.lineWidth = 2
+    const id = sim.r.terms[p.term].id
+    ctx.strokeStyle = markOf(id)
+    ctx.globalAlpha = 0.25
+    ctx.lineWidth = 1.6
+    ctx.lineCap = 'round'
     ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx * 5, p.y - p.vy * 5); ctx.stroke()
     ctx.globalAlpha = 1
-    ctx.fillStyle = sp.color
-    ctx.strokeStyle = NAVY
-    ctx.lineWidth = 1
-    path(ctx, sp.shape, p.x, p.y, radiusOf(sp.atoms))
-    ctx.fill(); ctx.stroke()
+    drawMolecule(ctx, id, p.x, p.y, radiusOf(SPECIES[id].atoms) + 1, Math.atan2(p.vy, p.vx))
   }
   // Each reaction draws a ring in the colour of what it made: a solid ring forward, a dashed one back.
   for (const g of still ? sim.recent : sim.rings) {
     const k = still ? 0.3 : g.age / 20
-    ctx.strokeStyle = SPECIES[sim.r.terms[g.term].id].color
+    ctx.strokeStyle = markOf(sim.r.terms[g.term].id)
     ctx.globalAlpha = 1 - k * 0.85
-    ctx.lineWidth = 2.5
+    ctx.lineWidth = 2
     ctx.setLineDash(g.dir === 1 ? [] : [4, 3])
-    ctx.beginPath(); ctx.arc(g.x, g.y, 8 + k * 9, 0, Math.PI * 2); ctx.stroke()
+    ctx.beginPath(); ctx.arc(g.x, g.y, 9 + k * 9, 0, Math.PI * 2); ctx.stroke()
     ctx.setLineDash([])
     ctx.globalAlpha = 1
   }
@@ -584,15 +650,28 @@ function useChamber(
   }, [reduced, ...deps])
 }
 
-function Swatch({ shape, color, size = 14 }: { shape: string; color: string; size?: number }) {
-  const c = size / 2
-  const r = size * 0.38
+/** A small drawing of a molecule or of the solid, for the keys. */
+function Swatch({ mol, solid, size = 18 }: { mol?: string; solid?: string; size?: number }) {
+  const h = size / 2
+  if (solid) {
+    const marble = solid === 'marble chips'
+    return (
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden className="shrink-0">
+        <rect x={2} y={4} width={size - 4} height={size - 8} rx={3} fill={marble ? '#ECE8E0' : '#D8DFE6'} stroke={marble ? '#A39C8E' : '#7E8A99'} strokeWidth={1} />
+        <rect x={4.5} y={6} width={size / 3} height={2} rx={1} fill="#FFFFFF" opacity={0.7} />
+      </svg>
+    )
+  }
+  const id = mol ?? 'n2'
+  const k = (h - 1) / extentOf(id)
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden className="shrink-0">
-      {shape === 'circle' && <circle cx={c} cy={c} r={r} fill={color} stroke={OUTLINE} strokeWidth={1} />}
-      {shape === 'square' && <rect x={c - r} y={c - r} width={r * 2} height={r * 2} fill={color} stroke={OUTLINE} strokeWidth={1} />}
-      {shape === 'triangle' && <polygon points={`${c},${c - r * 1.15} ${c + r * 1.1},${c + r * 0.85} ${c - r * 1.1},${c + r * 0.85}`} fill={color} stroke={OUTLINE} strokeWidth={1} strokeLinejoin="round" />}
-      {shape === 'diamond' && <polygon points={`${c},${c - r * 1.2} ${c + r * 1.2},${c} ${c},${c + r * 1.2} ${c - r * 1.2},${c}`} fill={color} stroke={OUTLINE} strokeWidth={1} strokeLinejoin="round" />}
+    <svg width={size} height={size} viewBox={`${-h} ${-h} ${size} ${size}`} aria-hidden className="shrink-0">
+      {ORDERED[id].map(([el, x, y], i) => (
+        <g key={i}>
+          <circle cx={x * k} cy={y * k} r={EL[el].r * k} fill={EL[el].c} stroke={EL[el].e} strokeWidth={0.8} />
+          <circle cx={x * k - EL[el].r * k * 0.3} cy={y * k - EL[el].r * k * 0.32} r={EL[el].r * k * 0.28} fill="#FFFFFF" opacity={0.6} />
+        </g>
+      ))}
     </svg>
   )
 }
@@ -609,19 +688,22 @@ function Dial({ id, label, readout, left, right, value, min, max, locked, onChan
   locked: boolean; onChange(v: number): void; valueText: string
 }) {
   return (
-    <div>
-      <div className="mb-1 flex items-baseline justify-between">
-        <label htmlFor={id} className="text-[13px] font-bold text-ss-slate">{label}</label>
+    <div className="flex flex-col gap-1">
+      <div className="flex items-baseline justify-between">
+        <label htmlFor={id} className="text-[12px] font-bold text-ss-slate">{label}</label>
         {readout && <span className="text-[15px] font-extrabold tabular-nums text-ss-ink">{readout}</span>}
       </div>
-      <input
-        id={id} type="range" min={min} max={max} step={1} value={value} disabled={locked}
-        className="nodrag w-full accent-[color:var(--subject)]"
-        aria-valuetext={valueText}
-        onChange={(e) => onChange(Number(e.target.value))}
-        onKeyDown={stop}
-      />
-      <div className="flex justify-between text-[12px] font-bold text-ss-slate"><span>{left}</span><span>{right}</span></div>
+      <div className="flex items-center gap-2 text-[12px] font-bold text-ss-slate">
+        <span className="shrink-0">{left}</span>
+        <input
+          id={id} type="range" min={min} max={max} step={1} value={value} disabled={locked}
+          className="nodrag h-5 min-w-0 flex-1 accent-[color:var(--subject)]"
+          aria-valuetext={valueText}
+          onChange={(e) => onChange(Number(e.target.value))}
+          onKeyDown={stop}
+        />
+        <span className="shrink-0">{right}</span>
+      </div>
     </div>
   )
 }
@@ -631,34 +713,102 @@ function Dial({ id, label, readout, left, right, value, min, max, locked, onChan
  * exp(-E/kT): hotter, it stays high further along. The part beyond the dashed line is the part that reacts.
  */
 export function EnergyRuler({ tau, eps }: { tau: number; eps: number }) {
-  const x0 = 10
+  const x0 = 26
   const x1 = 350
-  const base = 66
-  const top = 6
+  const base = 50
+  const top = 20
   const EMAX = 6
   const sx = (e: number) => x0 + ((x1 - x0) * e) / EMAX
   const sy = (e: number) => base - (base - top) * Math.exp(-e / tau)
   const pts = (from: number) => Array.from({ length: 49 }, (_, i) => from + ((EMAX - from) * i) / 48).map((e) => `${sx(e).toFixed(1)},${sy(e).toFixed(1)}`)
   const line = pts(0).join(' ')
   const tail = `${sx(eps).toFixed(1)},${base} ${pts(eps).join(' ')} ${sx(EMAX).toFixed(1)},${base}`
+  const tagX = Math.max(x0 + 44, Math.min(x1 - 44, sx(eps)))
   return (
-    <svg viewBox="0 0 360 90" role="img" aria-label="How hard collisions are, and how hard a hit must be to react" className="block h-auto w-full">
-      <polygon points={tail} style={{ fill: 'var(--ss-accent)' }} />
-      <polyline points={line} fill="none" strokeWidth={2} strokeLinejoin="round" style={{ stroke: 'var(--ss-slate)' }} />
-      <line x1={x0} y1={base} x2={x1} y2={base} strokeWidth={1.5} style={{ stroke: 'var(--ss-slate)' }} />
-      <line x1={sx(eps)} y1={top - 4} x2={sx(eps)} y2={base} strokeWidth={2} strokeDasharray="4 3" style={{ stroke: 'var(--ss-ink)' }} />
-      <text x={sx(eps) - 5} y={top + 8} textAnchor="end" fontSize={12} fontWeight={700} style={{ fill: 'var(--ss-ink)' }}>needed</text>
-      <text x={x1} y={84} textAnchor="end" fontSize={12} fontWeight={700} style={{ fill: 'var(--ss-slate)' }}>energy of a collision</text>
+    <svg viewBox="0 0 360 82" role="img" aria-label="How hard collisions are, and how hard a hit must be to react" className="block h-auto w-full">
+      <rect width={360} height={82} rx={12} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+      {[0.33, 0.66].map((f) => <line key={f} x1={x0} x2={x1} y1={base - (base - top) * f} y2={base - (base - top) * f} stroke="#E2E8F0" strokeWidth={1} />)}
+      <polygon points={tail} fill={ACCENT} opacity={0.28} />
+      <polyline points={line} fill="none" stroke={INK} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+      <line x1={x0} y1={top - 6} x2={x0} y2={base} stroke={SOFT} strokeWidth={1.5} />
+      <line x1={x0} y1={base} x2={x1 + 4} y2={base} stroke={SOFT} strokeWidth={1.5} />
+      <polygon points={`${x1 + 8},${base} ${x1 + 2},${base - 3} ${x1 + 2},${base + 3}`} fill={SOFT} />
+      <polygon points={`${x0},${top - 10} ${x0 - 3},${top - 4} ${x0 + 3},${top - 4}`} fill={SOFT} />
+      <line x1={sx(eps)} y1={top - 4} x2={sx(eps)} y2={base + 4} stroke={ACCENT} strokeWidth={2} strokeDasharray="4 3" />
+      <text x={x0 + 6} y={13} fontSize={12} fontWeight={700} fill={SOFT}>share of collisions</text>
+      <text x={x1} y={top + 8} textAnchor="end" fontSize={12} fontWeight={700} fill="#A85710">enough to react</text>
+      <text x={tagX} y={64} textAnchor="middle" fontSize={12} fontWeight={700} fill="#A85710">energy needed</text>
+      <text x={x1} y={78} textAnchor="end" fontSize={12} fontWeight={700} fill={SOFT}>energy of a collision</text>
     </svg>
   )
 }
 
 function Result({ marked, children }: { marked: string; children: React.ReactNode }) {
   if (marked === 'idle') return null
-  return <p className="text-[13px] font-bold leading-snug text-ss-ink" aria-live="polite">{children}</p>
+  return <p className="rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-1.5 text-[13px] font-extrabold leading-snug text-ss-ink" aria-live="polite">{children}</p>
 }
 
 const upper = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+
+const mixHeat = (f: number) => {
+  const a = [154, 165, 177]
+  const b = [232, 96, 58]
+  const t = Math.max(0, Math.min(1, f))
+  return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(',')})`
+}
+
+/**
+ * The glass vessel, drawn behind a transparent canvas: a beaker, a sealed chamber, or a cylinder that a piston rides in,
+ * standing on a bench plate that is a hotplate when the temperature is the thing being changed.
+ */
+function Vessel({ cw, ch, kind, heat, children }: {
+  cw: number; ch: number; kind: 'liquid' | 'gas' | 'piston'; heat: number | null; children: React.ReactNode
+}) {
+  const W = cw + 32
+  const L = 16
+  const T = kind === 'gas' ? 24 : kind === 'liquid' ? 12 : 10
+  const yb = T + ch + 6
+  const H = yb + 12
+  const x0 = L - 6
+  const x1 = L + cw + 6
+  const outer = `M${x0} ${T}V${yb - 10}Q${x0} ${yb} ${x0 + 10} ${yb}H${x1 - 10}Q${x1} ${yb} ${x1} ${yb - 10}V${T}Z`
+  const inner = `M${L} ${T}H${L + cw}V${T + ch}H${L}Z`
+  const ticks = Array.from({ length: Math.floor(ch / 20) }, (_, i) => T + ch - 20 * (i + 1) + 20)
+  const pct = (v: number, of: number) => `${(v / of) * 100}%`
+  return (
+    <div className="relative w-full">
+      <svg viewBox={`0 0 ${W} ${H}`} aria-hidden className="block h-auto w-full select-none">
+        <rect width={W} height={H} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+        {kind !== 'piston' && <rect x={L} y={T} width={cw} height={ch} fill={kind === 'liquid' ? LIQUID : GAS} />}
+        {kind === 'liquid' && <rect x={L} y={T} width={cw} height={3} fill="#C4D9EA" />}
+        <path d={outer + inner} fillRule="evenodd" fill={GLASS} stroke={GLASS_EDGE} strokeWidth={1.2} strokeLinejoin="round" />
+        <rect x={x0 + 1.5} y={T + 6} width={2} height={ch - 12} rx={1} fill={GLASS_HI} opacity={0.8} />
+        {ticks.map((y, i) => <line key={y} x1={x1 - (i % 2 ? 4 : 6.5)} x2={x1 - 0.6} y1={y} y2={y} stroke={GLASS_EDGE} strokeWidth={1} />)}
+        {kind === 'liquid' && <rect x={x0 - 4} y={T - 4} width={x1 - x0 + 8} height={5} rx={2.5} fill={GLASS} stroke={GLASS_EDGE} strokeWidth={1.2} />}
+        {kind === 'piston' && <rect x={x0 - 4} y={T - 3} width={x1 - x0 + 8} height={4} rx={2} fill={GLASS} stroke={GLASS_EDGE} strokeWidth={1.2} />}
+        {kind === 'gas' && (
+          <g>
+            <rect x={W / 2 - 8} y={T - 22} width={16} height={9} rx={2} fill={METAL_HI} stroke={METAL_EDGE} strokeWidth={1.2} />
+            <rect x={W / 2 - 3} y={T - 14} width={6} height={5} fill={METAL} stroke={METAL_EDGE} strokeWidth={1} />
+            <rect x={x0 - 5} y={T - 10} width={x1 - x0 + 10} height={11} rx={3} fill={METAL} stroke={METAL_EDGE} strokeWidth={1.2} />
+            <rect x={x0 + 2} y={T - 8} width={x1 - x0 - 4} height={2} rx={1} fill="#FFFFFF" opacity={0.4} />
+          </g>
+        )}
+        {/* the bench plate: a hotplate when the temperature is being set */}
+        <rect x={x0 - 8} y={yb} width={x1 - x0 + 16} height={9} rx={3} fill={heat === null ? '#D3DAE2' : '#6B7785'} stroke={METAL_EDGE} strokeWidth={1.2} />
+        {heat !== null && (
+          <g>
+            <rect x={x0 + 4} y={yb + 3} width={x1 - x0 - 30} height={3} rx={1.5} fill={mixHeat(heat)} />
+            <circle cx={x1 - 4} cy={yb + 4.5} r={2.4} fill={METAL_HI} stroke={METAL_EDGE} strokeWidth={0.8} />
+          </g>
+        )}
+      </svg>
+      <div className="absolute" style={{ left: pct(L, W), top: pct(T, H), width: pct(cw, W), height: pct(ch, H) }}>{children}</div>
+    </div>
+  )
+}
+
+const CAT = { iron: { c: '#7C8794', e: '#46505C' }, 'vanadium(V) oxide': { c: '#C98A2E', e: '#85560F' } } as const
 
 function SpeedScene({ task, pos, set, marked, reduced, locked }: {
   task: SpeedTask; pos: number; set(p: number): void; marked: string; reduced: boolean; locked: boolean
@@ -671,12 +821,17 @@ function SpeedScene({ task, pos, set, marked, reduced, locked }: {
   const canvas = useRef<HTMLCanvasElement>(null)
   const sim = useRef<RatesSim | null>(null)
   const seed = seedOf(`${task.reaction}|${task.condition}`)
+  const mols = MOVER_MOL[task.reaction] ?? ['hcl']
+  const catOn = task.condition === 'catalyst' ? pos === 1 : lv.cat === 1
+  const bed = r.catalyst && catOn ? (CAT[r.catalyst as keyof typeof CAT] ?? CAT.iron) : null
+  const drawOpts = useRef<Props2>({ mols, solid: r.solid, bed })
+  drawOpts.current = { mols, solid: r.solid, bed }
 
   useChamber(canvas, BOX.w, BOX.h, reduced, () => {
     if (!sim.current || reduced) sim.current = new RatesSim(live.current, seed)
     return {
       step: () => { const s = sim.current!; if (s.p !== live.current) s.setParams(live.current); s.step() },
-      draw: (ctx, still) => drawRates(ctx, sim.current!, still),
+      draw: (ctx, still) => drawRates(ctx, sim.current!, still, drawOpts.current),
       still: () => { sim.current = stillRates(task, pos) },
     }
   }, [reduced, task.reaction, task.condition, reduced ? pos : 0])
@@ -687,35 +842,41 @@ function SpeedScene({ task, pos, set, marked, reduced, locked }: {
   const made = speedMade(task, pos)
   const [, hi] = posRange(task)
   const tempShown = `${r.temps[lv.temp]} °C`
-  const movers = r.movers
   const cond = task.condition
+  const gas = r.phase === 'gas'
   return (
-    <div className="nodrag flex flex-col gap-2">
-      <div className="mx-auto w-full max-w-[400px] overflow-hidden rounded-2xl">
-        <canvas
-          ref={canvas} role="img" className="block h-auto w-full" style={{ aspectRatio: `${BOX.w} / ${BOX.h}` }}
-          aria-label={`Particles moving about in a box${r.solid ? `, with ${r.solid} on the floor` : ''}. Collisions that are hard enough flash, and the particles in them react.`}
-        />
-      </div>
-      <div className="mx-auto flex w-full max-w-[400px] flex-wrap items-center gap-x-4 gap-y-1 text-[12px] font-bold text-ss-ink">
-        {movers.map((m, i) => (
-          <span key={m} className="inline-flex items-center gap-1.5"><Swatch shape={i === 0 ? 'circle' : 'square'} color={KIND[i]} />{m}</span>
-        ))}
-        {r.solid && <span className="inline-flex items-center gap-1.5"><Swatch shape="square" color={SOLID} />{r.solid}</span>}
-      </div>
+    <div className="nodrag flex flex-col gap-1.5">
+      <figure className="mx-auto flex w-full max-w-[400px] flex-col gap-1.5">
+        <Vessel cw={BOX.w} ch={BOX.h} kind={gas ? 'gas' : 'liquid'} heat={cond === 'temperature' ? pos / Math.max(1, hi) : null}>
+          <canvas
+            ref={canvas} role="img" className="block h-full w-full"
+            aria-label={`${gas ? 'Gas molecules' : 'Molecules'} moving about in a ${gas ? 'sealed chamber' : 'glass beaker'}${r.solid ? `, with ${r.solid} on the floor` : ''}. Collisions that are hard enough ring, and the molecules in them react.`}
+          />
+        </Vessel>
+        <figcaption className="text-center text-[12px] font-bold text-ss-slate">
+          Each ring marks a collision hard enough to react.
+        </figcaption>
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px] font-bold text-ss-ink">
+          {r.movers.map((m, i) => (
+            <span key={m} className="inline-flex items-center gap-1.5"><Swatch mol={mols[i] ?? mols[0]} />{m}</span>
+          ))}
+          {r.solid && <span className="inline-flex items-center gap-1.5"><Swatch solid={r.solid} />{r.solid}</span>}
+        </div>
+      </figure>
       <div className="mx-auto w-full max-w-[400px]"><EnergyRuler tau={params.tau} eps={params.eps} /></div>
       <div className="mx-auto w-full max-w-[400px]">
         {cond === 'catalyst' ? (
-          <button
-            type="button" role="switch" aria-checked={pos === 1} disabled={locked}
-            onClick={() => set(pos === 1 ? 0 : 1)} onKeyDown={stop}
-            className="nodrag flex w-full items-center justify-between rounded-xl border-2 border-ss-line px-3 py-2 text-left text-[15px] font-extrabold text-ss-ink"
-          >
-            <span>Catalyst: {r.catalyst}</span>
-            <span aria-hidden className="relative h-6 w-11 rounded-full" style={{ backgroundColor: pos === 1 ? 'var(--ss-accent)' : 'var(--ss-slate)' }}>
-              <span className="absolute top-0.5 h-5 w-5 rounded-full bg-white" style={{ left: pos === 1 ? 22 : 2 }} />
-            </span>
-          </button>
+          <div className="flex items-center justify-between gap-1.5">
+            <span className="text-[12px] font-bold text-ss-slate">Catalyst: {r.catalyst}</span>
+            <button
+              type="button" role="switch" aria-checked={pos === 1} aria-label={`Catalyst: ${r.catalyst}`} disabled={locked}
+              onClick={() => set(pos === 1 ? 0 : 1)} onKeyDown={stop}
+              className="nodrag flex h-7 min-w-[64px] select-none items-center justify-center rounded-lg border-2 border-ss-line bg-ss-panel px-3 text-[15px] font-extrabold leading-none text-ss-ink touch-manipulation transition-colors hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none"
+              style={pos === 1 ? { borderColor: 'var(--subject)' } : undefined}
+            >
+              {pos === 1 ? 'On' : 'Off'}
+            </button>
+          </div>
         ) : (
           <Dial
             id={`dial-${task.reaction}-${cond}`}
@@ -775,9 +936,9 @@ function ShiftScene({ task, pos, set, marked, reduced, locked }: {
   const chip = (t: Term) => {
     const sp = SPECIES[t.id]
     return (
-      <span key={t.id} className="inline-flex items-center gap-1.5" aria-label={`${Math.abs(t.nu) > 1 ? `${Math.abs(t.nu)} ` : ''}${sp.name}`}>
+      <span key={t.id} className="inline-flex items-center gap-1" aria-label={`${Math.abs(t.nu) > 1 ? `${Math.abs(t.nu)} ` : ''}${sp.name}`}>
         {Math.abs(t.nu) > 1 && <span className="text-[15px] font-extrabold text-ss-ink">{Math.abs(t.nu)}</span>}
-        <Swatch shape={sp.shape} color={sp.color} size={18} />
+        <Swatch mol={t.id} size={22} />
         <span className="flex flex-col leading-tight">
           <span className="text-[15px] font-extrabold text-ss-ink"><Formula text={sp.formula} /></span>
           <span className="whitespace-nowrap text-[12px] font-bold text-ss-slate">{sp.name}</span>
@@ -787,18 +948,23 @@ function ShiftScene({ task, pos, set, marked, reduced, locked }: {
   }
   const join = (ts: Term[]) => ts.flatMap((t, i) => (i === 0 ? [chip(t)] : [<span key={`p${t.id}`} className="text-[15px] font-extrabold text-ss-slate">+</span>, chip(t)]))
   return (
-    <div className="nodrag flex flex-col gap-2">
-      <div className="mx-auto flex w-full max-w-[400px] flex-wrap items-center justify-center gap-x-2 gap-y-1" role="img" aria-label={`${reactants.map((t) => SPECIES[t.id].name).join(' and ')} and ${products.map((t) => SPECIES[t.id].name).join(' and ')} change into each other, both ways`}>
-        {join(reactants)}
-        <span className="text-[18px] font-extrabold text-ss-ink" aria-hidden>⇌</span>
-        {join(products)}
-      </div>
-      <div className="mx-auto w-full max-w-[400px]">
-        <canvas
-          ref={canvas} role="img" className="block h-auto w-full" style={{ aspectRatio: `${SHIFT_BOX.w} / ${canvasH}` }}
-          aria-label="Particles moving about in a box under a lid. All the time some change into the other kind and some change back."
-        />
-      </div>
+    <div className="nodrag flex flex-col gap-1.5">
+      <figure className="mx-auto flex w-full max-w-[400px] flex-col gap-1.5">
+        <Vessel cw={SHIFT_BOX.w} ch={canvasH} kind={lid ? 'piston' : 'gas'} heat={lever === 'temperature' ? (pos + SHIFT_RANGE) / (2 * SHIFT_RANGE) : null}>
+          <canvas
+            ref={canvas} role="img" className="block h-full w-full"
+            aria-label={`Molecules moving about in a sealed glass chamber${lid ? ' with a piston on top' : ''}. All the time some change into the other kind and some change back.`}
+          />
+        </Vessel>
+        <figcaption className="text-center text-[12px] font-bold text-ss-slate">
+          A solid ring marks one change; a dashed ring, the opposite.
+        </figcaption>
+        <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1" role="img" aria-label={`${reactants.map((t) => SPECIES[t.id].name).join(' and ')} and ${products.map((t) => SPECIES[t.id].name).join(' and ')} change into each other, both ways`}>
+          {join(reactants)}
+          <span className="text-[18px] font-extrabold text-ss-ink" aria-hidden>⇌</span>
+          {join(products)}
+        </div>
+      </figure>
       <div className="mx-auto w-full max-w-[400px]">
         <Dial
           id={`dial-${task.reaction}-${lever}`}

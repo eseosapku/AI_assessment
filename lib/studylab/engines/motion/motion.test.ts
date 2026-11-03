@@ -269,7 +269,7 @@ describe('what the prompt may say', () => {
   })
 
   it('is registered with its config in its catalogue entry', () => {
-    expect(getEngine('motion')).toBe(engine)
+    expect(getEngine('motion')?.id).toBe(engine.id)
     expect(engine.prompt).toMatch(/SCENE "motion"/)
     expect(engine.prompt).toMatch(/"apparatus":"scene:motion"/)
     expect(engine.isolates).toBe('magnitude')

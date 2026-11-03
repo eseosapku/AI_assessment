@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { SceneViewProps } from '../types'
 import type { AlgorithmTracerConfig, AlgorithmTracerState, Column, Layout, LayoutRow, Line } from './config'
 import {
@@ -7,15 +7,19 @@ import {
   predictSaid, predictSolution, purpose, readState, rowName, symptom, traceSaid,
 } from './config'
 
-// The scene's own inks, each over 4.5:1 on the panel in both themes. A bar is
-// blue; the pair or place being looked at is amber, thicker and outlined, so
-// colour is never the only cue.
-const PALETTE = '[--at-bar:#1D4ED8] [--at-hot:#B45309] dark:[--at-bar:#60A5FA] dark:[--at-hot:#FBBF24]'
-const BAR = 'var(--at-bar, #1D4ED8)'
-const HOT = 'var(--at-hot, #B45309)'
-const PANEL = 'var(--ss-panel, #FFFFFF)'
-const INK = 'var(--ss-ink, #16202A)'
-const SLATE = 'var(--ss-slate, #636D76)'
+// A quiet light plate in both themes, like measure-shape's: the picture keeps its own colours. Flat colours only.
+const PLATE = '#F8FAFC'
+const PLATE_EDGE = '#CBD5E1'
+const BAR = '#2F6DB5'
+const HOT = '#B45309'
+const HOT_SOFT = '#FEF3C7'
+const WHITE = '#FFFFFF'
+const INK = '#334155'
+const SLATE = '#64748B'
+const SHELF = '#CBD5E1'
+const GOOD = '#15803D'
+const BAD = '#B91C1C'
+const PANEL = WHITE
 
 // ---------------------------------------------------------------------------
 // The array, as boxes (a search, a total) or bars (a sort), in its own units.
@@ -46,45 +50,61 @@ export function stripGeometry(n: number, style: 'boxes' | 'bars', values: (numbe
   const w = Math.min(40, slot - 6)
   const boxes = style === 'boxes'
   const floor = boxes ? 52 : 94
+  // Bars are drawn against the tallest value present, so a small array still reads as bars.
+  const top = Math.max(1, ...values.map((v) => Math.min(99, Math.max(0, v ?? 0))))
   const slots = values.map((v, k): Slot => {
     const cx = PAD + slot * (k + 0.5)
-    const h = boxes ? 34 : 10 + (Math.min(99, Math.max(0, v ?? 0)) / 99) * 52
+    const h = boxes ? 34 : 10 + (Math.min(top, Math.max(0, v ?? 0)) / top) * 52
     const y = floor - h
     return { i: k + 1, cx, x: cx - w / 2, w, y, h, valueY: boxes ? y + 22 : y - 6, indexY: floor + 16 }
   })
   return { w: W, h: boxes ? 74 : 118, floor, slots }
 }
 
-export function ArrayStrip({ values, style, pointer, pair }: {
+export function ArrayStrip({ values, style, pointer, pair, pointerName }: {
   values: (number | null)[]
   style: 'boxes' | 'bars'
   pointer?: number
   pair?: [number, number]
+  /** The variable that points at the place, written beside the pointer. */
+  pointerName?: string
 }) {
   const g = stripGeometry(values.length, style, values)
   const hot = (i: number) => pair?.includes(i) || pointer === i
   const spoken = values.map((v, k) => `position ${k + 1} holds ${v === null ? 'something that is not a number' : v}`).join(', ')
+  const tri = (cx: number) => `M ${cx - 5} 3 L ${cx + 5} 3 L ${cx} 12 Z`
+  const at = pointer !== undefined ? g.slots.find((s) => s.i === pointer) : undefined
   return (
-    <svg viewBox={`0 0 ${g.w} ${g.h}`} className="block w-full max-w-[360px] select-none" role="img" aria-label={`Data: ${spoken}.`}>
+    <svg viewBox={`0 0 ${g.w} ${g.h}`} className="block w-full select-none" role="img" aria-label={`Data: ${spoken}.`}>
+      <rect x={PAD} y={g.floor + 2} width={g.w - 2 * PAD} height={3} rx={1.5} fill={SHELF} />
       {g.slots.map((s, k) => {
         const v = values[k]
         const on = hot(s.i)
         return (
           <g key={s.i}>
-            {on && <path d={`M ${s.cx - 5} 3 L ${s.cx + 5} 3 L ${s.cx} 12 Z`} fill={HOT} />}
+            {pair && on && <path d={tri(s.cx)} fill={HOT} />}
             <rect
-              x={s.x} y={s.y} width={s.w} height={s.h} rx={4}
+              x={s.x} y={s.y} width={s.w} height={s.h} rx={5}
               data-lit={on ? '' : undefined}
               fill={style === 'bars' ? (v === null ? PANEL : on ? HOT : BAR) : on ? HOT : PANEL}
-              stroke={on ? HOT : style === 'bars' ? (v === null ? SLATE : BAR) : SLATE}
-              strokeWidth={on ? 3 : 2}
+              stroke={on ? HOT : style === 'bars' ? (v === null ? SLATE : BAR) : '#94A3B8'}
+              strokeWidth={on ? 2.5 : 1.5}
               strokeDasharray={v === null ? '4 3' : undefined}
             />
+            {style === 'boxes' && !on && <path d={`M ${s.x + 5} ${s.y + 3.5} H ${s.x + s.w - 5}`} stroke="#E2E8F0" strokeWidth={1.5} strokeLinecap="round" />}
             <text x={s.cx} y={s.valueY} textAnchor="middle" fontSize={14} fontWeight={800} fill={on && style === 'boxes' ? '#FFFFFF' : INK}>{v === null ? '?' : v}</text>
-            <text x={s.cx} y={s.indexY} textAnchor="middle" fontSize={12} fontWeight={700} fill={SLATE}>{s.i}</text>
+            <text x={s.cx} y={s.indexY} textAnchor="middle" fontSize={12} fontWeight={700} fill={on ? HOT : SLATE}>{s.i}</text>
           </g>
         )
       })}
+      {at && (
+        <g className="transition-transform duration-300 ease-out motion-reduce:transition-none" style={{ transform: `translateX(${at.cx}px)` }}>
+          <path d="M -5 3 L 5 3 L 0 12 Z" fill={HOT} />
+          {pointerName && (at.cx > g.w - 60
+            ? <text x={-9} y={11} textAnchor="end" fontSize={12} fontWeight={700} fill={HOT}>{pointerName}</text>
+            : <text x={9} y={11} fontSize={12} fontWeight={700} fill={HOT}>{pointerName}</text>)}
+        </g>
+      )}
     </svg>
   )
 }
@@ -115,7 +135,7 @@ export function arrayBefore(L: Layout, cells: Record<string, string>, rowIndex: 
 }
 
 // ---------------------------------------------------------------------------
-// The pseudocode.
+// The pseudocode, in a small window of its own that follows the running line.
 
 const KEYWORDS = /\b(DECLARE|ARRAY|OF|INTEGER|BOOLEAN|IF|THEN|ELSE|ENDIF|FOR|TO|NEXT|WHILE|DO|ENDWHILE|OUTPUT|AND|TRUE|FALSE)\b/
 
@@ -127,10 +147,11 @@ function Words({ text }: { text: string }) {
   )
 }
 
-const BUTTON = 'nodrag inline-flex min-h-[32px] items-center justify-center gap-1.5 rounded-lg border-[1.5px] border-ss-line bg-ss-panel px-2.5 py-1 text-[13px] font-bold text-ss-ink disabled:opacity-50'
-const LIT = { background: 'var(--subject-soft)', boxShadow: 'inset 3px 0 0 var(--subject)' } as const
+const LINE_H = 18
+const PICK_H = 24
+const STEP_BTN = 'nodrag flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-lg border-2 border-ss-line bg-ss-panel text-[16px] font-extrabold leading-none text-ss-ink touch-manipulation transition-colors hover:border-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none'
 
-function Code({ lines, lit, pickable, frozen, pick, onPick, marked, faultAt }: {
+function Code({ lines, lit, pickable, frozen, pick, onPick, marked, faultAt, reduced }: {
   lines: Line[]
   frozen: boolean
   lit: Set<number>
@@ -139,28 +160,56 @@ function Code({ lines, lit, pickable, frozen, pick, onPick, marked, faultAt }: {
   onPick: (n: number) => void
   marked: SceneViewProps<AlgorithmTracerConfig, AlgorithmTracerState>['marked']
   faultAt: number | null
+  reduced: boolean
 }) {
   const refs = useRef<Record<number, HTMLButtonElement | null>>({})
+  const box = useRef<HTMLDivElement | null>(null)
   const done = marked === 'right' || marked === 'shown'
-  const body = (l: Line) => (
+  const h = pickable ? PICK_H : LINE_H
+  const follow = pickable ? (faultAt ?? null) : lit.size ? Math.min(...lit) : null
+  // The window scrolls to the running line, so stepping through the rows is seen as the program running.
+  useEffect(() => {
+    const el = box.current
+    if (!el || follow === null || typeof el.scrollTo !== 'function') return
+    el.scrollTo({ top: Math.max(0, (follow - 2) * h), behavior: reduced ? 'auto' : 'smooth' })
+  }, [follow, h, reduced])
+  const body = (l: Line, on: boolean) => (
     <>
-      <span className="w-7 shrink-0 select-none pr-2 text-right tabular-nums text-ss-slate">{l.n}</span>
-      <span className="whitespace-pre text-ss-ink" style={{ paddingLeft: `${l.depth * 3}ch` }}><Words text={l.text} /></span>
+      <span className="flex w-8 shrink-0 select-none items-center justify-end gap-0.5 pr-2 tabular-nums" style={{ color: on ? HOT : SLATE, fontWeight: on ? 800 : 500 }}>
+        {on && !pickable && <span aria-hidden="true" className="text-[8px]">▶</span>}
+        {l.n}
+      </span>
+      <span className="whitespace-pre" style={{ paddingLeft: `${l.depth * 3}ch`, color: INK }}><Words text={l.text} /></span>
     </>
   )
+  const rows = pickable ? Math.min(lines.length, 10) : Math.min(lines.length, 5)
   return (
-    <div role="group" aria-label="Pseudocode" className="overflow-x-auto rounded-xl border border-ss-line bg-ss-chip py-1.5 font-mono text-[12px] leading-[18px]">
+    <div
+      ref={box}
+      role="group"
+      aria-label="Pseudocode"
+      tabIndex={pickable ? undefined : 0}
+      className="overflow-auto rounded-lg border bg-white py-1 font-mono text-[12px] leading-[18px]"
+      style={{ borderColor: PLATE_EDGE, maxHeight: rows * h + 10 }}
+    >
       {lines.map((l) => {
+        const on = lit.has(l.n)
         if (!pickable) {
           return (
-            <div key={l.n} aria-current={lit.has(l.n) ? 'step' : undefined} className="flex min-h-[18px] items-baseline px-1.5" style={lit.has(l.n) ? LIT : undefined}>
-              {body(l)}
+            <div
+              key={l.n}
+              aria-current={on ? 'step' : undefined}
+              className="flex items-baseline px-1.5 transition-colors duration-200 motion-reduce:transition-none"
+              style={{ minHeight: LINE_H, background: on ? HOT_SOFT : undefined, boxShadow: on ? `inset 3px 0 0 ${HOT}` : undefined }}
+            >
+              {body(l, on)}
             </div>
           )
         }
         const mine = pick === l.n
         const isFault = done && faultAt === l.n
         const wrong = marked === 'wrong' && mine
+        const edge = wrong ? BAD : isFault ? GOOD : HOT
         return (
           <button
             key={l.n}
@@ -177,12 +226,12 @@ function Code({ lines, lit, pickable, frozen, pick, onPick, marked, faultAt }: {
                 refs.current[l.n + (e.key === 'ArrowDown' ? 1 : -1)]?.focus()
               }
             }}
-            className="nodrag flex min-h-[26px] w-full items-center px-1.5 text-left font-mono text-[12px] leading-[18px] disabled:opacity-100"
-            style={mine || isFault ? { background: 'var(--subject-soft)', boxShadow: `inset 3px 0 0 ${wrong ? 'var(--ss-bad)' : isFault ? 'var(--ss-good)' : 'var(--subject)'}` } : undefined}
+            className="nodrag flex w-full items-center px-1.5 text-left font-mono text-[12px] leading-[18px] transition-colors hover:bg-slate-50 disabled:opacity-100 motion-reduce:transition-none"
+            style={{ minHeight: PICK_H, ...(mine || isFault ? { background: HOT_SOFT, boxShadow: `inset 3px 0 0 ${edge}` } : {}) }}
           >
-            {body(l)}
+            {body(l, mine || isFault)}
             {(mine || isFault) && (
-              <span className="ml-auto shrink-0 pl-2 text-[12px] font-bold" style={{ color: wrong ? 'var(--ss-bad)' : isFault ? 'var(--ss-good)' : SLATE }}>
+              <span className="ml-auto shrink-0 pl-2 text-[12px] font-bold" style={{ color: wrong ? BAD : isFault ? GOOD : SLATE }}>
                 {isFault ? 'the fault' : marked === 'wrong' ? 'your pick' : 'picked'}
               </span>
             )}
@@ -194,11 +243,32 @@ function Code({ lines, lit, pickable, frozen, pick, onPick, marked, faultAt }: {
 }
 
 // ---------------------------------------------------------------------------
-// The trace table.
+// A variable as a small labelled box that holds what the learner typed.
+
+function Var({ name, value, fresh }: { name: string; value: string | null; fresh?: boolean }) {
+  return (
+    <div
+      {...(fresh ? { 'data-typed-box': '' } : {})}
+      className="flex items-center gap-1.5"
+      aria-label={value ? `You typed ${value} for ${name}` : `${name}: nothing typed yet`}
+    >
+      <span className="text-[12px] font-bold text-slate-500">{name}</span>
+      <span
+        className="flex h-7 min-w-[34px] max-w-[96px] items-center justify-center rounded-md border-2 bg-white px-1.5 text-[14px] font-extrabold tabular-nums"
+        style={{ borderColor: value ? BAR : PLATE_EDGE, borderStyle: value ? 'solid' : 'dashed', color: value ? INK : SLATE }}
+      >
+        <span className="truncate">{value ?? '–'}</span>
+      </span>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// The trace table: small, only the rows that matter.
 
 type Cells = Record<string, string>
 
-function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnly, truth, windowed }: {
+function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnly, truth, visible }: {
   L: Layout
   refs: { current: Record<string, HTMLInputElement | null> }
   cells: Cells
@@ -210,8 +280,8 @@ function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnl
   readOnly: boolean
   /** Show the true value of every cell, not what was typed. */
   truth: boolean
-  /** Before marking, only the rows near the active one are drawn: one before it, one after. */
-  windowed?: boolean
+  /** The rows drawn; every row when absent. */
+  visible?: Set<number>
 }) {
   const data = L.columns.filter((c) => /^D\d+$/.test(c.id))
   const plain = L.columns.filter((c) => !/^D\d+$/.test(c.id))
@@ -257,7 +327,7 @@ function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnl
       <tbody>
         {L.rows.map((row, r) => {
           const on = r === active
-          if (windowed && (r < active - 1 || r > active + 1)) return null
+          if (visible && !visible.has(r)) return null
           return (
             <tr key={row.id} style={on ? { background: 'var(--subject-soft)' } : undefined}>
               <th scope="row" className="py-0.5 pl-1 pr-1 text-left">
@@ -295,8 +365,8 @@ function TraceTable({ L, refs, cells, active, setActive, onType, judged, readOnl
                       onFocus={() => setActive(r)}
                       onChange={(e) => onType(key, e.target.value)}
                       onKeyDown={(e) => move(e, r, c.id)}
-                      className="nodrag h-8 w-full min-w-0 rounded-md border-2 bg-ss-panel px-0.5 text-center text-[13px] font-bold tabular-nums text-ss-ink outline-none focus:border-[color:var(--subject)] disabled:opacity-100"
-                      style={{ borderColor: bad ? 'var(--ss-bad)' : judged && !readOnly ? 'var(--ss-good)' : SLATE }}
+                      className="nodrag h-7 w-full min-w-0 rounded-md border-2 bg-ss-panel px-0.5 text-center text-[13px] font-bold tabular-nums text-ss-ink outline-none focus:border-[color:var(--subject)] disabled:opacity-100"
+                      style={{ borderColor: bad ? 'var(--ss-bad)' : judged && !readOnly ? 'var(--ss-good)' : 'var(--ss-slate)' }}
                     />
                   </td>
                 )
@@ -327,7 +397,7 @@ function Note({ children }: { children: ReactNode }) {
  * until the card is marked: the cells, the output and the faulty line are the
  * learner's to find.
  */
-export function AlgorithmTracerView({ config, state, setState, marked, locked }: SceneViewProps<AlgorithmTracerConfig, AlgorithmTracerState>) {
+export function AlgorithmTracerView({ config, state, setState, marked, locked, reduced }: SceneViewProps<AlgorithmTracerConfig, AlgorithmTracerState>) {
   const t = config.task
   // A saved card opens on the last row the learner filled, not back at the start.
   const [active, setActive] = useState(() => {
@@ -357,11 +427,12 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
     setState({ cells: s.cells, pick: s.pick === n ? null : n })
   }
 
-  const row = t.kind === 'trace' ? L.rows[Math.min(active, L.rows.length - 1)] : undefined
+  const at0 = Math.min(active, L.rows.length - 1)
+  const row = t.kind === 'trace' ? L.rows[at0] : undefined
   const at = row?.given?.value ?? (algo === 'linear-search' && row?.kind === 'pass' ? Number(row.id.slice(1)) : undefined)
   const pointer = at !== undefined && at >= 1 && at <= t.values.length ? at : undefined
   const pair: [number, number] | undefined = bars && row?.given ? [row.given.value, row.given.value + 1] : undefined
-  const shownArray: (number | null)[] = bars && t.kind === 'trace' ? arrayBefore(L, s.cells, Math.min(active, L.rows.length - 1)) : t.values
+  const shownArray: (number | null)[] = bars && t.kind === 'trace' ? arrayBefore(L, s.cells, at0) : t.values
 
   const judged = !idle && t.kind === 'trace' ? new Set(judgeTrace(config, s).faults.map((f) => f.key)) : null
   const predicted = !idle && t.kind === 'predict' ? new Set(judgePredict(config, s).wrong.map((w) => w.key)) : null
@@ -370,14 +441,29 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
     ? `Comparing Data[${pair[0]}] and Data[${pair[1]}].`
     : pointer !== undefined && row?.kind === 'pass' ? `Looking at Data[${pointer}].` : ''
 
-  // The variable the learner just typed in this row: the last filled cell, said back plainly.
-  let typedBox: { label: string; value: string } | null = null
-  if (t.kind === 'trace' && row && !shown) {
+  // The variables as the learner has them at this row: the last thing they typed for each, carried down.
+  // Before the card is shown the answer, this is only their own typing; the true value is never read.
+  const vars: { id: string; name: string; value: string | null; fresh: boolean }[] = []
+  if (t.kind === 'trace') {
     for (const c of L.columns) {
-      if (row.cells[c.id] !== 'fill') continue
-      const v = (s.cells[cellKey(row.id, c.id)] ?? '').trim()
-      if (v) typedBox = { label: c.label, value: v }
+      if (/^D\d+$/.test(c.id)) continue
+      let value: string | null = null
+      let fresh = false
+      for (let r = 0; r <= at0; r++) {
+        const rr = L.rows[r]
+        const role = rr.cells[c.id]
+        if (shown || role === 'given') value = rr.truth?.after[c.id] ?? value
+        else if (role === 'fill') {
+          const v = (s.cells[cellKey(rr.id, c.id)] ?? '').trim()
+          if (v) { value = v; fresh = r === at0 }
+        }
+      }
+      vars.push({ id: c.id, name: c.label, value, fresh })
     }
+  } else if (t.kind === 'predict' && !bars) {
+    const c = predictCells(config)[0]
+    const v = (done ? predictSolution(config)[c.key] ?? '' : s.cells[c.key] ?? '').trim()
+    vars.push({ id: c.key, name: 'OUTPUT', value: v || null, fresh: !done && !!v })
   }
 
   const go = (to: number) => {
@@ -389,42 +475,50 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
     if (first) cellRefs.current[cellKey(target.id, first.id)]?.focus()
   }
 
+  // The table shows the row being worked and the one before it; after marking, the rows that were wrong as well.
+  const visible = new Set<number>([at0, at0 - 1])
+  if (judged) {
+    const first = L.rows.findIndex((r) => [...judged].some((k) => k.split(':')[0] === r.id))
+    if (first >= 0) visible.add(first)
+  }
+
   const sym = t.kind === 'fault' ? symptom(config) : null
+  const rowWord = row ? rowName(row) : ''
+  const ptrName = row?.given?.name ?? 'Index'
 
   return (
-    <div className={`nodrag flex w-full max-w-[380px] flex-col gap-2.5 ${PALETTE}`} onKeyDown={(e) => { if (e.key.startsWith('Arrow')) e.stopPropagation() }}>
-      <div>
-        <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">{KIND_NAMES[t.kind]}</p>
+    <div className="nodrag flex w-full max-w-[380px] flex-col gap-2" onKeyDown={(e) => { if (e.key.startsWith('Arrow')) e.stopPropagation() }}>
+      <div className="flex items-baseline gap-2">
         <p className="text-[15px] font-extrabold leading-tight text-ss-ink">{NAMES[algo]}</p>
-        <Note>{purpose(config)}</Note>
+        <p className="ml-auto text-[12px] font-bold uppercase tracking-widest text-ss-slate">{KIND_NAMES[t.kind]}</p>
       </div>
+      <p className="sr-only">{purpose(config)}</p>
 
-      <div className="rounded-xl bg-ss-chip px-1 py-1.5">
-        <ArrayStrip values={shownArray} style={bars ? 'bars' : 'boxes'} pointer={pointer} pair={pair} />
-        <div className="flex items-center gap-2 px-1">
-          <p className="min-w-0 flex-1 text-[12px] font-semibold leading-snug text-ss-slate">
-            {`Data, positions 1 to ${t.values.length}`}{gv.map((g) => ` · ${g.name} = ${g.value}`).join('')}
-            {look && ` · ${look}`}
-          </p>
-          {typedBox && (
-            <div data-typed-box="" className="flex shrink-0 flex-col items-center rounded-lg border-2 bg-ss-panel px-3 py-0.5" style={{ borderColor: BAR }} aria-label={`You typed ${typedBox.value} for ${typedBox.label}`}>
-              <span className="text-[12px] font-bold leading-tight text-ss-slate">{typedBox.label}</span>
-              <span className="max-w-[90px] truncate text-[22px] font-extrabold leading-tight tabular-nums text-ss-ink">{typedBox.value}</span>
+      <figure className="m-0 flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 rounded-xl border px-2 pb-2 pt-1.5" style={{ background: PLATE, borderColor: PLATE_EDGE }}>
+          <ArrayStrip values={shownArray} style={bars ? 'bars' : 'boxes'} pointer={pointer} pair={pair} pointerName={pointer !== undefined && !pair ? ptrName : undefined} />
+          {vars.length > 0 && (
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              {vars.map((v) => <Var key={v.id} name={v.name} value={v.value} fresh={v.fresh} />)}
             </div>
           )}
+          <Code
+            lines={L.lines}
+            lit={new Set(row?.lines ?? [])}
+            pickable={t.kind === 'fault'}
+            frozen={frozen}
+            pick={s.pick}
+            onPick={pick}
+            marked={marked}
+            faultAt={done && t.kind === 'fault' ? faultLine(config) : null}
+            reduced={!!reduced}
+          />
         </div>
-      </div>
-
-      <Code
-        lines={L.lines}
-        lit={new Set(row?.lines ?? [])}
-        pickable={t.kind === 'fault'}
-        frozen={frozen}
-        pick={s.pick}
-        onPick={pick}
-        marked={marked}
-        faultAt={done && t.kind === 'fault' ? faultLine(config) : null}
-      />
+        <figcaption className="text-[12px] font-bold leading-snug text-ss-slate">
+          {`Data, positions 1 to ${t.values.length}`}{gv.map((g) => ` · ${g.name} = ${g.value}`).join('')}
+          {look && ` · ${look}`}
+        </figcaption>
+      </figure>
 
       {t.kind === 'fault' && sym && (
         <div className="flex flex-col gap-1">
@@ -437,22 +531,26 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
 
       {t.kind === 'trace' && (
         <div className="flex flex-col gap-1.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[12px] font-bold text-ss-slate">Row</span>
+            <button type="button" aria-label="Previous row" className={STEP_BTN} onClick={() => go(at0 - 1)} disabled={at0 <= 0}>‹</button>
+            <span className="min-w-[72px] text-center text-[15px] font-extrabold tabular-nums text-ss-ink">{rowWord}</span>
+            <button type="button" aria-label="Next row" className={STEP_BTN} onClick={() => go(at0 + 1)} disabled={at0 >= L.rows.length - 1}>›</button>
+            <span className="ml-auto text-[12px] font-semibold tabular-nums text-ss-slate">{at0 + 1} of {L.rows.length}</span>
+          </div>
+          <div className={shown ? 'max-h-[150px] overflow-y-auto' : undefined}>
+          <TraceTable
+            L={L} refs={cellRefs} cells={s.cells} active={at0} setActive={setActive} onType={type}
+            judged={judged} readOnly={frozen} truth={shown} visible={shown ? undefined : visible}
+          />
+          </div>
           {!frozen && (
             <Note>
-              Fill in what each variable holds when each row is done. Leave a cell empty if nothing in the row changes it.
-              {L.columns.some((c) => c.kind === 'bool') && ' Write TRUE or FALSE for Found.'}
-              {algo === 'linear-search' && ' The loop may stop before the last row: leave the rows after it empty.'}
+              Type each value after the row; empty if unchanged.
+              {L.columns.some((c) => c.kind === 'bool') && ' Use TRUE or FALSE for Found.'}
+              {algo === 'linear-search' && ' The loop may stop early.'}
             </Note>
           )}
-          <TraceTable
-            L={L} refs={cellRefs} cells={s.cells} active={Math.min(active, L.rows.length - 1)} setActive={setActive} onType={type}
-            judged={judged} readOnly={frozen} truth={shown} windowed={idle}
-          />
-          <div className="flex items-center gap-1.5">
-            <button type="button" className={BUTTON} onClick={() => go(active - 1)} disabled={active <= 0}>Previous row</button>
-            <button type="button" className={BUTTON} onClick={() => go(active + 1)} disabled={active >= L.rows.length - 1}>Next row</button>
-            <span className="ml-auto text-[12px] font-semibold tabular-nums text-ss-slate">Row {Math.min(active, L.rows.length - 1) + 1} of {L.rows.length}</span>
-          </div>
         </div>
       )}
 
@@ -477,8 +575,8 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
                     aria-invalid={bad || undefined}
                     onChange={(e) => type(c.key, e.target.value)}
                     onKeyDown={(e) => e.stopPropagation()}
-                    className={`nodrag h-9 rounded-md border-2 bg-ss-panel px-1 text-center text-[14px] font-bold tabular-nums text-ss-ink outline-none focus:border-[color:var(--subject)] disabled:opacity-100 ${bars ? 'w-[46px]' : 'w-[150px]'}`}
-                    style={{ borderColor: bad ? 'var(--ss-bad)' : predicted && !bad ? 'var(--ss-good)' : SLATE }}
+                    className={`nodrag h-8 rounded-md border-2 bg-ss-panel px-1 text-center text-[14px] font-bold tabular-nums text-ss-ink outline-none focus:border-[color:var(--subject)] disabled:opacity-100 ${bars ? 'w-[46px]' : 'w-[150px]'}`}
+                    style={{ borderColor: bad ? 'var(--ss-bad)' : predicted && !bad ? 'var(--ss-good)' : 'var(--ss-slate)' }}
                   />
                 </label>
               )
@@ -507,7 +605,9 @@ export function AlgorithmTracerView({ config, state, setState, marked, locked }:
       {t.kind === 'predict' && done && (
         <div className="flex flex-col gap-1">
           <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">The run</p>
-          <TraceTable L={L} refs={runRefs} cells={{}} active={-1} setActive={() => {}} onType={() => {}} judged={null} readOnly truth />
+          <div className="max-h-[100px] overflow-y-auto">
+            <TraceTable L={L} refs={runRefs} cells={{}} active={-1} setActive={() => {}} onType={() => {}} judged={null} readOnly truth />
+          </div>
         </div>
       )}
     </div>

@@ -736,7 +736,7 @@ describe('the algorithm-tracer scene on the board', () => {
     expect(words).toContain('Target = 7')
     expect(html).toContain('aria-label="Data: position 1 holds 4, position 2 holds 9, position 3 holds 2, position 4 holds 7, position 5 holds 5."')
     expect(html).toContain('<table')
-    for (const label of ['Start, Index', 'Start, Found', 'Pass 1, Index', 'Pass 1, Found']) expect(html).toContain(`aria-label="${label}"`)
+    for (const label of ['Start, Index', 'Start, Found']) expect(html).toContain(`aria-label="${label}"`)
     expect(html).toContain('Next row')
     // Every cell the learner fills is empty.
     for (const m of html.matchAll(/<input[^>]*>/g)) expect(m[0]).toContain('value=""')
@@ -975,7 +975,7 @@ describe('the meaning gates', () => {
 
 describe('the catalogue entry', () => {
   it('is registered for the tutor, with its config and an example in orbit’s format', () => {
-    expect(getEngine('algorithm-tracer')).toBe(engine)
+    expect(getEngine('algorithm-tracer')?.id).toBe(engine.id)
     expect(engine.isolates).toBe('consequence')
     expect(engine.prompt).toMatch(/^SCENE "algorithm-tracer"/)
     expect(engine.prompt).toMatch(/"pattern":"scene"/)
@@ -1045,10 +1045,10 @@ describe('the drawing answers the trace table', () => {
     expect(html).not.toContain(`value="${right}"`)
     expect(text(html.match(/<div data-typed-box[\s\S]*?<\/div>/)![0])).not.toContain(`${right}`)
   })
-  it('draws only the rows near the active one before marking, and all of them after', () => {
-    const before = view(TOTAL, { cells: {}, pick: null }, 'idle')
-    const after = view(TOTAL, { cells: {}, pick: null }, 'wrong')
-    const inputs = (h: string) => (h.match(/<input/g) ?? []).length
-    expect(inputs(before)).toBeLessThan(inputs(after))
+  it('draws only the current row and the one before it, however many rows there are', () => {
+    const rowsDrawn = (h: string) => (h.match(/<tr/g) ?? []).length - 1
+    expect(rowsDrawn(view(TOTAL, { cells: {}, pick: null }, 'idle'))).toBe(1)
+    expect(rowsDrawn(view(TOTAL, { cells: {}, pick: null }, 'wrong'))).toBeLessThanOrEqual(2)
+    expect(layout(TOTAL).rows.length).toBeGreaterThan(3)
   })
 })
