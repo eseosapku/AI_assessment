@@ -239,12 +239,12 @@ describe('the scene on the board', { timeout: 30_000 }, () => {
     expect(buttons.length).toBe(7)
     for (const m of buttons) expect(m[0]).toContain('type="button"')
     expect(idle).toContain('nodrag')
-    expect([...raw(engine.solve(RATION), 'right').matchAll(/<button[^>]*disabled/g)].length).toBe(7)
+    expect([...raw(engine.solve(RATION), 'right').matchAll(/<button[^>]*disabled/g)].length).toBe(6)
   })
 
   it('marking names each card’s side and says the totals; wrong says only what was made', () => {
     const right = text(raw(engine.solve(RATION), 'right'))
-    expect(right).toContain('Yes. Every card is on the side it points to.')
+    expect(right).toContain('Yes. Every card is on its side.')
     expect(right).toContain('Off topic')
     expect(right).toContain('6 to 3')
     const wrong = text(raw({ put: ['against', null, null, null, null, null] }, 'wrong'))
@@ -254,8 +254,9 @@ describe('the scene on the board', { timeout: 30_000 }, () => {
 
   it('showing the answer draws the answer', () => {
     const html = raw(engine.initial(RATION), 'shown')
-    expect(html).toContain('data-weight-for="6"')
-    expect(html).toContain('data-weight-against="3"')
+    expect(html).toContain('data-beam="-')
+    expect(html).toContain('data-tile="6"')
+    expect(text(html)).toContain('6 to 3')
   })
 
   it('the beam turns with each card, with nothing animating under reduced motion', () => {

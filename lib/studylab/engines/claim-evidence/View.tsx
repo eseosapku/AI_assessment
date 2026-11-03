@@ -23,9 +23,9 @@ const CARD_EDGE = '#8A6A25'
 
 // The geometry of the plate (also the viewBox). Literals: config's constants do not exist yet when this file loads.
 export const W = 360
-export const H = 176
+export const H = 164
 const PIVOT_X = 180
-const PIVOT_Y = 36
+const PIVOT_Y = 30
 const ARM = 118
 const HANG = 58
 const PAN_W = 108
@@ -118,10 +118,10 @@ export function ClaimEvidenceView({ config, state, setState, marked, reduced, lo
 
   return (
     <div
-      className="nodrag flex w-full max-w-[380px] flex-col gap-2"
+      className="nodrag flex w-full max-w-[380px] flex-col gap-1.5"
       onKeyDown={(e) => { if (e.key.startsWith('Arrow')) e.stopPropagation() }}
     >
-      <div className="rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-1.5">
+      <div className="rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-1">
         <p className="text-[14px] font-extrabold leading-snug text-ss-ink"><span className="mr-1.5 text-[12px] font-bold text-ss-slate">Claim</span>{config.claim}</p>
       </div>
 
@@ -134,13 +134,13 @@ export function ClaimEvidenceView({ config, state, setState, marked, reduced, lo
             <rect x={0.75} y={0.75} width={W - 1.5} height={H - 1.5} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
             {showTargets && (
               <g fill="none" stroke="#2563EB" strokeWidth={1.6} strokeDasharray="5 4" data-targets="1">
-                <rect x={10} y={leftEnd.y + 8} width={PAN_W + 8} height={HANG + 60} rx={10} style={reduced ? undefined : { transition: 'y 900ms ease' }} />
-                <rect x={W - 10 - PAN_W - 8} y={rightEnd.y + 8} width={PAN_W + 8} height={HANG + 60} rx={10} style={reduced ? undefined : { transition: 'y 900ms ease' }} />
+                <rect x={10} y={leftEnd.y + 8} width={PAN_W + 8} height={HANG + 40} rx={10} style={reduced ? undefined : { transition: 'y 900ms ease' }} />
+                <rect x={W - 10 - PAN_W - 8} y={rightEnd.y + 8} width={PAN_W + 8} height={HANG + 40} rx={10} style={reduced ? undefined : { transition: 'y 900ms ease' }} />
               </g>
             )}
             {/* The stand: base, pillar. */}
-            <rect x={PIVOT_X - 52} y={161} width={104} height={10} rx={4} fill={STAND} />
-            <rect x={PIVOT_X - 5} y={PIVOT_Y} width={10} height={128} fill={STAND} />
+            <rect x={PIVOT_X - 52} y={150} width={104} height={10} rx={4} fill={STAND} />
+            <rect x={PIVOT_X - 5} y={PIVOT_Y} width={10} height={122} fill={STAND} />
             <Pan at={leftEnd} name="Supports" tiles={tilesOn('for')} reduced={reduced} />
             <Pan at={rightEnd} name="Against" tiles={tilesOn('against')} reduced={reduced} />
             {/* The beam, turning on the pillar's top. */}
@@ -167,12 +167,12 @@ export function ClaimEvidenceView({ config, state, setState, marked, reduced, lo
             </>
           )}
         </div>
-        <figcaption className="text-center text-[12px] font-semibold text-ss-slate" aria-hidden="true">
+        {marked === 'idle' && <figcaption className="text-center text-[12px] font-semibold text-ss-slate" aria-hidden="true">
           Dots and block height show how strong a card is.
-        </figcaption>
+        </figcaption>}
       </figure>
 
-      <ol className="m-0 grid list-none grid-cols-2 gap-1.5 p-0">
+      <ol className="m-0 grid list-none grid-cols-2 gap-1 p-0">
         {order.map((i) => {
           const c = config.cards[i]
           const on = put[i]
@@ -201,7 +201,7 @@ export function ClaimEvidenceView({ config, state, setState, marked, reduced, lo
         })}
       </ol>
 
-      <div className="flex h-7 items-center justify-between gap-1.5 border-t border-ss-line pt-1.5">
+      {!finished && <div className="flex h-7 items-center justify-between gap-1.5 border-t border-ss-line pt-1.5">
         <span className="flex items-baseline gap-4">
           <span className="flex items-baseline gap-1.5"><span className="text-[12px] font-bold text-ss-slate">Supports</span><span className="text-[15px] font-extrabold tabular-nums text-ss-ink" data-weight-for={weightFor}>{weightFor}</span></span>
           <span className="flex items-baseline gap-1.5"><span className="text-[12px] font-bold text-ss-slate">Against</span><span className="text-[15px] font-extrabold tabular-nums text-ss-ink" data-weight-against={weightAgainst}>{weightAgainst}</span></span>
@@ -212,7 +212,7 @@ export function ClaimEvidenceView({ config, state, setState, marked, reduced, lo
         >
           Take off
         </button>
-      </div>
+      </div>}
 
       <span className="sr-only" aria-live="polite">{`${nFor} on the supporting pan, ${nAgainst} on the opposing pan. The beam is ${tilt === 0 ? 'level' : `tipped ${lean}`}.`}</span>
       {marked !== 'idle' && (

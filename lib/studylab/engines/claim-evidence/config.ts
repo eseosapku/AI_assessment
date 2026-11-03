@@ -41,7 +41,7 @@ export const MAX_CARD_TEXT = 50
 export const MAX_CLAIM = 100
 /** Degrees of tilt for each unit of strength between the pans, and the most the beam swings. */
 export const DEG_PER_UNIT = 3
-export const MAX_TILT = 15
+export const MAX_TILT = 12
 
 const has = (o: object, k: string) => Object.prototype.hasOwnProperty.call(o, k)
 
@@ -91,10 +91,8 @@ const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one :
 export function working(config: ArgConfig): string {
   const f = total(config, 'for')
   const a = total(config, 'against')
-  const off = config.cards.filter((c) => c.side === 'neither').length
-  const leftOff = off > 0 ? ` ${plural(off, 'card bears', 'cards bear')} on nothing in the claim, so ${off === 1 ? 'it stays' : 'they stay'} off the scale.` : ''
-  const lean = f === a ? 'The two pans weigh the same' : f > a ? `The scale tips towards the claim, ${f} to ${a}` : `The scale tips against the claim, ${a} to ${f}`
-  return `Yes. Every card is on the side it points to.${leftOff} ${lean}. Weighing is a judgement, though: a strong card can outweigh two weak ones, and a good argument says why.`
+  const lean = f === a ? 'They weigh the same' : f > a ? `It tips towards the claim, ${f} to ${a}` : `It tips against the claim, ${a} to ${f}`
+  return `Yes. Every card is on its side. ${lean}: weighing is a judgement.`
 }
 
 export function madeText(config: ArgConfig, state: ArgState): string {
@@ -102,9 +100,7 @@ export function madeText(config: ArgConfig, state: ArgState): string {
   const placed = put.filter(Boolean).length
   const wrong = wrongCards(config, state).length
   if (placed === 0) return 'Nothing is on the scale yet.'
-  const left = put.filter((p) => p === 'for').length
-  const right = placed - left
-  return `${plural(wrong, 'card is', 'cards are')} not where the evidence puts ${wrong === 1 ? 'it' : 'them'}. You have ${plural(left, 'card', 'cards')} on the supporting pan and ${plural(right, 'card', 'cards')} on the opposing pan.`
+  return `${plural(wrong, 'card is', 'cards are')} not where the evidence puts ${wrong === 1 ? 'it' : 'them'}.`
 }
 
 export const sideName = (s: Side) => (s === 'for' ? 'Supports' : s === 'against' ? 'Against' : 'Off topic')
