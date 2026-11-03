@@ -5,9 +5,10 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { ReactFlowProvider } from '@xyflow/react'
 import {
   fairTestEngine as engine, FACTORS, FACTOR_INFO, FLAWS, REPEAT_FACTORS, RUNS_MAX, RUNS_NEEDED,
-  differing, distances, done, fairNow, goodPrompt, laneA, laneB, leader, madeText, meanOf, nextFactor, runsDone, truth, working,
+  differing, distances, done, rollDistance, fairNow, goodPrompt, laneA, laneB, leader, madeText, meanOf, nextFactor, runsDone, truth, working,
   type FairConfig, type FairState,
 } from './config'
+import type { Setup } from './config'
 import { FLOOR, FOOT, HALF, K, LANE_H, LANE_Y, PXCM, RAMP_THICK, BOOK, SLAB, W, H, X0, FairTestView, dotAt, poseAt, poseOnFloor, poseOnRamp, rampOf } from './View'
 import { getEngine, sceneCatalogue, scenesFor } from '../registry'
 import { ActivityNode } from '@/components/studylab/activities/ActivityNode'
@@ -159,9 +160,10 @@ describe('what is said once marked', () => {
   it('right: says what the learner found, in the words of the lesson', () => {
     const plan = working({ task: 'plan', change: 'height' }, { diff: ['height'] })
     expect(plan).toMatch(/^Yes\. Lane B changes only the ramp height\./)
-    expect(plan).toMatch(/Car load, ramp surface and floor surface stay the same/)
+    expect(plan).toMatch(/Lane A rolled 60 cm and lane B 82 cm, and as the rest stay the same/)
     const load = working({ task: 'plan', change: 'load' }, { diff: ['load'] })
-    expect(load).toMatch(/Ramp height, ramp surface and floor surface stay the same/)
+    expect(load).toMatch(/lane B 70 cm/)
+    expect(load).toMatch(/not which change caused it/)
     const rep = working({ task: 'repeat', change: 'height' }, { runs: 3 })
     expect(rep).toMatch(/^Yes\. 3 runs: lane A averaged 64 cm and lane B 74 cm\./)
     expect(rep).toMatch(/first run put lane A ahead/)
@@ -358,6 +360,60 @@ describe('when the tutor is shown it', () => {
   })
 })
 
+describe('how far the cars roll when let go', () => {
+  const setups = (): Setup[] => Array.from({ length: 16 }, (_, b) => ({ books: b & 1 ? 4 : 2, load: !!(b & 2), sandpaper: !!(b & 4), carpet: !!(b & 8) }) as Setup)
+
+  it('goes the way the science says, factor by factor, from any starting point', () => {
+    for (const s of setups()) {
+      expect(rollDistance({ ...s, books: 4 }), 'higher ramp further').toBeGreaterThan(rollDistance({ ...s, books: 2 }))
+      expect(rollDistance({ ...s, load: true }), 'load, in this model, further').toBeGreaterThan(rollDistance({ ...s, load: false }))
+      expect(rollDistance({ ...s, sandpaper: true }), 'sandpaper shorter').toBeLessThan(rollDistance({ ...s, sandpaper: false }))
+      expect(rollDistance({ ...s, carpet: true }), 'carpet shorter').toBeLessThan(rollDistance({ ...s, carpet: false }))
+    }
+  })
+
+  it('each change is a clear gap on the ruler, and the biggest case stays on it', () => {
+    for (const s of setups()) {
+      const d = rollDistance(s)
+      expect(Number.isInteger(d)).toBe(true)
+      expect(d).toBeGreaterThan(10)
+      expect(d).toBeLessThanOrEqual(92)
+      expect(FOOT + d * PXCM).toBeLessThan(FOOT + 100 * PXCM)
+    }
+    for (const f of FACTORS) {
+      const b = laneB({ task: 'plan', change: f }, { diff: [f] })
+      expect(Math.abs(rollDistance(b) - rollDistance(laneA)) * PXCM, f).toBeGreaterThanOrEqual(15)
+    }
+    expect(rollDistance(laneA)).toBe(60)
+  })
+
+  it('rolling is not marking: the state it adds changes no verdict', () => {
+    for (const c of [...PLANS, ...FIXES]) {
+      for (const s of subsets()) expect(engine.check(c, { ...s, rolled: 3 }).ok).toBe(engine.check(c, s).ok)
+    }
+  })
+
+  it('an unfair setup still shows a gap, which is why the right card says it cannot name the cause', () => {
+    const s = laneB({ task: 'plan', change: 'height' }, { diff: ['height', 'carpet'] })
+    expect(rollDistance(s)).not.toBe(rollDistance(laneA))
+  })
+
+  it('the card has a Let go button, cars start at the top, and after letting go they have stopped with markers', () => {
+    const c: FairConfig = { task: 'plan', change: 'height' }
+    const view = (s: FairState, marked: 'idle' | 'right' = 'idle', reduced = true) =>
+      renderToStaticMarkup(createElement(FairTestView, { config: c, state: s, setState: () => {}, marked, reduced, locked: marked === 'right' }))
+    const before = view({ diff: [] })
+    expect(before).toMatch(/aria-label="Let go of both cars"/)
+    expect(before).not.toContain('data-stops')
+    const after = view({ diff: ['height'], rolled: 1 })
+    expect(after).toContain('data-stops')
+    expect(after).not.toBe(view({ diff: ['height'] }))
+    // Marked right, a still card shows the result of the test, and no answer before then.
+    expect(view({ diff: ['height'] }, 'right')).toContain('data-stops')
+    expect(before.replace(/<[^>]*>/g, ' ')).not.toMatch(/\d+ cm and/)
+  })
+})
+
 describe('the drawing', () => {
   it('View constants agree with the config', () => {
     expect(W).toBe(360)
@@ -459,7 +515,7 @@ describe('the scene on the board', { timeout: 30_000 }, () => {
 
   it('names what it draws, on the card, before marking', () => {
     const plan = text(raw({ task: 'plan', change: 'height' }, { diff: [] }, 'idle'))
-    for (const name of ['Lane A', 'Lane B', 'Ramp height', 'Car load', 'Ramp surface', 'Floor surface', '2 books', '4 books', 'empty', '2 blocks', 'smooth card', 'sandpaper', 'wood', 'carpet', 'cm']) expect(plan).toContain(name)
+    for (const name of ['Lane A', 'Lane B', 'Let go', 'Ramp height', 'Car load', 'Ramp surface', 'Floor surface', '2 books', '4 books', 'empty', '2 blocks', 'smooth card', 'sandpaper', 'wood', 'carpet', 'cm']) expect(plan).toContain(name)
     const rep = text(raw({ task: 'repeat', change: 'floor' }, { runs: 2 }, 'idle'))
     for (const name of ['Lane A', 'Lane B', 'Runs', 'Roll both cars', 'Clear', 'dot']) expect(rep).toContain(name)
     expect(rep).not.toContain('Ramp height')
@@ -468,10 +524,10 @@ describe('the scene on the board', { timeout: 30_000 }, () => {
   it('the buttons are real buttons with labels, every one, and state which is chosen', () => {
     const html = raw({ task: 'plan', change: 'height' }, { diff: ['height'] }, 'idle')
     const buttons = [...html.matchAll(/<button[^>]*>/g)].map((m) => m[0])
-    expect(buttons).toHaveLength(8)
+    expect(buttons).toHaveLength(9)
     for (const b of buttons) {
       expect(b).toMatch(/aria-label="[^"]+"/)
-      expect(b).toMatch(/aria-pressed="(true|false)"/)
+      if (!/Let go/.test(b)) expect(b).toMatch(/aria-pressed="(true|false)"/)
     }
     expect(html).toMatch(/aria-label="Lane B ramp height: 4 books"[^>]*>/)
     expect(html.match(/aria-pressed="true"/g)).toHaveLength(4)

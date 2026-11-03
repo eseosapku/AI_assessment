@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { SceneViewProps } from '../types'
 import type { FairConfig, FairState } from './config'
-import { FACTORS, FACTOR_INFO, RUNS_MAX, differing, distances, fairTestEngine, laneA, laneB, madeText, meanOf, runsDone, working } from './config'
+import { FACTORS, FACTOR_INFO, RUNS_MAX, differing, distances, fairTestEngine, laneA, laneB, madeText, meanOf, rollDistance, runsDone, working } from './config'
 import type { Setup } from './config'
 
 type Props = SceneViewProps<FairConfig, FairState>
@@ -31,7 +31,7 @@ const DOT = '#1F2937'
 
 // The bench, in view units (the plate is 360 wide). Lane geometry is lane-local: y runs down from the lane's top.
 export const W = 360
-export const H = 236
+export const H = 240
 export const LANE_H = 98
 export const LANE_Y = [6, 106]
 export const FLOOR = 64
@@ -214,7 +214,7 @@ function Lane({ index, name, setup, pose, dots, mean }: {
   )
 }
 
-function Ruler() {
+function Ruler({ marks: stops }: { marks: { a: number; b: number } | null }) {
   const y = 208
   const marks = Array.from({ length: 11 }, (_, i) => i * 10)
   return (
@@ -227,6 +227,12 @@ function Ruler() {
         {marks.filter((cm) => cm % 20 === 0).map((cm) => <text key={cm} x={FOOT + cm * PXCM} y={y + 17}>{cm}</text>)}
       </g>
       <text x={330} y={y + 17} fontSize={12} fontWeight={700} fill={SOFT}>cm</text>
+      {stops && (
+        <g data-stops="1">
+          <path d={`M ${f1(FOOT + stops.a * PXCM - 5)} ${y - 8} h 10 l -5 8 Z`} fill={INK} />
+          <path d={`M ${f1(FOOT + stops.b * PXCM - 5)} ${y + 28} h 10 l -5 -8 Z`} fill={ACCENT} />
+        </g>
+      )}
     </g>
   )
 }
@@ -234,7 +240,7 @@ function Ruler() {
 // ---------------------------------------------------------------------------
 // The roll: a car goes down its ramp once for each run.
 
-function useRoll(runs: number, reduced: boolean): number | null {
+function useRoll(runs: number, reduced: boolean, ms: number): number | null {
   const [anim, setAnim] = useState<{ run: number; u: number } | null>(null)
   const prev = useRef(runs)
   useEffect(() => {
@@ -243,7 +249,7 @@ function useRoll(runs: number, reduced: boolean): number | null {
       const start = performance.now()
       let raf = 0
       const tick = (t: number) => {
-        const u = Math.max(0, Math.min(1, (t - start) / 1700))
+        const u = Math.max(0, Math.min(1, (t - start) / ms))
         setAnim({ run: runs, u })
         if (u < 1) raf = requestAnimationFrame(tick)
       }
@@ -251,7 +257,7 @@ function useRoll(runs: number, reduced: boolean): number | null {
       return () => cancelAnimationFrame(raf)
     }
     prev.current = runs
-  }, [runs, reduced])
+  }, [runs, reduced, ms])
   return anim && anim.run === runs && anim.u < 1 ? anim.u : null
 }
 
@@ -270,16 +276,23 @@ export function FairTestView({ config, state, setState, marked, reduced, locked 
   const a = laneA
   const b = laneB(config, now)
   const runs = runsDone(config, now)
-  const u = useRoll(runs, reduced)
   const finished = marked === 'right' || marked === 'shown'
+  const rolled = repeat ? 0 : Math.max(0, Math.floor(Number(now?.rolled) || 0))
+  // A bench rolls when let go, and once more by itself when marked right.
+  const u = useRoll(repeat ? runs : rolled + (finished ? 1000 : 0), reduced, repeat ? 1700 : 2400)
+  const gone = !repeat && (rolled > 0 || finished)
+  const stopAt = { a: rollDistance(a), b: rollDistance(b) }
   const frozen = locked || finished
   const change = FACTORS.includes(config.change as never) ? config.change : 'height'
   const data = distances(change, runs)
 
-  const settled = u === null ? runs : runs - 1
+  const settled = repeat && u !== null ? runs - 1 : runs
   const dotsOf = (rows: number[]) => rows.slice(0, settled).map((d, run) => ({ d, run }))
-  const restPose = (s: Setup, rows: number[]): Pose => (runs === 0 ? poseOnRamp(s.books, T_START) : poseOnFloor(rows[runs - 1]))
-  const poseOf = (s: Setup, rows: number[]): Pose => (u !== null && runs > 0 ? poseAt(s.books, rows[runs - 1], u) : restPose(s, rows))
+  const restPose = (s: Setup, rows: number[], d: number): Pose => (repeat ? (runs === 0 ? poseOnRamp(s.books, T_START) : poseOnFloor(rows[runs - 1])) : gone ? poseOnFloor(d) : poseOnRamp(s.books, T_START))
+  const poseOf = (s: Setup, rows: number[], d: number): Pose => {
+    if (u === null) return restPose(s, rows, d)
+    return repeat ? poseAt(s.books, rows[runs - 1], u) : poseAt(s.books, d, u)
+  }
   const meanA = marked !== 'idle' && repeat && runs > 0 ? meanOf(data.a) : null
   const meanB = marked !== 'idle' && repeat && runs > 0 ? meanOf(data.b) : null
 
@@ -287,6 +300,10 @@ export function FairTestView({ config, state, setState, marked, reduced, locked 
     if (frozen) return
     const rest = differing(config, now).filter((x) => x !== f)
     setState({ diff: on ? [...rest, f] : rest })
+  }
+  const letGo = () => {
+    if (frozen) return
+    setState({ diff: differing(config, now), rolled: rolled + 1 })
   }
   const roll = () => {
     if (frozen || runs >= RUNS_MAX) return
@@ -305,16 +322,17 @@ export function FairTestView({ config, state, setState, marked, reduced, locked 
       <figure className="m-0 flex w-full flex-col gap-1.5">
         <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={describe(a, b, runs, repeat)} className="block h-auto w-full select-none">
           <rect x={0.75} y={0.75} width={W - 1.5} height={H - 1.5} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
-          <Lane index={0} name="A" setup={a} pose={poseOf(a, data.a)} dots={dotsOf(data.a)} mean={meanA} />
+          <Lane index={0} name="A" setup={a} pose={poseOf(a, data.a, stopAt.a)} dots={dotsOf(data.a)} mean={meanA} />
           <line x1={16} x2={344} y1={103} y2={103} stroke="#E2E8F0" strokeWidth={1} />
-          <Lane index={1} name="B" setup={b} pose={poseOf(b, data.b)} dots={dotsOf(data.b)} mean={meanB} />
-          <Ruler />
+          <Lane index={1} name="B" setup={b} pose={poseOf(b, data.b, stopAt.b)} dots={dotsOf(data.b)} mean={meanB} />
+          <Ruler marks={gone && u === null ? stopAt : null} />
         </svg>
-        <figcaption className="text-center text-[12px] font-semibold leading-snug text-ss-slate">
-          {repeat
-            ? 'Each dot marks where a car stopped. Cars are let go, not pushed.'
-            : 'Lane A stays as it is. Cars are let go, not pushed.'}
-        </figcaption>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-[12px] font-semibold leading-snug text-ss-slate">
+            {repeat ? 'Each dot marks where a car stopped. Cars are let go, not pushed.' : 'Lane A stays as it is. Cars are let go, not pushed. Triangles on the ruler mark where each stopped.'}
+          </p>
+          {!repeat && <button type="button" aria-label="Let go of both cars" disabled={frozen} onClick={letGo} className={action}>Let go</button>}
+        </div>
       </figure>
 
       {repeat ? (

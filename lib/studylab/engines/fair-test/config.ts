@@ -79,7 +79,12 @@ export type FairConfig =
   | { task: 'repeat'; change: string }
 
 /** What the learner has done: the factors lane B differs in, or the runs rolled so far. */
-export type FairState = { diff?: string[]; runs?: number }
+export type FairState = {
+  diff?: string[]
+  runs?: number
+  /** plan and fix: how many times the cars have been let go since the settings last changed. Never read by marking. */
+  rolled?: number
+}
 
 const has = (o: object, k: string | number) => Object.prototype.hasOwnProperty.call(o, k)
 export const isFactor = (s: string): s is FactorId => (FACTORS as readonly string[]).includes(s)
@@ -102,6 +107,16 @@ export const laneA: Setup = { books: 2, load: false, sandpaper: false, carpet: f
 export function laneB(config: FairConfig, state: FairState): Setup {
   const d = differing(config, state)
   return { books: d.includes('height') ? 4 : 2, load: d.includes('load'), sandpaper: d.includes('ramp'), carpet: d.includes('floor') }
+}
+
+/**
+ * How far a car rolls past the foot of its ramp, in whole cm, for the plan and fix benches. A simple MODEL made for the
+ * card, not measured data: a higher ramp gives more speed at the foot (+22); sandpaper on the ramp robs some of it (-12)
+ * and carpet slows the car far more than wood (-24); a loaded car keeps more of its momentum against the same small drag
+ * (+10). The effects add. Every setup lands between 24 and 92 cm, on the 100 cm ruler. It says nothing about fairness.
+ */
+export function rollDistance(s: Setup): number {
+  return 60 + (s.books === 4 ? 22 : 0) + (s.load ? 10 : 0) - (s.sandpaper ? 12 : 0) - (s.carpet ? 24 : 0)
 }
 
 // ---------------------------------------------------------------------------
@@ -174,8 +189,8 @@ export function working(config: FairConfig, state: FairState): string {
     const word = FACTOR_INFO[f].lower
     return `Yes. ${say(n, 'run', 'runs')}: lane A averaged ${meanOf(a)} cm and lane B ${meanOf(b)} cm. The very first run put lane ${first} ahead, which was chance. Repeating the test and taking the average evens that out, so the difference left is the ${word}.`
   }
-  const rest = FACTORS.filter((x) => x !== f).map((x) => FACTOR_INFO[x].lower)
-  return `Yes. Lane B changes only the ${FACTOR_INFO[f].lower}. That is what you change, and the distance rolled is what you measure. ${rest[0][0].toUpperCase()}${rest[0].slice(1)}, ${rest[1]} and ${rest[2]} stay the same, so none of them can explain a difference.`
+  const info = FACTOR_INFO[f]
+  return `Yes. Lane B changes only the ${info.lower}. Lane A rolled ${rollDistance(laneA)} cm and lane B ${rollDistance(laneB(config, state))} cm, and as the rest stay the same, the ${info.lower} explains the gap. An unfair setup shows a gap too, but not which change caused it.`
 }
 
 /** What a wrong card says: what the learner made, never what it should be. */
@@ -349,7 +364,7 @@ export const fairTestEngine: SceneEngine<FairConfig, FairState> = {
 
   View: FairTestView,
 
-  prompt: `SCENE "fair-test" -- a real experiment on a bench, drawn on a quiet light panel: two toy-car ramps side by side, lane A above lane B, each ramp on a stack of books with a small red pickup truck at the top, rolling onto a floor, with one ruler in centimetres below. The learner never reads a table: they handle the apparatus. Every move changes the drawing at once: books go under a ramp, two grey blocks onto a car, sandpaper onto the ramp, carpet onto the floor. Both cars are let go, never pushed, and the distance each rolls is what is measured.
+  prompt: `SCENE "fair-test" -- a real experiment on a bench, drawn on a quiet light panel: two toy-car ramps side by side, lane A above lane B, each ramp on a stack of books with a small red pickup truck at the top, rolling onto a floor, with one ruler in centimetres below. The learner never reads a table: they handle the apparatus. Every move changes the drawing at once: books go under a ramp, two grey blocks onto a car, sandpaper onto the ramp, carpet onto the floor. Both cars are let go, never pushed, and the distance each rolls is what is measured. In plan and fix a quiet Let go button rolls both cars down and along the floor, and a marker on the ruler shows where each stopped; moving any setting brings them back to the top. Rolling never says whether the test is fair: an unfair setup shows a gap too, but not which change caused it. When the card is marked right the cars roll once by themselves.
   For: planning a fair test, the variable you change, the variable you measure and the variables you keep the same (control variables), and repeating a test so the result can be trusted (repeat readings, reliability). It answers "a fair test is where everyone gets a turn", "change a few things to be sure" and "one go is enough".
   plan: lane A is set, and lane B starts exactly like lane A. Four rows of two buttons set what lane B has: ramp height (2 books or 4 books), car load (empty or 2 blocks), ramp surface (smooth card or sandpaper) and floor surface (wood or carpet). The learner sets lane B up as a fair test of the factor named in the prompt. change: height, load, ramp or floor.
   fix: the same bench, but lane B starts set up unfairly. change: as above. flaw: extra (the factor and one other differ; the default) or swapped (only a different factor differs, the wrong one). The learner mends it.
