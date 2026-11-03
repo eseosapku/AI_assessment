@@ -91,7 +91,18 @@ export function targetFoot(config: Extract<TrigConfig, { task: 'ladder' }>): num
   return config.ask === 'out' ? config.value * 10 : Math.sqrt(Math.max(0, L * L - config.value * config.value)) * 10
 }
 
-export const ladderOk = (config: Extract<TrigConfig, { task: 'ladder' }>, d10: number) => Math.abs(d10 - targetFoot(config)) <= 0.5 + 1e-9
+/** How close, in metres, the asked reach (the top's height, or the foot's distance out) must be to the mark to count: what a learner can see. */
+export const LADDER_TOLERANCE = 0.15
+
+/** The asked quantity at a foot position: how high the top is, or how far out the foot stands. */
+export const askedAt = (config: Extract<TrigConfig, { task: 'ladder' }>, d10: number) => (config.ask === 'out' ? d10 / 10 : topAt(config.length, d10))
+
+export const ladderOk = (config: Extract<TrigConfig, { task: 'ladder' }>, d10: number) => Math.abs(askedAt(config, d10) - config.value) <= LADDER_TOLERANCE + 1e-9
+
+/** A drag that lands within the tolerance settles on the exact foot, so the learner feels it land. */
+export function snapFoot(config: Extract<TrigConfig, { task: 'ladder' }>, d10: number): number {
+  return ladderOk(config, d10) ? Math.max(1, Math.min(footMax(config.length), Math.round(targetFoot(config)))) : d10
+}
 
 /** The angle the task is after, in degrees. */
 export function targetAngle(config: Extract<TrigConfig, { task: 'ladder' }>): number {
@@ -233,6 +244,14 @@ export function working(config: TrigConfig, state: TrigState): string {
     const L = config.length
     const v = config.value
     const deg = fmtDeg(targetAngle(config))
+    const d10 = footOf(config, state)
+    const got = round1(askedAt(config, d10))
+    const upNow = fmtM(round1(topAt(L, d10)))
+    if (Math.abs(askedAt(config, d10) - v) >= 0.05) {
+      const exactFoot = fmtM(Math.round(Math.sqrt(Math.max(0, L * L - v * v)) * 100) / 100)
+      if (config.ask === 'out') return `Near enough: the foot is ${fmtM(got)} m out and the top is ${upNow} m up. The exact answer is ${fmtM(v)} m: cos θ = ${fmtM(v)}/${fmtM(L)}, so the ladder leans at ${deg}°.`
+      return `Near enough: at ${fmtM(d10 / 10)} m the top is ${fmtM(got)} m. The exact answer is ${exactFoot} m: sin θ = ${fmtM(v)}/${fmtM(L)}, so the ladder leans at ${deg}°.`
+    }
     if (config.ask === 'out') {
       const r = fmtM(v / L)
       const up = fmtM(round1(Math.sqrt(Math.max(0, L * L - v * v))))

@@ -72,6 +72,8 @@ export const apart = (a: number, b: number) => Math.abs(wrap(a - b))
 
 /** How close the ray must come to the middle of the eye, in degrees, to count as reaching it. */
 export const AIM = 5
+/** The mirror turns the ray twice as far as it turns itself, so a hand has to land it within half this: 4 degrees of mirror. */
+export const MIRROR_AIM = 8
 
 // ---------------------------------------------------------------------------
 // The mirror: lamp and eye stay put; the mirror turns about the point the ray strikes.
@@ -182,7 +184,7 @@ export const U_MIN = 6
 export const U_MAX = 31
 export const SIZE = { lo: 0.5, hi: 2.5 }
 /** The rays from the tip of the flame count as met when they land within this of each other's middle, in cm. */
-export const SHARP = 1
+export const SHARP = 2
 
 export const screenAt = (size: number) => FOCAL * (1 + size)
 export const candleFor = (size: number) => FOCAL * (1 + 1 / size)
@@ -222,7 +224,7 @@ export const madeU = (config: Extract<LightConfig, { task: 'lens' }>, state: Lig
 export function reached(config: LightConfig, state: LightState): boolean {
   if (config.task === 'mirror') {
     const turn = madeTurn(config, state)
-    return Math.abs(mirrorIn(turn)) < 90 && apart(mirrorOut(turn), mirrorEye(config.target)) <= AIM
+    return Math.abs(mirrorIn(turn)) < 90 && apart(mirrorOut(turn), mirrorEye(config.target)) <= MIRROR_AIM
   }
   if (config.task === 'lens') return blur(madeU(config, state), screenAt(config.size)) <= SHARP
   const t = trace(madeLamp(config, state), indexOf(config.material))
@@ -250,11 +252,13 @@ function timesTall(m: number): string {
 export function working(config: LightConfig, state: LightState): string {
   if (config.task === 'mirror') {
     const i = Math.abs(mirrorIn(madeTurn(config, state)))
-    return `Yes. In at ${i}° to the normal, out at ${i}°: the angle in always equals the angle out. Measure from the normal, not the mirror's surface, which would give ${90 - i}°.`
+    const lead = i === config.target ? 'Yes.' : `Near enough: the exact answer is ${config.target}°.`
+    return `${lead} In at ${i}° to the normal, out at ${i}°: the angle in always equals the angle out. Measure from the normal, not the mirror's surface, which would give ${90 - i}°.`
   }
   if (config.task === 'lens') {
     const v = screenAt(config.size)
-    return `Yes. All the rays from the tip of the flame, through every part of the lens, meet at one point on the screen. The picture is upside down and ${timesTall(config.size)} the candle. 1/u + 1/v = 1/f: 1/${one(candleFor(config.size))} + 1/${one(v)} = 1/${FOCAL}.`
+    const lead = Math.abs(madeU(config, state) - candleFor(config.size)) <= 0.25 ? 'Yes.' : `Near enough: the sharpest place is ${one(candleFor(config.size))} cm from the lens.`
+    return `${lead} All the rays from the tip of the flame, through every part of the lens, meet at one point on the screen. The picture is upside down and ${timesTall(config.size)} the candle. 1/u + 1/v = 1/f: 1/${one(candleFor(config.size))} + 1/${one(v)} = 1/${FOCAL}.`
   }
   const n = indexOf(config.material)
   const t = trace(madeLamp(config, state), n)

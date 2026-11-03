@@ -54,7 +54,7 @@ export const START_MAX = 100000
 export const HALF_LIFE_MAX = 99999
 /** A bead's height, in sixty-fourths of the start, and how close to the true value it has to be. */
 export const LEVELS = 64
-export const BEAD_TOLERANCE = 2
+export const BEAD_TOLERANCE = 3
 
 export const MEASURES = ['nuclei', 'counts/min', 'counts/s', 'Bq'] as const
 export type Measure = (typeof MEASURES)[number]

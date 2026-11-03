@@ -4,7 +4,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { ReactFlowProvider } from '@xyflow/react'
 import {
-  lightEngine as engine, AIM, APERTURE, CANDLE, FOCAL, LAMP_AT, MATERIALS, MIRROR_TARGET, SHARP, SIZE, TURN_MAX, TURN_MIN, U_MAX, U_MIN,
+  lightEngine as engine, AIM, MIRROR_AIM, APERTURE, CANDLE, FOCAL, LAMP_AT, MATERIALS, MIRROR_TARGET, SHARP, SIZE, TURN_MAX, TURN_MIN, U_MAX, U_MIN,
   apart, blur, candleFor, criticalAngle, glassEye, glassRange, indexOf, landing, madeText, meetAt, mirrorEye, mirrorIn, mirrorOut, mirrorSolved,
   reflectedShare, screenAt, trace, working, wrap, type LightConfig, type LightState,
 } from './config'
@@ -167,8 +167,8 @@ describe('every configuration', { timeout: 30_000 }, () => {
       expect(mirrorOut(best)).toBe(mirrorEye(c.target))
       expect(Math.abs(mirrorIn(best))).toBe(c.target)
       const good = range(TURN_MIN, TURN_MAX).filter((turn) => engine.check(c, { turn }).ok)
-      for (const turn of good) expect(apart(mirrorOut(turn), mirrorEye(c.target))).toBeLessThanOrEqual(AIM)
-      for (const turn of range(TURN_MIN, TURN_MAX).filter((t) => !good.includes(t))) expect(apart(mirrorOut(turn), mirrorEye(c.target))).toBeGreaterThan(AIM)
+      for (const turn of good) expect(apart(mirrorOut(turn), mirrorEye(c.target))).toBeLessThanOrEqual(MIRROR_AIM)
+      for (const turn of range(TURN_MIN, TURN_MAX).filter((t) => !good.includes(t))) expect(apart(mirrorOut(turn), mirrorEye(c.target))).toBeGreaterThan(MIRROR_AIM)
     }
   })
 

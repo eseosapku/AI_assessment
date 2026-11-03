@@ -4,12 +4,12 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { ReactFlowProvider } from '@xyflow/react'
 import {
-  thermalTransferEngine as engine, BARE, BEAD_MAX, BEAD_MIN, BEAD_START, DIFFUSIVITY, FOIL_RAYS, LID_TOP, LOSS, MATERIALS, MINUTES_MAX, MINUTES_MIN, PARTS, ROD_CM, ROOM, START, TARGETS, WOOL_MAX,
-  beadsOf, bestBeads, bestWrapping, clock, dropSeconds, erfc, fewestParts, goodPrompt, heatFraction, holds, horizonOf, lossOf, madeText, partsUsed, tempAt, together, working, wrappingOf, wrappings,
+  thermalTransferEngine as engine, BARE, BEAD_AT, CONDUCTIVITY, DIFFUSIVITY, FOIL_RAYS, LID_TOP, LOSS, MATERIALS, MINUTES_MAX, MINUTES_MIN, PARTS, ROD_CM, ROOM, START, TARGETS, WOOL_MAX,
+  bestWrapping, clock, correctOrder, orderOf, raceEnd, startOrder, dropSeconds, erfc, fewestParts, goodPrompt, heatFraction, holds, lossOf, madeText, partsUsed, tempAt, working, wrappingOf, wrappings,
   type BeadsConfig, type ThermalConfig, type ThermalState, type WrapConfig, type Wrapping,
 } from './config'
 import {
-  BASE, BEADS_LABELS, BMAX, BMIN, CX, FOIL_W, GLASS_W, H, HALF, LAYER, LID_Y, PX, RIM, RODS, THERMO, W, WOOLS, WOOL_TOP, WRAP_H, WRAP_LABELS, X0, ThermalTransferView, rowsOf,
+  AT, BASE, BEADS_LABELS, CX, FOIL_W, GLASS_W, H, HALF, LAYER, LID_Y, PX, RIM, RODS, THERMO, W, WOOLS, WOOL_TOP, WRAP_H, WRAP_LABELS, X0, ThermalTransferView, rowsOf,
 } from './View'
 import { getEngine, sceneCatalogue, scenesFor } from '../registry'
 import { ActivityNode } from '@/components/studylab/activities/ActivityNode'
@@ -46,7 +46,7 @@ const holdsByTemperature = (c: WrapConfig, w: Wrapping) => {
 }
 
 const CATALOGUE_EXAMPLES: [ThermalConfig, string][] = [
-  [beadsCfg(['brass', 'copper', 'iron']), 'Slide each ball along its rod so that all the balls drop at the same moment. Touching a ball puts it back, and the clock runs again when you let go.'],
+  [beadsCfg(['brass', 'copper', 'iron']), 'Heat the rods and watch the balls drop, then put the metals in order, best conductor first.'],
   [beadsCfg(['copper', 'iron']), goodPrompt(beadsCfg(['copper', 'iron']))],
   [wrapCfg('hot', 30, 50, ['wool', 'lid', 'foil']), 'Add wool, a lid or foil to the cup. Keep the water above 50 °C for 30 minutes, with as few parts as you can.'],
   [wrapCfg('cold', 30, 10, ['wool', 'lid', 'foil']), 'Add wool, a lid or foil to the cup. Keep the drink below 10 °C for 30 minutes, with as few parts as you can.'],
@@ -81,16 +81,21 @@ describe('the rods, from first principles', () => {
     expect(heatFraction(3, 'iron', 120)).toBeGreaterThan(heatFraction(9, 'iron', 120))
   })
 
-  it('"together" is a whole-number test, on x squared over a', () => {
-    expect(together(['copper', 'iron'], { copper: 11, iron: 5 })).toBe(true)
-    expect(together(['copper', 'iron'], { copper: 7, iron: 7 })).toBe(false)
-    expect(together(['copper', 'iron'], { copper: 5, iron: 11 })).toBe(false)
-    expect(together(['brass', 'iron'], { brass: 6, iron: 7 })).toBe(false)
+  it('the race order is the conductivity order: the balls drop in the order the marking asks for, and far enough apart to see', () => {
+    for (const c of VALID_BEADS) {
+      const byRace = [...c.rods].sort((a, b) => dropSeconds(BEAD_AT, a) - dropSeconds(BEAD_AT, b))
+      expect(byRace, c.rods.join()).toEqual(correctOrder(c.rods))
+      const times = byRace.map((r) => dropSeconds(BEAD_AT, r))
+      for (let i = 0; i + 1 < times.length; i++) expect(times[i + 1] / times[i]).toBeGreaterThan(1.4)
+    }
+    expect(CONDUCTIVITY.copper).toBeGreaterThan(CONDUCTIVITY.aluminium)
+    expect(CONDUCTIVITY.aluminium).toBeGreaterThan(CONDUCTIVITY.brass)
+    expect(CONDUCTIVITY.brass).toBeGreaterThan(CONDUCTIVITY.iron)
   })
 
-  it('the longest clock a rod set needs is the slowest bead at the end of the rod, to the half minute', () => {
-    expect(horizonOf(['iron', 'copper'])).toBe(Math.ceil(dropSeconds(BEAD_MAX, 'iron') / 30) * 30)
-    expect(horizonOf(['copper', 'brass'])).toBeLessThan(horizonOf(['copper', 'iron']))
+  it('the race runs until the slowest ball has dropped, and the clock reads m:ss', () => {
+    expect(raceEnd(['iron', 'copper'])).toBeCloseTo(dropSeconds(BEAD_AT, 'iron') * 1.06, 9)
+    expect(raceEnd(['copper', 'brass'])).toBeLessThan(raceEnd(['copper', 'iron']))
     expect(clock(0)).toBe('0:00')
     expect(clock(95)).toBe('1:35')
   })
@@ -166,50 +171,28 @@ describe('every configuration', { timeout: 60_000 }, () => {
     }
   })
 
-  it('beads: marks exactly by the rule over every placing, against an independent count from the clock', () => {
+  it('beads: marks exactly the one order, over every order the learner can make', () => {
+    const perms = (xs: string[]): string[][] => (xs.length <= 1 ? [xs] : xs.flatMap((x, i) => perms([...xs.slice(0, i), ...xs.slice(i + 1)]).map((p) => [x, ...p])))
     for (const c of VALID_BEADS) {
-      const n = c.rods.length
-      const total = BEAD_MAX ** n
+      const all = perms(c.rods)
       let right = 0
-      for (let k = 0; k < total; k++) {
-        const at: Record<string, number> = {}
-        let rest = k
-        for (const r of c.rods) {
-          at[r] = (rest % BEAD_MAX) + 1
-          rest = Math.floor(rest / BEAD_MAX)
-        }
-        const times = c.rods.map((r) => dropSeconds(at[r], r))
-        const spread = Math.max(...times) / Math.min(...times)
-        // Leave out a hair either side of the line, where a float and a whole-number test could differ.
-        if (Math.abs(spread - 1.1) < 1e-9) continue
-        const ok = engine.check(c, { beads: at }).ok
-        expect(ok, `${c.rods} ${JSON.stringify(at)}`).toBe(spread < 1.1)
+      for (const order of all) {
+        const ok = engine.check(c, { order }).ok
         if (ok) right++
+        expect(ok, `${c.rods} ${order}`).toBe(order.join() === [...c.rods].sort((a, b) => DIFFUSIVITY[b as keyof typeof DIFFUSIVITY] - DIFFUSIVITY[a as keyof typeof DIFFUSIVITY]).join())
       }
-      // There is a good number of ways to be right, but far from all of them.
-      expect(right, c.rods.join()).toBeGreaterThan(0)
-      expect(right, c.rods.join()).toBeLessThan(total / 3)
+      expect(right).toBe(1)
     }
   })
 
-  it('beads: every placing that fits is reachable from the start by moving balls one centimetre at a time', () => {
+  it('beads: the stand starts in a fixed order that is never the answer, for any rods', () => {
     for (const c of VALID_BEADS) {
-      const want = bestBeads(c.rods)
-      for (const r of c.rods) {
-        expect(want[r]).toBeGreaterThanOrEqual(BEAD_MIN)
-        expect(want[r]).toBeLessThanOrEqual(BEAD_MAX)
-      }
-      // Slower metals sit nearer the bath: the order of distances is the order of diffusivities.
-      const order = [...c.rods].sort((a, b) => DIFFUSIVITY[b as keyof typeof DIFFUSIVITY] - DIFFUSIVITY[a as keyof typeof DIFFUSIVITY])
-      for (let i = 0; i + 1 < order.length; i++) expect(want[order[i]]).toBeGreaterThanOrEqual(want[order[i + 1]])
+      expect(startOrder(c.rods)).not.toEqual(correctOrder(c.rods))
+      expect([...startOrder(c.rods)].sort()).toEqual([...c.rods].sort())
+      expect(engine.initial(c)).toEqual({ order: startOrder(c.rods) })
     }
   })
 
-  it('beads: no start is already the answer, whatever the start is', () => {
-    for (const c of VALID_BEADS) {
-      expect(together(c.rods, Object.fromEntries(c.rods.map((r) => [r, BEAD_START])))).toBe(false)
-    }
-  })
 
   it('wrap: the fewest parts, and what holds, match an independent count by temperature', () => {
     for (const c of VALID_WRAPS) {
@@ -244,17 +227,21 @@ describe('every configuration', { timeout: 60_000 }, () => {
     expect(wrappingOf(c, { wool: -4 })).toEqual(BARE)
     expect(wrappingOf(c, {})).toEqual(BARE)
     expect(wrappingOf(c, undefined as never)).toEqual(BARE)
-    expect(beadsOf(beadsCfg(['copper', 'iron']), { beads: { copper: 99, iron: Number.NaN } })).toEqual({ copper: BEAD_MAX, iron: BEAD_START })
-    expect(beadsOf(beadsCfg(['copper', 'iron']), undefined as never)).toEqual({ copper: BEAD_START, iron: BEAD_START })
+    const b = beadsCfg(['brass', 'copper', 'iron'])
+    // An old saved card (the ball sliders), a half-made order and a muddle all read as the start.
+    for (const bad of [{ beads: { copper: 4, iron: 9 } }, { order: ['copper'] }, { order: ['copper', 'copper', 'iron'] }, { order: ['copper', 'iron', 'wood'] }, { order: 'copper' }, {}, undefined]) {
+      expect(orderOf(b, bad as never), JSON.stringify(bad)).toEqual(startOrder(b.rods))
+    }
+    expect(orderOf(b, { order: ['iron', 'copper', 'brass'] })).toEqual(['iron', 'copper', 'brass'])
   })
 
   it('says something true when marked, and what was made when wrong, without a verdict on the way', () => {
     for (const c of VALID_BEADS) {
       const said = working(c, engine.solve(c))
-      expect(said).toMatch(/^Yes\. The wax let go at about \d+:\d\d on every rod\./)
+      expect(said).toMatch(/^Yes\. Best conductor first: /)
       expect(said).toContain('metal rail feels colder than wood')
       const wrong = madeText(c, engine.initial(c))
-      expect(wrong).toMatch(/did not fall together/)
+      expect(wrong).toMatch(/does not match the order the balls drop in/)
     }
     for (const c of [wrapCfg('hot', 30, 50, [...PARTS]), wrapCfg('cold', 30, 10, [...PARTS]), wrapCfg('hot', 20, 45, ['wool'])]) {
       const said = working(c, engine.solve(c))
@@ -351,18 +338,16 @@ describe('the prompt must not give the answer away', () => {
 
   it('asking for the outcome is fine', () => {
     for (const [c, p] of CATALOGUE_EXAMPLES) expect(engine.promptFaults!(c, p), p).toEqual([])
-    expect(engine.promptFaults!(bc, 'Make the balls drop together.')).toEqual([])
+    expect(engine.promptFaults!(bc, 'Heat the rods, then order the metals from best conductor to worst.')).toEqual([])
     expect(engine.promptFaults!(hot, 'Dress the cup so the water stays above 50 °C for 30 minutes.')).toEqual([])
   })
 
-  it('where a ball goes, or which metal is quicker, is not', () => {
+  it('which metal is best, or why, is not', () => {
     for (const p of [
-      'Slide the copper ball farther along than the iron ball so they drop together.',
-      'Put each ball 10 cm from the bath.',
-      'Copper is a better conductor, so place its ball further out.',
-      'Heat travels faster in copper: slide the balls so they drop together.',
-      'The distance is squared: slide the balls so they drop together.',
-      'Move the iron ball nearer the bath.',
+      'Heat the rods: copper is the best conductor, so put it first.',
+      'Iron is the worst conductor. Heat the rods and put the metals in order.',
+      'Heat the rods; the fastest ball is the best conductor, so order the metals by free electrons.',
+      'Heat the rods and put the metals in order of conductivity.',
     ]) {
       expect(engine.promptFaults!(bc, p).join(' '), p).toContain('gives the answer away')
     }
@@ -385,8 +370,8 @@ describe('the prompt must not give the answer away', () => {
   it('what the card does not show is refused too', () => {
     expect(engine.promptFaults!(hot, 'Pour the tea into a vacuum flask and keep it above 50 °C for 30 minutes.').join(' ')).toContain('does not show')
     expect(engine.promptFaults!(cold, 'Put ice cubes in the drink and keep it below 10 °C for 30 minutes.').join(' ')).toContain('does not show')
-    expect(engine.promptFaults!(bc, 'Heat the rods with a Bunsen flame so the balls drop together.').join(' ')).toContain('does not show')
-    expect(engine.promptFaults!(bc, 'Use the thermal camera to make the balls drop together.').join(' ')).toContain('does not show')
+    expect(engine.promptFaults!(bc, 'Heat the rods with a Bunsen flame, then put the metals in order.').join(' ')).toContain('does not show')
+    expect(engine.promptFaults!(bc, 'Slide the balls along the rods, then put the metals in order.').join(' ')).toContain('does not show')
   })
 
   it('a number that is not the card’s own is refused', () => {
@@ -485,18 +470,20 @@ describe('the scene on the board', { timeout: 60_000 }, () => {
       const html = card(cfg, prompt)
       expect(html, JSON.stringify(cfg)).toContain('<button')
       const shown = text(html.replace(prompt, '')) + ' ' + attrs(html)
-      for (const secret of ['Yes', 'fewer', 'did not fall together', 'fall together', 'good conductor', 'metal rail', 'does not keep', 'does not make', 'below the target', 'above the target', 'left the', 'held,', 'redundan', 'is also why', 'as few', 'Insulation does']) {
+      for (const secret of ['Yes', 'fewer', 'does not match', 'free electrons', 'metal rail', 'conductivity', 'does not keep', 'does not make', 'below the target', 'above the target', 'left the', 'held,', 'redundan', 'is also why', 'as few', 'Insulation does']) {
         expect(shown, `${secret} in ${JSON.stringify(cfg)}`).not.toContain(secret)
       }
     }
   })
 
-  it('a ball never says which rod it belongs near: the sliders are in a fixed order, whatever the answer', () => {
+  it('the rods stand in the learner’s order, and nothing printed gives the right one', () => {
     const c = beadsCfg(['brass', 'copper', 'iron'])
-    const order = (s: ThermalState) => [...raw(c, s, 'idle').matchAll(/aria-label="Ball on the (\w+) rod"/g)].map((m) => m[1])
-    expect(order(engine.initial(c))).toEqual(['brass', 'copper', 'iron'])
-    expect(order(engine.solve(c))).toEqual(['brass', 'copper', 'iron'])
-    expect(order({ beads: { brass: 14, copper: 1, iron: 7 } })).toEqual(['brass', 'copper', 'iron'])
+    const order = (s: ThermalState, marked: 'idle' | 'shown' = 'idle') => [...raw(c, s, marked, true).matchAll(/data-rod="(\w+)"/g)].map((m) => m[1])
+    expect(order(engine.initial(c))).toEqual(startOrder(c.rods))
+    expect(order({ order: ['iron', 'copper', 'brass'] })).toEqual(['iron', 'copper', 'brass'])
+    expect(order(engine.initial(c), 'shown')).toEqual(correctOrder(c.rods))
+    const idle = text(raw(c, engine.initial(c), 'idle', true)) + attrs(raw(c, engine.initial(c), 'idle', true))
+    expect(idle).not.toMatch(/\b(?:400|237|W\/m|conductivity|free electrons)\b/)
   })
 
   it('names what it draws, on the card, before marking', () => {
@@ -504,13 +491,15 @@ describe('the scene on the board', { timeout: 60_000 }, () => {
     for (const word of ['conduction', 'convection', 'radiation', 'water', 'target', 'Wool layers', 'Lid', 'Shiny foil', 'Bare cup', 'heat leaving the water']) expect(wrap).toContain(word)
     expect(text(raw(wrapCfg('cold', 30, 10, [...PARTS]), engine.initial(wrapCfg('cold', 30, 10, [...PARTS])), 'idle'))).toContain('heat entering the drink')
     const beads = text(raw(beadsCfg(['copper', 'iron']), engine.initial(beadsCfg(['copper', 'iron'])), 'idle'))
-    for (const word of ['boiling water', 'copper', 'iron', 'Clock', 'Run again', 'Redder means hotter']) expect(beads).toContain(word)
+    for (const word of ['boiling water', 'copper', 'iron', 'Heat the rods', 'Elapsed', 'Order, best conductor first', 'Redder means hotter']) expect(beads).toContain(word)
   })
 
   it('marking says what was found, and what was made when wrong', () => {
     const c = beadsCfg(['copper', 'iron'])
-    expect(text(raw(c, engine.solve(c), 'right'))).toContain('Yes. The wax let go')
-    expect(text(raw(c, engine.initial(c), 'wrong'))).toContain('did not fall together')
+    expect(text(raw(c, engine.solve(c), 'right'))).toContain('Yes. Best conductor first: ')
+    expect(text(raw(c, engine.initial(c), 'wrong'))).toContain('does not match the order the balls drop in')
+    expect(text(raw(c, engine.solve(c), 'right'))).toContain('free electrons')
+    expect(text(raw(c, engine.solve(c), 'right'))).toContain('metal rail feels colder than wood')
     const w = wrapCfg('hot', 30, 50, [...PARTS])
     expect(text(raw(w, engine.solve(w), 'right'))).toContain('Yes. 1 layer of wool and a lid left the water at')
     expect(text(raw(w, { wool: 3, lid: true, foil: true }, 'wrong'))).toContain('fewer would do')
@@ -519,9 +508,8 @@ describe('the scene on the board', { timeout: 60_000 }, () => {
 
   it('showing the answer draws the answer, whatever the learner had left', () => {
     const c = beadsCfg(['brass', 'copper', 'iron'])
-    const html = raw(c, { beads: { brass: 1, copper: 1, iron: 1 } }, 'shown', true)
-    const want = engine.solve(c) as { beads: Record<string, number> }
-    for (const r of c.rods) expect(html).toContain(`The ball on the ${r} rod is ${want.beads[r]} centimetres`)
+    const html = raw(c, { order: ['iron', 'brass', 'copper'] }, 'shown', true)
+    expect([...html.matchAll(/data-rod="(\w+)"/g)].map((m) => m[1])).toEqual(correctOrder(c.rods))
     const w = wrapCfg('hot', 30, 50, [...PARTS])
     expect(text(raw(w, engine.initial(w), 'shown', true))).toContain('Yes. 1 layer of wool and a lid')
   })
@@ -537,13 +525,11 @@ describe('the scene on the board', { timeout: 60_000 }, () => {
     expect(done).toContain('aria-disabled="true"')
     const b = beadsCfg(['copper', 'iron'])
     const rods = raw(b, engine.initial(b), 'idle')
-    expect(rods).toContain('role="slider"')
-    expect(rods).toContain(`aria-valuemin="${BMIN}"`)
-    expect(rods).toContain(`aria-valuemax="${BMAX}"`)
-    expect(rods).toContain('aria-valuetext="7 centimetres from the bath"')
-    expect(rods).toContain('tabindex="0"')
-    expect(rods).toContain('touch-none')
-    expect(raw(b, engine.solve(b), 'right')).not.toContain('role="slider"')
+    expect(rods).toContain('aria-label="Heat the rods"')
+    expect(rods).toContain('aria-label="iron, place 1: pick it up"')
+    expect(rods).not.toContain('role="slider"')
+    expect(rods).not.toContain('type="range"')
+    expect(raw(b, engine.solve(b), 'right')).toMatch(/disabled=""[^>]*>|aria-pressed="false"[^>]*disabled/)
     // A part the card does not offer has no control.
     const only = raw(wrapCfg('hot', 30, 50, ['wool']), { wool: 0 }, 'idle')
     expect(only).not.toContain('Lid')
@@ -551,7 +537,7 @@ describe('the scene on the board', { timeout: 60_000 }, () => {
   })
 
   it('keyboard help is for keyboard users', () => {
-    for (const c of [beadsCfg(['copper', 'iron']), wrapCfg('hot', 30, 50, [...PARTS])]) {
+    for (const c of [wrapCfg('hot', 30, 50, [...PARTS])]) {
       const html = raw(c, engine.initial(c), 'idle')
       expect(html).toMatch(/\[&amp;:has\(:focus-visible\)_\.tt-kbd\]:block/)
       expect(html).toMatch(/class="tt-kbd hidden/)
@@ -561,14 +547,10 @@ describe('the scene on the board', { timeout: 60_000 }, () => {
   it('the still frame changes with every move, with nothing animating under reduced motion', () => {
     const b = beadsCfg(['brass', 'copper', 'iron'])
     const start = raw(b, engine.initial(b), 'idle', true)
-    for (const r of b.rods) {
-      const moved = raw(b, { beads: { ...beadsOf(b, engine.initial(b)), [r]: BEAD_START + 1 } }, 'idle', true)
-      expect(moved, r).not.toBe(start)
-      // One centimetre is a long step on the plate: the ball moves by more than a ball's width in a frame of 360.
-      expect(PX).toBeGreaterThanOrEqual(12)
-    }
+    // One swap moves two rods to each other's place.
+    expect(raw(b, { order: ['brass', 'iron', 'copper'] }, 'idle', true)).not.toBe(start)
+    expect(raw(b, { order: ['copper', 'brass', 'iron'] }, 'idle', true)).not.toBe(start)
     expect(start).not.toMatch(/animate|transition:|requestAnimationFrame/)
-    expect(start).not.toContain('Run again')
     const w = wrapCfg('hot', 30, 50, [...PARTS])
     const bare = raw(w, engine.initial(w), 'idle', true)
     for (const move of [{ wool: 1 }, { wool: 3 }, { lid: true }, { foil: true }]) expect(raw(w, { ...engine.initial(w), ...move }, 'idle', true), JSON.stringify(move)).not.toBe(bare)
@@ -591,9 +573,8 @@ describe('the scene on the board', { timeout: 60_000 }, () => {
     const b = beadsCfg(['copper', 'iron'])
     const html = raw(b, engine.initial(b), 'idle', true)
     const spoken = attrs(html) + ' ' + text(html)
-    expect(spoken).toMatch(/2 metal rods, copper, iron, stand in a bath of boiling water/)
-    expect(spoken).toMatch(/The ball on the copper rod is 7 centimetres from the bath and drops at \d+:\d\d\./)
-    expect(spoken).not.toMatch(/\b(?:correct|right|wrong|together)\b/)
+    expect(spoken).toMatch(/2 metal rods, iron, copper from the top, are clamped in a stand with their ends in a bath of boiling water/)
+    expect(spoken).not.toMatch(/\b(?:correct|right|wrong)\b/)
     const w = wrapCfg('cold', 30, 10, [...PARTS])
     const cup = raw(w, engine.initial(w), 'idle', true)
     expect(attrs(cup) + text(cup)).toMatch(/beaker of cold water in section[^.]*no wool, no lid and no foil/)
@@ -631,8 +612,7 @@ describe('a still frame is a frame a learner sees', { timeout: 60_000 }, () => {
 
   it('the view’s literals agree with the config', () => {
     expect(RODS).toBe(ROD_CM)
-    expect(BMIN).toBe(BEAD_MIN)
-    expect(BMAX).toBe(BEAD_MAX)
+    expect(AT).toBe(BEAD_AT)
     expect(WOOLS).toBe(WOOL_MAX)
     expect(X0 + RODS * PX).toBeLessThan(W)
   })
@@ -693,7 +673,7 @@ describe('a still frame is a frame a learner sees', { timeout: 60_000 }, () => {
         // A rod, its hanging ball, and the tray under it all lie on the plate.
         expect(rows[i] - 14).toBeGreaterThan(0)
         expect(rows[i] + 31.5).toBeLessThan(205)
-        if (i) expect(rows[i] - rows[i - 1]).toBeGreaterThanOrEqual(44 + 14)
+        if (i) expect(rows[i] - rows[i - 1]).toBeGreaterThanOrEqual(50)
         // The name sits above the rod, clear of the bath and the tank wall.
         const name = labelBox('aluminium', { x: X0 + 6, y: rows[i] - 10, anchor: 'start' })
         expect(name.bottom).toBeLessThan(rows[i] - 4.5)
@@ -704,21 +684,8 @@ describe('a still frame is a frame a learner sees', { timeout: 60_000 }, () => {
     const bath = labelBox('boiling water', { ...BEADS_LABELS.bath, anchor: 'start' })
     expect(bath.bottom).toBeLessThan(22)
     expect(bath.right).toBeLessThan(W)
-    expect(H).toBeGreaterThan(230)
+    expect(H).toBeGreaterThan(200)
     expect(WRAP_H).toBeGreaterThan(BASE + 8)
-  })
-
-  it('beads: a ball on each rod has a hit area of at least a finger, and the rods are far enough apart for each', () => {
-    // The view makes each ball 32 px square and each rod's strip 44 tall; a strip never reaches the next rod's strip.
-    for (const n of [2, 3]) {
-      const rows = rowsOf(n)
-      for (let i = 1; i < n; i++) expect(rows[i] - 14 - (rows[i - 1] - 14 + 44)).toBeGreaterThanOrEqual(0)
-    }
-  })
-
-  it('beads: from the first centimetre to the last, a ball moves by more than its own width in one step', () => {
-    // 17 px a centimetre on a 360 px plate: the eye catches one step.
-    expect(PX).toBeGreaterThanOrEqual(2 * 5.4)
   })
 
   it('the tallest the card gets is held down: a marked card still fits the board', () => {

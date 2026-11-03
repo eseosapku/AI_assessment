@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, typ
 import type { SceneMarked, SceneViewProps } from '../types'
 import type { LightConfig, LightState } from './config'
 import {
-  AIM, APERTURE, LAMP_AT, SHARP, TURN_MAX, TURN_MIN, U_MAX, U_MIN, apart, blur, glassEye, indexOf, landing, lightEngine, madeLamp, madeText, madeTurn, madeU,
+  AIM, MIRROR_AIM, APERTURE, LAMP_AT, SHARP, TURN_MAX, TURN_MIN, U_MAX, U_MIN, apart, blur, glassEye, indexOf, landing, lightEngine, madeLamp, madeText, madeTurn, madeU,
   mirrorEye, mirrorIn, mirrorOut, screenAt, trace, working, wrap,
 } from './config'
 
@@ -301,7 +301,7 @@ export function mirrorLayout(config: MirrorConfig, turn: number) {
   const mouth = at(PIVOT, LAMP_AT, REACH - 20)
   const eye = at(PIVOT, mirrorEye(config.target), REACH)
   const out = mirrorOut(turn)
-  const hit = apart(out, mirrorEye(config.target)) <= AIM
+  const hit = apart(out, mirrorEye(config.target)) <= MIRROR_AIM
   const end = hit ? eye : at(PIVOT, out, toEdge(PIVOT, out))
   const knob = at(PIVOT, turn + 90, MIRROR_HALF)
   const tip = at(PIVOT, turn, NORMAL_LONG)

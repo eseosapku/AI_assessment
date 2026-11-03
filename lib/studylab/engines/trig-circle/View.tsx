@@ -4,7 +4,7 @@ import type { KeyboardEvent, PointerEvent } from 'react'
 import type { SceneViewProps } from '../types'
 import type { TrigConfig, TrigState } from './config'
 import {
-  angleAt, angleOf, fmtM, footMax, footOf, madeText, showNumber, topAt, trigCircleEngine, working,
+  angleAt, angleOf, fmtM, ladderOk, snapFoot, footMax, footOf, madeText, showNumber, topAt, trigCircleEngine, working,
 } from './config'
 
 type Props = SceneViewProps<TrigConfig, TrigState>
@@ -97,7 +97,7 @@ export const rungCount = (length: number) => Math.max(7, Math.min(14, Math.round
 // ---------------------------------------------------------------------------
 // The ladder.
 
-function LadderPicture({ config, g, marked, uid }: { config: Ladder; g: LadderGeometry; marked: Props['marked']; uid: string }) {
+function LadderPicture({ config, g, marked, uid, met }: { config: Ladder; g: LadderGeometry; marked: Props['marked']; uid: string; met: boolean }) {
   const { foot, top, u, scale } = g
   const nx = u.y
   const ny = -u.x
@@ -150,14 +150,14 @@ function LadderPicture({ config, g, marked, uid }: { config: Ladder; g: LadderGe
           <rect x={WALL_X + 18} y={sillY - win} width={40} height={win} fill={GLASS} stroke={WALL_EDGE} strokeWidth={1.6} />
           <rect x={WALL_X + 20} y={sillY - win + 2} width={36} height={win - 4} fill="none" stroke={FRAME} strokeWidth={2.4} />
           <line x1={WALL_X + 38} x2={WALL_X + 38} y1={sillY - win} y2={sillY} stroke={FRAME} strokeWidth={2.4} />
-          <rect x={WALL_X + 14} y={sillY} width={48} height={5} rx={1.5} fill="#F1EDE6" stroke={WALL_EDGE} strokeWidth={1.4} />
+          <rect x={WALL_X + 14} y={sillY} width={48} height={5} rx={1.5} fill={met ? ACCENT : '#F1EDE6'} stroke={met ? ACCENT : WALL_EDGE} strokeWidth={1.4} data-met={met ? '1' : '0'} />
           <line x1={WALL_X - 16} x2={WALL_X} y1={sillY + 2.5} y2={sillY + 2.5} stroke={ACCENT} strokeWidth={3} strokeLinecap="round" />
           <text x={WALL_X + 38} y={sillY + 22} textAnchor="middle" fontSize={12} fontWeight={700} fill={INK} fontFamily={FONT}>{fmtM(config.value)} m</text>
         </g>
       ) : (
-        <g data-mark="line">
+        <g data-mark="line" data-met={met ? '1' : '0'}>
           {/* a line painted across the paving, at the distance asked for */}
-          <rect x={f1(flagX - 2.5)} y={GROUND_Y + 4} width={5} height={26} rx={1} fill={ACCENT} />
+          <rect x={f1(flagX - (met ? 4.5 : 2.5))} y={GROUND_Y + 4} width={met ? 9 : 5} height={26} rx={1} fill={ACCENT} />
           <text x={f1(flagX)} y={GROUND_Y + 43} textAnchor="middle" fontSize={12} fontWeight={700} fill={INK} fontFamily={FONT}>{fmtM(config.value)} m</text>
         </g>
       )}
@@ -283,7 +283,7 @@ export function TrigCircleView({ config, state, setState, marked, locked }: Prop
   const finished = marked === 'right' || marked === 'shown'
   const frozen = locked || finished
   const said = finished ? working(config, now) : marked === 'wrong' ? madeText(config, now) : ''
-  const lead = said.match(/^(Yes\. [\s\S]*?\.)\s+(?=[A-Z])([\s\S]*)$/)
+  const lead = said.match(/^((?:Yes\.|Near enough:) [\s\S]*?\.)\s+(?=[A-Z])([\s\S]*)$/)
 
   const at = (e: PointerEvent) => {
     const box = svgRef.current?.getBoundingClientRect()
@@ -296,7 +296,7 @@ export function TrigCircleView({ config, state, setState, marked, locked }: Prop
     const g = ladderGeometry(config, d10)
     const max = footMax(config.length)
     const set = (v: number) => { if (!frozen) setState({ foot: Math.max(1, Math.min(max, Math.round(v))) }) }
-    const move = (e: PointerEvent) => { const p = at(e); if (p) set(((WALL_X - p.x) / g.scale) * 10) }
+    const move = (e: PointerEvent) => { const p = at(e); if (p) set(snapFoot(config, Math.max(1, Math.min(max, Math.round(((WALL_X - p.x) / g.scale) * 10))))) }
     // The buttons walk the foot to the next half metre, so a tap is a step you can see.
     const stepBy = (dir: 1 | -1) => set(dir === 1 ? (Math.floor(d10 / 5 + 1e-9) + 1) * 5 : (Math.ceil(d10 / 5 - 1e-9) - 1) * 5)
     const onKey = (e: KeyboardEvent) => {
@@ -324,7 +324,7 @@ export function TrigCircleView({ config, state, setState, marked, locked }: Prop
               onPointerMove={(e) => { if (dragging.current) move(e) }}
               onPointerUp={() => { dragging.current = false }} onPointerCancel={() => { dragging.current = false }}
             >
-              <LadderPicture config={config} g={g} marked={marked} uid={uid} />
+              <LadderPicture config={config} g={g} marked={marked} uid={uid} met={ladderOk(config, d10)} />
             </svg>
             <div
               role="slider" tabIndex={frozen ? -1 : 0} aria-label="Foot of the ladder" aria-orientation="horizontal" aria-valuemin={1} aria-valuemax={max} aria-valuenow={d10}

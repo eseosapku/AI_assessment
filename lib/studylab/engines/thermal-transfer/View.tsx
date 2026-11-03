@@ -1,9 +1,9 @@
 'use client'
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
 import type { SceneViewProps } from '../types'
 import type { BeadsConfig, ThermalConfig, ThermalState, WrapConfig } from './config'
 import {
-  beadsOf, clock, degrees, dropSeconds, heatFraction, horizonOf, lossOf, madeText, tempAt, thermalTransferEngine, working, wrappingOf,
+  clock, degrees, dropSeconds, heatFraction, lossOf, madeText, orderOf, raceEnd, tempAt, thermalTransferEngine, working, wrappingOf,
 } from './config'
 
 type Props = SceneViewProps<ThermalConfig, ThermalState>
@@ -36,14 +36,13 @@ const METAL: Record<string, string> = { aluminium: '#B9C2CC', brass: '#CFB052', 
 
 // The beads board, in plate units. Every literal here is checked against the config's in the tests.
 export const W = 360
-export const H = 236
+export const H = 222
 export const X0 = 72
 export const PX = 17
 export const WRAP_H = 208
 /** How long a rod is, and which centimetres a ball may sit on; how many layers of wool there can be. */
 export const RODS = 15
-export const BMIN = 1
-export const BMAX = 14
+export const AT = 10
 export const WOOLS = 3
 
 const f1 = (n: number) => n.toFixed(1)
@@ -59,7 +58,7 @@ function mix(a: string, b: string, k: number): string {
 
 /** The row each rod sits in, from the top, and where its tray is. */
 export function rowsOf(n: number): number[] {
-  return n === 2 ? [76, 156] : [50, 108, 166]
+  return n === 2 ? [72, 148] : [52, 106, 160]
 }
 
 /** The clock. It runs from 0 to `end` in `seconds`, then rests; a move restarts it, and the learner can wind it. */
@@ -202,157 +201,141 @@ function Ball({ x, y, fall, sag }: { x: number; y: number; fall: number; sag: nu
   )
 }
 
-function Chevron({ x, y, dir }: { x: number; y: number; dir: -1 | 1 }) {
-  return <path d={`M ${f1(x - dir * 2.4)} ${f1(y - 3.8)} L ${f1(x + dir * 1.8)} ${f1(y)} L ${f1(x - dir * 2.4)} ${f1(y + 3.8)}`} fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ stroke: 'var(--subject)' }} />
+/** The race: the rods are heated, and the clock runs from 0 to `end` in ten seconds, once each time the button is pressed. */
+function useRace(end: number, reduced: boolean, rest: number) {
+  const [t, setT] = useState(0)
+  const [ran, setRan] = useState(false)
+  const now = useRef(0)
+  const playing = useRef(false)
+  const live = useRef(end)
+  live.current = end
+  useEffect(() => {
+    if (reduced) return
+    let raf = 0
+    let last = 0
+    const tick = (ms: number) => {
+      raf = requestAnimationFrame(tick)
+      const dt = last ? Math.min(0.05, (ms - last) / 1000) : 0.016
+      last = ms
+      if (!playing.current) return
+      now.current = Math.min(live.current, now.current + (dt * live.current) / 10)
+      if (now.current >= live.current) playing.current = false
+      setT(now.current)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [reduced])
+  const heat = () => {
+    setRan(true)
+    now.current = 0
+    setT(0)
+    playing.current = !reduced
+  }
+  return { t: reduced ? (ran ? end : rest) : t, heat, ran }
 }
 
 function BeadsBoard({ config, state, setState, marked, reduced, locked }: Props & { config: BeadsConfig }) {
   const shown = marked === 'shown' ? thermalTransferEngine.solve(config) : state
-  const at = beadsOf(config, shown)
+  const order = orderOf(config, shown)
   const rods = config.rods
   const rows = rowsOf(rods.length)
-  const clipId = useId().replace(/:/g, '')
-  const horizon = horizonOf(rods)
-  const times = rods.map((r) => dropSeconds(at[r], r))
-  const last = Math.max(...times)
-  const end = clamp(last * 1.12, 30, horizon)
-  const placing = rods.map((r) => at[r]).join(',')
-  const [holding, setHolding] = useState(false)
-  const { t, scrub, replay, back } = useClock(end, `${placing}|${marked === 'right' || marked === 'shown' ? 'done' : 'open'}`, reduced, (Math.min(...times) + last) / 2, holding, 6)
-  const fallFor = Math.max(1.5, end * 0.05)
+  const uid = useId().replace(/:/g, '')
+  const times = Object.fromEntries(rods.map((r) => [r, dropSeconds(AT, r)]))
+  const end = raceEnd(rods)
+  const mid = (Math.min(...Object.values(times)) + Math.max(...Object.values(times))) / 2
+  const race = useRace(end, reduced, mid)
   const finished = marked === 'right' || marked === 'shown'
+  const t = finished ? end : race.t
   const canMove = !locked && !finished
-  const drag = useRef<{ rod: string; box: DOMRect } | null>(null)
+  const [picked, setPicked] = useState<string | null>(null)
+  const fallFor = 0.5 * (end / 10)
 
-  const put = (rod: string, cm: number) => {
+  const tap = (rod: string) => {
     if (!canMove) return
-    const next = clamp(Math.round(cm), BMIN, BMAX)
-    if (next === at[rod]) return
-    setState({ beads: { ...at, [rod]: next } })
-  }
-  const cmFrom = (e: PointerEvent<HTMLElement>, box: DOMRect) => {
-    const x = ((e.clientX - box.left) / box.width) * W
-    return (x - X0) / PX
-  }
-  const down = (rod: string) => (e: PointerEvent<HTMLDivElement>) => {
-    if (!canMove || e.button !== 0) return
-    e.preventDefault()
-    // The whole overlay spans the plate, so the box is the plate's.
-    const box = (e.currentTarget.parentElement as HTMLElement).getBoundingClientRect()
-    e.currentTarget.setPointerCapture(e.pointerId)
-    drag.current = { rod, box }
-    setHolding(true)
-    back()
-    put(rod, cmFrom(e, box))
-  }
-  const move = (e: PointerEvent<HTMLDivElement>) => {
-    const d = drag.current
-    if (d) put(d.rod, cmFrom(e, d.box))
-  }
-  const up = () => {
-    drag.current = null
-    setHolding(false)
-  }
-  const key = (rod: string) => (e: KeyboardEvent) => {
-    const by = ({ ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1, PageUp: 3, PageDown: -3 } as Record<string, number>)[e.key]
-    if (by === undefined && e.key !== 'Home' && e.key !== 'End') return
-    // The board moves a selected card with the arrows; here they move the ball.
-    e.preventDefault()
-    e.stopPropagation()
-    put(rod, e.key === 'Home' ? BMIN : e.key === 'End' ? BMAX : at[rod] + (by ?? 0))
+    if (picked === null) setPicked(rod)
+    else if (picked === rod) setPicked(null)
+    else {
+      const next = [...order]
+      const i = next.indexOf(picked)
+      const j = next.indexOf(rod)
+      next[i] = rod
+      next[j] = picked
+      setPicked(null)
+      setState({ order: next })
+    }
   }
 
-  const dropped = rods.filter((r, i) => t >= times[i]).length
-  const seen = `${rods.length} metal rods, ${rods.join(', ')}, stand in a bath of boiling water. Each has a ball bearing hanging from it on a dab of wax, at its own distance from the bath. The rods redden from the bath end as heat travels along them. At ${clock(t)} on the clock, ${dropped} of ${rods.length} balls have dropped.`
+  const dropped = rods.filter((r) => t >= times[r]).length
+  const seen = `${rods.length} metal rods, ${order.join(', ')} from the top, are clamped in a stand with their ends in a bath of boiling water. A ball hangs from each rod on a dab of wax, all at the same distance from the bath. The rods redden from the bath end as heat travels along them. At ${clock(t)}, ${dropped} of ${rods.length} balls have dropped.`
+  const ease = reduced ? undefined : 'transform 500ms ease'
 
   return (
-    <div className="nodrag flex w-full max-w-[380px] flex-col gap-2 [&:has(:focus-visible)_.tt-kbd]:block">
+    <div className="nodrag flex w-full max-w-[380px] flex-col gap-2">
       <figure className="m-0 flex w-full flex-col gap-1.5">
-        <div className="relative w-full">
-          <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={seen} className="block h-auto w-full select-none">
-            <rect x={0.75} y={0.75} width={W - 1.5} height={H - 1.5} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
-            {/* The bath: a steel tank of boiling water on a hot plate, with the rods through its wall. */}
-            <rect x={11} y={22} width={58} height={184} rx={5} fill={WATER} stroke={WATER_EDGE} strokeWidth={1.5} />
-            <rect x={11} y={22} width={58} height={20} rx={5} fill={PLATE} />
-            <path d="M 11 42 H 69" stroke={WATER_EDGE} strokeWidth={1.5} />
-            {[[24, 190], [48, 176], [36, 150], [20, 128], [54, 100], [30, 76], [50, 60]].map(([cx, cy]) => <circle key={`${cx}${cy}`} cx={cx} cy={cy} r={2.4} fill="none" stroke="#FFFFFF" strokeWidth={1.3} />)}
-            <rect x={7} y={204} width={66} height={9} rx={3} fill={STEEL} />
-            {rods.map((rod, i) => {
-              const y = rows[i]
-              const x = at[rod]
-              const bx = X0 + x * PX
-              const fall = clamp((t - times[i]) / fallFor, 0, 1)
-              const warm = heatFraction(x, rod, t)
-              const sag = clamp((warm - 0.28) / 0.22, 0, 1)
-              return (
-                <g key={rod} data-rod={rod}>
-                  <clipPath id={`${clipId}-${rod}`}><rect x={30} y={y - 4.5} width={X0 + RODS * PX - 30} height={9} rx={4} /></clipPath>
-                  <g clipPath={`url(#${clipId}-${rod})`}>
-                    <rect x={30} y={y - 4.5} width={X0 - 30 + 1} height={9} fill={HOT} />
-                    {Array.from({ length: RODS }, (_, c) => (
-                      <rect key={c} x={f1(X0 + c * PX)} y={y - 4.5} width={PX + 0.6} height={9} fill={mix(METAL[rod] ?? '#999999', HOT, heatFraction(c + 0.5, rod, t))} data-heat={f1(heatFraction(c + 0.5, rod, t))} />
-                    ))}
-                    <rect x={30} y={y - 4.5} width={X0 + RODS * PX - 30} height={2} fill="#FFFFFF" opacity={0.35} />
-                    <rect x={30} y={y + 2.5} width={X0 + RODS * PX - 30} height={2} fill="#000000" opacity={0.14} />
-                  </g>
-                  <rect x={30} y={y - 4.5} width={X0 + RODS * PX - 30} height={9} rx={4} fill="none" stroke="#475569" strokeWidth={1} />
-                  {/* The tray that catches what falls from this rod. */}
-                  <rect x={X0} y={y + 28} width={RODS * PX} height={3.5} rx={1.5} fill={STEEL_LIGHT} />
-                  <Ball x={bx} y={y} fall={fall} sag={sag} />
-                  {canMove && fall <= 0 && (
-                    <g>
-                      <Chevron x={bx - 12} y={y + 10.5} dir={-1} />
-                      <Chevron x={bx + 12} y={y + 10.5} dir={1} />
-                    </g>
-                  )}
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={seen} className="block h-auto w-full select-none">
+          <rect x={0.75} y={0.75} width={W - 1.5} height={H - 1.5} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
+          {/* The bath: a steel tank of boiling water on a hot plate, with a wall the rods go through. */}
+          <rect x={11} y={22} width={58} height={176} rx={5} fill={WATER} stroke={WATER_EDGE} strokeWidth={1.5} />
+          <rect x={11} y={22} width={58} height={20} rx={5} fill={PLATE} />
+          <path d="M 11 42 H 69" stroke={WATER_EDGE} strokeWidth={1.5} />
+          {[[24, 186], [48, 172], [36, 148], [20, 126], [54, 100], [30, 76], [50, 60]].map(([cx, cy]) => <circle key={`${cx}${cy}`} cx={cx} cy={cy} r={2.4} fill="none" stroke="#FFFFFF" strokeWidth={1.3} />)}
+          <rect x={7} y={196} width={66} height={9} rx={3} fill={STEEL} />
+          {/* The stand: a pole with a boss clamp gripping each rod's far end. */}
+          <rect x={338} y={20} width={7} height={186} rx={3} fill={STEEL} />
+          <rect x={314} y={204} width={42} height={8} rx={3} fill={STEEL} />
+          {order.map((rod) => {
+            const y = rows[order.indexOf(rod)]
+            const fall = clamp((t - times[rod]) / fallFor, 0, 1)
+            const warm = heatFraction(AT, rod, t)
+            const sag = clamp((warm - 0.28) / 0.22, 0, 1)
+            const bx = X0 + AT * PX
+            return (
+              <g key={rod} data-rod={rod} data-y={y} style={{ transform: `translateY(${y}px)`, transition: ease }}>
+                <clipPath id={`${uid}-${rod}`}><rect x={30} y={-4.5} width={X0 + RODS * PX - 30} height={9} rx={4} /></clipPath>
+                <g clipPath={`url(#${uid}-${rod})`}>
+                  <rect x={30} y={-4.5} width={X0 - 30 + 1} height={9} fill={HOT} />
+                  {Array.from({ length: RODS }, (_, c) => (
+                    <rect key={c} x={f1(X0 + c * PX)} y={-4.5} width={PX + 0.6} height={9} fill={mix(METAL[rod] ?? '#999999', HOT, heatFraction(c + 0.5, rod, t))} />
+                  ))}
+                  <rect x={30} y={-4.5} width={X0 + RODS * PX - 30} height={2} fill="#FFFFFF" opacity={0.35} />
+                  <rect x={30} y={2.5} width={X0 + RODS * PX - 30} height={2} fill="#000000" opacity={0.14} />
                 </g>
-              )
-            })}
-            {/* The tank's wall, with a collar where each rod goes through. */}
-            <rect x={67} y={22} width={5} height={184} rx={2} fill={STEEL} />
-            {rows.map((y) => <rect key={y} x={64} y={y - 8} width={11} height={16} rx={2.5} fill={STEEL_LIGHT} stroke={STEEL} strokeWidth={1} />)}
-            {/* The ruler, in centimetres from the bath. */}
-            <g stroke={SOFT} strokeWidth={1}>
-              <line x1={X0} x2={X0 + RODS * PX} y1={209} y2={209} />
-              {Array.from({ length: RODS + 1 }, (_, c) => <line key={c} x1={X0 + c * PX} x2={X0 + c * PX} y1={209} y2={c % 5 === 0 ? 216 : 213} />)}
-            </g>
-            <g fontFamily={FONT} fontSize={12} fontWeight={700} fill={SOFT} textAnchor="middle" aria-hidden="true">
-              {[0, 5, 10, 15].map((c) => <text key={c} x={X0 + c * PX} y={230}>{c}</text>)}
-            </g>
-            <Label {...BEADS_LABELS.bath}>boiling water</Label>
-            {rods.map((rod, i) => <Label key={rod} x={X0 + 6} y={rows[i] - 10}>{rod}</Label>)}
-          </svg>
-          {canMove && rods.map((rod, i) => (
-            <div
-              key={rod}
-              className="nodrag absolute touch-none"
-              style={{ left: `${((X0 - 8) / W) * 100}%`, width: `${((RODS * PX + 16) / W) * 100}%`, top: `${((rows[i] - 14) / H) * 100}%`, height: `${(44 / H) * 100}%`, cursor: 'ew-resize' }}
-              onPointerDown={down(rod)} onPointerMove={move} onPointerUp={up} onPointerCancel={up}
-              data-row={rod}
-            >
-              <div
-                role="slider" tabIndex={0}
-                aria-label={`Ball on the ${rod} rod`} aria-valuemin={BMIN} aria-valuemax={BMAX} aria-valuenow={at[rod]}
-                aria-valuetext={`${at[rod]} centimetres from the bath`} aria-orientation="horizontal"
-                onKeyDown={key(rod)}
-                className="absolute rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
-                style={{ left: `${((X0 + at[rod] * PX) / W) * 100}%`, top: `${((rows[i] + 10.5 - (rows[i] - 14)) / 44) * 100}%`, width: 32, height: 32, transform: 'translate(-50%, -50%)' }}
-              />
-            </div>
-          ))}
-        </div>
+                <rect x={30} y={-4.5} width={X0 + RODS * PX - 30} height={9} rx={4} fill="none" stroke="#475569" strokeWidth={1} />
+                {/* The clamp on the far end, and its arm to the pole. */}
+                <rect x={330} y={-2} width={10} height={4} fill={STEEL} />
+                <rect x={316} y={-8} width={14} height={16} rx={3} fill={STEEL_LIGHT} stroke={STEEL} strokeWidth={1} />
+                <rect x={X0} y={28} width={RODS * PX} height={3.5} rx={1.5} fill={STEEL_LIGHT} />
+                <Ball x={bx} y={0} fall={fall} sag={sag} />
+                <Label x={X0 + 6} y={-10}>{rod}</Label>
+              </g>
+            )
+          })}
+          <Label {...BEADS_LABELS.bath}>boiling water</Label>
+        </svg>
         <figcaption className="text-center text-[12px] font-semibold text-ss-slate" aria-hidden="true">
-          Balls hang on wax from rods in boiling water. Redder means hotter. Ruler: cm from the bath.
+          Each ball hangs 10 cm from the bath on a dab of wax. Redder means hotter.
         </figcaption>
       </figure>
 
-      <ClockRow
-        t={t} max={horizon} step={1} text={clock(t)} spoken={`${clock(t)} on the clock`} onScrub={scrub} onReplay={replay} reduced={reduced} locked={false}
-      />
-      <p className="tt-kbd hidden text-[12px] font-semibold text-ss-slate">Tab to a ball, then the arrow keys slide it one centimetre.</p>
-      <p className="sr-only">
-        {rods.map((r) => `The ball on the ${r} rod is ${at[r]} centimetres from the bath and drops at ${clock(dropSeconds(at[r], r))}.`).join(' ')}
-      </p>
+      <div className="flex items-center justify-between gap-2">
+        <button type="button" className={`${button} px-3 text-[13px] font-extrabold whitespace-nowrap`} onClick={race.heat} aria-label="Heat the rods">{race.ran ? 'Heat again' : 'Heat the rods'}</button>
+        <span className="flex items-baseline gap-2"><span className={labelClass}>Elapsed</span><span className={`${readout} w-[44px] text-right`} data-elapsed={Math.round(t)}>{clock(t)}</span></span>
+      </div>
+      <div className="flex flex-col gap-1.5 border-t border-ss-line pt-1.5">
+        <span className={labelClass} id={`${uid}-order`}>Order, best conductor first</span>
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-labelledby={`${uid}-order`}>
+          {order.map((rod, i) => (
+            <button
+              key={rod} type="button" disabled={!canMove} aria-pressed={picked === rod}
+              aria-label={picked === null ? `${rod}, place ${i + 1}: pick it up` : picked === rod ? `${rod}, place ${i + 1}: put it down` : `${rod}, place ${i + 1}: swap with ${picked}`}
+              onClick={() => tap(rod)}
+              className={`${button} gap-1.5 px-2.5 text-[13px] font-bold whitespace-nowrap ${picked === rod ? 'border-[color:var(--subject)]' : ''}`}
+            ><span className="tabular-nums text-ss-slate">{i + 1}</span>{rod}</button>
+          ))}
+        </div>
+        <p className="text-[12px] font-semibold text-ss-slate" aria-hidden="true">Tap one metal, then another, to swap them.</p>
+      </div>
+      <span className="sr-only" aria-live="polite">{`${dropped} of ${rods.length} balls have dropped.`}</span>
       <Said config={config} state={shown} marked={marked} />
     </div>
   )

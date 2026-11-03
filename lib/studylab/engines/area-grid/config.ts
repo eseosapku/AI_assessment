@@ -196,6 +196,8 @@ export function madeExpand(config: AreaGridConfig, state: AreaGridState): string
 // complete-square.
 
 /** The gap in the corner, as the learner has made it: sides a and w in half-units. */
+/** A half-unit step of the cut is under 7 px from b = 10 up, too fine to land by hand: a cut one step either side of the middle counts as the middle. */
+export const cutSlack = (b: number): number => (b >= 10 ? 1 : 0)
 export const cornerSides = (b: number, cut: number): [number, number] => [cut, 2 * b - cut]
 
 export function madeSquare(config: AreaGridConfig, state: AreaGridState): string {
@@ -204,7 +206,7 @@ export function madeSquare(config: AreaGridConfig, state: AreaGridState): string
   const cut = Number.isInteger(state?.cut) ? (state.cut as number) : 1
   if (!state?.moved) return 'The piece has not been turned round yet: move it under the square.'
   const [a, w] = cornerSides(b, cut)
-  if (a !== w) return `You cut the strip into ${halvesText(a)} and ${halvesText(w)}, so the gap is ${halvesText(a)} by ${halvesText(w)}: a rectangle, not a square.`
+  if (Math.abs(cut - b) > cutSlack(b)) return `You cut the strip into ${halvesText(a)} and ${halvesText(w)}, so the gap is ${halvesText(a)} by ${halvesText(w)}: a rectangle, not a square.`
   const typed = (state.corner ?? '').trim()
   if (!typed) return 'Write the area of the gap first.'
   if (!readRational(typed)) return `"${typed}" is not a number: write the area as a whole number, a fraction like 9/4, or a decimal.`
@@ -332,7 +334,7 @@ export const areaGridEngine: SceneEngine<AreaGridConfig, AreaGridState> = {
     }
     const { b } = config
     const wrongIds: string[] = []
-    if (state?.cut !== b) wrongIds.push('cut')
+    if (typeof state?.cut !== 'number' || Math.abs(state.cut - b) > cutSlack(b)) wrongIds.push('cut')
     if (!state?.moved) wrongIds.push('moved')
     const typed = readRational(state?.corner)
     if (!typed || !sameRat(typed, rat(b * b, 4))) wrongIds.push('corner')

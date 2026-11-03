@@ -6,7 +6,7 @@ import { ReactFlowProvider } from '@xyflow/react'
 import {
   trigCircleEngine as engine, ANGLE_STEP, EXACT_ANGLES, LADDER_MAX, LADDER_MIN, TILT_MAX, TILT_MIN, VALUES,
   angleAt, angleOf, done, exactKey, fmtM, footMax, footOf, ladderOk, madeText, numberOfKey, readValue, showKey, showNumber, signOfKey, solutions,
-  targetAngle, targetFoot, topAt, valueRange, working,
+  targetAngle, targetFoot, LADDER_TOLERANCE, askedAt, snapFoot, topAt, valueRange, working,
   type TrigConfig, type TrigState,
 } from './config'
 import {
@@ -115,16 +115,22 @@ describe('the ladder', () => {
     const c = ladder(5, 'height', 4)
     expect(targetFoot(c)).toBeCloseTo(30, 9)
     expect(ladderOk(c, 30)).toBe(true)
-    expect(ladderOk(c, 29)).toBe(false)
-    expect(ladderOk(c, 31)).toBe(false)
+    // Within LADDER_TOLERANCE of the mark counts: 3.1 m out puts the top at 3.9 m.
+    expect(LADDER_TOLERANCE).toBe(0.15)
+    expect(ladderOk(c, 31)).toBe(true)
+    expect(ladderOk(c, 29)).toBe(true)
+    expect(ladderOk(c, 20)).toBe(false)
+    expect(ladderOk(c, 40)).toBe(false)
+    expect(snapFoot(c, 31)).toBe(30)
+    expect(snapFoot(c, 20)).toBe(20)
+    expect(working(c, { foot: 31 })).toMatch(/^Near enough: at 3\.1 m the top is 3\.9 m\. The exact answer is 3 m: sin θ = 4\/5/)
+    expect(working(c, { foot: 31 })).not.toMatch(/wrong/i)
     expect(targetAngle(c)).toBeCloseTo(53.130102, 5)
     expect(angleAt(5, 30)).toBeCloseTo(53.130102, 5)
     expect(targetAngle(ladder(5, 'out', 3))).toBeCloseTo(53.130102, 5)
     expect(targetAngle(ladder(10, 'height', 6))).toBeCloseTo(36.869898, 5)
-    // A distance that falls between two steps accepts either.
-    expect(ladderOk(ladder(5, 'out', 3.05), 30)).toBe(true)
-    expect(ladderOk(ladder(5, 'out', 3.05), 31)).toBe(true)
-    expect(ladderOk(ladder(5, 'out', 3.05), 32)).toBe(false)
+    expect(ladderOk(ladder(5, 'out', 3), 32)).toBe(false)
+    expect(working(ladder(5, 'out', 3), { foot: 31 })).toMatch(/^Near enough: the foot is 3\.1 m out/)
   })
 
   it('has a range that keeps every step of the foot visible, and a limit that says so', () => {
@@ -181,13 +187,9 @@ describe('the ladder', () => {
             const start = engine.initial(c)
             expect(engine.check(c, start).ok, `start ${JSON.stringify(c)}`).toBe(false)
             expect(engine.check(c, engine.solve(c)).ok, `solve ${JSON.stringify(c)}`).toBe(true)
-            // At most two neighbouring steps are right, and they are within one step of the true foot.
-            const right: number[] = []
-            for (let d = 1; d <= footMax(L); d++) if (ladderOk(c, d)) right.push(d)
-            expect(right.length, JSON.stringify(c)).toBeGreaterThanOrEqual(1)
-            expect(right.length).toBeLessThanOrEqual(2)
-            // The start is far enough off to see: at least a quarter of the ladder's reach.
-            expect(Math.abs((start as { foot: number }).foot - targetFoot(c)), JSON.stringify(c)).toBeGreaterThan(footMax(L) * 0.2)
+            // The exact foot is right, and the start is clearly outside the tolerance (twice it), so it is never already met.
+            expect(ladderOk(c, Math.round(targetFoot(c))), JSON.stringify(c)).toBe(true)
+            expect(Math.abs(askedAt(c, (start as { foot: number }).foot) - c.value), JSON.stringify(c)).toBeGreaterThan(LADDER_TOLERANCE * 2)
             n += 1
           }
         }

@@ -2,8 +2,9 @@
 //
 // Heat on the move, with the real apparatus of the school bench. Two tasks, each one thing to handle:
 //   beads -- the wax-and-rod test. Rods of different metals stand in a bath of boiling water, each with a ball bearing
-//            stuck on by a dab of wax. The learner slides each ball along its rod so that every wax dab melts at
-//            the same moment. The rods colour as the heat creeps along; each ball drops when its wax lets go.
+//            stuck on by a dab of wax, all at the same distance. The learner heats the rods and watches the balls
+//            drop one by one, then puts the metals in order, best conductor first. The rods colour as the heat creeps
+//            along; each ball drops when its wax lets go. Marked by conductivity (copper, aluminium, brass, iron).
 //   wrap  -- a cup of hot water, or of cold, beside a thermometer. The learner dresses the cup (layers of wool, a lid,
 //            shiny foil) so that it holds its temperature, with as few parts as they can. Orange arrows show the three
 //            ways heat leaves a hot cup, or enters a cold one: through the wall (conduction), over the top
@@ -58,15 +59,10 @@ export type MaterialName = (typeof MATERIALS)[number]
 export const DIFFUSIVITY: Record<MaterialName, number> = { aluminium: 97, brass: 34, copper: 111, iron: 23 }
 export const ROD_MIN = 2
 export const ROD_MAX = 3
-/** Beads sit on whole centimetres from the bath, on a rod 15 cm long. */
-export const BEAD_MIN = 1
-export const BEAD_MAX = 14
-export const BEAD_START = 7
+/** Rods are 15 cm long. */
 export const ROD_CM = 15
 /** Wax melts (60 C) when a rod end held at 100 C has warmed a point from 20 C to half way: 2 * erfc^-1(0.5) squared. */
 export const MELT_K = 0.9099
-/** "Together" means the last is at most 11/10 of the first. */
-export const TOGETHER = { num: 11, den: 10 }
 /** Two rods whose diffusivity differs by less than this ratio would give the same answer: refused. */
 export const MIN_SPREAD = 1.4
 
@@ -98,63 +94,35 @@ export function erfc(z: number): number {
   return 1 - s * erf
 }
 
-export const clampBead = (n: unknown): number => (typeof n === 'number' && Number.isFinite(n) ? Math.max(BEAD_MIN, Math.min(BEAD_MAX, Math.round(n))) : BEAD_START)
 
-/** Where each bead sits, one for each rod, whatever the state holds. */
-export function beadsOf(config: BeadsConfig, state: ThermalState): Record<string, number> {
-  const out: Record<string, number> = {}
-  for (const r of config.rods) out[r] = clampBead(state?.beads?.[r])
-  return out
+/** Thermal conductivity, W/(m K): copper 400, aluminium 237, brass 120, iron 80 (rounded textbook values; the order is what is marked). */
+export const CONDUCTIVITY: Record<MaterialName, number> = { aluminium: 237, brass: 120, copper: 400, iron: 80 }
+/** Every ball hangs this far from the bath, in centimetres. */
+export const BEAD_AT = 10
+/** The order the rods stand in until the learner changes it: a fixed order of the metals, which is never the right one. */
+const STAND_ORDER = ['iron', 'brass', 'copper', 'aluminium']
+
+/** Best conductor first, by conductivity. */
+export function correctOrder(rods: string[]): string[] {
+  const k = (m: string) => (isMaterial(m) ? CONDUCTIVITY[m] : 0)
+  return [...rods].sort((a, b) => k(b) - k(a))
 }
 
-/** Every pair of beads falls within the tolerance of each other, by whole-number cross products of x^2 and a. */
-export function together(rods: string[], at: Record<string, number>): boolean {
-  for (const p of rods) {
-    for (const q of rods) {
-      if (p === q) continue
-      const ap = isMaterial(p) ? DIFFUSIVITY[p] : 1
-      const aq = isMaterial(q) ? DIFFUSIVITY[q] : 1
-      // time(p) <= tolerance * time(q): x_p^2 / a_p <= (num/den) * x_q^2 / a_q
-      if (TOGETHER.den * at[p] ** 2 * aq > TOGETHER.num * at[q] ** 2 * ap) return false
-    }
-  }
-  return true
+export function startOrder(rods: string[]): string[] {
+  const at = (m: string) => (STAND_ORDER.includes(m) ? STAND_ORDER.indexOf(m) : 99)
+  return [...rods].sort((a, b) => at(a) - at(b))
 }
 
-/** The positions with the smallest spread of drop times, found by trying every one. */
-const bestMemo = new Map<string, Record<string, number>>()
-export function bestBeads(rods: string[]): Record<string, number> {
-  const key = rods.join(',')
-  const known = bestMemo.get(key)
-  if (known) return { ...known }
-  let best: Record<string, number> | null = null
-  let bestSpread = Infinity
-  const at: Record<string, number> = {}
-  const go = (i: number) => {
-    if (i === rods.length) {
-      const times = rods.map((r) => dropSeconds(at[r], r))
-      const spread = Math.max(...times) / Math.min(...times)
-      if (spread < bestSpread - 1e-9) {
-        bestSpread = spread
-        best = { ...at }
-      }
-      return
-    }
-    for (let x = BEAD_MIN; x <= BEAD_MAX; x++) {
-      at[rods[i]] = x
-      go(i + 1)
-    }
-  }
-  go(0)
-  const found = best ?? Object.fromEntries(rods.map((r) => [r, BEAD_START]))
-  bestMemo.set(key, found)
-  return { ...found }
+/** The order the stand shows: the learner's, if it names each rod once; otherwise the start. */
+export function orderOf(config: BeadsConfig, state: ThermalState): string[] {
+  const o = state?.order
+  if (Array.isArray(o) && o.length === config.rods.length && config.rods.every((r) => o.includes(r)) && new Set(o).size === o.length) return [...o]
+  return startOrder(config.rods)
 }
 
-/** The longest any bead on these rods could take, rounded up to the half minute: the end of the clock. */
-export function horizonOf(rods: string[]): number {
-  const longest = Math.max(...rods.map((r) => dropSeconds(BEAD_MAX, r)))
-  return Math.ceil(longest / 30) * 30
+/** The sim seconds the race takes: until the slowest ball has dropped and a moment more. */
+export function raceEnd(rods: string[]): number {
+  return Math.max(...rods.map((r) => dropSeconds(BEAD_AT, r))) * 1.06
 }
 
 /** m:ss, for a clock. */
@@ -184,7 +152,7 @@ export const TARGETS: Record<DrinkName, { min: number; max: number }> = { hot: {
 export type WrapConfig = { task: 'wrap'; drink: string; minutes: number; target: number; parts: string[] }
 export type ThermalConfig = BeadsConfig | WrapConfig
 /** What the learner has done: bead positions by rod, or the cup's wrapping. */
-export type ThermalState = { beads?: Record<string, number>; wool?: number; lid?: boolean; foil?: boolean }
+export type ThermalState = { beads?: Record<string, number>; order?: string[]; wool?: number; lid?: boolean; foil?: boolean }
 export type Wrapping = { wool: number; lid: boolean; foil: boolean }
 
 const isDrink = (d: string): d is DrinkName => d === 'hot' || d === 'cold'
@@ -254,7 +222,7 @@ export const BARE: Wrapping = { wool: 0, lid: false, foil: false }
 // Marking: from the rules, always.
 
 export function done(config: ThermalConfig, state: ThermalState): boolean {
-  if (config.task === 'beads') return together(config.rods, beadsOf(config, state))
+  if (config.task === 'beads') return orderOf(config, state).join() === correctOrder(config.rods).join()
   const w = wrappingOf(config, state)
   return holds(config, w) && partsUsed(w) === fewestParts(config)
 }
@@ -280,12 +248,8 @@ export const degrees = (t: number) => `${t.toFixed(1)} °C`
 /** What a correct card says: what the learner found, and the misconception it answers. */
 export function working(config: ThermalConfig, state: ThermalState): string {
   if (config.task === 'beads') {
-    const at = beadsOf(config, state)
-    const times = config.rods.map((r) => dropSeconds(at[r], r))
-    const quick = [...config.rods].sort((a, b) => DIFFUSIVITY[b as MaterialName] - DIFFUSIVITY[a as MaterialName])[0]
-    const slow = [...config.rods].sort((a, b) => DIFFUSIVITY[a as MaterialName] - DIFFUSIVITY[b as MaterialName])[0]
-    const mean = times.reduce((a, b) => a + b, 0) / times.length
-    return `Yes. The wax let go at about ${clock(mean)} on every rod. The ${quick} bead sits ${at[quick]} cm from the bath and the ${slow} bead only ${at[slow]} cm: heat runs along ${quick} much faster than along ${slow}, so it has to be farther along to take the same time. Metals are good conductors, which is also why a metal rail feels colder than wood at the same temperature: it carries heat out of your hand faster.`
+    const order = correctOrder(config.rods)
+    return `Yes. Best conductor first: ${order.join(", ")}. Metals conduct well because their free electrons carry energy through the metal as well as the atoms passing on their vibrations, so ${order[0]} lets heat through fastest and ${order[order.length - 1]} slowest. That is also why a metal rail feels colder than wood at the same temperature: it carries heat out of your hand faster, so your hand loses heat quickly.`
   }
   const w = wrappingOf(config, state)
   const d = drinkOf(config)
@@ -303,11 +267,7 @@ export function working(config: ThermalConfig, state: ThermalState): string {
 /** What a wrong card says: what the learner made, never where the answer is. */
 export function madeText(config: ThermalConfig, state: ThermalState): string {
   if (config.task === 'beads') {
-    const at = beadsOf(config, state)
-    const order = [...config.rods].sort((a, b) => dropSeconds(at[a], a) - dropSeconds(at[b], b))
-    const first = order[0]
-    const last = order[order.length - 1]
-    return `The ${first} bead dropped first, at ${clock(dropSeconds(at[first], first))}, and the ${last} bead last, at ${clock(dropSeconds(at[last], last))}: they did not fall together.`
+    return `Your order was ${orderOf(config, state).join(', ')}, and it does not match the order the balls drop in.`
   }
   const w = wrappingOf(config, state)
   const t = tempAt(config, w, config.minutes)
@@ -461,23 +421,21 @@ function beadsFaults(config: BeadsConfig): string[] {
   if (config.rods.length < ROD_MIN || config.rods.length > ROD_MAX) {
     out.push(`${config.rods.length} rods is not what the card shows (${ROD_MIN} or ${ROD_MAX}): use e.g. rods ["copper","brass","iron"].`)
   }
-  if (new Set(config.rods).size !== config.rods.length) out.push('Two rods are the same metal, so their beads would fall together wherever they sit: use e.g. rods ["copper","iron"].')
+  if (new Set(config.rods).size !== config.rods.length) out.push('Two rods are the same metal, so their balls would drop together and there is no order to find: use e.g. rods ["copper","iron"].')
   if (out.length) return out
   for (const p of config.rods) {
     for (const q of config.rods) {
       if (p >= q) continue
       const ratio = Math.max(DIFFUSIVITY[p as MaterialName], DIFFUSIVITY[q as MaterialName]) / Math.min(DIFFUSIVITY[p as MaterialName], DIFFUSIVITY[q as MaterialName])
-      if (ratio < MIN_SPREAD) out.push(`${p} and ${q} pass heat along so alike that their beads would sit almost together: use e.g. rods ["copper","iron"].`)
+      if (ratio < MIN_SPREAD) out.push(`${p} and ${q} pass heat along so alike that their balls would drop almost together and the race would not tell them apart: use e.g. rods ["copper","iron"].`)
     }
   }
-  if (out.length) return out
-  if (!together(config.rods, bestBeads(config.rods))) out.push('These rods cannot be made to drop together on a rod this long: use e.g. rods ["copper","iron"].')
   return out
 }
 
 /** What a prompt can safely say: the gesture and the aim. */
 export const goodPrompt = (config: ThermalConfig): string => {
-  if (config.task === 'beads') return 'Slide each ball along its rod so that all the balls drop at the same moment. Touching a ball puts it back, and the clock runs again when you let go.'
+  if (config.task === 'beads') return 'Heat the rods and watch the balls drop, then put the metals in order, best conductor first.'
   const d = config.drink
   const parts = config.parts.filter(isPart)
   const names = parts.map((p) => (p === 'wool' ? 'wool' : p === 'lid' ? 'a lid' : 'foil'))
@@ -545,12 +503,12 @@ export const thermalTransferEngine: SceneEngine<ThermalConfig, ThermalState> = {
     const example = goodPrompt(config)
     const out: string[] = []
     if (config.task === 'beads') {
-      const where = /\b\d+(?:\.\d+)?\s*(?:cm|centimet(?:re|er)s?|mm)\b|\b(?:far(?:ther|thest)|further|furthest|closer|closest|nearer|nearest|halfway|half way|middle|end of the rod|near the bath|from the bath)\b|\bsquare(?:d)?\b|\btwice as\b|\bdouble\b|\bfaster\b|\bslower\b|\bbetter conductor|\bpoor conductor|\bgood conductor|\bconductivity\b|\bdiffusivity\b|\binsulator\b/i.test(text)
-      if (where) {
-        out.push(`the prompt gives the answer away: it says where a ball goes or which metal is quicker, which the learner is to find by trying -- ask for the outcome only ("${example}")`)
+      const gives = /\b(?:copper|aluminium|aluminum|brass|iron)\b[^.]*\b(?:best|better|worst|worse|fastest|quickest|slowest|first|last|conducts?|good|poor|top|bottom)\b|\b(?:best|worst|fastest|slowest)\b[^.]*\b(?:copper|aluminium|aluminum|brass|iron)\b|\bfree electrons?\b|\bconductivity\b|\bdiffusivity\b|\binsulator\b|\bthe order is\b/i.test(text)
+      if (gives) {
+        out.push(`the prompt gives the answer away: it names a metal as the best or worst, or says why, which the learner is to find from the race -- ask for the outcome only ("${example}")`)
       }
-      if (/\bthermal camera|\binfra-?red|\bthermometer|\bflame|\bbunsen|\btouch the rod|\bfeel\b|\btemperature of the (?:wax|rod)|\bdegrees?\b|\b°C/i.test(text)) {
-        out.push(`the prompt promises something the card does not show: it draws rods in a boiling bath, wax dabs and balls, and the learner slides the balls -- ask for that ("${example}")`)
+      if (/\bslide|\bdrag|\bclock\b|\bwind|\bthermal camera|\binfra-?red|\bthermometer|\bflame|\bbunsen|\btouch the rod|\bfeel\b|\b\d+(?:\.\d+)?\s*(?:cm|centimet(?:re|er)s?|mm)\b|\bdegrees?\b|\b°C/i.test(text)) {
+        out.push(`the prompt promises something the card does not show: it draws rods clamped in a boiling bath with a ball on each, a button that heats them, and a row to put the metals in order -- ask for that ("${example}")`)
       }
       return out
     }
@@ -572,7 +530,7 @@ export const thermalTransferEngine: SceneEngine<ThermalConfig, ThermalState> = {
   },
 
   initial(config) {
-    if (config.task === 'beads') return { beads: Object.fromEntries(config.rods.map((r) => [r, BEAD_START])) }
+    if (config.task === 'beads') return { order: startOrder(config.rods) }
     return { wool: 0, lid: false, foil: false }
   },
 
@@ -581,7 +539,7 @@ export const thermalTransferEngine: SceneEngine<ThermalConfig, ThermalState> = {
   },
 
   solve(config) {
-    if (config.task === 'beads') return { beads: bestBeads(config.rods) }
+    if (config.task === 'beads') return { order: correctOrder(config.rods) }
     const w = bestWrapping(config)
     return { wool: w.wool, lid: w.lid, foil: w.foil }
   },
@@ -589,15 +547,15 @@ export const thermalTransferEngine: SceneEngine<ThermalConfig, ThermalState> = {
   View: ThermalTransferView,
 
   prompt: `SCENE "thermal-transfer" -- heat on the move, drawn as the real bench apparatus on a quiet light panel. Two tasks.
-  beads: rods of different metals (brass, copper, iron, aluminium) stand in a bath of boiling water, each with a small ball bearing hanging from it by a dab of wax. The rods colour from the bath outward as heat creeps along them; a ball drops into the tray under its rod when its wax melts. The learner slides each ball along its rod (drag, tap on the rod, or the arrow keys) so that every ball drops at the same moment. Touching a ball puts the experiment back to the start, and the clock runs again when they let go; a slider winds the clock, and "Run again" repeats it.
+  beads: rods of different metals (brass, copper, iron, aluminium) are clamped in a stand with their ends in a bath of boiling water. A ball hangs from each rod on a dab of wax, all at the same distance from the bath. The learner presses "Heat the rods" and watches: the rods redden at their real rates and the balls drop one by one over about ten seconds, with an elapsed time beside the button; they can run it again as often as they like. Then they put the metals in order, best conductor first, by tapping one metal and then another to swap them, and the rods change places on the stand.
   wrap: a beaker of hot or cold water in cross-section beside a thermometer, with a bare cup's reading beside it. The learner dresses the cup: layers of wool (0 to 3), a lid, shiny foil. Orange arrows show heat leaving a hot cup, or entering a cold one, three ways: through the wall (conduction), over the top (convection) and as rays (radiation); each arrow thickens and thins with what the cup wears, and all thin as the water nears room temperature. A slider winds the clock; the thermometer shows the water, with the target marked.
   For: heat transfer, conduction, convection and radiation, thermal insulation, vacuum flasks, keeping things hot or cold, rate of cooling, good and poor conductors of heat. It answers "insulation keeps the cold in" (a cold cup is wrapped too, and the arrows go inward), "heat and cold are different things that flow", and "metal is colder than wood" (the beads show metals carrying heat fast; the result says so).
-  beads config: rods: 2 or 3 of "aluminium","brass","copper","iron" (default brass, copper, iron). Not both copper and aluminium: they conduct too alike. Wood and glass rods are not drawn.
+  beads config: rods: 2 or 3 of "aluminium","brass","copper","iron" (default brass, copper, iron). Not both copper and aluminium: their balls would drop too close together to tell. Wood and glass rods are not drawn.
   wrap config: drink: "hot" (80 °C start) or "cold" (5 °C start); the room is 20 °C. minutes: 10 to 60 (default 30). target: hot 30 to 75 °C (default 50), cold 6 to 15 °C (default 10): the water must stay above (hot) or below (cold) it for the whole time. parts: any of "wool","lid","foil" the learner may use (default all three), so a lesson on conduction alone can offer only wool. A target a bare cup already holds, or that nothing can hold, is refused with one that works.
-  Marking: beads is right when the last bead drops no more than a tenth later than the first. wrap is right when the water holds the target AND the cup wears as few parts as will do it (each layer, the lid and the foil count one). A cup that holds with more parts is marked wrong, with what was made.
+  Marking: beads is right when the metals are in the exact order of their thermal conductivity (copper, aluminium, brass, iron), best first; the result says why metals conduct and why metal feels colder than wood. wrap is right when the water holds the target AND the cup wears as few parts as will do it (each layer, the lid and the foil count one). A cup that holds with more parts is marked wrong, with what was made.
   Not drawn: wood, glass or plastic rods, ice cubes, steam clouds, vacuum flasks, thermal cameras, conduction of electricity, nuclear radiation, the Sun, the greenhouse effect, or anything on heat capacity and Q = mc dT. Do not use it for electrical conduction, nerve impulses, radiation from atoms, or convection in the mantle.
-  Before marking the card shows the experiment running and what the learner has built: the colours, the balls, the thermometer's reading and the arrows. It holds back whether the beads fell together enough, the fewest parts, and why. The prompt must ask for the outcome only: do NOT say where to put a ball, which metal is quicker, how many layers, which part works, or how heat moves (no "conduction", "convection", "radiation", "keeps the heat in").
-  { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Slide each ball along its rod so that all the balls drop at the same moment. Touching a ball puts it back, and the clock runs again when you let go.",
+  Before marking the card shows the experiment running and what the learner has built: the colours, the balls, the thermometer's reading and the arrows. It holds back the right order, the fewest parts, and why. The prompt must ask for the outcome only: do NOT say which metal is best or worst, how many layers, which part works, or how heat moves (no "conduction", "convection", "radiation", "keeps the heat in").
+  { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Heat the rods and watch the balls drop, then put the metals in order, best conductor first.",
     "payload": { "engine":"thermal-transfer", "config": { "task":"beads", "rods":["brass","copper","iron"] } },
     "success": { "kind":"scene" } }, "intent": { "goal":"...", "isolates":"magnitude", "apparatus":"scene:thermal-transfer", "why":"..." } }
   { "type":"createActivity", "spec": { "pattern":"scene", "prompt":"Add wool, a lid or foil to the cup. Keep the water above 50 °C for 30 minutes, with as few parts as you can.",
