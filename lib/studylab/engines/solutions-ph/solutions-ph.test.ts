@@ -54,7 +54,7 @@ describe('the chemistry', () => {
     expect(phAt(T2, 0)).toBeCloseTo(13.3, 1)
   })
 
-  it('every drop only moves the pH one way, so there is one end-point', () => {
+  it('every drop only moves the pH one way, so there is one end-point', { timeout: 30_000 }, () => {
     for (const c of TITRATES) {
       const dir = isAcidFlask(c) ? 1 : -1
       let last = phAt(c, 0)

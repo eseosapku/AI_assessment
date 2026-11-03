@@ -26,7 +26,7 @@ describe('the scenes block', () => {
     await import('@/lib/studylab/engines')
     expect(materialRules('Phases of the Moon: why the Moon changes shape')).toMatch(/SCENE "orbit"/)
     expect(materialRules('Phases of the Moon: why the Moon changes shape')).not.toMatch(/SCENE "particles"/)
-    expect(materialRules('Equivalent fractions: making equal fractions')).not.toMatch(/^SCENES --/m)
+    expect(materialRules('Sonnets and rhyme schemes: how a poem is built')).not.toMatch(/^SCENES --/m)
     expect(materialRules()).toMatch(/SCENE "particles"/)
   })
 })
