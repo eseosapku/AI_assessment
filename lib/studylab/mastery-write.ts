@@ -1,6 +1,69 @@
 import type { Database } from '@/lib/db'
 import { masteryNumber } from './mastery-numbers'
 import { nextLatest } from './mastery-latest'
+import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
+import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
+
+type Bucket = { correct: number; total: number }
+
+/**
+ * Scores each tagged question and buckets it per section (`sections`) or, for
+ * questions with only a chapter tag, per chapter (`chapters`).
+ */
+export function scoreQuestions(
+  questionsData: unknown,
+  answers: unknown,
+  longformGrades: unknown,
+): { sections: Map<number, Bucket>; chapters: Map<number, Bucket>; scoredAny: boolean } {
+  const questions: any[] = Array.isArray(questionsData) ? questionsData : []
+  const a: any = answers
+  const mcqAnswers = (a && typeof a === 'object' && a.mcq) ? a.mcq : (a ?? {})
+  const interactiveAnswers = (a && typeof a === 'object' && a.interactive) ? a.interactive : {}
+  const lfGrades: any = longformGrades ?? {}
+  const sections = new Map<number, Bucket>()
+  const chapters = new Map<number, Bucket>()
+  let scoredAny = false
+
+  questions.forEach((q: any, idx: number) => {
+    const sid = Number(q?.subtopic_id) || 0
+    const tid = Number(q?.topic_id) || 0
+    if (sid <= 0 && tid <= 0) return
+
+    let frac: number | null = null
+    if (q?.type === 'longform') {
+      const g = lfGrades?.[idx] ?? lfGrades?.[String(idx)]
+      const totalMarks = Number(g?.marks_total)
+      if (g && Number.isFinite(totalMarks) && totalMarks > 0) {
+        frac = Math.max(0, Math.min(1, Number(g.marks_awarded ?? 0) / totalMarks))
+      }
+    } else if (q?.type === 'interactive') {
+      const normalized = normalizeInteractiveQuestion(q)
+      if (normalized) {
+        const ans = interactiveAnswers?.[idx] ?? interactiveAnswers?.[String(idx)]
+        const grade = gradeInteractiveQuestion(normalized, ans)
+        if (grade.marks_total > 0) {
+          frac = Math.max(0, Math.min(1, grade.marks_awarded / grade.marks_total))
+        }
+      }
+    } else if (q?.type === 'mcq' || Array.isArray(q?.options)) {
+      const ua = mcqAnswers?.[idx] ?? mcqAnswers?.[String(idx)]
+      frac = ua !== undefined && ua !== null && Number(ua) === Number(q?.correct_answer) ? 1 : 0
+    } else {
+      return
+    }
+    if (frac === null) return // ungraded long-form: skip rather than misattribute
+
+    scoredAny = true
+    const bucket = sid > 0 ? sections : chapters
+    const key = sid > 0 ? sid : tid
+    const b = bucket.get(key) ?? { correct: 0, total: 0 }
+    b.correct += frac
+    b.total += 1
+    bucket.set(key, b)
+  })
+
+  return { sections, chapters, scoredAny }
+}
 
 /**
  * Incrementally upserts one mastery bucket (a chapter-level or section-level

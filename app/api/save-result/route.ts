@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
 import { jsonbParam } from '@/lib/pg-json'
-import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
-import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 
-import { writeMasteryBucket } from '@/lib/studylab/mastery-write'
+import { writeMasteryBucket, scoreQuestions } from '@/lib/studylab/mastery-write'
 import { isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 
 type ResultRow = {
@@ -104,51 +102,7 @@ async function updateTopicMastery(params: {
     const nowIso = new Date().toISOString()
 
     // ── Precise path: score each tagged question and bucket per subtopic. ──────
-    const questions: any[] = Array.isArray(questionsData) ? questionsData : []
-    const mcqAnswers = (answers && typeof answers === 'object' && answers.mcq) ? answers.mcq : (answers ?? {})
-    const interactiveAnswers = (answers && typeof answers === 'object' && answers.interactive) ? answers.interactive : {}
-    const lfGrades = longformGrades ?? {}
-    const subBuckets = new Map<number, { correct: number; total: number }>()
-    const topicBuckets = new Map<number, { correct: number; total: number }>()
-    let scoredAny = false
-
-    questions.forEach((q: any, idx: number) => {
-      const sid = Number(q?.subtopic_id) || 0
-      const tid = Number(q?.topic_id) || 0
-      if (sid <= 0 && tid <= 0) return
-
-      let frac: number | null = null
-      if (q?.type === 'longform') {
-        const g = lfGrades?.[idx] ?? lfGrades?.[String(idx)]
-        const totalMarks = Number(g?.marks_total)
-        if (g && Number.isFinite(totalMarks) && totalMarks > 0) {
-          frac = Math.max(0, Math.min(1, Number(g.marks_awarded ?? 0) / totalMarks))
-        }
-      } else if (q?.type === 'interactive') {
-        const normalized = normalizeInteractiveQuestion(q)
-        if (normalized) {
-          const ans = interactiveAnswers?.[idx] ?? interactiveAnswers?.[String(idx)]
-          const grade = gradeInteractiveQuestion(normalized, ans)
-          if (grade.marks_total > 0) {
-            frac = Math.max(0, Math.min(1, grade.marks_awarded / grade.marks_total))
-          }
-        }
-      } else if (q?.type === 'mcq' || Array.isArray(q?.options)) {
-        const ua = mcqAnswers?.[idx] ?? mcqAnswers?.[String(idx)]
-        frac = ua !== undefined && ua !== null && Number(ua) === Number(q?.correct_answer) ? 1 : 0
-      } else {
-        return
-      }
-      if (frac === null) return // ungraded long-form — skip rather than misattribute
-
-      scoredAny = true
-      const bucket = sid > 0 ? subBuckets : topicBuckets
-      const key = sid > 0 ? sid : tid
-      const b = bucket.get(key) ?? { correct: 0, total: 0 }
-      b.correct += frac
-      b.total += 1
-      bucket.set(key, b)
-    })
+    const { sections: subBuckets, chapters: topicBuckets, scoredAny } = scoreQuestions(questionsData, answers, longformGrades)
 
     if (scoredAny && (subBuckets.size > 0 || topicBuckets.size > 0)) {
       const tasks: Promise<void>[] = []
