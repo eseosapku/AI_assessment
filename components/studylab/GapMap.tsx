@@ -5,8 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import type { MasteryStatus } from '@/lib/studylab/types'
 import { openLearnSpace } from '@/lib/studylab/openSpace'
-import type { UnlinkedResults } from '@/components/studylab/KnowledgeWall'
-import { unplacedQuizzes } from '@/lib/studylab/wall'
+import { unplacedQuizzes, type UnlinkedResults } from '@/lib/studylab/wall'
 import { canonicalSubject } from '@/lib/canonical-subject'
 import {
   buildRack, changesSince, findChapter, resolveDeepLink, sectionToStart, snapshotRack,
@@ -103,6 +102,8 @@ export default function GapMap({
 
   // Read once, and cleared: the snapshot taken just before leaving for a lesson or quiz.
   const compared = useRef(false)
+  // The rack waits for the comparison, so a tile that just left its gap mounts already lifted and can settle.
+  const [rackReady, setRackReady] = useState(false)
   useEffect(() => {
     if (!tree || compared.current) return
     compared.current = true
@@ -115,6 +116,7 @@ export default function GapMap({
       before = null
     }
     if (before && typeof before === 'object') setChanges(changesSince(before, trays))
+    setRackReady(true)
   }, [tree, trays])
 
   // A link from a finished quiz ("Study these areas") or the persona page:
@@ -327,7 +329,7 @@ export default function GapMap({
               busy={starting || takingQuiz}
             />}
           />
-        ) : (
+        ) : tree && !rackReady ? null : (
           <RackHome
             trays={trays}
             unplaced={unplaced}

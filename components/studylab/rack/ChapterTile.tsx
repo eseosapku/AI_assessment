@@ -62,7 +62,8 @@ export function ChapterTile({
   /** The tile just left its gap behind: it starts lifted and settles into its slot. */
   dropped: boolean
 }) {
-  const [lifted, setLifted] = useState(dropped)
+  // Reduced motion: seated from the start, nothing to animate.
+  const [lifted, setLifted] = useState(() => dropped && !(typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches))
   // Once, after mount. The parent clears `dropped` after first use, so this
   // must not depend on it or the cleanup would cancel the drop.
   useEffect(() => {

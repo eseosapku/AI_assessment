@@ -207,14 +207,15 @@
   .ss-rack-col:last-child { grid-column: 1 / -1; max-width: 460px; }
 }
 @media (max-width: 700px) {
-  .ss-rack-chap { display: block; }
+  /* the fixed sheet and the nav bar cover the foot of the page: leave room to scroll clear of both */
+  .ss-rack-chap { display: block; padding-bottom: 200px; }
   .ss-rack-mid { display: block; height: auto; min-height: 0; }
   .ss-rack-col { margin-top: 12px; }
   .ss-rack-info { display: grid; grid-template-columns: 72px 1fr; column-gap: 12px; padding: 12px; border-radius: 16px; }
   .ss-rack-pic { width: 72px; height: 72px; border-radius: 21px; grid-row: span 2; }
   .ss-rack-info h2 { margin: 0 0 3px; font-size: 17px; }
   .ss-rack-info p { display: none; }
-  .ss-rack-path { overflow: visible; container-type: normal; padding: 46px 0 190px; -webkit-mask-image: none; mask-image: none; }
+  .ss-rack-path { overflow: visible; container-type: normal; padding: 46px 0 40px; -webkit-mask-image: none; mask-image: none; }
   .ss-rack-stop { height: auto; min-height: 124px; gap: 14px; margin-left: 0; width: 100%; max-width: none; }
   .ss-rack-stop:nth-child(2n) { margin-left: 28px; width: calc(100% - 28px); }
   .ss-rack-plate { width: 132px; }
