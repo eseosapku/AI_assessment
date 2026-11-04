@@ -37,9 +37,9 @@ The structure is adapted from Brilliant's topics page, and it must not be a copy
 ### Your-subjects page
 
 - **Kana speaks first**, at the top, in a speech bubble with one button: "Tiles sticking up have gaps, and you have 5. Let's start with Quadratic equations, it's your lowest." The button is "Let's fix it" and opens that chapter on that section. She also perches on that tile. "Lowest" means the lowest latest score; a tie goes to the most recently tried, then to book order, and an untried section is never a gap (my call). When there are no gaps she celebrates and suggests something new to try.
-- **One tray per subject**, all reachable at once with no picker. The subject holding the lowest-scoring gap comes first, then those with the most gaps, then the rest. With more than 6 subjects, the rest sit behind "Show all subjects".
-- **A subject card starts each tray**: the subject's name, a grid of small squares with one per section coloured by status (the logo's squares), "6 of 16 tried", and "2 gaps" if any.
-- **Tiles are in book order** and scroll sideways when they do not fit, growing to fill short rows. Each shows only its picture, its name underneath, and one small mark.
+- **One tray per subject and level**, all reachable at once with no picker. A book's name is read as a subject and a level (`lib/studylab/book-title.ts`: "Cambridge IGCSE Chemistry Coursebook" is Chemistry, Cambridge IGCSE), so two levels of one subject are two trays. Each tray has a chevron on its subject card that closes it to one short row (subject, level, tried count, gap count); the choice is saved per student in `localStorage` (`ss-gap-closed:<userId>`) and a deep link or Kana's button opens the tray it needs. The subject holding the lowest-scoring gap comes first, then those with the most gaps, then the rest. With more than 6 subjects, the rest sit behind "Show all subjects".
+- **A subject card starts each tray**: the subject's name big with its level small beneath it, a grid of small squares with one per section coloured by status (the logo's squares), "6 of 16 tried", and "2 gaps" if any.
+- **Gaps come first in a tray**: chapters with gaps, lowest score first, then every other chapter in book order, so a student's gaps are never off screen. Kana's perch is always on the first tile of the first tray. The row scrolls sideways when tiles do not fit, with no scrollbar (a mouse gets small chevron buttons at the edges), growing to fill short rows. Each shows only its picture, its name underneath, and one small mark.
 - **A tile's state:**
 
 | State | Rule | Look |
@@ -50,7 +50,7 @@ The structure is adapted from Brilliant's topics page, and it must not be a copy
 | Solid | Tried, all tried sections solid | Flat in its slot, green ✓ |
 | Not tried | Nothing tried | Picture greyed out and faint |
 
-- Quizzes that cannot be placed on a chapter stay visible as a quiet row at the bottom ("Geography, 3 quizzes, average 61%"). This fixed a real complaint in October, so it must not regress.
+- Quizzes that cannot be placed on a chapter stay visible, folded into one quiet closed card at the bottom: "Quizzes not on a chapter", "44 quizzes, average 27%". Opened, it lists each subject with its count and average, the unlinked ones last as "Other quizzes" with a line saying why they cannot be on a tile. It starts open when the student has no trays at all, and its state is saved per student. This fixed a real complaint in October, so it must not regress.
 - A new student with no quizzes gets Kana inviting them to their first quiz, above their subjects' faint tiles if they have any.
 
 ### Chapter page
@@ -61,7 +61,7 @@ Opened by tapping a tile. It has its own URL, works with the browser's back butt
 
 - The path scrolls inside the middle column. Plates are big enough that **3 show in full**, and the next one peeks in so it is clear there is more.
 - Both sides are wide, at about a quarter of the page each, and their text and pictures grow with them. The minimums are 300 px on the left and 340 px on the right (my call, so laptops still have room for the path).
-- Kana's sheet is pinned at the foot of the middle column, centred and at most 640 px wide, so the buttons never move.
+- Only the shell's `<main>` scrolls a page; the path and the side columns scroll inside themselves with their scrollbars hidden (wheel, touch and keyboard still work). Kana's sheet is pinned at the foot of the middle column, centred and at most 640 px wide, so the buttons never move.
 - On opening, the path scrolls only if it must, so that Kana's plate is in full view.
 - Under 1320 px wide the practice card moves below the other two columns. On a phone it is one scrolling column, with larger plates and the sheet fixed above the tab bar. On opening, the phone page scrolls so Kana's plate sits clear above the sheet (my call; the phone mockup does not do this yet and starts with her plate hidden behind it).
 - LearnSpace cards were designed at about 460 px. Check that a live card is usable at 340 to 394 px; if not, give it room rather than shrinking it until it is hard to read.
@@ -74,6 +74,10 @@ Opened by tapping a tile. It has its own URL, works with the browser's back butt
 - A chapter with no sections (581 of the 2,513 drawings, across several curricula) gets one plate standing for the chapter.
 
 **When whole-chapter and section scores both exist (my call).** They are stored apart: a section's row has `subtopic_id`, a whole chapter's has `topic_id` and `subtopic_id` 0. Section scores win. A whole-chapter score decides the tile only when no section in that chapter has been tried. It then shows on the chapter card, the plates stay untried, and if it is under 50 it counts as one gap: the pill says "Gap", and Kana's sheet offers the whole chapter ("This chapter is on 40%...") with a whole-chapter retake. Today's page drops this evidence entirely, which is one of the problems above.
+
+### Motion
+
+Tapping a chapter tile presses it in and pops it (about 260 ms) while Kana flies in an arc from her bubble or perch to the tile, then the chapter opens (about 420 ms after the tap). Arriving on a chapter, the plates rise one after another, 60 ms apart, and Kana drops onto hers. Tapping a plate dips it, and Kana hops in an arc from her old plate to the new one (FLIP), then the sheet's words change. Tiles stay real links: modified clicks open at once with no animation, a second tap during the flight does nothing, and a timer guarantees the navigation. With reduced motion there is no flight, pop, hop or fold animation.
 
 ## Scoring
 
