@@ -31,6 +31,8 @@ export interface RackChapter {
   curriculumSlug: string | null
   art: string | null
   hasSections: boolean
+  /** A topic the student typed themselves: no book behind it, negative topicId. */
+  ownTopic?: boolean
   sections: RackSection[]
   /** A whole-chapter score that decides the tile because no section was tried. */
   wholeChapter: { band: SectionBand; score: number; lowest: number } | null
@@ -59,6 +61,11 @@ const isObj = (v: unknown): v is Raw => !!v && typeof v === 'object' && !Array.i
 const asId = (v: unknown): number | null => {
   const n = Number(v)
   return Number.isInteger(n) && n > 0 ? n : null
+}
+/** A chapter id from a link: a book chapter is positive, a typed topic is negative. */
+const asChapterId = (v: unknown): number | null => {
+  const n = Number(v)
+  return Number.isInteger(n) && n !== 0 ? n : null
 }
 const text = (v: unknown) => String(v ?? '').trim()
 const norm = (v: unknown) => text(v).toLowerCase().replace(/\s+/g, ' ')
@@ -180,6 +187,72 @@ function gapsFirst(chapters: RackChapter[]): RackChapter[] {
   return [...withGap, ...rest]
 }
 
+const OWN_KEY = 'own-topics'
+const cleanOwnName = (raw: string) => text(raw).replace(/^mastering\s+/i, '').trim() || text(raw)
+/** A stable negative integer from a name (FNV-1a), so ?chapter= survives a reload. */
+function ownTopicId(name: string): number {
+  let h = 0x811c9dc5
+  for (let i = 0; i < name.length; i++) {
+    h ^= name.charCodeAt(i)
+    h = Math.imul(h, 0x01000193) >>> 0
+  }
+  return -(1 + (h % 2000000000))
+}
+
+type OwnBucket = { raw: string; quizzes: { id: string; pct: number | null; at: string | null }[] }
+/** Name-only buckets (no book, no chapters), merged by normalised name. */
+function ownBuckets(textbooks: readonly unknown[]): Map<string, OwnBucket> {
+  const out = new Map<string, OwnBucket>()
+  for (const raw of Array.isArray(textbooks) ? textbooks : []) {
+    if (!isObj(raw) || asId(raw.id) !== null) continue
+    if (Array.isArray(raw.topics) && raw.topics.length > 0) continue
+    const name = text(raw.name)
+    const key = norm(name)
+    if (!name || key === 'other') continue
+    const quizzes = (Array.isArray(raw.assessments) ? raw.assessments : []).filter(isObj).map((a) => ({
+      id: String(a.id ?? ''), pct: masteryNumber(a.percentage), at: a.created_at ? String(a.created_at) : null,
+    }))
+    const b = out.get(key) ?? { raw: name, quizzes: [] }
+    b.quizzes.push(...quizzes)
+    out.set(key, b)
+  }
+  for (const [k, b] of out) if (!b.quizzes.some((q) => q.pct !== null)) out.delete(k)
+  return out
+}
+
+/** The ids of every quiz that sits on a typed-topic tile, so the quiet line can leave them out. */
+export function ownTopicQuizIds(textbooks: readonly unknown[]): Set<string> {
+  return new Set([...ownBuckets(textbooks).values()].flatMap((b) => b.quizzes.map((q) => q.id)))
+}
+
+export function ownTopicsTray(textbooks: readonly unknown[]): RackTray | null {
+  const chapters: RackChapter[] = []
+  for (const [key, b] of ownBuckets(textbooks)) {
+    const scored = b.quizzes.filter((q) => q.pct !== null).sort((x, y) => timeOf(y.at) - timeOf(x.at))
+    const score = scored[0].pct as number
+    const lowest = Math.min(...scored.map((q) => q.pct as number))
+    const name = cleanOwnName(b.raw)
+    const topicId = ownTopicId(key)
+    const band = bandFor(score, lowest)
+    const lastAssessed = scored.reduce<string | null>((acc, q) => (q.at && timeOf(q.at) > timeOf(acc) ? q.at : acc), null)
+    const section: RackSection = { key: `t${topicId}`, subtopicId: null, name, band, score, lowest, lastAssessed, attempts: scored.length }
+    const state: ChapterState = band
+    chapters.push({
+      topicId, textbookId: 0, name, bookName: b.raw, order: 0, curriculumSlug: null, art: null,
+      hasSections: false, ownTopic: true, sections: [section], wholeChapter: null, state,
+      gapCount: band === 'gap' ? 1 : 0, triedCount: 1,
+    })
+  }
+  if (chapters.length === 0) return null
+  chapters.forEach((c, i) => { c.order = i })
+  const ordered = gapsFirst(chapters)
+  const squares = ordered.flatMap(squaresOf)
+  return {
+    key: OWN_KEY, subject: 'Your own topics', level: null, chapters: ordered, squares,
+    gapCount: ordered.reduce((n, c) => n + c.gapCount, 0), triedCount: squares.length, totalCount: squares.length,
+  }
+}
+
 export function buildRack(textbooks: readonly unknown[], _canonicalise?: (s: string) => string): RackTray[] {
   const byKey = new Map<string, { subject: string; level: string | null; chapters: RackChapter[] }>()
   for (const raw of Array.isArray(textbooks) ? textbooks : []) {
@@ -197,6 +270,7 @@ export function buildRack(textbooks: readonly unknown[], _canonicalise?: (s: str
     byKey.set(key, tray)
   }
 
+  const ownTray = ownTopicsTray(textbooks)
   const trays: RackTray[] = [...byKey].map(([key, t]) => {
     t.chapters.forEach((c, i) => { c.order = i })
     const chapters = gapsFirst(t.chapters)
@@ -209,6 +283,8 @@ export function buildRack(textbooks: readonly unknown[], _canonicalise?: (s: str
     }
   })
 
+  if (ownTray) trays.push(ownTray)
+
   // The tray holding the lowest gap, then gap trays by count, then anything tried, then the rest.
   const holder = lowestPick(gapPicks(trays))?.chapter
   const holderKey = holder ? trays.find((t) => t.chapters.includes(holder))?.key : undefined
@@ -220,13 +296,20 @@ export function buildRack(textbooks: readonly unknown[], _canonicalise?: (s: str
 export function otherQuizzesSummary(
   unplaced: readonly UnplacedSubject[],
   unlinked: UnlinkedResults | null,
+  /** Quizzes already shown on a tile (typed topics): left out of the count and the average. */
+  skip?: ReadonlySet<string>,
 ): { count: number; average: number | null } | null {
   let count = 0, weighted = 0, scored = 0
   const add = (n: number, avg: number | null) => {
     count += n
     if (avg !== null && n > 0) { weighted += avg * n; scored += n }
   }
-  for (const s of unplaced) add(s.quizzes.length, s.average)
+  for (const s of unplaced) {
+    if (!skip || skip.size === 0) { add(s.quizzes.length, s.average); continue }
+    const rest = s.quizzes.filter((q) => !skip.has(q.id))
+    const scores = rest.map((q) => q.percentage).filter((p): p is number => p !== null)
+    add(rest.length, scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null)
+  }
   if (unlinked) add(unlinked.count, unlinked.average)
   if (count === 0) return null
   return { count, average: scored ? Math.round(weighted / scored) : null }
@@ -290,7 +373,7 @@ export function chapterLabel(chapter: RackChapter): string {
   const gaps = chapter.sections.filter((s) => s.band === 'gap').map((s) => s.name)
   switch (chapter.state) {
     case 'gap':
-      if (chapter.wholeChapter || gaps.length === 0) return `${chapter.name}, a gap`
+      if (chapter.wholeChapter || chapter.ownTopic || gaps.length === 0) return `${chapter.name}, a gap`
       return `${chapter.name}, ${gaps.length} ${gaps.length === 1 ? 'gap' : 'gaps'}: ${gaps.join(', ')}`
     case 'gold': return `${chapter.name}, a gap you closed`
     case 'shaky': return `${chapter.name}, shaky`
@@ -355,7 +438,7 @@ export function resolveDeepLink(
   const none = { topicId: null, subtopicId: null, trayKey: null }
 
   if (want.chapter !== undefined && want.chapter !== null && want.chapter !== '') {
-    const topicId = asId(want.chapter)
+    const topicId = asChapterId(want.chapter)
     const hit = topicId === null ? null : findChapter(trays, topicId)
     if (!hit) return none
     const sid = asId(want.section)
@@ -381,6 +464,15 @@ export function resolveDeepLink(
       { assessmentId: assessment, name: subject },
     )
     if (picked && picked.id !== null) tray = trays.find((t) => t.chapters.some((c) => c.textbookId === picked.id)) ?? null
+    // A typed topic has no book: its tile is found by the bucket's name.
+    if (picked && picked.id === null) {
+      const own = trays.find((t) => t.key === OWN_KEY)
+      const mine = own?.chapters.find((c) => norm(c.bookName) === norm(picked.name))
+      if (own && mine) {
+        if (!focus) return { topicId: mine.topicId, subtopicId: null, trayKey: own.key }
+        tray = own
+      }
+    }
     if (!tray && subject) {
       const s = norm(subject)
       tray = trays.find((t) => norm(t.subject) === s) ?? trays.find((t) => norm(t.subject).includes(s) || s.includes(norm(t.subject))) ?? null

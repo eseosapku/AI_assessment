@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import fixture from './rack.fixture.json'
 import {
-  otherQuizzesSummary, buildRack, totalGaps, nextFix, kanaHomeLine, cleanChapterName, visibleTrays, squareSize, findChapter,
+  otherQuizzesSummary, ownTopicsTray, ownTopicQuizIds, buildRack, totalGaps, nextFix, kanaHomeLine, cleanChapterName, visibleTrays, squareSize, findChapter,
   sectionToStart, chapterLabel, sectionLabel, aboutLine, sheetLine, resolveDeepLink, snapshotRack, changesSince,
   type RackChapter, type RackSection,
 } from './rack'
@@ -32,7 +32,7 @@ describe('home', () => {
     const p = nextFix(trays)!
     expect(kanaHomeLine(trays, { ...p, section: null })).toContain(`Let's start with ${p.chapter.name}, it's your lowest.`)
   })
-  it('makes three trays and leaves the name-only bucket out', () => expect(trays.map((t) => t.subject).sort()).toEqual(['Biology', 'Chemistry', 'Mathematics']))
+  it('makes a tray per book and one for the name-only bucket', () => expect(trays.map((t) => t.subject).sort()).toEqual(['Biology', 'Chemistry', 'Mathematics', 'Your own topics']))
 })
 
 describe('attempts decide whether sections win', () => {
@@ -308,4 +308,92 @@ describe('otherQuizzesSummary', () => {
     expect(otherQuizzesSummary([sub(2, null), sub(2, 40)], null)).toEqual({ count: 4, average: 40 })
   })
   it('gives a null average when none has one', () => expect(otherQuizzesSummary([sub(2, null)], null)).toEqual({ count: 2, average: null }))
+})
+
+describe('your own topics', () => {
+  const q = (id: string, percentage: number | null, created_at: string | null) => ({ id, label: 'q', percentage, created_at })
+  const bucket = (name: string, assessments: any[], extra: any = {}) => ({ id: null, name, topics: [], assessments, ...extra })
+  const own = (bs: any[]) => ownTopicsTray(bs)
+  const chapterOf = (bs: any[], i = 0) => own(bs)!.chapters[i]
+
+  it('is null with nothing to show', () => expect(own([])).toBeNull())
+  it('makes a tray called Your own topics with key own-topics', () => {
+    const t = own([bucket('The Roman Empire', [q('a', 30, '2026-11-01T10:00:00Z')])])!
+    expect(t).toMatchObject({ key: 'own-topics', subject: 'Your own topics', level: null, gapCount: 1, triedCount: 1, totalCount: 1 })
+    expect(buildRack([bucket('The Roman Empire', [q('a', 30, '2026-11-01T10:00:00Z')])]).map((x) => x.key)).toEqual(['own-topics'])
+  })
+  it('builds a plain one-plate chapter', () => {
+    expect(chapterOf([bucket('The Roman Empire', [q('a', 30, '2026-11-01T10:00:00Z')])])).toMatchObject({
+      name: 'The Roman Empire', bookName: 'The Roman Empire', hasSections: false, art: null, textbookId: 0, curriculumSlug: null,
+      ownTopic: true, state: 'gap', wholeChapter: null,
+    })
+    expect(chapterOf([bucket('The Roman Empire', [q('a', 30, null)])]).sections).toHaveLength(1)
+  })
+  it('strips Mastering for display and keeps the raw name for the retake', () => {
+    const c = chapterOf([bucket('Mastering The binomial classification system', [q('a', 0, null)])])
+    expect(c.name).toBe('The binomial classification system')
+    expect(c.bookName).toBe('Mastering The binomial classification system')
+    expect(c.sections[0].name).toBe('The binomial classification system')
+  })
+  it('uses the newest quiz for the score and the lowest of all for the band', () => {
+    const c = chapterOf([bucket('Completing the square', [q('new', 90, '2026-11-03T10:00:00Z'), q('old', 20, '2026-10-01T10:00:00Z')])])
+    expect(c.sections[0]).toMatchObject({ score: 90, lowest: 20, band: 'gold', lastAssessed: '2026-11-03T10:00:00Z' })
+    expect(c.state).toBe('gold')
+    const d = chapterOf([bucket('X', [q('old', 90, '2026-10-01T10:00:00Z'), q('new', 30, '2026-11-03T10:00:00Z')])])
+    expect(d.sections[0]).toMatchObject({ score: 30, band: 'gap' })
+  })
+  it('gives a stable negative id from the name, whatever the case', () => {
+    const a = chapterOf([bucket('The Roman Empire', [q('a', 30, null)])]).topicId
+    const b = chapterOf([bucket('  the roman  EMPIRE ', [q('a', 30, null)])]).topicId
+    const c = chapterOf([bucket('Completing the square', [q('a', 30, null)])]).topicId
+    expect(a).toBeLessThan(0)
+    expect(Number.isInteger(a)).toBe(true)
+    expect(a).toBe(b)
+    expect(a).not.toBe(c)
+  })
+  it('merges buckets with the same name', () => {
+    const t = own([bucket('Roman Empire', [q('a', 80, '2026-11-01T10:00:00Z')]), bucket('roman empire', [q('b', 20, '2026-11-02T10:00:00Z')])])!
+    expect(t.chapters).toHaveLength(1)
+    expect(t.chapters[0].sections[0]).toMatchObject({ score: 20, lowest: 20, attempts: 2 })
+  })
+  it('leaves out Other, book-backed subjects, chaptered buckets and unscored ones', () => {
+    expect(own([
+      bucket('Other', [q('a', 10, null)]),
+      { id: 7, name: 'Physics', topics: [], assessments: [q('b', 10, null)] },
+      bucket('Has chapters', [q('c', 10, null)], { topics: [{ id: 1, name: 'Ch', subtopics: [] }] }),
+      bucket('No score', [q('d', null, null)]),
+      bucket('', [q('e', 10, null)]),
+    ])).toBeNull()
+  })
+  it('puts gaps first in the tray and the tray among gap trays', () => {
+    const t = own([bucket('Fine', [q('a', 95, null)]), bucket('Weak', [q('b', 10, null)])])!
+    expect(t.chapters.map((c) => c.name)).toEqual(['Weak', 'Fine'])
+  })
+  it('lets Kana pick it and words it plainly', () => {
+    const t = buildRack([bucket('The Roman Empire', [q('a', 30, null)])])
+    const pick = nextFix(t)!
+    expect(pick.chapter.ownTopic).toBe(true)
+    expect(kanaHomeLine(t, pick)).toContain("Let's start with The Roman Empire")
+    expect(chapterLabel(pick.chapter)).toBe('The Roman Empire, a gap')
+  })
+  it('finds, deep links, snapshots and compares negative ids', () => {
+    const raw = [bucket('The Roman Empire', [q('x1', 30, null)])]
+    const t = buildRack(raw)
+    const id = t[0].chapters[0].topicId
+    expect(findChapter(t, id)?.chapter.name).toBe('The Roman Empire')
+    expect(resolveDeepLink(t, raw, { chapter: String(id) })).toMatchObject({ topicId: id, trayKey: 'own-topics' })
+    expect(resolveDeepLink(t, raw, { subject: 'The Roman Empire', assessment: 'x1' })).toMatchObject({ topicId: id, trayKey: 'own-topics' })
+    const before = snapshotRack(t)
+    const fixed = buildRack([bucket('The Roman Empire', [q('x1', 30, '2026-11-01T00:00:00Z'), q('x2', 95, '2026-11-02T00:00:00Z')])])
+    expect(changesSince(before, fixed).dropped).toEqual([id])
+  })
+  it('counts only what is not a tile in the quiet line', () => {
+    const raw = [bucket('The Roman Empire', [q('a', 30, null)]), bucket('Other', [q('b', 10, null), q('c', 30, null)])]
+    const unplaced = [
+      { subject: 'The Roman Empire', quizzes: [q('a', 30, null)], average: 30 },
+      { subject: 'Other', quizzes: [q('b', 10, null), q('c', 30, null)], average: 20 },
+    ]
+    expect(otherQuizzesSummary(unplaced, { count: 2, average: 70, last: null }, ownTopicQuizIds(raw))).toEqual({ count: 4, average: 45 })
+    expect(otherQuizzesSummary(unplaced.slice(0, 1), null, ownTopicQuizIds(raw))).toBeNull()
+  })
 })
