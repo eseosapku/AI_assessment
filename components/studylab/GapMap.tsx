@@ -1,19 +1,22 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import type { MasteryStatus } from '@/lib/studylab/types'
 import { openLearnSpace } from '@/lib/studylab/openSpace'
 import type { UnlinkedResults } from '@/components/studylab/KnowledgeWall'
 import { unplacedQuizzes } from '@/lib/studylab/wall'
 import { canonicalSubject } from '@/lib/canonical-subject'
-import { buildRack, findChapter, type RackChapter, type RackSection } from '@/lib/studylab/rack'
+import {
+  buildRack, changesSince, findChapter, resolveDeepLink, sectionToStart, snapshotRack,
+  type RackChapter, type RackSection, type RackSnapshot,
+} from '@/lib/studylab/rack'
 import type { CountryCode } from '@/lib/countries'
 import ProductTour from '@/components/studio/ProductTour'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
 import { RackHome } from '@/components/studylab/rack/RackHome'
+import { ChapterPage } from '@/components/studylab/rack/ChapterPage'
 import '@/components/studylab/rack/rack.css'
 
 /** The node shape the study and quiz actions speak. */
@@ -57,6 +60,15 @@ export default function GapMap({
 
   const searchParams = useSearchParams()
   const chapterParam = searchParams.get('chapter')
+  const sectionParam = searchParams.get('section')
+  const subjectParam = searchParams.get('subject')
+  const focusParam = searchParams.get('focus')
+  const assessmentParam = searchParams.get('assessment')
+  const [focusTrayKey, setFocusTrayKey] = useState<string | null>(null)
+  // What changed since the student left for a lesson or quiz: tiles that
+  // dropped into their slots, and sections that turned gold. Each is used once.
+  const [changes, setChanges] = useState<{ dropped: number[]; gold: string[] }>({ dropped: [], gold: [] })
+  const [cheer, setCheer] = useState<{ name: string; next: RackSection | null; key: string } | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -84,10 +96,76 @@ export default function GapMap({
   const trays = useMemo(() => buildRack(tree?.textbooks ?? [], canonicalSubject), [tree])
   const unplaced = useMemo(() => unplacedQuizzes(tree?.textbooks ?? [], canonicalSubject), [tree])
 
+  // Read once, and cleared: the snapshot taken just before leaving for a lesson or quiz.
+  const compared = useRef(false)
+  useEffect(() => {
+    if (!tree || compared.current) return
+    compared.current = true
+    let before: RackSnapshot | null = null
+    try {
+      const raw = sessionStorage.getItem('gapRackBefore')
+      sessionStorage.removeItem('gapRackBefore')
+      before = raw ? (JSON.parse(raw) as RackSnapshot) : null
+    } catch {
+      before = null
+    }
+    if (before && typeof before === 'object') setChanges(changesSince(before, trays))
+  }, [tree, trays])
+
+  // A link from a finished quiz ("Study these areas") or the persona page:
+  // open the chapter it names, or at least scroll to the subject. replace, so Back does not loop.
+  const linked = useRef(false)
+  useEffect(() => {
+    if (!tree || linked.current || chapterParam) return
+    if (!subjectParam && !focusParam && !assessmentParam) return
+    linked.current = true
+    const hit = resolveDeepLink(trays, tree.textbooks, {
+      subject: subjectParam, focus: focusParam, assessment: assessmentParam,
+    })
+    if (hit.topicId !== null) {
+      router.replace(`/studylab/gap-map?chapter=${hit.topicId}${hit.subtopicId ? `&section=${hit.subtopicId}` : ''}`)
+    } else if (hit.trayKey) {
+      setFocusTrayKey(hit.trayKey)
+    }
+  }, [tree, trays, chapterParam, subjectParam, focusParam, assessmentParam, router])
+
+  const topicId = chapterParam && /^\d+$/.test(chapterParam) ? Number(chapterParam) : null
+  const open = topicId ? findChapter(trays, topicId) : null
+  const wantedSection = sectionParam && /^\d+$/.test(sectionParam) ? Number(sectionParam) : null
+
+  // Home tiles use `dropped` once; a chapter page uses `gold` once, for Kana's cheer.
+  useEffect(() => {
+    if (open || changes.dropped.length === 0) return
+    setChanges((c) => ({ ...c, dropped: [] }))
+  }, [open, changes.dropped])
+  useEffect(() => {
+    if (!open || changes.gold.length === 0) return
+    const done = open.chapter.sections.find((s) => changes.gold.includes(s.key))
+    if (!done) return
+    const mine = open.chapter.sections.map((s) => s.key)
+    const next = open.chapter.sections.filter((s) => s.band === 'gap').sort((a, z) => (a.score ?? 101) - (z.score ?? 101))[0] ?? null
+    setCheer({ name: done.name, next, key: done.key })
+    setChanges((c) => ({ ...c, gold: c.gold.filter((k) => !mine.includes(k)) }))
+  }, [open, changes.gold])
+  // A cheer belongs to the chapter it was earned in.
+  useEffect(() => {
+    if (cheer && open && !open.chapter.sections.some((s) => s.key === cheer.key)) setCheer(null)
+  }, [open, cheer])
+
+  // Before leaving for a lesson or quiz, remember the rack so the way back can show what moved.
+  const rememberRack = () => {
+    try {
+      sessionStorage.setItem('gapRackBefore', JSON.stringify(snapshotRack(trays)))
+    } catch {
+      /* the cheer is a nicety */
+    }
+  }
+
   const startStudy = async (d: MapNodeData) => {
     if (starting) return
     setStarting(true)
     try {
+      rememberRack()
       const payload: Record<string, any> = {
         user_id: userId,
         title: `Mastering ${d.label}`,
@@ -174,6 +252,7 @@ export default function GapMap({
         throw new Error(data.error || 'Failed to generate quiz')
       }
       // Topped up first if it came back short (lib/quiz-top-up.ts).
+      rememberRack()
       sessionStorage.setItem('currentAssessment', JSON.stringify(await completeShortQuiz(data, quizPayload)))
       sessionStorage.setItem('gapMapReturn', '1')
       router.push('/assessment')
@@ -182,10 +261,6 @@ export default function GapMap({
       setTakingQuiz(false)
     }
   }
-  void startStudy
-  void takeQuiz
-  void nodeFor
-
   if (loading) {
     return (
       <div className={`flex items-center justify-center ${embedded ? 'min-h-[60vh]' : 'h-screen bg-ss-chip dark:bg-[#0a0a0a]'}`}>
@@ -194,8 +269,15 @@ export default function GapMap({
     )
   }
 
-  const topicId = chapterParam && /^\d+$/.test(chapterParam) ? Number(chapterParam) : null
-  const open = topicId ? findChapter(trays, topicId) : null
+  // Which section is selected: the link's, else the one most worth starting with.
+  // A cheer with no gap left stays on the section that just closed.
+  const selected: RackSection | null = open
+    ? cheer && !cheer.next && !wantedSection
+      ? open.chapter.sections.find((s) => s.key === cheer.key) ?? sectionToStart(open.chapter, wantedSection)
+      : cheer?.next && !wantedSection
+        ? cheer.next
+        : sectionToStart(open.chapter, wantedSection)
+    : null
 
   return (
     <div
@@ -220,17 +302,28 @@ export default function GapMap({
 
       <div data-tour="gapmap-canvas" className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-7 sm:py-5">
         {open ? (
-          <div className="ss-rack">
-            <Link href="/studylab/gap-map" className="ss-rack-q">Gap Map</Link>
-            <p>{open.chapter.name}</p>
-          </div>
+          <ChapterPage
+            chapter={open.chapter}
+            subject={open.tray.subject}
+            selected={selected}
+            cheer={cheer ? { name: cheer.name, next: cheer.next } : null}
+            busy={starting || takingQuiz}
+            onSelect={(sec) => {
+              setCheer(null)
+              if (sec.subtopicId) router.replace(`/studylab/gap-map?chapter=${open.chapter.topicId}&section=${sec.subtopicId}`)
+            }}
+            onTeach={() => startStudy(nodeFor(open.chapter, selected))}
+            onQuiz={(count) => takeQuiz(nodeFor(open.chapter, selected), count)}
+            lostMarks={null}
+            tryIt={null}
+          />
         ) : (
           <RackHome
             trays={trays}
             unplaced={unplaced}
             unlinked={tree?.unlinked_results ?? null}
-            droppedTopicIds={[]}
-            focusTrayKey={null}
+            droppedTopicIds={changes.dropped}
+            focusTrayKey={focusTrayKey}
           />
         )}
       </div>

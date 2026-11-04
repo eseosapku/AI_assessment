@@ -63,6 +63,8 @@ export function ChapterTile({
   dropped: boolean
 }) {
   const [lifted, setLifted] = useState(dropped)
+  // Once, after mount. The parent clears `dropped` after first use, so this
+  // must not depend on it or the cleanup would cancel the drop.
   useEffect(() => {
     if (!dropped) return
     let b = 0
@@ -73,7 +75,8 @@ export function ChapterTile({
       cancelAnimationFrame(a)
       cancelAnimationFrame(b)
     }
-  }, [dropped])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const pill = gapPillText(chapter)
   const mark =
