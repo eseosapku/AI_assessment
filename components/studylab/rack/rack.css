@@ -225,3 +225,13 @@
   .ss-rack-sheet .a .ss-rack-go { flex: 1.3; }
   .ss-rack-sheet .a .ss-rack-q { flex: 1; }
 }
+
+/* Where you lost marks */
+.ss-rack-lost { margin-top: 14px; padding: 18px 20px; border: 1px solid var(--rack-line2); border-radius: 20px; }
+.ss-rack-lost h3 { margin: 0 0 10px; font-size: 15px; font-weight: 800; }
+.ss-rack-lost ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.ss-rack-lost li p { margin: 0 0 5px; font-size: 14.5px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
+.ss-rack-lost li > span { display: flex; align-items: flex-start; gap: 6px; font-size: 14px; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+.ss-rack-lost li svg { flex: none; width: 15px; height: 15px; margin-top: 2px; }
+.ss-rack-lost .no { color: var(--ss-bad); }
+.ss-rack-lost .yes { color: var(--ss-good); }

@@ -45,6 +45,9 @@ await page.route('**/api/**', (route) => {
   return route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
 })
 await page.route('**/api/studylab/gap-map*', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fixture) }))
+// --lost=<n> stubs the lost-marks route with n items (default none).
+const lostN = +(opt('lost') || 0)
+await page.route('**/api/studylab/gap-map/lost-marks*', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: [{ question: 'What is the value of 3x when x = 4?', said: '7', right: '12' }, { question: 'Which expression equals (x + 2)(x + 3)?', said: 'x² + 5', right: 'x² + 5x + 6' }].slice(0, lostN) }) }))
 // The dev .env points figures at a CDN that has no gap-art yet, so serve the kept drawings from public/ whatever the host.
 await page.route('**/gap-art/**', (route) => {
   if (noArt) return route.abort()

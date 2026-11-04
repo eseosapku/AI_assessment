@@ -17,6 +17,7 @@ import ProductTour from '@/components/studio/ProductTour'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
 import { RackHome } from '@/components/studylab/rack/RackHome'
 import { ChapterPage } from '@/components/studylab/rack/ChapterPage'
+import { LostMarks } from '@/components/studylab/rack/LostMarks'
 import '@/components/studylab/rack/rack.css'
 
 /** The node shape the study and quiz actions speak. */
@@ -314,7 +315,7 @@ export default function GapMap({
             }}
             onTeach={() => startStudy(nodeFor(open.chapter, selected))}
             onQuiz={(count) => takeQuiz(nodeFor(open.chapter, selected), count)}
-            lostMarks={null}
+            lostMarks={<LostMarks userId={userId} chapter={open.chapter} />}
             tryIt={null}
           />
         ) : (
