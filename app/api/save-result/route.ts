@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
 import { jsonbParam } from '@/lib/pg-json'
 
-import { writeMasteryBucket, scoreQuestions } from '@/lib/studylab/mastery-write'
+import { writeMasteryBucket, scoreQuestions, legacyBuckets } from '@/lib/studylab/mastery-write'
 import { isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 
 type ResultRow = {
@@ -113,21 +113,8 @@ async function updateTopicMastery(params: {
     }
 
     // ── Fallback: legacy assessment-level estimate (no tagged questions). ──────
-    const topicIds: number[] = Array.isArray((assessment as any).topic_ids) ? (assessment as any).topic_ids.map(Number).filter(Number.isFinite) : []
-    const subtopicIds: number[] = Array.isArray((assessment as any).subtopic_ids) ? (assessment as any).subtopic_ids.map(Number).filter(Number.isFinite) : []
-    const keys: Array<{ topic_id: number; subtopic_id: number }> = []
-    if (subtopicIds.length > 0) subtopicIds.forEach((sid) => keys.push({ topic_id: 0, subtopic_id: sid }))
-    else if (topicIds.length > 0) topicIds.forEach((tid) => keys.push({ topic_id: tid, subtopic_id: 0 }))
-    if (keys.length === 0) return
-
-    const pct = Number.isFinite(score) ? Math.max(0, Math.min(100, Number(score))) : 0
-    const total = Number.isFinite(totalQuestions) && totalQuestions > 0 ? Number(totalQuestions) : 0
-    if (total === 0) return
-    const correctCount = Math.round((pct / 100) * total)
-    const perCorrect = correctCount / keys.length
-    const perTotal = total / keys.length
-    for (const key of keys) {
-      await upsertMasteryBucket(userId, textbookId, key.topic_id, key.subtopic_id, perCorrect, perTotal, nowIso)
+    for (const b of legacyBuckets(assessment, score, totalQuestions)) {
+      await upsertMasteryBucket(userId, textbookId, b.topic_id, b.subtopic_id, b.correct, b.total, nowIso)
     }
   } catch (err) {
     console.error('Topic mastery update skipped:', err)

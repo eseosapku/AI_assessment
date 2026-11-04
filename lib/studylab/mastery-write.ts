@@ -66,6 +66,30 @@ export function scoreQuestions(
 }
 
 /**
+ * The legacy fallback for a quiz with no tagged questions: spreads the whole
+ * assessment's score evenly over the sections it covered (or the chapters when
+ * it named no sections). Moved unchanged out of the save-result route.
+ */
+export function legacyBuckets(
+  assessment: unknown,
+  score: unknown,
+  totalQuestions: unknown,
+): Array<{ topic_id: number; subtopic_id: number; correct: number; total: number }> {
+  const topicIds: number[] = Array.isArray((assessment as any)?.topic_ids) ? (assessment as any).topic_ids.map(Number).filter(Number.isFinite) : []
+  const subtopicIds: number[] = Array.isArray((assessment as any)?.subtopic_ids) ? (assessment as any).subtopic_ids.map(Number).filter(Number.isFinite) : []
+  const keys: Array<{ topic_id: number; subtopic_id: number }> = []
+  if (subtopicIds.length > 0) subtopicIds.forEach((sid) => keys.push({ topic_id: 0, subtopic_id: sid }))
+  else if (topicIds.length > 0) topicIds.forEach((tid) => keys.push({ topic_id: tid, subtopic_id: 0 }))
+  if (keys.length === 0) return []
+
+  const pct = Number.isFinite(score) ? Math.max(0, Math.min(100, Number(score))) : 0
+  const total = Number.isFinite(totalQuestions) && Number(totalQuestions) > 0 ? Number(totalQuestions) : 0
+  if (total === 0) return []
+  const correctCount = Math.round((pct / 100) * total)
+  return keys.map((key) => ({ ...key, correct: correctCount / keys.length, total: total / keys.length }))
+}
+
+/**
  * Incrementally upserts one mastery bucket (a chapter-level or section-level
  * row): the running average as always, then the latest-attempt columns.
  */
