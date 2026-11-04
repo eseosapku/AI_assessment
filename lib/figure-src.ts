@@ -7,10 +7,10 @@
  * has to change when the files move. With NEXT_PUBLIC_FIGURE_BASE_URL unset
  * they load from the app's own public/ folder.
  *
- * Only those two folders. Anything else -- /art, a data: URL, an uploaded
+ * Only those folders. Anything else -- /art, a data: URL, an uploaded
  * photo, a full URL -- is returned untouched.
  */
-const FIGURE_PREFIXES = ['/textbook-images/', '/exam-images/']
+const FIGURE_PREFIXES = ['/textbook-images/', '/exam-images/', '/gap-art/']
 
 export function figureBaseUrl(): string {
   // Spelled out in full: Next.js inlines NEXT_PUBLIC_* into client code only

@@ -31,4 +31,8 @@ describe('figureSrc', () => {
     expect(isFigurePath('/textbook-imagesX/a.png')).toBe(false)
     expect(isFigurePath(undefined)).toBe(false)
   })
+
+  it('serves gap map pictures from the base', () => {
+    expect(figureSrc('/gap-art/x.v1.svg', CDN)).toBe(`${CDN}/gap-art/x.v1.svg`)
+  })
 })

@@ -65,3 +65,6 @@ __pycache__/
 # A pipeline that adds images here must upload them to the bucket too.
 public/textbook-images/
 public/exam-images/
+
+# Gap Map pictures: built by scripts/build-gap-art.ts --dev, hosted with the figures
+public/gap-art/
