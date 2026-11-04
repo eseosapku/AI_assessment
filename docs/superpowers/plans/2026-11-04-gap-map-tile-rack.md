@@ -647,7 +647,7 @@ git commit -m "chore(gap-map): remove the old wall"
 Not part of the build. Each line needs the owner's go at that moment, and comes in this order:
 
 1. Run `migrations/add-mastery-latest.sql` on the live database. Additive, and old code ignores the columns.
-2. Run `scripts/backfill-mastery-latest.ts` in measuring mode, show the owner the totals, then `--apply --yes-production --log=<file>`.
-3. Run `scripts/build-gap-art.ts` on the owner's latest verdicts, then upload `.superpowers/gap-art/publish/gap-art/` to the figure host under `gap-art/`, as `image/svg+xml` with a long cache time (file names carry their version). Commit the refreshed map.
-4. Decide with the owner when enough pictures are kept to go live. Mostly plain tiles should not go in front of students.
-5. Before pushing: check the Amplify size limit and boot-test a database route (see the amplify-size-limit memory). Then push with the owner's yes (see the push-account memory).
+2. Run `scripts/build-gap-art.ts` on the owner's latest verdicts, then upload `.superpowers/gap-art/publish/gap-art/` to the figure host under `gap-art/`, as `image/svg+xml` with a long cache time (file names carry their version). Commit the refreshed map.
+3. Decide with the owner when enough pictures are kept to go live. Mostly plain tiles should not go in front of students. Pushing this branch also carries every other unpushed commit, including the LearnSpace redesign on hold, whose lessons run on Claude: check with the owner, and check that Bedrock answers for Claude.
+4. Before pushing: check the Amplify size limit and boot-test a database route (see the amplify-size-limit memory). Then push with the owner's yes (see the push-account memory).
+5. **Only once the new code is live**, run `scripts/backfill-mastery-latest.ts` in measuring mode, show the owner the totals, then `--apply --yes-production --log=<file>`. Never before: the old code writes `accuracy` and not `last_accuracy`, so a retake in between would leave a backfilled section on its old score, and no re-run can repair it because the row is no longer NULL.
