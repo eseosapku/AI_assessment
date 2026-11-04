@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import type { MasteryStatus } from '@/lib/studylab/types'
@@ -72,35 +72,54 @@ export default function GapMap({
   // What changed since the student left for a lesson or quiz: tiles that
   // dropped into their slots, and sections that turned gold. Each is used once.
   const [changes, setChanges] = useState<{ dropped: number[]; gold: string[] }>({ dropped: [], gold: [] })
+  const [linkPending, setLinkPending] = useState(false)
   const [cheer, setCheer] = useState<{ name: string; next: RackSection | null; key: string } | null>(null)
 
-  useEffect(() => {
-    let cancelled = false
-    ;(async () => {
-      try {
-        const res = await fetch(`/api/studylab/gap-map?user_id=${encodeURIComponent(userId)}`)
-        const json = await res.json()
-        if (cancelled) return
-        if (!res.ok) {
-          setError(json.error || 'Failed to load the gap map.')
-        } else {
-          setTree(json.data)
-        }
-      } catch {
-        if (!cancelled) setError('Failed to load the gap map.')
-      } finally {
-        if (!cancelled) setLoading(false)
+  const alive = useRef(true)
+  const lastLoad = useRef(0)
+  /** Fetch the tree. `quiet` is a refresh of a page that is already showing: a failure then keeps what is there. */
+  const load = useCallback(async (quiet = false) => {
+    lastLoad.current = Date.now()
+    try {
+      const res = await fetch(`/api/studylab/gap-map?user_id=${encodeURIComponent(userId)}`)
+      const json = await res.json()
+      if (!alive.current) return
+      if (!res.ok) {
+        if (!quiet) setError(json.error || 'Failed to load the gap map.')
+      } else {
+        if (!quiet) setError(null)
+        // A refresh may bring scores that changed while the student was in a lesson: compare again.
+        if (quiet) compared.current = false
+        setTree(json.data)
       }
-    })()
-    return () => {
-      cancelled = true
+    } catch {
+      if (alive.current && !quiet) setError('Failed to load the gap map.')
+    } finally {
+      if (alive.current) setLoading(false)
     }
   }, [userId])
+  useEffect(() => {
+    alive.current = true
+    load()
+    return () => {
+      alive.current = false
+    }
+  }, [load])
+  // Back from a lesson in the other tab: fetch again, so the page is current and can cheer.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible' || Date.now() - lastLoad.current < 3000) return
+      load(true)
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [load])
 
   const trays = useMemo(() => buildRack(tree?.textbooks ?? [], canonicalSubject), [tree])
   const unplaced = useMemo(() => unplacedQuizzes(tree?.textbooks ?? [], canonicalSubject), [tree])
 
   // Read once, and cleared: the snapshot taken just before leaving for a lesson or quiz.
+  const linked = useRef(false)
   const compared = useRef(false)
   // The rack waits for the comparison, so a tile that just left its gap mounts already lifted and can settle.
   const [rackReady, setRackReady] = useState(false)
@@ -116,35 +135,63 @@ export default function GapMap({
       before = null
     }
     if (before && typeof before === 'object') setChanges(changesSince(before, trays))
+    // A link from a finished quiz is resolved before the rack shows, so home is never mounted for the one render the redirect takes.
+    if (!linked.current && !chapterParam && (subjectParam || focusParam || assessmentParam)) {
+      linked.current = true
+      const hit = resolveDeepLink(trays, tree.textbooks, { subject: subjectParam, focus: focusParam, assessment: assessmentParam })
+      if (hit.topicId !== null) {
+        setLinkPending(true)
+        window.history.replaceState(null, '', `/studylab/gap-map?chapter=${hit.topicId}${hit.subtopicId ? `&section=${hit.subtopicId}` : ''}`)
+      } else if (hit.trayKey) {
+        setFocusTrayKey(hit.trayKey)
+      }
+    }
     setRackReady(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tree, trays])
 
-  // A link from a finished quiz ("Study these areas") or the persona page:
-  // open the chapter it names, or at least scroll to the subject. replace, so Back does not loop.
-  const linked = useRef(false)
+  // The link has landed once the address carries the chapter (or the chapter turned out not to exist).
   useEffect(() => {
-    if (!tree || linked.current || chapterParam) return
-    if (!subjectParam && !focusParam && !assessmentParam) return
-    linked.current = true
-    const hit = resolveDeepLink(trays, tree.textbooks, {
-      subject: subjectParam, focus: focusParam, assessment: assessmentParam,
-    })
-    if (hit.topicId !== null) {
-      router.replace(`/studylab/gap-map?chapter=${hit.topicId}${hit.subtopicId ? `&section=${hit.subtopicId}` : ''}`)
-    } else if (hit.trayKey) {
-      setFocusTrayKey(hit.trayKey)
-    }
-  }, [tree, trays, chapterParam, subjectParam, focusParam, assessmentParam, router])
+    if (linkPending && chapterParam) setLinkPending(false)
+  }, [linkPending, chapterParam])
 
   const topicId = chapterParam && /^\d+$/.test(chapterParam) ? Number(chapterParam) : null
   const open = topicId ? findChapter(trays, topicId) : null
   const wantedSection = sectionParam && /^\d+$/.test(sectionParam) ? Number(sectionParam) : null
 
-  // Home tiles use `dropped` once; a chapter page uses `gold` once, for Kana's cheer.
+  // The shell's <main> is the one thing that scrolls. A chapter opens at the top, and Back returns to where home was.
+  const homeScroll = useRef(0)
+  const openRef = useRef(false)
+  openRef.current = !!open || linkPending
   useEffect(() => {
-    if (open || changes.dropped.length === 0) return
+    const main = document.getElementById('main-content')
+    if (!main) return
+    const onScroll = () => {
+      if (!openRef.current) homeScroll.current = main.scrollTop
+    }
+    main.addEventListener('scroll', onScroll, { passive: true })
+    return () => main.removeEventListener('scroll', onScroll)
+  }, [])
+  const wasOpen = useRef(false)
+  useLayoutEffect(() => {
+    const main = document.getElementById('main-content')
+    const isOpen = !!open
+    if (main && isOpen !== wasOpen.current) {
+      const top = isOpen ? 0 : homeScroll.current
+      const put = () => main.scrollTo({ top, behavior: 'instant' as ScrollBehavior })
+      put()
+      // The router scrolls the new page into view after this effect runs: say it again once it has.
+      requestAnimationFrame(() => requestAnimationFrame(put))
+    }
+    wasOpen.current = isOpen
+  }, [open])
+
+  // Home tiles use `dropped` once; a chapter page uses `gold` once, for Kana's cheer.
+  const homeVisible = rackReady && !open && !linkPending
+  useEffect(() => {
+    if (!homeVisible || changes.dropped.length === 0) return
     setChanges((c) => ({ ...c, dropped: [] }))
-  }, [open, changes.dropped])
+  }, [homeVisible, changes.dropped])
   useEffect(() => {
     if (!open || changes.gold.length === 0) return
     const done = open.chapter.sections.find((s) => changes.gold.includes(s.key))
@@ -193,6 +240,8 @@ export default function GapMap({
         throw new Error(json.error || 'Failed to start study')
       }
       openLearnSpace(json.data.id, router)
+      // It opens in another tab, so this page lives on: unlock it. The visibility refetch brings the new scores back.
+      setStarting(false)
     } catch (err: any) {
       setError(err.message)
       setStarting(false)
@@ -278,18 +327,31 @@ export default function GapMap({
 
   // Which section is selected: the link's, else the one most worth starting with.
   // A cheer with no gap left stays on the section that just closed.
+  // While a cheer shows, the buttons belong to the cheer, whatever a ?section= link said.
   const selected: RackSection | null = open
-    ? cheer && !cheer.next && !wantedSection
+    ? cheer && !cheer.next
       ? open.chapter.sections.find((s) => s.key === cheer.key) ?? sectionToStart(open.chapter, wantedSection)
-      : cheer?.next && !wantedSection
+      : cheer?.next
         ? cheer.next
         : sectionToStart(open.chapter, wantedSection)
     : null
 
+  // The tree failed and there is nothing to show: say so, never invite a first quiz.
+  if (!tree && error) {
+    return (
+      <div className="ss-rack px-1 py-6" role="alert">
+        <div className="ss-rack-err">
+          <p>{error}</p>
+          <button type="button" className="ss-rack-go" onClick={() => { setError(null); setLoading(true); load() }}>Try again</button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       className={`flex flex-col ${
-        embedded ? 'h-[calc(100dvh-5.5rem)] min-h-[28rem] sm:h-[calc(100dvh-9rem)]' : 'h-screen bg-ss-chip dark:bg-[#0a0a0a]'
+        embedded ? (open ? 'h-[calc(100dvh-5.5rem)] min-h-[28rem] sm:h-[calc(100dvh-10rem)]' : '') : 'h-screen bg-ss-chip dark:bg-[#0a0a0a]'
       }`}
     >
       <h1 className="sr-only">Gap Map</h1>
@@ -307,8 +369,8 @@ export default function GapMap({
         </div>
       )}
 
-      <div data-tour="gapmap-canvas" className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-7 sm:py-5">
-        {open ? (
+      <div data-tour="gapmap-canvas" className={`min-h-0 flex-1 px-4 py-4 sm:px-7 sm:py-5${embedded ? '' : ' overflow-y-auto'}`}>
+        {open && (
           <ChapterPage
             chapter={open.chapter}
             subject={open.tray.subject}
@@ -317,7 +379,8 @@ export default function GapMap({
             busy={starting || takingQuiz}
             onSelect={(sec) => {
               setCheer(null)
-              if (sec.subtopicId) router.replace(`/studylab/gap-map?chapter=${open.chapter.topicId}&section=${sec.subtopicId}`)
+              // history.replaceState syncs with useSearchParams at once; router.replace may wait on the network.
+              if (sec.subtopicId) window.history.replaceState(null, '', `/studylab/gap-map?chapter=${open.chapter.topicId}&section=${sec.subtopicId}`)
             }}
             onTeach={() => startStudy(nodeFor(open.chapter, selected))}
             onQuiz={(count) => takeQuiz(nodeFor(open.chapter, selected), count)}
@@ -330,18 +393,21 @@ export default function GapMap({
               busy={starting || takingQuiz}
             />}
           />
-        ) : tree && !rackReady ? null : (
+        )}
+        {tree && rackReady && (
           <RackHome
+            userId={userId}
             trays={trays}
             unplaced={unplaced}
-            unlinked={tree?.unlinked_results ?? null}
+            unlinked={tree.unlinked_results ?? null}
             droppedTopicIds={changes.dropped}
             focusTrayKey={focusTrayKey}
+            visible={homeVisible}
           />
         )}
       </div>
 
-      {!open && <ProductTour id="gapmap" />}
+      {homeVisible && <ProductTour id="gapmap" />}
     </div>
   )
 }

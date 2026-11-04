@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Kana } from '@/components/studylab/kana/Kana'
 import { sectionLabel, type RackChapter, type RackSection } from '@/lib/studylab/rack'
+import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { Plate } from './Plate'
 
 const X = ['10cqw', '2cqw', '14cqw', '24cqw']
@@ -37,6 +38,48 @@ export function SectionPath({
 }) {
   const path = useRef<HTMLDivElement>(null)
   const scrolled = useRef<string | null>(null)
+  // Kana drops onto her plate once, when the page opens; later moves are hops (FLIP), not drops.
+  const arriving = useRef(true)
+  useEffect(() => { arriving.current = false }, [])
+  const fromRect = useRef<DOMRect | null>(null)
+  const [hopping, setHopping] = useState(false)
+  const [dip, setDip] = useState<string | null>(null)
+
+  // FLIP: the new Kana sits on the new plate already; slide her back to where the old one was, then arc her home.
+  useLayoutEffect(() => {
+    const from = fromRect.current
+    fromRect.current = null
+    const node = path.current?.querySelector<HTMLElement>('.ss-rack-hopper')
+    if (!from || !node || typeof node.animate !== 'function' || prefersReducedMotion()) return
+    const to = node.getBoundingClientRect()
+    const dx = from.left - to.left, dy = from.top - to.top
+    if (Math.abs(dx) + Math.abs(dy) < 4) return
+    setHopping(true)
+    const anim = node.animate(
+      [
+        { transform: `translate(${dx}px, ${dy}px) scale(1, 1)`, offset: 0 },
+        { transform: `translate(${dx / 2}px, ${dy / 2 - 48}px) scale(1.04, 1.04)`, offset: 0.5, easing: 'ease-in' },
+        { transform: 'translate(0, 0) scale(1.08, 0.88)', offset: 0.88 },
+        { transform: 'translate(0, 0) scale(1, 1)', offset: 1 },
+      ],
+      { duration: 460, easing: 'ease-out' },
+    )
+    const done = () => setHopping(false)
+    anim.onfinish = done
+    anim.oncancel = done
+    return () => anim.cancel()
+  }, [standOn?.key])
+
+  const choose = (sec: RackSection) => {
+    if (sec.key !== selected?.key) {
+      fromRect.current = path.current?.querySelector<HTMLElement>('.ss-rack-hopper')?.getBoundingClientRect() ?? null
+      if (!prefersReducedMotion()) {
+        setDip(sec.key)
+        window.setTimeout(() => setDip(null), 280)
+      }
+    }
+    onSelect(sec)
+  }
 
   useEffect(() => {
     const root = path.current
@@ -66,15 +109,17 @@ export function SectionPath({
             type="button"
             aria-pressed={selected?.key === s.key}
             aria-label={sectionLabel(s)}
-            className={`ss-rack-stop ${s.band}${on ? ' on' : ''}${selected?.key === s.key ? ' sel' : ''}`}
-            style={{ '--x': X[i % 4] } as React.CSSProperties}
-            onClick={() => onSelect(s)}
+            className={`ss-rack-stop ${s.band}${on ? ' on' : ''}${selected?.key === s.key ? ' sel' : ''}${dip === s.key ? ' dip' : ''}`}
+            style={{ '--x': X[i % 4], '--i': i } as React.CSSProperties}
+            onClick={() => choose(s)}
           >
             <span className="ss-rack-plate">
               <Plate band={s.band} />
               {on && (
                 <span className="ss-rack-on-plate" aria-hidden="true">
-                  <span className="ss-rack-bob"><Kana pose={celebrating ? 'celebrate' : 'happy'} size={120} simple /></span>
+                  <span className={`ss-rack-hopper${arriving.current ? ' drop' : ''}`}>
+                    <span className="ss-rack-bob"><Kana pose={hopping ? 'fly' : celebrating ? 'celebrate' : 'happy'} size={120} simple /></span>
+                  </span>
                 </span>
               )}
             </span>

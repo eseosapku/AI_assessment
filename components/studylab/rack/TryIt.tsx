@@ -1,6 +1,7 @@
 'use client'
 
-import { Component, useMemo, useState, type ReactNode } from 'react'
+import { Component, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { Loader2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { Kana } from '@/components/studylab/kana/Kana'
 import { pickPracticeEntry } from '@/lib/studylab/practice-card'
@@ -40,6 +41,10 @@ export default function TryIt({ names, subject, bookName, onQuiz, busy }: {
   const entryKey = entry ? `${entry.engineId}:${entry.exampleIndex}` : ''
   const [failed, setFailed] = useState<string | null>(null)
   const card = entry && failed !== entryKey ? entry : null
+  const [pressed, setPressed] = useState(false)
+  useEffect(() => {
+    if (!busy) setPressed(false)
+  }, [busy])
 
   return (
     <section className={`ss-rack-try${card ? ' ss-rack-try-panel' : ''}`} aria-label={card ? 'Try it with me first' : 'A quick one to warm up'}>
@@ -54,7 +59,10 @@ export default function TryIt({ names, subject, bookName, onQuiz, busy }: {
       ) : (
         <div className="ss-rack-try-quiet">
           <p>Five quick questions show me where you stand.</p>
-          <button type="button" className="ss-rack-go" disabled={busy} onClick={() => onQuiz(5)}>Quiz me</button>
+          <button type="button" className="ss-rack-go" disabled={busy} aria-busy={busy && pressed ? true : undefined} onClick={() => { setPressed(true); onQuiz(5) }}>
+            {busy && pressed ? (<><Loader2 className="ss-rack-spin" aria-hidden="true" />Building your quiz…</>) : 'Quiz me'}
+          </button>
+          {busy && pressed && <span className="sr-only" role="status">Building your quiz. This can take up to half a minute.</span>}
         </div>
       )}
     </section>
