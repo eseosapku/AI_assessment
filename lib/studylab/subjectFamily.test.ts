@@ -28,6 +28,9 @@ describe('subject families', () => {
     ['English Language', 'words'], ['Kinyarwanda', 'words'], ['French', 'words'],
     ['History', 'time'], ['Social Studies', 'time'], ['Civics', 'time'],
     ['Art and Design', 'craft'],
+    ['IGCSE German', 'words'], ['Spanish', 'words'], ['Portuguese', 'words'], ['Arabic', 'words'], ['Mandarin', 'words'],
+    ['Chinese', 'words'], ['Latin', 'words'], ['Hindi', 'words'], ['Italian', 'words'], ['Japanese', 'words'], ['Luganda', 'words'],
+    ['English_S4_SB', 'words'],
   ])('reads %s as the %s family', (subject, family) => {
     expect(familyFor(subject).name).toBe(family)
   })

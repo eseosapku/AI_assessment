@@ -9,6 +9,12 @@
  *
  * Needs migrations/add-mastery-latest.sql to have been run first.
  *
+ * RUN THIS ONLY AFTER THE NEW CODE IS LIVE. The old save-result code writes
+ * `accuracy` and not `last_accuracy`. If a student retakes a quiz between the
+ * backfill and the release, their row keeps the backfilled score instead of the
+ * retake, and no re-run can repair it, because the row is no longer NULL. See
+ * the Release Checklist in docs/superpowers/plans/2026-11-04-gap-map-tile-rack.md.
+ *
  * Read-only unless --apply --yes-production. It only touches rows where
  * last_accuracy IS NULL, so a re-run cannot overwrite newer attempts, and it
  * never changes attempts, correct or accuracy. Rows with no replayable history
@@ -16,8 +22,8 @@
  * (curricula 3 and 4) are left out, as the map leaves them out. --log=<file>
  * records the old values of every row it changes. Output is totals only.
  *
- *   npx jiti scripts/backfill-mastery-latest.ts                                   # measure
- *   npx jiti scripts/backfill-mastery-latest.ts --apply --yes-production --log=latest-log.json
+ *   JITI_ALIAS='{"@":"C:/Users/Stephen/AI_assessment"}' npx jiti scripts/backfill-mastery-latest.ts                                   # measure
+ *   JITI_ALIAS='{"@":"C:/Users/Stephen/AI_assessment"}' npx jiti scripts/backfill-mastery-latest.ts --apply --yes-production --log=latest-log.json
  */
 import fs from 'node:fs'
 import path from 'node:path'

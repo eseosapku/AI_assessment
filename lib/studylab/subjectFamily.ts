@@ -60,11 +60,11 @@ const RULES: readonly [RegExp, FamilyName][] = [
   [/\b(math\w*|statistics|algebra|geometry|calculus|arithmetic|numeracy)\b/, 'number'],
   [/\b(physics|chemistry|chemical)\b/, 'matter'],
   [/\b(biology|science|sciences|agriculture|health)\b/, 'life'],
-  [/\b(english|french|kinyarwanda|swahili|kiswahili|literature|language|languages|reading|writing|grammar)\b/, 'words'],
+  [/\b(english|french|german|spanish|portuguese|arabic|chinese|mandarin|latin|hindi|italian|japanese|luganda|kinyarwanda|swahili|kiswahili|literature|language|languages|reading|writing|grammar)\b/, 'words'],
 ]
 
 export function familyFor(subjectOrTitle: string | null | undefined): SubjectFamily {
-  const text = (subjectOrTitle ?? '').toLowerCase()
+  const text = (subjectOrTitle ?? '').toLowerCase().replace(/_/g, ' ')
   for (const [pattern, name] of RULES) {
     if (pattern.test(text)) return BY_NAME.get(name)!
   }
