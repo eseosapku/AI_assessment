@@ -325,6 +325,7 @@ export default function GapMap({
             tryIt={<TryIt
               names={[...(selected ? [selected.name] : []), ...open.chapter.sections.filter((x) => x !== selected).map((x) => x.name), open.chapter.name]}
               subject={open.tray.subject}
+              bookName={open.chapter.bookName}
               onQuiz={(count) => takeQuiz(nodeFor(open.chapter, selected), count)}
               busy={starting || takingQuiz}
             />}

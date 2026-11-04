@@ -247,6 +247,14 @@
 .ss-rack-try-more { display: block; width: 100%; min-height: 44px; border: 0; background: none; font-size: 13.5px; font-weight: 700; color: var(--ss-accent); cursor: pointer; }
 .ss-rack-try-quiet { padding: 18px 20px; border: 1px solid var(--rack-line2); border-radius: 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .ss-rack-try-quiet p { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
-.ss-rack-try-dlg { width: min(460px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow-y: auto; padding: 12px; border: 0; border-radius: 22px; background: var(--ss-panel); color: var(--ss-ink); box-shadow: 0 24px 60px -20px rgba(22, 32, 42, 0.5); }
+.ss-rack-try-dlg { overflow-x: hidden; width: min(484px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow-y: auto; padding: 12px; border: 0; border-radius: 22px; background: var(--ss-panel); color: var(--ss-ink); box-shadow: 0 24px 60px -20px rgba(22, 32, 42, 0.5); }
 .ss-rack-try-dlg::backdrop { background: rgba(22, 32, 42, 0.5); }
 .ss-rack-try-dlg .ss-rack-q { margin-top: 10px; width: 100%; }
+
+/* On a phone the practice card fills its column at full size (as the Trail does with --trail-card-w)
+   rather than being scaled down; the frame is otherwise a fixed 420px. */
+@media (max-width: 699px) {
+  .ss-rack-try-card .sl-node-enter { width: 100%; max-width: 100%; }
+  .ss-rack-try-card button { min-height: 44px; min-width: 44px; }
+}
+.ss-rack-try-card .react-flow__handle { display: none; } /* connection dots stick out of the frame and cause a sideways scroll */
