@@ -18,6 +18,18 @@ const cases: [string, string, string | null][] = [
   ['Entrep s4SB for ACC proofread(Final)1 experimental version', 'Entrepreneurship', 'S4'],
   ['Cambridge IGCSE Further Mathematics Coursebook', 'Further Mathematics', 'Cambridge IGCSE'],
   ['Cambridge IGCSE Computer Science', 'Computer Science', 'Cambridge IGCSE'],
+  ['SOCIAL STUDIES AND RELIGIOUS EDUCATIO SST P1 TG', 'Social Studies and Religious Education', 'P1'],
+  ['SOCIAL STUDIES AND RELIGIOUS EDUCATION', 'Social Studies and Religious Education', null],
+  ['Cambridge International AS  A Level Global Perspectives  Research Coursebook', 'Global Perspectives', 'Cambridge AS & A Level'],
+  ['Cambridge IGCSE® and O Level Environmental Management Coursebook (1)', 'Environmental Management', 'Cambridge IGCSE'],
+  ['Cambridge International AS and A Level IT Coursebook', 'ICT', 'Cambridge AS & A Level'],
+  ['AGRIC S2 SB', 'Agriculture', 'S2'],
+  ['CREATIVE ARTS TG', 'Creative Arts', null],
+  ['P3-SST-PB', 'Social Studies', 'P3'],
+  ['P1 Read Aloud Stories Term 2', 'Read Aloud Stories', 'P1'],
+  ['IBIDUKIKIJE N3 TG', 'Ibidukikije', 'N3'],
+  ['GENERAL EDU-GSCS-S4-SB', 'GSCS', 'S4'],
+  ['Religion and Ethics S2 TG', 'Religion and Ethics', 'S2'],
 ]
 
 describe('bookTitle', () => {
