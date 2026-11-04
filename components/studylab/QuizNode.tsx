@@ -12,7 +12,7 @@ import { regionsFor } from '@/lib/studylab/check/diagramRegions'
 import { filledSentence } from '@/lib/studylab/check/placement'
 import { modeForCell, feedbackFor, isLiveChange, idleLine, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
-import { StageContext, useDock } from './stage/StageContext'
+import { useDock } from './stage/StageContext'
 import { initialAnswer, attemptOf, isAnswered, type Answer } from '@/lib/studylab/check/answers'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
@@ -109,7 +109,6 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   const [answer, setAnswer] = useState<Answer>(() => initialAnswer(q, cell.given))
   const [line, setLine] = useState<string | undefined>(cell.feedback)
   const [whyOpen, setWhyOpen] = useState(false)
-  const trail = useContext(StageContext)?.look === 'trail'
   // What the next save carries besides the flow state: the answer as given and
   // the line said about it.
   const extras = useRef<Partial<QuizCell>>({})
@@ -159,8 +158,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
 
   // After a miss the reason is simply there: the learner should not have to ask.
   useEffect(() => {
-    if (trail && (state.phase === 'wrong' || state.phase === 'revealed')) setWhyOpen(true)
-  }, [trail, state.phase])
+    if ((state.phase === 'wrong' || state.phase === 'revealed')) setWhyOpen(true)
+  }, [state.phase])
 
   // Reading "Why?" can take away the last button on the bar; the explanation
   // it opened is then the place to be.
@@ -175,7 +174,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
     dispatch({ type: 'answer', present: isAnswered(q, next) })
   }
 
-  // A written answer's feedback is already Inky's line, so "Why?" would only
+  // A written answer's feedback is already Kana's line, so "Why?" would only
   // repeat it -- except after a miss in a test, where the line says
   // "Incorrect" and the feedback waits behind "Why?".
   const why =
@@ -189,8 +188,8 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   const options: BarOptions = barOptionsFor(
     {
       canReveal: true,
-      // On the Trail it opens by itself after a miss, so there is no button left to press.
-      hasWhy: Boolean(why) && !(trail && whyOpen),
+      // It opens by itself after a miss, so there is no button left to press.
+      hasWhy: Boolean(why) && !whyOpen,
       whyOpened: whyOpen,
       // Only while learning, and only from the dock; the bar offers it after a miss.
       hasHelp: mode === 'learn' && !!dock.help,
@@ -253,10 +252,9 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   }
 
   const codeOutput = useRef('')
-  // On the Trail a written answer is marked as a chosen option is: at a glance, on the card.
+  // A written answer is marked as a chosen option is: at a glance, on the card.
   const writtenMark =
-    !trail ? null
-    : state.phase === 'correct' ? { kind: 'correct' as const, tone: 'bad' as const, colour: 'var(--ss-good)' }
+    state.phase === 'correct' ? { kind: 'correct' as const, tone: 'bad' as const, colour: 'var(--ss-good)' }
     : state.phase === 'wrong' ? { kind: 'wrong' as const, tone: 'bad' as const, colour: 'var(--ss-bad)' }
     : state.phase === 'retry' ? { kind: 'wrong' as const, tone: 'warn' as const, colour: 'var(--ss-warn)' }
     : null
@@ -275,9 +273,9 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
   // Only the line the learner should read now: the written feedback after a
   // miss or a right answer, nothing in a test miss (the bar says "Incorrect").
   const barLine =
-    state.phase === 'wrong' && mode === 'test' ? (trail ? (q.format === 'mcq' ? 'Not quite. The right answer is in green.' : 'Not quite. Here is the right answer.') : undefined)
+    state.phase === 'wrong' && mode === 'test' ? (q.format === 'mcq' ? 'Not quite. The right answer is in green.' : 'Not quite. Here is the right answer.')
     : state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'correct' ? line
-    : state.message ?? (trail ? idleLine(state) : undefined)
+    : state.message ?? idleLine(state)
 
   return (
     <motion.div
@@ -331,7 +329,6 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
         {q.format === 'code' && (
           <CodeBox q={q} code={(answer as string) ?? ''} locked={locked} onChange={give} onOutput={(o) => { codeOutput.current = o }} />
         )}
-        {!trail && goodAnswer}
         <AnimatePresence>
           {whyOpen && why && (
             <motion.div
@@ -341,7 +338,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
               className="rounded-xl border border-ss-line bg-ss-chip px-3 py-2.5 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]"
             >
               {/* A written answer has no coloured option to say how it went, and on a tall card Kana can be off screen. */}
-              {trail && (q.format === 'short' || q.format === 'code') && state.phase === 'wrong' ? (
+              {(q.format === 'short' || q.format === 'code') && state.phase === 'wrong' ? (
                 <p className="text-[12px] font-bold uppercase tracking-wide" style={{ color: 'var(--ss-bad)' }}>Not quite</p>
               ) : (
                 <p className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">Why</p>
@@ -350,7 +347,7 @@ function QuizCard({ cell, save }: { cell: QuizCell; save: (patch: Partial<QuizCe
             </motion.div>
           )}
         </AnimatePresence>
-        {trail && goodAnswer}
+        {goodAnswer}
         {dock.place(<CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={barLine} />)}
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />

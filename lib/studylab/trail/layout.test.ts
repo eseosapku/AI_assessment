@@ -219,3 +219,12 @@ describe('a tall card in focus', () => {
     expect(trailLayout({ ...oneCurrent({ focus: short }), focusRoom: 700 }).cards.f.w).toBe(640)
   })
 })
+
+describe('a run that does not go in a straight line', () => {
+  it('lays out a jump forward, and a tested-out station with no cards, without boxes overlapping', () => {
+    // station 1 was tested out (done, no cards); the learner then jumped on to 3 and left 2 behind.
+    const w = trailLayout(statesOf(['done', 'done', 'future', 'current', 'future']))
+    expect(w.plots).toHaveLength(5)
+    for (let i = 0; i < w.plots.length; i++) for (let j = i + 1; j < w.plots.length; j++) expect(hit(boxOf(w.plots[i]), boxOf(w.plots[j]))).toBe(false)
+  })
+})

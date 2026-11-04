@@ -1,14 +1,13 @@
 // components/studylab/activities/ScenarioActivity.tsx
 'use client'
 import { SafeLatex } from '../canvasShared'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ScenarioPayload } from '@/lib/studylab/activities/types'
 import type { ScenarioWork } from '@/lib/studylab/activities/patterns/scenario'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { ActivityFrame } from './ActivityFrame'
 import { useActivityState } from './useActivityState'
-import { StageContext } from '../stage/StageContext'
 
 type Choice = ScenarioPayload['choices'][number]
 
@@ -27,10 +26,8 @@ export function ScenarioActivity({ id, spec, onOutcome, initialState }: {
   // touches `work` or the graded answer.
   const [previewId, setPreviewId] = useState<string | null>(null)
   const activeId = previewId ?? chosen
-  // On the Trail a choice says how it went. The classic view shows consequences alone.
-  const trail = useContext(StageContext)?.look === 'trail'
   const acceptable: readonly string[] = spec.success.kind === 'exactSet' ? spec.success.itemIds : []
-  const heading = !trail || !activeId
+  const heading = !activeId
     ? 'What happened'
     : activeId === chosen
       ? a.solved ? 'Good choice' : 'Not the best choice'
@@ -98,8 +95,8 @@ export function ScenarioActivity({ id, spec, onOutcome, initialState }: {
                 }`}
               >
                 <SafeLatex>{choice.label}</SafeLatex>
-                {trail && chosen && acceptable.includes(choice.id) && <span aria-label="This works" className="ml-2 font-bold" style={{ color: 'var(--ss-good)' }}>✓</span>}
-                {isGraded && (trail || !isActive) && (
+                {chosen && acceptable.includes(choice.id) && <span aria-label="This works" className="ml-2 font-bold" style={{ color: 'var(--ss-good)' }}>✓</span>}
+                {isGraded && (
                   <span className="ml-2 text-[12px] font-normal uppercase tracking-widest text-ss-slate">
                     your choice
                   </span>

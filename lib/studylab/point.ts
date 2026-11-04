@@ -1,7 +1,7 @@
 // lib/studylab/point.ts
 
 /**
- * The parts of a card Inky can point at, and how to find one on the board.
+ * The parts of a card Kana can point at, and how to find one on the board.
  *
  * Each renderer marks its parts with `data-part`: a concept card's list items
  * (`item-1`, from 1), a worked card's steps (`step-1`), a table's cells

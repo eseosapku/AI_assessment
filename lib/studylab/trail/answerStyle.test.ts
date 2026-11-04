@@ -82,12 +82,10 @@ describe('the result on the Trail', () => {
   it('wrong and right are told apart at a glance: red cross, green tick', () => {
     expect(badge('wrong', true)).toContain('--ss-bad')
     expect(renderToStaticMarkup(createElement(StageContext.Provider, { value: stage }, createElement(ResultBadge, { kind: 'answer' })))).toContain('--ss-good')
-    expect(renderToStaticMarkup(createElement(ResultBadge, { kind: 'answer' }))).toContain('--ss-slate')
   })
   it('a right answer is a bigger green tile', () => {
     expect(badge('correct', true)).toContain('--ss-good')
     expect(badge('correct', true)).toContain('h-7')
-    expect(badge('correct', false)).toContain('h-5')
   })
 })
 

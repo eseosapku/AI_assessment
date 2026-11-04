@@ -31,8 +31,6 @@ export interface StageValue {
    * the attempt. Absent where nothing can answer it (the demo).
    */
   help?: (nodeId: string, request: HelpRequest) => void
-  /** The Trail's stage: only the card in focus has a bar, and it is in the dock. */
-  look?: 'trail'
   /** On the Trail, check feedback is said by Kana rather than beside the button. */
   sayLine?: (text: string, tone: BarModel['tone']) => void
 }
@@ -103,9 +101,7 @@ export function useDock(opts: { enabled?: boolean } = {}): {
           {createPortal(bar, stage.dockEl)}
           <JumpToBar dock={stage.dockEl} />
         </>
-      ) : candidate || stage?.look === 'trail' ? null : (
-        bar
-      ),
+      ) : null,
     engage: candidate && !docked ? { onPointerDownCapture: take, onFocusCapture: take } : {},
     help: docked && stage?.help && nodeId ? (request) => stage.help!(nodeId, request) : null,
   }

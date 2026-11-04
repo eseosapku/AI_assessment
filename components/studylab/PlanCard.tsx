@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Lock, ArrowRight, Pencil } from 'lucide-react'
-import { Inky } from './inky/Inky'
+import { Kana } from './kana/Kana'
 import type { ChatPlan } from '@/lib/studylab/types'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 
@@ -54,7 +54,7 @@ export function PlanCard({
   defaultPace?: Pace
   /**
    * `stage`: the opening card on the board -- no frame of its own, the steps
-   * drawn as the path the lesson will walk, Inky on the first.
+   * drawn as the path the lesson will walk, Kana on the first.
    */
   variant?: 'chat' | 'stage'
 }) {
@@ -92,7 +92,7 @@ export function PlanCard({
               <span className="relative grid h-9 w-9 shrink-0 place-items-center">
                 {i === 0 ? (
                   <span className="grid h-9 w-9 place-items-center rounded-full border-2 bg-ss-panel" style={{ borderColor: 'var(--subject)' }}>
-                    <Inky size={26} title="Inky starts here" />
+                    <Kana pose="happy" size={26}title="Kana starts here" />
                   </span>
                 ) : (
                   <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-ss-line bg-ss-panel text-[12px] font-extrabold tabular-nums text-ss-slate">

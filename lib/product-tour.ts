@@ -25,7 +25,7 @@
  * itself.
  */
 
-export type TourId = 'home' | 'practice' | 'learnspace' | 'lesson' | 'gapmap' | 'progress' | 'recall'
+export type TourId = 'home' | 'practice' | 'learnspace' | 'gapmap' | 'progress' | 'recall'
 
 export interface TourStep {
   /** Value of the target's data-tour attribute. */
@@ -140,50 +140,6 @@ export const TOURS: Record<TourId, Tour> = {
         title: 'Your lessons stay put',
         body:
           'Everything you build is saved here with how far through you got, so you can stop mid-lesson and pick it up another day. Lessons built from a weak topic say so on the card.',
-      },
-    ],
-  },
-
-  /**
-   * Inside a lesson, as distinct from the `learnspace` hub above.
-   *
-   * Runs once the first card is on the board — not on arrival. A first-timer
-   * staring at an empty canvas has nothing to point at, and every step here
-   * describes a control that is only there once teaching has started. It waits
-   * until something has visibly happened, then explains how to steer it.
-   */
-  lesson: {
-    id: 'lesson',
-    steps: [
-      {
-        anchor: 'lesson-board',
-        eyebrow: 'The board',
-        title: 'The work comes to you',
-        body:
-          'Each new card, question or material glides into view, and the rest of the board steps back so you know where to look. Everything stays on the board as a map of the lesson.',
-        action: 'Drag the board to look around — "Back to lesson" brings you home.',
-      },
-      {
-        anchor: 'lesson-chat',
-        eyebrow: 'Inky',
-        title: 'Inky talks here',
-        body:
-          'Its latest line sits in the bubble, with questions you might ask underneath. The chat button — or the / key — opens the whole conversation and the box to type in.',
-      },
-      {
-        anchor: 'lesson-continue',
-        eyebrow: 'Moving on',
-        title: 'One bar moves you on',
-        body:
-          'Answer on the card, then press Check down here. After a check, Why? explains it and Continue takes the lesson forward. Asking Inky never skips ahead.',
-        action: 'Right-click any card for Simplify, Explain deeper, or Quiz me on this.',
-      },
-      {
-        anchor: 'lesson-plan',
-        eyebrow: 'Your steps',
-        title: 'The bar fills as you go; open the list to move',
-        body:
-          'Each segment is a step, ticked when it is done. Open the list to go back to a step you finished, or skip ahead to one you have not reached.',
       },
     ],
   },

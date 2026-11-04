@@ -104,7 +104,7 @@ function exploreSummary(ctx: PassContext): string {
   const { id, step: _step, ...item } = e.action as unknown as Record<string, unknown>
   return [
     `THE EXPLORE ITEM ALREADY WRITTEN FOR THIS STATION (id "${String(id)}"):`,
-    `  Inky's opening line: "${e.opening}"`,
+    `  Kana's opening line: "${e.opening}"`,
     `  The item, exactly as the student gets it: ${JSON.stringify(item).slice(0, EXPLORE_CHARS)}`,
   ].join('\n')
 }
@@ -124,7 +124,7 @@ const EXPLORE_ASK = [
 ].join('\n')
 
 const NAME_ASK = [
-  'STAGE: NAME IT -- name the idea the explore item shows. Write the naming card ONCE, then what Inky says for',
+  'STAGE: NAME IT -- name the idea the explore item shows. Write the naming card ONCE, then what Kana says for',
   'each way the explore can go:',
   '  "card": ONE createCard ("concept" or "worked") that names the idea and shows it on the explore item. Write it',
   '          so it is true whatever the student did -- no "you found", no result of theirs.',
@@ -291,7 +291,7 @@ async function explore(ctx: PassContext, opts: PassOptions): Promise<PassResult>
 
 /**
  * The name-it cuts, built around one naming card written once. The three cuts
- * differ where the outcome matters -- the line Inky says, and the card each
+ * differ where the outcome matters -- the line Kana says, and the card each
  * adds: the hard step for "helped", what the item shows when done for
  * "untried". Written three times over, the cards came back the same and the
  * pass ran close to its time.

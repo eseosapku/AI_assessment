@@ -82,7 +82,7 @@ describe('the Trail board', () => {
       renderToStaticMarkup(
         createElement(
           StageContext.Provider,
-          { value: { ...stageBase, look: 'trail', ...extra } },
+          { value: { ...stageBase, ...extra } },
           createElement(CheckBar, { state: { mode: 'test', phase: 'wrong', attempts: 1 } as never, options: {} as never, onAction: () => {}, line: 'Not this one.' }),
         ),
       )
@@ -105,14 +105,12 @@ describe('the Trail board', () => {
     expect(src).toContain('zoomOnScroll={false}')
   })
 
-  it('off the focus, useDock draws no bar on the Trail, and classic still does', () => {
+  it('off the focus, useDock draws no bar', () => {
     const Probe = () => useDock().place(createElement('b', null, 'BAR')) as never
-    const html = (look?: 'trail') =>
-      renderToStaticMarkup(
-        createElement(ReactFlowProvider, null, createElement(StageContext.Provider, { value: { ...stageBase, look } }, createElement(Probe))),
-      )
-    expect(html()).toContain('BAR')
-    expect(html('trail')).not.toContain('BAR')
+    const html = renderToStaticMarkup(
+      createElement(ReactFlowProvider, null, createElement(StageContext.Provider, { value: stageBase }, createElement(Probe))),
+    )
+    expect(html).not.toContain('BAR')
   })
 })
 
@@ -146,7 +144,7 @@ describe('a worked card', () => {
 describe('an activity on the Trail', () => {
   const frame = readFileSync('components/studylab/activities/ActivityFrame.tsx', 'utf8')
   it('takes the dock for its own Check, so it is never hidden under Continue', () => {
-    expect(frame).toContain('const ownCheck = trail && !checkState && !!onCheck && !solved')
+    expect(frame).toContain('const ownCheck = !checkState && !!onCheck && !solved')
     expect(frame).toContain('|| ownCheck')
   })
   it('renders its prompt as lesson text, not as raw marks', () => {
@@ -183,7 +181,7 @@ describe('staying on a card just answered', () => {
 
 describe('after a miss', () => {
   it('the reason opens by itself on the Trail', () => {
-    expect(readFileSync('components/studylab/QuizNode.tsx', 'utf8')).toContain("if (trail && (state.phase === 'wrong' || state.phase === 'revealed')) setWhyOpen(true)")
+    expect(readFileSync('components/studylab/QuizNode.tsx', 'utf8')).toContain("if ((state.phase === 'wrong' || state.phase === 'revealed')) setWhyOpen(true)")
   })
 })
 
@@ -238,7 +236,7 @@ describe('a decision card', () => {
   const state = (chosen: string, solved: boolean) => ({ status: solved ? 'solved' : 'in_progress', attempts: 1, hintsUsed: 0, elapsedMs: 0, rejectedMoves: [], work: { chosen } }) as never
   const draw = (chosen: string, solved: boolean, look?: 'trail') => {
     const card = createElement(ScenarioActivity, { id: 'c', spec, onOutcome: () => {}, initialState: state(chosen, solved) })
-    const staged = look ? createElement(StageContext.Provider, { value: { look, focus: new Set<string>(), owner: null, dockEl: null, continueFor: () => null, runContinue: () => {}, claim: () => () => {}, prefer: () => {} } as never }, card) : card
+    const staged = look ? createElement(StageContext.Provider, { value: { focus: new Set<string>(), owner: null, dockEl: null, continueFor: () => null, runContinue: () => {}, claim: () => () => {}, prefer: () => {} } as never }, card) : card
     return renderToStaticMarkup(createElement(ReactFlowProvider, null, staged))
   }
   it('says the choice was good, marks what works, and shows which one is in view', () => {
@@ -253,10 +251,6 @@ describe('a decision card', () => {
     const html = draw('b', false, 'trail')
     expect(html).toContain('Not the best choice')
     expect(html.split('aria-label="This works"').length - 1).toBe(1)
-  })
-  it('the classic view keeps its plain heading', () => {
-    expect(draw('a', true)).toContain('What happened')
-    expect(draw('a', true)).not.toContain('This works')
   })
 })
 

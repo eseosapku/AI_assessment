@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Sparkles, RotateCcw, ArrowRight } from 'lucide-react'
-import LessonStage from './stage/LessonStage'
+import dynamic from 'next/dynamic'
+import type { LessonStageProps } from './trail/stageProps'
 import { useActiveTime } from './stage/useActiveTime'
-import type { CanvasEffects } from './StudyCanvas'
+import type { CanvasEffects } from './trail/stageProps'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { layoutGraph, withMeasuredSizes } from '@/lib/studylab/layout'
@@ -52,6 +53,9 @@ const planMessage = (): ChatMessage => ({
  * through all of that would put the tutorial one bad conditional away from
  * writing to a real lesson.
  */
+// The Trail reads the browser, so it is drawn on the client only.
+const TrailStage = dynamic<LessonStageProps>(() => import('./trail/TrailStage'), { ssr: false })
+
 export default function DemoWorkspace() {
   const router = useRouter()
   const params = useSearchParams()
@@ -332,7 +336,7 @@ export default function DemoWorkspace() {
           )
 
   return (
-    <LessonStage
+    <TrailStage
       subjectKey={DEMO_SUBJECT}
       focus={focus}
       activeMs={activeMs}

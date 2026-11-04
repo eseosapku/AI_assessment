@@ -17,20 +17,17 @@ const PILL_FILL: Record<PillTone, string> = { done: 'var(--ss-good)', current: '
 
 /**
  * The lesson across the top: a way out, the journey with where you are, and the
- * Board menu. The station list flies the camera and nothing else; jumping and
- * testing out stay in the classic view for the trial.
+ * Board menu. The station list flies the camera and nothing else.
  */
-export function TrailTopBar({ pills, label, plots, canClassic, onLeave, onStation, onWholeBoard, onBackToCard, onAddBlock, onClassic, onMenuChange }: {
+export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBoard, onBackToCard, onAddBlock, onMenuChange }: {
   pills: { tone: PillTone }[]
   label: string
   plots: PlotBox[]
-  canClassic: boolean
   onLeave: () => void
   onStation: (plot: PlotBox) => void
   onWholeBoard: () => void
   onBackToCard: () => void
   onAddBlock: (type: string) => void
-  onClassic?: () => void
   /** So Esc closes this first and leaves the chat alone. */
   onMenuChange: (open: boolean) => void
 }) {
@@ -66,7 +63,6 @@ export function TrailTopBar({ pills, label, plots, canClassic, onLeave, onStatio
     else if (id === 'zoomIn') void rf.zoomIn({ duration: ZOOM_MS })
     else if (id === 'zoomOut') void rf.zoomOut({ duration: ZOOM_MS })
     else if (id === 'sound') setMuted(!muted)
-    else if (id === 'classic') onClassic?.()
   }
 
   return (
@@ -132,7 +128,7 @@ export function TrailTopBar({ pills, label, plots, canClassic, onLeave, onStatio
         </button>
         {menu === 'board' && (
           <div role="menu" aria-label="Board" className="pointer-events-auto absolute right-0 top-full mt-2 max-h-[80vh] w-64 overflow-auto rounded-2xl border border-ss-line bg-ss-panel p-1.5 shadow-xl">
-            {trailMenu({ canClassic, muted }).map((item) => (
+            {trailMenu({ muted }).map((item) => (
               <div key={item.id}>
                 <button type="button" role="menuitem" aria-expanded={item.id === 'add' ? adding : undefined} className={ROW} onClick={() => choose(item.id)}>
                   {item.label}

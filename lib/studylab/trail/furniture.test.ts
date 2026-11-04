@@ -21,11 +21,11 @@ const planning = () => ({ ...runWith([], -1), phase: 'planning' }) as LessonRun
 
 describe('the Board menu', () => {
   it('holds exactly what the spec lists', () => {
-    expect(trailMenu({ canClassic: true, muted: false }).map((i) => i.label)).toEqual(['See the whole board', 'Back to my card', 'Zoom in', 'Zoom out', 'Add a block', 'Sound off', 'Back to the classic look'])
-    expect(trailMenu({ canClassic: true, muted: true }).map((i) => i.label)).toContain('Sound on')
+    expect(trailMenu({ muted: false }).map((i) => i.label)).toEqual(['See the whole board', 'Back to my card', 'Zoom in', 'Zoom out', 'Add a block', 'Sound off'])
+    expect(trailMenu({ muted: true }).map((i) => i.label)).toContain('Sound on')
   })
-  it('leaves out the way back when there is none', () => {
-    expect(trailMenu({ canClassic: false, muted: false }).map((i) => i.label)).not.toContain('Back to the classic look')
+  it('has no way back to the classic look', () => {
+    expect(trailMenu({ muted: false }).map((i) => i.label).join('|')).not.toMatch(/classic/i)
   })
 })
 

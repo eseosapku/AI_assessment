@@ -2,7 +2,7 @@
 import type { ChatMessage } from './types'
 
 /**
- * Inky's speech bubble: what it says, and where on the board it can say it.
+ * Kana's speech bubble: what it says, and where on the board it can say it.
  *
  * The chat is a drawer now, closed by default, so the tutor's latest line has
  * to be readable without opening anything -- and it must never sit on top of
@@ -43,9 +43,9 @@ export interface Rect {
 
 /** Room left between the bubble and the work, so it never sits flush against a card. */
 const MARGIN = 8
-/** Gap between Inky and its bubble. */
+/** Gap between Kana and its bubble. */
 const GAP = 12
-/** How far above Inky the bubble may rise to clear the bar, and in what steps. */
+/** How far above Kana the bubble may rise to clear the bar, and in what steps. */
 const LIFT_STEP = 24
 const MAX_LIFT = 96
 
@@ -64,9 +64,9 @@ function clear(r: Rect, avoid: Rect[]): boolean {
 }
 
 /**
- * Where the bubble goes: beside Inky, then above it (rising a little if a bar
+ * Where the bubble goes: beside Kana, then above it (rising a little if a bar
  * reaches in underneath), then the same places as a one-line pill. If none is
- * free, the pill beside Inky -- the smallest thing that can still be read and
+ * free, the pill beside Kana -- the smallest thing that can still be read and
  * opened.
  */
 export function placeBubble(input: {
@@ -80,8 +80,8 @@ export function placeBubble(input: {
   const beside = (s: { w: number; h: number }) => ({ x: inky.x + inky.w + GAP, y: inky.y + inky.h - s.h, ...s })
   const above = (s: { w: number; h: number }) => ({ x: inky.x, y: inky.y - GAP - s.h, ...s })
 
-  // A bar along the foot of the board can reach in under Inky; a little
-  // higher than just-above is still Inky's bubble, and clear of it.
+  // A bar along the foot of the board can reach in under Kana; a little
+  // higher than just-above is still Kana's bubble, and clear of it.
   const lifted = (s: { w: number; h: number }) => {
     const out: Rect[] = []
     for (let up = LIFT_STEP; up <= MAX_LIFT; up += LIFT_STEP) out.push({ ...above(s), y: above(s).y - up })
@@ -98,7 +98,7 @@ export function placeBubble(input: {
   ]
   const pick = candidates.find((c) => inside(c.rect, board) && clear(c.rect, avoid))
   if (pick) return { x: pick.rect.x, y: pick.rect.y, compact: pick.compact, tail: pick.tail }
-  // Nothing is free. On a phone even the pill beside Inky runs off the board,
+  // Nothing is free. On a phone even the pill beside Kana runs off the board,
   // so there it narrows to the room there is, and its line truncates.
   const room = board.x + board.w - MARGIN - fallback.rect.x
   const { x, y } = fallback.rect
@@ -109,7 +109,7 @@ export function placeBubble(input: {
 const ARROW_GAP = 6
 
 /**
- * The arrow from Inky's bubble to the part it points at: from the bubble's edge,
+ * The arrow from Kana's bubble to the part it points at: from the bubble's edge,
  * along the line between the two centres, to just short of the part. Null when
  * they touch or overlap -- there is nowhere for an arrow to go.
  */

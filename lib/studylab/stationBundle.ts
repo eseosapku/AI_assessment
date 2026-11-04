@@ -26,14 +26,14 @@ const BY_HAND_FORMATS = ['mcq', 'fill', 'order', 'tap']
  * of the check -- before a judge is asked about facts.
  */
 export interface AuthoredExplore {
-  /** Inky's opening line: what to notice, never the instructions. */
+  /** Kana's opening line: what to notice, never the instructions. */
   opening: string
   /** A material (createActivity / build_material), or a "Predict:" practice card where none fits. */
   action: TutorAction
   intent?: TeachingIntent
   /** A `vary` material's relationship, cited: an invented formula must say where it comes from. */
   relationship?: { statement: string; source: string }
-  /** What Inky says after a miss, in order. */
+  /** What Kana says after a miss, in order. */
   hints: string[]
 }
 

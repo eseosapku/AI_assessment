@@ -4,14 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
-import ProductTour from '@/components/studio/ProductTour'
 import DemoOffer from './DemoOffer'
-import LessonStage, { type LessonStageProps } from './stage/LessonStage'
+import type { LessonStageProps, CanvasEffects, LastAsk } from './trail/stageProps'
 import { useActiveTime } from './stage/useActiveTime'
-import { useLook } from './trail/useLook'
 import { proveItTopics } from '@/lib/studylab/proveIt'
-import type { LastAsk } from '@/lib/studylab/trail/look'
-import type { CanvasEffects } from './StudyCanvas'
 import { toggleStepGroup, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
@@ -36,7 +32,7 @@ import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
 
-// Only the learners trying the Trail load it.
+// The Trail reads the browser, so it is drawn on the client only.
 const TrailStage = dynamic<LessonStageProps>(() => import('./trail/TrailStage'), {
   ssr: false,
   loading: () => (
@@ -83,7 +79,6 @@ export default function Workspace({ id }: { id: string }) {
   // What the stage is about: the cards the last turn built, or the one the
   // learner was sent to. Empty after a reload; the spotlight falls back.
   const [focus, setFocus] = useState<string[]>([])
-  const { look, eligible: trailOffered, setLook } = useLook(run, messages)
   // The latest question answered with new cards: a detour, on the Trail.
   const [lastAsk, setLastAsk] = useState<LastAsk | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -663,7 +658,7 @@ export default function Workspace({ id }: { id: string }) {
     [busy, handleAdvance, sendAction, sayToTutor]
   )
 
-  // A chip, under Inky or in the drawer. "Makes sense" is Continue in the
+  // A chip, under Kana or in the drawer. "Makes sense" is Continue in the
   // learner's words; "Not really" asks what is unclear before anything is
   // explained again; any other chip -- a sticking point the diagnosis offered,
   // or a question the tutor suggested -- is asked.
@@ -945,7 +940,7 @@ export default function Workspace({ id }: { id: string }) {
     setFocus([nodeId])
   }, [])
 
-  // Brings a card into view and leaves the spotlight where it is: a part Inky
+  // Brings a card into view and leaves the spotlight where it is: a part Kana
   // pointed at off screen.
   const showNode = useCallback((nodeId: string) => {
     effectVersion.current += 1
@@ -1250,9 +1245,8 @@ export default function Workspace({ id }: { id: string }) {
     )
   }
 
-  const Stage = look === 'trail' ? TrailStage : LessonStage
   return (
-    <Stage
+    <TrailStage
       subjectKey={space.subject ?? space.title}
       focus={focus}
       activeMs={canvas.activeMs ?? 0}
@@ -1261,7 +1255,7 @@ export default function Workspace({ id }: { id: string }) {
       onHandIn={handIn}
       pointer={pointer}
       onShowNode={showNode}
-      trail={{ spaceId: id, lastAsk, onClassic: () => setLook('classic') }}
+      trail={{ spaceId: id, lastAsk }}
       rail={{
         title: space.title,
         subject: space.subject,
@@ -1314,15 +1308,6 @@ export default function Workspace({ id }: { id: string }) {
         title: space?.title,
         plan: canvas.plan,
         onNodesMeasured: handleMeasured,
-        boardExtra: trailOffered && (
-          <button
-            type="button"
-            onClick={() => setLook('trail')}
-            className="flex items-center gap-1.5 rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[12px] font-semibold text-ss-ink shadow-ss-panel hover:border-ss-accent"
-          >
-            Try the new look
-          </button>
-        ),
       }}
       chat={{
         messages,
@@ -1357,13 +1342,6 @@ export default function Workspace({ id }: { id: string }) {
           a topic they typed, a gap from the map, or a homework photo. It is
           the only moment the offer is useful. */}
       <DemoOffer lessonId={id} title={space.title} />
-
-      {/* Coach marks, held back until the first card is on the board. Every
-          step points at a control that only exists once teaching has started —
-          the pace toggle is hidden during planning, and Continue is replaced by
-          the plan card's own buttons — so running it on arrival would spotlight
-          things that are not there yet. */}
-      <ProductTour id="lesson" enabled={look === 'classic' && run?.phase === 'teaching' && canvas.nodes.length > 0} />
-    </Stage>
+    </TrailStage>
   )
 }

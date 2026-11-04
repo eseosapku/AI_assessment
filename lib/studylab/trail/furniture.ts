@@ -28,9 +28,9 @@ export function topBarLabel(input: { run: LessonRun | null; lookingBack: string 
 /** What the "Back to my card" pill is for: it shows once the learner has moved the board away. */
 export const BACK_TO_CARD_HINT = 'You moved the board. This takes you back to the card you are working on.'
 
-export type MenuId = 'whole' | 'back' | 'zoomIn' | 'zoomOut' | 'add' | 'sound' | 'classic'
+export type MenuId = 'whole' | 'back' | 'zoomIn' | 'zoomOut' | 'add' | 'sound'
 
-export function trailMenu(input: { canClassic: boolean; muted: boolean }): { id: MenuId; label: string }[] {
+export function trailMenu(input: { muted: boolean }): { id: MenuId; label: string }[] {
   return [
     { id: 'whole', label: 'See the whole board' },
     { id: 'back', label: 'Back to my card' },
@@ -38,7 +38,6 @@ export function trailMenu(input: { canClassic: boolean; muted: boolean }): { id:
     { id: 'zoomOut', label: 'Zoom out' },
     { id: 'add', label: 'Add a block' },
     { id: 'sound', label: input.muted ? 'Sound on' : 'Sound off' },
-    ...(input.canClassic ? [{ id: 'classic' as const, label: 'Back to the classic look' }] : []),
   ]
 }
 

@@ -3,7 +3,7 @@
 import { RIBBON_ROOM } from '@/lib/studylab/trail/camera'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useReactFlow } from '@xyflow/react'
-import type { LessonStageProps } from '../stage/LessonStage'
+import type { LessonStageProps } from './stageProps'
 import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
 import { blockSize } from '@/lib/studylab/blocks'
 import { absorbTurn, backFromDetour, dueNotes, loadMemory, memoryKey, onAskAnswered, pruneMemory, saveMemory, stillNotSure as nextApproach, type Detour, type TrailMemory, type UnsureNote } from '@/lib/studylab/trail/detours'

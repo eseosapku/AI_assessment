@@ -102,3 +102,10 @@ export interface TrailWorld {
   cards: Record<string, CardPlace>
   speaker: { kana: Point; bubble: Rect; frame: Rect } | null
 }
+
+/** A learner's question the tutor answered with new cards: a detour, on the Trail. */
+export interface LastAsk {
+  version: number
+  question: string
+  created: string[]
+}

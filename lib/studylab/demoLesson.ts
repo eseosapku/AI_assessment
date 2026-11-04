@@ -188,8 +188,8 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     expect: 'chip',
     step: 1,
     cue: {
-      action: 'Press the chip “Show me what a prism does” under Inky',
-      why: 'The buttons under Inky’s bubble are questions about what is on the board right now. Asking one adds a card without skipping ahead — the lesson stays where it is.',
+      action: 'Press the chip “Show me what a prism does” under Kana',
+      why: 'The buttons under Kana’s bubble are questions about what is on the board right now. Asking one adds a card without skipping ahead — the lesson stays where it is.',
       anchor: 'lesson-chips',
     },
     say: 'Here is the prism itself.',
@@ -214,7 +214,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     compose: 'Why do we see a rainbow after it rains?',
     cue: {
       action: 'Send the question already in the box',
-      why: 'The chat opens from Inky’s button, or the / key. You can ask anything in your own words; the answer arrives as a card joined to the step you are on — not as a line of chat you will scroll past.',
+      why: 'The chat opens from Kana’s button, or the / key. You can ask anything in your own words; the answer arrives as a card joined to the step you are on — not as a line of chat you will scroll past.',
       anchor: 'lesson-composer',
     },
     say: 'Good question — same physics, different glass.',

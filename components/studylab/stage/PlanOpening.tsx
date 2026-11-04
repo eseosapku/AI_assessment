@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Lock, SendHorizontal } from 'lucide-react'
-import { Inky } from '../inky/Inky'
+import { Kana } from '../kana/Kana'
 import type { ChatPlan } from '@/lib/studylab/types'
 import { motionFor } from '@/lib/studylab/motionPresets'
 
@@ -55,7 +55,7 @@ export function PlanOpening({
 
   return (
     <div className="flex flex-col items-center px-6 pb-7 pt-8 text-center sm:px-10">
-      <Inky size={60} mood="happy" title="Inky, ready to start" />
+      <Kana pose="happy" size={60} title="Kana, ready to start" />
       {subject && (
         <span
           className="mt-4 rounded-full px-3 py-1 text-[12px] font-bold uppercase tracking-[0.12em]"

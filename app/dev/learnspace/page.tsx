@@ -7,7 +7,7 @@
  *
  * It holds what the node-only suite cannot render: the check bar in learning
  * and test mode, the badges and fades, the practice card's two tries, an
- * activity's hint-on-miss and solve hop, the glossary popover, Inky's moods.
+ * activity's hint-on-miss and solve hop, the glossary popover, Kana's poses.
  *
  * Dev only, like /dev/activities: there is no middleware gating /dev/*.
  */
@@ -18,8 +18,6 @@ import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
 import { studyNodeTypes } from '@/components/studylab/canvasNodes'
 import { CanvasContext } from '@/components/studylab/canvasShared'
-import { Inky } from '@/components/studylab/inky/Inky'
-import type { InkyMood } from '@/lib/studylab/inkyMood'
 import { SUBJECT_FAMILIES, subjectStyle } from '@/lib/studylab/subjectFamily'
 import type { ActivitySpec } from '@/lib/studylab/activities/types'
 import type { CheckpointQuestion, StudyNodeData } from '@/lib/studylab/types'
@@ -232,7 +230,6 @@ const initialNodes: Node[] = [
   },
 ]
 
-const MOODS: InkyMood[] = ['idle', 'looking', 'talking', 'thinking', 'happy', 'concerned', 'celebrating']
 
 function Bench() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
@@ -255,11 +252,6 @@ function Bench() {
         <button type="button" className="rounded border border-ss-line px-2 py-1 text-xs font-semibold" onClick={() => setEpoch((e) => e + 1)}>
           Remount cards (as a reload would)
         </button>
-        <div className="flex items-end gap-2">
-          {MOODS.map((m) => (
-            <div key={m} className="flex flex-col items-center text-[12px] text-ss-slate"><Inky size={34} mood={m} />{m}</div>
-          ))}
-        </div>
       </div>
       <CanvasContext.Provider
         value={{ onToggleGroup: () => {}, onNodeDataChange, onDeleteNode: () => {}, onAskTutor: () => {}, onNodeResize: () => {} }}

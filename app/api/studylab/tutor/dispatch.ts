@@ -597,7 +597,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const suggestions =
     stage === null ? offered : stage === 'name' && stageOf(closed.run) !== 'check' ? [...COMPREHENSION_CHIPS] : []
 
-  // On an explore, Inky's line says what to watch on the card. When a material
+  // On an explore, Kana's line says what to watch on the card. When a material
   // the turn wrote was refused, that line may describe the refused one -- live:
   // "Drag the river features..." over a slope slider. The surviving material's
   // own instruction is certain to be about what is on the board.
@@ -801,7 +801,7 @@ async function applyDiagnose(input: DispatchInput, run: LessonRun): Promise<Disp
   const said = board.recent.filter((m) => m.role === 'assistant').slice(-2).map((m) => `  "${m.text}"`)
   const built = board.cards.filter((c) => c.step === stepNo && !c.aside).slice(-4).map((c) => `  [${c.kind}] ${c.title}`)
   const prompt = [
-    'You are Inky, a patient tutor. You just explained something and the student said "Not really": it has not landed.',
+    'You are Kana, a patient tutor. You just explained something and the student said "Not really": it has not landed.',
     '',
     `LESSON: ${String(input.context?.title ?? 'this topic')}`,
     step ? `STEP: ${step.title} -- ${step.goal}` : '',
@@ -865,7 +865,7 @@ async function applyHelp(
   const attempt = String(action.attempt ?? '').trim().slice(0, MAX_TYPED_CHARS) || '(nothing given)'
   const step = run.steps[run.currentStep]
   const prompt = [
-    'You are Inky, a patient tutor. The student missed this question and pressed Get help: "Why was my answer wrong?"',
+    'You are Kana, a patient tutor. The student missed this question and pressed Get help: "Why was my answer wrong?"',
     '',
     `LESSON: ${String(input.context?.title ?? 'this topic')}`,
     step ? `STEP: ${step.title} -- ${step.goal}` : '',

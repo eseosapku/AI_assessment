@@ -1,5 +1,5 @@
 // lib/studylab/trail/detours.ts
-import type { LastAsk } from './look'
+import type { LastAsk } from './types'
 import { focusOf, type QueueState } from './queue'
 
 /**

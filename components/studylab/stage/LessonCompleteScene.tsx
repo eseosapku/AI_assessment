@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import { useEffect, useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Map } from 'lucide-react'
-import { Inky } from '../inky/Inky'
+import { Kana } from '../kana/Kana'
 import { motionFor, useCountUp } from '@/lib/studylab/motionPresets'
 import { playSound } from '@/lib/studylab/sound'
 import type { LessonSummary } from '@/lib/studylab/scenes'
@@ -25,7 +25,7 @@ export function LessonCompleteScene({
   onClose,
   mascot,
 }: {
-  /** Who celebrates. Inky, unless the stage says otherwise. */
+  /** Who celebrates. Kana, unless the stage says otherwise. */
   mascot?: ReactNode
   title: string
   summary: LessonSummary
@@ -71,7 +71,7 @@ export function LessonCompleteScene({
           className="flex flex-col items-center px-6 pb-5 pt-7 text-center"
           style={{ backgroundColor: 'color-mix(in srgb, var(--subject) 12%, var(--ss-panel))' }}
         >
-          {mascot ?? <Inky size={84} mood="celebrating" />}
+          {mascot ?? <Kana pose="celebrate" size={84} />}
           <h2 id="lesson-complete-title" className="mt-2 text-[24px] font-extrabold tracking-tight text-ss-ink">Lesson complete</h2>
           <p className="mt-1 text-[14px] font-semibold text-ss-slate [text-wrap:balance]">{title}</p>
         </header>

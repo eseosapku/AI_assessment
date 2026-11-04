@@ -29,13 +29,13 @@ interface Props {
   texture?: string
   /**
    * The shared check flow. When given, the frame shows the lesson's check bar
-   * -- Check, Try again, Inky's line -- in place of its own Check button,
+   * -- Check, Try again, Kana's line -- in place of its own Check button,
    * Solved pill and Hint button. Absent (the dev bench, older patterns), the
    * frame behaves exactly as it always did.
    */
   checkState?: CheckFlowState
   onCheckAction?: (action: BarAction) => void
-  /** What Inky says on the bar: the hint after a miss, for instance. */
+  /** What Kana says on the bar: the hint after a miss, for instance. */
   checkLine?: string
   /** The learner's attempt in words, for Get help; without it there is no Get help. */
   attempt?: () => string
@@ -91,8 +91,7 @@ export function ActivityFrame({
   // On the Trail an activity's own Check goes there too: it is the one button, and
   // down on a tall card it sat out of sight while the dock offered Continue.
   const stage = useContext(StageContext)
-  const trail = stage?.look === 'trail'
-  const ownCheck = trail && !checkState && !!onCheck && !solved
+  const ownCheck = !checkState && !!onCheck && !solved
   const [missed, setMissed] = useState(false)
   // Kana says so when it comes right, or "not quite" would stand over a solved card.
   const wasSolved = useRef(solved)
@@ -185,15 +184,6 @@ export function ActivityFrame({
                     setMissed(true)
                   }}
                 />)}
-              {!trail && onCheck && !solved && (
-                <button
-                  type="button"
-                  onClick={onCheck}
-                  className="nodrag rounded-full bg-ss-accent px-4 py-1.5 text-[12px] font-bold text-white transition hover:brightness-95 motion-reduce:transition-none"
-                >
-                  {checkLabel}
-                </button>
-              )}
               {solved && (
                 <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 text-[12px] font-bold text-emerald-600 dark:text-emerald-400">
                   <Check className="h-3.5 w-3.5" strokeWidth={3} /> Solved

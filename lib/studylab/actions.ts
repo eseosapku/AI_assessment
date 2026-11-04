@@ -13,7 +13,7 @@ import { isValidPart } from './point'
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
   | { kind: 'fitNodes'; nodeIds: string[] }
-  /** Not the camera's: the stage glows the part and aims Inky's bubble at it. */
+  /** Not the camera's: the stage glows the part and aims Kana's bubble at it. */
   | { kind: 'point'; nodeId: string; part?: string }
 
 const CARD_W = 300

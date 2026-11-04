@@ -232,7 +232,7 @@ export function takesArrivalFocus(input: { where: 'body' | 'board' | 'card' | 'o
 }
 
 /**
- * How far the dock sits off the foot of the board below `sm`: clear of Inky
+ * How far the dock sits off the foot of the board below `sm`: clear of Kana
  * and its two buttons, which it covered there -- and with them the only way
  * into the chat on a touch screen. ActionDock's `bottom-[126px]` is this.
  */
@@ -240,7 +240,7 @@ export const DOCK_LIFT_PHONE = 126
 
 /**
  * Room the camera leaves around the work in focus: the board's own controls
- * along the top, and the bar and Inky along the bottom -- stacked on phones.
+ * along the top, and the bar and Kana along the bottom -- stacked on phones.
  */
 export function cameraInsets(phone: boolean): { top: number; right: number; bottom: number; left: number } {
   return { top: 72, right: phone ? 16 : 32, bottom: phone ? 128 + DOCK_LIFT_PHONE - 24 : 128, left: phone ? 16 : 32 }

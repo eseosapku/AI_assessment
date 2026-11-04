@@ -4,13 +4,13 @@ import { MessageSquareText } from 'lucide-react'
 import { KanaLive } from './KanaLive'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
-import type { LessonStageProps } from '../stage/LessonStage'
+import type { LessonStageProps } from './stageProps'
 import ChatMouthpiece from '../ChatMouthpiece'
 import { Kana } from '../kana/Kana'
 import { StageContext, type StageValue, type HelpRequest } from '../stage/StageContext'
 import { LessonCompleteScene } from '../stage/LessonCompleteScene'
 import { CanvasContext } from '../canvasShared'
-import { CARD_ACTIONS } from '../StudyCanvas'
+import { CARD_ACTIONS } from './stageProps'
 import { FiledCardsList } from './FiledCardsList'
 import { KanaOnBoard } from './KanaOnBoard'
 import { TrailCanvas, type TrailCanvasHandle } from './TrailCanvas'
@@ -181,7 +181,7 @@ function TrailStageInner(props: LessonStageProps) {
     () =>
       lookingBack
         ? // A reopened card's bar comes to the dock with no Continue, and it can call no tutor.
-          { dockEl, focus: new Set([lookingBack]), owner, continueFor: NO_CONTINUE, runContinue: NOTHING, claim, prefer, look: 'trail' }
+          { dockEl, focus: new Set([lookingBack]), owner, continueFor: NO_CONTINUE, runContinue: NOTHING, claim, prefer }
         : {
             dockEl,
             focus: new Set(spotlight),
@@ -191,7 +191,6 @@ function TrailStageInner(props: LessonStageProps) {
             claim,
             prefer,
             help,
-            look: 'trail',
             sayLine,
           },
     [lookingBack, dockEl, spotlight, owner, board.nodes, board.run, chat.busy, nextInQueue, runContinue, claim, prefer, help, sayLine],
@@ -389,7 +388,7 @@ function TrailStageInner(props: LessonStageProps) {
             <div className="flex min-h-0 flex-1">
               {/* The chat on the left; the board narrows beside it. */}
               <TrailChatPanel open={open} onClose={() => setOpen(false)}>
-                <ChatMouthpiece {...chat} messages={shownMessages} onSend={sendFromChat} look="trail" onClose={() => setOpen(false)} focusInput={open} />
+                <ChatMouthpiece {...chat} messages={shownMessages} onSend={sendFromChat} onClose={() => setOpen(false)} focusInput={open} />
               </TrailChatPanel>
               <div data-tour="lesson-board" data-stage-board className={`relative h-full min-w-0 flex-1${open ? ' ss-trail-framed' : ''}`}>
                 {boardOverlay}
@@ -448,13 +447,11 @@ function TrailStageInner(props: LessonStageProps) {
                   pills={stationPills(board.run, plan?.steps)}
                   label={topBarLabel({ run: board.run, lookingBack: lookBack?.title ?? null, detourOpen: !!detourOpen }) || rail.title}
                   plots={world.plots}
-                  canClassic={!!trail?.onClassic}
                   onLeave={rail.onBack}
                   onStation={(plot) => canvas.current?.flyTo(plot.rect, { minZoom: PLOT_ZOOM })}
                   onWholeBoard={() => canvas.current?.showAll()}
                   onBackToCard={() => canvas.current?.flyToFocus()}
                   onAddBlock={(type) => board.onAddBlock(type)}
-                  onClassic={trail?.onClassic}
                   onMenuChange={setMenuOpen}
                 />
                 {lookBack ? (

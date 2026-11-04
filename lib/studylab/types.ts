@@ -315,7 +315,7 @@ export type TutorAction =
   | { type: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
   | { type: 'highlight'; nodeId: string }
   /**
-   * Inky points at a part of a card: it glows, and the bubble's arrow reaches
+   * Kana points at a part of a card: it glows, and the bubble's arrow reaches
    * it. `part` is a name from lib/studylab/point.ts; without one, the card.
    */
   | { type: 'point'; nodeId: string; part?: string }

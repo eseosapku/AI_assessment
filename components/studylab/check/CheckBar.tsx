@@ -4,8 +4,6 @@ import { forwardRef, useContext, useEffect, useRef } from 'react'
 import { Loader2 } from 'lucide-react'
 import type { CheckFlowState } from '@/lib/studylab/checkFlow'
 import { barModel, type BarAction, type BarButton, type BarModel, type BarOptions } from '@/lib/studylab/checkBarModel'
-import { moodForCheck } from '@/lib/studylab/inkyMood'
-import { InkyLine } from './InkyLine'
 import { StageContext } from '../stage/StageContext'
 import { SafeLatex } from '../canvasShared'
 
@@ -33,7 +31,7 @@ export function toneBorder(tone: BarModel['tone']): string {
 }
 
 /**
- * One bar for every answerable card: Inky's line, then the buttons. The
+ * One bar for every answerable card: Kana's line, then the buttons. The
  * buttons and their order come from `barModel`, so a quiz question, a practice
  * problem and a material all behave the same way.
  *
@@ -52,7 +50,6 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
   const text = line ?? model.line
   // On the Trail the feedback is Kana's to say, and the primary is the one button.
   const stage = useContext(StageContext)
-  const trail = stage?.look === 'trail'
   const sayLine = stage?.sayLine
   const tone = model.tone
   // Only what changes while the bar is up is news: a bar coming back with its old
@@ -61,8 +58,8 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
   useEffect(() => {
     if (text === said.current) return
     said.current = text
-    if (trail && text) sayLine?.(text, tone)
-  }, [trail, text, tone, sayLine])
+    if (text) sayLine?.(text, tone)
+  }, [text, tone, sayLine])
   return (
     <div className="nodrag flex flex-col gap-2.5">
       {/* The result, for screen readers, in a region mounted with the bar:
@@ -71,16 +68,11 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {text ? <SafeLatex>{text}</SafeLatex> : null}
       </div>
-      {/* Inky speaks when there is something to say, or while marking --
-          not beside a Check waiting to be pressed. */}
       {/* On the Trail Kana says it; on a reopened card she has stepped back, so it stays here. */}
-      {trail && !sayLine && text && (
+      {!sayLine && text && (
         <p className="ss-trail-own-line">
           <SafeLatex>{text}</SafeLatex>
         </p>
-      )}
-      {!trail && (text || state.phase === 'checking') && (
-        <InkyLine mood={moodForCheck(state.phase)} text={text} tone={model.tone} />
       )}
       <div className="flex items-center gap-2">
         {model.secondary && (
@@ -93,7 +85,7 @@ export const CheckBar = forwardRef<HTMLButtonElement, {
             onAction={onAction}
             variant="primary"
             fill={PRIMARY_FILL[model.tone]}
-            trailClass={trail ? `ss-trail-go${model.tone === 'good' ? ' ss-trail-go-good' : ''}` : undefined}
+            trailClass={`ss-trail-go${model.tone === 'good' ? ' ss-trail-go-good' : ''}`}
           />
         )}
       </div>

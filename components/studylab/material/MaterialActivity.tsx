@@ -166,7 +166,7 @@ export function MaterialActivity({
     onOutcome(buildOutcome(id, spec.pattern, next, validate))
   }, [activity, adapter, id, materialSpec, materialState, onOutcome, persistActivity, spec, dispatch])
 
-  // After a miss, Inky's line is the next hint, where the activity has one.
+  // After a miss, Kana's line is the next hint, where the activity has one.
   const missed = flow.phase === 'retry' || flow.phase === 'wrong'
   const hints = spec.hints ?? []
   const checkLine =
