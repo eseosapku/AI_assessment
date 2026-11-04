@@ -31,4 +31,13 @@ describe('lost marks route', () => {
     const body = await (await get(`user_id=${USER}&topic_id=4&subtopic_ids=7`)).json()
     expect(body.data).toEqual([{ question: 'Q?', said: 'c', right: 'a' }])
   })
+  it('hides the database message and logs it', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    query.mockRejectedValue(new Error('password authentication failed for user "secret_user"'))
+    const res = await get(`user_id=${USER}&topic_id=4`)
+    expect(res.status).toBe(500)
+    expect(JSON.stringify(await res.json())).not.toContain('secret_user')
+    expect(spy).toHaveBeenCalled()
+    spy.mockRestore()
+  })
 })

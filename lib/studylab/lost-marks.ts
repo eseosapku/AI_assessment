@@ -31,7 +31,7 @@ export function lostMarksFrom(
       const tid = Number(q.topic_id) || 0
       const here = (sid > 0 && where.subtopicIds.includes(sid)) || (tid === where.topicId && (sid <= 0 || where.subtopicIds.length === 0))
       if (!here) continue
-      if (q.image_url || q.figureGroup || q.passage) continue
+      if (q.image_url || q.figureGroup || q.passage || q.diagram_svg || q.scenario) continue
       const question = text(q.question)
       if (!question || question.length > 140 || mathy(question) || seen.has(question)) continue
       const picked = mcq?.[i] ?? mcq?.[String(i)]

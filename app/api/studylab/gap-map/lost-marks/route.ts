@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { pgErrorMessage } from '@/lib/pg-errors'
 import { lostMarksFrom } from '@/lib/studylab/lost-marks'
 
 // Same pattern as the gap-map route (a route file may export only handlers, so it is repeated here).
@@ -22,6 +21,7 @@ export async function GET(request: NextRequest) {
     )
     return NextResponse.json({ data: lostMarksFrom(rows, { subtopicIds, topicId }) })
   } catch (e) {
-    return NextResponse.json({ error: pgErrorMessage(e) }, { status: 500 })
+    console.error('Lost marks error:', e)
+    return NextResponse.json({ error: 'Failed to load lost marks' }, { status: 500 })
   }
 }

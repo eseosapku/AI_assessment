@@ -11,6 +11,12 @@ describe('lostMarksFrom', () => {
   it('returns a wrong answer in this chapter', () => {
     expect(lostMarksFrom([res([q()], { 0: 2 })], where)).toEqual([{ question: 'What is 2 + 3?', said: '6', right: '5' }])
   })
+  it('leaves out a question that needs a drawn diagram', () => {
+    expect(lostMarksFrom([res([q({ diagram_svg: '<svg/>' })], { 0: 2 })], where)).toEqual([])
+  })
+  it('leaves out a question that needs its scenario', () => {
+    expect(lostMarksFrom([res([q({ scenario: 'A car drives.' })], { 0: 2 })], where)).toEqual([])
+  })
   it('leaves out a right answer', () => expect(lostMarksFrom([res([q()], { 0: 1 })], where)).toEqual([]))
   it('leaves out an unanswered question', () => expect(lostMarksFrom([res([q()], {})], where)).toEqual([]))
   it('leaves out another chapter', () => {
