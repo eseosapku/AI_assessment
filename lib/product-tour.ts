@@ -194,23 +194,23 @@ export const TOURS: Record<TourId, Tour> = {
       {
         anchor: 'gapmap-canvas',
         eyebrow: 'The whole picture',
-        title: 'Your knowledge as a wall',
+        title: 'Your chapters as tiles',
         body:
-          'Every topic you have been quizzed on is a tile here, grouped by subject. Nothing to pan or open — the gaps are the holes in the wall, and they sort themselves to the front.',
+          'Every chapter of your subjects is a tile, in book order. Tiles sticking up have gaps, and Kana points you to the lowest one.',
       },
       {
         anchor: 'gapmap-legend',
         eyebrow: 'Reading it',
         title: 'Every tile carries a mark, not just a colour',
         body:
-          'A tick means you are getting these right, a dash means shaky, a cross means it needs work, and a dashed outline means no quiz has covered it yet — which is not the same as being bad at it.',
+          'A tick means you are getting these right, a dash means shaky, a gold star means a gap you closed, and a faded picture means no quiz has covered it yet, which is not the same as being bad at it.',
       },
       {
         anchor: 'gapmap-canvas',
         eyebrow: 'Acting on it',
-        title: 'Tap a hole to fill it',
+        title: 'Tap a tile to fix it',
         body:
-          'Any tile opens a panel with what it is, how you did and how often you have been tested — and a button that builds a lesson on that exact subtopic. Find the gap, study it, prove it closed.',
+          'Each tile opens a path of its sections. Kana can teach you one, then you retake it and watch the tile drop back into its slot. Find the gap, study it, prove it closed.',
       },
     ],
   },
