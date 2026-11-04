@@ -29,7 +29,7 @@ export default function TryIt({ names, subject, onQuiz, busy }: {
   busy: boolean
 }) {
   const key = names.join('|')
-  const card = useMemo(() => pickPracticeCard(names), [key]) // eslint-disable-line react-hooks/exhaustive-deps
+  const card = useMemo(() => pickPracticeCard(names, subject), [key, subject]) // eslint-disable-line react-hooks/exhaustive-deps
   const spec = useMemo(() => card && ({
     pattern: 'scene', prompt: card.example.prompt, payload: { engine: card.engineId, config: card.example.config }, success: { kind: 'scene' },
     intent: { goal: 'x', isolates: 'position', apparatus: `scene:${card.engineId}`, why: 'x' },

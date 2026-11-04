@@ -1,18 +1,40 @@
 import { describe, it, expect } from 'vitest'
 import { pickPracticeCard } from './practice-card'
+import { getEngine } from '@/lib/studylab/engines'
+import { examplesOf } from '@/lib/studylab/engines/examples'
+import real from './practice-cards.json'
+
+const list: Record<string, [string, number]> = {
+  'number:equations': ['area-grid', 0],
+  'matter:equations': ['equation-balancer', 0],
+  'number:first': ['area-grid', 0],
+  'number:second': ['bar-model', 0],
+  'number:ghost': ['no-such-engine', 0],
+  'number:badindex': ['area-grid', 999],
+}
 
 describe('pickPracticeCard', () => {
-  it('finds the brackets card', () => expect(pickPracticeCard(['Expanding brackets'])?.engineId).toBe('area-grid'))
-  it('finds it through another section', () => expect(pickPracticeCard(['Factorising', 'Expanding brackets', 'Algebra'])?.engineId).toBe('area-grid'))
-  it('finds nothing rather than a guess', () => expect(pickPracticeCard(['Quadratic equations', 'Algebra'])).toBeNull())
-  it('never gives chemistry to algebra', () => expect(pickPracticeCard(['Equations'])?.engineId).not.toBe('equation-balancer'))
-  it('finds nothing for no match', () => expect(pickPracticeCard(['Kingdom of Buganda'])).toBeNull())
-  it('wants the example to fit', () => {
-    const card = pickPracticeCard(['Plant nutrition'])
-    expect(card === null || /plant|nutrition/i.test(card.example.prompt)).toBe(true)
+  it('the first name wins, in order', () => expect(pickPracticeCard(['First', 'Second'], 'Mathematics', list)?.engineId).toBe('area-grid'))
+  it('uses a later name when earlier ones have no entry', () => expect(pickPracticeCard(['Nothing', 'Second'], 'Mathematics', list)?.engineId).toBe('bar-model'))
+  it('keeps equations in matter apart from equations in number', () => {
+    expect(pickPracticeCard(['Equations'], 'Chemistry', list)?.engineId).toBe('equation-balancer')
+    expect(pickPracticeCard(['Equations'], 'Mathematics', list)?.engineId).toBe('area-grid')
   })
-  it('shares a word by its first five letters', () => {
-    const card = pickPracticeCard(['Expanding brackets'])
-    expect(card?.example.prompt).toMatch(/expand/i)
+  it('skips an unknown engine and carries on', () => expect(pickPracticeCard(['Ghost', 'Second'], 'Mathematics', list)?.engineId).toBe('bar-model'))
+  it('skips a bad index and carries on', () => expect(pickPracticeCard(['BadIndex', 'Second'], 'Mathematics', list)?.engineId).toBe('bar-model'))
+  it('gives null with no entry', () => expect(pickPracticeCard(['Nothing'], 'Mathematics', list)).toBeNull())
+  it('gives null when only bad entries exist', () => expect(pickPracticeCard(['Ghost', 'BadIndex'], 'Mathematics', list)).toBeNull())
+  it('matches names regardless of case', () => expect(pickPracticeCard(['SECOND'], 'Mathematics', list)?.engineId).toBe('bar-model'))
+})
+
+describe('the judged list', () => {
+  it('finds the brackets card', () => expect(pickPracticeCard(['Expanding brackets'], 'Mathematics')?.engineId).toBe('area-grid'))
+  it('finds a chapter the way the rack spells it, without Chapter 5:', () => expect(pickPracticeCard(['Trigonometry'], 'Mathematics')?.engineId).toBe('trig-circle'))
+  it('points every entry at a registered engine and a real example', () => {
+    for (const [key, [id, index]] of Object.entries(real as unknown as Record<string, [string, number]>)) {
+      const engine = getEngine(id)
+      expect(engine, key).toBeTruthy()
+      expect(index >= 0 && index < examplesOf(engine!).length, key).toBe(true)
+    }
   })
 })
