@@ -33,6 +33,20 @@ describe('applyLocks', () => {
     expect(s.lockedBy).toBeUndefined()
   })
 
+  it('locks on the latest attempt, not the running average', async () => {
+    const [s] = await applyLocks(
+      [step('a', 7)], 'u1', dbWith([{ subtopic_id: 7, attempts: 13, accuracy: 65, last_accuracy: 30, lowest_accuracy: 30 }]),
+    )
+    expect(s.lockedBy).toEqual({ subtopicId: 7, accuracy: 30 })
+  })
+
+  it('does not lock a section whose latest attempt is above the line', async () => {
+    const [s] = await applyLocks(
+      [step('a', 7)], 'u1', dbWith([{ subtopic_id: 7, attempts: 13, accuracy: 38, last_accuracy: 90, lowest_accuracy: 38 }]),
+    )
+    expect(s.lockedBy).toBeUndefined()
+  })
+
   it('leaves a step with no subtopic unlocked', async () => {
     // Every scratch lesson is in this case: 47 of them, none with a subtopic.
     const [s] = await applyLocks([step('a')], 'u1', dbWith([{ subtopic_id: 7, accuracy: 10 }]))

@@ -5,6 +5,7 @@ import { jsonbParam } from '@/lib/pg-json'
 import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 
+import { writeMasteryBucket } from '@/lib/studylab/mastery-write'
 import { isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 
 type ResultRow = {
@@ -50,8 +51,8 @@ function isSchemaColumnMissing(error: unknown) {
   return isMissingColumn(error)
 }
 
-// Incrementally upsert one mastery bucket (a topic-level or subtopic-level row).
-async function upsertMasteryBucket(
+// Incrementally upsert one mastery bucket (see lib/studylab/mastery-write.ts).
+function upsertMasteryBucket(
   userId: string,
   textbookId: number,
   topicId: number,
@@ -60,29 +61,7 @@ async function upsertMasteryBucket(
   addTotal: number,
   nowIso: string
 ) {
-  if (addTotal <= 0) return
-  const existingResult = await db.query(
-    `SELECT attempts, correct FROM topic_mastery
-     WHERE user_id = $1 AND textbook_id = $2 AND topic_id = $3 AND subtopic_id = $4 LIMIT 1`,
-    [userId, textbookId, topicId, subtopicId]
-  )
-  const existing = existingResult.rows[0]
-
-  const attempts = Number(existing?.attempts ?? 0) + addTotal
-  const correct = Number(existing?.correct ?? 0) + Math.round(addCorrect)
-  const accuracy = attempts > 0 ? Math.round((correct / attempts) * 10000) / 100 : 0
-
-  await db.query(
-    `INSERT INTO topic_mastery (user_id, textbook_id, topic_id, subtopic_id, attempts, correct, accuracy, last_assessed, updated_at)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-     ON CONFLICT (user_id, textbook_id, topic_id, subtopic_id) DO UPDATE SET
-       attempts = EXCLUDED.attempts,
-       correct = EXCLUDED.correct,
-       accuracy = EXCLUDED.accuracy,
-       last_assessed = EXCLUDED.last_assessed,
-       updated_at = EXCLUDED.updated_at`,
-    [userId, textbookId, topicId, subtopicId, attempts, correct, accuracy, nowIso, nowIso]
-  )
+  return writeMasteryBucket(db, userId, textbookId, topicId, subtopicId, addCorrect, addTotal, nowIso)
 }
 
 // Update per-subtopic mastery for the StudyLab Learning Gap Map. When questions
