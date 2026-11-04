@@ -819,10 +819,6 @@
   "ledger",
   0
  ],
- "craft:ancient egypt": [
-  "timeline",
-  0
- ],
  "craft:application of motifs": [
   "art-studio",
   1
@@ -899,10 +895,6 @@
   "claim-evidence",
   0
  ],
- "craft:complex electrical circuit": [
-  "circuit",
-  0
- ],
  "craft:constructing and controlling simple electric circuit": [
   "circuit",
   0
@@ -925,10 +917,6 @@
  ],
  "craft:density and relative density": [
   "density-pressure",
-  0
- ],
- "craft:design of complex and simple electric circuits": [
-  "circuit",
   0
  ],
  "craft:developing motifs and patterns": [
@@ -970,10 +958,6 @@
  "craft:dynamics and tempo": [
   "music-staff",
   3
- ],
- "craft:electric potential energy and potential difference": [
-  "circuit",
-  1
  ],
  "craft:elements for drawing and painting": [
   "art-studio",
@@ -1046,14 +1030,6 @@
  "craft:introduction to elasticity": [
   "springs-oscillators",
   0
- ],
- "craft:kinetic and potential energy of an oscillating system": [
-  "energy-track",
-  1
- ],
- "craft:logic gates": [
-  "logic-gates",
-  1
  ],
  "craft:magnetic field": [
   "magnetism",
@@ -1203,14 +1179,6 @@
   "population-pyramid",
   0
  ],
- "craft:propagation of mechanical waves": [
-  "waves",
-  0
- ],
- "craft:properties of waves": [
-  "waves",
-  0
- ],
  "craft:purchases ledger control account": [
   "ledger",
   2
@@ -1226,10 +1194,6 @@
  "craft:refraction of light": [
   "light",
   2
- ],
- "craft:resistors and electromotive forces in series and parallel complex circuits": [
-  "circuit",
-  1
  ],
  "craft:sales ledger control account": [
   "ledger",
@@ -1259,17 +1223,9 @@
   "music-staff",
   3
  ],
- "craft:terms used and characteristics of waves": [
-  "waves",
-  0
- ],
  "craft:the accounting equation": [
   "ledger",
   2
- ],
- "craft:the concept of waves": [
-  "waves",
-  0
  ],
  "craft:the development of art through the ages in the world": [
   "timeline",
@@ -1277,10 +1233,6 @@
  ],
  "craft:the music notes": [
   "music-staff",
-  0
- ],
- "craft:the nature of businesses transaction to accounting system": [
-  "ledger",
   0
  ],
  "craft:the note values/duration of the note": [
@@ -1343,10 +1295,6 @@
   "moments-machines",
   2
  ],
- "craft:unit 3: ancient egypt": [
-  "timeline",
-  0
- ],
  "craft:unit 5: history of learning psychology": [
   "timeline",
   0
@@ -1366,14 +1314,6 @@
  "craft:visual arts techniques": [
   "art-studio",
   0
- ],
- "craft:weather": [
-  "climate-station",
-  0
- ],
- "craft:weather on holiday": [
-  "climate-station",
-  1
  ],
  "craft:weather, flora and fauna": [
   "climate-station",
@@ -1890,6 +1830,10 @@
  "data:the impact of injections and leakages on the circular flow": [
   "macro-board",
   1
+ ],
+ "data:the nature of businesses transaction to accounting system": [
+  "ledger",
+  0
  ],
  "data:the preparation of a trial balance": [
   "ledger",
@@ -2703,6 +2647,10 @@
   "solutions-ph",
   0
  ],
+ "matter:complex electrical circuit": [
+  "circuit",
+  0
+ ],
  "matter:concentration of solutions": [
   "solutions-ph",
   0
@@ -2759,6 +2707,10 @@
   "waves",
   0
  ],
+ "matter:design of complex and simple electric circuits": [
+  "circuit",
+  0
+ ],
  "matter:determining velocity and acceleration in the laboratory": [
   "motion",
   0
@@ -2792,6 +2744,10 @@
   1
  ],
  "matter:electric potential and electric potential difference": [
+  "circuit",
+  3
+ ],
+ "matter:electric potential energy and potential difference": [
   "circuit",
   3
  ],
@@ -2927,6 +2883,10 @@
   "atom",
   0
  ],
+ "matter:logic gates": [
+  "logic-gates",
+  1
+ ],
  "matter:magnetic field patterns around a magnet": [
   "magnetism",
   0
@@ -3039,6 +2999,10 @@
   "magnetism",
   2
  ],
+ "matter:propagation of mechanical waves": [
+  "waves",
+  0
+ ],
  "matter:properties of acids and alkalis": [
   "solutions-ph",
   0
@@ -3115,6 +3079,10 @@
   "circuit",
   1
  ],
+ "matter:resistors and electromotive forces in series and parallel complex circuits": [
+  "circuit",
+  1
+ ],
  "matter:review of elements of simple electric circuits and their respective role": [
   "circuit",
   2
@@ -3179,9 +3147,17 @@
   "orbit",
   0
  ],
+ "matter:terms used and characteristics of waves": [
+  "waves",
+  0
+ ],
  "matter:the carbon cycle": [
   "stocks-flows",
   1
+ ],
+ "matter:the concept of waves": [
+  "waves",
+  0
  ],
  "matter:the earthquake": [
   "tectonics",
@@ -3238,6 +3214,10 @@
  "matter:types of simple machines": [
   "moments-machines",
   2
+ ],
+ "matter:types of waves": [
+  "waves",
+  0
  ],
  "matter:unit 13: arrangement of resistors in an electric circuit": [
   "circuit",
