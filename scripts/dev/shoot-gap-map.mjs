@@ -71,10 +71,15 @@ const out = await page.evaluate(() => {
     o.stops = stops.length
     o.stopsInFull = stops.filter((s) => { const b = r(s.querySelector('.ss-rack-plate')); return b.top >= p.top - 1 && b.bottom <= p.bottom + 1 }).length
     o.pathBottom = Math.round(p.bottom)
+    const pl = stops[0] && stops[0].querySelector('.ss-rack-plate')
+    if (pl) o.plateW = Math.round(r(pl).width)
+    o.labelBreaks = stops.filter((s) => { const b = s.querySelector('.ss-rack-lb b'); if (!b) return false; const rg = document.createRange(); const words = b.textContent.split(/\s+/); let lines = new Set(); const t = b.firstChild; if (!t || t.nodeType !== 3) return false; let i = 0; for (const w of words) { rg.setStart(t, b.textContent.indexOf(w, i)); rg.setEnd(t, b.textContent.indexOf(w, i) + w.length); i = b.textContent.indexOf(w, i) + w.length; const rects = [...rg.getClientRects()]; if (new Set(rects.map((x) => Math.round(x.top))).size > 1) return true } return false }).length
   }
   if (sheet) {
     const s = r(sheet)
     o.sheetTop = Math.round(s.top)
+    const nav = document.querySelector('nav[aria-label="Main, compact"]')
+    if (nav && getComputedStyle(nav).display !== 'none') o.sheetAboveNav = Math.round(r(nav).top - s.bottom)
     if (path) o.sheetGap = Math.round(s.top - r(path).bottom)
     const kp = document.querySelector('.ss-rack-on-plate')
     if (kp) { o.kanaBottom = Math.round(r(kp).bottom); o.kanaAboveSheet = Math.round(s.top - r(kp).bottom) }

@@ -168,6 +168,10 @@
 }
 .ss-rack-plate { position: relative; flex: none; display: block; width: min(calc(28cqh * 1.14), 44cqw); }
 .ss-rack-plate svg.p { display: block; width: 100%; height: auto; overflow: visible; }
+/* Laptops: the plate is drawn 1.2 times wider than it is tall, so there is room for a bigger plate in the same stop. */
+@media (min-width: 1321px) and (max-width: 1700px) {
+  .ss-rack-plate { width: min(calc(28cqh * 1.36), 44cqw); }
+}
 /* A narrow middle column: a gentler zigzag, so labels keep their room. */
 @container (max-width: 520px) {
   .ss-rack-stop { margin-left: 0; max-width: 100%; }
@@ -210,13 +214,13 @@
   .ss-rack-pic { width: 72px; height: 72px; border-radius: 21px; grid-row: span 2; }
   .ss-rack-info h2 { margin: 0 0 3px; font-size: 17px; }
   .ss-rack-info p { display: none; }
-  .ss-rack-path { overflow: visible; container-type: normal; padding: 46px 0 150px; -webkit-mask-image: none; mask-image: none; }
+  .ss-rack-path { overflow: visible; container-type: normal; padding: 46px 0 190px; -webkit-mask-image: none; mask-image: none; }
   .ss-rack-stop { height: auto; min-height: 124px; gap: 14px; margin-left: 0; width: 100%; max-width: none; }
   .ss-rack-stop:nth-child(2n) { margin-left: 28px; width: calc(100% - 28px); }
   .ss-rack-plate { width: 132px; }
   .ss-rack-lb b { font-size: 16px; }
   .ss-rack-lb span { font-size: 13.5px; }
-  .ss-rack-sheet { position: fixed; left: 8px; right: 8px; bottom: 70px; z-index: 30; width: auto; margin: 0; padding: 11px 12px; background: var(--ss-panel); box-shadow: 0 10px 26px -12px rgba(22, 32, 42, 0.45); }
+  .ss-rack-sheet { position: fixed; left: 8px; right: 8px; bottom: calc(98px + env(safe-area-inset-bottom, 0px)); z-index: 30; width: auto; margin: 0; padding: 11px 12px; background: var(--ss-panel); box-shadow: 0 10px 26px -12px rgba(22, 32, 42, 0.45); }
   .ss-rack-sheet .a { width: 100%; }
   .ss-rack-sheet .a .ss-rack-go { flex: 1.3; }
   .ss-rack-sheet .a .ss-rack-q { flex: 1; }
