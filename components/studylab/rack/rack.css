@@ -241,7 +241,10 @@
 .ss-rack-try { margin-top: 0; }
 .ss-rack-try-h { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .ss-rack-try-h h3 { margin: 0; font-size: 16px; font-weight: 800; }
+.ss-rack-try-panel { padding: 12px 10px 6px; background: var(--ss-chip); border: 1px solid var(--ss-line); border-radius: 20px; }
+.ss-rack-try-panel .ss-rack-try-h { padding-left: 4px; }
 .ss-rack-try-card { min-width: 0; }
+.ss-rack-try-more { display: block; width: 100%; min-height: 44px; border: 0; background: none; font-size: 13.5px; font-weight: 700; color: var(--ss-accent); cursor: pointer; }
 .ss-rack-try-quiet { padding: 18px 20px; border: 1px solid var(--rack-line2); border-radius: 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .ss-rack-try-quiet p { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
 .ss-rack-try-dlg { width: min(460px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow-y: auto; padding: 12px; border: 0; border-radius: 22px; background: var(--ss-panel); color: var(--ss-ink); box-shadow: 0 24px 60px -20px rgba(22, 32, 42, 0.5); }
