@@ -5,7 +5,8 @@
  */
 import { bandFor, type SectionBand } from './mastery-latest'
 import { masteryNumber } from './mastery-numbers'
-import { pickRequestedSubject } from './wall'
+import { pickRequestedSubject, type UnplacedSubject, type UnlinkedResults } from './wall'
+import { bookTitle } from './book-title'
 
 export type ChapterState = 'gap' | 'gold' | 'shaky' | 'solid' | 'none'
 
@@ -25,6 +26,8 @@ export interface RackChapter {
   textbookId: number
   name: string
   bookName: string
+  /** Position in the book, kept when a tray puts gaps first. */
+  order: number
   curriculumSlug: string | null
   art: string | null
   hasSections: boolean
@@ -39,6 +42,7 @@ export interface RackChapter {
 export interface RackTray {
   key: string
   subject: string
+  level: string | null
   chapters: RackChapter[]
   squares: SectionBand[]
   gapCount: number
@@ -121,7 +125,7 @@ function chapterOf(raw: unknown, book: { id: number; name: string; slug: string 
     : deciding.includes('solid') ? 'solid' : 'none'
 
   return {
-    topicId, textbookId: book.id, name, bookName: book.name, curriculumSlug: book.slug,
+    topicId, textbookId: book.id, name, bookName: book.name, order: 0, curriculumSlug: book.slug,
     art: typeof raw.art === 'string' && raw.art ? raw.art : null,
     hasSections, sections, wholeChapter, state,
     gapCount: deciding.filter((b) => b === 'gap').length,
@@ -155,33 +159,51 @@ function gapPicks(trays: readonly RackTray[]): (RackPick & { at: string | null }
 function lowestPick(picks: (RackPick & { at: string | null })[]): (RackPick & { at: string | null }) | null {
   let best: (RackPick & { at: string | null }) | null = null
   for (const p of picks) {
-    if (!best || p.score < best.score || (p.score === best.score && timeOf(p.at) > timeOf(best.at))) best = p
+    if (!best || p.score < best.score || (p.score === best.score && (timeOf(p.at) > timeOf(best.at) || (timeOf(p.at) === timeOf(best.at) && p.chapter.order < best.chapter.order)))) best = p
   }
   return best
 }
 
-export function buildRack(textbooks: readonly unknown[], canonicalise: (s: string) => string = (s) => s): RackTray[] {
-  const byKey = new Map<string, { subject: string; chapters: RackChapter[] }>()
+/** The lowest score that makes a chapter a gap, or null when it has none. */
+function lowestGap(c: RackChapter): number | null {
+  if (c.state !== 'gap') return null
+  if (c.wholeChapter) return c.wholeChapter.band === 'gap' ? c.wholeChapter.score : null
+  const scores = c.sections.filter((x) => x.band === 'gap' && x.score !== null).map((x) => x.score as number)
+  return scores.length ? Math.min(...scores) : 0
+}
+
+/** Chapters with gaps first, lowest score first, then every other chapter in book order. */
+function gapsFirst(chapters: RackChapter[]): RackChapter[] {
+  const withGap = chapters.filter((c) => lowestGap(c) !== null)
+  const rest = chapters.filter((c) => lowestGap(c) === null)
+  withGap.sort((a, b) => (lowestGap(a) as number) - (lowestGap(b) as number) || a.order - b.order)
+  return [...withGap, ...rest]
+}
+
+export function buildRack(textbooks: readonly unknown[], _canonicalise?: (s: string) => string): RackTray[] {
+  const byKey = new Map<string, { subject: string; level: string | null; chapters: RackChapter[] }>()
   for (const raw of Array.isArray(textbooks) ? textbooks : []) {
     if (!isObj(raw)) continue
     const bookId = asId(raw.id)
     const bookName = text(raw.name)
     if (bookId === null || !bookName || !Array.isArray(raw.topics)) continue
-    const subject = canonicalise(bookName) || bookName
+    const { subject, level } = bookTitle(bookName)
     const book = { id: bookId, name: bookName, slug: text(raw.curriculum_slug) || null }
     const chapters = raw.topics.map((t) => chapterOf(t, book)).filter((c): c is RackChapter => !!c)
     if (chapters.length === 0) continue
-    const key = norm(subject)
-    const tray = byKey.get(key) ?? { subject, chapters: [] }
+    const key = `${norm(subject)}|${norm(level)}`
+    const tray = byKey.get(key) ?? { subject, level, chapters: [] }
     tray.chapters.push(...chapters)
     byKey.set(key, tray)
   }
 
   const trays: RackTray[] = [...byKey].map(([key, t]) => {
-    const squares = t.chapters.flatMap(squaresOf)
+    t.chapters.forEach((c, i) => { c.order = i })
+    const chapters = gapsFirst(t.chapters)
+    const squares = chapters.flatMap(squaresOf)
     return {
-      key, subject: t.subject, chapters: t.chapters, squares,
-      gapCount: t.chapters.reduce((n, c) => n + c.gapCount, 0),
+      key, subject: t.subject, level: t.level, chapters, squares,
+      gapCount: chapters.reduce((n, c) => n + c.gapCount, 0),
       triedCount: squares.filter((b) => b !== 'none').length,
       totalCount: squares.length,
     }
@@ -191,7 +213,23 @@ export function buildRack(textbooks: readonly unknown[], canonicalise: (s: strin
   const holder = lowestPick(gapPicks(trays))?.chapter
   const holderKey = holder ? trays.find((t) => t.chapters.includes(holder))?.key : undefined
   const tier = (t: RackTray) => (t.key === holderKey ? 0 : t.gapCount > 0 ? 1 : t.triedCount > 0 ? 2 : 3)
-  return trays.sort((a, b) => tier(a) - tier(b) || (tier(a) === 1 ? b.gapCount - a.gapCount : 0) || a.subject.localeCompare(b.subject))
+  return trays.sort((a, b) => tier(a) - tier(b) || (tier(a) === 1 ? b.gapCount - a.gapCount : 0) || a.subject.localeCompare(b.subject) || norm(a.level).localeCompare(norm(b.level)))
+}
+
+/** The quizzes that sit on no chapter, as one count and one average weighted by quiz count. */
+export function otherQuizzesSummary(
+  unplaced: readonly UnplacedSubject[],
+  unlinked: UnlinkedResults | null,
+): { count: number; average: number | null } | null {
+  let count = 0, weighted = 0, scored = 0
+  const add = (n: number, avg: number | null) => {
+    count += n
+    if (avg !== null && n > 0) { weighted += avg * n; scored += n }
+  }
+  for (const s of unplaced) add(s.quizzes.length, s.average)
+  if (unlinked) add(unlinked.count, unlinked.average)
+  if (count === 0) return null
+  return { count, average: scored ? Math.round(weighted / scored) : null }
 }
 
 export function totalGaps(trays: readonly RackTray[]): number {

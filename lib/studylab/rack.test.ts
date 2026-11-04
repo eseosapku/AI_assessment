@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import fixture from './rack.fixture.json'
 import {
-  buildRack, totalGaps, nextFix, kanaHomeLine, cleanChapterName, visibleTrays, squareSize, findChapter,
+  otherQuizzesSummary, buildRack, totalGaps, nextFix, kanaHomeLine, cleanChapterName, visibleTrays, squareSize, findChapter,
   sectionToStart, chapterLabel, sectionLabel, aboutLine, sheetLine, resolveDeepLink, snapshotRack, changesSince,
   type RackChapter, type RackSection,
 } from './rack'
@@ -257,4 +257,55 @@ describe('changesSince', () => {
     const b = books(); b[1].topics[0].subtopics[0].score = 60; b[1].topics[0].subtopics[0].lowest = 34
     expect(changesSince(before, buildRack(b)).dropped).toEqual([201])
   })
+})
+
+// ── O1: gaps first, O2: a tray is a subject and a level, O3: the folded list ──
+const gapBook = (name: string, chapters: { id: number; score: number | null; at?: string }[]) => ({
+  id: 7, name, topics: chapters.map((c) => ({
+    id: c.id, name: `Chapter ${c.id}x`,
+    subtopics: [{ id: c.id * 10, name: `S${c.id}`, score: c.score, lowest: c.score, attempts: 4, last_assessed: c.at ?? null }],
+  })),
+})
+describe('gaps come first in a tray', () => {
+  const rack = buildRack([gapBook('Mathematics', [
+    { id: 1, score: 90 }, { id: 2, score: 40 }, { id: 3, score: null }, { id: 4, score: 20 }, { id: 5, score: 20 }, { id: 6, score: 60 },
+  ])])
+  it('puts gaps first, lowest score first, then the rest in book order', () => {
+    expect(rack[0].chapters.map((c) => c.topicId)).toEqual([4, 5, 2, 1, 3, 6])
+  })
+  it('keeps book order among equal scores', () => expect(rack[0].chapters.slice(0, 2).map((c) => c.topicId)).toEqual([4, 5]))
+  it('perches Kana on the first tile of the first tray', () => expect(nextFix(rack)?.chapter.topicId).toBe(rack[0].chapters[0].topicId))
+  it('breaks a tie on the most recent attempt, then on book order, not on the new array order', () => {
+    const r = buildRack([gapBook('Mathematics', [
+      { id: 1, score: 30, at: '2026-01-01' }, { id: 2, score: 30, at: '2026-03-01' }, { id: 3, score: 30, at: '2026-03-01' },
+    ])])
+    expect(nextFix(r)?.chapter.topicId).toBe(2)
+    const same = buildRack([gapBook('Mathematics', [{ id: 1, score: 50 }, { id: 2, score: 30 }, { id: 3, score: 30 }])])
+    expect(nextFix(same)?.chapter.topicId).toBe(2)
+  })
+})
+describe('a tray is one subject and level', () => {
+  const book = (id: number, name: string) => ({ id, name, topics: [{ id: id * 10, name: 'Ch', subtopics: [{ id: id * 100, name: 'A', score: 90, lowest: 90, attempts: 4 }] }] })
+  const rack = buildRack([
+    book(1, 'Cambridge IGCSE Chemistry Coursebook'),
+    book(2, 'Cambridge International AS & A Level Chemistry'),
+    book(3, 'Cambridge-IGCSE-Chemistry-Second Ed'),
+  ])
+  it('groups by both', () => {
+    expect(rack.map((t) => [t.subject, t.level]).sort()).toEqual([['Chemistry', 'Cambridge AS & A Level'], ['Chemistry', 'Cambridge IGCSE']])
+    expect(rack.find((t) => t.level === 'Cambridge IGCSE')!.chapters).toHaveLength(2)
+  })
+  it('keeps the raw book name on the chapter', () => expect(rack.flatMap((t) => t.chapters).map((c) => c.bookName)).toContain('Cambridge IGCSE Chemistry Coursebook'))
+})
+describe('otherQuizzesSummary', () => {
+  const sub = (n: number, avg: number | null) => ({ subject: 's', quizzes: Array.from({ length: n }, (_, i) => ({ id: String(i), label: 'q', percentage: avg, created_at: null })), average: avg })
+  it('is null with nothing', () => expect(otherQuizzesSummary([], null)).toBeNull())
+  it('weights each average by its quiz count', () => {
+    expect(otherQuizzesSummary([sub(2, 0), sub(2, 100)], { count: 4, average: 50, last: null })).toEqual({ count: 8, average: 50 })
+    expect(otherQuizzesSummary([sub(3, 10)], { count: 1, average: 50, last: null })).toEqual({ count: 4, average: 20 })
+  })
+  it('ignores groups with no average in the mean but counts them', () => {
+    expect(otherQuizzesSummary([sub(2, null), sub(2, 40)], null)).toEqual({ count: 4, average: 40 })
+  })
+  it('gives a null average when none has one', () => expect(otherQuizzesSummary([sub(2, null)], null)).toEqual({ count: 2, average: null }))
 })
