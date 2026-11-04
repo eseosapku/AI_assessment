@@ -17,8 +17,12 @@ import ProductTour from '@/components/studio/ProductTour'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
 import { RackHome } from '@/components/studylab/rack/RackHome'
 import { ChapterPage } from '@/components/studylab/rack/ChapterPage'
+import dynamic from 'next/dynamic'
 import { LostMarks } from '@/components/studylab/rack/LostMarks'
 import '@/components/studylab/rack/rack.css'
+
+// The 60 scene engines stay out of the page's first load.
+const TryIt = dynamic(() => import('@/components/studylab/rack/TryIt'), { ssr: false })
 
 /** The node shape the study and quiz actions speak. */
 interface MapNodeData {
@@ -316,7 +320,12 @@ export default function GapMap({
             onTeach={() => startStudy(nodeFor(open.chapter, selected))}
             onQuiz={(count) => takeQuiz(nodeFor(open.chapter, selected), count)}
             lostMarks={<LostMarks userId={userId} chapter={open.chapter} />}
-            tryIt={null}
+            tryIt={<TryIt
+              names={[...(selected ? [selected.name] : []), ...open.chapter.sections.filter((x) => x !== selected).map((x) => x.name), open.chapter.name]}
+              subject={open.tray.subject}
+              onQuiz={(count) => takeQuiz(nodeFor(open.chapter, selected), count)}
+              busy={starting || takingQuiz}
+            />}
           />
         ) : (
           <RackHome

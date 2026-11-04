@@ -59,6 +59,8 @@ await page.goto(`${BASE}/studylab/gap-map${query}`, { waitUntil: 'domcontentload
 await page.waitForSelector('.ss-rack', { timeout: 180000 })
 await page.waitForTimeout(1500)
 if (flags.includes('--bottom')) { await page.evaluate(() => { const c = document.querySelector('[data-tour="gapmap-canvas"]'); c.scrollTop = c.scrollHeight; document.querySelectorAll('main').forEach((m) => { m.scrollTop = m.scrollHeight }) }); await page.waitForTimeout(400) }
+if (opt('click')) { await page.click(opt('click')); await page.waitForTimeout(1200) }
+if (opt('fill')) { for (const inp of await page.$$('dialog[open] input')) { await inp.fill('1').catch(() => {}) } await page.click('dialog[open] button:has-text("Check")').catch(() => {}); await page.waitForTimeout(800) }
 mkdirSync(resolve(root, '.superpowers/gap-art/shots'), { recursive: true })
 const file = resolve(root, `.superpowers/gap-art/shots/${name}.png`)
 await page.screenshot({ path: file, fullPage: full })
@@ -87,6 +89,8 @@ const out = await page.evaluate(() => {
     const kp = document.querySelector('.ss-rack-on-plate')
     if (kp) { o.kanaBottom = Math.round(r(kp).bottom); o.kanaAboveSheet = Math.round(s.top - r(kp).bottom) }
   }
+  const d = document.querySelector('dialog[open]')
+  if (d) { const b = r(d); o.dialog = { w: Math.round(b.width), h: Math.round(b.height), clippedX: d.scrollWidth - d.clientWidth } }
   return o
 })
 out.failedArt = failedArt
