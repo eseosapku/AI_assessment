@@ -21,6 +21,10 @@ describe('unplacedQuizzes', () => {
   it('leaves out a subject the map did colour, and one with no quizzes', () => {
     expect(unplacedQuizzes([placed, noQuizzes])).toEqual([])
   })
+  it('leaves out a subject with chapter-level evidence and no section evidence', () => {
+    const chapterOnly = { id: 7, name: 'Physics', topics: [{ id: 1, name: 'Forces', status: 'gap', accuracy: 40, subtopics: [{ id: 2, name: 'Moments', status: 'not_assessed' }] }], assessments: [quiz()] }
+    expect(unplacedQuizzes([chapterOnly])).toEqual([])
+  })
   it('survives a malformed subject rather than crashing the page', () => {
     expect(unplacedQuizzes([{}, { name: 'X', assessments: 'nope' }, null as any])).toEqual([])
   })
@@ -74,6 +78,11 @@ const sub = (over: Record<string, unknown> = {}) => ({
 })
 
 describe('tilesForSubject', () => {
+  it('gives an unscored section a null accuracy, not 0', () => {
+    const tiles = tilesForSubject({ id: 7, name: 'Physics', topics: [topic({ subtopics: [sub({ status: 'not_assessed', accuracy: null })] })] })
+    expect(tiles[0].accuracy).toBeNull()
+  })
+
   it('uses subtopics where they exist, and not the topic as well', () => {
     // Showing both would double-count the same knowledge and make the wall's
     // proportions lie.

@@ -91,6 +91,7 @@ function asStatus(value: unknown): MasteryStatus {
 }
 
 function asNumberOrNull(value: unknown): number | null {
+  if (value === null || value === undefined || value === '') return null
   const n = Number(value)
   return Number.isFinite(n) ? n : null
 }
@@ -235,6 +236,9 @@ export function unplacedQuizzes(subjects: readonly unknown[], canonicalise: (s: 
     const quizzes = Array.isArray(subject.assessments) ? (subject.assessments as Record<string, unknown>[]) : []
     if (!name || !quizzes.length) continue
     if (tilesForSubject(subject).some((t) => t.status !== 'not_assessed')) continue
+    // A chapter scored as a whole has no section tile, but it is still coloured.
+    const chapters = Array.isArray(subject.topics) ? (subject.topics as RawTopic[]) : []
+    if (chapters.some((t) => asStatus(t?.status) !== 'not_assessed')) continue
     const list: UnplacedQuiz[] = quizzes.map((q) => ({
       id: String(q?.id ?? ''),
       label: String(q?.label ?? '').trim() || name,

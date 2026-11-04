@@ -5,6 +5,8 @@ import { isExamPrepCurriculumNumeric, slugForTextbookCurriculum } from '@/lib/cu
 import type { MasteryStatus } from '@/lib/studylab/types'
 import { masteryNumber, sumAccuracies } from '@/lib/studylab/mastery-numbers'
 import { unlinkedSummary } from '@/lib/studylab/wall'
+import { readLatest } from '@/lib/studylab/mastery-latest'
+import { artPathFor } from '@/lib/studylab/gap-art'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -15,6 +17,8 @@ interface MasteryRow {
   correct: number | null
   accuracy: number | null
   last_assessed: string | null
+  last_accuracy?: number | string | null
+  lowest_accuracy?: number | string | null
 }
 
 function classify(accuracy: number | null, attempts: number | null): MasteryStatus {
@@ -31,6 +35,10 @@ interface SubtopicNode {
   accuracy: number | null
   attempts: number
   last_assessed: string | null
+  /** the latest attempt, else the average; null when untried */
+  score: number | null
+  /** the lowest the section has been; null when untried */
+  lowest: number | null
 }
 interface TopicNode {
   id: number
@@ -43,6 +51,10 @@ interface TopicNode {
   /** coloured from a single-topic quiz rather than subtopic-level evidence */
   topic_level_only: boolean
   subtopics: SubtopicNode[]
+  /** whole-chapter evidence only; null if none */
+  score: number | null
+  lowest: number | null
+  art: string | null
 }
 interface AssessmentResult {
   id: string
@@ -215,8 +227,8 @@ export async function GET(request: NextRequest) {
     const bySubtopic = new Map<number, MasteryRow>()
     const byTopic = new Map<number, MasteryRow>()
     const masteryRowsRes = await db.query(
-      `SELECT textbook_id, topic_id, subtopic_id, attempts, correct, accuracy, last_assessed
-       FROM topic_mastery WHERE user_id = $1`,
+      // SELECT * so the page still loads before the latest-score columns exist.
+      `SELECT * FROM topic_mastery WHERE user_id = $1`,
       [userId]
     )
     const masteryRows = masteryRowsRes.rows
@@ -320,7 +332,7 @@ export async function GET(request: NextRequest) {
     if (subjectTextbookIds.length > 0) {
       const topicRowsRes = await db.query(
         `SELECT topic_id, topic, textbook_id FROM topics
-         WHERE textbook_id = ANY($1::int[]) ORDER BY topic`,
+         WHERE textbook_id = ANY($1::int[]) ORDER BY topic_id`,
         [subjectTextbookIds]
       )
       const topicRows = topicRowsRes.rows
@@ -335,7 +347,7 @@ export async function GET(request: NextRequest) {
       if (allTopicIds.length > 0) {
         const subRowsRes = await db.query(
           `SELECT subtopic_id, subtopic, topic_id FROM subtopics
-           WHERE topic_id = ANY($1::int[]) ORDER BY subtopic`,
+           WHERE topic_id = ANY($1::int[]) ORDER BY subtopic_id`,
           [allTopicIds]
         )
         const subRows = subRowsRes.rows
@@ -368,13 +380,14 @@ export async function GET(request: NextRequest) {
           const derived = subAgg.get(s.id)
           if (m && (m.attempts ?? 0) > 0) {
             const accuracy = masteryNumber(m.accuracy)
-            return { id: s.id, name: s.name, status: classify(accuracy, m.attempts), accuracy, attempts: m.attempts ?? 0, last_assessed: m.last_assessed ?? null }
+            const { score, lowest } = readLatest(m)
+            return { id: s.id, name: s.name, status: classify(accuracy, m.attempts), accuracy, attempts: m.attempts ?? 0, last_assessed: m.last_assessed ?? null, score, lowest }
           }
           if (derived) {
             const acc = Math.round(derived.sum / derived.n)
-            return { id: s.id, name: s.name, status: classify(acc, derived.n), accuracy: acc, attempts: derived.n, last_assessed: derived.last }
+            return { id: s.id, name: s.name, status: classify(acc, derived.n), accuracy: acc, attempts: derived.n, last_assessed: derived.last, score: acc, lowest: acc }
           }
-          return { id: s.id, name: s.name, status: 'not_assessed', accuracy: null, attempts: 0, last_assessed: null }
+          return { id: s.id, name: s.name, status: 'not_assessed', accuracy: null, attempts: 0, last_assessed: null, score: null, lowest: null }
         })
 
         const assessedSubs = subNodes.filter((s) => s.status !== 'not_assessed')
@@ -419,7 +432,25 @@ export async function GET(request: NextRequest) {
           }
         }
 
-        return { id: t.id, name: t.name, status: topicStatus, accuracy: topicAccuracy, attempts: topicAttempts, last_assessed: topicLast, subtopics_assessed: assessedSubs.length, topic_level_only: topicLevelOnly, subtopics: subNodes }
+        // The chapter's own score: whole-chapter evidence only, whatever its sections say.
+        let chapterScore: number | null = null
+        let chapterLowest: number | null = null
+        if (topicMastery && (topicMastery.attempts ?? 0) > 0) {
+          const latest = readLatest(topicMastery)
+          chapterScore = latest.score
+          chapterLowest = latest.lowest
+        } else if (focusedT) {
+          chapterScore = Math.round(focusedT.sum / focusedT.n)
+          chapterLowest = chapterScore
+        } else if (subs.length === 0) {
+          const derivedT = topicAgg.get(t.id)
+          if (derivedT) {
+            chapterScore = Math.round(derivedT.sum / derivedT.n)
+            chapterLowest = chapterScore
+          }
+        }
+
+        return { id: t.id, name: t.name, status: topicStatus, accuracy: topicAccuracy, attempts: topicAttempts, last_assessed: topicLast, subtopics_assessed: assessedSubs.length, topic_level_only: topicLevelOnly, subtopics: subNodes, score: chapterScore, lowest: chapterLowest, art: artPathFor(t.id) }
       })
 
       // Subject mastery rolls up coverage-weighted from its assessed topics.
