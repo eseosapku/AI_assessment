@@ -6,13 +6,11 @@ import Link from 'next/link'
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Kana } from '@/components/studylab/kana/Kana'
 import { subjectStyle } from '@/lib/studylab/subjectFamily'
-import type { UnplacedSubject, UnlinkedResults } from '@/lib/studylab/wall'
 import { kanaHomeLine, nextFix, squareSize, visibleTrays, type RackTray } from '@/lib/studylab/rack'
 import { readClosedTrays, writeClosedTrays } from '@/lib/studylab/rack-closed'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
 import { ChapterTile } from './ChapterTile'
 import { FlyingKana, type Pt } from './FlyingKana'
-import { QuizzesNotOnChapter } from './QuizzesNotOnChapter'
 
 /** A row that scrolls sideways with no scrollbar; a mouse gets small chevrons at the edges when it overflows. */
 function TrayRow({ className, children }: { className: string; children: React.ReactNode }) {
@@ -45,16 +43,15 @@ function TrayRow({ className, children }: { className: string; children: React.R
 export function RackHome({
   userId,
   trays,
-  unplaced,
-  unlinked,
+  other,
   droppedTopicIds,
   focusTrayKey,
   visible = true,
 }: {
   userId: string
   trays: RackTray[]
-  unplaced: UnplacedSubject[]
-  unlinked: UnlinkedResults | null
+  /** Quizzes that are on no tile, as one count and an average. */
+  other: { count: number; average: number | null } | null
   droppedTopicIds: number[]
   focusTrayKey: string | null
   /** False while a chapter is open: this page stays mounted so its scroll and "show all" survive. */
@@ -144,7 +141,7 @@ export function RackHome({
     ? `/studylab/gap-map?chapter=${pick.chapter.topicId}${pick.section?.subtopicId ? `&section=${pick.section.subtopicId}` : ''}`
     : null
   const hasGaps = !!pick
-  const hasOther = unplaced.length > 0 || !!(unlinked && unlinked.count > 0)
+  const hasOther = !!other && other.count > 0
 
   return (
     <div ref={root} className="ss-rack" hidden={!visible}>
@@ -230,7 +227,11 @@ export function RackHome({
         <button type="button" className="ss-rack-more" onClick={() => setShowAll(true)}>Show all subjects</button>
       )}
 
-      <QuizzesNotOnChapter userId={userId} unplaced={unplaced} unlinked={unlinked} noTrays={trays.length === 0} />
+      {other && other.count > 0 && (
+        <p className="ss-rack-quiet">
+          {other.count} other {other.count === 1 ? 'quiz' : 'quizzes'}{other.average !== null ? `, average ${other.average}%` : ''}
+        </p>
+      )}
       {flight && <FlyingKana from={flight.from} to={flight.to} />}
     </div>
   )

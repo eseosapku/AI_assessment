@@ -151,23 +151,7 @@
 .ss-rack-sc.r { right: 8px; }
 @media (hover: hover) and (pointer: fine) { .ss-rack-sc { display: grid; } }
 
-.ss-rack-other { margin: 4px 0 14px; background: var(--ss-chip); border: 1px solid var(--ss-line); border-radius: 18px; }
-.ss-rack-other h2 { margin: 0; }
-.ss-rack-other-h {
-  display: flex; align-items: center; gap: 4px 12px; flex-wrap: wrap; width: 100%; min-height: 52px; padding: 10px 16px;
-  border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
-}
-.ss-rack-other-h .t { font-size: 14px; font-weight: 800; }
-.ss-rack-other-h .s { font-size: 13px; font-weight: 600; color: var(--ss-slate); }
-.ss-rack-other-h .c { margin-left: auto; width: 20px; height: 20px; color: var(--ss-slate); transition: transform 0.25s; }
-.ss-rack-other[data-open="true"] .ss-rack-other-h .c { transform: rotate(180deg); }
-.ss-rack-other-l { margin: 0; padding: 2px 16px 6px; list-style: none; }
-.ss-rack-other-l li { display: grid; grid-template-columns: minmax(0, 1fr) auto 3.4rem; gap: 14px; align-items: baseline; padding: 7px 0; border-top: 1px solid var(--rack-line2); font-size: 13.5px; font-weight: 600; }
-.ss-rack-other-l li:first-child { border-top: 0; }
-.ss-rack-other-l .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ss-rack-other-l .q { text-align: right; color: var(--ss-slate); white-space: nowrap; }
-.ss-rack-other-l .a { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
-.ss-rack-other-note { margin: 0; padding: 0 16px 14px; font-size: 12.5px; font-weight: 600; line-height: 1.45; color: var(--ss-slate); }
+.ss-rack-quiet { margin: 6px 4px 14px; font-size: 12.5px; font-weight: 600; color: var(--ss-slate); }
 .ss-rack-err { max-width: 520px; padding: 18px 20px; border: 1px solid var(--rack-line2); border-radius: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; font-weight: 600; }
 .ss-rack-err p { margin: 0; }
 .ss-rack-spin { width: 16px; height: 16px; animation: ss-rack-spin 1s linear infinite; }
@@ -191,7 +175,7 @@
 @media (prefers-reduced-motion: reduce) {
   .ss-rack-bob { animation: none; }
   .ss-rack-tile { transition: none; }
-  .ss-rack-fold, .ss-rack-fold[data-open="true"], .ss-rack-other-h .c { transition: none; }
+  .ss-rack-fold, .ss-rack-fold[data-open="true"] { transition: none; }
 }
 
 /* Tap and arrival motion. Reduced motion gets none of it: the state still shows. */

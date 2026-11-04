@@ -8,7 +8,7 @@ import { openLearnSpace } from '@/lib/studylab/openSpace'
 import { unplacedQuizzes, type UnlinkedResults } from '@/lib/studylab/wall'
 import { canonicalSubject } from '@/lib/canonical-subject'
 import {
-  buildRack, changesSince, findChapter, resolveDeepLink, sectionToStart, snapshotRack,
+  buildRack, changesSince, otherQuizzesSummary, ownTopicQuizIds, findChapter, resolveDeepLink, sectionToStart, snapshotRack,
   type RackChapter, type RackSection, type RackSnapshot,
 } from '@/lib/studylab/rack'
 import type { CountryCode } from '@/lib/countries'
@@ -31,6 +31,8 @@ interface MapNodeData {
   accuracy?: number | null
   textbook_id?: number | null
   topic_id?: number
+  /** A topic the student typed: no book, so no ids go to the server. */
+  own?: boolean
   subtopic_id?: number
   subject?: string
   curriculum_slug?: string
@@ -116,7 +118,11 @@ export default function GapMap({
   }, [load])
 
   const trays = useMemo(() => buildRack(tree?.textbooks ?? [], canonicalSubject), [tree])
-  const unplaced = useMemo(() => unplacedQuizzes(tree?.textbooks ?? [], canonicalSubject), [tree])
+  // Whatever is not a tile: results with no quiz, the Other bucket, and subjects whose quizzes placed nothing.
+  const other = useMemo(() => {
+    const unlinked = tree?.unlinked_results && tree.unlinked_results.count > 0 ? tree.unlinked_results : null
+    return otherQuizzesSummary(unplacedQuizzes(tree?.textbooks ?? [], canonicalSubject), unlinked, ownTopicQuizIds(tree?.textbooks ?? []))
+  }, [tree])
 
   // Read once, and cleared: the snapshot taken just before leaving for a lesson or quiz.
   const linked = useRef(false)
@@ -155,7 +161,7 @@ export default function GapMap({
     if (linkPending && chapterParam) setLinkPending(false)
   }, [linkPending, chapterParam])
 
-  const topicId = chapterParam && /^\d+$/.test(chapterParam) ? Number(chapterParam) : null
+  const topicId = chapterParam && /^-?\d+$/.test(chapterParam) ? Number(chapterParam) : null
   const open = topicId ? findChapter(trays, topicId) : null
   const wantedSection = sectionParam && /^\d+$/.test(sectionParam) ? Number(sectionParam) : null
 
@@ -264,31 +270,30 @@ export default function GapMap({
     subject: chapter.bookName,
     curriculum_slug: chapter.curriculumSlug ?? undefined,
     textbook_id: chapter.textbookId,
+    own: chapter.ownTopic || undefined,
     topic_id: chapter.topicId,
     subtopic_id: section?.subtopicId ?? undefined,
   })
 
   const canTakeQuiz = (d: MapNodeData) =>
     d.kind !== 'subject' &&
-    typeof d.textbook_id === 'number' &&
+    (d.own || (typeof d.textbook_id === 'number' &&
     d.textbook_id > 0 &&
     typeof d.topic_id === 'number' &&
-    d.topic_id > 0
+    d.topic_id > 0))
 
   const takeQuiz = async (d: MapNodeData, count = 10) => {
     if (takingQuiz || !canTakeQuiz(d)) return
     setTakingQuiz(true)
     setError(null)
     try {
-      const topicIds = [d.topic_id!]
-      const subtopicIds = typeof d.subtopic_id === 'number' && d.subtopic_id > 0 ? [d.subtopic_id] : []
+      const topicIds = d.own ? [] : [d.topic_id!]
+      const subtopicIds = !d.own && typeof d.subtopic_id === 'number' && d.subtopic_id > 0 ? [d.subtopic_id] : []
       const quizPayload = {
         user_id: userId,
         className: userClass ?? undefined,
         subject: d.subject ?? undefined,
-        textbook_id: d.textbook_id,
-        topic_ids: topicIds,
-        subtopic_ids: subtopicIds,
+        ...(d.own ? {} : { textbook_id: d.textbook_id, topic_ids: topicIds, subtopic_ids: subtopicIds }),
         topics: [d.label],
         count,
         style: 'Test Style (Textbooks)',
@@ -398,8 +403,7 @@ export default function GapMap({
           <RackHome
             userId={userId}
             trays={trays}
-            unplaced={unplaced}
-            unlinked={tree.unlinked_results ?? null}
+            other={other}
             droppedTopicIds={changes.dropped}
             focusTrayKey={focusTrayKey}
             visible={homeVisible}

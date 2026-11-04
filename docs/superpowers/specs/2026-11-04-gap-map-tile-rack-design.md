@@ -50,7 +50,7 @@ The structure is adapted from Brilliant's topics page, and it must not be a copy
 | Solid | Tried, all tried sections solid | Flat in its slot, green ✓ |
 | Not tried | Nothing tried | Picture greyed out and faint |
 
-- Quizzes that cannot be placed on a chapter stay visible, folded into one quiet closed card at the bottom: "Quizzes not on a chapter", "44 quizzes, average 27%". Opened, it lists each subject with its count and average, the unlinked ones last as "Other quizzes" with a line saying why they cannot be on a tile. It starts open when the student has no trays at all, and its state is saved per student. This fixed a real complaint in October, so it must not regress.
+- Topics a student typed themselves are tiles in a tray called "Your own topics" (key `own-topics`, no level). Each name-only bucket with a scored quiz is one chapter with one plate; `topicId` is a stable negative number hashed from the name, so `?chapter=` survives a reload. The newest quiz is the score and the lowest of all decides the band, so a fixed topic goes gold. The display name drops a leading "Mastering "; the raw name is kept so a retake lands in the same bucket. Teach and Retake send no book, chapter or section ids. The chapter page makes no lost-marks request for these. Everything else that is on no tile (results with no quiz, the "Other" bucket, book subjects whose quizzes placed nothing) is one small line at the very bottom, `34 other quizzes, average 18%`, shown only when the count is above 0. The old closed card and its saved state are gone. Unplaced results still must not vanish (a real complaint in October).
 - A new student with no quizzes gets Kana inviting them to their first quiz, above their subjects' faint tiles if they have any.
 
 ### Chapter page

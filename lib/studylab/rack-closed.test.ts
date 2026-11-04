@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { readClosedTrays, writeClosedTrays, readOtherOpen, writeOtherOpen } from './rack-closed'
+import { readClosedTrays, writeClosedTrays } from './rack-closed'
 
 const fake = () => {
   const m = new Map<string, string>()
@@ -27,14 +27,5 @@ describe('closed trays are saved per student', () => {
     expect(readClosedTrays('u1', broken)).toEqual([])
     expect(() => writeClosedTrays('u1', ['a'], broken)).not.toThrow()
     expect(readClosedTrays('u1', undefined)).toEqual([])
-  })
-  it('keeps the bottom card on its own key, undecided until saved', () => {
-    const s = fake()
-    expect(readOtherOpen('u1', s)).toBeNull()
-    writeOtherOpen('u1', true, s)
-    expect(readOtherOpen('u1', s)).toBe(true)
-    writeOtherOpen('u1', false, s)
-    expect(readOtherOpen('u1', s)).toBe(false)
-    expect(readOtherOpen('u1', broken)).toBeNull()
   })
 })

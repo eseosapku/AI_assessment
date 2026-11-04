@@ -15,7 +15,7 @@ export function LostMarks({ userId, chapter }: { userId: string; chapter: RackCh
   const [got, setGot] = useState<{ key: string; items: LostMark[] } | null>(null)
 
   useEffect(() => {
-    if (!whole && ids.length === 0) return
+    if (chapter.ownTopic || (!whole && ids.length === 0)) return
     let live = true
     fetch(`/api/studylab/gap-map/lost-marks?user_id=${encodeURIComponent(userId)}&topic_id=${chapter.topicId}&subtopic_ids=${ids.join(',')}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -25,7 +25,7 @@ export function LostMarks({ userId, chapter }: { userId: string; chapter: RackCh
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key])
 
-  if (!got || got.key !== key || got.items.length === 0) return null
+  if (chapter.ownTopic || !got || got.key !== key || got.items.length === 0) return null
   return (
     <section className="ss-rack-lost" aria-label="Where you lost marks">
       <h3>Where you lost marks</h3>
