@@ -17,6 +17,7 @@ export interface RackSection {
   score: number | null
   lowest: number | null
   lastAssessed: string | null
+  attempts: number
 }
 
 export interface RackChapter {
@@ -66,7 +67,7 @@ const timeOf = (iso: string | null) => {
 /** "Chapter 1: Cells" becomes "Cells". Only a digit numeral with a separator or space after it. */
 export function cleanChapterName(raw: string): string {
   const name = String(raw ?? '').trim()
-  const m = /^(?:chapter|unit|topic|lesson|module|part)\s+\d+\s*(?:[:.\-–—)]\s*|\s+)(\S.*)$/i.exec(name)
+  const m = /^(?:chapter|unit|topic|lesson|module|part)\s+\d+(?:\.\d+)*\s*(?:[:.\-–—)]\s*|\s+)(\S.*)$/i.exec(name)
   return m ? m[1].trim() : name
 }
 
@@ -83,6 +84,7 @@ function sectionOf(raw: Raw): RackSection | null {
     score,
     lowest: score === null ? null : lowest,
     lastAssessed: raw.last_assessed ? String(raw.last_assessed) : null,
+    attempts: Math.max(0, masteryNumber(raw.attempts) ?? 0),
   }
 }
 
@@ -104,8 +106,10 @@ function chapterOf(raw: unknown, book: { id: number; name: string; slug: string 
       band: bandFor(score, score === null ? null : lowest),
       score, lowest: score === null ? null : lowest,
       lastAssessed: raw.last_assessed ? String(raw.last_assessed) : null,
+      attempts: Math.max(0, masteryNumber(raw.attempts) ?? 0),
     }]
-  } else if (score !== null && !real.some((s) => s.score !== null)) {
+  } else if (score !== null && !real.some((s) => s.attempts >= 3)) {
+    // A few tagged questions must not throw away a whole-chapter score: sections win only with 3+ attempts.
     wholeChapter = { band: bandFor(score, lowest), score, lowest: lowest ?? score }
   }
 
@@ -199,8 +203,16 @@ export function nextFix(trays: readonly RackTray[]): RackPick | null {
   return best ? { chapter: best.chapter, section: best.section, score: best.score } : null
 }
 
-export function kanaHomeLine(trays: readonly RackTray[], pick: RackPick | null): string {
-  if (!pick) return 'Every tile is back in its slot. Pick something new to try.'
+export function kanaHomeLine(trays: readonly RackTray[], pick: RackPick | null, hasOtherResults = false): string {
+  if (!pick) {
+    if (trays.length === 0) {
+      return hasOtherResults
+        ? "Your quiz results are below, but they aren't linked to chapters yet. Take a quiz from a book and I'll show you where your gaps are."
+        : "Take your first quiz and I'll show you where your gaps are."
+    }
+    if (!trays.some((t) => t.triedCount > 0)) return "Nothing tried here yet. Pick a chapter and I'll start you off."
+    return 'Every tile is back in its slot. Pick something new to try.'
+  }
   const name = pick.section?.name ?? pick.chapter.name
   return `Tiles sticking up have gaps, and you have ${totalGaps(trays)}. Let's start with ${name}, it's your lowest.`
 }
@@ -276,7 +288,7 @@ export function sheetLine(
 ): SheetLine {
   if (cheer) {
     return cheer.next
-      ? { lead: `Nice, ${cheer.name} is gold now.`, rest: ` Next up, ${cheer.next.name}.`, actions: [] }
+      ? { lead: `Nice, ${cheer.name} is gold now.`, rest: ` Next up, ${cheer.next.name}.`, actions: cheer.next.score !== null ? ['teach', 'retake'] : ['teach', 'quiz'] }
       : { lead: 'Nice, that was the last gap here.', rest: ' Go back and watch this tile drop into its slot.', actions: [] }
   }
   const lead = section ? section.name : 'This chapter'
@@ -291,7 +303,7 @@ export function sheetLine(
     case 'solid':
       return { lead, rest: ` is solid at ${pct(score)}%. Retake it any time to keep it that way.`, actions: ['retake', 'teach'] }
     case 'gold':
-      return { lead: 'You closed this gap.', rest: ` ${pct(lowest)}% to ${pct(score)}%, well done.`, actions: [] }
+      return { lead: 'You closed this gap.', rest: ` ${pct(lowest)}% to ${pct(score)}%, well done.`, actions: ['retake'] }
     default:
       return { lead, rest: ' is new to us. A short quiz shows where you stand.', actions: ['teach', 'quiz'] }
   }

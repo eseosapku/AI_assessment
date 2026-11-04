@@ -18,8 +18,36 @@ describe('home', () => {
   it('counts gaps', () => expect(totalGaps(trays)).toBe(4))
   it('picks the lowest', () => expect(nextFix(trays)?.section?.name).toBe('Quadratic equations'))
   it('says it', () => expect(kanaHomeLine(trays, nextFix(trays))).toBe("Tiles sticking up have gaps, and you have 4. Let's start with Quadratic equations, it's your lowest."))
-  it('celebrates', () => expect(kanaHomeLine([], null)).toBe('Every tile is back in its slot. Pick something new to try.'))
+  it('invites a first quiz when there are no trays', () => expect(kanaHomeLine([], null)).toBe("Take your first quiz and I'll show you where your gaps are."))
+  it('says results are unlinked when there are no trays but other results', () => expect(kanaHomeLine([], null, true)).toBe("Your quiz results are below, but they aren't linked to chapters yet. Take a quiz from a book and I'll show you where your gaps are."))
+  it('does not celebrate when nothing was tried', () => {
+    const untried = buildRack([{ id: 1, name: 'Maths', topics: [{ id: 2, name: 'Ch', subtopics: [{ id: 3, name: 'A', score: null }] }] }])
+    expect(kanaHomeLine(untried, null)).toBe("Nothing tried here yet. Pick a chapter and I'll start you off.")
+  })
+  it('celebrates only when something was tried and no gaps', () => {
+    const t = buildRack([{ id: 1, name: 'Maths', topics: [{ id: 2, name: 'Ch', subtopics: [{ id: 3, name: 'A', score: 90, lowest: 90, attempts: 4 }] }] }])
+    expect(kanaHomeLine(t, null)).toBe('Every tile is back in its slot. Pick something new to try.')
+  })
+  it('names the chapter for a chapter-level pick', () => {
+    const p = nextFix(trays)!
+    expect(kanaHomeLine(trays, { ...p, section: null })).toContain(`Let's start with ${p.chapter.name}, it's your lowest.`)
+  })
   it('makes three trays and leaves the name-only bucket out', () => expect(trays.map((t) => t.subject).sort()).toEqual(['Biology', 'Chemistry', 'Mathematics']))
+})
+
+describe('attempts decide whether sections win', () => {
+  const one = (subs: any[], score: number | null) => buildRack([{ id: 1, name: 'Maths', topics: [{ id: 2, name: 'Ch', score, lowest: score, subtopics: subs }] }])[0].chapters[0]
+  it('2/2 tagged plus a whole-chapter 20 is a gap', () => {
+    const c = one([{ id: 3, name: 'A', score: 100, lowest: 100, attempts: 2 }, { id: 4, name: 'B', score: null }], 20)
+    expect(c).toMatchObject({ state: 'gap', wholeChapter: { score: 20 } })
+    expect(c.sections[0].attempts).toBe(2)
+    expect(sectionToStart(c)).toBeNull()
+    expect(nextFix(buildRack([{ id: 1, name: 'Maths', topics: [{ id: 2, name: 'Ch', score: 20, lowest: 20, subtopics: [{ id: 3, name: 'A', score: 100, lowest: 100, attempts: 2 }] }] }]))?.section).toBeNull()
+  })
+  it('a section with 3 attempts beats the whole-chapter score', () => {
+    const c = one([{ id: 3, name: 'A', score: 90, lowest: 90, attempts: 3 }], 20)
+    expect(c).toMatchObject({ state: 'solid', wholeChapter: null })
+  })
 })
 
 describe('chapter state', () => {
@@ -40,7 +68,7 @@ describe('whole-chapter score', () => {
     expect(sec(chapter('The Periodic Table'), 'Groups').band).toBe('none')
   })
   it('loses to a tried section', () => {
-    const b = books(); const c = b[2].topics[0]; c.subtopics[0].score = 90; c.subtopics[0].lowest = 90
+    const b = books(); const c = b[2].topics[0]; c.subtopics[0].score = 90; c.subtopics[0].lowest = 90; c.subtopics[0].attempts = 3
     const rebuilt = buildRack(b).flatMap((t) => t.chapters).find((x) => x.name === 'The Periodic Table')!
     expect(rebuilt.wholeChapter).toBeNull()
     expect(rebuilt.state).toBe('solid')
@@ -101,7 +129,7 @@ describe('merging and junk', () => {
 describe('cleanChapterName', () => {
   it.each([
     ['Chapter 1: Cells', 'Cells'], ['Unit 3 - Waves', 'Waves'], ['Unit conversions', 'Unit conversions'],
-    ['Term limits', 'Term limits'], ['Chapter 1', 'Chapter 1'], ['Unit civil rights', 'Unit civil rights'],
+    ['Topic 3.2 Waves', 'Waves'], ['Chapter 3.2: Waves', 'Waves'], ['Term limits', 'Term limits'], ['Chapter 1', 'Chapter 1'], ['Unit civil rights', 'Unit civil rights'],
   ])('%s', (raw, clean) => expect(cleanChapterName(raw)).toBe(clean))
 })
 
@@ -153,8 +181,11 @@ describe('sheetLine', () => {
   it('gap', () => expect(sheetLine(movement(), sec(movement(), 'Osmosis'))).toEqual({ lead: 'Osmosis', rest: ' is on 34%. Want me to teach it, then you retake it?', actions: ['teach', 'retake'] }))
   it('solid', () => expect(sheetLine(chapter('Enzymes'), sec(chapter('Enzymes'), 'Enzyme action'))).toEqual({ lead: 'Enzyme action', rest: ' is solid at 88%. Retake it any time to keep it that way.', actions: ['retake', 'teach'] }))
   it('untried', () => expect(sheetLine(movement(), sec(movement(), 'Active transport'))).toEqual({ lead: 'Active transport', rest: ' is new to us. A short quiz shows where you stand.', actions: ['teach', 'quiz'] }))
-  it('gold', () => expect(sheetLine(chapter('Number'), sec(chapter('Number'), 'Types of number'))).toEqual({ lead: 'You closed this gap.', rest: ' 38% to 86%, well done.', actions: [] }))
+  it('gold', () => expect(sheetLine(chapter('Number'), sec(chapter('Number'), 'Types of number'))).toEqual({ lead: 'You closed this gap.', rest: ' 38% to 86%, well done.', actions: ['retake'] }))
   it('whole chapter', () => expect(sheetLine(chapter('The Periodic Table'), null)).toEqual({ lead: 'This chapter', rest: ' is on 40%. Want me to teach it, then you retake it?', actions: ['teach', 'retake'] }))
+  it('cheer with a scored next offers teach and retake', () => expect(sheetLine(movement(), sec(movement(), 'Osmosis'), { name: 'Osmosis', next: sec(movement(), 'Diffusion') }).actions).toEqual(['teach', 'retake']))
+  it('cheer with an untried next offers teach and quiz', () => expect(sheetLine(movement(), sec(movement(), 'Osmosis'), { name: 'Osmosis', next: sec(movement(), 'Active transport') }).actions).toEqual(['teach', 'quiz']))
+  it('a gold section can be retaken', () => expect(sheetLine(chapter('Number'), sec(chapter('Number'), 'Types of number')).actions).toEqual(['retake']))
   it('cheer with next', () => expect(sheetLine(movement(), sec(movement(), 'Osmosis'), { name: 'Osmosis', next: sec(movement(), 'Diffusion') })).toMatchObject({ lead: 'Nice, Osmosis is gold now.', rest: ' Next up, Diffusion.' }))
   it('cheer without next', () => expect(sheetLine(movement(), sec(movement(), 'Osmosis'), { name: 'Osmosis', next: null })).toMatchObject({ lead: 'Nice, that was the last gap here.', rest: ' Go back and watch this tile drop into its slot.' }))
 })

@@ -58,7 +58,7 @@ export function RackHome({
         <div className="ss-rack-hi">
           <div className="ss-rack-hi-k ss-rack-bob"><Kana pose={hasGaps ? 'point' : 'celebrate'} size={104} /></div>
           <div className="ss-rack-say">
-            <span>{kanaHomeLine(trays, pick)}</span>
+            <span>{kanaHomeLine(trays, pick, unplaced.length > 0 || !!unlinked)}</span>
             {pickHref && <Link href={pickHref} className="ss-rack-go">Let&apos;s fix it</Link>}
           </div>
         </div>
