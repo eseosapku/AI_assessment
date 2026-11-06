@@ -1,4 +1,5 @@
 import { after } from 'next/server'
+import { GENERATION_TIMEOUT_MS } from './generation-timeout'
 import { createAiJob, failAiJob, type AiJobType } from './ai-jobs'
 import { jobApiUrl } from './job-api-url'
 import { invokeExistingLambda } from './invoke-existing-lambda'
@@ -8,7 +9,7 @@ export async function enqueueAiJob(type: AiJobType, payload: Record<string, unkn
   if (!existingLambda && process.env.NODE_ENV === 'production') {
     // Amplify submits a SHORT request to the backend that already deploys on push.
     const response = await fetch(jobApiUrl('/api/jobs'), { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ job_type: type, payload }), signal: AbortSignal.timeout(20000) })
+      body: JSON.stringify({ job_type: type, payload }), signal: AbortSignal.timeout(GENERATION_TIMEOUT_MS) })
     const result = await response.json()
     if (!response.ok || !result.job) throw Object.assign(new Error(result.error || 'Could not start generation'), { status: response.status })
     return result.job

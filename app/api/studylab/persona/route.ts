@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { GET as getGapMap } from '../gap-map/route'
 import { buildPersonaFromGapTree } from '@/lib/studylab/persona'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -13,10 +14,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'A valid user_id is required' }, { status: 400 })
     }
 
-    const origin = new URL(request.url).origin
-    const gapRes = await fetch(`${origin}/api/studylab/gap-map?user_id=${encodeURIComponent(userId)}`, {
+    const gapRes = await getGapMap(new NextRequest(`http://internal/api/studylab/gap-map?user_id=${encodeURIComponent(userId)}`, {
       headers: { cookie: request.headers.get('cookie') ?? '' },
-    })
+    }))
     const gapJson = await gapRes.json()
     if (!gapRes.ok) {
       return NextResponse.json({ error: gapJson.error || 'Failed to build persona' }, { status: gapRes.status })

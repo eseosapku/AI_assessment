@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { enqueueAiJob } from '@/lib/enqueue-ai-job'
 
+/** Amplify and the Lambda both allow this route to run for 15 minutes. */
+export const maxDuration = 900
+
 /** Generation runs in the queue worker, never in this gateway-bound request. */
 export async function POST(request: NextRequest) {
   try {

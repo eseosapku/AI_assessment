@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { isAiJobType } from '@/lib/ai-jobs'
 import { enqueueAiJob } from '@/lib/enqueue-ai-job'
 
+export const maxDuration = 900
+
 export async function POST(request: NextRequest) {
   try {
     const { job_type, payload } = await request.json()

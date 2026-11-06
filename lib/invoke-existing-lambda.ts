@@ -1,5 +1,6 @@
 import { createHash, createHmac } from 'node:crypto'
 import { getBedrockRegion } from './aws-config'
+import { GENERATION_TIMEOUT_MS } from './generation-timeout'
 
 /** Signed asynchronous invocation of the SAME deployed Lambda; no new queue. */
 export async function invokeExistingLambda(jobId: string, functionName: string): Promise<void> {
@@ -23,7 +24,7 @@ export async function invokeExistingLambda(jobId: string, functionName: string):
   const key = hmac(hmac(hmac(hmac(`AWS4${secret}`, day), region), 'lambda'), 'aws4_request')
   const signature = createHmac('sha256', key).update(`AWS4-HMAC-SHA256\n${date}\n${scope}\n${hash(canonical)}`).digest('hex')
   headers.authorization = `AWS4-HMAC-SHA256 Credential=${accessKeyId}/${scope}, SignedHeaders=${signed}, Signature=${signature}`
-  const response = await fetch(`https://${host}${uri}`, { method: 'POST', headers, body, signal: AbortSignal.timeout(10000) })
+  const response = await fetch(`https://${host}${uri}`, { method: 'POST', headers, body, signal: AbortSignal.timeout(GENERATION_TIMEOUT_MS) })
   if (response.status !== 202) throw new Error(`Could not start background generation (${response.status})`)
   await response.body?.cancel()
 }
