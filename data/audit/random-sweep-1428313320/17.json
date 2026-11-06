@@ -1,0 +1,327 @@
+{
+  "index": 17,
+  "label": "REB / Practice / P2-English-PB",
+  "request": {
+    "subject": "P2-English-PB",
+    "textbook_id": 146,
+    "topic_ids": [
+      1519,
+      1517
+    ],
+    "topics": [
+      "The zoo",
+      "Family members and household activities"
+    ],
+    "curriculum": "rwanda",
+    "grade": 2,
+    "className": "P2",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 39,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "How did the monkeys behave at the zoo?",
+        "options": [
+          "They took pictures",
+          "They roared loudly",
+          "They jumped and played",
+          "They were very big"
+        ],
+        "correct_answer": 2,
+        "explanation": "The passage mentions, 'Next, they saw the monkeys. The monkeys jumped and played.' This makes B. They jumped and played correct. The other options are incorrect as they describe the behaviour of other animals or actions taken by Tom's family: roaring (A) describes the lions, being very big (C) describes the elephants, and taking pictures (D) was done by Tom's mom.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "The zoo",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "The zoo"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "What did Tom's mom do at the zoo?",
+        "options": [
+          "She jumped and played",
+          "She roared loudly",
+          "She fed the birds",
+          "She took pictures"
+        ],
+        "correct_answer": 3,
+        "explanation": "The passage states, 'Tom's mom took pictures.' This makes B. She took pictures correct. The other options are incorrect as they describe actions taken by other characters or animals: feeding the birds (A) was done by Tom's dad, jumping and playing (C) was done by the monkeys, and roaring loudly (D) was done by the lions.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "The zoo",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "The zoo"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "How was the weather when Tom and his family were at the zoo?",
+        "options": [
+          "It was sunny",
+          "It was cloudy",
+          "It was raining",
+          "It was snowy"
+        ],
+        "correct_answer": 0,
+        "explanation": "The passage mentions, 'It was a sunny day.' This makes C. It was sunny correct. The other options are incorrect as they describe different weather conditions: raining (A), snowy (B), and cloudy (D).",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "The zoo",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "The zoo"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "What did Tom and his family see first at the zoo?",
+        "options": [
+          "Elephants",
+          "Lions",
+          "Birds",
+          "Monkeys"
+        ],
+        "correct_answer": 1,
+        "explanation": "The passage states, 'First, they saw the lions.' Therefore, the correct answer is C. Lions. The other options are animals they saw later in the passage.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "The zoo",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "The zoo"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "How did the lions behave at the zoo?",
+        "options": [
+          "They jumped and played",
+          "They roared loudly",
+          "They were very big",
+          "They had a picnic"
+        ],
+        "correct_answer": 1,
+        "explanation": "The passage mentions, 'The lions roared loudly.' Therefore, the correct answer is B. They roared loudly. The other options describe behaviours of different animals.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "The zoo",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "The zoo"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "What did Tom's dad do at the zoo?",
+        "options": [
+          "Roared loudly",
+          "Took pictures",
+          "Fed the birds",
+          "Jumped and played"
+        ],
+        "correct_answer": 2,
+        "explanation": "The passage mentions, 'Tom's dad fed the birds.' Therefore, the correct answer is C. Fed the birds. The other options describe actions done by other animals or family members.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Family members and household activities",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "Family members and household activities"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "Where did Tom and his family have their picnic?",
+        "options": [
+          "Under a big tree",
+          "In the lion's den",
+          "Next to the elephants",
+          "By the monkey cages"
+        ],
+        "correct_answer": 0,
+        "explanation": "The passage states, 'They had a picnic under a big tree.' Therefore, the correct answer is A. Under a big tree. The other options are locations mentioned in the passage but not where the picnic was held.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Family members and household activities",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "Family members and household activities"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What was the weather like on the day they went to the zoo?",
+        "options": [
+          "Snowy",
+          "Rainy",
+          "Cloudy",
+          "Sunny"
+        ],
+        "correct_answer": 3,
+        "explanation": "The passage mentions, 'It was a sunny day.' Therefore, the correct answer is C. Sunny. The other options are not mentioned in the passage.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "The zoo",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "The zoo"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "Which animal was described as being very big?",
+        "options": [
+          "Lions",
+          "Monkeys",
+          "Elephants",
+          "Birds"
+        ],
+        "correct_answer": 2,
+        "explanation": "The passage states, 'The elephants were very big.' Therefore, the correct answer is C. Elephants. The other options do not describe the size of the animals.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "The zoo",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "What did the monkeys do at the zoo?",
+        "options": [
+          "Roared loudly",
+          "Jumped and played",
+          "Took pictures",
+          "Fed the birds"
+        ],
+        "correct_answer": 1,
+        "explanation": "The passage mentions, 'The monkeys jumped and played.' Therefore, the correct answer is B. Jumped and played. The other options describe actions done by other animals or family members.",
+        "passage": "Tom and his family went to the zoo. They saw many animals. First, they saw the lions. The lions roared loudly. Next, they saw the monkeys. The monkeys jumped and played. Then, they saw the elephants. The elephants were very big. Tom's mom took pictures. Tom's dad fed the birds. They had a picnic under a big tree. It was a sunny day. Tom and his family had fun.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Family members and household activities",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "Family members and household activities"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "38455012-1af8-4546-8fd5-d8a674919f3e",
+    "subject": "P2-English-PB",
+    "topics": [
+      "The zoo",
+      "Family members and household activities"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mcq",
+    "textbook_id": 146,
+    "topic_ids": [
+      1519,
+      1517
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "explanation-contradicts-key",
+      "severity": "broken",
+      "index": 3,
+      "detail": "explanation says C is correct; the key says B"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "explanation-contradicts-key",
+      "severity": "broken",
+      "index": 7,
+      "detail": "explanation says C is correct; the key says D"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1",
+        "severity": "broken",
+        "detail": "Correct answer marked as 2 but should be 2 (0-indexed). However, explanation states 'B. They jumped and played' which is option index 2. Indexing inconsistency: correct_answer should be 2 (matching explanation), but options are labeled A-D in explanation while indexed 0-3 in data.",
+        "correction": "Clarify indexing: if correct_answer=2, explanation should reference option C (0-indexed), not B. Standardize to 0-indexed: correct_answer should remain 2."
+      },
+      {
+        "label": "2",
+        "severity": "broken",
+        "detail": "Correct answer marked as 3 but explanation states 'B. She took pictures'. Option B (index 1) is 'She roared loudly'; option D (index 3) is 'She took pictures'. Indexing mismatch between correct_answer value and explanation letter reference.",
+        "correction": "Correct answer should be 3 (0-indexed, matching 'She took pictures'). Explanation letter reference is incorrect; should state 'D. She took pictures' not 'B.'"
+      },
+      {
+        "label": "3",
+        "severity": "broken",
+        "detail": "Correct answer marked as 0 but explanation states 'C. It was sunny'. Option C (index 2) is 'It was raining'; option A (index 0) is 'It was sunny'. Indexing mismatch: correct_answer=0 is correct but explanation incorrectly references 'C' instead of 'A'.",
+        "correction": "Explanation should state 'A. It was sunny' not 'C. It was sunny'. Correct answer value 0 is accurate."
+      },
+      {
+        "label": "4",
+        "severity": "broken",
+        "detail": "Correct answer marked as 1 but explanation states 'C. Lions'. Option C (index 2) is 'Birds'; option B (index 1) is 'Lions'. Indexing mismatch: correct_answer=1 is correct but explanation incorrectly references 'C' instead of 'B'.",
+        "correction": "Explanation should state 'B. Lions' not 'C. Lions'. Correct answer value 1 is accurate."
+      },
+      {
+        "label": "8",
+        "severity": "poor",
+        "detail": "Question 8 duplicates Question 3 exactly (same passage, same question about weather, same answer 'sunny'). Repeated question violates assessment design standards.",
+        "correction": "Remove Question 8 or replace with distinct question from passage (e.g., about family members' activities or animal descriptions)."
+      },
+      {
+        "label": "10",
+        "severity": "poor",
+        "detail": "Question 10 duplicates Question 1 exactly (same passage, same question about monkeys' behavior, same answer 'jumped and played'). Repeated question violates assessment design standards.",
+        "correction": "Remove Question 10 or replace with distinct question covering untested content from passage."
+      }
+    ],
+    "summary": "Assessment contains 6 substantive issues: 4 indexing mismatches between correct_answer numeric values and explanation letter references (labels 1,2,3,4), and 2 exact question duplicates (labels 8 and 10). All MCQ options are unique within questions. Content is age-appropriate for Grade 2."
+  },
+  "totalSeconds": 45
+}

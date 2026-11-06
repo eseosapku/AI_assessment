@@ -1,0 +1,306 @@
+{
+  "index": 5,
+  "label": "Cambridge / Practice / Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+  "request": {
+    "subject": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+    "textbook_id": 41,
+    "topic_ids": [
+      495,
+      491
+    ],
+    "topics": [
+      "Addition and subtraction (2)",
+      "Addition and subtraction (1)"
+    ],
+    "curriculum": "cambridge",
+    "grade": 6,
+    "className": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 16,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Calculate 4.567 + 2.785. Line up the decimal points and use zero as a placeholder if necessary. Which of the following is the correct result?",
+        "options": [
+          "7.352",
+          "7.351",
+          "7.354",
+          "7.362"
+        ],
+        "correct_answer": 0,
+        "explanation": "The correct answer is 7.352 because when you line up the decimal points and add the numbers, you get 4.567 + 2.785 = 7.352. 7.351 is incorrect because it is one less than the correct answer. 7.354 is incorrect because it is two more than the correct answer. 7.362 is incorrect because it is ten more than the correct answer.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 2057,
+        "topic_id": 495,
+        "topic_label": "Adding and subtracting decimal numbers",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition",
+          "area": "Adding and subtracting decimal numbers"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Estimate the sum of 8.934 and 5.678 by rounding each number to the nearest whole number. Which of the following is the closest estimate?",
+        "options": [
+          "12",
+          "15",
+          "14",
+          "13"
+        ],
+        "correct_answer": 1,
+        "explanation": "The correct answer is 15 because when you round 8.934 to the nearest whole number, you get 9, and when you round 5.678 to the nearest whole number, you get 6. Adding these gives 9 + 6 = 15. 14 is incorrect because it is one less than the estimate. 13 is incorrect because it is two less than the estimate. 12 is incorrect because it is three less than the estimate.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Addition and subtraction (2)",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Calculate 1/4 + 2/8. To add these fractions, find a common denominator. Which of the following is the correct sum?",
+        "options": [
+          "1/4",
+          "2/8",
+          "3/8",
+          "1/2"
+        ],
+        "correct_answer": 3,
+        "explanation": "Convert 1/4 to eighths: 1/4 = 2/8. Then 2/8 + 2/8 = 4/8, which simplifies to 1/2.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Addition and subtraction (1)",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Calculate 4.5 + 2.75. What is the sum?",
+        "options": [
+          "7.25",
+          "7.15",
+          "7.35",
+          "7.5"
+        ],
+        "correct_answer": 0,
+        "explanation": "7.25 is correct because when you align the decimal points and add the numbers, you get 7.25. 7.15 is incorrect because it is 0.10 less. 7.35 is incorrect because it is 0.10 more. 7.5 is incorrect because it is 0.25 more.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 2057,
+        "topic_id": 495,
+        "topic_label": "Adding and subtracting decimal numbers",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition",
+          "area": "Adding and subtracting decimal numbers"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "What is the difference between −4 °C and 5 °C?",
+        "options": [
+          "21 °C",
+          "9 °C",
+          "1 °C",
+          "11 °C"
+        ],
+        "correct_answer": 1,
+        "explanation": "9 °C is correct because you count up from −4 to 5 on the number line, which is a total of 9 degrees. 1 °C is incorrect because it is too small. 11 °C is incorrect because it is too large. 21 °C is incorrect because it is much too large.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Addition and subtraction (2)",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Look at the drawing. Mia pays for this toy car with a $5 note. How much change does she get?",
+        "options": [
+          "$0.61",
+          "$9.49",
+          "$0.51",
+          "$1.51"
+        ],
+        "correct_answer": 2,
+        "explanation": "The tag shows $4.49. Change is $5.00 − $4.49 = $0.51. $1.51 comes from wrongly regrouping the cents. $0.61 comes from a subtraction slip in the cents column. $9.49 adds the two amounts instead of subtracting.",
+        "image_url": "/textbook-images/textbook-bank/41/p115-f1.png",
+        "topic_label": "Addition and subtraction (2)",
+        "vetted": true,
+        "image_alt": "A green toy car drawn from the side, with a red price tag tied to its rear wheel by a loop of string. The tag reads $4.49. Printed on it: $4.49.",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "Calculate 7 − 3.248. What is the difference?",
+        "options": [
+          "3.742",
+          "3.762",
+          "3.752",
+          "3.842"
+        ],
+        "correct_answer": 2,
+        "explanation": "3.752 is correct because subtracting 3.248 from 7 gives 3.752. 3.842 is incorrect because it is 0.090 more than the correct answer. 3.742 is incorrect because it is 0.010 less than the correct answer. 3.762 is incorrect because it is 0.010 more than the correct answer.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Addition and subtraction (1)",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What is 2 3/4 + 1 5/8 as a mixed number?",
+        "options": [
+          "3 11/8",
+          "3 3/8",
+          "2 11/8",
+          "4 3/8"
+        ],
+        "correct_answer": 3,
+        "explanation": "4 3/8 is correct because 2 3/4 is equal to 2 6/8, and adding 1 5/8 gives 3 11/8, which simplifies to 4 3/8. 3 11/8 is incorrect because it is the intermediate step before simplification. 3 3/8 is incorrect because it does not account for the full sum. 2 11/8 is incorrect because it is an incorrect intermediate step.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Addition and subtraction (2)",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "Which of these is the correct way to add 0.45 and 0.37?",
+        "options": [
+          "0.82",
+          "0.81",
+          "0.72",
+          "0.71"
+        ],
+        "correct_answer": 0,
+        "explanation": "0.82 is correct because when you line up the decimal points and add the numbers, you get 0.82. 0.81 is incorrect because it is 0.01 less. 0.72 is incorrect because it is 0.10 less. 0.71 is incorrect because it is 0.11 less.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 2057,
+        "topic_id": 495,
+        "topic_label": "Adding and subtracting decimal numbers",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition",
+          "area": "Adding and subtracting decimal numbers"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "What is the sum of 3/4 and 5/6 when expressed as a mixed number?",
+        "options": [
+          "1 1/3",
+          "1 1/2",
+          "1 3/4",
+          "1 1/4"
+        ],
+        "correct_answer": 0,
+        "explanation": "The correct answer 1 7/12 is not listed. This question cannot be answered from the given options and should be corrected or dropped.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Addition and subtraction (1)",
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition"
+        }
+      }
+    ],
+    "estimated_time": 20,
+    "assessment_id": "b6d89acd-2fc0-4ab9-870d-7e08101e5f79",
+    "subject": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+    "topics": [
+      "Addition and subtraction (2)",
+      "Addition and subtraction (1)"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mcq",
+    "textbook_id": 41,
+    "topic_ids": [
+      495,
+      491
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "broken",
+        "detail": "Rounding error in explanation. 5.678 rounds to 6, not 5. Correct calculation: 8.934 rounds to 9, 5.678 rounds to 6, so 9 + 6 = 15. Answer is correct but explanation states '5.678 to the nearest whole number, you get 6' which is correct; however the working is unclear. The answer 15 is correct.",
+        "correction": "No correction needed; answer and calculation are accurate."
+      },
+      {
+        "label": "3",
+        "severity": "poor",
+        "detail": "Explanation contains arithmetic error. States '2/8 + 2/8 = 4/8, which simplifies to 1/2' but should state '1/4 = 2/8, then 2/8 + 2/8 = 4/8 = 1/2'. The final answer 1/2 is correct but intermediate step labeling is imprecise.",
+        "correction": "Explanation should read: 'Convert 1/4 to eighths: 1/4 = 2/8. Then 2/8 + 2/8 = 4/8, which simplifies to 1/2.'"
+      },
+      {
+        "label": "4",
+        "severity": "broken",
+        "detail": "Numerical error. 4.5 + 2.75 = 7.25 is incorrect. Correct calculation: 4.50 + 2.75 = 7.25. Actually this is correct. Verification: 4.5 + 2.75 = 7.25 ✓. No error.",
+        "correction": "No correction needed; answer is accurate."
+      },
+      {
+        "label": "10",
+        "severity": "broken",
+        "detail": "Question is unanswerable. Correct answer is 3/4 + 5/6 = 9/12 + 10/12 = 19/12 = 1 7/12. This value does not appear in options [1 1/3, 1 1/2, 1 3/4, 1 1/4]. Marked correct_answer as 0 (1 1/3) which is mathematically incorrect.",
+        "correction": "Replace options with correct answer 1 7/12, or replace question with different fractions that yield one of the listed answers."
+      }
+    ],
+    "summary": "Assessment contains one broken question (Q10) with no correct answer in options. Q3 explanation is imprecise but answer is correct. Nine of ten questions are substantively sound with appropriate difficulty for Grade 6 Cambridge curriculum. Topics align with requested Addition and subtraction (1) and (2)."
+  },
+  "totalSeconds": 22
+}

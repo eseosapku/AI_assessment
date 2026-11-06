@@ -1,0 +1,1198 @@
+{
+  "index": 11,
+  "label": "REB / Exam / Biology S6 Student Book ",
+  "request": {
+    "subject": "Biology S6 Student Book ",
+    "textbook_id": 9,
+    "topic_ids": [
+      127
+    ],
+    "topics": [
+      "Variation"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 181,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are conducting an experiment to study the effect of light intensity on the rate of photosynthesis in a sample of Elodea. You measure the rate of photosynthesis by counting the number of oxygen bubbles produced per minute. The light source is placed at varying distances from the Elodea.",
+        "question": "Calculate the average rate of photosynthesis when the light source is at a distance of 30 cm.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the data for the distance of 30 cm.",
+          "Calculate the average rate of photosynthesis."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average rate of photosynthesis when the light source is at a distance of 30 cm — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the for the distance of 30 cm."
+        ],
+        "model_answer": "The data for the distance of 30 cm is 5, 6, and 4 bubbles per minute. The average rate of photosynthesis is (5 + 6 + 4) / 3 = 5 bubbles per minute.",
+        "explanation": "Find the average rate of photosynthesis by summing the rates and dividing by the number of measurements.",
+        "exam_question_id": "509f6cfb-6fb9-4ecf-8fcf-02d4d0894ec4:1",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are conducting an experiment to study the effect of light intensity on the rate of photosynthesis in a sample of Elodea. You measure the rate of photosynthesis by counting the number of oxygen bubbles produced per minute. The light source is placed at varying distances from the Elodea.",
+        "question": "Explain why the rate of photosynthesis decreases as the distance from the light source increases.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the relationship between light intensity and photosynthesis rate.",
+          "Explain the effect of distance on light intensity.",
+          "Describe how decreased light intensity affects photosynthesis rate."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "As the distance from the light source increases, the light intensity decreases due to the inverse square law. Lower light intensity means less energy for the photosynthetic reaction, resulting in a decreased rate of photosynthesis.",
+        "explanation": "Explain the inverse relationship between light intensity and distance, and how it affects the rate of photosynthesis.",
+        "exam_question_id": "509f6cfb-6fb9-4ecf-8fcf-02d4d0894ec4:1",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A biologist is studying genetic variation in a population of beetles. The beetles have three different colour morphs: red, green, and blue. The table below shows the frequency of each morph in the population.",
+        "question": "Calculate the percentage of beetles that are green.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the frequency of green beetles from the table.",
+          "Calculate the percentage of green beetles."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage of beetles that are green — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The frequency of green beetles is 25 out of 100. The percentage of green beetles is (25 / 100) * 100 = 25%.",
+        "explanation": "Find the percentage by dividing the frequency of green beetles by the total number of beetles and multiplying by 100.",
+        "exam_question_id": "509f6cfb-6fb9-4ecf-8fcf-02d4d0894ec4:2",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A biologist is studying genetic variation in a population of beetles. The beetles have three different colour morphs: red, green, and blue. The table below shows the frequency of each morph in the population.",
+        "question": "Explain why genetic variation is important for the survival of a species.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the role of genetic variation in adaptation.",
+          "Explain how genetic variation contributes to species survival.",
+          "Provide an example of how genetic variation can be beneficial."
+        ],
+        "hints": [
+          "Consider the impact of environmental changes."
+        ],
+        "model_answer": "Genetic variation provides a population with a range of traits that can be advantageous in changing environments. For example, if a disease affects beetles of a specific color, those with genetic variation for other colors may survive and reproduce, ensuring the survival of the species. This diversity helps the population adapt to new challenges and environments.",
+        "explanation": "Explain the importance of genetic variation for species survival and provide an example to illustrate the concept.",
+        "exam_question_id": "509f6cfb-6fb9-4ecf-8fcf-02d4d0894ec4:2",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In a study of natural selection, a researcher is observing a population of birds with different beak sizes. The birds feed on seeds of varying hardness. The table below shows the average beak size and the average seed hardness in different environments.",
+        "question": "Find the environment where the average beak size is closest to the average seed hardness.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the average beak size and average seed hardness from the table.",
+          "Compare the values to find the closest match."
+        ],
+        "hints": [
+          "Stay focused on this: Find the environment where the average beak size is closest to the average seed hardness — develop the idea fully rather than listing short points. Make sure you also cover: Compare the values to find the closest."
+        ],
+        "model_answer": "The average beak size is 10 mm and the average seed hardness is 12 mm in Environment A, 8 mm and 7 mm in Environment B, and 11 mm and 13 mm in Environment C. The closest match is Environment B with a difference of 1 mm.",
+        "explanation": "Find the environment where the difference between the average beak size and average seed hardness is the smallest.",
+        "exam_question_id": "509f6cfb-6fb9-4ecf-8fcf-02d4d0894ec4:3",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In a study of natural selection, a researcher is observing a population of birds with different beak sizes. The birds feed on seeds of varying hardness. The table below shows the average beak size and the average seed hardness in different environments.",
+        "question": "Explain how beak size affects the ability of birds to feed on seeds of different hardness.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the relationship between beak size and seed hardness.",
+          "Explain how beak size affects feeding efficiency.",
+          "Discuss the impact of beak size on survival and reproduction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how beak size affects the ability of birds to feed on seeds of different hardness — develop the idea fully rather than listing short points. Make sure you also cover: the between beak size and seed hardness.; how beak size affects; Discuss the impact of beak size on and."
+        ],
+        "model_answer": "Birds with larger beaks are better at cracking harder seeds, while birds with smaller beaks are better at cracking softer seeds. This relationship affects their feeding efficiency, as birds with beaks that match the hardness of the seeds they consume can feed more effectively. This, in turn, impacts their survival and reproduction, as more efficient feeders are more likely to survive and reproduce, passing on their advantageous traits to the next generation.",
+        "explanation": "Explain how beak size affects the birds' ability to feed on seeds of different hardness and the consequences for their survival and reproduction.",
+        "exam_question_id": "509f6cfb-6fb9-4ecf-8fcf-02d4d0894ec4:3",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the effect of light intensity on the rate of photosynthesis in a sample of Elodea (aquatic plant). You have measured the rate of oxygen production under different light intensities using a water displacement method. The data is as follows:\n\n| Light Intensity (lux) | Rate of Oxygen Production (ml/min) |\n|-----------------------|------------------------------------|\n| 10                    | 2.0                               |\n| 30                    | 4.5                               |\n| 50                    | 6.0                               |\n| 70                    | 7.0                               |\n| 90                    | 7.5                               |",
+        "question": "Calculate the average rate of oxygen production for light intensities between 30 lux and 70 lux.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the sum of rates at 30, 50, and 70 lux.",
+          "Correct division of the sum by the number of data points.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average rate of oxygen production for light intensities between 30 lux and 70 lux — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the sum of at 30, 50, and 70 lux.; Correct division of the sum by the number of data…."
+        ],
+        "model_answer": "The rates of oxygen production at 30 lux, 50 lux, and 70 lux are 4.5 ml/min, 6.0 ml/min, and 7.0 ml/min respectively. The sum of these rates is 4.5 + 6.0 + 7.0 = 17.5 ml/min. The average rate is 17.5 / 3 = 5.83 ml/min.",
+        "explanation": "Calculate the average rate of oxygen production by summing the rates at the specified light intensities and dividing by the number of data points.",
+        "exam_question_id": "28aba766-11da-4852-8b08-43122a366ccd:1",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the effect of light intensity on the rate of photosynthesis in a sample of Elodea (aquatic plant). You have measured the rate of oxygen production under different light intensities using a water displacement method. The data is as follows:\n\n| Light Intensity (lux) | Rate of Oxygen Production (ml/min) |\n|-----------------------|------------------------------------|\n| 10                    | 2.0                               |\n| 30                    | 4.5                               |\n| 50                    | 6.0                               |\n| 70                    | 7.0                               |\n| 90                    | 7.5                               |",
+        "question": "Explain why the rate of oxygen production increases with light intensity up to a certain point, but then levels off.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the role of light intensity in photosynthesis.",
+          "Explanation of the light-dependent reaction's limitation.",
+          "Description of how these factors lead to a leveling off of the rate."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the rate of oxygen production increases with light intensity up to a certain point, but then levels off — develop the idea fully rather than listing short points. Make sure you also cover: Description of how these lead to a leveling off of the rate."
+        ],
+        "model_answer": "The rate of oxygen production increases with light intensity because more light provides more energy for the light-dependent reactions of photosynthesis, which produce ATP and NADPH. However, once the light intensity reaches a certain point, other factors such as the concentration of carbon dioxide and the efficiency of the enzyme RuBisCO become limiting, causing the rate of oxygen production to level off.",
+        "explanation": "Explain how light intensity affects the rate of photosynthesis and why the rate levels off despite increasing light intensity.",
+        "exam_question_id": "28aba766-11da-4852-8b08-43122a366ccd:1",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the effect of different fertilisers on the growth of pea plants. You have applied three different fertilisers (A, B, and C) to separate groups of plants and measured their growth in centimetres over a month. The data is as follows:\n\n| Fertiliser | Average Growth (cm) |\n|------------|----------------------|\n| A          | 15                  |\n| B          | 20                  |\n| C          | 18                  |",
+        "question": "State which fertiliser resulted in the highest average growth of pea plants.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the fertiliser with the highest average growth.",
+          "Correct statement of the result."
+        ],
+        "hints": [
+          "Stay focused on this: State which fertiliser resulted in the highest average growth of pea plants — develop the idea fully rather than listing short points. Make sure you also cover: Correct statement of the result."
+        ],
+        "model_answer": "Fertilizer B resulted in the highest average growth of 20 cm.",
+        "explanation": "Identify and state the fertiliser that led to the highest average growth based on the provided data.",
+        "exam_question_id": "28aba766-11da-4852-8b08-43122a366ccd:2",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the effect of different fertilisers on the growth of pea plants. You have applied three different fertilisers (A, B, and C) to separate groups of plants and measured their growth in centimetres over a month. The data is as follows:\n\n| Fertiliser | Average Growth (cm) |\n|------------|----------------------|\n| A          | 15                  |\n| B          | 20                  |\n| C          | 18                  |",
+        "question": "Explain why fertiliser B might be more effective than fertilisers A and C in promoting plant growth.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the key nutrients in fertiliser B.",
+          "Explanation of how these nutrients support plant growth.",
+          "Comparison with the nutrients in fertilisers A and C."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why fertiliser B might be more effective than fertilisers A and C in promoting plant growth — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the key in fertiliser B.; Comparison with the in fertilisers A and C."
+        ],
+        "model_answer": "Fertilizer B might be more effective than fertilizers A and C because it contains a higher concentration of essential nutrients such as nitrogen, phosphorus, and potassium, which are crucial for plant growth. These nutrients support various aspects of plant development, including root development, leaf production, and overall vigor. Fertilizer B's balanced nutrient profile likely provides the optimal conditions for maximum growth compared to fertilizers A and C, which may have lower concentrations of one or more of these essential nutrients.",
+        "explanation": "Explain the potential reasons for the effectiveness of fertiliser B in promoting plant growth based on its nutrient content.",
+        "exam_question_id": "28aba766-11da-4852-8b08-43122a366ccd:2",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data:\n\n| Sunflower ID | Height (cm) |\n|--------------|-------------|\n| 1            | 150        |\n| 2            | 160        |\n| 3            | 145        |\n| 4            | 165        |\n| 5            | 155        |\n| 6            | 170        |\n| 7            | 140        |\n| 8            | 158        |\n| 9            | 162        |\n| 10           | 152        |",
+        "question": "Calculate the mean height of the sunflowers.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct summation of all the heights.",
+          "Correct division by the number of sunflowers.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mean height of the sunflowers — develop the idea fully rather than listing short points. Make sure you also cover: Correct summation of all the; Correct division by the number of sunflowers.; Correct final answer."
+        ],
+        "model_answer": "The heights of the sunflowers are 150 cm, 160 cm, 145 cm, 165 cm, 155 cm, 170 cm, 140 cm, 158 cm, 162 cm, and 152 cm. The sum of these heights is 150 + 160 + 145 + 165 + 155 + 170 + 140 + 158 + 162 + 152 = 1557 cm. The mean height is 1557 / 10 = 155.7 cm.",
+        "explanation": "Calculate the mean height by summing all the individual sunflower heights and dividing by the number of sunflowers.",
+        "exam_question_id": "28aba766-11da-4852-8b08-43122a366ccd:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data:\n\n| Sunflower ID | Height (cm) |\n|--------------|-------------|\n| 1            | 150        |\n| 2            | 160        |\n| 3            | 145        |\n| 4            | 165        |\n| 5            | 155        |\n| 6            | 170        |\n| 7            | 140        |\n| 8            | 158        |\n| 9            | 162        |\n| 10           | 152        |",
+        "question": "Describe how the variation in the height of the sunflowers could be beneficial to the population.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the concept of variation in a population.",
+          "Description of how variation can lead to adaptation and survival.",
+          "Connection to the specific context of sunflower height."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the variation in the height of the sunflowers could be beneficial to the population — develop the idea fully rather than listing short points. Make sure you also cover: Description of how variation can lead to adaptation and; Connection to the specific context of sunflower height."
+        ],
+        "model_answer": "Variation in the height of sunflowers can be beneficial to the population because it increases the chances of survival in varying environmental conditions. Taller sunflowers may have a competitive advantage in accessing sunlight, while shorter sunflowers might be better adapted to environments with lower light levels. This diversity in height ensures that the population as a whole can adapt to different conditions, which can enhance the overall fitness and survival of the species.",
+        "explanation": "Explain how variation in sunflower height can provide benefits to the population in terms of adaptability and survival.",
+        "exam_question_id": "28aba766-11da-4852-8b08-43122a366ccd:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are observing two populations of beetles. Population A has a mean wing length of 5 mm with a standard deviation of 0.5 mm. Population B has a mean wing length of 5.2 mm with a standard deviation of 0.3 mm.",
+        "question": "Calculate the coefficient of variation for each population.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the coefficient of variation for Population A",
+          "Calculate the coefficient of variation for Population B",
+          "Compare the coefficients of variation between the two populations"
+        ],
+        "hints": [
+          "Recall that the coefficient of variation is the standard deviation divided by the mean, expressed as a percentage."
+        ],
+        "model_answer": "For Population A: (0.5/5) * 100 = 10%. For Population B: (0.3/5.2) * 100 = 5.77%. Population A has a higher coefficient of variation, indicating more variation in wing length relative to the mean.",
+        "explanation": "The coefficient of variation helps to understand the extent of variation in relation to the mean, which is useful when comparing different populations.",
+        "exam_question_id": "4992a0f4-bdec-4bdf-9561-4368545c769a:1",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are observing two populations of beetles. Population A has a mean wing length of 5 mm with a standard deviation of 0.5 mm. Population B has a mean wing length of 5.2 mm with a standard deviation of 0.3 mm.",
+        "question": "Explain why Population B might have a lower coefficient of variation in wing length.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the relationship between standard deviation and mean",
+          "Relate this to the given data for both populations"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why Population B might have a lower coefficient of variation in wing length — develop the idea fully rather than listing short points. Make sure you also cover: the relationship between and; Relate this to the given data for both populations."
+        ],
+        "model_answer": "Population B has a lower standard deviation relative to its mean, which results in a lower coefficient of variation. This indicates that the wing lengths in Population B are more consistent relative to their mean compared to Population A.",
+        "explanation": "A lower coefficient of variation suggests that the variation is less significant in relation to the mean, which can be due to genetic or environmental factors.",
+        "exam_question_id": "4992a0f4-bdec-4bdf-9561-4368545c769a:1",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In an experiment, you measure the growth rate of a plant under two different light conditions: Condition X and Condition Y. The following data was collected over 5 days: \n\n| Day | Condition X Growth (cm) | Condition Y Growth (cm) |\n|-----|-------------------------|-------------------------|\n| 1   | 1.2                     | 1.5                     |\n| 2   | 1.4                     | 1.7                     |\n| 3   | 1.5                     | 1.6                     |\n| 4   | 1.6                     | 1.8                     |\n| 5   | 1.7                     | 1.9                     |",
+        "question": "Calculate the average growth rate for each condition over the 5 days.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the total growth for Condition X",
+          "Calculate the total growth for Condition Y",
+          "Divide the total growth by the number of days for each condition"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average growth rate for each condition over the 5 days — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the total growth for Condition X; Calculate the total growth for Condition Y; Divide the total growth by the number of days for each…."
+        ],
+        "model_answer": "For Condition X: (1.2 + 1.4 + 1.5 + 1.6 + 1.7) / 5 = 1.48 cm/day. For Condition Y: (1.5 + 1.7 + 1.6 + 1.8 + 1.9) / 5 = 1.7 cm/day.",
+        "explanation": "The average growth rate provides a measure of how much the plant grows on average each day under each condition.",
+        "exam_question_id": "4992a0f4-bdec-4bdf-9561-4368545c769a:2",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In an experiment, you measure the growth rate of a plant under two different light conditions: Condition X and Condition Y. The following data was collected over 5 days: \n\n| Day | Condition X Growth (cm) | Condition Y Growth (cm) |\n|-----|-------------------------|-------------------------|\n| 1   | 1.2                     | 1.5                     |\n| 2   | 1.4                     | 1.7                     |\n| 3   | 1.5                     | 1.6                     |\n| 4   | 1.6                     | 1.8                     |\n| 5   | 1.7                     | 1.9                     |",
+        "question": "Explain why the growth rate for Condition Y is consistently higher than for Condition X.",
+        "marks": 2,
+        "marking_criteria": [
+          "Discuss the impact of light on plant growth",
+          "Relate this to the given data for both conditions"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the growth rate for Condition Y is consistently higher than for Condition X — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the impact of on growth; Relate this to the given data for both."
+        ],
+        "model_answer": "Condition Y likely provides more optimal light conditions for the plant, leading to higher growth rates. This could be due to better light intensity, wavelength, or duration, which enhances photosynthesis and energy production in the plant.",
+        "explanation": "Understanding the factors that influence growth rates can help in optimising conditions for better plant growth.",
+        "exam_question_id": "4992a0f4-bdec-4bdf-9561-4368545c769a:2",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are studying the variation in seed size in a plant species. You collect a sample of seeds and measure their diameters. The results are as follows: \n\n| Seed Number | Diameter (mm) |\n|-------------|---------------|\n| 1           | 2.1          |\n| 2           | 2.3          |\n| 3           | 2.0          |\n| 4           | 2.2          |\n| 5           | 2.4          |",
+        "question": "Calculate the mean diameter of the seeds.",
+        "marks": 2,
+        "marking_criteria": [
+          "Sum the diameters of all seeds",
+          "Divide the total by the number of seeds"
+        ],
+        "hints": [
+          "Add up all the diameter measurements and then divide by the number of seeds."
+        ],
+        "model_answer": "(2.1 + 2.3 + 2.0 + 2.2 + 2.4) / 5 = 2.2 mm",
+        "explanation": "The mean diameter gives a central value of the seed sizes, which is useful for understanding the typical size of seeds in the population.",
+        "exam_question_id": "4992a0f4-bdec-4bdf-9561-4368545c769a:3",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are studying the variation in seed size in a plant species. You collect a sample of seeds and measure their diameters. The results are as follows: \n\n| Seed Number | Diameter (mm) |\n|-------------|---------------|\n| 1           | 2.1          |\n| 2           | 2.3          |\n| 3           | 2.0          |\n| 4           | 2.2          |\n| 5           | 2.4          |",
+        "question": "Describe how you would improve the accuracy of your measurements if you were to repeat the experiment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Suggest a method to reduce measurement error",
+          "Explain how this method would improve accuracy",
+          "Consider possible sources of error in the original measurements"
+        ],
+        "hints": [
+          "Think about using more precise instruments or techniques to measure the seed diameters."
+        ],
+        "model_answer": "To improve accuracy, I would use a digital caliper with a higher precision (e.g., 0.01 mm) instead of a ruler. This would reduce human error and provide more consistent measurements. Additionally, ensuring that each seed is measured multiple times and taking the average could further improve accuracy.",
+        "explanation": "Improving measurement techniques can lead to more reliable and precise data, which is crucial for understanding biological variation.",
+        "exam_question_id": "4992a0f4-bdec-4bdf-9561-4368545c769a:3",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A biology class is studying the variation in the length of sunflower petals. They measured the length of petals from 10 different sunflower plants. The data is recorded in the table below.",
+        "question": "Calculate the average petal length.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the petal lengths.",
+          "Divide the sum by the number of samples.",
+          "Provide the correct average value with units."
+        ],
+        "hints": [
+          "Remember to include the units in your answer."
+        ],
+        "model_answer": "The total petal length is 450 mm. Dividing by 10 gives an average length of 45 mm.",
+        "explanation": "To find the average petal length, add up all the individual petal lengths and then divide by the number of petals measured.",
+        "exam_question_id": "5bf391c8-b2b1-4c80-aa8c-8817978bd173:1",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A biology class is studying the variation in the length of sunflower petals. They measured the length of petals from 10 different sunflower plants. The data is recorded in the table below.",
+        "question": "Explain why variation in petal length might be advantageous for the sunflower plants.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify at least one benefit of variation.",
+          "Relate the benefit to the survival or reproduction of the plants.",
+          "Provide a logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why variation in petal length might be advantageous for the sunflower plants — develop the idea fully rather than listing short points. Make sure you also cover: Identify at least one benefit of variation.; Relate the benefit to the survival or of the plants.; Provide a logical…."
+        ],
+        "model_answer": "Variation in petal length can attract a wider range of pollinators, increasing the chances of successful pollination and reproduction. Different lengths might appeal to different types of pollinators, ensuring that the plants can reproduce even if one type of pollinator is less abundant.",
+        "explanation": "Variation in petal length can help sunflower plants attract a broader range of pollinators, which can enhance their reproductive success.",
+        "exam_question_id": "5bf391c8-b2b1-4c80-aa8c-8817978bd173:1",
+        "topic_label": "Variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Variation (Variation)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data: 120 cm, 130 cm, 125 cm, 115 cm, 128 cm, 135 cm, 122 cm, 132 cm, 126 cm, 129 cm.",
+        "question": "Calculate the mean height of the sunflowers.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the heights.",
+          "Divide the sum by the number of sunflowers.",
+          "Provide the final answer in centimetres."
+        ],
+        "hints": [
+          "Sum all the heights and then divide by 10."
+        ],
+        "model_answer": "Sum of heights = 120 + 130 + 125 + 115 + 128 + 135 + 122 + 132 + 126 + 129 = 1252 cm. Mean height = 1252 cm / 10 = 125.2 cm.",
+        "explanation": "To find the mean height of the sunflowers, add all the recorded heights and then divide by the total number of sunflowers measured.",
+        "exam_question_id": "cdd1676f-bc94-4705-954a-1a00c8f18105:1",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data: 120 cm, 130 cm, 125 cm, 115 cm, 128 cm, 135 cm, 122 cm, 132 cm, 126 cm, 129 cm.",
+        "question": "Describe how the variation in the height of the sunflowers could be beneficial to the population.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the concept of variation and its benefits.",
+          "Relate the explanation to sunflowers specifically."
+        ],
+        "hints": [
+          "Consider how different heights might affect the ability to access sunlight and compete for resources."
+        ],
+        "model_answer": "Variation in the height of sunflowers can be beneficial as it allows for a range of competitive advantages. Taller sunflowers can access more sunlight, which is crucial for photosynthesis, while shorter sunflowers may be more resilient to strong winds. This variation can help the population survive and reproduce under different environmental conditions.",
+        "explanation": "Variation in height can lead to different competitive advantages for sunflowers, such as better access to sunlight for taller plants and resilience to wind for shorter plants.",
+        "exam_question_id": "cdd1676f-bc94-4705-954a-1a00c8f18105:1",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In an experiment, you measure the growth rate of a plant under two different light conditions: Condition X and Condition Y. The following data was collected over 5 days: Condition X: 1.2 cm/day, 1.3 cm/day, 1.1 cm/day, 1.4 cm/day, 1.2 cm/day. Condition Y: 1.5 cm/day, 1.6 cm/day, 1.4 cm/day, 1.7 cm/day, 1.5 cm/day.",
+        "question": "Calculate the average growth rate for each condition over the 5 days.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the growth rates for each condition.",
+          "Divide the sum by the number of days (5).",
+          "Provide the final answers in cm/day."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average growth rate for each condition over the 5 days — develop the idea fully rather than listing short points. Make sure you also cover: Divide the sum by the number of days (5).; Provide the final answers in cm/day."
+        ],
+        "model_answer": "Average growth rate for Condition X = (1.2 + 1.3 + 1.1 + 1.4 + 1.2) / 5 = 1.24 cm/day. Average growth rate for Condition Y = (1.5 + 1.6 + 1.4 + 1.7 + 1.5) / 5 = 1.54 cm/day.",
+        "explanation": "To find the average growth rate, add all the daily growth rates for each condition and then divide by the number of days (5).",
+        "exam_question_id": "cdd1676f-bc94-4705-954a-1a00c8f18105:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In an experiment, you measure the growth rate of a plant under two different light conditions: Condition X and Condition Y. The following data was collected over 5 days: Condition X: 1.2 cm/day, 1.3 cm/day, 1.1 cm/day, 1.4 cm/day, 1.2 cm/day. Condition Y: 1.5 cm/day, 1.6 cm/day, 1.4 cm/day, 1.7 cm/day, 1.5 cm/day.",
+        "question": "Explain why the growth rate for Condition Y is consistently higher than for Condition X.",
+        "marks": 2,
+        "marking_criteria": [
+          "Relate the growth rates to the light conditions.",
+          "Explain the biological reason for the difference."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the growth rate for Condition Y is consistently higher than for Condition X — develop the idea fully rather than listing short points. Make sure you also cover: Relate the growth to the conditions.; the biological reason for the difference."
+        ],
+        "model_answer": "The growth rate for Condition Y is consistently higher than for Condition X because the plants under Condition Y receive more light, leading to higher rates of photosynthesis. More light intensity typically results in more energy for the plant to grow, hence the higher growth rates observed in Condition Y.",
+        "explanation": "Higher light intensity generally increases the rate of photosynthesis, providing more energy for plant growth, which explains the higher growth rates in Condition Y.",
+        "exam_question_id": "cdd1676f-bc94-4705-954a-1a00c8f18105:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the effect of different fertilisers on the growth of pea plants. You have applied three different fertilisers (A, B, and C) to separate groups of plants and measured their growth in centimetres over 2 weeks. The results are shown in the table below:\n\n| Fertiliser | Plant 1 (cm) | Plant 2 (cm) | Plant 3 (cm) | Plant 4 (cm) | Plant 5 (cm) |\n| Fertiliser A | 10 | 12 | 9 | 11 | 10 |\n| Fertiliser B | 15 | 16 | 14 | 15 | 16 |\n| Fertiliser C | 8 | 9 | 7 | 8 | 8 |\n",
+        "question": "State which fertiliser resulted in the highest average growth of pea plants.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct fertiliser.",
+          "Calculate the average growth for the stated fertiliser."
+        ],
+        "hints": [
+          "Stay focused on this: State which fertiliser resulted in the highest average growth of pea plants — develop the idea fully rather than listing short points. Make sure you also cover: the correct fertiliser.; Calculate the average growth for the stated fertiliser."
+        ],
+        "model_answer": "Fertilizer B resulted in the highest average growth of pea plants. \n\nAverage growth for Fertilizer A: (10 + 12 + 9 + 11 + 10) / 5 = 10.4 cm \nAverage growth for Fertilizer B: (15 + 16 + 14 + 15 + 16) / 5 = 15.2 cm \nAverage growth for Fertilizer C: (8 + 9 + 7 + 8 + 8) / 5 = 8 cm \n\nFertilizer B has the highest average growth of 15.2 cm.",
+        "explanation": "Calculate the average growth for each fertiliser by summing the growth measurements for each plant and dividing by the number of plants. The fertiliser with the highest average growth is the one that resulted in the highest average growth of pea plants.",
+        "exam_question_id": "acf725ff-869d-400d-94d3-4186c938d167:1",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the effect of different fertilisers on the growth of pea plants. You have applied three different fertilisers (A, B, and C) to separate groups of plants and measured their growth in centimetres over 2 weeks. The results are shown in the table below:\n\n| Fertiliser | Plant 1 (cm) | Plant 2 (cm) | Plant 3 (cm) | Plant 4 (cm) | Plant 5 (cm) |\n| Fertiliser A | 10 | 12 | 9 | 11 | 10 |\n| Fertiliser B | 15 | 16 | 14 | 15 | 16 |\n| Fertiliser C | 8 | 9 | 7 | 8 | 8 |\n",
+        "question": "Explain why fertiliser B might be more effective than fertilisers A and C in promoting plant growth.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of nutrients in plant growth.",
+          "Discuss the composition of Fertiliser B.",
+          "Compare the effectiveness of Fertiliser B with A and C."
+        ],
+        "hints": [
+          "Consider the nutrients provided by each fertiliser."
+        ],
+        "model_answer": "Fertilizer B might be more effective than fertilizers A and C in promoting plant growth because it likely contains a balanced mix of essential nutrients that plants need for healthy growth. Fertilizer B could have higher levels of nitrogen, phosphorus, and potassium, which are crucial for plant development. These nutrients support various processes such as cell division, energy transfer, and photosynthesis, leading to better overall growth. In contrast, fertilizers A and C might lack one or more of these essential nutrients, resulting in less effective plant growth.",
+        "explanation": "Explain the role of nutrients such as nitrogen, phosphorus, and potassium in plant growth. Discuss the composition of Fertiliser B and how it might provide a balanced mix of these nutrients. Compare the effectiveness of Fertiliser B with A and C by considering the impact of nutrient availability on plant growth.",
+        "exam_question_id": "acf725ff-869d-400d-94d3-4186c938d167:1",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data:\n\n| Sunflower | Height (cm) |\n| Sunflower 1 | 120 |\n| Sunflower 2 | 115 |\n| Sunflower 3 | 130 |\n| Sunflower 4 | 125 |\n| Sunflower 5 | 110 |\n| Sunflower 6 | 128 |\n| Sunflower 7 | 135 |\n| Sunflower 8 | 122 |\n| Sunflower 9 | 118 |\n| Sunflower 10 | 132 |\n",
+        "question": "Calculate the mean height of the sunflowers.",
+        "marks": 2,
+        "marking_criteria": [
+          "Sum the heights of all sunflowers.",
+          "Divide the sum by the number of sunflowers."
+        ],
+        "hints": [
+          "Add up all the heights and then divide by 10."
+        ],
+        "model_answer": "Mean height = (120 + 115 + 130 + 125 + 110 + 128 + 135 + 122 + 118 + 132) / 10 = 123.5 cm",
+        "explanation": "To calculate the mean height of the sunflowers, add up all the heights and then divide by the number of sunflowers (10 in this case).",
+        "exam_question_id": "acf725ff-869d-400d-94d3-4186c938d167:2",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data:\n\n| Sunflower | Height (cm) |\n| Sunflower 1 | 120 |\n| Sunflower 2 | 115 |\n| Sunflower 3 | 130 |\n| Sunflower 4 | 125 |\n| Sunflower 5 | 110 |\n| Sunflower 6 | 128 |\n| Sunflower 7 | 135 |\n| Sunflower 8 | 122 |\n| Sunflower 9 | 118 |\n| Sunflower 10 | 132 |\n",
+        "question": "Describe how the variation in the height of the sunflowers could be beneficial to the population.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the concept of genetic variation.",
+          "Discuss how variation can lead to adaptation.",
+          "Relate the benefits to the survival and reproduction of the population."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the variation in the height of the sunflowers could be beneficial to the population — develop the idea fully rather than listing short points. Make sure you also cover: the concept of genetic variation.; Discuss how variation can lead to adaptation.; Relate the benefits to the…."
+        ],
+        "model_answer": "Variation in the height of the sunflowers could be beneficial to the population by allowing for a range of adaptations to different environmental conditions. Taller sunflowers may have an advantage in accessing more sunlight, which is crucial for photosynthesis and overall growth. Shorter sunflowers might be better adapted to environments with limited space or competition for resources. This diversity in height ensures that some individuals are better suited to survive and reproduce under varying conditions, contributing to the overall resilience and adaptability of the population.",
+        "explanation": "Explain the concept of genetic variation and how it arises. Discuss how variation can lead to adaptation by allowing different traits to be favoured under different conditions. Relate these benefits to the survival and reproduction of the population, considering factors such as access to sunlight and competition for resources.",
+        "exam_question_id": "acf725ff-869d-400d-94d3-4186c938d167:2",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data: 80 cm, 85 cm, 90 cm, 95 cm, 100 cm, 105 cm, 110 cm, 115 cm, 120 cm, 125 cm.",
+        "question": "Calculate the mean height of the sunflowers.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the heights.",
+          "Divide the sum by the number of measurements.",
+          "Provide the final answer in centimetres."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mean height of the sunflowers — develop the idea fully rather than listing short points. Make sure you also cover: Correctly sum the heights.; Divide the sum by the number of measurements.; Provide the final answer in centimetres."
+        ],
+        "model_answer": "Mean height = (80 + 85 + 90 + 95 + 100 + 105 + 110 + 115 + 120 + 125) / 10 = 1050 / 10 = 105 cm",
+        "explanation": "Calculate the mean by summing all the measurements and dividing by the number of measurements.",
+        "exam_question_id": "7ac7413d-a413-4721-bf61-d9e387812514:1",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data: 80 cm, 85 cm, 90 cm, 95 cm, 100 cm, 105 cm, 110 cm, 115 cm, 120 cm, 125 cm.",
+        "question": "Describe how the variation in the height of the sunflowers could be beneficial to the population.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the potential benefits of variation in height.",
+          "Relate the explanation to survival and reproduction."
+        ],
+        "hints": [
+          "Consider how different heights might affect exposure to sunlight and competition for resources."
+        ],
+        "model_answer": "Variation in height allows some sunflowers to capture more sunlight, which can improve their growth and reproductive success. Taller plants may outcompete shorter ones for light, leading to a more robust population overall.",
+        "explanation": "Discuss the ecological advantages of height variation in terms of resource acquisition and competition.",
+        "exam_question_id": "7ac7413d-a413-4721-bf61-d9e387812514:1",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 31,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In an experiment to investigate the effect of light intensity on the growth of pea plants, a group of students used plants of the same variety and grew them under different light intensities. They measured the height of the plants over a period of 5 days. The data is recorded in the table below: \n\n| Day | Condition X (cm) | Condition Y (cm) |\n|-----|------------------|------------------|\n| 1   | 2                | 3                |\n| 2   | 4                | 6                |\n| 3   | 6                | 9                |\n| 4   | 8                | 12               |\n| 5   | 10               | 15               |",
+        "question": "Calculate the average growth rate for each condition over the 5 days.",
+        "marks": 2,
+        "marking_criteria": [
+          "Sum the growth for each condition over 5 days.",
+          "Divide the sum by 5 to get the average growth rate."
+        ],
+        "hints": [
+          "Calculate the total growth for each condition and then divide by the number of days."
+        ],
+        "model_answer": "Condition X: Average growth rate = (2 + 4 + 6 + 8 + 10) / 5 = 30 / 5 = 6 cm/day\nCondition Y: Average growth rate = (3 + 6 + 9 + 12 + 15) / 5 = 45 / 5 = 9 cm/day",
+        "explanation": "Calculate the average growth rate by summing the daily growth values and dividing by the number of days.",
+        "exam_question_id": "7ac7413d-a413-4721-bf61-d9e387812514:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 32,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In an experiment to investigate the effect of light intensity on the growth of pea plants, a group of students used plants of the same variety and grew them under different light intensities. They measured the height of the plants over a period of 5 days. The data is recorded in the table below: \n\n| Day | Condition X (cm) | Condition Y (cm) |\n|-----|------------------|------------------|\n| 1   | 2                | 3                |\n| 2   | 4                | 6                |\n| 3   | 6                | 9                |\n| 4   | 8                | 12               |\n| 5   | 10               | 15               |",
+        "question": "Explain why the growth rate for Condition Y is consistently higher than for Condition X.",
+        "marks": 2,
+        "marking_criteria": [
+          "Relate the growth rate to light intensity.",
+          "Explain the physiological or biochemical processes involved."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the growth rate for Condition Y is consistently higher than for Condition X — develop the idea fully rather than listing short points. Make sure you also cover: the physiological or biochemical processes involved."
+        ],
+        "model_answer": "The growth rate for Condition Y is higher because the plants under Condition Y receive more light intensity, which leads to higher rates of photosynthesis. This increased photosynthesis provides more energy and resources for growth, resulting in a higher average growth rate.",
+        "explanation": "Explain the relationship between light intensity, photosynthesis, and plant growth.",
+        "exam_question_id": "7ac7413d-a413-4721-bf61-d9e387812514:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 33,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the variation in the length of sunflower petals. You measured the length of petals from 10 different sunflower plants. The data is recorded in the table below.\n\n| Plant | Petal Length (cm) |\n|-------|-------------------|\n| 1     | 6.0               |\n| 2     | 6.5               |\n| 3     | 5.8               |\n| 4     | 6.3               |\n| 5     | 5.9               |\n| 6     | 6.1               |\n| 7     | 6.4               |\n| 8     | 5.7               |\n| 9     | 6.2               |\n| 10    | 6.0               |",
+        "question": "Calculate the average petal length.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the petal lengths (6.0, 6.5, 5.8, 6.3, 5.9, 6.1, 6.4, 5.7, 6.2, 6.0).",
+          "Correctly divide the sum by the number of plants (10)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average petal length — develop the idea fully rather than listing short points. Make sure you also cover: Correctly divide the sum by the number of plants (10)."
+        ],
+        "model_answer": "Sum of petal lengths = 6.0 + 6.5 + 5.8 + 6.3 + 5.9 + 6.1 + 6.4 + 5.7 + 6.2 + 6.0 = 61.9 cm\nAverage petal length = 61.9 cm / 10 = 6.19 cm",
+        "explanation": "Calculate the total length of all petals and then divide by the number of plants to find the average.",
+        "exam_question_id": "a4cf9aad-27b2-4d73-a611-d5f37d907084:1",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 34,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the variation in the length of sunflower petals. You measured the length of petals from 10 different sunflower plants. The data is recorded in the table below.\n\n| Plant | Petal Length (cm) |\n|-------|-------------------|\n| 1     | 6.0               |\n| 2     | 6.5               |\n| 3     | 5.8               |\n| 4     | 6.3               |\n| 5     | 5.9               |\n| 6     | 6.1               |\n| 7     | 6.4               |\n| 8     | 5.7               |\n| 9     | 6.2               |\n| 10    | 6.0               |",
+        "question": "Explain why variation in petal length might be advantageous for the sunflower plants.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the role of variation in adaptation.",
+          "Explain how different petal lengths can affect pollination.",
+          "Discuss the potential benefits of variation to the population's survival."
+        ],
+        "hints": [
+          "Think about how different traits can help organisms survive and reproduce."
+        ],
+        "model_answer": "Variation in petal length can be advantageous for sunflower plants because it can lead to better adaptation to different pollinators. Some pollinators may prefer longer petals while others may prefer shorter ones. This variation increases the chances that some plants will be pollinated successfully, ensuring the continuation of the species. Additionally, if one type of pollinator becomes less common, plants with different petal lengths may still be pollinated, providing a survival advantage to the population.",
+        "explanation": "Consider the ecological roles of different traits and how they can benefit the survival and reproduction of organisms.",
+        "exam_question_id": "a4cf9aad-27b2-4d73-a611-d5f37d907084:1",
+        "topic_label": "Causes of variation in living things (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of variation in living things (Variation)"
+        }
+      },
+      {
+        "id": 35,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data: 110 cm, 115 cm, 120 cm, 125 cm, 130 cm, 135 cm, 140 cm, 145 cm, 150 cm, 155 cm.",
+        "question": "Calculate the mean height of the sunflowers.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the heights",
+          "Divide the sum by the number of samples",
+          "Provide the final answer in cm"
+        ],
+        "hints": [
+          "Remember to use the formula for the mean."
+        ],
+        "model_answer": "The heights are: 110, 115, 120, 125, 130, 135, 140, 145, 150, 155 cm. Sum = 1330 cm. Mean = 1330 / 10 = 133 cm.",
+        "explanation": "To find the mean height, add up all the heights and divide by the number of sunflowers.",
+        "exam_question_id": "6a2dcd7d-5ce5-45a9-8d57-33696f624862:2",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 36,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the variation in the length of sunflowers (Helianthus annuus) in a field. You have measured the height of 10 randomly selected sunflowers and recorded the following data: 110 cm, 115 cm, 120 cm, 125 cm, 130 cm, 135 cm, 140 cm, 145 cm, 150 cm, 155 cm.",
+        "question": "Describe how the variation in the height of the sunflowers could be beneficial to the population.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of height variation in resource competition",
+          "Discuss the impact on pollination and seed dispersal",
+          "Provide a logical conclusion"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the variation in the height of the sunflowers could be beneficial to the population — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the impact on pollination and seed dispersal; Provide a logical conclusion."
+        ],
+        "model_answer": "The variation in the height of sunflowers can be beneficial to the population because it allows for better competition for resources such as sunlight. Taller sunflowers can capture more light, which is essential for photosynthesis. Additionally, a range of heights can help in attracting different pollinators and ensuring that seeds are dispersed over a wider area, which can increase the chances of successful reproduction.",
+        "explanation": "Height variation can help sunflowers compete for resources and ensure successful pollination and seed dispersal.",
+        "exam_question_id": "6a2dcd7d-5ce5-45a9-8d57-33696f624862:2",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 37,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the variation in the length of sunflower petals. You measured the length of petals from 10 different sunflower plants. The data is recorded in the table below:\n\n| Plant | Petal Length (cm) |\n|-------|-------------------|\n| 1     | 5.4               |\n| 2     | 5.6               |\n| 3     | 5.3               |\n| 4     | 5.5               |\n| 5     | 5.7               |\n| 6     | 5.2               |\n| 7     | 5.8               |\n| 8     | 5.1               |\n| 9     | 5.9               |\n| 10    | 5.0               |",
+        "question": "Calculate the average petal length.",
+        "marks": 2,
+        "marking_criteria": [
+          "Sum the petal lengths.",
+          "Divide the sum by the number of plants."
+        ],
+        "hints": [
+          "Add up all the petal lengths and then divide by the number of plants."
+        ],
+        "model_answer": "(5.4 + 5.6 + 5.3 + 5.5 + 5.7 + 5.2 + 5.8 + 5.1 + 5.9 + 5.0) / 10 = 5.49 cm",
+        "explanation": "Calculate the average petal length by adding up all the petal lengths and then dividing by the number of plants.",
+        "exam_question_id": "b561c2f8-40f5-4bd5-92a9-2f19dc0d2e11:2",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 38,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the variation in the length of sunflower petals. You measured the length of petals from 10 different sunflower plants. The data is recorded in the table below:\n\n| Plant | Petal Length (cm) |\n|-------|-------------------|\n| 1     | 5.4               |\n| 2     | 5.6               |\n| 3     | 5.3               |\n| 4     | 5.5               |\n| 5     | 5.7               |\n| 6     | 5.2               |\n| 7     | 5.8               |\n| 8     | 5.1               |\n| 9     | 5.9               |\n| 10    | 5.0               |",
+        "question": "Explain why variation in petal length might be advantageous for the sunflower plants.",
+        "marks": 3,
+        "marking_criteria": [
+          "Discuss the role of variation in adaptation.",
+          "Explain how different petal lengths might benefit the plants in different ways.",
+          "Consider environmental factors that might influence the advantage of variation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why variation in petal length might be advantageous for the sunflower plants — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the role of variation in adaptation.; Consider factors that might influence the advantage of variation."
+        ],
+        "model_answer": "Variation in petal length might be advantageous because it can attract a wider variety of pollinators, increasing the chances of successful pollination. Different petal lengths might also help the plants adapt to different environmental conditions.",
+        "explanation": "Explain how genetic variation, such as different petal lengths, can provide advantages in terms of pollination and adaptation to environmental changes.",
+        "exam_question_id": "b561c2f8-40f5-4bd5-92a9-2f19dc0d2e11:2",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 39,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In an experiment, you measure the growth rate of a plant under two different light conditions: Condition X and Condition Y. The following data was collected over 5 days: Condition X: 1.2 cm/day, 1.3 cm/day, 1.1 cm/day, 1.4 cm/day, 1.0 cm/day; Condition Y: 1.5 cm/day, 1.6 cm/day, 1.4 cm/day, 1.7 cm/day, 1.3 cm/day.",
+        "question": "Calculate the average growth rate for each condition over the 5 days.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the growth rates for each condition.",
+          "Divide the total by the number of days for each condition.",
+          "Provide the final answers with the correct unit."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average growth rate for each condition over the 5 days — develop the idea fully rather than listing short points. Make sure you also cover: Divide the total by the number of days for each condition.; Provide the final answers with the correct unit."
+        ],
+        "model_answer": "Condition X: Sum = 6.0 cm/day\nAverage growth rate = 6.0 cm/day / 5 days = 1.2 cm/day\nCondition Y: Sum = 8.5 cm/day\nAverage growth rate = 8.5 cm/day / 5 days = 1.7 cm/day",
+        "explanation": "Add up the growth rates for each condition and divide by the number of days to get the average growth rate.",
+        "exam_question_id": "3bb70e83-3308-4849-a51f-5268d705e955:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      },
+      {
+        "id": 40,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In an experiment, you measure the growth rate of a plant under two different light conditions: Condition X and Condition Y. The following data was collected over 5 days: Condition X: 1.2 cm/day, 1.3 cm/day, 1.1 cm/day, 1.4 cm/day, 1.0 cm/day; Condition Y: 1.5 cm/day, 1.6 cm/day, 1.4 cm/day, 1.7 cm/day, 1.3 cm/day.",
+        "question": "Explain why the growth rate for Condition Y is consistently higher than for Condition X.",
+        "marks": 3,
+        "marking_criteria": [
+          "Discuss the impact of light intensity on photosynthesis.",
+          "Explain how more light can lead to higher growth rates.",
+          "Mention the role of other environmental factors that might differ between conditions."
+        ],
+        "hints": [
+          "Consider how light affects the plant's ability to produce energy."
+        ],
+        "model_answer": "The growth rate for Condition Y is consistently higher than for Condition X because Condition Y provides more light, which enhances the process of photosynthesis. Photosynthesis is the process by which plants convert light energy into chemical energy, and more light typically results in more energy production, leading to higher growth rates. Additionally, other environmental factors such as temperature, humidity, and nutrient availability might also differ between the two conditions, contributing to the observed differences in growth rates.",
+        "explanation": "Higher light intensity leads to more energy production through photosynthesis, resulting in higher growth rates.",
+        "exam_question_id": "3bb70e83-3308-4849-a51f-5268d705e955:3",
+        "topic_label": "Types of variation (Variation)",
+        "topic_id": 127,
+        "checked": true,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Types of variation (Variation)"
+        }
+      }
+    ],
+    "estimated_time": 104,
+    "assessment_id": "6deff331-b183-4728-b1d6-1273eb14081c",
+    "subject": "Biology S6 Student Book ",
+    "topics": [
+      "Variation"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 9,
+    "topic_ids": [
+      127
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 40,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 31,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 32,
+      "detail": "same as question 19"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 33,
+      "detail": "same as question 20"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 19"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 20"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 16"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 181
+}

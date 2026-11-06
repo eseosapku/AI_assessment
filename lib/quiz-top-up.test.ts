@@ -11,6 +11,9 @@ const quiz = (have: number, extra: Record<string, unknown> = {}) => ({
 const payload = { user_id: 'u1', subject: 'Cambridge Primary Science 5', topics: ['States of matter'], count: 40, questionType: 'mcq' }
 
 describe('the follow-up request for a short quiz', () => {
+  it('does not top up an exam using the number of part records', () => {
+    expect(topUpBody({ ...payload, style: 'Exam Style (Past Papers)', count: 10 }, quiz(6))).toBeNull()
+  })
   it('asks for exactly what is missing, with the paper so far', () => {
     // Live: 40 asked for, 32 delivered -- one 30-second request has no time left for a second pass.
     const data = quiz(32, { questions: [...quiz(31).questions, q(32, { image_url: '/textbook-images/rwanda/2/page79-embedded-0.png' })] })

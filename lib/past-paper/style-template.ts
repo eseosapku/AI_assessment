@@ -2,6 +2,7 @@
  * A style template is counted from the questions themselves.
  * Nothing here is filled in from what an exam board is generally like.
  */
+import { asksNothing } from '@/lib/question-audit'
 
 export interface StyleQuestion {
   stem: string
@@ -68,7 +69,7 @@ function topPhrases(phrases: string[], n: number): { phrase: string; count: numb
 }
 
 function exemplars(questions: StyleQuestion[]): StyleTemplate['exemplars'] {
-  const usable = questions.filter((q) => wordsOf(q.stem).length >= 8 && wordsOf(q.stem).length <= 80)
+  const usable = questions.filter((q) => wordsOf(q.stem).length >= 8 && wordsOf(q.stem).length <= 80 && !asksNothing(q.stem))
   const byMarks = new Map<string, StyleQuestion>()
   for (const question of usable) {
     const key = String(question.marks ?? 'none')

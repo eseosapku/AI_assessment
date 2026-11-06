@@ -22,6 +22,8 @@ import { subjectArt } from '@/lib/studio/subjectArt'
 import { CURRICULUM_REGISTRY, curriculaForCountry } from '@/lib/curriculum-registry'
 import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityTopicsForCourseAndYear, getUniversityYearLabel } from '@/lib/university-curriculum'
 import { normalizeCountry } from '@/lib/countries'
+import { isExamStyle } from '@/lib/exam-parts'
+import { nextBuilderStep, previousBuilderStep, questionCountChoices } from '@/lib/quiz-builder'
 import {
   buildClassOptionsForCurriculum,
   deriveGradeFromClassName,
@@ -77,8 +79,8 @@ const WIZARD_STEPS = [
   { num: 3, label: 'Difficulty' },
   { num: 4, label: 'Subject' },
   { num: 5, label: 'Topics' },
-  { num: 6, label: 'Questions' },
-  { num: 7, label: 'Style' },
+  { num: 6, label: 'Style' },
+  { num: 7, label: 'Questions' },
   { num: 8, label: 'Format' },
   { num: 9, label: 'Review' },
 ] as const
@@ -900,7 +902,16 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     setFormData({ ...formData, subtopic_ids: nextIds })
   }
   const handleCountSelect = (count: number) => { setFormData({ ...formData, count }) }
-  const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }) }
+  const handleStyleSelect = (style: string) => {
+    const exam = isExamStyle(style)
+    const allowed = questionCountChoices(style)
+    setFormData({
+      ...formData,
+      style,
+      questionType: exam ? 'mixed' : formData.questionType,
+      count: exam && !allowed.includes(formData.count) ? 0 : formData.count,
+    })
+  }
   const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed') => { setFormData({ ...formData, questionType: qt }) }
 
   const buildDraftTitle = () => {
@@ -1023,7 +1034,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
         const job = await createAiJob('generate_assessment', requestPayload)
         await triggerAiJobExecution(job.id)
         data = await waitForAiJob<any>(job.id, {
-          timeoutMs: 210000,
+          timeoutMs: isExamStyle(formData.style) ? 720000 : ['rwanda', 'cambridge'].includes(formData.curriculum) ? 420000 : 210000,
           pollIntervalMs: 2500,
           signal: controller.signal,
         })
@@ -1130,7 +1141,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     if (isUniStudent && step === 5) { setStep(3); return }
     // Mirrors goForward's skip: Subject/Topics don't exist in custom mode.
     if (isCustom && step === 6) { setStep(3); return }
-    setStep((s) => Math.max(1, s - 1))
+    setStep(previousBuilderStep(step, formData.style))
   }
 
   const builderHasEntry = Boolean(
@@ -1175,8 +1186,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     (step === 3 && !!formData.difficultyLevel) ||
     (step === 4 && !!formData.subject) ||
     (step === 5 && formData.topics.length > 0) ||
-    (step === 6 && formData.count > 0) ||
-    (step === 7 && !!formData.style) ||
+    (step === 6 && !!formData.style) ||
+    (step === 7 && formData.count > 0 && questionCountChoices(formData.style).includes(formData.count)) ||
     (step === 8 && !!formData.questionType)
 
   /**
@@ -1198,8 +1209,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     if (step === 3) return 'Pick how hard the questions should be.'
     if (step === 4) return 'Choose a subject to carry on.'
     if (step === 5) return 'Pick at least one topic — tick as many as you like.'
-    if (step === 6) return 'Choose how many questions you want.'
-    if (step === 7) return 'Pick a question style.'
+    if (step === 6) return 'Pick a question style.'
+    if (step === 7) return 'Choose how many questions you want.'
     if (step === 8) return 'Pick how you want to answer.'
     return 'Something on this step still needs choosing.'
   }
@@ -1216,7 +1227,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     }
     if (isCustom && step === 2) { setStep(3); return } // no Subject/Topics steps to visit
     if (isCustom && step === 3) { setStep(6); return }
-    setStep((s) => Math.min(TOTAL_STEPS, s + 1))
+    setStep(nextBuilderStep(step, formData.style))
   }
 
   // A2: keyboard shortcuts through the wizard, for anyone who would rather not
@@ -1249,6 +1260,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
    */
   const visibleStepNums = WIZARD_STEPS
     .filter((ws) => !(isUniStudent && ws.num === 4) && !(isCustom && (ws.num === 4 || ws.num === 5)))
+    .filter((ws) => !(isExamStyle(formData.style) && ws.num === 8))
     .map((ws) => ws.num)
   const stepPosition = Math.max(1, visibleStepNums.filter((n) => n <= step).length)
 
@@ -1261,7 +1273,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     { label: 'Questions', value: String(formData.count) },
     { label: 'Max attempts', value: isTeacher ? String(formData.maxAttempts) : '' },
     { label: 'Style', value: formData.style },
-    { label: 'Type', value: selectedQuestionType?.label ?? '' },
+    { label: 'Type', value: isExamStyle(formData.style) ? 'Exam paper' : (selectedQuestionType?.label ?? '') },
   ] : isUniStudent ? [
     { label: 'Course', value: formData.subject },
     { label: 'Year', value: formData.grade ? getUniversityYearLabel(formData.subject, Number(formData.grade)) : '' },
@@ -1271,7 +1283,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     { label: 'Questions', value: String(formData.count) },
     { label: 'Max attempts', value: '' },
     { label: 'Style', value: formData.style },
-    { label: 'Type', value: selectedQuestionType?.label ?? '' },
+    { label: 'Type', value: isExamStyle(formData.style) ? 'Exam paper' : (selectedQuestionType?.label ?? '') },
   ] : [
     { label: 'Class', value: selectedClassDisplayName || formData.class_name },
     { label: 'Grade', value: formData.grade ? `Grade ${formData.grade}` : '' },
@@ -1283,7 +1295,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     { label: 'Questions', value: String(formData.count) },
     { label: 'Max attempts', value: isTeacher ? String(formData.maxAttempts) : '' },
     { label: 'Style', value: formData.style },
-    { label: 'Type', value: selectedQuestionType?.label ?? '' },
+    { label: 'Type', value: isExamStyle(formData.style) ? 'Exam paper' : (selectedQuestionType?.label ?? '') },
   ]
 
   return (
@@ -1853,17 +1865,38 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
               </motion.div>
             )}
 
-            {/* Step 6: Count */}
-            {flowMode === 'ai' && step === 6 && formData.topics.length > 0 && (
+            {/* Step 6: Style, before the length, so an exam paper can limit the choices. */}
+            {flowMode === 'ai' && step === 6 && (isCustom || formData.topics.length > 0) && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Assessment style" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">What should the questions feel like?</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    { label: 'Exam style', sub: 'A real paper: numbered questions with parts (a), (b), (c) on one page', value: 'Exam Style (Past Papers)' },
+                    { label: 'Practice style', sub: 'Direct exercises from textbooks and past papers — one answer at a time', value: 'Test Style (Textbooks)' },
+                  ].map(s => (
+                    <OptionButton key={s.value} selected={formData.style === s.value} onClick={() => handleStyleSelect(s.value)}>
+                      <p className="font-semibold text-sm text-gray-900 dark:text-white">{s.label}</p>
+                      <p className="text-[12px] text-ss-slate mt-0.5">{s.sub}</p>
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 7: Count. Exam papers stop at 20. Practice still offers 40. */}
+            {flowMode === 'ai' && step === 7 && !!formData.style && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question count" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How many questions?</h3>
-                <div className="grid grid-cols-3 gap-2">
-                  {[10, 20, 40].map(count => (
+                <div className={`grid gap-2 ${questionCountChoices(formData.style).length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+                  {questionCountChoices(formData.style).map(count => (
                     <OptionButton key={count} selected={formData.count === count} onClick={() => handleCountSelect(count)} className="text-center">
                       <span className="text-2xl font-bold text-gray-900 dark:text-white block">{count}</span>
                       <span className="text-[12px] text-ss-slate">
-                        {count === 10 ? '~15 min' : count === 20 ? '~30 min' : '~60 min'}
+                        {isExamStyle(formData.style)
+                          ? `${count * 2}–${count * 3} parts · ~${count * 4}–${count * 9} min`
+                          : count === 10 ? '~15 min' : count === 20 ? '~30 min' : '~60 min'}
                       </span>
                     </OptionButton>
                   ))}
@@ -1895,27 +1928,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
               </motion.div>
             )}
 
-            {/* Step 7: Style */}
-            {flowMode === 'ai' && step === 7 && formData.count > 0 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Assessment style" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">What should the questions feel like?</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {[
-                    { label: 'Exam style', sub: 'Real past-paper wording and timing — closest to the day itself', value: 'Exam Style (Past Papers)' },
-                    { label: 'Practice style', sub: 'Textbook-style exercises — better for learning as you go', value: 'Test Style (Textbooks)' },
-                  ].map(s => (
-                    <OptionButton key={s.value} selected={formData.style === s.value} onClick={() => handleStyleSelect(s.value)}>
-                      <p className="font-semibold text-sm text-gray-900 dark:text-white">{s.label}</p>
-                      <p className="text-[12px] text-ss-slate mt-0.5">{s.sub}</p>
-                    </OptionButton>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Step 8: Question Type */}
-            {flowMode === 'ai' && step === 8 && formData.style && (
+            {/* Step 8: Format. Exam papers skip this and go straight to review. */}
+            {flowMode === 'ai' && step === 8 && formData.style && !isExamStyle(formData.style) && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question type" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How do you want to answer?</h3>

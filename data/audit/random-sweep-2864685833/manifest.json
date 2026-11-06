@@ -1,0 +1,443 @@
+{
+  "seed": 2864685833,
+  "jobs": [
+    {
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 8 Students Book ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "textbook_id": 30,
+        "topic_ids": [
+          392
+        ],
+        "topics": [
+          "Let's talk technology: What's going on inside"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Mathematics-SB S6 HLP LFK HGL",
+      "exam": false,
+      "body": {
+        "subject": "Mathematics-SB S6 HLP LFK HGL",
+        "textbook_id": 130,
+        "topic_ids": [
+          1359
+        ],
+        "topics": [
+          "UNIT 3: ELEMENTARY PROBABILITY"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Practice / Economics S6 SB",
+      "exam": false,
+      "body": {
+        "subject": "Economics S6 SB",
+        "textbook_id": 65,
+        "topic_ids": [
+          746
+        ],
+        "topics": [
+          "Industrial Development"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Economics S5 SB",
+      "exam": true,
+      "body": {
+        "subject": "Economics S5 SB",
+        "textbook_id": 64,
+        "topic_ids": [
+          733
+        ],
+        "topics": [
+          "Public Finance 2"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS & A Level Physics Coursebook",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS & A Level Physics Coursebook",
+        "textbook_id": 22,
+        "topic_ids": [
+          334
+        ],
+        "topics": [
+          "P2: Planning, analysis and evaluation"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS & A Level Physics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / ICT in Accounting S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "ICT in Accounting S4 SB",
+        "textbook_id": 116,
+        "topic_ids": [
+          1234
+        ],
+        "topics": [
+          "Word Processing"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Oxford English for Cambridge Primary Student Book 4 ",
+      "exam": false,
+      "body": {
+        "subject": "Oxford English for Cambridge Primary Student Book 4 ",
+        "textbook_id": 137,
+        "topic_ids": [
+          1404,
+          1418
+        ],
+        "topics": [
+          "Unit contents",
+          "Carving the Sea Path"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Oxford English for Cambridge Primary Student Book 4 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / Physics S3 SB (1)",
+      "exam": false,
+      "body": {
+        "subject": "Physics S3 SB (1)",
+        "textbook_id": 172,
+        "topic_ids": [
+          1799
+        ],
+        "topics": [
+          "Heat Transfer and Quantity of heat"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          271,
+          269
+        ],
+        "topics": [
+          "Matrices 2",
+          "Momentum"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS and A Level Computer Science Coursebook",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS and A Level Computer Science Coursebook",
+        "textbook_id": 191,
+        "topic_ids": [
+          2656,
+          2638
+        ],
+        "topics": [
+          "Chapter 21: Security",
+          "Chapter 3: Hardware"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Computer Science Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Chemistry S5 SB",
+      "exam": true,
+      "body": {
+        "subject": "Chemistry S5 SB",
+        "textbook_id": 56,
+        "topic_ids": [
+          626
+        ],
+        "topics": [
+          "Entropy and Free Energy"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / ICT  S3 SB",
+      "exam": true,
+      "body": {
+        "subject": "ICT  S3 SB",
+        "textbook_id": 115,
+        "topic_ids": [
+          1223
+        ],
+        "topics": [
+          "Application and Utility Software Installation"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+        "textbook_id": 195,
+        "topic_ids": [
+          3043,
+          3040
+        ],
+        "topics": [
+          "Chapter 9: Integration",
+          "Chapter 6: you will"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "textbook_id": 33,
+        "topic_ids": [
+          427
+        ],
+        "topics": [
+          "2 Materials and their structure"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Oxford English for Cambridge Primary Student Book 6 ",
+      "exam": true,
+      "body": {
+        "subject": "Oxford English for Cambridge Primary Student Book 6 ",
+        "textbook_id": 139,
+        "topic_ids": [
+          1445
+        ],
+        "topics": [
+          "Revise and check 3"
+        ],
+        "curriculum": "cambridge",
+        "grade": 6,
+        "className": "Oxford English for Cambridge Primary Student Book 6 ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS and A Level English Language Coursebook ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS and A Level English Language Coursebook ",
+        "textbook_id": 25,
+        "topic_ids": [
+          367,
+          362
+        ],
+        "topics": [
+          "Unit 6: English as a global language",
+          "Unit 1: Reading non-fiction"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level English Language Coursebook ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "textbook_id": 200,
+        "topic_ids": [
+          2512,
+          2514
+        ],
+        "topics": [
+          "Chapter 6: Automated systems",
+          "Chapter 8: Programming concepts"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Physics S4 SB (1)",
+      "exam": false,
+      "body": {
+        "subject": "Physics S4 SB (1)",
+        "textbook_id": 173,
+        "topic_ids": [
+          1819,
+          1817
+        ],
+        "topics": [
+          "Unit 10: Effects of electric and potential fields",
+          "Unit 8: Projectile and uniform circular motion"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / P4 Mathematics PB",
+      "exam": false,
+      "body": {
+        "subject": "P4 Mathematics PB",
+        "textbook_id": 153,
+        "topic_ids": [
+          1588,
+          1585
+        ],
+        "topics": [
+          "Time",
+          "Capacity Measurements"
+        ],
+        "curriculum": "rwanda",
+        "grade": 4,
+        "className": "P4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / P6 Mathematics PB (1)",
+      "exam": true,
+      "body": {
+        "subject": "P6 Mathematics PB (1)",
+        "textbook_id": 165,
+        "topic_ids": [
+          1723,
+          1726
+        ],
+        "topics": [
+          "Regular Polygons and Bearings",
+          "Data Handling"
+        ],
+        "curriculum": "rwanda",
+        "grade": 6,
+        "className": "P6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    }
+  ]
+}

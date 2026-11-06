@@ -1,0 +1,639 @@
+{
+  "index": 4,
+  "label": "REB / Exam / ICT S5 Adapted SB",
+  "request": {
+    "subject": "ICT S5 Adapted SB",
+    "textbook_id": 120,
+    "topic_ids": [
+      1285
+    ],
+    "topics": [
+      "E-Commerce, Social Media and Online Services"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 86,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing two numbered screenshots of a Twitter sign-up process. Panel 1 shows the fields 'ttctextbook' and a phone number beginning 0783, with a 'Verify phone' pop-up. The pop-up says 'We'll text your verification code to 0783... Standard SMS fees may apply.' and has Edit and OK buttons, with a red arrow pointing to OK and a Sign up button below. Panel 2 shows 'We sent you a code', with the Verification code field containing 645948, a 'Didn't receive SMS?' link, and a Next button at top right with a red arrow pointing to it.",
+        "question": "State the phone number that is displayed in Panel 1 of the diagram.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct phone number starting with 0783"
+        ],
+        "hints": [
+          "Stay focused on this: State the phone number that is displayed in Panel 1 of the diagram — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The phone number displayed in Panel 1 is 0783.",
+        "explanation": "Refer to the phone number field in the first panel of the diagram to provide the answer.",
+        "exam_question_id": "257d7cdb-116f-4688-9d71-07389168ef2b:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page121-embedded-1.jpeg",
+        "image_alt": "Two numbered screenshots of a Twitter sign-up. Panel 1, 'Step 3 of 5 – Create your account', shows the fields 'ttctextbook' and a phone number beginning 0783, with a 'Verify phone' pop-up. The pop-up says 'We'll text your verification code to 0783... Standard SMS fees may apply.' and has Edit and OK buttons, with a red arrow pointing to OK and a Sign up button below. Panel 2, 'We sent you a code', says 'Enter it below to verify 078...' and shows the Verification code field containing 645948, a 'Didn't receive SMS?' link, and a Next button at top right with a red arrow pointing to it.\nLabels: S",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing two numbered screenshots of a Twitter sign-up process. Panel 1 shows the fields 'ttctextbook' and a phone number beginning 0783, with a 'Verify phone' pop-up. The pop-up says 'We'll text your verification code to 0783... Standard SMS fees may apply.' and has Edit and OK buttons, with a red arrow pointing to OK and a Sign up button below. Panel 2 shows 'We sent you a code', with the Verification code field containing 645948, a 'Didn't receive SMS?' link, and a Next button at top right with a red arrow pointing to it.",
+        "question": "Explain the purpose of the 'Next' button shown in Panel 2 of the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the purpose of the 'Next' button",
+          "Explanation of its function in the sign-up process"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the purpose of the 'Next' button shown in Panel 2 of the diagram — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of its function in the sign-up."
+        ],
+        "model_answer": "The 'Next' button in Panel 2 is used to proceed to the next step in the sign-up process after the user has entered the verification code.",
+        "explanation": "The 'Next' button is shown after the user enters the verification code and is intended to move the user to the subsequent step in the sign-up process.",
+        "exam_question_id": "257d7cdb-116f-4688-9d71-07389168ef2b:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page121-embedded-1.jpeg",
+        "image_alt": "Two numbered screenshots of a Twitter sign-up. Panel 1, 'Step 3 of 5 – Create your account', shows the fields 'ttctextbook' and a phone number beginning 0783, with a 'Verify phone' pop-up. The pop-up says 'We'll text your verification code to 0783... Standard SMS fees may apply.' and has Edit and OK buttons, with a red arrow pointing to OK and a Sign up button below. Panel 2, 'We sent you a code', says 'Enter it below to verify 078...' and shows the Verification code field containing 645948, a 'Didn't receive SMS?' link, and a Next button at top right with a red arrow pointing to it.\nLabels: S",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)', the seller is 'Fashion brand flagship' and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Colour: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.",
+        "question": "State the name of the buyer shown in the Shipping Address section.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct name.",
+          "Mention the specific section from the diagram where the name is found."
+        ],
+        "hints": [
+          "Stay focused on this: State the name of the buyer shown in the Shipping Address section — develop the idea fully rather than listing short points. Make sure you also cover: Mention the specific section from the where the name is found."
+        ],
+        "model_answer": "The name of the buyer is UWINEZA. It is shown in the Shipping Address section of the diagram.",
+        "explanation": "The name of the buyer is clearly visible in the Shipping Address section of the diagram. Make sure to specify the section to ensure clarity.",
+        "exam_question_id": "0366dddb-c1d9-4a0a-b6c8-248cd6028a84:1",
+        "topic_label": "E-Commerce, Social Media and Online Services",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page109-embedded-0.jpeg",
+        "image_alt": "A screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)' the seller is 'Fashion brand flagship' and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Color: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.\nLabels",
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Commerce, Social Media and Online Services"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)', the seller is 'Fashion brand flagship' and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Colour: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.",
+        "question": "Explain why the total commodity price and the total amount due are the same.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the total commodity price and the total amount due.",
+          "Explain the reason for the equality of these two values.",
+          "Mention any relevant information from the diagram to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total commodity price and the total amount due are the same — develop the idea fully rather than listing short points. Make sure you also cover: the reason for the equality of these two values.; Mention any relevant information from the to support the explanation."
+        ],
+        "model_answer": "The total commodity price is +6,394 RWF and the total amount due is 6,394 RWF. They are the same because there are no additional charges such as shipping or taxes applied to this purchase, as shown in the diagram.",
+        "explanation": "Both the total commodity price and the total amount due are the same because there are no additional charges added to the item's price. This is evident from the diagram where the totals match exactly.",
+        "exam_question_id": "0366dddb-c1d9-4a0a-b6c8-248cd6028a84:1",
+        "topic_label": "E-Commerce, Social Media and Online Services",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page109-embedded-0.jpeg",
+        "image_alt": "A screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)' the seller is 'Fashion brand flagship' and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Color: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.\nLabels",
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Commerce, Social Media and Online Services"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with fields for 'Username', 'Password', and 'Email', and a 'Sign up' button.",
+        "question": "State the purpose of the red arrow pointing to the padlock in the address bar.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the padlock's purpose",
+          "Explanation of HTTPS and security"
+        ],
+        "hints": [
+          "Consider what the padlock symbol usually represents in web browsers."
+        ],
+        "model_answer": "The purpose of the red arrow pointing to the padlock in the address bar is to indicate that the website is using HTTPS, which means the connection is secure and encrypted, protecting the user's data during the sign-up process.",
+        "explanation": "The padlock symbol in the address bar indicates a secure HTTPS connection, ensuring that the data transmitted between the user and the website is encrypted and secure.",
+        "exam_question_id": "270b3f65-aa4d-4a6c-9c48-7234cc0a4570:2",
+        "topic_label": "Instagram",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6578,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Instagram"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with fields for 'Username', 'Password', and 'Email', and a 'Sign up' button.",
+        "question": "Explain the significance of the 'OR' option in the sign-up form.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the 'OR' option's purpose",
+          "Explanation of user convenience",
+          "Logical reasoning"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The 'OR' option in the sign-up form allows users to sign up using either their email address and password or their phone number. This provides flexibility and convenience for users who may prefer one method over the other, enhancing the user experience by accommodating different preferences.",
+        "explanation": "The 'OR' option allows users to choose between different sign-up methods, improving flexibility and user convenience.",
+        "exam_question_id": "270b3f65-aa4d-4a6c-9c48-7234cc0a4570:2",
+        "topic_label": "Instagram",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6578,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Instagram"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo'.",
+        "question": "State the name of the buyer shown in the Shipping Address section.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the name",
+          "Accurate reading of the diagram"
+        ],
+        "hints": [
+          "Stay focused on this: State the name of the buyer shown in the Shipping Address section — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the name; Accurate reading of the diagram."
+        ],
+        "model_answer": "The name of the buyer shown in the Shipping Address section is UWINEZA.",
+        "explanation": "The name of the buyer is explicitly shown in the Shipping Address section of the diagram.",
+        "exam_question_id": "270b3f65-aa4d-4a6c-9c48-7234cc0a4570:3",
+        "topic_label": "Instagram (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Instagram (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo'.",
+        "question": "Explain why the total commodity price and the total amount due are the same.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of pricing and taxes",
+          "Explanation of the relationship between commodity price and total due",
+          "Logical reasoning"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total commodity price and the total amount due are the same — develop the idea fully rather than listing short points. Make sure you also cover: Understanding of pricing and; Logical reasoning."
+        ],
+        "model_answer": "The total commodity price and the total amount due are the same because there are no additional charges or taxes applied to the items in this transaction. The total amount due reflects only the cost of the commodities purchased, without any extra fees.",
+        "explanation": "If no additional charges or taxes are applied, the total commodity price will be equal to the total amount due.",
+        "exam_question_id": "270b3f65-aa4d-4a6c-9c48-7234cc0a4570:3",
+        "topic_label": "Instagram (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Instagram (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customise your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.",
+        "question": "State the purpose of the 'Tweet' button in the 'What's happening?' box.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the function of the 'Tweet' button",
+          "Describe its location in the diagram"
+        ],
+        "hints": [
+          "Consider what action the button facilitates."
+        ],
+        "model_answer": "The 'Tweet' button allows users to post their own content or messages on Twitter. It is located in the 'What's happening?' box in the center of the page.",
+        "explanation": "Observe the 'Tweet' button's location and infer its function based on common social media practices.",
+        "exam_question_id": "bd34332f-dc7d-4ff1-8b9c-35a7c058b88c:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page123-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customize your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.\nLabels: Home / Twitter, twitter.com/home, Home, What's happening?, Tweet, Customize your view, Sometimes you need to freshen things up a bit, like swapping colors, super-sizing your text, or revisiting your dark mode selection, all of which you can do in your se",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customise your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.",
+        "question": "Explain the significance of the 'Trends for you' list and how it can be useful for a user.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify what 'Trends for you' shows",
+          "Explain how trends can be beneficial",
+          "Provide an example from the diagram"
+        ],
+        "hints": [
+          "Consider what trends are and why they might be important."
+        ],
+        "model_answer": "The 'Trends for you' list shows popular topics and hashtags that are currently gaining attention in the user's region (in this case, Rwanda). It can help users stay updated on current events, popular topics, and engage with trending conversations. For example, in the diagram, trending topics include #RPFYouthLeague and #RwOT.",
+        "explanation": "Recognise that trends help users stay informed and engaged with popular content on the platform.",
+        "exam_question_id": "bd34332f-dc7d-4ff1-8b9c-35a7c058b88c:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page123-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customize your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.\nLabels: Home / Twitter, twitter.com/home, Home, What's happening?, Tweet, Customize your view, Sometimes you need to freshen things up a bit, like swapping colors, super-sizing your text, or revisiting your dark mode selection, all of which you can do in your se",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a transaction history for a mobile banking app. The transactions include two deposits of $50 each, a withdrawal of $30, and a transfer of $20 to another account.",
+        "question": "Calculate the balance after all transactions have been processed.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculates the balance after all transactions.",
+          "Explanation of the calculation process.",
+          "Identification of the correct final balance."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the balance after all transactions have been processed — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculates the balance after all transactions.; Explanation of the calculation process.; Identification of the correct balance."
+        ],
+        "model_answer": "The final balance is $120. Starting with an initial balance of $0, add the two deposits of $50 each ($100), subtract the withdrawal of $30, and subtract the transfer of $20, resulting in $100 - $30 - $20 = $120.",
+        "explanation": "Begin with the initial balance and sequentially apply each transaction to find the final balance.",
+        "exam_question_id": "10a1a8a2-eac3-4544-9b3b-c5ff195a9767:2",
+        "topic_label": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a transaction history for a mobile banking app. The transactions include two deposits of $50 each, a withdrawal of $30, and a transfer of $20 to another account.",
+        "question": "Explain why the balance changes after each transaction.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly explains the effect of each transaction on the balance.",
+          "Clear and concise explanation."
+        ],
+        "hints": [
+          "Consider the nature of each transaction (deposit, withdrawal, transfer)."
+        ],
+        "model_answer": "The balance changes because each transaction either adds to or subtracts from the initial balance. Deposits increase the balance, withdrawals decrease it, and transfers move money from one account to another, affecting the balance of both accounts.",
+        "explanation": "Each transaction type impacts the balance differently: deposits increase it, withdrawals decrease it, and transfers move funds between accounts.",
+        "exam_question_id": "10a1a8a2-eac3-4544-9b3b-c5ff195a9767:2",
+        "topic_label": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following scenario: You are using WhatsApp to communicate with a friend about an upcoming e-commerce transaction. You send a message with the text: 'I will purchase a pair of sneakers for 50 USD from www.shoes.com'.",
+        "question": "Explain why this message might be considered risky for both parties involved.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the potential privacy concerns.",
+          "Explain the risks of sharing personal transaction details.",
+          "Suggest safer practices for such communications."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this message might be considered risky for both parties involved — develop the idea fully rather than listing short points. Make sure you also cover: Identify the potential privacy concerns.; the risks of sharing transaction details.; Suggest safer practices for such communications."
+        ],
+        "model_answer": "This message is risky because it shares personal financial information and a website link in a public chat, potentially exposing both parties to phishing attacks or scams.",
+        "explanation": "Discuss the privacy and security risks of sharing sensitive information over public messaging platforms.",
+        "exam_question_id": "66a45e65-9eed-47e8-a8de-bc0a7aa8dd8b:2",
+        "topic_label": "E-commerce",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6572,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-commerce"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following scenario: You are using WhatsApp to communicate with a friend about an upcoming e-commerce transaction. You send a message with the text: 'I will purchase a pair of sneakers for 50 USD from www.shoes.com'.",
+        "question": "Describe a safer method to share this information with your friend.",
+        "marks": 2,
+        "marking_criteria": [
+          "Suggest using a private chat or a secure method.",
+          "Explain the importance of verifying the website and transaction details separately."
+        ],
+        "hints": [
+          "Think about alternative ways to communicate sensitive information without exposing it publicly."
+        ],
+        "model_answer": "A safer method would be to send the information via a private chat and verify the website and transaction details through a secure, official channel like the website's contact support or a verified social media account.",
+        "explanation": "Outline a secure communication strategy to protect personal and financial information.",
+        "exam_question_id": "66a45e65-9eed-47e8-a8de-bc0a7aa8dd8b:2",
+        "topic_label": "E-commerce",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6572,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-commerce"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.",
+        "question": "State the purpose of the red arrow pointing to the padlock in the address bar.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the purpose of the padlock icon in the address bar",
+          "Explain the significance of the padlock in terms of website security"
+        ],
+        "hints": [
+          "Stay focused on this: State the purpose of the red arrow pointing to the padlock in the address bar — develop the idea fully rather than listing short points. Make sure you also cover: Identify the purpose of the padlock icon in the address bar; the significance of the padlock in terms of security."
+        ],
+        "model_answer": "The red arrow pointing to the padlock in the address bar indicates that the website is using a secure connection (HTTPS). This means that the data transmitted between the user and the website is encrypted and secure from potential eavesdropping or tampering.",
+        "explanation": "The padlock icon in the address bar is a common symbol used to indicate that a website is secure. It assures users that their data is being transmitted over an encrypted connection, protecting it from potential security threats.",
+        "exam_question_id": "c4be1107-ff88-4490-a8a7-aab74ef1cc4d:1",
+        "topic_label": "Facebook",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page127-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.\nLabels: Instagram, instagram.com, Instagram, Sign up to see photos and videos from your friends., Log in with Facebook, OR, Mobile Number or Email, Full Name, UWIMANA Theogene, Username, uwimanatheogen",
+        "checked": true,
+        "subtopic_id": 6576,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.",
+        "question": "Explain the significance of the 'OR' option in the sign-up form.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the 'OR' option in the sign-up form",
+          "Explain the purpose of the 'OR' option",
+          "Describe the alternative methods of signing up"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the significance of the 'OR' option in the sign-up form — develop the idea fully rather than listing short points. Make sure you also cover: the alternative of signing up."
+        ],
+        "model_answer": "The 'OR' option in the sign-up form indicates that users can choose between two different methods to sign up for an Instagram account. They can either use their mobile number or email address to create an account. This provides flexibility and convenience for users who may prefer one method over the other.",
+        "explanation": "The 'OR' option in the sign-up form allows users to choose between using their mobile number or email address to register for an Instagram account. This flexibility caters to different user preferences and provides an additional layer of security by allowing users to sign up using their preferred method.",
+        "exam_question_id": "c4be1107-ff88-4490-a8a7-aab74ef1cc4d:1",
+        "topic_label": "Facebook",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page127-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.\nLabels: Instagram, instagram.com, Instagram, Sign up to see photos and videos from your friends., Log in with Facebook, OR, Mobile Number or Email, Full Name, UWIMANA Theogene, Username, uwimanatheogen",
+        "checked": true,
+        "subtopic_id": 6576,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of an Instagram checkout page for a product. The page displays the item's price as $45 USD, and there is a 'Buy Now' button. Below the price, it shows a discount of 10% applied, making the final price $40.50 USD.",
+        "question": "Calculate the final price after the discount is applied.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the discount amount.",
+          "Correct final price calculation."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the final price after the discount is applied — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the discount amount."
+        ],
+        "model_answer": "The original price is $45 USD. The discount is 10%, which is $45 * 0.10 = $4.50. Subtract the discount from the original price: $45 - $4.50 = $40.50. The final price is $40.50 USD.",
+        "explanation": "Use the formula: Final Price = Original Price - (Original Price * Discount Percentage).",
+        "exam_question_id": "2e6e0e31-0dd2-4696-9480-786290403627:1",
+        "topic_label": "Instagram",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6578,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Instagram"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of an Instagram checkout page for a product. The page displays the item's price as $45 USD, and there is a 'Buy Now' button. Below the price, it shows a discount of 10% applied, making the final price $40.50 USD.",
+        "question": "Explain why the final price is shown as $40.50 USD after applying the discount.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the discount application.",
+          "Explanation of the final price calculation.",
+          "Correct final price shown."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the final price is shown as $40.50 USD after applying the discount — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the discount application."
+        ],
+        "model_answer": "The original price of the item is $45 USD. A discount of 10% is applied to this price, which means the discount amount is 10% of $45, calculated as $45 * 0.10 = $4.50. Subtracting this discount from the original price gives the final price: $45 - $4.50 = $40.50 USD. Therefore, the final price shown is $40.50 USD.",
+        "explanation": "The discount reduces the original price by a certain percentage, resulting in the final price being the original price minus the discount amount.",
+        "exam_question_id": "2e6e0e31-0dd2-4696-9480-786290403627:1",
+        "topic_label": "Instagram",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6578,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Instagram"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the following code snippet:\n\n```python\nprice = 100\ndiscount = 0.1\nfinal_price = price - (price * discount)\nprint(final_price)\n```",
+        "question": "Calculate the value of `final_price` after the code runs.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of discount",
+          "Correct subtraction to find final price"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the value of `final_price` after the code runs — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of; Correct subtraction to find final price."
+        ],
+        "model_answer": "The value of `final_price` is 90.\n\nprice = 100\ndiscount = 0.1\nfinal_price = price - (price * discount)\nprint(final_price)\n# final_price = 100 - (100 * 0.1) = 90",
+        "explanation": "The discount is 10% of the original price, which is 10. Subtracting this from the original price of 100 gives a final price of 90.",
+        "exam_question_id": "270a1b8e-5a43-41c8-944b-e33b35fd1cc1:1",
+        "topic_label": "Facebook (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the following code snippet:\n\n```python\nprice = 100\ndiscount = 0.1\nfinal_price = price - (price * discount)\nprint(final_price)\n```",
+        "question": "State which line contains an error if any.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of error-free code"
+        ],
+        "hints": [
+          "Check each line of the code for syntax or logical errors."
+        ],
+        "model_answer": "There is no error in the code. All lines are correct.",
+        "explanation": "The code is correctly calculating the final price after applying the discount. There are no syntax or logical errors.",
+        "exam_question_id": "270a1b8e-5a43-41c8-944b-e33b35fd1cc1:1",
+        "topic_label": "Facebook (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the following code snippet:\n\n```python\nprice = 100\ndiscount = 0.1\nfinal_price = price - (price * discount)\nprint(final_price)\n```",
+        "question": "Explain why the final price is calculated as it is.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the discount calculation",
+          "Explanation of the subtraction to find the final price"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the final price is calculated as it is — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the calculation."
+        ],
+        "model_answer": "The final price is calculated by first determining the discount amount, which is 10% of the original price (100). This discount amount is then subtracted from the original price to find the final price, which is 90.",
+        "explanation": "The discount of 10% is calculated by multiplying the original price by the discount rate. This discount amount is then subtracted from the original price to arrive at the final price.",
+        "exam_question_id": "270a1b8e-5a43-41c8-944b-e33b35fd1cc1:1",
+        "topic_label": "Facebook (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook (E-Commerce, Social Media and Online Services)"
+        }
+      }
+    ],
+    "estimated_time": 50,
+    "assessment_id": "4034c8e2-89b6-4fd8-8ee8-d17568bb117c",
+    "subject": "ICT S5 Adapted SB",
+    "topics": [
+      "E-Commerce, Social Media and Online Services"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 120,
+    "topic_ids": [
+      1285
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 21,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 6"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 87
+}

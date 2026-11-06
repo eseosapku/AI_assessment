@@ -1,0 +1,722 @@
+{
+  "seed": 234631567,
+  "results": [
+    {
+      "index": 2,
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Mathematics Learners Book 7",
+      "request": {
+        "subject": "Cambridge Lower Secondary Mathematics Learners Book 7",
+        "textbook_id": 32,
+        "topic_ids": [
+          407
+        ],
+        "topics": [
+          "4 Decimals"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Mathematics Learners Book 7",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 17,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 6,
+      "imageErrors": [],
+      "reviewFallbackReason": "Access to Anthropic models is not allowed for this account.",
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "poor",
+            "detail": "The model answer incorrectly places the decimal point. The correct answer should be 1.47, not 1.470.",
+            "correction": "1.47"
+          },
+          {
+            "label": "8",
+            "severity": "poor",
+            "detail": "The short answer incorrectly matches the multiplication 8 × 3.3 to 26.4. The correct answer should be 26.4, but the explanation provided is incorrect.",
+            "correction": "Correct the explanation to: Multiply 8 × 3.3: 8 × 3 = 24 and 8 × 0.3 = 2.4, so the total is 26.4."
+          }
+        ],
+        "summary": "Minor issues with decimal placement and explanation clarity."
+      },
+      "totalSeconds": 25
+    },
+    {
+      "index": 1,
+      "label": "Cambridge / Practice / Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+      "request": {
+        "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "textbook_id": 54,
+        "topic_ids": [
+          592
+        ],
+        "topics": [
+          "Cells"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 27,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "tick-all-correct",
+          "severity": "poor",
+          "index": 13,
+          "detail": "every option is correct, so nothing is tested"
+        }
+      ],
+      "figures": 3,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "18",
+            "severity": "broken or poor",
+            "detail": "Vacuoles are incorrectly categorized as 'Both plant and animal cells'. They are more prominent in plant cells.",
+            "correction": "Change 'Vacuole' category to 'Plant cell only'."
+          }
+        ],
+        "summary": "Minor categorization error in question 18."
+      },
+      "totalSeconds": 30
+    },
+    {
+      "index": 3,
+      "label": "Cambridge / Exam / Cambridge International AS & A Level Physics Coursebook",
+      "request": {
+        "subject": "Cambridge International AS & A Level Physics Coursebook",
+        "textbook_id": 22,
+        "topic_ids": [
+          307
+        ],
+        "topics": [
+          "Chapter 7: Matter and materials"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS & A Level Physics Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 43,
+      "status": 200,
+      "numbered": 10,
+      "parts": 27,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 6,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "9a",
+            "severity": "broken or poor",
+            "detail": "The question lacks necessary data to calculate Young's modulus accurately.",
+            "correction": "Requires area and original length of the material to be provided."
+          }
+        ],
+        "summary": "Minor issue with missing data for accurate Young's modulus calculation."
+      },
+      "totalSeconds": 48
+    },
+    {
+      "index": 5,
+      "label": "Cambridge / Practice / Cambridge IGCSE English as First Language Course Book (2)",
+      "request": {
+        "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+        "textbook_id": 202,
+        "topic_ids": [
+          2713
+        ],
+        "topics": [
+          "Unit 6: Composition"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE English as First Language Course Book (2)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 12,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 2"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1",
+            "severity": "broken or poor",
+            "detail": "Incorrect matching of terms to definitions. 'Metaphor' should be matched with 'A direct comparison between two unlike things', 'Simile' with 'A figure of speech that uses 'like' or 'as' to compare two things', 'Personification' with 'Attributing human characteristics to non-human things', and 'Alliteration' with 'The repetition of consonant sounds at the beginning of words'.",
+            "correction": "Correct pairs should be [[0, 3], [1, 2], [2, 0], [3, 1]]."
+          },
+          {
+            "label": "3",
+            "severity": "broken or poor",
+            "detail": "Incorrect true/false answers. The statement 'Imagery uses all five senses to create a mental picture.' is true, not false.",
+            "correction": "Correct answers should be [true, true, false, true]."
+          },
+          {
+            "label": "5",
+            "severity": "broken or poor",
+            "detail": "Incorrect matching of descriptive language terms to examples. 'Simile' should be matched with 'She sings like a bird.', 'Metaphor' with 'Time is a thief.', 'Personification' with 'The wind whispered through the trees.', and 'Alliteration' with 'Peter Piper picked a peck of pickled peppers.'",
+            "correction": "Correct pairs should be [[0, 3], [1, 0], [2, 2], [3, 1]]."
+          },
+          {
+            "label": "9",
+            "severity": "broken or poor",
+            "detail": "Incorrect matching of examples to figures of speech. 'Her smile was like the sun.' is a simile, 'The world is a stage.' is a metaphor, 'The wind whispered secrets.' is personification, and 'The bees buzzed busily.' is onomatopoeia.",
+            "correction": "Correct pairs should be [[0, 2], [1, 1], [2, 0], [3, 3]]."
+          }
+        ],
+        "summary": "Minor issues in matching and true/false questions need correction."
+      },
+      "totalSeconds": 16
+    },
+    {
+      "index": 6,
+      "label": "Cambridge / Exam / Cambridge International AS and A Level Biology Coursebook ",
+      "request": {
+        "subject": "Cambridge International AS and A Level Biology Coursebook ",
+        "textbook_id": 23,
+        "topic_ids": [
+          354,
+          338
+        ],
+        "topics": [
+          "Genetic technology",
+          "Cell membranes and transport"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Biology Coursebook ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 28,
+      "status": 200,
+      "numbered": 10,
+      "parts": 22,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 15"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 15"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "3b",
+            "severity": "broken or poor",
+            "detail": "The question and model answer incorrectly describe the context of the figure. The figure shows plant epidermal tissue, not root cells. The explanation should relate to the effect of temperature on the permeability of the cell membrane in plant epidermal cells.",
+            "correction": "Higher temperatures increase the fluidity of the cell membrane in plant epidermal cells, allowing more molecules to move across it. This increased movement causes more substances to leak out of the cells. This explains why the rate of loss of substances increases with higher temperatures."
+          },
+          {
+            "label": "9c",
+            "severity": "broken or poor",
+            "detail": "The question and model answer incorrectly associate the role of hydrophilic heads with genetic technology. The role of hydrophilic heads is a fundamental aspect of cell membrane structure and is not specific to genetic technology.",
+            "correction": "The hydrophilic heads of phospholipids in the cell membrane interact with water, forming a barrier that separates the aqueous environments inside and outside the cell. This hydrophilic barrier helps maintain the cell's internal environment and regulates the passage of substances across the membrane."
+          }
+        ],
+        "summary": "Minor issues with context and association in two questions."
+      },
+      "totalSeconds": 33
+    },
+    {
+      "index": 7,
+      "label": "Cambridge / Practice / Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+      "request": {
+        "subject": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+        "textbook_id": 28,
+        "topic_ids": [
+          380
+        ],
+        "topics": [
+          "Civil War and Reconstruction, 1861–77"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 39,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "8",
+            "severity": "broken or poor",
+            "detail": "The explanation for the correct answer is incorrect. The source does provide specific details about the Southern states' motivations for secession, such as the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority.",
+            "correction": "Very useful, as it provides detailed reasons for secession."
+          }
+        ],
+        "summary": "Minor issue with question 8's explanation corrected."
+      },
+      "totalSeconds": 42
+    },
+    {
+      "index": 4,
+      "label": "Cambridge / Exam / Cambridge Primary Science 5 Learners Book ",
+      "request": {
+        "subject": "Cambridge Primary Science 5 Learners Book ",
+        "textbook_id": 52,
+        "topic_ids": [
+          580,
+          579
+        ],
+        "topics": [
+          "States of matter",
+          "The life cycle of flowering plants"
+        ],
+        "curriculum": "cambridge",
+        "grade": 5,
+        "className": "Cambridge Primary Science 5 Learners Book ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 217,
+      "status": 200,
+      "numbered": 10,
+      "parts": 24,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 15"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 16"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 2"
+        }
+      ],
+      "figures": 5,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "10a",
+            "severity": "broken or poor",
+            "detail": "The question asks for the average time for 100 ml of water to evaporate, but the provided data shows a single value of 20 minutes, not multiple observations.",
+            "correction": "The average time for 100 ml of water to evaporate is 20 minutes, as there is only one observation."
+          }
+        ],
+        "summary": "Minor issue with calculation instruction in question 10a."
+      },
+      "totalSeconds": 222
+    },
+    {
+      "index": 9,
+      "label": "REB / Practice / English S6 SB",
+      "request": {
+        "subject": "English S6 SB",
+        "textbook_id": 70,
+        "topic_ids": [
+          792
+        ],
+        "topics": [
+          "Unit 6: Money"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 15,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "9",
+            "severity": "broken or poor",
+            "detail": "Incorrect matching of terms to definitions. 'Income' should match with 'Money received from work or investments', 'Tax' with 'Compulsory financial charge or levy imposed by the government', 'Salary' with 'Regular payment made by an employer to an employee', and 'Wages' with 'Compensation for labor or services rendered'.",
+            "correction": "Correct pairs should be [[0, 2], [1, 3], [2, 0], [3, 1]]."
+          },
+          {
+            "label": "10",
+            "severity": "broken or poor",
+            "detail": "Incorrect categorization. 'Income tax' and 'Property tax' are indeed tax types, but 'Wages', 'Dividends', 'Rental income', and 'Interest' are all sources of income.",
+            "correction": "Correct categories should be [0, 0, 1, 1, 1, 1] for ['Income tax', 'Property tax', 'Wages', 'Dividends', 'Rental income', 'Interest']."
+          }
+        ],
+        "summary": "Minor issues in matching and categorization found in questions 9 and 10."
+      },
+      "totalSeconds": 18
+    },
+    {
+      "index": 10,
+      "label": "REB / Exam / P4 Mathematics PB",
+      "request": {
+        "subject": "P4 Mathematics PB",
+        "textbook_id": 153,
+        "topic_ids": [
+          1586,
+          1584
+        ],
+        "topics": [
+          "Mass Measurements",
+          "Length Measurements"
+        ],
+        "curriculum": "rwanda",
+        "grade": 4,
+        "className": "P4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 234631567,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 26,
+      "status": 200,
+      "numbered": 10,
+      "parts": 23,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 2,
+          "detail": "same as question 1"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "reviewModel": "amazon.nova-pro-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "5b",
+            "severity": "broken or poor",
+            "detail": "Incorrect calculation of total cost. The total mass of apples is 540 grams, and each apple costs 50 cents, so the total cost should be 540 * 0.5 = 270 cents, not 27000 cents.",
+            "correction": "Total cost = 540 grams * 0.5 cents/gram = 270 cents"
+          }
+        ],
+        "summary": "Minor issue in cost calculation for question 5b."
+      },
+      "totalSeconds": 31
+    }
+  ]
+}

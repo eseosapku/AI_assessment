@@ -1,0 +1,719 @@
+{
+  "index": 3,
+  "label": "Cambridge / Exam / Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+  "request": {
+    "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+    "textbook_id": 192,
+    "topic_ids": [
+      2364
+    ],
+    "topics": [
+      "Chapter 18: Economic growth"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 52,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country that has been experiencing consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $30,000 in 2010 to $35,000 in 2020.",
+        "question": "Calculate the average annual growth rate of real GDP per capita over this period. (Assume compound growth rate.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the compound growth rate formula",
+          "Substitute the correct values into the formula",
+          "Calculate the average annual growth rate correctly"
+        ],
+        "hints": [
+          "Use the formula for compound growth rate: (Final value / Initial value)^(1/number of years) - 1."
+        ],
+        "model_answer": "The average annual growth rate is calculated as follows: \n\nGrowth rate = ($35,000 / $30,000)^(1/10) - 1 \nGrowth rate = 1.1667^(0.1) - 1 \nGrowth rate = 1.0156 - 1 \nGrowth rate = 0.0156 or 1.56% per year",
+        "explanation": "You need to use the compound growth rate formula to calculate the average annual growth rate of real GDP per capita over the given period.",
+        "exam_question_id": "6abe7ed2-9776-4cd3-968e-4ceadf773e47:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page286-embedded-0.jpeg",
+        "image_alt": "A production possibility curve is drawn in red, bowed outward, falling from the top of the vertical axis to the horizontal axis. The vertical axis is 'Quantity of goods (millions)' with marks at 0, 250 and 350. The horizontal axis is 'Quantity of services (millions)' with marks at 300 and 500. Point X is at 300 services and 250 goods, inside the curve. Point Y is at 500 services and 350 goods, also inside the curve and closer to it. Dashed lines run from both points to the axes.\nLabels: Quantity of goods (millions), 350, Y, 250, X, 0, 300, 500, Quantity of services (millions)\nOriginal exercise",
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country that has been experiencing consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $30,000 in 2010 to $35,000 in 2020.",
+        "question": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens.",
+        "marks": 3,
+        "marking_criteria": [
+          "Discuss the relationship between economic growth and standard of living",
+          "Explain how economic growth leads to improvements in income, employment, and public services",
+          "Provide relevant examples or evidence to support the explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens — develop the idea fully rather than listing short points. Make sure you also cover: Provide relevant examples or evidence to the explanation."
+        ],
+        "model_answer": "Sustained economic growth can lead to improvements in the standard of living for a country's citizens in several ways. Firstly, economic growth often results in higher income levels, allowing individuals to afford better housing, healthcare, and education. Secondly, economic growth creates more employment opportunities, reducing unemployment rates and providing individuals with the means to support themselves and their families. Lastly, economic growth generates additional government revenue, enabling the provision of improved public services such as infrastructure, healthcare, and education. For example, the rise in real GDP per capita from $30,000 in 2010 to $35,000 in 2020 in our scenario suggests that citizens have more purchasing power and access to better services, contributing to an improved standard of living.",
+        "explanation": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens by discussing the relationship between economic growth and standard of living, and providing relevant examples or evidence to support the explanation.",
+        "exam_question_id": "6abe7ed2-9776-4cd3-968e-4ceadf773e47:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page286-embedded-0.jpeg",
+        "image_alt": "A production possibility curve is drawn in red, bowed outward, falling from the top of the vertical axis to the horizontal axis. The vertical axis is 'Quantity of goods (millions)' with marks at 0, 250 and 350. The horizontal axis is 'Quantity of services (millions)' with marks at 300 and 500. Point X is at 300 services and 250 goods, inside the curve. Point Y is at 500 services and 350 goods, also inside the curve and closer to it. Dashed lines run from both points to the axes.\nLabels: Quantity of goods (millions), 350, Y, 250, X, 0, 300, 500, Quantity of services (millions)\nOriginal exercise",
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a country that has been experiencing consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $30,000 in 2010 to $35,000 in 2020.",
+        "question": "Describe the potential challenges that a country might face as a result of rapid economic growth.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify potential challenges associated with rapid economic growth",
+          "Explain the reasons behind these challenges",
+          "Provide relevant examples or evidence to support the description"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the potential challenges that a country might face as a result of rapid economic growth — develop the idea fully rather than listing short points. Make sure you also cover: the reasons behind these challenges; Provide relevant examples or evidence to support the description."
+        ],
+        "model_answer": "Rapid economic growth can bring about several challenges for a country. One potential challenge is income inequality, where the benefits of economic growth are not evenly distributed among the population. This can lead to social unrest and reduced social cohesion. Another challenge is environmental degradation, as rapid economic growth often leads to increased pollution and depletion of natural resources. For example, a country experiencing rapid economic growth may prioritize industrial development over environmental protection, resulting in air and water pollution. Additionally, resource depletion can occur as the demand for natural resources increases, leading to potential shortages and higher prices. These challenges highlight the importance of sustainable economic growth that considers both economic and environmental factors.",
+        "explanation": "Describe the potential challenges that a country might face as a result of rapid economic growth by identifying and explaining these challenges, and providing relevant examples or evidence to support the description.",
+        "exam_question_id": "6abe7ed2-9776-4cd3-968e-4ceadf773e47:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page286-embedded-0.jpeg",
+        "image_alt": "A production possibility curve is drawn in red, bowed outward, falling from the top of the vertical axis to the horizontal axis. The vertical axis is 'Quantity of goods (millions)' with marks at 0, 250 and 350. The horizontal axis is 'Quantity of services (millions)' with marks at 300 and 500. Point X is at 300 services and 250 goods, inside the curve. Point Y is at 500 services and 350 goods, also inside the curve and closer to it. Dashed lines run from both points to the axes.\nLabels: Quantity of goods (millions), 350, Y, 250, X, 0, 300, 500, Quantity of services (millions)\nOriginal exercise",
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider an economy experiencing economic growth as shown in the provided diagrams. The top diagram illustrates a production possibility curve (PPC) with consumer goods on the vertical axis and capital goods on the horizontal axis. The bottom diagram shows the aggregate demand (AD) and aggregate supply (AS) curves with price level on the vertical axis and real GDP on the horizontal axis.",
+        "question": "State the economic term that describes the outward shift in the PPC from the red curve to the blue curve.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the term describing the shift in the PPC",
+          "Explain briefly what this shift represents in terms of economic growth"
+        ],
+        "hints": [
+          "Consider the impact of technological advancements or increased productivity."
+        ],
+        "model_answer": "The economic term that describes the outward shift in the PPC is 'economic growth.' This shift represents an increase in the economy's productive capacity, allowing it to produce more of both consumer goods and capital goods.",
+        "explanation": "Economic growth is indicated by an outward shift of the production possibility curve, reflecting improvements in productivity or technology that allow the economy to produce more goods and services.",
+        "exam_question_id": "40754f6f-f758-4cab-8cbb-c32e90e390a3:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page708-embedded-0.jpeg",
+        "image_alt": "Two stacked diagrams showing potential economic growth. The top is a production possibility curve with consumer goods on the vertical axis and capital goods on the horizontal axis. A red curve lies inside a blue curve, and an arrow points from the red curve to the blue one, showing an outward shift. The bottom is an AD/AS diagram with price level on the vertical axis and real GDP on the horizontal axis. A red downward-sloping AD curve crosses a green LRAS curve at a horizontal section at price level P, with a dashed line down to Y on the real GDP axis. A second LRAS curve, LRAS1, lies to the r",
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider an economy experiencing economic growth as shown in the provided diagrams. The top diagram illustrates a production possibility curve (PPC) with consumer goods on the vertical axis and capital goods on the horizontal axis. The bottom diagram shows the aggregate demand (AD) and aggregate supply (AS) curves with price level on the vertical axis and real GDP on the horizontal axis.",
+        "question": "Explain how the shift from the LRAS curve to the LRAS1 curve in the bottom diagram represents economic growth.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the curves involved in the shift",
+          "Explain the relationship between LRAS and economic growth",
+          "Describe the implications of the shift for the economy"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The shift from the LRAS curve to the LRAS1 curve in the bottom diagram represents economic growth because the long-run aggregate supply curve (LRAS) moves to the right. This shift indicates that the economy can produce a higher level of real GDP at the same price level, reflecting improvements in productivity, technology, or capital accumulation. The result is an increase in the economy's potential output, which is a key indicator of economic growth.",
+        "explanation": "The rightward shift of the LRAS curve to LRAS1 signifies that the economy can sustain higher levels of production without causing inflation, demonstrating economic growth.",
+        "exam_question_id": "40754f6f-f758-4cab-8cbb-c32e90e390a3:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page708-embedded-0.jpeg",
+        "image_alt": "Two stacked diagrams showing potential economic growth. The top is a production possibility curve with consumer goods on the vertical axis and capital goods on the horizontal axis. A red curve lies inside a blue curve, and an arrow points from the red curve to the blue one, showing an outward shift. The bottom is an AD/AS diagram with price level on the vertical axis and real GDP on the horizontal axis. A red downward-sloping AD curve crosses a green LRAS curve at a horizontal section at price level P, with a dashed line down to Y on the real GDP axis. A second LRAS curve, LRAS1, lies to the r",
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows the annual % change in real GDP from 2012 to 2019 of a hypothetical country. The line starts at about 8.4% in 2012, rises to about 9.7% in 2013, about 10.3% in 2014 and 10.3% in 2015, then falls to about 8% in 2016. It rises to about 10.3% in 2017, then falls to about 7.5% in 2018 and about 7.3% in 2019. The line is labelled '% change in real GDP'.",
+        "question": "Calculate the total percentage change in real GDP from 2012 to 2019.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the percentage change for each year.",
+          "Sums up the percentage changes for all the years from 2012 to 2019.",
+          "Provides the final answer with the correct units and precision."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total percentage change in real GDP from 2012 to 2019 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the percentage change for each year.; Provides the final answer with the correct units and precision."
+        ],
+        "model_answer": "The total percentage change in real GDP from 2012 to 2019 is calculated as follows: (8.4 + 9.7 + 10.3 + 10.3 + 8 + 10.3 + 7.5 + 7.3) = 63.8%.",
+        "explanation": "Add up the percentage changes for each year from 2012 to 2019 to get the total percentage change in real GDP.",
+        "exam_question_id": "4c1d74c7-f7ce-4923-9b8c-3588f14e612a:1",
+        "topic_label": "Nominal GDP and real GDP",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page400-embedded-1.jpeg",
+        "image_alt": "A line graph of the annual % change in real GDP from 2012 to 2019, with the y-axis labelled % and running from 0 to 12 in steps of 2. The line starts at about 8.4 in 2012, rises to about 9.7 in 2013, about 10.3 in 2014 and 10.3 in 2015, then falls to about 8 in 2016. It rises to about 10.3 in 2017, then falls to about 7.5 in 2018 and about 7.3 in 2019. The line is labelled '% change in real GDP'.\nLabels: 12, 10, 8, 6, 4, 2, 0, %, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, % change in real GDP\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11893,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Nominal GDP and real GDP"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows the annual % change in real GDP from 2012 to 2019 of a hypothetical country. The line starts at about 8.4% in 2012, rises to about 9.7% in 2013, about 10.3% in 2014 and 10.3% in 2015, then falls to about 8% in 2016. It rises to about 10.3% in 2017, then falls to about 7.5% in 2018 and about 7.3% in 2019. The line is labelled '% change in real GDP'.",
+        "question": "Explain what the shape of the line in the diagram suggests about the economic growth of the country.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the fluctuations in the percentage change in real GDP over the years.",
+          "Explains the significance of these fluctuations in terms of economic growth.",
+          "Provides a clear and concise explanation."
+        ],
+        "hints": [
+          "Consider the overall trend and the variations in the annual percentage changes."
+        ],
+        "model_answer": "The shape of the line in the diagram suggests that the country experienced varying rates of economic growth over the period from 2012 to 2019. There were periods of positive growth, such as in 2013, 2014, and 2015, followed by a decline in 2016. However, there was another period of growth in 2017 before another decline in 2018 and 2019. This indicates that the country's economic growth was not consistent and faced fluctuations during these years.",
+        "explanation": "Analyse the line graph and explain how the changes in the annual percentage of real GDP reflect the country's economic growth.",
+        "exam_question_id": "4c1d74c7-f7ce-4923-9b8c-3588f14e612a:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page400-embedded-1.jpeg",
+        "image_alt": "A line graph of the annual % change in real GDP from 2012 to 2019, with the y-axis labelled % and running from 0 to 12 in steps of 2. The line starts at about 8.4 in 2012, rises to about 9.7 in 2013, about 10.3 in 2014 and 10.3 in 2015, then falls to about 8 in 2016. It rises to about 10.3 in 2017, then falls to about 7.5 in 2018 and about 7.3 in 2019. The line is labelled '% change in real GDP'.\nLabels: 12, 10, 8, 6, 4, 2, 0, %, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, % change in real GDP\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows an index of GDP per capita from 1770 to 2010. The line graph depicts the index values over the years.",
+        "question": "Calculate the total percentage increase in the index of GDP per capita from 1770 to 2010.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the initial and final index values from the diagram.",
+          "Accurately calculate the percentage increase using the formula.",
+          "Provide the final answer with appropriate units and precision."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total percentage increase in the index of GDP per capita from 1770 to 2010 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the and index values from the diagram.; Accurately calculate the percentage increase using the…."
+        ],
+        "model_answer": "Initial Value (1770): 100\nFinal Value (2010): 2500\nPercentage Increase = ((2500 - 100) / 100) * 100 = 2400%.\nThe total percentage increase in the index of GDP per capita from 1770 to 2010 is 2400%.",
+        "explanation": "Use the initial and final index values from the diagram to calculate the percentage increase. Ensure to apply the formula correctly and present the answer with the appropriate percentage symbol.",
+        "exam_question_id": "d7281d57-c3f6-4823-897a-7f25044941c9:1",
+        "topic_label": "Chapter 18: Economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page852-embedded-0.jpeg",
+        "image_alt": "A line graph of an index of GDP per capita (y-axis labelled %, from 0 to 3000 in steps of 500) against years from 1770 to 2010 (x-axis in 20-year steps). The line is a single purple line labelled 'Index of GDP per capita'. It starts at about 100 in 1770 and 1790, rises to about 200 in 1810, falls to about 100 in 1830, then rises slowly to about 230 by 1910. After that it rises steeply: about 500 in 1930, 700 in 1950, about 2000 in 1990 and about 2500 in 2010.\nLabels: 3000, 2500, 2000, 1500, 1000, 500, 0, %, Index of GDP per capita, 1770, 1790, 1810, 1830, 1850, 1870, 1890, 1910, 1930, 1950, 19",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Chapter 18: Economic growth"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows an index of GDP per capita from 1770 to 2010. The line graph depicts the index values over the years.",
+        "question": "Explain why the index of GDP per capita shows a steep rise from 1930 onwards.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify relevant historical events or economic policies that may have influenced the steep rise.",
+          "Explain the relationship between these events/policies and the increase in GDP per capita.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the index of GDP per capita shows a steep rise from 1930 onwards — develop the idea fully rather than listing short points. Make sure you also cover: Identify relevant historical or that may have influenced the steep rise.; Provide a clear and coherent explanation."
+        ],
+        "model_answer": "The steep rise in the index of GDP per capita from 1930 onwards can be attributed to several factors. The period saw significant industrialization and technological advancements, which increased productivity and efficiency. Additionally, post-war economic booms, particularly after World War II, led to rapid economic growth in many countries. These events and policies collectively contributed to the substantial increase in GDP per capita during this period.",
+        "explanation": "Discuss the historical context and economic developments that could have caused the steep rise in GDP per capita, linking these factors to the observed data in the diagram.",
+        "exam_question_id": "d7281d57-c3f6-4823-897a-7f25044941c9:1",
+        "topic_label": "Chapter 18: Economic growth",
+        "topic_id": 2364,
+        "image_url": "/textbook-images/cambridge/192/page852-embedded-0.jpeg",
+        "image_alt": "A line graph of an index of GDP per capita (y-axis labelled %, from 0 to 3000 in steps of 500) against years from 1770 to 2010 (x-axis in 20-year steps). The line is a single purple line labelled 'Index of GDP per capita'. It starts at about 100 in 1770 and 1790, rises to about 200 in 1810, falls to about 100 in 1830, then rises slowly to about 230 by 1910. After that it rises steeply: about 500 in 1930, 700 in 1950, about 2000 in 1990 and about 2500 in 2010.\nLabels: 3000, 2500, 2000, 1500, 1000, 500, 0, %, Index of GDP per capita, 1770, 1790, 1810, 1830, 1850, 1870, 1890, 1910, 1930, 1950, 19",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Chapter 18: Economic growth"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a small island economy that has been experiencing consistent economic growth over the past five years. The real GDP per capita increased from $20,000 in 2015 to $25,000 in 2020.",
+        "question": "Calculate the average annual growth rate of real GDP per capita over this period. (Assume compound growth rate.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial and final values of real GDP per capita.",
+          "Use the compound growth rate formula to calculate the average annual growth rate.",
+          "Show the calculation steps and present the final answer."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the average annual growth rate of real GDP per capita over this period; then (Assume compound growth rate.). Make sure you also cover: Identify the and values of real GDP per capita.; the compound growth rate formula to calculate the average annual growth rate.;…."
+        ],
+        "model_answer": "Initial value = $20,000, Final value = $25,000, Number of years = 5. Growth rate = (25000 / 20000)^(1/5) - 1 = 0.0488 or 4.88%.",
+        "explanation": "Calculate the average annual growth rate of real GDP per capita over the given period.",
+        "exam_question_id": "a1a1684a-5006-48c3-bbef-9282933f95ae:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a small island economy that has been experiencing consistent economic growth over the past five years. The real GDP per capita increased from $20,000 in 2015 to $25,000 in 2020.",
+        "question": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define economic growth and its impact on real GDP per capita.",
+          "Explain how increased real GDP per capita can improve living standards.",
+          "Provide examples or reasoning to support the explanation."
+        ],
+        "hints": [
+          "Consider factors such as increased income, better access to goods and services, and improved infrastructure."
+        ],
+        "model_answer": "Sustained economic growth increases real GDP per capita, leading to higher incomes and improved living standards. For example, higher incomes allow citizens to afford better healthcare, education, and housing, which directly enhance their quality of life.",
+        "explanation": "Explain how sustained economic growth can improve the standard of living for a country's citizens.",
+        "exam_question_id": "a1a1684a-5006-48c3-bbef-9282933f95ae:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $32,000 in 2010 to $38,000 in 2020.",
+        "question": "Calculate the average annual growth rate of real GDP per capita over this period. (Assume compound growth rate.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the initial and final values of real GDP per capita.",
+          "Use the compound growth rate formula: (Final Value / Initial Value)^(1/n) - 1, where n is the number of years.",
+          "Provide the final answer with the correct percentage to two decimal places."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Initial Value = $32,000\nFinal Value = $38,000\nNumber of years (n) = 10\nCompound growth rate = (38000 / 32000)^(1/10) - 1 = 0.0148 or 1.48%\n\n\nThe average annual growth rate of real GDP per capita over this period is 1.48%.",
+        "explanation": "This question requires you to calculate the average annual growth rate of real GDP per capita over a period of 10 years, assuming a compound growth rate.",
+        "exam_question_id": "601fd1d7-7e73-4e84-b359-7c8dfd8a29be:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $32,000 in 2010 to $38,000 in 2020.",
+        "question": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the relationship between economic growth and standard of living.",
+          "Explain how increased real GDP per capita can lead to higher income levels.",
+          "Discuss the potential benefits of higher income levels on the standard of living."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Sustained economic growth leads to an increase in real GDP per capita. This means that, on average, each citizen has more income to spend on goods and services. Higher income levels can lead to improved access to healthcare, education, and other essential services. It can also lead to higher savings and investment, which can further stimulate economic growth and lead to a higher standard of living.\n\nSustained economic growth can lead to improvements in the standard of living for a country's citizens by increasing real GDP per capita, which in turn leads to higher income levels, improved access to goods and services, and potential for higher savings and investment.",
+        "explanation": "This question requires you to explain the relationship between sustained economic growth and improvements in the standard of living for a country's citizens.",
+        "exam_question_id": "601fd1d7-7e73-4e84-b359-7c8dfd8a29be:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past five years. The real GDP per capita increased from $22,000 in 2015 to $28,000 in 2020.",
+        "question": "Calculate the average annual growth rate of real GDP per capita over this period. (Assume compound growth rate.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the compound growth rate formula.",
+          "Substitute the given values into the formula.",
+          "Provide the final answer with appropriate precision."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the average annual growth rate of real GDP per capita over this period; then (Assume compound growth rate.). Make sure you also cover: Correctly apply the compound growth rate; Substitute the given values into the; Provide the answer with appropriate precision."
+        ],
+        "model_answer": "Using the formula ((Final Value / Initial Value) ^ (1 / Number of Years)) - 1, we have ((28000 / 22000) ^ (1 / 5)) - 1 = 0.0568 or 5.68%.",
+        "explanation": "This question tests the student's ability to calculate the compound annual growth rate (CAGR) using the given data.",
+        "exam_question_id": "81beb2ed-16db-4496-8d9b-0f39b1c06642:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past five years. The real GDP per capita increased from $22,000 in 2015 to $28,000 in 2020.",
+        "question": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the link between economic growth and standard of living.",
+          "Provide examples or explanations of how economic growth can improve living standards.",
+          "Conclude with a summary or final thought on the relationship."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Sustained economic growth can lead to improvements in the standard of living for a country's citizens by increasing real GDP per capita, which translates to higher incomes. With more disposable income, citizens can afford better healthcare, education, and living conditions. Additionally, economic growth often leads to more job opportunities and better infrastructure, enhancing overall quality of life.",
+        "explanation": "This question assesses the student's understanding of the relationship between economic growth and the standard of living.",
+        "exam_question_id": "81beb2ed-16db-4496-8d9b-0f39b1c06642:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $34,000 in 2010 to $40,000 in 2020.",
+        "question": "Calculate the average annual growth rate of real GDP per capita over this period. (Assume compound growth rate.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the compound growth rate formula.",
+          "Substitute the given values into the formula.",
+          "Provide the final answer with appropriate precision."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the average annual growth rate of real GDP per capita over this period; then (Assume compound growth rate.). Make sure you also cover: Correctly apply the compound growth rate; Substitute the given values into the; Provide the answer with appropriate precision."
+        ],
+        "model_answer": "Using the formula ((Final Value / Initial Value) ^ (1 / Number of Years)) - 1, we have ((40000 / 34000) ^ (1 / 10)) - 1 = 0.0169 or 1.69%.",
+        "explanation": "This question tests the student's ability to calculate the compound annual growth rate (CAGR) using the given data.",
+        "exam_question_id": "81beb2ed-16db-4496-8d9b-0f39b1c06642:2",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $34,000 in 2010 to $40,000 in 2020.",
+        "question": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the link between economic growth and standard of living.",
+          "Provide examples or explanations of how economic growth can improve living standards.",
+          "Conclude with a summary or final thought on the relationship."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Sustained economic growth can lead to improvements in the standard of living for a country's citizens by increasing real GDP per capita, which translates to higher incomes. With more disposable income, citizens can afford better healthcare, education, and living conditions. Additionally, economic growth often leads to more job opportunities and better infrastructure, enhancing overall quality of life.",
+        "explanation": "This question assesses the student's understanding of the relationship between economic growth and the standard of living.",
+        "exam_question_id": "81beb2ed-16db-4496-8d9b-0f39b1c06642:2",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a hypothetical country that has been experiencing consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $28,000 in 2010 to $33,000 in 2020.",
+        "question": "Calculate the average annual growth rate of real GDP per capita over this period. (Assume compound growth rate.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial and final values of real GDP per capita.",
+          "Use the compound growth rate formula to calculate the average annual growth rate.",
+          "Provide the final answer with appropriate units."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the average annual growth rate of real GDP per capita over this period; then (Assume compound growth rate.). Make sure you also cover: Provide the answer with appropriate units."
+        ],
+        "model_answer": "Initial Value = $28,000, Final Value = $33,000, Number of Years = 10\nGrowth rate = ((33000 / 28000) ^ (1 / 10)) - 1\nGrowth rate = (1.1786) ^ (0.1) - 1\nGrowth rate = 1.0172 - 1\nGrowth rate = 0.0172 or 1.72%\nThe average annual growth rate of real GDP per capita over this period is 1.72%.",
+        "explanation": "To calculate the average annual growth rate of real GDP per capita, we need to use the compound growth rate formula. The formula takes into account the initial value, final value, and the number of years. By plugging in the given values, we can calculate the growth rate.",
+        "exam_question_id": "751f673d-1644-4ef1-8c69-7d9435312ec3:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a hypothetical country that has been experiencing consistent economic growth over the past decade, resulting in a rise in its real GDP per capita from $28,000 in 2010 to $33,000 in 2020.",
+        "question": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the relationship between economic growth and standard of living.",
+          "Provide examples or reasons to support the explanation.",
+          "Use economic concepts or theories to justify the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens — develop the idea fully rather than listing short points. Make sure you also cover: Provide examples or reasons to support the explanation.; economic concepts or theories to justify…."
+        ],
+        "model_answer": "Sustained economic growth can lead to improvements in the standard of living for a country's citizens in several ways. Firstly, economic growth increases income levels, which allows individuals to afford better housing, healthcare, and education. Secondly, economic growth creates more employment opportunities, reducing unemployment and increasing job security. This leads to higher incomes and improved living standards. Additionally, economic growth stimulates innovation and technological advancements, resulting in the production of better goods and services. Overall, sustained economic growth improves the standard of living by increasing income levels, creating job opportunities, and enhancing the quality of goods and services available to citizens.",
+        "explanation": "Economic growth leads to improvements in the standard of living by increasing income levels, creating job opportunities, and enhancing the quality of goods and services. As real GDP per capita rises, individuals have more purchasing power, which allows them to afford better housing, healthcare, and education. Economic growth also creates more employment opportunities, reducing unemployment and increasing job security. This leads to higher incomes and improved living standards. Furthermore, economic growth stimulates innovation and technological advancements, resulting in the production of better goods and services. Overall, sustained economic growth improves the standard of living for a country's citizens.",
+        "exam_question_id": "751f673d-1644-4ef1-8c69-7d9435312ec3:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past five years. The real GDP per capita increased from $26,000 in 2015 to $30,000 in 2020.",
+        "question": "Calculate the average annual growth rate of real GDP per capita over this period. (Assume compound growth rate.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the initial and final values of real GDP per capita.",
+          "Use the compound growth rate formula correctly.",
+          "Provide the final answer with appropriate units."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the average annual growth rate of real GDP per capita over this period; then (Assume compound growth rate.). Make sure you also cover: Correctly identify the and values of real GDP per capita.; the compound growth rate formula correctly.; Provide the answer with…."
+        ],
+        "model_answer": "Initial Value = $26,000\nFinal Value = $30,000\nNumber of Years = 5\nGrowth Rate = ((30,000 / 26,000) ^ (1 / 5)) - 1\nGrowth Rate = 0.0343 or 3.43%\nThe average annual growth rate of real GDP per capita is 3.43%.",
+        "explanation": "To calculate the average annual growth rate of real GDP per capita, we use the compound growth rate formula. This formula helps us determine the consistent growth rate that, if applied each year, would result in the observed increase in real GDP per capita over the given period. By applying the formula with the provided initial and final values, we can find the average annual growth rate.",
+        "exam_question_id": "a9568284-149e-4f0d-9494-dff904df9bf6:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country that has experienced consistent economic growth over the past five years. The real GDP per capita increased from $26,000 in 2015 to $30,000 in 2020.",
+        "question": "Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the relationship between economic growth and standard of living.",
+          "Provide examples or explanations of how economic growth can improve living standards.",
+          "Ensure the answer is clear and coherent."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how sustained economic growth can lead to improvements in the standard of living for a country's citizens — develop the idea fully rather than listing short points. Make sure you also cover: Ensure the answer is clear and coherent."
+        ],
+        "model_answer": "Sustained economic growth can lead to improvements in the standard of living for a country's citizens by increasing real GDP per capita. As real GDP per capita rises, it typically leads to higher incomes for individuals, which can be spent on a greater variety and quantity of goods and services. This can result in improved access to healthcare, education, and other essential services. Additionally, economic growth often leads to job creation, reducing unemployment and providing more opportunities for individuals to improve their economic well-being. Overall, sustained economic growth contributes to a higher standard of living by enhancing the purchasing power and quality of life for citizens.",
+        "explanation": "Economic growth, as indicated by the increase in real GDP per capita, generally leads to higher incomes and improved access to goods and services. This, in turn, can enhance the standard of living by providing individuals with more opportunities to improve their quality of life.",
+        "exam_question_id": "a9568284-149e-4f0d-9494-dff904df9bf6:1",
+        "topic_label": "Causes and consequences of economic growth",
+        "topic_id": 2364,
+        "checked": true,
+        "subtopic_id": 11894,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Causes and consequences of economic growth"
+        }
+      }
+    ],
+    "estimated_time": 62,
+    "assessment_id": "339df249-3d22-4c5a-8b48-263bf1d82d7c",
+    "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+    "topics": [
+      "Chapter 18: Economic growth"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 192,
+    "topic_ids": [
+      2364
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 21,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "explanation-addresses-the-marker",
+      "severity": "poor",
+      "index": 13,
+      "detail": "This question tests the student's ability to calculate the c"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "explanation-addresses-the-marker",
+      "severity": "poor",
+      "index": 15,
+      "detail": "This question tests the student's ability to calculate the c"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 2"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 53
+}

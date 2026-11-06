@@ -1,0 +1,502 @@
+{
+  "index": 14,
+  "label": "REB / Practice / GENERAL EDU-History-S6-SB (1)",
+  "request": {
+    "subject": "GENERAL EDU-History-S6-SB (1)",
+    "textbook_id": 101,
+    "topic_ids": [
+      1057,
+      1060
+    ],
+    "topics": [
+      "UNIT 4: AFRICAN NATIONALISM AND ACQUISITION OF INDEPENDENCE",
+      "UNIT 7: GENOCIDE PREVENTION IN RWANDA AND ABROAD"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 28,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "African Nationalism",
+            "right": "A political movement aiming for independence and self-governance of African countries"
+          },
+          {
+            "left": "Colonial Rule",
+            "right": "The domination and control by foreign powers over African territories"
+          },
+          {
+            "left": "Self-determination",
+            "right": "The right of people to choose their sovereignty and international political status without external interference"
+          },
+          {
+            "left": "Decolonization",
+            "right": "The process by which colonies become independent of the colonizing country"
+          }
+        ],
+        "marks": 4,
+        "explanation": "These definitions accurately describe the key terms related to African nationalism and independence.",
+        "left_items": [
+          "African Nationalism",
+          "Colonial Rule",
+          "Self-determination",
+          "Decolonization"
+        ],
+        "right_items": [
+          "The domination and control by foreign powers over African territories",
+          "The right of people to choose their sovereignty and international political status without external interference",
+          "The process by which colonies become independent of the colonizing country",
+          "A political movement aiming for independence and self-governance of African countries"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 5116,
+        "topic_id": 1057,
+        "topic_label": "Consequences of African nationalism",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Consequences of African nationalism"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put these stages in the correct order for the process of African countries regaining independence",
+        "ordered_items": [
+          "Formation of nationalist movements",
+          "International pressure and support",
+          "Colonial powers' gradual withdrawal",
+          "Declaration of independence"
+        ],
+        "marks": 4,
+        "explanation": "This sequence reflects the typical progression through which African countries achieved independence.",
+        "items": [
+          "Colonial powers' gradual withdrawal",
+          "Declaration of independence",
+          "Formation of nationalist movements",
+          "International pressure and support"
+        ],
+        "correct_order": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "checked": true,
+        "subtopic_id": 5115,
+        "topic_id": 1057,
+        "topic_label": "Process followed by African countries to regain independence",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Process followed by African countries to regain independence"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Concepts",
+          "Factors",
+          "Practices"
+        ],
+        "items": [
+          "United Nations involvement",
+          "Educating the masses",
+          "Ethnic tensions",
+          "International support",
+          "Armed struggle",
+          "Peaceful protests"
+        ],
+        "correct_category": [
+          1,
+          2,
+          1,
+          1,
+          2,
+          2
+        ],
+        "marks": 6,
+        "explanation": "UN involvement and International support are external factors that influenced independence movements. Educating the masses, armed struggle, and peaceful protests are practices/methods used by nationalist movements. Ethnic tensions are internal factors affecting the process.",
+        "checked": true,
+        "subtopic_id": 5126,
+        "topic_id": 1060,
+        "topic_label": "Concepts, factors and practices of genocide prevention",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Concepts, factors and practices of genocide prevention"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Genocide prevention involves both legal and educational strategies.",
+          "The Rwandan Genocide was primarily caused by economic factors.",
+          "Prevention of genocide can only be achieved through military intervention.",
+          "Education about the dangers of hate speech is a form of genocide prevention."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "These statements are evaluated based on accurate understanding of genocide prevention strategies and the causes of the Rwandan Genocide.",
+        "checked": true,
+        "subtopic_id": 5129,
+        "topic_id": 1060,
+        "topic_label": "Challenges faced in the prevention of genocide",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Challenges faced in the prevention of genocide"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Cultural assimilation",
+          "Ethnic diversity",
+          "Nationalistic policies",
+          "Genocide prevention"
+        ],
+        "correct_index": 0,
+        "marks": 1,
+        "explanation": "Cultural assimilation is the odd one out as it is not a practice of genocide prevention but rather a policy that can contribute to ethnic tensions.",
+        "checked": true,
+        "subtopic_id": 5129,
+        "topic_id": 1060,
+        "topic_label": "Challenges faced in the prevention of genocide",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Challenges faced in the prevention of genocide"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each concept to its description",
+        "matched_pairs": [
+          {
+            "left": "Preventive diplomacy",
+            "right": "Efforts to prevent disputes from escalating into conflict and violence"
+          },
+          {
+            "left": "Peacebuilding",
+            "right": "Actions to identify and support structures which solidify peace in post-conflict states"
+          },
+          {
+            "left": "Early warning systems",
+            "right": "Mechanisms to detect and monitor the early signs of genocide"
+          },
+          {
+            "left": "Justice and accountability",
+            "right": "Ensuring that perpetrators of genocide are held responsible and that victims are compensated"
+          }
+        ],
+        "marks": 4,
+        "explanation": "These concepts are matched with their correct descriptions related to genocide prevention.",
+        "left_items": [
+          "Preventive diplomacy",
+          "Peacebuilding",
+          "Early warning systems",
+          "Justice and accountability"
+        ],
+        "right_items": [
+          "Efforts to prevent disputes from escalating into conflict and violence",
+          "Ensuring that perpetrators of genocide are held responsible and that victims are compensated",
+          "Mechanisms to detect and monitor the early signs of genocide",
+          "Actions to identify and support structures which solidify peace in post-conflict states"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 5126,
+        "topic_id": 1060,
+        "topic_label": "Concepts, factors and practices of genocide prevention",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Concepts, factors and practices of genocide prevention"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Classify each practice into the appropriate category",
+        "categories": [
+          "International",
+          "National"
+        ],
+        "items": [
+          "UN peacekeeping missions",
+          "Local community education programs",
+          "International criminal tribunals",
+          "National legislation against hate speech"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "These practices have been categorised based on whether they are implemented at an international or national level.",
+        "checked": true,
+        "topic_label": "UNIT 4: AFRICAN NATIONALISM AND ACQUISITION OF INDEPENDENCE",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each African nationalist leader with their respective country",
+        "matched_pairs": [
+          {
+            "left": "Kwame Nkrumah",
+            "right": "Ghana"
+          },
+          {
+            "left": "Jomo Kenyatta",
+            "right": "Kenya"
+          },
+          {
+            "left": "Julius Nyerere",
+            "right": "Tanzania"
+          },
+          {
+            "left": "Patrice Lumumba",
+            "right": "Democratic Republic of the Congo"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Kwame Nkrumah led Ghana to independence, Jomo Kenyatta led Kenya, Julius Nyerere led Tanzania, and Patrice Lumumba led the Democratic Republic of the Congo.",
+        "left_items": [
+          "Kwame Nkrumah",
+          "Jomo Kenyatta",
+          "Julius Nyerere",
+          "Patrice Lumumba"
+        ],
+        "right_items": [
+          "Kenya",
+          "Tanzania",
+          "Democratic Republic of the Congo",
+          "Ghana"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 5115,
+        "topic_id": 1057,
+        "topic_label": "Process followed by African countries to regain independence",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Process followed by African countries to regain independence"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the following events in the correct chronological order",
+        "ordered_items": [
+          "Formation of the Organization of African Unity",
+          "Independence of Ghana",
+          "Algerian War of Independence",
+          "Formation of the African National Congress"
+        ],
+        "marks": 4,
+        "explanation": "The African National Congress was formed in 1912, the Algerian War of Independence began in 1954, Ghana gained independence in 1957, and the Organisation of African Unity was formed in 1963.",
+        "items": [
+          "Formation of the Organisation of African Unity",
+          "Algerian War of Independence",
+          "Independence of Ghana",
+          "Formation of the African National Congress"
+        ],
+        "correct_order": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "checked": true,
+        "subtopic_id": 5115,
+        "topic_id": 1057,
+        "topic_label": "Process followed by African countries to regain independence",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Process followed by African countries to regain independence"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category based on the consequences of African nationalism",
+        "categories": [
+          "Political",
+          "Economic",
+          "Social"
+        ],
+        "items": [
+          "Formation of independent nations",
+          "Economic self-sufficiency",
+          "Cultural renaissance",
+          "Political instability"
+        ],
+        "correct_category": [
+          0,
+          1,
+          2,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Formation of independent nations and political instability fall under political consequences, economic self-sufficiency is an economic consequence, and cultural renaissance is a social consequence.",
+        "checked": true,
+        "subtopic_id": 5116,
+        "topic_id": 1057,
+        "topic_label": "Consequences of African nationalism",
+        "source": {
+          "textbook": "GENERAL EDU-History-S6-SB (1)",
+          "area": "Consequences of African nationalism"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "820103c1-4123-4a77-8a35-ae600433548e",
+    "subject": "GENERAL EDU-History-S6-SB (1)",
+    "topics": [
+      "UNIT 4: AFRICAN NATIONALISM AND ACQUISITION OF INDEPENDENCE",
+      "UNIT 7: GENOCIDE PREVENTION IN RWANDA AND ABROAD"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "interactive",
+    "textbook_id": 101,
+    "topic_ids": [
+      1057,
+      1060
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "3",
+        "severity": "broken",
+        "detail": "Categorization is factually incorrect. 'Ethnic tensions' is categorized as a Factor (1), but the answer key marks it as correct in category index 1 (Factors). However, 'United Nations involvement' and 'International support' are both external factors, not distinct from each other as 'Concepts'. The category 'Concepts' doesn't logically fit these items. The explanation contradicts standard genocide prevention taxonomy where these would be 'External Factors' or 'International Mechanisms', not 'Concepts'.",
+        "correction": "Revise categories to: 'International Mechanisms', 'Internal Factors', 'Prevention Practices'. Correct mapping: UN involvement[0], Educating masses[2], Ethnic tensions[1], International support[0], Armed struggle[2], Peaceful protests[2]."
+      },
+      {
+        "label": "5",
+        "severity": "poor",
+        "detail": "The odd-one-out logic is weak. 'Cultural assimilation' is marked as not belonging among genocide prevention items, but 'Ethnic diversity' and 'Nationalistic policies' are also not genocide prevention practices. Ethnic diversity is a demographic characteristic, and nationalistic policies can either promote or hinder prevention depending on context. Multiple items don't clearly belong.",
+        "correction": "Replace 'Ethnic diversity' with a clear genocide prevention practice like 'Reconciliation programs' to make 'Cultural assimilation' unambiguously the odd one out."
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Question 7 lacks clear topic alignment. It categorizes genocide prevention practices as International/National but is labeled under 'UNIT 4: AFRICAN NATIONALISM AND ACQUISITION OF INDEPENDENCE' rather than Unit 7 (Genocide Prevention). The topic_label contradicts the content, which exclusively addresses genocide prevention mechanisms.",
+        "correction": "Change topic_label to 'UNIT 7: GENOCIDE PREVENTION IN RWANDA AND ABROAD' and add subtopic_id referencing genocide prevention practices."
+      }
+    ],
+    "summary": "Three issues identified: Question 3 has illogical category definitions where 'Concepts' doesn't fit the items assigned to it; Question 5 has ambiguous odd-one-out logic with multiple non-belonging items; Question 7 is mislabeled under Unit 4 when content clearly addresses Unit 7 genocide prevention topics."
+  },
+  "totalSeconds": 47
+}

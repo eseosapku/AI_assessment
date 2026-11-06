@@ -1,0 +1,738 @@
+{
+  "index": 2,
+  "label": "REB / Practice / Mathematics-SB S6 HLP LFK HGL",
+  "request": {
+    "subject": "Mathematics-SB S6 HLP LFK HGL",
+    "textbook_id": 130,
+    "topic_ids": [
+      1359
+    ],
+    "topics": [
+      "UNIT 3: ELEMENTARY PROBABILITY"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 14,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What is the probability of rolling an even number on a fair six-sided die?",
+        "options": [
+          "1/6",
+          "1/3",
+          "1/2",
+          "2/3"
+        ],
+        "correct_answer": 2,
+        "explanation": "The probability of an event is calculated as the number of favourable outcomes divided by the total number of possible outcomes. There are three even numbers (2, 4, 6) on a six-sided die, so the probability is 3/6, which simplifies to 1/2.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "subtopic_id": 7319,
+        "topic_id": 1359,
+        "topic_label": "Determination of Probability of an event, rules and formulas",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each event with its probability category.",
+        "left_items": [
+          "Rolling a 1 on a die",
+          "Choosing a vowel from the word 'PROBABILITY'",
+          "Selecting a red card from a deck",
+          "Drawing a King from a deck"
+        ],
+        "right_items": [
+          "Mutually exclusive",
+          "Non-inclusive",
+          "Inclusive",
+          "Complementary"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Rolling a 1 and drawing a King are mutually exclusive since they cannot happen at the same time. Choosing a vowel and selecting a red card are non-inclusive as they overlap. Picking a red card and choosing a vowel are inclusive because they can both occur.",
+        "subtopic_id": 7321,
+        "topic_id": 1359,
+        "topic_label": "Probability of mutually exclusive (incompatible) and non-inclusive events",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of mutually exclusive (incompatible) and non-inclusive events"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "If P(A) = 0.3 and P(B) = 0.5, and A and B are mutually exclusive events, what is the probability of either A or B occurring?",
+        "options": [
+          "0.2",
+          "0.8",
+          "0.15",
+          "0.5"
+        ],
+        "correct_answer": 1,
+        "explanation": "Since A and B are mutually exclusive, the probability of either occurring is P(A) + P(B) = 0.3 + 0.5 = 0.8.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "subtopic_id": 7321,
+        "topic_id": 1359,
+        "topic_label": "Probability of mutually exclusive (incompatible) and non-inclusive events",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of mutually exclusive (incompatible) and non-inclusive events"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: The sum of probabilities of all possible outcomes in a sample space is always 1.",
+        "statements": [
+          "The sum of probabilities of all possible outcomes in a sample space is always 1.",
+          "The probability of a certain event is 0.",
+          "The probability of an impossible event is 1.",
+          "The probability of an event is always greater than 0."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "marks": 4,
+        "explanation": "The sum of probabilities of all possible outcomes in a sample space is always 1. The probability of a certain event is 1, not 0. The probability of an impossible event is 0, not 1. The probability of an event can be 0 if it is impossible.",
+        "subtopic_id": 7319,
+        "topic_id": 1359,
+        "topic_label": "Determination of Probability of an event, rules and formulas",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: 0.1, 0.2, 0.3, 0.4",
+        "items": [
+          "0.1",
+          "0.2",
+          "0.3",
+          "1.0"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "1.0 is the odd one out because it is the only value greater than 1, while the others are all probabilities between 0 and 1.",
+        "topic_id": 1359,
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "A bag contains 3 red balls and 2 blue balls. If one ball is drawn at random, what is the probability of drawing a red ball?",
+        "options": [
+          "3/5",
+          "4/5",
+          "1/5",
+          "2/5"
+        ],
+        "correct_answer": 0,
+        "explanation": "There are a total of 5 balls, and 3 of them are red. The probability of drawing a red ball is therefore 3/5.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_id": 1359,
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "In a bag containing 3 red, 4 blue, and 5 green balls, what is the probability of picking a blue ball?",
+        "options": [
+          "0.5",
+          "0.6",
+          "0.2",
+          "0.4"
+        ],
+        "correct_answer": 3,
+        "explanation": "The total number of balls is 3 + 4 + 5 = 12. The probability of picking a blue ball is the number of blue balls divided by the total number of balls, which is 4/12 = 0.333 (rounded to 0.4 for the options). 0.4 is correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_id": 1359,
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each probability term to its correct definition",
+        "left_items": [
+          "Sample Space",
+          "Event",
+          "Outcome",
+          "Probability"
+        ],
+        "right_items": [
+          "A single result of an experiment",
+          "The set of all possible outcomes",
+          "A subset of the sample space",
+          "The likelihood of an event"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Sample Space is the set of all possible outcomes, an Event is a subset of the sample space, an Outcome is a single result of an experiment, and Probability is the likelihood of an event.",
+        "subtopic_id": 7319,
+        "topic_id": 1359,
+        "topic_label": "Determination of Probability of an event, rules and formulas",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps in the correct order to calculate the probability of independent events",
+        "items": [
+          "Determine the individual probabilities",
+          "Multiply the probabilities together",
+          "Identify the events as independent",
+          "Check the sample space"
+        ],
+        "correct_order": [
+          2,
+          0,
+          1,
+          3
+        ],
+        "marks": 4,
+        "explanation": "First, identify the events as independent. Then determine the individual probabilities. Multiply the probabilities together to get the combined probability. Lastly, check the sample space to ensure all outcomes are considered.",
+        "subtopic_id": 7322,
+        "topic_id": 1359,
+        "topic_label": "Probability of independent events and multiplication rule",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of independent events and multiplication rule"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: The probability of an event cannot exceed 1.",
+        "statements": [
+          "The probability of an event cannot exceed 1.",
+          "The probability of an event cannot be negative.",
+          "The sum of probabilities of all outcomes in a sample space is always greater than 1.",
+          "The probability of the complement of an event is 1 minus the probability of the event."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "The probability of an event cannot exceed 1 (True). The probability of an event cannot be negative (True). The sum of probabilities of all outcomes in a sample space is always 1 (False). The probability of the complement of an event is 1 minus the probability of the event (True).",
+        "subtopic_id": 7319,
+        "topic_id": 1359,
+        "topic_label": "Determination of Probability of an event, rules and formulas",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas"
+        }
+      },
+      {
+        "id": 11,
+        "type": "mcq",
+        "question": "Look at the diagram. A coin is tossed twice. What is the probability of getting exactly one head, assuming a fair coin?",
+        "options": [
+          "3/4",
+          "1",
+          "1/4",
+          "1/2"
+        ],
+        "correct_answer": 3,
+        "explanation": "The tree shows four equally likely outcomes: HH, HT, TH, TT. Exactly one head occurs in HT and TH, so the probability is 2/4 = 1/2. 1/4 counts only one outcome. 3/4 wrongly includes HH, which has two heads. 1 would mean it is certain.",
+        "image_url": "/textbook-images/rwanda/130/page50-embedded-0.jpeg",
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "vetted": true,
+        "image_alt": "Two tree diagrams for tossing a coin twice. The left one, on a pink background, uses coin pictures: the first toss is H or T, and each leads to a second toss of H or T, giving outcomes HH, HT, TH, TT. The right one is a plain tree with the same branches: H and T for the first toss, then red branches H and T for the second toss, ending in HH, HT, TH, TT. Printed on it: Second Toss | First Toss | H | H | T | T | H | T | H | T | HH | HT | TH | TT | H | T | H | T | H | T | HH | HT | TH | TT.",
+        "topic_id": 1359,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: 0.3, 0.7, 1.2, 0.5",
+        "items": [
+          "0.3",
+          "0.7",
+          "1.2",
+          "0.5"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "1.2 does not belong because it is the only probability value greater than 1, while probabilities range from 0 to 1.",
+        "topic_id": 1359,
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 13,
+        "type": "mcq",
+        "question": "If the probability of event A is 0.4 and the probability of event B is 0.5, what is the probability of both events A and B occurring if they are independent?",
+        "options": [
+          "0.2",
+          "0.3",
+          "0.45",
+          "0.6"
+        ],
+        "correct_answer": 0,
+        "explanation": "For independent events, the probability of both events occurring is the product of their individual probabilities. So, P(A and B) = 0.4 * 0.5 = 0.2. 0.2 is correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "subtopic_id": 7322,
+        "topic_id": 1359,
+        "topic_label": "Probability of independent events and multiplication rule",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of independent events and multiplication rule"
+        }
+      },
+      {
+        "id": 14,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each probability scenario to its description",
+        "left_items": [
+          "Independent events",
+          "Mutually exclusive events",
+          "Dependent events",
+          "Complementary events"
+        ],
+        "right_items": [
+          "Events that affect each other's outcomes",
+          "Events where the occurrence of one excludes the other",
+          "Events where the occurrence of one does not affect the other",
+          "Events where one event is the opposite of the other"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Independent events are where the occurrence of one does not affect the other. Mutually exclusive events are where the occurrence of one excludes the other. Dependent events are where the occurrence of one affects the other's outcomes. Complementary events are where one event is the opposite of the other.",
+        "subtopic_id": 7321,
+        "topic_id": 1359,
+        "topic_label": "Probability of mutually exclusive (incompatible) and non-inclusive events",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of mutually exclusive (incompatible) and non-inclusive events"
+        }
+      },
+      {
+        "id": 15,
+        "type": "mcq",
+        "question": "What is the probability of drawing a red card from a standard deck of 52 cards?",
+        "options": [
+          "1",
+          "0.25",
+          "0.5",
+          "0.75"
+        ],
+        "correct_answer": 1,
+        "explanation": "The probability of drawing a red card is 0.25 because there are 26 red cards out of 52 total cards in a standard deck. The other options result from common mistakes: 0.5 is the probability of drawing a face card, 0.75 is the probability of drawing a non-face card, and 1 is an impossible probability.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "subtopic_id": 7321,
+        "topic_id": 1359,
+        "topic_label": "Probability of mutually exclusive (incompatible) and non-inclusive events",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of mutually exclusive (incompatible) and non-inclusive events"
+        }
+      },
+      {
+        "id": 16,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each event to its probability in a standard 52-card deck.",
+        "left_items": [
+          "Drawing a 7",
+          "Drawing a Spade",
+          "Drawing a Face Card",
+          "Drawing a Queen"
+        ],
+        "right_items": [
+          "0.0769",
+          "0.25",
+          "0.0233",
+          "0.1538"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Drawing a 7 has a probability of 0.0769 because there are 4 sevens in a deck of 52 cards. Drawing a Spade is 0.25 since there are 13 spades. Drawing a face card is 0.0233 because there are 3 face cards per suit and 4 suits. Drawing a Queen is 0.1538 because there are 4 queens.",
+        "subtopic_id": 7319,
+        "topic_id": 1359,
+        "topic_label": "Determination of Probability of an event, rules and formulas",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas"
+        }
+      },
+      {
+        "id": 17,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Arrange the following events in the order of their probabilities from highest to lowest: Drawing a Heart, Drawing a King, Drawing a Black Card, Drawing a Diamond.",
+        "items": [
+          "Drawing a Heart",
+          "Drawing a King",
+          "Drawing a Black Card",
+          "Drawing a Diamond"
+        ],
+        "correct_order": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Drawing a Black Card has the highest probability at 0.5 because there are 26 black cards. Drawing a Heart and a Diamond each have a probability of 0.25. Drawing a King has the lowest probability at 0.0769 because there are 4 kings.",
+        "subtopic_id": 7324,
+        "topic_id": 1359,
+        "topic_label": "Examples of Events in real life and determination of related probability",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Examples of Events in real life and determination of related probability"
+        }
+      },
+      {
+        "id": 18,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Indicate whether each statement is true or false: 1. The probability of drawing a red card and a black card is the same. 2. Drawing a red card and a black card are mutually exclusive events. 3. Drawing a red card and a black card are dependent events. 4. The sum of probabilities of all outcomes in a sample space is 1.",
+        "statements": [
+          "The probability of drawing a red card and a black card is the same.",
+          "Drawing a red card and a black card are mutually exclusive events.",
+          "Drawing a red card and a black card are dependent events.",
+          "The sum of probabilities of all outcomes in a sample space is 1."
+        ],
+        "correct_answers": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "The probability of drawing a red card and a black card is not the same; it is 0.5 for each. They are mutually exclusive but not dependent events. The sum of probabilities of all outcomes in a sample space is always 1.",
+        "subtopic_id": 7321,
+        "topic_id": 1359,
+        "topic_label": "Probability of mutually exclusive (incompatible) and non-inclusive events",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of mutually exclusive (incompatible) and non-inclusive events"
+        }
+      },
+      {
+        "id": 19,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Identify the event that does not belong: Drawing a red card, Drawing a black card, Drawing a face card, Drawing a 7.",
+        "items": [
+          "Drawing a red card",
+          "Drawing a black card",
+          "Drawing a face card",
+          "Drawing a 7"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "Drawing a face card does not belong because it is a category of cards, not a specific card. The other options are specific cards.",
+        "topic_id": 1359,
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 20,
+        "type": "mcq",
+        "question": "If two dice are rolled, what is the probability that the sum of the numbers is 7?",
+        "options": [
+          "0.2778",
+          "0.1111",
+          "0.1667",
+          "0.1389"
+        ],
+        "correct_answer": 2,
+        "explanation": "The probability of the sum being 7 is 0.1667 because there are 6 combinations that result in a sum of 7 (1-6, 2-5, 3-4, 4-3, 5-2, 6-1) out of 36 possible outcomes. The other options result from common mistakes: 0.1111 is the probability of rolling a 1 on one die, 0.1389 is the probability of rolling a 4 on one die, and 0.2778 is the probability of rolling an even number on one die.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_id": 1359,
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "86fe43ff-b108-4701-9c32-e9cfd8cc3d22",
+    "subject": "Mathematics-SB S6 HLP LFK HGL",
+    "topics": [
+      "UNIT 3: ELEMENTARY PROBABILITY"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "study_mixed",
+    "textbook_id": 130,
+    "topic_ids": [
+      1359
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 3,
+      "detail": "no question mark and no command word: \"Mark each statement True or False: The sum of probabilities \""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 4,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong: 0.1, 0.2, 0.3, 0.4\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 8,
+      "detail": "no question mark and no command word: \"Put the steps in the correct order to calculate the probabil\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 9,
+      "detail": "no question mark and no command word: \"Mark each statement True or False: The probability of an eve\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 11,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong: 0.3, 0.7, 1.2, 0.5\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 17,
+      "detail": "no question mark and no command word: \"Indicate whether each statement is true or false: 1. The pro\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 17,
+      "detail": "62 words"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "broken",
+        "detail": "Matching pairs are logically inconsistent. 'Rolling a 1 on a die' and 'Drawing a King from a deck' cannot both be mutually exclusive (they're from different experiments). The explanation contradicts the pairing logic.",
+        "correction": "Revise pairs to match events within same context: Rolling a 1 (mutually exclusive with rolling 2-6), or use events from same experiment (e.g., drawing King vs Queen as mutually exclusive)."
+      },
+      {
+        "label": "7",
+        "severity": "broken",
+        "detail": "Explanation states 4/12 = 0.333 'rounded to 0.4' but 0.333 rounds to 0.3, not 0.4. The correct answer 4/12 = 1/3 ≈ 0.333, which doesn't match any option accurately.",
+        "correction": "Either correct the explanation to 4/12 ≈ 0.33 or revise options to include 0.33 instead of 0.4."
+      },
+      {
+        "label": "8",
+        "severity": "broken",
+        "detail": "Correct pairs array [0,3],[1,2],[2,0],[3,1] creates circular mapping. Pair [0,3] maps Sample Space to 'likelihood of event' (wrong), and [3,1] maps Probability to 'subset of sample space' (wrong).",
+        "correction": "Correct pairs should be: [[0,1],[1,2],[2,0],[3,3]] mapping Sample Space→'set of all possible outcomes', Event→'subset of sample space', Outcome→'single result', Probability→'likelihood of event'."
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Step order [2,0,1,3] places 'Check the sample space' last, but this should occur early to validate independence assumption. Logical flow is compromised.",
+        "correction": "Reorder to [2,3,0,1]: Identify events as independent → Check sample space → Determine individual probabilities → Multiply probabilities."
+      },
+      {
+        "label": "14",
+        "severity": "broken",
+        "detail": "Correct pairs [0,2],[1,0],[2,3],[3,1] are internally inconsistent. Pair [1,0] maps 'Mutually exclusive' to 'Events where occurrence of one does not affect the other' (definition of independent, not mutually exclusive).",
+        "correction": "Correct pairs: [[0,2],[1,1],[2,0],[3,3]] mapping Independent→'occurrence of one does not affect other', Mutually exclusive→'occurrence of one excludes other', Dependent→'affect each other', Complementary→'one is opposite of other'."
+      },
+      {
+        "label": "15",
+        "severity": "broken",
+        "detail": "Explanation contains false claims: '0.5 is probability of drawing a face card' (actually 12/52≈0.23), '0.75 is probability of drawing non-face card' (actually 40/52≈0.77). Correct answer 0.5 is wrong; 26 red cards/52 = 0.5, not 0.25.",
+        "correction": "Correct answer should be 2 (0.5), not 1 (0.25). Revise explanation: 26 red cards out of 52 = 0.5. Remove false distractors."
+      },
+      {
+        "label": "16",
+        "severity": "broken",
+        "detail": "Probability values are incorrect. Drawing a 7: 4/52≈0.077 ✓; Drawing a Spade: 13/52=0.25 ✓; Drawing a Face Card: 12/52≈0.231 (not 0.0233); Drawing a Queen: 4/52≈0.077 (not 0.1538). Pairs [2,3] and [3,2] are swapped with wrong values.",
+        "correction": "Correct pairs: [[0,0],[1,1],[2,2],[3,3]] with values: Drawing 7→0.0769, Spade→0.25, Face Card→0.2308, Queen→0.0769."
+      },
+      {
+        "label": "17",
+        "severity": "poor",
+        "detail": "Explanation states 'Drawing a King has lowest probability at 0.0769' but also lists Heart and Diamond at 0.25 each. Order [2,0,3,1] places King last (lowest), but explanation doesn't clarify why Heart/Diamond are equal.",
+        "correction": "Clarify: Black Card (0.5) > Heart (0.25) = Diamond (0.25) > King (0.077). Consider if Heart and Diamond should be tied or if question expects single ordering."
+      },
+      {
+        "label": "18",
+        "severity": "poor",
+        "detail": "Statement 3 'Drawing red and black are dependent events' marked false, but explanation doesn't justify why they're independent. Drawing red on first draw affects probability of drawing black on second draw (dependent if sequential).",
+        "correction": "Clarify context: if single draw, they're mutually exclusive (not dependent). If sequential without replacement, they're dependent. Current answer assumes single draw but lacks clarity."
+      },
+      {
+        "label": "19",
+        "severity": "poor",
+        "detail": "Explanation claims 'Drawing a face card is a category, not a specific card' but this reasoning is weak. All four options are valid probability events. The distinction between 'category' and 'specific' is subjective.",
+        "correction": "Revise question logic: Drawing a face card overlaps with other categories (e.g., a face card can be red), making it non-mutually exclusive with others. Rephrase explanation accordingly."
+      },
+      {
+        "label": "20",
+        "severity": "poor",
+        "detail": "Explanation contains false claims: '0.1111 is probability of rolling 1 on one die' (actually 1/6≈0.167), '0.1389 is probability of rolling 4' (actually 1/6≈0.167). Distractors are poorly justified.",
+        "correction": "Verify: 6 ways to sum to 7 out of 36 outcomes = 6/36 = 1/6 ≈ 0.1667 ✓. Revise distractors with accurate explanations or remove false claims."
+      }
+    ],
+    "summary": "Assessment contains 10 substantive issues: 5 broken (incorrect answer mappings in questions 2, 8, 14, 15, 16) and 5 poor (flawed logic/explanations in 7, 9, 17, 18, 19, 20). Key problems: circular matching pairs, incorrect probability calculations, false distractor explanations, and ambiguous question contexts."
+  },
+  "totalSeconds": 26
+}

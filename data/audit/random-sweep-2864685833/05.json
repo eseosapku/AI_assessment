@@ -1,0 +1,307 @@
+{
+  "index": 5,
+  "label": "Cambridge / Practice / Cambridge International AS & A Level Physics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "textbook_id": 22,
+    "topic_ids": [
+      334
+    ],
+    "topics": [
+      "P2: Planning, analysis and evaluation"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS & A Level Physics Coursebook",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 16,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Which of the following is a step in the planning stage of a physics experiment?",
+        "options": [
+          "Conduct the experiment",
+          "Draw a conclusion",
+          "Select the appropriate equipment",
+          "Write the final report"
+        ],
+        "correct_answer": 2,
+        "explanation": "Selecting the appropriate equipment is part of the planning stage. Conducting the experiment, drawing a conclusion, and writing the final report are steps that come after planning.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 1441,
+        "topic_id": 334,
+        "topic_label": "Planning",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Planning"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Look at the graph of ln I against time for a decaying current. Using the line, what is the value of the constant k in I = I0 e^(−kt)?",
+        "options": [
+          "About 0.5 s⁻¹",
+          "About 2.3 s⁻¹",
+          "About 10 s⁻¹",
+          "About 2.0 s⁻¹"
+        ],
+        "correct_answer": 3,
+        "explanation": "Ln I = ln I0 − kt, so k is minus the gradient. The line falls from about 2.3 to 0 over about 1.15 s, so the gradient is about −2.0 and k ≈ 2.0 s⁻¹. 0.5 inverts the gradient. 2.3 is just the intercept. 10 is I0, not k.",
+        "image_url": "/textbook-images/cambridge/22/page888-embedded-1.jpeg",
+        "topic_label": "P2: Planning, analysis and evaluation",
+        "vetted": true,
+        "image_alt": "A straight-line graph with a dashed best-fit line on a fine blue grid. The y-axis is labelled 'ln I / mA' with marks at 0, 1.0 and 2.0, and the x-axis is labelled 'Time / s' with marks at 0, 0.4, 0.8 and 1.2. The line falls from about 2.3 on the y-axis at time 0 to about 0 at roughly 1.15 s. Printed on it: ln I / mA | 2.0 | 1.0 | 0 | 0 | 0.4 | 0.8 | 1.2 | Time / s.",
+        "topic_id": 334,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Describe the importance of planning in a physics experiment.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of the role of planning in setting up the experiment",
+          "Mention of how planning affects the accuracy and reliability of results",
+          "Reference to the steps involved in planning",
+          "Importance of considering potential sources of error"
+        ],
+        "hints": [
+          "Start by defining planning and its role, then discuss the steps and their importance."
+        ],
+        "model_answer": "Planning is crucial in a physics experiment as it involves deciding on the method, selecting equipment, and setting up the experiment. Proper planning ensures that the experiment is conducted in a controlled manner, which affects the accuracy and reliability of the results. It includes deciding on the independent and dependent variables, ensuring all necessary equipment is available, and considering potential sources of error. Effective planning helps in obtaining valid and reproducible results.",
+        "explanation": "A strong answer will explain the role of planning, discuss its steps, and highlight its importance for accuracy, reliability, and error consideration.",
+        "checked": true,
+        "subtopic_id": 1441,
+        "topic_id": 334,
+        "topic_label": "Planning",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Planning"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Which of the following best describes the treatment of uncertainties in a physics experiment?",
+        "options": [
+          "Calculating the uncertainty for each measurement",
+          "Only considering uncertainties for significant figures",
+          "Ignoring uncertainties",
+          "Calculating the uncertainty at the end of the experiment"
+        ],
+        "correct_answer": 0,
+        "explanation": "Calculating the uncertainty for each measurement is essential for understanding the precision of the results. Ignoring uncertainties, calculating uncertainty at the end, or only considering uncertainties for significant figures are incorrect practices.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 1443,
+        "topic_id": 334,
+        "topic_label": "Treatment of uncertainties",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Treatment of uncertainties"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Explain how uncertainties can affect the results of a physics experiment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Definition of uncertainty",
+          "Explanation of how uncertainties affect measurements",
+          "Mention of how uncertainties are reported in results"
+        ],
+        "hints": [
+          "Define uncertainty first, then explain its impact on measurements and results reporting."
+        ],
+        "model_answer": "Uncertainty refers to the range of values within which the true value of a measurement lies. It affects the results of a physics experiment by indicating the precision of the measurements. If the uncertainties are large, the results are less reliable. Uncertainties are usually reported alongside the measured values to show the confidence in the results. For example, a measurement of 5.0 ± 0.1 cm indicates that the true value could be anywhere from 4.9 cm to 5.1 cm.",
+        "explanation": "A strong answer will define uncertainty, explain its impact on measurements, and describe how it is reported with results.",
+        "checked": true,
+        "topic_id": 334,
+        "topic_label": "P2: Planning, analysis and evaluation",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "P2: Planning, analysis and evaluation"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Look at the diagram. The air speed v is increased while the balloon stays in equilibrium. State how θ changes and explain why.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that θ decreases (the string becomes closer to horizontal)",
+          "Explains that the horizontal drag force from the air increases, so the horizontal component of string tension must increase while the vertical forces stay the same (so the tension's direction tilts nearer horizontal)"
+        ],
+        "model_answer": "The angle θ decreases, so the string lies closer to the horizontal. A greater air speed gives a larger horizontal drag force on the balloon, so the horizontal component of the tension must increase to balance it. The net upward force (buoyancy minus weight) is unchanged, so the vertical component of tension stays the same and the tension tilts toward the horizontal.",
+        "explanation": "A strong answer states the direction of change in θ. It then links this to balance of forces: more horizontal drag needs a larger horizontal tension component, while the vertical component stays fixed by buoyancy and weight.",
+        "image_url": "/textbook-images/cambridge/22/page880-embedded-0.jpeg",
+        "topic_label": "P2: Planning, analysis and evaluation",
+        "vetted": true,
+        "image_alt": "A helium balloon with a small mass hanging beneath it is held by a string that runs down to the ground. The string makes an angle θ with the horizontal ground. An arrow at the top left points right and is labelled 'air moving with speed v'. Printed on it: air moving with speed v | helium balloon and mass beneath | string | θ.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then The air speed v is increased while the balloon stays in equilibrium. Make sure you also cover: that θ (the becomes to."
+        ],
+        "topic_id": 334,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe the process of identifying and controlling variables in a physics experiment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of what variables are",
+          "Identification of independent, dependent, and controlled variables",
+          "Importance of controlling variables for accurate results"
+        ],
+        "hints": [
+          "Start by explaining what variables are, then identify the types and their roles in an experiment."
+        ],
+        "model_answer": "Variables in a physics experiment are factors that can change and affect the outcome. The independent variable is what the experimenter changes, the dependent variable is what is measured, and controlled variables are kept constant to ensure that the results are due to the independent variable alone. Controlling variables is crucial for obtaining accurate and reliable results, as it ensures that other factors do not influence the outcome.",
+        "explanation": "A strong answer will explain what variables are, identify the types, and highlight the importance of controlling them for accurate results.",
+        "checked": true,
+        "topic_id": 334,
+        "topic_label": "P2: Planning, analysis and evaluation",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "P2: Planning, analysis and evaluation"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What is the primary purpose of repeating an experiment?",
+        "options": [
+          "To save time",
+          "To ensure the results are consistent",
+          "To make the experiment more fun",
+          "To use different equipment"
+        ],
+        "correct_answer": 1,
+        "explanation": "Repeating an experiment is primarily to ensure the results are consistent and reliable. Making it more fun, using different equipment, or saving time are not primary purposes.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_id": 334,
+        "topic_label": "P2: Planning, analysis and evaluation",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "P2: Planning, analysis and evaluation"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "Look at the graph. The dashed line passes through the data points from near the origin to about (5, 8). Estimate its gradient, including units.",
+        "options": [
+          "1.6 cm N⁻¹",
+          "0.63 cm N⁻¹",
+          "8.0 cm N⁻¹",
+          "1.6 N cm⁻¹"
+        ],
+        "correct_answer": 0,
+        "explanation": "Gradient = change in extension ÷ change in load = 8.0 cm ÷ 5 N ≈ 1.6 cm N⁻¹. 0.63 inverts the ratio (load ÷ extension). 8.0 uses only the extension and ignores the load. 1.6 N cm⁻¹ has the correct number but the wrong units, since extension is on the y-axis.",
+        "image_url": "/textbook-images/cambridge/22/page891-embedded-0.jpeg",
+        "topic_label": "P2: Planning, analysis and evaluation",
+        "vetted": true,
+        "image_alt": "A scatter graph on fine blue gridlines with Load / N on the horizontal axis (marked 0, 2, 4, 6) and Extension / cm on the vertical axis (marked 0, 2.0, 4.0, 6.0, 8.0). Data points with small error bars rise in a roughly straight line from near the origin to about (5, 8). A dashed straight line runs through the points. Printed on it: Extension / cm | 8.0 | 6.0 | 4.0 | 2.0 | 0 | 0 | 2 | 4 | 6 | Load / N.",
+        "topic_id": 334,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Which of the following is a method to ensure reproducibility in experiments?",
+        "options": [
+          "Repeating the experiment multiple times",
+          "Using different equipment each time",
+          "Changing the procedure slightly each time",
+          "Conducting the experiment only once"
+        ],
+        "correct_answer": 0,
+        "explanation": "Repeating the experiment multiple times ensures that the results are consistent and reproducible. This is a key aspect of scientific experiments to validate findings. Options B, C, and D are incorrect as they either introduce variability or do not ensure reproducibility.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_id": 334,
+        "topic_label": "P2: Planning, analysis and evaluation",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "P2: Planning, analysis and evaluation"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "2663c272-007f-4e9e-9583-a3d257b68b3a",
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "topics": [
+      "P2: Planning, analysis and evaluation"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mixed",
+    "textbook_id": 22,
+    "topic_ids": [
+      334
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 3,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "broken",
+        "detail": "Correct answer marked as option 3 (2.0 s⁻¹), but gradient calculation shows k = −(−2.0) = 2.0 s⁻¹. However, option indexing error: if options are [0.5, 2.3, 10, 2.0], then option 3 is correct. But explanation states '0.5 inverts the gradient' which is mathematically incorrect—0.5 = 1/2.0, not an inversion of gradient. Verify option ordering matches correct_answer index.",
+        "correction": "Confirm option array order. If [0.5, 2.3, 10, 2.0], correct_answer should be 3 (index). Explanation should state: '0.5 is the reciprocal of 2.0, not the gradient' or clarify the error type."
+      },
+      {
+        "label": "6",
+        "severity": "poor",
+        "detail": "Hints field contains incomplete/corrupted text: 'Make sure you also cover: that θ (the becomes to.' This is unfinished and unintelligible, breaking hint utility for students.",
+        "correction": "Hints should read: 'Structure your answer around both demands: state how θ changes, then explain why using force balance. Ensure you cover: that θ decreases (becomes closer to horizontal) because horizontal drag increases.'"
+      }
+    ],
+    "summary": "Assessment is largely sound with 10 questions spanning planning, uncertainties, variables, and data analysis. Two issues identified: question 2 has unclear explanation of why 0.5 is wrong; question 6 has corrupted hint text. All other questions are age-appropriate, answerable, and contextually coherent."
+  },
+  "totalSeconds": 22
+}

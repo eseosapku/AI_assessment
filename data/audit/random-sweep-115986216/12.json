@@ -1,0 +1,341 @@
+{
+  "index": 12,
+  "label": "Cambridge / Practice / IGCSE-Physics-Coursebook-by-David-Sang",
+  "request": {
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "textbook_id": 209,
+    "topic_ids": [
+      2589
+    ],
+    "topics": [
+      "Chapter 25: The magnetic effect of current"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 24,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put these stages in the correct order for creating an electromagnet",
+        "items": [
+          "Connect the wire to a battery",
+          "Wrap the wire around an iron core",
+          "Increase the current",
+          "Observe the magnetic effect"
+        ],
+        "correct_order": [
+          1,
+          0,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "First, wrap the wire around an iron core, then connect the wire to a battery, increase the current, and finally observe the magnetic effect.",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Factors increasing field strength",
+          "Equipment using electromagnets"
+        ],
+        "items": [
+          "More current",
+          "More wire turns",
+          "Iron core",
+          "Relays",
+          "Circuit breakers",
+          "Bells"
+        ],
+        "correct_category": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        "marks": 6,
+        "explanation": "More current, more wire turns, and an iron core increase field strength. Relays, circuit breakers, and bells are equipment that use electromagnets.",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "The direction of the magnetic field around a current-carrying wire can be found using the right-hand grip rule.",
+          "A solenoid has a magnetic field similar to that of a bar magnet.",
+          "The strength of the magnetic field in a solenoid can be increased by using an iron core.",
+          "Increasing the current through a solenoid decreases its magnetic field."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "The direction of the magnetic field around a current-carrying wire can be found using the right-hand grip rule (True). A solenoid has a magnetic field similar to that of a bar magnet (True). The strength of the magnetic field in a solenoid can be increased by using an iron core (True). Increasing the current through a solenoid increases its magnetic field, not decreases (False).",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply",
+        "options": [
+          "Increasing the number of turns in a solenoid increases its magnetic field.",
+          "Using an iron core in a solenoid increases its magnetic field.",
+          "Removing the iron core from a solenoid decreases its magnetic field.",
+          "Using a higher voltage in a solenoid increases its magnetic field."
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Increasing the number of turns in a solenoid increases its magnetic field (True). Using an iron core in a solenoid increases its magnetic field (True). Removing the iron core from a solenoid decreases its magnetic field (True). Using a higher voltage does not necessarily increase the magnetic field, as it depends on the current, which is affected by the resistance of the circuit (False).",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Relays",
+          "Circuit breakers",
+          "Bells",
+          "Transformers"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Relays, circuit breakers, and bells all use electromagnets, while transformers are not typically associated with the magnetic effect of current.",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: The magnetic field strength increases with the current, the number of turns of wire, and the presence of an iron core.",
+        "statements": [
+          "The magnetic field strength increases with the current.",
+          "The magnetic field strength decreases with the number of turns of wire.",
+          "The presence of an iron core does not affect the magnetic field strength.",
+          "The magnetic field strength increases with the presence of an iron core."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          true
+        ],
+        "marks": 1,
+        "explanation": "The magnetic field strength of a solenoid increases when you increase the current, increase the number of turns of wire, or add an iron core. All three factors strengthen the field.",
+        "marking_criteria": [
+          "Mark the single statement True (all three factors do increase field strength)"
+        ],
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which of the following are applications of electromagnets?",
+        "options": [
+          "Relays",
+          "Circuit breakers",
+          "Bells",
+          "Electric motors"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Relays, circuit breakers, and bells all use electromagnets to function. Electric motors use the motor effect (Fleming's left-hand rule) rather than being classified as electromagnet applications.",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: Fleming's left-hand rule, right-hand grip rule, magnetic field lines, electromagnets.",
+        "items": [
+          "Fleming's left-hand rule",
+          "right-hand grip rule",
+          "magnetic field lines",
+          "electromagnets"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "Magnetic field lines are a description of the magnetic field, not an application or rule, making them the odd one out.",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which of the following can increase the strength of a solenoid's magnetic field?",
+        "options": [
+          "Increasing the current",
+          "Adding more turns of wire",
+          "Using an iron core",
+          "Using an aluminium core"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Increasing the current, adding more turns of wire, and using an iron core can all increase the strength of a solenoid's magnetic field.",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: Right-hand grip rule, Fleming's left-hand rule, Solenoid, Magnetic field lines",
+        "items": [
+          "Right-hand grip rule",
+          "Fleming's left-hand rule",
+          "Solenoid",
+          "Magnetic field lines"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "Solenoid is the odd one out as it is a device, whereas the others are rules or representations of magnetic phenomena.",
+        "checked": true,
+        "topic_label": "Chapter 25: The magnetic effect of current",
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 25: The magnetic effect of current"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "a34a5713-69b9-4f7a-86d2-9846dac0ae5a",
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "topics": [
+      "Chapter 25: The magnetic effect of current"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "interactive",
+    "textbook_id": 209,
+    "topic_ids": [
+      2589
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 0,
+      "detail": "no question mark and no command word: \"Put these stages in the correct order for creating an electr\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 2,
+      "detail": "no question mark and no command word: \"Mark each statement True or False\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 4,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 5,
+      "detail": "no question mark and no command word: \"Mark each statement True or False: The magnetic field streng\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 7,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong: Fleming's left-hand rule,\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 9,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong: Right-hand grip rule, Fle\""
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "totalSeconds": 25
+}

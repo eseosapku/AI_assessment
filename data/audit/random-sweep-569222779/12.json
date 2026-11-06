@@ -1,0 +1,729 @@
+{
+  "index": 12,
+  "label": "REB / Exam / Geography S5 SB (1)",
+  "request": {
+    "subject": "Geography S5 SB (1)",
+    "textbook_id": 110,
+    "topic_ids": [
+      1162
+    ],
+    "topics": [
+      "Statistical Graphs, Diagrams and Maps"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 69,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "The diagram shows a choropleth map titled 'RWANDAN POPULATION DENSITY IN 2012' showing Rwanda's districts shaded by population per square km.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain why the districts around Kicukiro, Gasabo, and Nyarugenge have the highest population density.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of factors contributing to high population density",
+          "Link between these factors and the specific districts",
+          "Clear explanation and use of evidence from the map"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the districts around Kicukiro, Gasabo, and Nyarugenge have the highest population density — develop the idea fully rather than listing short points. Make sure you also cover: Identification of factors contributing to high population density; Link between these factors and the…."
+        ],
+        "model_answer": "The districts around Kicukiro, Gasabo, and Nyarugenge have the highest population density likely due to their proximity to the capital city, Kigali. These areas offer better employment opportunities, access to services, and infrastructure. The map shows these districts in the darkest red, indicating a population density of 1,501-2,150 people per square km, which is much higher than other parts of Rwanda.",
+        "explanation": "Look at the map and think about why these areas might attract more people.",
+        "exam_question_id": "e887fc86-04c6-4f22-9f68-f7547496431c:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page87-embedded-0.jpeg",
+        "image_alt": "A choropleth map titled \"RWANDAN POPULATION DENSITY IN 2012\" showing Rwanda's districts shaded by population per square km. The legend classes are 150-250, 250-500, 500-800, 800-1,000, 1,000-1,500 and 1,501-2,150, plus country boundaries, district boundaries and National Parks (green). The densest area (darkest red) is around Kicukiro, Gasabo and Nyarugenge in the centre. Neighbouring countries Uganda, Tanzania, Burundi and DRC are labelled, and there is a compass rose and a scale bar of 0, 15, 30 and 60 km.\nLabels: RWANDAN POPULATION DENSITY IN 2012, N, W, E, S, UGANDA, TANZANIA, DRC, BURUNDI",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a choropleth map titled 'RWANDAN POPULATION DENSITY IN 2012' showing Rwanda's districts shaded by population per square km.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the approximate population of the district of Nyarugenge if its area is 25 square km.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct use of population density class",
+          "Calculation leading to the final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the approximate population of the district of Nyarugenge if its area is 25 square km — develop the idea fully rather than listing short points. Make sure you also cover: leading to the final answer."
+        ],
+        "model_answer": "The population density class for Nyarugenge is 1,501-2,150 people per square km. Using the upper limit for calculation: 2,150 people/sq km * 25 sq km = 53,750 people. Therefore, the approximate population of Nyarugenge is 53,750.",
+        "explanation": "Multiply the highest number of people per square km by the total area of the district.",
+        "exam_question_id": "e887fc86-04c6-4f22-9f68-f7547496431c:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page87-embedded-0.jpeg",
+        "image_alt": "A choropleth map titled \"RWANDAN POPULATION DENSITY IN 2012\" showing Rwanda's districts shaded by population per square km. The legend classes are 150-250, 250-500, 500-800, 800-1,000, 1,000-1,500 and 1,501-2,150, plus country boundaries, district boundaries and National Parks (green). The densest area (darkest red) is around Kicukiro, Gasabo and Nyarugenge in the centre. Neighbouring countries Uganda, Tanzania, Burundi and DRC are labelled, and there is a compass rose and a scale bar of 0, 15, 30 and 60 km.\nLabels: RWANDAN POPULATION DENSITY IN 2012, N, W, E, S, UGANDA, TANZANIA, DRC, BURUNDI",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a choropleth map titled 'RWANDAN POPULATION DENSITY IN 2012' showing Rwanda's districts shaded by population per square km.",
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "question": "Describe the implications of high population density in urban districts for infrastructure and services.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of infrastructure and service challenges",
+          "Logical reasoning about the impact of high population density",
+          "Use of specific examples from the map"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of high population density in urban districts for infrastructure and services — develop the idea fully rather than listing short points. Make sure you also cover: Identification of infrastructure and service challenges; of specific examples from the map."
+        ],
+        "model_answer": "High population density in urban districts like Kicukiro, Gasabo, and Nyarugenge implies significant strain on infrastructure and services. There is a greater demand for housing, transportation, healthcare, and education. The map shows these areas with the highest population density, suggesting that these districts need more resources to support their populations. This can lead to congestion, longer wait times for services, and potential degradation of living conditions if not managed properly.",
+        "explanation": "Consider what happens when a lot of people live in a small area.",
+        "exam_question_id": "e887fc86-04c6-4f22-9f68-f7547496431c:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page87-embedded-0.jpeg",
+        "image_alt": "A choropleth map titled \"RWANDAN POPULATION DENSITY IN 2012\" showing Rwanda's districts shaded by population per square km. The legend classes are 150-250, 250-500, 500-800, 800-1,000, 1,000-1,500 and 1,501-2,150, plus country boundaries, district boundaries and National Parks (green). The densest area (darkest red) is around Kicukiro, Gasabo and Nyarugenge in the centre. Neighbouring countries Uganda, Tanzania, Burundi and DRC are labelled, and there is a compass rose and a scale bar of 0, 15, 30 and 60 km.\nLabels: RWANDAN POPULATION DENSITY IN 2012, N, W, E, S, UGANDA, TANZANIA, DRC, BURUNDI",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the average rate of change of temperature with respect to altitude in °C per metre.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the change in temperature (1 mark)",
+          "Correct calculation of the change in altitude (1 mark)",
+          "Correct calculation of the average rate of change (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average rate of change of temperature with respect to altitude in °C per metre — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the average rate of change (1 mark)."
+        ],
+        "model_answer": "Change in temperature = 24.5 °C - 15.5 °C = 9 °C\nChange in altitude = 2,400 m - 800 m = 1,600 m\nRate of change = 9 °C / 1,600 m = 0.005625 °C/m\n\n0.005625 °C/m",
+        "explanation": "Use the temperature and altitude values from the trend line to calculate the average rate of change of temperature with respect to altitude.",
+        "exam_question_id": "f3227e99-5be9-4cf6-be4e-78dd66ae2e82:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page53-embedded-1.png",
+        "image_alt": "A scatter plot titled \"Relationship between altitude and temperature\". The x-axis is \"Altitude in m\" from 800 to 2,400 in steps of 400 (gridless ticks at 800, 1,200, 1,600, 2,000, 2,400). The y-axis is \"Temperature in 0C\" from 10 to 26 in steps of 4. About 30 blue points slope downward from about 22 °C at 900 m to about 15 °C at 2,300 m, and a black straight trend line falls from about 24.5 °C at 900 m to about 15.5 °C at 2,300 m.\nLabels: Relationship between altitude and temperature, 26, 22, 18, 14, 10, Temperature in 0C, 800, 1,200, 1,600, 2,000, 2,400, Altitude in m\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the temperature generally decreases as altitude increases.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct mention of the relationship between altitude and atmospheric pressure (1 mark)",
+          "Correct explanation of the effect of decreasing pressure on temperature (1 mark)",
+          "Logical conclusion about the trend observed in the graph (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the temperature generally decreases as altitude increases — develop the idea fully rather than listing short points. Make sure you also cover: Correct mention of the relationship between altitude and (1 mark); Correct explanation of the effect of on temperature (1 mark); Logical…."
+        ],
+        "model_answer": "At higher altitudes, atmospheric pressure is lower. Lower pressure means air molecules are less compressed, leading to a decrease in temperature. This explains the general trend of decreasing temperature with increasing altitude.\n\nAs altitude increases, atmospheric pressure decreases, leading to a decrease in temperature.",
+        "explanation": "Provide a scientific explanation for the observed trend in the scatter plot, linking it to the physical properties of the atmosphere.",
+        "exam_question_id": "f3227e99-5be9-4cf6-be4e-78dd66ae2e82:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page53-embedded-1.png",
+        "image_alt": "A scatter plot titled \"Relationship between altitude and temperature\". The x-axis is \"Altitude in m\" from 800 to 2,400 in steps of 400 (gridless ticks at 800, 1,200, 1,600, 2,000, 2,400). The y-axis is \"Temperature in 0C\" from 10 to 26 in steps of 4. About 30 blue points slope downward from about 22 °C at 900 m to about 15 °C at 2,300 m, and a black straight trend line falls from about 24.5 °C at 900 m to about 15.5 °C at 2,300 m.\nLabels: Relationship between altitude and temperature, 26, 22, 18, 14, 10, Temperature in 0C, 800, 1,200, 1,600, 2,000, 2,400, Altitude in m\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled Uganda to the north, Tanzania to the east, Burundi to the south and DRC to the west. A compass rose, a scale bar in km (0, 15, 30, 60) and a legend with 'Country boundaries' and 'Pop_12' are included. Labels: RWANDAN POPULATION DENSITY IN 2012, UGANDA, TANZANIA, DRC, BURUNDI, N, S, E, W, Nyagatare, Musanze, Burera, Gicumbi, Gatsibo, Rubavu, Nyabihu, Gakenke, Rulindo, Kayonza, Ngororero, Rutsiro, Mhanga, Gasabo, Nyarugenge, Kamonyi, Kicukiro, Rwamagana, Karongi, Ruhango, Bugesera, Ngoma, Kirehe, Nyanza, Nyamasheke, Nyamagabe, Huye, Rusizi, Gisagara, Nyaruguru, Country boundaries.",
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the approximate population of the district of Nyarugenge if its area is 25 square km.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifying the number of dots in Nyarugenge.",
+          "Multiplying the number of dots by 60,000.",
+          "Calculating the population based on the given area."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the approximate population of the district of Nyarugenge if its area is 25 square km — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifying the of in Nyarugenge.; Multiplying the of by 60,000.; Calculating the population based on the…."
+        ],
+        "model_answer": "If we count the number of dots in Nyarugenge and find there are 3 dots, then the population is 3 dots * 60,000 = 180,000. Since the area of Nyarugenge is 25 square km, the population density is 180,000 / 25 = 7,200 people per square km.",
+        "explanation": "Count the number of green dots in the district of Nyarugenge, multiply by 60,000 to get the total population, and then calculate the population density by dividing by the area of the district.",
+        "exam_question_id": "4310f61f-6634-48d0-a3ed-0690913f43d4:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page82-embedded-0.png",
+        "image_alt": "A dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled Uganda to the north, Tanzania to the east, Burundi to the south and DRC to the west. A compass rose, a scale bar in km (0, 15, 30, 60) and a legend with 'Country boundaries' and 'Pop_12' are included.\nLabels: RWANDAN POPULATION DENSITY IN 2012, UGANDA, TANZANIA, DRC, BURUNDI, N, S, E, W, Nyagatare, Musanze, Burera, Gicumbi, Gatsibo, Rubavu, Nyabihu, Gakenke, Rulindo, Kayonza, Ngororero, Rutsi",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled Uganda to the north, Tanzania to the east, Burundi to the south and DRC to the west. A compass rose, a scale bar in km (0, 15, 30, 60) and a legend with 'Country boundaries' and 'Pop_12' are included. Labels: RWANDAN POPULATION DENSITY IN 2012, UGANDA, TANZANIA, DRC, BURUNDI, N, S, E, W, Nyagatare, Musanze, Burera, Gicumbi, Gatsibo, Rubavu, Nyabihu, Gakenke, Rulindo, Kayonza, Ngororero, Rutsiro, Mhanga, Gasabo, Nyarugenge, Kamonyi, Kicukiro, Rwamagana, Karongi, Ruhango, Bugesera, Ngoma, Kirehe, Nyanza, Nyamasheke, Nyamagabe, Huye, Rusizi, Gisagara, Nyaruguru, Country boundaries.",
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe the implications of high population density in urban districts for infrastructure and services.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifying potential infrastructure challenges.",
+          "Explaining the impact on services.",
+          "Providing examples or logical reasoning."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of high population density in urban districts for infrastructure and services — develop the idea fully rather than listing short points. Make sure you also cover: Identifying potential infrastructure challenges.; Explaining the impact on services.; Providing examples or…."
+        ],
+        "model_answer": "High population density in urban districts can lead to strain on infrastructure such as roads, public transport, and utilities. This can result in traffic congestion, longer commute times, and increased demand for public services like healthcare and education. For example, more people in Nyarugenge means more demand for schools, hospitals, and public transport, potentially leading to overcrowding and longer waiting times.",
+        "explanation": "Consider how high population density might affect the availability and quality of infrastructure and services in urban areas.",
+        "exam_question_id": "4310f61f-6634-48d0-a3ed-0690913f43d4:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page82-embedded-0.png",
+        "image_alt": "A dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled Uganda to the north, Tanzania to the east, Burundi to the south and DRC to the west. A compass rose, a scale bar in km (0, 15, 30, 60) and a legend with 'Country boundaries' and 'Pop_12' are included.\nLabels: RWANDAN POPULATION DENSITY IN 2012, UGANDA, TANZANIA, DRC, BURUNDI, N, S, E, W, Nyagatare, Musanze, Burera, Gicumbi, Gatsibo, Rubavu, Nyabihu, Gakenke, Rulindo, Kayonza, Ngororero, Rutsi",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled Uganda to the north, Tanzania to the east, Burundi to the south and DRC to the west. A compass rose, a scale bar in km (0, 15, 30, 60) and a legend with 'Country boundaries' and 'Pop_12' are included. Labels: RWANDAN POPULATION DENSITY IN 2012, UGANDA, TANZANIA, DRC, BURUNDI, N, S, E, W, Nyagatare, Musanze, Burera, Gicumbi, Gatsibo, Rubavu, Nyabihu, Gakenke, Rulindo, Kayonza, Ngororero, Rutsiro, Mhanga, Gasabo, Nyarugenge, Kamonyi, Kicukiro, Rwamagana, Karongi, Ruhango, Bugesera, Ngoma, Kirehe, Nyanza, Nyamasheke, Nyamagabe, Huye, Rusizi, Gisagara, Nyaruguru, Country boundaries.",
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the districts around Kicukiro, Gasabo, and Nyarugenge have the highest population density.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifying factors that contribute to high population density.",
+          "Explaining the role of economic opportunities.",
+          "Considering urban planning and historical factors."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the districts around Kicukiro, Gasabo, and Nyarugenge have the highest population density — develop the idea fully rather than listing short points. Make sure you also cover: Identifying factors that contribute to high population density.; Explaining the role of; Considering and…."
+        ],
+        "model_answer": "The districts around Kicukiro, Gasabo, and Nyarugenge have the highest population density because they are part of the capital city, Kigali. These areas offer numerous economic opportunities, including jobs in commerce, services, and administration, attracting many people to live there. Additionally, urban planning and historical development have led to higher population concentrations in these central urban districts.",
+        "explanation": "Consider the economic and urban planning factors that might lead to higher population density in certain districts.",
+        "exam_question_id": "4310f61f-6634-48d0-a3ed-0690913f43d4:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page82-embedded-0.png",
+        "image_alt": "A dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled Uganda to the north, Tanzania to the east, Burundi to the south and DRC to the west. A compass rose, a scale bar in km (0, 15, 30, 60) and a legend with 'Country boundaries' and 'Pop_12' are included.\nLabels: RWANDAN POPULATION DENSITY IN 2012, UGANDA, TANZANIA, DRC, BURUNDI, N, S, E, W, Nyagatare, Musanze, Burera, Gicumbi, Gatsibo, Rubavu, Nyabihu, Gakenke, Rulindo, Kayonza, Ngororero, Rutsi",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a line graph titled 'Monthly mean temperature' with months J to D (January to December) on the x-axis and temperatures in °C from 0 to 30 on the y-axis in steps of 5.",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "Describe the trend in temperature from January to December.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of temperature pattern.",
+          "Explanation of the pattern observed.",
+          "Inference about seasonal impact."
+        ],
+        "hints": [
+          "Look at the line's direction and steepness throughout the year."
+        ],
+        "model_answer": "The temperature starts at a high of about 22°C in January, decreases to a low of about 19°C in March, then increases again to a peak of about 28°C in July, before gradually decreasing to about 20°C in December. This indicates a typical annual temperature cycle with a peak in mid-year and a trough at the start of the year.",
+        "explanation": "Describe the overall pattern, noting the highs, lows, and general trend.",
+        "exam_question_id": "55cafddd-2e01-44c8-9d44-39f80842c8e7:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page23-embedded-1.png",
+        "image_alt": "A line graph titled \"Monthly mean temperature\" with months J to D (January to December) on the x-axis and temperatures in 0 C from 0 to 30 on the y-axis in steps of 5. The line is at about 22 in J, 20 in F, 19 in M, 21 in A, 23 in M, 27 in J, 28 in J, 20 in A, 19 in S, 24 in O, 24 in N and 20 in D.\nLabels: Monthly mean temperature, 30, 25, 20, 15, 10, 5, 0, Temperatures in 0 C, J, F, M, A, M, J, J, A, S, O, N, D, Months\nOriginal exercise: a. Construct a simple line graph to portray the above statistical data. b. Draw a simple curve graph to illustrate the above statistics shown on the table. F",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a line graph titled 'Monthly mean temperature' with months J to D (January to December) on the x-axis and temperatures in °C from 0 to 30 on the y-axis in steps of 5.",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the temperature is generally higher in the middle of the year (June to August) compared to the start and end of the year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the mid-year period.",
+          "Explanation of solar angle and daylight hours.",
+          "Link between these factors and temperature."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the temperature is generally higher in the middle of the year (June to August) compared to the start and end of the year — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the mid-year period.; Explanation of angle and; Link between…."
+        ],
+        "model_answer": "The temperature is generally higher in the middle of the year (June to August) because during these months, the region is more directly exposed to the Sun's rays due to the Earth's tilt. This results in longer daylight hours and more intense solar radiation, leading to higher temperatures. Conversely, at the start and end of the year, the region receives less direct sunlight, resulting in cooler temperatures.",
+        "explanation": "Explain the solar factors influencing the temperature pattern observed.",
+        "exam_question_id": "55cafddd-2e01-44c8-9d44-39f80842c8e7:1",
+        "topic_label": "Statistical Graphs, Diagrams and Maps",
+        "topic_id": 1162,
+        "image_url": "/textbook-images/rwanda/110/page23-embedded-1.png",
+        "image_alt": "A line graph titled \"Monthly mean temperature\" with months J to D (January to December) on the x-axis and temperatures in 0 C from 0 to 30 on the y-axis in steps of 5. The line is at about 22 in J, 20 in F, 19 in M, 21 in A, 23 in M, 27 in J, 28 in J, 20 in A, 19 in S, 24 in O, 24 in N and 20 in D.\nLabels: Monthly mean temperature, 30, 25, 20, 15, 10, 5, 0, Temperatures in 0 C, J, F, M, A, M, J, J, A, S, O, N, D, Months\nOriginal exercise: a. Construct a simple line graph to portray the above statistical data. b. Draw a simple curve graph to illustrate the above statistics shown on the table. F",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Statistical Graphs, Diagrams and Maps"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The diagram shows a curve graph titled 'Temperature Variation in Nairobi from 2010 to 2014' with the months from January to December on the horizontal axis and temperature in degrees Celsius on the vertical axis, which runs from 10°C to 30°C in steps of 5°C.",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Describe the trend in temperature from January to December in 2010.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies the general trend in temperature.",
+          "Uses specific months to support the trend.",
+          "Describes the pattern in a clear and concise manner."
+        ],
+        "hints": [
+          "Look at the curve and describe the overall direction of the temperature changes."
+        ],
+        "model_answer": "The temperature in Nairobi from January to December in 2010 shows a general trend of increasing from January to May, reaching a peak around May, followed by a gradual decrease until December. This pattern indicates a typical annual temperature cycle in Nairobi.",
+        "explanation": "Describe the overall trend in temperature from January to December in 2010 based on the curve graph.",
+        "exam_question_id": "8a4b54c2-f137-4d1b-a4e5-fd9b38a5d089:2",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The diagram shows a curve graph titled 'Temperature Variation in Nairobi from 2010 to 2014' with the months from January to December on the horizontal axis and temperature in degrees Celsius on the vertical axis, which runs from 10°C to 30°C in steps of 5°C.",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the temperature in Nairobi tends to be highest in February and lowest in July.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provides a plausible explanation for the temperature pattern.",
+          "Refers to seasonal changes or geographical factors.",
+          "Maintains relevance to the data presented."
+        ],
+        "hints": [
+          "Consider the geographical location of Nairobi and the seasonal changes that affect temperature."
+        ],
+        "model_answer": "The temperature in Nairobi tends to be highest in February because this is the end of the rainy season and the beginning of the dry season, leading to higher temperatures. Conversely, the temperature is lowest in July due to the winter season in the Southern Hemisphere, where Nairobi is located, which brings cooler temperatures.",
+        "explanation": "Explain the seasonal reasons for the highest and lowest temperatures in February and July, respectively.",
+        "exam_question_id": "8a4b54c2-f137-4d1b-a4e5-fd9b38a5d089:2",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "The diagram shows a line graph titled 'Population Growth in Cape Town from 2010 to 2014' with the years 2010 to 2014 on the horizontal axis and population in thousands on the vertical axis, which runs from 0 to 5000 in steps of 1000.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the average annual population growth rate from 2010 to 2014.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the population values for each year.",
+          "Accurately calculates the total population growth over the period.",
+          "Provides the final answer as a percentage."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average annual population growth rate from 2010 to 2014 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the population for each year.; Accurately calculates the population growth over the period.; Provides the final answer…."
+        ],
+        "model_answer": "The population values are: 2010 - 3000, 2011 - 3200, 2012 - 3500, 2013 - 3800, 2014 - 4100. Total growth = 4100 - 3000 = 1100. Average annual growth rate = (1100 / 3000) * 100 = 36.67%.",
+        "explanation": "Calculate the average annual population growth rate using the population values from 2010 to 2014.",
+        "exam_question_id": "8a4b54c2-f137-4d1b-a4e5-fd9b38a5d089:3",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "The diagram shows a line graph titled 'Population Growth in Cape Town from 2010 to 2014' with the years 2010 to 2014 on the horizontal axis and population in thousands on the vertical axis, which runs from 0 to 5000 in steps of 1000.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe the implications of the rapid population growth in Cape Town for urban planning and infrastructure.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies potential challenges due to rapid population growth.",
+          "Discusses the need for infrastructure development.",
+          "Maintains relevance to the data presented."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the rapid population growth in Cape Town for urban planning and infrastructure — develop the idea fully rather than listing short points. Make sure you also cover: Discusses the for infrastructure development.; Maintains relevance to the data presented."
+        ],
+        "model_answer": "The rapid population growth in Cape Town implies significant challenges for urban planning and infrastructure. There is a pressing need to develop more housing, improve transportation systems, and enhance public services to accommodate the growing population. This includes building new residential areas, expanding public transportation, and ensuring adequate healthcare and educational facilities.",
+        "explanation": "Describe the potential challenges and needs arising from the rapid population growth in Cape Town.",
+        "exam_question_id": "8a4b54c2-f137-4d1b-a4e5-fd9b38a5d089:3",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The diagram shows a curve graph titled 'Temperature Variation in Nairobi from 2010 to 2014' with the months from January to December on the horizontal axis and temperature in degrees Celsius on the vertical axis, which ranges from 10 to 30.",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "Describe the trend in temperature from January to December in 2010.",
+        "marks": 3,
+        "marking_criteria": [
+          "1 mark for identifying the general trend (increasing, decreasing, or constant).",
+          "1 mark for identifying specific months with notable changes.",
+          "1 mark for correctly interpreting the trend in context."
+        ],
+        "hints": [
+          "Look at the shape and direction of the curve in the graph."
+        ],
+        "model_answer": "The temperature in Nairobi generally increases from January to a peak around February, then decreases steadily until August, and then increases again until December. This indicates a bimodal pattern with two peaks in temperature.",
+        "explanation": "The trend is identified by observing the overall direction of the curve from January to December. Specific months with notable changes are noted, and the trend is interpreted in the context of seasonal patterns.",
+        "exam_question_id": "877e52c8-1ffd-403e-b93c-b4b045edc8e8:2",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The diagram shows a curve graph titled 'Temperature Variation in Nairobi from 2010 to 2014' with the months from January to December on the horizontal axis and temperature in degrees Celsius on the vertical axis, which ranges from 10 to 30.",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the temperature in Nairobi tends to be highest in February and lowest in July.",
+        "marks": 3,
+        "marking_criteria": [
+          "1 mark for linking the temperature trend to seasonal changes.",
+          "1 mark for explaining the impact of solar radiation or daylight hours.",
+          "1 mark for correctly interpreting the graph in the context of geographical factors."
+        ],
+        "hints": [
+          "Consider the position of Nairobi relative to the equator and its altitude."
+        ],
+        "model_answer": "The temperature in Nairobi tends to be highest in February because this is the time when Nairobi experiences its short rainy season, which brings warmer temperatures. The temperature is lowest in July because this is the time of the long rainy season, which brings cooler temperatures due to increased cloud cover and rainfall.",
+        "explanation": "The explanation should link the temperature trend to seasonal changes and the impact of solar radiation or daylight hours, correctly interpreting the graph in the context of geographical factors.",
+        "exam_question_id": "877e52c8-1ffd-403e-b93c-b4b045edc8e8:2",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "The diagram shows a line graph titled 'Population Growth in Cape Town from 2010 to 2014' with the years 2010 to 2014 on the horizontal axis and population in thousands on the vertical axis, which runs from 0 to 5000 in steps of 500.",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the average annual population growth rate from 2010 to 2014.",
+        "marks": 3,
+        "marking_criteria": [
+          "1 mark for correctly identifying the population in 2010 and 2014.",
+          "1 mark for calculating the total growth in population over the period.",
+          "1 mark for calculating the average annual growth rate."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "In 2010, the population was 3000 thousand. In 2014, the population was 4500 thousand. The total growth in population is 4500 - 3000 = 1500 thousand. The average annual growth rate is (1500 / 3000) * 100 = 50%.",
+        "explanation": "The average annual growth rate is calculated by finding the difference between the final and initial populations, dividing by the initial population, and then multiplying by 100 to get a percentage.",
+        "exam_question_id": "877e52c8-1ffd-403e-b93c-b4b045edc8e8:3",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "The diagram shows a line graph titled 'Population Growth in Cape Town from 2010 to 2014' with the years 2010 to 2014 on the horizontal axis and population in thousands on the vertical axis, which runs from 0 to 5000 in steps of 500.",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe the implications of the rapid population growth in Cape Town for urban planning and infrastructure.",
+        "marks": 3,
+        "marking_criteria": [
+          "1 mark for identifying the implications of rapid population growth.",
+          "1 mark for discussing specific areas affected (e.g., housing, transportation, services).",
+          "1 mark for providing a reasoned conclusion."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the rapid population growth in Cape Town for urban planning and infrastructure — develop the idea fully rather than listing short points. Make sure you also cover: 1 mark for discussing specific areas affected (e.g.,; 1 mark for providing a reasoned conclusion."
+        ],
+        "model_answer": "The rapid population growth in Cape Town implies a need for significant urban planning and infrastructure development. This includes building more housing to accommodate the growing population, expanding transportation networks to handle increased traffic, and improving public services such as healthcare and education to meet the needs of a larger population. Failure to address these needs can lead to overcrowding, traffic congestion, and strain on public services.",
+        "explanation": "The implications of rapid population growth are discussed in terms of specific areas affected, and a reasoned conclusion is provided.",
+        "exam_question_id": "877e52c8-1ffd-403e-b93c-b4b045edc8e8:3",
+        "topic_label": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Line and curve graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the approximate population of the district of Nyarugenge if its area is 25 square km.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly counting the number of dots in the district of Nyarugenge",
+          "Multiplying the number of dots by 60,000",
+          "Presenting the final population figure"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the approximate population of the district of Nyarugenge if its area is 25 square km — develop the idea fully rather than listing short points. Make sure you also cover: Multiplying the of by 60,000; Presenting the final population figure."
+        ],
+        "model_answer": "Assume there are 20 green dots in the district of Nyarugenge. \n\nNumber of dots = 20 \n\nPopulation = Number of dots * 60,000 \n\nPopulation = 20 * 60,000 = 1,200,000\n\n1,200,000",
+        "explanation": "Count the number of green dots in the district of Nyarugenge and multiply by 60,000 to find the population.",
+        "exam_question_id": "a95243e7-00e5-4f95-8341-a07c7f7a1766:1",
+        "topic_label": "Repeated symbols (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Repeated symbols (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows a dot-density map titled 'Rwandan Population Density in 2012' showing Rwanda divided into districts, with green dots marking population and the legend '1 Dot = 60,000'. Neighbouring countries are labelled.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe the implications of high population density in urban districts for infrastructure and services.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifying potential challenges due to high population density",
+          "Explaining the impact on infrastructure",
+          "Explaining the impact on services"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of high population density in urban districts for infrastructure and services — develop the idea fully rather than listing short points. Make sure you also cover: Explaining the impact on infrastructure; Explaining the impact on services."
+        ],
+        "model_answer": "High population density in urban districts can lead to several challenges: \n\n- **Housing**: Increased demand for housing can lead to overcrowding and informal settlements. \n\n- **Transportation**: Higher traffic congestion and strain on public transportation systems. \n\n- **Public Services**: Greater demand for schools, healthcare, and utilities, potentially leading to overburdened services if not properly managed.\n\nHigh population density in urban districts can lead to challenges such as increased demand for housing, transportation congestion, and strain on public services.",
+        "explanation": "Consider how high population density affects housing, transportation, and public services.",
+        "exam_question_id": "a95243e7-00e5-4f95-8341-a07c7f7a1766:1",
+        "topic_label": "Repeated symbols (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Repeated symbols (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The diagram shows a choropleth map titled 'Population Density in Cairo Governorate from 2010 to 2014' with districts shaded by population per square km.",
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the approximate population of the district with the highest population density if its area is 50 square km.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation based on given data.",
+          "Use of accurate data from the choropleth map.",
+          "Correct use of units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the approximate population of the district with the highest population density if its area is 50 square km — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation based on given data.; of accurate data from the choropleth map.; Correct…."
+        ],
+        "model_answer": "Approximate population = Highest population density (e.g., 20,000 people per sq km) * Area (50 sq km) = 1,000,000 people.",
+        "explanation": "Multiply the highest population density by the area of the district to find the approximate population.",
+        "exam_question_id": "dc1c6895-af3b-4649-8d03-f11d4d13b5da:2",
+        "topic_label": "Bar graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Bar graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The diagram shows a choropleth map titled 'Population Density in Cairo Governorate from 2010 to 2014' with districts shaded by population per square km.",
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe the implications of high population density in urban districts for infrastructure and services.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of infrastructure challenges.",
+          "Explanation of service provision issues.",
+          "Use of relevant examples or concepts."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of high population density in urban districts for infrastructure and services — develop the idea fully rather than listing short points. Make sure you also cover: Identification of infrastructure challenges.; Explanation of provision issues.; of relevant examples or…."
+        ],
+        "model_answer": "High population density can lead to overcrowding, strain on housing, traffic congestion, and increased demand for public services like healthcare and sanitation. This can result in inadequate infrastructure and poor service delivery.",
+        "explanation": "Discuss how high population density affects the provision and quality of infrastructure and services in urban districts.",
+        "exam_question_id": "dc1c6895-af3b-4649-8d03-f11d4d13b5da:2",
+        "topic_label": "Bar graphs (Statistical Graphs, Diagrams and Maps)",
+        "topic_id": 1162,
+        "checked": true,
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Bar graphs (Statistical Graphs, Diagrams and Maps)"
+        }
+      }
+    ],
+    "estimated_time": 65,
+    "assessment_id": "edfd2adf-f5a7-4414-9946-48b239ea9dfc",
+    "subject": "Geography S5 SB (1)",
+    "topics": [
+      "Statistical Graphs, Diagrams and Maps"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 110,
+    "topic_ids": [
+      1162
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 22,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 70
+}

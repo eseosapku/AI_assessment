@@ -1,0 +1,559 @@
+{
+  "index": 8,
+  "label": "REB / Exam / P2 Mathematics PB",
+  "request": {
+    "subject": "P2 Mathematics PB",
+    "textbook_id": 145,
+    "topic_ids": [
+      1510
+    ],
+    "topics": [
+      "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+    ],
+    "curriculum": "rwanda",
+    "grade": 2,
+    "className": "P2",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 22,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a collection of colourful buttons. You have 3 red buttons, 2 blue buttons, and some yellow buttons. You know the total number of buttons is 7.",
+        "question": "How many yellow buttons do you have?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: How many yellow buttons do you have — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct answer."
+        ],
+        "model_answer": "3 (red) + 2 (blue) = 5. 7 (total) - 5 (red and blue) = 2. There are 2 yellow buttons.",
+        "explanation": "You need to find out how many yellow buttons there are. Start by adding the number of red and blue buttons together. Then subtract this total from the overall number of buttons to find the number of yellow buttons.",
+        "exam_question_id": "661e07ae-7d22-4a61-a7c8-01dc599b3fba:1",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a collection of colourful buttons. You have 3 red buttons, 2 blue buttons, and some yellow buttons. You know the total number of buttons is 7.",
+        "question": "How many blue buttons do you have now?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: How many blue buttons do you have now — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct answer."
+        ],
+        "model_answer": "2 (original blue) + 1 (new blue) = 3. There are now 3 blue buttons.",
+        "explanation": "You need to find out how many blue buttons you have after adding 1 more. Add the new blue button to the number of blue buttons you originally had.",
+        "exam_question_id": "661e07ae-7d22-4a61-a7c8-01dc599b3fba:1",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a basket of apples. You bought 4 apples and your friend gave you 2 more apples. You now have a total of 8 apples.",
+        "question": "How many apples did you start with?",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct answer",
+          "Explanation of steps"
+        ],
+        "hints": [
+          "Stay focused on this: How many apples did you start with — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct answer; Explanation of steps."
+        ],
+        "model_answer": "8 (total) - 2 (given) = 6. You started with 6 apples.",
+        "explanation": "To find out how many apples you started with, subtract the number of apples your friend gave you from the total number of apples. This will tell you how many apples you originally had.",
+        "exam_question_id": "661e07ae-7d22-4a61-a7c8-01dc599b3fba:2",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a basket of apples. You bought 4 apples and your friend gave you 2 more apples. You now have a total of 8 apples.",
+        "question": "How many apples are left if you eat 3 apples?",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct answer",
+          "Explanation of steps"
+        ],
+        "hints": [
+          "Stay focused on this: How many apples are left if you eat 3 apples — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct answer; Explanation of steps."
+        ],
+        "model_answer": "8 (total) - 3 (eaten) = 5. There are 5 apples left.",
+        "explanation": "To find out how many apples are left after you eat 3, subtract the number of apples you eat from the total number of apples.",
+        "exam_question_id": "661e07ae-7d22-4a61-a7c8-01dc599b3fba:2",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have 5 candies and you give 2 to your friend. How many candies do you have left?",
+        "question": "How many candies do you have left?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: How many candies do you have left — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct answer."
+        ],
+        "model_answer": "5 (total) - 2 (given away) = 3. You have 3 candies left.",
+        "explanation": "To find out how many candies you have left, subtract the number of candies you gave away from the total number of candies you originally had.",
+        "exam_question_id": "661e07ae-7d22-4a61-a7c8-01dc599b3fba:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have 5 candies and you give 2 to your friend. How many candies do you have left?",
+        "question": "If you get 1 more candy from your teacher, how many candies will you have?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: If you get 1 more candy from your teacher, how many candies will you have — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct answer."
+        ],
+        "model_answer": "3 (left) + 1 (new) = 4. You will have 4 candies.",
+        "explanation": "To find out how many candies you will have after getting 1 more, add the number of candies you get to the number of candies you have left.",
+        "exam_question_id": "661e07ae-7d22-4a61-a7c8-01dc599b3fba:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a basket of 5 apples.",
+        "question": "If you eat 2 apples, how many apples are left?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct subtraction",
+          "Correct answer"
+        ],
+        "hints": [
+          "Subtract the number of apples eaten from the total number of apples."
+        ],
+        "model_answer": "5 - 2 = 3\nThere are 3 apples left.",
+        "explanation": "Subtract the number of apples you ate from the total number of apples you started with to find out how many apples are left.",
+        "exam_question_id": "3f92806f-97ee-4502-bcf8-fef6ad52eda6:1",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a basket of 5 apples.",
+        "question": "If you add 3 more apples to the basket, how many apples are there in total?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct addition",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: If you add 3 more apples to the basket, how many apples are there in total — develop the idea fully rather than listing short points. Make sure you also cover: Correct addition; Correct answer."
+        ],
+        "model_answer": "5 + 3 = 8\nThere are 8 apples in total.",
+        "explanation": "Add the number of apples you added to the total number of apples you started with to find out how many apples are there in total.",
+        "exam_question_id": "3f92806f-97ee-4502-bcf8-fef6ad52eda6:1",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have 3 boxes of crayons. Each box has 4 crayons.",
+        "question": "How many crayons do you have in total?",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct multiplication",
+          "Correct answer",
+          "Correct units"
+        ],
+        "hints": [
+          "Multiply the number of boxes by the number of crayons per box."
+        ],
+        "model_answer": "3 * 4 = 12\nYou have 12 crayons in total.",
+        "explanation": "Multiply the number of boxes by the number of crayons in each box to find the total number of crayons.",
+        "exam_question_id": "3f92806f-97ee-4502-bcf8-fef6ad52eda6:2",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have 3 boxes of crayons. Each box has 4 crayons.",
+        "question": "How many crayons does each friend get?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct division",
+          "Correct answer"
+        ],
+        "hints": [
+          "Divide the total number of crayons by the number of friends."
+        ],
+        "model_answer": "12 / 3 = 4\nEach friend gets 4 crayons.",
+        "explanation": "Divide the total number of crayons by the number of friends to find out how many crayons each friend gets.",
+        "exam_question_id": "3f92806f-97ee-4502-bcf8-fef6ad52eda6:2",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A toy store has 24 teddy bears. They want to pack them in boxes with 4 teddy bears in each box.",
+        "question": "How many boxes will they need?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct division",
+          "Correct answer"
+        ],
+        "hints": [
+          "Divide the total number of teddy bears by the number of teddy bears per box."
+        ],
+        "model_answer": "24 / 4 = 6\nThey will need 6 boxes.",
+        "explanation": "Divide the total number of teddy bears by the number of teddy bears per box to find out how many boxes they will need.",
+        "exam_question_id": "3f92806f-97ee-4502-bcf8-fef6ad52eda6:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A toy store has 24 teddy bears. They want to pack them in boxes with 4 teddy bears in each box.",
+        "question": "How many teddy bears are in each box?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct division",
+          "Correct answer"
+        ],
+        "hints": [
+          "Divide the total number of teddy bears by the number of boxes."
+        ],
+        "model_answer": "24 / 6 = 4\nThere are 4 teddy bears in each box.",
+        "explanation": "Divide the total number of teddy bears by the number of boxes to find out how many teddy bears are in each box.",
+        "exam_question_id": "3f92806f-97ee-4502-bcf8-fef6ad52eda6:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a basket of candies. You bought 4 candies and your friend gave you 3 more candies. You now have a total of 9 candies.",
+        "question": "How many candies did you start with?",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct number of candies you started with",
+          "Correct explanation"
+        ],
+        "hints": [
+          "Stay focused on this: How many candies did you start with — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct number of candies you with; Correct explanation."
+        ],
+        "model_answer": "Total candies = 9. Candies given by friend = 3. Candies you started with = 9 - 3 = 6.",
+        "explanation": "You started with some candies and then got 3 more from your friend, making a total of 9. To find out how many you started with, subtract the 3 candies given by your friend from the total.",
+        "exam_question_id": "71cb637e-b949-4ad4-a07e-39b7dfc4f2a9:2",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a basket of candies. You bought 4 candies and your friend gave you 3 more candies. You now have a total of 9 candies.",
+        "question": "If you eat 2 candies, how many candies are left?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct number of candies left"
+        ],
+        "hints": [
+          "Stay focused on this: If you eat 2 candies, how many candies are left — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation."
+        ],
+        "model_answer": "Total candies = 9. Candies you eat = 2. Candies left = 9 - 2 = 7.",
+        "explanation": "You had 9 candies and you ate 2 of them. To find out how many are left, subtract the 2 candies you ate from the total.",
+        "exam_question_id": "71cb637e-b949-4ad4-a07e-39b7dfc4f2a9:2",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a collection of toy cars. You have 5 red cars, 2 blue cars, and some green cars. You know the total number of cars is 10.",
+        "question": "How many green cars do you have?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct number of green cars"
+        ],
+        "hints": [
+          "Count the total number of cars and subtract the known quantities."
+        ],
+        "model_answer": "Total cars = 10. Red cars = 5. Blue cars = 2. Green cars = 10 - 5 - 2 = 3.",
+        "explanation": "You started by knowing the total number of cars was 10. You then subtracted the number of red and blue cars to find out how many green cars there are.",
+        "exam_question_id": "71cb637e-b949-4ad4-a07e-39b7dfc4f2a9:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a collection of toy cars. You have 5 red cars, 2 blue cars, and some green cars. You know the total number of cars is 10.",
+        "question": "If you add 2 more green cars, how many green cars will you have in total?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct number of green cars after adding two"
+        ],
+        "hints": [
+          "Stay focused on this: If you add 2 more green cars, how many green cars will you have in total — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct number of green cars after adding two."
+        ],
+        "model_answer": "Green cars from part (a) = 3. Add 2 more green cars: 3 + 2 = 5.",
+        "explanation": "You already found that you had 3 green cars. Adding 2 more gives you a total of 5 green cars.",
+        "exam_question_id": "71cb637e-b949-4ad4-a07e-39b7dfc4f2a9:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have 5 toy cars and you give 2 to your friend. You then receive 3 more toy cars from your teacher.",
+        "question": "How many toy cars do you have now?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of toy cars after giving some away",
+          "Correct calculation of toy cars after receiving more"
+        ],
+        "hints": [
+          "Remember to subtract the toy cars you gave away first."
+        ],
+        "model_answer": "You start with 5 toy cars. After giving 2 to your friend, you have 5 - 2 = 3 toy cars. After receiving 3 more, you have 3 + 3 = 6 toy cars.",
+        "explanation": "First, you subtract the 2 toy cars you gave to your friend from the 5 you had. Then, you add the 3 toy cars you received from your teacher.",
+        "exam_question_id": "425b3ced-3e7a-4641-894f-2c99091e58f1:1",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have 5 toy cars and you give 2 to your friend. You then receive 3 more toy cars from your teacher.",
+        "question": "How many toy cars did you have before giving any to your friend?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the initial number of toy cars",
+          "Correct calculation of the number of toy cars before giving any away"
+        ],
+        "hints": [
+          "Think about how many toy cars you had before you gave any away."
+        ],
+        "model_answer": "You started with 5 toy cars before giving any to your friend.",
+        "explanation": "Since you gave 2 toy cars to your friend and had 3 left, you originally had 2 + 3 = 5 toy cars.",
+        "exam_question_id": "425b3ced-3e7a-4641-894f-2c99091e58f1:1",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have 3 balloons and you pop 1 balloon. You then get 2 more balloons from your friend.",
+        "question": "How many balloons do you have now?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of balloons after popping some",
+          "Correct calculation of balloons after receiving more"
+        ],
+        "hints": [
+          "Remember to subtract the balloon you popped first."
+        ],
+        "model_answer": "You start with 3 balloons. After popping 1 balloon, you have 3 - 1 = 2 balloons. After receiving 2 more, you have 2 + 2 = 4 balloons.",
+        "explanation": "First, you subtract the 1 balloon you popped from the 3 you had. Then, you add the 2 balloons you received from your friend.",
+        "exam_question_id": "425b3ced-3e7a-4641-894f-2c99091e58f1:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have 3 balloons and you pop 1 balloon. You then get 2 more balloons from your friend.",
+        "question": "How many balloons did you have before popping any?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the initial number of balloons",
+          "Correct calculation of the number of balloons before popping any"
+        ],
+        "hints": [
+          "Stay focused on this: How many balloons did you have before popping any — develop the idea fully rather than listing short points. Make sure you also cover: Identify the initial number of balloons."
+        ],
+        "model_answer": "You started with 3 balloons before popping any.",
+        "explanation": "Since you popped 1 balloon and had 2 left, you originally had 1 + 2 = 3 balloons.",
+        "exam_question_id": "425b3ced-3e7a-4641-894f-2c99091e58f1:3",
+        "topic_label": "Missing Numbers in Addition, Subtraction, Multiplication or Division",
+        "topic_id": 1510,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "56d82dda-7001-469d-a80c-fe8a94de8d8a",
+    "subject": "P2 Mathematics PB",
+    "topics": [
+      "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 145,
+    "topic_ids": [
+      1510
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 22
+}

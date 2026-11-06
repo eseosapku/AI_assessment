@@ -23,6 +23,7 @@ import { bookReference } from './book-reference'
 export interface ReferencingQuestion {
   question?: unknown
   passage?: unknown
+  scenario?: unknown
   image_url?: unknown
   diagram_svg?: unknown
   options?: unknown
@@ -111,7 +112,7 @@ const MATHS_FUNCTION = /\b[a-z]\s*\(\s*[a-z]\s*\)|\bf\s*:\s*[a-z]\s*(?:→|->)/i
 
 /** Something that looks like real code rather than a sentence about code. */
 const LOOKS_LIKE_CODE =
-  /(?:^|\n)\s*(?:for|while|if|def|function|int|var|let|const|print|return|class|import|#include)\b|[{};]\s*$|=\s*\w+\s*[+\-*/]|\bprint\s*\(|\breturn\b.*[;)]/m
+  /(?:^|\n)\s*(?:\d+[.:]?\s+)?(?:for|while|if|def|function|int|var|let|const|print|return|class|import|input|output|read|display|declare|set|endwhile|endif|#include)\b|(?:^|\n)\s*(?:\d+[.:]?\s+)?[a-z_]\w*\s*(?:←|<-|=)\s*[\d"']|[{};]\s*$|=\s*\w+\s*[+\-*/]|\bprint\s*\(|\breturn\b.*[;)]/mi
 
 
 function hasCode(text: string): boolean {
@@ -141,7 +142,7 @@ export function danglingReference(q: ReferencingQuestion): ReferenceKind | null 
 
   const passage = String(q?.passage ?? '')
   const hasImage = Boolean(String(q?.image_url ?? '').trim() || String(q?.diagram_svg ?? '').trim())
-  const body = `${stem}\n${passage}`
+  const body = `${stem}\n${String(q?.scenario ?? '')}\n${passage}`
 
   for (const { kind, pattern } of PROMISES) {
     if (!pattern.test(stem)) continue

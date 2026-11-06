@@ -2,6 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { danglingReference, dropDanglingReferences } from './dangling-reference'
 
 describe('danglingReference', () => {
+  it('recognises numbered uppercase pseudocode and assignments in shared exam context', () => {
+    expect(danglingReference({ question: 'In the following code, what value is output?', scenario: '1 INPUT score\n2 IF score > 10 THEN\n3 OUTPUT score\n4 ENDIF' })).toBeNull()
+    expect(danglingReference({ question: 'What does the program output?', scenario: '1 total = 0\n2 OUTPUT total' })).toBeNull()
+  })
   it('catches the ICT questions that promised code and shipped none', () => {
     // Both observed live on a Cambridge ICT paper.
     expect(danglingReference({ question: 'Consider the following code snippet. What will be the output after the loop completes?' })).toBe('code')

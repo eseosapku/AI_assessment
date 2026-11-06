@@ -1,0 +1,32 @@
+{
+  "index": 10,
+  "label": "Cambridge / Practice / Cambridge International AS and A Level Computer Science Coursebook",
+  "request": {
+    "subject": "Cambridge International AS and A Level Computer Science Coursebook",
+    "textbook_id": 191,
+    "topic_ids": [
+      2656,
+      2638
+    ],
+    "topics": [
+      "Chapter 21: Security",
+      "Chapter 3: Hardware"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS and A Level Computer Science Coursebook",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 2864685833,
+  "error": "Error: Failed to generate 20 complete questions. The AI produced 18. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 23,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 20 complete questions. The AI produced 18. Please try again."
+  },
+  "totalSeconds": 23
+}

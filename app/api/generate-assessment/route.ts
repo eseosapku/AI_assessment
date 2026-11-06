@@ -60,6 +60,9 @@ import { toBritish } from '@/lib/british-spelling'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
 import { isLazyChoiceQuestion, sourceNeedsWorkedProblems, workedProblemRules } from '@/lib/worked-problems'
 import { cambridgeStylePrompt, loadCambridgeStyle } from '@/lib/past-paper/cambridge-style'
+import { pastPaperReferences } from '@/lib/past-paper/references'
+import { completeExamQuestions } from '@/lib/exam-parts'
+import { buildExamPrompt, examQuestionSchema, examStyleRules, expandExamQuestions, isBareStatement, isExamStyle, paperGroups, splitExamStem, STATEMENT_RULE, takeNumberedQuestions } from '@/lib/exam-parts'
 import { normaliseWrittenType } from '@/lib/written-type'
 import { prettyMaths } from '@/lib/maths-notation'
 import { correctParagraphLetter, citesAMissingParagraph, paragraphNumberToLetter, paragraphMismatch } from '@/lib/paragraph-reference'
@@ -108,11 +111,16 @@ import {
 import type { AssessmentQuestionType } from '@/types/interactive'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 import { attachLongformHints } from '@/lib/longform-hints'
+import { uniqueInteractiveExercises } from '@/lib/interactive-duplicates'
+import { repairCalendarAnswer } from '@/lib/calendar-answer'
+import { repairProjectileAnswer } from '@/lib/projectile-answer'
+import { delexicaliseExplanation } from '@/lib/answer-position'
+import { isLearningTitle } from '@/lib/curriculum-title'
 
 // Heavy AI route: needs the Node runtime (AWS SDK + pg) and the full function
 // budget. Bedrock call budgets above are tuned to return within this window.
 export const runtime = 'nodejs'
-export const maxDuration = 30
+export const maxDuration = 600
 
 const MAX_DIAGRAMS = 6
 /**
@@ -130,11 +138,11 @@ const CHECKPOINT_DRAWN_FIGURES = process.env.CHECKPOINT_DRAWN_FIGURES === '1'
 const BANK_FIGURE_SHARE: Record<string, number> = { Science: 0.7, Mathematics: 0.5 }
 const MAX_SOURCE_CHARS = 12000
 /**
- * The second reader when BEDROCK_CHECKER_MODEL_ID is unset. Haiku: Sonnet
- * costs more than generating the quiz did, and Haiku catches the wrong keys
- * and the content from a later stage that the reviews found.
+ * The random live sweeps found numerical errors that Haiku marked as sound.
+ * Use the stronger reviewer by default; installations can still explicitly
+ * choose their quality/cost tradeoff with BEDROCK_CHECKER_MODEL_ID.
  */
-const DEFAULT_CHECKER_MODEL = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
+const DEFAULT_CHECKER_MODEL = 'amazon.nova-lite-v1:0'
 const MAX_EXAM_SOURCE_CHARS = 32000
 
 
@@ -871,6 +879,11 @@ Return exactly ${questionParts.length} questions, in this order, all type "longf
   // PDF of problems the model followed that schema and ignored a later note
   // that said some questions should be calculations. The note has to replace
   // the task, not sit under it.
+  if (isExamStyle(style) && figureAppetite !== 'exam-paper') {
+    questionInstruction = examStyleRules(Math.max(1, Math.round(count / 3)))
+    questionsBlock = `    ${examQuestionSchema()}`
+  }
+
   if (opts.requireWorkedProblems) {
     questionInstruction = `${workedProblemRules(count)}
 
@@ -992,6 +1005,8 @@ ${sourceBlock ? `\n${sourceBlock}\n` : ''}
 ${gradeAgeNote ? `\n${gradeAgeNote}\n` : ''}
 ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 ${opts.cambridgePaperStyle ? `\n${opts.cambridgePaperStyle}\n` : ''}
+${STATEMENT_RULE}
+${isExamStyle(style) ? `\n${examStyleRules(count)}\n` : ''}
 
 **Task:** ${questionInstruction}
 ${opts.batchFocus?.length ? `
@@ -1333,7 +1348,11 @@ export async function POST(request: NextRequest) {
       examPrepContext: rawExamPrepContext,
     } = body
 
-    const questionType: AssessmentQuestionType =
+    if (!Number.isInteger(count) || count < 1 || count > (isExamStyle(style) ? 20 : 60)) {
+      return NextResponse.json({ error: 'Choose a valid question count (at most 20 numbered questions for an exam).' }, { status: 400 })
+    }
+
+    const questionType: AssessmentQuestionType = isExamStyle(style) ? 'longform' :
       requestedQuestionType === 'mcq' ||
       requestedQuestionType === 'longform' ||
       requestedQuestionType === 'mixed' ||
@@ -1623,10 +1642,17 @@ ${commandBlock}`
     }
 
     const isCambridge = curriculumSlug === 'cambridge'
+    const checkedSchoolQuiz = isCambridge || curriculumSlug === 'rwanda'
+    const examPaper = isExamStyle(style)
+    if (examPaper) console.log(`Exam paper: yes (${style})`)
     const cambridgePaper = textbookCurriculum === 1 && textbookName
       ? loadCambridgeStyle(textbookName, 1)
       : null
     const cambridgePaperStyle = cambridgePaper ? cambridgeStylePrompt(cambridgePaper) : ''
+    const savedPaperReferences = pastPaperReferences({
+      textbookId, topicIds, subtopicIds, seed: Date.now(),
+    })
+    if (savedPaperReferences) enrichedCurriculumBlock += `\n\n${savedPaperReferences}`
     if (cambridgePaper) {
       const from = (cambridgePaper.sources ?? [cambridgePaper])
         .map((item) => `${item.level}/${item.subject} (${item.question_count})`)
@@ -1798,6 +1824,7 @@ ${commandBlock}`
     const passageQuestionTarget = subjectPlan.passageQuestionCount
     const directQuestionTarget = subjectPlan.directQuestionCount
     const usePassageFlow =
+      !examPaper &&
       subjectPlan.usePassageFlow &&
       questionType !== 'interactive' &&
       questionType !== 'study_mixed'
@@ -1834,7 +1861,7 @@ ${commandBlock}`
     // back with a question they were asked on it (spec 2026-10-16 3.4). Read only where the bank and
     // library figures that use it apply; a failed lookup costs nothing.
     const seenFigures: SeenFigures = bankApplies && userId ? await readSeenFigures(db, userId) : NO_HISTORY
-    const figureKinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
+    const figureKinds: FigureQuestionKind[] = examPaper ? ['mcq', 'short', 'written'] : questionType === 'longform' ? ['short', 'written']
       : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
     const bankFigures: TextbookFigure[] = bankApplies
       ? orderForStudent(figuresForQuiz({
@@ -1899,7 +1926,7 @@ ${commandBlock}`
     }
 
     const hasVisionFigures = visualCatalog.length > 0
-    const hasDiagramSupport = (isExamPrepMode && Boolean(textbookSourceText)) || hasVisionFigures
+    const hasDiagramSupport = (isExamPrepMode && Boolean(textbookSourceText)) || hasVisionFigures || quizFigures.length > 0 || pdfFigures.length > 0
     const maxImageQuestions = maxQuestionsWithImages(count)
 
     // ── Bedrock client (explicit timeouts + fallback model) ─────────────────
@@ -1913,7 +1940,7 @@ ${commandBlock}`
         connectionTimeout: 3_000,
         // Keep below the gateway window; the AbortController above enforces the
         // real per-attempt budget. A 70s socket would outlive the 504 by minutes.
-        requestTimeout: 25_000,
+        requestTimeout: isCheckpoint || checkedSchoolQuiz || examPaper ? 60_000 : 25_000,
       }),
       credentials: { accessKeyId, secretAccessKey },
     })
@@ -1931,6 +1958,9 @@ ${commandBlock}`
 
     function buildBedrockBody(modelId: string, prompt: string, maxTokens: number, temperature = 0.2): string {
       const m = stripPrefix(modelId)
+      if (m.startsWith('anthropic.')) {
+        return JSON.stringify({ anthropic_version: 'bedrock-2023-05-31', messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature })
+      }
       if (m.startsWith('amazon.nova')) {
         return JSON.stringify({
           messages: [{ role: 'user', content: [{ text: prompt }] }],
@@ -1951,6 +1981,7 @@ ${commandBlock}`
 
     function extractBedrockText(modelId: string, body: any): string {
       const m = stripPrefix(modelId)
+      if (m.startsWith('anthropic.')) return (body?.content || []).filter((b: any) => b?.type === 'text').map((b: any) => b.text).join('\n')
       if (m.startsWith('amazon.nova')) return body?.output?.message?.content?.[0]?.text ?? ''
       if (m.startsWith('meta.llama')) return body?.generation ?? ''
       return body?.choices?.[0]?.message?.content ?? body?.choices?.[0]?.text ?? body?.outputs?.[0]?.text ?? ''
@@ -1980,9 +2011,9 @@ ${commandBlock}`
       // paper lost batch after batch to "timed out after 8758ms" under its own
       // throughput contention and came back 10 questions of 29, which the
       // route then refused outright. A slow paper beats no paper.
-      const PRIMARY_CALL_BUDGET_MS = isCheckpoint ? 45_000 : 18_000
-      const FALLBACK_CALL_BUDGET_MS = isCheckpoint ? 25_000 : 9_000
-      const PER_ATTEMPT_TIMEOUT_MS = isCheckpoint ? 45_000 : 18_000
+      const PRIMARY_CALL_BUDGET_MS = isCheckpoint || examPaper || checkedSchoolQuiz ? 45_000 : 18_000
+      const FALLBACK_CALL_BUDGET_MS = isCheckpoint || examPaper || checkedSchoolQuiz ? 25_000 : 9_000
+      const PER_ATTEMPT_TIMEOUT_MS = isCheckpoint || examPaper || checkedSchoolQuiz ? 45_000 : 18_000
 
       const tryModels = async (modelIds: string[], budgetMs: number): Promise<{
         text?: string
@@ -1997,7 +2028,7 @@ ${commandBlock}`
 
         for (const modelId of modelIds) {
           const elapsed = Date.now() - started
-          const remaining = budgetMs - elapsed
+          const remaining = Math.min(budgetMs - elapsed, examPaper ? 540_000 - (Date.now() - requestStarted) : Infinity)
           if (remaining <= 0) break
 
           const perAttemptTimeoutMs = Math.min(PER_ATTEMPT_TIMEOUT_MS, remaining)
@@ -2145,7 +2176,9 @@ ${commandBlock}`
         ? alreadyOnPaper.filter((q: any) => wanted.has(String(q?.topic_label ?? '').toLowerCase()))
         : alreadyOnPaper
       const lines = relevant
-        .map((q: any) => String(q?.question ?? '').replace(/\s+/g, ' ').trim().slice(0, 90))
+        .map((q: any) => q?.type === 'interactive'
+          ? `${q.question} ${JSON.stringify({ left: q.left_items, right: q.right_items, items: q.items, template: q.template, statements: q.statements, options: q.options }).slice(0, 700)}`
+          : `${q?.scenario ? String(q.scenario).slice(0, 700) + ' | ' : ''}${String(q?.question ?? '').replace(/\s+/g, ' ').trim().slice(0, 160)}`)
         .filter(Boolean)
         .slice(wanted.size ? -12 : -40)
       if (lines.length === 0) return ''
@@ -2879,7 +2912,7 @@ ${commandBlock}`
              WHERE s.topic_id = ANY($1::int[]) ORDER BY s.topic_id, s.subtopic_id`,
             [topicIds],
           )
-          bookSections = rows as BookSection[]
+          bookSections = (rows as BookSection[]).filter((s) => isLearningTitle(s.section))
         } catch (err) {
           console.error('Sections lookup for batches failed:', err)
         }
@@ -2891,8 +2924,8 @@ ${commandBlock}`
         : nPlain > 1 ? sectionShares(bookSections, nPlain, priorStems)
         : topUp && bookSections.length ? [leastCoveredSections(bookSections, priorStems)]
         : []
-      if (pointFoci.length) console.log(`Batch foci: ${pointFoci.flat().length} point(s) over ${nPlain} batch(es)`)
-      else if (sectionFoci.length) console.log(`Batch foci: ${new Set(sectionFoci.flat()).size} section(s) over ${nPlain} batch(es)`)
+      if (!examPaper && pointFoci.length) console.log(`Batch foci: ${pointFoci.flat().length} point(s) over ${nPlain} batch(es)`)
+      else if (!examPaper && sectionFoci.length) console.log(`Batch foci: ${new Set(sectionFoci.flat()).size} section(s) over ${nPlain} batch(es)`)
       const chaptersOf = (points: string[]) => [...new Set(points.map((p) => (p.match(/^\(([^)]*)\)/) ?? [])[1]).filter(Boolean) as string[])]
       for (let i = 0, k = 0; i < plain; i += BATCH_SIZE, k++) {
         const share = pointFoci.length ? chaptersOf(pointFoci[k])
@@ -3149,6 +3182,14 @@ ${commandBlock}`
           console.warn(`Removed incomplete Roman-numeral question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
+        if (qType !== 'interactive' && !splitExamStem(String(q?.question || '')) && isBareStatement(String(q?.question || ''))) {
+          console.warn(`Removed a statement that asks nothing: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (examPaper && qType !== 'interactive' && !splitExamStem(String(q?.question || '')) && !String(q?.part || '').trim()) {
+          console.warn(`Removed a question with no exam part: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
         // The three below are about figures, sums and subject drift, and a
         // composition is none of those. "So that a reader can picture it"
         // and "Imagine you are describing it" read as a missing picture;
@@ -3183,7 +3224,7 @@ ${commandBlock}`
         const rows = q?.type === 'interactive'
           ? [...(Array.isArray(q.items) ? q.items : []), ...(Array.isArray(q.options) ? q.options : [])].join(' ')
           : ''
-        const key = normalizeQuestionKey(`${String(q?.question || '')} ${rows}`)
+        const key = normalizeQuestionKey(`${examPaper ? String(q?.scenario || '') : ''} ${String(q?.question || '')} ${rows}`)
         if (!key) return false
         if (seenQuestions.has(key)) {
           console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`)
@@ -3195,6 +3236,91 @@ ${commandBlock}`
       return deduped
     }
 
+    const plannedExamFigures = examPaper ? [
+      ...quizFigures.map((f) => ({ description: `${f.shows}\nLabels: ${f.labels.join(', ')}\nOriginal exercise: ${f.original}`, localPath: f.localPath, focus: f.topic })),
+      ...visualCatalog.map((f) => ({ description: f.description, localPath: f.localPath, focus: '' })),
+      ...pdfFigures.map((f) => ({ description: f.caption, localPath: f.dataUrl, focus: '' })),
+    ].filter((f, i, list) => {
+      const selected = [...promptTopics, ...bookSections.map((s) => s.section)]
+      const tokens = tagTokens(f.focus || '')
+      const matches = !tokens.length || selected.some((topic) => {
+        const wanted = new Set(tagTokens(topic))
+        return tokens.filter((t) => wanted.has(t)).length >= Math.ceil(tokens.length * 0.8)
+      })
+      return matches && f.localPath && list.findIndex((other) => other.localPath === f.localPath) === i
+    })
+      .slice(0, Math.round(Number(count) * 0.6)) : []
+    const examRejections: string[] = []
+    const examFigureFailures = new Map<string, number>()
+    let examVariant = 0
+    const examFoci = resolvedSubtopics.length || !bookSections.length ? promptTopics
+      : bookSections.map((s) => `${s.topic} — ${s.section}`)
+
+    async function tryGenerateExamBatch(numbered: number, topics: string[], figure?: { description?: string; localPath?: string }): Promise<any[]> {
+      const variant = examVariant++
+      const approaches = ['an everyday application', 'interpreting evidence or results', 'comparing two cases', 'explaining a method and applying it', 'reasoning about a changed condition', 'solving a new practical problem']
+      const prompt = buildExamPrompt({
+        subject: promptSubject,
+        topics,
+        numbered,
+        paperStyle: cambridgePaperStyle,
+        guidance: [buildSubjectGenreBlock(subjectDomain), subjectGuidance({ subject: promptSubject, grade: Number(gradeForPrompt) || undefined, hasPassage: subjectDomain === 'language' }),
+          subjectDomain === 'language' ? 'Countries, shopping, directions and other unit themes are contexts for LANGUAGE learning. Test vocabulary, grammar, reading or everyday communication. Do not turn these themes into specialist maths, compass-bearing calculations, science or geography recall.' : '',
+        ].filter(Boolean).join('\n'),
+        scope: scopeBrief,
+        figure: figure?.description,
+        source: [sourceText, alreadyOnPaper.length ? '' : savedPaperReferences].filter(Boolean).join('\n\n'),
+        audience: `Audience: ${className || `Grade ${gradeForPrompt || ''}`}. Difficulty: ${difficultyLevel || 'standard'}. Stay within this curriculum and age level.`,
+      })
+      console.log(`Exam batch: ${numbered} numbered question(s) on ${topics.slice(0, 2).join('; ') || promptSubject}`)
+      const previous = paperGroups(alreadyOnPaper).slice(-16).map((group) => {
+        const parts = alreadyOnPaper.slice(group.start, group.end)
+        const setup = String(parts[0]?.scenario || '').split('\n')[0].slice(0, 220)
+        return `${setup} | ${parts.map((q: any) => String(q.question || '').slice(0, 100)).join('; ')}`
+      }).join('\n')
+      const variation = [
+        `Variant ${randomUUID()}: use ${approaches[variant % approaches.length]} appropriate to this topic and age. Invent a fresh setting and fresh data; do not copy the values or scenarios in the source examples.`,
+        !figure ? `For numerical questions, choose your own solvable values. Variation seeds ${11 + Math.floor(Math.random() * 79)} and ${21 + Math.floor(Math.random() * 179)} may inspire new data; they are not required inputs. For language questions choose fresh sentences and characters instead.` : '',
+        previous ? `Already on this paper (do not repeat the same setup and demand):\n${previous}` : '',
+        examRejections.length ? `Previous attempts had these faults. Write a DIFFERENT, fully solved setup that avoids them:\n${examRejections.slice(-6).join('\n')}` : '',
+      ].filter(Boolean).join('\n')
+      const text = await callBedrock(`${prompt}\n${variation}`, Math.max(2600, numbered * 2200), 0.7)
+      if (isRefusal(text)) throw new Error('Model refused to generate the exam paper.')
+      const parsed = parseJsonRobust(fixLatexInRawJson(text))
+      const list = expandExamQuestions(Array.isArray(parsed) ? parsed : Array.isArray(parsed?.questions) ? parsed.questions : [])
+      // Assign stable group identities BEFORE any quality filter can remove (a).
+      const batchId = randomUUID()
+      for (const group of paperGroups(list)) {
+        const parts = list.slice(group.start, group.end)
+        const scenario = parts.find((q: any) => q.scenario)?.scenario
+        for (const q of parts as any[]) {
+          q.exam_question_id = `${batchId}:${group.number}`
+          q.part = String(q.part ?? '').trim().toLowerCase()
+          q.scenario = scenario
+          q.type = 'longform'
+          // The generator knows this question's focus; do not guess it later from
+          // short demands such as "Calculate the change" or a rotating fallback.
+          const focus = topics[0]
+          if (focus) {
+            q.topic_label = focus
+            q.topic_label_matched = true
+            const parent = [...topicNameById.entries()].find(([, name]) => focus === name || focus.startsWith(`${name} — `) || focus.endsWith(`(${name})`))
+            if (parent) q.topic_id = parent[0]
+          }
+          // One shared figure per numbered question; every part can refer to it.
+          if (figure?.localPath) {
+            q.image_url = figure.localPath
+            q.image_alt = figure.description?.split('\nOriginal exercise:')[0]
+            q.figure_description = figure.description
+          }
+        }
+      }
+      const complete = takeNumberedQuestions(completeExamQuestions(list), numbered)
+      if (!complete.length) console.warn(`Exam candidate contained no complete part group: ${text.slice(0, 700)}`)
+      return complete
+    }
+
+    for (let generationAttempt = 0; generationAttempt < (checkedSchoolQuiz ? 2 : 1); generationAttempt++) {
     try {
       if (usePassageFlow) {
         // ── PASSAGE-FIRST FLOW (full set or partial when mixed with direct topic questions) ──
@@ -3263,6 +3389,46 @@ ${commandBlock}`
         } else {
           allQuestions = passageQuestions
         }
+      } else if (examPaper) {
+        // Spare complete questions absorb losses to checking without restarting the paper.
+        const numbered = count + Math.max(2, Math.ceil(count * 0.25))
+        const foci = examFoci.length ? examFoci : [promptSubject]
+        const focusedTopic = (index: number) => {
+          const parent = promptTopics[index % promptTopics.length]
+          const sections = !resolvedSubtopics.length ? bookSections.filter((s) => s.topic === parent) : []
+          const section = sections[Math.floor(index / promptTopics.length) % sections.length]
+          return section ? `${section.section} (${section.topic})` : parent || foci[index % foci.length]
+        }
+        const jobs: { n: number; topic: string; figure?: { description?: string; localPath?: string } }[] = []
+        for (let i = 0; i < numbered;) {
+          const n = plannedExamFigures[i] ? 1 : Math.min(3, numbered - i)
+          jobs.push({
+            n,
+            topic: plannedExamFigures[i]?.focus || focusedTopic(jobs.length),
+            figure: plannedExamFigures[i],
+          })
+          i += n
+        }
+        for (let i = 0; i < jobs.length; i += 4) {
+          if (Date.now() - requestStarted > 480_000) break
+          alreadyOnPaper = [...priorOnPaper, ...allQuestions]
+          const settled = await Promise.allSettled(
+            jobs.slice(i, i + 4).map(async (job) => {
+              try {
+                const parts = await tryGenerateExamBatch(job.n, [job.topic], job.figure)
+                if (parts.length) return parts
+              } catch (err) {
+                console.warn('Exam candidate failed; retrying this numbered question once', String(err).slice(0, 120))
+              }
+              return tryGenerateExamBatch(job.n, [job.topic], job.figure)
+            }),
+          )
+          for (const result of settled) {
+            if (result.status === 'fulfilled') allQuestions.push(...result.value)
+            else console.warn(`Exam batch failed: ${String(result.reason?.message ?? result.reason).slice(0, 160)}`)
+          }
+        }
+        console.log(`Exam paper drafted ${paperGroups(allQuestions).length} numbered question(s), ${allQuestions.length} part(s)`)
       } else {
         // ── STANDARD PARALLEL BATCH FLOW ─────────────────────────────────────
         // Use allSettled so one failed batch (e.g. JSON parse error) doesn't
@@ -3307,13 +3473,20 @@ ${commandBlock}`
         // Only hard-fail if EVERY batch failed (nothing to work with)
         if (allQuestions.length === 0 && batchErrors.length > 0) throw batchErrors[0]
       }
+      break
     } catch (err: any) {
       console.error('Generation failed:', err)
+      if (checkedSchoolQuiz && generationAttempt === 0 && Date.now() - requestStarted < 120_000
+        && /timeout|timed out|throttl|rate.limit|too many requests|unavailable|econnreset|empty.*response/i.test(String(err?.message || err))) {
+        console.warn('Retrying the initial school generation after a transient provider failure.')
+        continue
+      }
       const is429 = err?.status === 429 || err?.message?.includes('429') || err?.error?.code === 'rate_limit_exceeded'
       const msg = is429
         ? 'AI is rate-limited. Please wait 30 seconds and try again.'
         : `Generation failed: ${err?.message ?? String(err)}`
       return NextResponse.json({ error: msg }, { status: is429 ? 429 : 500 })
+    }
     }
 
     // Deduplicate + fix first pass, then apply the quality filters BEFORE the
@@ -3353,6 +3526,7 @@ ${commandBlock}`
     }
 
     const makeShippable = (questions: any[]): any[] => {
+      const examCandidates = examPaper ? [...questions] : []
       // Provisional marks, before any guard reads them.
       //
       // The authoritative stamping happens at the very end, once trimming has
@@ -3466,7 +3640,9 @@ ${commandBlock}`
       // not go through the batch path at all -- so a guard placed anywhere
       // else is simply not looking when they arrive. "Explain the process of
       // electromagnetic induction." reached a Stage 9 paper exactly that way.
-      let working = questions
+      // Run destructive wording cleanup before the answerability checks and
+      // refill loop, not for the first time after the final count is settled.
+      let working = tidyPaper(questions).questions
 
       if (isCheckpoint) {
         const stage = Number(grade)
@@ -3499,7 +3675,7 @@ ${commandBlock}`
       // ten times, removed them in a single pass, and English came back
       // "Failed to generate 17 questions. The AI produced 11." The strict
       // wording rule still runs there.
-      const deduped = dropRepeatedDemands(working, { bySubject: !checkpointPassage })
+      const deduped = dropRepeatedDemands(working, { bySubject: !checkpointPassage && !examPaper })
       if (deduped.removed > 0) {
         console.log(`Removed ${deduped.removed} question(s) repeating a demand already on the paper`)
       }
@@ -3569,7 +3745,7 @@ ${commandBlock}`
         // from one Mathematics paper. A bank figure is held to its printed
         // labels when the question is written, which is the check that holds.
         if (bankAccountByPath.has(String(q?.image_url ?? ''))) return true
-        const reasons = figureMismatchReasons(q, byPath.get(String(q?.image_url ?? '')))
+        const reasons = figureMismatchReasons(q, byPath.get(String(q?.image_url ?? '')) || q.figure_description)
         if (!reasons.length) return true
         console.log(`Dropped question: it ${reasons.join('; ')}`)
         return false
@@ -3645,7 +3821,18 @@ ${commandBlock}`
         console.log(`Dropped ${markable.dropped} question(s) with nothing to mark against`)
       }
 
-      return notOnPaperAlready(cleanQuestionPaper(markable.kept as any[]))
+      const clean = uniqueInteractiveExercises(notOnPaperAlready(cleanQuestionPaper(markable.kept as any[])))
+      if (!examPaper) return clean
+      const complete = completeExamQuestions(clean)
+      const retained = new Set(complete.map((q) => q.exam_question_id))
+      for (const group of paperGroups(examCandidates)) {
+        const parts = examCandidates.slice(group.start, group.end)
+        if (retained.has(parts[0]?.exam_question_id)) continue
+        for (const image of new Set(parts.map((q) => String(q.image_url || '')).filter(Boolean))) {
+          examFigureFailures.set(image, (examFigureFailures.get(image) || 0) + 1)
+        }
+      }
+      return complete
     }
 
     if (!isCheckpoint) console.log(`Timing: first pass ${allQuestions.length} question(s) by ${Math.round((Date.now() - requestStarted) / 1000)}s`)
@@ -3658,7 +3845,7 @@ ${commandBlock}`
      * A careful second reader for every Checkpoint question. See
      * lib/question-checker.ts for why.
      *
-     * Haiku unless BEDROCK_CHECKER_MODEL_ID names another model, or "off"
+     * Nova Lite unless BEDROCK_CHECKER_MODEL_ID names another model, or "off"
      * (Amplify passes BEDROCK_* through to production). Each question is checked once -- `checked` marks
      * it -- so the top-up passes only pay for what they add. A question the
      * checker drops leaves a gap the next top-up pass fills. If the checker
@@ -3666,27 +3853,23 @@ ${commandBlock}`
      * no paper, and that is what this route did before.
      */
     const CHECKER_SETTING = String(process.env.BEDROCK_CHECKER_MODEL_ID ?? '').trim()
-    const CHECKER_MODEL = CHECKER_SETTING.toLowerCase() === 'off' ? '' : CHECKER_SETTING || DEFAULT_CHECKER_MODEL
+    const CHECKER_MODEL = CHECKER_SETTING.toLowerCase() === 'off' ? '' : buildModelCandidates(CHECKER_SETTING || DEFAULT_CHECKER_MODEL)[0]
     const callChecker = async (prompt: string): Promise<string> => {
       const controller = new AbortController()
       // An ordinary quiz has what is left of its 30 seconds; a Checkpoint
       // paper runs as a job and has no such window.
-      const timeout = setTimeout(() => controller.abort(), isCheckpoint ? 40_000 : Math.max(1_000, CHECK_DEADLINE_MS - (Date.now() - requestStarted)))
+      const timeout = setTimeout(() => controller.abort(), isCheckpoint ? 45_000 : Math.max(1_000, Math.min(45_000, CHECK_DEADLINE_MS - (Date.now() - requestStarted))))
       try {
+        const modelId = CHECKER_MODEL
         const cmd = new InvokeModelCommand({
-          modelId: CHECKER_MODEL,
+          modelId,
           contentType: 'application/json',
           accept: 'application/json',
-          body: JSON.stringify({
-            anthropic_version: 'bedrock-2023-05-31',
-            max_tokens: 4000,
-            temperature: 0,
-            messages: [{ role: 'user', content: prompt }],
-          }),
+          body: buildBedrockBody(modelId, prompt, 4000, 0),
         })
         const res = await withUsageTracking(
           {
-            modelId: CHECKER_MODEL,
+            modelId,
             feature: isCheckpoint ? 'checkpoint_check' : 'quiz_check',
             requestId: usageRequestId,
             userId: usageUserId,
@@ -3695,9 +3878,9 @@ ${commandBlock}`
           () => bedrockClient.send(cmd, { abortSignal: controller.signal }),
         )
         const body = JSON.parse(new TextDecoder().decode(res.body))
-        return Array.isArray(body?.content)
-          ? body.content.filter((b: any) => b?.type === 'text').map((b: any) => b.text).join('\n')
-          : ''
+        const text = extractBedrockText(modelId, body)
+        if (!text.trim()) throw new Error('Checker returned no text.')
+        return text
       } finally {
         clearTimeout(timeout)
       }
@@ -3707,14 +3890,14 @@ ${commandBlock}`
     // Primary Mathematics questions were not -- "25% of 80" keyed 40, a median
     // of 1-5 keyed 2, a square and a rectangle both "the shape with four right
     // angles", the area of a circle at Stage 3.
-    const checksThisPaper = isCheckpoint || isCambridge
+    const checksThisPaper = isCheckpoint || checkedSchoolQuiz
     // Past this, an ordinary quiz ships what it has unchecked rather than be
     // killed at maxDuration with nothing to show.
-    const CHECK_DEADLINE_MS = 25_000
+    const CHECK_DEADLINE_MS = examPaper ? 540_000 : checkedSchoolQuiz ? 300_000 : 25_000
     const runChecker = async (list: any[]): Promise<any[]> => {
       if (!checksThisPaper || !CHECKER_MODEL) return list
       if (!isCheckpoint && Date.now() - requestStarted > CHECK_DEADLINE_MS - 4_000) {
-        console.warn(`Checker skipped: ${Math.round((Date.now() - requestStarted) / 1000)}s into a 30-second request`)
+        console.warn(`Checker skipped: ${Math.round((Date.now() - requestStarted) / 1000)}s into the request`)
         return list
       }
       // Not the composition: the checker read "Write a story ..." as a
@@ -3727,6 +3910,9 @@ ${commandBlock}`
       const g = Number(grade)
       const stage = isCheckpoint
         ? (g <= 6 ? 'Primary Stage 6' : 'Lower Secondary Stage 9')
+        : curriculumSlug === 'rwanda' ? `REB Rwanda ${className || `Grade ${grade}`}: ${textbookName || promptSubject}`
+        : cambridgePaper ? `${cambridgePaper.level.replace(/_/g, ' ')} — ${textbookName}`
+        : /\bfurther\b|\bas\b.*\blevel\b|\ba level\b|advanced/i.test(`${textbookName} ${className}`) ? `${textbookName || className}`
         : g >= 10 ? 'Cambridge IGCSE (ages 14-16)'
         : g >= 7 ? `Cambridge Lower Secondary Stage ${g} (age ${g + 5})`
         : g >= 1 ? `Cambridge Primary Stage ${g} (age ${g + 5})`
@@ -3738,15 +3924,19 @@ ${commandBlock}`
       // Threes on an ordinary quiz: four calls of six took 9-11 seconds of its
       // 30 and some were cut off by the deadline; half the length each, in
       // parallel, they finish in about half the time.
-      await Promise.allSettled(chunk(todo, isCheckpoint ? 6 : 3).map(async (group) => {
+      const checkGroups = examPaper
+        ? paperGroups(list).map((g) => list.slice(g.start, g.end)).filter((group) => group.some((q) => todo.includes(q)))
+        : chunk(todo, isCheckpoint ? 6 : 3)
+      const checkOne = async (group: any[]) => {
         // Numbered 1..n inside the batch so the verdicts map back exactly;
         // ids from different passes can collide. Restored afterwards.
         const ids = group.map((q) => q.id)
         group.forEach((q, k) => { q.id = k + 1 })
         try {
-          const others = list.filter((q) => !group.includes(q)).map(oneLine)
+          const others = list.filter((q) => !group.includes(q)).map((q) => examPaper ? `${q.scenario || ''} ${oneLine(q)}` : oneLine(q))
           const prompt = buildCheckPrompt(group, {
             subject: promptSubject, stage, passage: checkpointPassage || undefined, others, scope: scope || undefined,
+            examPaper,
           })
           // Asked again once on a refusal or a dropped call, while there is
           // time: "Bedrock is unable to process your request" sent a Physics
@@ -3762,17 +3952,30 @@ ${commandBlock}`
           fixed += result.fixed
           for (const q of group) if (!result.kept.includes(q)) dropped.add(q)
           reasons.push(...result.dropped.map((d) => d.why))
+          if (examPaper && result.dropped.length) {
+            examRejections.push(...result.dropped.map((d) => d.why))
+            for (const image of new Set(group.map((q) => String(q.image_url || '')).filter(Boolean))) {
+              examFigureFailures.set(image, (examFigureFailures.get(image) || 0) + 1)
+            }
+          }
         } catch (err: any) {
           console.warn(`Checker failed for ${group.length} question(s), shipped unchecked: ${String(err?.message ?? err).slice(0, 120)}`)
         } finally {
           group.forEach((q, k) => { q.id = ids[k] })
         }
-      }))
+      }
+      for (let offset = 0; offset < checkGroups.length; offset += 4) {
+        await Promise.allSettled(checkGroups.slice(offset, offset + 4).map(checkOne))
+      }
       if (fixed || dropped.size) {
         const illustrated = [...dropped].filter((q: any) => q?.image_url).length
         console.log(`Checker: fixed ${fixed}, dropped ${dropped.size} of ${todo.length}${illustrated ? ` (${illustrated} illustrated)` : ''}${reasons.length ? ` -- ${reasons.slice(0, 6).join('; ')}` : ''}`)
       }
-      return list.filter((q) => !dropped.has(q))
+      const kept = uniqueInteractiveExercises(list.filter((q) => !dropped.has(q)))
+      kept.forEach(repairCalendarAnswer)
+      kept.forEach(repairProjectileAnswer)
+      for (const q of kept) Object.assign(q, delexicaliseExplanation(q))
+      return examPaper ? completeExamQuestions(kept) : kept
     }
 
     const secs = () => Math.round((Date.now() - requestStarted) / 1000)
@@ -3965,15 +4168,16 @@ ${commandBlock}`
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
     let outOfTime = false
-    for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
+    const filledCount = () => examPaper ? paperGroups(completeExamQuestions(allQuestions)).length : allQuestions.length
+    for (let retryPass = 1; retryPass <= (examPaper ? 40 : checkedSchoolQuiz ? 10 : 3) && filledCount() < count; retryPass++) {
       // A retry is a generation and a check, ten seconds or more. An ordinary
       // quiz too far into its 30 seconds ships short instead.
-      if (!isCheckpoint && Date.now() - requestStarted > 17_000) {
+      if (!isCheckpoint && Date.now() - requestStarted > (examPaper ? 480_000 : checkedSchoolQuiz ? 270_000 : 17_000)) {
         console.warn(`No retry pass: ${Math.round((Date.now() - requestStarted) / 1000)}s in, ${allQuestions.length} of ${count}`)
         outOfTime = true
         break
       }
-      const missing = count - allQuestions.length
+      const missing = count - filledCount()
       console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
         let retryQs: any[]
@@ -3993,6 +4197,28 @@ ${commandBlock}`
             retryParts.push(...await tryGeneratePassageBatch(generatedPassages[0], retryPassageCount, allQuestions.length + retryParts.length + 1))
           }
           retryQs = retryParts
+        } else if (examPaper) {
+          const missingNumbered = Math.max(1, count - filledCount()) + 2
+          alreadyOnPaper = [...priorOnPaper, ...allQuestions]
+          const used = new Set(completeExamQuestions(allQuestions).map((q) => q.image_url))
+          // A repeatedly unworkable picture must not trap every refill on the same bad scenario.
+          const missingFigures = plannedExamFigures.filter((f) => !used.has(f.localPath) && (examFigureFailures.get(f.localPath) || 0) < 2)
+          const refillFoci = bookSections.length && !resolvedSubtopics.length
+            ? leastCoveredSections(bookSections, allQuestions.map((q) => `${q.scenario || ''} ${q.question || ''}`)) : examFoci
+          retryQs = []
+          const refillJobs: { n: number; focus: string; figure?: typeof missingFigures[number] }[] = []
+          for (let offset = 0; offset < missingNumbered;) {
+            const figure = missingFigures[offset]
+            const n = figure ? 1 : Math.min(3, missingNumbered - offset)
+            refillJobs.push({ n, figure, focus: figure?.focus || refillFoci[(offset + retryPass) % refillFoci.length] })
+            offset += n
+          }
+          for (let offset = 0; offset < refillJobs.length; offset += 4) {
+            if (Date.now() - requestStarted > 480_000) break
+            const wave = await Promise.allSettled(refillJobs.slice(offset, offset + 4).map(({ n, focus, figure }) =>
+              tryGenerateExamBatch(n, focus ? [focus] : promptTopics, figure)))
+            retryQs.push(...wave.flatMap((r) => r.status === 'fulfilled' ? r.value : []))
+          }
         } else {
           // Ask for meaningfully more than the shortfall, not just the
           // shortfall.
@@ -4036,7 +4262,7 @@ ${commandBlock}`
         allQuestions = await runChecker(allQuestions)
       } catch (err: any) {
         console.error(`Retry pass ${retryPass} failed:`, err)
-        break
+        if (!examPaper && !checkedSchoolQuiz) break
       }
     }
 
@@ -4127,12 +4353,14 @@ ${commandBlock}`
     // because a topic that narrow has only so many different questions, and
     // the learner was sent back to wait for the same result.
     // A follow-up adds what it can: one question more is better than none.
-    const shortTolerance = topUp ? Math.max(0, count - 1) : shortfallTolerance(count, { checkpoint: isCheckpoint, outOfTime })
-    if (allQuestions.length < count && allQuestions.length >= count - shortTolerance) {
+    if (examPaper) allQuestions = completeExamQuestions(allQuestions)
+    const actualCount = filledCount()
+    const shortTolerance = examPaper || checkedSchoolQuiz ? 0 : topUp ? Math.max(0, count - 1) : shortfallTolerance(count, { checkpoint: isCheckpoint, outOfTime })
+    if (actualCount < count && actualCount >= count - shortTolerance) {
       console.warn(`Shipping ${allQuestions.length} of ${count}: short by ${count - allQuestions.length} after every pass`)
-    } else if (allQuestions.length < count) {
+    } else if (actualCount < count) {
       return NextResponse.json(
-        { error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again.` },
+        { error: `Failed to generate ${count} complete questions. The AI produced ${actualCount}. Please try again.` },
         { status: 500 }
       )
     }
@@ -4173,6 +4401,8 @@ ${commandBlock}`
       } else {
         allQuestions = protectComposition(allQuestions, count)
       }
+    } else if (examPaper) {
+      allQuestions = takeNumberedQuestions(allQuestions, count)
     } else if (allQuestions.length > count) {
       allQuestions = protectComposition(allQuestions, count)
     }
@@ -4183,7 +4413,7 @@ ${commandBlock}`
     // figures were chosen for: three figures picked for a Stage 6
     // "Transformation" quiz, none on the quiz. Kept first, then spread through
     // the quiz rather than left bunched at the end.
-    if (!isCheckpoint && figuredBeforeTrim.length) {
+    if (!isCheckpoint && !examPaper && figuredBeforeTrim.length) {
       allQuestions = keepAndSpread(
         [...allQuestions, ...figuredBeforeTrim.filter((q) => !allQuestions.includes(q))],
         figuredBeforeTrim,
@@ -4192,6 +4422,7 @@ ${commandBlock}`
     }
     // Final re-number after trim
     // A follow-up's questions continue the quiz's numbering.
+    if (examPaper) allQuestions = takeNumberedQuestions(completeExamQuestions(allQuestions), count)
     allQuestions.forEach((q: any, i: number) => { q.id = topUpOffset + i + 1 })
 
     // A Checkpoint paper is worth exactly what its cover says.
@@ -4215,6 +4446,9 @@ ${commandBlock}`
     // Use custom time if provided, otherwise calculate from prompt helper
     if (customTime && customTime > 0) {
       estimatedTime = Number(customTime)
+    } else if (examPaper) {
+      // The learner answers every part, not a 60/40 mix of numbered questions.
+      estimatedTime = Math.ceil(allQuestions.reduce((minutes: number, q: any) => minutes + Math.max(2, Number(q.marks) || 2), 0))
     } else {
       const { estimatedTime: et } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count, startId: 1, style,
@@ -4353,7 +4587,7 @@ ${commandBlock}`
       // questions so they're contiguous (e.g. "Questions 4-6 refer to the
       // figure below") instead of the same image reappearing at random
       // positions in the paper. Renumber ids to match the new positions.
-      if (attached > 0) {
+      if (attached > 0 && !examPaper) {
         assessmentData.questions = groupQuestionsByFigure(assessmentData.questions)
         assessmentData.questions.forEach((q: any, i: number) => { q.id = topUpOffset + i + 1 })
       }
@@ -4372,7 +4606,7 @@ ${commandBlock}`
       // The scenario belongs to the question, not to each of its parts.
       // Five parts of one numbered question each restated it in full, so a
       // learner paging through met the same twenty words five times.
-      assessmentData.questions = liftSharedScenarios(assessmentData.questions as any[])
+      if (!examPaper) assessmentData.questions = liftSharedScenarios(assessmentData.questions as any[])
       const tidied = tidyPaper(assessmentData.questions as any[])
       assessmentData.questions = tidied.questions
       if (tidied.removed > 0) console.log(`Removed ${tidied.removed} repeated figure(s)`)

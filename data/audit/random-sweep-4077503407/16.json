@@ -1,0 +1,807 @@
+{
+  "index": 16,
+  "label": "Cambridge / Exam / Cambridge Lower Secondary Science 8 Learners Book",
+  "request": {
+    "subject": "Cambridge Lower Secondary Science 8 Learners Book",
+    "textbook_id": 34,
+    "topic_ids": [
+      440,
+      437
+    ],
+    "topics": [
+      "Science Skills",
+      "7 Diet and growth"
+    ],
+    "curriculum": "cambridge",
+    "grade": 8,
+    "className": "Cambridge Lower Secondary Science 8 Learners Book",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 164,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are planning an experiment to test how the angle of a ramp affects the distance a marble rolls. You have a ramp, a marble, and a ruler to measure the distance.",
+        "question": "State the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is changed in the experiment.",
+          "State that the angle of the ramp is the independent variable."
+        ],
+        "hints": [
+          "Think about what you are changing to see how it affects the outcome."
+        ],
+        "model_answer": "The independent variable is the angle of the ramp.",
+        "explanation": "The independent variable is what you change in the experiment to observe the effect on the dependent variable.",
+        "exam_question_id": "daadffec-1706-437b-bdba-1a656a4e9929:1",
+        "topic_label": "Science Skills",
+        "topic_id": 437,
+        "image_url": "/textbook-images/textbook-bank/34/s291-f0.jpg",
+        "image_alt": "A cartoon-style drawing of a school science laboratory with several students in unsafe situations. One student runs across the room. Two students at a bench with a microscope push each other, and a knife lies on a sheet of paper at the table edge. At another bench a student in a blue headscarf appears to taste or sniff a substance while a student in a tie leans over a bottle. A beaker lies on its side with liquid spilling onto the table and a puddle on the floor. A student at the side bench touches a lit Bunsen burner with the gas tubing loose, and a heated beaker on a tripod has a flame besid",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "Science Skills"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are planning an experiment to test how the angle of a ramp affects the distance a marble rolls. You have a ramp, a marble, and a ruler to measure the distance.",
+        "question": "State the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is measured in the experiment.",
+          "State that the distance the marble rolls is the dependent variable."
+        ],
+        "hints": [
+          "Think about what you are measuring to see how it is affected by the change in the independent variable."
+        ],
+        "model_answer": "The dependent variable is the distance the marble rolls.",
+        "explanation": "The dependent variable is what you measure in the experiment to see how it is affected by changes in the independent variable.",
+        "exam_question_id": "daadffec-1706-437b-bdba-1a656a4e9929:1",
+        "topic_label": "Science Skills",
+        "topic_id": 437,
+        "image_url": "/textbook-images/textbook-bank/34/s291-f0.jpg",
+        "image_alt": "A cartoon-style drawing of a school science laboratory with several students in unsafe situations. One student runs across the room. Two students at a bench with a microscope push each other, and a knife lies on a sheet of paper at the table edge. At another bench a student in a blue headscarf appears to taste or sniff a substance while a student in a tie leans over a bottle. A beaker lies on its side with liquid spilling onto the table and a puddle on the floor. A student at the side bench touches a lit Bunsen burner with the gas tubing loose, and a heated beaker on a tripod has a flame besid",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "Science Skills"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are planning an experiment to test how the angle of a ramp affects the distance a marble rolls. You have a ramp, a marble, and a ruler to measure the distance.",
+        "question": "Name one variable that must be kept the same.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify a variable that must be controlled to ensure a fair test.",
+          "State that the type of marble used should be the same.",
+          "State that the starting position of the marble should be the same.",
+          "State that the surface of the ramp should be the same."
+        ],
+        "hints": [
+          "Think about what could affect the results if it changed."
+        ],
+        "model_answer": "One variable that must be kept the same is the type of marble used.",
+        "explanation": "Controlling variables ensures that the results of the experiment are due to the change in the independent variable and not other factors.",
+        "exam_question_id": "daadffec-1706-437b-bdba-1a656a4e9929:1",
+        "topic_label": "Science Skills",
+        "topic_id": 437,
+        "image_url": "/textbook-images/textbook-bank/34/s291-f0.jpg",
+        "image_alt": "A cartoon-style drawing of a school science laboratory with several students in unsafe situations. One student runs across the room. Two students at a bench with a microscope push each other, and a knife lies on a sheet of paper at the table edge. At another bench a student in a blue headscarf appears to taste or sniff a substance while a student in a tie leans over a bottle. A beaker lies on its side with liquid spilling onto the table and a puddle on the floor. A student at the side bench touches a lit Bunsen burner with the gas tubing loose, and a heated beaker on a tripod has a flame besid",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "Science Skills"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are testing the effect of different types of exercise on heart rate. You have three exercises: running, cycling, and swimming. You measure the heart rate before and after each exercise.",
+        "question": "Name the independent variable in this experiment.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the factor being changed",
+          "Explain why it is the independent variable"
+        ],
+        "hints": [
+          "Think about what you are changing in each trial."
+        ],
+        "model_answer": "The type of exercise; it is the variable being changed in each trial to observe its effect on heart rate.",
+        "explanation": "The independent variable is what you change in the experiment to see what effect it has. Here, you are changing the type of exercise to observe its effect on heart rate.",
+        "exam_question_id": "ee1f5db7-f4dc-4505-be8c-e0b7552bff00:3",
+        "topic_label": "7.1 Nutrients (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.1 Nutrients (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are testing the effect of different types of exercise on heart rate. You have three exercises: running, cycling, and swimming. You measure the heart rate before and after each exercise.",
+        "question": "Name the dependent variable in this experiment.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the factor being measured",
+          "Explain why it is the dependent variable"
+        ],
+        "hints": [
+          "Think about what you are measuring in each trial."
+        ],
+        "model_answer": "The heart rate; it is the factor being measured to see how it changes with different types of exercise.",
+        "explanation": "The dependent variable is what you measure in the experiment. Here, you are measuring the heart rate to see how it changes with different types of exercise.",
+        "exam_question_id": "ee1f5db7-f4dc-4505-be8c-e0b7552bff00:3",
+        "topic_label": "7.1 Nutrients (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.1 Nutrients (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are planning an experiment to test how different surface materials affect the distance a toy car rolls. You have a toy car, a ramp, and surfaces made of wood, tile, and carpet. You will measure the distance the car rolls with a ruler.",
+        "question": "Name the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is being changed in the experiment.",
+          "State the variable as'surface material'."
+        ],
+        "hints": [
+          "Stay focused on this: Name the independent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is being changed in the experiment."
+        ],
+        "model_answer": "The independent variable is the surface material.",
+        "explanation": "The independent variable is what you change in the experiment to observe its effect.",
+        "exam_question_id": "38234927-6b5d-4be7-9271-b57b9fe6a70b:1",
+        "topic_label": "7.4 Moving the body (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.4 Moving the body (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are planning an experiment to test how different surface materials affect the distance a toy car rolls. You have a toy car, a ramp, and surfaces made of wood, tile, and carpet. You will measure the distance the car rolls with a ruler.",
+        "question": "Name the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is being measured in the experiment.",
+          "State the variable as 'distance rolled'."
+        ],
+        "hints": [
+          "Stay focused on this: Name the dependent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is being measured in the experiment."
+        ],
+        "model_answer": "The dependent variable is the distance rolled.",
+        "explanation": "The dependent variable is what you measure in the experiment to see the effect of the independent variable.",
+        "exam_question_id": "38234927-6b5d-4be7-9271-b57b9fe6a70b:1",
+        "topic_label": "7.4 Moving the body (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.4 Moving the body (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are testing the effect of different types of food on energy levels. You have three types of food: an apple, a chocolate bar, and a piece of bread. You measure the energy levels by how far a student can run after eating each food.",
+        "question": "Name the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is being changed in the experiment.",
+          "State the variable as 'type of food'."
+        ],
+        "hints": [
+          "Stay focused on this: Name the independent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is being changed in the experiment."
+        ],
+        "model_answer": "The independent variable is the type of food.",
+        "explanation": "The independent variable is what you change in the experiment to observe its effect.",
+        "exam_question_id": "38234927-6b5d-4be7-9271-b57b9fe6a70b:2",
+        "topic_label": "7.4 Moving the body (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.4 Moving the body (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are testing the effect of different types of food on energy levels. You have three types of food: an apple, a chocolate bar, and a piece of bread. You measure the energy levels by how far a student can run after eating each food.",
+        "question": "Name the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is being measured in the experiment.",
+          "State the variable as 'distance run'."
+        ],
+        "hints": [
+          "Stay focused on this: Name the dependent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is being measured in the experiment."
+        ],
+        "model_answer": "The dependent variable is the distance run.",
+        "explanation": "The dependent variable is what you measure in the experiment to see the effect of the independent variable.",
+        "exam_question_id": "38234927-6b5d-4be7-9271-b57b9fe6a70b:2",
+        "topic_label": "7.4 Moving the body (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.4 Moving the body (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the effect of different types of soil on plant growth. You plant seeds in three different types of soil: sandy, clay, and loamy. You measure the height of the plants after four weeks.",
+        "question": "Name the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is being changed in the experiment.",
+          "State the variable as 'type of soil'."
+        ],
+        "hints": [
+          "Stay focused on this: Name the independent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is being changed in the experiment."
+        ],
+        "model_answer": "The independent variable is the type of soil.",
+        "explanation": "The independent variable is what you change in the experiment to observe its effect.",
+        "exam_question_id": "38234927-6b5d-4be7-9271-b57b9fe6a70b:3",
+        "topic_label": "7.4 Moving the body (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.4 Moving the body (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the effect of different types of soil on plant growth. You plant seeds in three different types of soil: sandy, clay, and loamy. You measure the height of the plants after four weeks.",
+        "question": "Name the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is being measured in the experiment.",
+          "State the variable as 'height of the plants'."
+        ],
+        "hints": [
+          "Stay focused on this: Name the dependent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is being measured in the experiment."
+        ],
+        "model_answer": "The dependent variable is the height of the plants.",
+        "explanation": "The dependent variable is what you measure in the experiment to see the effect of the independent variable.",
+        "exam_question_id": "38234927-6b5d-4be7-9271-b57b9fe6a70b:3",
+        "topic_label": "7.4 Moving the body (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.4 Moving the body (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are planning an experiment to test how the amount of sunlight affects the growth of a plant. You have three plants, a ruler, and a timer to measure growth over a period of time.",
+        "question": "Name the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is changed in the experiment.",
+          "Identify the variable as 'amount of sunlight'."
+        ],
+        "hints": [
+          "Think about what you are changing to see its effect."
+        ],
+        "model_answer": "The independent variable is the amount of sunlight.",
+        "explanation": "The independent variable is what you change in the experiment to see its effect on the dependent variable.",
+        "exam_question_id": "7d4f7dec-7562-4c8a-8bd6-7a91e070e6da:1",
+        "topic_label": "7.3 Growth, development and health (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.3 Growth, development and health (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are planning an experiment to test how the amount of sunlight affects the growth of a plant. You have three plants, a ruler, and a timer to measure growth over a period of time.",
+        "question": "Name the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is measured in the experiment.",
+          "Identify the variable as 'growth of the plant'."
+        ],
+        "hints": [
+          "Think about what you are measuring to see the effect of the independent variable."
+        ],
+        "model_answer": "The dependent variable is the growth of the plant.",
+        "explanation": "The dependent variable is what is affected by the change in the independent variable.",
+        "exam_question_id": "7d4f7dec-7562-4c8a-8bd6-7a91e070e6da:1",
+        "topic_label": "7.3 Growth, development and health (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.3 Growth, development and health (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are conducting an experiment to see how different types of food affect the growth of tadpoles. You have three types of food: fish flakes, lettuce, and boiled egg. You measure the length of the tadpoles after one week. ",
+        "question": "Name the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is changed in the experiment.",
+          "Correct identification of the food type as the independent variable."
+        ],
+        "hints": [
+          "The independent variable is the one that you change in the experiment."
+        ],
+        "model_answer": "The type of food given to the tadpoles.",
+        "explanation": "The independent variable is the one that you change in the experiment to see how it affects the outcome.",
+        "exam_question_id": "9d69cbe2-cee9-4171-b969-c6a51dfe980e:1",
+        "topic_label": "7.2 A balanced diet (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.2 A balanced diet (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are conducting an experiment to see how different types of food affect the growth of tadpoles. You have three types of food: fish flakes, lettuce, and boiled egg. You measure the length of the tadpoles after one week. ",
+        "question": "Name the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is measured in the experiment.",
+          "Correct identification of the length of tadpoles as the dependent variable."
+        ],
+        "hints": [
+          "Stay focused on this: Name the dependent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is measured in the experiment.; Correct identification of the of as the dependent variable."
+        ],
+        "model_answer": "The length of the tadpoles.",
+        "explanation": "The dependent variable is the one that is measured or observed in the experiment to see how it changes in response to the independent variable.",
+        "exam_question_id": "9d69cbe2-cee9-4171-b969-c6a51dfe980e:1",
+        "topic_label": "7.2 A balanced diet (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.2 A balanced diet (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student wants to test how different amounts of water affect the germination of sunflower seeds. They plant 10 seeds in each of three different soil samples: dry, slightly moist, and very moist. After two weeks, they count the number of seeds that have germinated. ",
+        "question": "Name the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is changed in the experiment.",
+          "Correct identification of the amount of water as the independent variable."
+        ],
+        "hints": [
+          "The independent variable is the one that you change in the experiment."
+        ],
+        "model_answer": "The amount of water in the soil.",
+        "explanation": "The independent variable is the one that you change in the experiment to see how it affects the outcome.",
+        "exam_question_id": "9d69cbe2-cee9-4171-b969-c6a51dfe980e:2",
+        "topic_label": "7.2 A balanced diet (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.2 A balanced diet (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student wants to test how different amounts of water affect the germination of sunflower seeds. They plant 10 seeds in each of three different soil samples: dry, slightly moist, and very moist. After two weeks, they count the number of seeds that have germinated. ",
+        "question": "Name the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is measured in the experiment.",
+          "Correct identification of the number of germinated seeds as the dependent variable."
+        ],
+        "hints": [
+          "Stay focused on this: Name the dependent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is measured in the experiment.; Correct identification of the of as the dependent variable."
+        ],
+        "model_answer": "The number of sunflower seeds that have germinated.",
+        "explanation": "The dependent variable is the one that is measured or observed in the experiment to see how it changes in response to the independent variable.",
+        "exam_question_id": "9d69cbe2-cee9-4171-b969-c6a51dfe980e:2",
+        "topic_label": "7.2 A balanced diet (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.2 A balanced diet (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are testing the effect of different amounts of sunlight on the growth of bean plants. You have three groups of plants: one group gets no sunlight, one group gets 4 hours of sunlight per day, and one group gets 8 hours of sunlight per day. You measure the height of the plants after two weeks. ",
+        "question": "Name the independent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is changed in the experiment.",
+          "Correct identification of the amount of sunlight as the independent variable."
+        ],
+        "hints": [
+          "The independent variable is the one that you change in the experiment."
+        ],
+        "model_answer": "The amount of sunlight the plants receive.",
+        "explanation": "The independent variable is the one that you change in the experiment to see how it affects the outcome.",
+        "exam_question_id": "9d69cbe2-cee9-4171-b969-c6a51dfe980e:3",
+        "topic_label": "7.2 A balanced diet (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.2 A balanced diet (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are testing the effect of different amounts of sunlight on the growth of bean plants. You have three groups of plants: one group gets no sunlight, one group gets 4 hours of sunlight per day, and one group gets 8 hours of sunlight per day. You measure the height of the plants after two weeks. ",
+        "question": "Name the dependent variable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the variable that is measured in the experiment.",
+          "Correct identification of the height of the plants as the dependent variable."
+        ],
+        "hints": [
+          "Stay focused on this: Name the dependent variable — develop the idea fully rather than listing short points. Make sure you also cover: Identify the variable that is measured in the experiment.; Correct identification of the of the as the dependent variable."
+        ],
+        "model_answer": "The height of the bean plants.",
+        "explanation": "The dependent variable is the one that is measured or observed in the experiment to see how it changes in response to the independent variable.",
+        "exam_question_id": "9d69cbe2-cee9-4171-b969-c6a51dfe980e:3",
+        "topic_label": "7.2 A balanced diet (7 Diet and growth)",
+        "topic_id": 437,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.2 A balanced diet (7 Diet and growth)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are investigating the effect of different nutrients on muscle growth. You have two groups of mice, each fed a different diet for a month. Group A is fed a diet rich in proteins, and Group B is fed a diet rich in carbohydrates. You measure the muscle mass of the mice at the beginning and end of the month.",
+        "question": "Name the independent variable in this experiment.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the nutrient type as the independent variable.",
+          "Recognise that the type of diet (protein-rich or carbohydrate-rich) is being changed to observe its effect."
+        ],
+        "hints": [
+          "Stay focused on this: Name the independent variable in this experiment — develop the idea fully rather than listing short points. Make sure you also cover: Identify the nutrient as the independent variable."
+        ],
+        "model_answer": "The type of diet (protein-rich or carbohydrate-rich).",
+        "explanation": "The independent variable is the nutrient type because it is what is being changed to observe its effect on muscle growth.",
+        "exam_question_id": "a374da0a-95ac-4732-8d3b-c54763f82cd8:1",
+        "topic_label": "7.1 Nutrients",
+        "topic_id": 437,
+        "checked": true,
+        "subtopic_id": 1953,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.1 Nutrients"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are investigating the effect of different nutrients on muscle growth. You have two groups of mice, each fed a different diet for a month. Group A is fed a diet rich in proteins, and Group B is fed a diet rich in carbohydrates. You measure the muscle mass of the mice at the beginning and end of the month.",
+        "question": "Name the dependent variable in this experiment.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the muscle mass measurement as the dependent variable.",
+          "Recognise that the muscle mass is what is being measured to observe the effect of the independent variable."
+        ],
+        "hints": [
+          "Stay focused on this: Name the dependent variable in this experiment — develop the idea fully rather than listing short points. Make sure you also cover: Identify the measurement as the dependent variable."
+        ],
+        "model_answer": "The muscle mass of the mice.",
+        "explanation": "The dependent variable is the muscle mass because it is what is being measured to see how it changes due to the different diets.",
+        "exam_question_id": "a374da0a-95ac-4732-8d3b-c54763f82cd8:1",
+        "topic_label": "7.1 Nutrients",
+        "topic_id": 437,
+        "checked": true,
+        "subtopic_id": 1953,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 8 Learners Book",
+          "area": "7.1 Nutrients"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "7c658342-a4fa-4d34-9a7b-32373dacceda",
+    "subject": "Cambridge Lower Secondary Science 8 Learners Book",
+    "topics": [
+      "Science Skills",
+      "7 Diet and growth"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 34,
+    "topic_ids": [
+      440,
+      437
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 21,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 5,
+      "detail": "7 questions open with the same sentence (6, 8, 10, 12, 14, 16, 18): \"Name the independent variable.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 6,
+      "detail": "7 questions open with the same sentence (7, 9, 11, 13, 15, 17, 19): \"Name the dependent variable.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 5"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1a",
+        "severity": "poor",
+        "detail": "Question awards 2 marks but marking criteria are redundant: both criteria describe the same requirement (identifying angle of ramp as independent variable). One criterion should address identification, the other should address correct statement/expression.",
+        "correction": "Revise marking criteria to distinguish between identification and articulation, or reduce to 1 mark."
+      },
+      {
+        "label": "1b",
+        "severity": "poor",
+        "detail": "Question awards 2 marks but marking criteria are redundant: both criteria describe the same requirement (identifying distance as dependent variable). One criterion should address identification, the other should address correct statement/expression.",
+        "correction": "Revise marking criteria to distinguish between identification and articulation, or reduce to 1 mark."
+      },
+      {
+        "label": "1c",
+        "severity": "broken",
+        "detail": "Question asks for ONE variable (singular) but awards 4 marks with marking criteria listing THREE different acceptable control variables (marble type, starting position, surface). This is internally inconsistent - either ask for multiple variables or award fewer marks.",
+        "correction": "Change question to 'Name variables that must be kept the same' or reduce marks to 2 and accept any one valid control variable."
+      },
+      {
+        "label": "1 (all parts)",
+        "severity": "broken",
+        "detail": "Figure description shows laboratory safety hazards (running, pushing, tasting chemicals, spills, loose tubing, etc.) but is completely irrelevant to the marble-ramp experiment context. The image does not support any question in this set.",
+        "correction": "Replace with relevant image showing ramp setup or remove image reference entirely."
+      },
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Topic label '7.1 Nutrients (7 Diet and growth)' is incorrect for an exercise-heart rate experiment. This belongs under Science Skills or human physiology, not nutrients/diet.",
+        "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+      },
+      {
+        "label": "2b",
+        "severity": "poor",
+        "detail": "Topic label '7.1 Nutrients (7 Diet and growth)' is incorrect for an exercise-heart rate experiment. This belongs under Science Skills or human physiology, not nutrients/diet.",
+        "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+      },
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a toy car rolling experiment. This is a physics/mechanics investigation, not related to human body movement.",
+        "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a toy car rolling experiment. This is a physics/mechanics investigation, not related to human body movement.",
+        "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a plant growth in different soils experiment. This is botany/plant science, not related to human body movement.",
+        "correction": "Change topic_label to 'Science Skills' or appropriate plant biology topic."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a plant growth in different soils experiment. This is botany/plant science, not related to human body movement.",
+        "correction": "Change topic_label to 'Science Skills' or appropriate plant biology topic."
+      },
+      {
+        "label": "7b",
+        "severity": "broken",
+        "detail": "Marking criteria text is corrupted: 'Correct identification of the of as the dependent variable' - missing the actual variable name between 'the' and 'of'. Should read 'length of tadpoles'.",
+        "correction": "Correct to: 'Correct identification of the length of tadpoles as the dependent variable.'"
+      },
+      {
+        "label": "8b",
+        "severity": "broken",
+        "detail": "Marking criteria text is corrupted: 'Correct identification of the of as the dependent variable' - missing the actual variable name. Should specify 'number of germinated seeds'.",
+        "correction": "Correct to: 'Correct identification of the number of germinated seeds as the dependent variable.'"
+      },
+      {
+        "label": "9b",
+        "severity": "broken",
+        "detail": "Marking criteria text is corrupted: 'Correct identification of the of the as the dependent variable' - garbled text missing the actual variable. Should specify 'height of the plants'.",
+        "correction": "Correct to: 'Correct identification of the height of the plants as the dependent variable.'"
+      },
+      {
+        "label": "10a",
+        "severity": "broken",
+        "detail": "Hint text is corrupted: 'Identify the nutrient as the independent variable' - incomplete phrase. Should read 'nutrient type' or 'type of diet' to match the model answer.",
+        "correction": "Correct hint to: 'Identify the nutrient type (or diet type) as the independent variable.'"
+      },
+      {
+        "label": "10b",
+        "severity": "broken",
+        "detail": "Hint text is corrupted: 'Identify the measurement as the dependent variable' - too vague and incomplete. Should specify 'muscle mass measurement' to match the model answer.",
+        "correction": "Correct hint to: 'Identify the muscle mass measurement as the dependent variable.'"
+      }
+    ],
+    "summary": "Assessment has 15 substantive issues: 1 irrelevant figure, 6 incorrect topic classifications, 3 redundant marking criteria, 1 mark-allocation inconsistency, and 5 corrupted text strings in marking criteria and hints requiring correction."
+  },
+  "totalSeconds": 190
+}

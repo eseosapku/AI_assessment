@@ -1,0 +1,920 @@
+{
+  "index": 10,
+  "label": "REB / Exam / Geography S4 SB",
+  "request": {
+    "subject": "Geography S4 SB",
+    "textbook_id": 109,
+    "topic_ids": [
+      1149
+    ],
+    "topics": [
+      "Soils in Rwanda"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 54,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. Soil erosion in Rwanda is common on steep slopes of mountains/hills.",
+        "question": "Explain why the presence of a thin stream of muddy, silty water indicates soil erosion.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of what soil erosion is.",
+          "Linking the presence of silt and muddy water to soil erosion.",
+          "Mentioning the steep slope as a contributing factor."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the presence of a thin stream of muddy, silty water indicates soil erosion — develop the idea fully rather than listing short points. Make sure you also cover: Mentioning the as a contributing factor."
+        ],
+        "model_answer": "Soil erosion occurs when the topsoil is removed by natural forces like water and wind. The presence of a thin stream of muddy, silty water indicates that topsoil is being washed away. The steep slope of the land in the diagram contributes to this process by increasing the speed of water runoff, which carries away soil particles.",
+        "explanation": "Describe the process of soil erosion and identify how the diagram supports this process.",
+        "exam_question_id": "b9255bda-22b7-480a-b095-f91b80fb6abe:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page117-embedded-4.jpeg",
+        "image_alt": "A close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. There are no labels or text on it.\nLabels: \nOriginal exercise: The water has too much silt and dissolved particles of soil washed into the streams. Soil erosion in Rwanda is common on steeps slopes of mountains/hills.",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. Soil erosion in Rwanda is common on steep slopes of mountains/hills.",
+        "question": "Describe the consequences of soil erosion on agricultural productivity in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how soil erosion affects soil fertility.",
+          "Linking the loss of soil fertility to agricultural productivity.",
+          "Mentioning the impact on crops or farmers."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the consequences of soil erosion on agricultural productivity in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Mentioning the impact on or."
+        ],
+        "model_answer": "Soil erosion reduces the nutrient content of the soil by removing the topsoil, which is rich in nutrients essential for plant growth. This loss of fertile topsoil results in lower agricultural productivity, as crops may not grow as well or produce as much yield. Farmers may face challenges in maintaining or increasing their crop production due to the degraded soil quality.",
+        "explanation": "Explain how soil erosion affects the quality of the soil and the potential impact on agriculture.",
+        "exam_question_id": "b9255bda-22b7-480a-b095-f91b80fb6abe:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page117-embedded-4.jpeg",
+        "image_alt": "A close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. There are no labels or text on it.\nLabels: \nOriginal exercise: The water has too much silt and dissolved particles of soil washed into the streams. Soil erosion in Rwanda is common on steeps slopes of mountains/hills.",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. Soil erosion in Rwanda is common on steep slopes of mountains/hills.",
+        "question": "State two methods that can be used to prevent soil erosion in Rwanda.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of at least one method to prevent soil erosion.",
+          "Briefly explaining how the method works to prevent erosion."
+        ],
+        "hints": [
+          "Consider techniques that involve vegetation or altering the land surface."
+        ],
+        "model_answer": "Two methods to prevent soil erosion in Rwanda are contour farming and planting cover crops. Contour farming involves planting crops along the natural contours of the land, which helps to slow down water runoff and reduce soil loss. Planting cover crops, such as grasses or legumes, helps to protect the soil from erosion by providing ground cover and stabilizing the soil with their root systems.",
+        "explanation": "Identify and briefly explain two practical methods to prevent soil erosion.",
+        "exam_question_id": "b9255bda-22b7-480a-b095-f91b80fb6abe:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page117-embedded-4.jpeg",
+        "image_alt": "A close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. There are no labels or text on it.\nLabels: \nOriginal exercise: The water has too much silt and dissolved particles of soil washed into the streams. Soil erosion in Rwanda is common on steeps slopes of mountains/hills.",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Analyse the photograph shown below and use it to answer the questions that follow. The photograph shows a close-up of bare red-orange soil whose surface has been eroded into many small pillars and pedestals. Small pebbles and stones sit on top of some of the soil columns.",
+        "question": "Name the type of soil erosion shown.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of soil erosion type",
+          "Correct naming of the erosion type"
+        ],
+        "hints": [
+          "Consider the shape of the eroded soil features."
+        ],
+        "model_answer": "The type of soil erosion shown is 'Piedmont' or 'columnar erosion'. The small pillars and pedestals are characteristic of this erosion type.",
+        "explanation": "The small pillars and pedestals are characteristic of columnar or Piedmont erosion, where the soil is eroded into vertical columns.",
+        "exam_question_id": "c23ea698-24d5-4d2d-af9e-e36eb64eed0f:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page119-embedded-4.jpeg",
+        "image_alt": "A close-up photograph of bare red-orange soil whose surface has been eroded into many small pillars and pedestals. Small pebbles and stones sit on top of some of the soil columns. There are no labels or printed values.\nLabels: \nOriginal exercise: Analyse the photograph shown below and use it to answer the questions that follow. Fig 5.9 1. Name the type of soil erosion shown. 2. Describe how this type of erosion forms. 3. Describe its effects on the e",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Analyse the photograph shown below and use it to answer the questions that follow. The photograph shows a close-up of bare red-orange soil whose surface has been eroded into many small pillars and pedestals. Small pebbles and stones sit on top of some of the soil columns.",
+        "question": "Describe how this type of erosion forms.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the process of formation",
+          "Mention of factors contributing to the erosion",
+          "Logical sequence in the description"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how this type of erosion forms — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the process of formation; Mention of factors contributing to the erosion; Logical sequence in the description."
+        ],
+        "model_answer": "This type of erosion forms through a combination of water and wind action. Rainwater seeps into the soil and weakens it, while wind blows away the lighter soil particles, leaving behind the harder, more resistant materials that form the pillars and pedestals.",
+        "explanation": "Erosion occurs when water infiltrates the soil and wind removes the softer particles, leaving behind the harder materials that form the pillars and pedestals.",
+        "exam_question_id": "c23ea698-24d5-4d2d-af9e-e36eb64eed0f:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page119-embedded-4.jpeg",
+        "image_alt": "A close-up photograph of bare red-orange soil whose surface has been eroded into many small pillars and pedestals. Small pebbles and stones sit on top of some of the soil columns. There are no labels or printed values.\nLabels: \nOriginal exercise: Analyse the photograph shown below and use it to answer the questions that follow. Fig 5.9 1. Name the type of soil erosion shown. 2. Describe how this type of erosion forms. 3. Describe its effects on the e",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Analyse the photograph shown below and use it to answer the questions that follow. The photograph shows a close-up of bare red-orange soil whose surface has been eroded into many small pillars and pedestals. Small pebbles and stones sit on top of some of the soil columns.",
+        "question": "Describe its effects on the environment and agriculture in the region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of environmental impacts",
+          "Identification of agricultural impacts",
+          "Logical explanation of the consequences"
+        ],
+        "hints": [
+          "Stay focused on this: Describe its effects on the environment and agriculture in the region — develop the idea fully rather than listing short points. Make sure you also cover: Identification of environmental impacts; Identification of impacts; Logical explanation of the consequences."
+        ],
+        "model_answer": "The effects of this type of erosion on the environment and agriculture include the loss of fertile topsoil, which reduces soil fertility and agricultural productivity. The exposed pillars and pedestals can lead to further erosion and degradation of the landscape, making it less suitable for farming and vegetation growth.",
+        "explanation": "Erosion leads to the loss of fertile topsoil, reducing agricultural productivity and causing landscape degradation.",
+        "exam_question_id": "c23ea698-24d5-4d2d-af9e-e36eb64eed0f:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page119-embedded-4.jpeg",
+        "image_alt": "A close-up photograph of bare red-orange soil whose surface has been eroded into many small pillars and pedestals. Small pebbles and stones sit on top of some of the soil columns. There are no labels or printed values.\nLabels: \nOriginal exercise: Analyse the photograph shown below and use it to answer the questions that follow. Fig 5.9 1. Name the type of soil erosion shown. 2. Describe how this type of erosion forms. 3. Describe its effects on the e",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a large bare brown ploughed field with many branching channels (rills and gullies) cut into the soil surface. In the distance, there are a few white farm buildings and trees under a blue, partly cloudy sky. No labels are printed.",
+        "question": "Name the type of erosion that is shown in the picture.",
+        "marks": 2,
+        "marking_criteria": [
+          "1 mark for correctly identifying 'water erosion' or'sheet and rill erosion'.",
+          "1 mark for mentioning 'water' as the agent of erosion."
+        ],
+        "hints": [
+          "Stay focused on this: Name the type of erosion that is shown in the picture — develop the idea fully rather than listing short points. Make sure you also cover: 1 mark for mentioning as the agent of erosion."
+        ],
+        "model_answer": "Water erosion or sheet and rill erosion. The visible channels (rills and gullies) indicate that water has caused the erosion.",
+        "explanation": "The diagram clearly shows a field with visible channels and gullies, indicating that water has caused the erosion.",
+        "exam_question_id": "8074e353-485d-4aaf-a4a9-a66bf3c7f1d4:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page118-embedded-2.jpeg",
+        "image_alt": "A large bare brown ploughed field fills most of the picture, with many branching channels (rills and gullies) cut into the soil surface. In the distance there are a few white farm buildings and trees under a blue, partly cloudy sky. No labels are printed.\nLabels: \nOriginal exercise: Fig 5.7 1. Name the type of erosion that is shown in the picture. 2. Describe the main causes of this type of erosion.",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a large bare brown ploughed field with many branching channels (rills and gullies) cut into the soil surface. In the distance, there are a few white farm buildings and trees under a blue, partly cloudy sky. No labels are printed.",
+        "question": "Describe the main causes of this type of erosion.",
+        "marks": 3,
+        "marking_criteria": [
+          "1 mark for mentioning 'heavy rainfall' or 'runoff'.",
+          "1 mark for mentioning 'lack of vegetation' or 'bare soil'.",
+          "1 mark for mentioning 'steep slopes' or 'poor soil management'."
+        ],
+        "hints": [
+          "Think about what factors would contribute to water carrying away soil."
+        ],
+        "model_answer": "The main causes of this type of erosion include heavy rainfall or runoff, lack of vegetation or bare soil, and steep slopes or poor soil management. Heavy rainfall can lead to runoff that carries away soil, while lack of vegetation exposes the soil to erosion. Steep slopes can increase the speed of runoff, exacerbating erosion.",
+        "explanation": "These factors contribute to the removal of topsoil by water, as shown in the diagram.",
+        "exam_question_id": "8074e353-485d-4aaf-a4a9-a66bf3c7f1d4:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page118-embedded-2.jpeg",
+        "image_alt": "A large bare brown ploughed field fills most of the picture, with many branching channels (rills and gullies) cut into the soil surface. In the distance there are a few white farm buildings and trees under a blue, partly cloudy sky. No labels are printed.\nLabels: \nOriginal exercise: Fig 5.7 1. Name the type of erosion that is shown in the picture. 2. Describe the main causes of this type of erosion.",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A diagram is printed with the first part. It shows: A photograph of a deep, steep-sided gully cut into red-brown soil, with exposed roots and fallen branches at the top edge. Muddy brown water with foam pools at the bottom, and a thin trickle runs down the gully wall. Bare ground and a few thin trees stand above on the flat land. There are no printed labels.",
+        "question": "Name the type of erosion that is shown in the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of erosion type (1 mark)",
+          "Correct terminology used (1 mark)"
+        ],
+        "hints": [
+          "Consider the shape and appearance of the gully."
+        ],
+        "model_answer": "The type of erosion shown in the diagram is 'Gully erosion'. The deep, steep-sided gully with exposed roots and fallen branches indicates significant soil removal by water flow.",
+        "explanation": "Gully erosion is characterised by the formation of deep, narrow channels created by the erosive action of flowing water.",
+        "exam_question_id": "ac3c48f7-f01c-4315-afb4-67e12db706f5:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page118-embedded-3.jpeg",
+        "image_alt": "A photograph of a deep, steep-sided gully cut into red-brown soil, with exposed roots and fallen branches at the top edge. Muddy brown water with foam pools at the bottom, and a thin trickle runs down the gully wall. Bare ground and a few thin trees stand above on the flat land. There are no printed labels.\nLabels: \nOriginal exercise: 106 Fig 5.7 1. Name the type of erosion that is shown in the picture. 2. Describe the main causes of this type of erosion. ϯ͘ /ĚĞŶƟĨǇƚǁŽĂƌĞĂƐǁŚĞƌĞƚŚŝƐƚǇƉĞŽĨ erosion is experienced. ϰ͘ tŚĂƚĂƌĞƚŚĞĞīĞĐƚƐŽĨƚŚŝƐƚǇƉĞŽĨ erosion on",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A diagram is printed with the first part. It shows: A photograph of a deep, steep-sided gully cut into red-brown soil, with exposed roots and fallen branches at the top edge. Muddy brown water with foam pools at the bottom, and a thin trickle runs down the gully wall. Bare ground and a few thin trees stand above on the flat land. There are no printed labels.",
+        "question": "Describe the main causes of this type of erosion.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of water flow as a cause (1 mark)",
+          "Explanation of how water flow leads to erosion (1 mark)",
+          "Mention of additional contributing factors (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the main causes of this type of erosion — develop the idea fully rather than listing short points. Make sure you also cover: Identification of as a cause (1 mark); Mention of additional (1 mark)."
+        ],
+        "model_answer": "The main causes of gully erosion include heavy rainfall, which leads to increased runoff and the concentration of water flow. The lack of vegetation cover allows water to penetrate the soil and wash it away. Other contributing factors might include human activities such as deforestation and overgrazing, which reduce the soil's stability and increase erosion potential.",
+        "explanation": "Gully erosion occurs when water flows in concentrated streams and removes soil, often accelerated by factors like deforestation and overgrazing.",
+        "exam_question_id": "ac3c48f7-f01c-4315-afb4-67e12db706f5:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page118-embedded-3.jpeg",
+        "image_alt": "A photograph of a deep, steep-sided gully cut into red-brown soil, with exposed roots and fallen branches at the top edge. Muddy brown water with foam pools at the bottom, and a thin trickle runs down the gully wall. Bare ground and a few thin trees stand above on the flat land. There are no printed labels.\nLabels: \nOriginal exercise: 106 Fig 5.7 1. Name the type of erosion that is shown in the picture. 2. Describe the main causes of this type of erosion. ϯ͘ /ĚĞŶƟĨǇƚǁŽĂƌĞĂƐǁŚĞƌĞƚŚŝƐƚǇƉĞŽĨ erosion is experienced. ϰ͘ tŚĂƚĂƌĞƚŚĞĞīĞĐƚƐŽĨƚŚŝƐƚǇƉĞŽĨ erosion on",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A diagram is printed with the first part. It shows: A photograph of a deep, steep-sided gully cut into red-brown soil, with exposed roots and fallen branches at the top edge. Muddy brown water with foam pools at the bottom, and a thin trickle runs down the gully wall. Bare ground and a few thin trees stand above on the flat land. There are no printed labels.",
+        "question": "Identify two areas where this type of erosion is experienced in Rwanda.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of two specific areas in Rwanda (1 mark each)",
+          "Justification of why these areas are prone to gully erosion (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Identify two areas where this type of erosion is experienced in Rwanda — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Two areas in Rwanda where gully erosion is experienced include the Northern Province, particularly around Mount Sabyinyo, and the Eastern Province, especially in the Bugesera District. These areas are prone to gully erosion due to their steep slopes, heavy rainfall, and agricultural practices that lead to soil degradation.",
+        "explanation": "Identify regions in Rwanda with the conditions that promote gully erosion, such as heavy rainfall and steep terrain.",
+        "exam_question_id": "ac3c48f7-f01c-4315-afb4-67e12db706f5:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page118-embedded-3.jpeg",
+        "image_alt": "A photograph of a deep, steep-sided gully cut into red-brown soil, with exposed roots and fallen branches at the top edge. Muddy brown water with foam pools at the bottom, and a thin trickle runs down the gully wall. Bare ground and a few thin trees stand above on the flat land. There are no printed labels.\nLabels: \nOriginal exercise: 106 Fig 5.7 1. Name the type of erosion that is shown in the picture. 2. Describe the main causes of this type of erosion. ϯ͘ /ĚĞŶƟĨǇƚǁŽĂƌĞĂƐǁŚĞƌĞƚŚŝƐƚǇƉĞŽĨ erosion is experienced. ϰ͘ tŚĂƚĂƌĞƚŚĞĞīĞĐƚƐŽĨƚŚŝƐƚǇƉĞŽĨ erosion on",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a photograph of a very large, deep gully with steep reddish-orange soil walls cutting into the land. Green vegetation grows along the top edges and on parts of the slopes. A dirt road runs along the left side and ends at the gully's edge. A few people stand near the road on the left, and trees and buildings are in the background under a pale sky.",
+        "question": "Explain why the presence of a steep-sided gully in the photograph indicates severe soil erosion.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the gully as a sign of soil erosion.",
+          "Explanation of how gullies form due to erosion.",
+          "Implications of severe erosion on the landscape and agriculture."
+        ],
+        "hints": [
+          "Consider the steepness and size of the gully."
+        ],
+        "model_answer": "The presence of a steep-sided gully in the photograph indicates severe soil erosion because it shows significant removal of soil material by water flow. Gullies form when water erodes soil along a concentrated flow path, leading to deep and wide channels. This severe erosion can lead to loss of fertile topsoil, reduced agricultural productivity, and increased sedimentation in water bodies.",
+        "explanation": "Explain how the steep-sided gully forms and its impact on the landscape and agriculture.",
+        "exam_question_id": "83f2878d-c253-4430-953d-274f7849fc21:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page122-embedded-20.jpeg",
+        "image_alt": "A photograph of a very large, deep gully with steep reddish-orange soil walls cutting into the land. Green vegetation grows along the top edges and on parts of the slopes. A dirt road runs along the left side and ends at the gully's edge. A few people stand near the road on the left, and trees and buildings are in the background under a pale sky.\nLabels: \nOriginal exercise: Effects of soil erosion in Rwanda Case study Miss Dushimimana Sarah conducted a fieldwork study to learn about soil erosion in one of the parts of the Eastern Province. In the process of her field work, she took the photogr",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a photograph of a very large, deep gully with steep reddish-orange soil walls cutting into the land. Green vegetation grows along the top edges and on parts of the slopes. A dirt road runs along the left side and ends at the gully's edge. A few people stand near the road on the left, and trees and buildings are in the background under a pale sky.",
+        "question": "Describe the consequences of the gully formation on local agriculture and the environment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Impact on agricultural land.",
+          "Effects on local vegetation and ecosystems.",
+          "Potential for further environmental degradation."
+        ],
+        "hints": [
+          "Think about how the gully affects the usability of the land for farming."
+        ],
+        "model_answer": "The gully formation leads to the loss of fertile topsoil, reducing the agricultural productivity of the land. It also disrupts local vegetation, as seen by the sparse vegetation on the gully slopes. The gully can increase the risk of landslides and further erosion, degrading the environment and potentially affecting water quality downstream.",
+        "explanation": "Describe how the gully affects farmland and the local ecosystem, including potential further impacts.",
+        "exam_question_id": "83f2878d-c253-4430-953d-274f7849fc21:1",
+        "topic_label": "Soils in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page122-embedded-20.jpeg",
+        "image_alt": "A photograph of a very large, deep gully with steep reddish-orange soil walls cutting into the land. Green vegetation grows along the top edges and on parts of the slopes. A dirt road runs along the left side and ends at the gully's edge. A few people stand near the road on the left, and trees and buildings are in the background under a pale sky.\nLabels: \nOriginal exercise: Effects of soil erosion in Rwanda Case study Miss Dushimimana Sarah conducted a fieldwork study to learn about soil erosion in one of the parts of the Eastern Province. In the process of her field work, she took the photogr",
+        "checked": true,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soils in Rwanda"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a photograph of a very large, deep gully with steep reddish-orange soil walls cutting into the land. Green vegetation grows along the top edges and on parts of the slopes. A dirt road runs along the left side and ends at the gully's edge. A few people stand near the road on the left, and trees and buildings are in the background under a pale sky.",
+        "question": "Suggest two methods that could be used to prevent further soil erosion in the area shown in the photograph.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of an erosion control method.",
+          "Explanation of how the method works to prevent erosion."
+        ],
+        "hints": [
+          "Think about physical barriers or changes in land use."
+        ],
+        "model_answer": "Two methods to prevent further soil erosion include constructing terraces on the slope to reduce the speed of water runoff and planting vegetation, such as grass or trees, along the gully edges to stabilize the soil. Terraces help by breaking up the slope into smaller, more manageable sections, while vegetation roots hold the soil together and reduce water impact.",
+        "explanation": "Suggest methods that could help stabilise the soil and prevent further erosion in the gully area.",
+        "exam_question_id": "83f2878d-c253-4430-953d-274f7849fc21:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page122-embedded-20.jpeg",
+        "image_alt": "A photograph of a very large, deep gully with steep reddish-orange soil walls cutting into the land. Green vegetation grows along the top edges and on parts of the slopes. A dirt road runs along the left side and ends at the gully's edge. A few people stand near the road on the left, and trees and buildings are in the background under a pale sky.\nLabels: \nOriginal exercise: Effects of soil erosion in Rwanda Case study Miss Dushimimana Sarah conducted a fieldwork study to learn about soil erosion in one of the parts of the Eastern Province. In the process of her field work, she took the photogr",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses with reddish roofs are scattered across the hills in the background.",
+        "question": "Explain why the use of stepped terraces on steep hillsides is beneficial for agriculture in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the stepped terraces in the diagram.",
+          "Explanation of how stepped terraces help in soil conservation.",
+          "Discussion of the benefits for agricultural productivity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the use of stepped terraces on steep hillsides is beneficial for agriculture in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of how stepped terraces help in conservation.; Discussion of the benefits for."
+        ],
+        "model_answer": "Stepped terraces on steep hillsides are beneficial for agriculture in Rwanda because they reduce the speed of water runoff, allowing more water to infiltrate the soil, which helps in preventing soil erosion. The terraces also create flat areas where crops can be planted, making it easier to cultivate the land and improving agricultural productivity.",
+        "explanation": "Stepped terraces are a traditional agricultural method used to combat soil erosion on steep slopes by slowing down water runoff and allowing water to be absorbed into the soil, which helps to maintain soil fertility and structure.",
+        "exam_question_id": "95e145fb-9c15-49eb-bdac-7c0351307252:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page125-embedded-4.jpeg",
+        "image_alt": "A photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses with reddish roofs are scattered across the hills in the background. No labels or values are printed on it.\nLabels: \nOriginal exercise: 113 Fig 5.12 Terraces on a slope in Rwanda",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses with reddish roofs are scattered across the hills in the background.",
+        "question": "Describe the potential negative consequences of not using stepped terraces on steep hillsides in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of potential negative consequences of not using stepped terraces.",
+          "Explanation of how these consequences affect soil and agriculture.",
+          "Discussion of the implications for the local community."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the potential negative consequences of not using stepped terraces on steep hillsides in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Identification of potential negative consequences of not using stepped terraces.; Explanation of how these…."
+        ],
+        "model_answer": "Not using stepped terraces on steep hillsides in Rwanda can lead to severe soil erosion, as water runs off quickly and carries away topsoil, leading to loss of soil fertility. This can result in reduced agricultural productivity and increased food insecurity. Additionally, the loss of topsoil can lead to landslides, which can damage houses and infrastructure.",
+        "explanation": "Without stepped terraces, steep hillsides are more prone to soil erosion, which can lead to a loss of fertile topsoil, reduced crop yields, and increased risk of landslides, negatively impacting both the environment and the local community.",
+        "exam_question_id": "95e145fb-9c15-49eb-bdac-7c0351307252:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page125-embedded-4.jpeg",
+        "image_alt": "A photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses with reddish roofs are scattered across the hills in the background. No labels or values are printed on it.\nLabels: \nOriginal exercise: 113 Fig 5.12 Terraces on a slope in Rwanda",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses with reddish roofs are scattered across the hills in the background.",
+        "question": "State two traditional Rwandan practices that help in maintaining soil fertility and preventing erosion.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of two traditional practices.",
+          "Explanation of how each practice helps in maintaining soil fertility and preventing erosion."
+        ],
+        "hints": [
+          "Think about local agricultural methods and environmental conservation efforts."
+        ],
+        "model_answer": "Two traditional Rwandan practices that help in maintaining soil fertility and preventing erosion are the use of agroforestry and the construction of stone bunds. Agroforestry involves integrating trees into crop and livestock farming systems, which helps to stabilize soil and improve fertility. Stone bunds are rows of stones placed along the contours of the land, which reduce water runoff and soil erosion.",
+        "explanation": "Traditional practices like agroforestry and stone bunds are effective in maintaining soil fertility and preventing erosion by improving soil structure, reducing water runoff, and protecting the soil from being washed away.",
+        "exam_question_id": "95e145fb-9c15-49eb-bdac-7c0351307252:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "image_url": "/textbook-images/rwanda/109/page125-embedded-4.jpeg",
+        "image_alt": "A photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses with reddish roofs are scattered across the hills in the background. No labels or values are printed on it.\nLabels: \nOriginal exercise: 113 Fig 5.12 Terraces on a slope in Rwanda",
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a map of Rwanda highlighting different types of soils found in various regions of the country.",
+        "question": "State the type of soil predominantly found in the Northern Highlands of Rwanda.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct type of soil",
+          "Locate the Northern Highlands on the map"
+        ],
+        "hints": [
+          "Check the colour coding on the map for soil types."
+        ],
+        "model_answer": "Volcanic soil",
+        "explanation": "Refer to the colour coding on the map to identify the soil type in the Northern Highlands.",
+        "exam_question_id": "d914360e-fe10-4c23-96a0-aebf73821583:1",
+        "topic_label": "Types of soils and where they are found in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5577,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Types of soils and where they are found in Rwanda"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a map of Rwanda highlighting different types of soils found in various regions of the country.",
+        "question": "Explain why volcanic soil is predominant in the Northern Highlands.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the volcanic activity in the region",
+          "Explain the relationship between volcanic activity and soil type",
+          "Relate it to the soil's fertility and suitability for agriculture"
+        ],
+        "hints": [
+          "Consider the geological history of the region."
+        ],
+        "model_answer": "Volcanic soil is predominant in the Northern Highlands due to historical volcanic activity which deposited nutrient-rich volcanic ash. This type of soil is highly fertile and supports intensive agriculture.",
+        "explanation": "Volcanic soil forms from the weathering of volcanic rocks and ash, which are rich in minerals and nutrients.",
+        "exam_question_id": "d914360e-fe10-4c23-96a0-aebf73821583:1",
+        "topic_label": "Types of soils and where they are found in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5577,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Types of soils and where they are found in Rwanda"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a map of Rwanda highlighting different types of soils found in various regions of the country.",
+        "question": "Describe how the type of soil in the Northern Highlands affects agricultural productivity.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the characteristics of volcanic soil",
+          "Explain how these characteristics support agricultural productivity",
+          "Give examples of crops grown in this soil type"
+        ],
+        "hints": [
+          "Consider the nutrient content and structure of the soil."
+        ],
+        "model_answer": "Volcanic soil in the Northern Highlands is rich in minerals and nutrients, has good water retention, and is well-drained. These properties support the growth of a variety of crops such as bananas, potatoes, and tea, leading to high agricultural productivity.",
+        "explanation": "Volcanic soil's fertility and structure are key factors in supporting diverse and productive agriculture.",
+        "exam_question_id": "d914360e-fe10-4c23-96a0-aebf73821583:1",
+        "topic_label": "Types of soils and where they are found in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5577,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Types of soils and where they are found in Rwanda"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. Soil",
+        "question": "Explain why the presence of a thin stream of muddy, silty water indicates soil erosion.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of what soil erosion is.",
+          "Link between the presence of muddy, silty water and the process of soil erosion.",
+          "Description of how water flow leads to soil particles being washed away."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the presence of a thin stream of muddy, silty water indicates soil erosion — develop the idea fully rather than listing short points. Make sure you also cover: Description of how water flow leads to soil being washed."
+        ],
+        "model_answer": "Soil erosion is the process by which soil is removed from an area. The presence of a thin stream of muddy, silty water indicates that soil particles are being carried away by the water. This occurs when rain or irrigation water flows over the soil surface, picking up and transporting soil particles downhill.",
+        "explanation": "Describe the process of soil erosion and how running water contributes to it.",
+        "exam_question_id": "332b439e-9340-474c-b616-e666d8c0f8a8:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. Soil",
+        "question": "Describe the consequences of soil erosion on agricultural productivity in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how soil erosion affects soil quality.",
+          "Link between soil quality and agricultural productivity.",
+          "Description of specific consequences for crops or farming in Rwanda."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the consequences of soil erosion on agricultural productivity in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Description of specific consequences for or farming in Rwanda."
+        ],
+        "model_answer": "Soil erosion reduces the quality of soil by removing the nutrient-rich topsoil, which is essential for plant growth. This leads to decreased agricultural productivity as the remaining soil is less fertile and less capable of supporting crops. In Rwanda, this can result in lower crop yields and increased need for fertilizers to maintain productivity.",
+        "explanation": "Explain the relationship between soil erosion and its impact on farming in Rwanda.",
+        "exam_question_id": "332b439e-9340-474c-b616-e666d8c0f8a8:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface. Soil",
+        "question": "State two methods that can be used to prevent soil erosion in Rwanda.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of a method to prevent soil erosion.",
+          "Identification of a second method to prevent soil erosion."
+        ],
+        "hints": [
+          "Stay focused on this: State two methods that can be used to prevent soil erosion in Rwanda — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Two methods to prevent soil erosion in Rwanda are: 1) Planting cover crops to protect the soil surface and 2) Implementing terracing on slopes to reduce the speed of water runoff.",
+        "explanation": "Name two specific methods that can help to prevent soil erosion.",
+        "exam_question_id": "332b439e-9340-474c-b616-e666d8c0f8a8:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses are visible in the background.",
+        "question": "Explain why the use of stepped terraces on steep hillsides is beneficial for agriculture in Rwanda.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of terrace benefits",
+          "Impact on soil erosion and water management"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the use of stepped terraces on steep hillsides is beneficial for agriculture in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of terrace benefits; Impact on and management."
+        ],
+        "model_answer": "The use of stepped terraces on steep hillsides is beneficial for agriculture in Rwanda because they help to reduce soil erosion by slowing down water runoff, retain soil moisture, and create flat planting areas that are easier to cultivate and manage.",
+        "explanation": "Consider how terraces affect soil stability and water runoff.",
+        "exam_question_id": "c3df98a4-d98f-49e4-b87e-2b487d4e1624:3",
+        "topic_label": "Importance of soil in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5580,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Importance of soil in Rwanda"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses are visible in the background.",
+        "question": "Describe the potential negative consequences of not using stepped terraces on steep hillsides in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Impact on soil erosion",
+          "Effects on crop yield",
+          "Environmental consequences"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the potential negative consequences of not using stepped terraces on steep hillsides in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Impact on; Effects on."
+        ],
+        "model_answer": "The potential negative consequences of not using stepped terraces on steep hillsides in Rwanda include: 1) Increased soil erosion due to faster water runoff, 2) Reduced crop yield because of poor soil stability and moisture retention, and 3) Environmental degradation from increased sedimentation and habitat loss.",
+        "explanation": "Consider the impact on soil erosion, crop yield, and the environment.",
+        "exam_question_id": "c3df98a4-d98f-49e4-b87e-2b487d4e1624:3",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a photograph of a steep hillside in Rwanda cut into many narrow, stepped terraces. Green crops grow on the flat strips, and bare reddish-brown soil shows on the banks between them. Several small houses are visible in the background.",
+        "question": "State two traditional Rwandan practices that help in maintaining soil fertility and preventing erosion.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of traditional practices",
+          "Explanation of their benefits"
+        ],
+        "hints": [
+          "Think about local methods used to enhance soil health."
+        ],
+        "model_answer": "Two traditional Rwandan practices that help in maintaining soil fertility and preventing erosion are: 1) Crop rotation, which involves growing different crops in sequence to maintain soil nutrients and reduce pest problems, and 2) Agroforestry, which combines trees and shrubs with crops or livestock to improve soil structure, prevent erosion, and provide additional resources.",
+        "explanation": "Consider local methods used to enhance soil health.",
+        "exam_question_id": "c3df98a4-d98f-49e4-b87e-2b487d4e1624:3",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface.",
+        "question": "Explain why the presence of a thin stream of muddy, silty water indicates soil erosion.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how water flow causes soil displacement",
+          "Description of the characteristics of eroded soil",
+          "Connection between the observed features and the process of erosion"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the presence of a thin stream of muddy, silty water indicates soil erosion — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of how water flow causes soil displacement; Description of the characteristics of soil; Connection between the…."
+        ],
+        "model_answer": "The presence of a thin stream of muddy, silty water indicates soil erosion because water flowing across the slope has detached and carried away soil particles. This process often begins when rain hits the bare soil, causing it to break apart. As water flows downhill, it picks up loose soil particles, which become suspended in the water, creating a muddy, silty stream. The debris and plant remains scattered over the soil surface are evidence of previously eroded material.",
+        "explanation": "In this part, you need to explain how the movement of water across the slope leads to the detachment and transportation of soil particles, resulting in the visible stream of muddy, silty water. This is a clear indicator of soil erosion.",
+        "exam_question_id": "045c4303-19d7-4a20-a2f4-e1c3a1c0ef23:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface.",
+        "question": "Describe the consequences of soil erosion on agricultural productivity in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how soil erosion affects soil quality",
+          "Description of the impact on crop yields and food security",
+          "Mention of broader environmental consequences"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the consequences of soil erosion on agricultural productivity in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Description of the impact on and; Mention of broader environmental consequences."
+        ],
+        "model_answer": "Soil erosion in Rwanda has significant consequences for agricultural productivity. The removal of the topsoil layer, which is rich in nutrients, leads to a decline in soil fertility. This results in reduced crop yields and poor crop quality, threatening food security for local communities. Over time, the loss of topsoil can make land unsuitable for agriculture, leading to increased land degradation. Additionally, soil erosion can contribute to sedimentation in rivers and lakes, affecting water quality and aquatic ecosystems.",
+        "explanation": "In this part, you need to describe how soil erosion affects the ability of the soil to support plant growth, leading to reduced agricultural productivity. You should also mention the broader environmental impacts of soil erosion.",
+        "exam_question_id": "045c4303-19d7-4a20-a2f4-e1c3a1c0ef23:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a close-up photograph of reddish-brown bare soil on a slope, with a thin stream of muddy, silty water running across it. Small bits of debris and plant remains lie scattered over the soil surface.",
+        "question": "State two methods that can be used to prevent soil erosion in Rwanda.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of at least one method for preventing soil erosion",
+          "Explanation of how the method works to prevent erosion"
+        ],
+        "hints": [
+          "Think about practices that protect soil from being washed away."
+        ],
+        "model_answer": "Two methods that can be used to prevent soil erosion in Rwanda are contour farming and the use of cover crops. Contour farming involves planting crops along the natural contours of the land, which helps to slow down water runoff and reduce soil loss. Cover crops, such as grasses or legumes, are planted during the off-season to protect the soil from erosion by providing ground cover and stabilizing the soil with their roots.",
+        "explanation": "In this part, you need to name at least two methods for preventing soil erosion and briefly explain how each method works to protect the soil from being washed away.",
+        "exam_question_id": "045c4303-19d7-4a20-a2f4-e1c3a1c0ef23:1",
+        "topic_label": "Soil erosion in Rwanda",
+        "topic_id": 1149,
+        "checked": true,
+        "subtopic_id": 5578,
+        "source": {
+          "textbook": "Geography S4 SB",
+          "area": "Soil erosion in Rwanda"
+        }
+      }
+    ],
+    "estimated_time": 75,
+    "assessment_id": "5d8dffdf-b3b6-4bcb-b602-36f5ee10bb2e",
+    "subject": "Geography S4 SB",
+    "topics": [
+      "Soils in Rwanda"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 109,
+    "topic_ids": [
+      1149
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 29,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 17"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 6,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 56
+}

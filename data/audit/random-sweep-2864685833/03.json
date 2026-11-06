@@ -1,0 +1,432 @@
+{
+  "index": 3,
+  "label": "REB / Practice / Economics S6 SB",
+  "request": {
+    "subject": "Economics S6 SB",
+    "textbook_id": 65,
+    "topic_ids": [
+      746
+    ],
+    "topics": [
+      "Industrial Development"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 11,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "left_items": [
+          "Industrial Development",
+          "Capital Intensive Technology",
+          "Intermediate Technology",
+          "Technological Transfer"
+        ],
+        "right_items": [
+          "The process of transforming a country's economy from one based primarily on agriculture to one based on the manufacturing of goods",
+          "A method of industrial production that relies heavily on the use of machinery and technology to increase productivity",
+          "A technology that is designed to be affordable and accessible for small-scale users in developing countries",
+          "The process by which technology is shared between countries or organizations, often involving the transfer of knowledge and skills"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "marks": 4,
+        "explanation": "The correct definitions match the terms as follows: Industrial Development is the transformation of an economy, Capital Intensive Technology relies on machinery, Intermediate Technology is affordable for small-scale users, and Technological Transfer involves sharing knowledge and skills.",
+        "subtopic_id": 3346,
+        "topic_id": 746,
+        "topic_label": "Capital intensive technology",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Capital intensive technology"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Advantages of Industrial Development",
+          "Problems Faced by Industrial Sector"
+        ],
+        "items": [
+          "Job Creation",
+          "Technological Gaps",
+          "Increased Productivity",
+          "Lack of Infrastructure"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Job Creation and Increased Productivity are advantages, while Technological Gaps and Lack of Infrastructure are problems faced by the industrial sector.",
+        "subtopic_id": 3344,
+        "topic_id": 746,
+        "topic_label": "Problems faced by the industrial sector in developing nations",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Problems faced by the industrial sector in developing nations"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank",
+        "template": "Industrial development can lead to {{0}} and {{1}} but also faces challenges like {{2}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "job creation"
+          },
+          {
+            "id": "1",
+            "correct": "economic growth"
+          },
+          {
+            "id": "2",
+            "correct": "lack of infrastructure"
+          }
+        ],
+        "word_bank": [
+          "job creation",
+          "economic growth",
+          "lack of infrastructure",
+          "technological gaps",
+          "pollution"
+        ],
+        "marks": 3,
+        "explanation": "Job creation and economic growth are positive outcomes, while lack of infrastructure is a common challenge in industrial development.",
+        "subtopic_id": 3342,
+        "topic_id": 746,
+        "topic_label": "Advantages of industrial development",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Advantages of industrial development"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Industrial development can reduce poverty",
+          "Capital intensive technology is always more efficient",
+          "Intermediate technology is not suitable for large-scale industries",
+          "Technological transfer can help close the gap between developed and developing nations"
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "Industrial development can indeed reduce poverty, capital intensive technology is not always more efficient, intermediate technology can be suitable for various scales, and technological transfer can help bridge the gap between nations.",
+        "subtopic_id": 3346,
+        "topic_id": 746,
+        "topic_label": "Capital intensive technology",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Capital intensive technology"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply",
+        "options": [
+          "Job creation",
+          "Technological gaps",
+          "Increased productivity",
+          "Lack of skilled labour"
+        ],
+        "correct_indices": [
+          0,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "Job creation, increased productivity, and lack of skilled labour are all relevant to industrial development, while technological gaps are a challenge.",
+        "subtopic_id": 3342,
+        "topic_id": 746,
+        "topic_label": "Advantages of industrial development",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Advantages of industrial development"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Small-scale industries",
+          "Capital intensive technology",
+          "Intermediate technology",
+          "Technological transfer"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Technological transfer is a process, whereas the others are types of technology or industries.",
+        "subtopic_id": 3350,
+        "topic_id": 746,
+        "topic_label": "Technological transfer",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Technological transfer"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Benefits of Industrial Development",
+          "Challenges of Industrial Development"
+        ],
+        "items": [
+          "Creation of new markets",
+          "Environmental degradation",
+          "Increased employment",
+          "Resource depletion"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Creation of new markets and increased employment are benefits, while environmental degradation and resource depletion are challenges of industrial development.",
+        "subtopic_id": 3342,
+        "topic_id": 746,
+        "topic_label": "Advantages of industrial development",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Advantages of industrial development"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each industrial development term to its correct definition",
+        "left_items": [
+          "Primary industry",
+          "Secondary industry",
+          "Tertiary industry",
+          "Quaternary industry"
+        ],
+        "right_items": [
+          "Involves extraction of raw materials",
+          "Involves processing of raw materials into finished products",
+          "Involves services and information processing",
+          "Involves knowledge-based services"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Each industrial development term is matched with its corresponding definition to demonstrate understanding of the classification.",
+        "subtopic_id": 3342,
+        "topic_id": 746,
+        "topic_label": "Advantages of industrial development",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Advantages of industrial development"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each industry type into the correct category based on location",
+        "categories": [
+          "Urban",
+          "Rural"
+        ],
+        "items": [
+          "Agricultural processing plant",
+          "Fishing industry",
+          "Textile factory",
+          "Logging operations"
+        ],
+        "correct_category": [
+          1,
+          0,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Each industry type is categorised based on its typical location, whether urban or rural, to show understanding of industrial location.",
+        "topic_id": 746,
+        "topic_label": "Industrial Development",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Industrial Development"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply to industrial development approaches",
+        "options": [
+          "Central planning",
+          "Market-driven development",
+          "Foreign investment attraction",
+          "Technology transfer"
+        ],
+        "correct_indices": [
+          1,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "Each option is evaluated for its applicability to industrial development approaches, highlighting the variety of strategies used in industrial development.",
+        "subtopic_id": 3345,
+        "topic_id": 746,
+        "topic_label": "Industrial Development Approaches",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Industrial Development Approaches"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "7e567914-71de-4f70-bae8-bf27efc13ada",
+    "subject": "Economics S6 SB",
+    "topics": [
+      "Industrial Development"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "interactive",
+    "textbook_id": 65,
+    "topic_ids": [
+      746
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 3,
+      "detail": "no question mark and no command word: \"Mark each statement True or False\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 5,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 2"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1",
+        "severity": "broken",
+        "detail": "Correct pairs array is misaligned with definitions. Pair [0,3] maps Industrial Development to Technological Transfer (incorrect). Should be [0,0], [1,1], [2,2], [3,3] based on left-right item order.",
+        "correction": "correct_pairs should be [[0,0],[1,1],[2,2],[3,3]] to properly match terms to their definitions in sequence"
+      },
+      {
+        "label": "5",
+        "severity": "poor",
+        "detail": "Explanation contradicts correct_indices. States 'technological gaps are a challenge' but includes indices [0,2,3] excluding technological gaps (index 1). Explanation should clarify why technological gaps are excluded from 'ALL that apply' to industrial development advantages.",
+        "correction": "Explanation should read: 'Job creation, increased productivity, and lack of skilled labour are all relevant to industrial development. Technological gaps are excluded as they represent challenges, not advantages.'"
+      },
+      {
+        "label": "8",
+        "severity": "broken",
+        "detail": "Correct pairs are inverted. Pair [0,1] maps Primary industry to 'processing raw materials' (Secondary definition). Correct mapping: Primary→extraction [0,0], Secondary→processing [1,1], Tertiary→services [2,2], Quaternary→knowledge [3,3].",
+        "correction": "correct_pairs should be [[0,0],[1,1],[2,2],[3,3]]"
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Categorization lacks clarity and contains debatable classifications. Agricultural processing plant marked Rural (1) but typically urban/peri-urban. Fishing industry marked Urban (0) but usually coastal/rural. Categorization is geographically ambiguous for Rwanda context.",
+        "correction": "Clarify or revise: Agricultural processing (typically urban/peri-urban), Fishing (rural/coastal), Textile factory (urban), Logging (rural). Or provide Rwanda-specific context for classification."
+      }
+    ],
+    "summary": "Assessment has 3 substantive errors: two matching questions (1, 8) contain inverted correct_pairs arrays causing wrong answers; question 5 has contradictory explanation; question 9 has geographically ambiguous categorizations. Questions 2, 3, 4, 6, 7, 10 are sound."
+  },
+  "totalSeconds": 16
+}

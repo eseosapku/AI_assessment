@@ -1,0 +1,1973 @@
+{
+  "index": 12,
+  "label": "REB / Exam / Economics S5 SB",
+  "request": {
+    "subject": "Economics S5 SB",
+    "textbook_id": 64,
+    "topic_ids": [
+      731,
+      727
+    ],
+    "topics": [
+      "Unemployment",
+      "Consumption, Saving, Investment and Multipliers"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 144,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y.",
+        "question": "Calculate the level of consumption in each region when income (Y) is $200.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly substituting the income value into the consumption function for Region A.",
+          "Calculating the consumption for Region A.",
+          "Correctly substituting the income value into the consumption function for Region B.",
+          "Calculating the consumption for Region B."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the level of consumption in each region when income (Y) is $200 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly substituting the income value into the consumption function for Region A.; Calculating the consumption for Region A.; Correctly…."
+        ],
+        "model_answer": "For Region A: C = 50 + 0.6 * 200 = 50 + 120 = $170. For Region B: C = 100 + 0.8 * 200 = 100 + 160 = $260.",
+        "explanation": "Use the given consumption functions to calculate the consumption for each region when the income is $200.",
+        "exam_question_id": "318a68c3-4665-4bfb-8028-4b73636b9402:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region A and Region B.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifying the MPC from the consumption functions.",
+          "Explaining why the MPC differs between Region A and Region B.",
+          "Using appropriate economic terminology."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region A and Region B — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifying the MPC from the; Explaining why the MPC differs between Region A and Region B.; Using appropriate…."
+        ],
+        "model_answer": "The MPC is the change in consumption resulting from a change in income. In Region A, the MPC is 0.6, meaning for every additional dollar of income, consumption increases by 60 cents. In Region B, the MPC is 0.8, meaning for every additional dollar of income, consumption increases by 80 cents. The difference in MPCs is due to the different coefficients of Y in the consumption functions.",
+        "explanation": "Identify the MPC from the given consumption functions and explain the difference in MPCs between the two regions.",
+        "exam_question_id": "318a68c3-4665-4bfb-8028-4b73636b9402:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describing the relationship between MPC and economic activity.",
+          "Explaining the implications of different MPCs on economic activity in Region A and Region B."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Describing the relationship between MPC and economic activity."
+        ],
+        "model_answer": "A higher MPC, as in Region B, means that a larger portion of additional income is spent on consumption. This leads to a greater increase in overall economic activity compared to a region with a lower MPC, such as Region A. Therefore, Region B is likely to experience more robust economic growth due to higher consumption levels in response to income changes.",
+        "explanation": "Explain how the difference in MPCs affects overall economic activity in the two regions.",
+        "exam_question_id": "318a68c3-4665-4bfb-8028-4b73636b9402:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country with an average propensity to consume (APC) of 0.75 and a total income of $1,200,000. A new government policy is introduced to encourage higher savings.",
+        "question": "Calculate the total amount of consumption in the country before the policy is implemented.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the APC and total income.",
+          "Correctly calculate the total consumption.",
+          "Provide the final answer."
+        ],
+        "hints": [
+          "Use the formula: Consumption = APC * Total Income."
+        ],
+        "model_answer": "Consumption = 0.75 * $1,200,000 = $900,000",
+        "explanation": "Use the given APC and total income to find the total consumption in the country.",
+        "exam_question_id": "3dff6d22-3524-4ae1-8634-56d53ebcc1d2:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country with an average propensity to consume (APC) of 0.75 and a total income of $1,200,000. A new government policy is introduced to encourage higher savings.",
+        "question": "Explain how the new policy might affect the marginal propensity to consume (MPC) in the country.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the potential impact of the policy on savings.",
+          "Explain how changes in savings might affect the MPC.",
+          "Provide a clear explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the new policy might affect the marginal propensity to consume (MPC) in the country — develop the idea fully rather than listing short points. Make sure you also cover: the potential impact of the policy on; how changes in might affect the MPC.; Provide a clear explanation."
+        ],
+        "model_answer": "If the new policy encourages higher savings, the proportion of income spent on consumption may decrease, potentially lowering the MPC.",
+        "explanation": "Explain the potential relationship between the policy, savings, and the MPC.",
+        "exam_question_id": "3dff6d22-3524-4ae1-8634-56d53ebcc1d2:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a country with an average propensity to consume (APC) of 0.75 and a total income of $1,200,000. A new government policy is introduced to encourage higher savings.",
+        "question": "Describe a potential consequence of the policy on the overall economic activity in the country.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify a possible consequence of the policy.",
+          "Explain how this consequence might affect economic activity.",
+          "Provide a detailed explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a potential consequence of the policy on the overall economic activity in the country — develop the idea fully rather than listing short points. Make sure you also cover: Provide a detailed explanation."
+        ],
+        "model_answer": "A potential consequence of the policy could be a decrease in overall economic activity if consumption falls too much, as this would reduce aggregate demand and potentially slow down economic growth.",
+        "explanation": "Describe a possible outcome of the policy and its impact on the economy.",
+        "exam_question_id": "3dff6d22-3524-4ae1-8634-56d53ebcc1d2:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the savings function is represented by S = -100 + 0.2Y, where S is savings and Y is income. In Region Y, the savings function is S = -200 + 0.4Y.",
+        "question": "Calculate the level of savings in each region when income (Y) is $1,500.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct substitution of values into the savings function for Region X.",
+          "Correct calculation of savings for Region X.",
+          "Correct substitution of values into the savings function for Region Y.",
+          "Correct calculation of savings for Region Y."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the level of savings in each region when income (Y) is $1,500 — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of values into the savings function for Region X.; Correct calculation of savings for Region X.; Correct substitution…."
+        ],
+        "model_answer": "For Region X: S = -100 + 0.2(1500) = -100 + 300 = $200. For Region Y: S = -200 + 0.4(1500) = -200 + 600 = $400.",
+        "explanation": "Calculate the savings in Region X and Region Y using the given savings functions and income level of $1,500.",
+        "exam_question_id": "0024ec62-f8e2-4dfb-9ea3-7dfeab8e8c56:1",
+        "topic_label": "Factors influencing the level of savings",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3082,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors influencing the level of savings"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the savings function is represented by S = -100 + 0.2Y, where S is savings and Y is income. In Region Y, the savings function is S = -200 + 0.4Y.",
+        "question": "Explain why the marginal propensity to save (MPS) is different in Region X and Region Y.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the concept of marginal propensity to save (MPS).",
+          "Comparison of the MPS in Region X and Region Y based on the savings functions."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to save (MPS) is different in Region X and Region Y — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the concept of marginal propensity to save (MPS).; Comparison of the MPS in Region X and Region Y based on…."
+        ],
+        "model_answer": "The MPS is the change in savings divided by the change in income. In Region X, the MPS is 0.2 because the coefficient of Y in the savings function is 0.2. In Region Y, the MPS is 0.4 because the coefficient of Y in the savings function is 0.4. Therefore, the MPS is higher in Region Y than in Region X.",
+        "explanation": "Explain the difference in MPS between Region X and Region Y based on the coefficients of Y in their respective savings functions.",
+        "exam_question_id": "0024ec62-f8e2-4dfb-9ea3-7dfeab8e8c56:1",
+        "topic_label": "Marginal propensity to save (MPS)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3084,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Marginal propensity to save (MPS)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region P and Region Q. In Region P, the savings function is represented by S = -300 + 0.3Y, where S is savings and Y is income. In Region Q, the savings function is S = -500 + 0.5Y.",
+        "question": "Calculate the level of savings in each region when income (Y) is $2,000.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the savings function for Region P.",
+          "Correctly apply the savings function for Region Q.",
+          "Provide the final numerical answer for each region."
+        ],
+        "hints": [
+          "Substitute Y = 2000 into the savings function for Region P and solve for S."
+        ],
+        "model_answer": "For Region P: S = -300 + 0.3(2000) = -300 + 600 = $300. For Region Q: S = -500 + 0.5(2000) = -500 + 1000 = $500.",
+        "explanation": "Calculate the savings for each region by substituting the given income into the savings function and solving for S.",
+        "exam_question_id": "36c245c6-69f2-4554-b5b0-8f82516b71c4:1",
+        "topic_label": "Factors influencing the level of savings",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3082,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors influencing the level of savings"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region P and Region Q. In Region P, the savings function is represented by S = -300 + 0.3Y, where S is savings and Y is income. In Region Q, the savings function is S = -500 + 0.5Y.",
+        "question": "Explain why the marginal propensity to save (MPS) is different in Region P and Region Q.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the coefficient of Y in each savings function.",
+          "Explain how this coefficient represents the MPS."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to save (MPS) is different in Region P and Region Q — develop the idea fully rather than listing short points. Make sure you also cover: Identify the of Y in each; how this the MPS."
+        ],
+        "model_answer": "The MPS in Region P is 0.3 and in Region Q is 0.5. The coefficient of Y in the savings function represents the MPS, showing that Region Q has a higher MPS.",
+        "explanation": "Explain that the coefficient of Y in the savings function represents the MPS and compare these coefficients for both regions.",
+        "exam_question_id": "36c245c6-69f2-4554-b5b0-8f82516b71c4:1",
+        "topic_label": "Marginal propensity to save (MPS)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3084,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Marginal propensity to save (MPS)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $300, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Calculate the level of consumption in each region after the additional income from the investment project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the new income level for each region.",
+          "Correctly use the consumption function for each region to find the new level of consumption.",
+          "Provide the final answer for both regions."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the level of consumption in each region after the additional income from the investment project — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer for both regions."
+        ],
+        "model_answer": "In Region A, the new income level is $300 + $100 = $400. Using the consumption function C = 50 + 0.6Y, the new consumption level is C = 50 + 0.6 * 400 = 50 + 240 = $290. In Region B, the new income level is $300 + $100 = $400. Using the consumption function C = 100 + 0.8Y, the new consumption level is C = 100 + 0.8 * 400 = 100 + 320 = $420.",
+        "explanation": "First, calculate the new income level by adding the additional income to the original income. Then, use the given consumption functions to find the new level of consumption for each region.",
+        "exam_question_id": "6ef1a925-6948-4409-a58e-3b250ac69b2d:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $300, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region A and Region B.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the MPC for each region from the consumption functions.",
+          "Explain the difference in MPCs based on the coefficients of Y in the consumption functions."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region A and Region B — develop the idea fully rather than listing short points. Make sure you also cover: Identify the MPC for each region from the functions.; the difference in MPCs based on the coefficients of Y in the…."
+        ],
+        "model_answer": "The MPC for Region A is 0.6, and for Region B is 0.8. The MPC is different because the coefficient of Y in the consumption function for Region B is higher than that for Region A. This means that for every additional dollar of income, Region B consumes more than Region A.",
+        "explanation": "The MPC is the change in consumption resulting from a change in income. In this case, the coefficients of Y in the consumption functions represent the MPC for each region.",
+        "exam_question_id": "6ef1a925-6948-4409-a58e-3b250ac69b2d:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $300, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain how different MPCs affect the multiplier effect in each region.",
+          "Discuss the potential impact on overall economic activity in each region.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "The different MPCs imply that Region B will experience a larger multiplier effect from the additional income generated by the investment project. This is because a higher MPC means that a larger portion of the additional income will be spent, leading to more consumption and potentially more investment. As a result, the overall economic activity in Region B is likely to increase more than in Region A.",
+        "explanation": "The MPC affects the size of the multiplier effect, which in turn affects overall economic activity. A higher MPC leads to a larger multiplier effect and potentially greater economic growth.",
+        "exam_question_id": "6ef1a925-6948-4409-a58e-3b250ac69b2d:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The following table shows the investment data for Rwanda over the past five years. The data includes the total investment amount in millions of Rwandan Francs (RWF) and the annual growth rate in percentage. Year 1: Investment = 100,000, Growth Rate = 5%; Year 2: Investment = 105,000, Growth Rate = 4%; Year 3: Investment = 109,200, Growth Rate = 3%; Year 4: Investment = 112,476, Growth Rate = 2%; Year 5: Investment = 115,725, Growth Rate = 1%.",
+        "question": "Calculate the total investment in Rwanda over the five years.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of total investment.",
+          "Summarising the investment amounts for each year."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total investment in Rwanda over the five years — develop the idea fully rather than listing short points. Make sure you also cover: Summarising the investment amounts for each year."
+        ],
+        "model_answer": "Total investment = 100,000 + 105,000 + 109,200 + 112,476 + 115,725 = 542,401 million RWF.",
+        "explanation": "Add up the investment amounts for each of the five years to find the total investment in Rwanda over this period.",
+        "exam_question_id": "a8877f80-58d0-423a-9773-30f29968c862:1",
+        "topic_label": "Factors limiting the operation of the investment multiplier in Rwanda",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3094,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors limiting the operation of the investment multiplier in Rwanda"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The following table shows the investment data for Rwanda over the past five years. The data includes the total investment amount in millions of Rwandan Francs (RWF) and the annual growth rate in percentage. Year 1: Investment = 100,000, Growth Rate = 5%; Year 2: Investment = 105,000, Growth Rate = 4%; Year 3: Investment = 109,200, Growth Rate = 3%; Year 4: Investment = 112,476, Growth Rate = 2%; Year 5: Investment = 115,725, Growth Rate = 1%.",
+        "question": "Explain why the annual growth rate of investment in Rwanda has been decreasing over the five years.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the concept of diminishing returns.",
+          "Linking the decreasing growth rate to economic factors.",
+          "Providing a logical explanation based on the data."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the annual growth rate of investment in Rwanda has been decreasing over the five years — develop the idea fully rather than listing short points. Make sure you also cover: Understanding the of; Providing a logical explanation based on the data."
+        ],
+        "model_answer": "The annual growth rate of investment in Rwanda has been decreasing over the five years due to the concept of diminishing returns. Initially, with a higher growth rate, there are more opportunities for investment, leading to rapid increases. Over time, as more investment occurs, the available opportunities for high-return investments decrease, resulting in a lower growth rate.",
+        "explanation": "Explain how the concept of diminishing returns and the reduction in available high-return investment opportunities lead to a decreasing growth rate in investment over time.",
+        "exam_question_id": "a8877f80-58d0-423a-9773-30f29968c862:1",
+        "topic_label": "Factors limiting the operation of the investment multiplier in Rwanda",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3094,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors limiting the operation of the investment multiplier in Rwanda"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The following table shows the investment data for Rwanda over the past five years. The data includes the total investment amount in millions of Rwandan Francs (RWF) and the annual growth rate in percentage. Year 1: Investment = 100,000, Growth Rate = 5%; Year 2: Investment = 105,000, Growth Rate = 4%; Year 3: Investment = 109,200, Growth Rate = 3%; Year 4: Investment = 112,476, Growth Rate = 2%; Year 5: Investment = 115,725, Growth Rate = 1%.",
+        "question": "Describe a potential consequence of the decreasing investment growth rate on the overall economic activity in Rwanda.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understanding the relationship between investment growth and economic activity.",
+          "Providing a clear and logical consequence based on the data."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a potential consequence of the decreasing investment growth rate on the overall economic activity in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: Providing a clear and logical consequence based on the data."
+        ],
+        "model_answer": "A potential consequence of the decreasing investment growth rate on the overall economic activity in Rwanda is a slowdown in economic expansion and job creation. With a lower growth rate in investment, there might be fewer new businesses and projects, leading to reduced economic growth and potentially higher unemployment.",
+        "explanation": "Describe how a decreasing investment growth rate can lead to slower economic expansion and job creation, affecting overall economic activity.",
+        "exam_question_id": "a8877f80-58d0-423a-9773-30f29968c862:1",
+        "topic_label": "Factors limiting the operation of the investment multiplier in Rwanda",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3094,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors limiting the operation of the investment multiplier in Rwanda"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. Calculate the level of consumption in each region when income (Y) is $200.",
+        "question": "Calculate the level of consumption in each region when income (Y) is $200.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of values into the consumption function.",
+          "Correct calculation of consumption for Region A.",
+          "Correct calculation of consumption for Region B."
+        ],
+        "hints": [
+          "Use the given consumption functions to find the level of consumption for each region."
+        ],
+        "model_answer": "For Region A: C = 50 + 0.6 * 200 = 50 + 120 = $170. For Region B: C = 100 + 0.8 * 200 = 100 + 160 = $260.",
+        "explanation": "Using the given consumption functions, substitute the income value of $200 into each equation to find the level of consumption for each region.",
+        "exam_question_id": "fba91d17-9de0-4bb1-9aa3-f730ee60ce48:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. Calculate the level of consumption in each region when income (Y) is $200.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region A and Region B.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the MPC in Region A and Region B.",
+          "Clear explanation of the difference in MPC between the two regions.",
+          "Appropriate use of economic concepts to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region A and Region B — develop the idea fully rather than listing short points. Make sure you also cover: Clear explanation of the in MPC the two; Appropriate use of economic concepts to support the explanation."
+        ],
+        "model_answer": "The MPC in Region A is 0.6 and in Region B is 0.8. The MPC is different because the slope of the consumption function is different in each region. In Region A, for every additional dollar of income, consumption increases by $0.60, while in Region B, for every additional dollar of income, consumption increases by $0.80. This difference in the slope of the consumption function leads to a difference in the MPC between the two regions.",
+        "explanation": "The MPC is the slope of the consumption function. A higher slope indicates a higher MPC, meaning that a greater proportion of additional income is spent on consumption.",
+        "exam_question_id": "fba91d17-9de0-4bb1-9aa3-f730ee60ce48:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. Calculate the level of consumption in each region when income (Y) is $200.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Clear description of the impact of different MPCs on economic activity.",
+          "Use of appropriate economic concepts to support the description.",
+          "Logical explanation of how different MPCs affect overall economic activity."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Clear description of the impact of different MPCs on economic activity.; of appropriate economic concepts to…."
+        ],
+        "model_answer": "Region B, with a higher MPC of 0.8, will experience a greater increase in consumption for a given increase in income compared to Region A with an MPC of 0.6. This means that any increase in income in Region B will lead to a larger boost in overall economic activity due to higher consumption. Conversely, Region A will have a more moderate increase in economic activity due to its lower MPC. This difference in MPCs can lead to variations in the strength of economic growth between the two regions.",
+        "explanation": "The MPC affects the strength of the multiplier effect, where a higher MPC leads to a greater impact of income changes on overall economic activity.",
+        "exam_question_id": "fba91d17-9de0-4bb1-9aa3-f730ee60ce48:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram below shows the Keynesian model of unemployment. The axes are labelled as 'Aggregate Demand / Aggregate Supply' (vertical) and 'Levels of Income' (horizontal), with the origin at 0. A 45° line labelled 'Aggregate Supply' rises from the origin. Two upward-sloping red lines labelled 'Aggregate Demand 1' and 'Aggregate Demand 2' cross the 'Aggregate Supply' line at points E1 and E2. Dashed vertical lines drop from E1 to Y1 and from E2 to Y2 on the income axis.",
+        "question": "Explain what the diagram shows about the relationship between Aggregate Demand and Aggregate Supply in the presence of Keynesian Unemployment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the Aggregate Demand and Aggregate Supply lines.",
+          "Explanation of the equilibrium points E1 and E2.",
+          "Explanation of the significance of points Y1 and Y2 in the context of Keynesian Unemployment."
+        ],
+        "hints": [
+          "Explain the concept of equilibrium in the context of the Keynesian model."
+        ],
+        "model_answer": "The diagram shows two Aggregate Demand curves (Agg DD 1 and Agg DD 2) intersecting the Aggregate Supply (Agg SS) line at points E1 and E2, indicating two different equilibrium points. At E1, the level of income is Y1, representing an underemployment equilibrium where some workers willing to work are not absorbed. At E2, the level of income is Y2, which might represent a full employment level where all willing workers are employed. The 45° line represents the income levels where Aggregate Supply equals Aggregate Demand.",
+        "explanation": "The diagram illustrates how changes in Aggregate Demand can lead to different levels of income and employment. At E1, the economy is in an underemployment equilibrium, meaning some workers are unemployed. At E2, the economy is at a potentially full employment level.",
+        "exam_question_id": "54d340ed-dd73-4226-9d8c-17d903ccfd34:1",
+        "topic_label": "Meaning of unemployment",
+        "topic_id": 731,
+        "image_url": "/textbook-images/textbook-bank/64/p285-f0.png",
+        "image_alt": "A graph titled \"Figure 4: Keynesian Unemployment\" with axes labelled \"Agg DD / Agg SS\" (vertical) and \"levels of Income\" (horizontal), origin 0. A 45° line labelled Agg SS rises from the origin. Two parallel upward-sloping red lines, Agg DD 1 (lower) and Agg DD 2 (upper), cross the Agg SS line at E1 and E2. Dashed vertical lines drop from E1 to Y1 and from E2 to Y2 on the income axis.\nLabels: Figure 4: Keynesian Unemployment, Agg DD, Agg SS, Agg SS, Agg DD 2, E2, Agg DD 1, E1, 45o, 0, Y1, Y2, levels of Income\nOriginal exercise: From Figure 4 above, E1 is the equilibrium point with employment l",
+        "checked": true,
+        "subtopic_id": 3132,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Meaning of unemployment"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram below shows the Keynesian model of unemployment. The axes are labelled as 'Aggregate Demand / Aggregate Supply' (vertical) and 'Levels of Income' (horizontal), with the origin at 0. A 45° line labelled 'Aggregate Supply' rises from the origin. Two upward-sloping red lines labelled 'Aggregate Demand 1' and 'Aggregate Demand 2' cross the 'Aggregate Supply' line at points E1 and E2. Dashed vertical lines drop from E1 to Y1 and from E2 to Y2 on the income axis.",
+        "question": "Describe what would happen to the economy if Aggregate Demand increased from Agg DD 1 to Agg DD 2.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the shift from Agg DD 1 to Agg DD 2.",
+          "Identification of the new equilibrium point.",
+          "Explanation of the impact on levels of income and employment."
+        ],
+        "hints": [
+          "Stay focused on this: Describe what would happen to the economy if Aggregate Demand increased from Agg DD 1 to Agg DD 2 — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the from Agg DD 1 to Agg DD 2.; Identification of the new point.; Explanation of the impact on…."
+        ],
+        "model_answer": "If Aggregate Demand increases from Agg DD 1 to Agg DD 2, the new equilibrium point would shift from E1 to E2. This would result in an increase in the level of income from Y1 to Y2 and potentially move the economy towards full employment, where more workers willing to work are employed.",
+        "explanation": "An increase in Aggregate Demand can lead to higher levels of income and employment, moving the economy closer to full employment.",
+        "exam_question_id": "54d340ed-dd73-4226-9d8c-17d903ccfd34:1",
+        "topic_label": "Under and full employment",
+        "topic_id": 731,
+        "image_url": "/textbook-images/textbook-bank/64/p285-f0.png",
+        "image_alt": "A graph titled \"Figure 4: Keynesian Unemployment\" with axes labelled \"Agg DD / Agg SS\" (vertical) and \"levels of Income\" (horizontal), origin 0. A 45° line labelled Agg SS rises from the origin. Two parallel upward-sloping red lines, Agg DD 1 (lower) and Agg DD 2 (upper), cross the Agg SS line at E1 and E2. Dashed vertical lines drop from E1 to Y1 and from E2 to Y2 on the income axis.\nLabels: Figure 4: Keynesian Unemployment, Agg DD, Agg SS, Agg SS, Agg DD 2, E2, Agg DD 1, E1, 45o, 0, Y1, Y2, levels of Income\nOriginal exercise: From Figure 4 above, E1 is the equilibrium point with employment l",
+        "checked": true,
+        "subtopic_id": 3134,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Under and full employment"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram below shows the Keynesian model of unemployment. The axes are labelled as 'Aggregate Demand / Aggregate Supply' (vertical) and 'Levels of Income' (horizontal), with the origin at 0. A 45° line labelled 'Aggregate Supply' rises from the origin. Two upward-sloping red lines labelled 'Aggregate Demand 1' and 'Aggregate Demand 2' cross the 'Aggregate Supply' line at points E1 and E2. Dashed vertical lines drop from E1 to Y1 and from E2 to Y2 on the income axis.",
+        "question": "Explain why an increase in Aggregate Demand from Agg DD 1 to Agg DD 2 might lead to higher levels of income and employment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the effect of increased Aggregate Demand on the economy.",
+          "Identification of the role of Aggregate Supply in the process.",
+          "Explanation of the resulting impact on income and employment levels."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why an increase in Aggregate Demand from Agg DD 1 to Agg DD 2 might lead to higher levels of income and employment — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the effect of Aggregate Demand on the economy.; Identification of the…."
+        ],
+        "model_answer": "An increase in Aggregate Demand from Agg DD 1 to Agg DD 2 shifts the equilibrium point from E1 to E2. This increase leads to higher levels of income (from Y1 to Y2) and potentially more employment, as businesses respond to higher demand by producing more and hiring additional workers. The Aggregate Supply curve remains constant, but the increased demand results in a new equilibrium with higher income and employment levels.",
+        "explanation": "Higher Aggregate Demand can lead to higher income and employment levels, moving the economy closer to full employment.",
+        "exam_question_id": "54d340ed-dd73-4226-9d8c-17d903ccfd34:1",
+        "topic_label": "Under and full employment",
+        "topic_id": 731,
+        "image_url": "/textbook-images/textbook-bank/64/p285-f0.png",
+        "image_alt": "A graph titled \"Figure 4: Keynesian Unemployment\" with axes labelled \"Agg DD / Agg SS\" (vertical) and \"levels of Income\" (horizontal), origin 0. A 45° line labelled Agg SS rises from the origin. Two parallel upward-sloping red lines, Agg DD 1 (lower) and Agg DD 2 (upper), cross the Agg SS line at E1 and E2. Dashed vertical lines drop from E1 to Y1 and from E2 to Y2 on the income axis.\nLabels: Figure 4: Keynesian Unemployment, Agg DD, Agg SS, Agg SS, Agg DD 2, E2, Agg DD 1, E1, 45o, 0, Y1, Y2, levels of Income\nOriginal exercise: From Figure 4 above, E1 is the equilibrium point with employment l",
+        "checked": true,
+        "subtopic_id": 3134,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Under and full employment"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, a new investment project is expected to generate an additional $50 in income for each region.",
+        "question": "Calculate the level of consumption in each region after the additional income from the investment project.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly calculate the new income in Region A after the additional investment.",
+          "Correctly calculate the consumption in Region A using the new income.",
+          "Correctly calculate the new income in Region B after the additional investment.",
+          "Correctly calculate the consumption in Region B using the new income."
+        ],
+        "hints": [
+          "Remember to add the additional income from the investment to the original income before calculating consumption."
+        ],
+        "model_answer": "Region A: New income = $250 + $50 = $300. Consumption = 50 + 0.6 * 300 = $230. \nRegion B: New income = $250 + $50 = $300. Consumption = 100 + 0.8 * 300 = $340.",
+        "explanation": "First, calculate the new income for both regions by adding the additional income from the investment project to the original income. Then, use the consumption functions to calculate the consumption in each region with the new income.",
+        "exam_question_id": "225d3a93-35ae-4cf9-89eb-002f745f6206:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, a new investment project is expected to generate an additional $50 in income for each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region A and Region B.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the MPC in Region A and Region B from the consumption functions.",
+          "Explain the relationship between the MPC and the slope of the consumption function.",
+          "Discuss how the difference in MPC affects consumption behaviour in each region."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region A and Region B — develop the idea fully rather than listing short points. Make sure you also cover: the relationship between the MPC and the slope of the function.; Discuss how the difference in MPC affects behaviour in…."
+        ],
+        "model_answer": "Region A: MPC = 0.6. Region B: MPC = 0.8. The MPC represents the change in consumption resulting from a change in income. A higher MPC means that a larger proportion of additional income is spent on consumption. In Region A, for every additional dollar of income, $0.60 is spent on consumption, whereas in Region B, $0.80 is spent.",
+        "explanation": "The marginal propensity to consume (MPC) is the change in consumption resulting from a change in income. It is represented by the coefficient of Y in the consumption function. A higher MPC indicates that a larger proportion of additional income is spent on consumption.",
+        "exam_question_id": "225d3a93-35ae-4cf9-89eb-002f745f6206:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, a new investment project is expected to generate an additional $50 in income for each region.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the concept of the multiplier effect.",
+          "Discuss how the MPC influences the size of the multiplier effect.",
+          "Describe the potential impact of the different MPCs on economic activity in each region."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: the concept of the; Discuss how the MPC influences the size of the; the potential impact of the different MPCs on…."
+        ],
+        "model_answer": "The multiplier effect describes how an initial change in spending leads to a larger change in overall economic activity. A higher MPC means that a larger proportion of additional income is spent, leading to a larger multiplier effect. In Region A, with an MPC of 0.6, the multiplier effect will be smaller compared to Region B, where the MPC is 0.8. This means that the economic activity in Region B will be more responsive to changes in income compared to Region A.",
+        "explanation": "The multiplier effect refers to how an initial change in spending leads to a larger change in overall economic activity. The size of the multiplier effect is influenced by the marginal propensity to consume (MPC). A higher MPC means that a larger proportion of additional income is spent, leading to a larger multiplier effect. This results in a more responsive economic activity in regions with higher MPCs.",
+        "exam_question_id": "225d3a93-35ae-4cf9-89eb-002f745f6206:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 75 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 125 + 0.7Y. When income (Y) is $400, a new investment project is expected to generate an additional $150 in income for each region.",
+        "question": "Calculate the level of consumption in each region after the additional income from the investment project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of consumption in Region M after additional income.",
+          "Correct calculation of consumption in Region N after additional income.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the level of consumption in each region after the additional income from the investment project — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of consumption in Region M after additional income.; Correct calculation of…."
+        ],
+        "model_answer": "Region M: C = 75 + 0.5 * (400 + 150) = 75 + 0.5 * 550 = 75 + 275 = $350\nRegion N: C = 125 + 0.7 * (400 + 150) = 125 + 0.7 * 550 = 125 + 385 = $510",
+        "explanation": "Using the consumption functions for Region M and Region N, calculate the consumption after adding the additional income from the investment project.",
+        "exam_question_id": "9ddcb812-58a8-4a91-95b7-bcedadc25065:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 75 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 125 + 0.7Y. When income (Y) is $400, a new investment project is expected to generate an additional $150 in income for each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region M and Region N.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the concept of MPC.",
+          "Correct comparison of MPCs in Region M and Region N."
+        ],
+        "hints": [
+          "Refer to the coefficients of Y in the consumption functions."
+        ],
+        "model_answer": "The marginal propensity to consume (MPC) is the fraction of additional income that is spent on consumption. In Region M, the MPC is 0.5, meaning for every additional dollar of income, 50 cents are spent on consumption. In Region N, the MPC is 0.7, meaning for every additional dollar of income, 70 cents are spent on consumption. The higher MPC in Region N indicates a greater tendency to consume additional income compared to Region M.",
+        "explanation": "Explain the difference in MPCs based on the coefficients of Y in the consumption functions for Region M and Region N.",
+        "exam_question_id": "9ddcb812-58a8-4a91-95b7-bcedadc25065:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 75 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 125 + 0.7Y. When income (Y) is $400, a new investment project is expected to generate an additional $150 in income for each region.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the relationship between MPC and economic activity.",
+          "Correct explanation of the implications of different MPCs in Region M and Region N.",
+          "Logical and coherent conclusion."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the relationship between MPC and economic activity.; Correct explanation of the…."
+        ],
+        "model_answer": "The marginal propensity to consume (MPC) affects the size of the multiplier effect, which in turn influences overall economic activity. In Region M, with an MPC of 0.5, the multiplier is 1 / (1 - 0.5) = 2, meaning each dollar of additional income generates $2 of economic activity. In Region N, with an MPC of 0.7, the multiplier is 1 / (1 - 0.7) = 3.33, meaning each dollar of additional income generates approximately $3.33 of economic activity. Therefore, the higher MPC in Region N leads to a greater increase in overall economic activity compared to Region M.",
+        "explanation": "Describe how the different MPCs in Region M and Region N impact the multiplier effect and overall economic activity in each region.",
+        "exam_question_id": "9ddcb812-58a8-4a91-95b7-bcedadc25065:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 20 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 80 + 0.7Y. When income (Y) is $300 in both regions, calculate the level of consumption in each region.",
+        "question": "Calculate the level of consumption in Region M when income (Y) is $300.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct substitution of values into the consumption function for Region M.",
+          "Correct calculation resulting in the level of consumption for Region M."
+        ],
+        "hints": [
+          "Use the formula C = 20 + 0.5Y for Region M."
+        ],
+        "model_answer": "C = 20 + 0.5 * 300 = 20 + 150 = $170",
+        "explanation": "Substitute the given income value into the consumption function for Region M and perform the calculation to find the level of consumption.",
+        "exam_question_id": "bef61046-a99d-4357-a8ae-a36918960bf1:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 20 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 80 + 0.7Y. When income (Y) is $300 in both regions, calculate the level of consumption in each region.",
+        "question": "Calculate the level of consumption in Region N when income (Y) is $300.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct substitution of values into the consumption function for Region N.",
+          "Correct calculation resulting in the level of consumption for Region N."
+        ],
+        "hints": [
+          "Use the formula C = 80 + 0.7Y for Region N."
+        ],
+        "model_answer": "C = 80 + 0.7 * 300 = 80 + 210 = $290",
+        "explanation": "Substitute the given income value into the consumption function for Region N and perform the calculation to find the level of consumption.",
+        "exam_question_id": "bef61046-a99d-4357-a8ae-a36918960bf1:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 31,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 20 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 80 + 0.7Y. When income (Y) is $300 in both regions, calculate the level of consumption in each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region M and Region N.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the MPC in both regions.",
+          "Explanation of how the coefficients of Y in the consumption functions affect the MPC.",
+          "Clear and logical explanation linking the consumption functions to the MPCs."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region M and Region N — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the MPC in both; Explanation of how the of Y in the affect the MPC.; Clear and logical explanation…."
+        ],
+        "model_answer": "The MPC in Region M is 0.5, and in Region N, it is 0.7. The MPC is the change in consumption resulting from a change in income. In Region M, for every additional dollar of income, 50 cents are consumed, while in Region N, 70 cents are consumed. This difference in the coefficients of Y in the consumption functions leads to different MPCs in the two regions.",
+        "explanation": "Explain the difference in MPCs by comparing the coefficients of Y in the consumption functions and how they affect the change in consumption with a change in income.",
+        "exam_question_id": "bef61046-a99d-4357-a8ae-a36918960bf1:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 32,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the investment function is represented by I = 70 + 0.4Y, where I is investment and Y is income. In Region Y, the investment function is I = 120 + 0.6Y. Calculate the level of investment in each region when income (Y) is $300.",
+        "question": "Calculate the level of investment in each region when income (Y) is $300.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct substitution of Y = 300 into the investment function for Region X.",
+          "Correct calculation of investment for Region X.",
+          "Correct substitution of Y = 300 into the investment function for Region Y.",
+          "Correct calculation of investment for Region Y."
+        ],
+        "hints": [
+          "Use the given investment functions to find the investment levels for both regions."
+        ],
+        "model_answer": "For Region X: I = 70 + 0.4(300) = 70 + 120 = $190. For Region Y: I = 120 + 0.6(300) = 120 + 180 = $300.",
+        "explanation": "You need to substitute the given income value into each investment function and then calculate the resulting investment levels for both regions.",
+        "exam_question_id": "c55aa963-cccc-4ce5-b658-16ec800ca60c:1",
+        "topic_label": "Factors that influence the level of investment in an economy",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3087,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors that influence the level of investment in an economy"
+        }
+      },
+      {
+        "id": 33,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the investment function is represented by I = 70 + 0.4Y, where I is investment and Y is income. In Region Y, the investment function is I = 120 + 0.6Y. Calculate the level of investment in each region when income (Y) is $300.",
+        "question": "Explain why the marginal propensity to invest (MPI) is different in Region X and Region Y.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the slope of the investment function as the MPI.",
+          "Correct comparison of the slopes (0.4 and 0.6) of the investment functions for Region X and Region Y.",
+          "Correct explanation of why the difference in slopes leads to different MPIs."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to invest (MPI) is different in Region X and Region Y — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the slope of the function as the MPI.; Correct comparison of the slopes (0.4 and 0.6) of the…."
+        ],
+        "model_answer": "The MPI in Region X is 0.4, while in Region Y it is 0.6. This difference is due to the different coefficients of Y in the investment functions, indicating that Region Y has a higher MPI.",
+        "explanation": "The marginal propensity to invest is the change in investment for a change in income. The difference in the coefficients of Y in the investment functions indicates different propensities to invest in the two regions.",
+        "exam_question_id": "c55aa963-cccc-4ce5-b658-16ec800ca60c:1",
+        "topic_label": "Factors that influence the level of investment in an economy",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3087,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors that influence the level of investment in an economy"
+        }
+      },
+      {
+        "id": 34,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the investment function is represented by I = 70 + 0.4Y, where I is investment and Y is income. In Region Y, the investment function is I = 120 + 0.6Y. Calculate the level of investment in each region when income (Y) is $300.",
+        "question": "Describe the implications of the different MPIs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the impact of higher MPI on investment levels.",
+          "Correct explanation of how higher investment can lead to increased economic activity.",
+          "Correct comparison of the potential economic activity in Region X and Region Y."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPIs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the impact of MPI on."
+        ],
+        "model_answer": "Region Y, with a higher MPI, will likely have higher levels of investment compared to Region X. This higher investment can lead to increased economic activity, such as more business expansion, job creation, and overall economic growth in Region Y.",
+        "explanation": "A higher marginal propensity to invest means that for every additional unit of income, more investment is generated. This can lead to greater economic activity and growth in the region with the higher MPI.",
+        "exam_question_id": "c55aa963-cccc-4ce5-b658-16ec800ca60c:1",
+        "topic_label": "Factors that influence the level of investment in an economy",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3087,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Factors that influence the level of investment in an economy"
+        }
+      },
+      {
+        "id": 35,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 20 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 40 + 0.7Y. A new economic policy is introduced in Region M to encourage higher savings by offering tax incentives for savings accounts.",
+        "question": "Calculate the level of consumption in each region when income (Y) is $300.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct substitution of values into the consumption function for Region M.",
+          "Correct calculation of consumption for Region M.",
+          "Correct substitution of values into the consumption function for Region N.",
+          "Correct calculation of consumption for Region N."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the level of consumption in each region when income (Y) is $300 — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of values into the consumption function for Region M.; Correct calculation of consumption for Region M.; Correct…."
+        ],
+        "model_answer": "Region M: C = 20 + 0.5 * 300 = 20 + 150 = $170\nRegion N: C = 40 + 0.7 * 300 = 40 + 210 = $250",
+        "explanation": "Using the consumption functions, substitute Y = 300 into each equation to find the consumption levels.",
+        "exam_question_id": "38d56bf8-c93d-46f9-8b49-a43363761ee9:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 36,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 20 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 40 + 0.7Y. A new economic policy is introduced in Region M to encourage higher savings by offering tax incentives for savings accounts.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region M and Region N.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the MPC in Region M.",
+          "Correct identification of the MPC in Region N.",
+          "Clear explanation of why the MPCs differ between the two regions."
+        ],
+        "hints": [
+          "The MPC is the coefficient of Y in the consumption function."
+        ],
+        "model_answer": "Region M MPC = 0.5\nRegion N MPC = 0.7\nThe MPC is different because the coefficients of Y in the consumption functions are different. In Region M, the MPC is 0.5, meaning that for every additional dollar of income, 50 cents are spent on consumption. In Region N, the MPC is 0.7, meaning that for every additional dollar of income, 70 cents are spent on consumption.",
+        "explanation": "Identify the MPC by looking at the coefficients of Y in each consumption function and explain how these coefficients lead to different MPCs.",
+        "exam_question_id": "38d56bf8-c93d-46f9-8b49-a43363761ee9:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 37,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 20 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 40 + 0.7Y. A new economic policy is introduced in Region M to encourage higher savings by offering tax incentives for savings accounts.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Accurate description of the impact of different MPCs on consumption levels.",
+          "Clear explanation of how different MPCs affect overall economic activity.",
+          "Logical conclusion about the implications of different MPCs."
+        ],
+        "hints": [
+          "Consider how MPC affects the multiplier effect in each region."
+        ],
+        "model_answer": "Region M has a lower MPC (0.5) compared to Region N (0.7). This means that in Region M, for every additional dollar of income, less is spent on consumption compared to Region N. As a result, changes in income will have a smaller impact on consumption in Region M compared to Region N. This could lead to slower economic growth in Region M compared to Region N, as consumption is a major driver of economic activity.",
+        "explanation": "Explain how the different MPCs affect the multiplier effect and, consequently, overall economic activity in each region.",
+        "exam_question_id": "38d56bf8-c93d-46f9-8b49-a43363761ee9:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 38,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, a new investment project is expected to generate an additional $150 in income for each region.",
+        "question": "Calculate the level of consumption in each region after the additional income from the investment project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the new income in Region A after the investment project.",
+          "Correctly calculate the consumption in Region A using the consumption function.",
+          "Correctly calculate the consumption in Region B using the consumption function."
+        ],
+        "hints": [
+          "Remember to add the additional income from the investment project to the original income before calculating consumption."
+        ],
+        "model_answer": "Region A: New Income = 250 + 150 = 400\nConsumption in Region A = 50 + 0.6 * 400 = 290\n\nRegion B: New Income = 250 + 150 = 400\nConsumption in Region B = 100 + 0.8 * 400 = 420\n\nConsumption in Region A: $290\nConsumption in Region B: $420",
+        "explanation": "Use the given consumption functions to calculate the consumption in each region after the additional income from the investment project.",
+        "exam_question_id": "95d82c31-7dac-4711-8374-e23d9370a58b:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 39,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, a new investment project is expected to generate an additional $150 in income for each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region A and Region B.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the MPC in Region A and Region B from the consumption functions.",
+          "Explain the difference in MPC between the two regions."
+        ],
+        "hints": [
+          "Look at the coefficients of Y in the consumption functions to determine the MPC."
+        ],
+        "model_answer": "MPC in Region A = 0.6\nMPC in Region B = 0.8\n\nThe MPC is different because the coefficient of Y is different in each consumption function.",
+        "explanation": "The MPC is the change in consumption resulting from a change in income. In Region A, for every additional dollar of income, consumption increases by $0.60. In Region B, for every additional dollar of income, consumption increases by $0.80.",
+        "exam_question_id": "95d82c31-7dac-4711-8374-e23d9370a58b:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 40,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, a new investment project is expected to generate an additional $150 in income for each region.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain how the different MPCs affect the multiplier effect in each region.",
+          "Discuss the potential impact on economic growth in each region.",
+          "Consider the relationship between MPC, savings, and investment."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: how the different MPCs affect the in each region.; Discuss the potential impact on economic in each region.;…."
+        ],
+        "model_answer": "Region B, with a higher MPC, will experience a larger multiplier effect and potentially greater economic growth compared to Region A. This is because a larger proportion of additional income is spent, leading to more consumption and further income generation. In contrast, Region A, with a lower MPC, will have less consumption and potentially less economic growth.",
+        "explanation": "The multiplier effect is the process by which an initial increase in spending leads to a larger increase in income and consumption. A higher MPC means that more of the additional income is spent, leading to a larger multiplier effect and potentially greater economic growth.",
+        "exam_question_id": "95d82c31-7dac-4711-8374-e23d9370a58b:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 41,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 40 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 80 + 0.7Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Calculate the level of consumption in each region when income (Y) is $300.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct substitution of Y into the consumption function for Region M",
+          "Correct calculation of consumption for Region M",
+          "Correct substitution of Y into the consumption function for Region N",
+          "Correct calculation of consumption for Region N"
+        ],
+        "hints": [
+          "Remember to multiply the income by the MPC for each region to find consumption."
+        ],
+        "model_answer": "Region M: C = 40 + 0.5(300) = 40 + 150 = $190\nRegion N: C = 80 + 0.7(300) = 80 + 210 = $290\n\nConsumption in Region M is $190 and in Region N is $290",
+        "explanation": "Use the given consumption functions to calculate the consumption in each region when the income is $300. Remember to multiply the income by the MPC (marginal propensity to consume) for each region.",
+        "exam_question_id": "2824b6d3-f9f0-465e-aeee-56b512eef34b:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 42,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 40 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 80 + 0.7Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region M and Region N.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of MPC in Region M",
+          "Correct identification of MPC in Region N",
+          "Clear explanation of why MPC differs between the regions"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region M and Region N — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of MPC in Region M; Correct identification of MPC in Region N; Clear explanation of why MPC…."
+        ],
+        "model_answer": "The marginal propensity to consume (MPC) is different in Region M and Region N because the coefficients of Y in their consumption functions are different. In Region M, the MPC is 0.5, while in Region N, the MPC is 0.7. This means that for every additional dollar of income, Region N consumes a larger proportion of it compared to Region M.",
+        "explanation": "Explain the difference in the marginal propensity to consume (MPC) between Region M and Region N based on the coefficients of Y in their consumption functions.",
+        "exam_question_id": "2824b6d3-f9f0-465e-aeee-56b512eef34b:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 43,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 40 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 80 + 0.7Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the impact of MPC on consumption",
+          "Correct identification of the impact of consumption on economic activity",
+          "Clear description of the implications of different MPCs on each region"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the impact of MPC on consumption; Correct identification of the impact of consumption on…."
+        ],
+        "model_answer": "The different marginal propensity to consume (MPC) in Region M and Region N has implications for the overall economic activity in each region. In Region M, with an MPC of 0.5, a portion of any additional income generated is saved or spent on imports, which may limit the overall economic activity. In Region N, with an MPC of 0.7, a larger portion of any additional income is consumed, leading to greater overall economic activity as more goods and services are demanded.",
+        "explanation": "Describe how the different marginal propensity to consume (MPC) in Region M and Region N affects the overall economic activity in each region, considering the impact of consumption on economic activity.",
+        "exam_question_id": "2824b6d3-f9f0-465e-aeee-56b512eef34b:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 44,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Calculate the level of consumption in each region when income (Y) is $300.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct substitution of Y = 300 into the consumption function for Region A.",
+          "Correct calculation of consumption in Region A.",
+          "Correct substitution of Y = 300 into the consumption function for Region B.",
+          "Correct calculation of consumption in Region B."
+        ],
+        "hints": [
+          "Use the given consumption functions to calculate consumption for each region."
+        ],
+        "model_answer": "For Region A: C = 50 + 0.6 * 300 = 50 + 180 = $230. For Region B: C = 100 + 0.8 * 300 = 100 + 240 = $340.",
+        "explanation": "Substitute the given income level into each consumption function to find the consumption in each region.",
+        "exam_question_id": "a26d8659-e28f-4759-9030-f5e12cc7e1be:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 45,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region A and Region B.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the MPC in Region A as 0.6.",
+          "Correct identification of the MPC in Region B as 0.8.",
+          "Correct explanation of how different MPCs reflect different consumption behaviours in the regions."
+        ],
+        "hints": [
+          "The MPC is the coefficient of Y in the consumption function."
+        ],
+        "model_answer": "The MPC in Region A is 0.6, meaning that for every additional dollar of income, 60 cents are spent on consumption. The MPC in Region B is 0.8, meaning that for every additional dollar of income, 80 cents are spent on consumption. The difference in MPCs reflects the different consumption behaviors in the regions.",
+        "explanation": "The MPC is the change in consumption resulting from a change in income, represented by the coefficient of Y in the consumption function.",
+        "exam_question_id": "a26d8659-e28f-4759-9030-f5e12cc7e1be:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 46,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the multiplier effect in both regions.",
+          "Correct explanation of how higher MPC leads to a larger multiplier effect.",
+          "Correct description of the implications of different multiplier effects on economic activity."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the in both regions.; Correct explanation of how MPC leads to a; Correct description of…."
+        ],
+        "model_answer": "Region B, with a higher MPC of 0.8, has a larger multiplier effect. This means that any change in income will lead to a larger change in consumption and further income in Region B compared to Region A. This can result in higher overall economic activity in Region B.",
+        "explanation": "The multiplier effect describes how an initial change in spending leads to a larger change in income and further spending. A higher MPC results in a larger multiplier effect.",
+        "exam_question_id": "a26d8659-e28f-4759-9030-f5e12cc7e1be:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 47,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 75 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 125 + 0.7Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Calculate the level of consumption in each region when income (Y) is $300.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of values into the consumption function.",
+          "Correct calculation of consumption for Region M.",
+          "Correct calculation of consumption for Region N."
+        ],
+        "hints": [
+          "Use the given consumption function for each region and substitute Y = 300."
+        ],
+        "model_answer": "Region M: C = 75 + 0.5 * 300 = 225\nRegion N: C = 125 + 0.7 * 300 = 335",
+        "explanation": "Substitute the income value of $300 into the respective consumption functions for Region M and Region N, and perform the calculations to find the level of consumption in each region.",
+        "exam_question_id": "1388aed6-b42a-4a82-b7bf-0c958b16e7e7:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 48,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 75 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 125 + 0.7Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region M and Region N.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the marginal propensity to consume (MPC).",
+          "Correct explanation of the difference in MPC between Region M and Region N.",
+          "Use of appropriate economic concepts to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region M and Region N — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the marginal propensity to consume (MPC).; Correct explanation of the difference in MPC…."
+        ],
+        "model_answer": "The MPC in Region M is 0.5, and in Region N, it is 0.7. The MPC is different because the coefficient of Y in the consumption function represents the change in consumption for a unit change in income. In Region M, for every additional dollar of income, consumption increases by $0.50, while in Region N, consumption increases by $0.70 for every additional dollar of income.",
+        "explanation": "Explain the concept of MPC and how it is derived from the consumption function. Use the coefficients of Y in the consumption functions to show the difference in MPC between Region M and Region N.",
+        "exam_question_id": "1388aed6-b42a-4a82-b7bf-0c958b16e7e7:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 49,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region M and Region N. In Region M, the consumption function is represented by C = 75 + 0.5Y, where C is consumption and Y is income. In Region N, the consumption function is C = 125 + 0.7Y. Calculate the level of consumption in each region when income (Y) is $300.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct understanding of the relationship between MPC and overall economic activity.",
+          "Correct explanation of how different MPCs affect economic activity in Region M and Region N.",
+          "Use of appropriate economic concepts to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Correct understanding of the relationship between MPC and overall economic activity.; of appropriate economic…."
+        ],
+        "model_answer": "Region N, with a higher MPC of 0.7, will experience a greater increase in consumption for a given increase in income compared to Region M. This means that economic activity in Region N is more sensitive to changes in income, leading to potentially larger fluctuations in economic activity. In contrast, Region M, with a lower MPC of 0.5, will see smaller changes in consumption for a given change in income, resulting in more stable economic activity.",
+        "explanation": "Explain how the MPC affects the sensitivity of consumption to income changes and the implications for overall economic activity in each region.",
+        "exam_question_id": "1388aed6-b42a-4a82-b7bf-0c958b16e7e7:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 50,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, calculate the level of consumption in each region.",
+        "question": "Calculate the level of consumption in each region when income (Y) is $250.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly substitute Y = 250 into the consumption function for Region A.",
+          "Correctly substitute Y = 250 into the consumption function for Region B.",
+          "Correctly perform the arithmetic to find the consumption for each region."
+        ],
+        "hints": [
+          "Use the formula for consumption in each region and substitute the given income value."
+        ],
+        "model_answer": "For Region A: C = 50 + 0.6 * 250 = 50 + 150 = 200. For Region B: C = 100 + 0.8 * 250 = 100 + 200 = 300.",
+        "explanation": "Substitute the given income value into the consumption function for each region and calculate the consumption level.",
+        "exam_question_id": "6774fee6-ccaa-41e5-8065-70ba06f233a9:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 51,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, calculate the level of consumption in each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region A and Region B.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the MPC in Region A as the coefficient of Y in its consumption function.",
+          "Identify the MPC in Region B as the coefficient of Y in its consumption function.",
+          "Explain the difference in MPCs based on the coefficients of Y in the consumption functions."
+        ],
+        "hints": [
+          "The MPC is the change in consumption resulting from a change in income."
+        ],
+        "model_answer": "The MPC in Region A is 0.6, and in Region B is 0.8. The MPC is different because the coefficient of Y in the consumption function is different in each region.",
+        "explanation": "The MPC is the coefficient of Y in the consumption function, which indicates the change in consumption for a change in income.",
+        "exam_question_id": "6774fee6-ccaa-41e5-8065-70ba06f233a9:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 52,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region A and Region B. In Region A, the consumption function is represented by C = 50 + 0.6Y, where C is consumption and Y is income. In Region B, the consumption function is C = 100 + 0.8Y. When income (Y) is $250, calculate the level of consumption in each region.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain how a higher MPC affects consumption and economic activity in Region B.",
+          "Explain how a lower MPC affects consumption and economic activity in Region A.",
+          "Describe the overall implication of these differences on economic activity in both regions."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "A higher MPC in Region B means that changes in income lead to larger changes in consumption, potentially leading to greater economic activity. A lower MPC in Region A means that changes in income have a smaller effect on consumption, potentially leading to less economic activity. Overall, the different MPCs can lead to different levels of economic activity in the two regions.",
+        "explanation": "The MPC affects how sensitive consumption is to changes in income, which in turn affects the multiplier effect and overall economic activity.",
+        "exam_question_id": "6774fee6-ccaa-41e5-8065-70ba06f233a9:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 53,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region P and Region Q. In Region P, the consumption function is represented by C = 30 + 0.5Y, where C is consumption and Y is income. In Region Q, the consumption function is C = 80 + 0.7Y. When income (Y) is $350, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Calculate the level of consumption in each region after the additional income from the investment project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of consumption in Region P after additional income.",
+          "Correct calculation of consumption in Region Q after additional income.",
+          "Final answer for both regions."
+        ],
+        "hints": [
+          "Use the given consumption functions and add the additional income from the investment project to the original income."
+        ],
+        "model_answer": "For Region P: C = 30 + 0.5(350 + 100) = 30 + 0.5(450) = 30 + 225 = $255. For Region Q: C = 80 + 0.7(350 + 100) = 80 + 0.7(450) = 80 + 315 = $395.",
+        "explanation": "First, calculate the new income for each region by adding the additional income from the investment to the original income. Then, use the consumption functions to find the new level of consumption for each region.",
+        "exam_question_id": "9412e60c-e443-4705-8561-9ca5eb8b5a68:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 54,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region P and Region Q. In Region P, the consumption function is represented by C = 30 + 0.5Y, where C is consumption and Y is income. In Region Q, the consumption function is C = 80 + 0.7Y. When income (Y) is $350, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region P and Region Q.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of MPC in Region P.",
+          "Correct identification of MPC in Region Q.",
+          "Explanation of why MPCs are different."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the marginal propensity to consume (MPC) is different in Region P and Region Q — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of MPC in Region P.; Correct identification of MPC in Region Q."
+        ],
+        "model_answer": "The MPC in Region P is 0.5, and in Region Q, it is 0.7. The MPCs are different because the coefficients of Y in the consumption functions are different, indicating that a larger proportion of additional income is spent on consumption in Region Q compared to Region P.",
+        "explanation": "The MPC is the coefficient of Y in the consumption function, showing the fraction of additional income spent on consumption. A higher MPC means a larger portion of additional income is consumed.",
+        "exam_question_id": "9412e60c-e443-4705-8561-9ca5eb8b5a68:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 55,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region P and Region Q. In Region P, the consumption function is represented by C = 30 + 0.5Y, where C is consumption and Y is income. In Region Q, the consumption function is C = 80 + 0.7Y. When income (Y) is $350, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how MPC affects consumption and economic activity in Region P.",
+          "Explanation of how MPC affects consumption and economic activity in Region Q.",
+          "Overall comparison of economic activity implications."
+        ],
+        "hints": [
+          "Consider the impact of higher vs. lower MPC on spending and economic growth."
+        ],
+        "model_answer": "In Region P, with an MPC of 0.5, only half of the additional income from the investment project will be spent on consumption, limiting the boost to overall economic activity. In Region Q, with an MPC of 0.7, a larger portion of the additional income will be spent, leading to a greater increase in consumption and a more significant boost to economic activity.",
+        "explanation": "The MPC determines how much of additional income is spent on consumption. A higher MPC leads to more spending, which can stimulate economic activity more effectively.",
+        "exam_question_id": "9412e60c-e443-4705-8561-9ca5eb8b5a68:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 56,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the consumption function is represented by C = 30 + 0.5Y, where C is consumption and Y is income. In Region Y, the consumption function is C = 80 + 0.7Y. When income (Y) is $400 in both regions, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Calculate the level of consumption in each region after the additional income from the investment project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of consumption for Region X after additional income.",
+          "Correct calculation of consumption for Region Y after additional income.",
+          "Correct final answer for both regions."
+        ],
+        "hints": [
+          "Use the given consumption functions to find the initial consumption levels and then add the additional income from the investment project to the income (Y)."
+        ],
+        "model_answer": "For Region X: C = 30 + 0.5(Y + 100) = 30 + 0.5(400 + 100) = 30 + 0.5(500) = 30 + 250 = $280\nFor Region Y: C = 80 + 0.7(Y + 100) = 80 + 0.7(400 + 100) = 80 + 0.7(500) = 80 + 350 = $430",
+        "explanation": "First, calculate the initial consumption for each region using the given income of $400. Then, add the additional income of $100 from the investment project to the income and recalculate the consumption for both regions.",
+        "exam_question_id": "57cfda8f-eacf-43a4-b972-ac75b696645e:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      },
+      {
+        "id": 57,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the consumption function is represented by C = 30 + 0.5Y, where C is consumption and Y is income. In Region Y, the consumption function is C = 80 + 0.7Y. When income (Y) is $400 in both regions, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Explain why the marginal propensity to consume (MPC) is different in Region X and Region Y.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of MPC and its calculation.",
+          "Correct comparison of MPCs in Region X and Region Y."
+        ],
+        "hints": [
+          "MPC is the change in consumption resulting from a change in income. It is the slope of the consumption function."
+        ],
+        "model_answer": "The marginal propensity to consume (MPC) is the fraction of additional income that is spent on consumption. In Region X, the MPC is 0.5, meaning that for every additional dollar of income, 50 cents are spent on consumption. In Region Y, the MPC is 0.7, meaning that for every additional dollar of income, 70 cents are spent on consumption. The difference in MPCs reflects the different propensities of the residents in each region to spend additional income on consumption.",
+        "explanation": "Explain that MPC is the change in consumption per change in income, and compare the MPCs in Region X and Region Y based on the slopes of their consumption functions.",
+        "exam_question_id": "57cfda8f-eacf-43a4-b972-ac75b696645e:1",
+        "topic_label": "Average propensity to consume (APC)",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3077,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Average propensity to consume (APC)"
+        }
+      },
+      {
+        "id": 58,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two regions, Region X and Region Y. In Region X, the consumption function is represented by C = 30 + 0.5Y, where C is consumption and Y is income. In Region Y, the consumption function is C = 80 + 0.7Y. When income (Y) is $400 in both regions, a new investment project is expected to generate an additional $100 in income for each region.",
+        "question": "Describe the implications of the different MPCs on the overall economic activity in each region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the impact of MPC on economic activity.",
+          "Correct explanation of the implications for both regions.",
+          "Clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of the different MPCs on the overall economic activity in each region — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the impact of MPC on economic activity.; Correct explanation of the implications for both…."
+        ],
+        "model_answer": "The different MPCs in Region X and Region Y have significant implications for their overall economic activity. In Region X, with an MPC of 0.5, the multiplier effect is smaller, meaning that an increase in income will lead to a more modest increase in overall demand and economic activity. In Region Y, with an MPC of 0.7, the multiplier effect is larger, so an increase in income will lead to a more substantial increase in overall demand and economic activity. This difference could result in Region Y experiencing more rapid economic growth compared to Region X, assuming other factors remain constant.",
+        "explanation": "Explain how the MPC affects the multiplier effect and overall economic activity, and describe the implications for both regions based on their different MPCs.",
+        "exam_question_id": "57cfda8f-eacf-43a4-b972-ac75b696645e:1",
+        "topic_label": "Consumption function",
+        "topic_id": 727,
+        "checked": true,
+        "subtopic_id": 3075,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Consumption function"
+        }
+      }
+    ],
+    "estimated_time": 170,
+    "assessment_id": "43d066f4-c70b-48c9-8517-0bf743ae2c5f",
+    "subject": "Economics S5 SB",
+    "topics": [
+      "Unemployment",
+      "Consumption, Saving, Investment and Multipliers"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 64,
+    "topic_ids": [
+      731,
+      727
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 58,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "7 questions open with the same sentence (2, 12, 18, 24, 39, 45, 51): \"Explain why the marginal propensity to consume (MP\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "13 questions open with the same sentence (3, 13, 19, 25, 28, 37, 40, 43, 46, 49, 52, 55, 58): \"Describe the implications of the different MPCs on\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 10,
+      "detail": "6 questions open with the same sentence (11, 23, 26, 38, 53, 56): \"Calculate the level of consumption in each region \""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 26,
+      "detail": "5 questions open with the same sentence (27, 31, 36, 42, 48): \"Explain why the marginal propensity to consume (MP\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 34,
+      "detail": "4 questions open with the same sentence (35, 41, 44, 47): \"Calculate the level of consumption in each region \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 29"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 40,
+      "detail": "same as question 35"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 41,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 42,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 43,
+      "detail": "same as question 35"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 44,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 45,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 46,
+      "detail": "same as question 35"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 47,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 48,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 50,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 51,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 52,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 53,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 54,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 55,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 56,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 57,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c",
+      "11a",
+      "11b",
+      "11c",
+      "12a",
+      "12b",
+      "12c",
+      "13a",
+      "13b",
+      "13c",
+      "14a",
+      "14b",
+      "14c",
+      "15a",
+      "15b",
+      "15c",
+      "16a",
+      "16b",
+      "16c",
+      "17a",
+      "17b",
+      "17c",
+      "18a",
+      "18b",
+      "18c",
+      "19a",
+      "19b",
+      "19c",
+      "20a",
+      "20b",
+      "20c"
+    ],
+    "issues": [
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Question 7a is identical to question 1a with same context, same income value ($200), same consumption functions, and same calculations. This is a complete duplication.",
+        "correction": "Remove question 7 entirely or provide different income value and context to avoid repetition."
+      },
+      {
+        "label": "7b",
+        "severity": "broken",
+        "detail": "Question 7b duplicates question 1b, asking identical explanation about MPC differences between Region A and Region B with same consumption functions.",
+        "correction": "Remove or redesign with different regions/functions."
+      },
+      {
+        "label": "7c",
+        "severity": "broken",
+        "detail": "Question 7c duplicates question 1c, asking identical implications of different MPCs on economic activity.",
+        "correction": "Remove or redesign with different analytical focus."
+      },
+      {
+        "label": "9a",
+        "severity": "broken",
+        "detail": "Question 9a duplicates question 5a with identical context (Region A: C=50+0.6Y, Region B: C=100+0.8Y, Y=$250 initially, +$100 investment). Only difference is Y changes from $300 to $250 in context, but same structure.",
+        "correction": "Remove question 9 or use substantially different parameters."
+      },
+      {
+        "label": "14a",
+        "severity": "broken",
+        "detail": "Question 14a duplicates question 5a with identical regions, consumption functions, and investment scenario (Y=$250, +$150 additional income vs Y=$300, +$100). Near-identical structure.",
+        "correction": "Remove question 14 or redesign with different economic scenario."
+      },
+      {
+        "label": "18a",
+        "severity": "broken",
+        "detail": "Question 18a uses same Region A and B with same consumption functions as questions 1a, 5a, 7a, 14a. Only Y=$250 differs slightly, but this is excessive repetition of identical consumption functions.",
+        "correction": "Use different regions with different consumption functions to avoid repetition."
+      }
+    ],
+    "summary": "Assessment contains substantial repetition: questions 7, 9, 14, and 18 duplicate earlier questions (1, 5) using identical or near-identical contexts, consumption functions, and calculations. While numerical values vary slightly, the repeated use of the same Region A (C=50+0.6Y) and Region B (C=100+0.8Y) across multiple questions constitutes problematic duplication that fails to assess diverse understanding."
+  },
+  "totalSeconds": 162
+}

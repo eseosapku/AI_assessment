@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import { longformContext } from '@/lib/longform-context'
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 import { buildModelCandidates as sharedCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust } from '@/lib/bedrock'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
@@ -29,6 +30,8 @@ interface LongFormQuestion {
     marking_criteria: string[]
     model_answer?: string
     passage?: string
+    scenario?: string
+    image_alt?: string
     /** A one-word or number answer, marked against its key, never by a model. */
     short_answer?: ShortAnswerKey
     /** Set by the page on a short answer it has already marked. */
@@ -225,6 +228,7 @@ function buildQuestionPrompt(
 
 Question (${q.marks} marks):
 ${q.question}
+${longformContext(q)}
 
 ${criteriaHeading}
 ${criteria}${modelAnswerBlock}${passageBlock}

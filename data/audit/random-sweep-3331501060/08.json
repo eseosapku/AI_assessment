@@ -1,0 +1,299 @@
+{
+  "index": 8,
+  "label": "Cambridge / Practice / Cambridge International AS  A Level Further Mathematics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "textbook_id": 19,
+    "topic_ids": [
+      255
+    ],
+    "topics": [
+      "Matrices 1"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 23,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "State the order of the matrix: $\\begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \\ \\end{pmatrix}$",
+        "options": [
+          "3x3",
+          "2x3",
+          "3x2",
+          "2x2"
+        ],
+        "correct_answer": 0,
+        "explanation": "The matrix has 3 rows and 3 columns, so its order is 3x3. The other options are incorrect as they either have fewer rows or columns.",
+        "checked": true,
+        "topic_id": 255,
+        "topic_label": "Matrices 1",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 1"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "If $A = \\begin{pmatrix} 1 & 2 \\ 3 & 4 \\ \\end{pmatrix}$ and $B = \\begin{pmatrix} 2 & 0 \\ 1 & 3 \\ \\end{pmatrix}$, what is the element in the first row, second column of matrix $AB$?",
+        "options": [
+          "6",
+          "8",
+          "7",
+          "4"
+        ],
+        "correct_answer": 0,
+        "explanation": "To find element [1,2] of AB, multiply row 1 of A by column 2 of B: (1×0) + (2×3) = 6.",
+        "checked": true,
+        "topic_id": 255,
+        "topic_label": "Matrices 1",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 1"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Describe the process of finding the determinant of a 2x2 matrix.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the formula for determinant of 2×2 matrix: ad − bc",
+          "Identify the four elements a, b, c, d correctly from the given matrix",
+          "Calculate the two products ad and bc",
+          "Subtract bc from ad to obtain the final determinant value"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the process of finding the determinant of a 2x2 matrix — develop the idea fully rather than listing short points. Make sure you also cover: the four a, b, c, d correctly from the given matrix; the two products ad and bc; bc from ad to obtain the final determinant value."
+        ],
+        "model_answer": "For a 2×2 matrix $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$: (1) The determinant formula is $\\det(A) = ad - bc$. (2) Identify elements: a is top-left, b is top-right, c is bottom-left, d is bottom-right. (3) Multiply: calculate $ad$ and $bc$ separately. (4) Subtract: compute $ad - bc$ to find the determinant. Example: for $\\begin{pmatrix} 2 & 3 \\\\ 1 & 4 \\end{pmatrix}$, det = (2)(4) − (3)(1) = 8 − 3 = 5.",
+        "explanation": "A strong answer will detail the determinant formula and correctly apply it to find the determinant of a 2x2 matrix. Each step must be clearly presented to earn the marks.",
+        "checked": true,
+        "topic_id": 255,
+        "topic_label": "Matrices 1",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 1"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "If the determinant of a matrix is zero, what does it imply about the matrix?",
+        "options": [
+          "The matrix is symmetric",
+          "The matrix is invertible",
+          "The matrix is singular",
+          "The matrix has no solution"
+        ],
+        "correct_answer": 2,
+        "explanation": "A determinant of zero implies that the matrix is singular, meaning it does not have an inverse. The other options are incorrect as they do not relate to the determinant being zero.",
+        "checked": true,
+        "subtopic_id": 1124,
+        "topic_id": 255,
+        "topic_label": "The inverse matrix",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The inverse matrix"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Identify the operation that can be performed on matrices but not on scalars.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of matrix operation",
+          "Explanation of why it is unique to matrices"
+        ],
+        "hints": [
+          "Stay focused on this: Identify the operation that can be performed on matrices but not on scalars — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of operation; Explanation of why it is unique to matrices."
+        ],
+        "model_answer": "Matrix multiplication is an operation that can be performed on matrices but not on scalars. This is because matrix multiplication involves the interaction of rows and columns, which is not applicable to scalars. Scalars are single numbers without rows or columns, so they cannot undergo the same operation.",
+        "explanation": "A strong answer will correctly identify matrix multiplication as the operation unique to matrices and provide a clear explanation of why it cannot be applied to scalars.",
+        "checked": true,
+        "topic_id": 255,
+        "topic_label": "Matrices 1",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 1"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "What is the result of multiplying a matrix by a scalar?",
+        "options": [
+          "A matrix of the same order",
+          "A matrix with different dimensions",
+          "A scalar",
+          "An element of a matrix"
+        ],
+        "correct_answer": 0,
+        "explanation": "Multiplying a matrix by a scalar results in a matrix of the same order, where each element is the product of the scalar and the corresponding element of the original matrix. The other options are incorrect as they describe outcomes of operations that do not match the question.",
+        "checked": true,
+        "subtopic_id": 1123,
+        "topic_id": 255,
+        "topic_label": "Matrix operations",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrix operations"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "Which of the following is the correct formula to find the inverse of a 2x2 matrix A?",
+        "options": [
+          "A^(-1) = adj(A) * det(A)",
+          "A^(-1) = 1/det(A) * adj(A)",
+          "A^(-1) = det(A) * adj(A)",
+          "A^(-1) = adj(A) / det(A)"
+        ],
+        "correct_answer": 1,
+        "explanation": "A: A^(-1) = 1/det(A) * adj(A) is correct because the inverse of a 2x2 matrix A is given by the formula A^(-1) = 1/det(A) * adj(A), where det(A) is the determinant of A and adj(A) is the adjugate of A. B: A^(-1) = det(A) * adj(A) is incorrect because it multiplies the determinant by the adjugate. C: A^(-1) = adj(A) / det(A) is incorrect because it divides the adjugate by the determinant. D: A^(-1) = adj(A) * det(A) is incorrect because it multiplies the adjugate by the determinant.",
+        "checked": true,
+        "subtopic_id": 1124,
+        "topic_id": 255,
+        "topic_label": "The inverse matrix",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The inverse matrix"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Describe how matrix transformations can be used to represent linear transformations in two-dimensional space.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of what matrix transformations are",
+          "How they represent linear transformations",
+          "An example of a transformation",
+          "Conclusion summarising the use of matrix transformations"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Matrix transformations are used to represent linear transformations in two-dimensional space. A linear transformation can be applied to a vector by multiplying it with a transformation matrix. This results in a new vector that has been transformed according to the properties of the matrix. For example, a rotation matrix can rotate a vector around the origin by a certain angle. The process involves multiplying the vector by the rotation matrix to obtain the new coordinates of the transformed vector. This demonstrates how matrix transformations are used to perform linear transformations.",
+        "explanation": "A strong answer will include a clear explanation of matrix transformations, how they are used to represent linear transformations, an example of a transformation, and a conclusion summarising the use of matrix transformations.",
+        "checked": true,
+        "subtopic_id": 1126,
+        "topic_id": 255,
+        "topic_label": "Matrix transformations",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrix transformations"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "What is the determinant of a 2x2 matrix A = [[a, b], [c, d]]?",
+        "options": [
+          "ad + bc",
+          "a - d",
+          "ad - bc",
+          "a + d"
+        ],
+        "correct_answer": 2,
+        "explanation": "A: ad - bc is correct because the determinant of a 2x2 matrix A = [[a, b], [c, d]] is calculated as ad - bc. B: a + d is incorrect because it adds the diagonal elements instead of subtracting. C: ad + bc is incorrect because it adds the products of the diagonal elements. D: a - d is incorrect because it subtracts the diagonal elements without considering the off-diagonal elements.",
+        "checked": true,
+        "topic_id": 255,
+        "topic_label": "Matrices 1",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 1"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Explain how matrix transformations can be used to reflect a point across the x-axis.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the reflection transformation",
+          "Matrix used for reflection across the x-axis",
+          "Conclusion summarising the use of matrix transformations for reflection"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how matrix transformations can be used to reflect a point across the x-axis — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the transformation; Conclusion summarising the use of matrix transformations for."
+        ],
+        "model_answer": "To reflect a point across the x-axis, a reflection matrix is used. The reflection matrix for reflecting across the x-axis is [[1, 0], [0, -1]]. When a point (x, y) is multiplied by this matrix, the y-coordinate is negated, effectively reflecting the point across the x-axis. For example, if the point is (3, 4), multiplying it by the reflection matrix results in the point (3, -4), which is the reflection of the original point across the x-axis.",
+        "explanation": "A strong answer will include a clear explanation of the reflection transformation, the specific matrix used for reflection across the x-axis, and a conclusion summarising the use of matrix transformations for reflection.",
+        "checked": true,
+        "subtopic_id": 1126,
+        "topic_id": 255,
+        "topic_label": "Matrix transformations",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrix transformations"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "0402e03e-8ae4-4560-9fc4-a9d21c08af07",
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "topics": [
+      "Matrices 1"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mixed",
+    "textbook_id": 19,
+    "topic_ids": [
+      255
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "4",
+        "severity": "poor",
+        "detail": "Question labeled 'Matrices 1' but sourced from 'The inverse matrix' subtopic. While related, this creates inconsistency with stated topic focus. Minor categorization issue.",
+        "correction": "Verify question aligns with primary 'Matrices 1' topic scope or clarify subtopic inclusion in assessment design."
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Explanation section lists options A, B, C, D but MCQ options are numbered 0-3. Labeling mismatch creates potential confusion in marking/review.",
+        "correction": "Align explanation option labels with MCQ numbering (0-3) or use consistent A-D labeling throughout."
+      }
+    ],
+    "summary": "Assessment is substantively sound. All 10 questions are answerable, age-appropriate for Grade 12, and mathematically correct. Minor inconsistencies exist in topic categorization (Q4) and explanation labeling (Q7) that do not affect content validity. No repeated questions or missing data detected."
+  },
+  "totalSeconds": 26
+}

@@ -1,0 +1,712 @@
+{
+  "index": 6,
+  "label": "REB / Exam / English S1",
+  "request": {
+    "subject": "English S1",
+    "textbook_id": 67,
+    "topic_ids": [
+      759
+    ],
+    "topics": [
+      "UNIT 5: BOOKS AND SCHOOL WORK HABITS"
+    ],
+    "curriculum": "rwanda",
+    "grade": 7,
+    "className": "S1",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 42,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following extract from a book review: 'The story was engaging and the characters were well-developed. However, the ending felt rushed and left many questions unanswered.'",
+        "question": "State the writer's opinion on the characters in the book.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify opinion on characters",
+          "Use evidence from the text"
+        ],
+        "hints": [
+          "Look for descriptive words about the characters."
+        ],
+        "model_answer": "The writer thought the characters were well-developed.",
+        "explanation": "Look for words that describe how the characters are portrayed in the text.",
+        "exam_question_id": "ad751f9f-09ae-4480-adf7-0b71738823da:1",
+        "topic_label": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following extract from a book review: 'The story was engaging and the characters were well-developed. However, the ending felt rushed and left many questions unanswered.'",
+        "question": "Explain why the writer might have felt the ending was rushed.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify clues about the ending",
+          "Explain the impact on the reader",
+          "Use evidence from the text"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the writer might have felt the ending was rushed — develop the idea fully rather than listing short points. Make sure you also cover: Identify clues about the ending; the impact on the reader; evidence from the text."
+        ],
+        "model_answer": "The writer felt the ending was rushed because it left many questions unanswered, suggesting the conclusion came too quickly and did not provide closure.",
+        "explanation": "Analyse the part of the text that talks about the ending and think about what it implies about the writer's experience.",
+        "exam_question_id": "ad751f9f-09ae-4480-adf7-0b71738823da:1",
+        "topic_label": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following passage about a library: 'The library is a peaceful place, filled with rows of books. The smell of old paper and the quiet rustling of pages create a soothing atmosphere. Bright, warm lights illuminate the reading tables, and soft chairs provide comfort for students to study.'",
+        "question": "Describe the atmosphere of the library as described in the passage.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of the atmosphere",
+          "Use of sensory details",
+          "Use of descriptive language"
+        ],
+        "hints": [
+          "Think about how the author describes the environment."
+        ],
+        "model_answer": "The atmosphere of the library is peaceful and soothing, filled with rows of books. The smell of old paper and the quiet rustling of pages enhance the calm environment. Bright, warm lights illuminate the reading tables, and soft chairs provide comfort for students to study.",
+        "explanation": "Describe the atmosphere using sensory details and descriptive language from the passage.",
+        "exam_question_id": "4b2a6f25-f49e-42f2-bfe9-753c9735ce99:1",
+        "topic_label": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following passage about a library: 'The library is a peaceful place, filled with rows of books. The smell of old paper and the quiet rustling of pages create a soothing atmosphere. Bright, warm lights illuminate the reading tables, and soft chairs provide comfort for students to study.'",
+        "question": "Explain how the author uses descriptive language to create a sense of comfort in the library.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of descriptive language",
+          "Explanation of how it creates comfort",
+          "Use of evidence from the passage"
+        ],
+        "hints": [
+          "Look for words and phrases that describe the environment."
+        ],
+        "model_answer": "The author uses descriptive language such as 'peaceful','soothing atmosphere', 'bright, warm lights', and'soft chairs' to create a sense of comfort. These words help the reader imagine a cozy and inviting space where students can study comfortably.",
+        "explanation": "Identify specific words or phrases that describe the environment and explain how they create a sense of comfort.",
+        "exam_question_id": "4b2a6f25-f49e-42f2-bfe9-753c9735ce99:1",
+        "topic_label": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following extract from a book review: 'The story takes place in a small village where the characters face many challenges. The author uses vivid descriptions to paint a picture of the village, making it feel almost real.'",
+        "question": "State the setting of the story mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the location (1 mark)",
+          "Describe the place (1 mark)"
+        ],
+        "hints": [
+          "Look for words that describe where the story takes place."
+        ],
+        "model_answer": "The setting of the story is a small village.",
+        "explanation": "Identify the specific location mentioned in the extract.",
+        "exam_question_id": "48120a0f-d515-4602-9305-9dcbb7394ffc:1",
+        "topic_label": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following extract from a book review: 'The story takes place in a small village where the characters face many challenges. The author uses vivid descriptions to paint a picture of the village, making it feel almost real.'",
+        "question": "Explain how the author makes the village feel real to the reader.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the method used by the author (1 mark)",
+          "Explain the effect of this method (2 marks)"
+        ],
+        "hints": [
+          "Focus on the words that describe how the village is portrayed."
+        ],
+        "model_answer": "The author uses vivid descriptions to make the village feel real. These descriptions create a clear and detailed image in the reader's mind, making the setting come alive.",
+        "explanation": "Explain how the author's use of vivid descriptions contributes to the realism of the village.",
+        "exam_question_id": "48120a0f-d515-4602-9305-9dcbb7394ffc:1",
+        "topic_label": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following sentence from a book: 'The sun set behind the mountains, casting long shadows over the valley.'",
+        "question": "Find the word that describes how the sun set.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the descriptive word (1 mark)",
+          "Explain its meaning (1 mark)"
+        ],
+        "hints": [
+          "Look for the word that tells you more about the action of the sun setting."
+        ],
+        "model_answer": "The word 'set' describes how the sun disappeared behind the mountains. It means to go down or below the horizon.",
+        "explanation": "Correctly identify and explain the meaning of the word 'set'.",
+        "exam_question_id": "48120a0f-d515-4602-9305-9dcbb7394ffc:2",
+        "topic_label": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following sentence from a book: 'The sun set behind the mountains, casting long shadows over the valley.'",
+        "question": "Describe the effect of the sun setting on the valley.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the effect mentioned (1 mark)",
+          "Explain the visual impact (2 marks)"
+        ],
+        "hints": [
+          "Think about what happens when the sun goes down and what it looks like."
+        ],
+        "model_answer": "The sun setting behind the mountains casts long shadows over the valley. This creates a sense of darkness and quietness, transforming the landscape with elongated shadows.",
+        "explanation": "Describe how the sun setting causes long shadows and the resulting visual effect on the valley.",
+        "exam_question_id": "48120a0f-d515-4602-9305-9dcbb7394ffc:2",
+        "topic_label": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following extract from a book review: 'The protagonist's journey is filled with ups and downs, and the reader is kept on the edge of their seat.'",
+        "question": "Name the feeling the reader experiences while reading this book.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the feeling described (1 mark)",
+          "Explain why it is mentioned (1 mark)"
+        ],
+        "hints": [
+          "Focus on the words that describe the reader's experience."
+        ],
+        "model_answer": "The feeling the reader experiences is being kept on the edge of their seat. This means the reader is excited and eager to find out what happens next.",
+        "explanation": "Correctly identify and explain the feeling mentioned in the extract.",
+        "exam_question_id": "48120a0f-d515-4602-9305-9dcbb7394ffc:3",
+        "topic_label": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following extract from a book review: 'The protagonist's journey is filled with ups and downs, and the reader is kept on the edge of their seat.'",
+        "question": "Explain how the author keeps the reader engaged throughout the book.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the method used by the author (1 mark)",
+          "Explain how this method works (2 marks)"
+        ],
+        "hints": [
+          "Think about what makes the reader want to continue reading."
+        ],
+        "model_answer": "The author keeps the reader engaged by creating a journey filled with ups and downs. This means that the story has many twists and turns, keeping the reader curious and eager to see what happens next.",
+        "explanation": "Explain how the author's use of ups and downs in the story maintains the reader's interest.",
+        "exam_question_id": "48120a0f-d515-4602-9305-9dcbb7394ffc:3",
+        "topic_label": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about a particular book (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following passage: 'Emily loves her school library. Every Tuesday, she visits to read her favourite books and complete her homework. She often meets her friend Sarah there, and they discuss the stories they are reading. Emily believes that regular visits to the library help her improve her reading skills and enjoy school more.'",
+        "question": "State the day Emily visits the library.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct day of the week",
+          "Referencing the passage"
+        ],
+        "hints": [
+          "Look for the specific day mentioned in the passage."
+        ],
+        "model_answer": "Tuesday",
+        "explanation": "The passage clearly states 'Every Tuesday, she visits to read her favourite books...'",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:1",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following passage: 'Emily loves her school library. Every Tuesday, she visits to read her favourite books and complete her homework. She often meets her friend Sarah there, and they discuss the stories they are reading. Emily believes that regular visits to the library help her improve her reading skills and enjoy school more.'",
+        "question": "Explain why Emily enjoys visiting the library.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mentions reading favourite books",
+          "Mentions completing homework",
+          "Mentions meeting Sarah and discussing stories"
+        ],
+        "hints": [
+          "Find the reasons Emily gave in the passage."
+        ],
+        "model_answer": "Emily enjoys visiting the library because she can read her favorite books, complete her homework, meet her friend Sarah, and discuss the stories they are reading. These activities help her improve her reading skills and enjoy school more.",
+        "explanation": "The passage mentions all these reasons directly.",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:1",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Read the following passage: 'Emily loves her school library. Every Tuesday, she visits to read her favourite books and complete her homework. She often meets her friend Sarah there, and they discuss the stories they are reading. Emily believes that regular visits to the library help her improve her reading skills and enjoy school more.'",
+        "question": "Describe the effect of Emily’s library visits on her school experience.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mentions improvement in reading skills",
+          "Mentions enjoyment of school",
+          "Refers to specific activities at the library"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the effect of Emily’s library visits on her school experience — develop the idea fully rather than listing short points. Make sure you also cover: Mentions improvement in; Mentions enjoyment of school; Refers to specific activities at the library."
+        ],
+        "model_answer": "Emily’s regular visits to the library help her improve her reading skills and make her enjoy school more. By reading her favorite books, completing her homework, and discussing stories with her friend Sarah, she finds the library visits beneficial.",
+        "explanation": "The passage states Emily’s beliefs about the positive impact of her library visits.",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:1",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following passage: 'John’s favourite book is 'The Secret Garden.' He reads it every night before bed. He finds it relaxing and believes it helps him sleep better.'",
+        "question": "Name the book John likes to read before bed.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct title of the book",
+          "Referencing the passage"
+        ],
+        "hints": [
+          "Look for the specific book title mentioned in the passage."
+        ],
+        "model_answer": "The Secret Garden",
+        "explanation": "The passage clearly states 'John’s favourite book is 'The Secret Garden.'",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:2",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following passage: 'John’s favourite book is 'The Secret Garden.' He reads it every night before bed. He finds it relaxing and believes it helps him sleep better.'",
+        "question": "Explain why John reads 'The Secret Garden' every night.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mentions it being relaxing",
+          "Mentions it helping him sleep better",
+          "Referencing the passage"
+        ],
+        "hints": [
+          "Find the reasons John gave in the passage."
+        ],
+        "model_answer": "John reads 'The Secret Garden' every night because he finds it relaxing and believes it helps him sleep better.",
+        "explanation": "The passage mentions both reasons directly.",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:2",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Read the following passage: 'John’s favourite book is 'The Secret Garden.' He reads it every night before bed. He finds it relaxing and believes it helps him sleep better.'",
+        "question": "Describe the effect of reading 'The Secret Garden' on John’s bedtime routine.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mentions it being part of his bedtime routine",
+          "Mentions it being relaxing",
+          "Mentions it helping him sleep better"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the effect of reading 'The Secret Garden' on John’s bedtime routine — develop the idea fully rather than listing short points. Make sure you also cover: Mentions it being; Mentions it helping him."
+        ],
+        "model_answer": "Reading 'The Secret Garden' is part of John’s bedtime routine because he finds it relaxing and believes it helps him sleep better.",
+        "explanation": "The passage states John’s beliefs about the positive impact of reading his favourite book.",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:2",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following passage: 'Maria enjoys writing stories about her adventures. She keeps a notebook where she writes down her ideas and sketches. Maria believes that writing helps her express her creativity and think clearly.'",
+        "question": "State what Maria does with her ideas for stories.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct action mentioned in the passage",
+          "Referencing the passage"
+        ],
+        "hints": [
+          "Look for the specific action Maria takes with her ideas."
+        ],
+        "model_answer": "Maria writes down her ideas and sketches in a notebook.",
+        "explanation": "The passage clearly states 'She keeps a notebook where she writes down her ideas and sketches.'",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:3",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following passage: 'Maria enjoys writing stories about her adventures. She keeps a notebook where she writes down her ideas and sketches. Maria believes that writing helps her express her creativity and think clearly.'",
+        "question": "Explain why Maria writes stories about her adventures.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mentions expressing creativity",
+          "Mentions thinking clearly",
+          "Referencing the passage"
+        ],
+        "hints": [
+          "Find the reasons Maria gave in the passage."
+        ],
+        "model_answer": "Maria writes stories about her adventures because she believes that writing helps her express her creativity and think clearly.",
+        "explanation": "The passage mentions both reasons directly.",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:3",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Read the following passage: 'Maria enjoys writing stories about her adventures. She keeps a notebook where she writes down her ideas and sketches. Maria believes that writing helps her express her creativity and think clearly.'",
+        "question": "Describe the effect of writing on Maria’s creativity and thinking.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mentions expressing creativity",
+          "Mentions thinking clearly",
+          "Refers to specific action of writing"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the effect of writing on Maria’s creativity and thinking — develop the idea fully rather than listing short points. Make sure you also cover: Mentions expressing creativity; Mentions thinking; Refers to specific action of writing."
+        ],
+        "model_answer": "Writing helps Maria express her creativity and think clearly. By writing down her ideas and sketches in a notebook, she finds that it enhances her creative expression and clarity of thought.",
+        "explanation": "The passage states Maria’s beliefs about the positive impact of writing.",
+        "exam_question_id": "e3fc142e-4a6d-4d7b-b7cc-b65de560df5f:3",
+        "topic_label": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Language structure (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following passage about a library: 'The library is a peaceful place, filled with rows of books. The smell of old paper and the quiet rustling of pages create a soothing atmosphere. Bright, warm lights illuminate the room, casting gentle shadows on the walls.'",
+        "question": "State three sensory details the author uses to describe the library.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the sensory details related to sight.",
+          "Identify the sensory details related to smell.",
+          "Identify the sensory details related to sound."
+        ],
+        "hints": [
+          "Look for words that describe what can be seen, smelled, and heard in the passage."
+        ],
+        "model_answer": "The sensory details are: 1) 'rows of books' (sight), 2)'smell of old paper' (smell), 3) 'quiet rustling of pages' (sound).",
+        "explanation": "Identify specific words or phrases in the passage that appeal to the senses of sight, smell, and sound.",
+        "exam_question_id": "e8483b74-be14-492e-87e9-c17131026245:1",
+        "topic_label": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following passage about a library: 'The library is a peaceful place, filled with rows of books. The smell of old paper and the quiet rustling of pages create a soothing atmosphere. Bright, warm lights illuminate the room, casting gentle shadows on the walls.'",
+        "question": "Explain the effect of the word'soothing' on the reader.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the meaning of the word 'soothing'.",
+          "Explain how the word'soothing' affects the reader's perception of the library."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The word'soothing' creates a calming and relaxing effect on the reader, making them feel at ease and comfortable in the library.",
+        "explanation": "Connect the meaning of 'soothing' with its impact on the reader's experience of the library.",
+        "exam_question_id": "e8483b74-be14-492e-87e9-c17131026245:1",
+        "topic_label": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Read the following passage about a library: 'The library is a peaceful place, filled with rows of books. The smell of old paper and the quiet rustling of pages create a soothing atmosphere. Bright, warm lights illuminate the room, casting gentle shadows on the walls.'",
+        "question": "Describe how the author's choice of words enhances the imagery of the library.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify specific words or phrases that create vivid imagery.",
+          "Explain how these words or phrases contribute to the reader's mental picture of the library.",
+          "Discuss the overall effect of the author's word choices on the imagery."
+        ],
+        "hints": [
+          "Look for descriptive words and phrases that paint a picture in the reader's mind."
+        ],
+        "model_answer": "The author's choice of words such as 'peaceful,' 'rows of books,''smell of old paper,' 'quiet rustling of pages,' 'bright, warm lights,' and 'gentle shadows' creates a vivid and calming mental image of the library. These words help the reader visualize the serene and comfortable environment of the library.",
+        "explanation": "Analyse the descriptive language and explain how it helps to create a clear and engaging picture of the library in the reader's mind.",
+        "exam_question_id": "e8483b74-be14-492e-87e9-c17131026245:1",
+        "topic_label": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Talking about books (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Read the following passage about a library: 'The library is a serene haven, filled with rows of books. The aroma of aged paper and the gentle whisper of pages being turned create a tranquil environment. Soft, ambient lighting casts a warm glow over the bookshelves.'",
+        "question": "State three sensory details the author uses to describe the library.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the sense of smell (aroma of aged paper)",
+          "Identify the sense of hearing (gentle whisper of pages being turned)",
+          "Identify the sense of sight (soft, ambient lighting)"
+        ],
+        "hints": [
+          "Look for words that relate to the five senses."
+        ],
+        "model_answer": "The three sensory details are: 1. The aroma of aged paper (sense of smell), 2. The gentle whisper of pages being turned (sense of hearing), 3. Soft, ambient lighting (sense of sight).",
+        "explanation": "Identify words in the passage that appeal to the senses of smell, hearing, and sight.",
+        "exam_question_id": "ec2759ca-3a2b-4aed-b982-e413b23f2467:1",
+        "topic_label": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Read the following passage about a library: 'The library is a serene haven, filled with rows of books. The aroma of aged paper and the gentle whisper of pages being turned create a tranquil environment. Soft, ambient lighting casts a warm glow over the bookshelves.'",
+        "question": "Explain the effect of the word'soothing' on the reader.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify how the word'soothing' creates a calm feeling",
+          "Explain why this word choice is effective"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The word'soothing' creates a calm and peaceful feeling in the reader. It suggests a sense of relaxation and tranquility, making the library feel like a comforting place to be.",
+        "explanation": "Think about the emotions the word 'soothing' evokes and how it contributes to the overall atmosphere of the library.",
+        "exam_question_id": "ec2759ca-3a2b-4aed-b982-e413b23f2467:1",
+        "topic_label": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Read the following passage about a library: 'The library is a serene haven, filled with rows of books. The aroma of aged paper and the gentle whisper of pages being turned create a tranquil environment. Soft, ambient lighting casts a warm glow over the bookshelves.'",
+        "question": "Describe how the author's choice of words enhances the imagery of the library.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify specific word choices",
+          "Explain how these words create vivid imagery",
+          "Discuss the overall effect on the reader's imagination"
+        ],
+        "hints": [
+          "Look for descriptive language that paints a picture in your mind."
+        ],
+        "model_answer": "The author uses words like'serene haven,' 'gentle whisper,' and'soft, ambient lighting' to create vivid imagery. These words evoke a peaceful and calming atmosphere, making the reader imagine a quiet, cozy place filled with books. The choice of words enhances the reader's ability to visualize the library and feel its tranquil environment.",
+        "explanation": "Analyse the descriptive language and explain how it helps the reader picture the library in their mind.",
+        "exam_question_id": "ec2759ca-3a2b-4aed-b982-e413b23f2467:1",
+        "topic_label": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)",
+        "topic_id": 759,
+        "checked": true,
+        "source": {
+          "textbook": "English S1",
+          "area": "Describing libraries (UNIT 5: BOOKS AND SCHOOL WORK HABITS)"
+        }
+      }
+    ],
+    "estimated_time": 63,
+    "assessment_id": "21bd2efe-74ff-428f-8467-21b1eda4411c",
+    "subject": "English S1",
+    "topics": [
+      "UNIT 5: BOOKS AND SCHOOL WORK HABITS"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 67,
+    "topic_ids": [
+      759
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 25,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 20"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 21"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 22"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 42
+}

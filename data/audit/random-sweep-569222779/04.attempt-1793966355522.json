@@ -1,0 +1,24 @@
+{
+  "index": 4,
+  "label": "REB / Exam / ICT S5 Adapted SB",
+  "request": {
+    "subject": "ICT S5 Adapted SB",
+    "textbook_id": 120,
+    "topic_ids": [
+      1285
+    ],
+    "topics": [
+      "E-Commerce, Social Media and Online Services"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "generating"
+}

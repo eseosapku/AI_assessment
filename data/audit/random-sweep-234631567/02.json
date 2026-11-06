@@ -1,0 +1,322 @@
+{
+  "index": 2,
+  "label": "Cambridge / Practice / Cambridge Lower Secondary Mathematics Learners Book 7",
+  "request": {
+    "subject": "Cambridge Lower Secondary Mathematics Learners Book 7",
+    "textbook_id": 32,
+    "topic_ids": [
+      407
+    ],
+    "topics": [
+      "4 Decimals"
+    ],
+    "curriculum": "cambridge",
+    "grade": 7,
+    "className": "Cambridge Lower Secondary Mathematics Learners Book 7",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 17,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Look at the diagram. Every calculation in the outer ovals gives 2.4. What number completes the oval 40 × □?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "0.06",
+            ".06"
+          ]
+        },
+        "explanation": "The product must equal 2.4, so the missing number is 2.4 ÷ 40 = 0.06. Check: 40 × 0.06 = 2.4, and 0.06 is in the yellow list.",
+        "image_url": "/textbook-images/textbook-bank/32/s90-f0.jpg",
+        "topic_label": "4 Decimals",
+        "vetted": true,
+        "image_alt": "A central oval contains 2.4, with eight lines joining it to eight surrounding ovals. The outer ovals read 8 × 0.3, [box] × 0.4, 40 × [box], 2 × [box], [box] × 0.08, [box] × 0.1, 4 × [box] and [box] × 0.2, where each box is an empty square. A separate yellow rectangle at the right lists the numbers 30, 0.6, 12, 6, 1.2, 0.06 and 24. Printed on it: 8 × 0.3 | × 0.4 | 40 × | 2 × | × 0.08 | 2.4 | × 0.1 | 4 × | × 0.2 | 30 | 0.6 | 12 | 6 | 1.2 | 0.06 | 24.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Every calculation in the outer ovals gives 2.4."
+        ],
+        "topic_id": 407,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Calculate the value of 2.45 × 0.6. Show your working.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct multiplication of the numbers",
+          "Correct placement of the decimal point",
+          "Correct final answer",
+          "Clear and logical working shown"
+        ],
+        "hints": [
+          "Multiply 245 by 6, then adjust the decimal point based on the original numbers."
+        ],
+        "model_answer": "First, multiply 245 by 6 to get 1470. Since 2.45 has two decimal places and 0.6 has one decimal place, the result should have 2 + 1 = 3 decimal places. Therefore, 2.45 × 0.6 = 1.470. The correct answer is 1.470.",
+        "explanation": "A strong answer will correctly multiply the numbers and place the decimal point in the correct position, showing clear and logical working to justify each step.",
+        "checked": true,
+        "topic_id": 407,
+        "topic_label": "4 Decimals",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7",
+          "area": "4 Decimals"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Look at the diagram. Work out the missing units digit in the quotient and the two missing digits in the dividend 9.□□2.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that the missing units digit in the quotient is 1 (quotient 1.507).",
+          "States that the missing dividend digits are 0 and 4 (dividend 9.042)."
+        ],
+        "model_answer": "The quotient must be 1.507, because 6 × 1.507 is about 9, while 6 × 2.507 would be over 15. Multiplying, 6 × 1.507 = 9.042, so the missing dividend digits are 0 and 4.",
+        "explanation": "A strong answer finds the units digit by estimating that 6 × the quotient is about 9. It then multiplies 1.507 by 6 to get 9.042, and gives the two missing digits, 0 and 4.",
+        "image_url": "/textbook-images/textbook-bank/32/s97-f1.jpg",
+        "topic_label": "4 Decimals",
+        "vetted": true,
+        "image_alt": "A short division layout with divisor 6 outside the bracket and the dividend 9.□□2 inside, with two empty boxes after the decimal point. The quotient above is □.507, with an empty box for the units digit and the digits 5, 0 and 7 after the decimal point. Printed on it: □ | . | 5 | 0 | 7 | 6 | 9 | . | □ | □ | 2.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Work out the missing units digit in the quotient and the two missing digits in the dividend 9.□□2."
+        ],
+        "topic_id": 407,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Explain how to order the decimals 0.35, 0.53, and 0.305 by place value.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct comparison of the whole number part",
+          "Correct comparison of the tenths place",
+          "Correct comparison of the hundredths place",
+          "Correct ordering of the decimals"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how to order the decimals 0.35, 0.53, and 0.305 by place value — develop the idea fully rather than listing short points. Make sure you also cover: Correct comparison of the; Correct comparison of the place; Correct comparison of the place."
+        ],
+        "model_answer": "First, compare the whole number part of each decimal. All three have a whole number part of 0, so we move to the tenths place. 0.35, 0.53, and 0.305 all have 3 in the tenths place, so we move to the hundredths place. 0.35 has 5 in the hundredths place, 0.53 has 3, and 0.305 has 0. Therefore, the order from smallest to largest is 0.305, 0.35, 0.53.",
+        "explanation": "A strong answer will correctly compare each part of the decimals, from the whole number part to the hundredths place, and then order them correctly.",
+        "checked": true,
+        "topic_id": 407,
+        "topic_label": "4 Decimals",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7",
+          "area": "4 Decimals"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Look at the diagram. When the cards are grouped by equal value, one card is left over. What is the value of that card?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "7.8",
+            "7.8 (780 ÷ 10²)",
+            "780 ÷ 10²",
+            "780 ÷ 10^2"
+          ]
+        },
+        "explanation": "The values are 7800 (three cards), 780 (three cards) and 78 (three cards). The card 780 ÷ 10² equals 7.8, which matches no other card, so 7.8 is the leftover value.",
+        "image_url": "/textbook-images/textbook-bank/32/s70-f0.jpg",
+        "topic_label": "4 Decimals",
+        "vetted": true,
+        "image_alt": "Ten rectangular number cards with light purple fill arranged in three rows (3, 4, 3). Each card holds a calculation involving multiplying or dividing by a power of 10, and the cards are to be grouped by equal value. Printed on it: 7.8 × 10³ | 7 800 000 000 ÷ 10⁷ | 0.0078 × 10⁴ | 780 × 10 | 780 ÷ 10 | 78 000 000 ÷ 10⁴ | 78 × 10 | 0.000 78 × 10⁶ | 780 ÷ 10² | 78 000 ÷ 10³.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then When the cards are grouped by equal value, one card is left over."
+        ],
+        "topic_id": 407,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Look at the diagram. Which card shows the greatest number, and how do you know it is greater than 15.6?",
+        "marks": 2,
+        "marking_criteria": [
+          "States that the card showing 15.9 is the greatest.",
+          "Explains that the whole numbers are all 15, so the tenths are compared, and 9 tenths is more than 6 tenths."
+        ],
+        "model_answer": "The card showing 15.9 is the greatest. All the cards have 15 whole units, so I compare the tenths digits. 9 tenths is more than 6 tenths, so 15.9 is greater than 15.6.",
+        "explanation": "A strong answer names 15.9 as the greatest number. It then gives a reason by comparing place value: the whole numbers are equal, so the tenths digits decide, and 9 tenths is more than 6 tenths.",
+        "image_url": "/textbook-images/textbook-bank/32/s77-f0.jpg",
+        "topic_label": "4 Decimals",
+        "vetted": true,
+        "image_alt": "Four separate cards in a row, each with an orange border and holding one decimal number. From left to right the cards read 15.6, 15.3, 15.9 and 15.0. Printed on it: 15.6 | 15.3 | 15.9 | 15.0.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Which card shows the greatest number, and how do you know it is greater than 15.6. Make sure you also cover: that the numbers are all 15, so the are compared, and 9 is than 6."
+        ],
+        "topic_id": 407,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe how to multiply 0.27 by 100.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of moving the decimal point",
+          "Correct final answer",
+          "Clear and logical explanation"
+        ],
+        "hints": [
+          "Explain how the decimal point moves when multiplying by 100."
+        ],
+        "model_answer": "To multiply 0.27 by 100, move the decimal point two places to the right because 100 has two zeros. This gives 27. Therefore, 0.27 × 100 = 27.",
+        "explanation": "A strong answer will correctly explain how to move the decimal point and provide the correct final answer, with a clear and logical explanation.",
+        "checked": true,
+        "topic_id": 407,
+        "topic_label": "4 Decimals",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7",
+          "area": "4 Decimals"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Look at the chart. Which blue answer card matches the yellow card 8 × 3.3?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "26.4"
+          ]
+        },
+        "explanation": "Multiply 8 × 3.3: 8 × 3 = 24 and 8 × 0.3 = 2.4, so the total is 26.4. The blue card showing 26.4 matches the yellow card 8 × 3.3.",
+        "image_url": "/textbook-images/textbook-bank/32/s77-f1.jpg",
+        "topic_label": "4 Decimals",
+        "vetted": true,
+        "image_alt": "Five yellow cards on the left each show a multiplication: 5 × 5.42, 8 × 3.3, 4 × 6.9 in the top row, and 12 × 2.4, 6 × 4.25 in the second row. Five blue cards on the right show answers: 27.1, 25.5, 26.4 in the top row, and 27.6, 28.8 in the second row. Printed on it: 5 × 5.42 | 8 × 3.3 | 4 × 6.9 | 12 × 2.4 | 6 × 4.25 | 27.1 | 25.5 | 26.4 | 27.6 | 28.8.",
+        "hints": [
+          "Structure your answer around both demands: Look at the chart; then Which blue answer card matches the yellow card 8 × 3.3."
+        ],
+        "topic_id": 407,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Compare the decimals 0.456 and 0.465. Identify which is larger and explain your reasoning.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct comparison of the tenths place",
+          "Correct comparison of the hundredths place",
+          "Correct identification of the larger decimal",
+          "Clear and logical explanation"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Compare the decimals 0.456 and 0.465; then Identify which is larger and explain your reasoning. Make sure you also cover: Correct comparison of the; Correct comparison of the; Correct identification of the larger decimal."
+        ],
+        "model_answer": "First, compare the tenths place: both 0.456 and 0.465 have 4 in the tenths place. Next, compare the hundredths place: 0.456 has 5 in the hundredths place, while 0.465 has 6. Since 6 is greater than 5, 0.465 is larger than 0.456.",
+        "explanation": "A strong answer will correctly compare each part of the decimals, identify which is larger, and provide a clear and logical explanation for the reasoning.",
+        "checked": true,
+        "topic_id": 407,
+        "topic_label": "4 Decimals",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7",
+          "area": "4 Decimals"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Look at the table. What is the difference, in seconds, between the fastest time and Kerron Stewart's time?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "0.26",
+            "0.26 seconds",
+            "0.26 s"
+          ]
+        },
+        "explanation": "The fastest time is Florence Griffith-Joyner's 10.49 seconds, because it is the smallest. Kerron Stewart's time is 10.75 seconds. Subtracting gives 10.75 − 10.49 = 0.26 seconds.",
+        "image_url": "/textbook-images/textbook-bank/32/s80-f0.jpg",
+        "topic_label": "4 Decimals",
+        "vetted": true,
+        "image_alt": "A table with four columns headed Name, Country, Year and Time (seconds). It has six rows, each giving a woman's name, her country, the year and her 100 m time in seconds. Printed on it: Name | Country | Year | Time (seconds) | Kerron Stewart | Jamaica | 2009 | 10.75 | Marion Jones | USA | 1998 | 10.65 | Merlene Ottey | Jamaica | 1996 | 10.74 | Carmelita Jeter | USA | 2009 | 10.64 | Shelly-Ann Fraser | Jamaica | 2009 | 10.73 | Florence Griffith-Joyner | USA | 1988 | 10.49.",
+        "hints": [
+          "Structure your answer around both demands: Look at the table; then What is the difference, in seconds, between the fastest time and Kerron Stewart's time."
+        ],
+        "topic_id": 407,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Learners Book 7"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "085a9aac-2a7c-4823-aca6-a2c7024d8684",
+    "subject": "Cambridge Lower Secondary Mathematics Learners Book 7",
+    "topics": [
+      "4 Decimals"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 32,
+    "topic_ids": [
+      407
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 6,
+  "imageErrors": [],
+  "reviewFallbackReason": "Access to Anthropic models is not allowed for this account.",
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "poor",
+        "detail": "The model answer incorrectly places the decimal point. The correct answer should be 1.47, not 1.470.",
+        "correction": "1.47"
+      },
+      {
+        "label": "8",
+        "severity": "poor",
+        "detail": "The short answer incorrectly matches the multiplication 8 × 3.3 to 26.4. The correct answer should be 26.4, but the explanation provided is incorrect.",
+        "correction": "Correct the explanation to: Multiply 8 × 3.3: 8 × 3 = 24 and 8 × 0.3 = 2.4, so the total is 26.4."
+      }
+    ],
+    "summary": "Minor issues with decimal placement and explanation clarity."
+  },
+  "totalSeconds": 25
+}

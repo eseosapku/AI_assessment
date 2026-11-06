@@ -1,0 +1,698 @@
+{
+  "index": 6,
+  "label": "Cambridge / Practice / Cambridge IGCSE English as First Language Course Book (2)",
+  "request": {
+    "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+    "textbook_id": 202,
+    "topic_ids": [
+      2710,
+      2711
+    ],
+    "topics": [
+      "Unit 3: Composition",
+      "Unit 4: Reading"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE English as First Language Course Book (2)",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 53,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each descriptive term to its function in a sentence.",
+        "matched_pairs": [
+          {
+            "left": "Adjective",
+            "right": "Describes a noun."
+          },
+          {
+            "left": "Adverb",
+            "right": "Modifies a verb, adjective, or other adverb."
+          },
+          {
+            "left": "Noun",
+            "right": "Names a person, place, thing, or idea."
+          },
+          {
+            "left": "Verb",
+            "right": "Describes an action or state of being."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Adjectives describe nouns, adverbs modify verbs, adjectives, or other adverbs, nouns name people, places, things, or ideas, and verbs describe actions or states of being.",
+        "left_items": [
+          "Adjective",
+          "Adverb",
+          "Noun",
+          "Verb"
+        ],
+        "right_items": [
+          "Describes a noun.",
+          "Describes an action or state of being.",
+          "Names a person, place, thing, or idea.",
+          "Modifies a verb, adjective, or other adverb."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each word into the correct category: sensory or figurative.",
+        "categories": [
+          "Sensory",
+          "Figurative"
+        ],
+        "items": [
+          "whisper",
+          "sizzle",
+          "metaphor",
+          "alliteration",
+          "crunch",
+          "simile"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1
+        ],
+        "marks": 6,
+        "explanation": "Whisper, sizzle, and crunch are sensory words as they appeal to the senses (sound). Metaphor, alliteration, and simile are figurative language devices.",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank.",
+        "template": "The {{0}} of the city was breathtaking, with {{1}} lighting up the night sky.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "skyline"
+          },
+          {
+            "id": "1",
+            "correct": "stars"
+          }
+        ],
+        "word_bank": [
+          "skyline",
+          "stars",
+          "crowds",
+          "rivers",
+          "buildings"
+        ],
+        "marks": 2,
+        "explanation": "The skyline correctly describes the outline of the city, and stars accurately describe the celestial bodies visible at night.",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False.",
+        "statements": [
+          "A writer's attitude can always be determined from the text.",
+          "Figurative language can enhance a writer's attitude towards a subject.",
+          "A writer's use of facts alone can reveal their attitude.",
+          "A writer's attitude is always positive or negative."
+        ],
+        "correct_answers": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "marks": 4,
+        "explanation": "A writer's attitude cannot always be determined from the text (False). Figurative language can indeed enhance a writer's attitude (True). A writer's use of facts alone does not necessarily reveal their attitude (False). A writer's attitude is not always strictly positive or negative; it can be neutral or mixed (False).",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Which of the following is a feature of a well-structured paragraph in an essay?",
+        "options": [
+          "A paragraph that jumps from one idea to another without transitions",
+          "A paragraph that ends with a question",
+          "A long, unbroken string of sentences",
+          "A clear topic sentence followed by supporting details"
+        ],
+        "correct_answer": 3,
+        "explanation": "A well-structured paragraph in an essay should have a clear topic sentence followed by supporting details. This structure helps the reader understand and follow the main idea of the paragraph. A long, unbroken string of sentences is incorrect because long, unbroken sentences can be confusing. A paragraph that jumps from one idea to another without transitions is wrong as jumping from one idea to another without transitions can disrupt the flow. A paragraph that ends with a question is incorrect because while ending with a question can be effective in some contexts, it is not a defining feature of a well-structured paragraph.",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Alliteration",
+            "right": "The repetition of consonant sounds at the beginning of words"
+          },
+          {
+            "left": "Metaphor",
+            "right": "A figure of speech that directly compares two different things"
+          },
+          {
+            "left": "Personification",
+            "right": "Attributing human characteristics to non-human entities"
+          },
+          {
+            "left": "Simile",
+            "right": "A figure of speech that compares two different things using 'like' or 'as'"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Alliteration involves the repetition of consonant sounds at the beginning of words, making the phrase more memorable. A metaphor directly compares two different things to highlight similarities. Personification gives human traits to non-human things, making descriptions more vivid. A simile compares two different things using 'like' or 'as', which helps in creating a clear image in the reader's mind.",
+        "left_items": [
+          "Alliteration",
+          "Metaphor",
+          "Personification",
+          "Simile"
+        ],
+        "right_items": [
+          "A figure of speech that directly compares two different things",
+          "A figure of speech that compares two different things using 'like' or 'as'",
+          "Attributing human characteristics to non-human entities",
+          "The repetition of consonant sounds at the beginning of words"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Descriptive",
+          "Explanatory"
+        ],
+        "items": [
+          "The sunset painted the sky with hues of orange and pink.",
+          "Water boils at 100 degrees Celsius.",
+          "The new policy aims to reduce carbon emissions by 30%.",
+          "The author uses vivid imagery to describe the bustling city."
+        ],
+        "correct_category": [
+          0,
+          1,
+          1,
+          0
+        ],
+        "marks": 4,
+        "explanation": "The first and fourth items use vivid descriptions to paint a picture or convey an image, categorising them as descriptive. The second and third items provide factual information or explanations, categorising them as explanatory.",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Which sentence best demonstrates the use of a metaphor?",
+        "options": [
+          "Time is a thief that steals our moments.",
+          "The sky was like a blanket of stars.",
+          "The river flowed like silk.",
+          "All of the above."
+        ],
+        "correct_answer": 0,
+        "explanation": "Time is a thief that steals our moments. is a metaphor because it directly compares time to a thief without using 'like' or 'as'. Options B and C are similes, not metaphors, because they use 'like' in their comparisons.",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "The dog barked loudly.",
+          "She walked to the store.",
+          "They were swimming in the ocean.",
+          "The book was on the table."
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "The third item, 'They were swimming in the ocean,' is the odd one out because it is the only sentence in the continuous tense (past continuous). The other sentences are in the simple past tense.",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Which of the following is the primary purpose of a thesis statement in an essay?",
+        "options": [
+          "To entertain the reader",
+          "To provide background information",
+          "To state the main argument or position",
+          "To conclude the essay"
+        ],
+        "correct_answer": 2,
+        "explanation": "The thesis statement is the central argument or position that the essay will support. It should be clear and concise, guiding the reader on what to expect. To entertain the reader is incorrect because the purpose is not to entertain. To provide background information is incorrect as background information is typically provided in the introduction, but not the thesis. To conclude the essay is incorrect because a thesis statement is not used to conclude the essay.",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each composition technique to its definition",
+        "matched_pairs": [
+          {
+            "left": "Exemplification",
+            "right": "Providing specific examples to support a point"
+          },
+          {
+            "left": "Narration",
+            "right": "Telling a story or recounting events"
+          },
+          {
+            "left": "Description",
+            "right": "Creating a vivid picture with sensory details"
+          },
+          {
+            "left": "Argumentation",
+            "right": "Presenting reasons and evidence to persuade the reader"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each technique has a distinct purpose. Exemplification uses examples to clarify a point. Narration involves storytelling. Description uses sensory details to paint a picture. Argumentation uses reasons and evidence to persuade.",
+        "left_items": [
+          "Exemplification",
+          "Narration",
+          "Description",
+          "Argumentation"
+        ],
+        "right_items": [
+          "Telling a story or recounting events",
+          "Presenting reasons and evidence to persuade the reader",
+          "Providing specific examples to support a point",
+          "Creating a vivid picture with sensory details"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 3: Composition"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Categorise each item as either a component of a paragraph or a feature of an essay",
+        "categories": [
+          "Paragraph",
+          "Essay"
+        ],
+        "items": [
+          "Topic sentence",
+          "Thesis statement",
+          "Supporting details",
+          "Conclusion"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "marks": 4,
+        "explanation": "A topic sentence and supporting details are components of a paragraph. A thesis statement is a feature of an entire essay. A conclusion can be part of both a paragraph (concluding sentence) and an essay (concluding paragraph).",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: 'An essay should always start with a broad introduction and end with a narrow conclusion.'",
+        "statements": [
+          "An essay should always start with a broad introduction",
+          "An essay should always end with a narrow conclusion",
+          "An essay can start with a narrow introduction",
+          "An essay can end with a broad conclusion"
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          true
+        ],
+        "marks": 4,
+        "explanation": "An essay can start broadly and end narrowly, but it can also start narrowly and end broadly. The introduction sets the stage, while the conclusion summarises and provides closure.",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: 'Topic sentence, Supporting details, Concluding sentence, Hook'",
+        "items": [
+          "Topic sentence",
+          "Supporting details",
+          "Concluding sentence",
+          "Hook"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "A hook is used to grab the reader's attention at the beginning of an essay or paragraph, while the other items are components of a paragraph structure.",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "mcq",
+        "question": "Which of the following is NOT a common purpose of an introduction in an essay?",
+        "options": [
+          "To provide background information",
+          "To summarise the conclusion",
+          "To outline the structure of the essay",
+          "To present the thesis statement"
+        ],
+        "correct_answer": 1,
+        "explanation": "The introduction presents the thesis, provides background, and outlines the essay structure. Summarising the conclusion is not a purpose of the introduction. To present the thesis statement is incorrect because it presents the thesis. To provide background information is incorrect because it provides background. To outline the structure of the essay is incorrect because it outlines the essay structure.",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each sentence into the correct category based on its function.",
+        "categories": [
+          "Descriptive",
+          "Explanatory",
+          "Persuasive"
+        ],
+        "items": [
+          "The sky turned a deep shade of grey.",
+          "The storm caused widespread damage.",
+          "We must take action to prevent future disasters.",
+          "The rain fell in heavy sheets."
+        ],
+        "correct_category": [
+          0,
+          1,
+          2,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Descriptive sentences paint a picture, explanatory sentences provide information, and persuasive sentences aim to convince the reader.",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong.",
+        "items": [
+          "Metaphor",
+          "Simile",
+          "Personification",
+          "Fact"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Metaphor, simile, and personification are all literary devices used to create imagery and enhance the text, while 'Fact' is not a literary device.",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "mcq",
+        "question": "What is the implicit meaning of the phrase 'a storm is brewing'?",
+        "options": [
+          "There will be no changes.",
+          "A peaceful day is ahead.",
+          "Trouble is on the way.",
+          "It will be sunny soon."
+        ],
+        "correct_answer": 2,
+        "explanation": "The phrase 'a storm is brewing' implies that trouble or difficulties are approaching, even though the literal meaning of the words might suggest a brewing beverage or process.",
+        "checked": true,
+        "subtopic_id": 13814,
+        "topic_id": 2711,
+        "topic_label": "Reading for explicit and implicit meaning",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Reading for explicit and implicit meaning"
+        }
+      },
+      {
+        "id": 19,
+        "type": "mcq",
+        "question": "Which of the following sentences best demonstrates the use of a simile?",
+        "options": [
+          "Her eyes sparkled like diamonds.",
+          "The old man walked slowly down the street.",
+          "The moon is a silver coin in the sky.",
+          "The storm clouds gathered, darkening the sky."
+        ],
+        "correct_answer": 0,
+        "explanation": "Option 2 is correct because it uses 'like' to compare two different things, which is the definition of a simile. Option 1 is a metaphor, option 3 is personification, and option 4 describes an action without figurative language.",
+        "checked": true,
+        "topic_label": "Unit 3: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong.",
+        "items": [
+          "The dog barked loudly.",
+          "She walked to the store.",
+          "They were swimming in the ocean.",
+          "The book was on the table."
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Option 3 is the odd one out because it describes a static situation, whereas the other items describe actions or movements.",
+        "checked": true,
+        "topic_label": "Unit 4: Reading",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "a704d12b-43fb-458b-8e6f-68f0a40099c6",
+    "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+    "topics": [
+      "Unit 3: Composition",
+      "Unit 4: Reading"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "study_mixed",
+    "textbook_id": 202,
+    "topic_ids": [
+      2710,
+      2711
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 11,
+      "detail": "no question mark and no command word: \"Categorise each item as either a component of a paragraph or\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 9"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "12",
+        "severity": "poor",
+        "detail": "The explanation states 'A conclusion can be part of both a paragraph (concluding sentence) and an essay (concluding paragraph)' but marks 'Conclusion' as category 0 (Paragraph) only. Given the explanation acknowledges dual nature, this creates ambiguity. The correct categorization should reflect that conclusion applies to both contexts or the explanation should be revised.",
+        "correction": "Either mark 'Conclusion' as applicable to both categories or revise explanation to justify why it's categorized only as Paragraph component"
+      },
+      {
+        "label": "19",
+        "severity": "poor",
+        "detail": "The explanation incorrectly identifies options: it states 'Option 2 is correct' and 'Option 1 is a metaphor' but the correct answer is index 0 ('Her eyes sparkled like diamonds'). The explanation's numbering is off by one - it should say 'Option 1 is correct' or reference the actual text.",
+        "correction": "Revise explanation: 'Option 1 is correct because it uses like to compare two different things, which is the definition of a simile. Option 3 is a metaphor, and options 2 and 4 do not use figurative language.'"
+      },
+      {
+        "label": "20",
+        "severity": "broken",
+        "detail": "This is a duplicate of question 9 with identical content (same sentences, same question type) but different correct answer. Q9 marks index 2 correct (continuous tense rationale), Q20 marks index 3 correct (static situation rationale). Both explanations are defensible but contradictory.",
+        "correction": "Remove duplicate question 20 or change its content to provide unique assessment value"
+      }
+    ],
+    "summary": "Assessment contains 20 questions covering composition and reading topics. Three issues identified: Q12 has categorization ambiguity where explanation contradicts answer key; Q19 has explanation numbering error misidentifying which option is correct; Q20 is a complete duplicate of Q9 with conflicting correct answers and rationales."
+  },
+  "totalSeconds": 66
+}

@@ -1,0 +1,768 @@
+{
+  "index": 4,
+  "label": "Cambridge / Exam / Cambridge Primary Science 1 Learner’s Book ",
+  "request": {
+    "subject": "Cambridge Primary Science 1 Learner’s Book ",
+    "textbook_id": 48,
+    "topic_ids": [
+      560
+    ],
+    "topics": [
+      "Hearing sounds"
+    ],
+    "curriculum": "cambridge",
+    "grade": 1,
+    "className": "Cambridge Primary Science 1 Learner’s Book ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 39,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram showing eight different objects.",
+        "question": "Name two objects from the diagram that can make sounds you can hear.",
+        "marks": 2,
+        "marking_criteria": [
+          "Name one object",
+          "Name another object"
+        ],
+        "hints": [
+          "Think about which objects might make noise when interacted with."
+        ],
+        "model_answer": "The red balloon and the red electric guitar can make sounds you can hear.",
+        "explanation": "Look at the objects in the diagram and think about which ones might make a noise.",
+        "exam_question_id": "ebe430ef-10a8-428d-9b93-e6573162fe85:1",
+        "image_url": "/textbook-images/textbook-bank/48/s59-f0.jpg",
+        "image_alt": "Eight colored picture cards in two columns and four rows. The cards show: a light blue car with exhaust puffs, a pink flower in a brown pot, a red balloon with ribbons, an open book with text and a picture of a camel, a bed with a red blanket and white pillow, a brown horse standing, a red electric guitar, and a television screen.\nLabels: \nOriginal exercise: Which of these make sounds you can hear?",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram showing eight different objects.",
+        "question": "Explain why the sound from the red balloon seems louder when it is closer to you.",
+        "marks": 2,
+        "marking_criteria": [
+          "Sounds get quieter as we move away from the source",
+          "When the balloon is closer, the sound has not travelled as far, so it is louder"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the sound from the red balloon seems louder when it is closer to you — develop the idea fully rather than listing short points. Make sure you also cover: get as we from the."
+        ],
+        "model_answer": "The sound from the red balloon seems louder when it is closer to you because sounds get quieter as we move away from the source.",
+        "explanation": "Consider how distance affects the loudness of sounds.",
+        "exam_question_id": "ebe430ef-10a8-428d-9b93-e6573162fe85:1",
+        "image_url": "/textbook-images/textbook-bank/48/s59-f0.jpg",
+        "image_alt": "Eight colored picture cards in two columns and four rows. The cards show: a light blue car with exhaust puffs, a pink flower in a brown pot, a red balloon with ribbons, an open book with text and a picture of a camel, a bed with a red blanket and white pillow, a brown horse standing, a red electric guitar, and a television screen.\nLabels: \nOriginal exercise: Which of these make sounds you can hear?",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in a park with your friend. You both hear the sound of a bird singing from different distances.",
+        "question": "Explain why the sound of the bird seems louder when you are close to it.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of how distance affects sound loudness.",
+          "Mention of sound getting quieter as you move away."
+        ],
+        "hints": [
+          "Think about how sound travels from the bird to your ears."
+        ],
+        "model_answer": {
+          "working": "Sound travels from the bird to our ears. When we are close to the bird, the sound waves reach us more directly and with more energy, making the sound seem louder. As we move away, the sound waves spread out and lose energy, making the sound seem quieter.",
+          "result": "The sound seems louder when you are close to the bird because the sound waves reach your ears with more energy."
+        },
+        "explanation": "Consider how sound travels and how it behaves when it moves from the source to your ears.",
+        "exam_question_id": "9deb47bd-1c30-463a-9a74-2087f275993a:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in a park with your friend. You both hear the sound of a bird singing from different distances.",
+        "question": "Describe how the sound of the bird changes as you walk away from it.",
+        "marks": 2,
+        "marking_criteria": [
+          "Description of how the sound becomes quieter.",
+          "Mention of distance affecting how we hear the sound."
+        ],
+        "hints": [
+          "Think about what happens to the sound as you move further from the bird."
+        ],
+        "model_answer": {
+          "working": "As you walk away from the bird, the sound waves spread out more and lose energy. This makes the sound seem quieter because there are fewer sound waves reaching your ears.",
+          "result": "The sound of the bird becomes quieter as you walk away from it."
+        },
+        "explanation": "Consider how the distance from the sound source affects the loudness of the sound you hear.",
+        "exam_question_id": "9deb47bd-1c30-463a-9a74-2087f275993a:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are in a park with your friend. You both hear the sound of a bird singing from different distances.",
+        "question": "State one way you can tell if a sound is loud or quiet.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identification of a method to determine loudness."
+        ],
+        "hints": [
+          "Think about how you can physically sense the difference in loudness."
+        ],
+        "model_answer": {
+          "working": "You can tell if a sound is loud or quiet by how it affects your ears. A loud sound might make your ears hurt or feel pressure, while a quiet sound might be harder to hear.",
+          "result": "One way to tell if a sound is loud or quiet is by how it affects your ears."
+        },
+        "explanation": "Consider the physical sensations that help you determine the loudness of a sound.",
+        "exam_question_id": "9deb47bd-1c30-463a-9a74-2087f275993a:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing.",
+        "question": "Name the part of your body that helps you hear the bird.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly name the ear."
+        ],
+        "hints": [
+          "It is located on the sides of your head."
+        ],
+        "model_answer": "Ear",
+        "explanation": "The ear is the part of your body that helps you hear sounds.",
+        "exam_question_id": "7ee95794-e84d-482f-a92e-882f822413f5:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing.",
+        "question": "Describe how the sound seems when you are close to the bird and when you are far from the bird.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the sound when close to the bird.",
+          "Describe the sound when far from the bird."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the sound seems when you are close to the bird and when you are far from the bird — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "When close to the bird, the sound is loud. When far from the bird, the sound is quiet.",
+        "explanation": "Sounds get quieter as you move away from the source.",
+        "exam_question_id": "7ee95794-e84d-482f-a92e-882f822413f5:1",
+        "checked": true,
+        "subtopic_id": 2205,
+        "topic_id": 560,
+        "topic_label": "Sounds move",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Sounds move"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing.",
+        "question": "Explain why the sound seems different when you are close to the bird and when you are far from the bird.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the reason for the change in sound when close to the bird.",
+          "Explain the reason for the change in sound when far from the bird."
+        ],
+        "hints": [
+          "Consider how distance affects the loudness of a sound."
+        ],
+        "model_answer": "The sound seems louder when close to the bird because you are near the source. The sound seems quieter when far from the bird because you are farther away from the source.",
+        "explanation": "Sounds get quieter as you move away from the source.",
+        "exam_question_id": "7ee95794-e84d-482f-a92e-882f822413f5:1",
+        "checked": true,
+        "subtopic_id": 2205,
+        "topic_id": 560,
+        "topic_label": "Sounds move",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Sounds move"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are at a playground and you hear a child playing on a slide.",
+        "question": "Name the part of your body that helps you hear the child.",
+        "marks": 1,
+        "marking_criteria": [
+          "Name the correct body part (ear)."
+        ],
+        "hints": [
+          "Think about which body part is used for listening."
+        ],
+        "model_answer": "Ear",
+        "explanation": "Your ears help you hear sounds.",
+        "exam_question_id": "8408aa1d-c5f1-4da1-9ad4-f6c110346d7b:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are at a playground and you hear a child playing on a slide.",
+        "question": "Describe how the sound of the child seems when you are close to the slide and when you are far from the slide.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the sound as loud when close.",
+          "Describe the sound as quiet when far."
+        ],
+        "hints": [
+          "Think about how sounds change as you move away from the source."
+        ],
+        "model_answer": "When close to the slide, the sound is loud. When far from the slide, the sound is quiet.",
+        "explanation": "Sounds get quieter as you move away from the source.",
+        "exam_question_id": "8408aa1d-c5f1-4da1-9ad4-f6c110346d7b:1",
+        "checked": true,
+        "subtopic_id": 2205,
+        "topic_id": 560,
+        "topic_label": "Sounds move",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Sounds move"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are at a playground and you hear a child playing on a slide.",
+        "question": "Explain why the sound seems different when you are close to the slide and when you are far from the slide.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that sounds get quieter as you move away.",
+          "Explain that the distance affects how loud the sound is."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the sound seems different when you are close to the slide and when you are far from the slide — develop the idea fully rather than listing short points. Make sure you also cover: that get as you; that the distance affects how the sound is."
+        ],
+        "model_answer": "The sound seems different because sounds get quieter as we move away from the source. When close, the sound is loud; when far, the sound is quiet.",
+        "explanation": "Sounds travel and get quieter as you move away from the source.",
+        "exam_question_id": "8408aa1d-c5f1-4da1-9ad4-f6c110346d7b:1",
+        "checked": true,
+        "subtopic_id": 2205,
+        "topic_id": 560,
+        "topic_label": "Sounds move",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Sounds move"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in a park and you hear a dog barking. The dog is close to you.",
+        "question": "Describe how the sound of the dog barking seems when it is close to you.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describes the loudness of the sound.",
+          "Describes the clarity or quality of the sound."
+        ],
+        "hints": [
+          "Think about what you hear when something is near you."
+        ],
+        "model_answer": "The sound of the dog barking is loud and clear when it is close to you.",
+        "explanation": "Describe what you notice about the sound when the dog is close by.",
+        "exam_question_id": "64981fba-bb7b-483f-9290-a6aea00061a1:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in a park and you hear a dog barking. The dog is close to you.",
+        "question": "Explain why the sound of the dog barking seems different when you walk away from it.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explains that the sound gets quieter.",
+          "Explains that the sound may become less clear."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the sound of the dog barking seems different when you walk away from it — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The sound of the dog barking seems quieter and less clear when you walk away from it because sounds get quieter as you move further away from the source.",
+        "explanation": "Explain why the sound changes as you move away from the dog.",
+        "exam_question_id": "64981fba-bb7b-483f-9290-a6aea00061a1:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing. The bird is close to you.",
+        "question": "Describe how the sound of the bird seems when it is close to you.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describes the sound as loud or clear.",
+          "Mentions the bird being near."
+        ],
+        "hints": [
+          "Think about how sounds change when the source is near."
+        ],
+        "model_answer": "The sound of the bird is loud and clear because the bird is close to me.",
+        "explanation": "Describe the loudness and clarity of the sound when the bird is near.",
+        "exam_question_id": "657ce90a-80a4-4a30-bf9c-0f4fe35a21a9:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing. The bird is close to you.",
+        "question": "Describe how the sound of the bird seems when it is far from you.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describes the sound as quiet or faint.",
+          "Mentions the bird being far."
+        ],
+        "hints": [
+          "Think about how sounds change when the source is far."
+        ],
+        "model_answer": "The sound of the bird is quiet and faint because the bird is far from me.",
+        "explanation": "Describe the quietness and faintness of the sound when the bird is far.",
+        "exam_question_id": "657ce90a-80a4-4a30-bf9c-0f4fe35a21a9:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing. The bird is close to you.",
+        "question": "Explain why the sound seems different when you walk away from the bird.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explains that the sound gets quieter.",
+          "Mentions the distance increasing."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the sound seems different when you walk away from the bird — develop the idea fully rather than listing short points. Make sure you also cover: Mentions the distance increasing."
+        ],
+        "model_answer": "The sound seems different because it gets quieter as I walk away from the bird. Sounds get quieter when you move away from them.",
+        "explanation": "Explain that sounds become quieter as the distance from the source increases.",
+        "exam_question_id": "657ce90a-80a4-4a30-bf9c-0f4fe35a21a9:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are at a playground and you hear a child playing on a slide.",
+        "question": "Name the part of your body that helps you hear the child.",
+        "marks": 1,
+        "marking_criteria": [
+          "Name the correct body part (ear)."
+        ],
+        "hints": [
+          "Think about what you use to listen."
+        ],
+        "model_answer": "Ear",
+        "explanation": "Your ears are the parts of your body that help you hear sounds.",
+        "exam_question_id": "a6f4cfed-5eef-4ddf-9d05-566806941034:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are at a playground and you hear a child playing on a slide.",
+        "question": "Describe how the sound of the child seems when you are close to the slide and when you are far from the slide.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the sound as loud when close.",
+          "Describe the sound as quiet when far."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the sound of the child seems when you are close to the slide and when you are far from the slide — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "When close to the slide, the sound is loud. When far from the slide, the sound is quiet.",
+        "explanation": "Sounds get quieter as you move away from the source.",
+        "exam_question_id": "a6f4cfed-5eef-4ddf-9d05-566806941034:1",
+        "checked": true,
+        "subtopic_id": 2205,
+        "topic_id": 560,
+        "topic_label": "Sounds move",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Sounds move"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in a park and you hear a dog barking. The dog is close to you.",
+        "question": "Describe how the sound of the dog barking seems when it is close to you.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describes the sound as loud or clear.",
+          "Mentions that the sound is easy to hear."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the sound of the dog barking seems when it is close to you — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The sound of the dog barking seems loud and clear when it is close to you. It is easy to hear the barking clearly.",
+        "explanation": "Describe what you notice about the sound when the dog is near you.",
+        "exam_question_id": "a3582278-2e27-41a9-be9f-5f4f6d8ee0c9:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in a park and you hear a dog barking. The dog is close to you.",
+        "question": "Explain why the sound of the dog barking seems different when you walk away from it.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explains that the sound gets quieter.",
+          "Mentions that it is harder to hear the barking.",
+          "Connects the distance from the dog to the loudness of the sound."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the sound of the dog barking seems different when you walk away from it — develop the idea fully rather than listing short points. Make sure you also cover: Connects the distance from the dog to the loudness of the sound."
+        ],
+        "model_answer": "The sound of the dog barking seems different when you walk away from it because it gets quieter. It becomes harder to hear the barking clearly as you move further away from the dog.",
+        "explanation": "Explain why the barking sounds less loud when you are further away from the dog.",
+        "exam_question_id": "a3582278-2e27-41a9-be9f-5f4f6d8ee0c9:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing.",
+        "question": "Name the part of your body that helps you hear the bird.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct part of the body.",
+          "Use the word 'ears'."
+        ],
+        "hints": [
+          "Think about what you use to listen to sounds."
+        ],
+        "model_answer": "Ears help you hear the bird.",
+        "explanation": "The ears are the part of your body that you use to hear sounds, including the sound of a bird singing.",
+        "exam_question_id": "77758245-dd1e-437a-9e19-fa661bb96e15:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing.",
+        "question": "Describe how the sound seems when you are close to the bird and when you are far from the bird.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the sound when close to the bird.",
+          "Describe the sound when far from the bird.",
+          "Use the words 'loud' and 'quiet'."
+        ],
+        "hints": [
+          "Think about how loudness changes with distance."
+        ],
+        "model_answer": "When close to the bird, the sound seems loud. When far from the bird, the sound seems quiet.",
+        "explanation": "The sound of the bird will seem louder when you are close to it and quieter when you are far away.",
+        "exam_question_id": "77758245-dd1e-437a-9e19-fa661bb96e15:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are at a park and you hear the sound of a bird singing.",
+        "question": "Explain why the sound seems different when you are close to the bird and when you are far from the bird.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the concept of distance affecting loudness.",
+          "Use simple language appropriate for the age group."
+        ],
+        "hints": [
+          "Think about how distance affects how well you can hear something."
+        ],
+        "model_answer": "The sound seems different because when you are close to the bird, the sound is louder. When you are far from the bird, the sound is quieter.",
+        "explanation": "Sounds get quieter as you move away from the source, so the bird's song sounds louder when you are close and quieter when you are far.",
+        "exam_question_id": "77758245-dd1e-437a-9e19-fa661bb96e15:1",
+        "checked": true,
+        "subtopic_id": 2205,
+        "topic_id": 560,
+        "topic_label": "Sounds move",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Sounds move"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in a park and you hear a dog barking. The dog is close to you.",
+        "question": "Describe how the sound of the dog barking seems when it is close to you.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describes the sound as loud or clear.",
+          "Mentions that the sound is easy to hear."
+        ],
+        "hints": [
+          "Think about what you hear when something is near you."
+        ],
+        "model_answer": "The sound of the dog barking is loud and clear when it is close to you. It is easy to hear.",
+        "explanation": "When the dog is close, the sound is strong and easy to hear.",
+        "exam_question_id": "11d10599-8674-46cd-8618-6fbe7178ec0b:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in a park and you hear a dog barking. The dog is close to you.",
+        "question": "Explain why the sound of the dog barking seems different when you walk away from it.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that the sound gets quieter.",
+          "Mentions that it becomes harder to hear."
+        ],
+        "hints": [
+          "Think about what happens to sounds when you move away from them."
+        ],
+        "model_answer": "The sound of the dog barking seems quieter when you walk away from it. It becomes harder to hear.",
+        "explanation": "As you move away from the dog, the sound gets quieter and is harder to hear.",
+        "exam_question_id": "11d10599-8674-46cd-8618-6fbe7178ec0b:1",
+        "checked": true,
+        "topic_id": 560,
+        "topic_label": "Hearing sounds",
+        "source": {
+          "textbook": "Cambridge Primary Science 1 Learner’s Book",
+          "area": "Hearing sounds"
+        }
+      }
+    ],
+    "estimated_time": 52,
+    "assessment_id": "6912c570-64ed-481c-a2e4-b35d6226a1bc",
+    "subject": "Cambridge Primary Science 1 Learner’s Book ",
+    "topics": [
+      "Hearing sounds"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 48,
+    "topic_ids": [
+      560
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 25,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 5,
+      "detail": "9 questions open with the same sentence (6, 7, 8, 14, 15, 16, 21, 22, 23): \"Imagine you are at a park and you hear the sound o\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 8,
+      "detail": "5 questions open with the same sentence (9, 10, 11, 17, 18): \"Imagine you are at a playground and you hear a chi\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 11,
+      "detail": "6 questions open with the same sentence (12, 13, 19, 20, 24, 25): \"Imagine you are in a park and you hear a dog barki\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 13"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [
+    "/textbook-images/textbook-bank/48/s59-f0.jpg: HTTP 404"
+  ],
+  "totalSeconds": 41
+}

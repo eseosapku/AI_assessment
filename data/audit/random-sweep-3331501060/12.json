@@ -1,0 +1,981 @@
+{
+  "index": 12,
+  "label": "REB / Exam / Physics Learners book S2",
+  "request": {
+    "subject": "Physics Learners book S2",
+    "textbook_id": 171,
+    "topic_ids": [
+      1788,
+      1792
+    ],
+    "topics": [
+      "Unit 9: Conservation of Mechanical Energy in Isolated System",
+      "Unit 13: Arrangement of Resistors in an Electric Circuit"
+    ],
+    "curriculum": "rwanda",
+    "grade": 8,
+    "className": "S2",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 53,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a 10 kg object falling from a height of 12 metres with various energy values at different heights.",
+        "question": "Calculate the total mechanical energy at a height of 6 metres.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify total mechanical energy at 6 metres.",
+          "Show correct calculation."
+        ],
+        "hints": [
+          "Use the values provided in the diagram."
+        ],
+        "model_answer": "The total mechanical energy at 6 meters is 1200 J. This is the sum of kinetic energy (600 J) and potential energy (600 J).",
+        "explanation": "Use the values from the diagram to find the total mechanical energy at 6 metres.",
+        "exam_question_id": "488aae66-8960-4535-bf27-8fbe04bfc456:1",
+        "topic_label": "Applications of law of conservation of mechanical energy",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/rwanda/171/page182-embedded-0.png",
+        "image_alt": "The figure is upright. It shows a dashed box at the top (12 m) and a 10 kg object at the bottom (height 0), joined by a dashed arrow pointing down. Five levels are marked 0, 3 m, 6 m, 9 m and 12 m, and each has a box of energy values. At 0: EK = 1200 J, Ep = 0, ET = 1200 J. At 3 m: EK = 900 J, Ep = 300 J, ET = 1200 J. At 6 m: EK = 600 J, Ep = 600 J, ET = 1200 J. At 9 m: EK = 300 J, Ep = 900 J, ET = 1200 J. At 12 m: EK = 0, Ep = 1200 J, ET = 1200 J.\nLabels: 0, 10 kg, EK = 1200 J, Ep = 0, ET = 1200 J, 3 m, EK = 900 J, Ep = 300 J, ET = 1200 J, 6 m, EK = 600 J, Ep = 600 J, ET = 1200 J, 9 m, EK = 3",
+        "checked": true,
+        "subtopic_id": 8778,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Applications of law of conservation of mechanical energy"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a 10 kg object falling from a height of 12 metres with various energy values at different heights.",
+        "question": "Explain why the total mechanical energy remains constant throughout the fall.",
+        "marks": 3,
+        "marking_criteria": [
+          "State the law of conservation of mechanical energy.",
+          "Explain how energy is conserved in the system.",
+          "Use the data from the diagram to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total mechanical energy remains constant throughout the fall — develop the idea fully rather than listing short points. Make sure you also cover: the data from the to support the explanation."
+        ],
+        "model_answer": "The total mechanical energy remains constant at 1200 J throughout the fall because of the law of conservation of mechanical energy. This law states that in an isolated system, the total mechanical energy is conserved. The diagram shows that at each height, the sum of kinetic and potential energy equals 1200 J.",
+        "explanation": "Explain the principle of conservation of mechanical energy and use the data from the diagram to show that the total energy remains constant.",
+        "exam_question_id": "488aae66-8960-4535-bf27-8fbe04bfc456:1",
+        "topic_label": "Applications of law of conservation of mechanical energy",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/rwanda/171/page182-embedded-0.png",
+        "image_alt": "The figure is upright. It shows a dashed box at the top (12 m) and a 10 kg object at the bottom (height 0), joined by a dashed arrow pointing down. Five levels are marked 0, 3 m, 6 m, 9 m and 12 m, and each has a box of energy values. At 0: EK = 1200 J, Ep = 0, ET = 1200 J. At 3 m: EK = 900 J, Ep = 300 J, ET = 1200 J. At 6 m: EK = 600 J, Ep = 600 J, ET = 1200 J. At 9 m: EK = 300 J, Ep = 900 J, ET = 1200 J. At 12 m: EK = 0, Ep = 1200 J, ET = 1200 J.\nLabels: 0, 10 kg, EK = 1200 J, Ep = 0, ET = 1200 J, 3 m, EK = 900 J, Ep = 300 J, ET = 1200 J, 6 m, EK = 600 J, Ep = 600 J, ET = 1200 J, 9 m, EK = 3",
+        "checked": true,
+        "subtopic_id": 8778,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Applications of law of conservation of mechanical energy"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a 10 kg object falling from a height of 12 metres with various energy values at different heights.",
+        "question": "Describe the relationship between kinetic energy and potential energy as the object falls.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the change in kinetic energy as the object falls.",
+          "Describe the change in potential energy as the object falls.",
+          "Explain the relationship between the changes in kinetic and potential energy."
+        ],
+        "hints": [
+          "Look at the changes in kinetic and potential energy values at different heights."
+        ],
+        "model_answer": "As the object falls, kinetic energy increases while potential energy decreases. At the start (12 m), the object has maximum potential energy and zero kinetic energy. As it falls, potential energy is converted into kinetic energy. At the bottom (0 m), the object has maximum kinetic energy and zero potential energy. The sum of kinetic and potential energy remains constant at 1200 J.",
+        "explanation": "Describe how kinetic and potential energy change as the object falls and explain their relationship.",
+        "exam_question_id": "488aae66-8960-4535-bf27-8fbe04bfc456:1",
+        "topic_label": "Kinetic and potential energy of a system",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/rwanda/171/page182-embedded-0.png",
+        "image_alt": "The figure is upright. It shows a dashed box at the top (12 m) and a 10 kg object at the bottom (height 0), joined by a dashed arrow pointing down. Five levels are marked 0, 3 m, 6 m, 9 m and 12 m, and each has a box of energy values. At 0: EK = 1200 J, Ep = 0, ET = 1200 J. At 3 m: EK = 900 J, Ep = 300 J, ET = 1200 J. At 6 m: EK = 600 J, Ep = 600 J, ET = 1200 J. At 9 m: EK = 300 J, Ep = 900 J, ET = 1200 J. At 12 m: EK = 0, Ep = 1200 J, ET = 1200 J.\nLabels: 0, 10 kg, EK = 1200 J, Ep = 0, ET = 1200 J, 3 m, EK = 900 J, Ep = 300 J, ET = 1200 J, 6 m, EK = 600 J, Ep = 600 J, ET = 1200 J, 9 m, EK = 3",
+        "checked": true,
+        "subtopic_id": 8775,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Kinetic and potential energy of a system"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a simple pendulum with a bob of mass m attached to a rigid support by a thread of length L. The pendulum is released from rest at an angle θ from the vertical.",
+        "question": "Calculate the speed of the bob at the mean position if it is released from an angle θ = 30°.",
+        "marks": 5,
+        "marking_criteria": [
+          "Identify that at mean position, KE = PE lost from release height.",
+          "State PE at release = mgL(1 − cos θ); KE at mean = ½mv².",
+          "Apply conservation: mgL(1 − cos 30°) = ½mv².",
+          "Solve for v: v = √(2gL(1 − cos 30°)).",
+          "Substitute cos 30° = √3/2 ≈ 0.866 to get v ≈ √(2gL × 0.134) or v ≈ 1.28√(gL) [accept symbolic or numerical form]."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the speed of the bob at the mean position if it is released from an angle θ = 30° — develop the idea fully rather than listing short points. Make sure you also cover: Apply mgL(1 − cos 30°) = ½mv².; Solve for v: v = √(2gL(1 − cos 30°))."
+        ],
+        "model_answer": "At the mean position, PE = 0. At release (angle 30°), height above mean is h = L(1 − cos 30°). By conservation of energy: mgL(1 − cos 30°) = ½mv². Solving: v = √(2gL(1 − cos 30°)). Since cos 30° = √3/2 ≈ 0.866, we have v = √(2gL × 0.134) ≈ 1.28√(gL). If L is given, substitute to find numerical value.",
+        "explanation": "Use the conservation of energy principle to find the speed of the bob at the mean position. Start by equating the potential energy at the highest point to the kinetic energy at the mean position.",
+        "exam_question_id": "709607c7-0d53-4394-a849-53fc57fb7b8b:1",
+        "topic_label": "Kinetic and potential energy of a system",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/textbook-bank/171/p55-f1.png",
+        "image_alt": "Two diagrams of a simple pendulum. On the left, a bob (metal ball) A hangs from a rigid support S by a long thread T of length L, which is marked with a double-headed arrow. On the right, the bob swings along a dashed arc between extreme position C on the left and extreme position B on the right, passing through the mean position A at the centre directly below the support.\nLabels: S, Rigid support, Long thread, L, T, Bob (Metal ball), A, C, B, Extreme position, Mean position, Extreme position\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 8775,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Kinetic and potential energy of a system"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a simple pendulum with a bob of mass m attached to a rigid support by a thread of length L. The pendulum is released from rest at an angle θ from the vertical.",
+        "question": "Explain why the period of the pendulum is independent of the mass of the bob.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly state the formula for the period of a simple pendulum.",
+          "Explain why the mass term cancels out in the formula."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the period of the pendulum is independent of the mass of the bob — develop the idea fully rather than listing short points. Make sure you also cover: why the mass term cancels out in the."
+        ],
+        "model_answer": "The period of a simple pendulum is given by T = 2π√(L/g). Notice that the mass m does not appear in this formula. Therefore, the period is independent of the mass of the bob.",
+        "explanation": "Explain why the period of a simple pendulum does not depend on the mass of the bob by referring to the formula for the period.",
+        "exam_question_id": "709607c7-0d53-4394-a849-53fc57fb7b8b:1",
+        "topic_label": "Unit 9: Conservation of Mechanical Energy in Isolated System",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/textbook-bank/171/p55-f1.png",
+        "image_alt": "Two diagrams of a simple pendulum. On the left, a bob (metal ball) A hangs from a rigid support S by a long thread T of length L, which is marked with a double-headed arrow. On the right, the bob swings along a dashed arc between extreme position C on the left and extreme position B on the right, passing through the mean position A at the centre directly below the support.\nLabels: S, Rigid support, Long thread, L, T, Bob (Metal ball), A, C, B, Extreme position, Mean position, Extreme position\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 9: Conservation of Mechanical Energy in Isolated System"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a simple pendulum with a bob of mass m attached to a rigid support by a thread of length L. The pendulum is released from rest at an angle θ from the vertical.",
+        "question": "Describe how you would experimentally determine the length of the pendulum and its effect on the period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the apparatus needed.",
+          "Explain the method to measure the length of the pendulum.",
+          "Explain how to measure the period and analyse the data."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would experimentally determine the length of the pendulum and its effect on the period — develop the idea fully rather than listing short points. Make sure you also cover: the apparatus needed."
+        ],
+        "model_answer": "To determine the length of the pendulum, use a meter stick to measure the distance from the rigid support to the center of the bob. To measure the period, release the bob from rest at a known angle and use a stopwatch to measure the time for multiple oscillations. Repeat for different lengths and plot the period against the length to observe the relationship.",
+        "explanation": "Describe the experimental setup and procedure to determine the length of the pendulum and its effect on the period. Include the apparatus needed and the method for measuring both the length and the period.",
+        "exam_question_id": "709607c7-0d53-4394-a849-53fc57fb7b8b:1",
+        "topic_label": "Unit 9: Conservation of Mechanical Energy in Isolated System",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/textbook-bank/171/p55-f1.png",
+        "image_alt": "Two diagrams of a simple pendulum. On the left, a bob (metal ball) A hangs from a rigid support S by a long thread T of length L, which is marked with a double-headed arrow. On the right, the bob swings along a dashed arc between extreme position C on the left and extreme position B on the right, passing through the mean position A at the centre directly below the support.\nLabels: S, Rigid support, Long thread, L, T, Bob (Metal ball), A, C, B, Extreme position, Mean position, Extreme position\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 9: Conservation of Mechanical Energy in Isolated System"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing two rows of circuit diagrams, each showing a series of three steps. The top row (Diagram A) has a battery, a 3Ω resistor and a 5Ω resistor, plus two parallel 6Ω resistors; this reduces to a circuit with 3Ω, 5Ω and an unknown '???' resistor, then to a battery with a single '???' resistor. Diagram B has a battery, a 9Ω and a 5Ω resistor, plus a 12Ω and a 6Ω resistor in parallel; this reduces to 9Ω, 5Ω and '???', then to a battery with a single '???' resistor.",
+        "question": "Calculate the equivalent resistance of the circuit in Diagram A when the two parallel 6Ω resistors are combined into a single resistor.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the parallel resistors (6Ω, 6Ω).",
+          "Calculate the equivalent resistance of the parallel resistors.",
+          "Combine the equivalent resistance of the parallel resistors with the series resistors (3Ω, 5Ω) to find the total equivalent resistance."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the equivalent resistance of the circuit in Diagram A when the two parallel 6Ω resistors are combined into a single resistor — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The equivalent resistance of the two parallel 6Ω resistors is calculated as 1/R_eq = 1/6Ω + 1/6Ω = 1/3Ω, so R_eq = 3Ω. The total equivalent resistance of the circuit is then 3Ω + 5Ω + 3Ω = 11Ω.",
+        "explanation": "First, find the equivalent resistance of the two parallel resistors, then add this to the series resistors to find the total equivalent resistance of the circuit.",
+        "exam_question_id": "94d47e41-407f-4d43-9f57-459aace57b41:1",
+        "topic_label": "Unit 13: Arrangement of Resistors in an Electric Circuit",
+        "topic_id": 1792,
+        "image_url": "/textbook-images/textbook-bank/171/p284-f0.png",
+        "image_alt": "Two rows of circuit diagrams, each showing a series of three steps. The top row (Diagram A) has a battery, a 3Ω resistor and a 5Ω resistor, plus two parallel 6Ω resistors; this reduces to a circuit with 3Ω, 5Ω and an unknown '???' resistor, then to a battery with a single '???' resistor. Diagram B has a battery, a 9Ω and a 5Ω resistor, plus a 12Ω and a 6Ω resistor in parallel; this reduces to 9Ω, 5Ω and '???', then to a battery with a single '???' resistor.\nLabels: 3Ω, 3Ω, 6Ω, 6Ω, ???, ???, 5Ω, 5Ω, Diagram B, 9Ω, 9Ω, 12Ω, 6Ω, ???, ???, 5Ω, 5Ω\nOriginal exercise: 3. Use the concept of equivalent",
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 13: Arrangement of Resistors in an Electric Circuit"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing two rows of circuit diagrams, each showing a series of three steps. The top row (Diagram A) has a battery, a 3Ω resistor and a 5Ω resistor, plus two parallel 6Ω resistors; this reduces to a circuit with 3Ω, 5Ω and an unknown '???' resistor, then to a battery with a single '???' resistor. Diagram B has a battery, a 9Ω and a 5Ω resistor, plus a 12Ω and a 6Ω resistor in parallel; this reduces to 9Ω, 5Ω and '???', then to a battery with a single '???' resistor.",
+        "question": "Explain why the equivalent resistance of the circuit in Diagram B is higher than that in Diagram A.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate equivalent resistance of parallel resistors in Diagram B: 1/R_eq = 1/12 + 1/6 = 1/4, so R_eq = 4Ω.",
+          "Calculate total equivalent resistance in Diagram B: 9Ω + 5Ω + 4Ω = 18Ω.",
+          "Compare totals: Diagram B (18Ω) is higher than Diagram A (11Ω) because the parallel combination in B (4Ω) is larger than in A (3Ω), and the series resistors in B are also larger (9Ω vs 3Ω)."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "In Diagram A, the equivalent resistance is 11Ω (as calculated in part a). In Diagram B, the 12Ω and 6Ω resistors in parallel give: 1/R_eq = 1/12 + 1/6 = 1/4, so R_eq = 4Ω. The total equivalent resistance in Diagram B is 9Ω + 5Ω + 4Ω = 18Ω. Diagram B has higher equivalent resistance because both its series resistors (9Ω and 5Ω) are larger than those in Diagram A (3Ω and 5Ω), and its parallel combination (4Ω) is larger than Diagram A's (3Ω).",
+        "explanation": "The higher initial resistors and their configuration in Diagram B lead to a higher equivalent resistance compared to Diagram A.",
+        "exam_question_id": "94d47e41-407f-4d43-9f57-459aace57b41:1",
+        "topic_label": "Unit 13: Arrangement of Resistors in an Electric Circuit",
+        "topic_id": 1792,
+        "image_url": "/textbook-images/textbook-bank/171/p284-f0.png",
+        "image_alt": "Two rows of circuit diagrams, each showing a series of three steps. The top row (Diagram A) has a battery, a 3Ω resistor and a 5Ω resistor, plus two parallel 6Ω resistors; this reduces to a circuit with 3Ω, 5Ω and an unknown '???' resistor, then to a battery with a single '???' resistor. Diagram B has a battery, a 9Ω and a 5Ω resistor, plus a 12Ω and a 6Ω resistor in parallel; this reduces to 9Ω, 5Ω and '???', then to a battery with a single '???' resistor.\nLabels: 3Ω, 3Ω, 6Ω, 6Ω, ???, ???, 5Ω, 5Ω, Diagram B, 9Ω, 9Ω, 12Ω, 6Ω, ???, ???, 5Ω, 5Ω\nOriginal exercise: 3. Use the concept of equivalent",
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 13: Arrangement of Resistors in an Electric Circuit"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a 2 kg block sliding down a frictionless inclined plane from a height of 8 metres. The diagram includes bar charts showing the kinetic energy (KE) and potential energy (PE) at different positions along the plane.",
+        "question": "Calculate the total mechanical energy of the block at the top of the inclined plane.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify potential energy using the formula PE = mgh.",
+          "State that kinetic energy is zero at the top.",
+          "Sum the potential energy and kinetic energy to find the total mechanical energy."
+        ],
+        "hints": [
+          "Use the mass of the block and the height to calculate potential energy."
+        ],
+        "model_answer": "PE = mgh = 2 kg * 9.8 m/s^2 * 8 m = 156.8 J\nTotal Mechanical Energy = PE + KE = 156.8 J + 0 J = 156.8 J",
+        "explanation": "Calculate the potential energy using the mass, gravitational acceleration, and height. Since the block is at rest at the top, its kinetic energy is zero.",
+        "exam_question_id": "0138b2db-db91-4f48-8467-856649b9c55f:1",
+        "topic_label": "Kinetic and potential energy of a system",
+        "topic_id": 1788,
+        "checked": true,
+        "subtopic_id": 8775,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Kinetic and potential energy of a system"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a 2 kg block sliding down a frictionless inclined plane from a height of 8 metres. The diagram includes bar charts showing the kinetic energy (KE) and potential energy (PE) at different positions along the plane.",
+        "question": "Explain why the total mechanical energy remains constant if there are no dissipative forces acting on the block.",
+        "marks": 3,
+        "marking_criteria": [
+          "State the principle of conservation of mechanical energy.",
+          "Explain that in the absence of dissipative forces, energy is conserved.",
+          "Describe the transformation between kinetic and potential energy."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total mechanical energy remains constant if there are no dissipative forces acting on the block — develop the idea fully rather than listing short points. Make sure you also cover: the transformation between and energy."
+        ],
+        "model_answer": "The total mechanical energy remains constant because of the conservation of mechanical energy principle. In the absence of dissipative forces like friction, there is no loss of energy, so the sum of kinetic and potential energy remains constant throughout the motion.",
+        "explanation": "Explain that the conservation of mechanical energy means energy is neither created nor destroyed, only transformed from potential to kinetic energy and vice versa.",
+        "exam_question_id": "0138b2db-db91-4f48-8467-856649b9c55f:1",
+        "topic_label": "Applications of law of conservation of mechanical energy",
+        "topic_id": 1788,
+        "checked": true,
+        "subtopic_id": 8778,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Applications of law of conservation of mechanical energy"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a 2 kg block sliding down a frictionless inclined plane from a height of 8 metres. The diagram includes bar charts showing the kinetic energy (KE) and potential energy (PE) at different positions along the plane.",
+        "question": "Describe what would happen to the total mechanical energy if there were significant frictional forces present.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the effect of frictional forces on mechanical energy.",
+          "Describe how energy is dissipated as heat."
+        ],
+        "hints": [
+          "Stay focused on this: Describe what would happen to the total mechanical energy if there were significant frictional forces present — develop the idea fully rather than listing short points. Make sure you also cover: how energy is dissipated as heat."
+        ],
+        "model_answer": "If there were significant frictional forces present, the total mechanical energy would not remain constant. Friction would convert some of the mechanical energy into thermal energy, causing the total mechanical energy to decrease over time.",
+        "explanation": "Describe how frictional forces act to dissipate mechanical energy, leading to a loss of energy in the system.",
+        "exam_question_id": "0138b2db-db91-4f48-8467-856649b9c55f:1",
+        "topic_label": "Kinetic and potential energy of a system",
+        "topic_id": 1788,
+        "checked": true,
+        "subtopic_id": 8775,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Kinetic and potential energy of a system"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a simple circuit with two resistors, R1 = 10 Ω and R2 = 20 Ω, connected in series to a 12 V battery. The current flowing through the circuit is measured to be 0.4 A.",
+        "question": "Calculate the total resistance of the circuit.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the correct formula for total resistance in series.",
+          "Substitute the given values into the formula.",
+          "Perform the calculation to find the total resistance."
+        ],
+        "hints": [
+          "Recall that in a series circuit, the total resistance is the sum of the individual resistances."
+        ],
+        "model_answer": "Total resistance, R_total = R1 + R2 = 10 Ω + 20 Ω = 30 Ω.",
+        "explanation": "Using the formula for total resistance in series, add the resistances of R1 and R2.",
+        "exam_question_id": "ed659c31-c412-44d9-8e7f-b1908ce65c93:1",
+        "topic_label": "Simple circuit elements",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8800,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Simple circuit elements"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a simple circuit with two resistors, R1 = 10 Ω and R2 = 20 Ω, connected in series to a 12 V battery. The current flowing through the circuit is measured to be 0.4 A.",
+        "question": "Explain why the current through each resistor is the same in a series circuit.",
+        "marks": 3,
+        "marking_criteria": [
+          "State that in a series circuit, there is only one path for the current to flow.",
+          "Explain that since there is only one path, the current must be the same through all components.",
+          "Use the concept of charge conservation to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the current through each resistor is the same in a series circuit — develop the idea fully rather than listing short points. Make sure you also cover: the concept of to support the explanation."
+        ],
+        "model_answer": "In a series circuit, the current is the same through each resistor because there is only one path for the current to flow. According to the principle of charge conservation, the same amount of charge must pass through each point in the circuit per unit time, hence the current is the same throughout.",
+        "explanation": "Explain the behaviour of current in a series circuit using the principle of charge conservation.",
+        "exam_question_id": "ed659c31-c412-44d9-8e7f-b1908ce65c93:1",
+        "topic_label": "Simple circuit elements",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8800,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Simple circuit elements"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a simple circuit with two resistors, R1 = 10 Ω and R2 = 20 Ω, connected in series to a 12 V battery. The current flowing through the circuit is measured to be 0.4 A.",
+        "question": "Calculate the voltage drop across each resistor.",
+        "marks": 4,
+        "marking_criteria": [
+          "Use Ohm's Law to find the voltage drop across R1.",
+          "Use Ohm's Law to find the voltage drop across R2.",
+          "Sum the voltage drops to ensure they equal the total voltage of the battery.",
+          "Show all steps and calculations clearly."
+        ],
+        "hints": [
+          "Recall Ohm's Law: V = IR."
+        ],
+        "model_answer": "Voltage drop across R1, V1 = I * R1 = 0.4 A * 10 Ω = 4 V. Voltage drop across R2, V2 = I * R2 = 0.4 A * 20 Ω = 8 V. The sum of the voltage drops V1 + V2 = 4 V + 8 V = 12 V, which matches the total voltage of the battery.",
+        "explanation": "Use Ohm's Law to calculate the voltage drop across each resistor and verify that the sum of these drops equals the total voltage of the battery.",
+        "exam_question_id": "ed659c31-c412-44d9-8e7f-b1908ce65c93:1",
+        "topic_label": "Ohm's law",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8803,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Ohm's law"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a circuit with three resistors R1, R2, and R3 connected in series. The values of the resistors are R1 = 3 Ω, R2 = 6 Ω, and R3 = 9 Ω. The total voltage supplied by the battery is 18 V.",
+        "question": "Calculate the total resistance of the circuit.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula for total resistance in series.",
+          "Substitute the given values into the formula.",
+          "Calculate the total resistance."
+        ],
+        "hints": [
+          "Sum the resistances of all resistors in series."
+        ],
+        "model_answer": "Total resistance, R_total = R1 + R2 + R3 = 3 Ω + 6 Ω + 9 Ω = 18 Ω",
+        "explanation": "Add the resistances of all resistors in series to find the total resistance.",
+        "exam_question_id": "34b6244e-0210-45c2-96b2-fc4298a8e1d3:1",
+        "topic_label": "Unit 13: Arrangement of Resistors in an Electric Circuit — Arrangement of resistors",
+        "topic_id": 1792,
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 13: Arrangement of Resistors in an Electric Circuit — Arrangement of resistors"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a circuit with three resistors R1, R2, and R3 connected in series. The values of the resistors are R1 = 3 Ω, R2 = 6 Ω, and R3 = 9 Ω. The total voltage supplied by the battery is 18 V.",
+        "question": "Calculate the current flowing through the circuit.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula for current in a series circuit.",
+          "Substitute the given values into the formula.",
+          "Calculate the current."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the current flowing through the circuit — develop the idea fully rather than listing short points. Make sure you also cover: Identify the formula for current in a series circuit.; Substitute the given values into the formula."
+        ],
+        "model_answer": "Current, I = V/R_total = 18 V / 18 Ω = 1 A",
+        "explanation": "Use Ohm's Law to find the current by dividing the total voltage by the total resistance.",
+        "exam_question_id": "34b6244e-0210-45c2-96b2-fc4298a8e1d3:1",
+        "topic_label": "Ohm's law",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8803,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Ohm's law"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a circuit with three resistors R1, R2, and R3 connected in series. The values of the resistors are R1 = 3 Ω, R2 = 6 Ω, and R3 = 9 Ω. The total voltage supplied by the battery is 18 V.",
+        "question": "Explain why the voltage drop across each resistor is proportional to its resistance.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the relationship between voltage, current, and resistance in a series circuit.",
+          "Relate the voltage drop to the resistance of each resistor."
+        ],
+        "hints": [
+          "Use Ohm's Law and the properties of series circuits."
+        ],
+        "model_answer": "In a series circuit, the current is the same through all resistors. According to Ohm's Law (V = IR), the voltage drop across each resistor is proportional to its resistance because the current is constant.",
+        "explanation": "The voltage drop across each resistor in a series circuit is proportional to its resistance because the current is the same through all resistors, and V = IR.",
+        "exam_question_id": "34b6244e-0210-45c2-96b2-fc4298a8e1d3:1",
+        "topic_label": "Unit 13: Arrangement of Resistors in an Electric Circuit — Arrangement of resistors",
+        "topic_id": 1792,
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 13: Arrangement of Resistors in an Electric Circuit — Arrangement of resistors"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a roller coaster car at three places on a hill-shaped track: at the bottom left, on top of the hill, and on the downward slope at right. Arrows beside the track show the direction of motion, up the left side and down the right side. At the bottom left a bar chart labelled KE and PE has a tall KE bar and no visible PE bar. On the right slope a bar chart labelled KE and PE has two bars of equal height. Labels: KE, PE, KE, PE, Fig. 9.8: The change of potential energy to kinetic energy, the conservation of mechanical energy when dissipative forces are negligible",
+        "question": "Calculate the kinetic energy of the roller coaster car at the bottom of the track, given that the potential energy at the top of the hill is 1000 J.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies potential energy at the top of the hill (1 mark)",
+          "Correctly applies the conservation of mechanical energy principle (1 mark)",
+          "Correct calculation of kinetic energy at the bottom of the track (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the kinetic energy of the roller coaster car at the bottom of the track, given that the potential energy at the top of the hill is 1000 J — develop the idea fully rather than listing short points. Make sure you also cover: Correctly applies the of energy principle (1 mark); Correct…."
+        ],
+        "model_answer": "Potential energy at the top of the hill (PE_top) = 1000 J. According to the conservation of mechanical energy, PE_top = KE_bottom. Therefore, KE_bottom = 1000 J.",
+        "explanation": "Use the conservation of mechanical energy principle to find the kinetic energy at the bottom of the track.",
+        "exam_question_id": "eef3b138-7c42-4e6c-aac8-6b48c8d1bd19:1",
+        "topic_label": "Applications of law of conservation of mechanical energy",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/textbook-bank/171/p183-f0.png",
+        "image_alt": "A roller coaster car is drawn at three places on a hill-shaped track: at the bottom left, on top of the hill, and on the downward slope at right. Arrows beside the track show the direction of motion, up the left side and down the right side. At the bottom left a bar chart labelled KE and PE has a tall KE bar and no visible PE bar. On the right slope a bar chart labelled KE and PE has two bars of equal height.\nLabels: KE, PE, KE, PE, Fig. 9.8: The change of potential energy to kinetic energy, the conservation of mechanical energy when dissipative forces are negligible\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 8778,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Applications of law of conservation of mechanical energy"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a roller coaster car at three places on a hill-shaped track: at the bottom left, on top of the hill, and on the downward slope at right. Arrows beside the track show the direction of motion, up the left side and down the right side. At the bottom left a bar chart labelled KE and PE has a tall KE bar and no visible PE bar. On the right slope a bar chart labelled KE and PE has two bars of equal height. Labels: KE, PE, KE, PE, Fig. 9.8: The change of potential energy to kinetic energy, the conservation of mechanical energy when dissipative forces are negligible",
+        "question": "Explain why the total mechanical energy remains constant throughout the fall of the roller coaster car, assuming no dissipative forces are acting.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the concept of mechanical energy conservation (1 mark)",
+          "Correctly explains the role of dissipative forces (1 mark)",
+          "Correctly concludes that total mechanical energy remains constant (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total mechanical energy remains constant throughout the fall of the roller coaster car, assuming no dissipative forces are acting — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the concept of mechanical energy…."
+        ],
+        "model_answer": "Mechanical energy is the sum of kinetic energy (KE) and potential energy (PE). When no dissipative forces (like friction or air resistance) are acting, the total mechanical energy remains constant. This is because energy is merely converted from potential energy to kinetic energy and vice versa, without any loss.",
+        "explanation": "Explain the conservation of mechanical energy and the role of dissipative forces.",
+        "exam_question_id": "eef3b138-7c42-4e6c-aac8-6b48c8d1bd19:1",
+        "topic_label": "Applications of law of conservation of mechanical energy",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/textbook-bank/171/p183-f0.png",
+        "image_alt": "A roller coaster car is drawn at three places on a hill-shaped track: at the bottom left, on top of the hill, and on the downward slope at right. Arrows beside the track show the direction of motion, up the left side and down the right side. At the bottom left a bar chart labelled KE and PE has a tall KE bar and no visible PE bar. On the right slope a bar chart labelled KE and PE has two bars of equal height.\nLabels: KE, PE, KE, PE, Fig. 9.8: The change of potential energy to kinetic energy, the conservation of mechanical energy when dissipative forces are negligible\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 8778,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Applications of law of conservation of mechanical energy"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a roller coaster car at three places on a hill-shaped track: at the bottom left, on top of the hill, and on the downward slope at right. Arrows beside the track show the direction of motion, up the left side and down the right side. At the bottom left a bar chart labelled KE and PE has a tall KE bar and no visible PE bar. On the right slope a bar chart labelled KE and PE has two bars of equal height. Labels: KE, PE, KE, PE, Fig. 9.8: The change of potential energy to kinetic energy, the conservation of mechanical energy when dissipative forces are negligible",
+        "question": "Describe what would happen to the total mechanical energy if there were significant frictional forces present during the roller coaster car's descent.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the effect of frictional forces on mechanical energy (1 mark)",
+          "Correctly explains how frictional forces cause energy loss (1 mark)",
+          "Correctly describes the impact on total mechanical energy (1 mark)"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "If there were significant frictional forces present during the roller coaster car's descent, some of the mechanical energy would be converted into thermal energy due to friction. This would result in a loss of mechanical energy, meaning the total mechanical energy would decrease over time.",
+        "explanation": "Describe the impact of frictional forces on the total mechanical energy of the system.",
+        "exam_question_id": "eef3b138-7c42-4e6c-aac8-6b48c8d1bd19:1",
+        "topic_label": "Kinetic and potential energy of a system",
+        "topic_id": 1788,
+        "image_url": "/textbook-images/textbook-bank/171/p183-f0.png",
+        "image_alt": "A roller coaster car is drawn at three places on a hill-shaped track: at the bottom left, on top of the hill, and on the downward slope at right. Arrows beside the track show the direction of motion, up the left side and down the right side. At the bottom left a bar chart labelled KE and PE has a tall KE bar and no visible PE bar. On the right slope a bar chart labelled KE and PE has two bars of equal height.\nLabels: KE, PE, KE, PE, Fig. 9.8: The change of potential energy to kinetic energy, the conservation of mechanical energy when dissipative forces are negligible\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 8775,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Kinetic and potential energy of a system"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a 5 kg object attached to a spring with a spring constant k = 200 N/m, oscillating vertically. The object is displaced from its equilibrium position by 0.1 m and released.",
+        "question": "Calculate the total mechanical energy of the system at the moment of release.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify potential energy at maximum displacement.",
+          "Correctly identify kinetic energy at the moment of release.",
+          "Sum of potential and kinetic energy gives total mechanical energy."
+        ],
+        "hints": [
+          "Use the formula for potential energy in a spring: PE = 0.5 * k * x^2."
+        ],
+        "model_answer": "PE = 0.5 * 200 N/m * (0.1 m)^2 = 1 J. Since the object is released from rest, KE = 0 J. Total mechanical energy = PE + KE = 1 J + 0 J = 1 J.",
+        "explanation": "Calculate the potential energy stored in the spring at maximum displacement and sum it with the kinetic energy, which is zero at the moment of release.",
+        "exam_question_id": "0cb3b4cc-3ced-48d8-8fb8-59c62e180a93:1",
+        "topic_label": "Kinetic and potential energy of a system",
+        "topic_id": 1788,
+        "checked": true,
+        "subtopic_id": 8775,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Kinetic and potential energy of a system"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a 5 kg object attached to a spring with a spring constant k = 200 N/m, oscillating vertically. The object is displaced from its equilibrium position by 0.1 m and released.",
+        "question": "Explain why the total mechanical energy remains constant throughout the oscillation in an ideal system without any dissipative forces.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly state the principle of conservation of mechanical energy.",
+          "Explain the absence of dissipative forces in the system."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total mechanical energy remains constant throughout the oscillation in an ideal system without any dissipative forces — develop the idea fully rather than listing short points. Make sure you also cover: Correctly state the principle of conservation of mechanical energy."
+        ],
+        "model_answer": "In an ideal system without any dissipative forces, the total mechanical energy remains constant because there are no forces doing work to remove energy from the system. The mechanical energy is conserved and merely transforms between potential and kinetic energy.",
+        "explanation": "Explain the principle of conservation of mechanical energy and the role of dissipative forces.",
+        "exam_question_id": "0cb3b4cc-3ced-48d8-8fb8-59c62e180a93:1",
+        "topic_label": "Applications of law of conservation of mechanical energy",
+        "topic_id": 1788,
+        "checked": true,
+        "subtopic_id": 8778,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Applications of law of conservation of mechanical energy"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a 5 kg object attached to a spring with a spring constant k = 200 N/m, oscillating vertically. The object is displaced from its equilibrium position by 0.1 m and released.",
+        "question": "Describe how you would experimentally determine the period of the oscillation and relate it to the mass of the object and the spring constant.",
+        "marks": 3,
+        "marking_criteria": [
+          "Outline the experimental setup and procedure.",
+          "Explain how to measure the period of oscillation.",
+          "Relate the period to the mass and spring constant using the formula T = 2π√(m/k)."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would experimentally determine the period of the oscillation and relate it to the mass of the object and the spring constant — develop the idea fully rather than listing short points. Make sure you also cover: Outline the experimental setup and procedure."
+        ],
+        "model_answer": "To experimentally determine the period of oscillation, set up the oscillating system and release the object from the displaced position. Use a stopwatch to measure the time for a number of complete oscillations and divide by the number of oscillations to find the period. According to the formula T = 2π√(m/k), the period is related to the mass of the object and the spring constant.",
+        "explanation": "Describe the experimental procedure to measure the period of oscillation and relate it to the mass and spring constant.",
+        "exam_question_id": "0cb3b4cc-3ced-48d8-8fb8-59c62e180a93:1",
+        "topic_label": "Isolated and open systems (Unit 9: Conservation of Mechanical Energy in Isolated System)",
+        "topic_id": 1788,
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Isolated and open systems (Unit 9: Conservation of Mechanical Energy in Isolated System)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a simple circuit with two resistors, R1 = 10 Ω and R2 = 20 Ω, connected in series to a 12 V battery. The current flowing through the circuit is measured to be 0.4 A.",
+        "question": "Calculate the total resistance of the circuit.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for total resistance in a series circuit.",
+          "Substitute the given values into the formula.",
+          "Calculate the total resistance correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total resistance of the circuit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for total resistance in a series circuit.; Substitute the given values into the formula.; Calculate the total resistance correctly."
+        ],
+        "model_answer": "R_total = R1 + R2 = 10 Ω + 20 Ω = 30 Ω",
+        "explanation": "To find the total resistance in a series circuit, add the resistances of all the resistors in the circuit.",
+        "exam_question_id": "3056f2eb-c96e-406f-9996-b01f05de0768:1",
+        "topic_label": "Simple circuit elements",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8800,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Simple circuit elements"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a simple circuit with two resistors, R1 = 10 Ω and R2 = 20 Ω, connected in series to a 12 V battery. The current flowing through the circuit is measured to be 0.4 A.",
+        "question": "Explain why the current through each resistor is the same in a series circuit.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly explain the concept of current in a series circuit.",
+          "Relate the explanation to the properties of series circuits.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the current through each resistor is the same in a series circuit — develop the idea fully rather than listing short points. Make sure you also cover: Relate the explanation to the properties of series circuits.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "In a series circuit, the current is the same through each resistor because there is only one path for the current to flow. The current has no other option but to pass through each resistor in sequence.",
+        "explanation": "In a series circuit, the same current flows through all components because there is only one path for the current to take.",
+        "exam_question_id": "3056f2eb-c96e-406f-9996-b01f05de0768:1",
+        "topic_label": "Simple circuit elements",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8800,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Simple circuit elements"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a simple circuit with two resistors, R1 = 10 Ω and R2 = 20 Ω, connected in series to a 12 V battery. The current flowing through the circuit is measured to be 0.4 A.",
+        "question": "Calculate the voltage drop across each resistor.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for voltage drop in a series circuit.",
+          "Substitute the given values into the formula.",
+          "Calculate the voltage drop across each resistor correctly."
+        ],
+        "hints": [
+          "Use the formula V = I * R for each resistor."
+        ],
+        "model_answer": "V1 = I * R1 = 0.4 A * 10 Ω = 4 V\nV2 = I * R2 = 0.4 A * 20 Ω = 8 V",
+        "explanation": "To find the voltage drop across each resistor in a series circuit, multiply the current by the resistance of each resistor.",
+        "exam_question_id": "3056f2eb-c96e-406f-9996-b01f05de0768:1",
+        "topic_label": "Simple circuit elements",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8800,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Simple circuit elements"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a circuit with three resistors R1 = 4 Ω, R2 = 8 Ω, and R3 = 12 Ω connected in series. The total voltage supplied by the battery is 24 V.",
+        "question": "Calculate the total resistance of the circuit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the series connection of resistors.",
+          "Correctly calculate the total resistance using the formula R_total = R1 + R2 + R3."
+        ],
+        "hints": [
+          "Remember to add the resistances of all resistors in series."
+        ],
+        "model_answer": "R_total = R1 + R2 + R3 = 4 Ω + 8 Ω + 12 Ω = 24 Ω",
+        "explanation": "Add the resistances of all resistors connected in series to find the total resistance.",
+        "exam_question_id": "c80b9062-df41-490c-8f4b-917a75911c79:1",
+        "topic_label": "Unit 13 assessment (Unit 13: Arrangement of Resistors in an Electric Circuit)",
+        "topic_id": 1792,
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 13 assessment (Unit 13: Arrangement of Resistors in an Electric Circuit)"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a circuit with three resistors R1 = 4 Ω, R2 = 8 Ω, and R3 = 12 Ω connected in series. The total voltage supplied by the battery is 24 V.",
+        "question": "Calculate the current flowing through the circuit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly use Ohm's Law (V = IR) to find the current.",
+          "Substitute the correct values for total resistance and voltage."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the current flowing through the circuit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly use Ohm's Law (V = IR) to find the current.; Substitute the correct values for resistance and voltage."
+        ],
+        "model_answer": "I = V/R_total = 24 V / 24 Ω = 1 A",
+        "explanation": "Use Ohm's Law to calculate the current by dividing the total voltage by the total resistance.",
+        "exam_question_id": "c80b9062-df41-490c-8f4b-917a75911c79:1",
+        "topic_label": "Ohm's law",
+        "topic_id": 1792,
+        "checked": true,
+        "subtopic_id": 8803,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Ohm's law"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a circuit with three resistors R1 = 4 Ω, R2 = 8 Ω, and R3 = 12 Ω connected in series. The total voltage supplied by the battery is 24 V.",
+        "question": "Explain why the voltage drop across each resistor is proportional to its resistance.",
+        "marks": 3,
+        "marking_criteria": [
+          "State that in a series circuit, the current is the same through all resistors.",
+          "Explain that the voltage drop across a resistor is given by V = IR.",
+          "Conclude that the voltage drop is proportional to the resistance because I is constant."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the voltage drop across each resistor is proportional to its resistance — develop the idea fully rather than listing short points. Make sure you also cover: that in a the is the all."
+        ],
+        "model_answer": "In a series circuit, the current I is the same through all resistors. The voltage drop across a resistor is given by V = IR. Since I is constant, the voltage drop V is directly proportional to the resistance R.",
+        "explanation": "In a series circuit, the current is the same through all components. The voltage drop across each resistor is given by V = IR, where I is the current and R is the resistance. Since I is constant, the voltage drop is directly proportional to the resistance.",
+        "exam_question_id": "c80b9062-df41-490c-8f4b-917a75911c79:1",
+        "topic_label": "Unit 13 assessment (Unit 13: Arrangement of Resistors in an Electric Circuit)",
+        "topic_id": 1792,
+        "checked": true,
+        "source": {
+          "textbook": "Physics Learners book S2",
+          "area": "Unit 13 assessment (Unit 13: Arrangement of Resistors in an Electric Circuit)"
+        }
+      }
+    ],
+    "estimated_time": 83,
+    "assessment_id": "343c66fa-240f-4c93-bab5-381560ea8926",
+    "subject": "Physics Learners book S2",
+    "topics": [
+      "Unit 9: Conservation of Mechanical Energy in Isolated System",
+      "Unit 13: Arrangement of Resistors in an Electric Circuit"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 171,
+    "topic_ids": [
+      1788,
+      1792
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 29,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 11,
+      "detail": "4 questions open with the same sentence (12, 15, 24, 27): \"Calculate the total resistance of the circuit.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 17"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Model answer provides symbolic form v ≈ 1.28√(gL) but marking criteria require substitution of cos 30° = √3/2 ≈ 0.866. The calculation 2gL × 0.134 is correct (1 − 0.866 = 0.134), but the final symbolic answer should show v = √(2gL(1 − √3/2)) or v ≈ √(0.268gL) for consistency.",
+        "correction": "Model answer should state: v = √(2gL(1 − cos 30°)) = √(2gL(1 − √3/2)) = √(2gL × 0.134) ≈ 0.517√(gL) or approximately 1.28√(gL) if L and g are substituted numerically."
+      },
+      {
+        "label": "3b",
+        "severity": "broken",
+        "detail": "Model answer states Diagram A has 3Ω series resistors, but the figure description shows 3Ω and 5Ω in series (not two 3Ω resistors). The calculation correctly uses 3Ω + 5Ω + 3Ω = 11Ω, but the explanation text is inconsistent with the circuit description.",
+        "correction": "Clarify: 'In Diagram A, the series resistors are 3Ω and 5Ω (not two 3Ω resistors). The parallel 6Ω resistors combine to 3Ω. Total: 3Ω + 5Ω + 3Ω = 11Ω.'"
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Question 5a and 9a are identical (same context, same question, same answer). This violates the requirement to check for repeated questions with the same data.",
+        "correction": "Remove duplicate question 9a or replace with distinct circuit values/configuration."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Question 5b and 9b are identical (same context, same question, same answer). This violates the requirement to check for repeated questions with the same data.",
+        "correction": "Remove duplicate question 9b or replace with distinct scenario."
+      },
+      {
+        "label": "5c",
+        "severity": "poor",
+        "detail": "Question 5c and 9c are identical (same context, same question, same answer). This violates the requirement to check for repeated questions with the same data.",
+        "correction": "Remove duplicate question 9c or replace with distinct values."
+      },
+      {
+        "label": "4a",
+        "severity": "poor",
+        "detail": "Model answer uses g = 9.8 m/s² but no context specifies this value. For Rwanda curriculum, g = 10 m/s² is standard. Using g = 10 m/s² gives PE = 2 × 10 × 8 = 160 J, not 156.8 J.",
+        "correction": "Either specify g = 9.8 m/s² in the question context or use g = 10 m/s² for PE = 160 J. Recommend g = 10 m/s² for grade 8 Rwanda curriculum."
+      },
+      {
+        "label": "2b",
+        "severity": "poor",
+        "detail": "Model answer is incomplete. It states the formula T = 2π√(L/g) but does not explain why mass cancels out. The marking criteria require explanation of why mass term cancels, but the model answer does not derive or show this cancellation.",
+        "correction": "Expand model answer: 'The period formula T = 2π√(L/g) is derived from the balance of gravitational force and restoring force. The mass m appears in both the inertial term (ma) and gravitational term (mg), causing it to cancel algebraically, leaving only L and g.'"
+      },
+      {
+        "label": "8c",
+        "severity": "poor",
+        "detail": "Model answer does not explicitly relate the measured period to the formula T = 2π√(m/k) as required by marking criteria. It mentions the formula but does not explain how experimental data would be used to verify or derive it.",
+        "correction": "Add: 'Plot period T against √(m/k) to verify the linear relationship. The slope should equal 2π, confirming the formula T = 2π√(m/k).'"
+      }
+    ],
+    "summary": "Assessment contains substantive issues: three duplicate question sets (5a–5c repeated as 9a–9c), inconsistent gravitational acceleration value (9.8 vs 10 m/s²), incomplete model answers for pendulum period explanation (2b) and spring oscillation experiment (8c), and minor symbolic form inconsistency in pendulum speed calculation (2a). All topics fit curriculum; marking criteria are generally sound."
+  },
+  "totalSeconds": 63
+}

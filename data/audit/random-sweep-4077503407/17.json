@@ -1,0 +1,296 @@
+{
+  "index": 17,
+  "label": "Cambridge / Practice / Cambridge Primary Computing Learners Book Stage 4 ",
+  "request": {
+    "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+    "textbook_id": 39,
+    "topic_ids": [
+      474
+    ],
+    "topics": [
+      "Unit 2: Be a data controller"
+    ],
+    "curriculum": "cambridge",
+    "grade": 4,
+    "className": "Cambridge Primary Computing Learners Book Stage 4 ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 22,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What is one row in a database called?",
+        "options": [
+          "a record",
+          "a field",
+          "a table",
+          "a column"
+        ],
+        "correct_answer": 0,
+        "explanation": "A record is the correct term for one row in a database, as it contains all the data for a single entry. A field is a single piece of data within a record, like a name or age. A table is the entire database structure, and a column is a vertical set of data across multiple rows.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "You want the oldest child first. Which column do you sort, and in which order?",
+        "options": [
+          "Age from smallest to largest",
+          "Age from largest to smallest",
+          "Name from A to Z",
+          "Favourite pet from A to Z"
+        ],
+        "correct_answer": 1,
+        "explanation": "Sorting the Age column from largest to smallest will put the oldest child first, as the question asks. Sorting by Name or Favourite pet would not help find the oldest child. Sorting Age from smallest to largest would put the youngest child first, which is not what the question asks for.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Look at the table. A learner wants to find every student aged 15 or older. Which search would give the correct result?",
+        "options": [
+          "Search the Age field for values greater than or equal to 15",
+          "Search the Age field for values equal to 12",
+          "Search the Meeting Time field for 3:30 p.m.",
+          "Search the Name of Club field for Chess"
+        ],
+        "correct_answer": 0,
+        "explanation": "Searching the Age field for values of 15 or more finds Mark Simmons (15), Hanna Ali (16) and Zhang Li (15). Searching for 12 finds only Alisha Greene. Searching Meeting Time for 3:30 p.m. looks at the wrong field and misses Zhang Li. Searching Name of Club for Chess looks at the wrong field and finds Alisha and Zhang.",
+        "image_url": "/textbook-images/textbook-bank/39/p101-f1.jpg",
+        "topic_label": "Unit 7: Be a data boss",
+        "vetted": true,
+        "image_alt": "A spreadsheet table with columns A to D and rows 1 to 5. Row 1 holds the headings Student Name, Age, Name of Club and Meeting Time. The four student rows are Alisha Greene, 12, Chess, 3:00 p.m.; Mark Simmons, 15, Robotics, 3:30 p.m.; Hanna Ali, 16, Robotics, 3:30 p.m.; and Zhang Li, 15, Chess, 3:00 p.m. Printed on it: A | B | C | D | 1 | 2 | 3 | 4 | 5 | Student Name | Age | Name of Club | Meeting Time | Alisha Greene | 12 | Chess | 3:00 p.m. | Mark Simmons | 15 | Robotics | 3:30 p.m. | Hanna Ali | 16 | Robotics | 3:30 p.m. | Zhang Li | 15 | Chess | 3:00 p.m..",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "What is the best way to check a database for mistakes?",
+        "options": [
+          "Look at every record",
+          "Ask the class to check",
+          "Use the search function to verify entries",
+          "Ignore it, it will be fine"
+        ],
+        "correct_answer": 0,
+        "explanation": "Looking at every record carefully is the most thorough way to check for mistakes in a database, making sure all the data is correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "If you want to make a simple chart to show the number of students who like each pet, what type of chart would you use?",
+        "options": [
+          "A bar chart",
+          "A line graph",
+          "A pie chart",
+          "A scatter plot"
+        ],
+        "correct_answer": 0,
+        "explanation": "A bar chart is best for showing how many students chose each pet, with one bar for each pet type showing the count.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "What do you call the information that is entered into a spreadsheet to be recorded?",
+        "options": [
+          "Data",
+          "Information",
+          "Records",
+          "Details"
+        ],
+        "correct_answer": 0,
+        "explanation": "Data is the correct term for the information that is entered into a spreadsheet for recording. Information, records, and details are more general terms and not specific to the context of spreadsheets.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "Which of the following is a correct way to sort a list of numbers from smallest to largest?",
+        "options": [
+          "Random order",
+          "Descending and ascending order",
+          "Descending order",
+          "Ascending order"
+        ],
+        "correct_answer": 3,
+        "explanation": "Ascending order is the correct way to sort a list of numbers from smallest to largest. Descending order would sort from largest to smallest, random order does not sort at all, and descending and ascending order does not make sense as a sorting method.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Look at the table. Which data type is best for the Late Fee field, which shows values such as $1.00 and $2.00?",
+        "options": [
+          "Text",
+          "Currency",
+          "Date/Time",
+          "Yes/No"
+        ],
+        "correct_answer": 1,
+        "explanation": "Currency is right because the Late Fee values are amounts of money shown with a dollar sign and two decimal places. Date/Time is wrong because the values are not dates or times. Yes/No is wrong because it only stores two choices, like the Outstanding field. Text is wrong because it is for words and labels, not money amounts.",
+        "image_url": "/textbook-images/textbook-bank/39/p102-f0.jpg",
+        "topic_label": "Unit 7: Be a data boss",
+        "vetted": true,
+        "image_alt": "A spreadsheet table with columns A to F and rows 1 to 5. Row 1 holds the headings: Title of Book, Classification, Borrowed By, Date Borrowed, Outstanding, Late Fee. Rows 2 to 5 hold four book records: Charlotte's Web, Fiction, Sandy Moore, 5/10/2021, No, $ -; Matilda, Fiction, David Beckles, 16/10/2021, Yes, $1.00; Harriet The Spy, Mystery, Shria Gomez, 14/10/2021, No, $ -; One Beam of Light, Science, Judy Chance, 10/10/2021, Yes, $2.00. Printed on it: A | B | C | D | E | F | 1 | 2 | 3 | 4 | 5 | Title of Book | Classification | Borrowed By | Date Borrowed | Outstanding | Late Fee | Charlotte's",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "What is a single piece of information in a database called?",
+        "options": [
+          "Field",
+          "Record",
+          "Table",
+          "Column"
+        ],
+        "correct_answer": 0,
+        "explanation": "A field is a single piece of information in a database. It represents a column in a table where specific data is stored, such as 'Name', 'Age', or 'Favourite pet'. A record is a complete set of fields, a table is a collection of records, and a column is a vertical set of values in a table.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "If you want to list students from youngest to oldest, which column should you sort by?",
+        "options": [
+          "Name",
+          "Age",
+          "Favourite pet",
+          "Class"
+        ],
+        "correct_answer": 1,
+        "explanation": "You should sort by the 'Age' column to list students from youngest to oldest. Sorting by 'Name' would order them alphabetically, 'Favourite pet' would sort by the type of pet, and 'Class' would not relate to age at all. The correct column to sort for age is 'Age'.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Be a data controller",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 2: Be a data controller"
+        }
+      }
+    ],
+    "estimated_time": 20,
+    "assessment_id": "78700a11-1064-4564-8526-5e22296bf5c3",
+    "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+    "topics": [
+      "Unit 2: Be a data controller"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mcq",
+    "textbook_id": 39,
+    "topic_ids": [
+      474
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 2,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "3",
+        "severity": "poor",
+        "detail": "Question metadata shows 'topic_label: Unit 7: Be a data boss' which contradicts the assessment's stated topic 'Unit 2: Be a data controller'. This inconsistency suggests the question may have been imported from different curriculum material.",
+        "correction": "Change topic_label to 'Unit 2: Be a data controller' to match assessment scope"
+      },
+      {
+        "label": "8",
+        "severity": "poor",
+        "detail": "Question metadata shows 'topic_label: Unit 7: Be a data boss' which contradicts the assessment's stated topic 'Unit 2: Be a data controller'. This inconsistency suggests the question may have been imported from different curriculum material.",
+        "correction": "Change topic_label to 'Unit 2: Be a data controller' to match assessment scope"
+      },
+      {
+        "label": "5",
+        "severity": "poor",
+        "detail": "Explanation states 'A bar chart is best' but a pie chart (option 2) is equally valid and commonly used for showing categorical distribution like pet preferences. The explanation dismisses valid alternatives without justification for grade 4 learners.",
+        "correction": "Accept both bar chart and pie chart as correct, or rephrase question to specify 'simplest' or provide context requiring bar chart specifically"
+      }
+    ],
+    "summary": "Assessment is largely sound with appropriate age-level questions on database concepts. Three issues identified: two questions (3, 8) have inconsistent topic labels referencing Unit 7 instead of Unit 2, and question 5's answer dismisses pie charts without justification when both chart types are pedagogically valid for the scenario."
+  },
+  "totalSeconds": 32
+}

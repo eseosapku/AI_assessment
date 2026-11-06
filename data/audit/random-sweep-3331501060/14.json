@@ -1,0 +1,271 @@
+{
+  "index": 14,
+  "label": "Cambridge / Practice / Cambridge Primary Computing Learners Book Stage 4 ",
+  "request": {
+    "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+    "textbook_id": 39,
+    "topic_ids": [
+      480
+    ],
+    "topics": [
+      "Unit 8: Be an innovator"
+    ],
+    "curriculum": "cambridge",
+    "grade": 4,
+    "className": "Cambridge Primary Computing Learners Book Stage 4 ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 13,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What is the first step you should do when you want to solve a problem by creating a digital product?",
+        "options": [
+          "Start coding",
+          "Test the product",
+          "Plan your idea",
+          "Share the product"
+        ],
+        "correct_answer": 2,
+        "explanation": "Planning your idea is the first step because it helps you understand what you want to create and how you will do it. Starting to code, testing, or sharing the product are steps that come after planning.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Which word means to make something better?",
+        "options": [
+          "Innovate",
+          "Improve",
+          "Design",
+          "Debug"
+        ],
+        "correct_answer": 1,
+        "explanation": "Improve is the correct word because it means to make something better. Innovate means to create a new idea, design is to plan how something will look, and debug means to fix problems in a program.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "What do you call the information you get from others to help you make your product better?",
+        "options": [
+          "Feedback",
+          "Idea",
+          "Plan",
+          "Test"
+        ],
+        "correct_answer": 0,
+        "explanation": "Feedback is the information you get from others to help you make your product better. An idea is what you think of, a plan is how you will make it, and test is when you check if it works.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "If your game sprite walks through a wall, what should you do next?",
+        "options": [
+          "Delete the game",
+          "Change the sprite colour",
+          "Ask someone to play it",
+          "Find the mistake and fix it"
+        ],
+        "correct_answer": 3,
+        "explanation": "Finding the mistake and fixing it is called debugging. This is the correct step to take when something doesn't work as expected. Changing the colour, asking someone to play, or deleting the game do not solve the problem.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Which of the following is an example of being an innovator?",
+        "options": [
+          "Copying a friend's drawing",
+          "Creating a new game design",
+          "Using someone else's code without asking",
+          "Ignoring feedback from others"
+        ],
+        "correct_answer": 1,
+        "explanation": "Creating a new game design is an example of being an innovator because it involves thinking of a new idea and making something original. Copying, using someone else's work without permission, or ignoring feedback do not show innovation.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "What should you do after you have made a simple digital product?",
+        "options": [
+          "Test it to see if it works",
+          "Start a new project",
+          "Delete it",
+          "Share it with friends"
+        ],
+        "correct_answer": 0,
+        "explanation": "Testing the product is the next step to see if it works as expected. Sharing, starting a new project, or deleting it are actions that come after you have tested and possibly improved your product.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "What does it mean to 'debug' a program?",
+        "options": [
+          "Add new features to the program",
+          "Change the program's appearance",
+          "Fix problems in the program",
+          "Make the program faster"
+        ],
+        "correct_answer": 2,
+        "explanation": "To debug a program means to find and fix problems in it. Making it faster, adding features, or changing its appearance are different actions that do not specifically address fixing problems.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Why is it important to use feedback when creating a digital product?",
+        "options": [
+          "To copy other people's ideas",
+          "To avoid making mistakes",
+          "To make the product look better",
+          "To learn what others think and improve the product"
+        ],
+        "correct_answer": 3,
+        "explanation": "Using feedback is important because it helps you learn what others think about your product and how you can improve it. It is not about making the product look better, copying others, or avoiding mistakes outright.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "What is the first step you should do when creating a new program in Scratch?",
+        "options": [
+          "Test the program",
+          "Plan the program",
+          "Run the program",
+          "Share the program"
+        ],
+        "correct_answer": 1,
+        "explanation": "Planning the program is the first step because it helps you decide what you want to create and how it will work. Testing comes after you have created the program, running is what you do to see if it works, and sharing is the last step after you have tested and improved it.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "What does the word 'debug' mean in programming?",
+        "options": [
+          "Find and fix mistakes in the program",
+          "Add more features to the program",
+          "Write the program from scratch",
+          "Make the program faster"
+        ],
+        "correct_answer": 0,
+        "explanation": "Debugging means finding and fixing mistakes in the program. This ensures that the program works correctly. The other options describe different activities that are not related to fixing mistakes.",
+        "checked": true,
+        "topic_label": "Unit 8: Be an innovator",
+        "source": {
+          "textbook": "Cambridge Primary Computing Learners Book Stage 4",
+          "area": "Unit 8: Be an innovator"
+        }
+      }
+    ],
+    "estimated_time": 20,
+    "assessment_id": "f61df496-218f-432f-a2f4-1e6589655475",
+    "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+    "topics": [
+      "Unit 8: Be an innovator"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mcq",
+    "textbook_id": 39,
+    "topic_ids": [
+      480
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Question 7 and Question 10 are substantively identical, both asking 'What does it mean to debug a program?' with the same correct answer (fix problems). This violates the requirement for unique MCQ answers across the assessment.",
+        "correction": "Replace Question 7 with a different debugging-related question, such as 'When should you debug your program?' or 'What is an example of a bug in a program?'"
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Question 9 duplicates Question 1's core concept (planning as first step), though contextualized to Scratch. Both ask about the first step in creating/solving problems, reducing assessment diversity.",
+        "correction": "Replace Question 9 with content addressing different Unit 8 topics, such as iterative improvement, user testing, or design thinking principles specific to Scratch."
+      }
+    ],
+    "summary": "Assessment covers Unit 8 topics appropriately for Grade 4. All questions are age-appropriate and answerable. However, Questions 7 and 10 are identical duplicates, and Questions 1 and 9 substantially overlap. Recommend replacing these with distinct questions to improve assessment validity."
+  },
+  "totalSeconds": 16
+}

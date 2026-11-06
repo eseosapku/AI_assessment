@@ -1,0 +1,680 @@
+{
+  "index": 4,
+  "label": "REB / Exam / ICT S5 Adapted SB",
+  "request": {
+    "subject": "ICT S5 Adapted SB",
+    "textbook_id": 120,
+    "topic_ids": [
+      1285
+    ],
+    "topics": [
+      "E-Commerce, Social Media and Online Services"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 203,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of an online checkout page at rw.kikuu.com. The diagram shows the Shipping Address section with the name UWINEZA, a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)', the seller is 'Fashion brand flagship', and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Colour: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.",
+        "question": "Calculate the total cost of the item.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the price of the item (6,394 RWF).",
+          "Recognise that the quantity is x1."
+        ],
+        "hints": [
+          "Look at the price of the item listed in the diagram."
+        ],
+        "model_answer": "6,394 RWF * 1 = 6,394 RWF",
+        "explanation": "The total cost of the item is the price multiplied by the quantity. Here, the price is 6,394 RWF and the quantity is 1.",
+        "exam_question_id": "6e76db40-6294-4779-8223-2c15ca2d97d8:1",
+        "topic_label": "E-Commerce, Social Media and Online Services",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page109-embedded-0.jpeg",
+        "image_alt": "A screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)' the seller is 'Fashion brand flagship' and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Color: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.\nLabels",
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Commerce, Social Media and Online Services"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of an online checkout page at rw.kikuu.com. The diagram shows the Shipping Address section with the name UWINEZA, a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)', the seller is 'Fashion brand flagship', and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Colour: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.",
+        "question": "Explain why the total commodity price and the total cost are the same in this transaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the total commodity price (+6,394 RWF).",
+          "Identify the total cost (6,394 RWF).",
+          "Explain that there are no additional charges or taxes in this transaction."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The total commodity price is +6,394 RWF and the total cost is 6,394 RWF. This indicates that there are no additional charges or taxes applied to this transaction, hence the total commodity price and total cost are the same.",
+        "explanation": "In this transaction, the total cost of the item is equal to the total commodity price because there are no additional charges or taxes applied.",
+        "exam_question_id": "6e76db40-6294-4779-8223-2c15ca2d97d8:1",
+        "topic_label": "E-Commerce, Social Media and Online Services",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page109-embedded-0.jpeg",
+        "image_alt": "A screenshot of an online checkout page at rw.kikuu.com. The Shipping Address section shows the name UWINEZA with a CHANGE link, a hidden phone number, and the address 'Kigali Gasabo Bumbogo KG'. Under 'Review and confirm your order (1 items)' the seller is 'Fashion brand flagship' and the item is '2019 New Fashion Women's Flats Round Toe Shoes New Women Autumn Ladies Ballet Flat Casual Single Shoes', Color: Navy Blue, shoe Size (EUR): 40, priced 6,394 RWF, quantity x1. The total commodity price is +6,394 RWF and the Total is 6,394 RWF. An arrow points to an orange CONFIRM ORDER button.\nLabels",
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Commerce, Social Media and Online Services"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are creating a Twitter account and have reached Step 3 of 5. You are asked to verify your phone number. The pop-up states that a verification code will be sent to the number 0783... and you see the 'Verify phone' pop-up with 'We'll text your verification code to 0783... Standard SMS fees may apply.' There are 'Edit' and 'OK' buttons, with a red arrow pointing to the 'OK' button and a 'Sign up' button below.",
+        "question": "State the phone number to which the verification code will be sent.",
+        "marks": 2,
+        "marking_criteria": [
+          "1 mark for identifying the phone number in the pop-up.",
+          "1 mark for providing the correct number (0783...)"
+        ],
+        "hints": [
+          "Look at the 'Verify phone' pop-up message."
+        ],
+        "model_answer": "The phone number to which the verification code will be sent is 0783....",
+        "explanation": "The phone number is clearly indicated in the 'Verify phone' pop-up message.",
+        "exam_question_id": "84d2562c-d59d-43c5-a123-c0e9c1aaac00:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page121-embedded-1.jpeg",
+        "image_alt": "Two numbered screenshots of a Twitter sign-up. Panel 1, 'Step 3 of 5 – Create your account', shows the fields 'ttctextbook' and a phone number beginning 0783, with a 'Verify phone' pop-up. The pop-up says 'We'll text your verification code to 0783... Standard SMS fees may apply.' and has Edit and OK buttons, with a red arrow pointing to OK and a Sign up button below. Panel 2, 'We sent you a code', says 'Enter it below to verify 078...' and shows the Verification code field containing 645948, a 'Didn't receive SMS?' link, and a Next button at top right with a red arrow pointing to it.\nLabels: S",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are creating a Twitter account and have reached Step 3 of 5. You are asked to verify your phone number. The pop-up states that a verification code will be sent to the number 0783... and you see the 'Verify phone' pop-up with 'We'll text your verification code to 0783... Standard SMS fees may apply.' There are 'Edit' and 'OK' buttons, with a red arrow pointing to the 'OK' button and a 'Sign up' button below.",
+        "question": "Explain what the 'OK' button does in this context.",
+        "marks": 3,
+        "marking_criteria": [
+          "1 mark for identifying the purpose of the 'OK' button.",
+          "1 mark for explaining the process after clicking 'OK'.",
+          "1 mark for connecting it to the verification process."
+        ],
+        "hints": [
+          "Consider the sequence of actions required to verify the phone number."
+        ],
+        "model_answer": "The 'OK' button, indicated by the red arrow, is used to confirm the phone number provided. After clicking 'OK', a verification code will be sent to the provided phone number via SMS. The user must then enter this code to proceed with the account creation.",
+        "explanation": "The 'OK' button is a crucial step in confirming the phone number for verification, allowing the user to proceed to the next step by entering the verification code.",
+        "exam_question_id": "84d2562c-d59d-43c5-a123-c0e9c1aaac00:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page121-embedded-1.jpeg",
+        "image_alt": "Two numbered screenshots of a Twitter sign-up. Panel 1, 'Step 3 of 5 – Create your account', shows the fields 'ttctextbook' and a phone number beginning 0783, with a 'Verify phone' pop-up. The pop-up says 'We'll text your verification code to 0783... Standard SMS fees may apply.' and has Edit and OK buttons, with a red arrow pointing to OK and a Sign up button below. Panel 2, 'We sent you a code', says 'Enter it below to verify 078...' and shows the Verification code field containing 645948, a 'Didn't receive SMS?' link, and a Next button at top right with a red arrow pointing to it.\nLabels: S",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customise your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.",
+        "question": "Identify the purpose of the 'Tweet' button in the context of the Twitter Home page.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the 'Tweet' button",
+          "Explanation of its function"
+        ],
+        "hints": [
+          "Consider the context of the 'Tweet' button on a social media platform."
+        ],
+        "model_answer": "The 'Tweet' button allows users to compose and post a new tweet on their Twitter account.",
+        "explanation": "Recognise the 'Tweet' button's function as enabling users to create and share content on Twitter.",
+        "exam_question_id": "d05dab3a-273d-4137-ac30-16db7c197e3b:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page123-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customize your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.\nLabels: Home / Twitter, twitter.com/home, Home, What's happening?, Tweet, Customize your view, Sometimes you need to freshen things up a bit, like swapping colors, super-sizing your text, or revisiting your dark mode selection, all of which you can do in your se",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customise your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.",
+        "question": "Explain the significance of the 'Trends for you' list on the Twitter Home page.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the 'Trends for you' list",
+          "Explanation of its purpose",
+          "Relevance to the user"
+        ],
+        "hints": [
+          "Think about what trends are and how they might be useful on a social media platform."
+        ],
+        "model_answer": "The 'Trends for you' list shows popular topics and hashtags that are currently trending in the user's location, Rwanda in this case. It helps users stay updated on what is currently popular or significant.",
+        "explanation": "Understand that trends provide insights into current popular topics and help users engage with content that is relevant to their interests and location.",
+        "exam_question_id": "d05dab3a-273d-4137-ac30-16db7c197e3b:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page123-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customize your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.\nLabels: Home / Twitter, twitter.com/home, Home, What's happening?, Tweet, Customize your view, Sometimes you need to freshen things up a bit, like swapping colors, super-sizing your text, or revisiting your dark mode selection, all of which you can do in your se",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customise your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.",
+        "question": "Describe how the 'Who to follow' section might help a new user on Twitter.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the 'Who to follow' section",
+          "Explanation of its purpose for new users"
+        ],
+        "hints": [
+          "Consider how this feature can assist a new user in building their network on Twitter."
+        ],
+        "model_answer": "The 'Who to follow' section suggests accounts that might be of interest to the user based on their interests, location, or other factors. This helps new users quickly find and follow accounts that align with their interests, making it easier to engage with relevant content.",
+        "explanation": "Recognise that the 'Who to follow' section aids new users in expanding their network by suggesting accounts that are likely to be of interest to them.",
+        "exam_question_id": "d05dab3a-273d-4137-ac30-16db7c197e3b:1",
+        "topic_label": "Twitter",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page123-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Twitter Home page in a web browser at twitter.com/home. The left sidebar has icons, the centre has a 'What's happening?' box with a Tweet button and a 'Customize your view' panel with a 'Change view' button. The right side has a 'Search Twitter' box, a 'Trends for you' list for Rwanda, and a 'Who to follow' section.\nLabels: Home / Twitter, twitter.com/home, Home, What's happening?, Tweet, Customize your view, Sometimes you need to freshen things up a bit, like swapping colors, super-sizing your text, or revisiting your dark mode selection, all of which you can do in your se",
+        "checked": true,
+        "subtopic_id": 6577,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Twitter"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.",
+        "question": "State the name of the social media platform displayed in the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of Instagram",
+          "Mention of the padlock icon indicating secure connection"
+        ],
+        "hints": [
+          "Look at the address bar and the name shown in the diagram."
+        ],
+        "model_answer": "Instagram. The padlock icon in the address bar indicates a secure connection.",
+        "explanation": "Identify the social media platform by looking at the name and padlock icon in the address bar of the browser.",
+        "exam_question_id": "228f637a-44a3-4dd7-b4b6-8bc1069e5b84:1",
+        "topic_label": "Facebook",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page127-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.\nLabels: Instagram, instagram.com, Instagram, Sign up to see photos and videos from your friends., Log in with Facebook, OR, Mobile Number or Email, Full Name, UWIMANA Theogene, Username, uwimanatheogen",
+        "checked": true,
+        "subtopic_id": 6576,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.",
+        "question": "Explain the purpose of the 'Log in with Facebook' button on the sign-up page.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of using Facebook account for sign-up",
+          "Mention of convenience for users who have a Facebook account",
+          "Mention of potential security implications"
+        ],
+        "hints": [
+          "Consider why social media platforms offer this option."
+        ],
+        "model_answer": "The 'Log in with Facebook' button allows users to sign up for an Instagram account using their existing Facebook account credentials. This is convenient as users do not need to remember another set of login details. However, it also means that Instagram can access certain information from the user's Facebook account, which may raise privacy concerns.",
+        "explanation": "Explain the convenience and potential privacy implications of using the 'Log in with Facebook' button.",
+        "exam_question_id": "228f637a-44a3-4dd7-b4b6-8bc1069e5b84:1",
+        "topic_label": "Facebook",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page127-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.\nLabels: Instagram, instagram.com, Instagram, Sign up to see photos and videos from your friends., Log in with Facebook, OR, Mobile Number or Email, Full Name, UWIMANA Theogene, Username, uwimanatheogen",
+        "checked": true,
+        "subtopic_id": 6576,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.",
+        "question": "What will happen if a user clicks the 'Show' button next to the Password field?",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the 'Show' button's function",
+          "Mention of revealing the password characters"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Clicking the 'Show' button will reveal the characters of the password that the user has typed in the password field. This allows the user to check if they have entered the password correctly.",
+        "explanation": "Explain the function of the 'Show' button in a password field and what it does when clicked.",
+        "exam_question_id": "228f637a-44a3-4dd7-b4b6-8bc1069e5b84:1",
+        "topic_label": "Facebook",
+        "topic_id": 1285,
+        "image_url": "/textbook-images/rwanda/120/page127-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Instagram sign-up page in a web browser. The address bar shows instagram.com with a red arrow pointing to the padlock. On the left are two phone images. On the right is the sign-up form with a 'Log in with Facebook' button, then 'OR', then fields for Mobile Number or Email, Full Name, Username and Password (with a Show option). A red arrow points to the blue 'Sign up' button.\nLabels: Instagram, instagram.com, Instagram, Sign up to see photos and videos from your friends., Log in with Facebook, OR, Mobile Number or Email, Full Name, UWIMANA Theogene, Username, uwimanatheogen",
+        "checked": true,
+        "subtopic_id": 6576,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of a Facebook e-commerce page. The page displays a product with a price of 15,000 RWF, a quantity of 2, and a total price of 30,000 RWF.",
+        "question": "Calculate the price of one unit of the product.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the total price and quantity of the product.",
+          "Calculate the price per unit by dividing the total price by the quantity."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the price of one unit of the product — develop the idea fully rather than listing short points. Make sure you also cover: Identify the price and of the product."
+        ],
+        "model_answer": "Total price is 30,000 RWF and quantity is 2. Price per unit is 30000 / 2 = 15,000 RWF.",
+        "explanation": "The price per unit is calculated by dividing the total price by the quantity.",
+        "exam_question_id": "84cc6d33-f937-4e1e-a48a-2579dc135887:2",
+        "topic_label": "E-commerce",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6572,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-commerce"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of a Facebook e-commerce page. The page displays a product with a price of 15,000 RWF, a quantity of 2, and a total price of 30,000 RWF.",
+        "question": "Explain why the total price is equal to the price per unit multiplied by the quantity.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the relationship between total price, price per unit, and quantity.",
+          "Explain the mathematical operation involved.",
+          "State the formula used to calculate the total price."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total price is equal to the price per unit multiplied by the quantity — develop the idea fully rather than listing short points. Make sure you also cover: the mathematical operation involved."
+        ],
+        "model_answer": "The total price is the sum of the price of each unit multiplied by the quantity. The formula used is Total Price = Price per Unit * Quantity. In this case, 30,000 RWF = 15,000 RWF * 2.",
+        "explanation": "The total price is calculated by multiplying the price per unit by the quantity, which gives the total cost of all units.",
+        "exam_question_id": "84cc6d33-f937-4e1e-a48a-2579dc135887:2",
+        "topic_label": "E-commerce",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6572,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-commerce"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following HTML code snippet for a Facebook e-commerce page that includes a 'Buy Now' button.",
+        "question": "State the HTML attribute that makes the 'Buy Now' button functional.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the HTML element that represents the button.",
+          "State the attribute that makes the button functional."
+        ],
+        "hints": [
+          "Stay focused on this: State the HTML attribute that makes the 'Buy Now' button functional — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The HTML element is <button> and the attribute is onclick. The onclick attribute makes the button functional by specifying the action to be taken when the button is clicked.",
+        "explanation": "The onclick attribute is used to define the action that occurs when the button is clicked, making it functional.",
+        "exam_question_id": "84cc6d33-f937-4e1e-a48a-2579dc135887:3",
+        "topic_label": "E-commerce",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6572,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-commerce"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following HTML code snippet for a Facebook e-commerce page that includes a 'Buy Now' button.",
+        "question": "Explain how the 'Buy Now' button integrates with the e-commerce system to process a purchase.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the 'Buy Now' button in the e-commerce process.",
+          "Explain the interaction between the button and the e-commerce system.",
+          "State the outcome of clicking the 'Buy Now' button."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the 'Buy Now' button integrates with the e-commerce system to process a purchase — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The 'Buy Now' button initiates the purchase process by triggering the action defined in the onclick attribute. When the button is clicked, it sends a request to the e-commerce system to add the item to the cart or process the purchase. The outcome is the successful addition of the item to the cart or the initiation of the payment process.",
+        "explanation": "The 'Buy Now' button triggers the purchase process by interacting with the e-commerce system through the onclick attribute, leading to the addition of the item to the cart or the initiation of the payment process.",
+        "exam_question_id": "84cc6d33-f937-4e1e-a48a-2579dc135887:3",
+        "topic_label": "Facebook (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Facebook (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are using an online shopping platform and see a product priced at 5,000 RWF with a discount of 10%.",
+        "question": "Calculate the final price of the product after the discount.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the discount percentage to the original price.",
+          "Calculate the discount amount accurately.",
+          "Subtract the discount amount from the original price to find the final price."
+        ],
+        "hints": [
+          "Remember to convert the percentage discount to a decimal before applying it to the price."
+        ],
+        "model_answer": "The original price is 5,000 RWF. The discount is 10%, which is 0.10 in decimal form. Multiply the original price by the discount: 5,000 RWF * 0.10 = 500 RWF. Subtract the discount from the original price: 5,000 RWF - 500 RWF = 4,500 RWF. The final price is 4,500 RWF.",
+        "explanation": "To find the final price of the product after applying the discount, you need to calculate the discount amount and subtract it from the original price. Remember to convert the percentage to a decimal before applying it.",
+        "exam_question_id": "698febe5-1185-4dc5-b5d2-d4cde00223d3:1",
+        "topic_label": "Introductory Activity (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Introductory Activity (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are using an online shopping platform and see a product priced at 5,000 RWF with a discount of 10%.",
+        "question": "Explain why the total price is equal to the price per unit multiplied by the quantity.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the price per unit and the quantity.",
+          "Explain the relationship between the total price, price per unit, and quantity.",
+          "Provide a clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the total price is equal to the price per unit multiplied by the quantity — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and logical explanation."
+        ],
+        "model_answer": "The price per unit is the cost of one item, and the quantity is the number of items being purchased. The total price is calculated by multiplying the price per unit by the quantity. This is because the total price is the sum of the price of each individual item, which is why we multiply the price per unit by the quantity to get the total cost.",
+        "explanation": "The total price is the sum of the price of each individual item, so to find the total cost, we multiply the price per unit by the quantity. This ensures that the total price accurately reflects the cost of all the items being purchased.",
+        "exam_question_id": "698febe5-1185-4dc5-b5d2-d4cde00223d3:1",
+        "topic_label": "Introductory Activity (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "Introductory Activity (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following HTML code snippet for a Facebook e-commerce page that includes a 'Buy Now' button.\n\n```html\n<button onclick=\"buyNow()\">Buy Now</button>\n```",
+        "question": "State the HTML attribute that makes the 'Buy Now' button functional.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the attribute",
+          "Explanation of its function"
+        ],
+        "hints": [
+          "Look at the attributes within the <button> tag."
+        ],
+        "model_answer": "The HTML attribute that makes the 'Buy Now' button functional is 'onclick'. This attribute specifies the JavaScript function 'buyNow()' that will be executed when the button is clicked.",
+        "explanation": "Identify and explain the HTML attribute that makes the 'Buy Now' button functional.",
+        "exam_question_id": "d1dd66cc-74a1-4543-9c26-025b70952b40:2",
+        "topic_label": "E-commerce",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6572,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-commerce"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following HTML code snippet for a Facebook e-commerce page that includes a 'Buy Now' button.\n\n```html\n<button onclick=\"buyNow()\">Buy Now</button>\n```",
+        "question": "Explain how the 'Buy Now' button integrates with the e-commerce system to process a purchase.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of button functionality",
+          "Explanation of integration with e-commerce system",
+          "Relevance to purchase processing"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the 'Buy Now' button integrates with the e-commerce system to process a purchase — develop the idea fully rather than listing short points. Make sure you also cover: Understanding of button functionality; Relevance to purchase processing."
+        ],
+        "model_answer": "The 'Buy Now' button integrates with the e-commerce system by triggering the 'buyNow()' JavaScript function when clicked. This function likely contains the logic to add the selected product to the user's cart and proceed to the checkout process, ensuring a seamless purchase experience.",
+        "explanation": "Explain how the 'Buy Now' button integrates with the e-commerce system to process a purchase.",
+        "exam_question_id": "d1dd66cc-74a1-4543-9c26-025b70952b40:2",
+        "topic_label": "E-commerce",
+        "topic_id": 1285,
+        "checked": true,
+        "subtopic_id": 6572,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-commerce"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are using WhatsApp to buy a pair of shoes from an online store. The shoes cost 12,000 RWF per pair, and you are purchasing 3 pairs. Refer to the following WhatsApp message exchange:\n\n**Store:** The total cost for 3 pairs of shoes is 36,000 RWF. Please confirm your purchase.\n\n**You:** I confirm my purchase.\n\n**Store:** Your order has been placed successfully. Thank you for shopping with us.",
+        "question": "Calculate the total cost of the shoes.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the cost per pair of shoes.",
+          "Multiply the cost per pair by the number of pairs purchased."
+        ],
+        "hints": [
+          "Identify the numbers in the message."
+        ],
+        "model_answer": "Cost per pair = 12,000 RWF\nNumber of pairs = 3\nTotal cost = 12,000 RWF * 3 = 36,000 RWF",
+        "explanation": "You need to calculate the total cost by multiplying the price per pair by the number of pairs purchased.",
+        "exam_question_id": "33c4e305-1cdf-4bef-b3ed-6caddcca5ac5:1",
+        "topic_label": "WhatsApp (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "WhatsApp (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are using WhatsApp to buy a pair of shoes from an online store. The shoes cost 12,000 RWF per pair, and you are purchasing 3 pairs. Refer to the following WhatsApp message exchange:\n\n**Store:** The total cost for 3 pairs of shoes is 36,000 RWF. Please confirm your purchase.\n\n**You:** I confirm my purchase.\n\n**Store:** Your order has been placed successfully. Thank you for shopping with us.",
+        "question": "Explain why the total cost is equal to the cost per pair multiplied by the number of pairs.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the cost per pair of shoes.",
+          "Identify the number of pairs purchased.",
+          "Explain the multiplication process."
+        ],
+        "hints": [
+          "Refer to the message exchange."
+        ],
+        "model_answer": "The cost per pair of shoes is 12,000 RWF, and you are purchasing 3 pairs. The total cost is calculated by multiplying the cost per pair (12,000 RWF) by the number of pairs (3), which gives 36,000 RWF.",
+        "explanation": "You need to explain the multiplication process to justify why the total cost equals the product of the cost per pair and the number of pairs.",
+        "exam_question_id": "33c4e305-1cdf-4bef-b3ed-6caddcca5ac5:1",
+        "topic_label": "WhatsApp (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "WhatsApp (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are using WhatsApp to buy a pair of shoes from an online store. The shoes cost 12,000 RWF per pair, and you are purchasing 3 pairs. Refer to the following WhatsApp message exchange:",
+        "question": "Calculate the total cost of the shoes.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the cost per pair of shoes.",
+          "Multiply the cost per pair by the number of pairs purchased."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the shoes — develop the idea fully rather than listing short points. Make sure you also cover: Multiply the cost per by the of purchased."
+        ],
+        "model_answer": "The total cost of the shoes is 36,000 RWF. This is calculated by multiplying the cost per pair (12,000 RWF) by the number of pairs (3 pairs): 12,000 RWF * 3 = 36,000 RWF.",
+        "explanation": "To find the total cost, multiply the cost per pair of shoes by the number of pairs being purchased. In this case, the total cost is 12,000 RWF per pair times 3 pairs, resulting in 36,000 RWF.",
+        "exam_question_id": "510b6644-585f-4421-a28a-467f6f6c6c40:2",
+        "topic_label": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are using WhatsApp to buy a pair of shoes from an online store. The shoes cost 12,000 RWF per pair, and you are purchasing 3 pairs. Refer to the following WhatsApp message exchange:",
+        "question": "Explain why the total cost is equal to the cost per pair multiplied by the number of pairs.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define the variables: cost per pair and number of pairs.",
+          "Explain the multiplication operation.",
+          "Relate the multiplication to the total cost calculation."
+        ],
+        "hints": [
+          "Consider the basic arithmetic operation of multiplication and its application in calculating total costs."
+        ],
+        "model_answer": "The total cost is equal to the cost per pair multiplied by the number of pairs because each pair of shoes costs 12,000 RWF, and by purchasing 3 pairs, the total cost is the sum of the cost of each pair. Mathematically, this is expressed as 12,000 RWF * 3 pairs = 36,000 RWF. This calculation ensures that the total cost accurately reflects the quantity and price of the items being purchased.",
+        "explanation": "When calculating the total cost of multiple items, each item's cost is multiplied by the number of items being purchased. In this case, the total cost is found by multiplying the cost per pair (12,000 RWF) by the number of pairs (3 pairs), resulting in 36,000 RWF.",
+        "exam_question_id": "510b6644-585f-4421-a28a-467f6f6c6c40:2",
+        "topic_label": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)",
+        "topic_id": 1285,
+        "checked": true,
+        "source": {
+          "textbook": "ICT S5 Adapted SB",
+          "area": "E-Banking and E-Payment (E-Commerce, Social Media and Online Services)"
+        }
+      }
+    ],
+    "estimated_time": 55,
+    "assessment_id": "2998848b-da7e-42dd-8ea7-3b0880f9f0a2",
+    "subject": "ICT S5 Adapted SB",
+    "topics": [
+      "E-Commerce, Social Media and Online Services"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 120,
+    "topic_ids": [
+      1285
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 22,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 19"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 20"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 204
+}

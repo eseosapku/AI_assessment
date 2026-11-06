@@ -1,0 +1,353 @@
+{
+  "index": 18,
+  "label": "REB / Practice / ICT  S3 SB",
+  "request": {
+    "subject": "ICT  S3 SB",
+    "textbook_id": 115,
+    "topic_ids": [
+      1222
+    ],
+    "topics": [
+      "Introduction to ICT"
+    ],
+    "curriculum": "rwanda",
+    "grade": 9,
+    "className": "S3",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 25,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Explain how the Internet Protocol (IP) is used to route data packets across the internet. Break down the process into three key stages and describe each one.",
+        "marks": 6,
+        "marking_criteria": [
+          "Describe the first stage of data routing",
+          "Explain the purpose of the stage",
+          "Describe the second stage of data routing",
+          "Explain the purpose of the stage",
+          "Describe the third stage of data routing",
+          "Explain the purpose of the stage"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain how the Internet Protocol (IP) is used to route data packets across the internet; then Break down the process into three key stages and describe each one. Make sure you also cover: the purpose of the; the purpose of the; the purpose of the."
+        ],
+        "model_answer": "The first stage of data routing involves the sender's device breaking down the data into smaller packets, each with a header containing the destination IP address. The second stage is the transmission of these packets through various routers, which use the IP addresses to determine the best path for each packet. The third stage is the final delivery of the packets to the recipient's device, where the data is reassembled from the packets. Each stage is crucial for ensuring the data reaches its destination accurately and efficiently.",
+        "explanation": "By breaking down the process into distinct stages and explaining each one, you demonstrate a clear understanding of how data is routed across the internet using the IP protocol.",
+        "checked": true,
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "topic_label": "ICT Fundamental",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Look at the diagram. A learner wants to remove the unwanted white space around the camcorder photo. Describe what the Crop command does and why it suits this task.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that Crop cuts away/removes the outer parts of the image, keeping only the selected area",
+          "States that it suits the task because it trims the white edges, leaving the camcorder as the main subject (a smaller, tidier image)"
+        ],
+        "model_answer": "The Crop command cuts away the outer parts of an image and keeps only the area the user selects. It suits this task because the white space around the camcorder can be trimmed off, leaving the camcorder as the main subject in a smaller, tidier image.",
+        "explanation": "A strong answer explains what Crop does (removes the outside parts and keeps the chosen area) and links this to the task of trimming the white space so the camcorder becomes the focus of the picture.",
+        "image_url": "/textbook-images/rwanda/115/page303-embedded-0.jpeg",
+        "topic_label": "ICT Fundamental",
+        "vetted": true,
+        "image_alt": "A screenshot of an image editor with a photo of a black Sony 4K camcorder in the top left. A right-click context menu is open with File, Edit, Select, View, Image, Layer, Colors, Tools (highlighted), Filters, Windows and Help. The Tools submenu lists Selection Tools, Paint Tools, Transform Tools (highlighted), Color Tools, Paths (B), Color Picker (O), Zoom (Z), Measure (Shift+M), Text (T), GEGL Operation... and New Toolbox (Ctrl+B). The Transform Tools submenu lists Align, Move, Crop, Rotate, Scale, Shear, Perspective and Flip. Printed on it: 4K | SONY | 4K | File | Edit | Select | View | Imag",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then A learner wants to remove the unwanted white space around the camcorder photo. Make sure you also cover: that Crop away/removes the of the keeping the selected."
+        ],
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "A company wants to implement a new software system to manage its inventory. Describe the steps involved in the implementation process and explain why each step is necessary.",
+        "marks": 8,
+        "marking_criteria": [
+          "Describe the first step in the implementation process",
+          "Explain the necessity of the step",
+          "Describe the second step in the implementation process",
+          "Explain the necessity of the step",
+          "Describe the third step in the implementation process",
+          "Explain the necessity of the step",
+          "Describe the fourth step in the implementation process",
+          "Explain the necessity of the step"
+        ],
+        "hints": [
+          "Structure your answer around both demands: A company wants to implement a new software system to manage its inventory; then Describe the steps involved in the implementation process and explain why each step is necessary. Make sure you also cover: the step in the implementation process; the step in the implementation…."
+        ],
+        "model_answer": "The first step is to assess the current inventory management system to identify its shortcomings and requirements for the new system. This ensures that the new software will meet the company's needs. The second step is selecting the appropriate software based on the assessment. Choosing the right software is crucial for seamless integration and functionality. The third step involves installing the software and configuring it according to the company's specifications. Proper installation ensures the software works as intended. The final step is training the staff on how to use the new system and monitoring its performance to address any issues promptly. Training and monitoring are necessary to ensure the software is used effectively and any problems are resolved quickly.",
+        "explanation": "Each step you describe and explain is necessary for a successful software implementation. By detailing the necessity of each step, you show a comprehensive understanding of the process.",
+        "checked": true,
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "topic_label": "ICT Fundamental",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Explain how cybersecurity measures can protect a company's data and justify why implementing these measures is essential.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain how cybersecurity measures can protect a company's data",
+          "Justify why implementing these measures is essential"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how cybersecurity measures can protect a company's data and justify why implementing these measures is essential — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Cybersecurity measures such as firewalls, encryption, and regular software updates are crucial for protecting a company's data. Firewalls act as a barrier between the company's network and potential threats, preventing unauthorized access. Encryption ensures that sensitive data is unreadable to unauthorized users, even if it is intercepted. Regular updates patch vulnerabilities that could be exploited by attackers. Implementing these measures is essential because the consequences of a data breach can be severe, including financial loss, damage to the company's reputation, and legal repercussions. Protecting data is therefore critical to maintaining the company's integrity and trust with its customers.",
+        "explanation": "By explaining specific cybersecurity measures and justifying their importance, you demonstrate an understanding of how these measures protect a company's data and why they are essential.",
+        "checked": true,
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "topic_label": "ICT Fundamental",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Evaluate the role of mobile applications in enhancing customer service and explain how businesses can use these apps to improve customer engagement.",
+        "marks": 2,
+        "marking_criteria": [
+          "Evaluate the role of mobile applications in enhancing customer service",
+          "Explain how businesses can use mobile apps to improve customer engagement"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Mobile applications play a significant role in enhancing customer service by providing instant support through features like live chat and helpdesk access. They offer personalized services by allowing customers to track orders, access account information, and receive tailored recommendations. Real-time updates keep customers informed about their orders and any changes, improving their overall experience. Businesses can use these apps to improve customer engagement by offering loyalty programs, push notifications for special offers, and interactive features like surveys and feedback forms. These strategies help businesses understand customer preferences and build stronger relationships with their audience.",
+        "explanation": "By evaluating the role of mobile applications and explaining strategies for improving customer engagement, you demonstrate an understanding of how these apps can enhance customer service and engagement.",
+        "checked": true,
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "topic_label": "ICT Fundamental",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Look at the diagram. The new document will be 2 x 3 inches at 300 Pixels/Inch. Calculate its size in pixels and say why 300 is a good resolution for printing.",
+        "marks": 2,
+        "marking_criteria": [
+          "Calculates the pixel size correctly: 600 x 900 pixels (2 x 300 by 3 x 300).",
+          "States that a high resolution such as 300 ppi gives more detail, so the printed image is sharp and not pixelated."
+        ],
+        "model_answer": "The image will be 600 x 900 pixels, because 2 inches x 300 = 600 and 3 inches x 300 = 900. A resolution of 300 pixels per inch packs in many pixels, so the printed picture is sharp and detailed, not blurry or pixelated.",
+        "explanation": "A strong answer multiplies each dimension in inches by the resolution, 2 x 300 and 3 x 300, to get the pixel size. It must also explain that more pixels per inch means sharper print quality.",
+        "image_url": "/textbook-images/rwanda/115/page267-embedded-2.jpeg",
+        "topic_label": "ICT Fundamental",
+        "vetted": true,
+        "image_alt": "A screenshot of the Photoshop 'New Document' dialog with the Photo tab selected. Nine blank document presets are listed and 'Portrait, 2 x 3' (2 x 3 in @ 300 ppi) is highlighted. The Preset Details panel shows the name 'Elephant', Width 2 Inches, Height 3, portrait orientation, Resolution 300 Pixels/Inch, Color Mode RGB Color 8 bit, and Background Contents White. An arrow from a box labelled 'File name' points to the name 'Elephant'. Printed on it: New Document | Recent | Saved | Photo | Print | Art & Illustration | Web | Mobile | Film & Video | BLANK DOCUMENT PRESETS (9) | Default Photoshop S",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then The new document will be 2 x 3 inches at 300 Pixels/Inch. Make sure you also cover: Calculates the pixel size correctly: 600 x 900 pixels (2 x 300 by 3 x 300).; that a high resolution such as 300 ppi gives more detail, so the is and not."
+        ],
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Explain how cloud computing can benefit a small business. Consider aspects such as cost savings, scalability, accessibility, and security. Provide a detailed analysis of each benefit and how it can impact the business's operations.",
+        "marks": 4,
+        "marking_criteria": [
+          "Describe the cost savings associated with cloud computing.",
+          "Explain how cloud computing provides scalability.",
+          "Discuss the accessibility benefits of cloud computing.",
+          "Analyse the security features of cloud computing and their impact on the business."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Cloud computing can benefit a small business in several ways. Firstly, it offers cost savings by reducing the need for expensive on-premises hardware and maintenance. Instead, businesses can pay for only what they use, which can significantly lower IT costs. Secondly, cloud computing provides scalability, allowing businesses to easily adjust their computing resources based on demand without significant upfront investment. Thirdly, cloud services offer accessibility, enabling employees to work from anywhere with an internet connection, which enhances productivity and flexibility. Lastly, cloud providers often have robust security measures in place, protecting business data from threats and reducing the burden on the business to manage security internally.",
+        "explanation": "Describing the cost savings shows an understanding of how cloud computing can reduce expenses. Explaining scalability demonstrates knowledge of how businesses can adapt to changing needs. Discussing accessibility highlights the benefits of remote work, and analysing security features shows an understanding of how cloud computing protects business data, which is why these points earn the marks.",
+        "checked": true,
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "topic_label": "ICT Fundamental",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "A company is planning to implement a new software application to manage its inventory. Describe the steps involved in the software development lifecycle (SDLC) that should be followed to ensure the software meets the company's requirements. Include the planning, design, implementation, testing, and deployment phases.",
+        "marks": 5,
+        "marking_criteria": [
+          "Outline the planning phase of the SDLC.",
+          "Describe the design phase of the SDLC.",
+          "Explain the implementation phase of the SDLC.",
+          "Discuss the testing phase of the SDLC.",
+          "Explain the deployment phase of the SDLC."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "The software development lifecycle (SDLC) consists of several phases to ensure the software meets the company's requirements. The planning phase involves defining the project scope, objectives, and budget. The design phase includes creating detailed specifications and architecture for the software. The implementation phase is where the actual coding and development of the software take place. The testing phase ensures the software functions correctly and meets the specified requirements through various testing methods. Finally, the deployment phase involves installing the software in the production environment and providing user training. Following these phases ensures that the software is developed efficiently and meets the company's needs.",
+        "explanation": "Outlining the planning phase shows an understanding of project initiation. Describing the design phase demonstrates knowledge of creating software specifications. Explaining the implementation phase shows an understanding of coding and development. Discussing the testing phase highlights the importance of quality assurance, and explaining the deployment phase shows an understanding of how software is delivered to users, which is why these points earn the marks.",
+        "checked": true,
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "topic_label": "ICT Fundamental",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Look at the drawing. Which Paint tool would you use to colour the whole roof red after drawing its outline?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "Fill with colour",
+            "Fill tool",
+            "Paint bucket",
+            "Bucket tool",
+            "Fill",
+            "Fill with color",
+            "Paint bucket tool"
+          ]
+        },
+        "explanation": "The roof is a closed shape filled with a single solid red. In Paint, the Fill with colour (paint bucket) tool floods a closed outline with the chosen colour, so it is used to colour the roof quickly.",
+        "image_url": "/textbook-images/rwanda/115/page267-embedded-1.jpeg",
+        "topic_label": "ICT Fundamental",
+        "vetted": true,
+        "image_alt": "A colourful drawing of a house made in a paint program. It has a red roof with a green triangular gable end, and pink walls. The front has a yellow and blue door and two blue windows, and the side wall has three blue windows. A black railing surrounds a grey veranda and a grey path or base runs around the house.",
+        "hints": [
+          "Structure your answer around both demands: Look at the drawing; then Which Paint tool would you use to colour the whole roof red after drawing its outline."
+        ],
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "A local NGO is planning to use social media to raise awareness about their cause. Describe how they can use different social media platforms to achieve their goals. Consider the target audience, content types, and engagement strategies. Provide a detailed explanation of how each platform can be utilised effectively.",
+        "marks": 4,
+        "marking_criteria": [
+          "(1) Identify the target audience for the NGO's social media campaign.",
+          "(2) Describe the types of content suitable for different social media platforms.",
+          "(3) Explain engagement strategies for at least two different platforms.",
+          "(4) Explain how at least two platforms can be utilised effectively to achieve the NGO's awareness goals."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "(1) Identify the target audience for the NGO's social media campaign. (2) Describe the types of content suitable for different social media platforms. (3) Explain engagement strategies for at least two different platforms. (4) Explain how at least two platforms can be utilised effectively to achieve the NGO's awareness goals.",
+        "explanation": "Identifying the target audience shows an understanding of who to reach. Describing suitable content demonstrates knowledge of different platform strengths. Explaining engagement strategies highlights how to interact with the audience, and providing a detailed explanation of platform utilisation shows how to apply these strategies effectively, which is why these points earn the marks.",
+        "checked": true,
+        "subtopic_id": 5976,
+        "topic_id": 1222,
+        "topic_label": "ICT Fundamental",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ICT Fundamental"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "96e05266-ebfc-4dc7-aa14-ba4f30b70398",
+    "subject": "ICT  S3 SB",
+    "topics": [
+      "Introduction to ICT"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 115,
+    "topic_ids": [
+      1222
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 9,
+      "detail": "49 words"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "10",
+        "severity": "broken",
+        "detail": "Model answer is identical to the marking criteria structure and contains no substantive content. It merely restates the four criterion labels without providing any actual answer about NGO social media strategy, making it impossible for markers to assess student responses fairly.",
+        "correction": "Model answer must provide a complete, detailed response addressing all four criteria: e.g., 'Target audience includes youth, donors, and community members. Facebook suits longer-form storytelling and community building; Instagram uses visual content like infographics and impact stories. Engagement on Facebook involves discussion posts and live Q&As; on Instagram, hashtag campaigns and user-generated content. Facebook's groups enable sustained dialogue; Instagram's reach maximizes awareness through shareable visual content.'"
+      },
+      {
+        "label": "1",
+        "severity": "poor",
+        "detail": "Hint text contains incomplete placeholder phrases ('the purpose of the; the purpose of the; the purpose of the') that do not specify which stages' purposes should be covered, creating ambiguity for students about what to include.",
+        "correction": "Hints should read: 'Make sure you also cover: the purpose of the first stage; the purpose of the second stage; the purpose of the third stage.'"
+      },
+      {
+        "label": "2",
+        "severity": "poor",
+        "detail": "Hint text contains incomplete placeholder phrase ('that Crop away/removes the of the keeping the selected') with missing words, making the hint unclear and unhelpful to students.",
+        "correction": "Hints should read: 'Make sure you also cover: that Crop cuts away/removes the outer parts of the image, keeping the selected area.'"
+      }
+    ],
+    "summary": "Assessment contains 10 questions aligned to ICT S3 curriculum. Critical issue: Question 10's model answer is structurally broken—it restates marking criteria labels without substantive content, preventing fair assessment. Minor issues: Questions 1 and 2 have incomplete placeholder text in hints. Questions 6 and 9 are well-constructed with clear numerical/practical demands. No repeated questions detected."
+  },
+  "totalSeconds": 38
+}

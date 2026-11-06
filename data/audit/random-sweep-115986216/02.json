@@ -1,0 +1,1610 @@
+{
+  "index": 2,
+  "label": "Cambridge / Exam / Complete English Language for Cambridge International AS & A Level Second Edition",
+  "request": {
+    "subject": "Complete English Language for Cambridge International AS & A Level Second Edition",
+    "textbook_id": 208,
+    "topic_ids": [
+      2622
+    ],
+    "topics": [
+      "Chapter 1: Elements of language"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Complete English Language for Cambridge International AS & A Level Second Edition",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 128,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, which means it contains every letter of the English alphabet at least once.",
+        "question": "State the total number of letters in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the total number of letters.",
+          "State the correct number."
+        ],
+        "hints": [
+          "Count all the characters in the sentence including spaces and punctuation."
+        ],
+        "model_answer": "The total number of letters in the sentence is 26.",
+        "explanation": "Count only the letters in the sentence, not spaces or the full stop. There are 26 letters total.",
+        "exam_question_id": "69e9b3e7-c420-484f-8aab-7f461107514e:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, which means it contains every letter of the English alphabet at least once.",
+        "question": "Name the vowels present in this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify all vowels present in the sentence",
+          "List all five vowels: a, e, i, o, u",
+          "Ensure no vowels are omitted"
+        ],
+        "hints": [
+          "Stay focused on this: Name the vowels present in this sentence — develop the idea fully rather than listing short points. Make sure you also cover: List all five vowels: a, e, i, o, u; Ensure no vowels are omitted."
+        ],
+        "model_answer": "The vowels present in the sentence are: e, i, o, u.",
+        "explanation": "Identify and list the vowels in the sentence: 'The quick brown fox jumps over the lazy dog.' The vowels are e, i, o, and u.",
+        "exam_question_id": "69e9b3e7-c420-484f-8aab-7f461107514e:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, which means it contains every letter of the English alphabet at least once.",
+        "question": "Explain why this sentence is considered a pangram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define what a pangram is.",
+          "Explain how the sentence meets the criteria of a pangram.",
+          "Use specific examples from the sentence."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is considered a pangram — develop the idea fully rather than listing short points. Make sure you also cover: specific examples from the sentence."
+        ],
+        "model_answer": "This sentence is considered a pangram because it contains every letter of the English alphabet at least once. The sentence 'The quick brown fox jumps over the lazy dog' includes the letters A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, and Z.",
+        "explanation": "A pangram is a sentence that includes every letter of the alphabet at least once. The given sentence 'The quick brown fox jumps over the lazy dog' contains all 26 letters of the English alphabet, making it a pangram.",
+        "exam_question_id": "69e9b3e7-c420-484f-8aab-7f461107514e:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses all 26 letters of the English alphabet.",
+        "question": "State the number of vowels and consonants in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifies and counts vowels correctly: 11",
+          "Identifies and counts consonants correctly: 19"
+        ],
+        "hints": [
+          "Stay focused on this: State the number of vowels and consonants in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: and counts vowels correctly: 11; and counts consonants correctly: 19."
+        ],
+        "model_answer": "Vowels: 11 (The, o, u, o, e, o, u, o, a, o, y) \nConsonants: 15 (T, h, q, c, k, b, r, w, n, f, x, j, m, p, s, l, z, d, g)",
+        "explanation": "Count each vowel and consonant in the sentence provided.",
+        "exam_question_id": "db81b8b8-3b6b-4f8e-80af-4aab32f3d0e5:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses all 26 letters of the English alphabet.",
+        "question": "Explain why this sentence is often used as a 'pangram'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Define what a pangram is.",
+          "Explain why this sentence qualifies as a pangram."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is often used as a 'pangram' — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "A pangram is a sentence that contains every letter of the alphabet at least once. This sentence is a pangram because it includes every letter of the alphabet at least once.",
+        "explanation": "Explain the definition of a pangram and why the given sentence meets the criteria.",
+        "exam_question_id": "db81b8b8-3b6b-4f8e-80af-4aab32f3d0e5:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it contains every letter of the English alphabet.",
+        "question": "State the total number of letters in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Count all letters in the sentence (excluding spaces and punctuation).",
+          "State the correct total: 35 letters."
+        ],
+        "hints": [
+          "Stay focused on this: State the total number of letters in this sentence — develop the idea fully rather than listing short points. Make sure you also cover: Count all letters in the sentence (excluding spaces and punctuation).; the correct total: 35 letters."
+        ],
+        "model_answer": "The sentence 'The quick brown fox jumps over the lazy dog.' contains 26 letters.",
+        "explanation": "Count each letter in the sentence to determine the total number of letters.",
+        "exam_question_id": "41209672-9fb8-4b0a-a78a-4c35b29eef6c:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it contains every letter of the English alphabet.",
+        "question": "Name three vowels found in this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify at least three vowels in the sentence.",
+          "Name each vowel correctly.",
+          "Ensure all named vowels are different."
+        ],
+        "hints": [
+          "Recall the vowels in the English alphabet: A, E, I, O, U."
+        ],
+        "model_answer": "The vowels in the sentence are: 'e', 'u', 'o'.",
+        "explanation": "Identify and name at least three different vowels present in the sentence.",
+        "exam_question_id": "41209672-9fb8-4b0a-a78a-4c35b29eef6c:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it contains every letter of the English alphabet.",
+        "question": "Explain why this sentence is considered a pangram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define what a pangram is.",
+          "Explain how the sentence meets the criteria of a pangram.",
+          "Use specific examples from the sentence."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is considered a pangram — develop the idea fully rather than listing short points. Make sure you also cover: specific examples from the sentence."
+        ],
+        "model_answer": "A pangram is a sentence that includes every letter of the alphabet at least once. The sentence 'The quick brown fox jumps over the lazy dog.' is a pangram because it contains all 26 letters of the English alphabet: T, h, e, q, u, i, c, k, b, r, o, w, n, f, x, j, m, p, s, o, v, e, r, l, a, z, y, d, g.",
+        "explanation": "Explain what a pangram is and show how the given sentence fulfills the criteria by including every letter of the alphabet at least once.",
+        "exam_question_id": "41209672-9fb8-4b0a-a78a-4c35b29eef6c:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses all 26 letters of the English alphabet.",
+        "question": "State the number of vowels in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct number of vowels",
+          "Identify the vowels in the sentence"
+        ],
+        "hints": [
+          "Stay focused on this: State the number of vowels in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: the correct number of vowels."
+        ],
+        "model_answer": "There are 11 vowels in the sentence: 'The quick brown fox jumps over the lazy dog.' The vowels are: e, u, i, o, o, u, o, e, o, a, o.",
+        "explanation": "To find the number of vowels, count each instance of 'a', 'e', 'i', 'o', and 'u' in the sentence.",
+        "exam_question_id": "cef077b4-5b18-4dae-b873-ce09bfdbb96b:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses all 26 letters of the English alphabet.",
+        "question": "Calculate the number of consonants in the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Count total letters in the sentence (excluding spaces and punctuation): 35",
+          "Identify number of vowels: 11",
+          "Calculate consonants: 35 − 11 = 24"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of consonants in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: Count in the sentence (excluding spaces and punctuation): 35."
+        ],
+        "model_answer": "There are 15 consonants in the sentence: 'The quick brown fox jumps over the lazy dog.' The consonants are: t, h, q, c, k, b, r, w, n, f, x, j, m, p, s, l, z, d, g. The total number of letters is 26, and the number of vowels is 11. Therefore, the number of consonants is 26 - 11 = 15.",
+        "explanation": "To find the number of consonants, count each instance of a letter that is not a vowel and subtract the number of vowels from the total number of letters in the sentence.",
+        "exam_question_id": "cef077b4-5b18-4dae-b873-ce09bfdbb96b:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses all 26 letters of the English alphabet.",
+        "question": "Explain why this sentence is often used as a typing exercise.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the purpose of the sentence",
+          "Discuss the inclusion of all 26 letters",
+          "Mention its use in typing practice"
+        ],
+        "hints": [
+          "Consider the educational value of using all letters of the alphabet in a single sentence."
+        ],
+        "model_answer": "This sentence is often used as a typing exercise because it includes every letter of the English alphabet exactly once. This allows typists to practice all the keys on a standard keyboard, ensuring they become familiar with the layout and improving their typing speed and accuracy.",
+        "explanation": "The sentence 'The quick brown fox jumps over the lazy dog' is used as a typing exercise because it contains every letter of the alphabet, which helps typists practice all the keys on a keyboard. This makes it an effective tool for improving typing skills.",
+        "exam_question_id": "cef077b4-5b18-4dae-b873-ce09bfdbb96b:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify and name the grammatical components of this sentence.",
+        "question": "Identify and name the subject and the verb in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the subject",
+          "Identify the verb"
+        ],
+        "hints": [
+          "Look for the noun that performs the action in the sentence."
+        ],
+        "model_answer": "The subject is 'The cat' and the verb is'sat'.",
+        "explanation": "The subject of a sentence is the person, place, thing, or idea that is doing or being something. The verb is the action or state of being in the sentence.",
+        "exam_question_id": "41e4cca6-43ef-4fd0-bca3-41b38db02550:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify and name the grammatical components of this sentence.",
+        "question": "Explain the role of the preposition in the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the preposition",
+          "Explain its function in the sentence",
+          "Describe its relationship to other words"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of the preposition in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: its function in the sentence; its to other words."
+        ],
+        "model_answer": "The preposition is 'on'. It shows the relationship between the noun 'mat' and the verb'sat', indicating where the action took place.",
+        "explanation": "Prepositions are words that show the relationship between a noun (or pronoun) and other words in a sentence. They often indicate location, direction, time, manner, or possession.",
+        "exam_question_id": "41e4cca6-43ef-4fd0-bca3-41b38db02550:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify and name the grammatical components of this sentence.",
+        "question": "Describe the structure of the sentence and classify it by type.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the sentence structure",
+          "Classify the sentence type"
+        ],
+        "hints": [
+          "Determine if the sentence is simple, compound, complex, or compound-complex."
+        ],
+        "model_answer": "The sentence is a simple sentence. It has one independent clause with a subject ('The cat') and a verb ('sat'), and a prepositional phrase ('on the mat').",
+        "explanation": "A simple sentence consists of one independent clause, which contains a subject and a verb, and expresses a complete thought.",
+        "exam_question_id": "41e4cca6-43ef-4fd0-bca3-41b38db02550:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it uses every letter of the English alphabet at least once.",
+        "question": "State the total number of letters in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the sentence given.",
+          "Count the total number of letters in the sentence."
+        ],
+        "hints": [
+          "Count each letter, including spaces and punctuation."
+        ],
+        "model_answer": "The total number of letters in the sentence 'The quick brown fox jumps over the lazy dog.' is 26.",
+        "explanation": "Count every letter character in the sentence 'The quick brown fox jumps over the lazy dog.' (excluding the space and full stop): this gives 35 letters total. Do not confuse this with the number of unique letters in the alphabet (26).",
+        "exam_question_id": "ae94a6bb-ae31-4c58-b5c6-f1d3dd5138c5:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it uses every letter of the English alphabet at least once.",
+        "question": "Name the vowels present in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the vowels in the English alphabet.",
+          "Locate and list the vowels in the given sentence."
+        ],
+        "hints": [
+          "Stay focused on this: Name the vowels present in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: Identify the vowels in the English alphabet.; Locate and list the vowels in the given sentence."
+        ],
+        "model_answer": "The vowels present in the sentence are: a, e, i, o, u, o, e, u, o, a, o, a, o.",
+        "explanation": "The vowels present in the sentence are the five distinct vowel letters: a, e, i, o, and u. Each appears one or more times in the sentence.",
+        "exam_question_id": "ae94a6bb-ae31-4c58-b5c6-f1d3dd5138c5:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it uses every letter of the English alphabet at least once.",
+        "question": "Explain why this sentence is considered a pangram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Define what a pangram is.",
+          "Explain how the given sentence fits the definition of a pangram."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is considered a pangram — develop the idea fully rather than listing short points. Make sure you also cover: how the given sentence fits the definition of a pangram."
+        ],
+        "model_answer": "This sentence is considered a pangram because it uses every letter of the English alphabet at least once. The sentence 'The quick brown fox jumps over the lazy dog.' includes all 26 letters of the alphabet.",
+        "explanation": "Explain that a pangram is a sentence that includes every letter of the alphabet at least once and show how the given sentence meets this criterion.",
+        "exam_question_id": "ae94a6bb-ae31-4c58-b5c6-f1d3dd5138c5:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify the subject, verb, and object in this sentence.",
+        "question": "Identify the subject, verb, and object in the sentence: 'The cat sat on the mat.'",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the subject of the sentence.",
+          "Identify the verb of the sentence.",
+          "Identify the object of the sentence."
+        ],
+        "hints": [
+          "The subject is the person, place, or thing that is performing the action."
+        ],
+        "model_answer": "Subject: The cat, Verb: sat, Object: the mat",
+        "explanation": "The subject of the sentence is 'The cat' because it is the one performing the action. The verb is'sat' because it is the action being performed. The object is 'the mat' because it is what the action is being performed on.",
+        "exam_question_id": "7bff5222-03a4-43c9-9e10-4bb48b94cb46:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify the subject, verb, and object in this sentence.",
+        "question": "Explain the role of the preposition in the sentence: 'The cat sat on the mat.'",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the preposition in the sentence.",
+          "Explain its role in connecting the subject and the object."
+        ],
+        "hints": [
+          "Prepositions are words that show the relationship between a noun (or pronoun) and other parts of the sentence."
+        ],
+        "model_answer": "Preposition: on, Role: It shows the relationship between 'the cat' and 'the mat', indicating where the cat is sitting.",
+        "explanation": "The preposition 'on' shows the relationship between the cat and the mat, indicating the position of the cat relative to the mat.",
+        "exam_question_id": "7bff5222-03a4-43c9-9e10-4bb48b94cb46:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify the subject, verb, and object in this sentence.",
+        "question": "Describe how changing the verb to 'jumped' would affect the meaning of the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the new verb.",
+          "Explain how it changes the action being performed.",
+          "Describe the overall effect on the sentence's meaning."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how changing the verb to 'jumped' would affect the meaning of the sentence — develop the idea fully rather than listing short points. Make sure you also cover: how it changes the being; the overall on the sentence's meaning."
+        ],
+        "model_answer": "New verb: jumped, Action change: Jumping is a more dynamic action than sitting, Effect: The sentence would now imply that the cat performed a more energetic action.",
+        "explanation": "Changing 'sat' to 'jumped' changes the action from a static position to a dynamic one, altering the sentence's meaning to suggest the cat moved energetically.",
+        "exam_question_id": "7bff5222-03a4-43c9-9e10-4bb48b94cb46:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all 26 letters of the English alphabet.",
+        "question": "State the total number of letters in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the total number of letters.",
+          "Correctly count all the letters in the sentence."
+        ],
+        "hints": [
+          "Stay focused on this: State the total number of letters in the sentence — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The total number of letters in the sentence is 26.",
+        "explanation": "The sentence contains 26 unique letters of the alphabet. If counting every letter occurrence (including repeats), there are 35 characters total including spaces and punctuation. The question should clarify whether it asks for unique letters or total character count.",
+        "exam_question_id": "36180f6f-866e-4356-afe0-09b217b088f6:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all 26 letters of the English alphabet.",
+        "question": "Calculate the number of vowels in the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the vowels: a, e, i, o, u",
+          "Count each occurrence in the sentence",
+          "Arrive at total of 12 vowels"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of vowels in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: Count each occurrence in the sentence; Arrive at total of 12 vowels."
+        ],
+        "model_answer": "The number of vowels in the sentence is 11.",
+        "explanation": "Counting each vowel occurrence in 'The quick brown fox jumps over the lazy dog.': e appears 4 times, u appears 2 times, i appears 1 time, o appears 4 times, a appears 1 time. Total = 12 vowels.",
+        "exam_question_id": "36180f6f-866e-4356-afe0-09b217b088f6:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all 26 letters of the English alphabet.",
+        "question": "Explain why this sentence is often used to test typewriters and computer keyboards.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the purpose of the sentence in testing.",
+          "Mention the inclusion of all 26 letters.",
+          "Describe how it helps in testing."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is often used to test typewriters and computer keyboards — develop the idea fully rather than listing short points. Make sure you also cover: the purpose of the sentence in testing.; Mention the inclusion of all 26; how it helps in testing."
+        ],
+        "model_answer": "This sentence is often used to test typewriters and computer keyboards because it contains all 26 letters of the English alphabet. By typing this sentence, one can ensure that every key on the keyboard is working correctly, as it exercises all the letters.",
+        "explanation": "The sentence 'The quick brown fox jumps over the lazy dog.' contains every letter of the alphabet, making it a perfect tool for testing the functionality of typewriters and computer keyboards. Typing this sentence ensures that each key is responsive and working properly.",
+        "exam_question_id": "36180f6f-866e-4356-afe0-09b217b088f6:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify and classify the parts of speech for each word in the sentence.",
+        "question": "Identify and classify the parts of speech for each word in the sentence.",
+        "marks": 6,
+        "marking_criteria": [
+          "Identify and classify the part of speech for 'The' (determiner)",
+          "Identify and classify the part of speech for 'cat' (noun)",
+          "Identify and classify the part of speech for 'sat' (verb)",
+          "Identify and classify the part of speech for 'on' (preposition)",
+          "Identify and classify the part of speech for 'the' (determiner)",
+          "Identify and classify the part of speech for 'mat' (noun)"
+        ],
+        "hints": [
+          "Determine if the word is a noun, verb, adjective, adverb, preposition, conjunction, or pronoun."
+        ],
+        "model_answer": "The (determiner), cat (noun), sat (verb), on (preposition), the (determiner), mat (noun).",
+        "explanation": "Identify each word's part of speech based on its function in the sentence.",
+        "exam_question_id": "2faaf421-7dca-478c-8988-f8942bf56fcd:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify and classify the parts of speech for each word in the sentence.",
+        "question": "Explain the role of the verb 'sat' in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe what action the verb 'sat' indicates.",
+          "Explain how the verb'sat' connects to the subject 'cat'."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of the verb 'sat' in the sentence — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The verb'sat' indicates the action performed by the subject 'cat'. It connects the subject to the object 'mat' by showing what the cat is doing.",
+        "explanation": "Explain how the verb describes the action and links the subject to other parts of the sentence.",
+        "exam_question_id": "2faaf421-7dca-478c-8988-f8942bf56fcd:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' Identify and classify the parts of speech for each word in the sentence.",
+        "question": "Show how the sentence structure follows the Subject-Verb-Object (SVO) pattern.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the subject in the sentence.",
+          "Identify the verb in the sentence.",
+          "Identify the object in the sentence."
+        ],
+        "hints": [
+          "Look for the noun that performs the action, the action itself, and the noun that receives the action."
+        ],
+        "model_answer": "The subject is 'The cat', the verb is 'sat', and the object is 'the mat'. The sentence follows the SVO pattern: 'The cat (S) sat (V) on the mat (O).'",
+        "explanation": "Identify the components of the sentence and demonstrate how they align with the SVO structure.",
+        "exam_question_id": "2faaf421-7dca-478c-8988-f8942bf56fcd:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all the letters of the English alphabet.",
+        "question": "State the number of vowels in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "(1) Identifying all vowel types (a, e, i, o, u) in the sentence.",
+          "(2) Counting each occurrence of vowels correctly to reach 11."
+        ],
+        "hints": [
+          "Stay focused on this: State the number of vowels in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: (1) Identifying all vowel types (a, e, i, o, u) in the sentence.; (2) Counting each occurrence of vowels correctly to reach 11."
+        ],
+        "model_answer": "There are 5 vowels in the sentence: 'The quick brown fox jumps over the lazy dog.' They are: 'e', 'u', 'i', 'o', 'o'.",
+        "explanation": "Count each occurrence of the vowels A, E, I, O, U in the sentence. Remember to count each vowel only once, even if it appears multiple times.",
+        "exam_question_id": "d2c0f095-07a9-4bf0-9c1a-3394d895e123:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all the letters of the English alphabet.",
+        "question": "Name the first and last consonants in the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifying consonants in the sentence.",
+          "Identifying the first consonant.",
+          "Identifying the last consonant."
+        ],
+        "hints": [
+          "Consonants are all letters that are not vowels."
+        ],
+        "model_answer": "The first consonant is 't' and the last consonant is 'g'.",
+        "explanation": "Scan the sentence for the first and last letters that are not vowels. Remember, consonants are all the letters except A, E, I, O, U.",
+        "exam_question_id": "d2c0f095-07a9-4bf0-9c1a-3394d895e123:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all the letters of the English alphabet.",
+        "question": "Explain why this sentence is often used to demonstrate the use of all letters in the English alphabet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the purpose of the sentence.",
+          "Explaining the use of all letters.",
+          "Providing a coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is often used to demonstrate the use of all letters in the English alphabet — develop the idea fully rather than listing short points. Make sure you also cover: Understanding the purpose of the sentence.; Providing a coherent explanation."
+        ],
+        "model_answer": "This sentence is often used to demonstrate the use of all letters in the English alphabet because it includes every letter at least once, making it a pangram. A pangram is a sentence that uses every letter of the alphabet at least once, which is useful for testing typewriters, fonts, and keyboard layouts.",
+        "explanation": "A pangram is a sentence that contains every letter of the alphabet at least once. This particular sentence is a well-known example because it is both meaningful and uses all the letters efficiently.",
+        "exam_question_id": "d2c0f095-07a9-4bf0-9c1a-3394d895e123:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses every letter of the English alphabet at least once.",
+        "question": "State the number of letters in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Counts all letters in the sentence (excluding or clearly stating treatment of spaces/punctuation)",
+          "Correctly states 35 as the total"
+        ],
+        "hints": [
+          "Count each letter in the sentence."
+        ],
+        "model_answer": "The sentence 'The quick brown fox jumps over the lazy dog.' has 26 letters.",
+        "explanation": "Count each letter in the sentence, including spaces and punctuation, to determine the total number of letters.",
+        "exam_question_id": "fd4c9663-32c2-430f-8903-a7a2986cc871:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 31,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses every letter of the English alphabet at least once.",
+        "question": "Name the first three letters of the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifies the first three characters of the sentence",
+          "States them correctly as T, h, e (or equivalent notation)"
+        ],
+        "hints": [
+          "Look at the beginning of the sentence."
+        ],
+        "model_answer": "The first three letters of the sentence are 'The'.",
+        "explanation": "Read the sentence from the beginning and identify the first three letters.",
+        "exam_question_id": "fd4c9663-32c2-430f-8903-a7a2986cc871:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 32,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following sentence: 'The quick brown fox jumps over the lazy dog.' This sentence uses every letter of the English alphabet at least once.",
+        "question": "Explain why this sentence is often used to demonstrate the use of all 26 letters of the English alphabet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the purpose of the sentence.",
+          "Explaining the use of all letters.",
+          "Providing a clear and coherent explanation."
+        ],
+        "hints": [
+          "Think about the unique feature of this sentence."
+        ],
+        "model_answer": "This sentence is often used to demonstrate the use of all 26 letters of the English alphabet because it includes every letter at least once, making it a pangram. This property makes it useful for testing typewriters, fonts, and keyboards.",
+        "explanation": "A pangram is a sentence that uses every letter of the alphabet at least once. This sentence is a well-known example and is used for various practical and educational purposes.",
+        "exam_question_id": "fd4c9663-32c2-430f-8903-a7a2986cc871:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 33,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, which means it contains every letter of the English alphabet at least once.",
+        "question": "State the total number of letters in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Count every character including spaces and punctuation",
+          "Arrive at total of 44"
+        ],
+        "hints": [
+          "Stay focused on this: State the total number of letters in this sentence — develop the idea fully rather than listing short points. Make sure you also cover: Count every character and."
+        ],
+        "model_answer": "There are 35 letters in the sentence.\n\n**Explanation:** Each letter, including spaces and punctuation, is counted to get the total number of characters.",
+        "explanation": "Count every single character in the sentence, including spaces and punctuation.",
+        "exam_question_id": "01793e07-e19a-4ca2-879d-31151c6efdcc:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 34,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, which means it contains every letter of the English alphabet at least once.",
+        "question": "Name three vowels present in this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Name three distinct vowels from the sentence.",
+          "Ensure the vowels are correctly identified.",
+          "Each named vowel must be present in the sentence."
+        ],
+        "hints": [
+          "Stay focused on this: Name three vowels present in this sentence — develop the idea fully rather than listing short points. Make sure you also cover: Ensure the vowels are correctly identified."
+        ],
+        "model_answer": "The vowels present in the sentence are 'a', 'e', and 'o'.\n\n**Explanation:** These are three of the vowels found in the sentence.",
+        "explanation": "Identify and list any three vowels found in the sentence.",
+        "exam_question_id": "01793e07-e19a-4ca2-879d-31151c6efdcc:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 35,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, which means it contains every letter of the English alphabet at least once.",
+        "question": "Explain why this sentence is considered a pangram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the definition of a pangram.",
+          "Show how the sentence meets the criteria of a pangram.",
+          "Use clear and concise language."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is considered a pangram — develop the idea fully rather than listing short points. Make sure you also cover: clear and concise language."
+        ],
+        "model_answer": "This sentence is considered a pangram because it contains every letter of the English alphabet at least once.\n\n**Explanation:** A pangram is defined as a sentence that includes all 26 letters of the alphabet. This sentence meets that criterion.",
+        "explanation": "Explain what a pangram is and how the given sentence fulfills that definition.",
+        "exam_question_id": "01793e07-e19a-4ca2-879d-31151c6efdcc:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 36,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'A bird in the hand is worth two in the bush.' This sentence is a proverb, which means it conveys a common truth or piece of advice.",
+        "question": "State the total number of letters in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly count all letters in the sentence (excluding spaces and punctuation).",
+          "State the total: 33 letters."
+        ],
+        "hints": [
+          "Stay focused on this: State the total number of letters in this sentence — develop the idea fully rather than listing short points. Make sure you also cover: Correctly count all letters in the sentence (excluding spaces and punctuation)."
+        ],
+        "model_answer": "There are 35 letters in the sentence.",
+        "explanation": "Count only the letters (a–z, A–Z), not spaces or punctuation marks. The sentence contains 33 letters.",
+        "exam_question_id": "dd372f5d-9394-4e65-b9e6-49edd30ada16:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 37,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'A bird in the hand is worth two in the bush.' This sentence is a proverb, which means it conveys a common truth or piece of advice.",
+        "question": "Name three vowels present in this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify three vowels in the sentence.",
+          "Provide the correct vowels.",
+          "Ensure the vowels are distinct."
+        ],
+        "hints": [
+          "Look for the letters a, e, i, o, u in the sentence."
+        ],
+        "model_answer": "The vowels present in the sentence are a, i, and u.",
+        "explanation": "Identify and name three distinct vowels from the sentence.",
+        "exam_question_id": "dd372f5d-9394-4e65-b9e6-49edd30ada16:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 38,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'A bird in the hand is worth two in the bush.' This sentence is a proverb, which means it conveys a common truth or piece of advice.",
+        "question": "Explain why this sentence is considered a proverb.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the meaning of a proverb.",
+          "Relate the sentence to the definition of a proverb.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Think about what a proverb is and how it is used in language."
+        ],
+        "model_answer": "This sentence is considered a proverb because it conveys a common truth or piece of advice in a concise and memorable way. Proverbs are often used to impart wisdom or share a piece of common knowledge.",
+        "explanation": "Explain the characteristics of a proverb and how the sentence fits this definition.",
+        "exam_question_id": "dd372f5d-9394-4e65-b9e6-49edd30ada16:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 39,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'A bird flew swiftly across the serene landscape.' This sentence contains a variety of grammatical components.",
+        "question": "State the total number of letters in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly counts all the letters in the sentence.",
+          "Provides the final number."
+        ],
+        "hints": [
+          "Count each letter in the sentence, including spaces and punctuation."
+        ],
+        "model_answer": "There are 34 letters in the sentence 'A bird flew swiftly across the serene landscape.'",
+        "explanation": "The explanation tells learners to count each letter, but then contradicts itself by saying to include spaces and punctuation—the model answer does neither. Counting only letters (not spaces or punctuation): A-b-i-r-d-f-l-e-w-s-w-i-f-t-l-y-a-c-r-o-s-s-t-h-e-s-e-r-e-n-e-l-a-n-d-s-c-a-p-e = 40 letters.",
+        "exam_question_id": "a9730867-6034-4452-9957-136cd4594e92:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 40,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'A bird flew swiftly across the serene landscape.' This sentence contains a variety of grammatical components.",
+        "question": "Name three vowels present in this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies at least three vowels from the sentence.",
+          "Lists the vowels correctly.",
+          "Ensures the vowels are distinct."
+        ],
+        "hints": [
+          "Stay focused on this: Name three vowels present in this sentence — develop the idea fully rather than listing short points. Make sure you also cover: Lists the vowels correctly."
+        ],
+        "model_answer": "The vowels present in the sentence are a, i, e, e, a, e, a, e. Three distinct vowels are a, i, e.",
+        "explanation": "Identify and list at least three distinct vowels from the sentence.",
+        "exam_question_id": "a9730867-6034-4452-9957-136cd4594e92:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 41,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'A bird flew swiftly across the serene landscape.' This sentence contains a variety of grammatical components.",
+        "question": "Explain why this sentence is considered descriptive.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explains the descriptive nature of the sentence.",
+          "Mentions specific words or phrases that contribute to the description.",
+          "Provides a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is considered descriptive — develop the idea fully rather than listing short points. Make sure you also cover: Mentions specific or that contribute to the; Provides a and coherent explanation."
+        ],
+        "model_answer": "This sentence is considered descriptive because it uses vivid words and phrases such as'swiftly','serene', and 'landscape' to create a clear and detailed image of the scene. The adjectives and adverbs help to paint a picture in the reader's mind, making the description more engaging and vivid.",
+        "explanation": "Explain how the use of specific words and phrases contributes to the descriptive nature of the sentence.",
+        "exam_question_id": "a9730867-6034-4452-9957-136cd4594e92:1",
+        "checked": true,
+        "subtopic_id": 13380,
+        "topic_id": 2622,
+        "topic_label": "Words and phrases",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Words and phrases"
+        }
+      },
+      {
+        "id": 42,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it contains every letter of the English alphabet. State the total number of letters in this sentence.",
+        "question": "State the total number of letters in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the sentence given.",
+          "Count the total number of letters in the sentence."
+        ],
+        "hints": [
+          "Count each letter including spaces and punctuation."
+        ],
+        "model_answer": "There are 26 letters in the sentence.",
+        "explanation": "Count every letter in the sentence 'The quick brown fox jumps over the lazy dog' (excluding spaces and the period). This gives 35 total letters. The number 26 refers to how many different letters of the alphabet appear, not the total count.",
+        "exam_question_id": "99824388-762a-4e27-bb3d-e55df7a6d0fc:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 43,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it contains every letter of the English alphabet. State the total number of letters in this sentence.",
+        "question": "Name three vowels found in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the vowels in the sentence.",
+          "Select three distinct vowels from the sentence."
+        ],
+        "hints": [
+          "Stay focused on this: Name three vowels found in this sentence — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Three vowels in the sentence are 'e', 'o', 'u'.",
+        "explanation": "Identify the vowels in the sentence and select three distinct ones.",
+        "exam_question_id": "99824388-762a-4e27-bb3d-e55df7a6d0fc:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 44,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence is a pangram, meaning it contains every letter of the English alphabet. State the total number of letters in this sentence.",
+        "question": "Explain why this sentence is considered a pangram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Define what a pangram is.",
+          "Explain how the sentence meets the criteria of a pangram."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is considered a pangram — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "This sentence is considered a pangram because it contains every letter of the English alphabet at least once, demonstrating the full range of letters.",
+        "explanation": "Explain that a pangram is a sentence that uses every letter of the alphabet at least once and show how the given sentence meets this definition.",
+        "exam_question_id": "99824388-762a-4e27-bb3d-e55df7a6d0fc:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 45,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses basic grammatical components.",
+        "question": "Identify and name the grammatical components of this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify and name the subject.",
+          "Identify and name the verb.",
+          "Identify and name the object."
+        ],
+        "hints": [
+          "Look for the noun that performs the action."
+        ],
+        "model_answer": "The subject is 'The cat', the verb is'sat', and the object is 'on the mat'.",
+        "explanation": "The subject of a sentence is who or what the sentence is about. The verb is the action word, and the object is what the action is being done to.",
+        "exam_question_id": "a7571ed4-f177-4d02-b5ba-7997c7994ef7:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 46,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses basic grammatical components.",
+        "question": "Explain the role of the preposition in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the preposition.",
+          "Explain its role in the sentence."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of the preposition in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: its role in the sentence."
+        ],
+        "model_answer": "The preposition 'on' shows the relationship between 'the mat' and 'the cat', indicating where the cat is.",
+        "explanation": "Prepositions are words that link nouns, pronouns, or phrases to other words within a sentence, often indicating direction, place, time, or method.",
+        "exam_question_id": "a7571ed4-f177-4d02-b5ba-7997c7994ef7:1",
+        "checked": true,
+        "subtopic_id": 13380,
+        "topic_id": 2622,
+        "topic_label": "Words and phrases",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Words and phrases"
+        }
+      },
+      {
+        "id": 47,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses basic grammatical components.",
+        "question": "Describe how changing the verb to 'jumped' would affect the meaning of the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the original verb and its meaning.",
+          "Identify the new verb and its meaning.",
+          "Explain the change in meaning."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how changing the verb to 'jumped' would affect the meaning of the sentence — develop the idea fully rather than listing short points. Make sure you also cover: Identify the original verb and its meaning.; Identify the new verb and its meaning.; the change in meaning."
+        ],
+        "model_answer": "Changing 'sat' to 'jumped' changes the action from a static position to a dynamic one, suggesting the cat is now in motion rather than resting.",
+        "explanation": "The verb'sat' indicates a state of rest, while 'jumped' indicates an action of leaping or moving quickly upwards.",
+        "exam_question_id": "a7571ed4-f177-4d02-b5ba-7997c7994ef7:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 48,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses common English words and follows basic grammatical rules.",
+        "question": "Identify and name the grammatical components of this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the subject of the sentence.",
+          "Identify the verb of the sentence.",
+          "Identify the object of the sentence."
+        ],
+        "hints": [
+          "Look for the noun that performs the action in the sentence."
+        ],
+        "model_answer": "Subject: 'The cat'\nVerb:'sat'\nObject: 'the mat'",
+        "explanation": "The grammatical components of the sentence are the subject, verb, and object. The subject is 'The cat', the verb is 'sat', and the object is 'the mat'.",
+        "exam_question_id": "ea065252-b099-4404-8f5a-141f8b5346e0:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 49,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses common English words and follows basic grammatical rules.",
+        "question": "Explain the role of the preposition in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the preposition in the sentence.",
+          "Explain the function of the preposition in relation to the object."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of the preposition in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: the function of the preposition in to the object."
+        ],
+        "model_answer": "The preposition in the sentence is 'on'. It shows the relationship between 'the cat' and 'the mat', indicating where the cat is in relation to the mat.",
+        "explanation": "The preposition 'on' in the sentence 'The cat sat on the mat' shows the relationship between the cat and the mat, indicating the position of the cat in relation to the mat.",
+        "exam_question_id": "ea065252-b099-4404-8f5a-141f8b5346e0:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 50,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses common English words and follows basic grammatical rules.",
+        "question": "Describe how changing the verb to 'jumped' would affect the meaning of the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the change in the verb.",
+          "Explain how the change affects the action described in the sentence.",
+          "Discuss the potential new meaning of the sentence."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how changing the verb to 'jumped' would affect the meaning of the sentence — develop the idea fully rather than listing short points. Make sure you also cover: Identify the change in the verb.; how the change affects the described in the sentence."
+        ],
+        "model_answer": "Changing the verb to 'jumped' would imply that the cat is performing a different action. Instead of sitting on the mat, the cat would be leaping or springing onto the mat. This changes the meaning of the sentence to describe a more dynamic and active action.",
+        "explanation": "Changing the verb from'sat' to 'jumped' changes the action described in the sentence from a static position to a dynamic movement, altering the meaning to describe the cat leaping or springing onto the mat.",
+        "exam_question_id": "ea065252-b099-4404-8f5a-141f8b5346e0:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 51,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses common English words and follows a simple grammatical structure.",
+        "question": "State the total number of letters in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "(1) Identify the sentence: 'The cat sat on the mat.'",
+          "(2) Count all letters (excluding spaces and punctuation): 17 letters total"
+        ],
+        "hints": [
+          "Stay focused on this: State the total number of letters in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: (2) Count all letters (excluding spaces and punctuation): 17 letters total."
+        ],
+        "model_answer": "The sentence 'The cat sat on the mat.' contains 14 letters.",
+        "explanation": "Count each letter in the sentence, excluding spaces and punctuation. 'The cat sat on the mat.' has 17 letters in total.",
+        "exam_question_id": "7dbbb7da-9179-4cb8-a97b-c62dd24d67bf:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 52,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses common English words and follows a simple grammatical structure.",
+        "question": "Identify and name the grammatical components of this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the subject of the sentence.",
+          "Identify the verb of the sentence.",
+          "Identify the object of the sentence."
+        ],
+        "hints": [
+          "Look for the noun that performs the action."
+        ],
+        "model_answer": "The grammatical components are: Subject - 'The cat', Verb -'sat', Object - 'the mat'.",
+        "explanation": "Identify the noun performing the action (subject), the action word (verb), and the noun receiving the action (object) in the sentence.",
+        "exam_question_id": "7dbbb7da-9179-4cb8-a97b-c62dd24d67bf:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 53,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses common English words and follows a simple grammatical structure.",
+        "question": "Describe how changing the verb to 'jumped' would affect the meaning of the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the original meaning of the sentence.",
+          "Explain the new meaning with the changed verb."
+        ],
+        "hints": [
+          "Consider what action 'jumped' describes."
+        ],
+        "model_answer": "Changing the verb to 'jumped' would change the meaning from the cat sitting on the mat to the cat leaping or springing onto the mat.",
+        "explanation": "Explain how the meaning of the sentence changes when the verb is altered from 'sat' to 'jumped'.",
+        "exam_question_id": "7dbbb7da-9179-4cb8-a97b-c62dd24d67bf:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 54,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses basic grammatical components.",
+        "question": "State the total number of letters in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the sentence.",
+          "Correctly counts the total number of letters in the sentence."
+        ],
+        "hints": [
+          "Count each letter in the sentence, including spaces and punctuation."
+        ],
+        "model_answer": "The sentence 'The cat sat on the mat.' has 17 letters.",
+        "explanation": "Count only the letters in the sentence (not spaces or punctuation marks). The sentence 'The cat sat on the mat.' contains 17 letters.",
+        "exam_question_id": "6f166ff2-e0ff-4672-9601-22590e1d3f61:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 55,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses basic grammatical components.",
+        "question": "Identify and name the grammatical components of this sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the subject: 'The cat' (or 'cat')",
+          "Correctly identifies the verb: 'sat'",
+          "Correctly identifies the object or prepositional phrase: 'the mat' or 'on the mat' (accept either; note 'sat' is intransitive so no direct object exists)"
+        ],
+        "hints": [
+          "Identify the noun that performs the action."
+        ],
+        "model_answer": "The grammatical components are: Subject - 'The cat', Verb -'sat', Object - 'on the mat'.",
+        "explanation": "Identify the noun that performs the action (subject), the action being performed (verb), and the noun that receives the action (object).",
+        "exam_question_id": "6f166ff2-e0ff-4672-9601-22590e1d3f61:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 56,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The cat sat on the mat.' This sentence uses basic grammatical components.",
+        "question": "Describe how changing the verb to 'jumped' would affect the meaning of the sentence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the original verb and its meaning.",
+          "Correctly identifies the new verb and its meaning.",
+          "Describes the change in meaning."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how changing the verb to 'jumped' would affect the meaning of the sentence — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the original verb and its meaning."
+        ],
+        "model_answer": "Changing the verb 'sat' to 'jumped' would change the meaning of the sentence to indicate that the cat is performing an action of jumping onto the mat.",
+        "explanation": "Explain how the change from 'sat' to 'jumped' alters the action being described in the sentence.",
+        "exam_question_id": "6f166ff2-e0ff-4672-9601-22590e1d3f61:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 57,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all 26 letters of the English alphabet.",
+        "question": "State the total number of letters in the sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Count all letters in the sentence (excluding spaces and punctuation).",
+          "State the total as 35."
+        ],
+        "hints": [
+          "Stay focused on this: State the total number of letters in the sentence — develop the idea fully rather than listing short points. Make sure you also cover: the total as 35."
+        ],
+        "model_answer": "The sentence 'The quick brown fox jumps over the lazy dog.' contains 35 letters.\n\nStep-by-step:\n1. Count each letter in the sentence.\n2. Include spaces and punctuation in the count.",
+        "explanation": "Count each letter (a–z) in the sentence. Spaces and punctuation are not letters, so do not include them. The total is 35 letters.",
+        "exam_question_id": "f4dc53cc-d2b2-412b-a2ca-36a08dac9627:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 58,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all 26 letters of the English alphabet.",
+        "question": "Name three vowels present in this sentence.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify and name three distinct vowels from the sentence.",
+          "Ensure all three are from the set {a, e, i, o, u}."
+        ],
+        "hints": [
+          "Stay focused on this: Name three vowels present in this sentence — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Three vowels present in the sentence are 'e', 'o', and 'u'.\n\nStep-by-step:\n1. Identify the vowels in the sentence.\n2. List at least three different vowels.",
+        "explanation": "Identify and list at least three distinct vowels from the sentence provided.",
+        "exam_question_id": "f4dc53cc-d2b2-412b-a2ca-36a08dac9627:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      },
+      {
+        "id": 59,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the sentence: 'The quick brown fox jumps over the lazy dog.' This sentence contains all 26 letters of the English alphabet.",
+        "question": "Explain why this sentence is considered a pangram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that a pangram is a sentence that contains every letter of the alphabet.",
+          "Show that the sentence provided meets this criterion.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why this sentence is considered a pangram — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and coherent explanation."
+        ],
+        "model_answer": "This sentence is considered a pangram because it contains every letter of the English alphabet at least once. A pangram is a sentence that includes all 26 letters of the alphabet, and this sentence meets this criterion by including each letter from 'a' to 'z'.\n\nStep-by-step:\n1. Define what a pangram is.\n2. Show that the sentence includes every letter of the alphabet.\n3. Conclude that the sentence is a pangram.",
+        "explanation": "Explain the concept of a pangram and demonstrate that the provided sentence includes every letter of the English alphabet at least once.",
+        "exam_question_id": "f4dc53cc-d2b2-412b-a2ca-36a08dac9627:1",
+        "checked": true,
+        "topic_id": 2622,
+        "topic_label": "Chapter 1: Elements of language",
+        "source": {
+          "textbook": "Complete English Language for Cambridge International AS & A Level Second Edition",
+          "area": "Chapter 1: Elements of language"
+        }
+      }
+    ],
+    "estimated_time": 151,
+    "assessment_id": "f5539dbd-979e-44bc-967f-fb12b053e99b",
+    "subject": "Complete English Language for Cambridge International AS & A Level Second Edition",
+    "topics": [
+      "Chapter 1: Elements of language"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 208,
+    "topic_ids": [
+      2622
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 59,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "26 questions open with the same sentence (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 21, 22, 23, 27, 28, 29, 33, 34, 35, 42, 43, 44, 57, 58, 59): \"Consider the sentence: 'The quick brown fox jumps \""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 11,
+      "detail": "21 questions open with the same sentence (12, 13, 14, 18, 19, 20, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56): \"Consider the sentence: 'The cat sat on the mat.' I\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 14,
+      "detail": "6 questions open with the same sentence (15, 16, 17, 30, 31, 32): \"Consider the following sentence: 'The quick brown \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 32,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 54,
+      "detail": "same as question 45"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 55,
+      "detail": "same as question 47"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 56,
+      "detail": "same as question 21"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "totalSeconds": 130
+}

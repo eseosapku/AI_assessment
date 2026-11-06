@@ -1,0 +1,769 @@
+{
+  "index": 18,
+  "label": "Cambridge / Practice / Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+  "request": {
+    "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+    "textbook_id": 190,
+    "topic_ids": [
+      2758,
+      2749
+    ],
+    "topics": [
+      "Chapter 16: Making halogenoalkanes",
+      "Chapter 7: What is a redox reaction?"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 20,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Which of the following describes a redox reaction?",
+        "options": [
+          "A reaction where both oxidation and reduction occur simultaneously",
+          "A reaction where only oxidation occurs",
+          "A reaction where only reduction occurs",
+          "A reaction where neither oxidation nor reduction occurs"
+        ],
+        "correct_answer": 0,
+        "explanation": "A redox reaction involves both oxidation and reduction. A reaction where both oxidation and reduction occur simultaneously correctly describes this. A reaction where only oxidation occurs and C describe only one aspect of a redox reaction, while A reaction where neither oxidation nor reduction occurs is incorrect as all redox reactions involve oxidation and reduction.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 14077,
+        "topic_id": 2749,
+        "topic_label": "Redox and oxidation number",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Redox and oxidation number"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match the term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Oxidation",
+            "right": "Loss of electrons"
+          },
+          {
+            "left": "Reduction",
+            "right": "Gain of electrons"
+          },
+          {
+            "left": "Redox reaction",
+            "right": "Simultaneous oxidation and reduction"
+          },
+          {
+            "left": "Oxidizing agent",
+            "right": "Substance that gains electrons"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Oxidation is the loss of electrons, reduction is the gain of electrons, a redox reaction involves both, and an oxidising agent gains electrons. These definitions match the terms correctly.",
+        "left_items": [
+          "Oxidation",
+          "Reduction",
+          "Redox reaction",
+          "Oxidizing agent"
+        ],
+        "right_items": [
+          "Simultaneous oxidation and reduction",
+          "Substance that gains electrons",
+          "Gain of electrons",
+          "Loss of electrons"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 14077,
+        "topic_id": 2749,
+        "topic_label": "Redox and oxidation number",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Redox and oxidation number"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "In the reaction 2Na + Cl2 -> 2NaCl, which species is oxidised?",
+        "options": [
+          "None of the above",
+          "Na",
+          "Cl2",
+          "NaCl"
+        ],
+        "correct_answer": 1,
+        "explanation": "In the reaction, sodium (Na) loses electrons and is oxidised to form Na+, making Na the species that is oxidised. Cl2 gains electrons and is reduced to form Cl-, but the question asks for the species that is oxidised.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Chapter 16: Making halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 16: Making halogenoalkanes"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category: halogenoalkanes or not halogenoalkanes",
+        "categories": [
+          "Halogenoalkanes",
+          "Not Halogenoalkanes"
+        ],
+        "items": [
+          "CH3Cl",
+          "C2H5OH",
+          "CH3CH2CH3",
+          "CH2ClCH2Cl"
+        ],
+        "correct_category": [
+          0,
+          1,
+          1,
+          0
+        ],
+        "marks": 4,
+        "explanation": "CH3Cl and CH2ClCH2Cl are halogenoalkanes because they contain chlorine atoms bonded to carbon. C2H5OH and CH3CH2CH3 do not contain halogens and are not halogenoalkanes.",
+        "checked": true,
+        "topic_label": "Chapter 16: Making halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 16: Making halogenoalkanes"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Which of the following statements about halogenoalkanes is true?",
+        "options": [
+          "Halogenoalkanes are always more dense than water.",
+          "Halogenoalkanes are always less soluble in water than alkanes.",
+          "Halogenoalkanes can undergo nucleophilic substitution reactions.",
+          "Halogenoalkanes cannot undergo any chemical reactions."
+        ],
+        "correct_answer": 2,
+        "explanation": "Halogenoalkanes can undergo nucleophilic substitution reactions, making Halogenoalkanes can undergo nucleophilic substitution reactions. correct. Options A and B are not universally true for all halogenoalkanes. Halogenoalkanes cannot undergo any chemical reactions. is incorrect because halogenoalkanes can undergo various chemical reactions.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 14153,
+        "topic_id": 2758,
+        "topic_label": "Mechanism of nucleophilic substitution in halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Mechanism of nucleophilic substitution in halogenoalkanes"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Look at the table. Which conversion of reactant to product, A to D, is an example of reduction of chlorine?",
+        "options": [
+          "ClO3⁻ to Cl2",
+          "ClO⁻ to ClO3⁻",
+          "2Cl⁻ to Cl2",
+          "Cl⁻ to ClO⁻"
+        ],
+        "correct_answer": 0,
+        "explanation": "In C, chlorine goes from +5 in ClO3⁻ to 0 in Cl2, a decrease in oxidation state, so it is reduced. A (−1 to 0), B (−1 to +1) and D (+1 to +5) all show an increase in oxidation state, so each is oxidation.",
+        "image_url": "/textbook-images/textbook-bank/190/p369-f0.png",
+        "topic_label": "Chapter 7: What is a redox reaction?",
+        "vetted": true,
+        "image_alt": "A table with a blank header cell and columns headed Reactant and Product. Row A: 2Cl− to Cl2. Row B: Cl− to ClO−. Row C: ClO3− to Cl2. Row D: ClO− to ClO3−. Printed on it: Reactant | Product | A | 2Cl− | Cl2 | B | Cl− | ClO− | C | ClO3− | Cl2 | D | ClO− | ClO3−.",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Redox reactions involve the transfer of electrons.",
+          "In a redox reaction, the oxidizing agent is reduced.",
+          "Disproportionation is a type of redox reaction where the same element is both oxidized and reduced.",
+          "Halogenoalkanes are formed by the addition of a halogen to an alkene."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Redox reactions involve electron transfer. In a redox reaction, the oxidizing agent is reduced (gains electrons) and the reducing agent is oxidized (loses electrons). Disproportionation is a type of redox reaction where the same element is both oxidized and reduced. Halogenoalkanes are formed by the substitution of a hydrogen atom in an alkane with a halogen, not by addition to an alkene.",
+        "checked": true,
+        "subtopic_id": 14153,
+        "topic_id": 2758,
+        "topic_label": "Mechanism of nucleophilic substitution in halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Mechanism of nucleophilic substitution in halogenoalkanes"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply to making halogenoalkanes",
+        "options": [
+          "Substitution of a hydrogen atom in an alkane with a halogen.",
+          "Addition of a halogen to an alkene.",
+          "Elimination of a hydrogen halide from an alcohol.",
+          "Combination of a halogen with an alkane."
+        ],
+        "correct_indices": [
+          0,
+          1,
+          3
+        ],
+        "marks": 4,
+        "explanation": "Halogenoalkanes are made by: (A) free radical substitution of H in alkanes; (B) addition of halogens to alkenes (e.g. CH₂=CH₂ + Br₂ → CH₂Br-CH₂Br); and (D) the combination reaction of halogens with alkanes. elimination produces alkenes, not halogenoalkanes.",
+        "checked": true,
+        "subtopic_id": 14151,
+        "topic_id": 2758,
+        "topic_label": "Making halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Making halogenoalkanes"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Redox reaction",
+            "right": "A reaction involving the transfer of electrons between species."
+          },
+          {
+            "left": "Oxidation",
+            "right": "The loss of electrons by a species."
+          },
+          {
+            "left": "Reduction",
+            "right": "The gain of electrons by a species."
+          },
+          {
+            "left": "Oxidizing agent",
+            "right": "A species that causes another species to be oxidized."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is correctly matched to its definition as provided.",
+        "left_items": [
+          "Redox reaction",
+          "Oxidation",
+          "Reduction",
+          "Oxidizing agent"
+        ],
+        "right_items": [
+          "The gain of electrons by a species.",
+          "The loss of electrons by a species.",
+          "A reaction involving the transfer of electrons between species.",
+          "A species that causes another species to be oxidized."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "checked": true,
+        "topic_label": "Chapter 16: Making halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put these stages of a nucleophilic substitution reaction in the correct order",
+        "ordered_items": [
+          "Nucleophile attacks the substrate",
+          "Formation of a transition state",
+          "Leaving group departs",
+          "Bond formation with the nucleophile"
+        ],
+        "marks": 4,
+        "explanation": "The nucleophile attacks the substrate forming a transition state, then the leaving group departs, and finally the bond with the nucleophile is fully formed.",
+        "items": [
+          "Leaving group departs",
+          "Formation of a transition state",
+          "Nucleophile attacks the substrate",
+          "Bond formation with the nucleophile"
+        ],
+        "correct_order": [
+          2,
+          1,
+          3,
+          0
+        ],
+        "checked": true,
+        "subtopic_id": 14156,
+        "topic_id": 2758,
+        "topic_label": "Mechanism of nucleophilic substitution in",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Mechanism of nucleophilic substitution in"
+        }
+      },
+      {
+        "id": 11,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: 1. Nucleophilic substitution reactions can occur via both SN1 and SN2 mechanisms. 2. In an SN2 reaction, the nucleophile attacks from the opposite side of the leaving group. 3. A carbocation intermediate is formed in an SN1 reaction. 4. SN2 reactions are always faster than SN1 reactions.",
+        "statements": [
+          "Nucleophilic substitution reactions can occur via both SN1 and SN2 mechanisms.",
+          "In an SN2 reaction, the nucleophile attacks from the opposite side of the leaving group.",
+          "A carbocation intermediate is formed in an SN1 reaction.",
+          "SN2 reactions are always faster than SN1 reactions."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Statement 1 is true because nucleophilic substitution reactions can proceed via either SN1 or SN2 mechanisms. Statement 2 is true because in an SN2 reaction, the nucleophile attacks from the backside relative to the leaving group, leading to inversion of configuration. Statement 3 is true because an SN1 reaction involves the formation of a carbocation intermediate. Statement 4 is false because the rate of an SN2 reaction depends on the substrate, nucleophile, and leaving group, and it is not always faster than an SN1 reaction.",
+        "checked": true,
+        "subtopic_id": 14152,
+        "topic_id": 2758,
+        "topic_label": "Nucleophilic substitution reactions",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Nucleophilic substitution reactions"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply for the products of a nucleophilic substitution reaction between a halogenoalkane and a nucleophile:",
+        "options": [
+          "Alkene",
+          "Halide ion",
+          "Alcohol",
+          "Hydrogen halide"
+        ],
+        "correct_indices": [
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Nucleophilic substitution of a halogenoalkane with hydroxide ion produces an alcohol (the nucleophile attacks) and a halide ion (the leaving group). Hydrogen halide and alkenes are products of elimination reactions, not nucleophilic substitution.",
+        "checked": true,
+        "subtopic_id": 14152,
+        "topic_id": 2758,
+        "topic_label": "Nucleophilic substitution reactions",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Nucleophilic substitution reactions"
+        }
+      },
+      {
+        "id": 13,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong:",
+        "items": [
+          "SN1 reaction",
+          "SN2 reaction",
+          "E1 reaction",
+          "E2 reaction"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "E1 is the odd one out because it is an elimination reaction, whereas the others (SN1, SN2, E2) are substitution reactions.",
+        "checked": true,
+        "subtopic_id": 14154,
+        "topic_id": 2758,
+        "topic_label": "Elimination reactions",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Elimination reactions"
+        }
+      },
+      {
+        "id": 14,
+        "type": "mcq",
+        "question": "In the reaction of a primary halogenoalkane with sodium hydroxide, what is the primary mechanism involved?",
+        "options": [
+          "Free radical substitution",
+          "Nucleophilic substitution via SN1",
+          "Nucleophilic substitution via SN2",
+          "Elimination reaction"
+        ],
+        "correct_answer": 2,
+        "explanation": "The correct answer is 'Nucleophilic substitution via SN2' because primary halogenoalkanes typically undergo nucleophilic substitution via the SN2 mechanism, where the nucleophile attacks the substrate in a single concerted step.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 14153,
+        "topic_id": 2758,
+        "topic_label": "Mechanism of nucleophilic substitution in halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Mechanism of nucleophilic substitution in halogenoalkanes"
+        }
+      },
+      {
+        "id": 15,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put these steps in the correct order for the mechanism of nucleophilic substitution in halogenoalkanes",
+        "ordered_items": [
+          "The nucleophile attacks the carbon atom bonded to the halogen.",
+          "The halogen leaves as a halide ion.",
+          "The halogenoalkane and nucleophile approach each other.",
+          "The bond between the carbon and halogen weakens."
+        ],
+        "marks": 4,
+        "explanation": "In SN2 mechanism: the halogenoalkane and nucleophile approach each other first, then the bond weakens as the nucleophile attacks the carbon, and finally the halide ion leaves.",
+        "items": [
+          "The nucleophile attacks the carbon atom bonded to the halogen.",
+          "The bond between the carbon and halogen weakens.",
+          "The halogenoalkane and nucleophile approach each other.",
+          "The halogen leaves as a halide ion."
+        ],
+        "correct_order": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "checked": true,
+        "subtopic_id": 14153,
+        "topic_id": 2758,
+        "topic_label": "Mechanism of nucleophilic substitution in halogenoalkanes",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Mechanism of nucleophilic substitution in halogenoalkanes"
+        }
+      },
+      {
+        "id": 16,
+        "type": "mcq",
+        "question": "Look at the diagram. What is the oxidation number of nitrogen in the lower particle diagram, which has one N bonded to three O atoms beside Na+?",
+        "options": [
+          "+6",
+          "+5",
+          "+3",
+          "+4"
+        ],
+        "correct_answer": 1,
+        "explanation": "The lower formula unit is NaNO3, with Na+ and a nitrate ion of charge −1. Three O at −2 give −6, so N is +5 (−1 = N − 6). +3 is nitrogen in the upper NaNO2. +4 and +6 do not satisfy the overall charge of −1 on the ion.",
+        "image_url": "/textbook-images/cambridge/190/page219-embedded-0.jpeg",
+        "topic_label": "Applying the oxidation number rules",
+        "vetted": true,
+        "image_alt": "Two particle diagrams, one above the other. The top one shows a grey Na+ sphere beside a blue N sphere bonded to two red O spheres. The bottom one shows a grey Na+ sphere beside a blue N sphere bonded to three red O spheres. Printed on it: Na+ | N | O | O | Na+ | O | O | N | O.",
+        "subtopic_id": 14076,
+        "topic_id": 2749,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Applying the oxidation number rules"
+        }
+      },
+      {
+        "id": 17,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which of the following are common products of the reaction of a halogenoalkane with sodium hydroxide?",
+        "options": [
+          "Alcohol",
+          "Alkene",
+          "Halide ion",
+          "Water"
+        ],
+        "correct_indices": [
+          0,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "The reaction of a halogenoalkane with sodium hydroxide typically produces an alcohol, a halide ion, and water. An alkene is not a common product of this reaction.",
+        "checked": true,
+        "topic_label": "Chapter 7: What is a redox reaction?",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 7: What is a redox reaction?"
+        }
+      },
+      {
+        "id": 18,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Oxidation",
+          "Reduction",
+          "Combustion",
+          "Neutralisation"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Neutralisation is not a redox reaction, whereas oxidation, reduction, and combustion are types of redox reactions.",
+        "checked": true,
+        "subtopic_id": 14077,
+        "topic_id": 2749,
+        "topic_label": "Redox and oxidation number",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Redox and oxidation number"
+        }
+      },
+      {
+        "id": 19,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match the halogenoalkane with its reactivity characteristic.",
+        "matched_pairs": [
+          {
+            "left": "Chloroethane",
+            "right": "High reactivity towards nucleophiles"
+          },
+          {
+            "left": "1-Bromopropane",
+            "right": "Moderate reactivity towards nucleophiles"
+          },
+          {
+            "left": "1-Iodobutane",
+            "right": "Low reactivity towards nucleophiles"
+          },
+          {
+            "left": "2-Chloropropane",
+            "right": "Steric hindrance reduces reactivity"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Chloroethane (primary, Cl) has moderate reactivity. 1-Bromopropane (primary, Br) has lower reactivity than chloroethane. 1-Iodobutane (primary, I) has high reactivity because the C-I bond is weakest. 2-Chloropropane is secondary, so steric hindrance reduces its reactivity.",
+        "left_items": [
+          "Chloroethane",
+          "1-Bromopropane",
+          "1-Iodobutane",
+          "2-Chloropropane"
+        ],
+        "right_items": [
+          "High reactivity towards nucleophiles",
+          "Low reactivity towards nucleophiles",
+          "Steric hindrance reduces reactivity",
+          "Moderate reactivity towards nucleophiles"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "topic_label": "Chapter 7: What is a redox reaction?",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False. 1. In a redox reaction, the oxidising agent gets oxidised. 2. In a redox reaction, the reducing agent gets reduced. 3. The sum of oxidation numbers in a neutral compound is zero. 4. In a redox reaction, the number of electrons lost equals the number of electrons gained.",
+        "statements": [
+          "In a redox reaction, the oxidising agent gets oxidised.",
+          "In a redox reaction, the reducing agent gets reduced.",
+          "The sum of oxidation numbers in a neutral compound is zero.",
+          "In a redox reaction, the number of electrons lost equals the number of electrons gained."
+        ],
+        "correct_answers": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "marks": 4,
+        "explanation": "The oxidising agent gets reduced, not oxidised. The reducing agent gets oxidised, not reduced. The sum of oxidation numbers in a neutral compound is zero. In a redox reaction, the number of electrons lost by the reducing agent equals the number of electrons gained by the oxidising agent.",
+        "checked": true,
+        "subtopic_id": 14077,
+        "topic_id": 2749,
+        "topic_label": "Redox and oxidation number",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Redox and oxidation number"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "f001967b-d9ef-40c2-9760-45b0bec444ac",
+    "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+    "topics": [
+      "Chapter 16: Making halogenoalkanes",
+      "Chapter 7: What is a redox reaction?"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "study_mixed",
+    "textbook_id": 190,
+    "topic_ids": [
+      2758,
+      2749
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "mcq-catch-all-option",
+      "severity": "poor",
+      "index": 2,
+      "detail": "\"None of the above\" is guessable and untestable"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 10,
+      "detail": "53 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 19,
+      "detail": "54 words"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "broken",
+        "detail": "Incorrect correct_pairs mapping. The correct_pairs array [0,3],[1,2],[2,0],[3,1] does not match the stated definitions. Pair [3,1] maps 'Oxidizing agent' to 'Substance that gains electrons' (index 1), but the explanation states oxidizing agent gains electrons—this is incorrect; oxidizing agents cause oxidation (lose electrons themselves).",
+        "correction": "Correct definition: 'Oxidizing agent' = 'Substance that causes oxidation' or revise to 'Substance that gains electrons' and relabel as 'Reducing agent'. Correct pairs should be: [[0,3],[1,2],[2,0],[3,1]] requires fixing the definition or the term."
+      },
+      {
+        "label": "3",
+        "severity": "poor",
+        "detail": "Question labeled as 'Chapter 16: Making halogenoalkanes' but tests redox concepts (oxidation of Na in 2Na + Cl₂ → 2NaCl). This is Chapter 7 content, not Chapter 16. Topic mismatch with requested curriculum structure.",
+        "correction": "Reassign to Chapter 7 topic or replace with a halogenoalkane-specific question."
+      },
+      {
+        "label": "9",
+        "severity": "broken",
+        "detail": "Incorrect correct_pairs mapping. Array [0,2],[1,1],[2,0],[3,3] maps 'Redox reaction' (index 0) to right_items[2]='The gain of electrons by a species' (reduction definition), but should map to right_items[2]='A reaction involving the transfer of electrons' (index 2 in right_items). Mapping is internally inconsistent.",
+        "correction": "Correct pairs: [[0,2],[1,1],[2,0],[3,3]] should align left indices to correct right indices. Verify: Redox→transfer (index 2), Oxidation→loss (index 1), Reduction→gain (index 0), Oxidizing agent→causes oxidation (index 3)."
+      },
+      {
+        "label": "13",
+        "severity": "poor",
+        "detail": "Explanation states 'E1 is the odd one out because it is an elimination reaction, whereas the others (SN1, SN2, E2) are substitution reactions.' This is incorrect: E2 is also an elimination reaction. SN1 and SN2 are substitution; E1 and E2 are elimination.",
+        "correction": "Correct explanation: 'E1 is the odd one out because it is a unimolecular elimination reaction, whereas SN1 and SN2 are substitution reactions and E2 is bimolecular elimination.' Or change correct_index to 0 or 1 (SN1/SN2 as odd ones out among eliminations)."
+      },
+      {
+        "label": "19",
+        "severity": "broken",
+        "detail": "Incorrect correct_pairs mapping. Explanation contradicts correct_pairs: explanation states '1-Iodobutane (primary, I) has high reactivity' but correct_pairs [[0,1],[1,3],[2,0],[3,2]] maps 1-Iodobutane (index 2) to 'Low reactivity' (index 1). Also, explanation assigns chloroethane 'moderate' but pairs it to 'Moderate reactivity' (index 1), yet [0,1] is correct—internal inconsistency in explanation vs. data.",
+        "correction": "Correct pairs should be: [[0,3],[1,1],[2,0],[3,2]] (Chloroethane→Moderate, 1-Bromopropane→Low, 1-Iodobutane→High, 2-Chloropropane→Steric hindrance)."
+      },
+      {
+        "label": "20",
+        "severity": "poor",
+        "detail": "Statement 2 explanation is misleading. States 'The reducing agent gets oxidised, not reduced' but the statement itself says 'reducing agent gets reduced' (marked false). The explanation should clarify: reducing agent is oxidised (loses electrons), not reduced. Current phrasing may confuse students.",
+        "correction": "Clarify explanation: 'False. The reducing agent is oxidised (loses electrons), not reduced. The oxidising agent is reduced (gains electrons).'"
+      }
+    ],
+    "summary": "Assessment contains 6 substantive issues: 3 broken mapping errors in interactive matching questions (labels 2, 9, 19) with incorrect correct_pairs arrays; 1 topic mismatch (label 3); 1 factually incorrect explanation (label 13); 1 misleading explanation (label 20). Core content is age-appropriate and curriculum-aligned where mappings are correct."
+  },
+  "totalSeconds": 29
+}

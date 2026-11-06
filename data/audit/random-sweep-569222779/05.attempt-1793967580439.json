@@ -1,0 +1,658 @@
+{
+  "index": 5,
+  "label": "REB / Exam / Computer Science S6 SB",
+  "request": {
+    "subject": "Computer Science S6 SB",
+    "textbook_id": 61,
+    "topic_ids": [
+      691,
+      688
+    ],
+    "topics": [
+      "Multimedia",
+      "Collections in Java"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 36,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node. Labels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node.",
+        "question": "State the levels of the nodes B, E, and G.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify level of node B (1 mark)",
+          "Identify level of node E (1 mark)",
+          "Identify level of node G (1 mark)"
+        ],
+        "hints": [
+          "Refer to the labels and levels given in the diagram."
+        ],
+        "model_answer": "B is at Level 1, E is at Level 2, G is at Level 2.",
+        "explanation": "Identify the levels of the specified nodes by tracing the tree structure from the root node A downwards.",
+        "exam_question_id": "a0fc8d9a-2720-456e-8925-77172351a967:1",
+        "topic_label": "Collections in Java",
+        "topic_id": 688,
+        "image_url": "/textbook-images/rwanda/61/page428-embedded-0.jpeg",
+        "image_alt": "A binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node.\nLabels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Collections in Java"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node. Labels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node.",
+        "question": "Explain why the nodes D and E are considered siblings.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define the concept of siblings in a binary tree (1 mark)",
+          "Identify the parent of nodes D and E (1 mark)",
+          "Conclude that D and E are siblings (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the nodes D and E are considered siblings — develop the idea fully rather than listing short points. Make sure you also cover: Define the concept of siblings in a (1 mark)."
+        ],
+        "model_answer": "Nodes D and E are siblings because they share the same parent node B. In a binary tree, nodes are siblings if they have the same parent.",
+        "explanation": "Explain the relationship between nodes D and E by identifying their common parent node B.",
+        "exam_question_id": "a0fc8d9a-2720-456e-8925-77172351a967:1",
+        "topic_label": "Collections in Java",
+        "topic_id": 688,
+        "image_url": "/textbook-images/rwanda/61/page428-embedded-0.jpeg",
+        "image_alt": "A binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node.\nLabels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Collections in Java"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node. Labels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node.",
+        "question": "Describe the sub-tree rooted at node D.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the sub-tree rooted at node D (1 mark)",
+          "List all nodes included in the sub-tree (1 mark)",
+          "Identify the levels of the nodes in the sub-tree (1 mark)"
+        ],
+        "hints": [
+          "Refer to the sub-tree annotation in the diagram."
+        ],
+        "model_answer": "The sub-tree rooted at node D includes nodes D, H, and I. The levels of these nodes are Level 2 for D, and Level 3 for H and I.",
+        "explanation": "Describe the sub-tree rooted at node D by identifying all nodes within the sub-tree and their respective levels.",
+        "exam_question_id": "a0fc8d9a-2720-456e-8925-77172351a967:1",
+        "topic_label": "Collections in Java",
+        "topic_id": 688,
+        "image_url": "/textbook-images/rwanda/61/page428-embedded-0.jpeg",
+        "image_alt": "A binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node.\nLabels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Collections in Java"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of the Adobe Flash animation software interface. The diagram outlines various panels such as Tools, Timeline, Library, and Properties, along with a stage displaying a bird in flight.",
+        "question": "Name the panel that contains the tools used in creating and editing animations.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the Tools panel in the diagram.",
+          "State the name of the panel as 'Tools'."
+        ],
+        "hints": [
+          "Stay focused on this: Name the panel that contains the tools used in creating and editing animations — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The panel that contains the tools used in creating and editing animations is the 'Tools' panel.",
+        "explanation": "The Tools panel in animation software typically contains icons for various tools used to create and edit animations, such as selection tools, drawing tools, and transformation tools.",
+        "exam_question_id": "15351a7f-95e4-4dec-9393-2599719db226:1",
+        "topic_label": "Multimedia",
+        "topic_id": 691,
+        "image_url": "/textbook-images/rwanda/61/page601-embedded-1.jpeg",
+        "image_alt": "A screenshot of the Adobe Flash (Fl) animation software interface. A red box on the upper left outlines the Tools panel, which holds many tool icons. Two red oval callouts point to it, one reading \"Tools used\" and one reading \"Different tools\". The white stage in the centre of the Scene 1 window holds a small picture of a bird in flight. The Timeline with Layer 1 is at the top, the Properties panel (Shape, Position and size, Fill and stroke) is at the left, and the Library panel, which lists the file Siga.jpg, is at the right.\nLabels: Fl, File, Edit, View, Insert, Modify, Text, Commands, Contr",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Multimedia"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of the Adobe Flash animation software interface. The diagram outlines various panels such as Tools, Timeline, Library, and Properties, along with a stage displaying a bird in flight.",
+        "question": "Explain the function of the Timeline panel in animation software.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the Timeline panel in the diagram.",
+          "Describe the purpose of the Timeline panel in organising and controlling animation sequences.",
+          "Mention the role of frames and keyframes in the Timeline."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the function of the Timeline panel in animation software — develop the idea fully rather than listing short points. Make sure you also cover: the purpose of the Timeline panel in organising and controlling animation sequences."
+        ],
+        "model_answer": "The Timeline panel in animation software is used to organize and control the sequence of animations. It displays frames and keyframes, which allow the animator to set the start and end points of animations and adjust their duration. The Timeline also helps in synchronizing animations with audio and other elements.",
+        "explanation": "The Timeline panel is essential for managing the sequence and timing of animations. Frames and keyframes are used to mark specific points in time where changes occur, allowing for precise control over the animation's flow.",
+        "exam_question_id": "15351a7f-95e4-4dec-9393-2599719db226:1",
+        "topic_label": "Multimedia",
+        "topic_id": 691,
+        "image_url": "/textbook-images/rwanda/61/page601-embedded-1.jpeg",
+        "image_alt": "A screenshot of the Adobe Flash (Fl) animation software interface. A red box on the upper left outlines the Tools panel, which holds many tool icons. Two red oval callouts point to it, one reading \"Tools used\" and one reading \"Different tools\". The white stage in the centre of the Scene 1 window holds a small picture of a bird in flight. The Timeline with Layer 1 is at the top, the Properties panel (Shape, Position and size, Fill and stroke) is at the left, and the Library panel, which lists the file Siga.jpg, is at the right.\nLabels: Fl, File, Edit, View, Insert, Modify, Text, Commands, Contr",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Multimedia"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a screenshot of the Adobe Flash animation software interface. The diagram outlines various panels such as Tools, Timeline, Library, and Properties, along with a stage displaying a bird in flight.",
+        "question": "Describe how the Properties panel is used to modify the attributes of an object in the animation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the Properties panel in the diagram.",
+          "Explain how the Properties panel is used to change attributes such as shape, position, size, fill, and stroke of an object."
+        ],
+        "hints": [
+          "Look for the panel labelled 'Properties' on the left side of the diagram."
+        ],
+        "model_answer": "The Properties panel in animation software is used to modify the attributes of an object, such as its shape, position, size, fill color, and stroke color. By adjusting these properties, animators can customize the appearance and behavior of objects in their animations. For example, the 'Shape' property can be altered to change the form of the object, while 'Position and size' can be adjusted to move and resize the object on the stage.",
+        "explanation": "The Properties panel provides detailed controls over an object's characteristics, allowing for precise adjustments that enhance the visual appeal and functionality of the animation.",
+        "exam_question_id": "15351a7f-95e4-4dec-9393-2599719db226:1",
+        "topic_label": "Multimedia",
+        "topic_id": 691,
+        "image_url": "/textbook-images/rwanda/61/page601-embedded-1.jpeg",
+        "image_alt": "A screenshot of the Adobe Flash (Fl) animation software interface. A red box on the upper left outlines the Tools panel, which holds many tool icons. Two red oval callouts point to it, one reading \"Tools used\" and one reading \"Different tools\". The white stage in the centre of the Scene 1 window holds a small picture of a bird in flight. The Timeline with Layer 1 is at the top, the Properties panel (Shape, Position and size, Fill and stroke) is at the left, and the Library panel, which lists the file Siga.jpg, is at the right.\nLabels: Fl, File, Edit, View, Insert, Modify, Text, Commands, Contr",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Multimedia"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A web designer is creating an interactive multimedia application that includes animations, audio, and text. The application has a feature where users can click on certain elements to trigger animations. The application also includes a sound effect that plays when an animation starts.",
+        "question": "Calculate the total duration of the sound effect in seconds if it plays 3 times in a sequence.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct unit",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total duration of the sound effect in seconds if it plays 3 times in a sequence — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct unit; Correct answer."
+        ],
+        "model_answer": "If the sound effect duration is 2 seconds and it plays 3 times, the total duration is 2 seconds * 3 = 6 seconds.",
+        "explanation": "Multiply the duration of the sound effect by the number of times it plays.",
+        "exam_question_id": "5085cea8-fc43-4087-8e09-be67269527c3:1",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A web designer is creating an interactive multimedia application that includes animations, audio, and text. The application has a feature where users can click on certain elements to trigger animations. The application also includes a sound effect that plays when an animation starts.",
+        "question": "Explain why it is important for the sound effect to have a short duration.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understanding of user experience",
+          "Relevance to interactive multimedia"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important for the sound effect to have a short duration — develop the idea fully rather than listing short points. Make sure you also cover: Understanding of; Relevance to interactive multimedia."
+        ],
+        "model_answer": "A short sound effect duration is important for user experience because it avoids overwhelming the user with sound, allows for quick transitions between interactions, and maintains engagement by not being too repetitive or long.",
+        "explanation": "A short duration keeps the user experience smooth and engaging.",
+        "exam_question_id": "5085cea8-fc43-4087-8e09-be67269527c3:1",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A multimedia artist is designing an interactive installation where visitors can manipulate images and sounds. The installation includes a touch-sensitive screen that changes the displayed image and plays a sound when touched. The software records the number of touches per minute.",
+        "question": "Find the average number of touches per minute if the installation records 120 touches in 2 minutes.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct unit",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the average number of touches per minute if the installation records 120 touches in 2 minutes — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct unit; Correct answer."
+        ],
+        "model_answer": "The average number of touches per minute is 120 touches / 2 minutes = 60 touches per minute.",
+        "explanation": "Divide the total number of touches by the total time in minutes to find the average.",
+        "exam_question_id": "5085cea8-fc43-4087-8e09-be67269527c3:2",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A multimedia artist is designing an interactive installation where visitors can manipulate images and sounds. The installation includes a touch-sensitive screen that changes the displayed image and plays a sound when touched. The software records the number of touches per minute.",
+        "question": "Describe how the average number of touches per minute can be used to improve the installation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understanding of data usage",
+          "Relevance to interactive design"
+        ],
+        "hints": [
+          "Consider how data can inform design decisions."
+        ],
+        "model_answer": "The average number of touches per minute can be used to determine if the installation is engaging enough. If the average is low, the artist might add more interactive elements to increase engagement. If the average is high, the artist might ensure the installation is not overwhelming or too difficult to use.",
+        "explanation": "Data on user interaction can help improve the balance and engagement of the installation.",
+        "exam_question_id": "5085cea8-fc43-4087-8e09-be67269527c3:2",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A game developer is creating a new interactive multimedia game. The game includes a level where players can interact with various objects. The game tracks the time taken for players to complete each level and records the data.",
+        "question": "Calculate the total time taken if a player completes three levels in 10, 12, and 8 minutes respectively.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct unit",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total time taken if a player completes three levels in 10, 12, and 8 minutes respectively — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct unit; Correct answer."
+        ],
+        "model_answer": "The total time taken is 10 minutes + 12 minutes + 8 minutes = 30 minutes.",
+        "explanation": "Sum the times for each level to find the total time taken.",
+        "exam_question_id": "5085cea8-fc43-4087-8e09-be67269527c3:3",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A game developer is creating a new interactive multimedia game. The game includes a level where players can interact with various objects. The game tracks the time taken for players to complete each level and records the data.",
+        "question": "Explain why it is important for the game to track the time taken for each level.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understanding of game design",
+          "Relevance to player experience"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important for the game to track the time taken for each level — develop the idea fully rather than listing short points. Make sure you also cover: Relevance to player."
+        ],
+        "model_answer": "Tracking the time taken for each level is important for game design because it helps the developer understand how challenging each level is. This data can be used to adjust the difficulty, balance the game, and ensure that players have an engaging and rewarding experience.",
+        "explanation": "Time data helps in creating a well-balanced and enjoyable game.",
+        "exam_question_id": "5085cea8-fc43-4087-8e09-be67269527c3:3",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a Java program that uses the ArrayList class to store student names. The program initialises an ArrayList named `students` and adds five student names to it.",
+        "question": "Calculate the size of the `students` ArrayList.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the method to find the size of the ArrayList",
+          "Correctly calculate the size of the ArrayList"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the size of the `students` ArrayList — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The `students` ArrayList has been initialized and five student names have been added. The size of the ArrayList can be calculated using the `size()` method.\n\nstudents.size() = 5\n\nMarks:\n- 1 mark for correctly identifying the method `size()`\n- 1 mark for correctly calculating the size as 5",
+        "explanation": "Use the `size()` method to determine the number of elements in the ArrayList.",
+        "exam_question_id": "0f6911fd-6ee1-4c3d-a552-f494e4e6689d:1",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a Java program that uses the ArrayList class to store student names. The program initialises an ArrayList named `students` and adds five student names to it.",
+        "question": "Explain how to add a new student name to the end of the `students` ArrayList.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the method to add an element to the ArrayList",
+          "Describe the correct syntax to add the element",
+          "Explain the purpose of the method in this context"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how to add a new student name to the end of the `students` ArrayList — develop the idea fully rather than listing short points. Make sure you also cover: the correct to add the; the of the in this context."
+        ],
+        "model_answer": "To add a new student name to the end of the `students` ArrayList, the `add()` method is used. The syntax is:\n\nstudents.add(\"NewStudent\");\n\nThis method appends the specified element to the end of the ArrayList, increasing its size by one.\n\nMarks:\n- 1 mark for correctly identifying the method `add()`\n- 1 mark for correctly describing the syntax\n- 1 mark for explaining the purpose of the method",
+        "explanation": "Use the `add()` method to append a new element to the end of the ArrayList.",
+        "exam_question_id": "0f6911fd-6ee1-4c3d-a552-f494e4e6689d:1",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a Java program that uses the HashSet class to store unique student IDs. The program initialises a HashSet named `studentIDs` and adds five student IDs to it.",
+        "question": "State whether the `studentIDs` HashSet contains the student ID '12345'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the method to check for the presence of an element",
+          "Describe the expected result of the method"
+        ],
+        "hints": [
+          "Stay focused on this: State whether the `studentIDs` HashSet contains the student ID '12345' — develop the idea fully rather than listing short points. Make sure you also cover: identify the to for the presence of an element; the of the."
+        ],
+        "model_answer": "To check if the `studentIDs` HashSet contains the student ID '12345', the `contains()` method is used.\n\nstudentIDs.contains(\"12345\")\n\nMarks:\n- 1 mark for correctly identifying the method `contains()`\n- 1 mark for correctly describing the expected result",
+        "explanation": "Use the `contains()` method to check if the HashSet contains a specific element.",
+        "exam_question_id": "0f6911fd-6ee1-4c3d-a552-f494e4e6689d:2",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a Java program that uses the HashSet class to store unique student IDs. The program initialises a HashSet named `studentIDs` and adds five student IDs to it.",
+        "question": "Explain how to remove a specific student ID from the `studentIDs` HashSet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the method to remove an element from the HashSet",
+          "Describe the correct syntax to remove the element",
+          "Explain the purpose of the method in this context"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how to remove a specific student ID from the `studentIDs` HashSet — develop the idea fully rather than listing short points. Make sure you also cover: the of the in this context."
+        ],
+        "model_answer": "To remove a specific student ID from the `studentIDs` HashSet, the `remove()` method is used. The syntax is:\n\nstudentIDs.remove(\"12345\");\n\nThis method removes the specified element from the HashSet if it is present, and returns `true` if the element was removed. If the element was not present, it returns `false`.\n\nMarks:\n- 1 mark for correctly identifying the method `remove()`\n- 1 mark for correctly describing the syntax\n- 1 mark for explaining the purpose of the method",
+        "explanation": "Use the `remove()` method to delete a specific element from the HashSet.",
+        "exam_question_id": "0f6911fd-6ee1-4c3d-a552-f494e4e6689d:2",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a Java program that uses the HashMap class to store student names as keys and their corresponding scores as values. The program initialises a HashMap named `studentScores` and adds five entries to it.",
+        "question": "Find the score of the student named 'Alice' from the `studentScores` HashMap.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the method to retrieve a value from the HashMap",
+          "Describe the correct syntax to retrieve the value"
+        ],
+        "hints": [
+          "Stay focused on this: Find the score of the student named 'Alice' from the `studentScores` HashMap — develop the idea fully rather than listing short points. Make sure you also cover: identify the to retrieve a value from the HashMap; the correct to retrieve the value."
+        ],
+        "model_answer": "To find the score of the student named 'Alice' from the `studentScores` HashMap, the `get()` method is used.\n\nstudentScores.get(\"Alice\");\n\nMarks:\n- 1 mark for correctly identifying the method `get()`\n- 1 mark for correctly describing the syntax",
+        "explanation": "Use the `get()` method to retrieve the value associated with a specific key in the HashMap.",
+        "exam_question_id": "0f6911fd-6ee1-4c3d-a552-f494e4e6689d:3",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a Java program that uses the HashMap class to store student names as keys and their corresponding scores as values. The program initialises a HashMap named `studentScores` and adds five entries to it.",
+        "question": "Explain how to update the score of the student named 'Alice' in the `studentScores` HashMap.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the method to update a value in the HashMap",
+          "Describe the correct syntax to update the value",
+          "Explain the purpose of the method in this context"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how to update the score of the student named 'Alice' in the `studentScores` HashMap — develop the idea fully rather than listing short points. Make sure you also cover: the of the in this context."
+        ],
+        "model_answer": "To update the score of the student named 'Alice' in the `studentScores` HashMap, the `put()` method is used. The syntax is:\n\nstudentScores.put(\"Alice\", 85);\n\nThis method updates the value associated with the key 'Alice' to 85. If the key does not exist, it adds a new key-value pair.\n\nMarks:\n- 1 mark for correctly identifying the method `put()`\n- 1 mark for correctly describing the syntax\n- 1 mark for explaining the purpose of the method",
+        "explanation": "Use the `put()` method to update the value associated with a specific key in the HashMap.",
+        "exam_question_id": "0f6911fd-6ee1-4c3d-a552-f494e4e6689d:3",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A multimedia artist is creating a digital video project. The artist records a 5-minute video at a constant frame rate of 30 frames per second. The artist then decides to edit the video to include a slow-motion effect on a 2-second segment.",
+        "question": "Calculate the total number of frames in the original 5-minute video.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifying the total duration in seconds.",
+          "Multiplying the total duration by the frame rate.",
+          "Providing the correct number of frames."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of frames in the original 5-minute video — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifying the total in."
+        ],
+        "model_answer": "Total number of frames = Duration in seconds * Frame rate = 300 seconds * 30 frames/second = 9000 frames.",
+        "explanation": "Convert the 5 minutes to seconds (5 * 60 = 300 seconds) and then multiply by the frame rate (30 frames/second) to get the total number of frames.",
+        "exam_question_id": "73cb478c-19b8-4ea9-8ed9-6975f7c0d79a:1",
+        "topic_label": "Digital Video recording and editing",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2870,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Digital Video recording and editing"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A multimedia artist is creating a digital video project. The artist records a 5-minute video at a constant frame rate of 30 frames per second. The artist then decides to edit the video to include a slow-motion effect on a 2-second segment.",
+        "question": "Explain why using a higher frame rate for the slow-motion effect would result in a smoother transition.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the relationship between frame rate and smoothness.",
+          "Explaining the effect of a higher frame rate on motion.",
+          "Providing a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why using a higher frame rate for the slow-motion effect would result in a smoother transition — develop the idea fully rather than listing short points. Make sure you also cover: Understanding the relationship between frame rate and smoothness.; Providing a clear and concise explanation."
+        ],
+        "model_answer": "A higher frame rate results in more frames being displayed per second, which creates a smoother transition by reducing the perceived jerkiness of motion.",
+        "explanation": "A higher frame rate means more frames are shown in a given time period, making the motion appear smoother and more natural.",
+        "exam_question_id": "73cb478c-19b8-4ea9-8ed9-6975f7c0d79a:1",
+        "topic_label": "Digital Video recording and editing",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2870,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Digital Video recording and editing"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A game developer is creating a new interactive multimedia game. The game tracks the time taken for players to complete each level and records the data. The times recorded for three levels are 10 minutes, 12 minutes, and 8 minutes respectively.",
+        "question": "Calculate the total time taken if a player completes three levels in 10, 12, and 8 minutes respectively.",
+        "marks": 3,
+        "marking_criteria": [
+          "Adding the times for each level correctly.",
+          "Providing the correct total time.",
+          "Showing all necessary working."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total time taken if a player completes three levels in 10, 12, and 8 minutes respectively — develop the idea fully rather than listing short points. Make sure you also cover: Adding the times for each level correctly.; Showing all necessary working."
+        ],
+        "model_answer": "Total time taken = 10 minutes + 12 minutes + 8 minutes = 30 minutes.",
+        "explanation": "Add the times for each level to get the total time taken by the player.",
+        "exam_question_id": "73cb478c-19b8-4ea9-8ed9-6975f7c0d79a:2",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A game developer is creating a new interactive multimedia game. The game tracks the time taken for players to complete each level and records the data. The times recorded for three levels are 10 minutes, 12 minutes, and 8 minutes respectively.",
+        "question": "Explain why it is important for the game to track the time taken for each level.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the purpose of tracking time.",
+          "Explaining the benefits of tracking time in a game.",
+          "Providing a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important for the game to track the time taken for each level — develop the idea fully rather than listing short points. Make sure you also cover: Providing a clear and concise explanation."
+        ],
+        "model_answer": "Tracking the time taken for each level helps in understanding player performance, identifying challenging sections, and improving game balance and difficulty.",
+        "explanation": "Tracking time allows developers to analyse player performance, pinpoint difficult sections, and adjust game elements to enhance player experience.",
+        "exam_question_id": "73cb478c-19b8-4ea9-8ed9-6975f7c0d79a:2",
+        "topic_label": "Interactive multimedia",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2867,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia"
+        }
+      }
+    ],
+    "estimated_time": 58,
+    "assessment_id": "521ead9f-eb1a-4bde-9f57-7d48bc6f689c",
+    "subject": "Computer Science S6 SB",
+    "topics": [
+      "Multimedia",
+      "Collections in Java"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 61,
+    "topic_ids": [
+      691,
+      688
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 22,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 12"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 37
+}

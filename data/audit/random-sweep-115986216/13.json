@@ -1,0 +1,31 @@
+{
+  "index": 13,
+  "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 7 ",
+  "request": {
+    "subject": "Cambridge Lower Secondary Computing 7 ",
+    "textbook_id": 29,
+    "topic_ids": [
+      385,
+      389
+    ],
+    "topics": [
+      "Decomposing problems: Creating a smart solution",
+      "Sequencing and pattern recognition: Getting the message across"
+    ],
+    "curriculum": "cambridge",
+    "grade": 7,
+    "className": "Cambridge Lower Secondary Computing 7 ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 115986216,
+  "error": "Error: Failed to generate 10 complete questions. The AI produced 5. Please try again.",
+  "generationSeconds": 22,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 10 complete questions. The AI produced 5. Please try again."
+  },
+  "totalSeconds": 22
+}

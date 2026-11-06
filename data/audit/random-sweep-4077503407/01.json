@@ -1,0 +1,425 @@
+{
+  "index": 1,
+  "label": "Cambridge / Practice / Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+  "request": {
+    "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+    "textbook_id": 190,
+    "topic_ids": [
+      2754
+    ],
+    "topics": [
+      "Chapter 12: Physical properties of Group 17 elements"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 17,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the following steps in the correct order for a displacement reaction involving halide ions",
+        "ordered_items": [
+          "Write the balanced chemical equation",
+          "Identify the halide ions involved",
+          "Observe the reaction and record the results",
+          "Predict the products based on reactivity series"
+        ],
+        "marks": 4,
+        "explanation": "The steps for a displacement reaction start with identifying the halide ions involved, predicting the products based on the reactivity series, writing the balanced chemical equation, and finally observing the reaction and recording the results.",
+        "items": [
+          "Identify the halide ions involved",
+          "Predict the products based on reactivity series",
+          "Observe the reaction and record the results",
+          "Write the balanced chemical equation"
+        ],
+        "correct_order": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "checked": true,
+        "subtopic_id": 14125,
+        "topic_id": 2754,
+        "topic_label": "Reactions of the halide ions",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Reactions of the halide ions"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each halogen into the correct category based on its physical state at room temperature",
+        "categories": [
+          "Gas",
+          "Liquid",
+          "Solid"
+        ],
+        "items": [
+          "Fluorine",
+          "Chlorine",
+          "Bromine",
+          "Iodine"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Fluorine and chlorine are gases, bromine is a liquid, and iodine is a solid at room temperature.",
+        "checked": true,
+        "topic_id": 2754,
+        "topic_label": "Chapter 12: Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 12: Physical properties of Group 17 elements"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank",
+        "template": "As you go down Group 17, the boiling point of the halogens {{0}} because the intermolecular forces {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "increases"
+          },
+          {
+            "id": "1",
+            "correct": "increase"
+          }
+        ],
+        "word_bank": [
+          "increases",
+          "decreases",
+          "remains constant",
+          "intermolecular forces",
+          "atomic radius",
+          "increase"
+        ],
+        "marks": 2,
+        "explanation": "The boiling point increases down Group 17 because the intermolecular forces increase with larger atomic size.",
+        "checked": true,
+        "topic_id": 2754,
+        "topic_label": "Chapter 12: Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 12: Physical properties of Group 17 elements"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "The reactivity of Group 17 elements decreases down the group.",
+          "Chlorine is a liquid at room temperature.",
+          "Iodine is a gas at room temperature.",
+          "Fluorine is the most electronegative element."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "Reactivity decreases down Group 17, chlorine is a gas, iodine is a solid, and fluorine is the most electronegative element.",
+        "checked": true,
+        "topic_id": 2754,
+        "topic_label": "Chapter 12: Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 12: Physical properties of Group 17 elements"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which properties of Group 17 elements increase as you go down the group?",
+        "options": [
+          "Atomic radius",
+          "Density",
+          "Melting point",
+          "Reactivity"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Atomic radius, density, and melting point increase down Group 17. Reactivity decreases.",
+        "checked": true,
+        "subtopic_id": 14123,
+        "topic_id": 2754,
+        "topic_label": "Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Physical properties of Group 17 elements"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Fluorine",
+          "Chlorine",
+          "Bromine",
+          "Iodine"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Iodine is the odd one out as it is a solid at room temperature. Fluorine and chlorine are gases, and bromine is a liquid.",
+        "checked": true,
+        "topic_id": 2754,
+        "topic_label": "Chapter 12: Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 12: Physical properties of Group 17 elements"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each halogen with its typical colour",
+        "matched_pairs": [
+          {
+            "left": "Fluorine",
+            "right": "Pale yellow"
+          },
+          {
+            "left": "Chlorine",
+            "right": "Yellow-green"
+          },
+          {
+            "left": "Bromine",
+            "right": "Orange-red"
+          },
+          {
+            "left": "Iodine",
+            "right": "Purple"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Fluorine is pale yellow, chlorine is yellow-green, bromine is orange-red, and iodine is purple.",
+        "left_items": [
+          "Fluorine",
+          "Chlorine",
+          "Bromine",
+          "Iodine"
+        ],
+        "right_items": [
+          "Orange-red",
+          "Purple",
+          "Yellow-green",
+          "Pale yellow"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 14127,
+        "topic_id": 2754,
+        "topic_label": "orange/red",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "orange/red"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps of the halogen displacement reaction in the correct order",
+        "ordered_items": [
+          "Add a solution of halide ions to a solution of the halogen",
+          "Observe the color change",
+          "Determine which halogen is more reactive",
+          "Write the balanced chemical equation"
+        ],
+        "marks": 4,
+        "explanation": "The steps must follow a logical sequence: adding the reagents, observing the result, analysing the outcome, and finally writing the equation.",
+        "items": [
+          "Determine which halogen is more reactive",
+          "Observe the colour change",
+          "Add a solution of halide ions to a solution of the halogen",
+          "Write the balanced chemical equation"
+        ],
+        "correct_order": [
+          2,
+          1,
+          0,
+          3
+        ],
+        "checked": true,
+        "topic_id": 2754,
+        "topic_label": "Chapter 12: Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 12: Physical properties of Group 17 elements"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each property into the correct category: Physical or Chemical",
+        "categories": [
+          "Physical",
+          "Chemical"
+        ],
+        "items": [
+          "Colour",
+          "Reactivity",
+          "Melting point",
+          "Flammability"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Physical properties can be observed without changing the substance, while chemical properties describe how a substance reacts with others.",
+        "checked": true,
+        "subtopic_id": 14123,
+        "topic_id": 2754,
+        "topic_label": "Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Physical properties of Group 17 elements"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply",
+        "options": [
+          "Fluorine is a gas.",
+          "Iodine is a solid.",
+          "Chlorine is a liquid.",
+          "Bromine is a liquid."
+        ],
+        "correct_indices": [
+          0,
+          1,
+          3
+        ],
+        "marks": 4,
+        "explanation": "Fluorine and chlorine are gases, bromine is a liquid, and iodine is a solid at room temperature.",
+        "checked": true,
+        "topic_id": 2754,
+        "topic_label": "Chapter 12: Physical properties of Group 17 elements",
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+          "area": "Chapter 12: Physical properties of Group 17 elements"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "f30bdb40-865c-4352-9709-44d51c76344a",
+    "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+    "topics": [
+      "Chapter 12: Physical properties of Group 17 elements"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "interactive",
+    "textbook_id": 190,
+    "topic_ids": [
+      2754
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1",
+        "severity": "poor",
+        "detail": "The correct order [1,3,0,2] maps to: 'Identify halide ions' → 'Predict products' → 'Write equation' → 'Observe reaction'. However, writing the equation before observing the reaction is illogical in experimental practice. The observation should precede writing the final equation based on actual results.",
+        "correction": "Correct order should be: Identify halide ions → Predict products → Observe reaction → Write equation, i.e., [1,3,2,0] or reorder items accordingly"
+      },
+      {
+        "label": "6",
+        "severity": "poor",
+        "detail": "Explanation states 'Iodine is the odd one out as it is a solid at room temperature. Fluorine and chlorine are gases, and bromine is a liquid.' This logic makes bromine equally valid as odd-one-out (only liquid). The question lacks clear criteria for what constitutes 'odd'.",
+        "correction": "Specify criteria (e.g., 'not a gas' making both bromine and iodine valid, or 'solid' making only iodine valid) or accept multiple answers"
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Fluorine gas colour is disputed in literature. Fluorine is extremely reactive and rarely observed directly; descriptions vary from 'very pale yellow' to 'pale greenish-yellow'. At A-Level, this detail may cause confusion as students typically don't encounter pure fluorine.",
+        "correction": "Consider removing fluorine or noting colour descriptions vary in literature"
+      },
+      {
+        "label": "8",
+        "severity": "poor",
+        "detail": "The correct order [2,1,0,3] produces: 'Add solutions' → 'Observe colour' → 'Determine reactivity' → 'Write equation'. However, this contradicts Question 1's approach. Also, determining reactivity should logically precede or follow from observation, but the sequence here is ambiguous about experimental vs theoretical approach.",
+        "correction": "Clarify whether this is experimental procedure (observe then conclude) or theoretical prediction (predict then verify)"
+      }
+    ],
+    "summary": "Assessment covers appropriate Group 17 physical properties for Grade 12. Main issues: Question 1 and 8 have illogical procedural sequences for experimental work; Question 6 has ambiguous 'odd one out' criteria; Question 7 includes fluorine colour which is rarely observed and disputed. Interactive answer mappings are correctly structured."
+  },
+  "totalSeconds": 31
+}

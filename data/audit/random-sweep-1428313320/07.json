@@ -1,0 +1,309 @@
+{
+  "index": 7,
+  "label": "Cambridge / Practice / Cambridge lower secondary computing 9 students text book ",
+  "request": {
+    "subject": "Cambridge lower secondary computing 9 students text book ",
+    "textbook_id": 31,
+    "topic_ids": [
+      400,
+      398
+    ],
+    "topics": [
+      "Drilling down: How the processor handles instructions",
+      "Design your own network: Shape and size"
+    ],
+    "curriculum": "cambridge",
+    "grade": 9,
+    "className": "Cambridge lower secondary computing 9 students text book ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 43,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Explain the process of the fetch-decode-execute cycle that the CPU uses to run a program.",
+        "marks": 4,
+        "marking_criteria": [
+          "Describe the fetch step",
+          "Describe the decode step",
+          "Describe the execute step",
+          "Explain the role of the control unit and ALU"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the process of the fetch-decode-execute cycle that the CPU uses to run a program — develop the idea fully rather than listing short points. Make sure you also cover: the role of the and ALU."
+        ],
+        "model_answer": "The fetch-decode-execute cycle begins with the CPU fetching an instruction from memory. Next, the instruction is decoded to understand what action is required. The CPU then executes the instruction, which involves using the ALU for calculations or logical operations. The control unit coordinates these actions by sending signals to other parts of the CPU. Each step is crucial for processing instructions correctly and efficiently.",
+        "explanation": "A strong answer will detail each step of the cycle and explain the role of the control unit and ALU, which are key components in the CPU's operation. Each description should be clear and concise, covering the essential function of each part in the cycle.",
+        "checked": true,
+        "topic_label": "Drilling down: How the processor handles instructions",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Describe the advantages and disadvantages of a star topology for a small office network with five computers.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify one advantage of a star topology",
+          "Identify one disadvantage of a star topology",
+          "Explain why the identified advantage is beneficial",
+          "Explain why the identified disadvantage is a drawback"
+        ],
+        "hints": [
+          "Consider the ease of adding new devices and the impact of a single point of failure."
+        ],
+        "model_answer": "One advantage of a star topology is that adding a new computer is straightforward, requiring only a new cable to the central switch. This minimizes disruption to the existing network. However, a disadvantage is that if the central switch fails, all connected computers lose their network connection. This central point of failure can cause significant downtime and affect productivity.",
+        "explanation": "To earn full marks, your answer should clearly state one advantage and one disadvantage of a star topology. You must then explain why each aspect is beneficial or a drawback, providing a balanced view of the topology's pros and cons.",
+        "checked": true,
+        "topic_label": "Design your own network: Shape and size",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book",
+          "area": "Design your own network: Shape and size"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Look at the photograph. Explain what the command 'md network-users' did, and how the 'dir' output shows that it worked.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that 'md' (make directory) created a new folder called network-users in the current folder (C:\\Users\\Network Admin).",
+          "States that the dir listing now includes network-users as a <DIR> entry, showing the folder exists."
+        ],
+        "model_answer": "The command 'md network-users' made a new folder called network-users inside C:\\Users\\Network Admin. When 'dir' was run, the list of folders included a <DIR> entry named network-users, which proves the folder was created.",
+        "explanation": "A strong answer says what md does (makes a new folder with that name in the current location) and then points to the evidence: network-users appears in the dir list marked <DIR>.",
+        "image_url": "/textbook-images/textbook-bank/31/s84-f0.jpg",
+        "topic_label": "Design your own network: Shape and size",
+        "vetted": true,
+        "image_alt": "A screenshot of a Windows Command Prompt window (cmd.exe). The user typed 'md network-users' and then 'dir' at the prompt C:\\Users\\Network Admin>. The dir output lists the folders in C:\\Users\\Network Admin, including a 'network-users' folder, and ends with '0 File(s) 0 bytes' and '16 Dir(s) 8,077,582,336 bytes free'. Printed on it: C:\\Windows\\system32\\cmd.exe | (c) Microsoft Corporation. All rights reserved. | C:\\Users\\Network Admin>md network-users | C:\\Users\\Network Admin>dir | Volume in drive C has no label. | Volume Serial Number is 2AE6-0115 | Directory of C:\\Users\\Network Admin | 20/05/2",
+        "hints": [
+          "Structure your answer around both demands: Look at the photograph; then Explain what the command 'md network-users' did, and how the 'dir' output shows that it worked. Make sure you also cover: that the dir listing now includes network-users as a <DIR> showing the exists."
+        ],
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Compare the cost and reliability of a mesh network with a bus topology for a small office.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify one cost-related difference",
+          "Identify one reliability-related difference",
+          "Explain why the cost difference exists",
+          "Explain why the reliability difference exists"
+        ],
+        "hints": [
+          "Stay focused on this: Compare the cost and reliability of a mesh network with a bus topology for a small office — develop the idea fully rather than listing short points. Make sure you also cover: Identify one cost-related difference; Identify one reliability-related difference; why the cost difference exists."
+        ],
+        "model_answer": "A mesh network is generally more expensive due to the high number of cables and devices needed to connect each computer directly to every other one. This ensures that if one connection fails, others can still communicate. In contrast, a bus topology uses fewer cables, making it cheaper, but if the main cable fails, the entire network can go down, reducing reliability.",
+        "explanation": "To score well, identify and explain one cost and one reliability difference between mesh and bus topologies. Your explanation should clearly show why each topology has the identified characteristics.",
+        "checked": true,
+        "topic_label": "Design your own network: Shape and size",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book",
+          "area": "Design your own network: Shape and size"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Explain how the fetch-decode-execute cycle ensures that a program runs correctly.",
+        "marks": 4,
+        "marking_criteria": [
+          "Describe the fetch step",
+          "Describe the decode step",
+          "Describe the execute step",
+          "Explain how these steps ensure correct program execution"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the fetch-decode-execute cycle ensures that a program runs correctly — develop the idea fully rather than listing short points. Make sure you also cover: how these steps ensure correct program execution."
+        ],
+        "model_answer": "The fetch-decode-execute cycle ensures that a program runs correctly by first fetching the instruction from memory, then decoding it to understand what action is needed, and finally executing the instruction. Each step is crucial: fetching retrieves the next instruction, decoding interprets it, and executing performs the required action. This cycle repeats for each instruction, ensuring that the program follows the intended sequence of operations without errors.",
+        "explanation": "To earn full marks, describe each step of the cycle and explain how they work together to ensure the program runs correctly. Each description should be clear, and the explanation should tie the steps to the overall correct execution of the program.",
+        "checked": true,
+        "topic_label": "Design your own network: Shape and size",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Compare the ease of adding devices in a ring topology with that in a bus topology.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify one ease-of-adding difference",
+          "Explain why the difference exists",
+          "Mention the impact on network performance"
+        ],
+        "hints": [
+          "Stay focused on this: Compare the ease of adding devices in a ring topology with that in a bus topology — develop the idea fully rather than listing short points. Make sure you also cover: Identify one ease-of-adding difference; why the difference exists; Mention the impact on performance."
+        ],
+        "model_answer": "Adding devices in a ring topology can be more complicated because each new device must be connected to two existing devices, potentially requiring cable reconfiguration. In contrast, a bus topology allows new devices to be added with minimal disruption, as they simply connect to the main cable. However, the ring topology can offer better fault tolerance, as a break in one cable does not necessarily affect the entire network.",
+        "explanation": "To score well, identify and explain one difference in the ease of adding devices between ring and bus topologies. Your explanation should clearly show why each topology has the identified characteristic and mention the impact on network performance.",
+        "checked": true,
+        "topic_label": "Design your own network: Shape and size",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book",
+          "area": "Design your own network: Shape and size"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe the star topology and explain how it would be beneficial in a small office setting.",
+        "marks": 2,
+        "marking_criteria": [
+          "Definition of star topology",
+          "Benefit of star topology in a small office"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the star topology and explain how it would be beneficial in a small office setting — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "A star topology consists of all devices connected to a central switch or hub. This setup is beneficial in a small office because it simplifies adding new devices; each new computer only requires its own cable to the switch, without affecting other devices. Additionally, if one cable fails, only the connected device loses network access, while others remain unaffected.",
+        "explanation": "A strong answer will accurately define the star topology and provide a clear benefit it offers in a small office, such as ease of device addition and fault isolation, showing understanding of its practical advantages.",
+        "checked": true,
+        "topic_label": "Drilling down: How the processor handles instructions",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Look at the diagram. Office 1's laptops connect through the Wi-Fi access point using dotted lines. What type of connection do the dotted lines represent?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "wireless",
+            "Wi-Fi",
+            "wireless connection",
+            "wireless link",
+            "WiFi"
+          ]
+        },
+        "explanation": "The dotted lines join the laptops to the Wi-Fi access point without cables. In this diagram, dotted lines show wireless connections, while solid lines show wired connections, such as those to the switches.",
+        "image_url": "/textbook-images/textbook-bank/31/s72-f0.jpg",
+        "topic_label": "Design your own network: Shape and size",
+        "vetted": true,
+        "image_alt": "A network topology diagram. At the top, Internet/WAN connects down to a Router, then a Firewall, which connects to two offices. Office 1 has a Switch connected to a Wi-Fi access point, which connects by dotted (wireless) lines to six Laptops. Office 2 has a switch connected by lines to ten Desktops arranged in two groups of five, and a second switch linked to it with two more Desktops. Printed on it: Internet/WAN | Router | Firewall | Office 1 | Office 2 | Switch | Wi-Fi access point | Laptop | Laptop | Laptop | Laptop | Laptop | Laptop | Desktop | Desktop | Desktop | Desktop.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Office 1's laptops connect through the Wi-Fi access point using dotted lines."
+        ],
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Compare the mesh and bus topologies in terms of their reliability and ease of maintenance.",
+        "marks": 4,
+        "marking_criteria": [
+          "Reliability of mesh topology",
+          "Ease of maintenance of mesh topology",
+          "Reliability of bus topology",
+          "Ease of maintenance of bus topology"
+        ],
+        "hints": [
+          "Discuss the reliability of each topology and then compare their ease of maintenance."
+        ],
+        "model_answer": "A mesh topology is highly reliable because each device is connected to every other device, providing multiple paths for data, so if one connection fails, others can take over. However, it is more complex to maintain due to the numerous connections. In contrast, a bus topology is simpler to maintain as it involves a single cable to which all devices connect, but it is less reliable since a break in the main cable or too much traffic can disrupt the entire network.",
+        "explanation": "A strong answer will contrast the reliability and maintenance aspects of mesh and bus topologies, showing understanding of their operational differences and implications.",
+        "checked": true,
+        "topic_label": "Design your own network: Shape and size",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Describe how the control unit and the ALU work together within the CPU to execute an instruction.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of the control unit's role",
+          "Explanation of the ALU's role",
+          "How they work together",
+          "Use of relevant computing terms"
+        ],
+        "hints": [
+          "Describe the role of the control unit and then the ALU, then explain their interaction."
+        ],
+        "model_answer": "The control unit fetches the instruction from memory and decodes it, determining what needs to be done. It sends signals to other parts of the CPU to execute the instruction. The ALU performs arithmetic and logic operations as instructed by the control unit. For example, if an instruction is to add two numbers, the control unit decodes this and the ALU performs the addition. Together, they ensure that the correct operation is performed on the correct data.",
+        "explanation": "A strong answer will detail the specific roles of both the control unit and the ALU and how they coordinate to execute an instruction. It should use precise computing terminology to demonstrate understanding.",
+        "checked": true,
+        "topic_label": "Drilling down: How the processor handles instructions",
+        "source": {
+          "textbook": "Cambridge lower secondary computing 9 students text book"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "349f16ee-d2df-4817-8ed0-c0d272a753dc",
+    "subject": "Cambridge lower secondary computing 9 students text book ",
+    "topics": [
+      "Drilling down: How the processor handles instructions",
+      "Design your own network: Shape and size"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 31,
+    "topic_ids": [
+      400,
+      398
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 2,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "5",
+        "severity": "poor",
+        "detail": "Topic label states 'Design your own network: Shape and size' but question asks about fetch-decode-execute cycle, which belongs to 'Drilling down: How the processor handles instructions'. Topic mislabeled.",
+        "correction": "Change topic_label to 'Drilling down: How the processor handles instructions'"
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Question asks about star topology (network design) but topic_label is 'Drilling down: How the processor handles instructions' (CPU operations). Topic mislabeled.",
+        "correction": "Change topic_label to 'Design your own network: Shape and size'"
+      }
+    ],
+    "summary": "Assessment is well-structured with appropriate marking criteria and model answers. Two topic label misalignments identified: Q5 labeled as network but tests CPU cycles; Q7 labeled as CPU but tests network topology. All questions are age-appropriate, answerable, and contextually coherent within their intended topics."
+  },
+  "totalSeconds": 47
+}

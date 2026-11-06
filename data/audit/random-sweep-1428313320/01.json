@@ -1,0 +1,951 @@
+{
+  "index": 1,
+  "label": "REB / Exam / HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+  "request": {
+    "subject": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+    "textbook_id": 114,
+    "topic_ids": [
+      1208
+    ],
+    "topics": [
+      "The Long Distance Trade"
+    ],
+    "curriculum": "rwanda",
+    "grade": 8,
+    "className": "S2",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 64,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Long distance trade in the medieval period involved the exchange of goods over vast distances, often across different regions and civilisations. The trade routes were not only economic conduits but also cultural exchanges, facilitating the spread of ideas, technologies, and religions.",
+        "question": "Name two major trade routes that were prominent during the medieval period.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify two major trade routes",
+          "Provide correct names of the trade routes"
+        ],
+        "hints": [
+          "Stay focused on this: Name two major trade routes that were prominent during the medieval period — develop the idea fully rather than listing short points. Make sure you also cover: Identify two major trade routes; Provide correct names of the trade routes."
+        ],
+        "model_answer": "Silk Road, Trans-Saharan Trade Route",
+        "explanation": "The Silk Road was a network of trade routes connecting the East and West, while the Trans-Saharan Trade Route connected North Africa with the sub-Saharan region.",
+        "exam_question_id": "55deee86-8d7a-4714-83ae-689df4939a6f:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Long distance trade in the medieval period involved the exchange of goods over vast distances, often across different regions and civilisations. The trade routes were not only economic conduits but also cultural exchanges, facilitating the spread of ideas, technologies, and religions.",
+        "question": "Explain how the Silk Road contributed to the spread of Buddhism from India to China.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the Silk Road in cultural exchange",
+          "Explain the spread of Buddhism along the route",
+          "Provide specific examples or evidence"
+        ],
+        "hints": [
+          "Consider the interaction between traders and the exchange of ideas."
+        ],
+        "model_answer": "The Silk Road facilitated the spread of Buddhism from India to China through the movement of monks, traders, and pilgrims who traveled along the route. These individuals carried Buddhist scriptures and teachings, which were then translated and disseminated in China. For example, the monk Xuanzang traveled from India to China in the 7th century, bringing back Buddhist texts that were later translated into Chinese.",
+        "explanation": "The Silk Road was a key conduit for the spread of Buddhism due to the movement of people and ideas along the trade routes.",
+        "exam_question_id": "55deee86-8d7a-4714-83ae-689df4939a6f:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In the 15th century, the trade route from West Africa to the Middle East involved several stages. Assume that a caravan travels from Timbuktu to Cairo, covering a distance of 3,000 kilometres. The caravan takes 60 days to complete this journey.",
+        "question": "Calculate the average speed of the caravan in kilometres per day.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly divide the total distance by the total time.",
+          "Provide the answer in kilometres per day."
+        ],
+        "hints": [
+          "Use the formula: speed = distance / time."
+        ],
+        "model_answer": "Average speed = 3,000 km / 60 days = 50 km/day",
+        "explanation": "To find the average speed, divide the total distance travelled by the total time taken.",
+        "exam_question_id": "62f2a3e7-ed2c-466d-a406-f78834327d6b:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In the 15th century, the trade route from West Africa to the Middle East involved several stages. Assume that a caravan travels from Timbuktu to Cairo, covering a distance of 3,000 kilometres. The caravan takes 60 days to complete this journey.",
+        "question": "Explain why the caravan might have taken 60 days to complete this journey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify at least one factor affecting the speed of the caravan.",
+          "Explain how this factor would slow down the journey.",
+          "Provide a logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the caravan might have taken 60 days to complete this journey — develop the idea fully rather than listing short points. Make sure you also cover: Identify at least one factor affecting the speed of the caravan.; how this factor would slow down the journey.; Provide a logical…."
+        ],
+        "model_answer": "The caravan might have taken 60 days due to difficult terrain such as deserts and mountains, adverse weather conditions, and the need for rest and resupply along the way.",
+        "explanation": "Consider various factors that could have impacted the speed of the caravan during the journey.",
+        "exam_question_id": "62f2a3e7-ed2c-466d-a406-f78834327d6b:1",
+        "topic_label": "Factors for the rise of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5925,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Factors for the rise of the long-distance trade"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In the 15th century, the trade route from West Africa to the Middle East involved several stages. Assume that a caravan travels from Timbuktu to Cairo, covering a distance of 3,000 kilometres. The caravan takes 60 days to complete this journey.",
+        "question": "Describe the types of goods that might have been traded along this route.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify at least two types of goods traded.",
+          "Explain why these goods were valuable in the trade.",
+          "Provide a coherent description."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the types of goods that might have been traded along this route — develop the idea fully rather than listing short points. Make sure you also cover: Identify at least two types of goods traded.; Provide a coherent description."
+        ],
+        "model_answer": "Goods traded might include gold, salt, and textiles from West Africa, and spices, silk, and glassware from the Middle East. These goods were valuable due to their rarity and demand in different regions.",
+        "explanation": "Consider the economic and cultural exchanges that would have taken place along the trade route.",
+        "exam_question_id": "62f2a3e7-ed2c-466d-a406-f78834327d6b:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Long Distance Trade involved the exchange of goods over long distances, often across different regions and civilisations. One of the most famous trade routes was the Silk Road, which connected the East and West from China to the Mediterranean. Traders carried goods such as silk, spices, and precious stones.",
+        "question": "Name two major trade routes that were prominent during the medieval period.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify two major trade routes from the medieval period.",
+          "Provide correct names of the trade routes."
+        ],
+        "hints": [
+          "Consider trade routes that connected different regions and civilisations."
+        ],
+        "model_answer": "Silk Road, Trans-Saharan Trade Route",
+        "explanation": "Name two trade routes that were significant during the medieval period.",
+        "exam_question_id": "06501e53-42da-4a71-97eb-f0103f359e28:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Long Distance Trade involved the exchange of goods over long distances, often across different regions and civilisations. One of the most famous trade routes was the Silk Road, which connected the East and West from China to the Mediterranean. Traders carried goods such as silk, spices, and precious stones.",
+        "question": "Explain how the Silk Road contributed to the spread of Buddhism from India to China.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the role of the Silk Road in cultural exchange.",
+          "Explain how Buddhism spread from India to China.",
+          "Provide a coherent explanation linking the Silk Road to the spread of Buddhism."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the Silk Road contributed to the spread of Buddhism from India to China — develop the idea fully rather than listing short points. Make sure you also cover: the role of the Silk Road in cultural exchange."
+        ],
+        "model_answer": "The Silk Road facilitated the spread of Buddhism from India to China by allowing Buddhist monks and traders to travel along the route, carrying religious texts and artifacts. These interactions led to the establishment of Buddhist monasteries and the spread of Buddhist teachings in China.",
+        "explanation": "Explain the role of the Silk Road in the spread of Buddhism from India to China.",
+        "exam_question_id": "06501e53-42da-4a71-97eb-f0103f359e28:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Long Distance Trade was a significant aspect of historical economies, involving the exchange of goods over vast distances. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the given distances.",
+          "Add the distances to find the total distance.",
+          "Provide the final answer with units."
+        ],
+        "hints": [
+          "Sum the distances from Timbuktu to the Mediterranean coast and from the coast to Genoa."
+        ],
+        "model_answer": "Total distance = 1,500 km + 1,200 km = 2,700 km",
+        "explanation": "Add the two given distances to find the total distance of the trade route.",
+        "exam_question_id": "8faa96ad-63b5-4900-ae9d-c8b548268b2a:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Long Distance Trade was a significant aspect of historical economies, involving the exchange of goods over vast distances. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Explain how the trade route facilitated cultural exchange between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the trade route in cultural exchange.",
+          "Explain the types of exchanges that occurred.",
+          "Provide a coherent explanation with relevant examples."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the trade route facilitated cultural exchange between Mali and Genoa — develop the idea fully rather than listing short points. Make sure you also cover: the types of exchanges that occurred.; Provide a coherent explanation with relevant examples."
+        ],
+        "model_answer": "The trade route facilitated cultural exchange by allowing merchants, travelers, and scholars to move between Mali and Genoa. This movement led to the exchange of ideas, technologies, and cultural practices. For example, goods such as textiles, spices, and manuscripts were traded, along with religious and philosophical ideas.",
+        "explanation": "Discuss how the physical movement along the trade route enabled the exchange of various cultural elements between the two regions.",
+        "exam_question_id": "8faa96ad-63b5-4900-ae9d-c8b548268b2a:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The Long Distance Trade was a significant aspect of historical economies, involving the exchange of goods over vast distances. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Describe the role of caravans in the Long Distance Trade between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of caravans in the trade.",
+          "Explain the logistics and challenges of caravan travel.",
+          "Provide a detailed description with relevant details."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of caravans in the Long Distance Trade between Mali and Genoa — develop the idea fully rather than listing short points. Make sure you also cover: the logistics and of caravan travel.; Provide a detailed description with relevant details."
+        ],
+        "model_answer": "Caravans played a crucial role in the Long Distance Trade between Mali and Genoa by transporting goods across the vast distances. They were organized groups of merchants and their goods, often including camels or other pack animals. Caravans faced challenges such as harsh desert conditions, bandits, and the need for water and rest stops. Despite these challenges, they were essential for moving goods like gold, salt, and textiles between the two regions.",
+        "explanation": "Explain the importance of caravans in facilitating trade and the specific aspects of their operation and challenges.",
+        "exam_question_id": "8faa96ad-63b5-4900-ae9d-c8b548268b2a:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In the medieval period, the Long Distance Trade involved the exchange of goods over vast distances, often across different regions and civilisations. The trade routes were not only economic conduits but also cultural exchanges, facilitating the spread of ideas, technologies, and religions. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Assume that a caravan travels from Timbuktu in Mali to Genoa in Italy, covering a total distance of 2,700 kilometres. The caravan takes 54 days to complete this journey.",
+        "question": "Calculate the average speed of the caravan in kilometres per day.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the total distance and total time.",
+          "Correctly apply the formula for average speed.",
+          "Provide the final answer with the correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average speed of the caravan in kilometres per day — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the and; Correctly apply the formula for average speed.; Provide the final answer with the correct units."
+        ],
+        "model_answer": "Total distance = 2,700 km, Total time = 54 days\nAverage speed = 2,700 km / 54 days = 50 km/day",
+        "explanation": "To find the average speed of the caravan, divide the total distance travelled by the total time taken. Ensure to include the units in your final answer.",
+        "exam_question_id": "2ddd2608-0424-4fbc-9623-624dfda81d97:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In the medieval period, the Long Distance Trade involved the exchange of goods over vast distances, often across different regions and civilisations. The trade routes were not only economic conduits but also cultural exchanges, facilitating the spread of ideas, technologies, and religions. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Assume that a caravan travels from Timbuktu in Mali to Genoa in Italy, covering a total distance of 2,700 kilometres. The caravan takes 54 days to complete this journey.",
+        "question": "Explain why the caravan might have taken 54 days to complete this journey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify factors that could affect the speed of the caravan.",
+          "Explain how these factors could contribute to the total travel time.",
+          "Provide a coherent and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the caravan might have taken 54 days to complete this journey — develop the idea fully rather than listing short points. Make sure you also cover: Identify that could affect the speed of the caravan.; how these could contribute to the; Provide a coherent and logical explanation."
+        ],
+        "model_answer": "The caravan might have taken 54 days due to several factors:\n1. Terrain: The journey likely included difficult terrains such as deserts, mountains, and forests, which would slow down the caravan.\n2. Weather conditions: Extreme weather conditions could have caused delays.\n3. Rest and resupply: The caravan would have needed regular rest and resupply points, adding to the total travel time.",
+        "explanation": "Consider various factors that could have influenced the caravan's speed and total travel time. Explain how each factor could contribute to the 54-day journey.",
+        "exam_question_id": "2ddd2608-0424-4fbc-9623-624dfda81d97:1",
+        "topic_label": "Factors for the rise of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5925,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Factors for the rise of the long-distance trade"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In the medieval period, the Long Distance Trade involved the exchange of goods over vast distances, often across different regions and civilisations. The trade routes were not only economic conduits but also cultural exchanges, facilitating the spread of ideas, technologies, and religions. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Assume that a caravan travels from Timbuktu in Mali to Genoa in Italy, covering a total distance of 2,700 kilometres. The caravan takes 54 days to complete this journey.",
+        "question": "Describe the role of caravans in the Long Distance Trade between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the function of caravans in the trade route.",
+          "Explain how caravans facilitated the exchange of goods and cultural exchange.",
+          "Provide a clear and detailed description."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of caravans in the Long Distance Trade between Mali and Genoa — develop the idea fully rather than listing short points. Make sure you also cover: Identify the function of caravans in the trade route.; Provide a clear and detailed description."
+        ],
+        "model_answer": "Caravans played a crucial role in the Long Distance Trade between Mali and Genoa by:\n1. Carrying goods: Caravans transported a variety of goods such as gold, salt, textiles, and spices from Mali to Genoa.\n2. Facilitating cultural exchange: As caravans travelled, they also carried ideas, technologies, and cultural practices, facilitating the exchange of knowledge between the two regions.\n3. Overcoming challenges: Caravans had to navigate difficult terrains and weather conditions, and they needed rest and resupply points along the way.",
+        "explanation": "Describe the key functions of caravans in the trade route between Mali and Genoa. Explain how they facilitated the exchange of goods and cultural practices.",
+        "exam_question_id": "2ddd2608-0424-4fbc-9623-624dfda81d97:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Long Distance Trade was a significant aspect of historical economies, involving the exchange of goods over vast distances. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly add the distances from Timbuktu to the Mediterranean coast and from the coast to Genoa.",
+          "Provide the correct numerical answer.",
+          "Include units in the final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy — develop the idea fully rather than listing short points. Make sure you also cover: Provide the correct numerical answer.; Include units in the final answer."
+        ],
+        "model_answer": "Total distance = 1,500 km + 1,200 km = 2,700 km",
+        "explanation": "Add the distance from Timbuktu to the Mediterranean coast (1,500 km) and the distance from the coast to Genoa (1,200 km) to find the total distance of the trade route.",
+        "exam_question_id": "803a3c99-6d22-49f0-9bcc-1aa9f0346564:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Long Distance Trade was a significant aspect of historical economies, involving the exchange of goods over vast distances. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Explain how the trade route facilitated cultural exchange between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of trade routes in cultural exchange.",
+          "Provide relevant examples or explanations.",
+          "Ensure the explanation is clear and coherent."
+        ],
+        "hints": [
+          "Consider the types of interactions and exchanges that occurred along the trade route."
+        ],
+        "model_answer": "The trade route facilitated cultural exchange between Mali and Genoa by allowing merchants, travelers, and goods to move between the two regions. This movement led to the exchange of ideas, technologies, religions, and customs. For example, goods like textiles, spices, and precious stones were traded, but so were stories, art, and knowledge. This interaction helped shape the cultural landscapes of both regions.",
+        "explanation": "Explain how the movement of people and goods along the trade route led to the exchange of cultural elements between Mali and Genoa.",
+        "exam_question_id": "803a3c99-6d22-49f0-9bcc-1aa9f0346564:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The Long Distance Trade was a significant aspect of historical economies, involving the exchange of goods over vast distances. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Describe the role of caravans in the Long Distance Trade between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of caravans in the trade route.",
+          "Provide relevant details about caravans and their function.",
+          "Ensure the description is clear and informative."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of caravans in the Long Distance Trade between Mali and Genoa — develop the idea fully rather than listing short points. Make sure you also cover: Provide relevant details about caravans and their function.; Ensure the description is clear and informative."
+        ],
+        "model_answer": "Caravans played a crucial role in the Long Distance Trade between Mali and Genoa by transporting goods and people across the vast distances. They were organized groups of merchants and their goods, often including animals like camels, that traveled together for safety and efficiency. Caravans allowed for the movement of large quantities of goods over long distances, facilitating trade between distant regions. They also served as conduits for cultural and intellectual exchange, as traders shared stories, ideas, and knowledge along the way.",
+        "explanation": "Describe how caravans were essential for the movement of goods and people in the trade route between Mali and Genoa.",
+        "exam_question_id": "803a3c99-6d22-49f0-9bcc-1aa9f0346564:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Long Distance Trade involved the exchange of goods over long distances, often across different regions and civilisations. One of the most famous trade routes was the Silk Road, which connected the East and West from China to the Mediterranean. Traders carried goods such as silk, spices, and precious stones.",
+        "question": "Name two major trade routes that were prominent during the medieval period.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify two major trade routes.",
+          "Provide correct names of the trade routes."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The two major trade routes that were prominent during the medieval period are the Silk Road and the Trans-Saharan Trade Route. The Silk Road connected the East and West, facilitating trade between China and the Mediterranean. The Trans-Saharan Trade Route connected North Africa with Sub-Saharan Africa, enabling the exchange of goods such as gold, salt, and slaves.",
+        "explanation": "Make sure to name two trade routes and provide brief descriptions of their significance.",
+        "exam_question_id": "3bd77880-e51c-423d-85f5-50b2441baded:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Long Distance Trade involved the exchange of goods over long distances, often across different regions and civilisations. One of the most famous trade routes was the Silk Road, which connected the East and West from China to the Mediterranean. Traders carried goods such as silk, spices, and precious stones.",
+        "question": "Explain how the Silk Road contributed to the spread of Buddhism from India to China.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of the Silk Road in cultural exchange.",
+          "Describe how Buddhism spread from India to China.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the Silk Road contributed to the spread of Buddhism from India to China — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and coherent explanation."
+        ],
+        "model_answer": "The Silk Road contributed to the spread of Buddhism from India to China through the movement of Buddhist monks and traders. As these individuals traveled along the trade routes, they shared their religious beliefs and practices with local populations. This exchange of ideas led to the establishment of Buddhist communities in various regions along the Silk Road, including China. The Silk Road thus served as a conduit for the transmission of Buddhism from India to China.",
+        "explanation": "Provide a clear explanation of how the Silk Road facilitated the spread of Buddhism, including the role of traders and cultural exchange.",
+        "exam_question_id": "3bd77880-e51c-423d-85f5-50b2441baded:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In the medieval period, the trade route known as the Trans-Saharan Trade connected the West African Kingdom of Ghana to the Mediterranean port city of Genoa. Traders carried goods such as gold, salt, and ivory across the Sahara Desert. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the distance from Timbuktu to the Mediterranean coast (1,500 km).",
+          "Identify the distance from the Mediterranean coast to Genoa (1,200 km).",
+          "Add the two distances to find the total distance."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy — develop the idea fully rather than listing short points. Make sure you also cover: Identify the distance from Timbuktu to the Mediterranean coast (1,500 km).; Identify the distance from the Mediterranean…."
+        ],
+        "model_answer": "Total distance = 1,500 km + 1,200 km = 2,700 km",
+        "explanation": "Add the distance from Timbuktu to the Mediterranean coast and the distance from the coast to Genoa to find the total distance of the trade route.",
+        "exam_question_id": "d2cd0989-a88a-4266-9b1d-61a2ce1d83ab:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In the medieval period, the trade route known as the Trans-Saharan Trade connected the West African Kingdom of Ghana to the Mediterranean port city of Genoa. Traders carried goods such as gold, salt, and ivory across the Sahara Desert. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Explain how the trade route facilitated cultural exchange between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies the role of the trade route in connecting Mali and Genoa",
+          "Explains how the exchange of goods led to cultural exchange (ideas, customs, technologies, religions)",
+          "Provides at least one historically plausible example of cultural exchange (e.g. spread of Islam from Mali northward, introduction of new crops or techniques, exchange of artistic or architectural styles)"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The trade route facilitated cultural exchange between Mali and Genoa by allowing traders from both regions to interact and exchange not only goods but also ideas, customs, and technologies. For example, the introduction of new agricultural techniques and Islamic learning from Mali to Mediterranean regions, and the spread of Mediterranean technologies and ideas to Mali.",
+        "explanation": "Explain how the trade route allowed for the exchange of ideas and customs between Mali and Genoa, providing examples of cultural exchange.",
+        "exam_question_id": "d2cd0989-a88a-4266-9b1d-61a2ce1d83ab:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In the medieval period, the trade route known as the Trans-Saharan Trade connected the West African Kingdom of Ghana to the Mediterranean port city of Genoa. Traders carried goods such as gold, salt, and ivory across the Sahara Desert. Calculate the total distance of the trade route from Timbuktu in Mali to Genoa in Italy, given that the distance from Timbuktu to the Mediterranean coast is 1,500 km and the distance from the coast to Genoa is 1,200 km.",
+        "question": "Describe the role of caravans in the Long Distance Trade between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of caravans in the trade route.",
+          "Explain how caravans facilitated the transport of goods.",
+          "Describe the challenges faced by caravans on the trade route."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Caravans played a crucial role in the Long Distance Trade between Mali and Genoa by transporting goods such as gold, salt, and ivory across the Sahara Desert. They faced challenges such as harsh desert conditions, bandits, and the need for extensive planning and organization to ensure the safe and efficient transport of goods. Caravans were essential for the economic and cultural exchange between the two regions.",
+        "explanation": "Describe the role of caravans in the trade route, explaining how they facilitated the transport of goods and the challenges they faced.",
+        "exam_question_id": "d2cd0989-a88a-4266-9b1d-61a2ce1d83ab:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In the medieval period, the Long Distance Trade involved the exchange of goods over vast distances, often across different regions and civilisations. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Assume that a caravan travels from Timbuktu in Mali to Genoa in Italy, covering a total distance of 2,700 kilometres. The caravan takes 54 days to complete this journey.",
+        "question": "Calculate the average speed of the caravan in kilometres per day.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for average speed.",
+          "Substitute the given values into the formula.",
+          "Perform the calculation to find the average speed."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average speed of the caravan in kilometres per day — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for average speed.; Substitute the given values into the formula.; Perform the calculation to find the average speed."
+        ],
+        "model_answer": "Average speed = total distance / total time = 2,700 km / 54 days = 50 km/day.",
+        "explanation": "To find the average speed of the caravan, divide the total distance by the total time taken.",
+        "exam_question_id": "bc1ecddc-805f-4d7a-ae3d-a50bc3d421af:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In the medieval period, the Long Distance Trade involved the exchange of goods over vast distances, often across different regions and civilisations. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Assume that a caravan travels from Timbuktu in Mali to Genoa in Italy, covering a total distance of 2,700 kilometres. The caravan takes 54 days to complete this journey.",
+        "question": "Explain why the caravan might have taken 54 days to complete this journey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify factors that could affect the speed of the caravan.",
+          "Explain how these factors might have contributed to the total travel time.",
+          "Provide a coherent explanation based on historical context."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the caravan might have taken 54 days to complete this journey — develop the idea fully rather than listing short points. Make sure you also cover: Identify factors that could affect the speed of the caravan.; Provide a coherent explanation based on historical context."
+        ],
+        "model_answer": "The caravan might have taken 54 days due to the challenging terrain of the Sahara Desert, the need for rest periods, and the time taken to trade goods along the way. Additionally, weather conditions and the need to navigate through various regions could have also contributed to the total travel time.",
+        "explanation": "Consider the various challenges and factors that could have slowed down the caravan's journey.",
+        "exam_question_id": "bc1ecddc-805f-4d7a-ae3d-a50bc3d421af:1",
+        "topic_label": "Factors for the rise of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5925,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Factors for the rise of the long-distance trade"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In the medieval period, the Long Distance Trade involved the exchange of goods over vast distances, often across different regions and civilisations. In this scenario, we will consider the trade route between the West African Kingdom of Mali and the Mediterranean port city of Genoa. Assume that a caravan travels from Timbuktu in Mali to Genoa in Italy, covering a total distance of 2,700 kilometres. The caravan takes 54 days to complete this journey.",
+        "question": "Describe the role of caravans in the Long Distance Trade between Mali and Genoa.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the primary role of caravans in the trade route.",
+          "Explain how caravans facilitated the movement of goods.",
+          "Discuss the significance of caravans in the cultural and economic exchange between Mali and Genoa."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Caravans played a crucial role in the Long Distance Trade between Mali and Genoa by transporting goods such as gold, salt, and ivory from Mali to Genoa. They facilitated the movement of these goods over long distances, overcoming geographical challenges. Caravans also served as conduits for cultural and economic exchange, spreading ideas, technologies, and religions along the trade route.",
+        "explanation": "Explain how caravans were essential for the trade and cultural exchange between Mali and Genoa.",
+        "exam_question_id": "bc1ecddc-805f-4d7a-ae3d-a50bc3d421af:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Long Distance Trade involved the exchange of goods over long distances, often across different regions and civilisations. One of the most famous trade routes was the Silk Road, which connected the East and West from China to the Mediterranean. Traders carried goods such as silk, spices, and precious stones.",
+        "question": "Name two major trade routes that were prominent during the medieval period.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify at least one correct trade route.",
+          "Identify a second correct trade route."
+        ],
+        "hints": [
+          "Think about the major regions that were connected during the medieval period."
+        ],
+        "model_answer": "The Silk Road and the Trans-Saharan Trade.",
+        "explanation": "The Silk Road and the Trans-Saharan Trade are two major trade routes that were prominent during the medieval period.",
+        "exam_question_id": "c3d63e56-4c5d-47cc-bd30-e804d52a6d48:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Long Distance Trade involved the exchange of goods over long distances, often across different regions and civilisations. One of the most famous trade routes was the Silk Road, which connected the East and West from China to the Mediterranean. Traders carried goods such as silk, spices, and precious stones.",
+        "question": "Explain how the Silk Road contributed to the spread of Buddhism from India to China.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the Silk Road in cultural exchange.",
+          "Explain the spread of Buddhism along the Silk Road.",
+          "Provide specific examples or details to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the Silk Road contributed to the spread of Buddhism from India to China — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of the Silk Road in cultural exchange.; Provide specific examples or details to support the explanation."
+        ],
+        "model_answer": "The Silk Road facilitated the spread of Buddhism from India to China by providing a route for Buddhist monks and traders to travel between the two regions. Along the Silk Road, these individuals shared their religious beliefs and practices, leading to the establishment of Buddhist communities and the spread of Buddhism in China.",
+        "explanation": "The Silk Road served as a conduit for cultural exchange, allowing Buddhist monks and traders to travel between India and China. This facilitated the spread of Buddhism as they shared their religious beliefs and practices, leading to the establishment of Buddhist communities in China.",
+        "exam_question_id": "c3d63e56-4c5d-47cc-bd30-e804d52a6d48:1",
+        "topic_label": "Effects of the long-distance trade",
+        "topic_id": 1208,
+        "checked": true,
+        "subtopic_id": 5927,
+        "source": {
+          "textbook": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+          "area": "Effects of the long-distance trade"
+        }
+      }
+    ],
+    "estimated_time": 73,
+    "assessment_id": "06fe997b-13fc-479a-a3ed-b3cbd3a181e8",
+    "subject": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+    "topics": [
+      "The Long Distance Trade"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 114,
+    "topic_ids": [
+      1208
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 26,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "4 questions open with the same sentence (1, 6, 17, 25): \"Name two major trade routes that were prominent du\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "4 questions open with the same sentence (2, 7, 18, 26): \"Explain how the Silk Road contributed to the sprea\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 9,
+      "detail": "5 questions open with the same sentence (10, 13, 16, 21, 24): \"Describe the role of caravans in the Long Distance\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 2"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1a, 3a, 7a, 10a",
+        "severity": "poor",
+        "detail": "Questions 1a, 3a, 7a, and 10a are identical (name two major trade routes). This constitutes exact repetition across four separate assessment sections, reducing assessment validity and suggesting copy-paste errors rather than progressive learning.",
+        "correction": "Vary subsequent instances: ask about specific characteristics of routes, regional impacts, or comparative analysis (e.g., 'Compare the Silk Road and Trans-Saharan Trade in terms of goods exchanged')."
+      },
+      {
+        "label": "1b, 3b, 7b, 10b",
+        "severity": "poor",
+        "detail": "Questions 1b, 3b, 7b, and 10b are identical (Silk Road and Buddhism spread). Four exact repetitions of the same question across the assessment undermines differentiation and depth of learning.",
+        "correction": "Vary subsequent instances: ask about different religions (Islam via Trans-Saharan), different goods, or different cultural impacts (e.g., 'How did the Trans-Saharan Trade spread Islam to West Africa?')."
+      },
+      {
+        "label": "2a, 5a, 9a",
+        "severity": "poor",
+        "detail": "Questions 2a, 5a, and 9a all calculate caravan speed using identical methodology (distance/time = 50 km/day). Three repetitions of the same calculation with same numerical answer reduces assessment variety.",
+        "correction": "Vary subsequent instances: calculate different metrics (e.g., daily cost per km, goods per day, time to cover specific segments) or use different distance/time combinations."
+      },
+      {
+        "label": "4a, 6a, 8a",
+        "severity": "poor",
+        "detail": "Questions 4a, 6a, and 8a are identical (calculate Timbuktu-Genoa distance: 1,500 + 1,200 = 2,700 km). Three exact repetitions of the same calculation.",
+        "correction": "Vary subsequent instances: calculate different route segments, compare multiple routes, or calculate time given speed."
+      },
+      {
+        "label": "4c, 5c, 6c, 9c",
+        "severity": "poor",
+        "detail": "Questions 4c, 5c, 6c, and 9c all ask to 'Describe the role of caravans in Long Distance Trade between Mali and Genoa' with nearly identical model answers. Four repetitions of the same question.",
+        "correction": "Vary subsequent instances: ask about caravan organization, security measures, specific goods transported, or comparison with maritime trade."
+      },
+      {
+        "label": "2b, 5b, 9b",
+        "severity": "poor",
+        "detail": "Questions 2b, 5b, and 9b all ask 'Explain why the caravan took [60/54/54] days' with similar model answers citing terrain, weather, and rest stops. Three near-identical questions.",
+        "correction": "Vary subsequent instances: ask about specific obstacles (bandits, water scarcity), seasonal timing, or comparison of travel times across different routes."
+      },
+      {
+        "label": "4b, 6b, 8b",
+        "severity": "poor",
+        "detail": "Questions 4b, 6b, and 8b all ask 'Explain how the trade route facilitated cultural exchange between Mali and Genoa' with similar model answers. Three repetitions.",
+        "correction": "Vary subsequent instances: ask about specific cultural impacts (religious conversion, architectural influence, linguistic borrowing) or compare cultural exchange across different routes."
+      },
+      {
+        "label": "8b",
+        "severity": "broken",
+        "detail": "Marking criteria requires 'historically plausible example of cultural exchange' but model answer provides vague examples ('introduction of new agricultural techniques and Islamic learning') without specific evidence. Criteria demand specificity that model answer lacks.",
+        "correction": "Model answer should provide concrete example: 'Islamic learning from Mali influenced Mediterranean scholarship' or 'Mali's architectural styles influenced Mediterranean design' with specific details."
+      }
+    ],
+    "summary": "Assessment contains severe repetition issues: questions 1a/3a/7a/10a identical; 1b/3b/7b/10b identical; 2a/5a/9a identical; 4a/6a/8a identical; 4c/5c/6c/9c identical; 2b/5b/9b similar; 4b/6b/8b similar. One marking criterion (8b) mismatches model answer. Recommend substantial restructuring to ensure assessment variety and validity."
+  },
+  "totalSeconds": 73
+}

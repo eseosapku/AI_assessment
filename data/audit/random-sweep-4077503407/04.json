@@ -1,0 +1,736 @@
+{
+  "index": 4,
+  "label": "REB / Practice / Economics S6 SB",
+  "request": {
+    "subject": "Economics S6 SB",
+    "textbook_id": 65,
+    "topic_ids": [
+      738,
+      740
+    ],
+    "topics": [
+      "Terms of Trade",
+      "Balance of Payment (BOP)"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 34,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Which of the following best describes the terms of trade?",
+        "options": [
+          "The ratio of a country's export prices to its import prices",
+          "The total value of a country's exports",
+          "The total value of a country's imports",
+          "The difference between a country's export and import prices"
+        ],
+        "correct_answer": 0,
+        "explanation": "The terms of trade is the ratio of a country's export prices to its import prices. This is the correct definition of terms of trade. The other options incorrectly describe the terms of trade.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 3208,
+        "topic_id": 738,
+        "topic_label": "Causes of changes in the terms of trade",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Causes of changes in the terms of trade"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Deteriorating terms of trade",
+            "right": "A situation where a country has to export more goods to buy the same amount of imports."
+          },
+          {
+            "left": "Balance of trade",
+            "right": "The difference between the value of a country's exports and imports."
+          },
+          {
+            "left": "Current account",
+            "right": "A component of the balance of payments that records transactions in goods, services, income, and current transfers."
+          },
+          {
+            "left": "Capital account",
+            "right": "A component of the balance of payments that records transactions in financial assets and liabilities."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is correctly paired with its definition, providing a clear understanding of each economic concept.",
+        "left_items": [
+          "Deteriorating terms of trade",
+          "Balance of trade",
+          "Current account",
+          "Capital account"
+        ],
+        "right_items": [
+          "A situation where a country has to export more goods to buy the same amount of imports.",
+          "A component of the balance of payments that records transactions in goods, services, income, and current transfers.",
+          "The difference between the value of a country's exports and imports.",
+          "A component of the balance of payments that records transactions in financial assets and liabilities."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "checked": true,
+        "topic_label": "Terms of Trade",
+        "source": {
+          "textbook": "Economics S6 SB"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Terms of Trade",
+          "Balance of Payment"
+        ],
+        "items": [
+          "Export prices",
+          "Import prices",
+          "Goods exports",
+          "Services exports",
+          "Financial investments",
+          "Current account"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "marks": 6,
+        "explanation": "Each item is correctly categorised based on whether it relates to terms of trade or balance of payments.",
+        "checked": true,
+        "subtopic_id": 3209,
+        "topic_id": 738,
+        "topic_label": "Consequences of changes in the terms of trade on balance of trade",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Consequences of changes in the terms of trade on balance of trade"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Look at the table. In 2016, what does the difference between the trade balance (-1,310) and the balance including services (-1,570) show about services?",
+        "options": [
+          "Services reduced the deficit by 1,570 million USD",
+          "Services created a net deficit of 260 million USD",
+          "Services created a net surplus of 260 million USD",
+          "Services had no effect on the balance"
+        ],
+        "correct_answer": 1,
+        "explanation": "Including services moves the balance from -1,310 to -1,570, so services added a net deficit of 260 million USD (imports of services exceeded exports). A surplus would make the balance less negative. Services clearly had an effect, and 1,570 is the total balance, not the services effect.",
+        "image_url": "/textbook-images/rwanda/65/page552-embedded-1.png",
+        "topic_label": "Difference between balance of trade and balance of payment",
+        "vetted": true,
+        "image_alt": "A table titled 'Foreign Trade Indicators' with columns for 2014 to 2018. Rows give Foreign Trade (% of GDP): 47.6, 52.5, 48.0, 51.0, 51.5; Trade Balance (million USD): -1,269, -1,237, -1,310, -829, -907; Trade Balance including Service: -1,335, -1,562, -1,570, -986, -1,069; Imports of Goods and Services (annual % change): 14.6, 34.8, -1.1, 10.1, 9.4; Exports of Goods and Services (annual % change): 7.2, 6.3, 12.9, 33.6, 0.8; Imports (% of GDP): 32.9, 38.3, 33.1, 32.8, 34.1; Exports (% of GDP): 14.7, 14.2, 14.9, 18.2, 17.4. Source: World Bank; Latest available data. Printed on it: Foreign Trade",
+        "subtopic_id": 3226,
+        "topic_id": 740,
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Difference between balance of trade and balance of payment"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "The balance of payments always balances.",
+          "The terms of trade can be affected by changes in global demand.",
+          "A surplus in the current account is always offset by a deficit in the capital account.",
+          "A country's balance of trade can be negative."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "The balance of payments always balances because every transaction affects both the current and capital accounts. Changes in global demand can affect the terms of trade. A surplus in the current account is not always offset by a deficit in the capital account. A country's balance of trade can indeed be negative.",
+        "checked": true,
+        "subtopic_id": 3209,
+        "topic_id": 738,
+        "topic_label": "Consequences of changes in the terms of trade on balance of trade",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Consequences of changes in the terms of trade on balance of trade"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which factor can affect the balance of trade?",
+        "options": [
+          "Exchange rates",
+          "Tariffs",
+          "Economic growth",
+          "All of the above"
+        ],
+        "correct_answer": 3,
+        "explanation": "All of the listed factors can affect the balance of trade. Exchange rates can influence the competitiveness of exports, tariffs can impact the cost of imports, and economic growth can affect both export and import levels.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 3205,
+        "topic_id": 738,
+        "topic_label": "Factors that can affect the balance of trade",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Factors that can affect the balance of trade"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply",
+        "options": [
+          "A country's balance of payments must balance.",
+          "A country's balance of trade can be negative.",
+          "A country's current account can have a surplus.",
+          "A country's capital account can have a deficit."
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "All the statements are correct. A country's balance of payments must balance, a country's balance of trade can be negative, and both the current and capital accounts can have surpluses or deficits.",
+        "checked": true,
+        "subtopic_id": 3229,
+        "topic_id": 740,
+        "topic_label": "Balance of payments account",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Balance of payments account"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Current account",
+          "Capital account",
+          "Financial account",
+          "Balance of trade"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Balance of trade is not one of the three main components of the balance of payments. The balance of payments consists of the current account, capital account, and financial account. Balance of trade is a subset within the current account.",
+        "checked": true,
+        "subtopic_id": 3229,
+        "topic_id": 740,
+        "topic_label": "Balance of payments account",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Balance of payments account"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Trade",
+          "Payment"
+        ],
+        "items": [
+          "Exports",
+          "Imports",
+          "Current Account",
+          "Capital Account"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "marks": 4,
+        "explanation": "The items are categorised into 'Trade' and 'Payment' based on their definitions and roles in economic transactions.",
+        "checked": true,
+        "subtopic_id": 3226,
+        "topic_id": 740,
+        "topic_label": "Difference between balance of trade and balance of payment",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Difference between balance of trade and balance of payment"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank",
+        "template": "In Rwanda, a positive balance of trade means that the country's {{0}} exceed its {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "exports"
+          },
+          {
+            "id": "1",
+            "correct": "imports"
+          }
+        ],
+        "word_bank": [
+          "exports",
+          "imports",
+          "revenue",
+          "expenditure"
+        ],
+        "marks": 2,
+        "explanation": "The correct words 'exports' and 'imports' are filled in to accurately describe the balance of trade in Rwanda.",
+        "checked": true,
+        "subtopic_id": 3206,
+        "topic_id": 738,
+        "topic_label": "Rwanda's balance of trade",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Rwanda's balance of trade"
+        }
+      },
+      {
+        "id": 11,
+        "type": "mcq",
+        "question": "Look at the table. In which year was Rwanda's balance of trade in goods (exports minus imports) in the largest deficit?",
+        "options": [
+          "2018",
+          "2014",
+          "2015",
+          "2016"
+        ],
+        "correct_answer": 2,
+        "explanation": "Goods balance = exports − imports. 2015: 659 − 2,570 = −1,911 million USD, the largest deficit. 2014 gives −1,840, 2016 gives −1,549, and 2018 gives −1,392. These are smaller deficits, so they are wrong. 2018 has the highest exports but not the largest deficit.",
+        "image_url": "/textbook-images/rwanda/65/page552-embedded-0.png",
+        "topic_label": "Rwanda's balance of trade",
+        "vetted": true,
+        "image_alt": "A table titled \"Foreign Trade Values\" with columns for the years 2014 to 2018 and four rows, all in million USD. Imports of Goods: 2,563; 2,570; 2,293; 2,323; 2,518. Exports of Goods: 723; 659; 744; 1,050; 1,126. Imports of Services: 397; 427; 1,062; 904; 931. Exports of Services: 325; 352; 851; 729; 798. The source line reads \"World Trade Organisation (WTO) ; Latest available data\". Printed on it: Foreign Trade Values | 2014 | 2015 | 2016 | 2017 | 2018 | Imports of Goods (million USD) | 2,563 | 2,570 | 2,293 | 2,323 | 2,518 | Exports of Goods (million USD) | 723 | 659 | 744 | 1,050 | 1,126 | ",
+        "subtopic_id": 3206,
+        "topic_id": 738,
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Rwanda's balance of trade"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply",
+        "options": [
+          "A country can have a balance of trade deficit and still have a balance of payment surplus.",
+          "A balance of trade surplus contributes to a balance of payment surplus.",
+          "A balance of trade deficit can be financed by capital inflows.",
+          "A country's balance of trade is always equal to its balance of payment."
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Options A, B, and C are correct. A country can have a trade deficit but BoP surplus if capital inflows are large enough. A trade surplus does contribute positively to the BoP. Trade deficits can be financed by capital inflows. A country's balance of trade is always equal to its balance of payment. is false because balance of trade is only one component of the balance of payment, not equal to it.",
+        "checked": true,
+        "subtopic_id": 3226,
+        "topic_id": 740,
+        "topic_label": "Difference between balance of trade and balance of payment",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Difference between balance of trade and balance of payment"
+        }
+      },
+      {
+        "id": 13,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Trade Surplus",
+          "Current Account Deficit",
+          "Capital Account Deficit",
+          "Balance of Payment Deficit"
+        ],
+        "correct_index": 0,
+        "marks": 1,
+        "explanation": "Trade Surplus does not belong in the same category as the other items, which are all components of the balance of payment.",
+        "checked": true,
+        "subtopic_id": 3226,
+        "topic_id": 740,
+        "topic_label": "Difference between balance of trade and balance of payment",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Difference between balance of trade and balance of payment"
+        }
+      },
+      {
+        "id": 14,
+        "type": "mcq",
+        "question": "State one limitation of using terms of trade as an economic indicator.",
+        "options": [
+          "It only measures the prices of exports.",
+          "It does not account for the quality of goods.",
+          "It does not consider the volume of exports and imports.",
+          "It is only relevant for a single country."
+        ],
+        "correct_answer": 2,
+        "explanation": "The correct answer is that terms of trade do not consider the volume of exports and imports. This limitation means it does not provide a complete picture of a country's trade performance. It only measures the prices of exports. is incorrect because terms of trade do measure the prices of exports relative to imports. It does not account for the quality of goods. is wrong as terms of trade do not measure quality. It is only relevant for a single country. is incorrect because terms of trade are relevant for any country engaging in trade.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 3208,
+        "topic_id": 738,
+        "topic_label": "Causes of changes in the terms of trade",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Causes of changes in the terms of trade"
+        }
+      },
+      {
+        "id": 15,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term with its correct definition related to the balance of trade.",
+        "matched_pairs": [
+          {
+            "left": "Trade Surplus",
+            "right": "When exports exceed imports."
+          },
+          {
+            "left": "Trade Deficit",
+            "right": "When imports exceed exports."
+          },
+          {
+            "left": "Balance of Trade",
+            "right": "The difference between the value of a country's exports and imports."
+          },
+          {
+            "left": "Trade Balance",
+            "right": "Another term for the balance of trade."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Trade Surplus correctly matches with 'When exports exceed imports'. Trade Deficit matches with 'When imports exceed exports'. Balance of Trade matches with 'The difference between the value of a country\\'s exports and imports'. Trade Balance is another term for the balance of trade, so it also matches correctly.",
+        "left_items": [
+          "Trade Surplus",
+          "Trade Deficit",
+          "Balance of Trade",
+          "Trade Balance"
+        ],
+        "right_items": [
+          "When imports exceed exports.",
+          "When exports exceed imports.",
+          "Another term for the balance of trade.",
+          "The difference between the value of a country's exports and imports."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 3226,
+        "topic_id": 740,
+        "topic_label": "Difference between balance of trade and balance of payment",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Difference between balance of trade and balance of payment"
+        }
+      },
+      {
+        "id": 16,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank: A country's balance of trade is calculated by subtracting the total value of _____ from the total value of _____.",
+        "template": "A country's balance of trade is calculated by subtracting the total value of {{0}} from the total value of {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "imports"
+          },
+          {
+            "id": "1",
+            "correct": "exports"
+          }
+        ],
+        "word_bank": [
+          "imports",
+          "exports",
+          "production",
+          "consumption"
+        ],
+        "marks": 2,
+        "explanation": "The correct answer is 'imports' for the first blank and 'exports' for the second blank because the balance of trade is calculated by subtracting the total value of imports from the total value of exports.",
+        "checked": true,
+        "subtopic_id": 3203,
+        "topic_id": 738,
+        "topic_label": "Balance of Trade",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Balance of Trade"
+        }
+      },
+      {
+        "id": 17,
+        "type": "mcq",
+        "question": "Look at the table. Why are exports of goods and services recorded on the Credits (+) side, while imports are recorded on the Debits (-) side?",
+        "options": [
+          "Exports reduce the country's reserves, while imports increase the country's reserves",
+          "Exports are payments made to foreign countries, while imports are receipts from them",
+          "Exports are recorded as errors and omissions, while imports are recorded in the capital account",
+          "Exports bring foreign currency receipts into the country, while imports require payments to foreigners"
+        ],
+        "correct_answer": 3,
+        "explanation": "Exports earn foreign exchange, so they are receipts and are credits. Imports mean paying foreigners, so they are payments and are debits. Exports do not reduce reserves, and they are not payments abroad. Both exports and imports belong in the current account, not in errors and omissions or the capital account.",
+        "image_url": "/textbook-images/rwanda/65/page126-embedded-0.png",
+        "topic_label": "Balance of payments account",
+        "vetted": true,
+        "image_alt": "A table titled \"Balance of Payment Account\" with two columns: Credits (+) - Receipts on the left and Debits (-) - Payments on the right. It has four sections: 1. Current Account (Exports and Imports, each with a) Goods, b) Services, c) Transfers), 2. Capital Account, 3. Official settlement account, and 4. Errors and Omissions. The Capital Account lists borrowing from foreign countries and direct investments by foreign countries as credits, and lending to foreign countries and direct investment in foreign countries as debits. The Official settlement account lists an increase in foreign official",
+        "subtopic_id": 3229,
+        "topic_id": 740,
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Balance of payments account"
+        }
+      },
+      {
+        "id": 18,
+        "type": "mcq",
+        "question": "Which of the following best describes the difference between balance of trade and balance of payment?",
+        "options": [
+          "Balance of trade only includes merchandise, while balance of payment includes all economic transactions.",
+          "Balance of payment only includes merchandise, while balance of trade includes all economic transactions.",
+          "Both balance of trade and balance of payment include only merchandise.",
+          "Neither balance of trade nor balance of payment includes services."
+        ],
+        "correct_answer": 0,
+        "explanation": "The correct answer is that the balance of trade only includes merchandise (goods), while the balance of payment includes all economic transactions, including services, investments, and transfers. Balance of payment only includes merchandise, while balance of trade includes all economic transactions. is incorrect because the balance of payment includes more than just merchandise. Both balance of trade and balance of payment include only merchandise. is wrong because the balance of trade does not include services, investments, and transfers. Neither balance of trade nor balance of payment includes services. is incorrect because the balance of payment does include services.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 3226,
+        "topic_id": 740,
+        "topic_label": "Difference between balance of trade and balance of payment",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Difference between balance of trade and balance of payment"
+        }
+      },
+      {
+        "id": 19,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category related to financing a BOP deficit.",
+        "categories": [
+          "Policy Measures",
+          "Market Mechanisms"
+        ],
+        "items": [
+          "Devaluation of currency",
+          "Reducing government spending",
+          "Attracting foreign investment",
+          "Increasing interest rates"
+        ],
+        "correct_category": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Devaluation of currency is a policy measure as it is a deliberate government or central bank action. Reducing government spending is a policy measure involving fiscal policy. Attracting foreign investment is a policy measure involving incentives and regulations. Increasing interest rates is a monetary policy measure by the central bank.",
+        "checked": true,
+        "subtopic_id": 3230,
+        "topic_id": 740,
+        "topic_label": "Financing deficits/how to correct a BOP deficit",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Financing deficits/how to correct a BOP deficit"
+        }
+      },
+      {
+        "id": 20,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False regarding the effects of a BOP deficit.",
+        "statements": [
+          "A BOP deficit can lead to a decrease in foreign exchange reserves.",
+          "A BOP deficit always indicates poor economic performance.",
+          "A BOP deficit can lead to inflation.",
+          "A BOP deficit can be financed by borrowing from international institutions."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          true
+        ],
+        "marks": 4,
+        "explanation": "A BOP deficit can lead to a decrease in foreign exchange reserves because the country is spending more on imports than it earns from exports. A BOP deficit does not always indicate poor economic performance as it can be due to temporary factors or strategic investments. A BOP deficit can lead to inflation if the country prints more money to finance the deficit. A BOP deficit can be financed by borrowing from international institutions like the IMF.",
+        "checked": true,
+        "subtopic_id": 3234,
+        "topic_id": 740,
+        "topic_label": "Effects of BOP deficits",
+        "source": {
+          "textbook": "Economics S6 SB",
+          "area": "Effects of BOP deficits"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "530af609-1aaa-4975-a8b2-4ac1eb033e04",
+    "subject": "Economics S6 SB",
+    "topics": [
+      "Terms of Trade",
+      "Balance of Payment (BOP)"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "study_mixed",
+    "textbook_id": 65,
+    "topic_ids": [
+      738,
+      740
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "mcq-catch-all-option",
+      "severity": "poor",
+      "index": 5,
+      "detail": "\"All of the above\" is guessable and untestable"
+    },
+    {
+      "code": "tick-all-correct",
+      "severity": "poor",
+      "index": 6,
+      "detail": "every option is correct, so nothing is tested"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 8"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "19",
+        "severity": "broken",
+        "detail": "All four items are categorized as 'Policy Measures' (correct_category all 0), leaving 'Market Mechanisms' empty. However, 'Attracting foreign investment' and 'Increasing interest rates' can operate through market mechanisms. The question setup implies both categories should be used, but the answer key makes one category unused, creating an invalid categorization task.",
+        "correction": "Revise categories or answer key. Possible correction: 'Attracting foreign investment' → Market Mechanisms (category 1), or redefine categories to ensure both are meaningfully populated."
+      },
+      {
+        "label": "13",
+        "severity": "poor",
+        "detail": "The explanation states 'Trade Surplus does not belong... which are all components of the balance of payment.' However, 'Trade Surplus' is part of the balance of trade, which itself is a component of the current account in the BOP. The distinction is unclear: all items relate to BOP components or outcomes. The odd-one-out logic is weak.",
+        "correction": "Clarify explanation: Trade Surplus is a positive balance of trade outcome, while the others are deficit states across different BOP accounts, making it the conceptual opposite."
+      }
+    ],
+    "summary": "Assessment covers Terms of Trade and BOP appropriately for grade 12. Question 19 has a broken categorization with all items assigned to one category, leaving the other empty. Question 13's odd-one-out rationale is weak but answerable. All numerical calculations verified correctly (Q4, Q11). Other questions are factually accurate and age-appropriate."
+  },
+  "totalSeconds": 48
+}

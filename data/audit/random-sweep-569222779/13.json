@@ -1,0 +1,825 @@
+{
+  "index": 13,
+  "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+  "request": {
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "textbook_id": 209,
+    "topic_ids": [
+      2605
+    ],
+    "topics": [
+      "Chapter 7: Energy resources"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 89,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.> In the first blank column, put a tick by any three resources that are non-renewable. In the second blank column, put a tick by any three resources that are renewable.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Name three energy resources that are non-renewable.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify coal",
+          "Identify oil",
+          "Identify natural gas"
+        ],
+        "hints": [
+          "Think about the origin and renewability of each energy resource."
+        ],
+        "model_answer": "Coal, oil, natural gas",
+        "explanation": "These are fossil fuels that take millions of years to form and are not replenished on a human timescale.",
+        "exam_question_id": "c4c01647-a3ce-4f48-8299-97c9383cf1b8:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "image_url": "/textbook-images/textbook-bank/209/s150-f0.jpg",
+        "image_alt": "A table with three columns headed 'Energy resource', 'Non-renewable' and 'Renewable'. The first column lists ten energy resources: wave power, hydroelectricity, geothermal, coal, nuclear energy, oil, solar energy, natural gas, tidal energy and wind energy. The Non-renewable and Renewable columns are empty.\nLabels: Energy resource, Non-renewable, Renewable, wave power, hydroelectricity, geothermal, coal, nuclear energy, oil, solar energy, natural gas, tidal energy, wind energy\nOriginal exercise: Copy the table. In the first blank column, put a tick by any three resources that are non-renewable.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.> In the first blank column, put a tick by any three resources that are non-renewable. In the second blank column, put a tick by any three resources that are renewable.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Name three energy resources that are renewable.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify wind energy",
+          "Identify solar energy",
+          "Identify tidal energy"
+        ],
+        "hints": [
+          "Think about the source and sustainability of each energy resource."
+        ],
+        "model_answer": "Wind energy, solar energy, tidal energy",
+        "explanation": "These energy resources are naturally replenished and can be harnessed continuously.",
+        "exam_question_id": "c4c01647-a3ce-4f48-8299-97c9383cf1b8:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "image_url": "/textbook-images/textbook-bank/209/s150-f0.jpg",
+        "image_alt": "A table with three columns headed 'Energy resource', 'Non-renewable' and 'Renewable'. The first column lists ten energy resources: wave power, hydroelectricity, geothermal, coal, nuclear energy, oil, solar energy, natural gas, tidal energy and wind energy. The Non-renewable and Renewable columns are empty.\nLabels: Energy resource, Non-renewable, Renewable, wave power, hydroelectricity, geothermal, coal, nuclear energy, oil, solar energy, natural gas, tidal energy, wind energy\nOriginal exercise: Copy the table. In the first blank column, put a tick by any three resources that are non-renewable.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.> In the first blank column, put a tick by any three resources that are non-renewable. In the second blank column, put a tick by any three resources that are renewable.",
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why wind power is described as renewable but coal is not.",
+        "marks": 4,
+        "marking_criteria": [
+          "State that wind is continually replaced",
+          "State that wind is a natural process",
+          "Explain that coal takes millions of years to form",
+          "Explain that coal is used up faster than it is replaced"
+        ],
+        "hints": [
+          "Consider the time scales involved in the formation and replenishment of each resource."
+        ],
+        "model_answer": "Wind power is described as renewable because it is continually replaced by the Sun's heating of the atmosphere and will not run out. Coal, on the other hand, takes millions of years to form and is used up faster than it is replaced.",
+        "explanation": "Wind is naturally replenished by solar energy, while coal is a finite resource.",
+        "exam_question_id": "c4c01647-a3ce-4f48-8299-97c9383cf1b8:1",
+        "topic_label": "Chapter 7: Energy resources",
+        "topic_id": 2605,
+        "image_url": "/textbook-images/textbook-bank/209/s150-f0.jpg",
+        "image_alt": "A table with three columns headed 'Energy resource', 'Non-renewable' and 'Renewable'. The first column lists ten energy resources: wave power, hydroelectricity, geothermal, coal, nuclear energy, oil, solar energy, natural gas, tidal energy and wind energy. The Non-renewable and Renewable columns are empty.\nLabels: Energy resource, Non-renewable, Renewable, wave power, hydroelectricity, geothermal, coal, nuclear energy, oil, solar energy, natural gas, tidal energy, wind energy\nOriginal exercise: Copy the table. In the first blank column, put a tick by any three resources that are non-renewable.",
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Energy resources"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island.",
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "question": "Name the energy source that shows the highest average energy output.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the energy source with the highest output."
+        ],
+        "hints": [
+          "Refer to the energy output values provided in the diagram."
+        ],
+        "model_answer": "The highest average energy output is shown by hydroelectric power.",
+        "explanation": "Identify the energy source with the highest average energy output based on the data provided in the diagram.",
+        "exam_question_id": "3aa73a83-532a-4629-b49c-4da52419ec4c:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "image_url": "/textbook-images/textbook-bank/209/s144-f0.jpg",
+        "image_alt": "A map of Sanghera Island with north arrow at top, showing contour-shaded hills with spot heights, streams, forest patches in the north, two hot springs, and dotted tracks. A scale bar shows 1 km. Spot heights are 278, 338, 571, 778 and 812.\nLabels: ACTIVITY 7.2, Sanghera Island, N, 278, 338, 571, 812, 778, Key, forest, stream, hot springs, spot heights, tracks, 1 km\nOriginal exercise: Sanghera Island (Figure 7.10) is a remote fictitious island.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island.",
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of why wind power is renewable.",
+          "Explanation of why coal is not renewable."
+        ],
+        "hints": [
+          "Consider the origin and replenishment rate of each energy source."
+        ],
+        "model_answer": "Wind power is renewable because it is continually replenished by the natural heating of the atmosphere by the Sun, whereas coal is a fossil fuel that takes millions of years to form and is used up faster than it is replaced.",
+        "explanation": "Explain the difference between renewable and non-renewable energy sources with specific reference to wind power and coal.",
+        "exam_question_id": "3aa73a83-532a-4629-b49c-4da52419ec4c:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "image_url": "/textbook-images/textbook-bank/209/s144-f0.jpg",
+        "image_alt": "A map of Sanghera Island with north arrow at top, showing contour-shaded hills with spot heights, streams, forest patches in the north, two hot springs, and dotted tracks. A scale bar shows 1 km. Spot heights are 278, 338, 571, 778 and 812.\nLabels: ACTIVITY 7.2, Sanghera Island, N, 278, 338, 571, 812, 778, Key, forest, stream, hot springs, spot heights, tracks, 1 km\nOriginal exercise: Sanghera Island (Figure 7.10) is a remote fictitious island.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island.",
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "question": "Calculate the total average annual energy output of coal and wind combined.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the combined energy output.",
+          "Correct units used."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total average annual energy output of coal and wind combined — develop the idea fully rather than listing short points. Make sure you also cover: Correct units used."
+        ],
+        "model_answer": "Total average annual energy output of coal and wind combined is 600 MWh + 400 MWh = 1000 MWh.",
+        "explanation": "Calculate the total average annual energy output of coal and wind by adding their respective outputs.",
+        "exam_question_id": "3aa73a83-532a-4629-b49c-4da52419ec4c:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "image_url": "/textbook-images/textbook-bank/209/s144-f0.jpg",
+        "image_alt": "A map of Sanghera Island with north arrow at top, showing contour-shaded hills with spot heights, streams, forest patches in the north, two hot springs, and dotted tracks. A scale bar shows 1 km. Spot heights are 278, 338, 571, 778 and 812.\nLabels: ACTIVITY 7.2, Sanghera Island, N, 278, 338, 571, 812, 778, Key, forest, stream, hot springs, spot heights, tracks, 1 km\nOriginal exercise: Sanghera Island (Figure 7.10) is a remote fictitious island.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A power station uses a renewable energy source. It can generate a maximum power of 100 MW continuously for 24 hours a day.",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total energy produced by the power station in one day in megawatt-hours (MWh).",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the formula for energy (Energy = Power x Time).",
+          "Substitute the given values into the formula.",
+          "Provide the correct numerical answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total energy produced by the power station in one day in megawatt-hours (MWh) — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the given values into the formula.; Provide the correct numerical answer."
+        ],
+        "model_answer": "Energy = Power x Time = 100 MW x 24 hours = 2400 MWh",
+        "explanation": "To find the total energy produced, multiply the power by the time. Ensure you convert hours into the same unit as the power.",
+        "exam_question_id": "044f8115-a55c-481a-ab10-27b3e8b2c42a:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s61-f1.jpg",
+        "image_alt": "A two-column table with a dark grey header row reading 'Feature' and 'Fission, fusion or both?'. Six feature rows are listed in the first column: large nuclei split into two; two small nuclei join together; energy is released; used in a uranium-fuelled power station; the energy source of the Sun; helium can be a product. The second column is empty for every row.\nLabels: Feature, Fission, fusion or both?, large nuclei split into two, two small nuclei join together, energy is released, used in a uranium-fuelled power station, the energy source of the Sun, helium can be a product\nOriginal exercis",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A power station uses a renewable energy source. It can generate a maximum power of 100 MW continuously for 24 hours a day.",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why using a renewable energy source for power generation is beneficial for the environment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the reduction of greenhouse gas emissions.",
+          "Discuss the sustainability aspect of renewable energy.",
+          "Explain the long-term environmental benefits."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why using a renewable energy source for power generation is beneficial for the environment — develop the idea fully rather than listing short points. Make sure you also cover: Mention the reduction of gas; Discuss the sustainability aspect of renewable energy."
+        ],
+        "model_answer": "Using a renewable energy source for power generation is beneficial for the environment because it reduces greenhouse gas emissions, which contribute to global warming. Renewable energy sources are sustainable and will not run out, unlike fossil fuels. This leads to long-term environmental benefits, such as cleaner air and reduced pollution.",
+        "explanation": "Renewable energy sources do not produce greenhouse gases, unlike fossil fuels, making them a cleaner and more sustainable option.",
+        "exam_question_id": "044f8115-a55c-481a-ab10-27b3e8b2c42a:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s61-f1.jpg",
+        "image_alt": "A two-column table with a dark grey header row reading 'Feature' and 'Fission, fusion or both?'. Six feature rows are listed in the first column: large nuclei split into two; two small nuclei join together; energy is released; used in a uranium-fuelled power station; the energy source of the Sun; helium can be a product. The second column is empty for every row.\nLabels: Feature, Fission, fusion or both?, large nuclei split into two, two small nuclei join together, energy is released, used in a uranium-fuelled power station, the energy source of the Sun, helium can be a product\nOriginal exercis",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island. Use this information to answer the following questions.\n\n| Energy Source | Average Energy Output (GWh) |\n|---------------|----------------------------|\n| Coal          | 1200                       |\n| Wind          | 600                        |\n| Hydroelectric | 450                        |",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "Name the energy source that shows the highest average energy output.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the energy source with the highest average energy output",
+          "State the name of the energy source"
+        ],
+        "hints": [
+          "Stay focused on this: Name the energy source that shows the highest average energy output — develop the idea fully rather than listing short points. Make sure you also cover: the name of the energy source."
+        ],
+        "model_answer": "Coal shows the highest average energy output.",
+        "explanation": "The average energy output for coal is 1200 GWh, which is higher than that for wind (600 GWh) and hydroelectric (450 GWh).",
+        "exam_question_id": "de252e3a-5eaf-4add-b43a-703df1d98ca8:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s61-f0.jpg",
+        "image_alt": "A two-column table with headers 'Energy resource' and 'Originally from the Sun?'. The nine rows list wood, fossil fuels, nuclear power, tidal power, wind power, hydroelectric power, wave, geothermal and sunlight. Only the wood row is filled in, with a tick (✓); all other cells in the second column are empty.\nLabels: Energy resource, Originally from the Sun?, wood, ✓, fossil fuels, nuclear power, tidal power, wind power, hydroelectric power, wave, geothermal, sunlight\nOriginal exercise: In the table, the first column lists some energy resources. In the second column, indicate with a tick (✓) if",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island. Use this information to answer the following questions.\n\n| Energy Source | Average Energy Output (GWh) |\n|---------------|----------------------------|\n| Coal          | 1200                       |\n| Wind          | 600                        |\n| Hydroelectric | 450                        |",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the renewable nature of wind power",
+          "Explain why coal is not renewable",
+          "Provide a clear and concise explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why wind power is described as a renewable energy source but coal is not — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "Wind power is described as a renewable energy source because it is generated by wind, a naturally occurring and continuously replenished resource. Coal, on the other hand, is not renewable because it is a fossil fuel that takes millions of years to form and is used up faster than it is replaced.",
+        "explanation": "Wind is naturally replenished by the Sun's heating of the atmosphere, while coal is a finite resource that is depleted as it is used.",
+        "exam_question_id": "de252e3a-5eaf-4add-b43a-703df1d98ca8:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s61-f0.jpg",
+        "image_alt": "A two-column table with headers 'Energy resource' and 'Originally from the Sun?'. The nine rows list wood, fossil fuels, nuclear power, tidal power, wind power, hydroelectric power, wave, geothermal and sunlight. Only the wood row is filled in, with a tick (✓); all other cells in the second column are empty.\nLabels: Energy resource, Originally from the Sun?, wood, ✓, fossil fuels, nuclear power, tidal power, wind power, hydroelectric power, wave, geothermal, sunlight\nOriginal exercise: In the table, the first column lists some energy resources. In the second column, indicate with a tick (✓) if",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island. Use this information to answer the following questions.\n\n| Energy Source | Average Energy Output (GWh) |\n|---------------|----------------------------|\n| Coal          | 1200                       |\n| Wind          | 600                        |\n| Hydroelectric | 450                        |",
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "question": "Calculate the total average annual energy output of coal and wind combined.",
+        "marks": 2,
+        "marking_criteria": [
+          "Add the average energy outputs of coal and wind",
+          "Provide the total in GWh"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The total average annual energy output of coal and wind combined is 1800 GWh.",
+        "explanation": "Coal's average energy output is 1200 GWh and wind's is 600 GWh, so 1200 + 600 = 1800 GWh.",
+        "exam_question_id": "de252e3a-5eaf-4add-b43a-703df1d98ca8:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s61-f0.jpg",
+        "image_alt": "A two-column table with headers 'Energy resource' and 'Originally from the Sun?'. The nine rows list wood, fossil fuels, nuclear power, tidal power, wind power, hydroelectric power, wave, geothermal and sunlight. Only the wood row is filled in, with a tick (✓); all other cells in the second column are empty.\nLabels: Energy resource, Originally from the Sun?, wood, ✓, fossil fuels, nuclear power, tidal power, wind power, hydroelectric power, wave, geothermal, sunlight\nOriginal exercise: In the table, the first column lists some energy resources. In the second column, indicate with a tick (✓) if",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the average annual energy production for different energy sources in kWh.",
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total energy produced by wind power and solar power combined in one year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies wind power and solar power values",
+          "Correctly adds the values together",
+          "Correctly provides the final answer in kWh"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total energy produced by wind power and solar power combined in one year — develop the idea fully rather than listing short points. Make sure you also cover: Correctly adds the values together; Correctly provides the final answer in kWh."
+        ],
+        "model_answer": "Wind power: 500000 kWh\nSolar power: 300000 kWh\nTotal energy produced = 500000 + 300000 = 800000 kWh",
+        "explanation": "To find the total energy produced by wind power and solar power combined, add the respective values from the table.",
+        "exam_question_id": "5bdcecfb-d968-411d-a31a-1535a56e616b:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the average annual energy production for different energy sources in kWh.",
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies wind power as renewable",
+          "Correctly identifies coal as non-renewable",
+          "Provides a clear explanation for why wind power is renewable and coal is not"
+        ],
+        "hints": [
+          "Consider the sources and replenishment rates of both energy sources."
+        ],
+        "model_answer": "Wind power is renewable because it is continually replenished by the natural movement of air. Coal is non-renewable because it takes millions of years to form and is used up faster than it is replaced.",
+        "explanation": "Wind power is renewable because it is naturally replenished, while coal is non-renewable because it takes millions of years to form and is depleted faster than it can be replaced.",
+        "exam_question_id": "5bdcecfb-d968-411d-a31a-1535a56e616b:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the average annual energy production for different energy sources in kWh.\n\n| Energy Source | Annual Energy Production (kWh) |\n|---------------|--------------------------------|\n| Coal          | 5,000,000                     |\n| Wind          | 1,500,000                     |\n| Solar         | 800,000                       |\n| Hydroelectric | 2,000,000                     |\n\nUse this information to answer the following questions.",
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total energy produced by wind power and solar power combined in one year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the annual energy production for wind power and solar power from the table.",
+          "Correctly add the values of wind and solar energy production.",
+          "Provide the final answer in the correct units (kWh)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total energy produced by wind power and solar power combined in one year — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer in the correct units (kWh)."
+        ],
+        "model_answer": "Total energy produced by wind and solar power combined = 1,500,000 kWh + 800,000 kWh = 2,300,000 kWh",
+        "explanation": "Add the annual energy production values for wind and solar power to find the total energy produced by these two sources combined.",
+        "exam_question_id": "2b2407cb-ff70-4556-a033-38143de9fb92:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the average annual energy production for different energy sources in kWh.\n\n| Energy Source | Annual Energy Production (kWh) |\n|---------------|--------------------------------|\n| Coal          | 5,000,000                     |\n| Wind          | 1,500,000                     |\n| Solar         | 800,000                       |\n| Hydroelectric | 2,000,000                     |\n\nUse this information to answer the following questions.",
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that wind power is renewable because it is naturally replenished by the wind.",
+          "Identify that coal is non-renewable because it takes millions of years to form.",
+          "Provide a clear explanation of the difference between renewable and non-renewable energy sources."
+        ],
+        "hints": [
+          "Consider the sources and time scales involved in generating these energy sources."
+        ],
+        "model_answer": "Wind power is described as a renewable energy source because it is naturally replenished by the wind, which is continuously produced by the Sun's heating of the atmosphere. Coal, on the other hand, is not renewable because it takes millions of years to form from plant material buried and subjected to high pressure and temperature, and it is used up faster than it is replaced.",
+        "explanation": "Explain the difference between renewable and non-renewable energy sources by considering the natural replenishment and formation time of wind and coal.",
+        "exam_question_id": "2b2407cb-ff70-4556-a033-38143de9fb92:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the percentage of global energy consumption by different sources in 2020.\n\n| Energy Source        | Percentage (%)\n|----------------------|---------------\n| Coal                 | 27.5\n| Oil                  | 30.0\n| Natural Gas          | 22.0\n| Renewables (Wind, Solar, Hydro) | 10.0\n| Nuclear              | 5.0\n| Other                | 5.5\n\nUse this information to answer the following questions.",
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total percentage of energy consumption from fossil fuels (coal, oil, and natural gas).",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify fossil fuel sources (1 mark)",
+          "Sum the percentages of fossil fuels (1 mark)",
+          "Provide the final answer with correct units (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total percentage of energy consumption from fossil fuels (coal, oil, and natural gas) — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify fossil fuel sources (1 mark); Provide the final answer with correct units (1 mark)."
+        ],
+        "model_answer": "The total percentage of energy consumption from fossil fuels is 27.5% (coal) + 30.0% (oil) + 22.0% (natural gas) = 79.5%.",
+        "explanation": "Add the percentages of coal, oil, and natural gas to find the total percentage of energy consumption from fossil fuels.",
+        "exam_question_id": "6b00e87c-ea7d-4845-910d-bd2c3999bcae:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s60-f0.jpg",
+        "image_alt": "A two-column table headed 'Country' and 'Global wind power 2018 / %'. It lists ten countries with their percentage share: China 44.3, United States 14.7, Germany 6.1, India 4.2, United Kingdom 4, Brazil 3.7, France 3, Mexico 1.8, Sweden 1.4, Canada 1.1.\nLabels: Country, Global wind power 2018 / %, China, 44.3, United States, 14.7, Germany, 6.1, India, 4.2, United Kingdom, 4, Brazil, 3.7, France, 3, Mexico, 1.8, Sweden, 1.4, Canada, 1.1\nOriginal exercise: Study Figure 7.1 and Table 7.1, and then read each of the statements below. Decide whether each statement is TRUE or FALSE.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the percentage of global energy consumption by different sources in 2020.\n\n| Energy Source        | Percentage (%)\n|----------------------|---------------\n| Coal                 | 27.5\n| Oil                  | 30.0\n| Natural Gas          | 22.0\n| Renewables (Wind, Solar, Hydro) | 10.0\n| Nuclear              | 5.0\n| Other                | 5.5\n\nUse this information to answer the following questions.",
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define renewable energy (1 mark)",
+          "Explain why wind power is renewable (2 marks)",
+          "Explain why coal is not renewable (1 mark)"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Renewable energy sources are those that can be replenished naturally in a relatively short period of time. Wind power is renewable because the wind is continually replenished by natural processes and will not run out. Coal, on the other hand, is not renewable because it takes millions of years to form and is used up faster than it is replaced.",
+        "explanation": "Explain the difference between renewable and non-renewable energy sources using examples of wind and coal.",
+        "exam_question_id": "6b00e87c-ea7d-4845-910d-bd2c3999bcae:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s60-f0.jpg",
+        "image_alt": "A two-column table headed 'Country' and 'Global wind power 2018 / %'. It lists ten countries with their percentage share: China 44.3, United States 14.7, Germany 6.1, India 4.2, United Kingdom 4, Brazil 3.7, France 3, Mexico 1.8, Sweden 1.4, Canada 1.1.\nLabels: Country, Global wind power 2018 / %, China, 44.3, United States, 14.7, Germany, 6.1, India, 4.2, United Kingdom, 4, Brazil, 3.7, France, 3, Mexico, 1.8, Sweden, 1.4, Canada, 1.1\nOriginal exercise: Study Figure 7.1 and Table 7.1, and then read each of the statements below. Decide whether each statement is TRUE or FALSE.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the percentage of global energy consumption by different sources in 2020.\n\n| Energy Source        | Percentage (%)\n|----------------------|---------------\n| Coal                 | 27.5\n| Oil                  | 30.0\n| Natural Gas          | 22.0\n| Renewables (Wind, Solar, Hydro) | 10.0\n| Nuclear              | 5.0\n| Other                | 5.5\n\nUse this information to answer the following questions.",
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "question": "Calculate the total energy produced by the power station in one year if it operates at full capacity continuously. Assume the power station generates 100 MW continuously for 24 hours a day, 365 days a year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Convert power to energy units (1 mark)",
+          "Calculate total energy produced in one day (1 mark)",
+          "Calculate total energy produced in one year (1 mark)"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the total energy produced by the power station in one year if it operates at full capacity continuously; then Assume the power station generates 100 MW continuously for 24 hours a day, 365 days a year. Make sure you also cover: Convert power to energy units (1 mark)."
+        ],
+        "model_answer": "Total energy produced in one day = 100 MW x 24 hours = 2400 MWh. Total energy produced in one year = 2400 MWh/day x 365 days = 876,000 MWh.",
+        "explanation": "Use the formula for energy production to calculate the total energy produced by the power station in one year.",
+        "exam_question_id": "6b00e87c-ea7d-4845-910d-bd2c3999bcae:1",
+        "topic_label": "7.1 The energy we use",
+        "image_url": "/textbook-images/textbook-bank/18/s60-f0.jpg",
+        "image_alt": "A two-column table headed 'Country' and 'Global wind power 2018 / %'. It lists ten countries with their percentage share: China 44.3, United States 14.7, Germany 6.1, India 4.2, United Kingdom 4, Brazil 3.7, France 3, Mexico 1.8, Sweden 1.4, Canada 1.1.\nLabels: Country, Global wind power 2018 / %, China, 44.3, United States, 14.7, Germany, 6.1, India, 4.2, United Kingdom, 4, Brazil, 3.7, France, 3, Mexico, 1.8, Sweden, 1.4, Canada, 1.1\nOriginal exercise: Study Figure 7.1 and Table 7.1, and then read each of the statements below. Decide whether each statement is TRUE or FALSE.",
+        "checked": true,
+        "subtopic_id": 13314,
+        "topic_id": 2605,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A town uses different energy sources to generate electricity. The table below shows the average annual energy production for different energy sources in kWh.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total energy produced by wind power and solar power combined in one year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of total energy produced by wind power and solar power combined.",
+          "Correct unit of measurement.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total energy produced by wind power and solar power combined in one year — develop the idea fully rather than listing short points. Make sure you also cover: Correct unit of measurement.; Correct final answer."
+        ],
+        "model_answer": "Wind power: 200,000 kWh\nSolar power: 150,000 kWh\nTotal energy produced by wind power and solar power combined: 200,000 kWh + 150,000 kWh = 350,000 kWh.",
+        "explanation": "To find the total energy produced by wind power and solar power combined, add the annual energy production of both sources.",
+        "exam_question_id": "63299c47-d154-4691-b6f1-1ab3b278e639:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A town uses different energy sources to generate electricity. The table below shows the average annual energy production for different energy sources in kWh.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of why wind power is renewable.",
+          "Correct explanation of why coal is not renewable.",
+          "Clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why wind power is described as a renewable energy source but coal is not — develop the idea fully rather than listing short points. Make sure you also cover: Clear and concise explanation."
+        ],
+        "model_answer": "Wind power is described as a renewable energy source because it is continually replenished by the natural process of wind generation and will not run out. Coal, on the other hand, is not renewable because it takes millions of years to form and is used up faster than it is replaced.",
+        "explanation": "Wind power is renewable because it is naturally replenished by the wind, while coal is not renewable because it takes millions of years to form and is depleted faster than it can be replaced.",
+        "exam_question_id": "63299c47-d154-4691-b6f1-1ab3b278e639:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island. Use this information to answer the following questions.",
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "question": "Name the energy source that shows the highest average energy output.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the energy source with the highest average energy output from the diagram."
+        ],
+        "hints": [
+          "Look at the heights of the bars representing each energy source in the diagram."
+        ],
+        "model_answer": "The energy source that shows the highest average energy output is hydroelectric power.",
+        "explanation": "Identify the tallest bar in the diagram to find the energy source with the highest average energy output.",
+        "exam_question_id": "3a44077e-3ac2-4111-8e59-3f4c03b796b2:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following energy sources: coal, wind, and hydroelectric power. The diagram shows the average energy output of these sources over a year on Sanghera Island. Use this information to answer the following questions.",
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the renewability of wind power.",
+          "Explain why coal is not renewable."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why wind power is described as a renewable energy source but coal is not — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Wind power is renewable because the wind is continually replenished by natural processes such as the Sun heating the Earth's surface. Coal, on the other hand, is not renewable because it takes millions of years to form and is used up faster than it can be replaced.",
+        "explanation": "Discuss the natural processes that replenish wind and the geological time scale for coal formation.",
+        "exam_question_id": "3a44077e-3ac2-4111-8e59-3f4c03b796b2:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the average annual energy production for different energy sources in kWh.\n\n| Energy Source | Annual Production (kWh) |\n|---------------|-------------------------|\n| Wind          | 2,000,000               |\n| Solar         | 1,500,000               |\n| Coal          | 3,000,000               |\n| Hydroelectric | 2,500,000               |",
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total energy produced by wind power and solar power combined in one year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the energy production values for wind and solar power.",
+          "Adds the values together accurately.",
+          "Provides the final answer in kWh."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total energy produced by wind power and solar power combined in one year — develop the idea fully rather than listing short points. Make sure you also cover: Adds the values together accurately.; Provides the final answer in kWh."
+        ],
+        "model_answer": "Total energy produced by wind and solar power combined: 2,000,000 kWh + 1,500,000 kWh = 3,500,000 kWh.",
+        "explanation": "Add the values of wind and solar power production to find the total energy produced by these two sources in one year.",
+        "exam_question_id": "7e466861-915c-4fe3-86d3-58f3bf6d54ab:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the average annual energy production for different energy sources in kWh.\n\n| Energy Source | Annual Production (kWh) |\n|---------------|-------------------------|\n| Wind          | 2,000,000               |\n| Solar         | 1,500,000               |\n| Coal          | 3,000,000               |\n| Hydroelectric | 2,500,000               |",
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why wind power is described as a renewable energy source but coal is not.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the renewable nature of wind power.",
+          "Correctly identifies the non-renewable nature of coal.",
+          "Provides a clear explanation for the difference."
+        ],
+        "hints": [
+          "Consider the source and replenishment rate of each energy source."
+        ],
+        "model_answer": "Wind power is renewable because it is continually replenished by the natural process of wind, which is driven by the Sun. Coal is non-renewable because it takes millions of years to form and is depleted much faster than it can be replenished.",
+        "explanation": "Explain the difference between renewable and non-renewable energy sources by considering their sources and replenishment rates.",
+        "exam_question_id": "7e466861-915c-4fe3-86d3-58f3bf6d54ab:1",
+        "topic_label": "7.1 The energy we use",
+        "topic_id": 2605,
+        "checked": true,
+        "subtopic_id": 13314,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "7.1 The energy we use"
+        }
+      }
+    ],
+    "estimated_time": 66,
+    "assessment_id": "3cc31244-57fa-4b4e-ad71-76ae845d4214",
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "topics": [
+      "Chapter 7: Energy resources"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 209,
+    "topic_ids": [
+      2605
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 5"
+    }
+  ],
+  "figures": 5,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 91
+}

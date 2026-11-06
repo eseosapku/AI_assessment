@@ -3,6 +3,12 @@ import { describe, it, expect } from 'vitest'
 import { demandOf, sameDemand, dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from './demand-variety'
 
 describe('what a question actually asks', () => {
+  it('exempts parts only within the same numbered exam question', () => {
+    const q = { question: 'Calculate the average annual population growth rate for City A from 2000 to 2020.', scenario: 'City A: 500,000 in 2000 and 600,000 in 2020.', exam_question_id: 'first' }
+    expect(dropRepeatedDemands([q, { ...q, exam_question_id: 'second' }]).removed).toBe(1)
+    expect(dropRepeatedDemands([q, { ...q, question: 'Describe the population trend for City A.' }]).removed).toBe(0)
+    expect(dropRepeatedDemands([q, { ...q, exam_question_id: 'third', scenario: 'City A: 700,000 in 2000 and 900,000 in 2020.' }]).removed).toBe(0)
+  })
   it('takes the pointer and the paragraph reference off', () => {
     expect(demandOf('Referring to the diagram, name the structure where energy is released.'))
       .toBe('name the structure where energy is released')

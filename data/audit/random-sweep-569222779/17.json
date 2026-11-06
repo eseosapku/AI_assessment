@@ -1,0 +1,1810 @@
+{
+  "index": 17,
+  "label": "Cambridge / Exam / Cambridge International AS & A Level Physics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "textbook_id": 22,
+    "topic_ids": [
+      303,
+      304
+    ],
+    "topics": [
+      "Chapter 3: Dynamics – explaining motion",
+      "Chapter 4: Forces – vectors and moments"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS & A Level Physics Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 176,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "A spider of mass 0.01 kg is hanging from a thread. The tension in the thread is 0.1 N at an angle of 30° above the horizontal, and there is a horizontal wind force of 0.05 N acting to the right. The weight of the spider acts vertically downward. A triangle of forces is formed with the resultant force being the hypotenuse.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the vertical component of the tension force in the thread.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of trigonometric functions",
+          "Correct calculation",
+          "Correct units"
+        ],
+        "hints": [
+          "Use the sine function to find the vertical component of the tension force."
+        ],
+        "model_answer": "Tension_vertical = Tension * sin(30°) = 0.1 N * 0.5 = 0.05 N",
+        "explanation": "To find the vertical component of the tension force, use the sine function with the angle of 30°.",
+        "exam_question_id": "24534916-b5e6-4426-b230-3beb6acc8ca3:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page115-embedded-0.jpeg",
+        "image_alt": "On the left, a spider hangs on a thread. Three green arrows act on it: tension in thread points up and to the left along the thread, push of wind points horizontally to the right, and weight points straight down. On the right is the triangle of forces, a right-angled triangle with push of wind as the horizontal top side pointing left, weight as the vertical right side pointing down, and tension as the hypotenuse pointing up and to the left. The angle θ is marked between the tension and the push of wind at the top left corner.\nLabels: tension in thread, push of wind, weight, push of wind, θ, we",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A spider of mass 0.01 kg is hanging from a thread. The tension in the thread is 0.1 N at an angle of 30° above the horizontal, and there is a horizontal wind force of 0.05 N acting to the right. The weight of the spider acts vertically downward. A triangle of forces is formed with the resultant force being the hypotenuse.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain how the forces acting on the spider result in equilibrium.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of force balance in the horizontal direction",
+          "Explanation of force balance in the vertical direction",
+          "Correct use of vector addition"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the forces acting on the spider result in equilibrium — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of balance in the direction; Explanation of balance in the direction; Correct use of vector addition."
+        ],
+        "model_answer": "The horizontal wind force of 0.05 N to the right is balanced by the horizontal component of the tension force to the left. The vertical component of the tension force of 0.05 N upward balances the weight of the spider of 0.098 N (0.01 kg * 9.8 m/s²) downward.",
+        "explanation": "The spider is in equilibrium because the net force in both the horizontal and vertical directions is zero.",
+        "exam_question_id": "24534916-b5e6-4426-b230-3beb6acc8ca3:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page115-embedded-0.jpeg",
+        "image_alt": "On the left, a spider hangs on a thread. Three green arrows act on it: tension in thread points up and to the left along the thread, push of wind points horizontally to the right, and weight points straight down. On the right is the triangle of forces, a right-angled triangle with push of wind as the horizontal top side pointing left, weight as the vertical right side pointing down, and tension as the hypotenuse pointing up and to the left. The angle θ is marked between the tension and the push of wind at the top left corner.\nLabels: tension in thread, push of wind, weight, push of wind, θ, we",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider a train moving through a tunnel with a constant mass of 10 000 kg. The train is subject to different forces and accelerations as shown in the diagram.",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the acceleration of the train in Figure 3.2a.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct application of Newton's second law",
+          "Correct calculation of acceleration"
+        ],
+        "hints": [
+          "Use the formula F = ma to find the acceleration."
+        ],
+        "model_answer": "F = ma, 20 000 N = 10 000 kg * a, a = 2 m/s²",
+        "explanation": "Using Newton's second law, F = ma, where F is the force and m is the mass, we can calculate the acceleration.",
+        "exam_question_id": "b072bb6d-d956-4b63-becd-afa9538d342f:1",
+        "topic_label": "Moving through fluids",
+        "topic_id": 303,
+        "image_url": "/textbook-images/cambridge/22/page84-embedded-0.jpeg",
+        "image_alt": "Two drawings (a and b) of a train in a tunnel. In a, a red arrow points left, labelled 'direction of acceleration a', and a green arrow points left, labelled 'F = 20 000 N', with 'mass = 10 000 kg'. In b, a red arrow points right, labelled 'direction of acceleration a', and a green arrow points right, labelled 'direction of force F', with 'a = −3 m s⁻²'.\nLabels: a, direction of acceleration a, F = 20 000 N, mass = 10 000 kg, b, direction of acceleration a, direction of force F, a = –3 m s⁻²\nOriginal exercise: Figure 3.2a shows how we represent the force that the motors on a train provide to ca",
+        "checked": true,
+        "subtopic_id": 1245,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Moving through fluids"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider a train moving through a tunnel with a constant mass of 10 000 kg. The train is subject to different forces and accelerations as shown in the diagram.",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the train's acceleration in Figure 3.2b is negative.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the direction of the force",
+          "Understanding of the relationship between force and acceleration",
+          "Explanation of why the acceleration is negative"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the train's acceleration in Figure 3.2b is negative — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the direction of the; Understanding of the relationship between and acceleration."
+        ],
+        "model_answer": "In Figure 3.2b, the force is directed to the right, but the acceleration is directed to the left, which makes the acceleration negative. This indicates that the train is decelerating.",
+        "explanation": "A force directed to the right would normally cause a positive acceleration to the right, but since the acceleration is negative, it means the train is slowing down.",
+        "exam_question_id": "b072bb6d-d956-4b63-becd-afa9538d342f:1",
+        "topic_label": "Moving through fluids",
+        "topic_id": 303,
+        "image_url": "/textbook-images/cambridge/22/page84-embedded-0.jpeg",
+        "image_alt": "Two drawings (a and b) of a train in a tunnel. In a, a red arrow points left, labelled 'direction of acceleration a', and a green arrow points left, labelled 'F = 20 000 N', with 'mass = 10 000 kg'. In b, a red arrow points right, labelled 'direction of acceleration a', and a green arrow points right, labelled 'direction of force F', with 'a = −3 m s⁻²'.\nLabels: a, direction of acceleration a, F = 20 000 N, mass = 10 000 kg, b, direction of acceleration a, direction of force F, a = –3 m s⁻²\nOriginal exercise: Figure 3.2a shows how we represent the force that the motors on a train provide to ca",
+        "checked": true,
+        "subtopic_id": 1245,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Moving through fluids"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider a top-down view of a motorboat pointing right, with a dashed horizontal centre line running forward from its bow. Two tugs, A (upper right) and B (lower right), are each joined to the bow by a line. Each line makes an angle of 40° with the dashed line, so the two lines are symmetric about it. Labels: A, 40°, 40°, B",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the magnitude of the resultant force exerted by the two tugs on the motorboat.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the components of the force",
+          "Correctly use trigonometric functions to find the horizontal and vertical components",
+          "Correctly combine the components to find the resultant force"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the magnitude of the resultant force exerted by the two tugs on the motorboat — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the of the force; Correctly use trigonometric functions to find the and; Correctly combine the to find…."
+        ],
+        "model_answer": "Assuming each tug applies a force of 500 N, the horizontal components of the forces are 500 cos(40°) N each. The vertical components are 500 sin(40°) N each. The horizontal components cancel out, and the vertical components add up to 2 * 500 sin(40°) N. Resultant force = sqrt((2 * 500 sin(40°))^2) = 670.82 N.",
+        "explanation": "The forces from the tugs are symmetrical, so the horizontal components cancel out. The vertical components add up to give the total vertical force, which is the resultant force.",
+        "exam_question_id": "f8807af3-bfa6-4189-af1f-e092422675e0:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page131-embedded-2.jpeg",
+        "image_alt": "A top-down view of a motorboat pointing right, with a dashed horizontal centre line running forward from its bow. Two tugs, A (upper right) and B (lower right), are each joined to the bow by a line. Each line makes an angle of 40° with the dashed line, so the two lines are symmetric about it.\nLabels: A, 40°, 40°, B\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider a top-down view of a motorboat pointing right, with a dashed horizontal centre line running forward from its bow. Two tugs, A (upper right) and B (lower right), are each joined to the bow by a line. Each line makes an angle of 40° with the dashed line, so the two lines are symmetric about it. Labels: A, 40°, 40°, B",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the resultant force acts along the centre line of the boat.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly describe the symmetry of the forces",
+          "Correctly explain the cancellation of horizontal components",
+          "Correctly conclude that the resultant force is vertical"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the resultant force acts along the centre line of the boat — develop the idea fully rather than listing short points. Make sure you also cover: Correctly describe the symmetry of the; Correctly explain the cancellation of; Correctly conclude that the resultant force is."
+        ],
+        "model_answer": "The forces from tugs A and B are symmetrical about the centre line of the boat. Each tug applies a force at 40° to the centre line. The horizontal components of these forces are equal and opposite, thus cancelling each other out. The only remaining component is the vertical component, which adds up along the centre line.",
+        "explanation": "Since the forces are symmetrical, the horizontal components cancel out, leaving only the vertical components to sum up along the centre line.",
+        "exam_question_id": "f8807af3-bfa6-4189-af1f-e092422675e0:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page131-embedded-2.jpeg",
+        "image_alt": "A top-down view of a motorboat pointing right, with a dashed horizontal centre line running forward from its bow. Two tugs, A (upper right) and B (lower right), are each joined to the bow by a line. Each line makes an angle of 40° with the dashed line, so the two lines are symmetric about it.\nLabels: A, 40°, 40°, B\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct formula for moment",
+          "Substitute values correctly"
+        ],
+        "hints": [
+          "Recall that moment = force × perpendicular distance from pivot."
+        ],
+        "model_answer": "Moment of force F1 = F1 × x1",
+        "explanation": "To find the moment of force F1, multiply the magnitude of F1 by the perpendicular distance x1 from the pivot.",
+        "exam_question_id": "6ec36932-972e-48b5-ab4b-ab4728fd451d:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page123-embedded-1.jpeg",
+        "image_alt": "Two panels, a and b, each show a horizontal orange bar with a dot (pivot) at its left end. In a, a downward green force F1 acts on the bar at a distance x1 from the pivot, marked by a horizontal double-headed arrow. In b, the bar has length d, and a green force F2 acts at the right end, pointing down and to the left at angle θ to the bar. A black arrow x2 runs from the pivot perpendicular to the line of F2, with a right-angle mark.\nLabels: x1, F1, a, d, θ, x2, F2, b\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the perpendicular distance from pivot",
+          "Use the sine function to find the perpendicular component",
+          "Calculate the moment correctly"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Identify the perpendicular distance from pivot; the sine function to find the perpendicular component; Calculate the moment correctly."
+        ],
+        "model_answer": "Moment of force F2 = F2 × x2 × sin(θ) \n= F2 × d × sin(θ)",
+        "explanation": "To calculate the moment of force F2, find the perpendicular distance x2 from the pivot using the sine of angle θ, and then multiply F2 by x2 and sin(θ).",
+        "exam_question_id": "6ec36932-972e-48b5-ab4b-ab4728fd451d:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page123-embedded-1.jpeg",
+        "image_alt": "Two panels, a and b, each show a horizontal orange bar with a dot (pivot) at its left end. In a, a downward green force F1 acts on the bar at a distance x1 from the pivot, marked by a horizontal double-headed arrow. In b, the bar has length d, and a green force F2 acts at the right end, pointing down and to the left at angle θ to the bar. A black arrow x2 runs from the pivot perpendicular to the line of F2, with a right-angle mark.\nLabels: x1, F1, a, d, θ, x2, F2, b\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define equilibrium",
+          "Explain the condition for rotational equilibrium",
+          "Relate to the moments about the pivot"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: the condition for rotational equilibrium."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the net moment about the pivot is zero. This means that the sum of clockwise moments equals the sum of anticlockwise moments. If the moments are balanced, there will be no rotation.",
+        "explanation": "In equilibrium, the bar does not rotate because the clockwise moments are balanced by the anticlockwise moments, resulting in a net moment of zero.",
+        "exam_question_id": "6ec36932-972e-48b5-ab4b-ab4728fd451d:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page123-embedded-1.jpeg",
+        "image_alt": "Two panels, a and b, each show a horizontal orange bar with a dot (pivot) at its left end. In a, a downward green force F1 acts on the bar at a distance x1 from the pivot, marked by a horizontal double-headed arrow. In b, the bar has length d, and a green force F2 acts at the right end, pointing down and to the left at angle θ to the bar. A black arrow x2 runs from the pivot perpendicular to the line of F2, with a right-angle mark.\nLabels: x1, F1, a, d, θ, x2, F2, b\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A yellow tennis ball of mass 0.2 kg is held stationary inside a vertical tube by a force F. The force F is applied at an angle of 45 degrees to the horizontal. The gravitational force acting on the ball is mg = 1.96 N. A red arrow points to the right and is labelled as the positive direction. The forces are represented in the diagram with the labels: F = 2 N, mg = 1.96 N, and the positive direction.",
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "State the correct formula for moment of a force.",
+          "Substitute the given values into the formula correctly.",
+          "Calculate the moment correctly."
+        ],
+        "hints": [
+          "Stay focused on this: State the moment of force F1 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the given values into the formula correctly.; Calculate the moment correctly."
+        ],
+        "model_answer": "The moment of force F1 about the pivot is calculated as F1 * d, where d is the perpendicular distance from the pivot to the line of action of the force. Since F1 is 2 N and the angle is 45 degrees, the perpendicular distance d = F1 * sin(45) = 2 * 0.707 = 1.414 Nm.",
+        "explanation": "The moment of force F1 about the pivot is calculated using the formula for the moment of a force, which is the product of the force and the perpendicular distance from the pivot to the line of action of the force. Here, the force F1 is 2 N and the angle is 45 degrees, so the perpendicular distance is calculated as 2 * sin(45), resulting in a moment of 1.414 Nm.",
+        "exam_question_id": "f0c9c36c-7c97-4cf4-b2bb-74428ebc3a0a:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page113-embedded-1.jpeg",
+        "image_alt": "A yellow ball (tennis ball) sits inside a vertical tube or channel. A green upward arrow labelled D = 0.2 N acts on the ball. A green downward arrow labelled mg = 1.0 N acts on the ball. A red arrow on the left points downward and is labelled 'positive direction'.\nLabels: D = 0.2 N, positive direction, mg = 1.0 N\nOriginal exercise:",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A yellow tennis ball of mass 0.2 kg is held stationary inside a vertical tube by a force F. The force F is applied at an angle of 45 degrees to the horizontal. The gravitational force acting on the ball is mg = 1.96 N. A red arrow points to the right and is labelled as the positive direction. The forces are represented in the diagram with the labels: F = 2 N, mg = 1.96 N, and the positive direction.",
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the correct formula for the moment of a force.",
+          "Substitute the given values into the formula correctly.",
+          "Calculate the moment correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Identify the correct formula for the moment of a force.; Substitute the given values into the formula correctly.; Calculate the moment correctly."
+        ],
+        "model_answer": "The moment of force F2 about the pivot is calculated as F2 * d, where d is the perpendicular distance from the pivot to the line of action of the force. Since F2 is 1.96 N and the angle is 90 degrees, the perpendicular distance d = F2 * sin(90) = 1.96 * 1 = 1.96 Nm.",
+        "explanation": "The moment of force F2 about the pivot is calculated using the formula for the moment of a force, which is the product of the force and the perpendicular distance from the pivot to the line of action of the force. Here, the force F2 is 1.96 N and the angle is 90 degrees, so the perpendicular distance is calculated as 1.96 * sin(90), resulting in a moment of 1.96 Nm.",
+        "exam_question_id": "f0c9c36c-7c97-4cf4-b2bb-74428ebc3a0a:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page113-embedded-1.jpeg",
+        "image_alt": "A yellow ball (tennis ball) sits inside a vertical tube or channel. A green upward arrow labelled D = 0.2 N acts on the ball. A green downward arrow labelled mg = 1.0 N acts on the ball. A red arrow on the left points downward and is labelled 'positive direction'.\nLabels: D = 0.2 N, positive direction, mg = 1.0 N\nOriginal exercise:",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A yellow tennis ball of mass 0.2 kg is held stationary inside a vertical tube by a force F. The force F is applied at an angle of 45 degrees to the horizontal. The gravitational force acting on the ball is mg = 1.96 N. A red arrow points to the right and is labelled as the positive direction. The forces are represented in the diagram with the labels: F = 2 N, mg = 1.96 N, and the positive direction.",
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that equilibrium occurs when the sum of moments about a pivot is zero.",
+          "Explain the concept of moments and how they relate to equilibrium.",
+          "Use the given forces and distances to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: the given forces and distances to support the explanation."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the moments about the pivot are balanced because, in equilibrium, the sum of all moments acting on an object about any point must be zero. This means that the clockwise moments must equal the anticlockwise moments. If the moments about the pivot are balanced, the net moment is zero, and the bar will not rotate.",
+        "explanation": "In physics, equilibrium occurs when an object is not accelerating, meaning that the net force and net moment acting on it are zero. When the moments about the pivot are balanced, the clockwise moments are equal to the anticlockwise moments, resulting in a net moment of zero. This balance of moments ensures that the bar does not rotate and remains stationary.",
+        "exam_question_id": "f0c9c36c-7c97-4cf4-b2bb-74428ebc3a0a:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page113-embedded-1.jpeg",
+        "image_alt": "A yellow ball (tennis ball) sits inside a vertical tube or channel. A green upward arrow labelled D = 0.2 N acts on the ball. A green downward arrow labelled mg = 1.0 N acts on the ball. A red arrow on the left points downward and is labelled 'positive direction'.\nLabels: D = 0.2 N, positive direction, mg = 1.0 N\nOriginal exercise:",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A skydiver jumps from an aircraft and experiences two distinct phases of motion: free-fall and descent with an open parachute. The velocity–time graph for the skydiver is provided in the diagram.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "State the phase of motion the skydiver is in when the velocity is at its maximum.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the phase of motion with the highest velocity.",
+          "Correctly label the phase as 'free-fall'."
+        ],
+        "hints": [
+          "Look at the graph where the velocity is the highest before it starts to decrease."
+        ],
+        "model_answer": "The skydiver is in the 'free-fall' phase when the velocity is at its maximum.",
+        "explanation": "Identify the point on the graph where the velocity curve reaches its peak before it starts to decline.",
+        "exam_question_id": "55364c0a-7997-4a7e-8641-21bf84030639:1",
+        "topic_label": "Chapter 3: Dynamics – explaining motion",
+        "topic_id": 303,
+        "image_url": "/textbook-images/cambridge/22/page95-embedded-1.jpeg",
+        "image_alt": "A velocity–time graph with a blue curve. Velocity rises with decreasing gradient to a plateau, then drops sharply and levels off at a much lower constant value. Drawings of a skydiver sit above the curve: two in free-fall position with small red double-headed arrows, one with an open parachute at the sharp drop, and one with an open parachute at the low constant velocity. The y-axis is labelled Velocity and the x-axis Time, with 0 at the origin.\nLabels: Velocity, 0, 0, Time\nOriginal exercise: Figure 3.10 shows how a parachutist’s velocity might change du",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 3: Dynamics – explaining motion"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A skydiver jumps from an aircraft and experiences two distinct phases of motion: free-fall and descent with an open parachute. The velocity–time graph for the skydiver is provided in the diagram.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the average velocity during the free-fall phase.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial and final velocities during free-fall.",
+          "Use the formula for average velocity: (initial velocity + final velocity) / 2.",
+          "Provide the correct numerical answer with units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average velocity during the free-fall phase — develop the idea fully rather than listing short points. Make sure you also cover: Identify the initial and final velocities during free-fall.; Provide the correct numerical answer with units."
+        ],
+        "model_answer": "Average velocity = (0 m/s + 50 m/s) / 2 = 25 m/s",
+        "explanation": "Use the initial and final velocities from the graph to calculate the average velocity during the free-fall phase.",
+        "exam_question_id": "55364c0a-7997-4a7e-8641-21bf84030639:1",
+        "topic_label": "Chapter 3: Dynamics – explaining motion",
+        "topic_id": 303,
+        "image_url": "/textbook-images/cambridge/22/page95-embedded-1.jpeg",
+        "image_alt": "A velocity–time graph with a blue curve. Velocity rises with decreasing gradient to a plateau, then drops sharply and levels off at a much lower constant value. Drawings of a skydiver sit above the curve: two in free-fall position with small red double-headed arrows, one with an open parachute at the sharp drop, and one with an open parachute at the low constant velocity. The y-axis is labelled Velocity and the x-axis Time, with 0 at the origin.\nLabels: Velocity, 0, 0, Time\nOriginal exercise: Figure 3.10 shows how a parachutist’s velocity might change du",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 3: Dynamics – explaining motion"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A skydiver jumps from an aircraft and experiences two distinct phases of motion: free-fall and descent with an open parachute. The velocity–time graph for the skydiver is provided in the diagram.",
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the skydiver's velocity decreases sharply when the parachute is opened.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the forces acting on the skydiver during the descent.",
+          "Explain the effect of the parachute on air resistance.",
+          "Relate the increase in air resistance to the decrease in velocity."
+        ],
+        "hints": [
+          "Consider the forces of gravity and air resistance."
+        ],
+        "model_answer": "When the parachute is opened, the air resistance acting on the skydiver increases significantly due to the larger surface area exposed to the air. This increased air resistance opposes the gravitational force, causing the skydiver's velocity to decrease sharply.",
+        "explanation": "Explain the relationship between air resistance, parachute surface area, and the resulting change in the skydiver's velocity.",
+        "exam_question_id": "55364c0a-7997-4a7e-8641-21bf84030639:1",
+        "topic_label": "Chapter 3: Dynamics – explaining motion",
+        "topic_id": 303,
+        "image_url": "/textbook-images/cambridge/22/page95-embedded-1.jpeg",
+        "image_alt": "A velocity–time graph with a blue curve. Velocity rises with decreasing gradient to a plateau, then drops sharply and levels off at a much lower constant value. Drawings of a skydiver sit above the curve: two in free-fall position with small red double-headed arrows, one with an open parachute at the sharp drop, and one with an open parachute at the low constant velocity. The y-axis is labelled Velocity and the x-axis Time, with 0 at the origin.\nLabels: Velocity, 0, 0, Time\nOriginal exercise: Figure 3.10 shows how a parachutist’s velocity might change du",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 3: Dynamics – explaining motion"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 1.00 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 0.58 N'. The weight of the stone acts vertically downward, with a right-angle mark between it and the horizontal.",
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the formula for moment of force.",
+          "Apply the formula to calculate the moment of force F1."
+        ],
+        "hints": [
+          "The moment of a force is given by the product of the force and the perpendicular distance from the pivot to the line of action of the force."
+        ],
+        "model_answer": "Moment of force F1 = 1.00 N * (0.5 * cos(60°)) = 0.25 Nm",
+        "explanation": "The moment of force F1 is calculated using the perpendicular distance from the pivot to the line of action of the force, which is half the length of the bar multiplied by the cosine of the angle between the force and the horizontal.",
+        "exam_question_id": "e37dc12f-b104-40e3-89f9-1259510faf89:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page132-embedded-1.jpeg",
+        "image_alt": "A force diagram with three arrows from a single point above a dashed horizontal line. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 1.00 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 0.58 N'. The weight of the stone acts vertically downward, with a right-angle mark between it and the horizontal.\nLabels: tension in string 1, 1.00 N, 60°, tension in string 2, 0.58 N, 30°, horizontal, weight of stone\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 1.00 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 0.58 N'. The weight of the stone acts vertically downward, with a right-angle mark between it and the horizontal.",
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the formula for moment of force.",
+          "Apply the formula to calculate the moment of force F2."
+        ],
+        "hints": [
+          "The moment of a force is given by the product of the force and the perpendicular distance from the pivot to the line of action of the force."
+        ],
+        "model_answer": "Moment of force F2 = 0.58 N * (0.5 * cos(30°)) = 0.24 Nm",
+        "explanation": "The moment of force F2 is calculated using the perpendicular distance from the pivot to the line of action of the force, which is half the length of the bar multiplied by the cosine of the angle between the force and the horizontal.",
+        "exam_question_id": "e37dc12f-b104-40e3-89f9-1259510faf89:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page132-embedded-1.jpeg",
+        "image_alt": "A force diagram with three arrows from a single point above a dashed horizontal line. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 1.00 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 0.58 N'. The weight of the stone acts vertically downward, with a right-angle mark between it and the horizontal.\nLabels: tension in string 1, 1.00 N, 60°, tension in string 2, 0.58 N, 30°, horizontal, weight of stone\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 1.00 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 0.58 N'. The weight of the stone acts vertically downward, with a right-angle mark between it and the horizontal.",
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the condition for rotational equilibrium.",
+          "Explain the relationship between the moments and the equilibrium."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: the condition for rotational equilibrium."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the sum of the clockwise moments equals the sum of the anticlockwise moments. In this case, the moment of force F1 is 0.25 Nm (clockwise) and the moment of force F2 is 0.24 Nm (anticlockwise). If the moments are balanced, the bar will not rotate and will remain in equilibrium.",
+        "explanation": "The bar remains in equilibrium when the sum of the clockwise moments equals the sum of the anticlockwise moments. This ensures that there is no net rotational force acting on the bar, preventing it from rotating.",
+        "exam_question_id": "e37dc12f-b104-40e3-89f9-1259510faf89:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page132-embedded-1.jpeg",
+        "image_alt": "A force diagram with three arrows from a single point above a dashed horizontal line. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 1.00 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 0.58 N'. The weight of the stone acts vertically downward, with a right-angle mark between it and the horizontal.\nLabels: tension in string 1, 1.00 N, 60°, tension in string 2, 0.58 N, 30°, horizontal, weight of stone\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2.5 N', and a rightward arrow labelled 'push of water F = 1.5 N'. The pivot point is located at the left edge of the stone.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct formula for moment.",
+          "Apply the correct values to the formula."
+        ],
+        "hints": [
+          "Recall that moment = force x perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F1 = 0.5 N x 0 m = 0 Nm",
+        "explanation": "The moment of force F1 is zero because the distance from the pivot to the line of action of F1 is zero.",
+        "exam_question_id": "0394d625-94dc-44ad-8e77-fc972fef6980:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page116-embedded-0.jpeg",
+        "image_alt": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2.5 N', and a rightward arrow labelled 'push of water F = 1.5 N'.\nLabels: upthrust U = 0.5 N, push of water, F = 1.5 N, weight W = 2.5 N\nOriginal exercise: A stone is dropped into a fast-flowing stream. It does not fall vertically because of the sideways push of the water (Figure 4.7). Calculate the resultant force on the stone. Is the stone in equilibrium?",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2.5 N', and a rightward arrow labelled 'push of water F = 1.5 N'. The pivot point is located at the left edge of the stone.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the correct distance from the pivot to the line of action of F2.",
+          "Use the correct formula for moment.",
+          "Apply the correct values to the formula."
+        ],
+        "hints": [
+          "Recall that moment = force x perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F2 = 1.5 N x 1 m = 1.5 Nm",
+        "explanation": "The moment of force F2 is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of F2.",
+        "exam_question_id": "0394d625-94dc-44ad-8e77-fc972fef6980:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page116-embedded-0.jpeg",
+        "image_alt": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2.5 N', and a rightward arrow labelled 'push of water F = 1.5 N'.\nLabels: upthrust U = 0.5 N, push of water, F = 1.5 N, weight W = 2.5 N\nOriginal exercise: A stone is dropped into a fast-flowing stream. It does not fall vertically because of the sideways push of the water (Figure 4.7). Calculate the resultant force on the stone. Is the stone in equilibrium?",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2.5 N', and a rightward arrow labelled 'push of water F = 1.5 N'. The pivot point is located at the left edge of the stone.",
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the condition for equilibrium in terms of moments.",
+          "Explain the significance of balanced moments."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the moments about the pivot are balanced because the sum of the clockwise moments will equal the sum of the anticlockwise moments, resulting in no net rotation.",
+        "explanation": "Balanced moments mean that the forces acting on the bar create equal and opposite rotational effects, preventing any net rotation and maintaining equilibrium.",
+        "exam_question_id": "0394d625-94dc-44ad-8e77-fc972fef6980:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page116-embedded-0.jpeg",
+        "image_alt": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2.5 N', and a rightward arrow labelled 'push of water F = 1.5 N'.\nLabels: upthrust U = 0.5 N, push of water, F = 1.5 N, weight W = 2.5 N\nOriginal exercise: A stone is dropped into a fast-flowing stream. It does not fall vertically because of the sideways push of the water (Figure 4.7). Calculate the resultant force on the stone. Is the stone in equilibrium?",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls down and to the right at 45° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 1 m.",
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the moment of force F1",
+          "Use the correct formula for moment of a force"
+        ],
+        "hints": [
+          "Stay focused on this: State the moment of force F1 about the pivot — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The moment of force F1 about the pivot is calculated using the formula: Moment = Force x Perpendicular distance from pivot. The perpendicular distance for F1 is the length of the bar multiplied by the sine of the angle. So, the moment of force F1 = 10 N x 1 m x sin(60°) = 10 N x 1 m x √3/2 = 8.66 Nm.",
+        "explanation": "The moment of a force is a measure of its tendency to cause rotation around a pivot point. It is calculated by multiplying the magnitude of the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:1",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls down and to the right at 45° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 1 m.",
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Calculate the moment of force F2",
+          "Use the correct formula for moment of a force"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The moment of force F2 about the pivot is calculated using the formula: Moment = Force x Perpendicular distance from pivot. The perpendicular distance for F2 is the length of the bar multiplied by the sine of the angle. So, the moment of force F2 = 8 N x 1 m x sin(45°) = 8 N x 1 m x 1/√2 = 5.66 Nm.",
+        "explanation": "The moment of a force is a measure of its tendency to cause rotation around a pivot point. It is calculated by multiplying the magnitude of the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:1",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls down and to the right at 45° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 1 m.",
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the concept of equilibrium",
+          "Relate the concept to the moments about the pivot"
+        ],
+        "hints": [
+          "Think about the conditions for static equilibrium."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the moments about the pivot are balanced. This means that the sum of the clockwise moments about the pivot must equal the sum of the anticlockwise moments about the pivot. In this case, the moment of force F1 is 8.66 Nm and the moment of force F2 is 5.66 Nm. Since the moments are not equal, the bar will not remain in equilibrium unless an additional force is applied.",
+        "explanation": "In static equilibrium, the net force and the net moment on an object must be zero. If the moments about the pivot are balanced, the bar will not rotate and will remain in equilibrium.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:1",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A yellow tennis ball of mass 0.2 kg is held stationary inside a vertical tube by a force F. The force F is applied at an angle of 45 degrees to the horizontal. The gravitational force acting on the ball is mg = 1.96 N. A force of 2 N is also applied at an angle of 30 degrees to the horizontal, directed upwards and to the right.",
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the moment of force F1",
+          "Use the correct formula for moment of a force"
+        ],
+        "hints": [
+          "Stay focused on this: State the moment of force F1 about the pivot — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The moment of force F1 about the pivot is calculated using the formula: Moment = Force x Perpendicular distance from pivot. The perpendicular distance for F1 is the length of the tube multiplied by the sine of the angle. So, the moment of force F1 = 2 N x 1 m x sin(45°) = 2 N x 1 m x √2/2 = 1.41 Nm.",
+        "explanation": "The moment of a force is a measure of its tendency to cause rotation around a pivot point. It is calculated by multiplying the magnitude of the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:2",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A yellow tennis ball of mass 0.2 kg is held stationary inside a vertical tube by a force F. The force F is applied at an angle of 45 degrees to the horizontal. The gravitational force acting on the ball is mg = 1.96 N. A force of 2 N is also applied at an angle of 30 degrees to the horizontal, directed upwards and to the right.",
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Calculate the moment of force F2",
+          "Use the correct formula for moment of a force"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The moment of force F2 about the pivot is calculated using the formula: Moment = Force x Perpendicular distance from pivot. The perpendicular distance for F2 is the length of the tube multiplied by the sine of the angle. So, the moment of force F2 = 1.96 N x 1 m x sin(30°) = 1.96 N x 1 m x 1/2 = 0.98 Nm.",
+        "explanation": "The moment of a force is a measure of its tendency to cause rotation around a pivot point. It is calculated by multiplying the magnitude of the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:2",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A yellow tennis ball of mass 0.2 kg is held stationary inside a vertical tube by a force F. The force F is applied at an angle of 45 degrees to the horizontal. The gravitational force acting on the ball is mg = 1.96 N. A force of 2 N is also applied at an angle of 30 degrees to the horizontal, directed upwards and to the right.",
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the concept of equilibrium",
+          "Relate the concept to the moments about the pivot"
+        ],
+        "hints": [
+          "Think about the conditions for static equilibrium."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the moments about the pivot are balanced. This means that the sum of the clockwise moments about the pivot must equal the sum of the anticlockwise moments about the pivot. In this case, the moment of force F1 is 1.41 Nm and the moment of force F2 is 0.98 Nm. Since the moments are not equal, the bar will not remain in equilibrium unless an additional force is applied.",
+        "explanation": "In static equilibrium, the net force and the net moment on an object must be zero. If the moments about the pivot are balanced, the bar will not rotate and will remain in equilibrium.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:2",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A skydiver jumps from an aircraft and experiences two distinct phases of motion: free-fall and descent with an open parachute. The velocity–time graph for the skydiver is provided in the diagram. The free-fall phase lasts for 10 seconds, and the descent with the parachute phase lasts for 20 seconds. During the free-fall phase, the skydiver's velocity increases from 0 m/s to 50 m/s. During the descent with the parachute phase, the skydiver's velocity decreases from 50 m/s to 5 m/s.",
+        "id": 28,
+        "type": "longform",
+        "part": "a",
+        "question": "State the phase of motion the skydiver is in when the velocity is at its maximum.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the phase of motion",
+          "Refer to the velocity–time graph"
+        ],
+        "hints": [
+          "Stay focused on this: State the phase of motion the skydiver is in when the velocity is at its maximum — develop the idea fully rather than listing short points. Make sure you also cover: Identify the phase of motion."
+        ],
+        "model_answer": "The skydiver is in the free-fall phase when the velocity is at its maximum. This is because the velocity–time graph shows that the velocity increases during the free-fall phase and reaches its maximum value before the parachute is opened.",
+        "explanation": "The free-fall phase is characterised by the skydiver's velocity increasing due to the force of gravity acting on the skydiver. The maximum velocity is reached just before the parachute is opened, which marks the transition to the descent with the parachute phase.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:3",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A skydiver jumps from an aircraft and experiences two distinct phases of motion: free-fall and descent with an open parachute. The velocity–time graph for the skydiver is provided in the diagram. The free-fall phase lasts for 10 seconds, and the descent with the parachute phase lasts for 20 seconds. During the free-fall phase, the skydiver's velocity increases from 0 m/s to 50 m/s. During the descent with the parachute phase, the skydiver's velocity decreases from 50 m/s to 5 m/s.",
+        "id": 29,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the average velocity during the free-fall phase.",
+        "marks": 2,
+        "marking_criteria": [
+          "Calculate the average velocity",
+          "Use the correct formula for average velocity"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average velocity during the free-fall phase — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The average velocity during the free-fall phase can be calculated using the formula: Average velocity = Total displacement / Total time. The total displacement during the free-fall phase is the change in velocity multiplied by the time, which is 50 m/s x 10 s = 500 m. Therefore, the average velocity during the free-fall phase is 500 m / 10 s = 50 m/s.",
+        "explanation": "The average velocity is a measure of the overall change in position over a period of time. It is calculated by dividing the total displacement by the total time taken.",
+        "exam_question_id": "b36290a6-22ed-4918-a926-331f485420e4:3",
+        "topic_label": "Components of vectors (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Components of vectors (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls up and to the right at 45° to the horizontal, labelled 'tension in string 2 = 15 N'. The length of the bar is 2 m.",
+        "id": 30,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of moment arm",
+          "Correct calculation of moment"
+        ],
+        "hints": [
+          "Use the sine of the angle for the perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F1 = 10 N * 2 m * sin(60°) = 17.32 Nm",
+        "explanation": "The moment of a force is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:1",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls up and to the right at 45° to the horizontal, labelled 'tension in string 2 = 15 N'. The length of the bar is 2 m.",
+        "id": 31,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of moment arm",
+          "Correct calculation of moment"
+        ],
+        "hints": [
+          "Use the sine of the angle for the perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F2 = 15 N * 2 m * sin(45°) = 21.21 Nm",
+        "explanation": "The moment of a force is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:1",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls up and to the right at 45° to the horizontal, labelled 'tension in string 2 = 15 N'. The length of the bar is 2 m.",
+        "id": 32,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of equilibrium condition",
+          "Correct reasoning about moments"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of equilibrium condition; Correct reasoning about moments."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the clockwise moments equal the anticlockwise moments about the pivot. In this case, the moments from both strings need to balance each other out.",
+        "explanation": "For an object to be in rotational equilibrium, the sum of the moments about any point must be zero. Here, if the moments from both strings balance each other, the bar will not rotate.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:1",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 30° to the horizontal, labelled 'tension in string 1 = 20 N'. String 2 pulls up and to the right at 60° to the horizontal, labelled 'tension in string 2 = 10 N'. The length of the bar is 1 m.",
+        "id": 33,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of moment arm",
+          "Correct calculation of moment"
+        ],
+        "hints": [
+          "Use the sine of the angle for the perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F1 = 20 N * 1 m * sin(30°) = 10 Nm",
+        "explanation": "The moment of a force is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:2",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 30° to the horizontal, labelled 'tension in string 1 = 20 N'. String 2 pulls up and to the right at 60° to the horizontal, labelled 'tension in string 2 = 10 N'. The length of the bar is 1 m.",
+        "id": 34,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of moment arm",
+          "Correct calculation of moment"
+        ],
+        "hints": [
+          "Use the sine of the angle for the perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F2 = 10 N * 1 m * sin(60°) = 8.66 Nm",
+        "explanation": "The moment of a force is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:2",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 30° to the horizontal, labelled 'tension in string 1 = 20 N'. String 2 pulls up and to the right at 60° to the horizontal, labelled 'tension in string 2 = 10 N'. The length of the bar is 1 m.",
+        "id": 35,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of equilibrium condition",
+          "Correct reasoning about moments"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of equilibrium condition; Correct reasoning about moments."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the clockwise moments equal the anticlockwise moments about the pivot. In this case, the moments from both strings need to balance each other out.",
+        "explanation": "For an object to be in rotational equilibrium, the sum of the moments about any point must be zero. Here, if the moments from both strings balance each other, the bar will not rotate.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:2",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 12 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 1.5 m.",
+        "id": 36,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of moment arm",
+          "Correct calculation of moment"
+        ],
+        "hints": [
+          "Use the sine of the angle for the perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F1 = 12 N * 1.5 m * sin(45°) = 12.73 Nm",
+        "explanation": "The moment of a force is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:3",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 12 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 1.5 m.",
+        "id": 37,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of moment arm",
+          "Correct calculation of moment"
+        ],
+        "hints": [
+          "Use the sine of the angle for the perpendicular distance from the pivot."
+        ],
+        "model_answer": "Moment of force F2 = 8 N * 1.5 m * sin(30°) = 6 Nm",
+        "explanation": "The moment of a force is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:3",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 12 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 1.5 m.",
+        "id": 38,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of equilibrium condition",
+          "Correct reasoning about moments"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of equilibrium condition; Correct reasoning about moments."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the clockwise moments equal the anticlockwise moments about the pivot. In this case, the moments from both strings need to balance each other out.",
+        "explanation": "For an object to be in rotational equilibrium, the sum of the moments about any point must be zero. Here, if the moments from both strings balance each other, the bar will not rotate.",
+        "exam_question_id": "ba3cc6cb-8b82-40c3-8d0d-348739312cb0:3",
+        "topic_label": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Newton's third law of motion (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 3 N'. String 2 pulls down and to the right at 30° to the horizontal, labelled 'tension in string 2 = 4 N'. The length of the bar is 2 m.",
+        "id": 39,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 1,
+        "marking_criteria": [
+          "State the moment of force F1 about the pivot correctly using the formula for moment."
+        ],
+        "hints": [
+          "Stay focused on this: State the moment of force F1 about the pivot — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Moment of force F1 = 3 N x 2 m x sin(60°) = 3 x 2 x (sqrt(3)/2) = 5.196 Nm",
+        "explanation": "Calculate the perpendicular distance from the pivot to the line of action of F1 and multiply it by the force and sine of the angle to find the moment.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:1",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 3 N'. String 2 pulls down and to the right at 30° to the horizontal, labelled 'tension in string 2 = 4 N'. The length of the bar is 2 m.",
+        "id": 40,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 1,
+        "marking_criteria": [
+          "Calculate the moment of force F2 about the pivot correctly using the formula for moment."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the moment of force F2 about the pivot correctly using the formula for moment."
+        ],
+        "model_answer": "Moment of force F2 = 4 N x 2 m x sin(30°) = 4 x 2 x (1/2) = 4 Nm",
+        "explanation": "Calculate the perpendicular distance from the pivot to the line of action of F2 and multiply it by the force and sine of the angle to find the moment.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:1",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 3 N'. String 2 pulls down and to the right at 30° to the horizontal, labelled 'tension in string 2 = 4 N'. The length of the bar is 2 m.",
+        "id": 41,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the condition for rotational equilibrium.",
+          "Relate the condition to the moments calculated in parts (a) and (b)."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: the condition for rotational equilibrium.; Relate the condition to the moments calculated in parts (a) and (b)."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the sum of the moments about the pivot is zero. If the moment of force F1 about the pivot (5.196 Nm) is equal and opposite to the moment of force F2 about the pivot (4 Nm), the net moment is zero, and the bar remains in equilibrium.",
+        "explanation": "For rotational equilibrium, the sum of clockwise moments must equal the sum of anticlockwise moments. If the moments are balanced, the bar will not rotate.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:1",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2 N', and a horizontal arrow labelled 'drag D = 0.3 N'. The stone is at rest.",
+        "id": 42,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 1,
+        "marking_criteria": [
+          "State the moment of force F1 about the pivot correctly using the formula for moment."
+        ],
+        "hints": [
+          "Stay focused on this: State the moment of force F1 about the pivot — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Moment of force F1 = 0.5 N x 1 m x sin(90°) = 0.5 Nm",
+        "explanation": "Calculate the perpendicular distance from the pivot to the line of action of F1 and multiply it by the force and sine of the angle to find the moment.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:2",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2 N', and a horizontal arrow labelled 'drag D = 0.3 N'. The stone is at rest.",
+        "id": 43,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 1,
+        "marking_criteria": [
+          "Calculate the moment of force F2 about the pivot correctly using the formula for moment."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the moment of force F2 about the pivot correctly using the formula for moment."
+        ],
+        "model_answer": "Moment of force F2 = 2 N x 1 m x sin(90°) = 2 Nm",
+        "explanation": "Calculate the perpendicular distance from the pivot to the line of action of F2 and multiply it by the force and sine of the angle to find the moment.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:2",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A grey stone is shown under the water surface, which is drawn as a wavy line at the top. Green arrows show three forces on the stone: an upward arrow labelled 'upthrust U = 0.5 N', a downward arrow labelled 'weight W = 2 N', and a horizontal arrow labelled 'drag D = 0.3 N'. The stone is at rest.",
+        "id": 44,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the condition for rotational equilibrium.",
+          "Relate the condition to the moments calculated in parts (a) and (b)."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: the condition for rotational equilibrium.; Relate the condition to the moments calculated in parts (a) and (b)."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the sum of the moments about the pivot is zero. If the moment of force F1 about the pivot (0.5 Nm) is equal and opposite to the moment of force F2 about the pivot (2 Nm), the net moment is zero, and the bar remains in equilibrium.",
+        "explanation": "For rotational equilibrium, the sum of clockwise moments must equal the sum of anticlockwise moments. If the moments are balanced, the bar will not rotate.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:2",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 2 N'. String 2 pulls down and to the right at 30° to the horizontal, labelled 'tension in string 2 = 3 N'. The length of the bar is 1.5 m.",
+        "id": 45,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 1,
+        "marking_criteria": [
+          "State the moment of force F1 about the pivot correctly using the formula for moment."
+        ],
+        "hints": [
+          "Stay focused on this: State the moment of force F1 about the pivot — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Moment of force F1 = 2 N x 1.5 m x sin(60°) = 2 x 1.5 x (sqrt(3)/2) = 2.598 Nm",
+        "explanation": "Calculate the perpendicular distance from the pivot to the line of action of F1 and multiply it by the force and sine of the angle to find the moment.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:3",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 2 N'. String 2 pulls down and to the right at 30° to the horizontal, labelled 'tension in string 2 = 3 N'. The length of the bar is 1.5 m.",
+        "id": 46,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 1,
+        "marking_criteria": [
+          "Calculate the moment of force F2 about the pivot correctly using the formula for moment."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the moment of force F2 about the pivot correctly using the formula for moment."
+        ],
+        "model_answer": "Moment of force F2 = 3 N x 1.5 m x sin(30°) = 3 x 1.5 x (1/2) = 2.25 Nm",
+        "explanation": "Calculate the perpendicular distance from the pivot to the line of action of F2 and multiply it by the force and sine of the angle to find the moment.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:3",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 60° to the horizontal, labelled 'tension in string 1 = 2 N'. String 2 pulls down and to the right at 30° to the horizontal, labelled 'tension in string 2 = 3 N'. The length of the bar is 1.5 m.",
+        "id": 47,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the condition for rotational equilibrium.",
+          "Relate the condition to the moments calculated in parts (a) and (b)."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: the condition for rotational equilibrium.; Relate the condition to the moments calculated in parts (a) and (b)."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the sum of the moments about the pivot is zero. If the moment of force F1 about the pivot (2.598 Nm) is equal and opposite to the moment of force F2 about the pivot (2.25 Nm), the net moment is zero, and the bar remains in equilibrium.",
+        "explanation": "For rotational equilibrium, the sum of clockwise moments must equal the sum of anticlockwise moments. If the moments are balanced, the bar will not rotate.",
+        "exam_question_id": "bea41b16-fbc7-403c-bdc3-37f6e54ee866:3",
+        "topic_label": "Centre of gravity (Chapter 4: Forces – vectors and moments)",
+        "topic_id": 304,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity (Chapter 4: Forces – vectors and moments)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls down and to the right at 60° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 2 metres.",
+        "id": 48,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the moment of force F1 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of moment of force F1.",
+          "Use of correct formula for moment.",
+          "Correct units used."
+        ],
+        "hints": [
+          "Use the formula moment = force x perpendicular distance from pivot."
+        ],
+        "model_answer": "Moment of force F1 = 10 N x 2 m x sin(45°) = 10 N x 2 m x 0.707 = 14.14 Nm.",
+        "explanation": "Calculate the moment of force F1 by multiplying the force by the perpendicular distance from the pivot, using the sine of the angle for the perpendicular component of the force.",
+        "exam_question_id": "b7ac25bb-60a8-45b5-adbd-6557ce43af91:1",
+        "topic_label": "Calculating the acceleration (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Calculating the acceleration (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls down and to the right at 60° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 2 metres.",
+        "id": 49,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of moment of force F2.",
+          "Use of correct formula for moment.",
+          "Correct units used."
+        ],
+        "hints": [
+          "Use the formula moment = force x perpendicular distance from pivot."
+        ],
+        "model_answer": "Moment of force F2 = 8 N x 2 m x sin(60°) = 8 N x 2 m x 0.866 = 13.86 Nm.",
+        "explanation": "Calculate the moment of force F2 by multiplying the force by the perpendicular distance from the pivot, using the sine of the angle for the perpendicular component of the force.",
+        "exam_question_id": "b7ac25bb-60a8-45b5-adbd-6557ce43af91:1",
+        "topic_label": "Calculating the acceleration (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Calculating the acceleration (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls down and to the right at 60° to the horizontal, labelled 'tension in string 2 = 8 N'. The length of the bar is 2 metres.",
+        "id": 50,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of equilibrium.",
+          "Mention of balanced moments.",
+          "Correct use of physics concepts."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of equilibrium.; Correct use of physics concepts."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the moments about the pivot are balanced because the net torque on the bar will be zero. In rotational equilibrium, the sum of clockwise moments equals the sum of counterclockwise moments, resulting in no net rotation.",
+        "explanation": "Explain that for the bar to remain in equilibrium, the sum of the clockwise moments must equal the sum of the counterclockwise moments, resulting in no net torque and hence no rotation.",
+        "exam_question_id": "b7ac25bb-60a8-45b5-adbd-6557ce43af91:1",
+        "topic_label": "Calculating the acceleration (Chapter 3: Dynamics – explaining motion)",
+        "topic_id": 303,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Calculating the acceleration (Chapter 3: Dynamics – explaining motion)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A person pushes a loaded wheelbarrow and lifts the handles with an upward green arrow. A downward green arrow at the load's centre of gravity is labelled 400 N. Horizontal dimensions: 0.20 m from the wheel-side dimension line to the load's line of action, 0.50 m from the wheel axle to the foot/support, and 1.20 m from the foot/support to the lifting force. Labels: 0.20 m, 400 N, 1.20 m, 0.50 m",
+        "id": 51,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the moment of force F1 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of moment formula",
+          "Correct identification of force and distance",
+          "Correct calculation and units"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F1 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of moment formula; Correct identification of force and; Correct calculation and units."
+        ],
+        "model_answer": "The moment of force F1 about the pivot is calculated as follows: \nMoment = Force x Perpendicular Distance \nMoment = 400 N x 0.50 m = 200 Nm",
+        "explanation": "The moment of a force about a pivot is the product of the force and the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "b5374829-dd1d-4ca9-8947-7a33d37ca58f:1",
+        "topic_label": "Centre of gravity",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page127-embedded-0.jpeg",
+        "image_alt": "A person pushes a loaded wheelbarrow and lifts the handles with an upward green arrow. A downward green arrow at the load's centre of gravity is labelled 400 N. Horizontal dimensions: 0.20 m from the wheel-side dimension line to the load's line of action, 0.50 m from the wheel axle to the foot/support, and 1.20 m from the foot/support to the lifting force.\nLabels: 0.20 m, 400 N, 1.20 m, 0.50 m\nOriginal exercise:",
+        "subtopic_id": 1250,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A person pushes a loaded wheelbarrow and lifts the handles with an upward green arrow. A downward green arrow at the load's centre of gravity is labelled 400 N. Horizontal dimensions: 0.20 m from the wheel-side dimension line to the load's line of action, 0.50 m from the wheel axle to the foot/support, and 1.20 m from the foot/support to the lifting force. Labels: 0.20 m, 400 N, 1.20 m, 0.50 m",
+        "id": 52,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of moment formula",
+          "Correct identification of force and distance",
+          "Correct calculation and units"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the moment of force F2 about the pivot — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of moment formula; Correct identification of force and; Correct calculation and units."
+        ],
+        "model_answer": "The moment of force F2 about the pivot is calculated as follows: \nMoment = Force x Perpendicular Distance \nMoment = 400 N x 0.20 m = 80 Nm",
+        "explanation": "The moment of a force about a pivot is the product of the force and the perpendicular distance from the pivot to the line of action of the force.",
+        "exam_question_id": "b5374829-dd1d-4ca9-8947-7a33d37ca58f:1",
+        "topic_label": "Centre of gravity",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page127-embedded-0.jpeg",
+        "image_alt": "A person pushes a loaded wheelbarrow and lifts the handles with an upward green arrow. A downward green arrow at the load's centre of gravity is labelled 400 N. Horizontal dimensions: 0.20 m from the wheel-side dimension line to the load's line of action, 0.50 m from the wheel axle to the foot/support, and 1.20 m from the foot/support to the lifting force.\nLabels: 0.20 m, 400 N, 1.20 m, 0.50 m\nOriginal exercise:",
+        "subtopic_id": 1250,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A person pushes a loaded wheelbarrow and lifts the handles with an upward green arrow. A downward green arrow at the load's centre of gravity is labelled 400 N. Horizontal dimensions: 0.20 m from the wheel-side dimension line to the load's line of action, 0.50 m from the wheel axle to the foot/support, and 1.20 m from the foot/support to the lifting force. Labels: 0.20 m, 400 N, 1.20 m, 0.50 m",
+        "id": 53,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct understanding of equilibrium",
+          "Correct explanation of moments and forces",
+          "Logical reasoning"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: Correct understanding of equilibrium; Correct explanation of moments and forces; Logical reasoning."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the moments about the pivot are balanced because, in equilibrium, the sum of the moments about any point is zero. If the moments on one side of the pivot are equal in magnitude but opposite in direction to the moments on the other side, the bar will not rotate and will remain in equilibrium.",
+        "explanation": "In equilibrium, the bar does not rotate because the clockwise moments are balanced by the anticlockwise moments. This is a fundamental principle in physics that ensures the system remains stable.",
+        "exam_question_id": "b5374829-dd1d-4ca9-8947-7a33d37ca58f:1",
+        "topic_label": "Centre of gravity",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page127-embedded-0.jpeg",
+        "image_alt": "A person pushes a loaded wheelbarrow and lifts the handles with an upward green arrow. A downward green arrow at the load's centre of gravity is labelled 400 N. Horizontal dimensions: 0.20 m from the wheel-side dimension line to the load's line of action, 0.50 m from the wheel axle to the foot/support, and 1.20 m from the foot/support to the lifting force.\nLabels: 0.20 m, 400 N, 1.20 m, 0.50 m\nOriginal exercise:",
+        "subtopic_id": 1250,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Centre of gravity"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 = 15 N'. The length of the bar is 2 metres.",
+        "id": 54,
+        "type": "longform",
+        "part": "a",
+        "question": "State the moment of force F1 about the pivot.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the moment of force F1.",
+          "Use the formula for moment of a force."
+        ],
+        "hints": [
+          "Remember the formula for moment: Moment = Force x Perpendicular distance from pivot."
+        ],
+        "model_answer": "Moment of force F1 = 10 N x (2 m x sin(45°)) = 10 N x (2 m x 0.707) = 14.14 Nm.",
+        "explanation": "The moment of force F1 is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force. The perpendicular distance is calculated using the sine of the angle between the force and the horizontal.",
+        "exam_question_id": "72fdd55a-1e17-492e-b43c-aaed2aee3aa0:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page135-embedded-1.jpeg",
+        "image_alt": "A picture hangs from a single nail on a wall by a cord that forms a symmetrical triangle. The cord runs from the nail down to the top left and top right corners of the picture's frame. The angle between the cord and the top edge of the picture is marked as 50° at both the left and right corners. The picture shows a band of musicians, including a drummer at a drum kit and guitarists.\nLabels: nail, cord, 50°, 50°\nOriginal exercise: This diagram shows a picture hanging symmetrically by two cords from a nail fixed to a wall. The picture is in equilibrium.",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 = 15 N'. The length of the bar is 2 metres.",
+        "id": 55,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the moment of force F2 about the pivot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the moment of force F2.",
+          "Use the formula for moment of a force.",
+          "Show all steps and calculations."
+        ],
+        "hints": [
+          "Remember the formula for moment: Moment = Force x Perpendicular distance from pivot."
+        ],
+        "model_answer": "Moment of force F2 = 15 N x (2 m x sin(30°)) = 15 N x (2 m x 0.5) = 15 Nm.",
+        "explanation": "The moment of force F2 is calculated by multiplying the force by the perpendicular distance from the pivot to the line of action of the force. The perpendicular distance is calculated using the sine of the angle between the force and the horizontal.",
+        "exam_question_id": "72fdd55a-1e17-492e-b43c-aaed2aee3aa0:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page135-embedded-1.jpeg",
+        "image_alt": "A picture hangs from a single nail on a wall by a cord that forms a symmetrical triangle. The cord runs from the nail down to the top left and top right corners of the picture's frame. The angle between the cord and the top edge of the picture is marked as 50° at both the left and right corners. The picture shows a band of musicians, including a drummer at a drum kit and guitarists.\nLabels: nail, cord, 50°, 50°\nOriginal exercise: This diagram shows a picture hanging symmetrically by two cords from a nail fixed to a wall. The picture is in equilibrium.",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A horizontal bar of negligible mass is pivoted at its centre. Two forces are applied to the ends of the bar as shown in the diagram. String 1 pulls up and to the left at 45° to the horizontal, labelled 'tension in string 1 = 10 N'. String 2 pulls up and to the right at 30° to the horizontal, labelled 'tension in string 2 = 15 N'. The length of the bar is 2 metres.",
+        "id": 56,
+        "type": "longform",
+        "part": "c",
+        "question": "Explain why the bar will remain in equilibrium if the moments about the pivot are balanced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly explain the concept of equilibrium.",
+          "Explain how balancing moments leads to equilibrium.",
+          "Use the moments calculated in parts (a) and (b)."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the bar will remain in equilibrium if the moments about the pivot are balanced — develop the idea fully rather than listing short points. Make sure you also cover: Correctly explain the concept of equilibrium.; the moments calculated in parts (a) and (b)."
+        ],
+        "model_answer": "The bar will remain in equilibrium if the moments about the pivot are balanced because the net torque acting on the bar will be zero. In this case, the moment of force F1 (14.14 Nm) and the moment of force F2 (15 Nm) are in opposite directions, and their magnitudes are equal, resulting in a balanced system.",
+        "explanation": "When the moments about the pivot are balanced, the net torque on the bar is zero, and the bar does not rotate. This is because the clockwise moment due to force F1 is equal to the anti-clockwise moment due to force F2.",
+        "exam_question_id": "72fdd55a-1e17-492e-b43c-aaed2aee3aa0:1",
+        "topic_label": "Chapter 4: Forces – vectors and moments",
+        "topic_id": 304,
+        "image_url": "/textbook-images/cambridge/22/page135-embedded-1.jpeg",
+        "image_alt": "A picture hangs from a single nail on a wall by a cord that forms a symmetrical triangle. The cord runs from the nail down to the top left and top right corners of the picture's frame. The angle between the cord and the top edge of the picture is marked as 50° at both the left and right corners. The picture shows a band of musicians, including a drummer at a drum kit and guitarists.\nLabels: nail, cord, 50°, 50°\nOriginal exercise: This diagram shows a picture hanging symmetrically by two cords from a nail fixed to a wall. The picture is in equilibrium.",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 4: Forces – vectors and moments"
+        }
+      }
+    ],
+    "estimated_time": 133,
+    "assessment_id": "b1752bf7-8aec-4ede-a995-f19d4f73c211",
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "topics": [
+      "Chapter 3: Dynamics – explaining motion",
+      "Chapter 4: Forces – vectors and moments"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 22,
+    "topic_ids": [
+      303,
+      304
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 56,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 31,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 32,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 33,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 40,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 41,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 42,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 43,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 44,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 45,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 46,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 48,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 49,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 50,
+      "detail": "same as question 48"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 51,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 52,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 53,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 54,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 55,
+      "detail": "same as question 9"
+    }
+  ],
+  "figures": 10,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 179
+}

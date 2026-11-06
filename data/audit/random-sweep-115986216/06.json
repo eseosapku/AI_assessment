@@ -1,0 +1,829 @@
+{
+  "index": 6,
+  "label": "Cambridge / Exam / Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+  "request": {
+    "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+    "textbook_id": 33,
+    "topic_ids": [
+      430
+    ],
+    "topics": [
+      "5 Properties of materials"
+    ],
+    "curriculum": "cambridge",
+    "grade": 7,
+    "className": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 112,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram below. It shows four square boxes labelled A, B, C, and D, each containing coloured circles that represent particles. Box A has six orange circles arranged as three touching pairs. Box B has six circles, three pink and three green, arranged as three touching pink-green pairs. Box C has three blue and three orange circles, all separate and scattered. Box D has six green circles, all separate and scattered.",
+        "question": "Are the particles in Box A an element, a compound, or a mixture? Explain your answer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the type of particles (element, compound, or mixture)",
+          "Explanation of why the particles are classified as identified",
+          "Correct terminology used"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Are the particles in Box A an element, a compound, or a mixture; then Explain your answer. Make sure you also cover: Identification of the of particles (element, compound, or mixture); Explanation of why the particles are classified as identified; Correct terminology used."
+        ],
+        "model_answer": "The particles in Box A are an element. This is because all six circles are the same colour and arranged in pairs, indicating a uniform composition of the same type of particle.",
+        "explanation": "Identify the type of particles in Box A and explain why they are classified as an element.",
+        "exam_question_id": "859447f8-e965-4a02-a1bd-f2cfb992e1f1:1",
+        "image_url": "/textbook-images/textbook-bank/33/s163-f0.jpg",
+        "image_alt": "Four square boxes labelled A, B, C and D, each containing coloured circles that represent particles. Box A has six orange circles arranged as three touching pairs. Box B has six circles, three pink and three green, arranged as three touching pink-green pairs. Box C has three blue and three orange circles, all separate and scattered. Box D has six green circles, all separate and scattered.\nLabels: A, B, C, D\nOriginal exercise: Look at the diagrams below. Are they elements, compounds or mixtures? Give reasons for your answers.",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram below. It shows four square boxes labelled A, B, C, and D, each containing coloured circles that represent particles. Box A has six orange circles arranged as three touching pairs. Box B has six circles, three pink and three green, arranged as three touching pink-green pairs. Box C has three blue and three orange circles, all separate and scattered. Box D has six green circles, all separate and scattered.",
+        "question": "Are the particles in Box B an element, a compound, or a mixture? Explain your answer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the type of particles (element, compound, or mixture)",
+          "Explanation of why the particles are classified as identified",
+          "Correct terminology used"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Are the particles in Box B an element, a compound, or a mixture; then Explain your answer. Make sure you also cover: Identification of the type of particles (element, compound, or mixture); Explanation of why the particles are classified as identified; Correct terminology…."
+        ],
+        "model_answer": "The particles in Box B are a compound. This is because the circles are in pairs of different colours (pink and green) and are touching, indicating a chemical combination of two different types of particles.",
+        "explanation": "Identify the type of particles in Box B and explain why they are classified as a compound.",
+        "exam_question_id": "859447f8-e965-4a02-a1bd-f2cfb992e1f1:1",
+        "image_url": "/textbook-images/textbook-bank/33/s163-f0.jpg",
+        "image_alt": "Four square boxes labelled A, B, C and D, each containing coloured circles that represent particles. Box A has six orange circles arranged as three touching pairs. Box B has six circles, three pink and three green, arranged as three touching pink-green pairs. Box C has three blue and three orange circles, all separate and scattered. Box D has six green circles, all separate and scattered.\nLabels: A, B, C, D\nOriginal exercise: Look at the diagrams below. Are they elements, compounds or mixtures? Give reasons for your answers.",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Look at the diagram below. It shows four square boxes labelled A, B, C, and D, each containing coloured circles that represent particles. Box A has six orange circles arranged as three touching pairs. Box B has six circles, three pink and three green, arranged as three touching pink-green pairs. Box C has three blue and three orange circles, all separate and scattered. Box D has six green circles, all separate and scattered.",
+        "question": "Are the particles in Box C an element, a compound, or a mixture? Explain your answer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the type of particles (element, compound, or mixture)",
+          "Explanation of why the particles are classified as identified",
+          "Correct terminology used"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Are the particles in Box C an element, a compound, or a mixture; then Explain your answer. Make sure you also cover: Identification of the type of particles (element, compound, or mixture); Explanation of why the particles are classified as identified; Correct terminology…."
+        ],
+        "model_answer": "The particles in Box C are a mixture. This is because there are two different colours of circles (blue and orange) and they are not touching, indicating a physical combination of two different types of particles.",
+        "explanation": "Identify the type of particles in Box C and explain why they are classified as a mixture.",
+        "exam_question_id": "859447f8-e965-4a02-a1bd-f2cfb992e1f1:1",
+        "image_url": "/textbook-images/textbook-bank/33/s163-f0.jpg",
+        "image_alt": "Four square boxes labelled A, B, C and D, each containing coloured circles that represent particles. Box A has six orange circles arranged as three touching pairs. Box B has six circles, three pink and three green, arranged as three touching pink-green pairs. Box C has three blue and three orange circles, all separate and scattered. Box D has six green circles, all separate and scattered.\nLabels: A, B, C, D\nOriginal exercise: Look at the diagrams below. Are they elements, compounds or mixtures? Give reasons for your answers.",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table gives information about the melting points and boiling points of some metals and non-metals.\n\n| Substance | Melting point in °C | Boiling point in °C |\n| --- | --- | --- |\n| Gold | 1064 | 2850 |\n| Lead | 328 | 1750 |\n| Copper | 1082 | 2580 |\n| Helium | -270 | -269 |\n| Oxygen | -219 | -183 |\n| Mercury | -39 | 357 |\n| Aluminium | 660 | 2400 |\n| Nickel | 1455 | 2150 |\n| Sulphur | 119 | 445 |\n| Sodium | 98 | 900 |",
+        "question": "Calculate the temperature range for each substance listed in the table.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the temperature range for one substance.",
+          "Correct calculation of the temperature range for a second substance."
+        ],
+        "hints": [
+          "Temperature range is calculated by subtracting the melting point from the boiling point."
+        ],
+        "model_answer": "Temperature range for Gold: 2850 - 1064 = 1786 °C\nTemperature range for Lead: 1750 - 328 = 1422 °C",
+        "explanation": "To find the temperature range, subtract the melting point from the boiling point for each substance.",
+        "exam_question_id": "cfebd210-519e-4cce-bbb0-d96448829d42:1",
+        "image_url": "/textbook-images/textbook-bank/33/s192-f0.jpg",
+        "image_alt": "A table with three columns: Substance, Melting point in °C, and Boiling point in °C. It lists ten substances with their melting and boiling points: gold 1064 and 2850; lead 328 and 1750; copper 1082 and 2580; helium −270 and −269; oxygen −219 and −183; mercury −39 and 357; aluminium 660 and 2400; nickel 1455 and 2150; sulfur 119 and 445; sodium 98 and 900.\nLabels: Substance, Melting point in °C, Boiling point in °C, gold, 1064, 2850, lead, 328, 1750, copper, 1082, 2580, helium, −270, −269, oxygen, −219, −183, mercury, −39, 357, aluminium, 660, 2400, nickel, 1455, 2150, sulfur, 119, 445, sodium",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table gives information about the melting points and boiling points of some metals and non-metals.\n\n| Substance | Melting point in °C | Boiling point in °C |\n| --- | --- | --- |\n| Gold | 1064 | 2850 |\n| Lead | 328 | 1750 |\n| Copper | 1082 | 2580 |\n| Helium | -270 | -269 |\n| Oxygen | -219 | -183 |\n| Mercury | -39 | 357 |\n| Aluminium | 660 | 2400 |\n| Nickel | 1455 | 2150 |\n| Sulphur | 119 | 445 |\n| Sodium | 98 | 900 |",
+        "question": "State which substance has the highest boiling point.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the substance with the highest boiling point."
+        ],
+        "hints": [
+          "Compare the boiling points listed in the table."
+        ],
+        "model_answer": "Gold",
+        "explanation": "Gold has the highest boiling point at 2850 °C.",
+        "exam_question_id": "cfebd210-519e-4cce-bbb0-d96448829d42:1",
+        "image_url": "/textbook-images/textbook-bank/33/s192-f0.jpg",
+        "image_alt": "A table with three columns: Substance, Melting point in °C, and Boiling point in °C. It lists ten substances with their melting and boiling points: gold 1064 and 2850; lead 328 and 1750; copper 1082 and 2580; helium −270 and −269; oxygen −219 and −183; mercury −39 and 357; aluminium 660 and 2400; nickel 1455 and 2150; sulfur 119 and 445; sodium 98 and 900.\nLabels: Substance, Melting point in °C, Boiling point in °C, gold, 1064, 2850, lead, 328, 1750, copper, 1082, 2580, helium, −270, −269, oxygen, −219, −183, mercury, −39, 357, aluminium, 660, 2400, nickel, 1455, 2150, sulfur, 119, 445, sodium",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student is investigating the properties of different materials. The student has three samples: a piece of copper wire, a piece of plastic, and a piece of iron.",
+        "question": "Name one physical property that distinguishes metals from non-metals.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify one correct physical property of metals (lustre, malleable, ductile, conducts electricity, conducts heat, sonorous, or high melting/boiling point)",
+          "Provide a correct example (copper, iron, aluminium, etc. for metals; plastic, sulphur, etc. for non-metals)"
+        ],
+        "hints": [
+          "Think about the properties taught in the chapter."
+        ],
+        "model_answer": "One physical property that distinguishes metals from non-metals is their ability to conduct electricity. Metals like copper are good conductors of electricity, while non-metals like plastic are not.",
+        "explanation": "Metals are known for their ability to conduct electricity, which is a key property that sets them apart from non-metals.",
+        "exam_question_id": "33bdb8e3-0d33-440e-b783-57bf9504f963:1",
+        "checked": true,
+        "subtopic_id": 1916,
+        "topic_id": 430,
+        "topic_label": "5.1 Metals and non-metals",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5.1 Metals and non-metals"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student is investigating the properties of different materials. The student has three samples: a piece of copper wire, a piece of plastic, and a piece of iron.",
+        "question": "Explain why metals like copper are often used in electrical wiring.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the property of metals relevant to electrical conductivity.",
+          "Explain why this property makes metals suitable for electrical wiring.",
+          "Provide a clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why metals like copper are often used in electrical wiring — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and logical explanation."
+        ],
+        "model_answer": "Metals like copper are often used in electrical wiring because they have a high ability to conduct electricity. This property allows the efficient transfer of electric current through the wire, minimizing energy loss. Copper is particularly favored for its excellent conductivity and durability.",
+        "explanation": "Metals are used in electrical wiring because they can conduct electricity efficiently, which is crucial for the effective transmission of electrical current.",
+        "exam_question_id": "33bdb8e3-0d33-440e-b783-57bf9504f963:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A student is investigating the properties of different materials. The student has three samples: a piece of copper wire, a piece of plastic, and a piece of iron.",
+        "question": "Describe how you would separate a mixture of iron filings and sand using a magnet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the property of iron that allows it to be separated using a magnet.",
+          "Describe the process of separation.",
+          "Explain why this method works for this mixture."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would separate a mixture of iron filings and sand using a magnet — develop the idea fully rather than listing short points. Make sure you also cover: Identify the property of iron that allows it to be separated using a magnet.; the process of separation."
+        ],
+        "model_answer": "To separate a mixture of iron filings and sand using a magnet, you would bring the magnet close to the mixture. The iron filings, being magnetic, will be attracted to the magnet and can be easily pulled away from the sand. This method works because iron is magnetic and sand is not, allowing for the selective removal of iron from the mixture.",
+        "explanation": "Iron filings can be separated from sand using a magnet because iron is magnetic and sand is not, allowing for the selective attraction and removal of iron.",
+        "exam_question_id": "33bdb8e3-0d33-440e-b783-57bf9504f963:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are given four different materials: iron, copper, glass, and wood. You are asked to compare their physical properties.",
+        "question": "Name one physical property that is common to both iron and copper but not to glass or wood.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifying a property of iron and copper",
+          "Explaining why this property is not found in glass or wood"
+        ],
+        "hints": [
+          "Think about the properties that metals have that non-metals do not."
+        ],
+        "model_answer": {
+          "working": "Iron and copper are both metals, and one common property of metals is that they are malleable. Glass and wood are not malleable.",
+          "result": "Malleability"
+        },
+        "explanation": "Metals like iron and copper can be hammered into different shapes without breaking, which is a property not shared by non-metals like glass and wood.",
+        "exam_question_id": "63d91514-361a-41fe-a00d-8cdaa9fc995c:1",
+        "checked": true,
+        "subtopic_id": 1916,
+        "topic_id": 430,
+        "topic_label": "5.1 Metals and non-metals",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5.1 Metals and non-metals"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are given four different materials: iron, copper, glass, and wood. You are asked to compare their physical properties.",
+        "question": "Explain why metals like copper are often used in electrical wiring.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifying that copper is a good conductor of electricity",
+          "Explaining why being a good conductor is important for electrical wiring",
+          "Providing a clear and concise explanation"
+        ],
+        "hints": [
+          "Think about the role of copper in allowing electricity to flow through a wire."
+        ],
+        "model_answer": {
+          "working": "Copper is a good conductor of electricity, which means it allows electric charges to flow through it easily. This property is important for electrical wiring because it ensures that electricity can be transmitted efficiently and with minimal loss. Using a material that is a good conductor like copper helps to maintain the integrity of the electrical signal as it travels through the wire.",
+          "result": "Copper is a good conductor of electricity, which is important for efficient transmission of electrical signals through wires."
+        },
+        "explanation": "Copper's ability to conduct electricity efficiently makes it an ideal material for electrical wiring, ensuring that electrical signals can travel through the wire with minimal loss.",
+        "exam_question_id": "63d91514-361a-41fe-a00d-8cdaa9fc995c:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are given four different materials: iron, copper, glass, and wood. You are asked to compare their physical properties.",
+        "question": "Describe how you would separate a mixture of iron filings and sand using a magnet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explaining the use of a magnet to attract iron",
+          "Describing the process of separation",
+          "Providing a clear and concise description"
+        ],
+        "hints": [
+          "Think about how a magnet interacts with iron and how this can be used to separate it from other materials."
+        ],
+        "model_answer": {
+          "working": "To separate a mixture of iron filings and sand, you would use a magnet. The magnet would be moved through the mixture, and the iron filings would be attracted to the magnet, leaving the sand behind. This process can be repeated until all the iron filings have been removed from the mixture.",
+          "result": "Using a magnet to attract and remove iron filings from a mixture of iron and sand."
+        },
+        "explanation": "A magnet can be used to separate iron filings from a mixture with sand because the magnet will attract the iron, allowing it to be removed from the mixture.",
+        "exam_question_id": "63d91514-361a-41fe-a00d-8cdaa9fc995c:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student adds universal indicator to a liquid and it turns purple.",
+        "question": "Is the liquid acidic, alkaline or neutral?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the colour change of the universal indicator.",
+          "Determine the nature of the liquid based on the colour change."
+        ],
+        "hints": [
+          "Recall the colour changes of universal indicator for different pH values."
+        ],
+        "model_answer": {
+          "working": "The universal indicator turns purple, which corresponds to a pH of around 7. A pH of 7 is neutral.",
+          "result": "The liquid is alkaline."
+        },
+        "explanation": "Universal indicator turns purple in alkaline solutions (pH above 7). Purple indicates the liquid is alkaline.",
+        "exam_question_id": "f138d1e2-a2b9-4ab7-bb74-57120781f0ef:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student adds universal indicator to a liquid and it turns purple.",
+        "question": "Suggest a possible pH value.",
+        "marks": 1,
+        "marking_criteria": [
+          "Suggest a pH value based on the colour change of the universal indicator."
+        ],
+        "hints": [
+          "Consider the range of pH values that correspond to the colour purple for universal indicator."
+        ],
+        "model_answer": {
+          "working": "The universal indicator turns purple, which suggests a pH slightly above 7.",
+          "result": "A possible pH value is 8."
+        },
+        "explanation": "A pH of 8 is slightly alkaline, which is consistent with the purple colour observed.",
+        "exam_question_id": "f138d1e2-a2b9-4ab7-bb74-57120781f0ef:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a mixture of iron filings and sand.",
+        "question": "Describe how you would separate a mixture of iron filings and sand using a magnet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the use of a magnet to attract iron filings.",
+          "Explain that sand will not be attracted to the magnet.",
+          "State the final separation of iron filings from sand."
+        ],
+        "hints": [
+          "Think about how a magnet works to attract certain materials."
+        ],
+        "model_answer": "To separate a mixture of iron filings and sand using a magnet, you would hold the magnet over the mixture. The iron filings, being magnetic, will be attracted to the magnet and can be drawn away from the sand. The sand, which is not magnetic, will remain in the mixture. This process can be repeated until all the iron filings have been removed from the sand.",
+        "explanation": "Using a magnet to separate iron filings from sand is a simple and effective method. The magnet attracts the iron filings, allowing you to easily separate them from the sand.",
+        "exam_question_id": "c8b20637-6cb7-43b5-b732-81595ef0c1d5:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a mixture of iron filings and sand.",
+        "question": "Explain why metals like copper are often used in electrical wiring.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that metals conduct electricity.",
+          "Describe the physical properties of copper that make it suitable for wiring.",
+          "State the benefits of using copper in electrical wiring."
+        ],
+        "hints": [
+          "Consider the properties of copper that make it a good conductor of electricity."
+        ],
+        "model_answer": "Metals like copper are often used in electrical wiring because they are excellent conductors of electricity. Copper has a high electrical conductivity, which means it allows electric current to flow through it with minimal resistance. Additionally, copper is malleable and ductile, making it easy to shape and form into wires. It is also corrosion-resistant, ensuring that the wires remain intact and functional over time.",
+        "explanation": "Copper's excellent conductivity, malleability, ductility, and corrosion resistance make it an ideal material for electrical wiring. These properties ensure that the wires can efficiently conduct electricity while remaining durable and long-lasting.",
+        "exam_question_id": "c8b20637-6cb7-43b5-b732-81595ef0c1d5:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following substances: iron, copper, and plastic. The table below provides some information about their physical properties.",
+        "question": "State one physical property that distinguishes metals from non-metals using the substances listed.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify one physical property that is common to metals.",
+          "Explain why this property distinguishes metals from non-metals."
+        ],
+        "hints": [
+          "Think about the properties like lustre, malleability, ductility, and conductivity."
+        ],
+        "model_answer": {
+          "working": "Metals like iron and copper have a shiny appearance (lustre), can be hammered into sheets (malleable), can be drawn into wires (ductile), and conduct electricity and heat well. Plastic does not share these properties.",
+          "result": "Lustre, malleability, ductility, and conductivity are properties that distinguish metals from non-metals."
+        },
+        "explanation": "Metals have a characteristic shiny appearance, can be shaped by hammering or rolling, can be stretched into wires, and conduct electricity and heat efficiently. These properties are not found in non-metals like plastic.",
+        "exam_question_id": "310adf7c-ba21-41d4-8028-fc42b3e58ef2:1",
+        "checked": true,
+        "subtopic_id": 1916,
+        "topic_id": 430,
+        "topic_label": "5.1 Metals and non-metals",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5.1 Metals and non-metals"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following substances: iron, copper, and plastic. The table below provides some information about their physical properties.",
+        "question": "Explain why metals like copper are often used in electrical wiring.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the property of metals relevant to electrical wiring.",
+          "Explain how this property makes metals suitable for electrical wiring.",
+          "Provide an example of a metal used in electrical wiring."
+        ],
+        "hints": [
+          "Think about the ability of metals to conduct electricity."
+        ],
+        "model_answer": {
+          "working": "Metals like copper have high electrical conductivity, meaning they allow electric current to flow through them easily. This property makes metals like copper ideal for use in electrical wiring because they can efficiently transmit electricity with minimal energy loss. An example of a metal used in electrical wiring is copper.",
+          "result": "Metals like copper are used in electrical wiring because of their high electrical conductivity, which allows efficient transmission of electric current with minimal energy loss."
+        },
+        "explanation": "Metals conduct electricity well due to the presence of free electrons that can move through the material. This makes them suitable for use in electrical wiring where efficient transmission of electric current is required.",
+        "exam_question_id": "310adf7c-ba21-41d4-8028-fc42b3e58ef2:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following substances: iron, copper, and plastic. The table below provides some information about their physical properties.",
+        "question": "Describe how you would separate a mixture of iron filings and sand using a magnet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the principle behind using a magnet to separate mixtures.",
+          "Describe the process of separation step-by-step.",
+          "State what happens to the iron filings and sand during the process."
+        ],
+        "hints": [
+          "Think about the magnetic properties of iron."
+        ],
+        "model_answer": {
+          "working": "A magnet can be used to separate a mixture of iron filings and sand because iron is magnetic while sand is not. The process involves placing the magnet over the mixture and moving it through the mixture. The iron filings will be attracted to the magnet and can be collected separately, leaving the sand behind. The iron filings stick to the magnet, while the sand remains in the mixture.",
+          "result": "Using a magnet, iron filings can be separated from sand by attracting the iron filings with the magnet, leaving the sand behind."
+        },
+        "explanation": "Iron is magnetic and will be attracted to a magnet, whereas sand is not magnetic and will not be attracted. By moving a magnet through the mixture, the iron filings can be collected separately from the sand.",
+        "exam_question_id": "310adf7c-ba21-41d4-8028-fc42b3e58ef2:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student adds universal indicator to a liquid and it turns purple.",
+        "question": "Is the liquid acidic, alkaline or neutral?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the liquid's nature based on the colour change.",
+          "Appropriate justification or explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Is the liquid acidic, alkaline or neutral — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the liquid's nature based on the colour change.; Appropriate justification or explanation."
+        ],
+        "model_answer": "The liquid is alkaline. Universal indicator turns purple in the presence of an alkaline solution.",
+        "explanation": "Universal indicator is a pH indicator that changes colour depending on the pH of the solution. A purple colour indicates that the solution is alkaline, with a pH typically between 8 and 14.",
+        "exam_question_id": "791293f0-cc33-4b07-abc4-a57b0cd5078c:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student adds universal indicator to a liquid and it turns purple.",
+        "question": "Suggest a possible pH value.",
+        "marks": 1,
+        "marking_criteria": [
+          "A reasonable pH value within the alkaline range."
+        ],
+        "hints": [
+          "Think about the pH range that corresponds to a purple colour with universal indicator."
+        ],
+        "model_answer": "A possible pH value is 12.",
+        "explanation": "The universal indicator turns purple in alkaline solutions. A pH value of 12 is within the alkaline range (8-14) and is a reasonable suggestion.",
+        "exam_question_id": "791293f0-cc33-4b07-abc4-a57b0cd5078c:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student adds universal indicator to a liquid and it turns purple.",
+        "question": "Is the liquid acidic, alkaline or neutral?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that purple indicates an alkaline solution.",
+          "State that the liquid is alkaline."
+        ],
+        "hints": [
+          "Consider the colour change of universal indicator in different pH ranges."
+        ],
+        "model_answer": "The liquid is alkaline. Universal indicator turns purple in the presence of an alkaline solution.",
+        "explanation": "Universal indicator changes colour based on the pH of the solution. A purple colour indicates that the solution is alkaline.",
+        "exam_question_id": "445df0c5-b86d-4946-91d5-21d286370bc0:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student adds universal indicator to a liquid and it turns purple.",
+        "question": "Suggest a possible pH value.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that purple indicates a pH between 8 and 14.",
+          "Provide a specific pH value within the alkaline range."
+        ],
+        "hints": [
+          "Recall that the pH scale ranges from 0 to 14, with 7 being neutral."
+        ],
+        "model_answer": "A possible pH value is 12. Universal indicator turns purple in solutions with a pH between 8 and 14.",
+        "explanation": "The universal indicator turns purple in alkaline solutions, which have a pH greater than 7. A pH of 12 is within the alkaline range.",
+        "exam_question_id": "445df0c5-b86d-4946-91d5-21d286370bc0:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a mixture of iron filings and sand. The table below provides some information about their physical properties.\n\n| Substance | Melting point in °C | Boiling point in °C | Conductivity | Malleability | Ductility |\n| --- | --- | --- | --- | --- | --- |\n| Iron | 1538 | 2862 | High | High | High |\n| Sand (Silicon Dioxide) | 1713 | 2950 | Low | N/A | N/A |",
+        "question": "Describe how you would separate a mixture of iron filings and sand using a magnet.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the use of a magnet to attract iron filings.",
+          "Explain how the sand is left behind as it is not magnetic.",
+          "Describe the process of separating the iron filings from the sand."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would separate a mixture of iron filings and sand using a magnet — develop the idea fully rather than listing short points. Make sure you also cover: how the sand is left behind as it is not."
+        ],
+        "model_answer": "To separate a mixture of iron filings and sand using a magnet, you would hold the magnet over the mixture. The iron filings, being magnetic, will be attracted to the magnet and can be collected separately. The sand, which is not magnetic, will remain in the mixture and can be easily separated from the iron filings. This process can be repeated until all the iron filings have been removed from the sand.",
+        "explanation": "This question tests your understanding of the physical properties of iron and sand, specifically their magnetic properties, and how they can be used to separate a mixture.",
+        "exam_question_id": "e2e7a27c-e369-493f-b839-7a5b40ee8ccb:1",
+        "checked": true,
+        "subtopic_id": 1919,
+        "topic_id": 430,
+        "topic_label": "5.4 Using the properties of materials to separate mixtures",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5.4 Using the properties of materials to separate mixtures"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a mixture of iron filings and sand. The table below provides some information about their physical properties.\n\n| Substance | Melting point in °C | Boiling point in °C | Conductivity | Malleability | Ductility |\n| --- | --- | --- | --- | --- | --- |\n| Iron | 1538 | 2862 | High | High | High |\n| Sand (Silicon Dioxide) | 1713 | 2950 | Low | N/A | N/A |",
+        "question": "Explain why metals like copper are often used in electrical wiring.",
+        "marks": 3,
+        "marking_criteria": [
+          "Metals have high electrical conductivity / can conduct electricity well.",
+          "This allows electrical current to flow efficiently / with low resistance.",
+          "Copper is suitable because it is a good conductor / relatively inexpensive / resistant to corrosion (accept any one)."
+        ],
+        "hints": [
+          "Consider the physical properties of metals."
+        ],
+        "model_answer": "Metals like copper are often used in electrical wiring because they have high conductivity, which means they can efficiently conduct electricity. This property is crucial for electrical wiring as it ensures that the electrical current can flow smoothly and with minimal resistance. Copper is preferred over other metals for electrical wiring because it has a high conductivity, is relatively inexpensive, and is resistant to corrosion, which helps to ensure the longevity and reliability of the wiring.",
+        "explanation": "This question tests your understanding of the physical properties of metals, specifically their conductivity, and how these properties make them suitable for use in electrical wiring.",
+        "exam_question_id": "e2e7a27c-e369-493f-b839-7a5b40ee8ccb:1",
+        "checked": true,
+        "topic_id": 430,
+        "topic_label": "5 Properties of materials",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "5 Properties of materials"
+        }
+      }
+    ],
+    "estimated_time": 61,
+    "assessment_id": "4cab16c8-189e-4d12-9af0-4f907b12fe10",
+    "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+    "topics": [
+      "5 Properties of materials"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 33,
+    "topic_ids": [
+      430
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 11,
+      "detail": "6 questions open with the same sentence (12, 13, 19, 20, 21, 22): \"A student adds universal indicator to a liquid and\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 13,
+      "detail": "4 questions open with the same sentence (14, 15, 23, 24): \"You have a mixture of iron filings and sand.\nDescr\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 0,
+      "detail": "89 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 1,
+      "detail": "89 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 1,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 2,
+      "detail": "89 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 2,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 3,
+      "detail": "no question mark and no command word: \"The table gives information about the melting points and boi\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 3,
+      "detail": "117 words"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 4,
+      "detail": "no question mark and no command word: \"The table gives information about the melting points and boi\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 4,
+      "detail": "114 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 22,
+      "detail": "no question mark and no command word: \"You have a mixture of iron filings and sand. The table below\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 22,
+      "detail": "94 words"
+    },
+    {
+      "code": "explanation-addresses-the-marker",
+      "severity": "poor",
+      "index": 22,
+      "detail": "This question tests your understanding of the physical prope"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 23,
+      "detail": "no question mark and no command word: \"You have a mixture of iron filings and sand. The table below\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 23,
+      "detail": "90 words"
+    },
+    {
+      "code": "explanation-addresses-the-marker",
+      "severity": "poor",
+      "index": 23,
+      "detail": "This question tests your understanding of the physical prope"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [
+    "/textbook-images/textbook-bank/33/s163-f0.jpg: HTTP 404",
+    "/textbook-images/textbook-bank/33/s192-f0.jpg: HTTP 404"
+  ],
+  "totalSeconds": 114
+}

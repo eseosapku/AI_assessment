@@ -1,0 +1,709 @@
+{
+  "index": 6,
+  "label": "Cambridge / Exam / Cambridge International AS and A Level Biology Coursebook ",
+  "request": {
+    "subject": "Cambridge International AS and A Level Biology Coursebook ",
+    "textbook_id": 23,
+    "topic_ids": [
+      354,
+      338
+    ],
+    "topics": [
+      "Genetic technology",
+      "Cell membranes and transport"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS and A Level Biology Coursebook ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 28,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a white blood cell (phagocyte) engulfing a bacterium. The bacterium outside the cell is engulfed at the cell surface membrane and enclosed in a phagocytic vacuole. Lysosomes containing digestive enzymes fuse with the vacuole, the bacterium is digested, and the undigested remains are removed by exocytosis.",
+        "question": "State the role of the cell surface membrane of the white blood cell in the process shown.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the cell surface membrane as the boundary of the cell.",
+          "Explain that the cell surface membrane allows the bacterium to be engulfed."
+        ],
+        "hints": [
+          "Stay focused on this: State the role of the cell surface membrane of the white blood cell in the process shown — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The cell surface membrane of the white blood cell forms the boundary of the cell and allows the bacterium to be engulfed by the process of phagocytosis.",
+        "explanation": "Identify that the cell surface membrane is the boundary of the cell and explain its role in allowing the bacterium to be engulfed into the cell.",
+        "exam_question_id": "bd144990-c523-4ccd-b3ab-ec7257281085:1",
+        "topic_label": "Cell membranes and transport",
+        "topic_id": 338,
+        "image_url": "/textbook-images/cambridge/23/page97-embedded-0.jpeg",
+        "image_alt": "A drawing of a white blood cell (phagocyte) engulfing a bacterium. The bacterium outside the cell is engulfed at the cell surface membrane and enclosed in a phagocytic vacuole. Lysosomes containing digestive enzymes fuse with the vacuole, the bacterium is digested, and the undigested remains are removed by exocytosis.\nLabels: cell surface membrane of white blood cell (phagocyte), bacterium, phagocytic vacuole, bacterium engulfed, lysosomes, containing digestive enzymes, fuse with phagocytic vacuole, bacterium being digested, undigested remains of bacterium can be removed by exocytosis\nOriginal",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell membranes and transport"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a white blood cell (phagocyte) engulfing a bacterium. The bacterium outside the cell is engulfed at the cell surface membrane and enclosed in a phagocytic vacuole. Lysosomes containing digestive enzymes fuse with the vacuole, the bacterium is digested, and the undigested remains are removed by exocytosis.",
+        "question": "Explain why the fusion of lysosomes with the phagocytic vacuole is necessary for the digestion of the bacterium.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that lysosomes contain digestive enzymes.",
+          "Explain that the digestive enzymes are needed to break down the bacterium.",
+          "Describe the process of fusion and its role in the digestion process."
+        ],
+        "hints": [
+          "Recall the function of lysosomes in cells."
+        ],
+        "model_answer": "Lysosomes contain digestive enzymes that are necessary to break down the bacterium. The fusion of lysosomes with the phagocytic vacuole allows the digestive enzymes to come into contact with the bacterium, facilitating its digestion. This process ensures that the bacterium is broken down into simpler substances that can be utilized by the cell or removed from the cell.",
+        "explanation": "Explain that lysosomes contain digestive enzymes, which are necessary for breaking down the bacterium, and describe the process of fusion and its role in digestion.",
+        "exam_question_id": "bd144990-c523-4ccd-b3ab-ec7257281085:1",
+        "topic_label": "Cell membranes and transport",
+        "topic_id": 338,
+        "image_url": "/textbook-images/cambridge/23/page97-embedded-0.jpeg",
+        "image_alt": "A drawing of a white blood cell (phagocyte) engulfing a bacterium. The bacterium outside the cell is engulfed at the cell surface membrane and enclosed in a phagocytic vacuole. Lysosomes containing digestive enzymes fuse with the vacuole, the bacterium is digested, and the undigested remains are removed by exocytosis.\nLabels: cell surface membrane of white blood cell (phagocyte), bacterium, phagocytic vacuole, bacterium engulfed, lysosomes, containing digestive enzymes, fuse with phagocytic vacuole, bacterium being digested, undigested remains of bacterium can be removed by exocytosis\nOriginal",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell membranes and transport"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Golden Rice is a genetically modified variety of rice that has been engineered to contain beta-carotene, a precursor of vitamin A. Beta-carotene gives the rice a distinct yellow colour.",
+        "question": "Name the pigment that gives Golden Rice its yellow colour.",
+        "marks": 1,
+        "marking_criteria": [
+          "State that beta-carotene is the pigment giving Golden Rice its yellow colour."
+        ],
+        "hints": [
+          "Consider the information provided about Golden Rice."
+        ],
+        "model_answer": "Beta-carotene",
+        "explanation": "The question asks for the pigment responsible for the yellow colour in Golden Rice.",
+        "exam_question_id": "fba5cd44-5fc0-4463-97b2-5e4f3a87678b:1",
+        "topic_label": "Genetic technology",
+        "topic_id": 354,
+        "image_url": "/textbook-images/cambridge/23/page493-embedded-1.jpeg",
+        "image_alt": "Two open human hands held side by side over grass. The left hand holds a small pile of white rice grains, and the right hand holds a pile of yellow rice grains. The yellow grains are visibly different in colour from the white ones.\nLabels: \nOriginal exercise: The genetically modified rice is called Golden Rice, because it contains a lot of the orange pigment carotene (Figure 19.23).",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Golden Rice is a genetically modified variety of rice that has been engineered to contain beta-carotene, a precursor of vitamin A. Beta-carotene gives the rice a distinct yellow colour.",
+        "question": "Explain why Golden Rice is important in regions where vitamin A deficiency is common.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of beta-carotene as a precursor of vitamin A.",
+          "Describe the health benefits of vitamin A.",
+          "Relate the consumption of Golden Rice to the prevention or reduction of vitamin A deficiency."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Golden Rice contains beta-carotene, which is converted into vitamin A in the human body. Vitamin A is essential for maintaining good vision, immune function, and overall health. In regions where vitamin A deficiency is common, the consumption of Golden Rice can help prevent or reduce the incidence of vitamin A deficiency and its associated health problems.",
+        "explanation": "This part requires an explanation of the importance of Golden Rice in providing a source of vitamin A in regions where deficiency is prevalent.",
+        "exam_question_id": "fba5cd44-5fc0-4463-97b2-5e4f3a87678b:1",
+        "topic_label": "Genetic technology",
+        "topic_id": 354,
+        "image_url": "/textbook-images/cambridge/23/page493-embedded-1.jpeg",
+        "image_alt": "Two open human hands held side by side over grass. The left hand holds a small pile of white rice grains, and the right hand holds a pile of yellow rice grains. The yellow grains are visibly different in colour from the white ones.\nLabels: \nOriginal exercise: The genetically modified rice is called Golden Rice, because it contains a lot of the orange pigment carotene (Figure 19.23).",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a light micrograph of plant epidermal tissue in which the cells are roughly rectangular and polygonal. Each cell contains a large, dark red-pink stained region that fills most of the cell, with a thin pale area between it and the cell wall.",
+        "question": "Name the stained region in the plant cells shown in the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the stained region as the vacuole.",
+          "Mention the role of the vacuole in the cell."
+        ],
+        "hints": [
+          "Stay focused on this: Name the stained region in the plant cells shown in the diagram — develop the idea fully rather than listing short points. Make sure you also cover: Mention the role of the in the."
+        ],
+        "model_answer": "The stained region is the vacuole. The vacuole stores nutrients and waste products and helps maintain turgor pressure in the cell.",
+        "explanation": "The large, dark red-pink stained region in the plant cells is the vacuole, which plays a crucial role in storage and maintaining cell structure.",
+        "exam_question_id": "8a137098-b971-4080-891f-d6bcbe4ef114:1",
+        "topic_label": "Cell membranes and transport",
+        "topic_id": 338,
+        "image_url": "/textbook-images/cambridge/23/page95-embedded-0.jpeg",
+        "image_alt": "A light micrograph of plant epidermal tissue in which the cells are roughly rectangular and polygonal. Each cell contains a large, dark red-pink stained region that fills most of the cell, with a thin pale area between it and the cell wall. No labels, scale bar or values are printed.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell membranes and transport"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a light micrograph of plant epidermal tissue in which the cells are roughly rectangular and polygonal. Each cell contains a large, dark red-pink stained region that fills most of the cell, with a thin pale area between it and the cell wall.",
+        "question": "Explain why the rate of loss of red pigment from the root cells increases with higher temperatures.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the effect of temperature on membrane fluidity.",
+          "Explain how increased fluidity affects pigment leakage.",
+          "Relate this to the provided observation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the rate of loss of red pigment from the root cells increases with higher temperatures — develop the idea fully rather than listing short points. Make sure you also cover: the effect of temperature on; how affects pigment leakage.; Relate this to the provided observation."
+        ],
+        "model_answer": "Higher temperatures increase the fluidity of the cell membrane, allowing more molecules to move across it. This increased movement causes more red pigment to leak out of the cells into the water. This explains why the rate of loss of red pigment increases with higher temperatures.",
+        "explanation": "At higher temperatures, the cell membrane becomes more fluid, facilitating the movement of molecules, including the red pigment, out of the cells. This leads to a higher rate of pigment leakage.",
+        "exam_question_id": "8a137098-b971-4080-891f-d6bcbe4ef114:1",
+        "topic_label": "Movement of substances into and out of cells",
+        "topic_id": 338,
+        "image_url": "/textbook-images/cambridge/23/page95-embedded-0.jpeg",
+        "image_alt": "A light micrograph of plant epidermal tissue in which the cells are roughly rectangular and polygonal. Each cell contains a large, dark red-pink stained region that fills most of the cell, with a thin pale area between it and the cell wall. No labels, scale bar or values are printed.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 1468,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Movement of substances into and out of cells"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The figure shows the CFTR (cystic fibrosis transmembrane conductance regulator) protein in a cell surface membrane. The diagram depicts a phospholipid bilayer with spheres for the heads and wavy tails. A membrane protein (CFTR) spans the bilayer. Its upper part has two branched chains of hexagonal units (carbohydrate chains) on the side above the membrane. Its lower part has large coiled loops in the space below the membrane.",
+        "question": "Describe the normal function of the CFTR protein.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the role of the CFTR protein in the cell surface membrane.",
+          "Mention the specific ions or molecules involved in the transport process."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the normal function of the CFTR protein — develop the idea fully rather than listing short points. Make sure you also cover: Mention the specific or molecules involved in the transport."
+        ],
+        "model_answer": "The CFTR protein functions as a chloride ion channel in the cell surface membrane, allowing the movement of chloride ions across the membrane. This process is crucial for maintaining the balance of ions and water in the cell, which affects cellular processes such as the movement of water by osmosis.",
+        "explanation": "The CFTR protein is a type of ion channel that specifically allows chloride ions to pass through the cell membrane. Its role is vital for the proper functioning of cells, particularly in the regulation of water and ion balance.",
+        "exam_question_id": "518fb138-b7cd-44f5-bd8c-d93dd0ee0ca7:1",
+        "topic_label": "Cell membranes and transport",
+        "topic_id": 338,
+        "image_url": "/textbook-images/textbook-bank/23/p499-f0.png",
+        "image_alt": "A diagram of a cell surface membrane made of a phospholipid bilayer with spheres for the heads and wavy tails. A membrane protein (CFTR) spans the bilayer. Its upper part has two branched chains of hexagonal units (carbohydrate chains) on the side above the membrane. Its lower part has large coiled loops in the space below the membrane. There are no labels.\nLabels: \nOriginal exercise: 9 The figure shows the CFTR (cystic fibrosis transmembrane conductance regulator) protein in a cell surface membrane.\na i Describe the normal function of the CFTR protein.\n[2]\nii Use the letter E to indicate the ",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell membranes and transport"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The figure shows the CFTR (cystic fibrosis transmembrane conductance regulator) protein in a cell surface membrane. The diagram depicts a phospholipid bilayer with spheres for the heads and wavy tails. A membrane protein (CFTR) spans the bilayer. Its upper part has two branched chains of hexagonal units (carbohydrate chains) on the side above the membrane. Its lower part has large coiled loops in the space below the membrane.",
+        "question": "Use the letter E to indicate the external face of the membrane. State how you identified this face.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the external face of the membrane based on the diagram."
+        ],
+        "hints": [
+          "Look for features that distinguish the outside from the inside of the membrane."
+        ],
+        "model_answer": "The external face of the membrane is indicated by the side with the branched chains of hexagonal units (carbohydrate chains). These chains are typically found on the outside of the cell membrane.",
+        "explanation": "The carbohydrate chains are part of the glycoproteins on the extracellular side of the membrane, making them a clear indicator of the external face.",
+        "exam_question_id": "518fb138-b7cd-44f5-bd8c-d93dd0ee0ca7:1",
+        "topic_label": "Cell membranes and transport",
+        "topic_id": 338,
+        "image_url": "/textbook-images/textbook-bank/23/p499-f0.png",
+        "image_alt": "A diagram of a cell surface membrane made of a phospholipid bilayer with spheres for the heads and wavy tails. A membrane protein (CFTR) spans the bilayer. Its upper part has two branched chains of hexagonal units (carbohydrate chains) on the side above the membrane. Its lower part has large coiled loops in the space below the membrane. There are no labels.\nLabels: \nOriginal exercise: 9 The figure shows the CFTR (cystic fibrosis transmembrane conductance regulator) protein in a cell surface membrane.\na i Describe the normal function of the CFTR protein.\n[2]\nii Use the letter E to indicate the ",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell membranes and transport"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A genetically engineered crop has been developed to produce a specific protein that acts as a natural pesticide. The protein is produced within the plant cells and is secreted into the cell wall, where it provides protection against insect pests.",
+        "question": "Describe the role of the cell wall in the secretion of the pesticide protein.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the structure and function of the cell wall.",
+          "Explain how the cell wall facilitates the secretion of the pesticide protein.",
+          "Discuss the potential benefits and drawbacks of this genetically engineered crop."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the cell wall in the secretion of the pesticide protein — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the benefits and of this."
+        ],
+        "model_answer": "The cell wall is a rigid structure that surrounds the cell membrane and provides support and protection to the plant cell. It is composed of cellulose, hemicellulose, and lignin, which form a complex network that allows for the secretion of proteins and other molecules into the extracellular space. In the case of the genetically engineered crop, the cell wall allows for the secretion of the pesticide protein into the cell wall, where it can provide protection against insect pests. This can be beneficial for reducing the use of chemical pesticides, but there may also be potential drawbacks such as the development of resistance in pests or unintended effects on non-target organisms.",
+        "explanation": "Describe the role of the cell wall in the secretion of the pesticide protein, considering its structure and function, and discuss the potential benefits and drawbacks of this genetically engineered crop.",
+        "exam_question_id": "b0dc2e24-e4e0-4b5b-aa2a-e8346545c424:1",
+        "topic_label": "Genetic technology and medicine (Genetic technology)",
+        "topic_id": 354,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and medicine (Genetic technology)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A genetically engineered crop has been developed to produce a specific protein that acts as a natural pesticide. The protein is produced within the plant cells and is secreted into the cell wall, where it provides protection against insect pests.",
+        "question": "Explain how the secretion of the pesticide protein into the cell wall can provide protection against insect pests.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the mechanism of action of the pesticide protein.",
+          "Describe how the secretion of the protein into the cell wall provides protection against insect pests.",
+          "Discuss the potential benefits and drawbacks of this genetically engineered crop."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "The pesticide protein produced by the genetically engineered crop acts as a natural insecticide by interfering with the normal functioning of the insect pests. When the pests feed on the plant, they ingest the pesticide protein, which can disrupt their digestive system or interfere with their nervous system, leading to their death. The secretion of the protein into the cell wall allows it to be present in the plant tissue, providing protection against insect pests. This can be beneficial for reducing the use of chemical pesticides, but there may also be potential drawbacks such as the development of resistance in pests or unintended effects on non-target organisms.",
+        "explanation": "Explain how the secretion of the pesticide protein into the cell wall can provide protection against insect pests, considering the mode of action of the protein and its effects on pests.",
+        "exam_question_id": "b0dc2e24-e4e0-4b5b-aa2a-e8346545c424:1",
+        "topic_label": "Genetic technology and medicine (Genetic technology)",
+        "topic_id": 354,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and medicine (Genetic technology)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A genetically engineered crop has been developed to produce a specific protein that acts as a natural pesticide. The protein is produced within the plant cells and is secreted into the cell wall, where it provides protection against insect pests.",
+        "question": "Discuss the potential benefits and drawbacks of this genetically engineered crop.",
+        "marks": 3,
+        "marking_criteria": [
+          "Discuss the potential benefits of the genetically engineered crop.",
+          "Discuss the potential drawbacks of the genetically engineered crop.",
+          "Consider the balance between the benefits and drawbacks."
+        ],
+        "hints": [
+          "Stay focused on this: Discuss the potential benefits and drawbacks of this genetically engineered crop — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The genetically engineered crop has the potential to reduce the use of chemical pesticides, which can have negative effects on the environment and human health. The natural pesticide produced by the crop can provide protection against insect pests, potentially reducing the need for chemical pesticides. However, there may also be potential drawbacks such as the development of resistance in pests or unintended effects on non-target organisms. The balance between the benefits and drawbacks needs to be carefully considered, taking into account factors such as the potential impact on the environment, human health, and agricultural practices.",
+        "explanation": "Discuss the potential benefits and drawbacks of the genetically engineered crop, considering factors such as the reduction of chemical pesticide use, the development of resistance in pests, and unintended effects on non-target organisms.",
+        "exam_question_id": "b0dc2e24-e4e0-4b5b-aa2a-e8346545c424:1",
+        "topic_label": "Genetic technology and medicine (Genetic technology)",
+        "topic_id": 354,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and medicine (Genetic technology)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cell membrane is composed of a phospholipid bilayer with embedded proteins. The phospholipids have hydrophilic heads and hydrophobic tails.",
+        "question": "Describe the role of the hydrophilic heads in the structure of the cell membrane.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of hydrophilic heads in the cell membrane.",
+          "Explanation of the interaction between hydrophilic heads and water.",
+          "Role of hydrophilic heads in maintaining the integrity of the cell membrane."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the hydrophilic heads in the structure of the cell membrane — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The hydrophilic heads of the phospholipids interact with water, forming a barrier that separates the aqueous environments inside and outside the cell. This interaction helps maintain the integrity and fluidity of the cell membrane.",
+        "explanation": "This question aims to test your understanding of the structure of the cell membrane and the role of hydrophilic heads in it.",
+        "exam_question_id": "2ad9142a-e65d-4e92-9503-f11422bf6e43:1",
+        "topic_label": "Cell signalling (Cell membranes and transport)",
+        "topic_id": 338,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell signalling (Cell membranes and transport)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cell membrane is composed of a phospholipid bilayer with embedded proteins. The phospholipids have hydrophilic heads and hydrophobic tails.",
+        "question": "Explain how the hydrophobic tails contribute to the barrier function of the cell membrane.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of hydrophobic tails in the cell membrane.",
+          "Explanation of the interaction between hydrophobic tails and water.",
+          "Role of hydrophobic tails in maintaining the barrier function of the cell membrane."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the hydrophobic tails contribute to the barrier function of the cell membrane — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the interaction between hydrophobic tails and."
+        ],
+        "model_answer": "The hydrophobic tails of the phospholipids face each other in the interior of the cell membrane, creating a barrier that prevents the free passage of water-soluble substances. This hydrophobic core contributes to the selective permeability of the cell membrane, allowing only certain substances to pass through.",
+        "explanation": "This question aims to test your understanding of the barrier function of the cell membrane and the role of hydrophobic tails in it.",
+        "exam_question_id": "2ad9142a-e65d-4e92-9503-f11422bf6e43:1",
+        "topic_label": "Cell signalling (Cell membranes and transport)",
+        "topic_id": 338,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell signalling (Cell membranes and transport)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A researcher is studying the effect of a drug on the permeability of a cell membrane to a specific ion.",
+        "question": "State the independent variable in this experiment.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identification of the independent variable in the experiment."
+        ],
+        "hints": [
+          "Consider what the researcher is manipulating or changing in the experiment."
+        ],
+        "model_answer": "The independent variable in this experiment is the concentration of the drug.",
+        "explanation": "This question aims to test your understanding of the concept of independent variables in an experiment.",
+        "exam_question_id": "2ad9142a-e65d-4e92-9503-f11422bf6e43:3",
+        "topic_label": "Cell signalling (Cell membranes and transport)",
+        "topic_id": 338,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell signalling (Cell membranes and transport)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A researcher is studying the effect of a drug on the permeability of a cell membrane to a specific ion.",
+        "question": "Explain how the researcher could control for the effect of temperature on the permeability of the cell membrane.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the effect of temperature on membrane permeability.",
+          "Explanation of how temperature can be controlled in the experiment.",
+          "Connection between temperature control and the reliability of the results."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the researcher could control for the effect of temperature on the permeability of the cell membrane — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The researcher can control for the effect of temperature by conducting the experiment at a constant temperature using a water bath or a temperature-controlled environment. By maintaining a constant temperature, the researcher can ensure that any changes in permeability are due to the drug and not variations in temperature. This control enhances the reliability of the results and allows for a more accurate assessment of the drug's effect on membrane permeability.",
+        "explanation": "This question aims to test your understanding of experimental controls and their importance in ensuring the validity of results.",
+        "exam_question_id": "2ad9142a-e65d-4e92-9503-f11422bf6e43:3",
+        "topic_label": "Cell signalling (Cell membranes and transport)",
+        "topic_id": 338,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Cell signalling (Cell membranes and transport)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A researcher is studying the effect of temperature on the activity of a specific enzyme involved in genetic technology. The enzyme is extracted from a genetically modified organism and its activity is measured at different temperatures.",
+        "question": "Calculate the percentage change in enzyme activity from 20°C to 30°C if the activity at 20°C is 50 units and at 30°C is 75 units.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of percentage change.",
+          "Use of the formula for percentage change.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Use the formula: ((New Value - Old Value) / Old Value) * 100."
+        ],
+        "model_answer": "Percentage change = ((75 - 50) / 50) * 100 = 50%.",
+        "explanation": "Calculate the percentage change in enzyme activity using the given values and the formula for percentage change.",
+        "exam_question_id": "cd7afd8e-cafd-4563-87d2-34219f72b7d9:1",
+        "topic_label": "Genetic technology and agriculture",
+        "topic_id": 354,
+        "checked": true,
+        "subtopic_id": 1599,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and agriculture"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A researcher is studying the effect of temperature on the activity of a specific enzyme involved in genetic technology. The enzyme is extracted from a genetically modified organism and its activity is measured at different temperatures.",
+        "question": "Explain why the enzyme activity increases with temperature up to a certain point and then decreases.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of enzyme activity and temperature relationship.",
+          "Explanation of the optimal temperature for enzyme activity.",
+          "Explanation of the denaturation of enzymes at high temperatures."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the enzyme activity increases with temperature up to a certain point and then decreases — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the of at high."
+        ],
+        "model_answer": "Enzyme activity increases with temperature up to an optimal point because higher temperatures increase molecular motion, leading to more collisions between enzymes and substrates. Beyond this optimal temperature, enzyme activity decreases due to denaturation, where the enzyme's structure is altered, rendering it inactive.",
+        "explanation": "Explain the relationship between enzyme activity and temperature, including the optimal temperature and the effect of high temperatures on enzyme structure.",
+        "exam_question_id": "cd7afd8e-cafd-4563-87d2-34219f72b7d9:1",
+        "topic_label": "Genetic technology and agriculture",
+        "topic_id": 354,
+        "checked": true,
+        "subtopic_id": 1599,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and agriculture"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A researcher is studying the effect of a drug on the permeability of a cell membrane to a specific ion. The drug is applied to the cell membrane and its effect on ion permeability is measured.",
+        "question": "State the independent variable in this experiment.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the variable that is manipulated by the researcher.",
+          "Correct identification of the independent variable."
+        ],
+        "hints": [
+          "Consider what the researcher is changing in the experiment."
+        ],
+        "model_answer": "The independent variable is the drug.",
+        "explanation": "Identify the variable that is being manipulated by the researcher in the experiment.",
+        "exam_question_id": "cd7afd8e-cafd-4563-87d2-34219f72b7d9:2",
+        "topic_label": "Genetic technology and medicine (Genetic technology)",
+        "topic_id": 354,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and medicine (Genetic technology)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A researcher is studying the effect of a drug on the permeability of a cell membrane to a specific ion. The drug is applied to the cell membrane and its effect on ion permeability is measured.",
+        "question": "Explain how the researcher could control for the effect of temperature on the permeability of the cell membrane.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the effect of temperature on cell membrane permeability.",
+          "Explanation of methods to control for temperature effects.",
+          "Relevance to the experiment."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the researcher could control for the effect of temperature on the permeability of the cell membrane — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of methods to control for temperature effects.; Relevance to the."
+        ],
+        "model_answer": "The researcher could control for the effect of temperature by maintaining a constant temperature throughout the experiment using a water bath or a temperature-controlled environment. This ensures that any changes in ion permeability are due to the drug and not temperature variations.",
+        "explanation": "Explain how the researcher can control for the effect of temperature on cell membrane permeability to ensure accurate results.",
+        "exam_question_id": "cd7afd8e-cafd-4563-87d2-34219f72b7d9:2",
+        "topic_label": "Genetic technology and medicine (Genetic technology)",
+        "topic_id": 354,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and medicine (Genetic technology)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A researcher is studying the effect of a drug on the permeability of a cell membrane to a specific ion. The drug is applied to the cell membrane and its effect on ion permeability is measured.",
+        "question": "Describe the role of the hydrophilic heads in the structure of the cell membrane.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the role of hydrophilic heads in cell membrane structure.",
+          "Explanation of how hydrophilic heads contribute to membrane structure.",
+          "Relevance to the barrier function of the cell membrane."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the hydrophilic heads in the structure of the cell membrane — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The hydrophilic heads of phospholipids in the cell membrane interact with water, forming a barrier that separates the aqueous environments inside and outside the cell. This hydrophilic barrier helps maintain the cell's internal environment and regulates the passage of substances across the membrane.",
+        "explanation": "Describe the role of the hydrophilic heads in the structure of the cell membrane and how they contribute to its barrier function.",
+        "exam_question_id": "cd7afd8e-cafd-4563-87d2-34219f72b7d9:2",
+        "topic_label": "Genetic technology and medicine (Genetic technology)",
+        "topic_id": 354,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Genetic technology and medicine (Genetic technology)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are given a sample of beetroot root cells and you want to investigate the effect of temperature on the permeability of the cell membrane to a specific ion.",
+        "question": "State the independent variable in this experiment.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the factor being changed by the experimenter (temperature).",
+          "Recognise the independent variable as the factor that is intentionally varied to observe its effect on the dependent variable."
+        ],
+        "hints": [
+          "Stay focused on this: State the independent variable in this experiment — develop the idea fully rather than listing short points. Make sure you also cover: Identify the factor being changed by the experimenter."
+        ],
+        "model_answer": "The independent variable in this experiment is temperature.",
+        "explanation": "The independent variable is the one that is changed or controlled by the experimenter to observe its effect on the dependent variable, which in this case is the permeability of the cell membrane.",
+        "exam_question_id": "6d4e5c44-8975-412c-835c-31811ad5f01e:1",
+        "topic_label": "Phospholipids (Cell membranes and transport)",
+        "topic_id": 338,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Phospholipids (Cell membranes and transport)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are given a sample of beetroot root cells and you want to investigate the effect of temperature on the permeability of the cell membrane to a specific ion.",
+        "question": "Explain how the researcher could control for the effect of temperature on the permeability of the cell membrane.",
+        "marks": 3,
+        "marking_criteria": [
+          "Suggest a method to maintain a constant temperature (e.g., using a water bath or temperature-controlled environment).",
+          "Discuss the importance of controlling other variables that could affect permeability.",
+          "Explain how controlling temperature ensures that any observed changes in permeability are due to the independent variable (temperature)."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the researcher could control for the effect of temperature on the permeability of the cell membrane — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the importance of controlling that could permeability."
+        ],
+        "model_answer": "The researcher could control for the effect of temperature by maintaining a constant temperature throughout the experiment using a water bath or a temperature-controlled environment. This ensures that the only variable affecting the permeability of the cell membrane is the temperature. Additionally, the researcher should control for other variables that could affect permeability, such as the concentration of the ion being studied and the duration of the experiment.",
+        "explanation": "By controlling the temperature, the researcher can ensure that any changes in the permeability of the cell membrane are due to the temperature and not other factors.",
+        "exam_question_id": "6d4e5c44-8975-412c-835c-31811ad5f01e:1",
+        "topic_label": "Phospholipids (Cell membranes and transport)",
+        "topic_id": 338,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS and A Level Biology Coursebook",
+          "area": "Phospholipids (Cell membranes and transport)"
+        }
+      }
+    ],
+    "estimated_time": 58,
+    "assessment_id": "12326bec-efc0-4dad-84b5-96e1e854c4df",
+    "subject": "Cambridge International AS and A Level Biology Coursebook ",
+    "topics": [
+      "Genetic technology",
+      "Cell membranes and transport"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 23,
+    "topic_ids": [
+      354,
+      338
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 22,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 15"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "3b",
+        "severity": "broken or poor",
+        "detail": "The question and model answer incorrectly describe the context of the figure. The figure shows plant epidermal tissue, not root cells. The explanation should relate to the effect of temperature on the permeability of the cell membrane in plant epidermal cells.",
+        "correction": "Higher temperatures increase the fluidity of the cell membrane in plant epidermal cells, allowing more molecules to move across it. This increased movement causes more substances to leak out of the cells. This explains why the rate of loss of substances increases with higher temperatures."
+      },
+      {
+        "label": "9c",
+        "severity": "broken or poor",
+        "detail": "The question and model answer incorrectly associate the role of hydrophilic heads with genetic technology. The role of hydrophilic heads is a fundamental aspect of cell membrane structure and is not specific to genetic technology.",
+        "correction": "The hydrophilic heads of phospholipids in the cell membrane interact with water, forming a barrier that separates the aqueous environments inside and outside the cell. This hydrophilic barrier helps maintain the cell's internal environment and regulates the passage of substances across the membrane."
+      }
+    ],
+    "summary": "Minor issues with context and association in two questions."
+  },
+  "totalSeconds": 33
+}

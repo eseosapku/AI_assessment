@@ -1,0 +1,328 @@
+{
+  "status": "passed",
+  "seed": 569222779,
+  "metrics": {
+    "cases": 20,
+    "passed": 20,
+    "reb": 10,
+    "cambridge": 10,
+    "numberedQuestions": 240,
+    "answerParts": 531,
+    "attachedImages": 48,
+    "minSeconds": 22,
+    "medianSeconds": 60,
+    "maxSeconds": 181
+  },
+  "environment": "Optimized next build served with next start; isolated production verification server on port 3101. Successful cases retained; affected cases rerun against the final build.",
+  "model": "amazon.nova-lite-v1:0",
+  "extraPaidReviewer": false,
+  "unitTests": {
+    "passed": 3178,
+    "files": 261
+  },
+  "productionBuild": "passed, including TypeScript",
+  "checks": [
+    "HTTP 200",
+    "Exact requested numbered count",
+    "Two or three parts per numbered question; no part after c",
+    "Attached images return an image successfully",
+    "Deterministic answerability and structure audit"
+  ],
+  "fixes": [
+    "Accept bare JSON arrays and nested numbered question parts instead of silently discarding valid model output.",
+    "Explicit parent-question schema separates requested question count from answer-part count.",
+    "Recognise numbered uppercase pseudocode in shared exam scenarios.",
+    "Keep valid model answers when an unchanged rubric only needs an explanation correction.",
+    "Filter figures to selected topic and its sections.",
+    "Check standard numerical projectile answers directly, including launch height and return height."
+  ],
+  "cases": [
+    {
+      "index": 1,
+      "curriculum": "cambridge",
+      "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+      "topics": [
+        "Projectiles"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 20,
+      "images": 0,
+      "seconds": 26,
+      "status": 200
+    },
+    {
+      "index": 2,
+      "curriculum": "cambridge",
+      "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+      "topics": [
+        "Testing conditions: Developing games",
+        "Data input: Data collection and validation"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 23,
+      "images": 1,
+      "seconds": 74,
+      "status": 200
+    },
+    {
+      "index": 3,
+      "curriculum": "cambridge",
+      "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+      "topics": [
+        "Chapter 18: Economic growth"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 21,
+      "images": 4,
+      "seconds": 52,
+      "status": 200
+    },
+    {
+      "index": 4,
+      "curriculum": "rwanda",
+      "subject": "ICT S5 Adapted SB",
+      "topics": [
+        "E-Commerce, Social Media and Online Services"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 21,
+      "images": 4,
+      "seconds": 86,
+      "status": 200
+    },
+    {
+      "index": 5,
+      "curriculum": "rwanda",
+      "subject": "Computer Science S6 SB",
+      "topics": [
+        "Multimedia",
+        "Collections in Java"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 20,
+      "images": 2,
+      "seconds": 37,
+      "status": 200
+    },
+    {
+      "index": 6,
+      "curriculum": "rwanda",
+      "subject": "English S1",
+      "topics": [
+        "UNIT 5: BOOKS AND SCHOOL WORK HABITS"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 25,
+      "images": 0,
+      "seconds": 42,
+      "status": 200
+    },
+    {
+      "index": 7,
+      "curriculum": "rwanda",
+      "subject": "Economics S5 SB",
+      "topics": [
+        "Price Indices",
+        "Public Finance 2"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 28,
+      "images": 0,
+      "seconds": 118,
+      "status": 200
+    },
+    {
+      "index": 8,
+      "curriculum": "rwanda",
+      "subject": "P2 Mathematics PB",
+      "topics": [
+        "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 20,
+      "images": 0,
+      "seconds": 22,
+      "status": 200
+    },
+    {
+      "index": 9,
+      "curriculum": "cambridge",
+      "subject": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+      "topics": [
+        "Chapter 18: a Draw the graph of In m against t.",
+        "Chapter 13: Further vector notation"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 22,
+      "images": 6,
+      "seconds": 40,
+      "status": 200
+    },
+    {
+      "index": 10,
+      "curriculum": "rwanda",
+      "subject": "Geography S4 SB",
+      "topics": [
+        "Soils in Rwanda"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 29,
+      "images": 6,
+      "seconds": 54,
+      "status": 200
+    },
+    {
+      "index": 11,
+      "curriculum": "rwanda",
+      "subject": "Biology S6 Student Book ",
+      "topics": [
+        "Variation"
+      ],
+      "requested": 20,
+      "generated": 20,
+      "parts": 40,
+      "images": 0,
+      "seconds": 181,
+      "status": 200
+    },
+    {
+      "index": 12,
+      "curriculum": "rwanda",
+      "subject": "Geography S5 SB (1)",
+      "topics": [
+        "Statistical Graphs, Diagrams and Maps"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 22,
+      "images": 4,
+      "seconds": 69,
+      "status": 200
+    },
+    {
+      "index": 13,
+      "curriculum": "cambridge",
+      "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+      "topics": [
+        "Chapter 7: Energy resources"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 24,
+      "images": 5,
+      "seconds": 89,
+      "status": 200
+    },
+    {
+      "index": 14,
+      "curriculum": "cambridge",
+      "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+      "topics": [
+        "Chapter 4: Deﬁ nition, investigation and analysis"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 20,
+      "images": 0,
+      "seconds": 50,
+      "status": 200
+    },
+    {
+      "index": 15,
+      "curriculum": "cambridge",
+      "subject": "Cambridge IGCSE® English as a Second Language Coursebook",
+      "topics": [
+        "Unit 16: Social media"
+      ],
+      "requested": 20,
+      "generated": 20,
+      "parts": 40,
+      "images": 0,
+      "seconds": 120,
+      "status": 200
+    },
+    {
+      "index": 16,
+      "curriculum": "cambridge",
+      "subject": "Cambridge IGCSE™ ICT Coursebook ",
+      "topics": [
+        "Types and components of computer systems"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 20,
+      "images": 1,
+      "seconds": 42,
+      "status": 200
+    },
+    {
+      "index": 17,
+      "curriculum": "cambridge",
+      "subject": "Cambridge International AS & A Level Physics Coursebook",
+      "topics": [
+        "Chapter 3: Dynamics – explaining motion",
+        "Chapter 4: Forces – vectors and moments"
+      ],
+      "requested": 20,
+      "generated": 20,
+      "parts": 56,
+      "images": 10,
+      "seconds": 176,
+      "status": 200
+    },
+    {
+      "index": 18,
+      "curriculum": "rwanda",
+      "subject": "Economics S4 SB",
+      "topics": [
+        "Theory of demand",
+        "Price mechanism"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 20,
+      "images": 3,
+      "seconds": 66,
+      "status": 200
+    },
+    {
+      "index": 19,
+      "curriculum": "cambridge",
+      "subject": "Cambridge Primary Science 5 Learners Book ",
+      "topics": [
+        "States of matter"
+      ],
+      "requested": 10,
+      "generated": 10,
+      "parts": 20,
+      "images": 2,
+      "seconds": 40,
+      "status": 200
+    },
+    {
+      "index": 20,
+      "curriculum": "rwanda",
+      "subject": "Core Math S4 SB",
+      "topics": [
+        "Unit 6: Quadratic equations and inequalities"
+      ],
+      "requested": 20,
+      "generated": 20,
+      "parts": 40,
+      "images": 0,
+      "seconds": 89,
+      "status": 200
+    }
+  ],
+  "limits": "This is a finite production-bundle sample, not a guarantee for every future AI answer or provider outage. Cloud deployment was not performed; BACKEND_INTERNAL_BASE_URL must allow long requests."
+}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { isNotNullViolation, pgErrorMessage } from '@/lib/pg-errors'
 import { sortBySyllabusOrder } from '@/lib/syllabus-order'
+import { isLearningTitle } from '@/lib/curriculum-title'
 
 function parseOptionalId(value: unknown, fieldName: string) {
     if (value === undefined) return { value: undefined as number | undefined }
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
         }
 
         const result = await db.query(sql, values)
-        const sorted = sortBySyllabusOrder(result.rows ?? [], 'subtopic')
+        const sorted = sortBySyllabusOrder((result.rows ?? []).filter((row: any) => isLearningTitle(row.subtopic)), 'subtopic')
         const normalized = sorted.map((row: any) => ({
             id: row.subtopic_id,
             textbook_id: row.textbook_id,

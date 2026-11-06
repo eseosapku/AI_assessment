@@ -1,0 +1,247 @@
+{
+  "index": 3,
+  "label": "REB / Practice / P2-English-PB",
+  "request": {
+    "subject": "P2-English-PB",
+    "textbook_id": 146,
+    "topic_ids": [
+      1518,
+      1516
+    ],
+    "topics": [
+      "Weather",
+      "Stories and descriptions"
+    ],
+    "curriculum": "rwanda",
+    "grade": 2,
+    "className": "P2",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3392178121,
+  "error": "ValidationException: Access to Anthropic models is not allowed for this account.",
+  "stage": "complete",
+  "generationSeconds": 13,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What colour was the sky when Tim and Sam went to the park?",
+        "options": [
+          "Red",
+          "Blue",
+          "Green",
+          "Yellow"
+        ],
+        "correct_answer": 1,
+        "explanation": "The passage states, 'The sky was blue.' This directly answers the question about the sky's colour. The other options are not mentioned in the passage.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Weather",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "What did Tim have with him at the park?",
+        "options": [
+          "A red kite",
+          "A swing",
+          "A cat",
+          "A blue ball"
+        ],
+        "correct_answer": 0,
+        "explanation": "Tim had a red kite, as mentioned in the passage: 'Tim had a red kite.' The other options are not associated with Tim.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Stories and descriptions",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "What did Sam throw at the park?",
+        "options": [
+          "A cat",
+          "A kite",
+          "A ball",
+          "A swing"
+        ],
+        "correct_answer": 2,
+        "explanation": "Sam threw his blue ball, as stated in the passage: 'Sam threw his ball.' The other options are not what Sam threw.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Weather",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "How was the wind when Tim and Sam were at the park?",
+        "options": [
+          "Windy",
+          "Calm",
+          "Strong",
+          "Gentle"
+        ],
+        "correct_answer": 3,
+        "explanation": "The wind was gentle, as mentioned in the passage: 'The wind was gentle.' The other options do not match the description given.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Stories and descriptions",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "What did the birds do in the trees?",
+        "options": [
+          "Flew away",
+          "Chirped",
+          "Slept",
+          "Built nests"
+        ],
+        "correct_answer": 1,
+        "explanation": "The birds chirped in the trees, as stated in the passage: 'Birds chirped in the trees.' The other options are not mentioned in the passage.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Weather",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "What colour was the cat they saw at the park?",
+        "options": [
+          "Black",
+          "Grey",
+          "Brown",
+          "White"
+        ],
+        "correct_answer": 0,
+        "explanation": "The cat was black, as mentioned in the passage: 'The cat was black.' The other options are not the colour of the cat.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Stories and descriptions",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "What did Tim and Sam do at the park?",
+        "options": [
+          "They slept",
+          "They read books",
+          "They played on the swings",
+          "They watched TV"
+        ],
+        "correct_answer": 2,
+        "explanation": "Tim and Sam played on the swings, as stated in the passage: 'They played on the swings.' The other options are not activities mentioned in the passage.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Weather",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What did Tim fly high in the sky?",
+        "options": [
+          "A bird",
+          "A plane",
+          "A ball",
+          "A kite"
+        ],
+        "correct_answer": 3,
+        "explanation": "Tim flew his kite high, as mentioned in the passage: 'Tim flew his kite high.' The other options are not what Tim flew.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Stories and descriptions",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "What did Tim and Sam do when they saw the cat?",
+        "options": [
+          "They ignored it",
+          "They smiled at it",
+          "They ran away",
+          "They chased it"
+        ],
+        "correct_answer": 1,
+        "explanation": "They smiled at the cat, as mentioned in the passage: 'They smiled at the cat.' The other options are not what they did.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Weather",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "What colour was the kite Tim had?",
+        "options": [
+          "Red",
+          "Blue",
+          "Yellow",
+          "Green"
+        ],
+        "correct_answer": 0,
+        "explanation": "The passage states, 'Tim had a red kite.' This directly tells us the colour of the kite Tim had, making 'Red' the correct answer. The other options are colours mentioned elsewhere in the passage but not for Tim's kite.",
+        "passage": "Tim and Sam went to the park. The sky was blue. They saw a big, fluffy cloud. Tim had a red kite. Sam had a blue ball. \n\nThey played on the swings. The wind was gentle. It was a sunny day. Birds chirped in the trees. \n\nTim flew his kite high. Sam threw his ball. They laughed and ran. The sun shone bright. \n\nThey saw a cat. The cat was black. It watched them play. They smiled at the cat. \n\nThey went home for lunch. They told their mom about the park. She made them sandwiches. They ate and felt happy.",
+        "passage_source": "Original passage written for Grade 2 students",
+        "topic_label": "Stories and descriptions",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "41089f58-2a64-4d36-89d3-d6bb4fddaf9e",
+    "subject": "P2-English-PB",
+    "topics": [
+      "Weather",
+      "Stories and descriptions"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mcq",
+    "textbook_id": 146,
+    "topic_ids": [
+      1518,
+      1516
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "totalSeconds": 14
+}

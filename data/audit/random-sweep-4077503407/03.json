@@ -1,0 +1,998 @@
+{
+  "index": 3,
+  "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+  "request": {
+    "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+    "textbook_id": 15,
+    "topic_ids": [
+      175,
+      176
+    ],
+    "topics": [
+      "Theme 1: Population and Settlement",
+      "Global Theme 1: HIV/AIDS"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 194,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Study the diagram titled 'Percentage of population living in LEDC cities'. It shows the percentage of the total population living in cities for three regions (Asia, Africa, South America) over the years 1950, 1975, 1995, and 2030 (estimate).",
+        "question": "Describe the trend in urbanisation in Asia from 1950 to 2030 (estimate) as shown in the diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the trend (increasing, decreasing, stable).",
+          "Mention of specific data points from the diagram.",
+          "Clear description of the trend over the years."
+        ],
+        "hints": [
+          "Look at the height of the bars for Asia over the years."
+        ],
+        "model_answer": "The trend in urbanisation in Asia shows a steady increase from 17% in 1950 to an estimated 45% in 2030. The data points indicate a gradual rise each decade.",
+        "explanation": "Describe the overall trend by looking at the height of the bars for Asia across the years.",
+        "exam_question_id": "1b26a311-32ca-47ab-acd3-9bdfd9af28b3:1",
+        "topic_label": "Theme 1: Population and Settlement",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s61-f1.jpg",
+        "image_alt": "A 3D bar chart titled 'Percentage of population living in LEDC cities'. Bars drawn as buildings show three regions (Asia in purple, Africa in red, South America in yellow) for the years 1950, 1975, 1995 and 2030 (estimate). The vertical axis is '% of total population living in LEDC cities' from 0 to 80 in steps of 10. Approximate values: Asia about 17, 23, 32, 45; Africa about 27, 35, 43, 55; South America about 65, 76, 78, 85.\nLabels: B, Percentage of population living in LEDC cities, % of total population living in LEDC cities, 80, 70, 60, 50, 40, 30, 20, 10, 0, 1950, 1975, 1995, 2030, (Esti",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Theme 1: Population and Settlement"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Study the diagram titled 'Percentage of population living in LEDC cities'. It shows the percentage of the total population living in cities for three regions (Asia, Africa, South America) over the years 1950, 1975, 1995, and 2030 (estimate).",
+        "question": "Explain why the rate of urbanisation in Africa is expected to be higher in 2030 compared to 1950.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention of specific data points from the diagram.",
+          "Explanation of factors influencing urbanisation.",
+          "Link between factors and the data points."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the rate of urbanisation in Africa is expected to be higher in 2030 compared to 1950 — develop the idea fully rather than listing short points. Make sure you also cover: Mention of specific data points from the diagram.; Explanation of factors influencing urbanisation.; Link between…."
+        ],
+        "model_answer": "The rate of urbanisation in Africa is expected to be higher in 2030 (55%) compared to 1950 (27%) due to economic growth and increased job opportunities in cities. Rural-urban migration also contributes to this trend as people move to cities for better living conditions.",
+        "explanation": "Explain the factors that might lead to higher urbanisation rates and link them to the data points from the diagram.",
+        "exam_question_id": "1b26a311-32ca-47ab-acd3-9bdfd9af28b3:1",
+        "topic_label": "Factors influencing population density",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s61-f1.jpg",
+        "image_alt": "A 3D bar chart titled 'Percentage of population living in LEDC cities'. Bars drawn as buildings show three regions (Asia in purple, Africa in red, South America in yellow) for the years 1950, 1975, 1995 and 2030 (estimate). The vertical axis is '% of total population living in LEDC cities' from 0 to 80 in steps of 10. Approximate values: Asia about 17, 23, 32, 45; Africa about 27, 35, 43, 55; South America about 65, 76, 78, 85.\nLabels: B, Percentage of population living in LEDC cities, % of total population living in LEDC cities, 80, 70, 60, 50, 40, 30, 20, 10, 0, 1950, 1975, 1995, 2030, (Esti",
+        "checked": true,
+        "subtopic_id": 848,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Factors influencing population density"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Study the diagram titled 'Percentage of population living in LEDC cities'. It shows the percentage of the total population living in cities for three regions (Asia, Africa, South America) over the years 1950, 1975, 1995, and 2030 (estimate).",
+        "question": "Calculate the difference in the percentage of urban population between Africa and Asia in 1995.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the difference.",
+          "Clear presentation of the result."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the difference in the percentage of urban population between Africa and Asia in 1995 — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the difference.; Clear presentation of the result."
+        ],
+        "model_answer": "In 1995, the percentage of urban population in Africa was 43% and in Asia it was 32%. The difference is 43% - 32% = 11%.",
+        "explanation": "Subtract the percentage of urban population in Asia from that in Africa for the year 1995 to find the difference.",
+        "exam_question_id": "1b26a311-32ca-47ab-acd3-9bdfd9af28b3:1",
+        "topic_label": "Theme 1: Population and Settlement",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s61-f1.jpg",
+        "image_alt": "A 3D bar chart titled 'Percentage of population living in LEDC cities'. Bars drawn as buildings show three regions (Asia in purple, Africa in red, South America in yellow) for the years 1950, 1975, 1995 and 2030 (estimate). The vertical axis is '% of total population living in LEDC cities' from 0 to 80 in steps of 10. Approximate values: Asia about 17, 23, 32, 45; Africa about 27, 35, 43, 55; South America about 65, 76, 78, 85.\nLabels: B, Percentage of population living in LEDC cities, % of total population living in LEDC cities, 80, 70, 60, 50, 40, 30, 20, 10, 0, 1950, 1975, 1995, 2030, (Esti",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Theme 1: Population and Settlement"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a photograph of an informal squatter settlement on a hillside beside a road. Shelters are made of blue and grey tarpaulins and plastic sheets, with trees behind them. In the foreground, a few people stand at a small stall by the roadside, and the ground is dirt with rocks and rubbish.",
+        "question": "Describe the living conditions in the informal squatter settlement shown in the diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of materials used for shelter",
+          "Description of the surrounding environment",
+          "Observation of any visible activities or infrastructure"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the living conditions in the informal squatter settlement shown in the diagram — develop the idea fully rather than listing short points. Make sure you also cover: Identification of used for shelter; Description of the surrounding environment; Observation of any visible or."
+        ],
+        "model_answer": "The living conditions in the informal squatter settlement are poor. Shelters are made of blue and grey tarpaulins and plastic sheets, which are not durable materials. The settlement is located on a hillside beside a road, with the ground being dirt, rocks, and rubbish. There are a few people standing at a small roadside stall, indicating limited economic activities. The presence of trees suggests some natural cover, but overall, the conditions are basic and lacking in infrastructure.",
+        "explanation": "Describe the materials, environment, and visible activities in the settlement as seen in the photograph.",
+        "exam_question_id": "f611244b-5aef-456d-9ad5-fbea6f975af5:1",
+        "topic_label": "Theme 1: Population and Settlement",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s62-f2.jpg",
+        "image_alt": "A photograph of a informal squatter settlement on a hillside beside a road. Shelters are made of blue and grey tarpaulins and plastic sheets, with trees behind them. In the foreground, a few people stand at a small stall by the roadside, and the ground is dirt with rocks and rubbish.\nLabels: E, Is moving to the city worthwhile?\nOriginal exercise: Many people move to urban areas in LEDCs for a better quality of life. Do you think they achieve this? Give reasons for your answer.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Theme 1: Population and Settlement"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a photograph of an informal squatter settlement on a hillside beside a road. Shelters are made of blue and grey tarpaulins and plastic sheets, with trees behind them. In the foreground, a few people stand at a small stall by the roadside, and the ground is dirt with rocks and rubbish.",
+        "question": "Explain why people might move to urban areas in LEDCs despite the poor living conditions shown in the diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of potential benefits of urban living",
+          "Comparison with rural or other urban conditions",
+          "Mention of specific opportunities or services"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why people might move to urban areas in LEDCs despite the poor living conditions shown in the diagram — develop the idea fully rather than listing short points. Make sure you also cover: Mention of specific or."
+        ],
+        "model_answer": "People might move to urban areas in LEDCs despite poor living conditions because cities often offer better access to jobs, education, and healthcare. Urban areas usually have more infrastructure and services compared to rural areas. Although the conditions in the squatter settlement are poor, the potential for a better quality of life and opportunities for economic improvement can be compelling reasons for migration.",
+        "explanation": "Explain the potential benefits and opportunities that attract people to urban areas despite poor living conditions.",
+        "exam_question_id": "f611244b-5aef-456d-9ad5-fbea6f975af5:1",
+        "topic_label": "Theme 1: Population and Settlement",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s62-f2.jpg",
+        "image_alt": "A photograph of a informal squatter settlement on a hillside beside a road. Shelters are made of blue and grey tarpaulins and plastic sheets, with trees behind them. In the foreground, a few people stand at a small stall by the roadside, and the ground is dirt with rocks and rubbish.\nLabels: E, Is moving to the city worthwhile?\nOriginal exercise: Many people move to urban areas in LEDCs for a better quality of life. Do you think they achieve this? Give reasons for your answer.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Theme 1: Population and Settlement"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram below shows a table titled 'Comparing population structures between countries' with columns for Afghanistan and USA.",
+        "question": "Calculate the total population of both countries combined.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of total population.",
+          "Correct addition of populations."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total population of both countries combined — develop the idea fully rather than listing short points. Make sure you also cover: Correct addition of populations."
+        ],
+        "model_answer": "31.1 million (Afghanistan) + 317.6 million (USA) = 348.7 million. The total population of both countries combined is 348.7 million.",
+        "explanation": "Add the population figures of Afghanistan and the USA to find the combined total population.",
+        "exam_question_id": "405176c5-3cfc-4e57-89df-d50b0d23b88b:1",
+        "topic_label": "Theme 1: Population and Settlement",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s38-f0.jpg",
+        "image_alt": "A table titled 'Comparing population structures between countries' with columns for Afghanistan and USA. It lists population (million) 31.1 and 317.6; birth rate 39.3 and 12.6; death rate 14.6 and 8.1; life expectancy male 59 and 75, female 61 and 81; fertility rate 5.1 and 1.88; infant mortality rate 121 and 6.2; age structure 65+ 2.4% and 12.8%, 15-64 55.3% and 67%, 0-14 42.3% and 20.2%.\nLabels: C, Comparing population structures between countries, Afghanistan, USA, Population (million), 31.1, 317.6, Birth rate (per 1000 pop.), 39.3, 12.6, Death rate (per 1000 pop.), 14.6, 8.1, Life expectan",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Theme 1: Population and Settlement"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram below shows a table titled 'Comparing population structures between countries' with columns for Afghanistan and USA.",
+        "question": "Describe the differences in birth rates between Afghanistan and the USA.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of birth rates for both countries.",
+          "Comparison of birth rates.",
+          "Clear and concise description of differences."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the differences in birth rates between Afghanistan and the USA — develop the idea fully rather than listing short points. Make sure you also cover: Identification of birth rates for both countries.; Comparison of birth rates.; Clear and concise description of differences."
+        ],
+        "model_answer": "The birth rate in Afghanistan is 39.3 per 1000 population, while the birth rate in the USA is 12.6 per 1000 population. The birth rate in Afghanistan is significantly higher than that in the USA.",
+        "explanation": "Compare the birth rates for both countries and describe the differences clearly.",
+        "exam_question_id": "405176c5-3cfc-4e57-89df-d50b0d23b88b:1",
+        "topic_label": "Theme 1: Population and Settlement",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s38-f0.jpg",
+        "image_alt": "A table titled 'Comparing population structures between countries' with columns for Afghanistan and USA. It lists population (million) 31.1 and 317.6; birth rate 39.3 and 12.6; death rate 14.6 and 8.1; life expectancy male 59 and 75, female 61 and 81; fertility rate 5.1 and 1.88; infant mortality rate 121 and 6.2; age structure 65+ 2.4% and 12.8%, 15-64 55.3% and 67%, 0-14 42.3% and 20.2%.\nLabels: C, Comparing population structures between countries, Afghanistan, USA, Population (million), 31.1, 317.6, Birth rate (per 1000 pop.), 39.3, 12.6, Death rate (per 1000 pop.), 14.6, 8.1, Life expectan",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Theme 1: Population and Settlement"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram below shows a table titled 'Comparing population structures between countries' with columns for Afghanistan and USA.",
+        "question": "Explain why the life expectancy for males and females is higher in the USA compared to Afghanistan.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of life expectancy figures for both countries.",
+          "Comparison of life expectancy.",
+          "Explanation of factors contributing to differences."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the life expectancy for males and females is higher in the USA compared to Afghanistan — develop the idea fully rather than listing short points. Make sure you also cover: Identification of life expectancy figures for both countries.; Explanation of factors contributing to differences."
+        ],
+        "model_answer": "The life expectancy for males in the USA is 75 years, and for females, it is 81 years. In Afghanistan, the life expectancy for males is 59 years, and for females, it is 61 years. The higher life expectancy in the USA can be attributed to better healthcare systems, higher economic development, and improved social conditions compared to Afghanistan.",
+        "explanation": "Compare the life expectancy figures for both countries and explain the reasons behind the differences.",
+        "exam_question_id": "405176c5-3cfc-4e57-89df-d50b0d23b88b:1",
+        "topic_label": "Theme 1: Population and Settlement",
+        "topic_id": 175,
+        "image_url": "/textbook-images/textbook-bank/15/s38-f0.jpg",
+        "image_alt": "A table titled 'Comparing population structures between countries' with columns for Afghanistan and USA. It lists population (million) 31.1 and 317.6; birth rate 39.3 and 12.6; death rate 14.6 and 8.1; life expectancy male 59 and 75, female 61 and 81; fertility rate 5.1 and 1.88; infant mortality rate 121 and 6.2; age structure 65+ 2.4% and 12.8%, 15-64 55.3% and 67%, 0-14 42.3% and 20.2%.\nLabels: C, Comparing population structures between countries, Afghanistan, USA, Population (million), 31.1, 317.6, Birth rate (per 1000 pop.), 39.3, 12.6, Death rate (per 1000 pop.), 14.6, 8.1, Life expectan",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Theme 1: Population and Settlement"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Calculate the average annual population growth rate for City A from 2000 to 2020.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the population figures for City A in 2000 and 2020.",
+          "Calculate the total population growth over the 20-year period.",
+          "Calculate the average annual growth rate using the correct formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average annual population growth rate for City A from 2000 to 2020 — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the population growth over the 20-year period."
+        ],
+        "model_answer": "The population of City A in 2000 was 500,000 and in 2020 was 600,000. The total population growth is 600,000 - 500,000 = 100,000. The average annual growth rate is (100,000 / 500,000) * 100 / 20 = 1%.",
+        "explanation": "To find the average annual growth rate, subtract the initial population from the final population, divide by the initial population, multiply by 100 to get a percentage, and then divide by the number of years.",
+        "exam_question_id": "a45dd843-beed-4467-a03e-5943e4437e0a:1",
+        "topic_label": "Settlement patterns (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Settlement patterns (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Describe the trend in population growth for City B from 2000 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the population figures for City B in 2000, 2010, and 2020.",
+          "Describe the overall trend in population growth over the 20-year period."
+        ],
+        "hints": [
+          "Look at the changes in population figures over the years."
+        ],
+        "model_answer": "The population of City B in 2000 was 300,000, in 2010 it was 320,000, and in 2020 it was 350,000. The population of City B has been steadily increasing over the 20-year period.",
+        "explanation": "Describe the overall trend by noting the direction and consistency of the population changes.",
+        "exam_question_id": "a45dd843-beed-4467-a03e-5943e4437e0a:1",
+        "topic_label": "Settlement patterns (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Settlement patterns (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Explain why City A might have a higher population growth rate compared to City C.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the population growth rates for City A and City C.",
+          "Provide plausible reasons for the difference in growth rates.",
+          "Ensure reasons are supported by geographical factors."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why City A might have a higher population growth rate compared to City C — develop the idea fully rather than listing short points. Make sure you also cover: Provide plausible reasons for the difference in growth rates.; Ensure reasons are supported by geographical."
+        ],
+        "model_answer": "City A has a higher population growth rate compared to City C because it likely offers more economic opportunities, better infrastructure, and attracts more migrants. These factors contribute to a higher birth rate and lower death rate, leading to a higher overall population growth.",
+        "explanation": "Explain the reasons by considering factors that influence population growth, such as economic opportunities, infrastructure, and migration patterns.",
+        "exam_question_id": "a45dd843-beed-4467-a03e-5943e4437e0a:1",
+        "topic_label": "Factors influencing population density",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 848,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Factors influencing population density"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Calculate the average annual population growth rate for City A from 2000 to 2020.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of total population increase over 20 years.",
+          "Correct calculation of average annual growth rate.",
+          "Correct final answer with appropriate units."
+        ],
+        "hints": [
+          "Use the formula: ((Final Population - Initial Population) / Initial Population) / Number of Years * 100."
+        ],
+        "model_answer": "Total increase = 600,000 - 500,000 = 100,000. Average annual growth rate = (100,000 / 500,000) / 20 * 100 = 1%.",
+        "explanation": "Calculate the total population increase from 2000 to 2020 for City A, then divide by the initial population and the number of years to find the average annual growth rate.",
+        "exam_question_id": "07b357d8-092e-4c89-ad24-7e76a4f7aebf:1",
+        "topic_label": "World population increase",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 840,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "World population increase"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Describe the trend in population growth for City B from 2000 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the population figures for City B in 2000, 2010, and 2020.",
+          "Description of the population trend over the given years."
+        ],
+        "hints": [
+          "Look at the changes in population figures over the years."
+        ],
+        "model_answer": "City B's population increased from 300,000 in 2000 to 320,000 in 2010, and further to 350,000 in 2020, showing a steady growth trend.",
+        "explanation": "Describe the pattern of population change for City B using the provided population figures for each year.",
+        "exam_question_id": "07b357d8-092e-4c89-ad24-7e76a4f7aebf:1",
+        "topic_label": "Causes of a change in population size",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 842,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Causes of a change in population size"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Calculate the average annual population growth rate for City A from 2000 to 2020.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the population figures for City A in 2000 and 2020.",
+          "Calculate the total population growth for City A from 2000 to 2020.",
+          "Calculate the average annual growth rate using the correct formula."
+        ],
+        "hints": [
+          "Use the formula: ((Final Population - Initial Population) / Initial Population) / Number of Years * 100."
+        ],
+        "model_answer": "Population in 2000: 500,000\nPopulation in 2020: 600,000\nTotal growth: 600,000 - 500,000 = 100,000\nAverage annual growth rate: (100,000 / 20) / 500,000 × 100 = 1% per year.",
+        "explanation": "Use the given population figures for City A in 2000 and 2020 to calculate the total population growth over the 20-year period. Divide the total growth by the number of years to get annual growth, then express as a percentage of the initial population.",
+        "exam_question_id": "ba08ea9b-40ee-4204-98ff-3097a163b1e9:1",
+        "topic_label": "The impacts of migration (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "The impacts of migration (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Describe the trend in population growth for City B from 2000 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the population figures for City B in 2000, 2010, and 2020.",
+          "Describe the overall trend in population growth for City B over the given period."
+        ],
+        "hints": [
+          "Look at the changes in population figures over the years."
+        ],
+        "model_answer": "Population in 2000: 300,000\nPopulation in 2010: 320,000\nPopulation in 2020: 350,000\nThe population of City B has been steadily increasing over the 20-year period.",
+        "explanation": "Use the population figures for City B in 2000, 2010, and 2020 to describe the overall trend in population growth.",
+        "exam_question_id": "ba08ea9b-40ee-4204-98ff-3097a163b1e9:1",
+        "topic_label": "The impacts of migration (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "The impacts of migration (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Explain why City A might have a higher population growth rate compared to City C.",
+        "marks": 2,
+        "marking_criteria": [
+          "Compare the population growth rates of City A and City C.",
+          "Provide possible reasons for the difference in growth rates based on the data."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why City A might have a higher population growth rate compared to City C — develop the idea fully rather than listing short points. Make sure you also cover: Provide possible reasons for the difference in growth rates based on the data."
+        ],
+        "model_answer": "City A has a higher population growth rate (1%) compared to City C (0.5%) because City A might have more economic opportunities, better infrastructure, and more amenities that attract people to live there.",
+        "explanation": "Compare the population growth rates of City A and City C and provide possible reasons for the difference based on factors such as economic opportunities, infrastructure, and amenities.",
+        "exam_question_id": "ba08ea9b-40ee-4204-98ff-3097a163b1e9:1",
+        "topic_label": "Factors influencing population density",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 848,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Factors influencing population density"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Calculate the average annual population growth rate for City A from 2000 to 2020.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the initial and final population values for City A.",
+          "Correctly applies the formula for calculating the average annual growth rate.",
+          "Provides the correct final answer with appropriate units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average annual population growth rate for City A from 2000 to 2020 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the and population values for City A.; Correctly applies the formula for calculating the average annual…."
+        ],
+        "model_answer": "Initial Population (2000) = 500,000\nFinal Population (2020) = 600,000\nNumber of Years = 20\nGrowth Rate = ((600,000 - 500,000) / 500,000) / 20 * 100 = 1%\n",
+        "explanation": "Calculate the average annual population growth rate for City A from 2000 to 2020 using the provided formula and data.",
+        "exam_question_id": "3d895826-b883-4864-bdad-cb2f3a07882f:1",
+        "topic_label": "Settlement hierarchies (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Settlement hierarchies (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Describe the trend in population growth for City B from 2000 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the population values for City B for each year.",
+          "Describes the trend in population growth accurately."
+        ],
+        "hints": [
+          "Consider the changes in population values over the years."
+        ],
+        "model_answer": "The population of City B increased from 300,000 in 2000 to 320,000 in 2010, and further to 350,000 in 2020. This indicates a steady increase in population over the 20-year period.",
+        "explanation": "Describe the trend in population growth for City B from 2000 to 2020 based on the provided data.",
+        "exam_question_id": "3d895826-b883-4864-bdad-cb2f3a07882f:1",
+        "topic_label": "Settlement hierarchies (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Settlement hierarchies (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City A | 500,000 | 550,000 | 600,000 |\n| City B | 300,000 | 320,000 | 350,000 |\n| City C | 200,000 | 210,000 | 220,000 |",
+        "question": "Explain why City A might have a higher population growth rate compared to City C.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provides a plausible explanation for the difference in population growth rates.",
+          "Relates the explanation to the data provided in the table.",
+          "Demonstrates understanding of factors that influence population growth."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why City A might have a higher population growth rate compared to City C — develop the idea fully rather than listing short points. Make sure you also cover: Provides a plausible explanation for the difference in population growth rates.; Relates the explanation to the data provided in…."
+        ],
+        "model_answer": "City A might have a higher population growth rate compared to City C due to better economic opportunities, infrastructure, and services. These factors attract more people to City A, leading to a higher population growth rate.",
+        "explanation": "Explain why City A might have a higher population growth rate compared to City C based on the data provided in the table.",
+        "exam_question_id": "3d895826-b883-4864-bdad-cb2f3a07882f:1",
+        "topic_label": "Settlement hierarchies (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Settlement hierarchies (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Calculate the average annual population growth rate for City X from 2000 to 2020.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the total population increase from 2000 to 2020.",
+          "Correct calculation of the average annual growth rate using the formula.",
+          "Correct final answer with appropriate units."
+        ],
+        "hints": [
+          "Use the formula: (Final Population - Initial Population) / Initial Population * 100 / Number of Years."
+        ],
+        "model_answer": "Total increase = 140,000 - 100,000 = 40,000\nAverage annual growth rate = (40,000 / 100,000) * 100 / 20 = 2%.",
+        "explanation": "Calculate the total increase in population from 2000 to 2020, then divide by the initial population and the number of years to find the average annual growth rate.",
+        "exam_question_id": "38d3f672-36a0-4fd5-bf37-26075cde33fe:1",
+        "topic_label": "World population increase",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 840,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "World population increase"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Describe the trend in population growth for City Y from 2000 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the population figures for City Y in 2000, 2010, and 2020.",
+          "Description of the population growth trend over the given years."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the trend in population growth for City Y from 2000 to 2020 — develop the idea fully rather than listing short points. Make sure you also cover: Description of the population growth trend over the given years."
+        ],
+        "model_answer": "City Y's population increased from 150,000 in 2000 to 160,000 in 2010, and further to 170,000 in 2020. This indicates a steady population growth over the 20-year period.",
+        "explanation": "Describe the trend by comparing the population figures for each year.",
+        "exam_question_id": "38d3f672-36a0-4fd5-bf37-26075cde33fe:1",
+        "topic_label": "Urban problems and solutions (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Urban problems and solutions (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Explain why City X might have a higher population growth rate compared to City Y.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the population growth rates for City X and City Y.",
+          "Explanation of possible reasons for the difference in growth rates.",
+          "Use of evidence from the table to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why City X might have a higher population growth rate compared to City Y — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of possible reasons for the difference in growth; of evidence from the table to support the explanation."
+        ],
+        "model_answer": "City X has a higher population growth rate (40%) compared to City Y (13.3%) because City X may have better economic opportunities, improved infrastructure, or higher migration rates attracting more people.",
+        "explanation": "Explain the possible reasons for the difference in growth rates using evidence from the table.",
+        "exam_question_id": "38d3f672-36a0-4fd5-bf37-26075cde33fe:1",
+        "topic_label": "Urban problems and solutions (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Urban problems and solutions (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Calculate the average annual population growth rate for City X from 2000 to 2020.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total population growth from 2000 to 2020.",
+          "Correctly divide the total population growth by the number of years (20) to find the average annual growth rate.",
+          "Provide the final answer as a percentage."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average annual population growth rate for City X from 2000 to 2020 — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer as a percentage."
+        ],
+        "model_answer": "Total population growth = 140,000 - 100,000 = 40,000\nAverage annual growth rate = (40,000 / 100,000) * 100 / 20 = 2%\nThe average annual population growth rate for City X from 2000 to 2020 is 2%.",
+        "explanation": "To find the average annual population growth rate, first calculate the total population growth by subtracting the population in 2000 from the population in 2020. Then, divide this total growth by the number of years (20) and multiply by 100 to get the percentage.",
+        "exam_question_id": "9e2f6d44-6b03-44b9-b3fc-586cffc5fd36:1",
+        "topic_label": "Settlement patterns (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Settlement patterns (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Describe the trend in population growth for City Y from 2000 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the population figures for City Y in 2000, 2010, and 2020.",
+          "Describe the pattern of population growth over the years."
+        ],
+        "hints": [
+          "Compare the population figures for each year to describe the trend."
+        ],
+        "model_answer": "City Y had a population of 150,000 in 2000, 160,000 in 2010, and 170,000 in 2020. The population of City Y has been steadily increasing over the years, with an increase of 10,000 from 2000 to 2010 and another 10,000 from 2010 to 2020.",
+        "explanation": "To describe the trend in population growth, compare the population figures for each year and note the pattern of increase or decrease.",
+        "exam_question_id": "9e2f6d44-6b03-44b9-b3fc-586cffc5fd36:1",
+        "topic_label": "World population increase",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 840,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "World population increase"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Explain why City X might have a higher population growth rate compared to City Y.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the population growth rates for City X and City Y.",
+          "Provide a plausible explanation for the difference in growth rates.",
+          "Use evidence from the table to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why City X might have a higher population growth rate compared to City Y — develop the idea fully rather than listing short points. Make sure you also cover: Provide a plausible explanation for the difference in growth; evidence from the table to support the explanation."
+        ],
+        "model_answer": "City X had a population growth rate of 40% from 2000 to 2020, while City Y had a growth rate of 13.3%. City X might have a higher population growth rate compared to City Y due to factors such as better economic opportunities, improved infrastructure, or higher migration rates. For example, City X might have experienced significant industrial development or attracted more investment, leading to a higher influx of people.",
+        "explanation": "To explain the difference in population growth rates, compare the growth rates of City X and City Y and provide a plausible reason based on factors such as economic opportunities, infrastructure development, or migration patterns. Use the population figures from the table to support your explanation.",
+        "exam_question_id": "9e2f6d44-6b03-44b9-b3fc-586cffc5fd36:1",
+        "topic_label": "Factors influencing population density",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 848,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Factors influencing population density"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Calculate the average annual population growth rate for City X from 2000 to 2020.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the total population growth (40,000)",
+          "Correct calculation of the time period in years (20 years)",
+          "Correct application of the formula for average annual growth rate"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average annual population growth rate for City X from 2000 to 2020 — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the in (20."
+        ],
+        "model_answer": "Total population growth = 140,000 - 100,000 = 40,000\nTime period = 20 years\nAverage annual growth rate = (40,000 / 100,000) / 20 × 100 = 2% per year",
+        "explanation": "Calculate the average annual population growth rate for City X from 2000 to 2020 using the provided formula.",
+        "exam_question_id": "ade7b47d-b80a-4f4d-99ec-071f1053d148:1",
+        "topic_label": "Urban land use (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Urban land use (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Describe the trend in population growth for City Y from 2000 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the population figures for each year",
+          "Description of the trend in population growth"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the trend in population growth for City Y from 2000 to 2020 — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the population figures for each year."
+        ],
+        "model_answer": "Population of City Y in 2000: 150,000\nPopulation of City Y in 2010: 160,000\nPopulation of City Y in 2020: 170,000\nThe population of City Y has increased steadily over the years, showing a consistent growth trend.",
+        "explanation": "Describe the trend in population growth for City Y from 2000 to 2020 based on the provided data.",
+        "exam_question_id": "ade7b47d-b80a-4f4d-99ec-071f1053d148:1",
+        "topic_label": "Urban land use (Theme 1: Population and Settlement)",
+        "topic_id": 175,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Urban land use (Theme 1: Population and Settlement)"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The table below shows the population of three cities in a country over the years 2000, 2010, and 2020.\n\n| City | Population in 2000 | Population in 2010 | Population in 2020 |\n|------|-------------------|-------------------|-------------------|\n| City X | 100,000 | 120,000 | 140,000 |\n| City Y | 150,000 | 160,000 | 170,000 |\n| City Z | 200,000 | 210,000 | 220,000 |",
+        "question": "Explain why City X might have a higher population growth rate compared to City Y.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of factors that could influence population growth",
+          "Comparison of population growth rates between City X and City Y",
+          "Logical explanation based on the data"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why City X might have a higher population growth rate compared to City Y — develop the idea fully rather than listing short points. Make sure you also cover: Identification of factors that could influence population growth; Logical explanation based on the data."
+        ],
+        "model_answer": "City X has a higher population growth rate compared to City Y because it may offer better economic opportunities, improved infrastructure, and more services that attract people to move in. The population growth rate for City X is 2% per year, while for City Y it is approximately 0.67% per year.",
+        "explanation": "Explain why City X might have a higher population growth rate compared to City Y based on the provided data and possible influencing factors.",
+        "exam_question_id": "ade7b47d-b80a-4f4d-99ec-071f1053d148:1",
+        "topic_label": "Factors influencing population density",
+        "topic_id": 175,
+        "checked": true,
+        "subtopic_id": 848,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Factors influencing population density"
+        }
+      }
+    ],
+    "estimated_time": 74,
+    "assessment_id": "dbc84091-c333-4b8b-818e-32d0eee98c2d",
+    "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+    "topics": [
+      "Theme 1: Population and Settlement",
+      "Global Theme 1: HIV/AIDS"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 15,
+    "topic_ids": [
+      175,
+      176
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 28,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 8,
+      "detail": "4 questions open with the same sentence (9, 12, 14, 17): \"Calculate the average annual population growth rat\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 9,
+      "detail": "4 questions open with the same sentence (10, 13, 15, 18): \"Describe the trend in population growth for City B\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 11"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "1b",
+        "severity": "poor",
+        "detail": "Question asks to explain why urbanisation RATE is higher in 2030 vs 1950, but model answer discusses absolute percentage increase (27% to 55%). Rate of change differs between periods: 1950-1975 shows 8% increase over 25 years; 1995-2030 shows 12% over 35 years, actually a slower rate.",
+        "correction": "Model answer should clarify that the question conflates 'rate' with 'level'. If asking about rate: 1950-1975 rate was 0.32%/year vs 1995-2030 rate of 0.34%/year. If asking why urbanisation level is higher: answer is acceptable but question wording needs correction."
+      },
+      {
+        "label": "4a",
+        "severity": "broken",
+        "detail": "Model answer calculates average annual growth rate as 1%, but correct calculation is: (100,000/500,000)/20 × 100 = 1%. However, this is compound growth rate formula error. Correct simple average: 100,000/(20×500,000) × 100 = 1% annually. For compound: ((600,000/500,000)^(1/20)-1)×100 = 0.91%.",
+        "correction": "Simple average annual growth rate = (100,000/20)/500,000 × 100 = 1% per year. Or specify compound annual growth rate (CAGR) = 0.91% per year."
+      },
+      {
+        "label": "5a",
+        "severity": "broken",
+        "detail": "Formula shown is incorrect: ((Final-Initial)/Initial)/Years × 100. This divides percentage by years incorrectly. Correct simple formula: ((Final-Initial)/(Initial×Years)) × 100. Model answer gets 1% but formula structure is wrong.",
+        "correction": "Correct formula: Average annual growth rate = ((600,000-500,000)/(500,000×20)) × 100 = 1% per year. Or use CAGR formula for compound rate."
+      },
+      {
+        "label": "6a",
+        "severity": "broken",
+        "detail": "Model answer shows: (100,000/20)/500,000 × 100 = 1%. This calculates (5,000/500,000) × 100 = 1%, which is correct. But explanation says 'divide total growth by years to get annual growth, then express as percentage of initial' - order is confusing.",
+        "correction": "Annual growth = 100,000/20 = 5,000 per year. As percentage of initial: (5,000/500,000) × 100 = 1% per year."
+      },
+      {
+        "label": "6c",
+        "severity": "broken",
+        "detail": "Model answer states City C growth rate is 0.5%, but data shows City C: 200,000 to 220,000 = 20,000 growth. Rate = (20,000/20)/200,000 × 100 = 0.5% is correct. However, question asks to explain difference but doesn't require calculating City C's rate first.",
+        "correction": "City C growth rate = 0.5% per year (20,000 increase over 20 years from base 200,000). Explanation of why City A is higher (1% vs 0.5%) is acceptable."
+      },
+      {
+        "label": "8c",
+        "severity": "broken",
+        "detail": "Model answer states City X growth rate is 40% and City Y is 13.3%. These are TOTAL growth percentages, not growth RATES. City X: 40,000/100,000 = 40% total. City Y: 20,000/150,000 = 13.3% total. Annual rates are 2% and 0.67% respectively.",
+        "correction": "City X total growth = 40% over 20 years (2% per year). City Y total growth = 13.3% over 20 years (0.67% per year). Explanation should reference annual rates, not total percentages."
+      },
+      {
+        "label": "9c",
+        "severity": "broken",
+        "detail": "Model answer states City X growth rate is 40% and City Y is 13.3%, but these are total growth over 20 years, not annual rates. Should be 2% and 0.67% per year respectively for clarity.",
+        "correction": "City X annual growth rate = 2% per year (40% total over 20 years). City Y annual growth rate = 0.67% per year (13.3% total over 20 years)."
+      },
+      {
+        "label": "Questions 4-10",
+        "severity": "poor",
+        "detail": "Questions 4-10 all use identical or near-identical population data tables (City A/B/C or X/Y/Z with same/similar values) and ask repetitive calculation questions. This violates the requirement for no repeated questions with same data.",
+        "correction": "Consolidate to one question set with this data table, or vary the data significantly across question sets to assess different scenarios."
+      }
+    ],
+    "summary": "Assessment has substantive issues: Question 1b conflates urbanisation 'rate' with 'level'. Multiple questions (4a, 5a, 6a, 8c, 9c) show formula errors or confusion between total growth percentages and annual rates. Questions 4-10 inappropriately repeat nearly identical data tables and calculations, violating the no-repetition requirement."
+  },
+  "totalSeconds": 225
+}

@@ -1,0 +1,929 @@
+{
+  "index": 10,
+  "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+  "request": {
+    "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+    "textbook_id": 200,
+    "topic_ids": [
+      2515,
+      2508
+    ],
+    "topics": [
+      "Chapter 9: Database structure",
+      "Chapter 2: The structure of a data packet"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 65,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A packet of data is sent across a network.",
+        "question": "State two items of data found in a packet header.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify one correct item in the packet header (e.g., destination address, source address, packet number, TTL).",
+          "Identify a second correct item in the packet header."
+        ],
+        "hints": [
+          "Think about the information needed to route and process the packet."
+        ],
+        "model_answer": "Destination address, Source address.",
+        "explanation": "The packet header contains essential information for routing and processing the packet.",
+        "exam_question_id": "ea8b0b36-51e0-4708-ba29-ebaf9ee09659:1",
+        "topic_label": "The structure of a data packet",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12829,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The structure of a data packet"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A packet of data is sent across a network.",
+        "question": "Give one reason why packets of one message may arrive in a different order.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that packets can take different routes through routers.",
+          "Mention factors such as congestion that can cause packets to arrive out of order."
+        ],
+        "hints": [
+          "Stay focused on this: Give one reason why packets of one message may arrive in a different order — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Packets can take different routes through routers, depending on congestion, so they may arrive in a different order.",
+        "explanation": "Different routes can lead to packets arriving out of sequence.",
+        "exam_question_id": "ea8b0b36-51e0-4708-ba29-ebaf9ee09659:1",
+        "topic_label": "The structure of a data packet",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12829,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The structure of a data packet"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB).",
+        "question": "State two items of data found in a packet header.",
+        "marks": 2,
+        "marking_criteria": [
+          "Destination address",
+          "Source/sender address"
+        ],
+        "hints": [
+          "Think about what information is needed to route the packet correctly."
+        ],
+        "model_answer": "Destination address, Source/sender address",
+        "explanation": "A data packet header typically includes the destination address to direct the packet to the correct recipient and the source/sender address to identify where the packet originated.",
+        "exam_question_id": "ea86b1b0-8239-46b9-b3f5-268b26c9854d:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB).",
+        "question": "Give one reason why packets of one message may arrive in a different order.",
+        "marks": 1,
+        "marking_criteria": [
+          "Packets can take different routes through routers, depending on congestion."
+        ],
+        "hints": [
+          "Consider how network traffic can affect packet delivery."
+        ],
+        "model_answer": "Packets can take different routes through routers, depending on congestion, so they may arrive in a different order.",
+        "explanation": "Due to varying network conditions, packets can follow different paths and arrive out of sequence. Packet numbers help to reorder them correctly.",
+        "exam_question_id": "ea86b1b0-8239-46b9-b3f5-268b26c9854d:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A data packet is sent across a network. The packet contains a header, payload, and trailer.",
+        "question": "State two items of data found in a packet header.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the destination address.",
+          "Identify the source address."
+        ],
+        "hints": [
+          "Look at the components of a packet header."
+        ],
+        "model_answer": "Destination address, Source address.",
+        "explanation": "A packet header typically contains the destination address and the source address.",
+        "exam_question_id": "68f55aa4-f6e8-445f-94f6-87f4c6165934:1",
+        "topic_label": "The structure of a data packet",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12829,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The structure of a data packet"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A data packet is sent across a network. The packet contains a header, payload, and trailer.",
+        "question": "Give one reason why packets of one message may arrive in a different order.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that packets can take different routes through routers.",
+          "Explain that different routes can lead to different arrival times."
+        ],
+        "hints": [
+          "Consider the routing of packets in a network."
+        ],
+        "model_answer": "Packets can take different routes through routers, leading to different arrival times.",
+        "explanation": "Different routes through routers can cause packets to arrive out of order.",
+        "exam_question_id": "68f55aa4-f6e8-445f-94f6-87f4c6165934:1",
+        "topic_label": "The structure of a data packet",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12829,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The structure of a data packet"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A data packet is sent across a network. The packet contains a header, payload, and trailer.",
+        "question": "Describe how error detection can be achieved using a checksum.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that a checksum is calculated for the payload.",
+          "Explain that the receiver calculates the checksum and compares it to the sent checksum."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how error detection can be achieved using a checksum — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "A checksum is calculated for the payload and sent with the packet. The receiver calculates the checksum of the received payload and compares it to the sent checksum. If they do not match, an error is detected.",
+        "explanation": "A checksum helps detect errors by comparing calculated values at the sender and receiver.",
+        "exam_question_id": "68f55aa4-f6e8-445f-94f6-87f4c6165934:1",
+        "topic_label": "detect errors.",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12842,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "detect errors."
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A data packet sent across a network contains specific information in its header.",
+        "question": "State two items of data found in a packet header.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify destination address",
+          "Identify source/sender address"
+        ],
+        "hints": [
+          "Think about what information is necessary for routing the packet."
+        ],
+        "model_answer": "Destination address, Source address",
+        "explanation": "A packet header contains essential information for routing, including the destination and source addresses.",
+        "exam_question_id": "2323e3f6-4e6b-42ff-9313-808bdd177c49:1",
+        "topic_label": "The structure of a data packet",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12829,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The structure of a data packet"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A data packet sent across a network contains specific information in its header.",
+        "question": "Give one reason why packets of one message may arrive in a different order.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain different routes through routers",
+          "Explain network congestion"
+        ],
+        "hints": [
+          "Stay focused on this: Give one reason why packets of one message may arrive in a different order — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Packets may take different routes through routers due to network congestion",
+        "explanation": "Packets may arrive out of order because they can take different paths through the network, depending on congestion.",
+        "exam_question_id": "2323e3f6-4e6b-42ff-9313-808bdd177c49:1",
+        "topic_label": "The structure of a data packet",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12829,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The structure of a data packet"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A data packet sent across a network contains specific information in its header.",
+        "question": "Describe how error detection can be achieved using a checksum.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the checksum process",
+          "Explain how errors are detected"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how error detection can be achieved using a checksum — develop the idea fully rather than listing short points. Make sure you also cover: how errors are detected."
+        ],
+        "model_answer": "A checksum is calculated by summing the values of the packet's data. The receiver calculates the checksum of the received packet and compares it to the sent checksum. If they do not match, an error has occurred.",
+        "explanation": "A checksum is used to detect errors by comparing the calculated checksum of the received packet with the sent checksum. If they do not match, it indicates an error.",
+        "exam_question_id": "2323e3f6-4e6b-42ff-9313-808bdd177c49:1",
+        "topic_label": "detect errors.",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12842,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "detect errors."
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A database table named STUDENTS has the following fields: StudentID, Name, Age, Class, Score.\n\nStudentID | Name | Age | Class | Score\n1 | Amir | 15 | 10A | 72\n2 | Bella | 14 | 10B | 85\n3 | Chen | 15 | 10A | 90\n4 | Dina | 16 | 10B | 64",
+        "question": "Write an SQL query to show the Name and Score of all students in class 10A, with the highest score first.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly use the SELECT statement to specify the fields Name and Score.",
+          "Correctly use the FROM clause to specify the table STUDENTS.",
+          "Correctly use the WHERE clause to filter students in class 10A.",
+          "Correctly use the ORDER BY clause to sort the results by Score in descending order."
+        ],
+        "hints": [
+          "Stay focused on this: Write an SQL query to show the Name and Score of all students in class 10A, with the highest score first — develop the idea fully rather than listing short points. Make sure you also cover: Correctly use the statement to specify the fields Name and Score.; Correctly use the FROM clause to…."
+        ],
+        "model_answer": "SELECT Name, Score FROM STUDENTS WHERE Class = '10A' ORDER BY Score DESC;",
+        "explanation": "This query selects the Name and Score fields from the STUDENTS table where the Class is 10A and orders the results by Score in descending order.",
+        "exam_question_id": "113219c1-b36a-4f24-946d-5ef0f94ebd53:1",
+        "topic_label": "single-table database.",
+        "topic_id": 2515,
+        "checked": true,
+        "subtopic_id": 12954,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "single-table database."
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A database table named STUDENTS has the following fields: StudentID, Name, Age, Class, Score.\n\nStudentID | Name | Age | Class | Score\n1 | Amir | 15 | 10A | 72\n2 | Bella | 14 | 10B | 85\n3 | Chen | 15 | 10A | 90\n4 | Dina | 16 | 10B | 64",
+        "question": "State the output of the following SQL query: SELECT SUM(Score) FROM STUDENTS WHERE Age = 15;",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the relevant rows where Age is 15.",
+          "Calculate the sum of the Score field for those rows."
+        ],
+        "hints": [
+          "Find the rows where Age is 15 and sum their Score values."
+        ],
+        "model_answer": "162 (72 + 90)",
+        "explanation": "The query selects the sum of the Score field for students who are 15 years old. The scores for these students are 72 and 90, so the sum is 162.",
+        "exam_question_id": "113219c1-b36a-4f24-946d-5ef0f94ebd53:1",
+        "topic_label": "read and complete SQL scripts that use SELECT",
+        "topic_id": 2515,
+        "checked": true,
+        "subtopic_id": 12957,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "read and complete SQL scripts that use SELECT"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A database table named STUDENTS has the following fields: StudentID, Name, Age, Class, Score.\n\nStudentID | Name | Age | Class | Score\n1 | Amir | 15 | 10A | 72\n2 | Bella | 14 | 10B | 85\n3 | Chen | 15 | 10A | 90\n4 | Dina | 16 | 10B | 64",
+        "question": "Write an SQL query to show the Name and Score of all students in class 10A, with the highest score first.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the table name and fields to select.",
+          "Appropriately uses the WHERE clause to filter students in class 10A.",
+          "Correctly uses the ORDER BY clause to sort the results by Score in descending order."
+        ],
+        "hints": [
+          "Use the SELECT statement to specify the fields to retrieve."
+        ],
+        "model_answer": "SELECT Name, Score FROM STUDENTS WHERE Class = '10A' ORDER BY Score DESC;",
+        "explanation": "This query selects the Name and Score fields from the STUDENTS table for students in class 10A and orders the results by Score in descending order to show the highest scores first.",
+        "exam_question_id": "54366ed7-9bb7-4329-b9ba-4701ef752c2d:1",
+        "topic_label": "single-table database.",
+        "topic_id": 2515,
+        "checked": true,
+        "subtopic_id": 12954,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "single-table database."
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A database table named STUDENTS has the following fields: StudentID, Name, Age, Class, Score.\n\nStudentID | Name | Age | Class | Score\n1 | Amir | 15 | 10A | 72\n2 | Bella | 14 | 10B | 85\n3 | Chen | 15 | 10A | 90\n4 | Dina | 16 | 10B | 64",
+        "question": "State the output of the following SQL query: SELECT SUM(Score) FROM STUDENTS WHERE Age = 15;",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the relevant records based on the WHERE clause.",
+          "Appropriately uses the SUM function to calculate the total score.",
+          "Provides the correct numerical output."
+        ],
+        "hints": [
+          "Identify the scores of students who are 15 years old."
+        ],
+        "model_answer": "162",
+        "explanation": "The query calculates the sum of the Score field for students who are 15 years old. The scores for these students are 72 and 90, so the total is 162.",
+        "exam_question_id": "54366ed7-9bb7-4329-b9ba-4701ef752c2d:1",
+        "topic_label": "read and complete SQL scripts that use SELECT",
+        "topic_id": 2515,
+        "checked": true,
+        "subtopic_id": 12957,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "read and complete SQL scripts that use SELECT"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A data packet is sent across a network. The packet contains a header, payload, and trailer.",
+        "question": "State two items of data found in a packet header.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the destination address.",
+          "Identify the source address."
+        ],
+        "hints": [
+          "Think about the essential information needed to route the packet."
+        ],
+        "model_answer": "Destination address, Source address",
+        "explanation": "The header of a data packet contains crucial information such as the destination and source addresses to ensure the packet reaches its intended recipient.",
+        "exam_question_id": "b2be5eda-4702-4ca7-95d0-c59c8b2ee05a:1",
+        "topic_label": "The structure of a data packet",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12829,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The structure of a data packet"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A data packet is sent across a network. The packet contains a header, payload, and trailer.",
+        "question": "Give one reason why packets of one message may arrive in a different order.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that packets can take different routes through routers.",
+          "Explain that different routes can lead to different arrival times."
+        ],
+        "hints": [
+          "Consider the network infrastructure and how it affects packet delivery."
+        ],
+        "model_answer": "Packets can take different routes through routers, leading to different arrival times.",
+        "explanation": "Network routers may choose different paths for packets based on congestion and other factors, causing packets to arrive out of order.",
+        "exam_question_id": "b2be5eda-4702-4ca7-95d0-c59c8b2ee05a:1",
+        "topic_label": "choose a suitable data transmission for a given",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12837,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "choose a suitable data transmission for a given"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A data packet is sent across a network. The packet contains a header, payload, and trailer.",
+        "question": "Describe how error detection can be achieved using a checksum.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that a checksum is calculated for the payload.",
+          "Explain that the receiver calculates the checksum of the received payload and compares it to the transmitted checksum."
+        ],
+        "hints": [
+          "Think about how discrepancies in the checksum can indicate errors."
+        ],
+        "model_answer": "A checksum is calculated for the payload before transmission. The receiver calculates the checksum of the received payload and compares it to the transmitted checksum. If they do not match, an error has occurred.",
+        "explanation": "A checksum is a simple error-detection method where the sender calculates a value based on the payload and sends it with the packet. The receiver recalculates the checksum and compares it to the transmitted value to detect errors.",
+        "exam_question_id": "b2be5eda-4702-4ca7-95d0-c59c8b2ee05a:1",
+        "topic_label": "detect errors.",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12842,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "detect errors."
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB). The packet contains a header, payload, and trailer.",
+        "question": "State two items of data found in a packet header.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the destination address in the packet header.",
+          "Identify the source address in the packet header."
+        ],
+        "hints": [
+          "Think about the information needed to route the packet."
+        ],
+        "model_answer": "Destination address, Source address",
+        "explanation": "The packet header typically contains the destination and source addresses, among other things, to ensure the packet reaches the correct recipient.",
+        "exam_question_id": "2afd077d-babf-4092-bcf6-be731ee5e1cb:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB). The packet contains a header, payload, and trailer.",
+        "question": "Give one reason why packets of one message may arrive in a different order.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that packets may take different routes through routers.",
+          "Explain that different routes may lead to different arrival times."
+        ],
+        "hints": [
+          "Consider the nature of packet switching."
+        ],
+        "model_answer": "Packets may take different routes through routers, so they may arrive in a different order.",
+        "explanation": "Due to the nature of packet switching, packets of the same message can take different paths through the network, leading to different arrival times.",
+        "exam_question_id": "2afd077d-babf-4092-bcf6-be731ee5e1cb:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB). The packet contains a header, payload, and trailer.",
+        "question": "Describe how error detection can be achieved using a checksum.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the concept of a checksum.",
+          "Explain how a checksum is used to detect errors."
+        ],
+        "hints": [
+          "Think about the process of generating and verifying a checksum."
+        ],
+        "model_answer": "A checksum is a value calculated from the data in the packet. The sender calculates the checksum and includes it in the packet. The receiver recalculates the checksum and compares it to the received checksum. If they match, the data is assumed to be error-free; if they do not match, an error is detected.",
+        "explanation": "A checksum is a value calculated from the data in the packet. By comparing the calculated checksum with the received checksum, the receiver can detect if any errors have occurred during transmission.",
+        "exam_question_id": "2afd077d-babf-4092-bcf6-be731ee5e1cb:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A database table named STUDENTS has the following fields: StudentID, Name, Age, Class, Score.\n\nStudentID | Name | Age | Class | Score\n1 | Amir | 15 | 10A | 72\n2 | Bella | 14 | 10B | 85\n3 | Chen | 15 | 10A | 90\n4 | Dina | 16 | 10B | 64",
+        "question": "Write an SQL query to show the Name and Score of all students in class 10A, with the highest score first.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of SELECT statement to retrieve Name and Score.",
+          "Correct use of FROM clause to specify the table STUDENTS.",
+          "Correct use of WHERE clause to filter students in class 10A and ORDER BY clause to sort by Score in descending order."
+        ],
+        "hints": [
+          "Stay focused on this: Write an SQL query to show the Name and Score of all students in class 10A, with the highest score first — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of statement to retrieve Name and Score.; Correct use of FROM clause to specify the table…."
+        ],
+        "model_answer": "SELECT Name, Score FROM STUDENTS WHERE Class = '10A' ORDER BY Score DESC;",
+        "explanation": "This query selects the Name and Score of students from the STUDENTS table where the Class is '10A' and orders the results by Score in descending order, showing the students with the highest scores first.",
+        "exam_question_id": "ed742077-cf83-40c0-bb0e-c37f3e50a612:1",
+        "topic_label": "single-table database.",
+        "topic_id": 2515,
+        "checked": true,
+        "subtopic_id": 12954,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "single-table database."
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A database table named STUDENTS has the following fields: StudentID, Name, Age, Class, Score.\n\nStudentID | Name | Age | Class | Score\n1 | Amir | 15 | 10A | 72\n2 | Bella | 14 | 10B | 85\n3 | Chen | 15 | 10A | 90\n4 | Dina | 16 | 10B | 64",
+        "question": "State the output of the following SQL query: SELECT SUM(Score) FROM STUDENTS WHERE Age = 15;",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the students with Age 15.",
+          "Correctly calculate the sum of their scores."
+        ],
+        "hints": [
+          "Stay focused on this: State the output of the following SQL query: SELECT SUM(Score) FROM STUDENTS WHERE Age = 15; — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the students with Age 15.; Correctly calculate the sum of their scores."
+        ],
+        "model_answer": "162",
+        "explanation": "The students with Age 15 are Amir and Chen. Their scores are 72 and 90, respectively. The sum of their scores is 72 + 90 = 162.",
+        "exam_question_id": "ed742077-cf83-40c0-bb0e-c37f3e50a612:1",
+        "topic_label": "read and complete SQL scripts that use SELECT",
+        "topic_id": 2515,
+        "checked": true,
+        "subtopic_id": 12957,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "read and complete SQL scripts that use SELECT"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB). State two items of data found in a packet header.",
+        "question": "State two items of data found in a packet header.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify two correct items from the packet header.",
+          "Ensure the items are relevant to USB data packets."
+        ],
+        "hints": [
+          "Think about what information is necessary for the USB to correctly route and process the data packet."
+        ],
+        "model_answer": "A USB data packet header typically includes the destination address and the source address. These are necessary for the USB to know where the data is coming from and where it should be sent to.\n\nDestination address, Source address.",
+        "explanation": "USB data packets, like other network data packets, include essential routing information in their headers. The destination and source addresses are critical for proper data transmission.",
+        "exam_question_id": "5707d20e-362e-41d7-a930-907fa1f4f359:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB). State two items of data found in a packet header.",
+        "question": "Give one reason why packets of one message may arrive in a different order.",
+        "marks": 2,
+        "marking_criteria": [
+          "Provide a valid reason related to network transmission and packet routing.",
+          "Ensure the reason is relevant to USB data packets."
+        ],
+        "hints": [
+          "Stay focused on this: Give one reason why packets of one message may arrive in a different order — develop the idea fully rather than listing short points. Make sure you also cover: Provide a valid reason related to transmission and packet; Ensure the reason is relevant to USB data packets."
+        ],
+        "model_answer": "Packets can take different routes through routers and hubs, depending on network congestion and routing algorithms. This can cause packets to arrive out of order.\n\nNetwork congestion and routing algorithms.",
+        "explanation": "Network congestion and the dynamic nature of routing can cause packets to take different paths, leading to out-of-order arrival.",
+        "exam_question_id": "5707d20e-362e-41d7-a930-907fa1f4f359:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a data packet sent across a network using the Universal Serial Bus (USB). State two items of data found in a packet header.",
+        "question": "Describe how error detection can be achieved using a checksum.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the process of generating and verifying a checksum.",
+          "Ensure the explanation is relevant to USB data packets."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how error detection can be achieved using a checksum — develop the idea fully rather than listing short points. Make sure you also cover: the process of generating and verifying a checksum.; Ensure the explanation is relevant to USB packets."
+        ],
+        "model_answer": "A checksum is a value calculated from the data in the packet. When the packet is received, the checksum is recalculated and compared to the original checksum. If they do not match, an error has occurred.\n\nCalculate the checksum from the data, compare it to the received checksum, and detect discrepancies.",
+        "explanation": "A checksum is a simple error-detection method where a value is calculated from the data and compared at the receiving end to detect any changes or errors in the data.",
+        "exam_question_id": "5707d20e-362e-41d7-a930-907fa1f4f359:1",
+        "topic_label": "The universal serial bus (USB)",
+        "topic_id": 2508,
+        "checked": true,
+        "subtopic_id": 12832,
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "The universal serial bus (USB)"
+        }
+      }
+    ],
+    "estimated_time": 55,
+    "assessment_id": "1dede135-2d3f-40bd-bf04-f96309e0ba39",
+    "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+    "topics": [
+      "Chapter 9: Database structure",
+      "Chapter 2: The structure of a data packet"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 200,
+    "topic_ids": [
+      2515,
+      2508
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 25,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "7 questions open with the same sentence (1, 3, 5, 8, 15, 18, 23): \"State two items of data found in a packet header.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "7 questions open with the same sentence (2, 4, 6, 9, 16, 19, 24): \"Give one reason why packets of one message may arr\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 6,
+      "detail": "5 questions open with the same sentence (7, 10, 17, 20, 25): \"Describe how error detection can be achieved using\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 2,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 3,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 7"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Topic label states 'The universal serial bus (USB)' but question content and marking criteria are generic packet header items, not USB-specific. USB packets have different header structures than general network packets.",
+        "correction": "Either correct topic_label to 'The structure of a data packet' or provide USB-specific header items (e.g., PID, endpoint, frame number)."
+      },
+      {
+        "label": "2b",
+        "severity": "poor",
+        "detail": "Topic label 'The universal serial bus (USB)' is inconsistent with question content about network routers and congestion. USB is a serial bus protocol; packets do not route through multiple routers.",
+        "correction": "Correct topic_label to 'The structure of a data packet' or revise question to address USB-specific transmission characteristics."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Model answer shows '162 (72 + 90)' but marking criteria only require identifying rows and calculating sum. The parenthetical working is helpful but not explicitly required by criteria.",
+        "correction": "Model answer should be '162' alone, or marking criteria should explicitly require showing calculation steps."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Topic label 'The universal serial bus (USB)' with generic packet header question (destination/source address). USB packet headers contain protocol-specific fields (PID, endpoint, frame number), not generic network addresses.",
+        "correction": "Align topic to 'The structure of a data packet' or provide USB-specific header content."
+      },
+      {
+        "label": "8b",
+        "severity": "poor",
+        "detail": "Question about packets arriving out of order via different router paths is inconsistent with USB topic. USB is a serial bus with deterministic, single-path transmission; packets do not route through multiple routers.",
+        "correction": "Correct topic_label to 'The structure of a data packet' or revise question for USB context."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Model answer conflates generic network packet headers with USB packet headers. USB packets use PID, endpoint, frame number—not destination/source addresses. Answer is factually incorrect for USB context.",
+        "correction": "Provide USB-specific header items or correct topic_label to 'The structure of a data packet'."
+      },
+      {
+        "label": "10b",
+        "severity": "poor",
+        "detail": "Question assumes USB packets route through multiple routers and experience congestion-based reordering. USB is a serial bus protocol with single deterministic path; this scenario does not apply.",
+        "correction": "Revise question for USB context (e.g., address buffering, hub delays) or correct topic_label."
+      },
+      {
+        "label": "10c",
+        "severity": "poor",
+        "detail": "Checksum explanation is generic and applies equally to all packet types. No USB-specific content despite topic label. Model answer does not distinguish USB error detection from general packet error detection.",
+        "correction": "Add USB-specific error detection details or correct topic_label to 'The structure of a data packet'."
+      }
+    ],
+    "summary": "Assessment contains 8 topic-content misalignments: questions 2a, 2b, 8a, 8b, 10a, 10b, 10c labeled 'USB' but contain generic network packet content. USB is a serial bus protocol; packets do not route through multiple routers or experience congestion-based reordering. Either correct topic labels or provide USB-specific content. Question 5b model answer includes optional working not required by criteria."
+  },
+  "totalSeconds": 71
+}

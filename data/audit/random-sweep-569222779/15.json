@@ -1,0 +1,1224 @@
+{
+  "index": 15,
+  "label": "Cambridge / Exam / Cambridge IGCSE® English as a Second Language Coursebook",
+  "request": {
+    "subject": "Cambridge IGCSE® English as a Second Language Coursebook",
+    "textbook_id": 14,
+    "topic_ids": [
+      2961
+    ],
+    "topics": [
+      "Unit 16: Social media"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE® English as a Second Language Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 120,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "Read the following passage about social media usage among teenagers.\n\n\"Social media has become an integral part of teenagers' lives. According to a recent study, 80% of teenagers use at least one social media platform daily. Facebook and Instagram are the most popular platforms, with 60% and 40% of teenagers using them, respectively. Many teenagers report that social media helps them stay connected with friends and family, but some also mention that it can lead to feelings of anxiety and low self-esteem.\"",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "State the percentage of teenagers who use Facebook daily.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct percentage",
+          "Reference to the passage"
+        ],
+        "hints": [
+          "Look for the specific statistic in the passage."
+        ],
+        "model_answer": "60%",
+        "explanation": "The passage states that 60% of teenagers use Facebook daily.",
+        "exam_question_id": "4a84e1fd-7135-4dc6-bdd0-c39e1d0105d4:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following passage about social media usage among teenagers.\n\n\"Social media has become an integral part of teenagers' lives. According to a recent study, 80% of teenagers use at least one social media platform daily. Facebook and Instagram are the most popular platforms, with 60% and 40% of teenagers using them, respectively. Many teenagers report that social media helps them stay connected with friends and family, but some also mention that it can lead to feelings of anxiety and low self-esteem.\"",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why some teenagers feel anxiety and low self-esteem because of social media.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the cause",
+          "Reference to the passage",
+          "Clear explanation"
+        ],
+        "hints": [
+          "Find the part of the passage that discusses negative effects."
+        ],
+        "model_answer": "Some teenagers feel anxiety and low self-esteem because of social media due to the constant comparison with others and the pressure to present an ideal image online.",
+        "explanation": "The passage mentions that while social media helps teenagers stay connected, it can also lead to feelings of anxiety and low self-esteem.",
+        "exam_question_id": "4a84e1fd-7135-4dc6-bdd0-c39e1d0105d4:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the following sentences about social media usage.\n\n1. Social media allows teenagers to connect with friends and family.\n2. Excessive use of social media can lead to feelings of anxiety.\n3. Teenagers often share personal information on social media.\n\nUse these sentences to answer the following questions.\n",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "Name one benefit of using social media mentioned in the sentences.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the benefit",
+          "Reference to the sentences"
+        ],
+        "hints": [
+          "Look for positive outcomes in the sentences."
+        ],
+        "model_answer": "Allows teenagers to connect with friends and family",
+        "explanation": "The first sentence mentions that social media allows teenagers to connect with friends and family, which is a benefit.",
+        "exam_question_id": "4a84e1fd-7135-4dc6-bdd0-c39e1d0105d4:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the following sentences about social media usage.\n\n1. Social media allows teenagers to connect with friends and family.\n2. Excessive use of social media can lead to feelings of anxiety.\n3. Teenagers often share personal information on social media.\n\nUse these sentences to answer the following questions.\n",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe a potential negative effect of social media usage.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the negative effect",
+          "Reference to the sentences",
+          "Clear description"
+        ],
+        "hints": [
+          "Look for negative outcomes in the sentences."
+        ],
+        "model_answer": "A potential negative effect of social media usage is that excessive use can lead to feelings of anxiety.",
+        "explanation": "The second sentence mentions that excessive use of social media can lead to feelings of anxiety, which is a negative effect.",
+        "exam_question_id": "4a84e1fd-7135-4dc6-bdd0-c39e1d0105d4:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Imagine you are writing an article about the impact of social media on teenagers. Use the following vocabulary words in your sentences: 'platform', 'connect', 'anxiety', 'compare','self-esteem'.\n",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "Write a sentence using the word 'connect'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct use of the word 'connect'",
+          "Sentence makes sense"
+        ],
+        "hints": [
+          "Stay focused on this: Write a sentence using the word 'connect' — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of the word 'connect'; Sentence makes sense."
+        ],
+        "model_answer": "Social media allows teenagers to connect with friends and family from all around the world.",
+        "explanation": "The word 'connect' is used correctly in the context of staying in touch with others through social media.",
+        "exam_question_id": "4a84e1fd-7135-4dc6-bdd0-c39e1d0105d4:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Imagine you are writing an article about the impact of social media on teenagers. Use the following vocabulary words in your sentences: 'platform', 'connect', 'anxiety', 'compare','self-esteem'.\n",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "Write a sentence using the words 'compare' and'self-esteem'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct use of both words",
+          "Sentence makes sense"
+        ],
+        "hints": [
+          "Stay focused on this: Write a sentence using the words 'compare' and'self-esteem' — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of both words; Sentence makes sense."
+        ],
+        "model_answer": "Teenagers often compare themselves to others on social media, which can negatively impact their self-esteem.",
+        "explanation": "The words 'compare' and'self-esteem' are used correctly to describe how social media can affect teenagers' perceptions of themselves.",
+        "exam_question_id": "4a84e1fd-7135-4dc6-bdd0-c39e1d0105d4:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage among teenagers.\n\n'Social media platforms like Instagram and Snapchat are extremely popular among teenagers today. These platforms allow teenagers to share photos, videos, and messages with friends and family. However, there are concerns about the impact of social media on teenagers' mental health. Studies have shown that excessive use of social media can lead to feelings of anxiety and depression.'",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Name two social media platforms mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify Instagram",
+          "Identify Snapchat"
+        ],
+        "hints": [
+          "Look for the names of platforms in the first sentence."
+        ],
+        "model_answer": "Instagram, Snapchat",
+        "explanation": "The names of the platforms are clearly mentioned in the first sentence of the extract.",
+        "exam_question_id": "910ff5d1-a7c5-48f9-a144-8e99265cf814:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage among teenagers.\n\n'Social media platforms like Instagram and Snapchat are extremely popular among teenagers today. These platforms allow teenagers to share photos, videos, and messages with friends and family. However, there are concerns about the impact of social media on teenagers' mental health. Studies have shown that excessive use of social media can lead to feelings of anxiety and depression.'",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "What can be inferred about the impact of social media on teenagers' mental health?",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the negative impact",
+          "Relate it to excessive use",
+          "Mention feelings of anxiety and depression"
+        ],
+        "hints": [
+          "Look for the part of the extract that talks about the impact of social media."
+        ],
+        "model_answer": "Excessive use of social media can lead to feelings of anxiety and depression.",
+        "explanation": "The extract mentions that there are concerns about the impact of social media on teenagers' mental health and that excessive use can lead to feelings of anxiety and depression.",
+        "exam_question_id": "910ff5d1-a7c5-48f9-a144-8e99265cf814:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage:\n\n'Social media platforms have become a central part of our daily lives. They allow us to stay connected with friends and family, share our experiences, and even discover new interests. However, excessive use of social media can lead to negative effects, such as reduced productivity and increased feelings of anxiety.'",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain what the author means by 'central part of our daily lives'.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the phrase 'central part'",
+          "Explanation of its significance in daily life",
+          "Use of examples from the extract"
+        ],
+        "hints": [
+          "Consider what the author implies by stating it as 'central'."
+        ],
+        "model_answer": "The author means that social media platforms are very important and frequently used in our everyday activities. They are not just occasional tools but are integral to how we communicate and interact with others.",
+        "explanation": "Show an understanding that the term 'central part' indicates the significant role social media plays in daily routines.",
+        "exam_question_id": "a2548fe8-9dc5-424c-819b-97858c14ef90:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage:\n\n'Social media platforms have become a central part of our daily lives. They allow us to stay connected with friends and family, share our experiences, and even discover new interests. However, excessive use of social media can lead to negative effects, such as reduced productivity and increased feelings of anxiety.'",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe two positive effects of using social media mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of positive effects",
+          "Explanation of how these effects benefit users"
+        ],
+        "hints": [
+          "Look for phrases that describe benefits or advantages."
+        ],
+        "model_answer": "Two positive effects mentioned are staying connected with friends and family, and discovering new interests. Staying connected helps maintain relationships, while discovering new interests can enrich one's knowledge and hobbies.",
+        "explanation": "Be able to identify and explain the positive impacts of social media usage as described in the extract.",
+        "exam_question_id": "a2548fe8-9dc5-424c-819b-97858c14ef90:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Imagine you are writing a report on the impact of social media on teenagers. You need to include a quotation from an expert. Here is a possible quotation:\n\n'Social media can be a double-edged sword for teenagers. While it offers opportunities for connection and self-expression, it can also lead to cyberbullying and privacy concerns.'",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Name the two positive aspects of social media for teenagers mentioned in the quotation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of positive aspects",
+          "Accurate naming of the aspects"
+        ],
+        "hints": [
+          "Look for phrases that describe benefits or advantages."
+        ],
+        "model_answer": "The two positive aspects are 'opportunities for connection' and'self-expression'.",
+        "explanation": "Be able to identify and name the positive impacts of social media on teenagers as described in the quotation.",
+        "exam_question_id": "a2548fe8-9dc5-424c-819b-97858c14ef90:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Imagine you are writing a report on the impact of social media on teenagers. You need to include a quotation from an expert. Here is a possible quotation:\n\n'Social media can be a double-edged sword for teenagers. While it offers opportunities for connection and self-expression, it can also lead to cyberbullying and privacy concerns.'",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain the meaning of the phrase 'double-edged sword' in this context.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the phrase 'double-edged sword'",
+          "Explanation of its meaning in the context",
+          "Use of evidence from the quotation"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The phrase 'double-edged sword' means that social media has both positive and negative effects. It offers benefits like connection and self-expression, but it also has drawbacks such as cyberbullying and privacy concerns. This phrase emphasizes that social media is not entirely good or entirely bad but has both advantages and disadvantages.",
+        "explanation": "Show an understanding that the phrase 'double-edged sword' implies that social media has both positive and negative effects.",
+        "exam_question_id": "a2548fe8-9dc5-424c-819b-97858c14ef90:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "\"Analyse the following sentence from a social media post.\n\n\"Join our campaign to protect our environment! Together, we can make a difference and create a cleaner, healthier world for future generations.\"",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain how the use of the word 'together' affects the reader.",
+        "marks": 1,
+        "marking_criteria": [
+          "One mark for identifying the word 'together', one mark for explaining its effect, and one mark for providing evidence from the text."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The word 'together' creates a sense of unity and collective action, encouraging readers to join the campaign and feel part of a larger effort to protect the environment. It implies that individual contributions are valuable and that everyone's participation is needed.",
+        "explanation": "Explain how the word 'together' fosters a sense of community and shared responsibility.",
+        "exam_question_id": "b18c9491-d07b-478f-b20c-ab4cedda34d0:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "\"Analyse the following sentence from a social media post.\n\n\"Join our campaign to protect our environment! Together, we can make a difference and create a cleaner, healthier world for future generations.\"",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the verb in the sentence that describes an action the reader can take.",
+        "marks": 1,
+        "marking_criteria": [
+          "One mark for identifying the correct verb, one mark for stating the action."
+        ],
+        "hints": [
+          "Look for a word that tells what the reader can do."
+        ],
+        "model_answer": "Join, make",
+        "explanation": "Identify the verbs 'join' and 'make' and state the actions associated with them.",
+        "exam_question_id": "b18c9491-d07b-478f-b20c-ab4cedda34d0:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<Read the following passage about social media usage among teenagers. Many teenagers spend a significant amount of time on social media platforms like Facebook, Instagram, and Snapchat. According to a recent study, 70% of teenagers use Facebook daily, while 60% use Instagram and 50% use Snapchat daily. The study also found that social media can have both positive and negative effects on teenagers, including increased feelings of anxiety and low self-esteem due to constant comparison with others.>",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "State the percentage of teenagers who use Facebook daily.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct percentage identified",
+          "Reference to the text"
+        ],
+        "hints": [
+          "Look for the specific percentage in the passage."
+        ],
+        "model_answer": "70%",
+        "explanation": "The passage states that 70% of teenagers use Facebook daily.",
+        "exam_question_id": "057375cd-ae36-4af6-8198-e41bd528b7c5:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<Read the following passage about social media usage among teenagers. Many teenagers spend a significant amount of time on social media platforms like Facebook, Instagram, and Snapchat. According to a recent study, 70% of teenagers use Facebook daily, while 60% use Instagram and 50% use Snapchat daily. The study also found that social media can have both positive and negative effects on teenagers, including increased feelings of anxiety and low self-esteem due to constant comparison with others.>",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why some teenagers feel anxiety and low self-esteem because of social media.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the cause",
+          "Explanation of the effect",
+          "Reference to the text"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why some teenagers feel anxiety and low self-esteem because of social media — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the cause; Explanation of the effect; Reference to the text."
+        ],
+        "model_answer": "Some teenagers feel anxiety and low self-esteem because of social media due to constant comparison with others, as mentioned in the passage.",
+        "explanation": "The passage states that social media can lead to increased feelings of anxiety and low self-esteem due to constant comparison with others.",
+        "exam_question_id": "057375cd-ae36-4af6-8198-e41bd528b7c5:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "<Consider the following sentences about social media usage. Social media allows teenagers to connect with friends and family, share experiences, and access information easily. However, excessive use of social media can lead to feelings of anxiety and low self-esteem due to constant comparison with others.>",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Name one benefit of using social media mentioned in the sentences.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct benefit identified",
+          "Reference to the text"
+        ],
+        "hints": [
+          "Look for positive outcomes in the passage."
+        ],
+        "model_answer": "Connecting with friends and family",
+        "explanation": "The passage mentions that social media allows teenagers to connect with friends and family.",
+        "exam_question_id": "057375cd-ae36-4af6-8198-e41bd528b7c5:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "<Consider the following sentences about social media usage. Social media allows teenagers to connect with friends and family, share experiences, and access information easily. However, excessive use of social media can lead to feelings of anxiety and low self-esteem due to constant comparison with others.>",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe a potential negative effect of social media usage.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the negative effect",
+          "Explanation of the cause",
+          "Reference to the text"
+        ],
+        "hints": [
+          "Look for negative outcomes in the passage."
+        ],
+        "model_answer": "A potential negative effect of social media usage is feelings of anxiety and low self-esteem due to constant comparison with others.",
+        "explanation": "The passage states that excessive use of social media can lead to feelings of anxiety and low self-esteem due to constant comparison with others.",
+        "exam_question_id": "057375cd-ae36-4af6-8198-e41bd528b7c5:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "<Imagine you are writing an article about the impact of social media on teenagers. Use the following vocabulary words in your sentences: 'platform', 'connect', 'anxiety', 'compare','self-esteem'. Write sentences using these words to describe both positive and negative effects of social media.>",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Write a sentence using the word 'connect'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct use of the word",
+          "Clarity of the sentence"
+        ],
+        "hints": [
+          "Think about how social media helps people stay in touch."
+        ],
+        "model_answer": "Social media platforms like Facebook and Instagram connect teenagers with friends and family around the world.",
+        "explanation": "The word 'connect' is used to describe how social media helps teenagers stay in touch with others.",
+        "exam_question_id": "057375cd-ae36-4af6-8198-e41bd528b7c5:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "<Imagine you are writing an article about the impact of social media on teenagers. Use the following vocabulary words in your sentences: 'platform', 'connect', 'anxiety', 'compare','self-esteem'. Write sentences using these words to describe both positive and negative effects of social media.>",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Write a sentence using the words 'compare' and'self-esteem'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct use of both words",
+          "Clarity of the sentence"
+        ],
+        "hints": [
+          "Stay focused on this: Write a sentence using the words 'compare' and'self-esteem' — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of both words; Clarity of the sentence."
+        ],
+        "model_answer": "Constant comparison on social media platforms can negatively impact teenagers' self-esteem, leading to feelings of inadequacy.",
+        "explanation": "The sentence uses both 'compare' and'self-esteem' to describe a negative effect of social media on teenagers.",
+        "exam_question_id": "057375cd-ae36-4af6-8198-e41bd528b7c5:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following passage about social media usage among teenagers: 'Social media platforms like Instagram and Snapchat are becoming increasingly popular among teenagers. Many teenagers use these platforms to connect with their friends and family, but some feel pressure to present an idealised version of themselves online.'",
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "question": "State two social media platforms mentioned in the passage.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify Instagram",
+          "Identify Snapchat"
+        ],
+        "hints": [
+          "Look for the names of the platforms in the passage."
+        ],
+        "model_answer": "Instagram and Snapchat",
+        "explanation": "The passage directly mentions these two platforms.",
+        "exam_question_id": "29207c92-0762-48ba-b2fe-451b57ffd683:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following passage about social media usage among teenagers: 'Social media platforms like Instagram and Snapchat are becoming increasingly popular among teenagers. Many teenagers use these platforms to connect with their friends and family, but some feel pressure to present an idealised version of themselves online.'",
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why some teenagers might feel pressure to present an idealised version of themselves online.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the source of pressure",
+          "Explain the effect on teenagers",
+          "Provide an example or reasoning"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why some teenagers might feel pressure to present an idealised version of themselves online — develop the idea fully rather than listing short points. Make sure you also cover: Identify the source of pressure; Provide an example or reasoning."
+        ],
+        "model_answer": "Teenagers might feel pressure to present an idealized version of themselves online because they want to be perceived positively by their peers. This pressure can lead to anxiety and low self-esteem when they compare themselves to others who seem to have perfect lives.",
+        "explanation": "The passage mentions that some teenagers feel pressure to present an idealised version of themselves, which implies they want to be liked and accepted by their peers.",
+        "exam_question_id": "29207c92-0762-48ba-b2fe-451b57ffd683:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the following sentences about social media usage: 'Social media allows teenagers to connect with others around the world. It can also lead to feelings of anxiety and low self-esteem when they compare themselves to others.'",
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "question": "Name one benefit of using social media mentioned in the sentences.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the benefit"
+        ],
+        "hints": [
+          "Look for positive outcomes in the sentences."
+        ],
+        "model_answer": "Connecting with others around the world",
+        "explanation": "The first sentence mentions that social media allows teenagers to connect with others globally.",
+        "exam_question_id": "29207c92-0762-48ba-b2fe-451b57ffd683:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the following sentences about social media usage: 'Social media allows teenagers to connect with others around the world. It can also lead to feelings of anxiety and low self-esteem when they compare themselves to others.'",
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe a potential negative effect of social media usage.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the negative effect",
+          "Explain the cause"
+        ],
+        "hints": [
+          "Look for negative outcomes and their causes in the sentences."
+        ],
+        "model_answer": "A potential negative effect of social media usage is feelings of anxiety and low self-esteem, which can occur when teenagers compare themselves to others.",
+        "explanation": "The second sentence mentions that social media can lead to anxiety and low self-esteem due to comparisons with others.",
+        "exam_question_id": "29207c92-0762-48ba-b2fe-451b57ffd683:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Imagine you are writing an article about the impact of social media on teenagers. Use the following vocabulary words in your sentences: 'platform', 'connect', 'anxiety', 'compare','self-esteem'. 'Social media platforms like Instagram and Snapchat are becoming increasingly popular among teenagers. Many teenagers use these platforms to connect with their friends and family, but some feel pressure to present an idealised version of themselves online.'",
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "question": "Write a sentence using the word 'connect'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Use the word correctly in context"
+        ],
+        "hints": [
+          "Stay focused on this: Write a sentence using the word 'connect' — develop the idea fully rather than listing short points. Make sure you also cover: the word correctly in context."
+        ],
+        "model_answer": "Many teenagers use social media platforms to connect with their friends and family.",
+        "explanation": "The word 'connect' is used to describe how teenagers use social media to communicate with others.",
+        "exam_question_id": "29207c92-0762-48ba-b2fe-451b57ffd683:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Imagine you are writing an article about the impact of social media on teenagers. Use the following vocabulary words in your sentences: 'platform', 'connect', 'anxiety', 'compare','self-esteem'. 'Social media platforms like Instagram and Snapchat are becoming increasingly popular among teenagers. Many teenagers use these platforms to connect with their friends and family, but some feel pressure to present an idealised version of themselves online.'",
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "question": "Write a sentence using the words 'compare' and 'self-esteem'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Use both words correctly in context"
+        ],
+        "hints": [
+          "Stay focused on this: Write a sentence using the words 'compare' and 'self-esteem' — develop the idea fully rather than listing short points. Make sure you also cover: both words correctly in context."
+        ],
+        "model_answer": "When teenagers compare themselves to others on social media, it can negatively affect their self-esteem.",
+        "explanation": "The sentence correctly uses both 'compare' and 'self-esteem' to describe the impact of social media on teenagers.",
+        "exam_question_id": "29207c92-0762-48ba-b2fe-451b57ffd683:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage among teenagers. Social media has become an integral part of teenagers' lives, allowing them to connect with friends, share experiences, and access information quickly. However, excessive use of social media can lead to feelings of anxiety and low self-esteem among some teenagers.",
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "question": "Name one benefit of using social media mentioned in the extract.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify one benefit from the extract"
+        ],
+        "hints": [
+          "Look for words that indicate a positive outcome."
+        ],
+        "model_answer": "Allows them to connect with friends, share experiences, and access information quickly.",
+        "explanation": "The extract mentions connecting with friends, sharing experiences, and accessing information as benefits of social media.",
+        "exam_question_id": "00adacae-9229-45f7-8b35-b609d680d5ea:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage among teenagers. Social media has become an integral part of teenagers' lives, allowing them to connect with friends, share experiences, and access information quickly. However, excessive use of social media can lead to feelings of anxiety and low self-esteem among some teenagers.",
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "question": "What can be inferred about the impact of social media on teenagers' mental health?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the potential negative effect on mental health",
+          "Refer to the extract for evidence"
+        ],
+        "hints": [
+          "Stay focused on this: What can be inferred about the impact of social media on teenagers' mental health — develop the idea fully rather than listing short points. Make sure you also cover: Identify the potential negative effect on mental health; Refer to the extract for evidence."
+        ],
+        "model_answer": "Excessive use of social media can lead to feelings of anxiety and low self-esteem among some teenagers.",
+        "explanation": "The extract mentions that excessive use of social media can lead to feelings of anxiety and low self-esteem, indicating a potential negative impact on mental health.",
+        "exam_question_id": "00adacae-9229-45f7-8b35-b609d680d5ea:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Read the following extract about social media usage: Social media platforms have become a central part of our daily lives, offering a variety of functions that cater to different needs. They provide a space for users to express themselves creatively, connect with others, and stay updated with the latest news and trends. However, the constant comparison to others' highlighted moments can sometimes lead to feelings of inadequacy and dissatisfaction.",
+        "id": 29,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain what the author means by 'central part of our daily lives'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the role of social media in daily life"
+        ],
+        "hints": [
+          "Stay focused on this: Explain what the author means by 'central part of our daily lives' — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of in daily life."
+        ],
+        "model_answer": "The author means that social media platforms are very important and frequently used in our everyday activities.",
+        "explanation": "The phrase 'central part of our daily lives' indicates that social media is a significant and regular part of how people live their lives.",
+        "exam_question_id": "00adacae-9229-45f7-8b35-b609d680d5ea:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Read the following extract about social media usage: Social media platforms have become a central part of our daily lives, offering a variety of functions that cater to different needs. They provide a space for users to express themselves creatively, connect with others, and stay updated with the latest news and trends. However, the constant comparison to others' highlighted moments can sometimes lead to feelings of inadequacy and dissatisfaction.",
+        "id": 30,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe two positive effects of using social media mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify positive effects from the extract",
+          "Explain how they benefit users"
+        ],
+        "hints": [
+          "Look for phrases that describe positive outcomes."
+        ],
+        "model_answer": "Positive effects include providing a space for users to express themselves creatively and connecting with others.",
+        "explanation": "The extract mentions that social media provides a space for creative expression and connection, which are positive effects.",
+        "exam_question_id": "00adacae-9229-45f7-8b35-b609d680d5ea:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Read the following extract about social media usage: 'Social media has become a central part of our daily lives, offering numerous benefits such as staying connected with friends and family, and accessing a wide range of information. However, it is important to be aware of the potential risks, such as cyberbullying and privacy concerns.'",
+        "id": 31,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain what the author means by 'central part of our daily lives'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understanding the phrase in context",
+          "Citing evidence from the extract"
+        ],
+        "hints": [
+          "Stay focused on this: Explain what the author means by 'central part of our daily lives' — develop the idea fully rather than listing short points. Make sure you also cover: Understanding the phrase in context; Citing evidence from the extract."
+        ],
+        "model_answer": "The author means that social media is an essential and frequent part of daily activities, deeply integrated into how people communicate and access information.",
+        "explanation": "The phrase indicates that social media is a regular and significant component of everyday life.",
+        "exam_question_id": "554f50cd-0268-42ff-b345-2c3df8ee53a2:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Read the following extract about social media usage: 'Social media has become a central part of our daily lives, offering numerous benefits such as staying connected with friends and family, and accessing a wide range of information. However, it is important to be aware of the potential risks, such as cyberbullying and privacy concerns.'",
+        "id": 32,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe two positive effects of using social media mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifying positive effects",
+          "Citing evidence from the extract"
+        ],
+        "hints": [
+          "Look for phrases that describe benefits."
+        ],
+        "model_answer": "Two positive effects are staying connected with friends and family, and accessing a wide range of information.",
+        "explanation": "These benefits are explicitly mentioned in the extract.",
+        "exam_question_id": "554f50cd-0268-42ff-b345-2c3df8ee53a2:3",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage: 'Social media has become a central part of our daily lives, offering numerous benefits such as staying connected with friends and family, and accessing a wide range of information. However, it can also have negative effects on mental health, such as increased feelings of anxiety and low self-esteem.'",
+        "id": 33,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain what the author means by 'central part of our daily lives'.",
+        "marks": 3,
+        "marking_criteria": [
+          "Define 'central part of our daily lives'.",
+          "Provide an example from the extract to support the definition.",
+          "Explain the significance of this in the context of the passage."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The author means that social media is a fundamental and integral aspect of our daily routines and activities. It is something that people regularly interact with and rely on throughout their day.\n\nSocial media is a fundamental and integral aspect of our daily routines and activities.",
+        "explanation": "Provide a clear definition and support it with an example from the text.",
+        "exam_question_id": "3148220f-65df-4b73-ab19-2659e358890f:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage: 'Social media has become a central part of our daily lives, offering numerous benefits such as staying connected with friends and family, and accessing a wide range of information. However, it can also have negative effects on mental health, such as increased feelings of anxiety and low self-esteem.'",
+        "id": 34,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe two positive effects of using social media mentioned in the extract.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify two positive effects mentioned in the extract.",
+          "Explain each positive effect with reference to the extract.",
+          "Discuss why these effects are considered positive."
+        ],
+        "hints": [
+          "Look for phrases that describe benefits or advantages."
+        ],
+        "model_answer": "Two positive effects of using social media mentioned in the extract are: 1) Staying connected with friends and family. 2) Accessing a wide range of information. Staying connected allows users to maintain relationships and communicate easily, while accessing information provides users with knowledge and updates on various topics.\n\n1) Staying connected with friends and family. 2) Accessing a wide range of information.",
+        "explanation": "Identify and explain the positive effects mentioned in the extract.",
+        "exam_question_id": "3148220f-65df-4b73-ab19-2659e358890f:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about the impact of social media on teenagers: 'Social media platforms have become an essential part of teenagers' daily lives, enabling them to connect with friends and family, share experiences, and access information quickly. However, excessive use of social media can lead to feelings of anxiety and low self-esteem due to constant comparison with others.'",
+        "id": 35,
+        "type": "longform",
+        "part": "a",
+        "question": "Name one benefit of using social media mentioned in the extract.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify one benefit clearly mentioned in the extract."
+        ],
+        "hints": [
+          "Stay focused on this: Name one benefit of using social media mentioned in the extract — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "One benefit of using social media mentioned in the extract is the ability to 'connect with friends and family'.",
+        "explanation": "The extract mentions connecting with friends and family as a benefit of social media.",
+        "exam_question_id": "507924c2-5c45-42c3-91c6-bda238c6b719:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about the impact of social media on teenagers: 'Social media platforms have become an essential part of teenagers' daily lives, enabling them to connect with friends and family, share experiences, and access information quickly. However, excessive use of social media can lead to feelings of anxiety and low self-esteem due to constant comparison with others.'",
+        "id": 36,
+        "type": "longform",
+        "part": "b",
+        "question": "What can be inferred about the impact of social media on teenagers' mental health?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the negative effects mentioned.",
+          "Explain the connection to mental health."
+        ],
+        "hints": [
+          "Consider the phrases related to feelings and emotions."
+        ],
+        "model_answer": "It can be inferred that excessive use of social media can lead to feelings of anxiety and low self-esteem, which are negative effects on teenagers' mental health.",
+        "explanation": "The extract mentions that excessive use can lead to anxiety and low self-esteem, which are mental health issues.",
+        "exam_question_id": "507924c2-5c45-42c3-91c6-bda238c6b719:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage among teenagers. 'Social media platforms like Facebook, Instagram, and Snapchat are central to teenagers' lives. They use these platforms to connect with friends, share experiences, and access information quickly. However, excessive use can lead to feelings of anxiety and low self-esteem as teenagers compare themselves to others.'",
+        "id": 37,
+        "type": "longform",
+        "part": "a",
+        "question": "Name two social media platforms mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Name the first platform",
+          "Name the second platform"
+        ],
+        "hints": [
+          "Look for the names of the platforms in the extract."
+        ],
+        "model_answer": "Facebook, Instagram",
+        "explanation": "The extract mentions Facebook, Instagram, and Snapchat as social media platforms used by teenagers.",
+        "exam_question_id": "094d1a3a-0955-4a0f-a6c8-22cf1bb7a733:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Read the following extract about social media usage among teenagers. 'Social media platforms like Facebook, Instagram, and Snapchat are central to teenagers' lives. They use these platforms to connect with friends, share experiences, and access information quickly. However, excessive use can lead to feelings of anxiety and low self-esteem as teenagers compare themselves to others.'",
+        "id": 38,
+        "type": "longform",
+        "part": "b",
+        "question": "What can be inferred about the impact of social media on teenagers' mental health?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the negative effects",
+          "Explain how comparison contributes to these effects"
+        ],
+        "hints": [
+          "Stay focused on this: What can be inferred about the impact of social media on teenagers' mental health — develop the idea fully rather than listing short points. Make sure you also cover: Identify the negative effects; how comparison contributes to these effects."
+        ],
+        "model_answer": "Social media can negatively impact teenagers' mental health by causing anxiety and low self-esteem, especially when they compare themselves to others on these platforms.",
+        "explanation": "The extract mentions that excessive use of social media can lead to feelings of anxiety and low self-esteem due to comparison with others.",
+        "exam_question_id": "094d1a3a-0955-4a0f-a6c8-22cf1bb7a733:1",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Read the following extract about social media usage: 'Social media platforms have become a central part of our daily lives, offering a variety of functions that cater to different needs. They provide a space for users to connect with friends and family, and access a wide range of information and entertainment.'",
+        "id": 39,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain what the author means by 'central part of our daily lives'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the role of social media",
+          "Explain its integration into daily activities"
+        ],
+        "hints": [
+          "Stay focused on this: Explain what the author means by 'central part of our daily lives' — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of; its integration into daily."
+        ],
+        "model_answer": "The author means that social media platforms are integral to everyday activities, being used frequently for connecting with others and accessing information and entertainment.",
+        "explanation": "The extract states that social media provides essential functions that are part of daily life, indicating its central role.",
+        "exam_question_id": "094d1a3a-0955-4a0f-a6c8-22cf1bb7a733:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Read the following extract about social media usage: 'Social media platforms have become a central part of our daily lives, offering a variety of functions that cater to different needs. They provide a space for users to connect with friends and family, and access a wide range of information and entertainment.'",
+        "id": 40,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe two positive effects of using social media mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify positive effects from the text",
+          "Provide clear and relevant examples"
+        ],
+        "hints": [
+          "Look for benefits listed in the extract."
+        ],
+        "model_answer": "Two positive effects of using social media mentioned in the extract are staying connected with friends and family, and accessing a wide range of information and entertainment.",
+        "explanation": "The extract directly states these benefits as part of the functions provided by social media.",
+        "exam_question_id": "094d1a3a-0955-4a0f-a6c8-22cf1bb7a733:2",
+        "topic_label": "Unit 16: Social media",
+        "topic_id": 2961,
+        "source": {
+          "textbook": "Cambridge IGCSE® English as a Second Language Coursebook",
+          "area": "Unit 16: Social media"
+        }
+      }
+    ],
+    "estimated_time": 90,
+    "assessment_id": "1371b0ff-874b-4278-b6fb-3957ed86c9e5",
+    "subject": "Cambridge IGCSE® English as a Second Language Coursebook",
+    "topics": [
+      "Unit 16: Social media"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 14,
+    "topic_ids": [
+      2961
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 40,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 31,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 32,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 33,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 27"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 10"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 120
+}

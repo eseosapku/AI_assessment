@@ -1,0 +1,955 @@
+{
+  "index": 11,
+  "label": "REB / Exam / Physics S4 SB (1)",
+  "request": {
+    "subject": "Physics S4 SB (1)",
+    "textbook_id": 173,
+    "topic_ids": [
+      1818,
+      1815
+    ],
+    "topics": [
+      "Unit 9: Universal gravitational field potential",
+      "Unit 6: Sources of Energy in the World"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 77,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram showing a large solar panel (photovoltaic array) made of many dark blue rectangular cells in a grid. It is tilted toward the sky on a single central support post, and stands on a green grassy hill under a blue sky with white clouds.",
+        "question": "State the primary function of the solar panel shown in the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the function of a solar panel.",
+          "Explain the purpose of the tilt towards the sky."
+        ],
+        "hints": [
+          "Recall what a photovoltaic array does."
+        ],
+        "model_answer": "The primary function of the solar panel is to convert sunlight into electricity. The tilt towards the sky maximizes the amount of sunlight it receives.",
+        "explanation": "Recognise that solar panels convert solar energy into electrical energy and explain why the tilt is important for efficiency.",
+        "exam_question_id": "5cde5fb1-f440-40e9-b670-0287397ff3d9:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page248-embedded-1.jpeg",
+        "image_alt": "A large solar panel (photovoltaic array) made of many dark blue rectangular cells in a grid. It is tilted toward the sky on a single central support post, and stands on a green grassy hill under a blue sky with white clouds. No text or values are printed on it.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram showing a large solar panel (photovoltaic array) made of many dark blue rectangular cells in a grid. It is tilted toward the sky on a single central support post, and stands on a green grassy hill under a blue sky with white clouds.",
+        "question": "Calculate the approximate area of one solar cell if the entire panel is 2m by 3m and contains 100 cells arranged in a 10 by 10 grid.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the total area of the panel.",
+          "Determine the area of one cell.",
+          "Provide the final answer with correct units."
+        ],
+        "hints": [
+          "Use the formula for the area of a rectangle: length x width."
+        ],
+        "model_answer": "The total area of the panel is 2m x 3m = 6m². Since there are 100 cells in a 10 by 10 grid, the area of one cell is 6m² / 100 = 0.06m². The area of one cell is 0.06 square meters.",
+        "explanation": "Divide the total area of the panel by the number of cells to find the area of one cell.",
+        "exam_question_id": "5cde5fb1-f440-40e9-b670-0287397ff3d9:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page248-embedded-1.jpeg",
+        "image_alt": "A large solar panel (photovoltaic array) made of many dark blue rectangular cells in a grid. It is tilted toward the sky on a single central support post, and stands on a green grassy hill under a blue sky with white clouds. No text or values are printed on it.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a small rectangular solar panel with blue photovoltaic cells in a white frame mounted on a thatched straw roof. In the background are village buildings with brick walls and thatched or metal roofs under a clear blue sky.",
+        "question": "State the primary function of the photovoltaic cells in the solar panel.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the photovoltaic cells as the component responsible for converting solar energy into electrical energy.",
+          "Mention that the conversion of solar energy into electrical energy is the primary function of photovoltaic cells."
+        ],
+        "hints": [
+          "Stay focused on this: State the primary function of the photovoltaic cells in the solar panel — develop the idea fully rather than listing short points. Make sure you also cover: Identify the photovoltaic cells as the component responsible for converting solar into."
+        ],
+        "model_answer": "The primary function of the photovoltaic cells in the solar panel is to convert solar energy into electrical energy.",
+        "explanation": "Photovoltaic cells are designed to absorb sunlight and convert it into electrical energy, which can then be used to power electrical devices.",
+        "exam_question_id": "ac97da4e-72bc-400a-bc96-b303c77d8962:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page249-embedded-0.jpeg",
+        "image_alt": "A small rectangular solar panel with blue photovoltaic cells in a white frame is mounted on a thatched straw roof. In the background are village buildings with brick walls and thatched or metal roofs under a clear blue sky. No labels or values are printed on it.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a small rectangular solar panel with blue photovoltaic cells in a white frame mounted on a thatched straw roof. In the background are village buildings with brick walls and thatched or metal roofs under a clear blue sky.",
+        "question": "Explain why the solar panel is mounted on the roof of the building.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that the roof provides an optimal location for capturing sunlight.",
+          "Mention that mounting the solar panel on the roof maximises exposure to sunlight.",
+          "Explain that the orientation and angle of the roof can be adjusted to maximise solar energy capture."
+        ],
+        "hints": [
+          "Consider the need for maximum sunlight exposure to optimise energy capture."
+        ],
+        "model_answer": "The solar panel is mounted on the roof of the building to maximize its exposure to sunlight. The roof provides an optimal location for capturing sunlight, as it is typically the highest point of the building and can be oriented to face the sun directly. This maximizes the amount of sunlight the photovoltaic cells can absorb, thereby increasing the efficiency of the solar panel.",
+        "explanation": "By mounting the solar panel on the roof, it is positioned to receive the maximum amount of sunlight, which is crucial for efficient energy production. The angle and orientation of the roof can also be adjusted to further optimise the capture of solar energy.",
+        "exam_question_id": "ac97da4e-72bc-400a-bc96-b303c77d8962:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page249-embedded-0.jpeg",
+        "image_alt": "A small rectangular solar panel with blue photovoltaic cells in a white frame is mounted on a thatched straw roof. In the background are village buildings with brick walls and thatched or metal roofs under a clear blue sky. No labels or values are printed on it.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram showing three solar water heaters on a red corrugated metal roof. Each heater has a horizontal stainless steel storage tank on top of a tilted panel of parallel glass tubes (evacuated tube collectors). Green hillside and trees are visible in the background.",
+        "question": "Calculate the total surface area of the evacuated tube collectors in the diagram if each tube has a diameter of 5 cm and a length of 1.5 m, and there are 50 tubes in each panel.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify the diameter and length of each tube.",
+          "Calculate the surface area of one tube.",
+          "Calculate the total surface area for all tubes in one panel.",
+          "Calculate the total surface area for all panels."
+        ],
+        "hints": [
+          "Use the formula for the surface area of a cylinder: A = 2πrh + 2πr², where r is the radius and h is the height."
+        ],
+        "model_answer": "Diameter of each tube = 5 cm = 0.05 m, Length of each tube = 1.5 m. \nSurface area of one tube = 2π(0.025 m)(1.5 m) + 2π(0.025 m)² = 0.075π m² + 0.00125π m² = 0.07625π m². \nTotal surface area for one panel = 50 * 0.07625π m² = 3.8125π m². \nTotal surface area for all panels = 3 * 3.8125π m² = 11.4375π m² ≈ 35.9 m².",
+        "explanation": "To calculate the total surface area of the evacuated tube collectors, we first find the surface area of one tube using the formula for the surface area of a cylinder. Then, we multiply this by the number of tubes in one panel and by the number of panels.",
+        "exam_question_id": "dc0241c2-dfb9-4f54-a31a-81d4514d93b3:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page249-embedded-1.jpeg",
+        "image_alt": "A photograph of three solar water heaters on a red corrugated metal roof. Each has a horizontal stainless steel storage tank on top of a tilted panel of parallel glass tubes (evacuated tube collectors). Green hillside and trees are visible in the background. No labels are printed on it.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram showing three solar water heaters on a red corrugated metal roof. Each heater has a horizontal stainless steel storage tank on top of a tilted panel of parallel glass tubes (evacuated tube collectors). Green hillside and trees are visible in the background.",
+        "question": "Explain how the tilted panel of glass tubes enhances the efficiency of the solar water heater.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the effect of the tilt on sunlight exposure.",
+          "Explain how this enhances efficiency."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the tilted panel of glass tubes enhances the efficiency of the solar water heater — develop the idea fully rather than listing short points. Make sure you also cover: the effect of the tilt on."
+        ],
+        "model_answer": "The tilted panel of glass tubes enhances the efficiency of the solar water heater by optimizing the angle of sunlight exposure. When the panel is tilted, it captures more direct sunlight throughout the day, especially during the morning and evening when the sun is lower in the sky. This increased exposure to sunlight results in more energy being absorbed by the tubes, which is then transferred to the water in the storage tank, thereby improving the overall efficiency of the system.",
+        "explanation": "The tilt of the panel ensures that the tubes receive maximum sunlight throughout the day, which increases the amount of solar energy absorbed and converted into heat, thus improving the efficiency of the solar water heater.",
+        "exam_question_id": "dc0241c2-dfb9-4f54-a31a-81d4514d93b3:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page249-embedded-1.jpeg",
+        "image_alt": "A photograph of three solar water heaters on a red corrugated metal roof. Each has a horizontal stainless steel storage tank on top of a tilted panel of parallel glass tubes (evacuated tube collectors). Green hillside and trees are visible in the background. No labels are printed on it.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the diagram showing three solar water heaters on a red corrugated metal roof. Each heater has a horizontal stainless steel storage tank on top of a tilted panel of parallel glass tubes (evacuated tube collectors). Green hillside and trees are visible in the background.",
+        "question": "Describe the role of the stainless steel storage tank in the solar water heater system.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the function of the storage tank.",
+          "Describe how it interacts with the evacuated tube collectors."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the stainless steel storage tank in the solar water heater system — develop the idea fully rather than listing short points. Make sure you also cover: how it interacts with the."
+        ],
+        "model_answer": "The stainless steel storage tank in the solar water heater system serves as a reservoir for the heated water. It stores the water that has been heated by the evacuated tube collectors, ensuring that it is available for use when needed. The tank is designed to withstand the high temperatures produced by the solar heating process and to maintain the temperature of the stored water for an extended period. The heated water from the collectors is transferred to the storage tank, where it remains until it is needed for use, such as for domestic purposes or industrial applications.",
+        "explanation": "The storage tank is crucial for maintaining a supply of heated water, ensuring that the system can provide a continuous and reliable source of hot water even when the sun is not shining.",
+        "exam_question_id": "dc0241c2-dfb9-4f54-a31a-81d4514d93b3:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page249-embedded-1.jpeg",
+        "image_alt": "A photograph of three solar water heaters on a red corrugated metal roof. Each has a horizontal stainless steel storage tank on top of a tilted panel of parallel glass tubes (evacuated tube collectors). Green hillside and trees are visible in the background. No labels are printed on it.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the scenario where a satellite is orbiting the Earth at a height of 300 km above the Earth's surface. The mass of the Earth is 5.97 x 10^24 kg, the radius of the Earth is 6.37 x 10^6 m, and the universal gravitational constant G is 6.674 x 10^-11 N(m/kg)^2.",
+        "question": "Calculate the gravitational force acting on the satellite.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify and use the formula for gravitational force.",
+          "Substitute the given values into the formula accurately.",
+          "Show all steps of the calculation leading to the final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the gravitational force acting on the satellite — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify and use the formula for gravitational force.; Substitute the given values into the formula accurately.; all steps of the calculation…."
+        ],
+        "model_answer": "F = G * (m1 * m2) / r^2\nF = (6.674 x 10^-11 N(m/kg)^2) * (5.97 x 10^24 kg) * m2 / (6.37 x 10^6 m + 300 x 10^3 m)^2\nF = (6.674 x 10^-11) * (5.97 x 10^24) * m2 / (6.67 x 10^6)^2\nF = 3.986 x 10^14 * m2 / 4.4489 x 10^13\nF = 8.96 * m2 N\n\nAssuming the mass of the satellite m2 is known, the gravitational force F can be calculated.",
+        "explanation": "Use Newton's law of universal gravitation to calculate the gravitational force acting on the satellite. The distance r is the sum of the Earth's radius and the height of the satellite above the Earth's surface.",
+        "exam_question_id": "75c4e250-ddd6-454a-bfdc-a6c4880e9cc8:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the scenario where a satellite is orbiting the Earth at a height of 300 km above the Earth's surface. The mass of the Earth is 5.97 x 10^24 kg, the radius of the Earth is 6.37 x 10^6 m, and the universal gravitational constant G is 6.674 x 10^-11 N(m/kg)^2.",
+        "question": "Find the orbital speed of the satellite if its orbit is circular.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify and use the formula v = √(GM/r) for orbital speed",
+          "Correctly calculate r = 6.37 × 10⁶ + 0.3 × 10⁶ = 6.67 × 10⁶ m",
+          "Correctly substitute values: √(3.986 × 10¹⁴ / 6.67 × 10⁶)",
+          "Correctly evaluate to 7.73 × 10³ m/s or 7.73 km/s"
+        ],
+        "hints": [
+          "Use the formula v = sqrt(G * M / r), where M is the mass of the Earth and r is the distance from the centre of the Earth to the satellite."
+        ],
+        "model_answer": "v = √(GM/r)\nv = √((6.674 × 10⁻¹¹ N(m/kg)²) × (5.97 × 10²⁴ kg) / (6.67 × 10⁶ m))\nv = √(3.986 × 10¹⁴ / 6.67 × 10⁶)\nv = √(5.975 × 10⁷)\nv = 7.73 × 10³ m/s = 7.73 km/s\n\nThe orbital speed of the satellite is approximately 7.73 km/s.",
+        "explanation": "Use the formula for the orbital speed of a satellite in a circular orbit. The distance r is the sum of the Earth's radius and the height of the satellite above the Earth's surface.",
+        "exam_question_id": "75c4e250-ddd6-454a-bfdc-a6c4880e9cc8:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the scenario where a satellite is orbiting the Earth at a height of 300 km above the Earth's surface. The mass of the Earth is 5.97 x 10^24 kg, the radius of the Earth is 6.37 x 10^6 m, and the universal gravitational constant G is 6.674 x 10^-11 N(m/kg)^2.",
+        "question": "Explain how the gravitational constant G relates to the acceleration due to gravity g on the Earth's surface.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly describe the relationship between G and g.",
+          "Provide a clear explanation of how G is used to determine g."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the gravitational constant G relates to the acceleration due to gravity g on the Earth's surface — develop the idea fully rather than listing short points. Make sure you also cover: Correctly describe the relationship between G and g.; Provide a clear explanation of how G is used to…."
+        ],
+        "model_answer": "The gravitational constant G relates to the acceleration due to gravity g on the Earth's surface through the formula g = G * M / r^2. Here, M is the mass of the Earth and r is the radius of the Earth. By knowing G, M, and r, we can calculate the value of g, which is the acceleration experienced by objects due to the Earth's gravitational pull at its surface.",
+        "explanation": "Explain the relationship between the universal gravitational constant G and the acceleration due to gravity g, and how G is used to determine g.",
+        "exam_question_id": "75c4e250-ddd6-454a-bfdc-a6c4880e9cc8:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the scenario where a planet orbits a star in a nearly circular orbit. The mass of the star is M, the radius of the orbit is r, and the orbital period of the planet is T. The gravitational constant is G.",
+        "question": "Calculate the mass of the star using Kepler's Third Law.",
+        "marks": 3,
+        "marking_criteria": [
+          "State Kepler's Third Law.",
+          "Substitute the given values into the equation derived from Kepler's Third Law.",
+          "Solve for the mass of the star."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of the star using Kepler's Third Law — develop the idea fully rather than listing short points. Make sure you also cover: Solve for the mass of the star."
+        ],
+        "model_answer": "Kepler's Third Law states that T^2 = (4π^2/GM) * r^3. Rearranging for M gives M = (4π^2 * r^3) / (G * T^2). Substitute the given values: M = (4π^2 * r^3) / (G * T^2). Calculate M using the given values for r and T.",
+        "explanation": "Using Kepler's Third Law, we can calculate the mass of the star by rearranging the formula to solve for M. Substitute the known values for the orbital radius and period into the equation and solve for M.",
+        "exam_question_id": "144d6cf7-7785-40a4-9c84-6ac8e7f92b6b:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the scenario where a planet orbits a star in a nearly circular orbit. The mass of the star is M, the radius of the orbit is r, and the orbital period of the planet is T. The gravitational constant is G.",
+        "question": "Find the orbital speed of the planet.",
+        "marks": 3,
+        "marking_criteria": [
+          "State the formula for orbital speed.",
+          "Substitute the given values into the orbital speed formula.",
+          "Solve for the orbital speed of the planet."
+        ],
+        "hints": [
+          "Stay focused on this: Find the orbital speed of the planet — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The orbital speed of the planet is given by v = sqrt(GM/r). Substitute the known values for G, M, and r into the formula: v = sqrt((G * M) / r). Calculate v using the given values.",
+        "explanation": "To find the orbital speed of the planet, use the formula for orbital speed, which involves the gravitational constant, the mass of the star, and the radius of the orbit. Substitute the known values and solve for the orbital speed.",
+        "exam_question_id": "144d6cf7-7785-40a4-9c84-6ac8e7f92b6b:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the scenario where a planet orbits a star in a nearly circular orbit. The mass of the star is M, the radius of the orbit is r, and the orbital period of the planet is T. The gravitational constant is G.",
+        "question": "Explain how the gravitational potential energy of the planet changes as it moves from a point closer to the star to a point further away from the star.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the relationship between gravitational potential energy and distance from the star.",
+          "Explain the change in gravitational potential energy as the planet moves to a different point in the orbit."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Gravitational potential energy is given by U = -GMm/r. As the planet moves from a point closer to the star (smaller r) to a point further away (larger r), the gravitational potential energy becomes less negative (increases). This is because the potential energy is inversely proportional to the distance from the star.",
+        "explanation": "Gravitational potential energy is inversely proportional to the distance from the star. As the planet moves to a point further away from the star, the gravitational potential energy increases because the distance r in the potential energy formula increases.",
+        "exam_question_id": "144d6cf7-7785-40a4-9c84-6ac8e7f92b6b:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram showing a geyser erupting. A tall column of white water and steam shoots upward from a dome of blue water in a pool. Steam drifts over the reddish-brown ground around the pool, with hills and green vegetation in the background.",
+        "question": "Explain how the geothermal energy from beneath the Earth's surface causes the geyser to erupt.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of geothermal energy as the source of heat.",
+          "Explanation of how heat from the Earth's interior causes water to boil.",
+          "Description of the process leading to the eruption of the geyser."
+        ],
+        "hints": [
+          "Think about the role of heat in changing the state of water from liquid to gas."
+        ],
+        "model_answer": "Geothermal energy from beneath the Earth's surface heats the water in underground reservoirs. As the water is heated, it turns into steam, increasing in volume and pressure. This pressure eventually forces the water and steam through a vent to the surface, causing the geyser to erupt.",
+        "explanation": "Geothermal energy originates from the heat within the Earth. This heat can cause water to boil and turn into steam, creating pressure that results in a geyser eruption.",
+        "exam_question_id": "bf1bd339-a963-48f2-8686-28b15324b845:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page245-embedded-0.jpeg",
+        "image_alt": "A photograph of a geyser erupting. A tall column of white water and steam shoots upward from a dome of blue water in a pool. Steam drifts over the reddish-brown ground around the pool, with hills and green vegetation in the background. No labels or values are printed on it.\nLabels: \nOriginal exercise: Figure 6.5: Source of geothermal energy",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram showing a geyser erupting. A tall column of white water and steam shoots upward from a dome of blue water in a pool. Steam drifts over the reddish-brown ground around the pool, with hills and green vegetation in the background.",
+        "question": "Calculate the potential energy (PE) of the water column if the height of the water column is 20 metres and the density of water is 1000 kg/m³. Assume g = 9.8 m/s².",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of the potential energy formula PE = mgh.",
+          "Substitution of the given values into the formula.",
+          "Correct calculation and expression of the answer in joules."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the potential energy (PE) of the water column if the height of the water column is 20 metres and the density of water is 1000 kg/m³; then Assume g = 9.8 m/s². Make sure you also cover: Correct use of the potential energy formula PE = mgh.; Substitution of the given…."
+        ],
+        "model_answer": "Assuming a volume (V) of 1 m³ for the water column, the mass (m) is ρV = 1000 kg/m³ × 1 m³ = 1000 kg. Using PE = mgh, PE = 1000 kg × 9.8 m/s² × 20 m = 196,000 J.",
+        "explanation": "Potential energy is calculated using the mass of the water column, the acceleration due to gravity, and the height of the water column.",
+        "exam_question_id": "bf1bd339-a963-48f2-8686-28b15324b845:1",
+        "topic_label": "Unit 6: Sources of Energy in the World",
+        "topic_id": 1815,
+        "image_url": "/textbook-images/rwanda/173/page245-embedded-0.jpeg",
+        "image_alt": "A photograph of a geyser erupting. A tall column of white water and steam shoots upward from a dome of blue water in a pool. Steam drifts over the reddish-brown ground around the pool, with hills and green vegetation in the background. No labels or values are printed on it.\nLabels: \nOriginal exercise: Figure 6.5: Source of geothermal energy",
+        "checked": true,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Unit 6: Sources of Energy in the World"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Calculate the total energy released if all the Uranium-235 undergoes fission.",
+        "marks": 3,
+        "marking_criteria": [
+          "Convert 200 MeV to Joules: 200 × 10^6 × 1.602 × 10^-19 = 3.204 × 10^-11 J per fission",
+          "Calculate number of U-235 nuclei: (10 kg ÷ 0.235 kg/mol) × 6.022 × 10^23 = 2.56 × 10^25 nuclei",
+          "Multiply energy per fission by number of nuclei: 3.204 × 10^-11 × 2.56 × 10^25 = 8.20 × 10^14 J"
+        ],
+        "hints": [
+          "Use the conversion factor 1 MeV = 1.602 x 10^-13 J."
+        ],
+        "model_answer": "Total energy released = (200 × 10^6 eV/fission) × (1.602 × 10^-19 J/eV) × [(10 kg / 0.235 kg/mol) × (6.022 × 10^23 nuclei/mol)] = 3.204 × 10^-11 J/fission × 2.56 × 10^25 nuclei = 8.20 × 10^14 J",
+        "explanation": "First, convert the energy per fission from MeV to Joules. Then, calculate the number of U-235 nuclei in 10 kg using the molar mass of U-235. Finally, multiply the energy per fission by the number of U-235 nuclei to find the total energy released.",
+        "exam_question_id": "bcbf8798-0e7a-423d-80fa-56f233c8e3db:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Find the number of Uranium-235 nuclei in 10 kg of Uranium-235.",
+        "marks": 2,
+        "marking_criteria": [
+          "Convert mass to moles using molar mass: 10 kg ÷ 0.235 kg/mol = 42.55 mol",
+          "Multiply by Avogadro's number: 42.55 mol × 6.022 × 10^23 nuclei/mol = 2.56 × 10^25 nuclei"
+        ],
+        "hints": [
+          "Stay focused on this: Find the number of Uranium-235 nuclei in 10 kg of Uranium-235 — develop the idea fully rather than listing short points. Make sure you also cover: Convert mass to moles using molar mass: 10 kg ÷ 0.235 kg/mol = 42.55 mol."
+        ],
+        "model_answer": "Number of U-235 nuclei = (10 kg / 0.235 kg/mol) × (6.022 × 10^23 nuclei/mol) = 42.55 mol × 6.022 × 10^23 nuclei/mol = 2.56 × 10^25 nuclei",
+        "explanation": "First, convert the mass of Uranium-235 to moles using its molar mass. Then, multiply by Avogadro's number to find the number of nuclei.",
+        "exam_question_id": "bcbf8798-0e7a-423d-80fa-56f233c8e3db:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Explain how the energy released from the fission of Uranium-235 contributes to the total energy output of a nuclear power plant.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the fission process.",
+          "Explain the conversion of nuclear energy to electrical energy.",
+          "Discuss the efficiency of the process."
+        ],
+        "hints": [
+          "Consider the chain reaction and heat generation."
+        ],
+        "model_answer": "The energy released from the fission of Uranium-235 is in the form of kinetic energy of the fission fragments and neutrons, which is converted to thermal energy by heating water in the reactor core. This thermal energy is then used to produce steam, which drives turbines connected to generators to produce electricity. The efficiency of this process depends on the design of the reactor and the heat exchange systems.",
+        "explanation": "The fission process involves splitting the nucleus of Uranium-235, releasing a large amount of energy. This energy is converted to thermal energy, which is then used to generate steam and produce electricity. The efficiency of this conversion process is a critical factor in determining the overall energy output of the nuclear power plant.",
+        "exam_question_id": "bcbf8798-0e7a-423d-80fa-56f233c8e3db:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the scenario where a satellite is orbiting the Earth at a height of 300 km above the Earth's surface. The mass of the Earth is 5.97 x 10^24 kg, the radius of the Earth is 6.37 x 10^6 m, and the universal gravitational constant G is 6.674 x 10^-11 N(m/kg)^2.",
+        "question": "Calculate the gravitational force acting on the satellite.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct application of gravitational force formula F = GM₁m₂/r²",
+          "Correct identification of r = 6.67×10⁶ m (Earth radius + 300 km)",
+          "Correct substitution of G, M_Earth, and r into formula",
+          "Correct arithmetic: F = 8.96m N (where m is satellite mass in kg), or numerical answer if satellite mass is stated or assumed"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the gravitational force acting on the satellite — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of gravitational force formula F = GM₁m₂/r²; Correct identification of r = 6.67×10⁶ m radius + 300 km); Correct substitution of G,…."
+        ],
+        "model_answer": "F = G × M_Earth × m_satellite / r². r = 6.37×10⁶ + 3×10⁵ = 6.67×10⁶ m. F = (6.674×10⁻¹¹ × 5.97×10²⁴ × m) / (6.67×10⁶)² = 3.986×10¹⁴ × m / 4.449×10¹³ = 8.96m N. If satellite mass is 100 kg, F ≈ 896 N (or 890 N to 3 s.f.).",
+        "explanation": "Use the gravitational force formula to calculate the force acting on the satellite. Substitute the given values for G, m1 (mass of the Earth), m2 (mass of the satellite), and r (distance from the centre of the Earth to the satellite). Ensure the distance r includes the height of the satellite above the Earth's surface.",
+        "exam_question_id": "2582a79a-0555-46af-802c-ae3790538a27:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the scenario where a satellite is orbiting the Earth at a height of 300 km above the Earth's surface. The mass of the Earth is 5.97 x 10^24 kg, the radius of the Earth is 6.37 x 10^6 m, and the universal gravitational constant G is 6.674 x 10^-11 N(m/kg)^2.",
+        "question": "Find the orbital speed of the satellite if its orbit is circular.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of orbital speed formula v = √(GM/r)",
+          "Correct identification of r = 6.67×10⁶ m",
+          "Correct substitution and arithmetic: v = √(3.986×10¹⁴ / 6.67×10⁶) = 7.73×10³ m/s or 7.73 km/s"
+        ],
+        "hints": [
+          "Use the formula v = sqrt(G * M / r)."
+        ],
+        "model_answer": "v = √(GM/r). r = 6.37×10⁶ + 3×10⁵ = 6.67×10⁶ m. v = √(6.674×10⁻¹¹ × 5.97×10²⁴ / 6.67×10⁶) = √(3.986×10¹⁴ / 6.67×10⁶) = √(5.975×10⁷) = 7.73×10³ m/s = 7.73 km/s.",
+        "explanation": "Use the orbital speed formula to calculate the speed of the satellite in a circular orbit. Substitute the given values for G, M (mass of the Earth), and r (distance from the centre of the Earth to the satellite). Ensure the distance r includes the height of the satellite above the Earth's surface.",
+        "exam_question_id": "2582a79a-0555-46af-802c-ae3790538a27:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the scenario where a satellite is orbiting the Earth at a height of 300 km above the Earth's surface. The mass of the Earth is 5.97 x 10^24 kg, the radius of the Earth is 6.37 x 10^6 m, and the universal gravitational constant G is 6.674 x 10^-11 N(m/kg)^2.",
+        "question": "Explain how the gravitational constant G relates to the acceleration due to gravity g on the Earth's surface.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the relationship between G and g.",
+          "Clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the gravitational constant G relates to the acceleration due to gravity g on the Earth's surface — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the relationship G and g.; Clear and logical explanation."
+        ],
+        "model_answer": "The gravitational constant G relates to the acceleration due to gravity g through the formula g = G * M / r^2, where M is the mass of the Earth and r is the radius of the Earth. G is a proportionality constant that determines the strength of the gravitational force between two masses. The acceleration due to gravity g is the acceleration experienced by an object due to the Earth's gravitational pull at its surface. By knowing G, we can calculate g for any mass and distance, including the Earth's surface.\n",
+        "explanation": "Explain the relationship between the gravitational constant G and the acceleration due to gravity g, using the formula g = G * M / r^2. Clarify how G affects the gravitational force and how it is used to determine g.",
+        "exam_question_id": "2582a79a-0555-46af-802c-ae3790538a27:1",
+        "topic_label": "Relation between the universal gravitational constant and force of gravity (g and G)",
+        "topic_id": 1818,
+        "checked": true,
+        "subtopic_id": 8947,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Relation between the universal gravitational constant and force of gravity (g and G)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Calculate the total energy released if all the Uranium-235 undergoes fission.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct conversion of MeV to Joules: 200 × 10^6 eV × 1.602 × 10^-19 J/eV = 3.204 × 10^-11 J per fission",
+          "Correct calculation of number of moles: 10 kg ÷ 0.235 kg/mol = 42.55 mol (or 10000 g ÷ 235 g/mol)",
+          "Correct calculation of number of nuclei: 42.55 mol × 6.022 × 10^23 = 2.56 × 10^25 nuclei",
+          "Correct multiplication to find total energy: 2.56 × 10^25 × 3.204 × 10^-11 = 8.2 × 10^14 J (accept 8.1–8.3 × 10^14 J)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total energy released if all the Uranium-235 undergoes fission — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of of 10 kg ÷ 0.235 kg/mol = 42.55 mol (or 10000 g ÷ 235 g/mol); Correct calculation of of 42.55 mol × 6.022 ×…."
+        ],
+        "model_answer": "Energy per fission: 200 × 10^6 eV × 1.602 × 10^-19 J/eV = 3.204 × 10^-11 J. Number of moles: 10 kg ÷ 0.235 kg/mol = 42.55 mol. Number of nuclei: 42.55 mol × 6.022 × 10^23 nuclei/mol = 2.56 × 10^25 nuclei. Total energy: 2.56 × 10^25 nuclei × 3.204 × 10^-11 J/nucleus = 8.2 × 10^14 J.",
+        "explanation": "To find the total energy released, first convert the energy per fission from MeV to Joules. Then calculate the number of Uranium-235 nuclei in 10 kg and multiply by the energy per fission to find the total energy.",
+        "exam_question_id": "c3679e66-733a-4309-9280-59270c4ed673:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Find the number of Uranium-235 nuclei in 10 kg of Uranium-235.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the number of moles of Uranium-235 in 10 kg.",
+          "Correct multiplication by Avogadro's number to find the number of nuclei."
+        ],
+        "hints": [
+          "Use the molar mass of Uranium-235 to find the number of moles in 10 kg."
+        ],
+        "model_answer": "Number of moles in 10 kg = 10 kg / 235 g/mol = 42.55 moles. Number of nuclei = 42.55 moles * 6.022 x 10^23 nuclei/mol = 2.56 x 10^25 nuclei.",
+        "explanation": "To find the number of Uranium-235 nuclei in 10 kg, first calculate the number of moles of Uranium-235 in 10 kg using its molar mass. Then multiply by Avogadro's number to find the total number of nuclei.",
+        "exam_question_id": "c3679e66-733a-4309-9280-59270c4ed673:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Explain how the energy released from the fission of Uranium-235 contributes to the total energy output of a nuclear power plant.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of the fission process.",
+          "Correct explanation of how the energy is converted to electrical energy.",
+          "Correct explanation of the efficiency of the energy conversion process."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the energy released from the fission of Uranium-235 contributes to the total energy output of a nuclear power plant — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the fission; Correct explanation of how the energy is…."
+        ],
+        "model_answer": "In a nuclear power plant, Uranium-235 undergoes fission, releasing a large amount of energy in the form of kinetic energy of the fission fragments and neutrons, as well as gamma radiation. This energy is transferred to a coolant, which then heats water to produce steam. The steam drives turbines connected to generators, which convert the mechanical energy of the turbines into electrical energy. The efficiency of this process depends on the design of the reactor and the efficiency of the turbines and generators.",
+        "explanation": "Nuclear fission releases a significant amount of energy, which is harnessed in a nuclear power plant to produce steam that drives turbines. The turbines generate electricity, and the efficiency of this process depends on the design and components of the power plant.",
+        "exam_question_id": "c3679e66-733a-4309-9280-59270c4ed673:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Calculate the total energy released if all the Uranium-235 undergoes fission.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly convert MeV to Joules.",
+          "Correctly calculate the number of Uranium-235 nuclei in 10 kg.",
+          "Correctly calculate the total energy released by multiplying the energy per fission by the number of nuclei."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total energy released if all the Uranium-235 undergoes fission — develop the idea fully rather than listing short points. Make sure you also cover: Correctly convert MeV to Joules.; Correctly calculate the of Uranium-235 in 10 kg."
+        ],
+        "model_answer": "200 MeV = 200 x 10^6 eV = 200 x 10^6 x 1.602 x 10^-19 J = 3.204 x 10^-11 J per fission. Number of nuclei = (mass of U-235 / molar mass of U-235) x Avogadro's number = (10 kg / 235 g/mol) x 6.022 x 10^23 nuclei/mol = 2.56 x 10^24 nuclei. Total energy released = 3.204 x 10^-11 J x 2.56 x 10^24 nuclei = 8.2 x 10^13 J.",
+        "explanation": "First, convert the energy per fission from MeV to Joules. Then, calculate the number of Uranium-235 nuclei in 10 kg using the molar mass of U-235 and Avogadro's number. Finally, multiply the energy per fission by the number of nuclei to find the total energy released.",
+        "exam_question_id": "865fd67c-102c-4fef-8a0c-73db4b5f6800:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Find the number of Uranium-235 nuclei in 10 kg of Uranium-235.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the number of Uranium-235 nuclei in 10 kg.",
+          "Use the correct molar mass of U-235 and Avogadro's number."
+        ],
+        "hints": [
+          "Stay focused on this: Find the number of Uranium-235 nuclei in 10 kg of Uranium-235 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the number of Uranium-235 nuclei in 10 kg.; the correct molar mass of U-235 and Avogadro's number."
+        ],
+        "model_answer": "Number of nuclei = (10 kg / 235 g/mol) x 6.022 x 10^23 nuclei/mol = 2.56 x 10^24 nuclei.",
+        "explanation": "Use the given mass of Uranium-235, its molar mass, and Avogadro's number to calculate the number of Uranium-235 nuclei in 10 kg.",
+        "exam_question_id": "865fd67c-102c-4fef-8a0c-73db4b5f6800:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the scenario where a nuclear fuel rod contains Uranium-235 (U-235) with a mass of 10 kg. The energy released per fission of a U-235 nucleus is approximately 200 MeV (Mega-electron volts). Assume that 1 eV = 1.602 x 10^-19 J.",
+        "question": "Explain how the energy released from the fission of Uranium-235 contributes to the total energy output of a nuclear power plant.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the process of nuclear fission.",
+          "Explain how the energy released is converted to electrical energy.",
+          "Discuss the efficiency of the energy conversion process."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the energy released from the fission of Uranium-235 contributes to the total energy output of a nuclear power plant — develop the idea fully rather than listing short points. Make sure you also cover: how the energy released is converted to electrical energy.; Discuss the of the…."
+        ],
+        "model_answer": "In a nuclear power plant, Uranium-235 undergoes fission in the reactor core, releasing a large amount of energy in the form of heat. This heat is used to convert water into steam, which then drives a turbine connected to a generator. The spinning turbine generates electricity. The efficiency of this process depends on the design of the power plant and the materials used.",
+        "explanation": "Explain the sequence of events from nuclear fission to electricity generation, and discuss factors affecting the efficiency of energy conversion in a nuclear power plant.",
+        "exam_question_id": "865fd67c-102c-4fef-8a0c-73db4b5f6800:1",
+        "topic_label": "Nuclear fuel",
+        "topic_id": 1815,
+        "checked": true,
+        "subtopic_id": 8935,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Nuclear fuel"
+        }
+      }
+    ],
+    "estimated_time": 75,
+    "assessment_id": "a072684d-78fa-4568-9b0f-f6c3c7751d3c",
+    "subject": "Physics S4 SB (1)",
+    "topics": [
+      "Unit 9: Universal gravitational field potential",
+      "Unit 6: Sources of Energy in the World"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 173,
+    "topic_ids": [
+      1818,
+      1815
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 27,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 17"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 18"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 17"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 18"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "1b",
+        "severity": "broken",
+        "detail": "Grid arrangement error: 100 cells in 10×10 grid is correct, but question states cells are arranged in a 10 by 10 grid (100 cells total), yet model answer divides 6m² by 100 to get 0.06m² per cell. This is mathematically correct but the question's grid specification is redundant/contradictory with the stated 100 cells.",
+        "correction": "Question is answerable as stated. No correction needed; the arithmetic is valid."
+      },
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Model answer uses incomplete cylinder surface area formula. For evacuated tubes (hollow cylinders), only lateral surface area 2πrh should apply, not 2πrh + 2πr² (which includes end caps). End caps are not exposed to sunlight in typical tube collector design.",
+        "correction": "Surface area per tube = 2πrh = 2π(0.025)(1.5) = 0.075π m². Total for 3 panels: 3 × 50 × 0.075π = 11.25π ≈ 35.3 m²."
+      },
+      {
+        "label": "4a",
+        "severity": "poor",
+        "detail": "Model answer leaves satellite mass (m₂) as unknown variable, yielding F = 8.96m₂ N. Question asks to 'Calculate the gravitational force' but provides no satellite mass. Answer is incomplete without assuming or stating satellite mass.",
+        "correction": "Either provide satellite mass in question context, or state 'F = 8.96m N where m is satellite mass in kg' and note that typical LEO satellites are 100–5000 kg, giving F ≈ 0.9–45 kN."
+      },
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Inconsistent nuclei count between questions 7a and 10a. Question 7a model answer states 2.56 × 10²⁵ nuclei; question 10a states 2.56 × 10²⁴ nuclei. Both use same 10 kg U-235 mass. Correct value is 2.56 × 10²⁵ (from 10 kg ÷ 0.235 kg/mol × 6.022 × 10²³).",
+        "correction": "Question 10a model answer should read: 2.56 × 10²⁵ nuclei (not 10²⁴). Total energy in 10a should be 8.2 × 10¹⁴ J (not 8.2 × 10¹³ J)."
+      },
+      {
+        "label": "10a",
+        "severity": "broken",
+        "detail": "Model answer states 2.56 × 10²⁴ nuclei and total energy 8.2 × 10¹³ J. Correct calculation: (10 kg / 0.235 kg/mol) × 6.022 × 10²³ = 2.56 × 10²⁵ nuclei; total energy = 3.204 × 10⁻¹¹ × 2.56 × 10²⁵ = 8.2 × 10¹⁴ J. Off by factor of 10.",
+        "correction": "Number of nuclei: 2.56 × 10²⁵. Total energy: 8.2 × 10¹⁴ J."
+      },
+      {
+        "label": "10b",
+        "severity": "broken",
+        "detail": "Model answer states 2.56 × 10²⁴ nuclei. Correct calculation: (10 kg / 0.235 kg/mol) × 6.022 × 10²³ = 2.56 × 10²⁵ nuclei. Off by factor of 10.",
+        "correction": "Number of nuclei = 2.56 × 10²⁵ (not 2.56 × 10²⁴)."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Question 8a is duplicate of question 4a with identical context and nearly identical model answer. Assessment repeats same question twice with same data, violating no-repetition requirement.",
+        "correction": "Remove question 8a or replace with distinct gravitational scenario (different satellite mass, altitude, or celestial body)."
+      },
+      {
+        "label": "8b",
+        "severity": "poor",
+        "detail": "Question 8b is duplicate of question 4b. Identical context, identical orbital speed calculation, identical numerical answer (7.73 km/s). Violates no-repetition requirement.",
+        "correction": "Remove question 8b or replace with distinct orbital mechanics problem."
+      },
+      {
+        "label": "8c",
+        "severity": "poor",
+        "detail": "Question 8c is duplicate of question 4c. Identical question text, identical model answer explaining g = GM/r². Violates no-repetition requirement.",
+        "correction": "Remove question 8c or replace with distinct conceptual question on gravitational fields."
+      },
+      {
+        "label": "9a",
+        "severity": "broken",
+        "detail": "Question 9a is duplicate of question 7a with identical context (10 kg U-235, 200 MeV per fission). Model answer in 9a correctly states 2.56 × 10²⁵ nuclei and 8.2 × 10¹⁴ J, but question 10a repeats same scenario with incorrect answer (2.56 × 10²⁴, 8.2 × 10¹³ J). Violates no-repetition requirement.",
+        "correction": "Remove questions 9a–9c or replace with distinct nuclear fuel scenario (different isotope, mass, or energy per fission)."
+      },
+      {
+        "label": "9b",
+        "severity": "poor",
+        "detail": "Question 9b is duplicate of question 7b. Identical question asking for number of U-235 nuclei in 10 kg. Violates no-repetition requirement.",
+        "correction": "Remove question 9b or replace with distinct calculation."
+      },
+      {
+        "label": "9c",
+        "severity": "poor",
+        "detail": "Question 9c is duplicate of question 7c. Identical question on energy conversion in nuclear power plants. Violates no-repetition requirement.",
+        "correction": "Remove question 9c or replace with distinct conceptual question."
+      },
+      {
+        "label": "Unit 9 coverage",
+        "severity": "broken",
+        "detail": "Assessment requests 'Unit 9: Universal gravitational field potential' but only questions 4–5 and 8 address gravitational field concepts. No questions address gravitational potential energy, equipotential surfaces, or field strength—core Unit 9 topics. Unit 9 coverage is insufficient.",
+        "correction": "Add 2–3 questions on gravitational potential (U = −GM/r), potential energy changes, or equipotential surfaces to meet Unit 9 requirement."
+      }
+    ],
+    "summary": "Assessment contains 12 substantive issues: three complete question duplicates (8a–8c), three partial duplicates (9a–9c), one numerical error affecting two questions (10a–10b off by 10¹), one formula error (3a), one incomplete answer (4a), and insufficient Unit 9 coverage. Total 27 questions; 9 are duplicates or near-duplicates."
+  },
+  "totalSeconds": 92
+}

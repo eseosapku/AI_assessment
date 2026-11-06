@@ -1,0 +1,24 @@
+{
+  "index": 4,
+  "label": "REB / Exam / ICT in Accounting S4 SB",
+  "request": {
+    "subject": "ICT in Accounting S4 SB",
+    "textbook_id": 116,
+    "topic_ids": [
+      1235
+    ],
+    "topics": [
+      "Microsoft Excel"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 3392178121,
+  "error": null,
+  "stage": "generating"
+}

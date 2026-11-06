@@ -1,0 +1,24 @@
+{
+  "index": 6,
+  "label": "REB / Exam / English S1",
+  "request": {
+    "subject": "English S1",
+    "textbook_id": 67,
+    "topic_ids": [
+      759
+    ],
+    "topics": [
+      "UNIT 5: BOOKS AND SCHOOL WORK HABITS"
+    ],
+    "curriculum": "rwanda",
+    "grade": 7,
+    "className": "S1",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "generating"
+}

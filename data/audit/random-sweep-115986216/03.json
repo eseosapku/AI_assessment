@@ -1,0 +1,634 @@
+{
+  "index": 3,
+  "label": "REB / Practice / Advanced Mathematics S6 SB (1)",
+  "request": {
+    "subject": "Advanced Mathematics S6 SB (1)",
+    "textbook_id": 2,
+    "topic_ids": [
+      20,
+      13
+    ],
+    "topics": [
+      "Random Variables",
+      "Logarithmic and Exponential Functions"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 11,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "State the base of the natural logarithm function.",
+        "options": [
+          "e",
+          "10",
+          "ln",
+          "2"
+        ],
+        "correct_answer": 0,
+        "explanation": "The base of the natural logarithm function is e, which is approximately 2.718. The other options, '10', 'ln', and '2', are incorrect because they do not represent the base of the natural logarithm function. '10' is the base for common logarithms, 'ln' is the notation for natural logarithm, and '2' is a number, not a base.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Random Variables",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each logarithmic function to its corresponding exponential form.",
+        "left_items": [
+          "log_b(x) = y",
+          "log_10(x) = y",
+          "ln(x) = y",
+          "log_a(x) = y"
+        ],
+        "right_items": [
+          "b^y = x",
+          "10^y = x",
+          "e^y = x",
+          "a^y = x"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Log_b(x) = y corresponds to b^y = x, log_10(x) = y corresponds to 10^y = x, ln(x) = y corresponds to e^y = x, and log_a(x) = y corresponds to a^y = x. These pairs correctly match each logarithmic function to its exponential form based on the definition of logarithms.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Look at the graph. If f(x) is the probability density function of a continuous random variable X, what does the shaded area between x = a and x = b represent?",
+        "options": [
+          "The variance of X",
+          "P(a ≤ X ≤ b)",
+          "The mean value of X",
+          "f(b) − f(a)"
+        ],
+        "correct_answer": 1,
+        "explanation": "For a continuous random variable, the area under the density curve f(x) between a and b equals the probability P(a ≤ X ≤ b), found by integrating f(x) from a to b. The mean needs ∫x f(x)dx, not just the area. f(b) − f(a) is a difference of heights, not an area. Variance involves ∫(x−μ)² f(x)dx.",
+        "image_url": "/textbook-images/rwanda/2/page499-embedded-0.png",
+        "topic_label": "Continuous random variables",
+        "vetted": true,
+        "image_alt": "A graph on X and Y axes with the origin labelled 0. A curve labelled f(x) lies above the x-axis between x = a and x = b, starting at a high point at a, falling, and levelling off to a slight minimum near b. Dashed vertical lines at a and b bound the region under the curve, which is shaded with green diagonal hatching. Printed on it: Y | X | f(x) | 0 | a | b.",
+        "subtopic_id": 68,
+        "topic_id": 20,
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Continuous random variables"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Which of the following is the correct exponential form of log_3(81) = 4?",
+        "options": [
+          "3^4 = 1",
+          "3^4 = 81",
+          "3^4 = 9",
+          "3^4 = 27"
+        ],
+        "correct_answer": 1,
+        "explanation": "The correct exponential form of log_3(81) = 4 is 3^4 = 81 because when you raise 3 to the power of 4, you get 81. The other options are incorrect: 3^4 = 9, 3^4 = 27, and 3^4 = 1 do not equal 81.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False. The logarithmic function log_b(x) is defined for all positive real numbers x.",
+        "statements": [
+          "log_b(x) is defined for x > 0",
+          "log_b(x) is defined for x ≥ 0",
+          "log_b(x) is defined for x < 0",
+          "log_b(x) is defined for x = 0"
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "marks": 4,
+        "explanation": "The statement 'log_b(x) is defined for x > 0' is true because the logarithmic function is only defined for positive real numbers. The statements 'log_b(x) is defined for x ≥ 0', 'log_b(x) is defined for x < 0', and 'log_b(x) is defined for x = 0' are false because the logarithmic function is not defined for non-positive numbers.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps in the correct order to solve the exponential equation 2^x = 16.",
+        "items": [
+          "Take the logarithm of both sides",
+          "Isolate x",
+          "Write the equation in logarithmic form",
+          "Solve for x"
+        ],
+        "correct_order": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "marks": 4,
+        "explanation": "The correct order is: Write the equation in logarithmic form (log_2(16) = x), take the logarithm of both sides (log_2(2^x) = log_2(16)), isolate x (x = log_2(16)), and solve for x (x = 4). This sequence correctly follows the steps needed to solve the exponential equation.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong.",
+        "items": [
+          "log(100)",
+          "ln(e)",
+          "log_10(1000)",
+          "log(1)"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "The item log(1) does not belong because the logarithm of 1 is always 0, regardless of the base, whereas the other items represent specific logarithmic values that are not zero.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Look at the graph. It shows the probability density function of X, y = (1/8)x, for 0 ≤ x ≤ 4. What is P(X ≤ 2)?",
+        "options": [
+          "0.125",
+          "0.75",
+          "0.25",
+          "0.5"
+        ],
+        "correct_answer": 2,
+        "explanation": "P(X ≤ 2) is the shaded area from 0 to 2: a triangle with base 2 and height 2/8 = 0.25, so area = ½×2×0.25 = 0.25. 0.5 wrongly assumes half the interval gives half the probability. 0.125 uses only f(2)/2. 0.75 is the probability P(X ≥ 2).",
+        "image_url": "/textbook-images/rwanda/2/page500-embedded-0.png",
+        "topic_label": "Random Variables",
+        "vetted": true,
+        "image_alt": "A coordinate graph with x-axis marked from -2 to 4 and y-axis marked at 0.5 and -0.5. A straight line labelled y = (1/8)x runs from the origin (0,0) to the point (4, 0.5). The triangular region between the line, the x-axis and x = 4 is shaded with hatching. Printed on it: y = 1/8 x | x | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 0.5 | -0.5.",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "Which of the following is a property of the exponential function f(x) = e^x?",
+        "options": [
+          "It has a minimum value",
+          "It is decreasing for all x",
+          "It is increasing for all x",
+          "It has a maximum value"
+        ],
+        "correct_answer": 2,
+        "explanation": "The exponential function f(x) = e^x is increasing for all x because the base e is greater than 1, and the function grows without bound as x increases. The other options are incorrect: it is not decreasing for all x, it does not have a maximum or minimum value.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "left_items": [
+          "Exponential Function",
+          "Logarithmic Function",
+          "Base",
+          "Exponent"
+        ],
+        "right_items": [
+          "A function where the variable is the exponent",
+          "A function that is the inverse of an exponential function",
+          "The number that is raised to a power",
+          "The power to which the base is raised"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        "marks": 4,
+        "explanation": "The exponential function is a function where the variable is the exponent. The logarithmic function is the inverse of an exponential function. The base is the number that is raised to a power, and the exponent is the power to which the base is raised.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 11,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put these steps in the correct order to solve the equation 2^x = 16",
+        "items": [
+          "Take the logarithm of both sides",
+          "Rewrite the right side as a power of 2",
+          "Solve for x",
+          "Use the property of logarithms"
+        ],
+        "correct_order": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "marks": 4,
+        "explanation": "First, rewrite the right side as a power of 2 (16 = 2^4). Next, use the property of logarithms to take the logarithm of both sides (log(2^x) = log(2^4)). Then, solve for x by equating the exponents (x = 4). Finally, take the logarithm of both sides to isolate x.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: The exponential function y = 2^x is always increasing.",
+        "statements": [
+          "The exponential function y = 2^x is always increasing.",
+          "The exponential function y = 2^x can be decreasing.",
+          "The exponential function y = 2^x can be constant.",
+          "The exponential function y = 2^x can be zero at some point."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "marks": 4,
+        "explanation": "The exponential function y = 2^x is always increasing because the base 2 is greater than 1, and the function never decreases, becomes constant, or reaches zero.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 13,
+        "type": "mcq",
+        "question": "Look at the graph. It shows the probability density function of a continuous random variable X. What is P(1 ≤ X ≤ 2)?",
+        "options": [
+          "0.5",
+          "0.125",
+          "0.25",
+          "0.375"
+        ],
+        "correct_answer": 3,
+        "explanation": "P(1 ≤ X ≤ 2) is the area under f(x) = x/4 from 1 to 2. At x=1, f = 0.25; at x=2, f = 0.5. The trapezium area is (0.25+0.5)/2 × 1 = 0.375. 0.25 is just f(1). 0.5 is the peak height. 0.125 is half of f(1) or a wrong triangle area.",
+        "image_url": "/textbook-images/rwanda/2/page502-embedded-0.png",
+        "topic_label": "Continuous random variables",
+        "vetted": true,
+        "image_alt": "A piecewise linear graph on x and y axes forming a triangle with the x-axis, with the region under it shaded with green hatching. The blue segment f(x) = (1/4)x, 0 ≤ x < 2, rises from (0,0) to a peak at (2, 0.5). The red segment f(x) = (1/4)(4 − x) falls from (2, 0.5) to (4, 0). Dashed grid lines are drawn, and a vertical line is drawn at x = 2. Printed on it: f(x) = 1/4 x, 0 ≤ x < 2 | f(x) = 1/4 (4 − x) | 0.5 | -0.5 | -1 | 0 | 1 | 2 | 3 | 4 | x.",
+        "subtopic_id": 68,
+        "topic_id": 20,
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Continuous random variables"
+        }
+      },
+      {
+        "id": 14,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: y = 2^x, y = 3^x, y = 4^x, y = log_2(x)",
+        "items": [
+          "y = 2^x",
+          "y = 3^x",
+          "y = 4^x",
+          "y = log_2(x)"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "The function y = log_2(x) is the odd one out because it is a logarithmic function, whereas the others are exponential functions.",
+        "subtopic_id": 42,
+        "topic_id": 13,
+        "topic_label": "Exponential functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Exponential functions"
+        }
+      },
+      {
+        "id": 15,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each logarithmic function with its base.",
+        "left_items": [
+          "log(x)",
+          "ln(x)",
+          "log_2(x)",
+          "log_10(x)"
+        ],
+        "right_items": [
+          "base e",
+          "base 2",
+          "base 10",
+          "undefined base"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Log(x) is the common logarithm with base 10, ln(x) is the natural logarithm with base e, log_2(x) is the binary logarithm with base 2, and log_10(x) is explicitly base 10.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 16,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps to solve the exponential equation 2^x = 16 in the correct order.",
+        "items": [
+          "Take the logarithm of both sides",
+          "Isolate x",
+          "Write the equation in logarithmic form",
+          "Solve for x"
+        ],
+        "correct_order": [
+          2,
+          0,
+          1,
+          3
+        ],
+        "marks": 4,
+        "explanation": "First, write the equation in logarithmic form (2^x = 16 -> log_2(16) = x). Then, take the logarithm of both sides. Next, isolate x. Finally, solve for x.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 17,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank: The exponential function y = a^x is increasing if a > __ and decreasing if a < __.",
+        "template": "The exponential function y = a^x is increasing if a > {{0}} and decreasing if a < {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "1"
+          },
+          {
+            "id": "1",
+            "correct": "1"
+          }
+        ],
+        "word_bank": [
+          "1",
+          "0",
+          "-1",
+          "infinity"
+        ],
+        "marks": 2,
+        "explanation": "The exponential function y = a^x is increasing if a is greater than 1 and decreasing if a is less than 1.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Logarithmic and Exponential Functions"
+        }
+      },
+      {
+        "id": 18,
+        "type": "mcq",
+        "question": "Look at the table. What does the sign change of f''(x) from − to + at x = e tell you about the graph of f?",
+        "options": [
+          "f has a point of inflection at x = e",
+          "f has a local minimum at x = e",
+          "f has a local maximum at x = e",
+          "f has a vertical asymptote at x = e"
+        ],
+        "correct_answer": 0,
+        "explanation": "F'' changes sign from − to + at x = e, so concavity changes from down to up. That is a point of inflection, with value 3/e. A minimum or maximum needs f' to change sign, and f' is negative on both sides of e. A vertical asymptote would involve infinite limits at e, but f(e) = 3/e is finite.",
+        "image_url": "/textbook-images/rwanda/2/page103-embedded-0.jpeg",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "vetted": true,
+        "image_alt": "A table of variations with columns x = 0, √e, e, +∞. The row f'(x) is + before √e, 0 at √e, and − after. The row f''(x) is − before e, 0 at e, and + after. The row f(x) rises from −∞ to 2/√e at x = √e, then decreases to 3/e at x = e and on toward 0 as x goes to +∞. Arcs beside the arrows show the concavity: concave down, then concave up. Printed on it: x | 0 | √e | e | +∞ | f'(x) | + | 0 | − | f''(x) | − | 0 | + | f(x) | 2/√e | 3/e | −∞ | 0.",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: The logarithm of 1 is always 0.",
+        "statements": [
+          "The logarithm of 1 is always 0.",
+          "The logarithm of 0 is undefined.",
+          "The logarithm of a negative number is defined.",
+          "The logarithm of a number greater than 1 is always positive."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "The logarithm of 1 is always 0 for any base. The logarithm of 0 is undefined. The logarithm of a negative number is not defined in the real number system. The logarithm of a number greater than 1 is always positive.",
+        "topic_label": "Random Variables",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: log(100), log(10), log(1), log(0.1)",
+        "items": [
+          "log(100)",
+          "log(10)",
+          "log(1)",
+          "log(0.1)"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "Log(1) is the only item that equals 0, while the others are positive or negative numbers.",
+        "topic_label": "Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "1e716d21-2808-45ac-818a-acaec72acd8a",
+    "subject": "Advanced Mathematics S6 SB (1)",
+    "topics": [
+      "Random Variables",
+      "Logarithmic and Exponential Functions"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "study_mixed",
+    "textbook_id": 2,
+    "topic_ids": [
+      20,
+      13
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 4,
+      "detail": "no question mark and no command word: \"Mark each statement True or False. The logarithmic function \""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 5,
+      "detail": "no question mark and no command word: \"Put the steps in the correct order to solve the exponential \""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 6,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong.\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 10,
+      "detail": "no question mark and no command word: \"Put these steps in the correct order to solve the equation 2\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 11,
+      "detail": "no question mark and no command word: \"Mark each statement True or False: The exponential function \""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 13,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong: y = 2^x, y = 3^x, y = 4^x\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 15,
+      "detail": "no question mark and no command word: \"Put the steps to solve the exponential equation 2^x = 16 in \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 18,
+      "detail": "no question mark and no command word: \"Mark each statement True or False: The logarithm of 1 is alw\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 19,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong: log(100), log(10), log(1)\""
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [
+    "/textbook-images/rwanda/2/page499-embedded-0.png: HTTP 404",
+    "/textbook-images/rwanda/2/page500-embedded-0.png: HTTP 404",
+    "/textbook-images/rwanda/2/page502-embedded-0.png: HTTP 404",
+    "/textbook-images/rwanda/2/page103-embedded-0.jpeg: HTTP 404"
+  ],
+  "totalSeconds": 13
+}

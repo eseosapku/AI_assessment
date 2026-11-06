@@ -1,0 +1,1508 @@
+{
+  "index": 17,
+  "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+  "request": {
+    "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+    "textbook_id": 200,
+    "topic_ids": [
+      2512,
+      2514
+    ],
+    "topics": [
+      "Chapter 6: Automated systems",
+      "Chapter 8: Programming concepts"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 143,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A greenhouse has an automated system that keeps the temperature at 20 °C. It uses a temperature sensor, a microprocessor and a heater.",
+        "question": "Describe how the system keeps the temperature steady.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the role of the temperature sensor.",
+          "Explain the function of the microprocessor.",
+          "Explain how the heater is controlled based on the sensor's readings."
+        ],
+        "hints": [
+          "Consider the continuous measurement and comparison process."
+        ],
+        "model_answer": "The temperature sensor measures the temperature continuously and sends the readings to the microprocessor. The microprocessor compares each reading with 20 °C. If it is below, it switches the heater on. If it is at or above, it switches the heater off. The sensor keeps measuring, so this repeats as a loop.",
+        "explanation": "Explain the feedback loop process where the sensor continuously measures the temperature and the microprocessor decides whether to turn the heater on or off based on the readings.",
+        "exam_question_id": "dbe022a3-40b1-4cae-bc29-1b51704cedf1:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A greenhouse has an automated system that keeps the temperature at 20 °C. It uses a temperature sensor, a microprocessor and a heater.",
+        "question": "Name one actuator it could use to cool the greenhouse.",
+        "marks": 2,
+        "marking_criteria": [
+          "Name an appropriate actuator for cooling (e.g. motor, fan, pump, valve).",
+          "Explain how it reduces temperature (e.g. motor opens window to let heat out; fan circulates air; pump/valve releases water for evaporative cooling)."
+        ],
+        "hints": [
+          "Think about devices that can lower the temperature."
+        ],
+        "model_answer": "A motor that opens a window. This allows hot air to escape and cooler air to enter, reducing the temperature inside the greenhouse. Alternatively: A fan. This circulates air to help cool the greenhouse. Or: A pump or valve that releases water. This cools the greenhouse through evaporation.",
+        "explanation": "Name an actuator that can help reduce the temperature inside the greenhouse.",
+        "exam_question_id": "dbe022a3-40b1-4cae-bc29-1b51704cedf1:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that processes student scores. The program uses variables to store the scores and perform calculations.",
+        "question": "Calculate the average score of 5 students using the given scores: 85, 78, 92, 68, 88.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly initialise the total and count variables.",
+          "Correctly sum the scores.",
+          "Correctly calculate the average."
+        ],
+        "hints": [
+          "Remember to initialise the total to 0 before summing the scores."
+        ],
+        "model_answer": "Total ← 0\nFOR Count ← 1 TO 5\n    Total ← Total + Score[Count]\nNEXT Count\nAverage ← Total / 5\n\nTotal = 85 + 78 + 92 + 68 + 88 = 411\nAverage = 411 / 5 = 82.2",
+        "explanation": "Calculate the average score by summing the scores and dividing by the number of students.",
+        "exam_question_id": "56f38f6d-1e4b-454c-8e38-23d74866ec0f:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that processes student scores. The program uses variables to store the scores and perform calculations.",
+        "question": "Name the data type for the variable that stores the average score calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct data type for a numerical average.",
+          "Provide the data type name."
+        ],
+        "hints": [
+          "Consider the nature of the average score."
+        ],
+        "model_answer": "Real",
+        "explanation": "The average score is a numerical value with decimal places, so it should be stored in a real data type.",
+        "exam_question_id": "56f38f6d-1e4b-454c-8e38-23d74866ec0f:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A smart home system uses a temperature sensor, a microprocessor, and an actuator to control the heating in a room. The desired temperature is set at 22°C.",
+        "question": "Describe how the system keeps the temperature steady.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the role of the temperature sensor.",
+          "Explain the function of the microprocessor.",
+          "Describe the action of the actuator."
+        ],
+        "hints": [
+          "Consider the continuous feedback loop."
+        ],
+        "model_answer": "The temperature sensor continuously measures the room temperature and sends the readings to the microprocessor. The microprocessor compares the readings with the desired temperature of 22°C. If the temperature is below 22°C, the microprocessor activates the actuator, which turns on the heater. If the temperature is at or above 22°C, the microprocessor deactivates the actuator, turning off the heater. This process repeats continuously to maintain the temperature.",
+        "explanation": "Describe the process in your own words, ensuring you mention the roles of the sensor, microprocessor, and actuator.",
+        "exam_question_id": "4033647c-345a-478e-b41f-12edc5029ba5:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A smart home system uses a temperature sensor, a microprocessor, and an actuator to control the heating in a room. The desired temperature is set at 22°C.",
+        "question": "Name one actuator that could be used to cool the room.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify an appropriate cooling actuator."
+        ],
+        "hints": [
+          "Think about devices that can lower the temperature."
+        ],
+        "model_answer": "A motor that opens a window or runs a fan.",
+        "explanation": "Name a device that can help reduce the room temperature.",
+        "exam_question_id": "4033647c-345a-478e-b41f-12edc5029ba5:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "part": "a",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations.",
+        "question": "Calculate the total of the marks 75, 80, 85, 90, and 95.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify and sum the marks.",
+          "Show the calculation process clearly.",
+          "Provide the final total."
+        ],
+        "hints": [
+          "Sum all the given marks."
+        ],
+        "model_answer": "Total = 75 + 80 + 85 + 90 + 95 = 425",
+        "explanation": "Add all the given marks to find the total.",
+        "exam_question_id": "0ed62f5d-a717-447d-a735-d1c1e4b98023:1",
+        "type": "longform",
+        "id": 7,
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "part": "b",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the appropriate data type for the total.",
+          "Provide a clear and correct answer."
+        ],
+        "hints": [
+          "Consider the nature of the total calculated."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of marks is a whole number, so it should be stored as an integer.",
+        "exam_question_id": "0ed62f5d-a717-447d-a735-d1c1e4b98023:1",
+        "type": "longform",
+        "id": 8,
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations.",
+        "question": "Calculate the total of the marks 75, 80, 85, 90, and 95.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly adds all the marks.",
+          "Shows the intermediate steps of the calculation.",
+          "Provides the final total."
+        ],
+        "hints": [
+          "Add all the given marks together."
+        ],
+        "model_answer": "Total ← 75 + 80 + 85 + 90 + 95 = 425",
+        "explanation": "Add the five given marks to find the total.",
+        "exam_question_id": "c131a3b4-e90a-4394-b330-fe43e97d30bf:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the data type.",
+          "Provides a brief explanation if necessary."
+        ],
+        "hints": [
+          "Consider the nature of the total calculated."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of integer marks will be an integer.",
+        "exam_question_id": "c131a3b4-e90a-4394-b330-fe43e97d30bf:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "An automated street lighting system uses a light sensor, a microprocessor, and an actuator to control the street lights. The desired lighting condition is set at a light intensity of 50 lux.",
+        "question": "Describe how the system keeps the street lights on or off based on the light intensity.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the role of the light sensor.",
+          "Explain how the microprocessor processes the sensor data.",
+          "Describe the action taken by the actuator based on the microprocessor's decision."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the system keeps the street lights on or off based on the light intensity — develop the idea fully rather than listing short points. Make sure you also cover: how the processes the; the action taken by the based on the microprocessor's decision."
+        ],
+        "model_answer": "The light sensor continuously measures the ambient light intensity. The microprocessor receives the sensor data and compares it with the desired light intensity of 50 lux. If the light intensity is below 50 lux, the microprocessor sends a signal to the actuator to turn on the street lights. If the light intensity is at or above 50 lux, the microprocessor sends a signal to the actuator to turn off the street lights. This process repeats continuously to maintain the desired lighting condition.",
+        "explanation": "Explain the function of each component in the automated street lighting system and how they work together to maintain the desired lighting condition.",
+        "exam_question_id": "b0a903a8-8a21-4639-af01-c3d6072c6973:1",
+        "checked": true,
+        "subtopic_id": 12902,
+        "topic_id": 2512,
+        "topic_label": "automated system in a given scenario.",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "automated system in a given scenario."
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "An automated street lighting system uses a light sensor, a microprocessor, and an actuator to control the street lights. The desired lighting condition is set at a light intensity of 50 lux.",
+        "question": "Name one actuator that could be used in this system to control the street lights.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a suitable actuator for controlling street lights.",
+          "Explain briefly how the identified actuator works in the system."
+        ],
+        "hints": [
+          "Think about common devices used to control lights."
+        ],
+        "model_answer": "One actuator that could be used in this system is a relay switch. A relay switch can be controlled by the microprocessor to turn the street lights on or off based on the light intensity readings from the sensor.",
+        "explanation": "Name an actuator that can be controlled by a microprocessor and explain its role in the automated street lighting system.",
+        "exam_question_id": "b0a903a8-8a21-4639-af01-c3d6072c6973:1",
+        "checked": true,
+        "subtopic_id": 12901,
+        "topic_id": 2512,
+        "topic_label": "actuators used in automated systems.",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "actuators used in automated systems."
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A street lighting system uses a light sensor, a microprocessor, and an actuator to control the street lights. The desired lighting condition is such that the lights turn on when it gets dark and turn off when it gets light.",
+        "question": "Describe how the system keeps the street lights on when it gets dark.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the role of the light sensor.",
+          "Explain how the microprocessor processes the sensor data.",
+          "Describe the action taken by the actuator."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the system keeps the street lights on when it gets dark — develop the idea fully rather than listing short points. Make sure you also cover: the role of the; how the the data.; the action taken by the."
+        ],
+        "model_answer": "The light sensor continuously monitors the ambient light levels. When it detects that the light level is below a certain threshold (indicating it is dark), it sends a signal to the microprocessor. The microprocessor processes this signal and determines that the lights need to be turned on. It then sends a signal to the actuator, which turns on the street lights. When the light level rises above the threshold (indicating it is light), the sensor sends a signal to the microprocessor, which then signals the actuator to turn off the lights.",
+        "explanation": "Explain the process in your own words, focusing on the interaction between the light sensor, microprocessor, and actuator.",
+        "exam_question_id": "93a79d35-cb79-4242-a830-a3e3fa08ca10:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A street lighting system uses a light sensor, a microprocessor, and an actuator to control the street lights. The desired lighting condition is such that the lights turn on when it gets dark and turn off when it gets light.",
+        "question": "Name one actuator that could be used to control the street lights.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify a suitable actuator for turning street lights on and off."
+        ],
+        "hints": [
+          "Think about devices that can be controlled electronically."
+        ],
+        "model_answer": "A relay or a smart bulb.",
+        "explanation": "An actuator is a device that can be controlled by the microprocessor to perform a physical action, such as turning street lights on or off.",
+        "exam_question_id": "93a79d35-cb79-4242-a830-a3e3fa08ca10:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A smart irrigation system uses a soil moisture sensor, a microprocessor, and an actuator to control the watering of plants. The desired moisture level is set at 30%.",
+        "question": "Describe how the system keeps the soil moisture at the desired level.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of the role of the soil moisture sensor",
+          "Explanation of the role of the microprocessor",
+          "Explanation of the role of the actuator",
+          "Description of the feedback loop process"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the system keeps the soil moisture at the desired level — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of the; Explanation of the role of the; Description of the feedback."
+        ],
+        "model_answer": "The soil moisture sensor measures the moisture level in the soil continuously and sends the readings to the microprocessor. The microprocessor compares each reading with the desired moisture level of 30%. If the moisture level is below 30%, the microprocessor activates the actuator, which usually is a water pump, to water the plants. If the moisture level is at or above 30%, the microprocessor deactivates the actuator. The sensor keeps measuring, so this process repeats as a loop.",
+        "explanation": "Describe the process by which the system maintains the desired soil moisture level, including the roles of the sensor, microprocessor, and actuator.",
+        "exam_question_id": "11233f14-f62f-427f-8cfe-3642dd94fc22:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A smart irrigation system uses a soil moisture sensor, a microprocessor, and an actuator to control the watering of plants. The desired moisture level is set at 30%.",
+        "question": "Name one actuator that could be used in this system to control the watering of plants.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of a suitable actuator (e.g. solenoid valve, water pump, electric valve)",
+          "Explanation of how the actuator responds to microprocessor signals (e.g. receives signal from microprocessor, opens/closes or turns on/off to control water flow)"
+        ],
+        "hints": [
+          "Stay focused on this: Name one actuator that could be used in this system to control the watering of plants — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Identification of a suitable actuator (e.g. solenoid valve, water pump, electric valve) Explanation of how the actuator responds to microprocessor signals (e.g. receives signal from microprocessor, opens/closes or turns on/off to control water flow)",
+        "explanation": "Name an actuator that can control water flow and explain briefly how it functions in the irrigation system.",
+        "exam_question_id": "11233f14-f62f-427f-8cfe-3642dd94fc22:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that calculates the average of three test scores. The program uses variables to store the scores and perform calculations.",
+        "question": "Calculate the average of the scores 70, 85, and 95.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the scores to be averaged.",
+          "Correctly apply the formula for calculating the average.",
+          "Provide the final answer."
+        ],
+        "hints": [
+          "Sum the scores and divide by the number of scores."
+        ],
+        "model_answer": "Sum = 70 + 85 + 95 = 250\nAverage = 250 / 3 = 83.33",
+        "explanation": "To find the average of three test scores, add the scores together and then divide by the number of scores.",
+        "exam_question_id": "ace5dbed-1298-468d-95dc-fe4a7ef596ff:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that calculates the average of three test scores. The program uses variables to store the scores and perform calculations.",
+        "question": "Name the data type for the variable that stores the average calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct data type for the average.",
+          "Provide the final answer."
+        ],
+        "hints": [
+          "Consider the nature of the average value."
+        ],
+        "model_answer": "Real",
+        "explanation": "The average of three test scores is a decimal number, so it should be stored in a real data type.",
+        "exam_question_id": "ace5dbed-1298-468d-95dc-fe4a7ef596ff:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that processes student scores. The program uses variables to store the scores and perform calculations.",
+        "question": "Calculate the total of the marks 80, 85, 90, 75, and 95.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the marks to be added.",
+          "Perform the addition operation correctly.",
+          "Provide the final total score."
+        ],
+        "hints": [
+          "Add all the given marks together."
+        ],
+        "model_answer": "80 + 85 + 90 + 75 + 95 = 425",
+        "explanation": "Add all the given marks together to find the total score.",
+        "exam_question_id": "aa63c005-a2a1-48cc-bf5a-ddfafe1c06c4:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that processes student scores. The program uses variables to store the scores and perform calculations.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the appropriate data type for the total score.",
+          "Provide the correct data type name."
+        ],
+        "hints": [
+          "Stay focused on this: Name the data type for the variable that stores the total calculated in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: Identify the appropriate data type for the total score.; Provide the correct data type name."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total score is a whole number, so the data type should be an integer.",
+        "exam_question_id": "aa63c005-a2a1-48cc-bf5a-ddfafe1c06c4:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations.",
+        "question": "Calculate the total of the marks 65, 70, 75, 80, and 85.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the marks to be added.",
+          "Accurately perform the addition of the marks.",
+          "Provide the correct total."
+        ],
+        "hints": [
+          "Sum all the given marks to find the total."
+        ],
+        "model_answer": "65 + 70 + 75 + 80 + 85 = 375",
+        "explanation": "Add all the given marks together to get the total.",
+        "exam_question_id": "eaaab42c-f2e4-467d-bd18-8dfa5d6310a1:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the appropriate data type for the total of marks."
+        ],
+        "hints": [
+          "Stay focused on this: Name the data type for the variable that stores the total calculated in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: Identify the appropriate data type for the total of marks."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of marks is a whole number, so the data type should be an integer.",
+        "exam_question_id": "eaaab42c-f2e4-467d-bd18-8dfa5d6310a1:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "An automated greenhouse system uses a temperature sensor, a microprocessor, and an actuator to maintain the temperature at 25°C.",
+        "question": "Describe how the system keeps the temperature steady.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of the temperature sensor.",
+          "Explanation of the role of the microprocessor.",
+          "Explanation of the role of the actuator."
+        ],
+        "hints": [
+          "Consider the process of measuring, comparing, and acting based on the temperature."
+        ],
+        "model_answer": "The temperature sensor measures the temperature continuously and sends the readings to the microprocessor. The microprocessor compares each reading with 25°C. If it is below, it switches the heater on. If it is at or above, it switches the heater off. The sensor keeps measuring, so this repeats as a loop.",
+        "explanation": "Describe the feedback loop process that maintains the temperature in the greenhouse.",
+        "exam_question_id": "09bd5ea6-f570-46b3-93f5-ef1e145c65a3:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "An automated greenhouse system uses a temperature sensor, a microprocessor, and an actuator to maintain the temperature at 25°C.",
+        "question": "Name one actuator it could use to cool the greenhouse.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of a suitable cooling actuator (e.g. fan, pump, valve, window motor)",
+          "Explanation of how the actuator cools the greenhouse (e.g. fan circulates air, pump sprays water for evaporative cooling, valve releases hot air)"
+        ],
+        "hints": [
+          "Think about devices that can reduce the temperature."
+        ],
+        "model_answer": "Identification of a suitable cooling actuator (e.g. fan, pump, valve, window motor) Explanation of how the actuator cools the greenhouse (e.g. fan circulates air, pump sprays water for evaporative cooling, valve releases hot air)",
+        "explanation": "Name an actuator that can help lower the temperature in the greenhouse.",
+        "exam_question_id": "09bd5ea6-f570-46b3-93f5-ef1e145c65a3:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that calculates the average score of five students. The program uses variables to store the scores and perform calculations. The scores of the five students are 80, 85, 90, 75, and 92.",
+        "question": "Calculate the average score of the five students.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the scores of the five students.",
+          "Divide the total sum by the number of students (5).",
+          "Provide the final average score."
+        ],
+        "hints": [
+          "Sum the scores first."
+        ],
+        "model_answer": "Sum = 80 + 85 + 90 + 75 + 92 = 422. Average = 422 / 5 = 84.4.",
+        "explanation": "To find the average score, add all the scores together and then divide by the number of students.",
+        "exam_question_id": "f0c31068-1038-4f1d-bb76-959a55b885b8:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that calculates the average score of five students. The program uses variables to store the scores and perform calculations. The scores of the five students are 80, 85, 90, 75, and 92.",
+        "question": "Name the data type for the variable that stores the average score calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the data type for the average score.",
+          "Provide the correct data type name."
+        ],
+        "hints": [
+          "Stay focused on this: Name the data type for the variable that stores the average score calculated in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: Identify the data type for the average score.; Provide the correct data type name."
+        ],
+        "model_answer": "Real (or float).",
+        "explanation": "The average score is a decimal number, so it should be stored in a real or float data type.",
+        "exam_question_id": "f0c31068-1038-4f1d-bb76-959a55b885b8:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a program that calculates the average score of five students. The program uses variables to store the scores and perform calculations. The scores of the five students are 80, 85, 90, 75, and 92.",
+        "question": "Explain why it is important to use meaningful variable names in a program.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the importance of meaningful variable names.",
+          "Discuss how meaningful variable names improve code readability.",
+          "Mention how meaningful variable names aid in code maintenance."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use meaningful variable names in a program — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Meaningful variable names improve code readability by making it clear what each variable represents. This aids in understanding and maintaining the code, as other programmers can easily grasp the purpose of each variable without additional context.",
+        "explanation": "Using meaningful variable names makes the code easier to read and understand, which is crucial for both current and future maintenance of the code.",
+        "exam_question_id": "f0c31068-1038-4f1d-bb76-959a55b885b8:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "part": "a",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Calculate the total of the marks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the marks to be added.",
+          "Correctly performs the addition operation.",
+          "Provides the final total."
+        ],
+        "hints": [
+          "Sum all the given marks."
+        ],
+        "model_answer": "Total ← 0\nTotal ← Total + 70\nTotal ← Total + 75\nTotal ← Total + 80\nTotal ← Total + 85\nTotal ← Total + 90\nTotal = 400",
+        "explanation": "Add all the marks together to get the total.",
+        "exam_question_id": "9bf391b6-3613-4c90-97a1-21a4dcd0df54:1",
+        "type": "longform",
+        "id": 28,
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "part": "b",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the data type for the total variable."
+        ],
+        "hints": [
+          "Stay focused on this: Name the data type for the variable that stores the total calculated in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the data type for the total variable."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of marks is a whole number, so the data type is integer.",
+        "exam_question_id": "9bf391b6-3613-4c90-97a1-21a4dcd0df54:1",
+        "type": "longform",
+        "id": 29,
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "part": "a",
+        "scenario": "Consider a program that processes student scores. The program uses variables to store the scores and perform calculations. The scores of the five students are 80, 85, 90, 75, and 92.",
+        "question": "Calculate the total of the marks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly adds all the marks together.",
+          "Shows the intermediate steps of the calculation.",
+          "Provides the final total."
+        ],
+        "hints": [
+          "Sum up all the given scores."
+        ],
+        "model_answer": "Total = 80 + 85 + 90 + 75 + 92 = 422",
+        "explanation": "Add all the student scores together to find the total.",
+        "exam_question_id": "e87c5b6a-2b11-431c-9d00-8506fa570580:1",
+        "type": "longform",
+        "id": 30,
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "part": "b",
+        "scenario": "Consider a program that processes student scores. The program uses variables to store the scores and perform calculations. The scores of the five students are 80, 85, 90, 75, and 92.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifies the data type correctly.",
+          "Provides a brief explanation if necessary."
+        ],
+        "hints": [
+          "Stay focused on this: Name the data type for the variable that stores the total calculated in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: the data type correctly.; Provides a brief explanation if necessary."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of the marks is a whole number, so it should be stored in an integer data type.",
+        "exam_question_id": "e87c5b6a-2b11-431c-9d00-8506fa570580:1",
+        "type": "longform",
+        "id": 31,
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "part": "c",
+        "scenario": "Consider a program that processes student scores. The program uses variables to store the scores and perform calculations. The scores of the five students are 80, 85, 90, 75, and 92.",
+        "question": "Explain why it is important to use meaningful variable names in a program.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explains the importance of meaningful variable names.",
+          "Provides at least one reason or example.",
+          "Demonstrates understanding of how meaningful names improve code readability and maintainability."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use meaningful variable names in a program — develop the idea fully rather than listing short points. Make sure you also cover: Provides at least one reason or; Demonstrates understanding of how meaningful names improve readability and."
+        ],
+        "model_answer": "Using meaningful variable names is important because it makes the code easier to read and understand. It allows other programmers to quickly grasp what the variable represents without needing additional context. For example, using 'totalMarks' instead of 't' makes it clear that the variable holds the total of student marks. This improves code maintainability as it becomes easier to update and debug.",
+        "explanation": "Meaningful variable names enhance code readability and maintainability by making the purpose of the variable clear to anyone reading the code.",
+        "exam_question_id": "e87c5b6a-2b11-431c-9d00-8506fa570580:1",
+        "type": "longform",
+        "id": 32,
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 33,
+        "type": "longform",
+        "part": "a",
+        "scenario": "An automated greenhouse system uses a temperature sensor, a microprocessor, and an actuator to maintain the temperature at 25°C.",
+        "question": "Describe how the system keeps the temperature steady.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the role of the temperature sensor.",
+          "Describe the role of the microprocessor.",
+          "Describe the role of the actuator."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the system keeps the temperature steady — develop the idea fully rather than listing short points. Make sure you also cover: the role of the; the role of the."
+        ],
+        "model_answer": "The temperature sensor continuously measures the temperature in the greenhouse. It sends this data to the microprocessor. The microprocessor compares the measured temperature with the desired temperature of 25°C. If the temperature is below 25°C, the microprocessor activates the actuator to increase the temperature. If the temperature is at or above 25°C, the microprocessor deactivates the actuator to maintain the current temperature. This process repeats continuously to keep the temperature steady.",
+        "explanation": "This part asks you to describe the process by which the automated greenhouse system maintains a constant temperature. You should explain the roles of the temperature sensor, microprocessor, and actuator in this process.",
+        "exam_question_id": "a2bae8ad-74e4-41fb-9731-9c5d29774458:1",
+        "checked": true,
+        "subtopic_id": 12902,
+        "topic_id": 2512,
+        "topic_label": "automated system in a given scenario.",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "automated system in a given scenario."
+        }
+      },
+      {
+        "id": 34,
+        "type": "longform",
+        "part": "b",
+        "scenario": "An automated greenhouse system uses a temperature sensor, a microprocessor, and an actuator to maintain the temperature at 25°C.",
+        "question": "Name one actuator it could use to cool the greenhouse.",
+        "marks": 2,
+        "marking_criteria": [
+          "Name an appropriate actuator.",
+          "Explain how it would be used to cool the greenhouse."
+        ],
+        "hints": [
+          "Think about devices that can lower the temperature."
+        ],
+        "model_answer": "One actuator that could be used to cool the greenhouse is a fan. The fan can be activated when the temperature exceeds 25°C to help dissipate heat and cool the greenhouse.",
+        "explanation": "This part asks you to name an actuator that can be used to cool the greenhouse and explain how it would function in this role. A fan is a suitable choice as it can help lower the temperature by dissipating heat.",
+        "exam_question_id": "a2bae8ad-74e4-41fb-9731-9c5d29774458:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 35,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Calculate the total of the marks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the marks to be added.",
+          "Performs the addition accurately.",
+          "Provides the final total."
+        ],
+        "hints": [
+          "Add all the marks together to get the total."
+        ],
+        "model_answer": "70 + 75 + 80 + 85 + 90 = 400",
+        "explanation": "Add all the given marks to find the total.",
+        "exam_question_id": "aa782c2b-d2a4-4df5-9244-056907223fcb:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 36,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the data type for the total.",
+          "Provides a brief explanation if necessary."
+        ],
+        "hints": [
+          "Consider the nature of the total calculated."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of the marks is an integer because it is a whole number.",
+        "exam_question_id": "aa782c2b-d2a4-4df5-9244-056907223fcb:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 37,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Explain why it is important to use meaningful variable names in a program.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies the importance of meaningful variable names.",
+          "Explains how meaningful variable names improve code readability and maintainability.",
+          "Provides a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use meaningful variable names in a program — develop the idea fully rather than listing short points. Make sure you also cover: Provides a and concise explanation."
+        ],
+        "model_answer": "Using meaningful variable names is important because it makes the code easier to read and understand. It allows other programmers to quickly grasp what each variable represents, which is crucial for maintaining and debugging the code. For example, instead of using names like 'x' or 'a1', using names like 'totalMarks' or'studentScore' makes it clear what the variable is used for.",
+        "explanation": "Meaningful variable names enhance code readability and maintainability by making it clear what each variable represents, aiding in understanding and debugging.",
+        "exam_question_id": "aa782c2b-d2a4-4df5-9244-056907223fcb:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 38,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 75, 80, 85, 90, and 95.",
+        "question": "Calculate the total of the marks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the marks to be added.",
+          "Correctly performs the addition of the marks.",
+          "Provides the final total."
+        ],
+        "hints": [
+          "Remember to add all five marks together."
+        ],
+        "model_answer": "Total ← 75 + 80 + 85 + 90 + 95 = 425",
+        "explanation": "Add all the given marks together to find the total.",
+        "exam_question_id": "8ea58b9c-d332-4c7a-a6b6-5a1e6c320608:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 39,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 75, 80, 85, 90, and 95.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the data type for the total variable.",
+          "Provides a brief explanation if necessary."
+        ],
+        "hints": [
+          "Consider the nature of the total calculated."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of marks is a whole number, so the data type is integer.",
+        "exam_question_id": "8ea58b9c-d332-4c7a-a6b6-5a1e6c320608:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 40,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 75, 80, 85, 90, and 95.",
+        "question": "Explain why it is important to use meaningful variable names in a program.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies the importance of readability.",
+          "Explains how meaningful names aid in understanding the code.",
+          "Provides an example or further explanation if necessary."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use meaningful variable names in a program — develop the idea fully rather than listing short points. Make sure you also cover: the importance of readability.; Provides an or further explanation if necessary."
+        ],
+        "model_answer": "Using meaningful variable names in a program is important because it makes the code easier to read and understand. For example, instead of using a variable name like 'x', using 'totalMarks' clearly indicates what the variable represents. This makes the code easier to maintain and debug.",
+        "explanation": "Meaningful variable names improve code readability and maintainability by clearly indicating the purpose of the variable.",
+        "exam_question_id": "8ea58b9c-d332-4c7a-a6b6-5a1e6c320608:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 41,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Calculate the total of the marks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly sum the five marks.",
+          "Show the calculation process.",
+          "Provide the final total."
+        ],
+        "hints": [
+          "Add the five marks together."
+        ],
+        "model_answer": "70 + 75 + 80 + 85 + 90 = 400",
+        "explanation": "Add the five marks together to find the total.",
+        "exam_question_id": "45ec595c-43a9-4ab3-ae26-c24809df9df8:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 42,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Name the data type for the variable that stores the total calculated in part (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct data type.",
+          "Provide a brief explanation if necessary."
+        ],
+        "hints": [
+          "Consider the nature of the total calculated."
+        ],
+        "model_answer": "Integer",
+        "explanation": "The total of the marks is a whole number, so the data type is Integer.",
+        "exam_question_id": "45ec595c-43a9-4ab3-ae26-c24809df9df8:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 43,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a program that calculates the total of five marks. The program uses variables to store the marks and perform calculations. The marks are 70, 75, 80, 85, and 90.",
+        "question": "Explain why it is important to use meaningful variable names in a program.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the importance of meaningful variable names.",
+          "Provide an example or reasoning.",
+          "Conclude with the impact on code readability and maintenance."
+        ],
+        "hints": [
+          "Think about how variable names affect understanding and debugging."
+        ],
+        "model_answer": "Using meaningful variable names is important because it makes the code easier to understand and maintain. For example, instead of using a variable name like 'x', using 'totalMarks' clearly indicates what the variable represents. This improves readability and helps other programmers (or the original programmer at a later date) quickly understand the purpose of the variable, reducing the chances of errors and making the code easier to debug and modify.",
+        "explanation": "Meaningful variable names improve code readability and maintainability by making it clear what each variable represents, which helps in understanding and debugging the code.",
+        "exam_question_id": "45ec595c-43a9-4ab3-ae26-c24809df9df8:1",
+        "checked": true,
+        "topic_label": "Chapter 8: Programming concepts",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      },
+      {
+        "id": 44,
+        "type": "longform",
+        "part": "a",
+        "scenario": "An automated greenhouse system uses a temperature sensor, a microprocessor, and an actuator to maintain the temperature at 25°C.",
+        "question": "Describe how the system keeps the temperature steady.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the temperature sensor.",
+          "Explain how the microprocessor processes the sensor data.",
+          "Describe the action of the actuator in maintaining the temperature."
+        ],
+        "hints": [
+          "Explain the feedback loop process."
+        ],
+        "model_answer": "The temperature sensor continuously measures the temperature in the greenhouse. It sends this data to the microprocessor. The microprocessor compares the current temperature with the desired temperature of 25°C. If the temperature is below 25°C, the microprocessor activates the heater (actuator) to increase the temperature. If the temperature is above or at 25°C, the microprocessor deactivates the heater. This process repeats continuously to maintain the temperature at 25°C.",
+        "explanation": "Describe the process by which the automated greenhouse system uses the temperature sensor, microprocessor, and actuator to maintain a constant temperature of 25°C.",
+        "exam_question_id": "3c47c456-89e5-499f-944e-c78d86373d3b:1",
+        "checked": true,
+        "subtopic_id": 12902,
+        "topic_id": 2512,
+        "topic_label": "automated system in a given scenario.",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+          "area": "automated system in a given scenario."
+        }
+      },
+      {
+        "id": 45,
+        "type": "longform",
+        "part": "b",
+        "scenario": "An automated greenhouse system uses a temperature sensor, a microprocessor, and an actuator to maintain the temperature at 25°C.",
+        "question": "Name one actuator it could use to cool the greenhouse.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a suitable actuator for cooling.",
+          "Provide a clear and correct example."
+        ],
+        "hints": [
+          "Think about devices that can remove heat."
+        ],
+        "model_answer": "A fan or an air conditioning unit.",
+        "explanation": "Name an actuator that can be used to lower the temperature in the greenhouse.",
+        "exam_question_id": "3c47c456-89e5-499f-944e-c78d86373d3b:1",
+        "checked": true,
+        "topic_label": "Chapter 6: Automated systems",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)"
+        }
+      }
+    ],
+    "estimated_time": 116,
+    "assessment_id": "284eaaa2-77f3-4a64-8fc6-df5a71773730",
+    "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+    "topics": [
+      "Chapter 6: Automated systems",
+      "Chapter 8: Programming concepts"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 200,
+    "topic_ids": [
+      2512,
+      2514
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 45,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "5 questions open with the same sentence (1, 5, 23, 33, 44): \"Describe how the system keeps the temperature stea\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "4 questions open with the same sentence (2, 24, 34, 45): \"Name one actuator it could use to cool the greenho\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 7,
+      "detail": "9 questions open with the same sentence (8, 10, 20, 22, 29, 31, 36, 39, 42): \"Name the data type for the variable that stores th\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 26,
+      "detail": "5 questions open with the same sentence (27, 32, 37, 40, 43): \"Explain why it is important to use meaningful vari\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 27,
+      "detail": "5 questions open with the same sentence (28, 30, 35, 38, 41): \"Calculate the total of the marks.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 28"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 31,
+      "detail": "same as question 27"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 32,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 33,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 28"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 27"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 28"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 27"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 40,
+      "detail": "same as question 28"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 41,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 42,
+      "detail": "same as question 27"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 43,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 44,
+      "detail": "same as question 2"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b",
+      "11a",
+      "11b",
+      "12a",
+      "12b",
+      "13a",
+      "13b",
+      "13c",
+      "14a",
+      "14b",
+      "15a",
+      "15b",
+      "15c",
+      "16a",
+      "16b",
+      "17a",
+      "17b",
+      "17c",
+      "18a",
+      "18b",
+      "18c",
+      "19a",
+      "19b",
+      "19c",
+      "20a",
+      "20b"
+    ],
+    "issues": [
+      {
+        "label": "1b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: question about greenhouse cooling actuators is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 6: Automated systems'. Actuators are automated system components, not programming concepts.",
+        "correction": "Change topic_label to 'Chapter 6: Automated systems'"
+      },
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating average scores is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: naming cooling actuators is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 6: Automated systems'. Actuators are automated system components.",
+        "correction": "Change topic_label to 'Chapter 6: Automated systems'"
+      },
+      {
+        "label": "4a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "8b",
+        "severity": "broken",
+        "detail": "Model answer is incomplete/malformed. It repeats the marking criteria instead of providing an actual answer. Should name an actuator (e.g., solenoid valve, water pump) and explain how it controls water flow.",
+        "correction": "Model answer should be: 'A water pump. The microprocessor sends a signal to activate the pump when soil moisture is below 30%, which pumps water to the plants. When moisture reaches 30%, the microprocessor deactivates the pump.'"
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating average test scores is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "11a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "12b",
+        "severity": "broken",
+        "detail": "Model answer is incomplete/malformed. It repeats the marking criteria instead of providing an actual answer. Should name an actuator (e.g., fan, pump, valve, window motor) and explain how it cools.",
+        "correction": "Model answer should be: 'A fan. The fan circulates air inside the greenhouse to help dissipate heat and cool the environment when the temperature exceeds 25°C.'"
+      },
+      {
+        "label": "13c",
+        "severity": "poor",
+        "detail": "Topic label mismatch: explaining meaningful variable names is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming best practices question.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "14a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 6: Automated systems' based on assessment structure. However, this is actually a programming calculation, so label should be 'Chapter 8: Programming concepts'.",
+        "correction": "Verify intended topic; likely should remain 'Chapter 8: Programming concepts' but context suggests inconsistent labeling throughout"
+      },
+      {
+        "label": "14b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "15a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 8: Programming concepts' (correct). However, context shows inconsistent labeling.",
+        "correction": "Verify consistency; this label appears correct"
+      },
+      {
+        "label": "15b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "15c",
+        "severity": "poor",
+        "detail": "Topic label mismatch: explaining meaningful variable names is labeled 'Chapter 8: Programming concepts' (correct). This is appropriate.",
+        "correction": "Label is correct; no change needed"
+      },
+      {
+        "label": "16b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: naming cooling actuators is labeled 'Chapter 6: Automated systems' (correct). However, part (a) is labeled with subtopic/topic IDs suggesting different classification system.",
+        "correction": "Ensure consistent labeling approach throughout assessment"
+      },
+      {
+        "label": "17a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' (correct). This is appropriate.",
+        "correction": "Label is correct; no change needed"
+      },
+      {
+        "label": "17b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "18a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "18c",
+        "severity": "poor",
+        "detail": "Topic label mismatch: explaining meaningful variable names is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming best practices question.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "19a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' (correct). This is appropriate.",
+        "correction": "Label is correct; no change needed"
+      },
+      {
+        "label": "19b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+        "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+      },
+      {
+        "label": "20a",
+        "severity": "poor",
+        "detail": "Topic label mismatch: greenhouse temperature control is labeled 'Chapter 6: Automated systems' (correct). However, uses different metadata structure (subtopic_id, topic_id) than other questions.",
+        "correction": "Standardize metadata structure across all questions"
+      }
+    ],
+    "summary": "Assessment contains 45 questions with systematic topic label mismatches: programming calculation/concept questions incorrectly labeled as 'Chapter 6: Automated systems' and vice versa. Two questions (8b, 12b) have broken model answers repeating marking criteria instead of providing actual answers. Inconsistent metadata structure across questions. Numerical calculations verified as correct."
+  },
+  "totalSeconds": 153
+}

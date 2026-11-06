@@ -1,0 +1,30 @@
+{
+  "index": 14,
+  "label": "REB / Exam / Computer Science S4 SB",
+  "request": {
+    "subject": "Computer Science S4 SB",
+    "textbook_id": 60,
+    "topic_ids": [
+      663
+    ],
+    "topics": [
+      "Unit 2: Computer Architecture & Assembly"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": "Error: Failed to generate 20 complete questions. The AI produced 7. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 243,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 20 complete questions. The AI produced 7. Please try again."
+  },
+  "totalSeconds": 243
+}

@@ -1,0 +1,757 @@
+{
+  "index": 9,
+  "label": "Cambridge / Exam / Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "request": {
+    "subject": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+    "textbook_id": 198,
+    "topic_ids": [
+      2491,
+      2487
+    ],
+    "topics": [
+      "Chapter 18: a Draw the graph of In m against t.",
+      "Chapter 13: Further vector notation"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "baseUrl": "http://localhost:3101",
+  "buildId": "YfBQJKbLOvqy86-SUbmaP",
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 40,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "Consider three points A, B, and C in a plane with position vectors a, b, and c respectively, where a = 3i + 4j, b = 6i + 8j, and c = 2i + 6j. The points form a triangle ABC.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the vector AB.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of vector AB",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Use the formula for vector subtraction."
+        ],
+        "model_answer": "AB = b - a = (6i + 8j) - (3i + 4j) = 3i + 4j",
+        "explanation": "To find the vector AB, subtract the position vector of A from the position vector of B.",
+        "exam_question_id": "e9faf132-493e-4e36-9ea7-a98f82042eb4:1",
+        "topic_label": "Position vectors",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s337-f0.jpg",
+        "image_alt": "A vector diagram with points O and P on a horizontal base, Q above-left and Y above-right. The arrow OP is labelled a, the arrow OQ is labelled 3b, and the arrow PY is labelled 2b. Lines OY and QP cross at point X, and the segments OQ, QP, OY and PY are drawn.\nLabels: Q, 3b, Y, X, O, a, P, 2b\nOriginal exercise: OP = a, PY = 2b, and OQ = 3b. OX = λOY and QX = μQP.",
+        "checked": true,
+        "subtopic_id": 12752,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Position vectors"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider three points A, B, and C in a plane with position vectors a, b, and c respectively, where a = 3i + 4j, b = 6i + 8j, and c = 2i + 6j. The points form a triangle ABC.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the magnitude of vector AC.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of vector AC",
+          "Correct application of the magnitude formula",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Use the formula for vector subtraction and then the magnitude formula."
+        ],
+        "model_answer": "AC = c - a = (2i + 6j) - (3i + 4j) = -i + 2j, |AC| = sqrt((-1)^2 + 2^2) = sqrt(1 + 4) = sqrt(5)",
+        "explanation": "First, find the vector AC by subtracting the position vector of A from C. Then, use the magnitude formula to find the length of AC.",
+        "exam_question_id": "e9faf132-493e-4e36-9ea7-a98f82042eb4:1",
+        "topic_label": "Position vectors",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s337-f0.jpg",
+        "image_alt": "A vector diagram with points O and P on a horizontal base, Q above-left and Y above-right. The arrow OP is labelled a, the arrow OQ is labelled 3b, and the arrow PY is labelled 2b. Lines OY and QP cross at point X, and the segments OQ, QP, OY and PY are drawn.\nLabels: Q, 3b, Y, X, O, a, P, 2b\nOriginal exercise: OP = a, PY = 2b, and OQ = 3b. OX = λOY and QX = μQP.",
+        "checked": true,
+        "subtopic_id": 12752,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Position vectors"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider three points A, B, and C in a plane with position vectors a, b, and c respectively, where a = 3i + 4j, b = 6i + 8j, and c = 2i + 6j. The points form a triangle ABC.",
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "question": "State whether the vectors AB and AC are parallel.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of scalar multiples",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: State whether the vectors AB and AC are parallel — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of; Correct final answer."
+        ],
+        "model_answer": "AB = 3i + 4j and AC = -i + 2j are not scalar multiples of each other, so they are not parallel.",
+        "explanation": "Two vectors are parallel if one is a scalar multiple of the other. Since AB and AC are not scalar multiples, they are not parallel.",
+        "exam_question_id": "e9faf132-493e-4e36-9ea7-a98f82042eb4:1",
+        "topic_label": "Position vectors",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s337-f0.jpg",
+        "image_alt": "A vector diagram with points O and P on a horizontal base, Q above-left and Y above-right. The arrow OP is labelled a, the arrow OQ is labelled 3b, and the arrow PY is labelled 2b. Lines OY and QP cross at point X, and the segments OQ, QP, OY and PY are drawn.\nLabels: Q, 3b, Y, X, O, a, P, 2b\nOriginal exercise: OP = a, PY = 2b, and OQ = 3b. OX = λOY and QX = μQP.",
+        "checked": true,
+        "subtopic_id": 12752,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Position vectors"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 3i + 4j and point B has position vector 7i - 2j.",
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the vector AB.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the vector AB",
+          "Correct expression of the vector in terms of i and j"
+        ],
+        "hints": [
+          "Subtract the position vector of A from the position vector of B."
+        ],
+        "model_answer": "AB = (7i - 2j) - (3i + 4j) = 4i - 6j",
+        "explanation": "To find the vector AB, subtract the position vector of A from the position vector of B.",
+        "exam_question_id": "bbea20f5-32db-4932-8883-60181ebf1432:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s345-f1.jpg",
+        "image_alt": "A quadrilateral O, A, B, C is drawn with O at the lower left, A at the top, B at the right and C at the bottom. Vectors a (O to A), b (O to B) and c (O to C) are marked with arrows. Point P lies on AB closer to B, and point Q lies on OC closer to O.\nLabels: A, P, B, a, b, O, Q, c, C\nOriginal exercise: The figure shows points A, B and C with position vectors a, b and c respectively, relative to an origin O. The point P lies on AB such that AP : AB = 3 : 4. The point Q lies on OC such that OQ : QC = 2 : 3.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 3i + 4j and point B has position vector 7i - 2j.",
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the magnitude of the vector AB.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the magnitude of AB",
+          "Correct use of Pythagoras' theorem",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the magnitude of the vector AB — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the magnitude of AB; Correct use of Pythagoras' theorem; Correct final answer."
+        ],
+        "model_answer": "|AB| = sqrt((7 - 3)^2 + (-2 - 4)^2) = sqrt(4^2 + (-6)^2) = sqrt(16 + 36) = sqrt(52) = 2sqrt(13)",
+        "explanation": "To find the magnitude of the vector AB, use the formula |AB| = sqrt((x2 - x1)^2 + (y2 - y1)^2), where (x1, y1) and (x2, y2) are the coordinates of A and B, respectively.",
+        "exam_question_id": "bbea20f5-32db-4932-8883-60181ebf1432:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s345-f1.jpg",
+        "image_alt": "A quadrilateral O, A, B, C is drawn with O at the lower left, A at the top, B at the right and C at the bottom. Vectors a (O to A), b (O to B) and c (O to C) are marked with arrows. Point P lies on AB closer to B, and point Q lies on OC closer to O.\nLabels: A, P, B, a, b, O, Q, c, C\nOriginal exercise: The figure shows points A, B and C with position vectors a, b and c respectively, relative to an origin O. The point P lies on AB such that AP : AB = 3 : 4. The point Q lies on OC such that OQ : QC = 2 : 3.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 4i + 2j and point B has position vector 10i - 6j.",
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the vector AB.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of AB as a vector.",
+          "Correct final vector representation."
+        ],
+        "hints": [
+          "Subtract the position vector of A from the position vector of B."
+        ],
+        "model_answer": "AB = B - A = (10i - 6j) - (4i + 2j) = 6i - 8j.",
+        "explanation": "Subtract the components of vector A from vector B to find the vector AB.",
+        "exam_question_id": "22b80844-f382-43b4-9150-d1683b327a08:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s337-f4.jpg",
+        "image_alt": "Triangle OAB with O at the bottom left, A at the bottom right and B at the top. X is a point on side OA and Y is a point on side OB. The line segments AY and BX cross at a point P inside the triangle.\nLabels: B, Y, P, O, X, A\nOriginal exercise: 7 OA = a, OB = b and O is the origin. OX = λOA and OY = μOB.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 4i + 2j and point B has position vector 10i - 6j.",
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the magnitude of vector AB.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the magnitude formula.",
+          "Correct arithmetic operations.",
+          "Correct final numerical answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the magnitude of vector AB — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the magnitude formula.; Correct arithmetic operations.; Correct final numerical answer."
+        ],
+        "model_answer": "|AB| = sqrt((6)^2 + (-8)^2) = sqrt(36 + 64) = sqrt(100) = 10.",
+        "explanation": "Use the distance formula to find the length of vector AB.",
+        "exam_question_id": "22b80844-f382-43b4-9150-d1683b327a08:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s337-f4.jpg",
+        "image_alt": "Triangle OAB with O at the bottom left, A at the bottom right and B at the top. X is a point on side OA and Y is a point on side OB. The line segments AY and BX cross at a point P inside the triangle.\nLabels: B, Y, P, O, X, A\nOriginal exercise: 7 OA = a, OB = b and O is the origin. OX = λOA and OY = μOB.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Given two vectors a = 4i - 3j and b = 2i + j, relative to the origin O.",
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the magnitude of vector a.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of magnitude",
+          "Correct use of Pythagoras' theorem"
+        ],
+        "hints": [
+          "Remember to use the formula |a| = √(a_x^2 + a_y^2)."
+        ],
+        "model_answer": "The magnitude of vector a is |a| = √(4^2 + (-3)^2) = √(16 + 9) = √25 = 5.",
+        "explanation": "To find the magnitude of a vector, use the formula |a| = √(a_x^2 + a_y^2), where a_x and a_y are the components of vector a.",
+        "exam_question_id": "f480b700-f1e0-4f94-8310-eb55583854a1:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s338-f0.jpg",
+        "image_alt": "Two straight lines cross at a point B. One line runs from O through B to D, and the other runs from A through B to C. A is on a horizontal line from O to E, with A between O and E. The points O, A and E lie on the horizontal line. The figure shows no printed values and no vectors labelled a or b.\nLabels: C, D, B, O, A, E\nOriginal exercise: Find, in terms of a and/or b, i OE ii OD iii OC.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Given two vectors a = 4i - 3j and b = 2i + j, relative to the origin O.",
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the unit vector in the direction of vector a.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the unit vector",
+          "Correct division by the magnitude of a",
+          "Correct simplification of the vector"
+        ],
+        "hints": [
+          "Stay focused on this: Find the unit vector in the direction of vector a — develop the idea fully rather than listing short points. Make sure you also cover: Correct division by the magnitude of a; Correct simplification of the vector."
+        ],
+        "model_answer": "The unit vector in the direction of vector a is (4i - 3j)/5 = (4/5)i - (3/5)j.",
+        "explanation": "To find the unit vector in the direction of a vector, divide the vector by its magnitude. Here, |a| = 5, so the unit vector is (4/5)i - (3/5)j.",
+        "exam_question_id": "f480b700-f1e0-4f94-8310-eb55583854a1:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s338-f0.jpg",
+        "image_alt": "Two straight lines cross at a point B. One line runs from O through B to D, and the other runs from A through B to C. A is on a horizontal line from O to E, with A between O and E. The points O, A and E lie on the horizontal line. The figure shows no printed values and no vectors labelled a or b.\nLabels: C, D, B, O, A, E\nOriginal exercise: Find, in terms of a and/or b, i OE ii OD iii OC.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Given two vectors a = 4i - 3j and b = 2i + j, relative to the origin O.",
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "question": "State whether the vectors a and b are parallel.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of scalar multiple",
+          "Correct conclusion based on scalar multiple"
+        ],
+        "hints": [
+          "Stay focused on this: State whether the vectors a and b are parallel — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of multiple; Correct conclusion based on multiple."
+        ],
+        "model_answer": "Vectors a and b are not parallel because there is no scalar k such that b = ka.",
+        "explanation": "Vectors are parallel if one is a scalar multiple of the other. Here, no such scalar k exists for a and b.",
+        "exam_question_id": "f480b700-f1e0-4f94-8310-eb55583854a1:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s338-f0.jpg",
+        "image_alt": "Two straight lines cross at a point B. One line runs from O through B to D, and the other runs from A through B to C. A is on a horizontal line from O to E, with A between O and E. The points O, A and E lie on the horizontal line. The figure shows no printed values and no vectors labelled a or b.\nLabels: C, D, B, O, A, E\nOriginal exercise: Find, in terms of a and/or b, i OE ii OD iii OC.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 5i + 2j and point B has position vector 9i + 7j.",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the vector AB.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of vector AB",
+          "Correct vector notation"
+        ],
+        "hints": [
+          "Subtract the position vector of A from the position vector of B."
+        ],
+        "model_answer": "AB = (9i + 7j) - (5i + 2j) = 4i + 5j",
+        "explanation": "To find the vector AB, subtract the position vector of A from the position vector of B.",
+        "exam_question_id": "1ad2bea5-9880-428e-9d7a-d1508b5d0127:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/cambridge/198/page328-embedded-0.jpeg",
+        "image_alt": "A square grid with a point A at the bottom left and a point B at the top right, joined by a blue arrow from A to B. Below the path, four arrows to the right are each labelled i, running along the bottom from A. Then three arrows upward are each labelled j, running up to B. They form a right-angled triangle that shows the vector 4i + 3j.\nLabels: B, j, j, j, A, i, i, i, i\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 5i + 2j and point B has position vector 9i + 7j.",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the magnitude of vector AB.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of the magnitude formula",
+          "Correct arithmetic",
+          "Correct answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the magnitude of vector AB — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of the magnitude formula; Correct arithmetic; Correct answer."
+        ],
+        "model_answer": "|AB| = sqrt((9 - 5)^2 + (7 - 2)^2) = sqrt(16 + 25) = sqrt(41)",
+        "explanation": "To find the magnitude of vector AB, use the distance formula between points A and B.",
+        "exam_question_id": "1ad2bea5-9880-428e-9d7a-d1508b5d0127:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/cambridge/198/page328-embedded-0.jpeg",
+        "image_alt": "A square grid with a point A at the bottom left and a point B at the top right, joined by a blue arrow from A to B. Below the path, four arrows to the right are each labelled i, running along the bottom from A. Then three arrows upward are each labelled j, running up to B. They form a right-angled triangle that shows the vector 4i + 3j.\nLabels: B, j, j, j, A, i, i, i, i\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 2i + 3j and point B has position vector 8i - 5j.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the vector AB.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct subtraction of position vectors",
+          "Correct vector notation"
+        ],
+        "hints": [
+          "Subtract the position vector of A from the position vector of B."
+        ],
+        "model_answer": "AB = b - a = (8i - 5j) - (2i + 3j) = 6i - 8j",
+        "explanation": "To find vector AB, subtract the position vector of A from the position vector of B.",
+        "exam_question_id": "eaa3f6e0-7b31-45bd-969e-7a7e6f603036:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s335-f0.jpg",
+        "image_alt": "Triangle OPB-type figure: a horizontal line from O through P to A, and a line from O up to B. M is a point on OB, and P is a point on the horizontal line, with a line segment from P to B. X is a point on PB, and M is joined to X by a line segment.\nLabels: B, M, X, O, P, A, λ.\nOriginal exercise: c If M, X and A are collinear, find the value of λ.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 2i + 3j and point B has position vector 8i - 5j.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the magnitude of vector AB.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of the magnitude formula",
+          "Correct arithmetic operations",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the magnitude of vector AB — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of the magnitude formula; Correct arithmetic operations; Correct final answer."
+        ],
+        "model_answer": "|AB| = sqrt((6)^2 + (-8)^2) = sqrt(36 + 64) = sqrt(100) = 10",
+        "explanation": "The magnitude of vector AB is found using the distance formula between two points in a plane.",
+        "exam_question_id": "eaa3f6e0-7b31-45bd-969e-7a7e6f603036:1",
+        "topic_label": "Chapter 13: Further vector notation",
+        "topic_id": 2487,
+        "image_url": "/textbook-images/textbook-bank/198/s335-f0.jpg",
+        "image_alt": "Triangle OPB-type figure: a horizontal line from O through P to A, and a line from O up to B. M is a point on OB, and P is a point on the horizontal line, with a line segment from P to B. X is a point on PB, and M is joined to X by a line segment.\nLabels: B, M, X, O, P, A, λ.\nOriginal exercise: c If M, X and A are collinear, find the value of λ.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Chapter 13: Further vector notation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 2i + 3j and point B has position vector 6i - 5j.",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the vector AB.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of vector AB",
+          "Correct notation and final vector"
+        ],
+        "hints": [
+          "Subtract the position vector of A from the position vector of B."
+        ],
+        "model_answer": "AB = (6i - 5j) - (2i + 3j) = 4i - 8j",
+        "explanation": "To find the vector AB, subtract the position vector of point A from the position vector of point B.",
+        "exam_question_id": "c6279f6a-6b80-441b-b4ae-7fae67dbec9d:1",
+        "topic_label": "Constant velocity problems (Chapter 13: Further vector notation)",
+        "topic_id": 2487,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems (Chapter 13: Further vector notation)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Relative to origin O, point A has position vector 2i + 3j and point B has position vector 6i - 5j.",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the magnitude of the vector AB.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the magnitude formula",
+          "Correct arithmetic operations",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the magnitude of the vector AB — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the magnitude formula; Correct arithmetic operations; Correct final answer."
+        ],
+        "model_answer": "|AB| = √((4)² + (-8)²) = √(16 + 64) = √80 = 4√5",
+        "explanation": "To find the magnitude of vector AB, use the distance formula on the components of the vector AB.",
+        "exam_question_id": "c6279f6a-6b80-441b-b4ae-7fae67dbec9d:1",
+        "topic_label": "Constant velocity problems (Chapter 13: Further vector notation)",
+        "topic_id": 2487,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems (Chapter 13: Further vector notation)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A particle moves with constant velocity. At time t = 0, the position vector of the particle is 3i + 2j and at time t = 2, the position vector is 7i - 4j.",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the velocity vector of the particle.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the change in position vector",
+          "Correct division by time interval",
+          "Correct notation and final vector"
+        ],
+        "hints": [
+          "Subtract the initial position vector from the final position vector and divide by the time interval."
+        ],
+        "model_answer": "Velocity vector = ((7i - 4j) - (3i + 2j))/2 = (4i - 6j)/2 = 2i - 3j",
+        "explanation": "To find the velocity vector, subtract the initial position vector from the final position vector and divide by the time interval.",
+        "exam_question_id": "c6279f6a-6b80-441b-b4ae-7fae67dbec9d:2",
+        "topic_label": "Constant velocity problems",
+        "topic_id": 2487,
+        "checked": true,
+        "subtopic_id": 12754,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A particle moves with constant velocity. At time t = 0, the position vector of the particle is 3i + 2j and at time t = 2, the position vector is 7i - 4j.",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "State the position vector of the particle at time t = 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct application of the velocity vector",
+          "Correct calculation of the position vector at t = 4"
+        ],
+        "hints": [
+          "Use the velocity vector and multiply by the time interval, then add to the initial position vector."
+        ],
+        "model_answer": "Position vector at t = 4 = (3i + 2j) + 4 * (2i - 3j) = 3i + 2j + 8i - 12j = 11i - 10j",
+        "explanation": "To find the position vector at time t = 4, add the product of the velocity vector and the time interval to the initial position vector.",
+        "exam_question_id": "c6279f6a-6b80-441b-b4ae-7fae67dbec9d:2",
+        "topic_label": "Constant velocity problems",
+        "topic_id": 2487,
+        "checked": true,
+        "subtopic_id": 12754,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Relative to origin O, point P has position vector 5i + 7j and point Q has position vector 9i + 3j.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the vector PQ.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of vector PQ",
+          "Correct notation and final vector"
+        ],
+        "hints": [
+          "Subtract the position vector of P from the position vector of Q."
+        ],
+        "model_answer": "PQ = (9i + 3j) - (5i + 7j) = 4i - 4j",
+        "explanation": "To find the vector PQ, subtract the position vector of point P from the position vector of point Q.",
+        "exam_question_id": "c6279f6a-6b80-441b-b4ae-7fae67dbec9d:3",
+        "topic_label": "Constant velocity problems (Chapter 13: Further vector notation)",
+        "topic_id": 2487,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems (Chapter 13: Further vector notation)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "Relative to origin O, point P has position vector 5i + 7j and point Q has position vector 9i + 3j.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the magnitude of the vector PQ.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the magnitude formula",
+          "Correct arithmetic operations",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the magnitude of the vector PQ — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the magnitude formula; Correct arithmetic operations; Correct final answer."
+        ],
+        "model_answer": "|PQ| = √((4)² + (-4)²) = √(16 + 16) = √32 = 4√2",
+        "explanation": "To find the magnitude of vector PQ, use the distance formula on the components of the vector PQ.",
+        "exam_question_id": "c6279f6a-6b80-441b-b4ae-7fae67dbec9d:3",
+        "topic_label": "Constant velocity problems (Chapter 13: Further vector notation)",
+        "topic_id": 2487,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems (Chapter 13: Further vector notation)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A particle moves with constant velocity. At time t = 0, the position vector of the particle is 3i + 2j and at time t = 4, the position vector is 11i - 6j.",
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the velocity vector of the particle.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the initial and final position vectors.",
+          "Subtract the initial position vector from the final position vector.",
+          "Divide by the time elapsed to find the velocity vector."
+        ],
+        "hints": [
+          "Remember the formula for velocity: v = (r_f - r_i) / t."
+        ],
+        "model_answer": "The initial position vector is r_i = 3i + 2j and the final position vector is r_f = 11i - 6j. The time elapsed is t = 4. The velocity vector v = (r_f - r_i) / t = ((11i - 6j) - (3i + 2j)) / 4 = (8i - 8j) / 4 = 2i - 2j.",
+        "explanation": "To find the velocity vector, we first identify the initial and final position vectors. Then, we subtract the initial position vector from the final position vector and divide by the time elapsed. This gives us the velocity vector of the particle.",
+        "exam_question_id": "0d5a1c41-cd10-41cd-b881-1067ac722e2c:1",
+        "topic_label": "Constant velocity problems",
+        "topic_id": 2487,
+        "checked": true,
+        "subtopic_id": 12754,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A particle moves with constant velocity. At time t = 0, the position vector of the particle is 3i + 2j and at time t = 4, the position vector is 11i - 6j.",
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "question": "State the position vector of the particle at time t = 6.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use the formula r = r_i + vt.",
+          "Substitute the known values into the formula."
+        ],
+        "hints": [
+          "Stay focused on this: State the position vector of the particle at time t = 6 — develop the idea fully rather than listing short points. Make sure you also cover: the formula r = r_i + vt.; Substitute the known values into the formula."
+        ],
+        "model_answer": "The velocity vector is v = 2i - 2j. The initial position vector is r_i = 3i + 2j. At time t = 6, the position vector r = r_i + vt = (3i + 2j) + (2i - 2j) * 6 = 3i + 2j + 12i - 12j = 15i - 10j.",
+        "explanation": "To find the position vector at time t = 6, we use the formula for position vector in terms of initial position vector and velocity vector. Substituting the known values gives us the position vector at t = 6.",
+        "exam_question_id": "0d5a1c41-cd10-41cd-b881-1067ac722e2c:1",
+        "topic_label": "Constant velocity problems",
+        "topic_id": 2487,
+        "checked": true,
+        "subtopic_id": 12754,
+        "source": {
+          "textbook": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+          "area": "Constant velocity problems"
+        }
+      }
+    ],
+    "estimated_time": 54,
+    "assessment_id": "dd4648cb-86e5-480f-a980-3a1b148be696",
+    "subject": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+    "topics": [
+      "Chapter 18: a Draw the graph of In m against t.",
+      "Chapter 13: Further vector notation"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 198,
+    "topic_ids": [
+      2491,
+      2487
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 22,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 3,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 17"
+    }
+  ],
+  "figures": 6,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 42
+}

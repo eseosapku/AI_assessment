@@ -1,0 +1,296 @@
+{
+  "index": 9,
+  "label": "REB / Practice / ICT  S3 SB",
+  "request": {
+    "subject": "ICT  S3 SB",
+    "textbook_id": 115,
+    "topic_ids": [
+      1226
+    ],
+    "topics": [
+      "ArcGIS"
+    ],
+    "curriculum": "rwanda",
+    "grade": 9,
+    "className": "S3",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 19,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "You are tasked with creating a map of your town using ArcGIS. Describe the steps you would take to display a specific layer and explain why each step is necessary.",
+        "marks": 2,
+        "marking_criteria": [
+          "Step-by-step process of displaying a specific layer in ArcGIS",
+          "Importance of each step in the process"
+        ],
+        "hints": [
+          "Structure your answer around both demands: You are tasked with creating a map of your town using ArcGIS; then Describe the steps you would take to display a specific layer and explain why each step is necessary. Make sure you also cover: Importance of each step in the process."
+        ],
+        "model_answer": "To display a specific layer in ArcGIS, first, ensure that the layer is added to the map. Next, use the 'Layers' panel to find and select the desired layer. Then, adjust the transparency and symbology settings to make the layer visible and readable. Finally, zoom in or out to ensure the layer is displayed correctly. Each step is necessary to ensure the layer is properly added, visible, and accurately represents the geographical data.",
+        "explanation": "A strong answer will detail the steps to display a layer, explaining why each step is necessary. It will highlight the importance of proper layer management and visualisation in geographical analysis.",
+        "subtopic_id": 5995,
+        "topic_id": 1226,
+        "topic_label": "Display of a layer (II)",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Display of a layer (II)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Describe how you would use the 'Identify' tool in ArcGIS to gather information about a specific geographical feature.",
+        "marks": 2,
+        "marking_criteria": [
+          "Step-by-step process of using the 'Identify' tool",
+          "Benefits of using the 'Identify' tool for gathering information"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "To use the 'Identify' tool in ArcGIS, first, ensure the layer containing the feature of interest is selected. Then, click on the 'Identify' tool from the 'Tools' menu. Next, click on the geographical feature on the map. A window will appear displaying detailed information about the feature, such as its name, attributes, and other relevant data. This tool is beneficial for quickly gathering specific information about a feature, aiding in detailed geographical analysis and decision-making.",
+        "explanation": "A strong answer will describe the steps to use the 'Identify' tool, highlighting its benefits in obtaining detailed information about geographical features.",
+        "topic_id": 1226,
+        "topic_label": "ArcGIS",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ArcGIS"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Explain how the 'Buffer' tool in ArcGIS can be used to create a buffer zone around a geographical feature.",
+        "marks": 2,
+        "marking_criteria": [
+          "Step-by-step process of using the 'Buffer' tool",
+          "Importance and applications of creating a buffer zone"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "To create a buffer zone around a geographical feature using the 'Buffer' tool in ArcGIS, first, select the feature layer. Then, navigate to the 'Analysis' toolbox and choose the 'Buffer' tool. Enter the desired distance for the buffer zone and click 'Run'. The tool will create a new layer representing the buffer zone around the feature. Creating a buffer zone is important for analyzing areas of influence, such as the impact of a pollution source or the service area of a facility.",
+        "explanation": "A strong answer will detail the steps to create a buffer zone, explaining its importance and applications in geographical analysis.",
+        "topic_id": 1226,
+        "topic_label": "ArcGIS",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ArcGIS"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "You are working on a project that requires you to analyse the population distribution in different districts of Rwanda using ArcGIS. Describe how you would perform a spatial query to identify all districts where the population density is above the national average. Explain the steps involved and justify why this method is suitable for your analysis.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the process of performing a spatial query (2 marks)",
+          "Explain the steps involved in setting up and executing the query (3 marks)",
+          "Justify why this method is suitable for analysing population distribution (3 marks)"
+        ],
+        "hints": [
+          "Structure your answer by first explaining the purpose of a spatial query, then detailing each step of the process, and finally justifying the suitability of this method."
+        ],
+        "model_answer": "To analyze population distribution in Rwanda using ArcGIS, I would start by performing a spatial query to identify districts with population densities above the national average. First, I would open the ArcGIS software and load the dataset containing district boundaries and population data. Next, I would use the 'Select by Attributes' tool to filter districts with population densities greater than the national average. This involves opening the attribute table, setting a query condition, and executing the selection. This method is suitable because it allows for precise and efficient filtering of relevant data, enabling focused analysis on high-density areas which can be crucial for resource allocation and urban planning.",
+        "explanation": "A strong answer will detail the process of performing a spatial query, explaining each step from loading data to setting and executing the query. It will also provide a justification for why this method is suitable, highlighting the efficiency and precision it offers in analysing specific data subsets.",
+        "subtopic_id": 5994,
+        "topic_id": 1226,
+        "topic_label": "Querying data/information (Query methods III)",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Querying data/information (Query methods III)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "In ArcGIS, you are tasked with creating a map layout that displays key infrastructure in a region, including roads, hospitals, and schools. Outline the steps you would take to ensure the map is informative and visually appealing. Include in your answer how you would organise the map elements to enhance readability.",
+        "marks": 3,
+        "marking_criteria": [
+          "Outline the steps for creating a map layout (2 marks)",
+          "Explain how to organise map elements for readability (2 marks)",
+          "Describe the importance of visual appeal in map design (2 marks)"
+        ],
+        "hints": [
+          "Structure your answer by detailing the creation process, focusing on organisation and visual aspects of map design."
+        ],
+        "model_answer": "Creating an informative and visually appealing map layout in ArcGIS involves several key steps. Initially, I would open the layout view and add a map frame to position the region of interest. Next, I would add essential layers such as roads, hospitals, and schools. To enhance readability, I would use a clear and legible font for labels, ensuring that text does not overlap with map elements. Additionally, I would use contrasting colors for different infrastructure types to make them easily distinguishable. Visual appeal is crucial as it not only makes the map more engaging but also aids in the quick and accurate interpretation of spatial data, which is vital for decision-making and analysis.",
+        "explanation": "A strong answer will detail the creation process, emphasising the organisation of map elements to enhance readability. It will also explain the importance of visual appeal, highlighting how it aids in the quick and accurate interpretation of spatial data.",
+        "subtopic_id": 5996,
+        "topic_id": 1226,
+        "topic_label": "Map layout",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Map layout"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Explain how you would use ArcGIS to analyse the impact of a new road construction on existing traffic patterns. Describe the steps involved in setting up the analysis and justify why ArcGIS is an effective tool for this task.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the steps involved in setting up the analysis (3 marks)",
+          "Explain the process of analysing traffic patterns (3 marks)",
+          "Justify why ArcGIS is effective for this task (2 marks)"
+        ],
+        "hints": [
+          "Structure your answer by detailing the setup process, explaining the analysis of traffic patterns, and justifying the effectiveness of ArcGIS."
+        ],
+        "model_answer": "To analyze the impact of a new road construction on existing traffic patterns using ArcGIS, I would first load the relevant datasets including road networks and traffic volume data. Next, I would use the 'Network Analyst' tool to create a new route that incorporates the proposed road. This involves defining the start and end points of the route and calculating the travel time and distance. By comparing these results with the current traffic patterns, I can assess the impact on traffic flow. ArcGIS is effective for this task because it offers powerful spatial analysis tools that allow for detailed examination of traffic networks, making it possible to predict changes in traffic patterns accurately and efficiently.",
+        "explanation": "A strong answer will detail the setup process, explaining the analysis of traffic patterns, and justify the effectiveness of ArcGIS. It will highlight how ArcGIS's spatial analysis tools enable detailed examination of traffic networks, allowing for accurate predictions of changes in traffic patterns.",
+        "topic_id": 1226,
+        "topic_label": "ArcGIS",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ArcGIS"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "After completing a spatial analysis in ArcGIS, you need to save your work and send the map to a colleague for review. Describe the process of saving the project file and explain how you would send the map to your colleague, ensuring it is accessible and viewable.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the process of saving the project file (2 marks)",
+          "Explain how to send the map to a colleague (2 marks)",
+          "Ensure accessibility and viewability of the map (2 marks)"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Saving a project in ArcGIS involves going to the 'File' menu and selecting 'Save As' to choose a location and name for the project file. To send the map to a colleague, I would first export the map as a PDF or image file, ensuring that all layers and annotations are included. I would then attach this file to an email or upload it to a shared cloud storage service like Google Drive or Dropbox, providing the colleague with a link to access it. Ensuring accessibility and viewability is crucial, so I would verify that the file format is compatible with the colleague's software and that the link or attachment is accessible to them.",
+        "explanation": "A strong answer will detail the process of saving the project file, explain the method of sending the map to a colleague, and ensure accessibility and viewability. It will highlight the importance of choosing compatible file formats and providing accessible links or attachments.",
+        "subtopic_id": 5998,
+        "topic_id": 1226,
+        "topic_label": "Save and send a map",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Save and send a map"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Analyse how you would use ArcGIS to compare the environmental impact of two different land-use plans in a region. Describe the steps involved in setting up the analysis and explain how you would interpret the results to make a decision on the best land-use plan.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the steps for setting up the analysis (3 marks)",
+          "Explain the process of interpreting the results (3 marks)",
+          "Explain how to make a decision on the best land-use plan (2 marks)"
+        ],
+        "hints": [
+          "Structure your answer by detailing the setup process, explaining the interpretation of results, and decision-making based on the analysis."
+        ],
+        "model_answer": "To compare the environmental impact of two different land-use plans in ArcGIS, I would first load the datasets for both plans along with environmental data such as vegetation cover and water bodies. Next, I would use the 'Spatial Analyst' tools to overlay the land-use plans with the environmental data, calculating the impact on each environmental aspect. This involves running overlay analysis to identify areas of potential conflict or benefit. Interpreting the results would involve comparing the calculated impacts, such as changes in vegetation cover or water quality, between the two plans. Based on these comparisons, I would make a decision on the best land-use plan by selecting the one that minimizes environmental impact and maximizes sustainability.",
+        "explanation": "A strong answer will detail the setup process, explain the interpretation of results, and describe how to make a decision based on the analysis. It will highlight the importance of comparing calculated impacts to select the most sustainable land-use plan.",
+        "topic_id": 1226,
+        "topic_label": "ArcGIS",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ArcGIS"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Using ArcGIS, describe how you would create a thematic map that highlights areas with high biodiversity in a protected region. Explain the steps involved in creating the map and justify why this method is effective for highlighting biodiversity.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the steps for creating the thematic map (2 marks)",
+          "Explain the process of highlighting biodiversity (2 marks)",
+          "Justify the effectiveness of the method (2 marks)"
+        ],
+        "hints": [
+          "Structure your answer by detailing the creation process, explaining the highlighting of biodiversity, and justifying the effectiveness of the method."
+        ],
+        "model_answer": "Creating a thematic map in ArcGIS to highlight areas with high biodiversity in a protected region involves several steps. First, I would load the biodiversity data, which includes species richness and habitat types. Next, I would use the 'Symbology' tab to classify the data into categories based on biodiversity levels. This involves selecting a color ramp and defining class breaks to represent areas of high, medium, and low biodiversity. The thematic map is effective because it visually distinguishes areas with significant biodiversity, making it easier to identify critical regions for conservation efforts. This method allows for a quick and clear understanding of biodiversity distribution, aiding in the planning of conservation strategies.",
+        "explanation": "A strong answer will detail the creation process, explain the highlighting of biodiversity, and justify the effectiveness of the method. It will highlight how the thematic map visually distinguishes areas with significant biodiversity, aiding in conservation planning.",
+        "topic_id": 1226,
+        "topic_label": "ArcGIS",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ArcGIS"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Explain how you would use ArcGIS to investigate the relationship between land use and air quality in a metropolitan area. Describe the steps involved in setting up the analysis and explain how you would interpret the results to understand this relationship.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the steps for setting up the analysis (3 marks)",
+          "Explain the process of interpreting the results (3 marks)",
+          "Explain how to understand the relationship between land use and air quality (2 marks)"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "To investigate the relationship between land use and air quality in a metropolitan area using ArcGIS, I would first load the land use data and air quality monitoring stations' locations. Next, I would use the 'Spatial Join' tool to combine the land use data with the air quality data based on proximity. This involves setting the join parameters to match land use types with air quality data points. Interpreting the results would involve analyzing the correlation between different land use types and air quality levels, such as identifying whether industrial",
+        "topic_id": 1226,
+        "topic_label": "ArcGIS",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "ArcGIS"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "b322f0be-7d8f-448d-85e7-9e42724c89d8",
+    "subject": "ICT  S3 SB",
+    "topics": [
+      "ArcGIS"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 115,
+    "topic_ids": [
+      1226
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 3,
+      "detail": "56 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 4,
+      "detail": "51 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 6,
+      "detail": "47 words"
+    },
+    {
+      "code": "explanation-missing",
+      "severity": "poor",
+      "index": 9,
+      "detail": "nothing shown after answering"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "totalSeconds": 20
+}

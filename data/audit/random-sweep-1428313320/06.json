@@ -1,0 +1,990 @@
+{
+  "index": 6,
+  "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+  "request": {
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "textbook_id": 209,
+    "topic_ids": [
+      2577,
+      2571
+    ],
+    "topics": [
+      "Chapter 13: Waves",
+      "Chapter 7: Density and floating"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 41,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A wave in a lake has a distance of 8 m between two neighbouring crests. A floating leaf rises and falls 6 times in 12 s as the waves pass.",
+        "question": "State the wavelength of the wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the distance between two neighbouring crests as the wavelength.",
+          "State the wavelength in meters."
+        ],
+        "hints": [
+          "Recall the definition of wavelength."
+        ],
+        "model_answer": "Wavelength = 8 m",
+        "explanation": "The wavelength is the distance between two neighbouring crests, which is given as 8 m.",
+        "exam_question_id": "7f153e3d-a5e4-47e0-ac8d-98c70106516f:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A wave in a lake has a distance of 8 m between two neighbouring crests. A floating leaf rises and falls 6 times in 12 s as the waves pass.",
+        "question": "Calculate the frequency of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the number of oscillations in a given time period.",
+          "Divide the number of oscillations by the time period to find the frequency.",
+          "State the frequency in Hertz (Hz)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the frequency of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Identify the number of oscillations in a given time period.; Divide the number of oscillations by the time period to find the frequency."
+        ],
+        "model_answer": "Frequency = 6 / 12 = 0.5 Hz",
+        "explanation": "The frequency is calculated by dividing the number of oscillations (6) by the time period (12 s), resulting in 0.5 Hz.",
+        "exam_question_id": "7f153e3d-a5e4-47e0-ac8d-98c70106516f:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A wave in a lake has a distance of 8 m between two neighbouring crests. A floating leaf rises and falls 6 times in 12 s as the waves pass.",
+        "question": "Calculate the speed of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the formula for wave speed: v = fλ.",
+          "Substitute the known values for frequency and wavelength.",
+          "State the wave speed in meters per second (m/s)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the speed of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the known values for frequency and wavelength."
+        ],
+        "model_answer": "Wave speed = 0.5 Hz × 8 m = 4 m/s",
+        "explanation": "The wave speed is calculated by multiplying the frequency (0.5 Hz) by the wavelength (8 m), resulting in 4 m/s.",
+        "exam_question_id": "7f153e3d-a5e4-47e0-ac8d-98c70106516f:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A wooden block has a mass of 200 g and a volume of 250 cm³.",
+        "question": "Calculate the density of the wooden block in g/cm³.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify mass and volume from the scenario.",
+          "Apply the density formula correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the density of the wooden block in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify mass and volume from the scenario.; Apply the density formula correctly."
+        ],
+        "model_answer": "Density (ρ) = 200 g / 250 cm³ = 0.8 g/cm³",
+        "explanation": "To find the density, divide the mass of the block by its volume.",
+        "exam_question_id": "0da716ac-ac0d-4bc6-b9f1-d6c620f94e50:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A wooden block has a mass of 200 g and a volume of 250 cm³.",
+        "question": "Will the wooden block float or sink in water? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the density of the wooden block with the density of water.",
+          "Explain the relationship between the densities and the floating/sinking of the block.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Will the wooden block float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: the relationship between the densities and the floating/sinking of the block.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "The wooden block will float in water because its density (0.8 g/cm³) is less than the density of water (1.0 g/cm³).",
+        "explanation": "An object will float if its density is less than the density of the liquid it is placed in.",
+        "exam_question_id": "0da716ac-ac0d-4bc6-b9f1-d6c620f94e50:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A wave in a lake has a distance of 10 m between two neighbouring crests. A floating leaf rises and falls 4 times in 8 s as the waves pass.",
+        "question": "State the wavelength of the wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the distance between two neighbouring crests.",
+          "State the wavelength in meters."
+        ],
+        "hints": [
+          "Stay focused on this: State the wavelength of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Identify the distance between two neighbouring crests.; the wavelength in meters."
+        ],
+        "model_answer": "10 m",
+        "explanation": "The wavelength is the distance between two neighbouring crests, which is given as 10 m.",
+        "exam_question_id": "4b646b47-0965-4537-aedc-918a75afcb86:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A wave in a lake has a distance of 10 m between two neighbouring crests. A floating leaf rises and falls 4 times in 8 s as the waves pass.",
+        "question": "Calculate the frequency of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the number of oscillations in a given time.",
+          "Calculate the frequency using the formula f = number of oscillations / time taken.",
+          "Provide the frequency in Hz."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the frequency of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Identify the number of oscillations in a given time.; Calculate the frequency using the formula f = number of oscillations / time taken."
+        ],
+        "model_answer": "Frequency = 4 / 8 = 0.5 Hz",
+        "explanation": "The frequency is calculated by dividing the number of oscillations (4) by the time taken (8 s), which gives 0.5 Hz.",
+        "exam_question_id": "4b646b47-0965-4537-aedc-918a75afcb86:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A wave in a lake has a distance of 10 m between two neighbouring crests. A floating leaf rises and falls 4 times in 8 s as the waves pass.",
+        "question": "Calculate the speed of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the wavelength and frequency.",
+          "Use the wave speed formula v = f * λ.",
+          "Provide the speed in m/s."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the speed of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Identify the wavelength and frequency.; the wave speed formula v = f * λ."
+        ],
+        "model_answer": "Speed = 0.5 Hz * 10 m = 5 m/s",
+        "explanation": "The speed of the wave is calculated by multiplying the frequency (0.5 Hz) by the wavelength (10 m), which gives 5 m/s.",
+        "exam_question_id": "4b646b47-0965-4537-aedc-918a75afcb86:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the volume using the formula V = l × w × h.",
+          "Provide the correct numerical answer in cm³."
+        ],
+        "hints": [
+          "Use the formula for the volume of a rectangular prism."
+        ],
+        "model_answer": "V = 4.0 cm × 5.0 cm × 2.0 cm = 40 cm³",
+        "explanation": "To find the volume of the metal block, multiply its length, width, and height.",
+        "exam_question_id": "4ecabd8b-96f7-4c8f-961c-5598620a41ba:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly use the density formula ρ = m/V.",
+          "Substitute the given mass and calculated volume into the formula.",
+          "Provide the correct numerical answer in g/cm³."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly use the density formula ρ = m/V.; Substitute the given mass and calculated volume into the formula.; Provide the correct numerical answer in g/cm³."
+        ],
+        "model_answer": "ρ = 316 g / 40 cm³ = 7.9 g/cm³",
+        "explanation": "To find the density of the metal block, divide its mass by its volume.",
+        "exam_question_id": "4ecabd8b-96f7-4c8f-961c-5598620a41ba:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Will the block float or sink in water? Explain.",
+        "marks": 2,
+        "marking_criteria": [
+          "Compare the density of the block with the density of water.",
+          "Provide a clear explanation based on the comparison."
+        ],
+        "hints": [
+          "Use the densities calculated in parts (a) and (b)."
+        ],
+        "model_answer": "The block will sink in water because its density (7.9 g/cm³) is greater than the density of water (1.0 g/cm³).",
+        "explanation": "An object will sink in a liquid if its density is greater than the liquid's density.",
+        "exam_question_id": "4ecabd8b-96f7-4c8f-961c-5598620a41ba:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A wave in the sea has a distance of 12 m between two neighbouring crests. A floating cork rises and falls 5 times in 10 s as the waves pass.",
+        "question": "State the wavelength.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the distance between two neighbouring crests.",
+          "Provide the correct unit of measurement."
+        ],
+        "hints": [
+          "Stay focused on this: State the wavelength — develop the idea fully rather than listing short points. Make sure you also cover: Identify the distance between two neighbouring crests.; Provide the correct unit of measurement."
+        ],
+        "model_answer": "12 m",
+        "explanation": "The wavelength is the distance between two neighbouring crests, which is given as 12 m in the scenario.",
+        "exam_question_id": "34a15c8b-872e-4850-a814-b80e5f32f29d:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A wave in the sea has a distance of 12 m between two neighbouring crests. A floating cork rises and falls 5 times in 10 s as the waves pass.",
+        "question": "Calculate the frequency.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the number of oscillations in a given time period.",
+          "Use the correct formula to calculate frequency.",
+          "Provide the correct unit of measurement."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the frequency — develop the idea fully rather than listing short points. Make sure you also cover: Identify the number of oscillations in a given time period.; the correct formula to calculate frequency.; Provide the correct unit of measurement."
+        ],
+        "model_answer": "0.5 Hz",
+        "explanation": "The frequency is calculated by dividing the number of oscillations (5) by the time period (10 s), which gives 0.5 Hz.",
+        "exam_question_id": "34a15c8b-872e-4850-a814-b80e5f32f29d:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A wave in the sea has a distance of 12 m between two neighbouring crests. A floating cork rises and falls 5 times in 10 s as the waves pass.",
+        "question": "Calculate the speed of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the wavelength and frequency from the scenario.",
+          "Use the correct formula to calculate speed.",
+          "Provide the correct unit of measurement."
+        ],
+        "hints": [
+          "Use the formula: speed = wavelength x frequency."
+        ],
+        "model_answer": "6 m/s",
+        "explanation": "The speed of the wave is calculated by multiplying the wavelength (12 m) by the frequency (0.5 Hz), which gives 6 m/s.",
+        "exam_question_id": "34a15c8b-872e-4850-a814-b80e5f32f29d:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular block of metal has dimensions 6.0 cm x 4.0 cm x 3.0 cm and a mass of 432 g.",
+        "question": "Calculate the volume of the metal block in cm³.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the formula for volume of a rectangular prism (V = l x w x h).",
+          "Substitute the given dimensions into the formula and calculate the volume."
+        ],
+        "hints": [
+          "Remember to convert all dimensions to the same unit before calculating the volume."
+        ],
+        "model_answer": "V = l x w x h = 6.0 cm x 4.0 cm x 3.0 cm = 72 cm³",
+        "explanation": "To find the volume of the rectangular block, we use the formula for the volume of a rectangular prism, which is length multiplied by width multiplied by height. Substituting the given dimensions into the formula, we get 6.0 cm x 4.0 cm x 3.0 cm = 72 cm³.",
+        "exam_question_id": "3c425b72-5fab-4cc2-bf7c-91d70b4acacc:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular block of metal has dimensions 6.0 cm x 4.0 cm x 3.0 cm and a mass of 432 g.",
+        "question": "Calculate the density of the metal block in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for density (ρ = m/V).",
+          "Substitute the given mass and calculated volume into the formula and calculate the density.",
+          "Provide the answer with the correct units."
+        ],
+        "hints": [
+          "Remember to convert the mass to grams if it is given in another unit."
+        ],
+        "model_answer": "ρ = m/V = 432 g / 72 cm³ = 6 g/cm³",
+        "explanation": "To find the density of the metal block, we use the formula for density, which is mass divided by volume. Substituting the given mass and the previously calculated volume into the formula, we get 432 g / 72 cm³ = 6 g/cm³.",
+        "exam_question_id": "3c425b72-5fab-4cc2-bf7c-91d70b4acacc:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A rectangular block of metal has dimensions 6.0 cm x 4.0 cm x 3.0 cm and a mass of 432 g.",
+        "question": "Will the metal block float or sink in water? Explain.",
+        "marks": 2,
+        "marking_criteria": [
+          "Compare the density of the metal block to the density of water (1 g/cm³).",
+          "Explain whether the block will float or sink based on the comparison."
+        ],
+        "hints": [
+          "Remember that an object will float if its density is less than the density of the liquid it is placed in."
+        ],
+        "model_answer": "The metal block will sink in water because its density (6 g/cm³) is greater than the density of water (1 g/cm³).",
+        "explanation": "To determine whether the metal block will float or sink in water, we compare its density to the density of water. Since the density of the metal block (6 g/cm³) is greater than the density of water (1 g/cm³), the block will sink.",
+        "exam_question_id": "3c425b72-5fab-4cc2-bf7c-91d70b4acacc:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A wave in the sea has a distance of 15 m between two neighbouring crests. A floating cork rises and falls 3 times in 6 s as the waves pass.",
+        "question": "State the wavelength of the wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the wavelength of the wave.",
+          "Correctly identify the distance between two neighbouring crests as the wavelength."
+        ],
+        "hints": [
+          "The wavelength is the distance between two consecutive points that are in phase on the wave, such as two crests."
+        ],
+        "model_answer": "15 m",
+        "explanation": "The wavelength is the distance between two neighbouring crests, which is given as 15 m.",
+        "exam_question_id": "7a7a784b-f6ae-48a9-a366-a86dcd94f0aa:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "image_url": "/textbook-images/textbook-bank/209/s288-f0.jpg",
+        "image_alt": "A graph of displacement x in cm (vertical axis, marked 20, 10, 0, -10, -20) against distance d in m (horizontal axis, marked 1 to 6). A smooth sinusoidal wave starts at +20 cm at d = 0, falls to -20 cm at d = 1, rises to +20 cm at d = 2, and repeats, with peaks at 0, 2, 4 and 6 m and troughs at 1, 3 and 5 m.\nLabels: x/cm, 20, 10, 0, -10, -20, 1, 2, 3, 4, 5, 6, d/m\nOriginal exercise: This diagram shows a wave in the sea.",
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A wave in the sea has a distance of 15 m between two neighbouring crests. A floating cork rises and falls 3 times in 6 s as the waves pass.",
+        "question": "Calculate the frequency of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the frequency of the wave using the given data.",
+          "Use the formula f = number of oscillations / time taken.",
+          "Substitute the given values into the formula and solve for frequency."
+        ],
+        "hints": [
+          "Frequency is the number of oscillations per second."
+        ],
+        "model_answer": "0.5 Hz",
+        "explanation": "Frequency (f) is calculated by dividing the number of oscillations by the time taken. Here, the cork rises and falls 3 times in 6 seconds, so f = 3 / 6 = 0.5 Hz.",
+        "exam_question_id": "7a7a784b-f6ae-48a9-a366-a86dcd94f0aa:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "image_url": "/textbook-images/textbook-bank/209/s288-f0.jpg",
+        "image_alt": "A graph of displacement x in cm (vertical axis, marked 20, 10, 0, -10, -20) against distance d in m (horizontal axis, marked 1 to 6). A smooth sinusoidal wave starts at +20 cm at d = 0, falls to -20 cm at d = 1, rises to +20 cm at d = 2, and repeats, with peaks at 0, 2, 4 and 6 m and troughs at 1, 3 and 5 m.\nLabels: x/cm, 20, 10, 0, -10, -20, 1, 2, 3, 4, 5, 6, d/m\nOriginal exercise: This diagram shows a wave in the sea.",
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A wave in the sea has a distance of 15 m between two neighbouring crests. A floating cork rises and falls 3 times in 6 s as the waves pass.",
+        "question": "Calculate the speed of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the speed of the wave using the formula v = fλ.",
+          "Substitute the calculated frequency and given wavelength into the formula.",
+          "Solve for the speed of the wave."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the speed of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the speed of the wave using the formula v = fλ.; Substitute the calculated frequency and given wavelength into the formula.; Solve for the speed of the wave."
+        ],
+        "model_answer": "7.5 m/s",
+        "explanation": "Speed (v) is calculated using the formula v = fλ. Given the frequency (f) is 0.5 Hz and the wavelength (λ) is 15 m, v = 0.5 * 15 = 7.5 m/s.",
+        "exam_question_id": "7a7a784b-f6ae-48a9-a366-a86dcd94f0aa:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "image_url": "/textbook-images/textbook-bank/209/s288-f0.jpg",
+        "image_alt": "A graph of displacement x in cm (vertical axis, marked 20, 10, 0, -10, -20) against distance d in m (horizontal axis, marked 1 to 6). A smooth sinusoidal wave starts at +20 cm at d = 0, falls to -20 cm at d = 1, rises to +20 cm at d = 2, and repeats, with peaks at 0, 2, 4 and 6 m and troughs at 1, 3 and 5 m.\nLabels: x/cm, 20, 10, 0, -10, -20, 1, 2, 3, 4, 5, 6, d/m\nOriginal exercise: This diagram shows a wave in the sea.",
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A wave in a river has a distance of 15 m between two neighbouring crests. A floating leaf rises and falls 3 times in 6 s as the waves pass.",
+        "question": "State the wavelength of the wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the distance between two neighbouring crests as the wavelength.",
+          "Provide the correct unit for wavelength."
+        ],
+        "hints": [
+          "Recall the definition of wavelength."
+        ],
+        "model_answer": "Wavelength = 15 m",
+        "explanation": "The wavelength is the distance between two neighbouring crests, which is given as 15 m.",
+        "exam_question_id": "80e8f471-6699-4626-88d4-21c1bf8a998d:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A wave in a river has a distance of 15 m between two neighbouring crests. A floating leaf rises and falls 3 times in 6 s as the waves pass.",
+        "question": "Calculate the frequency of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the number of cycles in the given time.",
+          "Use the formula to calculate frequency.",
+          "Provide the correct unit for frequency."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the frequency of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Identify the number of in the given time.; the formula to calculate frequency.; Provide the correct unit for frequency."
+        ],
+        "model_answer": "Frequency = 3 cycles / 6 s = 0.5 Hz",
+        "explanation": "The frequency is the number of cycles (rises and falls) per second. Here, the leaf rises and falls 3 times in 6 seconds, so the frequency is 0.5 Hz.",
+        "exam_question_id": "80e8f471-6699-4626-88d4-21c1bf8a998d:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A wave in a river has a distance of 15 m between two neighbouring crests. A floating leaf rises and falls 3 times in 6 s as the waves pass.",
+        "question": "Calculate the speed of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the formula for wave speed.",
+          "Substitute the correct values for wavelength and frequency.",
+          "Provide the correct unit for wave speed."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the speed of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the correct values for and."
+        ],
+        "model_answer": "Wave speed = frequency x wavelength = 0.5 Hz x 15 m = 7.5 m/s",
+        "explanation": "The wave speed is calculated by multiplying the frequency by the wavelength. Here, the frequency is 0.5 Hz and the wavelength is 15 m, so the wave speed is 7.5 m/s.",
+        "exam_question_id": "80e8f471-6699-4626-88d4-21c1bf8a998d:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical metal object has a mass of 500 g and a height of 10 cm. The radius of the base of the cylinder is 3 cm.",
+        "question": "Calculate the volume of the cylindrical metal object.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct application of the volume formula for a cylinder.",
+          "Correct substitution of values into the formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the volume of the cylindrical metal object — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the volume formula for a cylinder.; Correct substitution of values into the formula."
+        ],
+        "model_answer": "V = πr²h = π × (3 cm)² × 10 cm = π × 9 cm² × 10 cm = 282.74 cm³",
+        "explanation": "The volume of a cylinder is calculated using the formula V = πr²h, where r is the radius and h is the height.",
+        "exam_question_id": "95268f11-cfa2-43fd-9f59-916c41de5a65:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical metal object has a mass of 500 g and a height of 10 cm. The radius of the base of the cylinder is 3 cm.",
+        "question": "Calculate the density of the cylindrical metal object in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the density formula.",
+          "Correct substitution of values into the formula.",
+          "Correct calculation and unit conversion."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the density of the cylindrical metal object in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the density formula.; Correct substitution of values into the formula.; Correct calculation and unit conversion."
+        ],
+        "model_answer": "ρ = m/V = 500 g / 282.74 cm³ = 1.77 g/cm³",
+        "explanation": "Density is calculated using the formula ρ = m/V, where m is the mass and V is the volume.",
+        "exam_question_id": "95268f11-cfa2-43fd-9f59-916c41de5a65:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A cylindrical metal object has a mass of 500 g and a height of 10 cm. The radius of the base of the cylinder is 3 cm.",
+        "question": "Will the cylindrical metal object float or sink in water? Explain.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct comparison of the object's density with the density of water.",
+          "Clear and logical explanation based on the comparison."
+        ],
+        "hints": [
+          "Stay focused on this: Will the cylindrical metal object float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Clear and logical explanation based on the comparison."
+        ],
+        "model_answer": "The cylindrical metal object will sink in water because its density (1.77 g/cm³) is greater than the density of water (1 g/cm³).",
+        "explanation": "An object will float if its density is less than the density of the liquid it is placed in, and it will sink if its density is greater.",
+        "exam_question_id": "95268f11-cfa2-43fd-9f59-916c41de5a65:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A wave in a lake has a distance of 15 m between two neighbouring crests. A floating leaf rises and falls 3 times in 6 s as the waves pass.",
+        "question": "State the wavelength of the wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the distance between two neighbouring crests.",
+          "State the wavelength correctly."
+        ],
+        "hints": [
+          "Stay focused on this: State the wavelength of the wave — develop the idea fully rather than listing short points. Make sure you also cover: Identify the distance between two neighbouring crests.; the wavelength correctly."
+        ],
+        "model_answer": "15 m",
+        "explanation": "The wavelength is the distance between two neighbouring crests, which is given as 15 m.",
+        "exam_question_id": "ea8d42d9-b129-476f-92cd-ba4c7efa808f:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A wave in a lake has a distance of 15 m between two neighbouring crests. A floating leaf rises and falls 3 times in 6 s as the waves pass.",
+        "question": "Calculate the frequency of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the number of oscillations in the given time.",
+          "Use the formula to calculate frequency.",
+          "Provide the correct answer with units."
+        ],
+        "hints": [
+          "Frequency is the number of oscillations per second."
+        ],
+        "model_answer": "0.5 Hz",
+        "explanation": "Frequency (f) = Number of oscillations / Time taken = 3 oscillations / 6 s = 0.5 Hz.",
+        "exam_question_id": "ea8d42d9-b129-476f-92cd-ba4c7efa808f:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A wave in a lake has a distance of 15 m between two neighbouring crests. A floating leaf rises and falls 3 times in 6 s as the waves pass.",
+        "question": "Calculate the speed of the wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the formula for wave speed.",
+          "Substitute the known values into the formula.",
+          "Provide the correct answer with units."
+        ],
+        "hints": [
+          "Wave speed (v) = Frequency (f) x Wavelength (λ)."
+        ],
+        "model_answer": "7.5 m/s",
+        "explanation": "Wave speed (v) = Frequency (f) x Wavelength (λ) = 0.5 Hz x 15 m = 7.5 m/s.",
+        "exam_question_id": "ea8d42d9-b129-476f-92cd-ba4c7efa808f:1",
+        "topic_label": "Chapter 13: Waves",
+        "topic_id": 2577,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 13: Waves"
+        }
+      }
+    ],
+    "estimated_time": 74,
+    "assessment_id": "519bdb15-a9d8-4a5e-95f1-74fc93f171f3",
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "topics": [
+      "Chapter 13: Waves",
+      "Chapter 7: Density and floating"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 209,
+    "topic_ids": [
+      2577,
+      2571
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 29,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "5 questions open with the same sentence (1, 6, 18, 21, 27): \"State the wavelength of the wave.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "5 questions open with the same sentence (2, 7, 19, 22, 28): \"Calculate the frequency of the wave.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "6 questions open with the same sentence (3, 8, 14, 20, 23, 29): \"Calculate the speed of the wave.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 8,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 11,
+      "detail": "3 words: \"State the wavelength.\""
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 12,
+      "detail": "3 words: \"Calculate the frequency.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Question states wavelength is 15 m in context, but figure shows wavelength of 2 m (peaks at 0, 2, 4, 6 m). Context and figure contradict each other. Question 7a asks to 'state' wavelength but should require reading from figure given its presence.",
+        "correction": "Either: (1) Remove figure and use context value 15 m, or (2) Update context to match figure (wavelength = 2 m) and ask students to determine wavelength from graph."
+      },
+      {
+        "label": "7b",
+        "severity": "poor",
+        "detail": "Model answer 0.5 Hz is correct, but explanation states 'cork rises and falls 3 times in 6 seconds' which matches context. However, this duplicates question 8 context exactly. Question 7 should use figure data independently or clarify relationship.",
+        "correction": "Clarify whether questions 7 and 8 are intentionally identical scenarios, or update question 7 to derive frequency from figure properties (e.g., period from time-displacement graph if provided)."
+      },
+      {
+        "label": "7c",
+        "severity": "poor",
+        "detail": "Model answer 7.5 m/s uses wavelength 15 m from context, not the 2 m wavelength shown in figure. This creates internal inconsistency: if wavelength is 2 m (from figure), speed should be 0.5 × 2 = 1 m/s.",
+        "correction": "Resolve figure-context contradiction first (see issue 7a). Then recalculate: if λ=2 m, v=1 m/s; if λ=15 m, remove/clarify figure."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Questions 8a-8c are identical to questions 7a-7c in context (15 m wavelength, 3 oscillations in 6 s) and answers. This is exact duplication within same assessment.",
+        "correction": "Replace question 8 with different wave scenario (different wavelength, frequency, or context) to avoid repetition."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Questions 10a-10c are identical to questions 8a-8c and 7a-7c in context and answers (15 m wavelength, 3 oscillations in 6 s, all yielding 0.5 Hz and 7.5 m/s). Third exact duplication.",
+        "correction": "Replace question 10 with distinct wave scenario to provide variety and prevent answer memorization."
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Model answer uses π ≈ 3.14159, yielding 282.74 cm³. For IGCSE Grade 10, acceptable approximations are π ≈ 3.14 (giving 282.6 cm³) or π ≈ 22/7. Answer should specify which value of π is used or accept range.",
+        "correction": "Clarify: 'V = πr²h = π × 9 × 10 = 90π ≈ 282.7 cm³ (using π ≈ 3.14)' or accept 282-283 cm³ range."
+      }
+    ],
+    "summary": "Assessment contains 3 exact question duplications (questions 7-8-10 identical; questions 8-10 identical). Question 7 has internal contradiction between context (λ=15 m) and figure (λ=2 m), affecting questions 7b-7c answers. Question 9a lacks π value specification. All calculations verified correct where context is unambiguous."
+  },
+  "totalSeconds": 49
+}

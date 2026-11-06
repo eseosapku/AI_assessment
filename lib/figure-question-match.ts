@@ -110,7 +110,7 @@ export function namesAbsentLabel(q: FigureQuestion, description: unknown): boole
  * painted flowers. The model needed countable things and invented them.
  */
 const COUNTED_THING =
-  /\b(?:(?:count(?:ed|ing)?|how\s+many|find)\s+(?:the\s+)?(?:number\s+of\s+)?|number\s+of\s+)([a-z]{3,15})\b/gi
+  /\b(?:(?:count(?:ed|ing)?|how\s+many)\s+(?:the\s+)?(?:number\s+of\s+)?|number\s+of\s+)(?:(?:distinct|different|possible|total|remaining)\s+)*([a-z]{3,15})\b/gi
 
 /**
  * Things the question counts that the description does not contain.
@@ -128,6 +128,9 @@ export function absentCountedNouns(stem: unknown, description: unknown): string[
   for (const m of text.matchAll(COUNTED_THING)) {
     const noun = (m[1] ?? '').toLowerCase()
     if (!noun || noun.length < 4) continue
+    // Units, mathematical possibilities and measurements are calculated, not
+    // literal objects that must be named in a picture's description.
+    if (/^(degrees?|ways?|outcomes?|units?|measurements?)$/.test(noun)) continue
     // Singular or plural, and a crude stem so "cubes" matches "cube".
     const root = noun.replace(/(?:es|s)$/, '')
     if (desc.includes(root)) continue

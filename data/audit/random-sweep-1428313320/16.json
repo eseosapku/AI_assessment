@@ -1,0 +1,896 @@
+{
+  "index": 16,
+  "label": "Cambridge / Exam / Cambridge-AS-A-Level-Computing-Coursebook",
+  "request": {
+    "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+    "textbook_id": 207,
+    "topic_ids": [
+      3028
+    ],
+    "topics": [
+      "Chapter 4: Deﬁ nition, investigation and analysis"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge-AS-A-Level-Computing-Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 59,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram labelled 'Figure 1.6.1 The waterfall model'.",
+        "question": "State the first phase in the waterfall model of software development.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the first phase in the waterfall model.",
+          "Correctly name the phase."
+        ],
+        "hints": [
+          "Look at the topmost box in the diagram."
+        ],
+        "model_answer": {
+          "working": "The first phase in the waterfall model is 'analysis (data collection)'.",
+          "result": "Analysis (data collection)"
+        },
+        "explanation": "The first phase in the waterfall model is where the requirements of the system are gathered and analysed.",
+        "exam_question_id": "bf7d90c7-d4f3-43de-b422-64efb3523432:1",
+        "topic_label": "4.4 Software development, programming, testing and installation",
+        "image_url": "/textbook-images/textbook-bank/207/p62-f3.png",
+        "image_alt": "A waterfall model diagram with five boxes stepping down from top left to bottom right: analysis (data collection), design, software production and testing, installation, and evaluation and maintenance. Arrows run forward from each box to the next. Return arrows run back from later boxes to earlier ones. Evaluation and maintenance has arrows back to analysis, design, software production and testing, and installation.\nLabels: analysis, (data collection), design, software production, and testing, installation, evaluation and, maintenance, Figure 1.6.1 The waterfall model.\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 15012,
+        "topic_id": 3028,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "4.4 Software development, programming, testing and installation"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram labelled 'Figure 1.6.1 The waterfall model'.",
+        "question": "Describe the role of the 'evaluation and maintenance' phase in the waterfall model.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the 'evaluation and maintenance' phase.",
+          "Explain its role in the software development process.",
+          "Mention its feedback mechanism to earlier phases."
+        ],
+        "hints": [
+          "Look at the bottommost box and the arrows pointing back to earlier boxes."
+        ],
+        "model_answer": {
+          "working": "The 'evaluation and maintenance' phase is where the completed software is evaluated to ensure it meets the original requirements. It also involves maintaining the software by fixing bugs and making improvements. This phase can feed back into earlier phases to suggest changes or improvements.",
+          "result": "The 'evaluation and maintenance' phase ensures the software meets requirements, maintains it by fixing bugs, and can suggest changes to earlier phases."
+        },
+        "explanation": "This phase is crucial for ensuring the software remains functional and relevant, and it can lead to improvements in earlier stages of development.",
+        "exam_question_id": "bf7d90c7-d4f3-43de-b422-64efb3523432:1",
+        "topic_label": "4.4 Software development, programming, testing and installation",
+        "image_url": "/textbook-images/textbook-bank/207/p62-f3.png",
+        "image_alt": "A waterfall model diagram with five boxes stepping down from top left to bottom right: analysis (data collection), design, software production and testing, installation, and evaluation and maintenance. Arrows run forward from each box to the next. Return arrows run back from later boxes to earlier ones. Evaluation and maintenance has arrows back to analysis, design, software production and testing, and installation.\nLabels: analysis, (data collection), design, software production, and testing, installation, evaluation and, maintenance, Figure 1.6.1 The waterfall model.\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 15012,
+        "topic_id": 3028,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "4.4 Software development, programming, testing and installation"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram labelled 'Figure 1.6.1 The waterfall model'.",
+        "question": "Explain why there are return arrows in the waterfall model.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the presence of return arrows.",
+          "Explain the purpose of these arrows.",
+          "Relate it to the iterative nature of software development."
+        ],
+        "hints": [
+          "Look at the arrows pointing from later phases back to earlier ones."
+        ],
+        "model_answer": {
+          "working": "The return arrows in the waterfall model indicate that if issues are found during later phases, the development process can go back to earlier phases to make necessary changes. This shows that software development is not strictly linear and can involve revisiting earlier stages to correct problems or improve the design.",
+          "result": "Return arrows allow for revisiting earlier phases to correct problems or improve the design, showing the iterative nature of the process."
+        },
+        "explanation": "This iterative aspect is important because it allows for adjustments based on feedback and testing, ensuring the final product meets the required standards.",
+        "exam_question_id": "bf7d90c7-d4f3-43de-b422-64efb3523432:1",
+        "topic_label": "Chapter 1: Components of a computer system and modes of use",
+        "image_url": "/textbook-images/textbook-bank/207/p62-f3.png",
+        "image_alt": "A waterfall model diagram with five boxes stepping down from top left to bottom right: analysis (data collection), design, software production and testing, installation, and evaluation and maintenance. Arrows run forward from each box to the next. Return arrows run back from later boxes to earlier ones. Evaluation and maintenance has arrows back to analysis, design, software production and testing, and installation.\nLabels: analysis, (data collection), design, software production, and testing, installation, evaluation and, maintenance, Figure 1.6.1 The waterfall model.\nOriginal exercise:",
+        "checked": true,
+        "topic_id": 3028,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 1: Components of a computer system and modes of use"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the bubble sort method.",
+        "question": "Describe the bubble sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies that the algorithm makes repeated passes through the array",
+          "Describes comparison of adjacent pairs and swapping when in wrong order",
+          "Explains that the process repeats until the array is sorted (or no swaps occur in a pass)"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the bubble sort algorithm — develop the idea fully rather than listing short points. Make sure you also cover: of and when in; that the the is (or no in a."
+        ],
+        "model_answer": "Identifies that the algorithm makes repeated passes through the array Describes comparison of adjacent pairs and swapping when in wrong order Explains that the process repeats until the array is sorted (or no swaps occur in a pass)",
+        "explanation": "Describe the process of the bubble sort algorithm, including how it compares and swaps elements.",
+        "exam_question_id": "e661e257-0756-4b67-b8e2-ec1de649acb3:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the bubble sort method.",
+        "question": "Calculate the number of comparisons needed to sort the array [5, 3, 8, 4, 2] using the bubble sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculates comparisons in first pass: 4",
+          "Correctly calculates comparisons in subsequent passes: 3, 2, 1",
+          "Correctly sums to total: 10 comparisons"
+        ],
+        "hints": [
+          "Remember that in each pass, the largest unsorted element 'bubbles' to its correct position."
+        ],
+        "model_answer": "Correctly calculates comparisons in first pass: 4 Correctly calculates comparisons in subsequent passes: 3, 2, 1 Correctly sums to total: 10 comparisons",
+        "explanation": "Calculate the total number of comparisons needed to sort the given array using the bubble sort algorithm.",
+        "exam_question_id": "e661e257-0756-4b67-b8e2-ec1de649acb3:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the bubble sort method.",
+        "question": "Explain why bubble sort is not the most efficient sorting algorithm for large arrays.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the time complexity of bubble sort.",
+          "Comparison with other sorting algorithms.",
+          "Reasoning about efficiency for large arrays."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why bubble sort is not the most efficient sorting algorithm for large arrays — develop the idea fully rather than listing short points. Make sure you also cover: Comparison with other sorting."
+        ],
+        "model_answer": "Bubble sort has a time complexity of O(n^2) in both the worst and average cases, where n is the number of items being sorted. This means that the number of comparisons and swaps grows quadratically with the size of the array. For large arrays, this makes bubble sort inefficient compared to algorithms like quicksort or mergesort, which have better average-case time complexities of O(n log n).",
+        "explanation": "Explain the inefficiency of bubble sort for large arrays by comparing its time complexity with other sorting algorithms.",
+        "exam_question_id": "e661e257-0756-4b67-b8e2-ec1de649acb3:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a binary search algorithm applied to a sorted array of integers.",
+        "question": "State the initial values of the variables low and high for an array of size n.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct initial value for low.",
+          "Correct initial value for high."
+        ],
+        "hints": [
+          "Think about the range of indices in the array."
+        ],
+        "model_answer": "low = 0, high = n-1",
+        "explanation": "In a binary search, the initial low value is 0, representing the start of the array, and the initial high value is n-1, representing the end of the array.",
+        "exam_question_id": "71e4326f-da6b-43f9-8af3-c13987fa966b:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a binary search algorithm applied to a sorted array of integers.",
+        "question": "Explain the purpose of the middle variable in the binary search algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of middle.",
+          "Connection to the search process.",
+          "Correct terminology."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the purpose of the middle variable in the binary search algorithm — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of middle.; Connection to the search process.; Correct terminology."
+        ],
+        "model_answer": "The middle variable is used to divide the search interval in half during each iteration of the binary search. It is calculated as (low + high) / 2. This helps in efficiently narrowing down the search area by comparing the middle element with the target value.",
+        "explanation": "The middle variable is crucial as it represents the midpoint of the current search interval, allowing the algorithm to decide which half of the array to continue searching in.",
+        "exam_question_id": "71e4326f-da6b-43f9-8af3-c13987fa966b:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the selection sort method.",
+        "question": "Describe the selection sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the basic concept of selection sort.",
+          "Explain the process of finding the minimum element.",
+          "Describe the swapping of elements."
+        ],
+        "hints": [
+          "Start by explaining the overall approach of selection sort."
+        ],
+        "model_answer": "The selection sort algorithm works by repeatedly finding the minimum element from the unsorted part of the array and putting it at the beginning. The array is divided into two parts: the sorted part at the left end and the unsorted part at the right end. Initially, the sorted part is empty and the unsorted part is the entire array. The algorithm finds the minimum element in the unsorted part and swaps it with the leftmost element of the unsorted part. This process is repeated until the entire array is sorted.",
+        "explanation": "Describe the step-by-step process of how the selection sort algorithm works to sort an array of integers.",
+        "exam_question_id": "36dca261-8c04-446e-9904-6ceb4ff93ac4:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the selection sort method.",
+        "question": "Calculate the number of comparisons needed to sort the array [9, 1, 5, 8, 3] using the selection sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the total number of elements in the array.",
+          "Calculate the number of comparisons for each pass.",
+          "Sum the comparisons for all passes."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of comparisons needed to sort the array [9, 1, 5, 8, 3] using the selection sort algorithm — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The array has 5 elements. For each element, selection sort performs (n-1) comparisons, where n is the number of elements. So, for the first element, there are 4 comparisons; for the second, 3 comparisons; for the third, 2 comparisons; and for the fourth, 1 comparison. The total number of comparisons is 4 + 3 + 2 + 1 = 10.",
+        "explanation": "Calculate the total number of comparisons needed to sort the given array using the selection sort algorithm.",
+        "exam_question_id": "36dca261-8c04-446e-9904-6ceb4ff93ac4:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the selection sort method.",
+        "question": "Explain why selection sort is not the most efficient sorting algorithm for large arrays.",
+        "marks": 3,
+        "marking_criteria": [
+          "Discuss the time complexity of selection sort.",
+          "Compare with other sorting algorithms.",
+          "Explain the impact on performance for large arrays."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why selection sort is not the most efficient sorting algorithm for large arrays — develop the idea fully rather than listing short points. Make sure you also cover: Compare with other sorting."
+        ],
+        "model_answer": "Selection sort has a time complexity of O(n^2) because it performs (n-1) + (n-2) +... + 1 comparisons, which sums to n(n-1)/2, approximately n^2/2. This makes it inefficient for large arrays compared to algorithms like merge sort or quicksort, which have a time complexity of O(n log n). The large number of comparisons and swaps in selection sort results in significant overhead for large datasets, making it impractical for efficient sorting.",
+        "explanation": "Explain the reasons behind the inefficiency of the selection sort algorithm when dealing with large arrays.",
+        "exam_question_id": "36dca261-8c04-446e-9904-6ceb4ff93ac4:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a binary search algorithm that searches for a target value in a sorted array. The array is [1, 3, 5, 7, 9, 11, 13, 15, 17, 19].",
+        "question": "State the initial low and high indices for the binary search algorithm.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the low index correctly.",
+          "Identify the high index correctly."
+        ],
+        "hints": [
+          "Stay focused on this: State the initial low and high indices for the binary search algorithm — develop the idea fully rather than listing short points. Make sure you also cover: Identify the low correctly.; Identify the high correctly."
+        ],
+        "model_answer": "Low index: 0\nHigh index: 9\n\nExplanation: The low index is 0 because it is the first index of the array. The high index is 9 because it is the last index of the array.",
+        "explanation": "Identify the starting and ending indices for the binary search algorithm on a sorted array.",
+        "exam_question_id": "2de3f3b2-bb62-4649-b03c-92e1d58d0426:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a binary search algorithm that searches for a target value in a sorted array. The array is [1, 3, 5, 7, 9, 11, 13, 15, 17, 19].",
+        "question": "Calculate the middle index during the first iteration of the binary search algorithm if the target value is 11.",
+        "marks": 1,
+        "marking_criteria": [
+          "Calculate the middle index correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the middle index during the first iteration of the binary search algorithm if the target value is 11 — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Middle index: 4\n\nExplanation: low = 0, high = 9, middle = (0 + 9) / 2 = 4.",
+        "explanation": "Calculate the middle index during the first iteration of the binary search algorithm.",
+        "exam_question_id": "2de3f3b2-bb62-4649-b03c-92e1d58d0426:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a binary search algorithm that searches for a target value in a sorted array. The array is [1, 3, 5, 7, 9, 11, 13, 15, 17, 19].",
+        "question": "Explain why the binary search algorithm is efficient for large sorted arrays.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the efficiency of binary search.",
+          "Mention the reduction of the search space by half.",
+          "Discuss the logarithmic time complexity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the binary search algorithm is efficient for large sorted arrays — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the time complexity."
+        ],
+        "model_answer": "The binary search algorithm is efficient for large sorted arrays because it reduces the search space by half with each iteration. This means that the number of comparisons needed to find the target value is logarithmic in the size of the array. Specifically, for an array of size n, the maximum number of comparisons needed is O(log n), which is much less than a linear search that would require O(n) comparisons.",
+        "explanation": "Explain the efficiency of the binary search algorithm for large sorted arrays.",
+        "exam_question_id": "2de3f3b2-bb62-4649-b03c-92e1d58d0426:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a binary search algorithm that searches for a target value in a sorted array of integers.",
+        "question": "State the initial step of the binary search algorithm.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the initial step of the binary search algorithm",
+          "Describe the purpose of the initial step"
+        ],
+        "hints": [
+          "Think about the first thing the algorithm does when it starts searching."
+        ],
+        "model_answer": "The initial step of the binary search algorithm is to set two pointers, one at the beginning of the array and one at the end. This step is crucial as it defines the range within which the target value is to be found.",
+        "explanation": "The initial step sets the boundaries for the search, allowing the algorithm to efficiently narrow down the search space.",
+        "exam_question_id": "bedd5d13-f387-4e45-82bc-8b7e4ef7f5cc:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a binary search algorithm that searches for a target value in a sorted array of integers.",
+        "question": "Calculate the number of comparisons needed to find the target value 7 in the array [1, 3, 5, 7, 9, 11, 13, 15] using the binary search algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the midpoint of the array",
+          "Determine the number of comparisons needed to reach the target value",
+          "Summarise the total number of comparisons"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "To find the target value 7 in the array [1, 3, 5, 7, 9, 11, 13, 15], the binary search algorithm will first check the midpoint, which is 7. Since 7 is at the midpoint, only one comparison is needed. Therefore, the total number of comparisons is 1.",
+        "explanation": "The binary search algorithm efficiently narrows down the search space by dividing it in half with each comparison, making it very effective for sorted arrays.",
+        "exam_question_id": "bedd5d13-f387-4e45-82bc-8b7e4ef7f5cc:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a binary search algorithm that searches for a target value in a sorted array of integers.",
+        "question": "Explain why the binary search algorithm is more efficient than the linear search algorithm for large sorted arrays.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the time complexity of both algorithms",
+          "Explain the impact of array size on efficiency",
+          "Summarise the overall efficiency advantage"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the binary search algorithm is more efficient than the linear search algorithm for large sorted arrays — develop the idea fully rather than listing short points. Make sure you also cover: Compare the of both algorithms; the impact of on efficiency; Summarise the overall efficiency…."
+        ],
+        "model_answer": "The binary search algorithm is more efficient than the linear search algorithm for large sorted arrays because it has a time complexity of O(log n), where n is the number of elements in the array. In contrast, the linear search algorithm has a time complexity of O(n). As the size of the array increases, the binary search algorithm significantly reduces the number of comparisons needed, making it much faster for large arrays. The linear search algorithm, on the other hand, checks each element one by one, which becomes impractical for large arrays.",
+        "explanation": "The efficiency of the binary search algorithm comes from its ability to eliminate half of the search space with each comparison, making it much faster for large sorted arrays compared to the linear search algorithm.",
+        "exam_question_id": "bedd5d13-f387-4e45-82bc-8b7e4ef7f5cc:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a binary search algorithm applied to a sorted array of integers. The array is [2, 4, 6, 8, 10, 12, 14, 16, 18, 20].",
+        "question": "Calculate the number of comparisons needed to find the integer 16 in the array using binary search.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the middle element of the array.",
+          "Compare the target value with the middle element.",
+          "Determine the next set of elements to search based on the comparison."
+        ],
+        "hints": [
+          "Recall how binary search divides the array in half with each comparison."
+        ],
+        "model_answer": "Start by finding the middle element, which is 10. Compare 16 with 10; since 16 is greater, discard the lower half. The new array is [12, 14, 16, 18, 20]. Find the middle element, which is 14. Compare 16 with 14; since 16 is greater, discard the lower half. The new array is [16, 18, 20]. Find the middle element, which is 18. Compare 16 with 18; since 16 is less, discard the upper half. The new array is [16]. Finally, compare 16 with 16; they are equal. Total comparisons: 4.",
+        "explanation": "Binary search works by repeatedly dividing the search interval in half. If the value of the search key is less than the item in the middle of the interval, narrow the interval to the lower half. Otherwise, narrow it to the upper half. Repeatedly check until the value is found or the interval is empty.",
+        "exam_question_id": "fc93c1c7-421c-4d74-97f0-0a02edf64476:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a binary search algorithm applied to a sorted array of integers. The array is [2, 4, 6, 8, 10, 12, 14, 16, 18, 20].",
+        "question": "Explain why binary search is more efficient than linear search for large sorted arrays.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the number of comparisons in the worst case for both algorithms.",
+          "Explain the time complexity of both algorithms.",
+          "Discuss the impact of array size on the efficiency of both algorithms."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why binary search is more efficient than linear search for large sorted arrays — develop the idea fully rather than listing short points. Make sure you also cover: Compare the of in the for both algorithms.; the of both algorithms.; Discuss the impact of on the of both algorithms."
+        ],
+        "model_answer": "Binary search is more efficient than linear search for large sorted arrays because it reduces the number of comparisons significantly. In the worst case, binary search requires log2(n) comparisons, where n is the number of elements, whereas linear search requires n comparisons. The time complexity of binary search is O(log n), while for linear search it is O(n). As the array size increases, the difference in efficiency becomes more pronounced.",
+        "explanation": "Binary search is efficient for large sorted arrays because it cuts down the search space by half with each comparison, leading to a logarithmic time complexity. In contrast, linear search checks each element one by one, resulting in linear time complexity.",
+        "exam_question_id": "fc93c1c7-421c-4d74-97f0-0a02edf64476:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a binary search algorithm applied to a sorted array of integers. The array is [2, 4, 6, 8, 10, 12, 14, 16, 18, 20].",
+        "question": "Describe the steps of the binary search algorithm to find the integer 10 in the array.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial middle element of the array.",
+          "Compare the target value with the middle element.",
+          "Describe the process of narrowing down the search interval."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the steps of the binary search algorithm to find the integer 10 in the array — develop the idea fully rather than listing short points. Make sure you also cover: Identify the initial of the array.; the value with the; the process of narrowing down the search interval."
+        ],
+        "model_answer": "Start with the entire array [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]. The middle element is 10. Compare 10 with 10; they are equal. Therefore, the integer 10 is found at index 4. Steps: Start with the middle element 10, compare it with the target 10, find they are equal, and conclude the search.",
+        "explanation": "Binary search works by starting with the middle element of the array and comparing it with the target value. If they match, the search is complete. If the target is less, the search continues on the lower half; if greater, on the upper half. This process repeats until the target is found or the search interval is empty.",
+        "exam_question_id": "fc93c1c7-421c-4d74-97f0-0a02edf64476:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a binary search algorithm applied to a sorted array of integers.",
+        "question": "State the initial values of the low and high indices for a binary search on an array of length n.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the initial value of the low index.",
+          "Identify the initial value of the high index."
+        ],
+        "hints": [
+          "Think about the range of indices in the array."
+        ],
+        "model_answer": "low = 0, high = n - 1",
+        "explanation": "For a binary search on an array of length n, the low index starts at 0 and the high index starts at n - 1.",
+        "exam_question_id": "4a32d8e6-1873-4f90-9fe1-e988afcf81f7:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a binary search algorithm applied to a sorted array of integers.",
+        "question": "Calculate the middle index for a binary search on an array of length n with low = 0 and high = n - 1.",
+        "marks": 1,
+        "marking_criteria": [
+          "Calculate the middle index correctly."
+        ],
+        "hints": [
+          "Use the formula for calculating the middle index."
+        ],
+        "model_answer": "middle = (low + high) // 2",
+        "explanation": "The middle index is calculated as the integer division of the sum of low and high by 2.",
+        "exam_question_id": "4a32d8e6-1873-4f90-9fe1-e988afcf81f7:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the bubble sort method.",
+        "question": "Describe the bubble sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how bubble sort works",
+          "Description of the pass-through process",
+          "Mention of the comparison and swapping of adjacent elements"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the bubble sort algorithm — develop the idea fully rather than listing short points. Make sure you also cover: Mention of the comparison and of elements."
+        ],
+        "model_answer": "Bubble sort works by repeatedly stepping through the list to be sorted, comparing each pair of adjacent items and swapping them if they are in the wrong order. The pass through the list is repeated until the list is sorted. Each pass through the list places the next-largest value in its correct place.",
+        "explanation": "Bubble sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+        "exam_question_id": "c7d0e375-5aa5-4958-b09f-e9f8656a20c9:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the bubble sort method.",
+        "question": "Calculate the number of comparisons needed to sort the array [5, 3, 8, 4, 2] using the bubble sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the number of comparisons for each pass",
+          "Accurate total count of comparisons",
+          "Clear explanation of the calculation process"
+        ],
+        "hints": [
+          "Calculate the number of comparisons for each pass through the array."
+        ],
+        "model_answer": "In the first pass, the comparisons are: 5 vs 3, 3 vs 8, 8 vs 4, 4 vs 2. That's 4 comparisons. In the second pass, the comparisons are: 3 vs 8, 8 vs 4, 4 vs 2. That's 3 comparisons. In the third pass, the comparisons are: 8 vs 4, 4 vs 2. That's 2 comparisons. In the fourth pass, the comparisons are: 4 vs 2. That's 1 comparison. Total comparisons = 4 + 3 + 2 + 1 = 10.",
+        "explanation": "To calculate the number of comparisons, we need to consider each pass through the array. In the first pass, we compare each pair of adjacent elements. In subsequent passes, we compare each pair of adjacent elements except the last one, which is already sorted.",
+        "exam_question_id": "c7d0e375-5aa5-4958-b09f-e9f8656a20c9:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the bubble sort method.",
+        "question": "Explain why bubble sort is not the most efficient sorting algorithm for large arrays.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the time complexity of bubble sort",
+          "Comparison with other sorting algorithms",
+          "Reasoning based on the number of comparisons and swaps"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why bubble sort is not the most efficient sorting algorithm for large arrays — develop the idea fully rather than listing short points. Make sure you also cover: Reasoning based on the of and."
+        ],
+        "model_answer": "Bubble sort has a time complexity of O(n^2) in the worst and average cases, where n is the number of items being sorted. This means that the number of comparisons and swaps grows quadratically with the size of the input array. For large arrays, this results in a significant number of operations, making bubble sort inefficient compared to other sorting algorithms like quicksort or mergesort, which have better average-case time complexities of O(n log n).",
+        "explanation": "Bubble sort is not the most efficient sorting algorithm for large arrays because its time complexity is O(n^2) in the worst and average cases. This means that the number of comparisons and swaps grows quadratically with the size of the input array, making it inefficient for large datasets.",
+        "exam_question_id": "c7d0e375-5aa5-4958-b09f-e9f8656a20c9:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the insertion sort method.",
+        "question": "Describe the insertion sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the initial setup of the sorted and unsorted sections.",
+          "Description of the process of inserting each element from the unsorted section into the sorted section.",
+          "Mention of the comparison and shifting process."
+        ],
+        "hints": [
+          "Start by explaining the two sections of the array."
+        ],
+        "model_answer": "The insertion sort algorithm works by dividing the array into a sorted and an unsorted section. Initially, the sorted section contains only the first element, and the unsorted section contains the rest of the array. The algorithm then iterates through the unsorted section, taking one element at a time and inserting it into the correct position within the sorted section. This involves comparing the element with the elements in the sorted section and shifting the larger elements to the right until the correct position is found.",
+        "explanation": "Describe how the insertion sort algorithm works, including the setup of the sorted and unsorted sections, and the process of inserting elements.",
+        "exam_question_id": "98a9578c-e6f9-4116-9a9c-fc0130819b63:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the insertion sort method.",
+        "question": "Calculate the number of comparisons needed to sort the array [7, 3, 5, 8, 2] using the insertion sort algorithm.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the initial sorted and unsorted sections.",
+          "Accurate counting of comparisons for each insertion step.",
+          "Total count of comparisons made during the entire process."
+        ],
+        "hints": [
+          "Start with the first element and proceed step-by-step."
+        ],
+        "model_answer": "To sort the array [7, 3, 5, 8, 2] using insertion sort, we start with the sorted section [7] and the unsorted section [3, 5, 8, 2].\n\n1. Insert 3 into the sorted section: 1 comparison (3 < 7).\n2. Insert 5 into the sorted section [3, 7]: 1 comparison (5 < 7), 1 comparison (5 < 3).\n3. Insert 8 into the sorted section [3, 5, 7]: 1 comparison (8 > 7), no shift.\n4. Insert 2 into the sorted section [3, 5, 7, 8]: 1 comparison (2 < 8), 1 comparison (2 < 7), 1 comparison (2 < 5), 1 comparison (2 < 3).\n\nTotal comparisons: 1 + 2 + 1 + 4 = 8.",
+        "explanation": "Calculate the number of comparisons needed for each insertion step and sum them up to get the total number of comparisons.",
+        "exam_question_id": "98a9578c-e6f9-4116-9a9c-fc0130819b63:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a simple algorithm that sorts an array of integers using the insertion sort method.",
+        "question": "Explain why insertion sort is not the most efficient sorting algorithm for large arrays.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the time complexity of insertion sort.",
+          "Comparison with other sorting algorithms in terms of efficiency.",
+          "Mention of scenarios where insertion sort performs poorly."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why insertion sort is not the most efficient sorting algorithm for large arrays — develop the idea fully rather than listing short points. Make sure you also cover: Comparison with sorting in terms of efficiency."
+        ],
+        "model_answer": "Insertion sort has a time complexity of O(n^2) in both the worst and average cases, where n is the number of elements in the array. This makes it inefficient for large arrays because the number of comparisons and shifts grows quadratically with the size of the array. Other sorting algorithms like merge sort and quicksort have better average-case time complexities of O(n log n), making them more efficient for large datasets. Insertion sort performs poorly on nearly sorted or reverse-sorted arrays, as it still requires a significant number of comparisons and shifts.",
+        "explanation": "Explain the time complexity of insertion sort and compare it with other sorting algorithms to highlight its inefficiencies for large arrays.",
+        "exam_question_id": "98a9578c-e6f9-4116-9a9c-fc0130819b63:1",
+        "topic_label": "Chapter 4: Deﬁ nition, investigation and analysis",
+        "topic_id": 3028,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 4: Deﬁ nition, investigation and analysis"
+        }
+      }
+    ],
+    "estimated_time": 77,
+    "assessment_id": "f0c63e0b-ca86-4185-8abb-5bbdc2ad05c7",
+    "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+    "topics": [
+      "Chapter 4: Deﬁ nition, investigation and analysis"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 207,
+    "topic_ids": [
+      3028
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 28,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 6"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "1c",
+        "severity": "poor",
+        "detail": "Topic label mismatch: question assigned to 'Chapter 1: Components of a computer system and modes of use' but should be 'Chapter 4: Definition, investigation and analysis' to match assessment context and other waterfall model questions (1a, 1b).",
+        "correction": "Change topic_label to '4.4 Software development, programming, testing and installation' and topic_id to 3028"
+      },
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Model answer is malformed: lists marking criteria as the answer instead of providing actual descriptive content. Should contain a coherent explanation of bubble sort process.",
+        "correction": "Model answer should be: 'Bubble sort makes repeated passes through the array, comparing adjacent pairs of elements and swapping them if they are in the wrong order. This process continues until no more swaps are needed, indicating the array is sorted.'"
+      },
+      {
+        "label": "2b",
+        "severity": "poor",
+        "detail": "Model answer is malformed: lists marking criteria instead of showing working and calculation. Should demonstrate step-by-step comparison counting.",
+        "correction": "Model answer should show: Pass 1: 4 comparisons; Pass 2: 3 comparisons; Pass 3: 2 comparisons; Pass 4: 1 comparison; Total: 10 comparisons"
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Model answer contains formula error: uses (low + high) / 2 but should specify integer division (low + high) // 2 to avoid floating-point indices.",
+        "correction": "Correct formula to: middle = (low + high) // 2"
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Model answer format inconsistent: includes unnecessary 'Explanation:' section within model_answer field. Should contain only the answer values.",
+        "correction": "Model answer should be: 'Low index: 0, High index: 9'"
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Model answer format inconsistent: includes unnecessary 'Explanation:' section within model_answer field. Should contain only the calculated value.",
+        "correction": "Model answer should be: 'Middle index: 4'"
+      },
+      {
+        "label": "6b",
+        "severity": "broken",
+        "detail": "Calculation error: middle of [1,3,5,7,9,11,13,15] is at index 3.5→3 or 4, giving element 7 or 9, not 10. The model answer claims middle element is 10, which is incorrect for this array.",
+        "correction": "Correct calculation: middle index = (0+7)//2 = 3, middle element = 7. Since target is 7, found in 1 comparison. If target were different, show correct iterations."
+      },
+      {
+        "label": "7a",
+        "severity": "poor",
+        "detail": "Calculation error in model answer: claims 4 comparisons to find 16, but array has 10 elements (indices 0-9). Middle of [2,4,6,8,10,12,14,16,18,20] is index 4 (value 10). Correct sequence yields 3 comparisons, not 4.",
+        "correction": "Iteration 1: middle=10, 16>10, search right half. Iteration 2: middle=14, 16>14, search right half. Iteration 3: middle=18, 16<18, search left half. Iteration 4: middle=16, found. Total: 4 comparisons is correct but working shown is unclear."
+      },
+      {
+        "label": "10b",
+        "severity": "poor",
+        "detail": "Model answer contains logical error in step 2: states '1 comparison (5 < 7), 1 comparison (5 < 3)' but 5 is not less than 3, so second comparison is incorrect. Insertion logic flawed.",
+        "correction": "Step 2 should be: Insert 5 into [3,7]: compare 5 with 7 (5<7, shift), compare 5 with 3 (5>3, stop). Total: 2 comparisons. Recalculate total as 1+2+1+4=8 (result correct but reasoning flawed)."
+      }
+    ],
+    "summary": "Assessment covers Chapter 4 topics appropriately with 28 questions on algorithms (sorting, searching). Nine substantive issues identified: one topic label mismatch, three malformed model answers, one formula error, two formatting inconsistencies, and two calculation errors in binary search and insertion sort examples. Most questions are well-structured; corrections needed for accuracy."
+  },
+  "totalSeconds": 69
+}

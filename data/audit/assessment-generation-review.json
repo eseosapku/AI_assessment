@@ -1,0 +1,46 @@
+{
+  "status": "live_exam_verification_passed",
+  "default_generation_model": "amazon.nova-lite-v1:0",
+  "default_checker_model": "amazon.nova-lite-v1:0",
+  "automatic_more_expensive_checker_fallback": false,
+  "paid_tests_running": false,
+  "validation": {
+    "unit_tests_passed": 3178,
+    "unit_test_files_passed": 261,
+    "production_build": "passed: next build, including TypeScript",
+    "past_paper_references_in_production_trace": true,
+    "cambridge_style_in_production_trace": true,
+    "audit_artifacts_excluded_from_production_trace": true
+  },
+  "confirmed_fixes": [
+    "Count numbered exam groups rather than individual answer parts; cap at a/b/c.",
+    "Refill complete groups after validation instead of silently returning a short paper.",
+    "Detect repeated exam setups across different numbered questions.",
+    "Normalize and verify interactive answer mappings and corrected written answers.",
+    "Keep passages visible and repair premature generation timeouts.",
+    "Replace stale option-number references in explanations.",
+    "Reject calculations whose worked answer explicitly admits essential data is missing.",
+    "Keep Nova Lite as the default checker without automatic provider/model upgrades."
+  ],
+  "latest_live_batch": {
+    "path": "random-sweep-569222779/summary.json",
+    "completed": 20,
+    "generated_successfully": 20,
+    "requested": 20,
+    "status": "passed after targeted fixes and affected-case reruns",
+    "metrics": {
+      "cases": 20,
+      "passed": 20,
+      "reb": 10,
+      "cambridge": 10,
+      "numberedQuestions": 240,
+      "answerParts": 531,
+      "attachedImages": 48,
+      "minSeconds": 22,
+      "medianSeconds": 60,
+      "maxSeconds": 181
+    }
+  },
+  "deployment_limit": "The SQS worker relays execution to BACKEND_INTERNAL_BASE_URL. That origin and its gateway must support the long request. Client polling, Next maxDuration and Lambda timeout settings do not override a shorter upstream hosting limit. Deployment and a deployed smoke test were not performed.",
+  "report": "exam-production-validation-569222779.json"
+}

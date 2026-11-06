@@ -1,0 +1,2382 @@
+{
+  "seed": 4077503407,
+  "results": [
+    {
+      "index": 1,
+      "label": "Cambridge / Practice / Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+      "request": {
+        "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "textbook_id": 190,
+        "topic_ids": [
+          2754
+        ],
+        "topics": [
+          "Chapter 12: Physical properties of Group 17 elements"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 17,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1",
+            "severity": "poor",
+            "detail": "The correct order [1,3,0,2] maps to: 'Identify halide ions' → 'Predict products' → 'Write equation' → 'Observe reaction'. However, writing the equation before observing the reaction is illogical in experimental practice. The observation should precede writing the final equation based on actual results.",
+            "correction": "Correct order should be: Identify halide ions → Predict products → Observe reaction → Write equation, i.e., [1,3,2,0] or reorder items accordingly"
+          },
+          {
+            "label": "6",
+            "severity": "poor",
+            "detail": "Explanation states 'Iodine is the odd one out as it is a solid at room temperature. Fluorine and chlorine are gases, and bromine is a liquid.' This logic makes bromine equally valid as odd-one-out (only liquid). The question lacks clear criteria for what constitutes 'odd'.",
+            "correction": "Specify criteria (e.g., 'not a gas' making both bromine and iodine valid, or 'solid' making only iodine valid) or accept multiple answers"
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Fluorine gas colour is disputed in literature. Fluorine is extremely reactive and rarely observed directly; descriptions vary from 'very pale yellow' to 'pale greenish-yellow'. At A-Level, this detail may cause confusion as students typically don't encounter pure fluorine.",
+            "correction": "Consider removing fluorine or noting colour descriptions vary in literature"
+          },
+          {
+            "label": "8",
+            "severity": "poor",
+            "detail": "The correct order [2,1,0,3] produces: 'Add solutions' → 'Observe colour' → 'Determine reactivity' → 'Write equation'. However, this contradicts Question 1's approach. Also, determining reactivity should logically precede or follow from observation, but the sequence here is ambiguous about experimental vs theoretical approach.",
+            "correction": "Clarify whether this is experimental procedure (observe then conclude) or theoretical prediction (predict then verify)"
+          }
+        ],
+        "summary": "Assessment covers appropriate Group 17 physical properties for Grade 12. Main issues: Question 1 and 8 have illogical procedural sequences for experimental work; Question 6 has ambiguous 'odd one out' criteria; Question 7 includes fluorine colour which is rarely observed and disputed. Interactive answer mappings are correctly structured."
+      },
+      "totalSeconds": 31
+    },
+    {
+      "index": 2,
+      "label": "REB / Practice / P2-English-PB",
+      "request": {
+        "subject": "P2-English-PB",
+        "textbook_id": 146,
+        "topic_ids": [
+          1512,
+          1520
+        ],
+        "topics": [
+          "Greetings, introductions and talking about school",
+          "Counting and writing"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 33,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-option-fits",
+          "severity": "broken",
+          "index": 9,
+          "detail": "no option fits \"school\": Ship, Shoes, Sun, Sky"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Question asks 'How do you write the number 3?' but topic is 'Greetings, introductions and talking about school', not 'Counting and writing'. This is a topic mismatch.",
+            "correction": "Change topic_label to 'Counting and writing' to match the question content"
+          },
+          {
+            "label": "8",
+            "severity": "poor",
+            "detail": "Question asks 'What do you say when you meet someone new?' which is about greetings/introductions, but topic is labeled 'Counting and writing'. This is a topic mismatch.",
+            "correction": "Change topic_label to 'Greetings, introductions and talking about school' to match the question content"
+          },
+          {
+            "label": "10",
+            "severity": "broken",
+            "detail": "The correct answer is marked as index 3 ('Sky'), but 'school' starts with /sk/ sound while 'Sky' starts with /sk/ sound, 'Ship' and 'Shoes' start with /ʃ/ sound. However, 'Ship' (index 0) also starts with 'sh' like the 'sch' in 'school' phonetically. The /sk/ vs /ʃ/ distinction makes 'Sky' correct, but this is confusing for grade 2.",
+            "correction": "Correct answer index 3 ('Sky') is acceptable as both start with /sk/ sound, though the question may be too subtle for grade 2"
+          }
+        ],
+        "summary": "Assessment has 10 MCQ questions covering requested topics. Two questions (7, 8) have topic label mismatches with their content. Question 10's phonetic distinction may be challenging for grade 2 but is technically correct. All answers are unique, factually correct, and age-appropriate otherwise."
+      },
+      "totalSeconds": 42
+    },
+    {
+      "index": 4,
+      "label": "REB / Practice / Economics S6 SB",
+      "request": {
+        "subject": "Economics S6 SB",
+        "textbook_id": 65,
+        "topic_ids": [
+          738,
+          740
+        ],
+        "topics": [
+          "Terms of Trade",
+          "Balance of Payment (BOP)"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 34,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "mcq-catch-all-option",
+          "severity": "poor",
+          "index": 5,
+          "detail": "\"All of the above\" is guessable and untestable"
+        },
+        {
+          "code": "tick-all-correct",
+          "severity": "poor",
+          "index": 6,
+          "detail": "every option is correct, so nothing is tested"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 8"
+        }
+      ],
+      "figures": 3,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "19",
+            "severity": "broken",
+            "detail": "All four items are categorized as 'Policy Measures' (correct_category all 0), leaving 'Market Mechanisms' empty. However, 'Attracting foreign investment' and 'Increasing interest rates' can operate through market mechanisms. The question setup implies both categories should be used, but the answer key makes one category unused, creating an invalid categorization task.",
+            "correction": "Revise categories or answer key. Possible correction: 'Attracting foreign investment' → Market Mechanisms (category 1), or redefine categories to ensure both are meaningfully populated."
+          },
+          {
+            "label": "13",
+            "severity": "poor",
+            "detail": "The explanation states 'Trade Surplus does not belong... which are all components of the balance of payment.' However, 'Trade Surplus' is part of the balance of trade, which itself is a component of the current account in the BOP. The distinction is unclear: all items relate to BOP components or outcomes. The odd-one-out logic is weak.",
+            "correction": "Clarify explanation: Trade Surplus is a positive balance of trade outcome, while the others are deficit states across different BOP accounts, making it the conceptual opposite."
+          }
+        ],
+        "summary": "Assessment covers Terms of Trade and BOP appropriately for grade 12. Question 19 has a broken categorization with all items assigned to one category, leaving the other empty. Question 13's odd-one-out rationale is weak but answerable. All numerical calculations verified correctly (Q4, Q11). Other questions are factually accurate and age-appropriate."
+      },
+      "totalSeconds": 48
+    },
+    {
+      "index": 5,
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 8 Students Book ",
+      "request": {
+        "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "textbook_id": 30,
+        "topic_ids": [
+          391,
+          393
+        ],
+        "topics": [
+          "It's all in the planning: Pseudocode and algorithms",
+          "Testing conditions: Developing games"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 86,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 0,
+          "detail": "53 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 2,
+          "detail": "65 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 3,
+          "detail": "59 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 6,
+          "detail": "46 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 7,
+          "detail": "59 words"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "3",
+            "severity": "poor",
+            "detail": "Question references 'radio module on a micro:bit' and model answer uses Python-style syntax (radio.on(), radio.config(), radio.send(), radio.receive()) but the topic is 'Sending messages between micro:bits'. MicroPython for micro:bit uses 'import radio' then radio.on(), radio.config(group=X), radio.send(string), radio.receive() which returns a string or None. The model answer mixes concepts without clarifying the actual MicroPython API correctly.",
+            "correction": "Model answer should specify: import radio module, use radio.on() to enable, radio.config(group=N) with matching N on both devices, radio.send(string_message) on button press, and continuously check message = radio.receive() in a loop (checking if message is not None)."
+          },
+          {
+            "label": "5",
+            "severity": "poor",
+            "detail": "Question asks how ASCII codes, ord(), and chr() are used to send messages between micro:bits via radio. However, the micro:bit radio.send() and radio.receive() methods work with strings directly in MicroPython; converting individual characters to ASCII values with ord() then sending integers is not the standard approach. The question conflates concepts unnecessarily for the platform.",
+            "correction": "Clarify that radio.send() accepts strings directly. If teaching ASCII conversion, explain that ord() converts character to integer and chr() converts back, but note that radio module handles string transmission without manual ASCII conversion per character."
+          },
+          {
+            "label": "6",
+            "severity": "broken",
+            "detail": "Figure description ends abruptly with '#Mai' suggesting the image/code listing is incomplete. The description states 'Printed on it: #Sub-program | def addition(): | ... | #Mai' - this truncation means the figure may not show the complete main program code, potentially confusing students about what code is actually present.",
+            "correction": "Complete the figure description to show full code: '#Main program | result = addition() | print(\"The numbers added together total\",result)' to ensure students can see the entire program context."
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Question asks for both pseudocode AND flowcharts in the answer, with marking criteria including 'Inclusion of pseudocode and flowchart snippets'. However, longform text format cannot verify if student actually provides flowchart drawings. The question is unanswerable as specified without a drawing/upload component.",
+            "correction": "Either remove flowchart requirement and focus on pseudocode description only, or change question type to allow image upload for flowchart component, or ask students to 'describe what a flowchart would show' rather than produce one."
+          },
+          {
+            "label": "10",
+            "severity": "poor",
+            "detail": "Same issue as Q7: question requires both pseudocode and flowcharts with marking criteria 'Inclusion of pseudocode and flowchart snippets', but longform text format cannot accommodate flowchart production or verification. Students cannot draw flowcharts in text responses.",
+            "correction": "Remove flowchart requirement or change to 'describe the flowchart structure' or modify question type to allow diagram uploads."
+          }
+        ],
+        "summary": "Assessment covers appropriate Grade 8 topics on pseudocode, algorithms, and game development. Main issues: Q3 and Q5 contain inaccuracies about micro:bit MicroPython radio API and ASCII usage; Q6 has truncated figure description; Q7 and Q10 demand flowcharts in text-only format making them partially unanswerable. Q6 answer (12) is correct. Most content aligns with curriculum but technical precision needs improvement."
+      },
+      "totalSeconds": 108
+    },
+    {
+      "index": 3,
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+      "request": {
+        "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "textbook_id": 15,
+        "topic_ids": [
+          175,
+          176
+        ],
+        "topics": [
+          "Theme 1: Population and Settlement",
+          "Global Theme 1: HIV/AIDS"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 194,
+      "status": 200,
+      "numbered": 10,
+      "parts": 28,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 8,
+          "detail": "4 questions open with the same sentence (9, 12, 14, 17): \"Calculate the average annual population growth rat\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 9,
+          "detail": "4 questions open with the same sentence (10, 13, 15, 18): \"Describe the trend in population growth for City B\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 11"
+        }
+      ],
+      "figures": 3,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "1b",
+            "severity": "poor",
+            "detail": "Question asks to explain why urbanisation RATE is higher in 2030 vs 1950, but model answer discusses absolute percentage increase (27% to 55%). Rate of change differs between periods: 1950-1975 shows 8% increase over 25 years; 1995-2030 shows 12% over 35 years, actually a slower rate.",
+            "correction": "Model answer should clarify that the question conflates 'rate' with 'level'. If asking about rate: 1950-1975 rate was 0.32%/year vs 1995-2030 rate of 0.34%/year. If asking why urbanisation level is higher: answer is acceptable but question wording needs correction."
+          },
+          {
+            "label": "4a",
+            "severity": "broken",
+            "detail": "Model answer calculates average annual growth rate as 1%, but correct calculation is: (100,000/500,000)/20 × 100 = 1%. However, this is compound growth rate formula error. Correct simple average: 100,000/(20×500,000) × 100 = 1% annually. For compound: ((600,000/500,000)^(1/20)-1)×100 = 0.91%.",
+            "correction": "Simple average annual growth rate = (100,000/20)/500,000 × 100 = 1% per year. Or specify compound annual growth rate (CAGR) = 0.91% per year."
+          },
+          {
+            "label": "5a",
+            "severity": "broken",
+            "detail": "Formula shown is incorrect: ((Final-Initial)/Initial)/Years × 100. This divides percentage by years incorrectly. Correct simple formula: ((Final-Initial)/(Initial×Years)) × 100. Model answer gets 1% but formula structure is wrong.",
+            "correction": "Correct formula: Average annual growth rate = ((600,000-500,000)/(500,000×20)) × 100 = 1% per year. Or use CAGR formula for compound rate."
+          },
+          {
+            "label": "6a",
+            "severity": "broken",
+            "detail": "Model answer shows: (100,000/20)/500,000 × 100 = 1%. This calculates (5,000/500,000) × 100 = 1%, which is correct. But explanation says 'divide total growth by years to get annual growth, then express as percentage of initial' - order is confusing.",
+            "correction": "Annual growth = 100,000/20 = 5,000 per year. As percentage of initial: (5,000/500,000) × 100 = 1% per year."
+          },
+          {
+            "label": "6c",
+            "severity": "broken",
+            "detail": "Model answer states City C growth rate is 0.5%, but data shows City C: 200,000 to 220,000 = 20,000 growth. Rate = (20,000/20)/200,000 × 100 = 0.5% is correct. However, question asks to explain difference but doesn't require calculating City C's rate first.",
+            "correction": "City C growth rate = 0.5% per year (20,000 increase over 20 years from base 200,000). Explanation of why City A is higher (1% vs 0.5%) is acceptable."
+          },
+          {
+            "label": "8c",
+            "severity": "broken",
+            "detail": "Model answer states City X growth rate is 40% and City Y is 13.3%. These are TOTAL growth percentages, not growth RATES. City X: 40,000/100,000 = 40% total. City Y: 20,000/150,000 = 13.3% total. Annual rates are 2% and 0.67% respectively.",
+            "correction": "City X total growth = 40% over 20 years (2% per year). City Y total growth = 13.3% over 20 years (0.67% per year). Explanation should reference annual rates, not total percentages."
+          },
+          {
+            "label": "9c",
+            "severity": "broken",
+            "detail": "Model answer states City X growth rate is 40% and City Y is 13.3%, but these are total growth over 20 years, not annual rates. Should be 2% and 0.67% per year respectively for clarity.",
+            "correction": "City X annual growth rate = 2% per year (40% total over 20 years). City Y annual growth rate = 0.67% per year (13.3% total over 20 years)."
+          },
+          {
+            "label": "Questions 4-10",
+            "severity": "poor",
+            "detail": "Questions 4-10 all use identical or near-identical population data tables (City A/B/C or X/Y/Z with same/similar values) and ask repetitive calculation questions. This violates the requirement for no repeated questions with same data.",
+            "correction": "Consolidate to one question set with this data table, or vary the data significantly across question sets to assess different scenarios."
+          }
+        ],
+        "summary": "Assessment has substantive issues: Question 1b conflates urbanisation 'rate' with 'level'. Multiple questions (4a, 5a, 6a, 8c, 9c) show formula errors or confusion between total growth percentages and annual rates. Questions 4-10 inappropriately repeat nearly identical data tables and calculations, violating the no-repetition requirement."
+      },
+      "totalSeconds": 225
+    },
+    {
+      "index": 6,
+      "label": "Cambridge / Practice / Cambridge IGCSE English as First Language Course Book (2)",
+      "request": {
+        "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+        "textbook_id": 202,
+        "topic_ids": [
+          2710,
+          2711
+        ],
+        "topics": [
+          "Unit 3: Composition",
+          "Unit 4: Reading"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE English as First Language Course Book (2)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 53,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 11,
+          "detail": "no question mark and no command word: \"Categorise each item as either a component of a paragraph or\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 9"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "12",
+            "severity": "poor",
+            "detail": "The explanation states 'A conclusion can be part of both a paragraph (concluding sentence) and an essay (concluding paragraph)' but marks 'Conclusion' as category 0 (Paragraph) only. Given the explanation acknowledges dual nature, this creates ambiguity. The correct categorization should reflect that conclusion applies to both contexts or the explanation should be revised.",
+            "correction": "Either mark 'Conclusion' as applicable to both categories or revise explanation to justify why it's categorized only as Paragraph component"
+          },
+          {
+            "label": "19",
+            "severity": "poor",
+            "detail": "The explanation incorrectly identifies options: it states 'Option 2 is correct' and 'Option 1 is a metaphor' but the correct answer is index 0 ('Her eyes sparkled like diamonds'). The explanation's numbering is off by one - it should say 'Option 1 is correct' or reference the actual text.",
+            "correction": "Revise explanation: 'Option 1 is correct because it uses like to compare two different things, which is the definition of a simile. Option 3 is a metaphor, and options 2 and 4 do not use figurative language.'"
+          },
+          {
+            "label": "20",
+            "severity": "broken",
+            "detail": "This is a duplicate of question 9 with identical content (same sentences, same question type) but different correct answer. Q9 marks index 2 correct (continuous tense rationale), Q20 marks index 3 correct (static situation rationale). Both explanations are defensible but contradictory.",
+            "correction": "Remove duplicate question 20 or change its content to provide unique assessment value"
+          }
+        ],
+        "summary": "Assessment contains 20 questions covering composition and reading topics. Three issues identified: Q12 has categorization ambiguity where explanation contradicts answer key; Q19 has explanation numbering error misidentifying which option is correct; Q20 is a complete duplicate of Q9 with conflicting correct answers and rationales."
+      },
+      "totalSeconds": 66
+    },
+    {
+      "index": 7,
+      "label": "REB / Practice / Geography SB S6",
+      "request": {
+        "subject": "Geography SB S6",
+        "textbook_id": 112,
+        "topic_ids": [
+          1182
+        ],
+        "topics": [
+          "Wave Erosion and Deposition"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 23,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 2,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1",
+            "severity": "poor",
+            "detail": "Explanation incorrectly states option 1 is correct when the correct_answer field indicates option 1 (index 1, which is 'The process where waves break and wear away the coastline'). The explanation text says 'Wave erosion is the correct answer because it refers to the process where waves break and wear away the coastline' but then contradicts itself by discussing why other options are wrong as if a different option were marked correct.",
+            "correction": "The correct_answer index 1 and the explanation's first sentence align correctly. Remove the contradictory phrasing that suggests confusion about which answer is correct."
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Explanation states 'Waves are a primary agent of wave erosion because they transport and deposit sediments along the coast' - this describes both erosion AND deposition processes, not specifically erosion. The explanation conflates the two processes when the question asks specifically about wave erosion agents.",
+            "correction": "Explanation should read: 'Waves are the primary agent of wave erosion because they break against the coastline, wearing it away through hydraulic action, abrasion, attrition, and corrosion. Wind, rivers, and glaciers are not agents of wave erosion.'"
+          }
+        ],
+        "summary": "Assessment is generally sound with appropriate topic coverage, correct MCQ answer keys, valid diagrams with proper context, and reasonable marking criteria. Two explanations contain minor logical inconsistencies or imprecise wording but do not affect answer correctness. All questions are answerable, age-appropriate for grade 12, and aligned with wave erosion and deposition topics."
+      },
+      "totalSeconds": 34
+    },
+    {
+      "index": 8,
+      "label": "REB / Exam / GENERAL EDU-Chemistry-S2-SB",
+      "request": {
+        "subject": "GENERAL EDU-Chemistry-S2-SB",
+        "textbook_id": 94,
+        "topic_ids": [
+          979,
+          977
+        ],
+        "topics": [
+          "Properties of Organic Compounds and Uses of Alkanes",
+          "Preparation and Classification of Oxides"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 65,
+      "status": 200,
+      "numbered": 10,
+      "parts": 29,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 23"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "1c",
+            "severity": "broken",
+            "detail": "Calculation error. Moles of Ca(OH)2 = 10/74 = 0.1351 mol (not 0.135). Mass of CaCO3 = 0.1351 × 100 = 13.51 g, which rounds to 13.5 g. However, the intermediate value shown (0.135) is prematurely rounded, creating potential marking confusion.",
+            "correction": "Moles of Ca(OH)2 = 10 g / 74 g/mol = 0.1351 mol. Mass of CaCO3 = 0.1351 mol × 100 g/mol = 13.51 g ≈ 13.5 g"
+          },
+          {
+            "label": "2a",
+            "severity": "broken",
+            "detail": "Calculation error. Moles of CaO = 5.00/56.08 = 0.08915 mol (not 0.0892). Heat released = 0.08915 × (-63.2) = -5.634 kJ, which rounds to -5.63 kJ. The intermediate rounding introduces error.",
+            "correction": "Moles of CaO = 5.00 g / 56.08 g/mol = 0.08915 mol. Heat released = 0.08915 mol × (-63.2 kJ/mol) = -5.63 kJ"
+          },
+          {
+            "label": "3a",
+            "severity": "broken",
+            "detail": "Calculation error. Moles of CaO = 1.0/56.08 = 0.01783 mol (not 0.0178). The premature rounding affects precision expected at this level.",
+            "correction": "Moles of CaO = 1.0 g / 56.08 g/mol = 0.0178 mol (or 0.01783 mol for greater precision)"
+          },
+          {
+            "label": "5a",
+            "severity": "broken",
+            "detail": "Calculation error. 6 × 6.022×10²³ = 3.6132×10²⁴. The model answer is correct, but this question is inappropriate for grade 8 as it merely tests multiplication by Avogadro's number without chemical insight, and the concept may exceed curriculum expectations.",
+            "correction": "Calculation is correct: 3.6132 × 10²⁴ hydrogen atoms. However, question appropriateness for grade 8 is questionable."
+          },
+          {
+            "label": "6a",
+            "severity": "broken",
+            "detail": "Calculation error. Moles of C2H6 = 2.0/30 = 0.06667 mol. From stoichiometry (2:4 ratio), moles of CO2 = 0.06667 × 2 = 0.1333 mol. Mass = 0.1333 × 44 = 5.867 g ≈ 5.87 g. The model shows 0.0667 and 0.1334, introducing rounding inconsistency.",
+            "correction": "Moles of C2H6 = 0.0667 mol. Moles of CO2 = 0.1333 mol. Mass of CO2 = 5.87 g"
+          },
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "The balanced equation given is C2H6 + 7/2 O2 → 2CO2 + 3H2O, but the model answer uses a 1:2 ratio. With the fractional coefficient equation, 0.0667 mol C2H6 produces 2 × 0.0667 = 0.1334 mol CO2, giving mass = 5.87 g. The calculation is correct despite the fractional equation format.",
+            "correction": "Calculation is correct: 5.87 g CO2"
+          },
+          {
+            "label": "8a",
+            "severity": "broken",
+            "detail": "Calculation inconsistency. 2.0/30 = 0.06667 mol, not 0.0667 mol. While the difference is minor, precision matters in chemistry calculations for grade 8 standards.",
+            "correction": "Moles of C2H6 = 2.0 g / 30 g/mol = 0.0667 mol (or 0.06667 mol for full precision)"
+          },
+          {
+            "label": "9a",
+            "severity": "broken",
+            "detail": "Calculation error. Molar mass of C2H6 = 2(12.01) + 6(1.008) = 30.07 g/mol is correct. However, 10.0/30.07 = 0.3326 mol, not 0.332 mol. The rounding is acceptable but should show more precision in working.",
+            "correction": "Number of moles = 10.0 g / 30.07 g/mol = 0.333 mol (or 0.3326 mol)"
+          },
+          {
+            "label": "10a",
+            "severity": "broken",
+            "detail": "Molar mass calculation error. Molar mass of CH4 = 12.01 (C) + 4(1.008) (H) = 16.04 g/mol, not 16 g/mol. Using 16: moles = 2.0/16 = 0.125 mol. Using 16.04: moles = 0.1247 mol. The simplified value may be acceptable for grade 8 but should be noted.",
+            "correction": "Molar mass of CH4 = 16.04 g/mol (or 16 g/mol simplified). Moles = 0.125 mol"
+          }
+        ],
+        "summary": "Assessment contains multiple calculation precision issues with premature rounding in stoichiometry problems (1c, 2a, 3a, 6a, 8a, 9a). Question 5a tests only multiplication by Avogadro's number, lacking chemical reasoning appropriate for grade 8. Molar mass simplifications (10a) are borderline acceptable. All chemical concepts and equations are correct; issues are computational precision only."
+      },
+      "totalSeconds": 92
+    },
+    {
+      "index": 9,
+      "label": "Cambridge / Exam / Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+      "request": {
+        "subject": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "textbook_id": 10,
+        "topic_ids": [
+          147
+        ],
+        "topics": [
+          "Unit 5: Curved graphs"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 119,
+      "status": 200,
+      "numbered": 10,
+      "parts": 24,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "5 questions open with the same sentence (1, 6, 10, 13, 18): \"Calculate the x-intercepts of the graph.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "5 questions open with the same sentence (2, 7, 11, 14, 19): \"State the equation of the line of symmetry of the \""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 4,
+          "detail": "5 questions open with the same sentence (5, 9, 17, 22, 24): \"State the asymptotes of the graph.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 5"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1c",
+            "severity": "broken",
+            "detail": "Question asks to find gradient at x=2 using differentiation (calculus), which is not in Cambridge IGCSE 0580 syllabus. IGCSE students estimate gradients from graphs using tangent lines, not derivatives. Differentiation is only in Additional Mathematics 0606.",
+            "correction": "Replace with: 'Estimate the gradient of the curve at x = 2 by drawing a tangent and calculating rise/run' or remove this part entirely."
+          },
+          {
+            "label": "5c",
+            "severity": "broken",
+            "detail": "Question requires differentiation (dy/dx = 4x - 8) which is beyond IGCSE 0580 Mathematics syllabus. This is Additional Mathematics content. Grade 10 students in Core/Extended 0580 cannot differentiate quadratic functions.",
+            "correction": "Replace with graphical gradient estimation method or remove this part."
+          },
+          {
+            "label": "6c",
+            "severity": "broken",
+            "detail": "Question uses differentiation to find gradient (dy/dx = 4x - 8), which is not taught in IGCSE 0580. This is inappropriate for the curriculum and grade level specified.",
+            "correction": "Change to: 'Estimate the gradient at x = 2 by drawing a tangent to the curve and measuring its slope.'"
+          },
+          {
+            "label": "8c",
+            "severity": "broken",
+            "detail": "Question explicitly asks students to 'Find dy/dx' and differentiate y = x² - 4x + 3. Differentiation is not in IGCSE 0580 syllabus; it appears only in Additional Mathematics 0606. Age-inappropriate for grade 10 Core/Extended.",
+            "correction": "Remove differentiation requirement or change to graphical gradient estimation appropriate for IGCSE 0580."
+          }
+        ],
+        "summary": "Assessment contains four questions (1c, 5c, 6c, 8c) requiring calculus differentiation, which is not in Cambridge IGCSE 0580 Mathematics syllabus. This content belongs to Additional Mathematics 0606 and is inappropriate for the specified curriculum and grade level. All other questions are appropriate and mathematically correct."
+      },
+      "totalSeconds": 134
+    },
+    {
+      "index": 10,
+      "label": "Cambridge / Exam / Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+      "request": {
+        "subject": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+        "textbook_id": 194,
+        "topic_ids": [
+          3051
+        ],
+        "topics": [
+          "Chapter 8: Continuous random variables"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 4077503407,
+      "error": "Error: Failed to generate 20 complete questions. The AI produced 6. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 249,
+      "status": 500,
+      "totalSeconds": 249
+    },
+    {
+      "index": 11,
+      "label": "Cambridge / Exam / Cambridge Primary Computing Learners Book Stage 1 ",
+      "request": {
+        "subject": "Cambridge Primary Computing Learners Book Stage 1 ",
+        "textbook_id": 36,
+        "topic_ids": [
+          453,
+          457
+        ],
+        "topics": [
+          "Unit 7: Computers control things",
+          "Unit 11: Be an artist"
+        ],
+        "curriculum": "cambridge",
+        "grade": 1,
+        "className": "Cambridge Primary Computing Learners Book Stage 1 ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 4077503407,
+      "error": "Error: Failed to generate 10 complete questions. The AI produced 3. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 253,
+      "status": 500,
+      "totalSeconds": 253
+    },
+    {
+      "index": 12,
+      "label": "REB / Exam / Economics S5 SB",
+      "request": {
+        "subject": "Economics S5 SB",
+        "textbook_id": 64,
+        "topic_ids": [
+          731,
+          727
+        ],
+        "topics": [
+          "Unemployment",
+          "Consumption, Saving, Investment and Multipliers"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 144,
+      "status": 200,
+      "numbered": 20,
+      "parts": 58,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "7 questions open with the same sentence (2, 12, 18, 24, 39, 45, 51): \"Explain why the marginal propensity to consume (MP\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "13 questions open with the same sentence (3, 13, 19, 25, 28, 37, 40, 43, 46, 49, 52, 55, 58): \"Describe the implications of the different MPCs on\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 10,
+          "detail": "6 questions open with the same sentence (11, 23, 26, 38, 53, 56): \"Calculate the level of consumption in each region \""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 26,
+          "detail": "5 questions open with the same sentence (27, 31, 36, 42, 48): \"Explain why the marginal propensity to consume (MP\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 34,
+          "detail": "4 questions open with the same sentence (35, 41, 44, 47): \"Calculate the level of consumption in each region \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 29,
+          "detail": "same as question 29"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 30,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 35,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 36,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 37,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 38,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 39,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 40,
+          "detail": "same as question 35"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 41,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 42,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 43,
+          "detail": "same as question 35"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 44,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 45,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 46,
+          "detail": "same as question 35"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 47,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 48,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 50,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 51,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 52,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 53,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 54,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 55,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 56,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 57,
+          "detail": "same as question 3"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c",
+          "11a",
+          "11b",
+          "11c",
+          "12a",
+          "12b",
+          "12c",
+          "13a",
+          "13b",
+          "13c",
+          "14a",
+          "14b",
+          "14c",
+          "15a",
+          "15b",
+          "15c",
+          "16a",
+          "16b",
+          "16c",
+          "17a",
+          "17b",
+          "17c",
+          "18a",
+          "18b",
+          "18c",
+          "19a",
+          "19b",
+          "19c",
+          "20a",
+          "20b",
+          "20c"
+        ],
+        "issues": [
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Question 7a is identical to question 1a with same context, same income value ($200), same consumption functions, and same calculations. This is a complete duplication.",
+            "correction": "Remove question 7 entirely or provide different income value and context to avoid repetition."
+          },
+          {
+            "label": "7b",
+            "severity": "broken",
+            "detail": "Question 7b duplicates question 1b, asking identical explanation about MPC differences between Region A and Region B with same consumption functions.",
+            "correction": "Remove or redesign with different regions/functions."
+          },
+          {
+            "label": "7c",
+            "severity": "broken",
+            "detail": "Question 7c duplicates question 1c, asking identical implications of different MPCs on economic activity.",
+            "correction": "Remove or redesign with different analytical focus."
+          },
+          {
+            "label": "9a",
+            "severity": "broken",
+            "detail": "Question 9a duplicates question 5a with identical context (Region A: C=50+0.6Y, Region B: C=100+0.8Y, Y=$250 initially, +$100 investment). Only difference is Y changes from $300 to $250 in context, but same structure.",
+            "correction": "Remove question 9 or use substantially different parameters."
+          },
+          {
+            "label": "14a",
+            "severity": "broken",
+            "detail": "Question 14a duplicates question 5a with identical regions, consumption functions, and investment scenario (Y=$250, +$150 additional income vs Y=$300, +$100). Near-identical structure.",
+            "correction": "Remove question 14 or redesign with different economic scenario."
+          },
+          {
+            "label": "18a",
+            "severity": "broken",
+            "detail": "Question 18a uses same Region A and B with same consumption functions as questions 1a, 5a, 7a, 14a. Only Y=$250 differs slightly, but this is excessive repetition of identical consumption functions.",
+            "correction": "Use different regions with different consumption functions to avoid repetition."
+          }
+        ],
+        "summary": "Assessment contains substantial repetition: questions 7, 9, 14, and 18 duplicate earlier questions (1, 5) using identical or near-identical contexts, consumption functions, and calculations. While numerical values vary slightly, the repeated use of the same Region A (C=50+0.6Y) and Region B (C=100+0.8Y) across multiple questions constitutes problematic duplication that fails to assess diverse understanding."
+      },
+      "totalSeconds": 162
+    },
+    {
+      "index": 14,
+      "label": "REB / Practice / GENERAL EDU-History-S6-SB (1)",
+      "request": {
+        "subject": "GENERAL EDU-History-S6-SB (1)",
+        "textbook_id": 101,
+        "topic_ids": [
+          1057,
+          1060
+        ],
+        "topics": [
+          "UNIT 4: AFRICAN NATIONALISM AND ACQUISITION OF INDEPENDENCE",
+          "UNIT 7: GENOCIDE PREVENTION IN RWANDA AND ABROAD"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 28,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "3",
+            "severity": "broken",
+            "detail": "Categorization is factually incorrect. 'Ethnic tensions' is categorized as a Factor (1), but the answer key marks it as correct in category index 1 (Factors). However, 'United Nations involvement' and 'International support' are both external factors, not distinct from each other as 'Concepts'. The category 'Concepts' doesn't logically fit these items. The explanation contradicts standard genocide prevention taxonomy where these would be 'External Factors' or 'International Mechanisms', not 'Concepts'.",
+            "correction": "Revise categories to: 'International Mechanisms', 'Internal Factors', 'Prevention Practices'. Correct mapping: UN involvement[0], Educating masses[2], Ethnic tensions[1], International support[0], Armed struggle[2], Peaceful protests[2]."
+          },
+          {
+            "label": "5",
+            "severity": "poor",
+            "detail": "The odd-one-out logic is weak. 'Cultural assimilation' is marked as not belonging among genocide prevention items, but 'Ethnic diversity' and 'Nationalistic policies' are also not genocide prevention practices. Ethnic diversity is a demographic characteristic, and nationalistic policies can either promote or hinder prevention depending on context. Multiple items don't clearly belong.",
+            "correction": "Replace 'Ethnic diversity' with a clear genocide prevention practice like 'Reconciliation programs' to make 'Cultural assimilation' unambiguously the odd one out."
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Question 7 lacks clear topic alignment. It categorizes genocide prevention practices as International/National but is labeled under 'UNIT 4: AFRICAN NATIONALISM AND ACQUISITION OF INDEPENDENCE' rather than Unit 7 (Genocide Prevention). The topic_label contradicts the content, which exclusively addresses genocide prevention mechanisms.",
+            "correction": "Change topic_label to 'UNIT 7: GENOCIDE PREVENTION IN RWANDA AND ABROAD' and add subtopic_id referencing genocide prevention practices."
+          }
+        ],
+        "summary": "Three issues identified: Question 3 has illogical category definitions where 'Concepts' doesn't fit the items assigned to it; Question 5 has ambiguous odd-one-out logic with multiple non-belonging items; Question 7 is mislabeled under Unit 4 when content clearly addresses Unit 7 genocide prevention topics."
+      },
+      "totalSeconds": 47
+    },
+    {
+      "index": 15,
+      "label": "REB / Exam / P1 Mathematics PB ,",
+      "request": {
+        "subject": "P1 Mathematics PB ,",
+        "textbook_id": 140,
+        "topic_ids": [
+          1448,
+          1459
+        ],
+        "topics": [
+          "Numbers from 1 up to 5",
+          "Rwandan currency from 1 frw up to 100 frw"
+        ],
+        "curriculum": "rwanda",
+        "grade": 1,
+        "className": "P1",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 55,
+      "status": 200,
+      "numbered": 10,
+      "parts": 23,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 5,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1c",
+            "severity": "poor",
+            "detail": "Question asks to 'Name the colour of the notebook' but marking criteria includes 'Show the correct working' which is inappropriate for a colour identification task. No working is needed to name a colour.",
+            "correction": "Remove 'Show the correct working' from marking criteria. Use only 'Identify the correct colour of the notebook' (2 marks)."
+          },
+          {
+            "label": "5a",
+            "severity": "broken",
+            "detail": "Topic is 'Numbers from 1 up to 5' but question involves 4+6=10. The numbers 6 and 10 exceed the curriculum scope of 1-5.",
+            "correction": "Change to numbers within 1-5 range, e.g., '2 red marbles and 3 blue marbles' giving total of 5."
+          },
+          {
+            "label": "5b",
+            "severity": "broken",
+            "detail": "Question involves 6+2=8, exceeding the topic scope 'Numbers from 1 up to 5'. Both 6 and 8 are outside the specified range.",
+            "correction": "Change to '3 blue marbles, if 1 more is added' giving 3+1=4, within the 1-5 range."
+          },
+          {
+            "label": "6a",
+            "severity": "broken",
+            "detail": "Question involves 5+3=8. The numbers 8 exceeds the topic scope 'Numbers from 1 up to 5'.",
+            "correction": "Change to '2 toy cars and 3 toy cars' giving total of 5, within curriculum range."
+          },
+          {
+            "label": "9a",
+            "severity": "broken",
+            "detail": "Question involves 4+3=7. The number 7 exceeds the topic scope 'Numbers from 1 up to 5'.",
+            "correction": "Change to '2 red apples and 3 green apples' giving total of 5, within curriculum range."
+          },
+          {
+            "label": "All questions",
+            "severity": "broken",
+            "detail": "Assessment claims to cover 'Rwandan currency from 1 frw up to 100 frw' but no questions address currency at all. This requested topic is completely absent.",
+            "correction": "Add questions involving Rwandan francs (e.g., counting coins, simple transactions with 1, 5, 10, 20, 50, 100 frw)."
+          }
+        ],
+        "summary": "Assessment has substantive issues: Questions 5a, 5b, 6a, and 9a use numbers exceeding the 1-5 curriculum scope (involving 6, 7, 8, 10). The entire topic 'Rwandan currency from 1 frw up to 100 frw' is missing. Question 1c has inappropriate marking criteria. All other mathematical answers are correct."
+      },
+      "totalSeconds": 72
+    },
+    {
+      "index": 13,
+      "label": "REB / Exam / chemistry S4 SB",
+      "request": {
+        "subject": "chemistry S4 SB",
+        "textbook_id": 55,
+        "topic_ids": [
+          604,
+          611
+        ],
+        "topics": [
+          "Formation of Ionic and Metallic Bonds",
+          "Trends in Chemical Properties of Group 15 Elements and Their Compounds"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 211,
+      "status": 200,
+      "numbered": 10,
+      "parts": 26,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 18"
+        }
+      ],
+      "figures": 3,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "9c",
+            "severity": "broken",
+            "detail": "Question 9c asks to calculate percentage yield when actual yield is 4.5 g, but uses theoretical yield from 9a (23.5 g). However, 9a calculates product from 5.0 g NH3, yielding 23.5 g NH4NO3. An actual yield of only 4.5 g (19.1%) is unrealistically low and inconsistent with the context of a student experiment. The question appears to contain an error in the stated actual yield value.",
+            "correction": "Actual yield should be approximately 20-22 g for a realistic percentage yield of 85-95%, or clarify this is a failed experiment scenario."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Model answer shows calculation: 4.0 g Al / 26.98 g/mol = 0.148 mol, then 0.148 × (2/4) = 0.074 mol Al2O3, giving 0.074 × 101.96 = 7.54 g. However, 0.148 × 0.5 × 101.96 = 7.545 g, which rounds to 7.55 g or 7.5 g, not 7.54 g as stated.",
+            "correction": "Mass of Al2O3 = 7.55 g (or 7.5 g with appropriate significant figures)"
+          },
+          {
+            "label": "10c",
+            "severity": "broken",
+            "detail": "Model answer states theoretical yield = 4.0 g × (2 × 101.96 / 4 × 26.98) = 7.54 g, but this formula is incorrect. Should be: 4.0 g × (2 × 101.96) / (4 × 26.98) = 7.55 g. Then percentage yield = (3.8/7.55) × 100% = 50.33%, not 50.39%.",
+            "correction": "Theoretical yield = 7.55 g; Percentage yield = 50.33%"
+          }
+        ],
+        "summary": "Assessment covers requested topics appropriately for grade 10. Found three numerical errors: Q9c has an unrealistically low actual yield (4.5g vs 23.5g theoretical = 19%), Q10a rounds incorrectly to 7.54g instead of 7.55g, and Q10c miscalculates percentage yield as 50.39% instead of 50.33%. All other calculations, stoichiometry, and explanations are correct."
+      },
+      "totalSeconds": 226
+    },
+    {
+      "index": 17,
+      "label": "Cambridge / Practice / Cambridge Primary Computing Learners Book Stage 4 ",
+      "request": {
+        "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "textbook_id": 39,
+        "topic_ids": [
+          474
+        ],
+        "topics": [
+          "Unit 2: Be a data controller"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 22,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 2,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "3",
+            "severity": "poor",
+            "detail": "Question metadata shows 'topic_label: Unit 7: Be a data boss' which contradicts the assessment's stated topic 'Unit 2: Be a data controller'. This inconsistency suggests the question may have been imported from different curriculum material.",
+            "correction": "Change topic_label to 'Unit 2: Be a data controller' to match assessment scope"
+          },
+          {
+            "label": "8",
+            "severity": "poor",
+            "detail": "Question metadata shows 'topic_label: Unit 7: Be a data boss' which contradicts the assessment's stated topic 'Unit 2: Be a data controller'. This inconsistency suggests the question may have been imported from different curriculum material.",
+            "correction": "Change topic_label to 'Unit 2: Be a data controller' to match assessment scope"
+          },
+          {
+            "label": "5",
+            "severity": "poor",
+            "detail": "Explanation states 'A bar chart is best' but a pie chart (option 2) is equally valid and commonly used for showing categorical distribution like pet preferences. The explanation dismisses valid alternatives without justification for grade 4 learners.",
+            "correction": "Accept both bar chart and pie chart as correct, or rephrase question to specify 'simplest' or provide context requiring bar chart specifically"
+          }
+        ],
+        "summary": "Assessment is largely sound with appropriate age-level questions on database concepts. Three issues identified: two questions (3, 8) have inconsistent topic labels referencing Unit 7 instead of Unit 2, and question 5's answer dismisses pie charts without justification when both chart types are pedagogically valid for the scenario."
+      },
+      "totalSeconds": 32
+    },
+    {
+      "index": 18,
+      "label": "REB / Practice / GENERAL EDU-Chemistry-S1-SB",
+      "request": {
+        "subject": "GENERAL EDU-Chemistry-S1-SB",
+        "textbook_id": 92,
+        "topic_ids": [
+          947
+        ],
+        "topics": [
+          "Chemistry and Society"
+        ],
+        "curriculum": "rwanda",
+        "grade": 7,
+        "className": "S1",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 123,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "poor",
+            "detail": "The model answer states aspirin 'reduces inflammation and pain' but doesn't explain the chemical role/mechanism as required by marking criterion 3 ('Explain the role of a specific chemical compound in drug development'). The answer describes therapeutic effects, not the chemical role in development (e.g., acetylation of cyclooxygenase enzymes).",
+            "correction": "Should explain aspirin's chemical mechanism: it acetylates cyclooxygenase enzymes, blocking prostaglandin synthesis, which is the chemical basis for its anti-inflammatory action."
+          },
+          {
+            "label": "4",
+            "severity": "poor",
+            "detail": "The model answer states glyphosate 'inhibits an enzyme essential for plant growth' but doesn't specify which enzyme or explain how this relates to weed control versus crop protection. For grade 7, should clarify it inhibits EPSPS enzyme in the shikimate pathway, affecting aromatic amino acid synthesis.",
+            "correction": "Should specify: glyphosate inhibits the EPSPS enzyme needed for plants to make essential amino acids, causing weeds to die while genetically modified crops remain unaffected."
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "The model answer defines chemistry as 'the study of matter and its interactions' which is incomplete. Standard definition includes 'composition, structure, properties, and changes' of matter. The vague 'interactions' doesn't adequately cover chemical reactions and transformations central to chemistry.",
+            "correction": "Chemistry is the study of the composition, structure, properties, and changes of matter and the energy involved in these changes."
+          }
+        ],
+        "summary": "Assessment is generally appropriate for grade 7 Rwanda curriculum on Chemistry and Society. Three issues identified: Question 2's model answer lacks chemical mechanism explanation for aspirin's role; Question 4 needs clearer enzyme specification for glyphosate; Question 9's chemistry definition is incomplete, missing key components like composition and structure. All questions are answerable and age-appropriate with correct marking criteria alignment."
+      },
+      "totalSeconds": 136
+    },
+    {
+      "index": 16,
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 8 Learners Book",
+      "request": {
+        "subject": "Cambridge Lower Secondary Science 8 Learners Book",
+        "textbook_id": 34,
+        "topic_ids": [
+          440,
+          437
+        ],
+        "topics": [
+          "Science Skills",
+          "7 Diet and growth"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Cambridge Lower Secondary Science 8 Learners Book",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 164,
+      "status": 200,
+      "numbered": 10,
+      "parts": 21,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 5,
+          "detail": "7 questions open with the same sentence (6, 8, 10, 12, 14, 16, 18): \"Name the independent variable.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 6,
+          "detail": "7 questions open with the same sentence (7, 9, 11, 13, 15, 17, 19): \"Name the dependent variable.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 5"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1a",
+            "severity": "poor",
+            "detail": "Question awards 2 marks but marking criteria are redundant: both criteria describe the same requirement (identifying angle of ramp as independent variable). One criterion should address identification, the other should address correct statement/expression.",
+            "correction": "Revise marking criteria to distinguish between identification and articulation, or reduce to 1 mark."
+          },
+          {
+            "label": "1b",
+            "severity": "poor",
+            "detail": "Question awards 2 marks but marking criteria are redundant: both criteria describe the same requirement (identifying distance as dependent variable). One criterion should address identification, the other should address correct statement/expression.",
+            "correction": "Revise marking criteria to distinguish between identification and articulation, or reduce to 1 mark."
+          },
+          {
+            "label": "1c",
+            "severity": "broken",
+            "detail": "Question asks for ONE variable (singular) but awards 4 marks with marking criteria listing THREE different acceptable control variables (marble type, starting position, surface). This is internally inconsistent - either ask for multiple variables or award fewer marks.",
+            "correction": "Change question to 'Name variables that must be kept the same' or reduce marks to 2 and accept any one valid control variable."
+          },
+          {
+            "label": "1 (all parts)",
+            "severity": "broken",
+            "detail": "Figure description shows laboratory safety hazards (running, pushing, tasting chemicals, spills, loose tubing, etc.) but is completely irrelevant to the marble-ramp experiment context. The image does not support any question in this set.",
+            "correction": "Replace with relevant image showing ramp setup or remove image reference entirely."
+          },
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Topic label '7.1 Nutrients (7 Diet and growth)' is incorrect for an exercise-heart rate experiment. This belongs under Science Skills or human physiology, not nutrients/diet.",
+            "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+          },
+          {
+            "label": "2b",
+            "severity": "poor",
+            "detail": "Topic label '7.1 Nutrients (7 Diet and growth)' is incorrect for an exercise-heart rate experiment. This belongs under Science Skills or human physiology, not nutrients/diet.",
+            "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+          },
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a toy car rolling experiment. This is a physics/mechanics investigation, not related to human body movement.",
+            "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a toy car rolling experiment. This is a physics/mechanics investigation, not related to human body movement.",
+            "correction": "Change topic_label to 'Science Skills' to match the experimental design focus."
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a plant growth in different soils experiment. This is botany/plant science, not related to human body movement.",
+            "correction": "Change topic_label to 'Science Skills' or appropriate plant biology topic."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Topic label '7.4 Moving the body (7 Diet and growth)' is incorrect for a plant growth in different soils experiment. This is botany/plant science, not related to human body movement.",
+            "correction": "Change topic_label to 'Science Skills' or appropriate plant biology topic."
+          },
+          {
+            "label": "7b",
+            "severity": "broken",
+            "detail": "Marking criteria text is corrupted: 'Correct identification of the of as the dependent variable' - missing the actual variable name between 'the' and 'of'. Should read 'length of tadpoles'.",
+            "correction": "Correct to: 'Correct identification of the length of tadpoles as the dependent variable.'"
+          },
+          {
+            "label": "8b",
+            "severity": "broken",
+            "detail": "Marking criteria text is corrupted: 'Correct identification of the of as the dependent variable' - missing the actual variable name. Should specify 'number of germinated seeds'.",
+            "correction": "Correct to: 'Correct identification of the number of germinated seeds as the dependent variable.'"
+          },
+          {
+            "label": "9b",
+            "severity": "broken",
+            "detail": "Marking criteria text is corrupted: 'Correct identification of the of the as the dependent variable' - garbled text missing the actual variable. Should specify 'height of the plants'.",
+            "correction": "Correct to: 'Correct identification of the height of the plants as the dependent variable.'"
+          },
+          {
+            "label": "10a",
+            "severity": "broken",
+            "detail": "Hint text is corrupted: 'Identify the nutrient as the independent variable' - incomplete phrase. Should read 'nutrient type' or 'type of diet' to match the model answer.",
+            "correction": "Correct hint to: 'Identify the nutrient type (or diet type) as the independent variable.'"
+          },
+          {
+            "label": "10b",
+            "severity": "broken",
+            "detail": "Hint text is corrupted: 'Identify the measurement as the dependent variable' - too vague and incomplete. Should specify 'muscle mass measurement' to match the model answer.",
+            "correction": "Correct hint to: 'Identify the muscle mass measurement as the dependent variable.'"
+          }
+        ],
+        "summary": "Assessment has 15 substantive issues: 1 irrelevant figure, 6 incorrect topic classifications, 3 redundant marking criteria, 1 mark-allocation inconsistency, and 5 corrupted text strings in marking criteria and hints requiring correction."
+      },
+      "totalSeconds": 190
+    },
+    {
+      "index": 19,
+      "label": "Cambridge / Practice / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "request": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          267,
+          256
+        ],
+        "topics": [
+          "Hooke's law",
+          "Polar coordinates"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 34,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 1,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "3",
+            "severity": "broken",
+            "detail": "The explanation states 'Option 0 is correct' but the correct_answer field is 1. Checking: F = kx = 100 × 0.2 = 20 N. Option 0 is '200 N' and option 1 is '20 N'. The correct answer is option 1 (20 N), so the explanation text is wrong.",
+            "correction": "Change explanation to state 'Option 1 is correct' or 'The correct answer is 20 N'"
+          },
+          {
+            "label": "6",
+            "severity": "poor",
+            "detail": "The model answer states r = 1 + √2/2 ≈ 1.71. Verification: sin(π/4) = cos(π/4) = √2/2 ≈ 0.707, so r = 1 + 0.707 ≈ 1.707. However, √2/2 ≈ 0.707, not giving 1.71 when added to 1. The approximation should be (1 + √2/2) ≈ 1.707, which rounds to 1.71, so this is acceptable but the phrasing 'about (1.71, π/4)' could be clearer as '≈ (1.707, π/4)'.",
+            "correction": "Clarify: 'so r = 1 + √2/2 ≈ 1.707, giving the point approximately (1.707, π/4)'"
+          }
+        ],
+        "summary": "Assessment contains 10 questions covering Hooke's law and polar coordinates appropriately for grade 12. One broken issue found: Q3's explanation incorrectly references 'Option 0' when correct_answer is 1. One minor clarity issue in Q6's approximation presentation. All other calculations, MCQ options, and model answers are mathematically correct and age-appropriate."
+      },
+      "totalSeconds": 45
+    },
+    {
+      "index": 20,
+      "label": "REB / Exam / Mathematics-SB S6 HLP LFK HGL",
+      "request": {
+        "subject": "Mathematics-SB S6 HLP LFK HGL",
+        "textbook_id": 130,
+        "topic_ids": [
+          1359,
+          1358
+        ],
+        "topics": [
+          "UNIT 3: ELEMENTARY PROBABILITY",
+          "UNIT 2: COUNTING TECHNIQUES"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 4077503407,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 73,
+      "status": 200,
+      "numbered": 10,
+      "parts": 23,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 17"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 18"
+        }
+      ],
+      "figures": 3,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Question asks to choose \"one type of coffee AND one type of tea for a beverage\" but model answer calculates 3*2=6 combinations. The context states \"You can choose one type of coffee and one type of tea\" which means selecting both, not either-or. However, the phrasing \"for a beverage\" is ambiguous. If interpreted as one beverage containing both coffee and tea, the answer 6 is correct. But typical cafe offerings don't combine coffee and tea in one beverage, making this scenario unrealistic and confusing.",
+            "correction": "Clarify whether customer selects one beverage (coffee OR tea) giving 5 options, or one coffee-tea combination (unusual) giving 6 options. Current wording creates ambiguity."
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Question 9a is identical to question 5a (both ask to calculate probability of rolling number greater than 4 on six-sided die). Same context, same question, same answer (1/3). This violates the requirement of no repeated questions with same data.",
+            "correction": "Remove question 9a or change to ask for a different probability calculation (e.g., rolling a prime number, rolling less than 3, etc.)."
+          },
+          {
+            "label": "9b",
+            "severity": "poor",
+            "detail": "Question 9b is identical to question 5b (both ask to find probability of rolling even number on six-sided die). Same context, same question, same answer (1/2). This violates the requirement of no repeated questions with same data.",
+            "correction": "Remove question 9b or change to ask for a different probability calculation."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Question 10a is identical to question 8a (both ask to calculate number of ways to choose 2 pieces of fruit from basket with 3 apples, 2 bananas, 1 orange). Same context, same question, same answer (15). This violates the requirement of no repeated questions with same data.",
+            "correction": "Remove question 10a or change the fruit quantities or number of pieces to select."
+          },
+          {
+            "label": "10b",
+            "severity": "poor",
+            "detail": "Question 10b is identical to question 8b (both ask to explain why number of ways to choose 2 pieces of fruit is 15). Same context, same question, same explanation. This violates the requirement of no repeated questions with same data.",
+            "correction": "Remove question 10b or modify to ask a different follow-up question about the fruit selection."
+          }
+        ],
+        "summary": "Assessment contains 23 questions with correct mathematical answers and appropriate difficulty for grade 12. However, significant structural issues exist: questions 9a/9b duplicate 5a/5b, and questions 10a/10b duplicate 8a/8b, violating the no-repetition requirement. Question 7a has ambiguous wording about coffee-tea beverage combinations. All probability calculations and counting techniques are mathematically correct."
+      },
+      "totalSeconds": 90
+    }
+  ]
+}

@@ -1,0 +1,826 @@
+{
+  "index": 1,
+  "label": "Cambridge / Exam / Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+  "request": {
+    "subject": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+    "textbook_id": 10,
+    "topic_ids": [
+      136,
+      142
+    ],
+    "topics": [
+      "Unit 2: Perimeter, area and volume",
+      "Unit 4: Understanding measurement"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1895982454,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 87,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows Samuel's time sheet for the week.",
+        "question": "Calculate the total time Samuel worked on Monday.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct calculation of start to lunch time: 3 hours 40 minutes",
+          "Correct calculation of lunch break duration: 45 minutes",
+          "Correct calculation of back to end time: 4 hours 15 minutes",
+          "Correct total for Monday: 8 hours 40 minutes (or 8⅔ hours, or 8.67 hours to 2 d.p.)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total time Samuel worked on Monday — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of to time: 3 40; Correct calculation of break 45; Correct calculation of back to end time: 4 15."
+        ],
+        "model_answer": "Start time: 8:20, Lunch time: 12:00. Duration = 12:00 - 8:20 = 3 hours 40 minutes = 3.67 hours (to 2 decimal places).",
+        "explanation": "To find the total time worked on Monday, calculate the duration from the start time to the lunch time and from the lunch time back to the end time.",
+        "exam_question_id": "bc6c36be-0dfc-42e3-89f3-1ab81b7f83d5:1",
+        "image_url": "/textbook-images/textbook-bank/10/s419-f0.jpg",
+        "image_alt": "A time sheet table with columns for Mon, Tues, Wed, Thurs and Fri and rows labelled Day, Start, Lunch, Back, End and Total time worked. The Start, Lunch, Back and End rows have times filled in for each day. The Total time worked row is empty.\nLabels: Day, Mon, Tues, Wed, Thurs, Fri, Start, 8:20, 8:20, 8:20, 8:22, 8:21, Lunch, 12:00, 12:00, 12:30, 12:00, 12:30, Back, 12:45, 12:45, 1:15, 12:45, 1:15, End, 5:00, 5:00, 4:30, 5:00, 5:30, Total time worked\nOriginal exercise: Samuel works in a bookshop. This is his time sheet for the week.",
+        "checked": true,
+        "subtopic_id": 699,
+        "topic_id": 142,
+        "topic_label": "Time",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Time"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows Samuel's time sheet for the week.",
+        "question": "Find the total time Samuel worked for the entire week.",
+        "marks": 6,
+        "marking_criteria": [
+          "Correct calculation of total time for Monday: 8 hours 55 minutes",
+          "Correct calculation of total time for Tuesday: 8 hours 55 minutes",
+          "Correct calculation of total time for Wednesday: 7 hours 25 minutes",
+          "Correct calculation of total time for Thursday: 7 hours 53 minutes",
+          "Correct calculation of total time for Friday: 8 hours 24 minutes",
+          "Correct summation of all daily totals: 41 hours 32 minutes (or 41.53 hours to 2 d.p., or 2492 minutes)"
+        ],
+        "hints": [
+          "Stay focused on this: Find the total time Samuel worked for the entire week — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of total time for Monday: 8 55 minutes; Correct calculation of total time for Tuesday: 8 55 minutes; Correct calculation of total time…."
+        ],
+        "model_answer": "Total time for each day:\nMon: 3.67 hours\nTues: 3.67 hours\nWed: 3.50 hours\nThurs: 3.67 hours\nFri: 3.83 hours\nTotal time for the week = 3.67 + 3.67 + 3.50 + 3.67 + 3.83 = 18.34 hours (to 2 decimal places).",
+        "explanation": "To find the total time worked for the entire week, calculate the total time for each day and then sum these times.",
+        "exam_question_id": "bc6c36be-0dfc-42e3-89f3-1ab81b7f83d5:1",
+        "image_url": "/textbook-images/textbook-bank/10/s419-f0.jpg",
+        "image_alt": "A time sheet table with columns for Mon, Tues, Wed, Thurs and Fri and rows labelled Day, Start, Lunch, Back, End and Total time worked. The Start, Lunch, Back and End rows have times filled in for each day. The Total time worked row is empty.\nLabels: Day, Mon, Tues, Wed, Thurs, Fri, Start, 8:20, 8:20, 8:20, 8:22, 8:21, Lunch, 12:00, 12:00, 12:30, 12:00, 12:30, Back, 12:45, 12:45, 1:15, 12:45, 1:15, End, 5:00, 5:00, 4:30, 5:00, 5:30, Total time worked\nOriginal exercise: Samuel works in a bookshop. This is his time sheet for the week.",
+        "checked": true,
+        "subtopic_id": 699,
+        "topic_id": 142,
+        "topic_label": "Time",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Time"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a rectangular swimming pool with a length of 20 metres and a width of 10 metres. The pool is surrounded by a deck that is 2 metres wide on all sides.",
+        "question": "Calculate the area of the deck surrounding the pool.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the overall dimensions including the deck.",
+          "Correct calculation of the area of the larger rectangle (pool + deck).",
+          "Correct subtraction of the pool's area from the total area to find the deck's area."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the deck surrounding the pool — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the dimensions the deck."
+        ],
+        "model_answer": "The overall length including the deck is 20 + 2*2 = 24 meters, and the width is 10 + 2*2 = 14 meters. The area of the larger rectangle is 24 * 14 = 336 square meters. The area of the pool is 20 * 10 = 200 square meters. The area of the deck is 336 - 200 = 136 square meters.",
+        "explanation": "To find the area of the deck, we first need to determine the dimensions of the entire area including the deck. Then, we calculate the area of the pool and subtract it from the total area to find the area of the deck.",
+        "exam_question_id": "b56559d7-7840-45f5-b17b-3207dfbba81a:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a rectangular swimming pool with a length of 20 metres and a width of 10 metres. The pool is surrounded by a deck that is 2 metres wide on all sides.",
+        "question": "Calculate the perimeter of the deck surrounding the pool.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of outer rectangle dimensions (24 m and 14 m).",
+          "Correct calculation of outer perimeter: 2 × (24 + 14) = 76 m.",
+          "Correct calculation of inner perimeter: 2 × (20 + 10) = 60 m (if both perimeters required)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the perimeter of the deck surrounding the pool — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of outer dimensions (24 m and 14 m).; Correct calculation of outer perimeter: 2 × (24 + 14) = 76 m."
+        ],
+        "model_answer": "The perimeter of the larger rectangle including the deck is 2*(24 + 14) = 76 meters.",
+        "explanation": "The perimeter of the outer edge of the deck is 76 m. If the question intends both boundaries of the deck, the inner perimeter is 60 m. Clarify whether one or both are required.",
+        "exam_question_id": "b56559d7-7840-45f5-b17b-3207dfbba81a:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a rectangular garden with a length of 15 metres and a width of 10 metres. The garden is surrounded by a path that is 2 metres wide on all sides.",
+        "question": "Calculate the area of the garden itself.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the garden.",
+          "Calculate the area using the formula for the area of a rectangle."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden itself — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the garden.; Calculate the area using the formula for the area of a rectangle."
+        ],
+        "model_answer": "Area of the garden = length x width = 15 m x 10 m = 150 m².",
+        "explanation": "To find the area of the garden, multiply the length by the width.",
+        "exam_question_id": "963941bb-d662-43ec-9410-72b0a0efdc53:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a rectangular garden with a length of 15 metres and a width of 10 metres. The garden is surrounded by a path that is 2 metres wide on all sides.",
+        "question": "Calculate the area of the garden including the path.",
+        "marks": 3,
+        "marking_criteria": [
+          "Determine the dimensions of the garden including the path.",
+          "Calculate the area of the larger rectangle (garden + path).",
+          "Subtract the area of the garden from the area of the larger rectangle to find the area of the path."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Determine the dimensions of the garden including the path."
+        ],
+        "model_answer": "Area of the larger rectangle = (15 + 2*2) m x (10 + 2*2) m = 19 m x 14 m = 266 m². Area of the garden = 150 m². Area of the path = 266 m² - 150 m² = 116 m².",
+        "explanation": "First, find the dimensions of the larger rectangle by adding twice the width of the path to each dimension of the garden. Then, calculate the area of the larger rectangle and subtract the area of the garden to find the area of the path.",
+        "exam_question_id": "963941bb-d662-43ec-9410-72b0a0efdc53:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a rectangular garden with a length of 15 metres and a width of 10 metres. The garden is surrounded by a path that is 2 metres wide on all sides.",
+        "question": "Calculate the perimeter of the garden including the path.",
+        "marks": 2,
+        "marking_criteria": [
+          "Determine the dimensions of the garden including the path.",
+          "Calculate the perimeter using the formula for the perimeter of a rectangle."
+        ],
+        "hints": [
+          "Calculate the dimensions of the larger rectangle by adding twice the width of the path to each dimension of the garden."
+        ],
+        "model_answer": "Perimeter of the larger rectangle = 2 x (19 m + 14 m) = 2 x 33 m = 66 m.",
+        "explanation": "First, find the dimensions of the larger rectangle by adding twice the width of the path to each dimension of the garden. Then, calculate the perimeter using the formula for the perimeter of a rectangle.",
+        "exam_question_id": "963941bb-d662-43ec-9410-72b0a0efdc53:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular garden has a length of 12 metres and a width of 8 metres. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the area of the garden itself.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the garden.",
+          "Calculate the area of the garden using the formula for the area of a rectangle."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden itself — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the garden."
+        ],
+        "model_answer": "Area of the garden = length × width = 12 m × 8 m = 96 m².",
+        "explanation": "To find the area of the garden, multiply the length by the width.",
+        "exam_question_id": "8abdc899-fc30-44ed-8a88-64737c2dbfa2:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular garden has a length of 12 metres and a width of 8 metres. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the area of the garden including the path.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the garden and the path.",
+          "Calculate the dimensions of the garden including the path.",
+          "Calculate the area of the garden including the path using the formula for the area of a rectangle."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the garden and the path.; Calculate the dimensions of the garden including the path."
+        ],
+        "model_answer": "Length including path = 12 m + 2 × 1.5 m = 15 m. Width including path = 8 m + 2 × 1.5 m = 11 m. Area including path = 15 m × 11 m = 165 m².",
+        "explanation": "To find the area of the garden including the path, first calculate the dimensions of the garden including the path, then multiply the length by the width.",
+        "exam_question_id": "8abdc899-fc30-44ed-8a88-64737c2dbfa2:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A rectangular garden has a length of 12 metres and a width of 8 metres. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the perimeter of the garden including the path.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the garden and the path.",
+          "Calculate the perimeter of the garden including the path using the formula for the perimeter of a rectangle."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the perimeter of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the garden and the path."
+        ],
+        "model_answer": "Length including path = 12 m + 2 × 1.5 m = 15 m. Width including path = 8 m + 2 × 1.5 m = 11 m. Perimeter including path = 2 × (15 m + 11 m) = 52 m.",
+        "explanation": "To find the perimeter of the garden including the path, first calculate the dimensions of the garden including the path, then use the formula for the perimeter of a rectangle.",
+        "exam_question_id": "8abdc899-fc30-44ed-8a88-64737c2dbfa2:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular garden has a length of 12.5 metres and a width of 8.3 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the upper bound for the area of the garden itself.",
+        "marks": 4,
+        "marking_criteria": [
+          "Upper bound for length is 12.55 m",
+          "Upper bound for width is 8.35 m",
+          "Area = 12.55 × 8.35 = 104.8925 m²",
+          "Final answer 105 m² (to 3 s.f.)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the upper bound for the area of the garden itself — develop the idea fully rather than listing short points. Make sure you also cover: Final answer 105 m² (to 3 s.f.)."
+        ],
+        "model_answer": "Upper bounds: length 12.505 m, width 8.355 m. Area = 12.505 * 8.355 = 104.56 m² (3 s.f.).",
+        "explanation": "First, determine the upper bounds for the length and width of the garden. Then, calculate the area using these upper bounds and round the final answer to 3 significant figures.",
+        "exam_question_id": "4c4747f0-0f04-408d-aba8-f467d9d578a0:1",
+        "checked": true,
+        "subtopic_id": 700,
+        "topic_id": 142,
+        "topic_label": "Limits of accuracy — upper and lower bounds",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Limits of accuracy — upper and lower bounds"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular garden has a length of 12.5 metres and a width of 8.3 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the lower bound for the area of the garden including the path.",
+        "marks": 6,
+        "marking_criteria": [
+          "Lower bound for length is 12.45 m",
+          "Lower bound for width is 8.25 m",
+          "Length including path = 12.45 + 2(1.5) = 15.45 m",
+          "Width including path = 8.25 + 2(1.5) = 11.25 m",
+          "Area = 15.45 × 11.25 = 173.8125 m²",
+          "Final answer 174 m² (to 3 s.f.)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the lower bound for the area of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Final answer 174 m² (to 3 s.f.)."
+        ],
+        "model_answer": "Lower bounds: length 12.495 m, width 8.295 m. Length including path = 12.495 + 2 * 1.5 = 15.495 m. Width including path = 8.295 + 2 * 1.5 = 11.295 m. Area = 15.495 * 11.295 = 175.42 m² (3 s.f.).",
+        "explanation": "First, determine the lower bounds for the length and width of the garden. Then, calculate the dimensions of the garden including the path. Finally, calculate the area using these lower bounds and round the final answer to 3 significant figures.",
+        "exam_question_id": "4c4747f0-0f04-408d-aba8-f467d9d578a0:1",
+        "checked": true,
+        "subtopic_id": 700,
+        "topic_id": 142,
+        "topic_label": "Limits of accuracy — upper and lower bounds",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Limits of accuracy — upper and lower bounds"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A rectangular garden has a length of 12.5 metres and a width of 8.3 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "State the lower and upper bounds for the perimeter of the garden including the path.",
+        "marks": 6,
+        "marking_criteria": [
+          "Lower bounds: length 12.45 m, width 8.25 m",
+          "Upper bounds: length 12.55 m, width 8.35 m",
+          "Lower dimensions with path: length 15.45 m, width 11.25 m",
+          "Upper dimensions with path: length 15.55 m, width 11.35 m",
+          "Lower perimeter = 2(15.45 + 11.25) = 53.4 m",
+          "Upper perimeter = 2(15.55 + 11.35) = 53.8 m"
+        ],
+        "hints": [
+          "Stay focused on this: State the lower and upper bounds for the perimeter of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Lower dimensions with path: 15.45 m, 11.25 m; Upper dimensions with path: 15.55 m, 11.35 m."
+        ],
+        "model_answer": "Lower bounds: length 12.495 m, width 8.295 m. Upper bounds: length 12.505 m, width 8.355 m. Lower perimeter = 2 * (15.495 + 11.295) = 53.58 m. Upper perimeter = 2 * (15.505 + 11.355) = 53.72 m.",
+        "explanation": "First, determine the lower and upper bounds for the length and width of the garden. Then, calculate the dimensions of the garden including the path using these bounds. Finally, calculate the perimeter of the garden including the path using these dimensions.",
+        "exam_question_id": "4c4747f0-0f04-408d-aba8-f467d9d578a0:1",
+        "checked": true,
+        "subtopic_id": 700,
+        "topic_id": 142,
+        "topic_label": "Limits of accuracy — upper and lower bounds",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Limits of accuracy — upper and lower bounds"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular park has a length of 30 metres and a width of 20 metres. The park is surrounded by a path that is 3 metres wide on all sides.",
+        "question": "Calculate the area of the park itself.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the dimensions of the park.",
+          "Calculate the area using the formula for the area of a rectangle."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the park itself — develop the idea fully rather than listing short points. Make sure you also cover: Identify the dimensions of the park.; Calculate the area using the formula for the area of a rectangle."
+        ],
+        "model_answer": "Area of the park = length x width = 30 m x 20 m = 600 m².",
+        "explanation": "The area of the park is calculated by multiplying its length by its width.",
+        "exam_question_id": "b0b091e3-b842-48d6-a598-39a5ac20052e:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular park has a length of 30 metres and a width of 20 metres. The park is surrounded by a path that is 3 metres wide on all sides.",
+        "question": "Calculate the area of the park including the path.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the dimensions of the park and the path.",
+          "Calculate the dimensions of the park including the path.",
+          "Calculate the area using the formula for the area of a rectangle."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the park including the path — develop the idea fully rather than listing short points. Make sure you also cover: Identify the dimensions of the park and the path.; Calculate the dimensions of the park including the path.; Calculate the area using the formula for the area of…."
+        ],
+        "model_answer": "Length including path = 30 m + 2(3 m) = 36 m\nWidth including path = 20 m + 2(3 m) = 26 m\nArea including path = 36 m x 26 m = 936 m².",
+        "explanation": "The area of the park including the path is calculated by first determining the total dimensions of the park including the path, then using the area formula for a rectangle.",
+        "exam_question_id": "b0b091e3-b842-48d6-a598-39a5ac20052e:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular garden has a length of 12.5 metres and a width of 8.3 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the area of the garden itself.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the length and width of the garden.",
+          "Calculate the area of the garden using the formula for the area of a rectangle.",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden itself — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the length and width of the garden.; Calculate the area of the garden using the formula for the area of a rectangle.; Provide the answer to 3."
+        ],
+        "model_answer": "Area = 12.5 m × 8.3 m = 103.75 m²\n104 m² (correct to 3 significant figures)",
+        "explanation": "Calculate the area of the garden by multiplying its length by its width. Remember to round your answer to 3 significant figures.",
+        "exam_question_id": "af9c9956-767d-4fa3-8582-a77f3491929b:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular garden has a length of 12.5 metres and a width of 8.3 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the area of the garden including the path.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify the length and width of the garden and the width of the path.",
+          "Calculate the total length and width including the path.",
+          "Calculate the area of the garden including the path using the formula for the area of a rectangle.",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the and of the garden and the of the path.; Calculate the and including the path.; Provide the answer to 3."
+        ],
+        "model_answer": "Total length = 12.5 m + 2 × 1.5 m = 15.5 m\nTotal width = 8.3 m + 2 × 1.5 m = 11.3 m\nArea = 15.5 m × 11.3 m = 175.15 m²\n175 m² (correct to 3 significant figures)",
+        "explanation": "Calculate the total length and width of the garden including the path. Then, use these dimensions to find the area of the garden including the path. Remember to round your answer to 3 significant figures.",
+        "exam_question_id": "af9c9956-767d-4fa3-8582-a77f3491929b:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A rectangular garden has a length of 12.5 metres and a width of 8.3 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 1.5 metres wide on all sides.",
+        "question": "Calculate the perimeter of the garden including the path.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify the length and width of the garden and the width of the path.",
+          "Calculate the total length and width including the path.",
+          "Calculate the perimeter of the garden including the path using the formula for the perimeter of a rectangle.",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the perimeter of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the and of the garden and the of the path.; Calculate the and including the path.; Provide the answer to 3."
+        ],
+        "model_answer": "Total length = 12.5 m + 2 × 1.5 m = 15.5 m\nTotal width = 8.3 m + 2 × 1.5 m = 11.3 m\nPerimeter = 2 × (15.5 m + 11.3 m) = 2 × 26.8 m = 53.6 m\n53.6 m (correct to 3 significant figures)",
+        "explanation": "Calculate the total length and width of the garden including the path. Then, use these dimensions to find the perimeter of the garden including the path. Remember to round your answer to 3 significant figures.",
+        "exam_question_id": "af9c9956-767d-4fa3-8582-a77f3491929b:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular garden has a length of 14.7 metres and a width of 9.4 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 2.0 metres wide on all sides.",
+        "question": "Calculate the area of the garden itself.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the length and width of the garden.",
+          "Calculate the area of the garden using the formula for the area of a rectangle.",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden itself — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the length and width of the garden.; Provide the answer correct to 3 significant figures."
+        ],
+        "model_answer": "Area of the garden = 14.7 m × 9.4 m = 138.18 m². Answer: 138 m² (3 s.f.).",
+        "explanation": "Use the given length and width to calculate the area of the garden. Remember to round your answer to 3 significant figures.",
+        "exam_question_id": "c76db85a-8e3f-40a9-8c79-fff5590865a5:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular garden has a length of 14.7 metres and a width of 9.4 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 2.0 metres wide on all sides.",
+        "question": "Calculate the area of the garden including the path.",
+        "marks": 4,
+        "marking_criteria": [
+          "Determine the total length and width including the path.",
+          "Calculate the area of the larger rectangle (garden + path).",
+          "Subtract the area of the garden from the total area to find the area of the path.",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Determine the and including the path.; Provide the answer correct to 3 significant figures."
+        ],
+        "model_answer": "Total length = 14.7 m + 2(2.0 m) = 18.7 m. Total width = 9.4 m + 2(2.0 m) = 13.4 m. Total area = 18.7 m × 13.4 m = 250.58 m². Area of the garden = 14.7 m × 9.4 m = 138.18 m². Area of the path = 250.58 m² - 138.18 m² = 112.40 m². Answer: 112 m² (3 s.f.).",
+        "explanation": "First, calculate the total dimensions of the garden including the path. Then, find the area of the larger rectangle and subtract the area of the garden to get the area of the path. Round your answer to 3 significant figures.",
+        "exam_question_id": "c76db85a-8e3f-40a9-8c79-fff5590865a5:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A rectangular garden has a length of 14.7 metres and a width of 9.4 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 2.0 metres wide on all sides.",
+        "question": "Calculate the perimeter of the garden including the path.",
+        "marks": 3,
+        "marking_criteria": [
+          "Determine the total length and width including the path.",
+          "Calculate the perimeter of the larger rectangle (garden + path).",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the perimeter of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Determine the and including the path.; Calculate the perimeter of the larger rectangle (garden + path).; Provide the answer correct to 3 significant…."
+        ],
+        "model_answer": "Total length = 14.7 m + 2(2.0 m) = 18.7 m. Total width = 9.4 m + 2(2.0 m) = 13.4 m. Perimeter = 2(18.7 m + 13.4 m) = 2(32.1 m) = 64.2 m. Answer: 64.2 m (3 s.f.).",
+        "explanation": "First, calculate the total dimensions of the garden including the path. Then, use the formula for the perimeter of a rectangle to find the perimeter of the larger rectangle. Round your answer to 3 significant figures.",
+        "exam_question_id": "c76db85a-8e3f-40a9-8c79-fff5590865a5:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular field has a length of 15.2 metres and a width of 9.7 metres, each measured to 3 significant figures. The field is surrounded by a path that is 1.8 metres wide on all sides.",
+        "question": "Calculate the area of the field itself.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the field.",
+          "Use the formula for the area of a rectangle (length x width).",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the field itself — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the field.; the formula for the area of a rectangle x; Provide the answer to 3."
+        ],
+        "model_answer": "Area of the field = length x width = 15.2 m x 9.7 m = 147.44 m^2. Correct to 3 significant figures: 147 m^2.",
+        "explanation": "Calculate the area of the field by multiplying its length by its width, and round the result to 3 significant figures.",
+        "exam_question_id": "835835a6-b33f-417b-b00a-1ed9f9119ce1:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular field has a length of 15.2 metres and a width of 9.7 metres, each measured to 3 significant figures. The field is surrounded by a path that is 1.8 metres wide on all sides.",
+        "question": "Calculate the area of the field including the path.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the field and the path.",
+          "Calculate the total length and width including the path.",
+          "Use the formula for the area of a rectangle (length x width).",
+          "Provide the answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the field including the path — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the field and the path.; the formula for the area of a rectangle x; Provide the answer to 3."
+        ],
+        "model_answer": "Total length including path = 15.2 m + 2(1.8 m) = 18.8 m. Total width including path = 9.7 m + 2(1.8 m) = 13.3 m. Area including path = 18.8 m x 13.3 m = 250.04 m^2. Correct to 3 significant figures: 250 m^2.",
+        "explanation": "Calculate the total length and width of the field including the path, then use the area formula for a rectangle, and round the result to 3 significant figures.",
+        "exam_question_id": "835835a6-b33f-417b-b00a-1ed9f9119ce1:1",
+        "checked": true,
+        "topic_label": "Unit 2: Perimeter, area and volume",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Unit 2: Perimeter, area and volume"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A rectangular field has a length of 15.2 metres and a width of 9.7 metres, each measured to 3 significant figures. The field is surrounded by a path that is 1.8 metres wide on all sides.",
+        "question": "State the lower and upper bounds for the area of the field including the path.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the lower and upper bounds for the length and width.",
+          "Calculate the lower and upper bounds for the total area including the path.",
+          "Provide the bounds correct to 3 significant figures."
+        ],
+        "hints": [
+          "Remember to consider the precision of the measurements when determining the bounds."
+        ],
+        "model_answer": "Lower bound for length = 15.15 m, upper bound for length = 15.25 m. Lower bound for width = 9.65 m, upper bound for width = 9.75 m. Lower bound for total length including path = 15.15 m + 2(1.8 m) = 18.75 m. Upper bound for total length including path = 15.25 m + 2(1.8 m) = 18.85 m. Lower bound for total width including path = 9.65 m + 2(1.8 m) = 13.25 m. Upper bound for total width including path = 9.75 m + 2(1.8 m) = 13.35 m. Lower bound for area including path = 18.75 m x 13.25 m = 248.44 m^2. Upper bound for area including path = 18.85 m x 13.35 m = 251.63 m^2. Correct to 3 significant figures: Lower bound = 248 m^2, Upper bound = 252 m^2.",
+        "explanation": "Determine the lower and upper bounds for the length and width, calculate the bounds for the total area including the path, and round the results to 3 significant figures.",
+        "exam_question_id": "835835a6-b33f-417b-b00a-1ed9f9119ce1:1",
+        "checked": true,
+        "subtopic_id": 700,
+        "topic_id": 142,
+        "topic_label": "Limits of accuracy — upper and lower bounds",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Limits of accuracy — upper and lower bounds"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular garden has a length of 15.2 metres and a width of 9.7 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 2.1 metres wide on all sides.",
+        "question": "Calculate the area of the garden itself.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the garden.",
+          "Calculate the area of the garden using the formula for the area of a rectangle.",
+          "Provide the final answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden itself — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the garden.; Calculate the area of the garden using the formula for the area of a rectangle.; Provide the final answer correct to 3…."
+        ],
+        "model_answer": {
+          "working": "Area of the garden = length x width = 15.2 m x 9.7 m = 147.44 m². Rounded to 3 significant figures, the area is 147 m².",
+          "result": "147 m²"
+        },
+        "explanation": "Use the given dimensions of the garden to calculate its area, ensuring to round the final answer to 3 significant figures.",
+        "exam_question_id": "d0b560cd-e3f1-4d49-b2db-c18db9de4e24:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular garden has a length of 15.2 metres and a width of 9.7 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 2.1 metres wide on all sides.",
+        "question": "Calculate the area of the garden including the path.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the garden and the path.",
+          "Calculate the total length and width including the path.",
+          "Calculate the area of the garden including the path using the formula for the area of a rectangle.",
+          "Provide the final answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the area of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the garden and the path.; Calculate the total length and width including the path.; Provide the final answer correct to 3…."
+        ],
+        "model_answer": {
+          "working": "Total length including path = 15.2 m + 2(2.1 m) = 19.4 m. Total width including path = 9.7 m + 2(2.1 m) = 13.9 m. Area including path = 19.4 m x 13.9 m = 269.66 m². Rounded to 3 significant figures, the area is 270 m².",
+          "result": "270 m²"
+        },
+        "explanation": "Calculate the total dimensions of the garden including the path, then use these dimensions to find the total area, ensuring to round the final answer to 3 significant figures.",
+        "exam_question_id": "d0b560cd-e3f1-4d49-b2db-c18db9de4e24:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A rectangular garden has a length of 15.2 metres and a width of 9.7 metres, each measured to 3 significant figures. The garden is surrounded by a path that is 2.1 metres wide on all sides.",
+        "question": "Calculate the perimeter of the garden including the path.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the garden and the path.",
+          "Calculate the total length and width including the path.",
+          "Calculate the perimeter of the garden including the path using the formula for the perimeter of a rectangle.",
+          "Provide the final answer correct to 3 significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the perimeter of the garden including the path — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the garden and the path.; Calculate the total length and width including the path.; Provide the final answer correct…."
+        ],
+        "model_answer": {
+          "working": "Total length including path = 15.2 m + 2(2.1 m) = 19.4 m. Total width including path = 9.7 m + 2(2.1 m) = 13.9 m. Perimeter including path = 2(19.4 m + 13.9 m) = 2(33.3 m) = 66.6 m. Rounded to 3 significant figures, the perimeter is 66.6 m.",
+          "result": "66.6 m"
+        },
+        "explanation": "Calculate the total dimensions of the garden including the path, then use these dimensions to find the perimeter, ensuring to round the final answer to 3 significant figures.",
+        "exam_question_id": "d0b560cd-e3f1-4d49-b2db-c18db9de4e24:1",
+        "checked": true,
+        "subtopic_id": 677,
+        "topic_id": 136,
+        "topic_label": "Perimeter and area in two dimensions",
+        "source": {
+          "textbook": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended",
+          "area": "Perimeter and area in two dimensions"
+        }
+      }
+    ],
+    "estimated_time": 93,
+    "assessment_id": "602a70c4-ac5c-48b6-873c-882cc5d8423b",
+    "subject": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+    "topics": [
+      "Unit 2: Perimeter, area and volume",
+      "Unit 4: Understanding measurement"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 10,
+    "topic_ids": [
+      136,
+      142
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 27,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 10,
+      "detail": "6 questions open with the same sentence (11, 12, 13, 16, 17, 18): \"A rectangular garden has a length of 12.5 metres a\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 10,
+      "detail": "47 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 11,
+      "detail": "49 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 12,
+      "detail": "51 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 23,
+      "detail": "51 words"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [
+    "/textbook-images/textbook-bank/10/s419-f0.jpg: HTTP 404"
+  ],
+  "totalSeconds": 97
+}

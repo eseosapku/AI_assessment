@@ -118,7 +118,18 @@ export function delexicaliseExplanation<T extends PositionedQuestion>(q: T): T {
   const t = String(q.explanation ?? '')
   if (!opts || !t.trim()) return q
 
-  const next = t
+  let prose = t
+  const correct = typeof q.correct_answer === 'number' ? opts[q.correct_answer] : undefined
+  // Numeric option references become stale after balancing too. For a statement
+  // naming the right choice, use the verified answer rather than guessing
+  // whether the writer used zero-based indices or printed one-based numbers.
+  if (correct) prose = prose.replace(/\b(?:option|answer)\s*\(?[0-4]\)?(?=\s+is\s+(?:the\s+)?(?:correct|right)\b)/gi, () => correct)
+  // A quoted answer may carry a stale letter after options have moved.
+  for (const option of opts) {
+    const escaped = String(option).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    if (escaped.length > 2) prose = prose.replace(new RegExp(`\\b[A-D][.)]\\s+(?=${escaped})`, 'gi'), '')
+  }
+  const next = prose
     // "Option B (7)" — the value is already there, so just drop the label.
     .replace(/\b(?:option|answer)\s*\(?([A-D])\)?\s*\(([^)]{1,60})\)/gi, (_m, _l, val) => String(val).trim())
     // "Option C is incorrect" — substitute what C says.

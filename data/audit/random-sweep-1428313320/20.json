@@ -1,0 +1,1028 @@
+{
+  "index": 20,
+  "label": "REB / Exam / GENERAL EDU-History-S5-SB",
+  "request": {
+    "subject": "GENERAL EDU-History-S5-SB",
+    "textbook_id": 100,
+    "topic_ids": [
+      1051
+    ],
+    "topics": [
+      "The National Duties and Obligations"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 109,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of voting as a duty",
+          "Identification of obeying laws as a duty",
+          "Identification of serving in the military or other civic duties as a duty"
+        ],
+        "hints": [
+          "Think about the fundamental rights and responsibilities of citizens in a democracy."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Voting in elections, 2) Obeying the laws of the land, 3) Serving in the military or other civic duties when required.",
+        "explanation": "These duties are essential for the functioning and stability of a democratic nation.",
+        "exam_question_id": "a912aa88-4aba-478c-a068-157f4ee7cbb3:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of laws in maintaining order",
+          "Explanation of the impact of lawlessness on society",
+          "Mention of historical examples or consequences of lawlessness"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why obeying the laws is crucial for the functioning of a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of laws in maintaining; Explanation of the impact of on society; Mention of or of."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because laws provide a framework for order and justice. They ensure that everyone is treated fairly and that society can function smoothly. Without laws, there would be chaos and no way to resolve disputes or maintain public safety. Historical examples include the consequences of lawlessness during times of civil unrest, which often lead to violence and instability.",
+        "explanation": "Laws are the backbone of any democratic society, ensuring that everyone is treated equally and that order is maintained.",
+        "exam_question_id": "a912aa88-4aba-478c-a068-157f4ee7cbb3:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of the role of voting in democracy",
+          "Explanation of how voting reflects citizens' obligations",
+          "Mention of the impact of voter participation on governance"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of voting in a democratic society and how it reflects citizens' obligations — develop the idea fully rather than listing short points. Make sure you also cover: Description of the role of voting in democracy; Mention of the impact of on."
+        ],
+        "model_answer": "Voting is important in a democratic society because it allows citizens to choose their representatives and have a say in the laws and policies that govern them. This reflects citizens' obligations to participate in the democratic process and ensure that their voices are heard. High voter participation leads to more representative and accountable governance, while low participation can lead to unrepresentative governments. Voting is a fundamental duty that ensures the democratic system works effectively.",
+        "explanation": "Voting is a key duty of citizens that ensures the democratic process is fair and representative.",
+        "exam_question_id": "a912aa88-4aba-478c-a068-157f4ee7cbb3:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following scenario: In a democratic society, citizens have various national duties and obligations. One of these is the duty to vote in national elections, which is considered a fundamental right and responsibility of every eligible citizen.",
+        "question": "State the importance of voting in national elections.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the role of voting in a democratic society.",
+          "Mention of the fundamental rights and responsibilities associated with voting."
+        ],
+        "hints": [
+          "Stay focused on this: State the importance of voting in national elections — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of voting in a democratic society.; Mention of the rights and responsibilities associated with voting."
+        ],
+        "model_answer": "Voting in national elections is important because it allows citizens to choose their representatives and influence government policies. It is a fundamental right and responsibility that ensures the government reflects the will of the people.",
+        "explanation": "Voting is a crucial aspect of a democratic society as it empowers citizens to have a say in who governs them and what policies are implemented.",
+        "exam_question_id": "28000186-3d0a-4d60-97ce-5f345cdd3552:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following scenario: In a democratic society, citizens have various national duties and obligations. One of these is the duty to vote in national elections, which is considered a fundamental right and responsibility of every eligible citizen.",
+        "question": "Explain why it is important for citizens to be informed about the candidates and issues before voting.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the importance of being informed.",
+          "Mention of how being informed leads to better decision-making.",
+          "Reference to the impact of informed voting on the quality of governance."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important for citizens to be informed about the candidates and issues before voting — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the importance of being informed.; Mention of how being informed leads to decision-making.;…."
+        ],
+        "model_answer": "It is important for citizens to be informed about the candidates and issues before voting because it enables them to make educated decisions. Being informed helps ensure that the elected representatives are capable and aligned with the voters' interests, leading to better governance and representation.",
+        "explanation": "Being informed about candidates and issues is crucial for effective participation in the democratic process. It ensures that voters can make choices that reflect their values and priorities.",
+        "exam_question_id": "28000186-3d0a-4d60-97ce-5f345cdd3552:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of at least three national duties",
+          "Relevance of duties to a democratic society",
+          "Clarity and conciseness of the explanation"
+        ],
+        "hints": [
+          "Think about the roles and responsibilities that ensure the smooth functioning of a nation."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: \n1. Obeying the laws: Laws are essential for maintaining order and ensuring that society functions smoothly. \n2. Paying taxes: Taxes fund public services and infrastructure, which are necessary for the well-being of the nation. \n3. Serving on a jury: Participating in the judicial system helps ensure justice and fairness in the country.",
+        "explanation": "Each duty is crucial for the functioning of a democratic society. Obeying the laws ensures order and stability, paying taxes supports public services, and serving on a jury upholds the justice system.",
+        "exam_question_id": "d570b04c-7096-40d5-86c9-ab44b285c869:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the importance of laws",
+          "Connection between laws and societal order",
+          "Clarity and conciseness of the explanation"
+        ],
+        "hints": [
+          "Consider how laws contribute to maintaining order and stability."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because laws provide a framework for behavior and conflict resolution. They ensure that everyone is treated fairly and that society operates in an orderly manner. Without laws, chaos and injustice could prevail, undermining the principles of democracy.",
+        "explanation": "Laws are the foundation of a democratic society, ensuring that everyone is treated equally and that order is maintained. They provide a clear set of rules that all citizens must follow, which is essential for the peaceful coexistence of diverse individuals and groups.",
+        "exam_question_id": "d570b04c-7096-40d5-86c9-ab44b285c869:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of the role of voting",
+          "Connection between voting and democratic principles",
+          "Clarity and conciseness of the explanation"
+        ],
+        "hints": [
+          "Think about how voting empowers citizens and influences the direction of the nation."
+        ],
+        "model_answer": "Voting is important in a democratic society because it allows citizens to participate in the decision-making process. By voting, citizens can choose their representatives and influence policies that affect their lives. This reflects citizens' obligations to engage in the democratic process and ensure that their voices are heard. Voting is a fundamental right and responsibility that upholds the principles of democracy.",
+        "explanation": "Voting is a key duty of citizens in a democratic society because it empowers them to have a say in who governs them and what policies are enacted. It is a way for citizens to hold their leaders accountable and to shape the future of their nation.",
+        "exam_question_id": "d570b04c-7096-40d5-86c9-ab44b285c869:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation. State the three main national duties of citizens in a democratic society.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of paying taxes as a duty.",
+          "Identification of obeying laws as a duty.",
+          "Identification of participating in civic duties such as voting as a duty."
+        ],
+        "hints": [
+          "Think about the responsibilities that ensure the government can function and provide services."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Paying taxes, which funds government services and infrastructure. 2) Obeying the laws, which maintains order and justice. 3) Participating in civic duties such as voting, which allows citizens to have a say in their government.",
+        "explanation": "Paying taxes, obeying the laws, and participating in civic duties like voting are fundamental responsibilities that help maintain a functioning and fair democratic society.",
+        "exam_question_id": "7c76835c-7ad0-4dee-b3a7-b7127d79ba55:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation. State the three main national duties of citizens in a democratic society.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how laws maintain order.",
+          "Explanation of how laws protect individual rights.",
+          "Explanation of how laws ensure justice and fairness."
+        ],
+        "hints": [
+          "Consider the role of laws in maintaining social order and protecting citizens."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because it maintains order, protects individual rights, and ensures justice and fairness. Laws provide a framework for how society operates, ensuring that everyone is treated equally under the law and that the rights of individuals are protected.",
+        "explanation": "Laws are essential for creating a stable and just society where everyone can live and work without fear of chaos or injustice.",
+        "exam_question_id": "7c76835c-7ad0-4dee-b3a7-b7127d79ba55:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation. State the three main national duties of citizens in a democratic society.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how voting allows citizens to choose their leaders.",
+          "Explanation of how voting reflects citizens' engagement in the democratic process.",
+          "Explanation of how voting ensures representation and accountability."
+        ],
+        "hints": [
+          "Think about the role of voting in allowing citizens to have a say in their government."
+        ],
+        "model_answer": "Voting is important in a democratic society because it allows citizens to choose their leaders and have a say in the laws and policies that affect their lives. It reflects citizens' obligations to participate in the democratic process and ensures that their voices are heard. Voting also ensures representation and accountability, as elected officials are responsible to the people who elected them.",
+        "explanation": "Voting is a fundamental right and responsibility in a democracy, enabling citizens to influence their government and hold it accountable.",
+        "exam_question_id": "7c76835c-7ad0-4dee-b3a7-b7127d79ba55:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of paying taxes as a duty",
+          "Identification of obeying laws as a duty",
+          "Identification of serving on a jury as a duty"
+        ],
+        "hints": [
+          "Think about the fundamental responsibilities that ensure the nation's governance and stability."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Paying taxes, which funds public services and infrastructure. 2) Obeying laws, which maintains order and justice. 3) Serving on a jury, which ensures fair legal proceedings.",
+        "explanation": "Paying taxes, obeying laws, and serving on a jury are essential duties that contribute to the functioning and stability of a democratic society.",
+        "exam_question_id": "213dfea7-fe50-444f-ab02-35f0f40097fe:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of laws in maintaining order",
+          "Explanation of the importance of justice and fairness",
+          "Explanation of the impact of law-breaking on society"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why obeying the laws is crucial for the functioning of a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of laws in maintaining; Explanation of the importance of and fairness; Explanation of the impact of…."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because it maintains order and ensures that everyone is treated fairly. Laws provide a framework for justice and prevent chaos. When citizens obey laws, it fosters trust and cooperation within the community, which is essential for the smooth functioning of society.",
+        "explanation": "Laws are the foundation of a democratic society, ensuring order, justice, and stability. Obeying laws is vital for the well-being and harmony of the community.",
+        "exam_question_id": "213dfea7-fe50-444f-ab02-35f0f40097fe:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of voting as a fundamental right",
+          "Explanation of how voting reflects citizens' obligations",
+          "Description of the impact of voting on governance"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of voting in a democratic society and how it reflects citizens' obligations — develop the idea fully rather than listing short points. Make sure you also cover: Description of the impact of voting on governance."
+        ],
+        "model_answer": "Voting is a fundamental right and obligation in a democratic society because it allows citizens to choose their leaders and influence the direction of the nation. By voting, citizens exercise their power to shape policies and ensure that their voices are heard. This participation reflects their commitment to the democratic process and the well-being of their community.",
+        "explanation": "Voting is a key responsibility of citizens in a democracy, enabling them to actively participate in governance and hold their leaders accountable.",
+        "exam_question_id": "213dfea7-fe50-444f-ab02-35f0f40097fe:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the duty to obey laws",
+          "Identification of the duty to vote",
+          "Identification of the duty to pay taxes"
+        ],
+        "hints": [
+          "Stay focused on this: State the three main national duties of citizens in a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the duty to obey; Identification of the duty to vote; Identification of the duty to pay."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Obeying the laws, 2) Voting in national elections, 3) Paying taxes.",
+        "explanation": "In a democratic society, citizens have certain fundamental duties that help maintain the system's integrity and functionality. Obeying the laws ensures order and fairness. Voting allows citizens to participate in the democratic process and choose their leaders. Paying taxes funds public services and infrastructure.",
+        "exam_question_id": "ac75a157-da4d-4f5a-b24e-47466e84e46c:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of laws in maintaining order",
+          "Explanation of how laws ensure fairness and equality",
+          "Explanation of the consequences of not obeying laws"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why obeying the laws is crucial for the functioning of a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of laws in maintaining; Explanation of how laws and equality."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because it ensures order and fairness. Laws provide a framework for behavior that protects individual rights and promotes social harmony. Without laws, there would be chaos and no way to resolve disputes. Additionally, laws ensure that everyone is treated equally under the law, which is a cornerstone of democracy. The consequences of not obeying laws can include fines, imprisonment, and a breakdown of social order.",
+        "explanation": "Laws are essential in a democratic society as they maintain order, ensure fairness, and protect individual rights. They provide a structured way to resolve conflicts and ensure that everyone is treated equally. Disregarding laws can lead to chaos and undermine the democratic process.",
+        "exam_question_id": "ac75a157-da4d-4f5a-b24e-47466e84e46c:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of the role of voting in democracy",
+          "Explanation of how voting reflects citizens' obligations",
+          "Discussion of the impact of voting on society"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of voting in a democratic society and how it reflects citizens' obligations — develop the idea fully rather than listing short points. Make sure you also cover: Description of the role of voting in."
+        ],
+        "model_answer": "Voting is crucial in a democratic society because it allows citizens to participate in the decision-making process and choose their representatives. This reflects citizens' obligations to engage in the democratic process and ensure that their voices are heard. By voting, citizens have a say in the laws and policies that affect their lives. The impact of voting can be significant, as it determines the direction of the government and the policies that are implemented. Voting is a fundamental right and responsibility that upholds the principles of democracy.",
+        "explanation": "Voting is a key duty of citizens in a democratic society as it empowers them to participate in governance and influence the direction of their country. It reflects their obligation to engage in the democratic process and ensure that their interests are represented. The act of voting has a profound impact on society, as it shapes the government and policies that govern daily life.",
+        "exam_question_id": "ac75a157-da4d-4f5a-b24e-47466e84e46c:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the duty to obey laws",
+          "Identification of the duty to vote",
+          "Identification of the duty to serve on a jury when called upon"
+        ],
+        "hints": [
+          "Stay focused on this: State the three main national duties of citizens in a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the duty to obey; Identification of the duty to vote; Identification of the duty to serve on a when."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Obeying the laws, 2) Voting in elections, 3) Serving on a jury when called upon.",
+        "explanation": "In a democratic society, citizens have certain fundamental duties that help maintain the rule of law and ensure the government reflects the will of the people.",
+        "exam_question_id": "4ea0da0b-b451-4fd3-a796-dc5826227bc4:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of laws in maintaining order",
+          "Explanation of the impact of law-breaking on society",
+          "Explanation of the relationship between laws and democratic principles"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why obeying the laws is crucial for the functioning of a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of laws in maintaining; Explanation of the relationship between laws and democratic."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because laws maintain social order, ensure justice, and uphold the principles of democracy. When citizens obey laws, it helps prevent chaos, protects individual rights, and ensures that the government can function effectively. Law-breaking can lead to disorder, undermine trust in the government, and erode the democratic process.",
+        "explanation": "Obedience to laws is essential for the stability and fairness of a democratic society, as it ensures that everyone is treated equally under the law and that the government can operate efficiently.",
+        "exam_question_id": "4ea0da0b-b451-4fd3-a796-dc5826227bc4:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of the role of voting in democracy",
+          "Explanation of how voting reflects citizens' obligations",
+          "Discussion of the impact of voting on society"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of voting in a democratic society and how it reflects citizens' obligations — develop the idea fully rather than listing short points. Make sure you also cover: Description of the role of voting in democracy."
+        ],
+        "model_answer": "Voting is a fundamental aspect of a democratic society because it allows citizens to participate in the political process and choose their representatives. This reflects citizens' obligations to engage in the democratic process and ensure that their government represents their interests and values. By voting, citizens exercise their right to influence the direction of their country and hold their leaders accountable. This participation is crucial for the legitimacy and stability of a democratic government.",
+        "explanation": "Voting is not just a right but also an obligation of citizens in a democracy, as it enables them to have a voice in their government and ensures that the government remains accountable to the people.",
+        "exam_question_id": "4ea0da0b-b451-4fd3-a796-dc5826227bc4:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the duty of obeying the law.",
+          "Identify the duty of participating in civic activities such as voting.",
+          "Identify the duty of paying taxes."
+        ],
+        "hints": [
+          "Stay focused on this: State the three main national duties of citizens in a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Identify the duty of the law.; Identify the duty of in as; Identify the duty of."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Obeying the law, 2) Participating in civic activities such as voting, 3) Paying taxes.",
+        "explanation": "These duties are essential for the maintenance and functioning of a democratic society.",
+        "exam_question_id": "6aa8f0d9-3114-4967-a2e0-4da0f618357f:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of laws in maintaining order.",
+          "Explain the importance of laws in protecting individual rights.",
+          "Explain how laws ensure equal treatment under the law."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why obeying the laws is crucial for the functioning of a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: the role of laws in maintaining; the importance of laws in protecting."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because laws maintain order, protect individual rights, and ensure equal treatment under the law. Without laws, society would descend into chaos, rights would be unprotected, and justice would be unattainable.",
+        "explanation": "Laws are the backbone of a democratic society, ensuring that everyone is treated fairly and that the society functions smoothly.",
+        "exam_question_id": "6aa8f0d9-3114-4967-a2e0-4da0f618357f:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the role of voting in selecting representatives.",
+          "Explain how voting reflects citizens' engagement in the democratic process.",
+          "Describe the impact of voting on policy-making and governance."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of voting in a democratic society and how it reflects citizens' obligations — develop the idea fully rather than listing short points. Make sure you also cover: the role of voting in selecting."
+        ],
+        "model_answer": "Voting is important in a democratic society because it allows citizens to select their representatives, engage in the democratic process, and influence policy-making and governance. By voting, citizens exercise their right to participate in the government and ensure that their voices are heard in the decision-making process.",
+        "explanation": "Voting is a fundamental obligation of citizens in a democracy, as it empowers them to shape the future of their nation.",
+        "exam_question_id": "6aa8f0d9-3114-4967-a2e0-4da0f618357f:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation. State the three main national duties of citizens in a democratic society.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of one national duty (1 mark)",
+          "Identification of a second national duty (1 mark)",
+          "Identification of a third national duty (1 mark)"
+        ],
+        "hints": [
+          "Think about the fundamental responsibilities that ensure the democratic process works."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Obeying the laws, 2) Voting in elections, 3) Serving on a jury when called upon.",
+        "explanation": "These duties are essential for maintaining the rule of law, ensuring democratic participation, and contributing to the justice system.",
+        "exam_question_id": "875569ed-2d1c-4b5c-9b2e-3f96bd7be4fb:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation. State the three main national duties of citizens in a democratic society.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of laws in maintaining order (1 mark)",
+          "Explanation of the impact of law-breaking on society (1 mark)",
+          "Explanation of the importance of collective adherence to laws (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why obeying the laws is crucial for the functioning of a democratic society — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the role of laws in maintaining (1 mark); Explanation of the impact of law-breaking on society (1 mark);…."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because laws provide a framework for order and protect citizens' rights. When laws are broken, it can lead to chaos and undermine the trust in the system. Collective adherence to laws ensures that society functions smoothly and that everyone is treated fairly.",
+        "explanation": "Laws are the foundation of a stable and fair society, and obeying them is essential for the well-being of all citizens.",
+        "exam_question_id": "875569ed-2d1c-4b5c-9b2e-3f96bd7be4fb:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation. State the three main national duties of citizens in a democratic society.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of the role of voting in democracy (1 mark)",
+          "Explanation of how voting reflects citizens' obligations (1 mark)",
+          "Discussion of the impact of voting on society (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of voting in a democratic society and how it reflects citizens' obligations — develop the idea fully rather than listing short points. Make sure you also cover: Description of the role of voting in (1 mark)."
+        ],
+        "model_answer": "Voting is important in a democratic society because it allows citizens to have a say in the government and the policies it implements. It reflects citizens' obligations to participate in the democratic process and ensure that their voices are heard. By voting, citizens can influence the direction of their country and hold their leaders accountable, which is essential for a healthy democracy.",
+        "explanation": "Voting is a fundamental right and responsibility that empowers citizens to shape their future and maintain the integrity of their democratic system.",
+        "exam_question_id": "875569ed-2d1c-4b5c-9b2e-3f96bd7be4fb:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "State the three main national duties of citizens in a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of paying taxes as a duty.",
+          "Identification of obeying the law as a duty.",
+          "Identification of voting in elections as a duty."
+        ],
+        "hints": [
+          "Think about the fundamental responsibilities that ensure the governance and stability of a nation."
+        ],
+        "model_answer": "The three main national duties of citizens in a democratic society are: 1) Paying taxes, which funds public services and infrastructure. 2) Obeying the law, which maintains order and justice. 3) Voting in elections, which allows citizens to participate in the democratic process and choose their leaders.",
+        "explanation": "Paying taxes, obeying the law, and voting in elections are fundamental duties that support the functioning of a democratic society.",
+        "exam_question_id": "dd9709a5-6a66-4b56-ba6b-7d9431a79f24:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Explain why obeying the laws is crucial for the functioning of a democratic society.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how laws maintain order.",
+          "Explanation of how laws ensure justice.",
+          "Explanation of how laws support the democratic process."
+        ],
+        "hints": [
+          "Think about the role of laws in maintaining social order and protecting individual rights."
+        ],
+        "model_answer": "Obeying the laws is crucial for the functioning of a democratic society because it maintains order, ensures justice, and supports the democratic process. Laws provide a framework for peaceful coexistence and protect the rights and freedoms of citizens. Without law obedience, society would descend into chaos, and the democratic process would be undermined.",
+        "explanation": "Laws are essential for maintaining order, ensuring justice, and supporting the democratic process in a society.",
+        "exam_question_id": "dd9709a5-6a66-4b56-ba6b-7d9431a79f24:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the historical context of national duties and obligations in a democratic society. Think about the roles and responsibilities of citizens in ensuring the smooth functioning of their nation.",
+        "question": "Describe the importance of voting in a democratic society and how it reflects citizens' obligations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of voting as a means of political participation.",
+          "Explanation of how voting reflects citizens' obligations.",
+          "Description of the impact of voting on the democratic process."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of voting in a democratic society and how it reflects citizens' obligations — develop the idea fully rather than listing short points. Make sure you also cover: Description of voting as a means of participation."
+        ],
+        "model_answer": "Voting is important in a democratic society because it allows citizens to participate in the political process and choose their leaders. It reflects citizens' obligations to engage in the democratic process and hold their government accountable. By voting, citizens ensure that their voices are heard and that the government represents their interests and values. The act of voting also helps to legitimize the democratic process and maintain the stability of the nation.",
+        "explanation": "Voting is a fundamental right and responsibility of citizens in a democratic society, as it enables them to participate in the political process, reflect their obligations, and ensure that their government represents their interests.",
+        "exam_question_id": "dd9709a5-6a66-4b56-ba6b-7d9431a79f24:1",
+        "topic_label": "The National Duties and Obligations",
+        "topic_id": 1051,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "The National Duties and Obligations"
+        }
+      }
+    ],
+    "estimated_time": 86,
+    "assessment_id": "8c48d6c7-c5e4-433f-aab4-c0de6b11eca1",
+    "subject": "GENERAL EDU-History-S5-SB",
+    "topics": [
+      "The National Duties and Obligations"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 100,
+    "topic_ids": [
+      1051
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 29,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "9 questions open with the same sentence (1, 6, 9, 12, 15, 18, 21, 24, 27): \"State the three main national duties of citizens i\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "9 questions open with the same sentence (2, 7, 10, 13, 16, 19, 22, 25, 28): \"Explain why obeying the laws is crucial for the fu\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "9 questions open with the same sentence (3, 8, 11, 14, 17, 20, 23, 26, 29): \"Describe the importance of voting in a democratic \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "1a, 3a, 4a, 5a, 6a, 7a, 8a, 9a, 10a",
+        "severity": "poor",
+        "detail": "Inconsistent model answers across identical questions. Question 1a lists voting/military service; 3a lists obeying laws/taxes/jury service; 4a lists taxes/laws/voting; 5a lists taxes/laws/jury; 6a lists laws/voting/taxes; 7a lists laws/voting/jury; 8a lists laws/voting/taxes; 9a lists laws/voting/jury; 10a lists taxes/laws/voting. No single authoritative answer established for Rwanda S5 curriculum.",
+        "correction": "Establish single definitive model answer aligned with Rwanda's GENERAL EDU-History-S5-SB textbook. Verify against source material and apply consistently across all instances."
+      },
+      {
+        "label": "1a, 1b, 1c, 2a, 2b, 3a, 3b, 3c, 4a, 4b, 4c, 5a, 5b, 5c, 6a, 6b, 6c, 7a, 7b, 7c, 8a, 8b, 8c, 9a, 9b, 9c, 10a, 10b, 10c",
+        "severity": "poor",
+        "detail": "Assessment contains 10 near-identical question sets with minimal variation. Questions 1-10 repeat the same three-part structure (state duties, explain law obedience, describe voting) with identical contexts and overlapping model answers. This creates redundancy rather than progressive assessment.",
+        "correction": "Consolidate into single comprehensive assessment or develop distinct question sets addressing different aspects of national duties/obligations (e.g., constitutional framework, historical context, comparative analysis, application scenarios)."
+      },
+      {
+        "label": "2a, 2b",
+        "severity": "poor",
+        "detail": "Question 2 shifts focus to voting importance and voter information without addressing the three main national duties established in Question 1. Context states duties are 'one of these is voting' but doesn't maintain coherent progression through all duties.",
+        "correction": "Either integrate voting questions into comprehensive duty framework or explicitly signal thematic shift in context."
+      },
+      {
+        "label": "1a, 3a, 5a, 7a, 9a",
+        "severity": "poor",
+        "detail": "Model answers for these questions list military service (1a), jury service (3a, 5a, 7a, 9a) as third duty, but questions 4a, 6a, 8a, 10a list taxes instead. No explanation for variation or curriculum basis provided.",
+        "correction": "Verify Rwanda S5 curriculum specification for third duty. Standardize across all instances with textbook citation."
+      }
+    ],
+    "summary": "Assessment contains 29 questions across 10 near-identical sets addressing national duties/obligations. Critical issue: inconsistent model answers for identical questions (duties listed vary across sets). Redundant structure lacks progressive complexity. Requires consolidation and verification against Rwanda GENERAL EDU-History-S5-SB source material."
+  },
+  "totalSeconds": 115
+}

@@ -1,0 +1,2891 @@
+{
+  "seed": 3331501060,
+  "results": [
+    {
+      "index": 2,
+      "label": "REB / Practice / Advanced Mathematics S6 SB (1)",
+      "request": {
+        "subject": "Advanced Mathematics S6 SB (1)",
+        "textbook_id": 2,
+        "topic_ids": [
+          12,
+          18
+        ],
+        "topics": [
+          "Complex Numbers",
+          "Transformation of Matrices"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 23,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "mcq-catch-all-option",
+          "severity": "poor",
+          "index": 5,
+          "detail": "\"All of the above\" is guessable and untestable"
+        }
+      ],
+      "figures": 7,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "14",
+            "severity": "poor",
+            "detail": "Explanation incorrectly dismisses solving quadratic equations as not using complex numbers. Quadratic equations with negative discriminants require complex solutions, making this a valid application of complex numbers.",
+            "correction": "Revise explanation: 'Complex numbers are used in applications such as calculating electrical circuits and solving quadratic equations with negative discriminants. Graphing on a number line and finding rectangle areas use only real numbers.'"
+          },
+          {
+            "label": "15",
+            "severity": "broken",
+            "detail": "Question asks to diagonalise a matrix but is labelled under 'Complex Numbers' topic (topic_id 12). Diagonalisation belongs to matrix transformation topics (topic_id 18). Topic label mismatch indicates misclassification.",
+            "correction": "Change topic_label from 'Complex Numbers' to 'Matrix Transformations' and verify topic_id should be 18, not 12."
+          }
+        ],
+        "summary": "Assessment is largely sound with 20 well-structured questions covering complex numbers and matrix transformations. Two issues identified: question 14's explanation incorrectly dismisses quadratic equations as a complex number application, and question 15 is mislabelled under Complex Numbers when it belongs to Matrix Transformations. All diagrams, MCQ answers, and interactive mappings are correct."
+      },
+      "totalSeconds": 30
+    },
+    {
+      "index": 1,
+      "label": "Cambridge / Exam / Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+      "request": {
+        "subject": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+        "textbook_id": 27,
+        "topic_ids": [
+          375,
+          376
+        ],
+        "topics": [
+          "The Industrial Revolution in Britain, 1750–1850",
+          "Liberalism and nationalism in Germany, 1815–71"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 53,
+      "status": 200,
+      "numbered": 10,
+      "parts": 24,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 17"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 18"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 19"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 7"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Model answer is underdeveloped for 3 marks. It provides only basic explanation of labour demand and migration without addressing specific examples (e.g., Manchester, textile industry) or discussing agricultural displacement, capital availability, or infrastructure development that would justify the mark allocation.",
+            "correction": "Model answer should include: specific industrial cities/sectors; role of agricultural enclosure in freeing labour; infrastructure development (canals, railways); regional variations; and explicit link between each factor and urbanisation growth."
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Model answer lacks specific examples to support claims. For 3 marks, answer should reference particular diseases (cholera, typhoid), specific cities (Manchester, Birmingham), housing types (back-to-back terraces), or quantifiable conditions rather than generic statements about overcrowding and sanitation.",
+            "correction": "Expand with: specific disease outbreaks; named cities and housing conditions; statistics or contemporary accounts; comparison to rural conditions; discussion of class variations in urban living standards."
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Marking criteria requires 'evidence from primary and secondary sources' (criterion 4) but model answer provides none. For 4 marks, this is a substantive omission. Answer discusses causes but lacks any documentary or scholarly evidence.",
+            "correction": "Add primary source evidence (e.g., contemporary accounts of economic hardship, political demands) or secondary source references to support claims about political discontent and economic difficulties."
+          },
+          {
+            "label": "6c",
+            "severity": "poor",
+            "detail": "Model answer conflates Bismarck's role (1862-1871) with the 1848-49 revolutions' long-term consequences. The question asks about consequences of 1848-49 revolutions on unification path, but answer primarily describes Bismarck's separate realpolitik strategy rather than tracing ideological/political continuity from the revolutions themselves.",
+            "correction": "Restructure to show: how 1848-49 nationalist/liberal sentiment persisted; how it influenced subsequent movements; how Bismarck co-opted or rejected these ideals; then explain the contrast between revolutionary constitutional aims and 1871 outcome."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Model answer states Congress of Vienna 'established the German Confederation' but this is imprecise. The Congress created the framework; the Confederation was formally established by the Final Act (1815). Answer also underexplains how these 'weaknesses' specifically contributed to unification rather than merely hindering cooperation.",
+            "correction": "Clarify: Congress established the principle; Final Act (1815) formally created Confederation. Explain how Austrian dominance and lack of central authority created power vacuum that Bismarck exploited, and how economic fragmentation motivated Zollverein and later unification."
+          },
+          {
+            "label": "8a and 9a",
+            "severity": "poor",
+            "detail": "Questions 8a and 9a are identical in content and marking criteria, with nearly identical model answers. This represents question duplication within the same assessment, violating the requirement to check for repeated questions with the same data.",
+            "correction": "Remove one instance (recommend removing 9a) or substantially differentiate by asking different aspects (e.g., 8a on Congress/Confederation framework; 9a on nationalist sentiment or economic integration separately)."
+          },
+          {
+            "label": "8b and 9b",
+            "severity": "poor",
+            "detail": "Questions 8b and 9b are substantively identical with nearly identical model answers. Both ask about Bismarck's role and policies leading to 1871 German Empire. This violates the no-repetition requirement.",
+            "correction": "Differentiate: e.g., 8b on Bismarck's intentions/strategies; 9b on specific wars and their outcomes; or 9b on domestic Prussian reforms vs. external wars."
+          },
+          {
+            "label": "8c and 9c",
+            "severity": "poor",
+            "detail": "Questions 8c and 9c are identical, asking about economic developments and Zollverein's role in unification. Model answers are nearly identical. This is the third repeated question set in sections 8 and 9.",
+            "correction": "Remove duplication. If both sections needed, differentiate by asking: 8c on Zollverein's economic mechanisms; 9c on how economic integration influenced political attitudes toward unification."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Question 10a repeats question 3a (both ask 'Explain why urbanisation resulted from industrialisation in Britain during this period' with identical marking criteria). Model answers are substantively similar. This violates the no-repetition requirement.",
+            "correction": "Remove question 10a or substantially differentiate (e.g., ask about regional variations, timeline differences, or comparison with continental Europe)."
+          },
+          {
+            "label": "10b",
+            "severity": "poor",
+            "detail": "Question 10b repeats question 3b (both ask about consequences of urbanisation on working-class living conditions with identical marking criteria). Model answers are substantively similar.",
+            "correction": "Remove question 10b or differentiate by asking about: government responses, regional variations, or comparison of urban vs. rural working-class conditions."
+          }
+        ],
+        "summary": "Assessment contains substantive duplication: questions 8-9 are nearly identical (8a/9a, 8b/9b, 8c/9c); questions 3 and 10 repeat (3a/10a, 3b/10b). Question 5a lacks required source evidence. Model answers for 3a, 3b, 8a lack sufficient detail/examples for mark allocation. Question 6c conflates 1848-49 consequences with Bismarck's separate strategy."
+      },
+      "totalSeconds": 65
+    },
+    {
+      "index": 4,
+      "label": "Cambridge / Practice / Complete English for Cambridge Lower Secondary Student Book 7 ",
+      "request": {
+        "subject": "Complete English for Cambridge Lower Secondary Student Book 7 ",
+        "textbook_id": 58,
+        "topic_ids": [
+          643
+        ],
+        "topics": [
+          "Manic media"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Complete English for Cambridge Lower Secondary Student Book 7 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 3331501060,
+      "error": "Error: Generation failed: Bedrock request timed out after 9000ms (modelId=eu.amazon.nova-micro-v1:0).",
+      "stage": "complete",
+      "generationSeconds": 34,
+      "status": 500,
+      "totalSeconds": 34
+    },
+    {
+      "index": 3,
+      "label": "Cambridge / Exam / Cambridge Primary Science 2 Learners Book PDF ",
+      "request": {
+        "subject": "Cambridge Primary Science 2 Learners Book PDF ",
+        "textbook_id": 49,
+        "topic_ids": [
+          566
+        ],
+        "topics": [
+          "The Earth and the Sun"
+        ],
+        "curriculum": "cambridge",
+        "grade": 2,
+        "className": "Cambridge Primary Science 2 Learners Book PDF ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 72,
+      "status": 200,
+      "numbered": 10,
+      "parts": 22,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 8,
+          "detail": "6 questions open with the same sentence (9, 11, 13, 16, 18, 22): \"Describe how the length of the shadow changes from\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 9"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1a",
+            "severity": "poor",
+            "detail": "Marking criteria allows both morning and evening as correct, but question asks 'Is it more likely to be midday or evening?' This phrasing suggests a binary choice between two options, not three. Ambiguity between question intent and marking criteria.",
+            "correction": "Clarify question: either ask 'Is it more likely to be midday, morning, or evening?' or revise marking criteria to reflect the binary choice presented."
+          },
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Marking criteria lists 2 marks but only describes content (correct time + explanation). No mark allocation specified (e.g., 1 mark each). Model answer gives 10:30 but diagram description says shadow 'near the lines for 10 and 11'—10:30 is reasonable but not explicitly justified.",
+            "correction": "Specify mark allocation: '1 mark for stating time between 10–11; 1 mark for explaining shadow position.' Clarify if 10:30 or 'between 10 and 11' is expected."
+          },
+          {
+            "label": "2b",
+            "severity": "poor",
+            "detail": "Question asks about shadow length changes 'on a sundial' but model answer describes shadow length (which does change), not shadow direction/position (which rotates on a sundial). Conflates two different phenomena.",
+            "correction": "Revise question to: 'Describe how the shadow on a sundial moves throughout the day' OR revise model answer to clarify that shadow length also changes on a sundial as Sun's angle changes."
+          },
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Question 3a is identical to Question 1a (same context, same image, same question wording). Assessment repeats the same question with identical data.",
+            "correction": "Remove Question 3a or replace with distinct question (e.g., different time scenario or different phenomenon)."
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Question 3b is identical to Question 1b (same context, same question wording about shadow length changes throughout day). Repeated question.",
+            "correction": "Remove Question 3b or replace with distinct question."
+          },
+          {
+            "label": "3c",
+            "severity": "poor",
+            "detail": "Marking criteria item 2 reads 'Explanation of how the of the Sun affects shadow length' — incomplete text ('the of the Sun'). Appears to be corrupted/missing word.",
+            "correction": "Correct to: 'Explanation of how the angle of the Sun affects shadow length.'"
+          },
+          {
+            "label": "4a",
+            "severity": "poor",
+            "detail": "Marking criteria item 2 reads 'Explanation of how the of the Sun's affects the length of the shadow' — incomplete/corrupted text ('the of the Sun's'). Missing word.",
+            "correction": "Correct to: 'Explanation of how the angle of the Sun's rays affects the length of the shadow.'"
+          },
+          {
+            "label": "6c",
+            "severity": "poor",
+            "detail": "Question asks to 'State whether it is more likely to be morning, midday, or evening' but marking criteria only lists 2 marks. For a 3-option identification question, mark allocation is unclear.",
+            "correction": "Clarify: is this 1 mark for correct identification + 1 mark for brief justification? Specify mark breakdown."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Marking criteria item 2 reads 'Mention of the of.' — incomplete/corrupted text. Missing word(s).",
+            "correction": "Correct to: 'Mention of the angle of sunlight' or similar."
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Marking criteria item 2 reads 'Explanation correctly states that the Sun is in the sky and.' — incomplete/corrupted text. Sentence fragment.",
+            "correction": "Correct to: 'Explanation correctly states that the Sun is lower in the sky during morning and evening.'"
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Marking criteria item 3 reads 'Accept: the comes from a low / the are at a low.' — corrupted text with missing words ('the comes', 'the are').",
+            "correction": "Correct to: 'Accept: because the light comes from a low angle / the light rays are at a low angle.'"
+          }
+        ],
+        "summary": "Assessment contains 10 substantive issues: 2 repeated questions (1a/3a, 1b/3b), 5 corrupted marking criteria texts with missing words, 1 ambiguous question phrasing, 1 conflation of shadow length vs. position on sundial, and 1 unclear mark allocation. No factual errors in science content detected."
+      },
+      "totalSeconds": 81
+    },
+    {
+      "index": 5,
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+      "request": {
+        "subject": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+        "textbook_id": 611,
+        "topic_ids": [
+          4296
+        ],
+        "topics": [
+          "Chapter 6: Data collection and sampling"
+        ],
+        "curriculum": "cambridge",
+        "grade": 9,
+        "className": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 61,
+      "status": 200,
+      "numbered": 10,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "7 questions open with the same sentence (3, 7, 11, 13, 15, 17, 19): \"Explain why it is important to choose a random sam\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 3,
+          "detail": "4 questions open with the same sentence (4, 8, 12, 14): \"Describe a method to select a random sample of 50 \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 16"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 16"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "3a",
+            "severity": "broken",
+            "detail": "Topic label corrupted: 'Chapter 6: Data collection and sampling — cm side, not the a cm side.' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+            "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+          },
+          {
+            "label": "3b",
+            "severity": "broken",
+            "detail": "Topic label corrupted: 'Chapter 6: Data collection and sampling — cm side, not the a cm side.' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+            "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+          },
+          {
+            "label": "6a",
+            "severity": "broken",
+            "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+            "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+          },
+          {
+            "label": "6b",
+            "severity": "broken",
+            "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+            "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+          },
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+            "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+          },
+          {
+            "label": "10a",
+            "severity": "broken",
+            "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+            "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+          },
+          {
+            "label": "10b",
+            "severity": "broken",
+            "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+            "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+          },
+          {
+            "label": "4a",
+            "severity": "poor",
+            "detail": "Model answer contains redundant duplication: 'Choosing a random sample ensures that every visitor has an equal chance of being selected, providing an unbiased representation of the entire population.' repeats the same idea twice in succession.",
+            "correction": "Remove the second sentence or consolidate into single coherent statement."
+          },
+          {
+            "label": "4b",
+            "severity": "poor",
+            "detail": "Model answer contains redundant duplication: 'Assign each visitor a unique number from 1 to 500. Use a random number generator or draw numbers from a hat to select 50 unique numbers.' repeats the method twice.",
+            "correction": "Remove the second repetition or consolidate into single clear statement."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Model answer contains redundant duplication: 'Choosing a random sample is important because it ensures that every member of the library has an equal chance of being selected for the survey. This helps to avoid bias and ensures that the sample is representative of the entire membership.' is repeated verbatim.",
+            "correction": "Remove the second repetition of the identical statement."
+          },
+          {
+            "label": "8b",
+            "severity": "poor",
+            "detail": "Model answer contains redundant duplication: 'One method to select a random sample of 30 members from a library with 300 members is to number each member from 1 to 300. Then, use a random number generator or draw numbers from a hat to select 30 different numbers.' is repeated verbatim.",
+            "correction": "Remove the second repetition of the identical statement."
+          }
+        ],
+        "summary": "Assessment contains 20 questions on data collection and sampling (Chapter 6), all age-appropriate and on-topic. Substantive issues: 7 corrupted topic labels containing irrelevant geometry text ('cm side, not the a cm side'). Additional issue: 4 model answers contain verbatim duplication. Content validity and marking criteria are sound."
+      },
+      "totalSeconds": 67
+    },
+    {
+      "index": 6,
+      "label": "REB / Exam / P3-English-PB (1)",
+      "request": {
+        "subject": "P3-English-PB (1)",
+        "textbook_id": 150,
+        "topic_ids": [
+          1561,
+          1559
+        ],
+        "topics": [
+          "UNIT 10: Shopping",
+          "UNIT 8: Rwanda"
+        ],
+        "curriculum": "rwanda",
+        "grade": 3,
+        "className": "P3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 76,
+      "status": 200,
+      "numbered": 10,
+      "parts": 24,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 1,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 1"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1a",
+            "severity": "broken",
+            "detail": "Model answer states '030 degrees' but explanation and marking criteria indicate compass bearing format should be '060°'. The bearing from North clockwise to 30° North of East is 60°, not 30°. Inconsistency between model answer and explanation.",
+            "correction": "Model answer should be: 'The compass bearing from point A to point B is 60° (or N60°E). East is at 90° on the compass. Moving 30° toward North from East: 90° − 30° = 60°.'"
+          },
+          {
+            "label": "1b",
+            "severity": "broken",
+            "detail": "Model answer states '210 degrees' but explanation contradicts this. If A→B is 60°, then B→A should be 60° + 180° = 240°, not 210°. The calculation shown (270° − 30° = 240°) contradicts the stated answer of 210°.",
+            "correction": "Model answer should be: 'The compass bearing from point B to point A is 240°. The reverse bearing is 180° opposite to the forward bearing: 60° + 180° = 240°.'"
+          },
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Question asks to 'Explain why' but marking criteria and model answer only require naming the capital. Mismatch between question demand (explain) and assessment criteria (identify). Model answer is single word 'Kigali' but hints demand full development.",
+            "correction": "Either revise question to 'Name the capital city' or require explanation of why Kigali is the capital (e.g., administrative centre, largest city)."
+          },
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Marking criteria require one mountain, one river, one lake (3 features total), but model answer lists 3 mountains, 3 rivers, 3 lakes (9 features). Criteria-answer mismatch. Question asks 'Name three' but criteria specify one of each type.",
+            "correction": "Clarify: either require 'one mountain, one river, one lake' OR 'any three geographical features'. Adjust model answer accordingly."
+          },
+          {
+            "label": "4b",
+            "severity": "poor",
+            "detail": "Model answer lists 'milk, bread' as uncountable, but 'bread' is typically countable (1 loaf, 2 loaves). The context shows '1 loaf of bread' where 'loaf' is countable. Factual error in classification.",
+            "correction": "Model answer should be: 'Uncountable nouns: milk. (Bread is countable when measured as loaves.)' Or revise context to use 'flour' instead of 'bread'."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Marking criteria specify 'Correct spelling of the items' but model answer provides only 3 items. Criteria do not align with question demand (name three items). Criteria should specify 'any three items from extract'.",
+            "correction": "Revise marking criteria to: 'Identification of any three items from the extract; Correct spelling of items named.'"
+          },
+          {
+            "label": "6a",
+            "severity": "poor",
+            "detail": "Model answer classifies rice, sugar, flour as uncountable, but these are measured in kg (countable units). They are mass nouns but presented with countable quantities. Classification is oversimplified for Grade 3 context.",
+            "correction": "Clarify: 'Rice, sugar, flour are mass nouns measured in kilograms. Bananas and apples are count nouns (individual items).'"
+          },
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Marking criteria state 'Calculate 090° − 30° = 060°' but model answer states '060°' while explanation says '030 degrees'. Internal contradiction. Criteria and explanation conflict on final answer.",
+            "correction": "Align all to 060°: Model answer and explanation should both state 'The compass bearing is 060°' with calculation 090° − 30° = 060°."
+          },
+          {
+            "label": "7b",
+            "severity": "broken",
+            "detail": "Marking criteria state 'Calculate 270° − 30° = 240°' but explanation states '210 degrees'. Criteria and explanation contradict. Model answer correctly states 240° but explanation is wrong.",
+            "correction": "Revise explanation to: 'To find the reverse bearing, add 180° to the forward bearing: 060° + 180° = 240°.'"
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Marking criteria require 'Description of fresh fruits', 'Description of vegetables', 'Description of grains and dairy products' (3 criteria) but question asks to 'Describe what you see' (singular). Criteria are overly prescriptive for a description task.",
+            "correction": "Revise marking criteria to: 'Identifies fresh fruits; Identifies vegetables, grains, dairy products; Mentions handmade crafts and clothing.'"
+          },
+          {
+            "label": "9b",
+            "severity": "poor",
+            "detail": "Marking criteria specify 'Correct identification of an apple', 'Correct identification of a banana', 'Correct identification of an orange' (3 marks for 3 items) but question is worth 3 marks total. Marks allocation unclear.",
+            "correction": "Clarify: either 1 mark per item (3 marks total) or adjust criteria to reflect total mark value."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Question context and marking criteria are age-appropriate for Grade 3, but compass bearing calculations (90° − 30° = 60°) exceed typical Grade 3 curriculum. Content mismatch with stated grade level.",
+            "correction": "Verify alignment with P3-English-PB curriculum. If included, simplify to cardinal directions (N, S, E, W) rather than degree calculations."
+          },
+          {
+            "label": "10b",
+            "severity": "poor",
+            "detail": "Marking criteria reference 'S60°W' notation but model answer uses only '240°'. Notation inconsistency. Grade 3 students unlikely to use quadrant bearing notation.",
+            "correction": "Standardize to single notation format: either '240°' or 'S60°W', not both. Recommend '240°' for Grade 3."
+          }
+        ],
+        "summary": "Assessment contains 12 substantive issues: 4 broken (contradictory answers/explanations in compass bearing questions 1b, 7a, 7b; grade-inappropriate content in 2a); 8 poor (classification errors in 4b, 6a; criteria-question misalignment in 2a, 3a, 5b, 9a, 9b; age-appropriateness in 10a, 10b). Repeated market context across questions 5, 8, 9 with identical extract. Compass bearing calculations exceed Grade 3 expectations."
+      },
+      "totalSeconds": 89
+    },
+    {
+      "index": 8,
+      "label": "Cambridge / Practice / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "request": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          255
+        ],
+        "topics": [
+          "Matrices 1"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 23,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "4",
+            "severity": "poor",
+            "detail": "Question labeled 'Matrices 1' but sourced from 'The inverse matrix' subtopic. While related, this creates inconsistency with stated topic focus. Minor categorization issue.",
+            "correction": "Verify question aligns with primary 'Matrices 1' topic scope or clarify subtopic inclusion in assessment design."
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Explanation section lists options A, B, C, D but MCQ options are numbered 0-3. Labeling mismatch creates potential confusion in marking/review.",
+            "correction": "Align explanation option labels with MCQ numbering (0-3) or use consistent A-D labeling throughout."
+          }
+        ],
+        "summary": "Assessment is substantively sound. All 10 questions are answerable, age-appropriate for Grade 12, and mathematically correct. Minor inconsistencies exist in topic categorization (Q4) and explanation labeling (Q7) that do not affect content validity. No repeated questions or missing data detected."
+      },
+      "totalSeconds": 26
+    },
+    {
+      "index": 9,
+      "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+      "request": {
+        "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "textbook_id": 209,
+        "topic_ids": [
+          2571,
+          2585
+        ],
+        "topics": [
+          "Chapter 7: Density and floating",
+          "Chapter 21: Properties of sound"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 129,
+      "status": 200,
+      "numbered": 20,
+      "parts": 57,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "11 questions open with the same sentence (1, 4, 10, 21, 30, 33, 36, 39, 44, 46, 52): \"Calculate the wavelength of the sound wave.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "11 questions open with the same sentence (2, 5, 11, 22, 31, 34, 37, 40, 45, 47, 53): \"Explain how the pitch of the sound would change if\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "9 questions open with the same sentence (3, 6, 12, 23, 32, 35, 38, 48, 54): \"Describe how the loudness of the sound would chang\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 8,
+          "detail": "5 questions open with the same sentence (9, 17, 29, 43, 51): \"Will the rod float or sink in water? Explain.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 12,
+          "detail": "8 questions open with the same sentence (13, 15, 18, 24, 27, 41, 49, 55): \"Calculate its volume.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 13,
+          "detail": "8 questions open with the same sentence (14, 16, 19, 25, 28, 42, 50, 56): \"Calculate its density in g/cm³.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 3,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 4,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 12,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 14,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 17,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 23,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 20"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 26,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 29,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 30,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 31,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 32,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 33,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 34,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 35,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 36,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 37,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 38,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 39,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 40,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 40,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 41,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 42,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 43,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 44,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 45,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 46,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 47,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 48,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 48,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 49,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 50,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 51,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 52,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 53,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 54,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 54,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 55,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 56,
+          "detail": "same as question 20"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c",
+          "11a",
+          "11b",
+          "11c",
+          "12a",
+          "12b",
+          "12c",
+          "13a",
+          "13b",
+          "13c",
+          "14a",
+          "14b",
+          "15a",
+          "15b",
+          "15c",
+          "16a",
+          "16b",
+          "17a",
+          "17b",
+          "17c",
+          "18a",
+          "18b",
+          "18c",
+          "19a",
+          "19b",
+          "19c",
+          "20a",
+          "20b",
+          "20c"
+        ],
+        "issues": [
+          {
+            "label": "1c",
+            "severity": "poor",
+            "detail": "Model answer claims loudness increases 'by the same factor' (4×) when amplitude increases 4×. Physically, loudness (perceived intensity) is logarithmic; intensity is proportional to amplitude squared. Amplitude 4× → intensity 16×, not 4×.",
+            "correction": "Model answer should state: 'Loudness will increase significantly. Loudness is related to the intensity of the sound wave, which depends on amplitude squared. Increasing amplitude by a factor of 4 increases intensity by a factor of 16, making the sound much louder.'"
+          },
+          {
+            "label": "2c",
+            "severity": "poor",
+            "detail": "Model answer incorrectly states loudness increases 'by a factor of 4' when amplitude increases 4×. Same error as 1c: intensity ∝ amplitude², so 4× amplitude → 16× intensity.",
+            "correction": "Model answer should state: 'Loudness will increase significantly because intensity is proportional to amplitude squared. Increasing amplitude by a factor of 4 increases intensity by a factor of 16.'"
+          },
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Model answer gives 70.7 cm³ but calculation shown is π(1.5)²(10) = π(2.25)(10) = 70.685... ≈ 70.7 cm³. Rounding is acceptable but inconsistent with later parts using 70.65 cm³.",
+            "correction": "Use consistent rounding: either 70.7 cm³ or 70.65 cm³ throughout all related questions. Recommend 70.7 cm³ (2 s.f. appropriate for given data)."
+          },
+          {
+            "label": "4c",
+            "severity": "poor",
+            "detail": "Model answer states loudness 'would also increase' without quantifying. Same amplitude-loudness error: intensity ∝ amplitude², not linearly.",
+            "correction": "Model answer should clarify: 'Loudness will increase significantly. Since intensity is proportional to amplitude squared, increasing amplitude by a factor of 4 increases intensity by a factor of 16, making the sound much louder.'"
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Model answer gives 70.65 cm³ but uses π without specifying value. Calculation: π(1.5)²(10) = 70.685... Rounding differs from question 3a (70.7 cm³).",
+            "correction": "Standardize: state 'V = π(1.5)²(10) ≈ 70.7 cm³' or consistently use 70.65 cm³ across all cylinder questions."
+          },
+          {
+            "label": "6a",
+            "severity": "poor",
+            "detail": "Model answer uses π = 3.14 explicitly, giving 70.65 cm³. This differs from questions 3a/5a which use π ≈ 3.14159, yielding 70.7 cm³. Inconsistent precision across identical scenarios.",
+            "correction": "Standardize all cylinder volume calculations to use same π value and rounding convention across questions 3a, 5a, 6a, 10a, 15a, 18a."
+          },
+          {
+            "label": "8c",
+            "severity": "poor",
+            "detail": "Model answer: 'Loudness would increase significantly...increasing amplitude by a factor of 4 would make the sound much louder.' Lacks quantitative relationship; intensity ∝ amplitude², so 4× amplitude → 16× intensity.",
+            "correction": "Add: 'Since intensity is proportional to amplitude squared, a 4× increase in amplitude results in a 16× increase in intensity.'"
+          },
+          {
+            "label": "11c",
+            "severity": "poor",
+            "detail": "Model answer: 'Increasing amplitude by a factor of 4 will increase loudness.' Vague; does not explain intensity ∝ amplitude² relationship.",
+            "correction": "Clarify: 'Loudness increases significantly because intensity is proportional to amplitude squared. A 4× amplitude increase produces a 16× intensity increase.'"
+          },
+          {
+            "label": "12c",
+            "severity": "poor",
+            "detail": "Model answer: 'Increasing amplitude by a factor of 4 will increase loudness of the sound.' Lacks quantitative explanation of amplitude-intensity relationship.",
+            "correction": "Add: 'Since intensity is proportional to amplitude squared, increasing amplitude by a factor of 4 increases intensity by a factor of 16.'"
+          },
+          {
+            "label": "13c",
+            "severity": "poor",
+            "detail": "Model answer: 'Loudness will also increase significantly' without explaining intensity ∝ amplitude² relationship.",
+            "correction": "Clarify: 'Loudness increases significantly. Since intensity is proportional to amplitude squared, a 4× amplitude increase produces a 16× intensity increase.'"
+          },
+          {
+            "label": "14b",
+            "severity": "poor",
+            "detail": "Question 14 context ends abruptly; question 14b exists but question 14c is missing. Assessment is incomplete for this question set.",
+            "correction": "Either complete question 14 with part (c) or remove incomplete question set."
+          },
+          {
+            "label": "17c",
+            "severity": "poor",
+            "detail": "Model answer: 'Loudness will also increase' without quantifying. Lacks intensity ∝ amplitude² explanation.",
+            "correction": "Add: 'Since intensity is proportional to amplitude squared, a 4× amplitude increase produces a 16× intensity increase.'"
+          },
+          {
+            "label": "20a",
+            "severity": "broken",
+            "detail": "Model answer states 144 cm³ = 0.0144 m³. Correct conversion: 144 cm³ = 0.000144 m³ (1 cm³ = 10⁻⁶ m³). Error by factor of 100.",
+            "correction": "Model answer should state: 'V = 6.0 × 8.0 × 3.0 = 144 cm³ = 0.000144 m³' or omit m³ conversion if not required."
+          }
+        ],
+        "summary": "Assessment contains 51 questions across density/floating and sound properties. Main issues: systematic errors in amplitude-loudness relationship (10 questions incorrectly state linear proportionality instead of intensity ∝ amplitude²); inconsistent π rounding in cylinder volumes; unit conversion error in 20a (off by factor 100); incomplete question 14. No missing data or repeated identical questions detected."
+      },
+      "totalSeconds": 141
+    },
+    {
+      "index": 7,
+      "label": "REB / Exam / Geography SB S6",
+      "request": {
+        "subject": "Geography SB S6",
+        "textbook_id": 112,
+        "topic_ids": [
+          1191
+        ],
+        "topics": [
+          "World Multipurpose River Projects"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 198,
+      "status": 200,
+      "numbered": 10,
+      "parts": 30,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "10 questions open with the same sentence (1, 4, 7, 10, 13, 16, 19, 22, 25, 28): \"Calculate the percentage of the total water flow r\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "10 questions open with the same sentence (2, 5, 8, 11, 14, 17, 20, 23, 26, 29): \"Explain one problem that could arise from sediment\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "10 questions open with the same sentence (3, 6, 9, 12, 15, 18, 21, 24, 27, 30): \"Describe how water pollution could affect the drin\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 3,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 4,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 29,
+          "detail": "same as question 3"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: question marked under 'Definition, aim, objectives and importance of multipurpose river Projects' (subtopic_id 5866) but should be 'Problems affecting Multipurpose River Projects' (subtopic_id 5867) to match question content on sedimentation problems.",
+            "correction": "Change topic_label to 'Problems affecting Multipurpose River Projects' and subtopic_id to 5867"
+          },
+          {
+            "label": "10b",
+            "severity": "poor",
+            "detail": "Marking criteria specifies 2 marks total but lists only 2 criteria (1 mark each). However, model answer is comprehensive and appropriate for 2 marks. Inconsistency: question 10a has 3 marks with 3 criteria; questions 10b and 10c should align with consistent mark distribution across parts.",
+            "correction": "Clarify if 10b should be 3 marks (add third criterion) or confirm 2 marks is intentional with explicit justification"
+          }
+        ],
+        "summary": "Assessment contains 10 questions (30 parts) across identical contexts with consistent data. All calculations verified as correct (25% answer). Model answers are substantive and age-appropriate for Grade 12. One topic labeling error in 3b; one minor mark distribution inconsistency in 10b. No repeated questions with identical data; no missing passages."
+      },
+      "totalSeconds": 203
+    },
+    {
+      "index": 10,
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+      "request": {
+        "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "textbook_id": 200,
+        "topic_ids": [
+          2515,
+          2508
+        ],
+        "topics": [
+          "Chapter 9: Database structure",
+          "Chapter 2: The structure of a data packet"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 65,
+      "status": 200,
+      "numbered": 10,
+      "parts": 25,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "7 questions open with the same sentence (1, 3, 5, 8, 15, 18, 23): \"State two items of data found in a packet header.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "7 questions open with the same sentence (2, 4, 6, 9, 16, 19, 24): \"Give one reason why packets of one message may arr\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 6,
+          "detail": "5 questions open with the same sentence (7, 10, 17, 20, 25): \"Describe how error detection can be achieved using\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 2,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 3,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 4,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 7"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Topic label states 'The universal serial bus (USB)' but question content and marking criteria are generic packet header items, not USB-specific. USB packets have different header structures than general network packets.",
+            "correction": "Either correct topic_label to 'The structure of a data packet' or provide USB-specific header items (e.g., PID, endpoint, frame number)."
+          },
+          {
+            "label": "2b",
+            "severity": "poor",
+            "detail": "Topic label 'The universal serial bus (USB)' is inconsistent with question content about network routers and congestion. USB is a serial bus protocol; packets do not route through multiple routers.",
+            "correction": "Correct topic_label to 'The structure of a data packet' or revise question to address USB-specific transmission characteristics."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Model answer shows '162 (72 + 90)' but marking criteria only require identifying rows and calculating sum. The parenthetical working is helpful but not explicitly required by criteria.",
+            "correction": "Model answer should be '162' alone, or marking criteria should explicitly require showing calculation steps."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Topic label 'The universal serial bus (USB)' with generic packet header question (destination/source address). USB packet headers contain protocol-specific fields (PID, endpoint, frame number), not generic network addresses.",
+            "correction": "Align topic to 'The structure of a data packet' or provide USB-specific header content."
+          },
+          {
+            "label": "8b",
+            "severity": "poor",
+            "detail": "Question about packets arriving out of order via different router paths is inconsistent with USB topic. USB is a serial bus with deterministic, single-path transmission; packets do not route through multiple routers.",
+            "correction": "Correct topic_label to 'The structure of a data packet' or revise question for USB context."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Model answer conflates generic network packet headers with USB packet headers. USB packets use PID, endpoint, frame number—not destination/source addresses. Answer is factually incorrect for USB context.",
+            "correction": "Provide USB-specific header items or correct topic_label to 'The structure of a data packet'."
+          },
+          {
+            "label": "10b",
+            "severity": "poor",
+            "detail": "Question assumes USB packets route through multiple routers and experience congestion-based reordering. USB is a serial bus protocol with single deterministic path; this scenario does not apply.",
+            "correction": "Revise question for USB context (e.g., address buffering, hub delays) or correct topic_label."
+          },
+          {
+            "label": "10c",
+            "severity": "poor",
+            "detail": "Checksum explanation is generic and applies equally to all packet types. No USB-specific content despite topic label. Model answer does not distinguish USB error detection from general packet error detection.",
+            "correction": "Add USB-specific error detection details or correct topic_label to 'The structure of a data packet'."
+          }
+        ],
+        "summary": "Assessment contains 8 topic-content misalignments: questions 2a, 2b, 8a, 8b, 10a, 10b, 10c labeled 'USB' but contain generic network packet content. USB is a serial bus protocol; packets do not route through multiple routers or experience congestion-based reordering. Either correct topic labels or provide USB-specific content. Question 5b model answer includes optional working not required by criteria."
+      },
+      "totalSeconds": 71
+    },
+    {
+      "index": 11,
+      "label": "REB / Exam / Physics S4 SB (1)",
+      "request": {
+        "subject": "Physics S4 SB (1)",
+        "textbook_id": 173,
+        "topic_ids": [
+          1818,
+          1815
+        ],
+        "topics": [
+          "Unit 9: Universal gravitational field potential",
+          "Unit 6: Sources of Energy in the World"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 77,
+      "status": 200,
+      "numbered": 10,
+      "parts": 27,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 16"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 17"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 18"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 16"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 17"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 18"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "1b",
+            "severity": "broken",
+            "detail": "Grid arrangement error: 100 cells in 10×10 grid is correct, but question states cells are arranged in a 10 by 10 grid (100 cells total), yet model answer divides 6m² by 100 to get 0.06m² per cell. This is mathematically correct but the question's grid specification is redundant/contradictory with the stated 100 cells.",
+            "correction": "Question is answerable as stated. No correction needed; the arithmetic is valid."
+          },
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Model answer uses incomplete cylinder surface area formula. For evacuated tubes (hollow cylinders), only lateral surface area 2πrh should apply, not 2πrh + 2πr² (which includes end caps). End caps are not exposed to sunlight in typical tube collector design.",
+            "correction": "Surface area per tube = 2πrh = 2π(0.025)(1.5) = 0.075π m². Total for 3 panels: 3 × 50 × 0.075π = 11.25π ≈ 35.3 m²."
+          },
+          {
+            "label": "4a",
+            "severity": "poor",
+            "detail": "Model answer leaves satellite mass (m₂) as unknown variable, yielding F = 8.96m₂ N. Question asks to 'Calculate the gravitational force' but provides no satellite mass. Answer is incomplete without assuming or stating satellite mass.",
+            "correction": "Either provide satellite mass in question context, or state 'F = 8.96m N where m is satellite mass in kg' and note that typical LEO satellites are 100–5000 kg, giving F ≈ 0.9–45 kN."
+          },
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Inconsistent nuclei count between questions 7a and 10a. Question 7a model answer states 2.56 × 10²⁵ nuclei; question 10a states 2.56 × 10²⁴ nuclei. Both use same 10 kg U-235 mass. Correct value is 2.56 × 10²⁵ (from 10 kg ÷ 0.235 kg/mol × 6.022 × 10²³).",
+            "correction": "Question 10a model answer should read: 2.56 × 10²⁵ nuclei (not 10²⁴). Total energy in 10a should be 8.2 × 10¹⁴ J (not 8.2 × 10¹³ J)."
+          },
+          {
+            "label": "10a",
+            "severity": "broken",
+            "detail": "Model answer states 2.56 × 10²⁴ nuclei and total energy 8.2 × 10¹³ J. Correct calculation: (10 kg / 0.235 kg/mol) × 6.022 × 10²³ = 2.56 × 10²⁵ nuclei; total energy = 3.204 × 10⁻¹¹ × 2.56 × 10²⁵ = 8.2 × 10¹⁴ J. Off by factor of 10.",
+            "correction": "Number of nuclei: 2.56 × 10²⁵. Total energy: 8.2 × 10¹⁴ J."
+          },
+          {
+            "label": "10b",
+            "severity": "broken",
+            "detail": "Model answer states 2.56 × 10²⁴ nuclei. Correct calculation: (10 kg / 0.235 kg/mol) × 6.022 × 10²³ = 2.56 × 10²⁵ nuclei. Off by factor of 10.",
+            "correction": "Number of nuclei = 2.56 × 10²⁵ (not 2.56 × 10²⁴)."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Question 8a is duplicate of question 4a with identical context and nearly identical model answer. Assessment repeats same question twice with same data, violating no-repetition requirement.",
+            "correction": "Remove question 8a or replace with distinct gravitational scenario (different satellite mass, altitude, or celestial body)."
+          },
+          {
+            "label": "8b",
+            "severity": "poor",
+            "detail": "Question 8b is duplicate of question 4b. Identical context, identical orbital speed calculation, identical numerical answer (7.73 km/s). Violates no-repetition requirement.",
+            "correction": "Remove question 8b or replace with distinct orbital mechanics problem."
+          },
+          {
+            "label": "8c",
+            "severity": "poor",
+            "detail": "Question 8c is duplicate of question 4c. Identical question text, identical model answer explaining g = GM/r². Violates no-repetition requirement.",
+            "correction": "Remove question 8c or replace with distinct conceptual question on gravitational fields."
+          },
+          {
+            "label": "9a",
+            "severity": "broken",
+            "detail": "Question 9a is duplicate of question 7a with identical context (10 kg U-235, 200 MeV per fission). Model answer in 9a correctly states 2.56 × 10²⁵ nuclei and 8.2 × 10¹⁴ J, but question 10a repeats same scenario with incorrect answer (2.56 × 10²⁴, 8.2 × 10¹³ J). Violates no-repetition requirement.",
+            "correction": "Remove questions 9a–9c or replace with distinct nuclear fuel scenario (different isotope, mass, or energy per fission)."
+          },
+          {
+            "label": "9b",
+            "severity": "poor",
+            "detail": "Question 9b is duplicate of question 7b. Identical question asking for number of U-235 nuclei in 10 kg. Violates no-repetition requirement.",
+            "correction": "Remove question 9b or replace with distinct calculation."
+          },
+          {
+            "label": "9c",
+            "severity": "poor",
+            "detail": "Question 9c is duplicate of question 7c. Identical question on energy conversion in nuclear power plants. Violates no-repetition requirement.",
+            "correction": "Remove question 9c or replace with distinct conceptual question."
+          },
+          {
+            "label": "Unit 9 coverage",
+            "severity": "broken",
+            "detail": "Assessment requests 'Unit 9: Universal gravitational field potential' but only questions 4–5 and 8 address gravitational field concepts. No questions address gravitational potential energy, equipotential surfaces, or field strength—core Unit 9 topics. Unit 9 coverage is insufficient.",
+            "correction": "Add 2–3 questions on gravitational potential (U = −GM/r), potential energy changes, or equipotential surfaces to meet Unit 9 requirement."
+          }
+        ],
+        "summary": "Assessment contains 12 substantive issues: three complete question duplicates (8a–8c), three partial duplicates (9a–9c), one numerical error affecting two questions (10a–10b off by 10¹), one formula error (3a), one incomplete answer (4a), and insufficient Unit 9 coverage. Total 27 questions; 9 are duplicates or near-duplicates."
+      },
+      "totalSeconds": 92
+    },
+    {
+      "index": 13,
+      "label": "REB / Practice / GENERAL EDU-History-S5-SB",
+      "request": {
+        "subject": "GENERAL EDU-History-S5-SB",
+        "textbook_id": 100,
+        "topic_ids": [
+          1048
+        ],
+        "topics": [
+          "Impact of the Colonial Rule on the African Societies"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 18,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 4"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "poor",
+            "detail": "Question 2 and Question 7 are substantively identical (same stages in same order with minor wording variations). Both ask to order colonial rule stages: establishment → exploitation → new systems → cultural assimilation. This violates the no-repetition requirement.",
+            "correction": "Remove Question 7 or replace with distinct content (e.g., order specific resistance movements, colonial powers' chronology, or African societies' responses)."
+          },
+          {
+            "label": "8",
+            "severity": "broken",
+            "detail": "Categorization logic is inverted. Correct_category shows [1,0,1,0] but explanation states: cash crops and infrastructure are Economic, while disruption and education are Social. Array should be [0,1,0,1] to match the explanation.",
+            "correction": "Change correct_category from [1,0,1,0] to [0,1,0,1]."
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Explanation is weak. States 'weapons were not a primary focus' but weapons were integral to colonial conquest and enforcement. Better rationale: weapons are a means of colonization, not an outcome/impact like the others.",
+            "correction": "Revise explanation: 'Weapons enabled colonization but are not an impact/outcome of colonial rule, unlike cash crops, infrastructure, and education which resulted from it.'"
+          }
+        ],
+        "summary": "Assessment covers topic appropriately with age-suitable interactive formats. Critical issue: Question 2 and 7 duplicate identical content (colonial stages ordering). Question 8 has inverted categorization array. Question 9 explanation lacks clarity on why weapons differ. Recommend removing Q7 and correcting Q8 array."
+      },
+      "totalSeconds": 22
+    },
+    {
+      "index": 14,
+      "label": "Cambridge / Practice / Cambridge Primary Computing Learners Book Stage 4 ",
+      "request": {
+        "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "textbook_id": 39,
+        "topic_ids": [
+          480
+        ],
+        "topics": [
+          "Unit 8: Be an innovator"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 13,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Question 7 and Question 10 are substantively identical, both asking 'What does it mean to debug a program?' with the same correct answer (fix problems). This violates the requirement for unique MCQ answers across the assessment.",
+            "correction": "Replace Question 7 with a different debugging-related question, such as 'When should you debug your program?' or 'What is an example of a bug in a program?'"
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Question 9 duplicates Question 1's core concept (planning as first step), though contextualized to Scratch. Both ask about the first step in creating/solving problems, reducing assessment diversity.",
+            "correction": "Replace Question 9 with content addressing different Unit 8 topics, such as iterative improvement, user testing, or design thinking principles specific to Scratch."
+          }
+        ],
+        "summary": "Assessment covers Unit 8 topics appropriately for Grade 4. All questions are age-appropriate and answerable. However, Questions 7 and 10 are identical duplicates, and Questions 1 and 9 substantially overlap. Recommend replacing these with distinct questions to improve assessment validity."
+      },
+      "totalSeconds": 16
+    },
+    {
+      "index": 12,
+      "label": "REB / Exam / Physics Learners book S2",
+      "request": {
+        "subject": "Physics Learners book S2",
+        "textbook_id": 171,
+        "topic_ids": [
+          1788,
+          1792
+        ],
+        "topics": [
+          "Unit 9: Conservation of Mechanical Energy in Isolated System",
+          "Unit 13: Arrangement of Resistors in an Electric Circuit"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 53,
+      "status": 200,
+      "numbered": 10,
+      "parts": 29,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 11,
+          "detail": "4 questions open with the same sentence (12, 15, 24, 27): \"Calculate the total resistance of the circuit.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 16"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 17"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Model answer provides symbolic form v ≈ 1.28√(gL) but marking criteria require substitution of cos 30° = √3/2 ≈ 0.866. The calculation 2gL × 0.134 is correct (1 − 0.866 = 0.134), but the final symbolic answer should show v = √(2gL(1 − √3/2)) or v ≈ √(0.268gL) for consistency.",
+            "correction": "Model answer should state: v = √(2gL(1 − cos 30°)) = √(2gL(1 − √3/2)) = √(2gL × 0.134) ≈ 0.517√(gL) or approximately 1.28√(gL) if L and g are substituted numerically."
+          },
+          {
+            "label": "3b",
+            "severity": "broken",
+            "detail": "Model answer states Diagram A has 3Ω series resistors, but the figure description shows 3Ω and 5Ω in series (not two 3Ω resistors). The calculation correctly uses 3Ω + 5Ω + 3Ω = 11Ω, but the explanation text is inconsistent with the circuit description.",
+            "correction": "Clarify: 'In Diagram A, the series resistors are 3Ω and 5Ω (not two 3Ω resistors). The parallel 6Ω resistors combine to 3Ω. Total: 3Ω + 5Ω + 3Ω = 11Ω.'"
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Question 5a and 9a are identical (same context, same question, same answer). This violates the requirement to check for repeated questions with the same data.",
+            "correction": "Remove duplicate question 9a or replace with distinct circuit values/configuration."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Question 5b and 9b are identical (same context, same question, same answer). This violates the requirement to check for repeated questions with the same data.",
+            "correction": "Remove duplicate question 9b or replace with distinct scenario."
+          },
+          {
+            "label": "5c",
+            "severity": "poor",
+            "detail": "Question 5c and 9c are identical (same context, same question, same answer). This violates the requirement to check for repeated questions with the same data.",
+            "correction": "Remove duplicate question 9c or replace with distinct values."
+          },
+          {
+            "label": "4a",
+            "severity": "poor",
+            "detail": "Model answer uses g = 9.8 m/s² but no context specifies this value. For Rwanda curriculum, g = 10 m/s² is standard. Using g = 10 m/s² gives PE = 2 × 10 × 8 = 160 J, not 156.8 J.",
+            "correction": "Either specify g = 9.8 m/s² in the question context or use g = 10 m/s² for PE = 160 J. Recommend g = 10 m/s² for grade 8 Rwanda curriculum."
+          },
+          {
+            "label": "2b",
+            "severity": "poor",
+            "detail": "Model answer is incomplete. It states the formula T = 2π√(L/g) but does not explain why mass cancels out. The marking criteria require explanation of why mass term cancels, but the model answer does not derive or show this cancellation.",
+            "correction": "Expand model answer: 'The period formula T = 2π√(L/g) is derived from the balance of gravitational force and restoring force. The mass m appears in both the inertial term (ma) and gravitational term (mg), causing it to cancel algebraically, leaving only L and g.'"
+          },
+          {
+            "label": "8c",
+            "severity": "poor",
+            "detail": "Model answer does not explicitly relate the measured period to the formula T = 2π√(m/k) as required by marking criteria. It mentions the formula but does not explain how experimental data would be used to verify or derive it.",
+            "correction": "Add: 'Plot period T against √(m/k) to verify the linear relationship. The slope should equal 2π, confirming the formula T = 2π√(m/k).'"
+          }
+        ],
+        "summary": "Assessment contains substantive issues: three duplicate question sets (5a–5c repeated as 9a–9c), inconsistent gravitational acceleration value (9.8 vs 10 m/s²), incomplete model answers for pendulum period explanation (2b) and spring oscillation experiment (8c), and minor symbolic form inconsistency in pendulum speed calculation (2a). All topics fit curriculum; marking criteria are generally sound."
+      },
+      "totalSeconds": 63
+    },
+    {
+      "index": 15,
+      "label": "REB / Practice / P3 Mathematics PB",
+      "request": {
+        "subject": "P3 Mathematics PB",
+        "textbook_id": 149,
+        "topic_ids": [
+          1539
+        ],
+        "topics": [
+          "Numbers from 0 up to 5 000"
+        ],
+        "curriculum": "rwanda",
+        "grade": 3,
+        "className": "P3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 11,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "4",
+            "severity": "broken",
+            "detail": "Correct answer index mismatch. Explanation states answer is 2443, but correct_answer is set to 1. Index 1 is '2443' (correct), but this creates ambiguity. Verify index mapping: option[0]='2043', option[1]='2443', option[2]='3442', option[3]='2434'.",
+            "correction": "Confirm correct_answer: 1 is accurate for 2443, or clarify if index should differ."
+          },
+          {
+            "label": "9",
+            "severity": "broken",
+            "detail": "Question asks for greatest number from drawing, but 4568 exceeds the stated range 'Numbers from 0 up to 5000'. The number 4568 is outside the curriculum topic boundary (max 5000 inclusive, but 4568 is valid). However, the figure description lists 4568 as one option, creating internal inconsistency with topic scope.",
+            "correction": "Either replace 4568 with a number ≤5000, or confirm topic range extends to include 4568. If retained, note this tests boundary understanding."
+          }
+        ],
+        "summary": "Assessment is largely sound with 10 well-structured MCQs aligned to P3 Rwanda curriculum on numbers 0–5000. Two issues identified: question 4 has correct_answer index requiring verification, and question 9 includes 4568, which slightly exceeds typical topic boundary. All other questions are mathematically correct, age-appropriate, and properly explained."
+      },
+      "totalSeconds": 17
+    },
+    {
+      "index": 16,
+      "label": "REB / Practice / Subsidiary Mathematics SB S6",
+      "request": {
+        "subject": "Subsidiary Mathematics SB S6",
+        "textbook_id": 187,
+        "topic_ids": [
+          1949,
+          1948
+        ],
+        "topics": [
+          "Unit 2: Logarithmic and Exponential Functions",
+          "Unit 1: Complex Numbers"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 14,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "5",
+            "severity": "broken",
+            "detail": "Question asks for log₁₀(1000) but is labeled under 'Unit 1: Complex Numbers'. This is a logarithmic function question belonging to Unit 2. Topic label is incorrect.",
+            "correction": "Change topic_label from 'Unit 1: Complex Numbers' to 'Unit 2: Logarithmic and Exponential Functions'"
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Question topic_label states 'Continuity and asymptotes of exponential function' but this is not one of the two requested units (Unit 1: Complex Numbers; Unit 2: Logarithmic and Exponential Functions). Topic classification is vague and non-standard.",
+            "correction": "Relabel as 'Unit 2: Logarithmic and Exponential Functions' to align with assessment scope"
+          }
+        ],
+        "summary": "Assessment contains 10 questions spanning both requested units. Two topic labeling errors identified: Q5 incorrectly assigned to Complex Numbers (should be Unit 2), and Q7 uses non-standard topic label. All mathematical content, model answers, and marking criteria are substantively correct. MCQ answers are unique and verifiable."
+      },
+      "totalSeconds": 20
+    },
+    {
+      "index": 18,
+      "label": "Cambridge / Practice / Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+      "request": {
+        "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "textbook_id": 190,
+        "topic_ids": [
+          2758,
+          2749
+        ],
+        "topics": [
+          "Chapter 16: Making halogenoalkanes",
+          "Chapter 7: What is a redox reaction?"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 20,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "mcq-catch-all-option",
+          "severity": "poor",
+          "index": 2,
+          "detail": "\"None of the above\" is guessable and untestable"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 10,
+          "detail": "53 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 19,
+          "detail": "54 words"
+        }
+      ],
+      "figures": 2,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "broken",
+            "detail": "Incorrect correct_pairs mapping. The correct_pairs array [0,3],[1,2],[2,0],[3,1] does not match the stated definitions. Pair [3,1] maps 'Oxidizing agent' to 'Substance that gains electrons' (index 1), but the explanation states oxidizing agent gains electrons—this is incorrect; oxidizing agents cause oxidation (lose electrons themselves).",
+            "correction": "Correct definition: 'Oxidizing agent' = 'Substance that causes oxidation' or revise to 'Substance that gains electrons' and relabel as 'Reducing agent'. Correct pairs should be: [[0,3],[1,2],[2,0],[3,1]] requires fixing the definition or the term."
+          },
+          {
+            "label": "3",
+            "severity": "poor",
+            "detail": "Question labeled as 'Chapter 16: Making halogenoalkanes' but tests redox concepts (oxidation of Na in 2Na + Cl₂ → 2NaCl). This is Chapter 7 content, not Chapter 16. Topic mismatch with requested curriculum structure.",
+            "correction": "Reassign to Chapter 7 topic or replace with a halogenoalkane-specific question."
+          },
+          {
+            "label": "9",
+            "severity": "broken",
+            "detail": "Incorrect correct_pairs mapping. Array [0,2],[1,1],[2,0],[3,3] maps 'Redox reaction' (index 0) to right_items[2]='The gain of electrons by a species' (reduction definition), but should map to right_items[2]='A reaction involving the transfer of electrons' (index 2 in right_items). Mapping is internally inconsistent.",
+            "correction": "Correct pairs: [[0,2],[1,1],[2,0],[3,3]] should align left indices to correct right indices. Verify: Redox→transfer (index 2), Oxidation→loss (index 1), Reduction→gain (index 0), Oxidizing agent→causes oxidation (index 3)."
+          },
+          {
+            "label": "13",
+            "severity": "poor",
+            "detail": "Explanation states 'E1 is the odd one out because it is an elimination reaction, whereas the others (SN1, SN2, E2) are substitution reactions.' This is incorrect: E2 is also an elimination reaction. SN1 and SN2 are substitution; E1 and E2 are elimination.",
+            "correction": "Correct explanation: 'E1 is the odd one out because it is a unimolecular elimination reaction, whereas SN1 and SN2 are substitution reactions and E2 is bimolecular elimination.' Or change correct_index to 0 or 1 (SN1/SN2 as odd ones out among eliminations)."
+          },
+          {
+            "label": "19",
+            "severity": "broken",
+            "detail": "Incorrect correct_pairs mapping. Explanation contradicts correct_pairs: explanation states '1-Iodobutane (primary, I) has high reactivity' but correct_pairs [[0,1],[1,3],[2,0],[3,2]] maps 1-Iodobutane (index 2) to 'Low reactivity' (index 1). Also, explanation assigns chloroethane 'moderate' but pairs it to 'Moderate reactivity' (index 1), yet [0,1] is correct—internal inconsistency in explanation vs. data.",
+            "correction": "Correct pairs should be: [[0,3],[1,1],[2,0],[3,2]] (Chloroethane→Moderate, 1-Bromopropane→Low, 1-Iodobutane→High, 2-Chloropropane→Steric hindrance)."
+          },
+          {
+            "label": "20",
+            "severity": "poor",
+            "detail": "Statement 2 explanation is misleading. States 'The reducing agent gets oxidised, not reduced' but the statement itself says 'reducing agent gets reduced' (marked false). The explanation should clarify: reducing agent is oxidised (loses electrons), not reduced. Current phrasing may confuse students.",
+            "correction": "Clarify explanation: 'False. The reducing agent is oxidised (loses electrons), not reduced. The oxidising agent is reduced (gains electrons).'"
+          }
+        ],
+        "summary": "Assessment contains 6 substantive issues: 3 broken mapping errors in interactive matching questions (labels 2, 9, 19) with incorrect correct_pairs arrays; 1 topic mismatch (label 3); 1 factually incorrect explanation (label 13); 1 misleading explanation (label 20). Core content is age-appropriate and curriculum-aligned where mappings are correct."
+      },
+      "totalSeconds": 29
+    },
+    {
+      "index": 17,
+      "label": "REB / Practice / Literature in English  S3 SB",
+      "request": {
+        "subject": "Literature in English  S3 SB",
+        "textbook_id": 122,
+        "topic_ids": [
+          1291
+        ],
+        "topics": [
+          "Plot development"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 3331501060,
+      "error": "Error: Failed to generate 10 complete questions. The AI produced 8. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 153,
+      "status": 500,
+      "totalSeconds": 153
+    },
+    {
+      "index": 20,
+      "label": "Cambridge / Practice / Cambridge International AS & A Level Physics Coursebook",
+      "request": {
+        "subject": "Cambridge International AS & A Level Physics Coursebook",
+        "textbook_id": 22,
+        "topic_ids": [
+          319,
+          308
+        ],
+        "topics": [
+          "Chapter 18: Gravitational fields",
+          "Chapter 8: Electric fields"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS & A Level Physics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 3331501060,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 65,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 7,
+          "detail": "74 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 8,
+          "detail": "77 words"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "3",
+            "severity": "broken",
+            "detail": "Statement 1 marked false is incorrect. Gravitational potential is negative and becomes less negative (increases) with distance, but the statement says 'decreases with increasing distance' which is false only if interpreted as algebraic value. Standard physics convention: gravitational potential increases (becomes less negative) with distance. Answer should be true.",
+            "correction": "Statement 1 correct answer: true. Gravitational potential increases (algebraically) with distance from source mass, moving from more negative to less negative values."
+          },
+          {
+            "label": "6",
+            "severity": "poor",
+            "detail": "Categorization error: 'Force on a charge' is categorized as Electric Fields, but this is ambiguous. While typically associated with electric fields (F=qE), gravitational fields also exert forces on masses. The question lacks clarity on whether 'force on a charge' specifically means electric force.",
+            "correction": "Clarify as 'Electric force on a charge' or provide context that distinguishes it from gravitational force on mass."
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Statement 2 explanation states 'gravitational force depends on mass' but the statement says force is 'independent of object's mass,' which is correctly marked false. However, the phrasing is ambiguous—gravitational force F=mg depends on the object's mass, but field strength g is independent of it. Explanation could mislead.",
+            "correction": "Clarify: 'Gravitational force on an object depends on its mass (F=mg), but gravitational field strength is independent of the test mass.'"
+          }
+        ],
+        "summary": "Assessment covers Chapter 18 and 8 appropriately with mixed question types. Three issues identified: statement 3 has incorrect answer key (gravitational potential increases with distance); question 6 ambiguously categorizes 'force on a charge'; question 9 explanation conflates force and field strength concepts. All other questions are factually sound and age-appropriate."
+      },
+      "totalSeconds": 70
+    },
+    {
+      "index": 19,
+      "label": "REB / Exam / Geography S4 SB",
+      "request": {
+        "subject": "Geography S4 SB",
+        "textbook_id": 109,
+        "topic_ids": [
+          1157
+        ],
+        "topics": [
+          "Fishing in Rwanda"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "average"
+      },
+      "seed": 3331501060,
+      "error": "Error: Failed to generate 20 complete questions. The AI produced 16. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 253,
+      "status": 500,
+      "totalSeconds": 253
+    }
+  ]
+}

@@ -1,0 +1,739 @@
+{
+  "index": 20,
+  "label": "REB / Exam / Mathematics-SB S6 HLP LFK HGL",
+  "request": {
+    "subject": "Mathematics-SB S6 HLP LFK HGL",
+    "textbook_id": 130,
+    "topic_ids": [
+      1359,
+      1358
+    ],
+    "topics": [
+      "UNIT 3: ELEMENTARY PROBABILITY",
+      "UNIT 2: COUNTING TECHNIQUES"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 73,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the tree diagram showing the gender combinations for a family with three children. The tree diagram branches into Boy or Girl for each child, resulting in eight possible outcomes: BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG.",
+        "question": "Calculate the probability of having exactly two girls in the family.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the outcomes with exactly two girls (BGG, GBG, GGB).",
+          "Count the total number of outcomes (8).",
+          "Calculate the probability by dividing the number of favourable outcomes by the total number of outcomes."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of having exactly two girls in the family — develop the idea fully rather than listing short points. Make sure you also cover: Count the of (8).; Calculate the probability by dividing the of favourable by the of."
+        ],
+        "model_answer": "There are 3 outcomes with exactly two girls (BGG, GBG, GGB). The total number of outcomes is 8. Probability = 3/8.",
+        "explanation": "To find the probability of having exactly two girls, identify the outcomes with exactly two girls, count them, and then divide by the total number of possible outcomes.",
+        "exam_question_id": "912eacdf-ff47-4e22-94c4-fc8f2d14aed4:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "topic_id": 1358,
+        "image_url": "/textbook-images/rwanda/130/page54-embedded-0.png",
+        "image_alt": "A tree diagram with column headings 'First child', 'Second child' and 'Third child', starting from a point on the left. The first branch splits into Boy and Girl. Each of these splits into Boy and Girl for the second child, and each of those splits again into Boy and Girl for the third child. The eight outcomes at the end of the branches are BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG. Boy labels are blue and Girl labels are red.\nLabels: First child, Second child, Third child, Boy, Boy, Boy, BBB, Girl, BBG, Girl, Boy, BGB, Girl, BGG, Girl, Boy, Boy, GBB, Girl, GBG, Girl, Boy, GGB, Girl, GGG\nOrigina",
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 2: COUNTING TECHNIQUES"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the tree diagram showing the gender combinations for a family with three children. The tree diagram branches into Boy or Girl for each child, resulting in eight possible outcomes: BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG.",
+        "question": "Find the probability of having at least one boy in the family.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the outcomes with at least one boy (BBB, BBG, BGB, BGG, GBB, GBG, GGB).",
+          "Count the total number of outcomes (8).",
+          "Calculate the probability by dividing the number of favourable outcomes by the total number of outcomes."
+        ],
+        "hints": [
+          "Stay focused on this: Find the probability of having at least one boy in the family — develop the idea fully rather than listing short points. Make sure you also cover: Count the of (8).; Calculate the probability by dividing the of favourable by the of."
+        ],
+        "model_answer": "There are 7 outcomes with at least one boy (BBB, BBG, BGB, BGG, GBB, GBG, GGB). The total number of outcomes is 8. Probability = 7/8.",
+        "explanation": "To find the probability of having at least one boy, identify the outcomes with at least one boy, count them, and then divide by the total number of possible outcomes.",
+        "exam_question_id": "912eacdf-ff47-4e22-94c4-fc8f2d14aed4:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "topic_id": 1358,
+        "image_url": "/textbook-images/rwanda/130/page54-embedded-0.png",
+        "image_alt": "A tree diagram with column headings 'First child', 'Second child' and 'Third child', starting from a point on the left. The first branch splits into Boy and Girl. Each of these splits into Boy and Girl for the second child, and each of those splits again into Boy and Girl for the third child. The eight outcomes at the end of the branches are BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG. Boy labels are blue and Girl labels are red.\nLabels: First child, Second child, Third child, Boy, Boy, Boy, BBB, Girl, BBG, Girl, Boy, BGB, Girl, BGG, Girl, Boy, Boy, GBB, Girl, GBG, Girl, Boy, GGB, Girl, GGG\nOrigina",
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 2: COUNTING TECHNIQUES"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are given a full deck of 52 playing cards with suits: Clubs, Diamonds, Hearts, and Spades, and ranks: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King. Each suit has 13 cards, and Clubs and Spades are black, while Diamonds and Hearts are red. Each card in the deck is unique.",
+        "question": "Calculate the probability of drawing a red card from a randomly shuffled deck of 52 cards.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the number of red cards in the deck.",
+          "Divide the number of red cards by the total number of cards to find the probability."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of drawing a red card from a randomly shuffled deck of 52 cards — develop the idea fully rather than listing short points. Make sure you also cover: Divide the number of red cards by the total number of cards to find the probability."
+        ],
+        "model_answer": "There are 26 red cards (13 Diamonds + 13 Hearts) in a deck of 52 cards. The probability of drawing a red card is 26/52, which simplifies to 1/2 or 0.5.",
+        "explanation": "To find the probability of drawing a red card, you need to divide the number of red cards by the total number of cards. There are 26 red cards and 52 total cards, so the probability is 26/52, which simplifies to 1/2 or 0.5.",
+        "exam_question_id": "7bc7aaab-ab6f-4460-bc7c-2a239eb24c00:1",
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "topic_id": 1359,
+        "image_url": "/textbook-images/rwanda/130/page40-embedded-0.png",
+        "image_alt": "A table showing a full deck of 52 playing cards. Rows are the suits Clubs, Diamonds, Hearts and Spades, and columns are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen and King. Each cell has a picture of the matching card. Clubs and Spades are black, Diamonds and Hearts are red, and the Jack, Queen and King cards show face figures.\nLabels: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Clubs:, Diamonds:, Hearts:, Spades:\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are given a full deck of 52 playing cards with suits: Clubs, Diamonds, Hearts, and Spades, and ranks: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King. Each suit has 13 cards, and Clubs and Spades are black, while Diamonds and Hearts are red. Each card in the deck is unique.",
+        "question": "Find the probability of drawing a black card that is also a King.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the number of black Kings in the deck.",
+          "Divide the number of black Kings by the total number of cards to find the probability."
+        ],
+        "hints": [
+          "Stay focused on this: Find the probability of drawing a black card that is also a King — develop the idea fully rather than listing short points. Make sure you also cover: Identify the number of black in the; Divide the number of black by the total number of to find the probability."
+        ],
+        "model_answer": "There are 2 black Kings (King of Clubs and King of Spades) in a deck of 52 cards. The probability of drawing a black King is 2/52, which simplifies to 1/26 or approximately 0.0385.",
+        "explanation": "To find the probability of drawing a black King, you need to divide the number of black Kings by the total number of cards. There are 2 black Kings and 52 total cards, so the probability is 2/52, which simplifies to 1/26 or approximately 0.0385.",
+        "exam_question_id": "7bc7aaab-ab6f-4460-bc7c-2a239eb24c00:1",
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "topic_id": 1359,
+        "image_url": "/textbook-images/rwanda/130/page40-embedded-0.png",
+        "image_alt": "A table showing a full deck of 52 playing cards. Rows are the suits Clubs, Diamonds, Hearts and Spades, and columns are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen and King. Each cell has a picture of the matching card. Clubs and Spades are black, Diamonds and Hearts are red, and the Jack, Queen and King cards show face figures.\nLabels: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Clubs:, Diamonds:, Hearts:, Spades:\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the tree diagram showing the outcomes of tossing a coin twice. The left diagram uses coin pictures and the right diagram uses a plain tree with branches labelled H and T for the first and second toss.",
+        "question": "Calculate the probability of getting at least one head when a coin is tossed twice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the outcomes with at least one head (HH, HT, TH).",
+          "Correctly calculates the probability by dividing the number of favourable outcomes by the total number of outcomes."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of getting at least one head when a coin is tossed twice — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The possible outcomes are HH, HT, TH, and TT. The favorable outcomes with at least one head are HH, HT, and TH. The probability is 3 out of 4, which simplifies to 0.75.",
+        "explanation": "To find the probability of getting at least one head, first list all possible outcomes when a coin is tossed twice. There are four outcomes: HH, HT, TH, and TT. Next, identify which of these outcomes have at least one head. In this case, the outcomes with at least one head are HH, HT, and TH. There are three such outcomes. Since there are four possible outcomes in total, the probability is the number of favourable outcomes divided by the total number of outcomes: 3/4, which simplifies to 0.75.",
+        "exam_question_id": "b0cb0d53-4cb2-4d23-a39b-43e258b45d1f:1",
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "topic_id": 1359,
+        "image_url": "/textbook-images/rwanda/130/page50-embedded-0.jpeg",
+        "image_alt": "Two tree diagrams for tossing a coin twice. The left one, on a pink background, uses coin pictures: the first toss is H or T, and each leads to a second toss of H or T, giving outcomes HH, HT, TH, TT. The right one is a plain tree with the same branches: H and T for the first toss, then red branches H and T for the second toss, ending in HH, HT, TH, TT.\nLabels: Second Toss, First Toss, H, H, T, T, H, T, H, T, HH, HT, TH, TT, H, T, H, T, H, T, HH, HT, TH, TT\nOriginal exercise: In the first toss, we get either a head (H) or a tail (T). On getting a H in the first toss, we can get a H or T in the",
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the tree diagram showing the outcomes of tossing a coin twice. The left diagram uses coin pictures and the right diagram uses a plain tree with branches labelled H and T for the first and second toss.",
+        "question": "Explain why the probability of getting exactly one head when a coin is tossed twice is 0.5.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the outcomes with exactly one head (HT, TH).",
+          "Correctly calculates the probability by dividing the number of favourable outcomes by the total number of outcomes.",
+          "Explains why the probability is 0.5."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the probability of getting exactly one head when a coin is tossed twice is 0.5 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculates the probability by dividing the number of favourable by the number of."
+        ],
+        "model_answer": "The possible outcomes are HH, HT, TH, and TT. The favorable outcomes with exactly one head are HT and TH. The probability is 2 out of 4, which simplifies to 0.5. This is because each outcome (HT or TH) is equally likely and there are two such outcomes out of four total outcomes.",
+        "explanation": "To explain why the probability of getting exactly one head when a coin is tossed twice is 0.5, first list all possible outcomes when a coin is tossed twice. There are four outcomes: HH, HT, TH, and TT. Next, identify which of these outcomes have exactly one head. In this case, the outcomes with exactly one head are HT and TH. There are two such outcomes. Since there are four possible outcomes in total, the probability is the number of favourable outcomes divided by the total number of outcomes: 2/4, which simplifies to 0.5. This probability is 0.5 because each outcome (HT or TH) is equally likely and there are two such outcomes out of four total outcomes.",
+        "exam_question_id": "b0cb0d53-4cb2-4d23-a39b-43e258b45d1f:1",
+        "topic_label": "UNIT 3: ELEMENTARY PROBABILITY",
+        "topic_id": 1359,
+        "image_url": "/textbook-images/rwanda/130/page50-embedded-0.jpeg",
+        "image_alt": "Two tree diagrams for tossing a coin twice. The left one, on a pink background, uses coin pictures: the first toss is H or T, and each leads to a second toss of H or T, giving outcomes HH, HT, TH, TT. The right one is a plain tree with the same branches: H and T for the first toss, then red branches H and T for the second toss, ending in HH, HT, TH, TT.\nLabels: Second Toss, First Toss, H, H, T, T, H, T, H, T, HH, HT, TH, TT, H, T, H, T, H, T, HH, HT, TH, TT\nOriginal exercise: In the first toss, we get either a head (H) or a tail (T). On getting a H in the first toss, we can get a H or T in the",
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "UNIT 3: ELEMENTARY PROBABILITY"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A bag contains 3 red marbles, 4 blue marbles, and 5 green marbles. A marble is drawn at random from the bag.",
+        "question": "Calculate the probability of drawing a blue marble.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the total number of marbles",
+          "Correct identification of the number of blue marbles",
+          "Correct calculation of the probability"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of drawing a blue marble — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the of; Correct identification of the of blue; Correct calculation of the probability."
+        ],
+        "model_answer": "Total number of marbles = 3 + 4 + 5 = 12\nNumber of blue marbles = 4\nProbability of drawing a blue marble = 4/12 = 1/3",
+        "explanation": "The total number of marbles in the bag is 12. Since there are 4 blue marbles, the probability of drawing a blue marble is 4 out of 12, which simplifies to 1 out of 3.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:1",
+        "topic_label": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)",
+        "topic_id": 1359,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A bag contains 3 red marbles, 4 blue marbles, and 5 green marbles. A marble is drawn at random from the bag.",
+        "question": "Find the probability of not drawing a red marble.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the total number of marbles",
+          "Correct identification of the number of non-red marbles",
+          "Correct calculation of the probability"
+        ],
+        "hints": [
+          "Stay focused on this: Find the probability of not drawing a red marble — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the of; Correct identification of the of non-red; Correct calculation of the probability."
+        ],
+        "model_answer": "Total number of marbles = 3 + 4 + 5 = 12\nNumber of non-red marbles = 4 + 5 = 9\nProbability of not drawing a red marble = 9/12 = 3/4",
+        "explanation": "The total number of marbles in the bag is 12. There are 3 red marbles, so there are 9 non-red marbles (4 blue and 5 green). The probability of not drawing a red marble is 9 out of 12, which simplifies to 3 out of 4.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:1",
+        "topic_label": "Probability of mutually exclusive (incompatible) and non-inclusive events",
+        "topic_id": 1359,
+        "checked": true,
+        "subtopic_id": 7321,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of mutually exclusive (incompatible) and non-inclusive events"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A bag contains 3 red marbles, 4 blue marbles, and 5 green marbles. A marble is drawn at random from the bag.",
+        "question": "Explain why the probability of drawing a green marble is higher than the probability of drawing a blue marble.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct comparison of the number of green and blue marbles",
+          "Correct explanation of probability based on the number of marbles"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "There are 5 green marbles and 4 blue marbles. Since there are more green marbles than blue marbles, the probability of drawing a green marble is higher than the probability of drawing a blue marble.",
+        "explanation": "There are more green marbles (5) than blue marbles (4) in the bag, so the probability of drawing a green marble is higher than the probability of drawing a blue marble.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:1",
+        "topic_label": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)",
+        "topic_id": 1359,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the outcomes of rolling a six-sided die.",
+        "question": "Calculate the probability of rolling a number greater than 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the favourable outcomes",
+          "Correct calculation of the probability"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of rolling a number greater than 4 — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the favourable; Correct calculation of the probability."
+        ],
+        "model_answer": "Favorable outcomes = {5, 6}\nTotal outcomes = 6\nProbability of rolling a number greater than 4 = 2/6 = 1/3",
+        "explanation": "There are 2 numbers greater than 4 (5 and 6) on a six-sided die. The total number of outcomes when rolling a die is 6. Therefore, the probability of rolling a number greater than 4 is 2 out of 6, which simplifies to 1 out of 3.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:2",
+        "topic_label": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)",
+        "topic_id": 1359,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the outcomes of rolling a six-sided die.",
+        "question": "Find the probability of rolling an even number.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the favourable outcomes",
+          "Correct calculation of the probability"
+        ],
+        "hints": [
+          "Identify the even numbers on a six-sided die."
+        ],
+        "model_answer": "Favorable outcomes = {2, 4, 6}\nTotal outcomes = 6\nProbability of rolling an even number = 3/6 = 1/2",
+        "explanation": "There are 3 even numbers (2, 4, and 6) on a six-sided die. The total number of outcomes when rolling a die is 6. Therefore, the probability of rolling an even number is 3 out of 6, which simplifies to 1 out of 2.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:2",
+        "topic_label": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)",
+        "topic_id": 1359,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A box contains 5 red pens, 4 blue pens, and 6 green pens. A pen is selected at random from the box.",
+        "question": "Calculate the probability of selecting a blue pen.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the total number of pens",
+          "Correct identification of the number of blue pens",
+          "Correct calculation of the probability"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of selecting a blue pen — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the of; Correct identification of the of blue; Correct calculation of the probability."
+        ],
+        "model_answer": "Total number of pens = 5 + 4 + 6 = 15\nNumber of blue pens = 4\nProbability of selecting a blue pen = 4/15",
+        "explanation": "The total number of pens in the box is 15. Since there are 4 blue pens, the probability of selecting a blue pen is 4 out of 15.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:3",
+        "topic_label": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)",
+        "topic_id": 1359,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A box contains 5 red pens, 4 blue pens, and 6 green pens. A pen is selected at random from the box.",
+        "question": "Find the probability of selecting a pen that is not green.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the total number of pens",
+          "Correct identification of the number of non-green pens",
+          "Correct calculation of the probability"
+        ],
+        "hints": [
+          "Stay focused on this: Find the probability of selecting a pen that is not green — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the of; Correct identification of the of non-green; Correct calculation of the probability."
+        ],
+        "model_answer": "Total number of pens = 5 + 4 + 6 = 15\nNumber of non-green pens = 5 + 4 = 9\nProbability of selecting a pen that is not green = 9/15 = 3/5",
+        "explanation": "The total number of pens in the box is 15. There are 5 red pens and 4 blue pens, which totals 9 non-green pens. The probability of selecting a pen that is not green is 9 out of 15, which simplifies to 3 out of 5.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:3",
+        "topic_label": "Probability of mutually exclusive (incompatible) and non-inclusive events",
+        "topic_id": 1359,
+        "checked": true,
+        "subtopic_id": 7321,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Probability of mutually exclusive (incompatible) and non-inclusive events"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A box contains 5 red pens, 4 blue pens, and 6 green pens. A pen is selected at random from the box.",
+        "question": "Explain why the probability of selecting a red pen is lower than the probability of selecting a green pen.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct comparison of the number of red and green pens",
+          "Correct explanation of probability based on the number of pens"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the probability of selecting a red pen is lower than the probability of selecting a green pen — develop the idea fully rather than listing short points. Make sure you also cover: Correct comparison of the number of red and green; Correct explanation of probability based on the number…."
+        ],
+        "model_answer": "There are 5 red pens and 6 green pens. Since there are more green pens than red pens, the probability of selecting a green pen is higher than the probability of selecting a red pen.",
+        "explanation": "There are more green pens (6) than red pens (5) in the box, so the probability of selecting a green pen is higher than the probability of selecting a red pen.",
+        "exam_question_id": "5252699f-c553-4489-84fb-c1179107dbdf:3",
+        "topic_label": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)",
+        "topic_id": 1359,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Determination of Probability of an event, rules and formulas (UNIT 3: ELEMENTARY PROBABILITY)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A small cafe offers 3 types of coffee (Espresso, Latte, Cappuccino) and 2 types of tea (Black Tea, Green Tea). You can choose one type of coffee and one type of tea for a beverage.",
+        "question": "Calculate the total number of different beverage combinations you can choose.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the total number of combinations.",
+          "Show the multiplication of choices for coffee and tea."
+        ],
+        "hints": [
+          "Use the multiplication principle for counting."
+        ],
+        "model_answer": "There are 3 types of coffee and 2 types of tea, so the total number of combinations is 3 * 2 = 6.",
+        "explanation": "You multiplied the number of coffee choices by the number of tea choices to find the total number of combinations.",
+        "exam_question_id": "595e47bf-923c-4581-8508-564f36291959:1",
+        "topic_label": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A small cafe offers 3 types of coffee (Espresso, Latte, Cappuccino) and 2 types of tea (Black Tea, Green Tea). You can choose one type of coffee and one type of tea for a beverage.",
+        "question": "List all possible combinations of coffee and tea.",
+        "marks": 2,
+        "marking_criteria": [
+          "List all combinations without repetition.",
+          "Ensure each combination is a pair of one coffee and one tea."
+        ],
+        "hints": [
+          "Write down all possible pairs systematically."
+        ],
+        "model_answer": "The possible combinations are: Espresso with Black Tea, Espresso with Green Tea, Latte with Black Tea, Latte with Green Tea, Cappuccino with Black Tea, Cappuccino with Green Tea.",
+        "explanation": "You listed all unique pairs of coffee and tea, ensuring no repetitions or omissions.",
+        "exam_question_id": "595e47bf-923c-4581-8508-564f36291959:1",
+        "topic_label": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A fruit basket contains 3 apples, 2 bananas, and 1 orange. You want to choose 2 pieces of fruit.",
+        "question": "Calculate the number of ways you can choose 2 pieces of fruit from the basket.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly use the combination formula to calculate the number of ways.",
+          "Show the combination calculation C(6,2)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways you can choose 2 pieces of fruit from the basket — develop the idea fully rather than listing short points. Make sure you also cover: Correctly use the combination formula to calculate the number of ways.; the combination calculation C(6,2)."
+        ],
+        "model_answer": "The number of ways to choose 2 pieces of fruit is C(6,2) = 6! / (2! * (6-2)!) = 15.",
+        "explanation": "You used the combination formula correctly to find the number of ways to choose 2 pieces of fruit.",
+        "exam_question_id": "595e47bf-923c-4581-8508-564f36291959:3",
+        "topic_label": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A fruit basket contains 3 apples, 2 bananas, and 1 orange. You want to choose 2 pieces of fruit.",
+        "question": "Explain why the number of ways to choose 2 pieces of fruit is 15.",
+        "marks": 2,
+        "marking_criteria": [
+          "Clearly explain the combination formula.",
+          "Show the calculation process leading to 15."
+        ],
+        "hints": [
+          "Explain the concept of combinations and the factorial involved."
+        ],
+        "model_answer": "The number of ways to choose 2 pieces of fruit is 15 because we use the combination formula C(6,2) = 6! / (2! * (6-2)!) = 15. This means we are choosing 2 items from a total of 6, without regard to order.",
+        "explanation": "You explained the combination formula and showed the calculation process that leads to 15.",
+        "exam_question_id": "595e47bf-923c-4581-8508-564f36291959:3",
+        "topic_label": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Simple counting techniques (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the outcomes of rolling a six-sided die. Calculate the probability of rolling a number greater than 4.",
+        "question": "Calculate the probability of rolling a number greater than 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify numbers greater than 4 on a six-sided die.",
+          "Correctly calculate the probability using the formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of rolling a number greater than 4 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the probability using the formula."
+        ],
+        "model_answer": "The numbers greater than 4 on a six-sided die are 5 and 6. There are 2 such numbers. The total number of outcomes is 6. The probability is therefore 2/6, which simplifies to 1/3.",
+        "explanation": "The probability is calculated by dividing the number of favourable outcomes by the total number of outcomes.",
+        "exam_question_id": "1d89fb5f-1030-4d45-9982-499fd5cd8561:1",
+        "topic_label": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the outcomes of rolling a six-sided die. Calculate the probability of rolling a number greater than 4.",
+        "question": "Find the probability of rolling an even number.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify even numbers on a six-sided die.",
+          "Correctly calculate the probability using the formula."
+        ],
+        "hints": [
+          "Stay focused on this: Find the probability of rolling an even number — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the probability using the formula."
+        ],
+        "model_answer": "The even numbers on a six-sided die are 2, 4, and 6. There are 3 such numbers. The total number of outcomes is 6. The probability is therefore 3/6, which simplifies to 1/2.",
+        "explanation": "The probability is calculated by dividing the number of favourable outcomes by the total number of outcomes.",
+        "exam_question_id": "1d89fb5f-1030-4d45-9982-499fd5cd8561:1",
+        "topic_label": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the outcomes of rolling a six-sided die. Calculate the probability of rolling a number greater than 4.",
+        "question": "Explain why the probability of rolling a number greater than 4 is different from the probability of rolling an even number.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly explain the concept of probability.",
+          "Correctly compare the probabilities of rolling a number greater than 4 and rolling an even number.",
+          "Provide a clear and logical explanation."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The probability of rolling a number greater than 4 is 1/3 because there are 2 numbers (5 and 6) out of 6 possible outcomes. The probability of rolling an even number is 1/2 because there are 3 even numbers (2, 4, and 6) out of 6 possible outcomes. The probabilities are different because the number of favorable outcomes for each event is different.",
+        "explanation": "The explanation should compare the number of favourable outcomes for rolling a number greater than 4 and rolling an even number, and how this affects the probabilities.",
+        "exam_question_id": "1d89fb5f-1030-4d45-9982-499fd5cd8561:1",
+        "topic_label": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A fruit basket contains 3 apples, 2 bananas, and 1 orange. You want to choose 2 pieces of fruit. Calculate the number of ways you can choose 2 pieces of fruit from the basket.",
+        "question": "Calculate the number of ways you can choose 2 pieces of fruit from the basket.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the number of ways to choose 2 pieces of fruit using combinations.",
+          "Show the working for each combination."
+        ],
+        "hints": [
+          "Use the combination formula C(n, k) = n! / (k!(n-k)!)."
+        ],
+        "model_answer": "The total number of fruits is 3 apples + 2 bananas + 1 orange = 6 fruits. The number of ways to choose 2 pieces of fruit from 6 is calculated as C(6, 2) = 6! / (2!(6-2)!) = 6! / (2!4!) = (6x5) / (2x1) = 15. Therefore, there are 15 ways to choose 2 pieces of fruit from the basket.",
+        "explanation": "The number of ways to choose 2 pieces of fruit is calculated using the combination formula, which accounts for all possible pairs of fruits.",
+        "exam_question_id": "1d89fb5f-1030-4d45-9982-499fd5cd8561:3",
+        "topic_label": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A fruit basket contains 3 apples, 2 bananas, and 1 orange. You want to choose 2 pieces of fruit. Calculate the number of ways you can choose 2 pieces of fruit from the basket.",
+        "question": "Explain why the number of ways to choose 2 pieces of fruit is 15.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly explain the concept of combinations.",
+          "Provide a clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the number of ways to choose 2 pieces of fruit is 15 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly explain the concept of; Provide a clear and logical explanation."
+        ],
+        "model_answer": "The number of ways to choose 2 pieces of fruit from the basket is 15 because there are 6 fruits in total, and we are choosing 2 of them. The combination formula C(6, 2) = 15 accounts for all possible pairs of fruits without regard to order. This means that each unique pair of fruits is counted only once, resulting in 15 different combinations.",
+        "explanation": "The explanation should clearly describe how the combination formula works and why it results in 15 different combinations.",
+        "exam_question_id": "1d89fb5f-1030-4d45-9982-499fd5cd8561:3",
+        "topic_label": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)",
+        "topic_id": 1358,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "End of unit assessment (UNIT 2: COUNTING TECHNIQUES)"
+        }
+      }
+    ],
+    "estimated_time": 54,
+    "assessment_id": "ce808834-7069-4d02-8177-6eb071395c0b",
+    "subject": "Mathematics-SB S6 HLP LFK HGL",
+    "topics": [
+      "UNIT 3: ELEMENTARY PROBABILITY",
+      "UNIT 2: COUNTING TECHNIQUES"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 130,
+    "topic_ids": [
+      1359,
+      1358
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 23,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 17"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 18"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Question asks to choose \"one type of coffee AND one type of tea for a beverage\" but model answer calculates 3*2=6 combinations. The context states \"You can choose one type of coffee and one type of tea\" which means selecting both, not either-or. However, the phrasing \"for a beverage\" is ambiguous. If interpreted as one beverage containing both coffee and tea, the answer 6 is correct. But typical cafe offerings don't combine coffee and tea in one beverage, making this scenario unrealistic and confusing.",
+        "correction": "Clarify whether customer selects one beverage (coffee OR tea) giving 5 options, or one coffee-tea combination (unusual) giving 6 options. Current wording creates ambiguity."
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Question 9a is identical to question 5a (both ask to calculate probability of rolling number greater than 4 on six-sided die). Same context, same question, same answer (1/3). This violates the requirement of no repeated questions with same data.",
+        "correction": "Remove question 9a or change to ask for a different probability calculation (e.g., rolling a prime number, rolling less than 3, etc.)."
+      },
+      {
+        "label": "9b",
+        "severity": "poor",
+        "detail": "Question 9b is identical to question 5b (both ask to find probability of rolling even number on six-sided die). Same context, same question, same answer (1/2). This violates the requirement of no repeated questions with same data.",
+        "correction": "Remove question 9b or change to ask for a different probability calculation."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Question 10a is identical to question 8a (both ask to calculate number of ways to choose 2 pieces of fruit from basket with 3 apples, 2 bananas, 1 orange). Same context, same question, same answer (15). This violates the requirement of no repeated questions with same data.",
+        "correction": "Remove question 10a or change the fruit quantities or number of pieces to select."
+      },
+      {
+        "label": "10b",
+        "severity": "poor",
+        "detail": "Question 10b is identical to question 8b (both ask to explain why number of ways to choose 2 pieces of fruit is 15). Same context, same question, same explanation. This violates the requirement of no repeated questions with same data.",
+        "correction": "Remove question 10b or modify to ask a different follow-up question about the fruit selection."
+      }
+    ],
+    "summary": "Assessment contains 23 questions with correct mathematical answers and appropriate difficulty for grade 12. However, significant structural issues exist: questions 9a/9b duplicate 5a/5b, and questions 10a/10b duplicate 8a/8b, violating the no-repetition requirement. Question 7a has ambiguous wording about coffee-tea beverage combinations. All probability calculations and counting techniques are mathematically correct."
+  },
+  "totalSeconds": 90
+}

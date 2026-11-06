@@ -1,0 +1,640 @@
+{
+  "index": 1,
+  "label": "Cambridge / Exam / Cambridge International AS  A Level Further Mathematics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "textbook_id": 19,
+    "topic_ids": [
+      264
+    ],
+    "topics": [
+      "Projectiles"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 51,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "A stone is projected vertically upwards from the ground with an initial speed of 20 m/s.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the maximum height reached by the stone.",
+        "marks": 3,
+        "marking_criteria": [
+          "The rise above launch is u_y²/(2g) = 20²/(2 × 9.8); add 0 m for the requested reference level.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 20.408 m."
+        ],
+        "hints": [
+          "Use the formula h = (v^2) / (2g)."
+        ],
+        "model_answer": "The rise above launch is u_y²/(2g) = 20²/(2 × 9.8); add 0 m for the requested reference level. Therefore 20.408 m.",
+        "explanation": "The rise above launch is u_y²/(2g) = 20²/(2 × 9.8); add 0 m for the requested reference level. Therefore 20.408 m.",
+        "exam_question_id": "399f378c-20ad-4711-ac78-fd6dfa2e1c4f:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A stone is projected vertically upwards from the ground with an initial speed of 20 m/s.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the stone to reach its maximum height.",
+        "marks": 2,
+        "marking_criteria": [
+          "At maximum height the vertical velocity is zero, so t = u_y/g = 20/9.8.",
+          "Obtain 2.0408 s."
+        ],
+        "hints": [
+          "Use the formula t = v / g."
+        ],
+        "model_answer": "At maximum height the vertical velocity is zero, so t = u_y/g = 20/9.8. Therefore 2.0408 s.",
+        "explanation": "At maximum height the vertical velocity is zero, so t = u_y/g = 20/9.8. Therefore 2.0408 s.",
+        "exam_question_id": "399f378c-20ad-4711-ac78-fd6dfa2e1c4f:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A projectile is launched from a height of 2 metres with an initial velocity of 20 m/s at an angle of 30 degrees to the horizontal.",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the horizontal component of the initial velocity.",
+        "marks": 2,
+        "marking_criteria": [
+          "u_x = u cos θ = 20 cos(30°).",
+          "Obtain 17.321 m/s."
+        ],
+        "hints": [
+          "Use the formula v_x = v * cos(theta)."
+        ],
+        "model_answer": "u_x = u cos θ = 20 cos(30°). Therefore 17.321 m/s.",
+        "explanation": "u_x = u cos θ = 20 cos(30°). Therefore 17.321 m/s.",
+        "exam_question_id": "3ed944d3-356f-47e7-b9af-195b0b9bfd3c:1",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A projectile is launched from a height of 2 metres with an initial velocity of 20 m/s at an angle of 30 degrees to the horizontal.",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the projectile to reach its maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "At maximum height the vertical velocity is zero, so t = u_y/g = 10/9.8.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 1.0204 s."
+        ],
+        "hints": [
+          "Use the formula t = (v_y * sin(theta)) / g."
+        ],
+        "model_answer": "At maximum height the vertical velocity is zero, so t = u_y/g = 10/9.8. Therefore 1.0204 s.",
+        "explanation": "At maximum height the vertical velocity is zero, so t = u_y/g = 10/9.8. Therefore 1.0204 s.",
+        "exam_question_id": "3ed944d3-356f-47e7-b9af-195b0b9bfd3c:1",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A projectile is launched from a height of 1 metre with an initial velocity of 25 m/s at an angle of 60 degrees to the horizontal.",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the maximum height reached by the projectile above the launch point.",
+        "marks": 3,
+        "marking_criteria": [
+          "The rise above launch is u_y²/(2g) = 21.651²/(2 × 9.8); add 0 m for the requested reference level.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 23.916 m."
+        ],
+        "hints": [
+          "Use the formula H = y_0 + (v_y^2) / (2 * g)."
+        ],
+        "model_answer": "The rise above launch is u_y²/(2g) = 21.651²/(2 × 9.8); add 0 m for the requested reference level. Therefore 23.916 m.",
+        "explanation": "The rise above launch is u_y²/(2g) = 21.651²/(2 × 9.8); add 0 m for the requested reference level. Therefore 23.916 m.",
+        "exam_question_id": "3ed944d3-356f-47e7-b9af-195b0b9bfd3c:3",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A projectile is launched from a height of 1 metre with an initial velocity of 25 m/s at an angle of 60 degrees to the horizontal.",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the total time of flight of the projectile.",
+        "marks": 3,
+        "marking_criteria": [
+          "At ground level, 0 = 1 + 21.651t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 4.4642 s."
+        ],
+        "hints": [
+          "Use the formula T = (2 * v_y) / g."
+        ],
+        "model_answer": "At ground level, 0 = 1 + 21.651t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 4.4642 s.",
+        "explanation": "At ground level, 0 = 1 + 21.651t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 4.4642 s.",
+        "exam_question_id": "3ed944d3-356f-47e7-b9af-195b0b9bfd3c:3",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is projected vertically upwards from a height of 3 metres with an initial speed of 24 m/s.",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the maximum height reached by the ball above the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "The rise above launch is u_y²/(2g) = 24²/(2 × 9.8); add 3 m for the requested reference level.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 32.388 m."
+        ],
+        "hints": [
+          "Use the kinematic equation that relates initial velocity, acceleration due to gravity, and displacement."
+        ],
+        "model_answer": "The rise above launch is u_y²/(2g) = 24²/(2 × 9.8); add 3 m for the requested reference level. Therefore 32.388 m.",
+        "explanation": "The rise above launch is u_y²/(2g) = 24²/(2 × 9.8); add 3 m for the requested reference level. Therefore 32.388 m.",
+        "exam_question_id": "370715e8-d3df-45d8-a76c-31a84614a49b:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is projected vertically upwards from a height of 3 metres with an initial speed of 24 m/s.",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the ball to return to the same height of 3 metres.",
+        "marks": 3,
+        "marking_criteria": [
+          "At ground level, 0 = 3 + 24t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 5.0199 s."
+        ],
+        "hints": [
+          "Consider the time taken to reach the maximum height and the time to return to the initial height."
+        ],
+        "model_answer": "At ground level, 0 = 3 + 24t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 5.0199 s.",
+        "explanation": "At ground level, 0 = 3 + 24t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 5.0199 s.",
+        "exam_question_id": "370715e8-d3df-45d8-a76c-31a84614a49b:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is projected vertically upwards from a height of 2 metres with an initial speed of 15 m/s.",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the maximum height reached by the ball above the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "The rise above launch is u_y²/(2g) = 15²/(2 × 9.8); add 2 m for the requested reference level.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 13.48 m."
+        ],
+        "hints": [
+          "Use the equation v^2 = u^2 + 2as where v=0, u=15 m/s, a=-9.8 m/s^2."
+        ],
+        "model_answer": "The rise above launch is u_y²/(2g) = 15²/(2 × 9.8); add 2 m for the requested reference level. Therefore 13.48 m.",
+        "explanation": "The rise above launch is u_y²/(2g) = 15²/(2 × 9.8); add 2 m for the requested reference level. Therefore 13.48 m.",
+        "exam_question_id": "bc164db9-1713-441d-9862-4e340ab223e2:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is projected vertically upwards from a height of 2 metres with an initial speed of 15 m/s.",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the ball to return to the same height of 2 metres.",
+        "marks": 3,
+        "marking_criteria": [
+          "At ground level, 0 = 2 + 15t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 3.1892 s."
+        ],
+        "hints": [
+          "Use the time to reach the maximum height and double it for the total time to return to the same height."
+        ],
+        "model_answer": "At ground level, 0 = 2 + 15t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 3.1892 s.",
+        "explanation": "At ground level, 0 = 2 + 15t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 3.1892 s.",
+        "exam_question_id": "bc164db9-1713-441d-9862-4e340ab223e2:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A projectile is launched from a height of 3 metres with an initial speed of 20 m/s at an angle of 45 degrees to the horizontal.",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the horizontal component of the initial velocity.",
+        "marks": 2,
+        "marking_criteria": [
+          "u_x = u cos θ = 20 cos(45°).",
+          "Obtain 14.142 m/s."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the horizontal component of the initial velocity — develop the idea fully rather than listing short points. Make sure you also cover: u_x = u cos θ = 20 cos(45°).; Obtain 14.142 m/s."
+        ],
+        "model_answer": "u_x = u cos θ = 20 cos(45°). Therefore 14.142 m/s.",
+        "explanation": "u_x = u cos θ = 20 cos(45°). Therefore 14.142 m/s.",
+        "exam_question_id": "bc164db9-1713-441d-9862-4e340ab223e2:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A projectile is launched from a height of 3 metres with an initial speed of 20 m/s at an angle of 45 degrees to the horizontal.",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the projectile to reach its maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "At maximum height the vertical velocity is zero, so t = u_y/g = 14.142/9.8.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 1.4431 s."
+        ],
+        "hints": [
+          "Use the equation v = u + at where v = 0, u = 20sin(45), a = -9.8 m/s^2."
+        ],
+        "model_answer": "At maximum height the vertical velocity is zero, so t = u_y/g = 14.142/9.8. Therefore 1.4431 s.",
+        "explanation": "At maximum height the vertical velocity is zero, so t = u_y/g = 14.142/9.8. Therefore 1.4431 s.",
+        "exam_question_id": "bc164db9-1713-441d-9862-4e340ab223e2:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A ball is projected vertically upwards from a height of 2 metres with an initial speed of 18 m/s.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the maximum height reached by the ball above the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "The rise above launch is u_y²/(2g) = 18²/(2 × 9.8); add 2 m for the requested reference level.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 18.531 m."
+        ],
+        "hints": [
+          "Recall the vertical motion formula for maximum height."
+        ],
+        "model_answer": "The rise above launch is u_y²/(2g) = 18²/(2 × 9.8); add 2 m for the requested reference level. Therefore 18.531 m.",
+        "explanation": "The rise above launch is u_y²/(2g) = 18²/(2 × 9.8); add 2 m for the requested reference level. Therefore 18.531 m.",
+        "exam_question_id": "65d54f93-077f-4b00-b254-c28c6880a770:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A ball is projected vertically upwards from a height of 2 metres with an initial speed of 18 m/s.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the ball to return to the same height of 2 metres.",
+        "marks": 2,
+        "marking_criteria": [
+          "At ground level, 0 = 2 + 18t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g.",
+          "Obtain 3.7814 s."
+        ],
+        "hints": [
+          "Recall the time formula for projectile motion."
+        ],
+        "model_answer": "At ground level, 0 = 2 + 18t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 3.7814 s.",
+        "explanation": "At ground level, 0 = 2 + 18t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 3.7814 s.",
+        "exam_question_id": "65d54f93-077f-4b00-b254-c28c6880a770:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A projectile is launched from the ground with an initial velocity of 30 m/s at an angle of 60 degrees to the horizontal.",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the vertical component of the initial velocity.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify and use the sine function for vertical component.",
+          "Correctly substitute the given angle and velocity into the formula.",
+          "Correct calculation to find the vertical component."
+        ],
+        "hints": [
+          "Recall that the vertical component is given by v * sin(θ)."
+        ],
+        "model_answer": "30 * sin(60°) = 25.98 m/s",
+        "explanation": "The vertical component of the initial velocity is found by multiplying the initial velocity by the sine of the launch angle.",
+        "exam_question_id": "b1330160-d2db-486f-b6a4-78674e5932ac:3",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A projectile is launched from the ground with an initial velocity of 30 m/s at an angle of 60 degrees to the horizontal.",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the total time of flight of the projectile.",
+        "marks": 3,
+        "marking_criteria": [
+          "At ground level, 0 = 0 + 25.981t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 5.3022 s."
+        ],
+        "hints": [
+          "Recall that the total time of flight is given by 2 * (v * sin(θ)) / g."
+        ],
+        "model_answer": "At ground level, 0 = 0 + 25.981t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 5.3022 s.",
+        "explanation": "At ground level, 0 = 0 + 25.981t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 5.3022 s.",
+        "exam_question_id": "b1330160-d2db-486f-b6a4-78674e5932ac:3",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is projected vertically upwards from a height of 4 metres with an initial speed of 22 m/s.",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the maximum height reached by the ball above the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "The rise above launch is u_y²/(2g) = 22²/(2 × 9.8); add 4 m for the requested reference level.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 28.694 m."
+        ],
+        "hints": [
+          "Use the equation v^2 = u^2 + 2as where v = 0, u = 22 m/s, a = -9.8 m/s^2."
+        ],
+        "model_answer": "The rise above launch is u_y²/(2g) = 22²/(2 × 9.8); add 4 m for the requested reference level. Therefore 28.694 m.",
+        "explanation": "The rise above launch is u_y²/(2g) = 22²/(2 × 9.8); add 4 m for the requested reference level. Therefore 28.694 m.",
+        "exam_question_id": "c1d84731-7ca9-49d7-a050-2e57bf41b398:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is projected vertically upwards from a height of 4 metres with an initial speed of 22 m/s.",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the ball to return to the same height of 4 metres.",
+        "marks": 3,
+        "marking_criteria": [
+          "At ground level, 0 = 4 + 22t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 4.6648 s."
+        ],
+        "hints": [
+          "Use the equation v = u + at where v = 0, u = 22 m/s, a = -9.8 m/s^2."
+        ],
+        "model_answer": "At ground level, 0 = 4 + 22t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 4.6648 s.",
+        "explanation": "At ground level, 0 = 4 + 22t − 4.9t². Take the positive root t = (u_y + √(u_y² + 2gh))/g. Therefore 4.6648 s.",
+        "exam_question_id": "c1d84731-7ca9-49d7-a050-2e57bf41b398:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A projectile is launched from a height of 5 metres with an initial speed of 25 m/s at an angle of 53 degrees to the horizontal.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the horizontal component of the initial velocity.",
+        "marks": 3,
+        "marking_criteria": [
+          "u_x = u cos θ = 25 cos(53°).",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 15.045 m/s."
+        ],
+        "hints": [
+          "Use the formula u_x = u * cos(theta)."
+        ],
+        "model_answer": "u_x = u cos θ = 25 cos(53°). Therefore 15.045 m/s.",
+        "explanation": "u_x = u cos θ = 25 cos(53°). Therefore 15.045 m/s.",
+        "exam_question_id": "c1d84731-7ca9-49d7-a050-2e57bf41b398:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A projectile is launched from a height of 5 metres with an initial speed of 25 m/s at an angle of 53 degrees to the horizontal.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the time taken for the projectile to reach its maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "At maximum height the vertical velocity is zero, so t = u_y/g = 19.966/9.8.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 2.0373 s."
+        ],
+        "hints": [
+          "Use the equation v_y = u_y + at where v_y = 0, u_y = u * sin(theta), a = -9.8 m/s^2."
+        ],
+        "model_answer": "At maximum height the vertical velocity is zero, so t = u_y/g = 19.966/9.8. Therefore 2.0373 s.",
+        "explanation": "At maximum height the vertical velocity is zero, so t = u_y/g = 19.966/9.8. Therefore 2.0373 s.",
+        "exam_question_id": "c1d84731-7ca9-49d7-a050-2e57bf41b398:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      }
+    ],
+    "estimated_time": 56,
+    "assessment_id": "f1df4e3e-1574-419e-b8d9-15ac8a6d7da2",
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "topics": [
+      "Projectiles"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 19,
+    "topic_ids": [
+      264
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 4"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 51
+}

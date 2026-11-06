@@ -1,0 +1,26 @@
+{
+  "index": 7,
+  "label": "REB / Exam / Economics S5 SB",
+  "request": {
+    "subject": "Economics S5 SB",
+    "textbook_id": 64,
+    "topic_ids": [
+      726,
+      733
+    ],
+    "topics": [
+      "Price Indices",
+      "Public Finance 2"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "generating"
+}

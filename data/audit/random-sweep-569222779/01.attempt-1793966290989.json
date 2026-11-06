@@ -1,0 +1,720 @@
+{
+  "index": 1,
+  "label": "Cambridge / Exam / Cambridge International AS  A Level Further Mathematics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "textbook_id": 19,
+    "topic_ids": [
+      264
+    ],
+    "topics": [
+      "Projectiles"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 44,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A particle, P, of mass m is resting on the inside of a smooth, circular ring, with centre O and radius a. The particle is projected from the lowest point with a horizontal speed of u where u^2 = 2ga. Refer to the diagram.",
+        "question": "Calculate the speed of the particle when it reaches the highest point of the ring.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify relevant principles (conservation of energy, etc.),",
+          "Correctly apply the principle to the scenario.",
+          "Arrive at the correct numerical answer."
+        ],
+        "hints": [
+          "Use the principle of conservation of mechanical energy."
+        ],
+        "model_answer": "At the lowest point, the total energy is purely kinetic: E_total = 1/2 * m * u^2. At the highest point, the total energy is E_total = m*g*2a + 1/2 * m * v^2. Equate and solve for v: 1/2 * m * (2ga) = m*g*2a + 1/2 * m * v^2. Solving gives v = 0.",
+        "explanation": "Using the conservation of energy principle, equate the total energy at the lowest and highest points to find the speed at the highest point.",
+        "exam_question_id": "023b9e59-7f25-4ebe-ac11-57a50901bc31:1",
+        "topic_label": "Circular motion",
+        "image_url": "/textbook-images/textbook-bank/19/s380-f0.jpg",
+        "image_alt": "A large circle (a vertical ring) with centre O. A dotted horizontal line through O is labelled \"PE = 0\". A dashed vertical line of length a runs from O down to the lowest point of the ring, where a dot has an arrow labelled u pointing right. A dashed line from O to a point P on the ring, to the lower right, makes an angle θ with the downward vertical. At P, the velocity v is shown tangent to the ring, the normal reaction R points toward O along OP, and the weight mg points straight down.\nLabels: PE = 0, O, θ, R, v, a, P, mg, u\nOriginal exercise: A particle, P, of mass m is resting on the insid",
+        "checked": true,
+        "topic_id": 264,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Circular motion"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A particle, P, of mass m is resting on the inside of a smooth, circular ring, with centre O and radius a. The particle is projected from the lowest point with a horizontal speed of u where u^2 = 2ga. Refer to the diagram.",
+        "question": "State the magnitude of the normal reaction force at the highest point of the ring.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify relevant principles (Newton's second law, centripetal force, etc.),",
+          "Correctly apply the principle to the scenario."
+        ],
+        "hints": [
+          "Stay focused on this: State the magnitude of the normal reaction force at the highest point of the ring — develop the idea fully rather than listing short points. Make sure you also cover: Identify relevant principles (Newton's second law, force, etc.),; Correctly apply the principle to the scenario."
+        ],
+        "model_answer": "At the highest point, the normal reaction force provides the centripetal force: R - m*g = m*v^2/a.",
+        "explanation": "At the highest point, the normal reaction force minus the weight provides the centripetal force needed to keep the particle in circular motion.",
+        "exam_question_id": "023b9e59-7f25-4ebe-ac11-57a50901bc31:1",
+        "topic_label": "Circular motion",
+        "image_url": "/textbook-images/textbook-bank/19/s380-f0.jpg",
+        "image_alt": "A large circle (a vertical ring) with centre O. A dotted horizontal line through O is labelled \"PE = 0\". A dashed vertical line of length a runs from O down to the lowest point of the ring, where a dot has an arrow labelled u pointing right. A dashed line from O to a point P on the ring, to the lower right, makes an angle θ with the downward vertical. At P, the velocity v is shown tangent to the ring, the normal reaction R points toward O along OP, and the weight mg points straight down.\nLabels: PE = 0, O, θ, R, v, a, P, mg, u\nOriginal exercise: A particle, P, of mass m is resting on the insid",
+        "checked": true,
+        "topic_id": 264,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Circular motion"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A ball is projected vertically upwards from the ground with an initial speed of 20 m/s.",
+        "question": "Calculate the time it takes for the ball to reach its maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the equation for time to reach maximum height",
+          "Substitute the given initial speed into the equation",
+          "Solve for time"
+        ],
+        "hints": [
+          "Use the formula t = u/g, where u is the initial speed and g is the acceleration due to gravity."
+        ],
+        "model_answer": "t = 20/9.8 = 2.04 s",
+        "explanation": "Using the formula for time to reach maximum height, t = u/g, we substitute u = 20 m/s and g = 9.8 m/s^2. Solving for t gives t = 2.04 s.",
+        "exam_question_id": "fbc2c535-b856-47bf-b181-31976036730f:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A ball is projected vertically upwards from the ground with an initial speed of 20 m/s.",
+        "question": "Find the maximum height reached by the ball.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the equation for maximum height",
+          "Substitute the given initial speed into the equation",
+          "Solve for maximum height"
+        ],
+        "hints": [
+          "Use the formula H = u^2/(2g), where u is the initial speed and g is the acceleration due to gravity."
+        ],
+        "model_answer": "H = (20^2)/(2*9.8) = 20.4 m",
+        "explanation": "Using the formula for maximum height, H = u^2/(2g), we substitute u = 20 m/s and g = 9.8 m/s^2. Solving for H gives H = 20.4 m.",
+        "exam_question_id": "fbc2c535-b856-47bf-b181-31976036730f:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A stone is thrown vertically upwards from the top of a 30 m high cliff with an initial speed of 15 m/s.",
+        "question": "Calculate the total time the stone is in the air.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the equation for time to reach the ground",
+          "Substitute the given height and initial speed into the equation",
+          "Solve for time"
+        ],
+        "hints": [
+          "Use the formula t = (u + sqrt(u^2 + 2gh))/g, where u is the initial speed, g is the acceleration due to gravity, and h is the height of the cliff."
+        ],
+        "model_answer": "t = (15 + sqrt(15^2 + 2*9.8*30))/(9.8) = 5.61 s",
+        "explanation": "Using the formula for total time in the air, t = (u + sqrt(u^2 + 2gh))/g, we substitute u = 15 m/s, g = 9.8 m/s^2, and h = 30 m. Solving for t gives t = 5.61 s.",
+        "exam_question_id": "fbc2c535-b856-47bf-b181-31976036730f:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A stone is thrown vertically upwards from the top of a 30 m high cliff with an initial speed of 15 m/s.",
+        "question": "Find the velocity of the stone when it hits the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the equation for final velocity",
+          "Substitute the given height and initial speed into the equation",
+          "Solve for final velocity"
+        ],
+        "hints": [
+          "Use the formula v = sqrt(u^2 + 2gh), where u is the initial speed, g is the acceleration due to gravity, and h is the height of the cliff."
+        ],
+        "model_answer": "v = sqrt(15^2 + 2*9.8*30) = 38.3 m/s",
+        "explanation": "Using the formula for final velocity, v = sqrt(u^2 + 2gh), we substitute u = 15 m/s, g = 9.8 m/s^2, and h = 30 m. Solving for v gives v = 38.3 m/s.",
+        "exam_question_id": "fbc2c535-b856-47bf-b181-31976036730f:2",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "An arrow is shot vertically upwards with an initial speed of 40 m/s from the ground.",
+        "question": "Calculate the time it takes for the arrow to return to the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the equation for total time in the air",
+          "Substitute the given initial speed into the equation",
+          "Solve for total time"
+        ],
+        "hints": [
+          "Use the formula t = 2u/g, where u is the initial speed and g is the acceleration due to gravity."
+        ],
+        "model_answer": "t = 2*40/9.8 = 8.16 s",
+        "explanation": "Using the formula for total time in the air, t = 2u/g, we substitute u = 40 m/s and g = 9.8 m/s^2. Solving for t gives t = 8.16 s.",
+        "exam_question_id": "fbc2c535-b856-47bf-b181-31976036730f:3",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "An arrow is shot vertically upwards with an initial speed of 40 m/s from the ground.",
+        "question": "Find the maximum height reached by the arrow.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the equation for maximum height",
+          "Substitute the given initial speed into the equation",
+          "Solve for maximum height"
+        ],
+        "hints": [
+          "Use the formula H = u^2/(2g), where u is the initial speed and g is the acceleration due to gravity."
+        ],
+        "model_answer": "H = (40^2)/(2*9.8) = 81.6 m",
+        "explanation": "Using the formula for maximum height, H = u^2/(2g), we substitute u = 40 m/s and g = 9.8 m/s^2. Solving for H gives H = 81.6 m.",
+        "exam_question_id": "fbc2c535-b856-47bf-b181-31976036730f:3",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A projectile is launched from a height of 10 m with an initial velocity of 15 m/s at an angle of 45 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Calculate the time taken for the projectile to reach the maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for time to reach maximum height.",
+          "Substitute the given values into the formula and calculate correctly.",
+          "Show the full working."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the time taken for the projectile to reach the maximum height — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for time to reach maximum height.; Substitute the given values into the formula and calculate correctly.;…."
+        ],
+        "model_answer": "t = (15 * sin(45)) / 9.8 = (15 * (sqrt(2)/2)) / 9.8 = 1.08 s",
+        "explanation": "Use the formula t = (v_y) / g where v_y is the vertical component of the initial velocity. Substitute the given values and show the full working to calculate the time taken to reach the maximum height.",
+        "exam_question_id": "f754ca29-ea66-4505-974a-d9f7e78a2faf:2",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A projectile is launched from a height of 10 m with an initial velocity of 15 m/s at an angle of 45 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Find the maximum height reached by the projectile above the launch point.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for maximum height above the launch point.",
+          "Substitute the given values into the formula and calculate correctly.",
+          "Show the full working."
+        ],
+        "hints": [
+          "Stay focused on this: Find the maximum height reached by the projectile above the launch point — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for maximum height above the launch point.; Substitute the given values into the formula and calculate…."
+        ],
+        "model_answer": "H = 10 + (15 * sin(45))^2 / (2 * 9.8) = 10 + (15 * (sqrt(2)/2))^2 / 19.6 = 17.15 m",
+        "explanation": "Use the formula H = h + (v_y^2) / (2g) where h is the initial height and v_y is the vertical component of the initial velocity. Substitute the given values and show the full working to calculate the maximum height reached above the launch point.",
+        "exam_question_id": "f754ca29-ea66-4505-974a-d9f7e78a2faf:2",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A projectile is launched from a height of 10 m with an initial velocity of 15 m/s at an angle of 45 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "State the Cartesian equation of the trajectory of the projectile.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly state the Cartesian equation of the trajectory.",
+          "Ensure the equation is in the correct form."
+        ],
+        "hints": [
+          "Use the equations of motion for horizontal and vertical displacement."
+        ],
+        "model_answer": "y = x * tan(theta) - (g * x^2) / (2 * v_x^2 * cos^2(theta)) + h",
+        "explanation": "State the Cartesian equation of the trajectory using the equations of motion for horizontal and vertical displacement. Substitute the given values and show the full working.",
+        "exam_question_id": "f754ca29-ea66-4505-974a-d9f7e78a2faf:2",
+        "topic_label": "The Cartesian equation of the trajectory",
+        "topic_id": 264,
+        "checked": true,
+        "subtopic_id": 1158,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A projectile is launched from a height of 20 m with an initial velocity of 20 m/s at an angle of 30 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Calculate the time taken for the projectile to reach the maximum height.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifying the time to reach maximum height formula.",
+          "Substituting the given values and solving for time."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the time taken for the projectile to reach the maximum height — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifying the time to reach maximum height formula.; Substituting the given values and solving for time."
+        ],
+        "model_answer": "t = (20 * sin(30)) / 9.8 = 1.02 s",
+        "explanation": "Using the formula for time to reach maximum height, t = (v0 * sin(theta)) / g, and substituting v0 = 20 m/s, theta = 30 degrees, and g = 9.8 m/s^2, we find t = 1.02 s.",
+        "exam_question_id": "c84aa71f-51f8-4ac0-8187-542cf9338de0:2",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A projectile is launched from a height of 20 m with an initial velocity of 20 m/s at an angle of 30 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "State the Cartesian equation of the trajectory of the projectile.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifying the parametric equations for x and y.",
+          "Eliminating the parameter t to obtain the Cartesian equation.",
+          "Stating the final Cartesian equation."
+        ],
+        "hints": [
+          "Use the parametric equations and eliminate the time variable t."
+        ],
+        "model_answer": "y = -4.9x^2/(20^2 * cos(30)^2) + x * tan(30) + 20",
+        "explanation": "Using the parametric equations x = (v0 * cos(theta)) * t and y = (v0 * sin(theta)) * t - 0.5 * g * t^2, and substituting v0 = 20 m/s, theta = 30 degrees, and g = 9.8 m/s^2, we can eliminate the parameter t to obtain the Cartesian equation y = -4.9x^2/(20^2 * cos(30)^2) + x * tan(30) + 20.",
+        "exam_question_id": "c84aa71f-51f8-4ac0-8187-542cf9338de0:2",
+        "topic_label": "The Cartesian equation of the trajectory",
+        "topic_id": 264,
+        "checked": true,
+        "subtopic_id": 1158,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A projectile is launched from the ground with an initial velocity of 10 m/s at an angle of 60 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Calculate the horizontal component of the initial velocity.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the horizontal component formula.",
+          "Substitute the given values into the formula."
+        ],
+        "hints": [
+          "Use the formula: v0x = v0 * cos(theta)."
+        ],
+        "model_answer": "v0x = 10 * cos(60) = 10 * 0.5 = 5 m/s",
+        "explanation": "You correctly used the formula for the horizontal component of the initial velocity, which is v0x = v0 * cos(theta). Substituting the given values, you calculated the horizontal component as 5 m/s.",
+        "exam_question_id": "e22a4034-1a57-4184-a9ea-7809026c07ba:1",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A projectile is launched from the ground with an initial velocity of 10 m/s at an angle of 60 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Find the time taken for the projectile to reach the maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the time formula for maximum height.",
+          "Substitute the given values into the formula.",
+          "Solve for time."
+        ],
+        "hints": [
+          "Use the formula: t = (v0 * sin(theta)) / g."
+        ],
+        "model_answer": "t = (10 * sin(60)) / 9.8 = (10 * 0.866) / 9.8 = 0.883 s",
+        "explanation": "You correctly used the formula for the time taken to reach maximum height, which is t = (v0 * sin(theta)) / g. Substituting the given values, you calculated the time as 0.883 s.",
+        "exam_question_id": "e22a4034-1a57-4184-a9ea-7809026c07ba:1",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A projectile is launched from the ground with an initial velocity of 10 m/s at an angle of 60 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "State the Cartesian equation of the trajectory of the projectile.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the equations for x(t) and y(t).",
+          "Substitute the given values into the equations.",
+          "Combine the equations to form the Cartesian equation."
+        ],
+        "hints": [
+          "Stay focused on this: State the Cartesian equation of the trajectory of the projectile — develop the idea fully rather than listing short points. Make sure you also cover: Identify the equations for x(t) and y(t).; Substitute the given values into the equations.; Combine the equations to form the Cartesian equation."
+        ],
+        "model_answer": "x(t) = 5 * t, y(t) = 8.66 * t - 4.9 * t^2, Cartesian equation: y = 8.66 * x - 4.9 * (x/5)^2",
+        "explanation": "You correctly used the equations for x(t) and y(t) and substituted the given values. You then combined the equations to form the Cartesian equation of the trajectory as y = 8.66 * x - 4.9 * (x/5)^2.",
+        "exam_question_id": "e22a4034-1a57-4184-a9ea-7809026c07ba:1",
+        "topic_label": "The Cartesian equation of the trajectory",
+        "topic_id": 264,
+        "checked": true,
+        "subtopic_id": 1158,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A ball is projected from the top of a 40 m high tower with an initial speed of 25 m/s at an angle of 53 degrees above the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Calculate the time taken for the ball to reach the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly decompose initial velocity into vertical and horizontal components.",
+          "Use appropriate kinematic equations to find the time of flight.",
+          "Show all necessary steps and calculations."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the time taken for the ball to reach the ground — develop the idea fully rather than listing short points. Make sure you also cover: Correctly decompose into and components.; appropriate kinematic equations to find the time of flight.; all necessary steps and calculations."
+        ],
+        "model_answer": "Initial vertical velocity, v_{y0} = 25 * sin(53) = 20 m/s\nInitial horizontal velocity, v_{x0} = 25 * cos(53) = 15 m/s\n\nUsing the equation of motion for vertical displacement:\n0 = 20t - 0.5 * 9.8 * t^2 + 40\n4.9t^2 - 20t - 40 = 0\n\nSolving the quadratic equation, we get:\nt = (20 ± sqrt(20^2 - 4 * 4.9 * -40)) / (2 * 4.9)\nt = (20 ± sqrt(1600 + 784)) / 9.8\nt = (20 ± sqrt(2384)) / 9.8\nt = (20 ± 48.8) / 9.8\nt = 6.99 s (approx)\n\nTherefore, the time taken for the ball to reach the ground is approximately 6.99 s.",
+        "explanation": "To calculate the time taken for the ball to reach the ground, we first decompose the initial velocity into its vertical and horizontal components. The vertical component is found by multiplying the initial speed by the sine of the angle (25 * sin(53) = 20 m/s), and the horizontal component is found by multiplying the initial speed by the cosine of the angle (25 * cos(53) = 15 m/s). Then, we use the equation of motion for vertical displacement to find the time of flight. The equation is 0 = 20t - 0.5 * 9.8 * t^2 + 40, where t is the time taken. Solving this quadratic equation gives us the time taken for the ball to reach the ground, which is approximately 6.99 s.",
+        "exam_question_id": "5c746fad-0543-4842-b6fc-db18b57fa943:1",
+        "topic_label": "Motion in the vertical plane",
+        "topic_id": 264,
+        "checked": true,
+        "subtopic_id": 1157,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A ball is projected from the top of a 40 m high tower with an initial speed of 25 m/s at an angle of 53 degrees above the horizontal. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Find the horizontal distance travelled by the ball before it hits the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly determine the time of flight using the result from part (a).",
+          "Use the horizontal component of the initial velocity and the time of flight to find the horizontal distance.",
+          "Show all necessary steps and calculations."
+        ],
+        "hints": [
+          "Stay focused on this: Find the horizontal distance travelled by the ball before it hits the ground — develop the idea fully rather than listing short points. Make sure you also cover: Correctly determine the of using the result from (a).; all necessary steps and calculations."
+        ],
+        "model_answer": "Time of flight, t = 6.99 s (from part a)\n\nHorizontal distance traveled, d = v_{x0} * t\nd = 15 * 6.99\nd = 104.85 m\n\nTherefore, the horizontal distance traveled by the ball before it hits the ground is 104.85 m.",
+        "explanation": "To find the horizontal distance travelled by the ball before it hits the ground, we use the horizontal component of the initial velocity (15 m/s) and the time of flight (6.99 s) from part (a). The horizontal distance is calculated by multiplying the horizontal component of the initial velocity by the time of flight. Therefore, the horizontal distance travelled by the ball before it hits the ground is 104.85 m.",
+        "exam_question_id": "5c746fad-0543-4842-b6fc-db18b57fa943:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A projectile is launched from a height of 10 m with an initial velocity of 25 m/s at an angle of 60 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s².",
+        "question": "Calculate the horizontal component of the initial velocity.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly decompose the initial velocity into horizontal and vertical components.",
+          "State the horizontal component of the initial velocity."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the horizontal component of the initial velocity — develop the idea fully rather than listing short points. Make sure you also cover: Correctly decompose the initial velocity into horizontal and vertical components."
+        ],
+        "model_answer": "Horizontal component = 25 * cos(60) = 25 * 0.5 = 12.5 m/s",
+        "explanation": "The horizontal component of the initial velocity is found by multiplying the magnitude of the initial velocity by the cosine of the launch angle.",
+        "exam_question_id": "9b3b9ac7-9305-4572-960b-dfb390a408d1:1",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A projectile is launched from a height of 10 m with an initial velocity of 25 m/s at an angle of 60 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s².",
+        "question": "Find the time taken for the projectile to reach the maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the vertical component of the initial velocity.",
+          "Use the vertical motion equations to find the time taken to reach the maximum height.",
+          "State the time taken for the projectile to reach the maximum height."
+        ],
+        "hints": [
+          "Stay focused on this: Find the time taken for the projectile to reach the maximum height — develop the idea fully rather than listing short points. Make sure you also cover: Identify the of the initial velocity.; the motion equations to find the time taken to reach the maximum height.; the time taken for the…."
+        ],
+        "model_answer": "Vertical component = 25 * sin(60) = 25 * 0.866 = 21.65 m/s\nUsing the equation v = u + at, where v = 0 (at maximum height), u = 21.65 m/s, and a = -9.8 m/s², we get t = 21.65 / 9.8 = 2.21 seconds.",
+        "explanation": "The time taken for the projectile to reach the maximum height is found by using the vertical component of the initial velocity and the acceleration due to gravity.",
+        "exam_question_id": "9b3b9ac7-9305-4572-960b-dfb390a408d1:1",
+        "topic_label": "The Cartesian equation of the trajectory (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory (Projectiles)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A projectile is launched from a height of 10 m with an initial velocity of 25 m/s at an angle of 60 degrees to the horizontal. Assume gravitational acceleration, g, is 9.8 m/s².",
+        "question": "State the Cartesian equation of the trajectory of the projectile.",
+        "marks": 3,
+        "marking_criteria": [
+          "Express the horizontal and vertical displacements in terms of time.",
+          "Eliminate the time variable to obtain the Cartesian equation.",
+          "State the Cartesian equation of the trajectory of the projectile."
+        ],
+        "hints": [
+          "Stay focused on this: State the Cartesian equation of the trajectory of the projectile — develop the idea fully rather than listing short points. Make sure you also cover: Express the horizontal and vertical displacements in terms of time.; Eliminate the time variable to obtain the Cartesian equation."
+        ],
+        "model_answer": "x = (25 * cos(60)) * t = 12.5 * t\ny = 10 + (25 * sin(60)) * t - (1/2) * 9.8 * t^2 = 10 + 21.65 * t - 4.9 * t^2\nThe Cartesian equation of the trajectory is y = 10 + 21.65 * (x / 12.5) - 4.9 * (x / 12.5)^2.",
+        "explanation": "The Cartesian equation of the trajectory is found by expressing the horizontal and vertical displacements in terms of time and then eliminating the time variable.",
+        "exam_question_id": "9b3b9ac7-9305-4572-960b-dfb390a408d1:1",
+        "topic_label": "The Cartesian equation of the trajectory",
+        "topic_id": 264,
+        "checked": true,
+        "subtopic_id": 1158,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "The Cartesian equation of the trajectory"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A stone is thrown vertically upwards from the top of a 25 m high building with an initial speed of 20 m/s. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Calculate the time taken for the stone to reach the maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial velocity and acceleration due to gravity.",
+          "Use the appropriate kinematic equation to find time.",
+          "Solve for time accurately."
+        ],
+        "hints": [
+          "Use the equation v = u + at where v is the final velocity (0 m/s at max height), u is the initial velocity, a is acceleration due to gravity, and t is the time."
+        ],
+        "model_answer": "u = 20 m/s, a = -9.8 m/s^2, v = 0 m/s \n0 = 20 + (-9.8)t \n9.8t = 20 \nt = 20 / 9.8 = 2.04 s",
+        "explanation": "The initial velocity of the stone is 20 m/s upwards, and at the maximum height, the final velocity is 0 m/s. Using the equation v = u + at, we can solve for the time it takes to reach the maximum height.",
+        "exam_question_id": "89d3202f-0b78-4345-84b5-aba4c5a8cdc6:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A stone is thrown vertically upwards from the top of a 25 m high building with an initial speed of 20 m/s. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Find the maximum height reached by the stone above the launch point.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the appropriate kinematic equation to find maximum height.",
+          "Substitute the given values into the equation.",
+          "Solve for the maximum height accurately."
+        ],
+        "hints": [
+          "Use the equation v^2 = u^2 + 2as where v is the final velocity (0 m/s at max height), u is the initial velocity, a is acceleration due to gravity, and s is the displacement."
+        ],
+        "model_answer": "u = 20 m/s, a = -9.8 m/s^2, v = 0 m/s, s =?\n0 = 20^2 + 2(-9.8)s \n0 = 400 - 19.6s \n19.6s = 400 \ns = 400 / 19.6 = 20.41 m",
+        "explanation": "The initial velocity of the stone is 20 m/s upwards, and at the maximum height, the final velocity is 0 m/s. Using the equation v^2 = u^2 + 2as, we can solve for the maximum height reached by the stone above the launch point.",
+        "exam_question_id": "89d3202f-0b78-4345-84b5-aba4c5a8cdc6:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A stone is thrown vertically upwards from the top of a 25 m high building with an initial speed of 20 m/s. Assume gravitational acceleration, g, is 9.8 m/s^2.",
+        "question": "Calculate the total time the stone is in the air until it hits the ground.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the time taken to reach the maximum height.",
+          "Use the time of flight formula for vertical motion.",
+          "Solve for the total time accurately."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total time the stone is in the air until it hits the ground — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the time taken to the maximum; the time of flight formula for vertical motion."
+        ],
+        "model_answer": "Time to reach max height = 2.04 s \nTotal time = 2 * 2.04 s = 4.08 s",
+        "explanation": "The stone takes 2.04 s to reach the maximum height and another 2.04 s to fall back down to the ground. Therefore, the total time the stone is in the air is 4.08 s.",
+        "exam_question_id": "89d3202f-0b78-4345-84b5-aba4c5a8cdc6:1",
+        "topic_label": "Motion in the vertical plane (Projectiles)",
+        "topic_id": 264,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Motion in the vertical plane (Projectiles)"
+        }
+      }
+    ],
+    "estimated_time": 67,
+    "assessment_id": "6c590c2e-997d-462b-b728-366e89c4fe3e",
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "topics": [
+      "Projectiles"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 19,
+    "topic_ids": [
+      264
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 11"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 45
+}

@@ -1,8 +1,11 @@
 import { defineConfig } from 'vitest/config'
+import { loadEnv } from 'vite'
 import path from 'node:path'
 
 export default defineConfig({
   test: {
+    // Match Next's public asset configuration without loading private service credentials.
+    env: loadEnv('test', __dirname, 'NEXT_PUBLIC_'),
     environment: 'node',
     include: ['**/*.test.ts'],
     // Scope to project source: skip build output and installed agent/plugin scratch

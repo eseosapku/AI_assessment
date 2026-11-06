@@ -1,0 +1,30 @@
+{
+  "index": 8,
+  "label": "Cambridge / Practice / Cambridge International AS and A Level English Language Coursebook ",
+  "request": {
+    "subject": "Cambridge International AS and A Level English Language Coursebook ",
+    "textbook_id": 25,
+    "topic_ids": [
+      366
+    ],
+    "topics": [
+      "Unit 5: Spoken language and social groups"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS and A Level English Language Coursebook ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": "Error: Failed to generate 10 complete questions. The AI produced 9. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 83,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 10 complete questions. The AI produced 9. Please try again."
+  },
+  "totalSeconds": 83
+}

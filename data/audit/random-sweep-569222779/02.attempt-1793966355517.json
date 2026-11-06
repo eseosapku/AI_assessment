@@ -1,0 +1,26 @@
+{
+  "index": 2,
+  "label": "Cambridge / Exam / Cambridge Lower Secondary Computing 8 Students Book ",
+  "request": {
+    "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "textbook_id": 30,
+    "topic_ids": [
+      393,
+      394
+    ],
+    "topics": [
+      "Testing conditions: Developing games",
+      "Data input: Data collection and validation"
+    ],
+    "curriculum": "cambridge",
+    "grade": 8,
+    "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "generating"
+}

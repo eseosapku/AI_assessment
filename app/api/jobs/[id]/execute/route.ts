@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { claimQueuedAiJob, completeAiJob, failAiJob } from '@/lib/ai-jobs'
 
+export const maxDuration = 660
+
 function canExecuteJob(request: NextRequest) {
   const runnerToken = process.env.INTERNAL_JOB_RUNNER_TOKEN
   const provided = request.headers.get('x-job-runner-token')

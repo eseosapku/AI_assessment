@@ -1,0 +1,933 @@
+{
+  "index": 8,
+  "label": "REB / Exam / GENERAL EDU-Chemistry-S2-SB",
+  "request": {
+    "subject": "GENERAL EDU-Chemistry-S2-SB",
+    "textbook_id": 94,
+    "topic_ids": [
+      979,
+      977
+    ],
+    "topics": [
+      "Properties of Organic Compounds and Uses of Alkanes",
+      "Preparation and Classification of Oxides"
+    ],
+    "curriculum": "rwanda",
+    "grade": 8,
+    "className": "S2",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 65,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing the apparatus for passing carbon dioxide through calcium hydroxide solution. A clamped upright test tube A is closed by a cork. The cork holds a dropping funnel that supplies dilute hydrochloric acid, and sodium carbonate sits at the bottom of the tube. Carbon dioxide gas passes through a bent delivery tube into test tube B, which is held by a hand and contains calcium hydroxide solution that looks cloudy with a white precipitate. A stand is on a wooden base, and the figure is captioned 'Passing carbon dioxide gas through calcium hydroxide solution.'",
+        "question": "State the purpose of the dropping funnel in the apparatus.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the dropping funnel's role in the experiment.",
+          "Explain how it contributes to the reaction."
+        ],
+        "hints": [
+          "Stay focused on this: State the purpose of the dropping funnel in the apparatus — develop the idea fully rather than listing short points. Make sure you also cover: Identify the dropping funnel's role in the experiment.; how it contributes to the."
+        ],
+        "model_answer": "The dropping funnel is used to supply dilute hydrochloric acid to the sodium carbonate at the bottom of test tube A. This allows for a controlled reaction that produces carbon dioxide gas, which is then passed into test tube B.",
+        "explanation": "The dropping funnel allows for a controlled addition of hydrochloric acid, ensuring a steady production of carbon dioxide gas.",
+        "exam_question_id": "9ad657c7-db37-4ef1-a19a-2f707c360f2e:1",
+        "topic_label": "Preparation and Classification of Oxides",
+        "topic_id": 977,
+        "image_url": "/textbook-images/textbook-bank/93/p151-f0.png",
+        "image_alt": "Apparatus for passing carbon dioxide through calcium hydroxide solution. A clamped upright test tube A is closed by a cork. The cork holds a dropping funnel that supplies dilute hydrochloric acid, and sodium carbonate sits at the bottom of the tube. Carbon dioxide gas passes through a bent delivery tube into test tube B, which is held by a hand and contains calcium hydroxide solution that looks cloudy with a white precipitate. A stand is on a wooden base, and the figure is captioned 'Passing carbon dioxide gas through calcium hydroxide solution.'\nLabels: Dropping funnel, Stand, Delivery tube, ",
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Preparation and Classification of Oxides"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing the apparatus for passing carbon dioxide through calcium hydroxide solution. A clamped upright test tube A is closed by a cork. The cork holds a dropping funnel that supplies dilute hydrochloric acid, and sodium carbonate sits at the bottom of the tube. Carbon dioxide gas passes through a bent delivery tube into test tube B, which is held by a hand and contains calcium hydroxide solution that looks cloudy with a white precipitate. A stand is on a wooden base, and the figure is captioned 'Passing carbon dioxide gas through calcium hydroxide solution.'",
+        "question": "Explain why the calcium hydroxide solution in test tube B appears cloudy with a white precipitate when carbon dioxide is passed through it.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the chemical reaction occurring.",
+          "Explain the formation of the white precipitate.",
+          "Relate the appearance of the solution to the reaction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the calcium hydroxide solution in test tube B appears cloudy with a white precipitate when carbon dioxide is passed through it — develop the idea fully rather than listing short points. Make sure you also cover: Identify the chemical occurring.; Relate the appearance of the solution…."
+        ],
+        "model_answer": "When carbon dioxide gas is passed through the calcium hydroxide solution, it reacts to form calcium carbonate, which is a white precipitate. The reaction is: Ca(OH)2 + CO2 -> CaCO3 + H2O. The white precipitate makes the solution appear cloudy.",
+        "explanation": "The white precipitate forms due to the reaction between calcium hydroxide and carbon dioxide, resulting in the formation of calcium carbonate.",
+        "exam_question_id": "9ad657c7-db37-4ef1-a19a-2f707c360f2e:1",
+        "topic_label": "Preparation and Classification of Oxides",
+        "topic_id": 977,
+        "image_url": "/textbook-images/textbook-bank/93/p151-f0.png",
+        "image_alt": "Apparatus for passing carbon dioxide through calcium hydroxide solution. A clamped upright test tube A is closed by a cork. The cork holds a dropping funnel that supplies dilute hydrochloric acid, and sodium carbonate sits at the bottom of the tube. Carbon dioxide gas passes through a bent delivery tube into test tube B, which is held by a hand and contains calcium hydroxide solution that looks cloudy with a white precipitate. A stand is on a wooden base, and the figure is captioned 'Passing carbon dioxide gas through calcium hydroxide solution.'\nLabels: Dropping funnel, Stand, Delivery tube, ",
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Preparation and Classification of Oxides"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing the apparatus for passing carbon dioxide through calcium hydroxide solution. A clamped upright test tube A is closed by a cork. The cork holds a dropping funnel that supplies dilute hydrochloric acid, and sodium carbonate sits at the bottom of the tube. Carbon dioxide gas passes through a bent delivery tube into test tube B, which is held by a hand and contains calcium hydroxide solution that looks cloudy with a white precipitate. A stand is on a wooden base, and the figure is captioned 'Passing carbon dioxide gas through calcium hydroxide solution.'",
+        "question": "Calculate the mass of calcium carbonate produced if 10 g of calcium hydroxide reacts completely with excess carbon dioxide. Use the following molar masses: Ca(OH)2 = 74 g/mol, CaCO3 = 100 g/mol.",
+        "marks": 4,
+        "marking_criteria": [
+          "Write the balanced chemical equation.",
+          "Calculate the moles of calcium hydroxide.",
+          "Determine the moles of calcium carbonate produced.",
+          "Calculate the mass of calcium carbonate."
+        ],
+        "hints": [
+          "Use the molar masses to convert between grams and moles."
+        ],
+        "model_answer": "Balanced equation: Ca(OH)2 + CO2 -> CaCO3 + H2O. Moles of Ca(OH)2 = 10 g / 74 g/mol = 0.135 mol. Since the mole ratio is 1:1, moles of CaCO3 = 0.135 mol. Mass of CaCO3 = 0.135 mol * 100 g/mol = 13.5 g.",
+        "explanation": "By calculating the moles of calcium hydroxide and using the mole ratio from the balanced equation, we can find the moles and then the mass of calcium carbonate produced.",
+        "exam_question_id": "9ad657c7-db37-4ef1-a19a-2f707c360f2e:1",
+        "topic_label": "Preparation and Classification of Oxides",
+        "topic_id": 977,
+        "image_url": "/textbook-images/textbook-bank/93/p151-f0.png",
+        "image_alt": "Apparatus for passing carbon dioxide through calcium hydroxide solution. A clamped upright test tube A is closed by a cork. The cork holds a dropping funnel that supplies dilute hydrochloric acid, and sodium carbonate sits at the bottom of the tube. Carbon dioxide gas passes through a bent delivery tube into test tube B, which is held by a hand and contains calcium hydroxide solution that looks cloudy with a white precipitate. A stand is on a wooden base, and the figure is captioned 'Passing carbon dioxide gas through calcium hydroxide solution.'\nLabels: Dropping funnel, Stand, Delivery tube, ",
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Preparation and Classification of Oxides"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of calcium oxide (CaO) with water to form calcium hydroxide (Ca(OH)2). The reaction is exothermic and can be represented by the equation: CaO(s) + H2O(l) -> Ca(OH)2(aq). In a laboratory setting, 5.00 g of calcium oxide is added to 50.0 mL of water at 25°C.",
+        "question": "Calculate the amount of heat released during the reaction if the enthalpy change for the reaction is -63.2 kJ/mol.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of moles of CaO.",
+          "Correct calculation of heat released.",
+          "Correct use of units and significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the amount of heat released during the reaction if the enthalpy change for the reaction is -63.2 kJ/mol — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of of CaO.; Correct use of units and significant figures."
+        ],
+        "model_answer": "Molar mass of CaO = 40.08 (Ca) + 16.00 (O) = 56.08 g/mol. Moles of CaO = 5.00 g / 56.08 g/mol = 0.0892 mol. Heat released = 0.0892 mol * -63.2 kJ/mol = -5.63 kJ.",
+        "explanation": "To find the amount of heat released, first calculate the number of moles of CaO using its molar mass. Then, multiply the moles by the enthalpy change to find the heat released.",
+        "exam_question_id": "4dfd0377-340b-4479-aa2b-91d089ce7eec:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of calcium oxide (CaO) with water to form calcium hydroxide (Ca(OH)2). The reaction is exothermic and can be represented by the equation: CaO(s) + H2O(l) -> Ca(OH)2(aq). In a laboratory setting, 5.00 g of calcium oxide is added to 50.0 mL of water at 25°C.",
+        "question": "Explain why the reaction is exothermic and describe the energy changes involved.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of exothermic reaction.",
+          "Correct description of energy changes.",
+          "Use of appropriate terminology."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the reaction is exothermic and describe the energy changes involved — develop the idea fully rather than listing short points. Make sure you also cover: Correct description of energy changes.; of appropriate terminology."
+        ],
+        "model_answer": "The reaction is exothermic because the energy released when new bonds are formed in Ca(OH)2 is greater than the energy required to break the bonds in CaO and H2O. This results in a net release of energy to the surroundings, causing the temperature to rise.",
+        "explanation": "An exothermic reaction releases energy to the surroundings. In this case, the formation of Ca(OH)2 releases more energy than is needed to break the bonds in CaO and H2O, leading to a net release of energy.",
+        "exam_question_id": "4dfd0377-340b-4479-aa2b-91d089ce7eec:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction of calcium oxide (CaO) with water to form calcium hydroxide (Ca(OH)2). The reaction is exothermic and can be represented by the equation: CaO(s) + H2O(l) -> Ca(OH)2(aq). In a laboratory setting, 5.00 g of calcium oxide is added to 50.0 mL of water at 25°C.",
+        "question": "Describe how you would measure the temperature change during the reaction and explain why it is important to control the variables.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct description of temperature measurement.",
+          "Explanation of the importance of controlling variables.",
+          "Use of appropriate scientific terminology."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would measure the temperature change during the reaction and explain why it is important to control the variables — develop the idea fully rather than listing short points. Make sure you also cover: Correct description of temperature measurement.; Explanation of the importance…."
+        ],
+        "model_answer": "To measure the temperature change, use a thermometer to record the initial temperature of the water before adding CaO. After adding CaO, stir the mixture and record the temperature at regular intervals until it stabilizes. It is important to control variables such as the initial temperature of the water, the amount of CaO, and the volume of water to ensure accurate and reproducible results.",
+        "explanation": "Measuring the temperature change helps determine the heat released during the reaction. Controlling variables ensures that the results are accurate and can be compared to other experiments.",
+        "exam_question_id": "4dfd0377-340b-4479-aa2b-91d089ce7eec:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of calcium oxide (CaO) with hydrochloric acid (HCl). The balanced chemical equation for this reaction is: CaO(s) + 2HCl(aq) -> CaCl2(aq) + H2O(l). You have a 1.0 g sample of calcium oxide and an excess of hydrochloric acid.",
+        "question": "Calculate the number of moles of calcium oxide in the 1.0 g sample.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the molar mass of calcium oxide (CaO).",
+          "Convert the mass of calcium oxide to moles using the molar mass.",
+          "Provide the final answer with correct units."
+        ],
+        "hints": [
+          "Use the periodic table to find the molar masses of calcium and oxygen."
+        ],
+        "model_answer": "Molar mass of CaO = 40.08 g/mol (Ca) + 16.00 g/mol (O) = 56.08 g/mol. Number of moles = mass / molar mass = 1.0 g / 56.08 g/mol = 0.0178 moles.",
+        "explanation": "To find the number of moles of calcium oxide, divide the mass of the sample by the molar mass of calcium oxide.",
+        "exam_question_id": "da780406-64b5-4a0a-bd77-d3f1faf89111:1",
+        "topic_label": "Preparation and Classification of Oxides — Reaction of Oxides with Acids and Bases",
+        "topic_id": 977,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Preparation and Classification of Oxides — Reaction of Oxides with Acids and Bases"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of calcium oxide (CaO) with hydrochloric acid (HCl). The balanced chemical equation for this reaction is: CaO(s) + 2HCl(aq) -> CaCl2(aq) + H2O(l). You have a 1.0 g sample of calcium oxide and an excess of hydrochloric acid.",
+        "question": "Explain why the reaction between calcium oxide and hydrochloric acid is exothermic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the type of reaction.",
+          "Explain the energy changes involved in the reaction.",
+          "Relate the energy changes to the exothermic nature of the reaction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the reaction between calcium oxide and hydrochloric acid is exothermic — develop the idea fully rather than listing short points. Make sure you also cover: Identify the type of reaction.; the changes involved in the reaction.; Relate the changes to the exothermic nature of the…."
+        ],
+        "model_answer": "The reaction between calcium oxide and hydrochloric acid is a neutralization reaction. In this reaction, the bonds in the reactants (CaO and HCl) are broken, and new bonds are formed in the products (CaCl2 and H2O). The energy required to break the bonds in the reactants is less than the energy released when the bonds in the products are formed, resulting in a net release of energy. This release of energy is why the reaction is exothermic.",
+        "explanation": "In an exothermic reaction, the energy released when new bonds are formed is greater than the energy required to break the old bonds, leading to a net release of energy.",
+        "exam_question_id": "da780406-64b5-4a0a-bd77-d3f1faf89111:1",
+        "topic_label": "Preparation and Classification of Oxides — Reaction of Oxides with Acids and Bases",
+        "topic_id": 977,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Preparation and Classification of Oxides — Reaction of Oxides with Acids and Bases"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction of calcium oxide (CaO) with hydrochloric acid (HCl). The balanced chemical equation for this reaction is: CaO(s) + 2HCl(aq) -> CaCl2(aq) + H2O(l). You have a 1.0 g sample of calcium oxide and an excess of hydrochloric acid.",
+        "question": "Describe how you would experimentally determine the enthalpy change of the reaction between calcium oxide and hydrochloric acid.",
+        "marks": 3,
+        "marking_criteria": [
+          "Outline the experimental setup.",
+          "Explain the method to measure temperature changes.",
+          "Describe how to calculate the enthalpy change from the temperature data."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would experimentally determine the enthalpy change of the reaction between calcium oxide and hydrochloric acid — develop the idea fully rather than listing short points. Make sure you also cover: Outline the experimental setup.; the method to changes."
+        ],
+        "model_answer": "To determine the enthalpy change of the reaction, you would use a calorimeter. First, measure the initial temperature of the hydrochloric acid. Then, add the calcium oxide to the acid and quickly close the calorimeter to minimize heat loss. Stir the mixture and record the highest temperature reached. The enthalpy change can be calculated using the formula ΔH = -mcΔT, where m is the mass of the solution, c is the specific heat capacity, and ΔT is the change in temperature.",
+        "explanation": "By measuring the temperature change in a controlled environment, you can calculate the enthalpy change of the reaction, which indicates whether the reaction is exothermic or endothermic.",
+        "exam_question_id": "da780406-64b5-4a0a-bd77-d3f1faf89111:1",
+        "topic_label": "Preparation and Classification of Oxides — Reaction of Oxides with Acids and Bases",
+        "topic_id": 977,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Preparation and Classification of Oxides — Reaction of Oxides with Acids and Bases"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of methane (CH4) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: CH4(g) + 2O2(g) -> CO2(g) + 2H2O(g). You have a 2.0 g sample of methane and an excess of oxygen.",
+        "question": "Calculate the mass of carbon dioxide produced if 2.0 g of methane reacts completely with excess oxygen. Use the following molar masses: CH4 = 16 g/mol, CO2 = 44 g/mol.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify the molar mass of methane and carbon dioxide.",
+          "Correctly convert the mass of methane to moles.",
+          "Correctly use stoichiometry to find the moles of carbon dioxide produced.",
+          "Correctly convert the moles of carbon dioxide to mass."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the mass of carbon dioxide produced if 2.0 g of methane reacts completely with excess oxygen; then Use the following molar masses: CH4 = 16 g/mol, CO2 = 44 g/mol. Make sure you also cover: Correctly identify the molar mass of methane and carbon dioxide.; Correctly…."
+        ],
+        "model_answer": "Moles of CH4 = 2.0 g / 16 g/mol = 0.125 mol\nFrom the balanced equation, 1 mol of CH4 produces 1 mol of CO2.\nMoles of CO2 = 0.125 mol\nMass of CO2 = 0.125 mol * 44 g/mol = 5.5 g",
+        "explanation": "First, convert the given mass of methane to moles using its molar mass. Then, use the stoichiometry of the balanced equation to determine the moles of carbon dioxide produced. Finally, convert the moles of carbon dioxide to mass using its molar mass.",
+        "exam_question_id": "12c59e82-19bb-427e-b8ba-93091838a8bc:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of methane (CH4) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: CH4(g) + 2O2(g) -> CO2(g) + 2H2O(g). You have a 2.0 g sample of methane and an excess of oxygen.",
+        "question": "Explain why the combustion of methane is exothermic and describe the energy changes involved.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly state that the combustion of methane is exothermic.",
+          "Correctly describe the energy changes involved in the reaction.",
+          "Provide a clear explanation of the energy changes."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the combustion of methane is exothermic and describe the energy changes involved — develop the idea fully rather than listing short points. Make sure you also cover: Correctly describe the energy changes involved in the; Provide a clear explanation of the energy changes."
+        ],
+        "model_answer": "The combustion of methane is exothermic because it releases energy in the form of heat. During the reaction, the chemical bonds in methane and oxygen are broken, and new bonds in carbon dioxide and water are formed. The energy released in forming the new bonds is greater than the energy required to break the old bonds, resulting in a net release of energy.",
+        "explanation": "Combustion reactions, like the burning of methane, are exothermic because they release energy. The energy changes involve breaking old bonds and forming new ones, with the latter releasing more energy than the former.",
+        "exam_question_id": "12c59e82-19bb-427e-b8ba-93091838a8bc:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction of methane (CH4) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: CH4(g) + 2O2(g) -> CO2(g) + 2H2O(g). You have a 2.0 g sample of methane and an excess of oxygen.",
+        "question": "Describe how you would experimentally determine the enthalpy change of the combustion reaction between methane and oxygen. Explain why it is important to control the variables.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the experimental setup to measure the enthalpy change.",
+          "Explain the importance of controlling variables in the experiment.",
+          "Provide a clear and detailed explanation."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "To determine the enthalpy change, I would use a calorimeter to measure the temperature change of the reaction mixture. A known mass of methane would be burned in a controlled environment, and the temperature change of the water surrounding the reaction vessel would be recorded. The enthalpy change can then be calculated using the formula: q = mcΔT, where q is the heat released, m is the mass of water, c is the specific heat capacity of water, and ΔT is the temperature change. It is important to control variables such as the initial temperature of the water, the mass of methane, and the amount of oxygen to ensure accurate and reproducible results.",
+        "explanation": "Using a calorimeter allows for the precise measurement of the heat released during the combustion reaction. Controlling variables ensures that the results are reliable and can be compared across different experiments.",
+        "exam_question_id": "12c59e82-19bb-427e-b8ba-93091838a8bc:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the general formula of alkanes, CnH2n+2, where n is the number of carbon atoms. The alkanes methane (CH4), ethane (C2H6), and propane (C3H8) are examples of this class of hydrocarbons.",
+        "question": "Calculate the number of hydrogen atoms present in 1 mole of ethane (C2H6).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the number of hydrogen atoms per molecule of ethane.",
+          "Multiply the number of hydrogen atoms by Avogadro's number to find the total number in one mole."
+        ],
+        "hints": [
+          "Recall that Avogadro's number is approximately 6.022 x 10^23."
+        ],
+        "model_answer": "Each molecule of ethane (C2H6) has 6 hydrogen atoms. Therefore, 1 mole of ethane contains 6 x 6.022 x 10^23 hydrogen atoms, which equals 3.6132 x 10^24 hydrogen atoms.",
+        "explanation": "To find the number of hydrogen atoms in 1 mole of ethane, you need to multiply the number of hydrogen atoms in a single molecule by Avogadro's number.",
+        "exam_question_id": "8062e2d0-87d2-4036-a475-55c3d0485205:1",
+        "topic_label": "General Formula of Alkanes",
+        "topic_id": 979,
+        "checked": true,
+        "subtopic_id": 4709,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "General Formula of Alkanes"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the general formula of alkanes, CnH2n+2, where n is the number of carbon atoms. The alkanes methane (CH4), ethane (C2H6), and propane (C3H8) are examples of this class of hydrocarbons.",
+        "question": "Explain why alkanes with more carbon atoms have higher boiling points than those with fewer carbon atoms.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the type of intermolecular forces present in alkanes.",
+          "Explain how the strength of these forces changes with the number of carbon atoms.",
+          "Relate the strength of intermolecular forces to boiling point."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why alkanes with more carbon atoms have higher boiling points than those with fewer carbon atoms — develop the idea fully rather than listing short points. Make sure you also cover: Identify the type of present in alkanes.; how the strength of these changes with the number of carbon…."
+        ],
+        "model_answer": "Alkanes exhibit London dispersion forces as their primary intermolecular force. These forces increase with the size of the molecule, as larger molecules have more electrons and a greater surface area, leading to stronger temporary dipoles. Therefore, alkanes with more carbon atoms have stronger London dispersion forces, which require more energy to overcome, resulting in higher boiling points.",
+        "explanation": "The boiling point of a substance is influenced by the strength of the intermolecular forces. Alkanes with more carbon atoms have larger molecules, leading to stronger London dispersion forces and, consequently, higher boiling points.",
+        "exam_question_id": "8062e2d0-87d2-4036-a475-55c3d0485205:1",
+        "topic_label": "General Formula of Alkanes",
+        "topic_id": 979,
+        "checked": true,
+        "subtopic_id": 4709,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "General Formula of Alkanes"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the general formula of alkanes, CnH2n+2, where n is the number of carbon atoms. The alkanes methane (CH4), ethane (C2H6), and propane (C3H8) are examples of this class of hydrocarbons.",
+        "question": "Describe the trend in the density of alkanes as the number of carbon atoms increases.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the relationship between molecular size and density.",
+          "Describe how the density of alkanes changes with increasing carbon atoms."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the trend in the density of alkanes as the number of carbon atoms increases — develop the idea fully rather than listing short points. Make sure you also cover: the relationship between and density."
+        ],
+        "model_answer": "As the number of carbon atoms in an alkane increases, the molecular size and mass also increase. However, the volume increase is less significant due to the relatively small increase in the size of the molecule. This results in a higher density for alkanes with more carbon atoms.",
+        "explanation": "The density of a substance is determined by its mass and volume. In alkanes, as the number of carbon atoms increases, the mass increases more significantly than the volume, leading to a higher density.",
+        "exam_question_id": "8062e2d0-87d2-4036-a475-55c3d0485205:1",
+        "topic_label": "General Formula of Alkanes",
+        "topic_id": 979,
+        "checked": true,
+        "subtopic_id": 4709,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "General Formula of Alkanes"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the combustion of ethane (C2H6) in oxygen. The balanced chemical equation for this reaction is: 2C2H6(g) + 7O2(g) -> 4CO2(g) + 6H2O(l). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Calculate the mass of carbon dioxide produced if the 2.0 g sample of ethane is completely combusted. Use the following molar masses: C2H6 = 30 g/mol, CO2 = 44 g/mol.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the molar mass of ethane and carbon dioxide.",
+          "Calculate the moles of ethane from the given mass.",
+          "Use stoichiometry to find the moles of carbon dioxide produced and convert to mass."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the mass of carbon dioxide produced if the 2.0 g sample of ethane is completely combusted; then Use the following molar masses: C2H6 = 30 g/mol, CO2 = 44 g/mol. Make sure you also cover: Correctly identify the molar mass of ethane and carbon dioxide.; stoichiometry…."
+        ],
+        "model_answer": "Moles of ethane = 2.0 g / 30 g/mol = 0.0667 mol. According to the balanced equation, 2 moles of C2H6 produce 4 moles of CO2. Therefore, 0.0667 mol of C2H6 will produce 0.1334 mol of CO2. Mass of CO2 = 0.1334 mol * 44 g/mol = 5.87 g.",
+        "explanation": "Use the molar mass to find the moles of ethane, then use the stoichiometric ratio to find the moles of carbon dioxide, and finally convert moles of CO2 to mass.",
+        "exam_question_id": "ffdc13f3-1947-4e37-aa35-e88c735d396b:1",
+        "topic_label": "Occurrence of Organic Compounds (Properties of Organic Compounds and Uses of Alkanes)",
+        "topic_id": 979,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Occurrence of Organic Compounds (Properties of Organic Compounds and Uses of Alkanes)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the combustion of ethane (C2H6) in oxygen. The balanced chemical equation for this reaction is: 2C2H6(g) + 7O2(g) -> 4CO2(g) + 6H2O(l). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Explain why the combustion of ethane is exothermic and describe the energy changes involved.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that the reaction is exothermic.",
+          "Explain the energy changes involved in the reaction.",
+          "Relate the energy changes to the exothermic nature of the reaction."
+        ],
+        "hints": [
+          "Consider the bonds broken and formed during the reaction."
+        ],
+        "model_answer": "The combustion of ethane is exothermic because the energy released in forming the bonds in the products (CO2 and H2O) is greater than the energy absorbed in breaking the bonds in the reactants (C2H6 and O2). This results in a net release of energy as heat.",
+        "explanation": "An exothermic reaction releases energy, typically in the form of heat, because the energy required to break the bonds in the reactants is less than the energy released when new bonds form in the products.",
+        "exam_question_id": "ffdc13f3-1947-4e37-aa35-e88c735d396b:1",
+        "topic_label": "Occurrence of Organic Compounds (Properties of Organic Compounds and Uses of Alkanes)",
+        "topic_id": 979,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Occurrence of Organic Compounds (Properties of Organic Compounds and Uses of Alkanes)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the combustion of ethane (C2H6) in oxygen. The balanced chemical equation for this reaction is: 2C2H6(g) + 7O2(g) -> 4CO2(g) + 6H2O(l). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Describe how you would experimentally determine the enthalpy change of the combustion reaction and explain why it is important to control the variables.",
+        "marks": 3,
+        "marking_criteria": [
+          "Outline the experimental procedure to measure the enthalpy change.",
+          "Explain the importance of controlling variables in the experiment.",
+          "Discuss potential sources of error and how to minimise them."
+        ],
+        "hints": [
+          "Consider using a calorimeter and ensuring all reactants and products are accounted for."
+        ],
+        "model_answer": "To determine the enthalpy change, you would burn the ethane in a calorimeter and measure the temperature change of the water surrounding the reaction. The enthalpy change can be calculated using the formula: q = mcΔT, where q is the heat released, m is the mass of the water, c is the specific heat capacity of water, and ΔT is the temperature change. It is important to control variables such as the initial temperature of the water, the mass of the water, and the amount of ethane to ensure accurate and reproducible results. Potential sources of error include heat loss to the surroundings and incomplete combustion.",
+        "explanation": "Controlling variables ensures that the measured enthalpy change is accurate and can be reliably compared to theoretical values. Minimising errors improves the precision of the experiment.",
+        "exam_question_id": "ffdc13f3-1947-4e37-aa35-e88c735d396b:1",
+        "topic_label": "Occurrence of Organic Compounds (Properties of Organic Compounds and Uses of Alkanes)",
+        "topic_id": 979,
+        "checked": true,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Occurrence of Organic Compounds (Properties of Organic Compounds and Uses of Alkanes)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this reaction is: C2H6(g) + 7/2 O2(g) -> 2 CO2(g) + 3 H2O(g). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Calculate the mass of carbon dioxide produced if the 2.0 g sample of ethane reacts completely with oxygen. Use the following molar masses: C2H6 = 30 g/mol, CO2 = 44 g/mol.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the molar mass of ethane and carbon dioxide.",
+          "Correctly convert the mass of ethane to moles.",
+          "Correctly use stoichiometry to find the moles of carbon dioxide produced and then convert to mass."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Calculate the mass of carbon dioxide produced if the 2.0 g sample of ethane reacts completely with oxygen; then Use the following molar masses: C2H6 = 30 g/mol, CO2 = 44 g/mol. Make sure you also cover: Correctly identify the molar mass of ethane and carbon dioxide.;…."
+        ],
+        "model_answer": "Molar mass of C2H6 = 30 g/mol\nMass of C2H6 = 2.0 g\nMoles of C2H6 = 2.0 g / 30 g/mol = 0.0667 mol\nFrom the balanced equation, 1 mol of C2H6 produces 2 mol of CO2\nMoles of CO2 = 2 * 0.0667 mol = 0.1334 mol\nMolar mass of CO2 = 44 g/mol\nMass of CO2 = 0.1334 mol * 44 g/mol = 5.87 g",
+        "explanation": "Use the molar mass of ethane to convert the given mass to moles. Then, use the stoichiometry of the balanced equation to find the moles of CO2 produced and convert it to mass.",
+        "exam_question_id": "a9b59e73-530c-440d-8689-58a97b8d03c0:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this reaction is: C2H6(g) + 7/2 O2(g) -> 2 CO2(g) + 3 H2O(g). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Explain why the reaction between ethane and oxygen is exothermic and describe the energy changes involved.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify that the reaction is exothermic.",
+          "Explain the energy changes involved in the reaction.",
+          "Describe the overall energy change in terms of bond breaking and bond forming."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the reaction between ethane and oxygen is exothermic and describe the energy changes involved — develop the idea fully rather than listing short points. Make sure you also cover: the overall energy change in terms of bond breaking and bond forming."
+        ],
+        "model_answer": "The reaction between ethane and oxygen is exothermic because the energy released when new bonds form in the products (CO2 and H2O) is greater than the energy required to break the bonds in the reactants (C2H6 and O2). In exothermic reactions, the total energy of the products is lower than that of the reactants, resulting in the release of energy, usually in the form of heat.",
+        "explanation": "Explain that the reaction is exothermic by discussing the energy changes involved in bond breaking and bond forming, and how the total energy of the products is lower than that of the reactants.",
+        "exam_question_id": "a9b59e73-530c-440d-8689-58a97b8d03c0:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this reaction is: 2C2H6(g) + 7O2(g) -> 4CO2(g) + 6H2O(g). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Calculate the number of moles of ethane in the 2.0 g sample.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the molar mass of ethane (C2H6).",
+          "Correctly use the formula: moles = mass / molar mass.",
+          "Correctly calculate the number of moles of ethane."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of moles of ethane in the 2.0 g sample — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the of ethane; Correctly use the formula: moles = /; Correctly calculate the number of moles of ethane."
+        ],
+        "model_answer": "Molar mass of C2H6 = (2 * 12) + (6 * 1) = 30 g/mol. Moles of C2H6 = 2.0 g / 30 g/mol = 0.0667 moles.",
+        "explanation": "Use the molar mass of ethane and the given mass to find the number of moles.",
+        "exam_question_id": "cfe77a4c-20c7-4ced-bdda-0420273cb221:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this reaction is: 2C2H6(g) + 7O2(g) -> 4CO2(g) + 6H2O(g). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Explain why the reaction between ethane and oxygen is exothermic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the type of reaction (combustion).",
+          "Explain the energy changes involved in a combustion reaction.",
+          "Relate the energy changes to the exothermic nature of the reaction."
+        ],
+        "hints": [
+          "Think about the bonds being formed and broken during the reaction."
+        ],
+        "model_answer": "The reaction between ethane and oxygen is a combustion reaction. In combustion reactions, the energy released from forming new bonds (CO2 and H2O) is greater than the energy required to break the original bonds (C2H6 and O2). This results in a net release of energy, making the reaction exothermic.",
+        "explanation": "Explain the energy changes involved in a combustion reaction and how they result in an exothermic reaction.",
+        "exam_question_id": "cfe77a4c-20c7-4ced-bdda-0420273cb221:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this reaction is: 2C2H6(g) + 7O2(g) -> 4CO2(g) + 6H2O(g). You have a 2.0 g sample of ethane and an excess of oxygen.",
+        "question": "Describe how you would experimentally determine the enthalpy change of the reaction between ethane and oxygen.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the use of a calorimeter to measure temperature change.",
+          "Describe how to control variables such as initial temperature and ensure complete combustion.",
+          "Explain how to calculate the enthalpy change using the temperature change and known values."
+        ],
+        "hints": [
+          "Think about the equipment and steps needed to conduct a calorimetry experiment."
+        ],
+        "model_answer": "To determine the enthalpy change, I would use a calorimeter to measure the temperature change of the reaction mixture. The ethane sample would be ignited in the presence of excess oxygen, and the temperature change recorded. To control variables, I would ensure the initial temperature of the reactants is known, and the reaction goes to completion. The enthalpy change can be calculated using the formula: q = mcΔT, where m is the mass of the solution, c is the specific heat capacity, and ΔT is the temperature change.",
+        "explanation": "Describe the experimental setup and steps to measure the enthalpy change of the reaction between ethane and oxygen.",
+        "exam_question_id": "cfe77a4c-20c7-4ced-bdda-0420273cb221:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: C2H6(g) + 7/2 O2(g) -> 2 CO2(g) + 3 H2O(g). You have a 10.0 g sample of ethane.",
+        "question": "Calculate the number of moles of ethane in the 10.0 g sample.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the molar mass of ethane.",
+          "Correctly apply the formula to calculate moles from mass.",
+          "Provide the final answer with correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of moles of ethane in the 10.0 g sample — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the of ethane.; Correctly apply the formula to calculate moles from; Provide the final answer with correct units."
+        ],
+        "model_answer": "Molar mass of ethane (C2H6) = 2 * 12.01 g/mol (C) + 6 * 1.01 g/mol (H) = 30.07 g/mol. Number of moles = 10.0 g / 30.07 g/mol = 0.332 moles.",
+        "explanation": "Use the molar mass of ethane to convert the given mass to moles.",
+        "exam_question_id": "a9593585-2d2f-4ed8-a697-c9db431bc8bd:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: C2H6(g) + 7/2 O2(g) -> 2 CO2(g) + 3 H2O(g). You have a 10.0 g sample of ethane.",
+        "question": "Explain why the combustion of ethane is an exothermic reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly define exothermic reactions.",
+          "Explain the energy changes involved in the combustion of ethane.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the combustion of ethane is an exothermic reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correctly define exothermic reactions.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "Combustion of ethane is exothermic because it releases energy in the form of heat. During the reaction, the bonds in ethane and oxygen are broken and new bonds in carbon dioxide and water are formed. The energy released in forming new bonds is greater than the energy required to break the old bonds, resulting in a net release of energy.",
+        "explanation": "Explain the energy changes involved in the combustion of ethane, focusing on bond formation and energy release.",
+        "exam_question_id": "a9593585-2d2f-4ed8-a697-c9db431bc8bd:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction of ethane (C2H6) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: C2H6(g) + 7/2 O2(g) -> 2 CO2(g) + 3 H2O(g). You have a 10.0 g sample of ethane.",
+        "question": "Describe how you would experimentally determine the enthalpy change of the reaction between ethane and oxygen.",
+        "marks": 3,
+        "marking_criteria": [
+          "Outline the experimental setup for measuring temperature change.",
+          "Explain the importance of controlling variables.",
+          "Provide a clear and detailed description."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would experimentally determine the enthalpy change of the reaction between ethane and oxygen — develop the idea fully rather than listing short points. Make sure you also cover: Outline the experimental setup for measuring change.; the importance of controlling; Provide a clear…."
+        ],
+        "model_answer": "To determine the enthalpy change, I would use a calorimeter. The ethane and oxygen would be mixed in the calorimeter, and the temperature change would be recorded. It is important to control variables such as the initial temperature, the amount of reactants, and the insulation of the calorimeter to ensure accurate results.",
+        "explanation": "Describe the experimental setup for measuring the temperature change and the importance of controlling variables.",
+        "exam_question_id": "a9593585-2d2f-4ed8-a697-c9db431bc8bd:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of methane (CH4) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: CH4(g) + 2O2(g) -> CO2(g) + 2H2O(g). You have a 2.0 g sample of methane and an excess of oxygen.",
+        "question": "Calculate the number of moles of methane in the 2.0 g sample.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the molar mass of methane (CH4).",
+          "Calculate the number of moles using the formula: moles = mass / molar mass.",
+          "Provide the final answer with the correct unit."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of moles of methane in the 2.0 g sample — develop the idea fully rather than listing short points. Make sure you also cover: Identify the of methane (CH4).; Calculate the number of moles using the formula: moles = /; Provide the final answer with the correct unit."
+        ],
+        "model_answer": "Molar mass of CH4 = 12 g/mol (C) + 4 g/mol (H) = 16 g/mol. Moles of CH4 = 2.0 g / 16 g/mol = 0.125 mol.",
+        "explanation": "Calculate the number of moles of methane using its molar mass and the given mass.",
+        "exam_question_id": "7210b7bc-2ca6-4807-811a-dbef95413e6f:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of methane (CH4) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: CH4(g) + 2O2(g) -> CO2(g) + 2H2O(g). You have a 2.0 g sample of methane and an excess of oxygen.",
+        "question": "Explain why the combustion of methane is exothermic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the energy changes involved in the reaction.",
+          "Explain the release of energy in terms of bond formation and bond breaking.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the combustion of methane is exothermic — develop the idea fully rather than listing short points. Make sure you also cover: the changes involved in the reaction.; the of in terms of bond formation and bond breaking.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "The combustion of methane is exothermic because the energy released from forming new bonds in CO2 and H2O is greater than the energy required to break the bonds in CH4 and O2. This results in a net release of energy.",
+        "explanation": "Explain the energy changes involved in the combustion reaction and why it is exothermic.",
+        "exam_question_id": "7210b7bc-2ca6-4807-811a-dbef95413e6f:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction of methane (CH4) with oxygen (O2) to form carbon dioxide (CO2) and water (H2O). The balanced chemical equation for this combustion reaction is: CH4(g) + 2O2(g) -> CO2(g) + 2H2O(g). You have a 2.0 g sample of methane and an excess of oxygen.",
+        "question": "Describe how you would experimentally determine the enthalpy change of the combustion reaction between methane and oxygen.",
+        "marks": 3,
+        "marking_criteria": [
+          "Outline the experimental setup to measure temperature change.",
+          "Explain the importance of controlling variables.",
+          "Describe the method to calculate the enthalpy change."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would experimentally determine the enthalpy change of the combustion reaction between methane and oxygen — develop the idea fully rather than listing short points. Make sure you also cover: Outline the experimental setup to change.; the importance of controlling variables."
+        ],
+        "model_answer": "To determine the enthalpy change, use a calorimeter to measure the temperature change of the reaction mixture. Ensure that the reaction is carried out in a closed system to prevent heat loss. The enthalpy change can be calculated using the formula: q = mcΔT, where q is the heat released, m is the mass of the reaction mixture, c is the specific heat capacity, and ΔT is the temperature change.",
+        "explanation": "Describe the experimental procedure to measure the enthalpy change of the combustion reaction.",
+        "exam_question_id": "7210b7bc-2ca6-4807-811a-dbef95413e6f:1",
+        "topic_label": "Reaction of Oxides with Water",
+        "topic_id": 977,
+        "checked": true,
+        "subtopic_id": 4695,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Reaction of Oxides with Water"
+        }
+      }
+    ],
+    "estimated_time": 86,
+    "assessment_id": "8f31b668-f17e-4fdb-bf40-7c8ba7714aa0",
+    "subject": "GENERAL EDU-Chemistry-S2-SB",
+    "topics": [
+      "Properties of Organic Compounds and Uses of Alkanes",
+      "Preparation and Classification of Oxides"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 94,
+    "topic_ids": [
+      979,
+      977
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 29,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 23"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "1c",
+        "severity": "broken",
+        "detail": "Calculation error. Moles of Ca(OH)2 = 10/74 = 0.1351 mol (not 0.135). Mass of CaCO3 = 0.1351 × 100 = 13.51 g, which rounds to 13.5 g. However, the intermediate value shown (0.135) is prematurely rounded, creating potential marking confusion.",
+        "correction": "Moles of Ca(OH)2 = 10 g / 74 g/mol = 0.1351 mol. Mass of CaCO3 = 0.1351 mol × 100 g/mol = 13.51 g ≈ 13.5 g"
+      },
+      {
+        "label": "2a",
+        "severity": "broken",
+        "detail": "Calculation error. Moles of CaO = 5.00/56.08 = 0.08915 mol (not 0.0892). Heat released = 0.08915 × (-63.2) = -5.634 kJ, which rounds to -5.63 kJ. The intermediate rounding introduces error.",
+        "correction": "Moles of CaO = 5.00 g / 56.08 g/mol = 0.08915 mol. Heat released = 0.08915 mol × (-63.2 kJ/mol) = -5.63 kJ"
+      },
+      {
+        "label": "3a",
+        "severity": "broken",
+        "detail": "Calculation error. Moles of CaO = 1.0/56.08 = 0.01783 mol (not 0.0178). The premature rounding affects precision expected at this level.",
+        "correction": "Moles of CaO = 1.0 g / 56.08 g/mol = 0.0178 mol (or 0.01783 mol for greater precision)"
+      },
+      {
+        "label": "5a",
+        "severity": "broken",
+        "detail": "Calculation error. 6 × 6.022×10²³ = 3.6132×10²⁴. The model answer is correct, but this question is inappropriate for grade 8 as it merely tests multiplication by Avogadro's number without chemical insight, and the concept may exceed curriculum expectations.",
+        "correction": "Calculation is correct: 3.6132 × 10²⁴ hydrogen atoms. However, question appropriateness for grade 8 is questionable."
+      },
+      {
+        "label": "6a",
+        "severity": "broken",
+        "detail": "Calculation error. Moles of C2H6 = 2.0/30 = 0.06667 mol. From stoichiometry (2:4 ratio), moles of CO2 = 0.06667 × 2 = 0.1333 mol. Mass = 0.1333 × 44 = 5.867 g ≈ 5.87 g. The model shows 0.0667 and 0.1334, introducing rounding inconsistency.",
+        "correction": "Moles of C2H6 = 0.0667 mol. Moles of CO2 = 0.1333 mol. Mass of CO2 = 5.87 g"
+      },
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "The balanced equation given is C2H6 + 7/2 O2 → 2CO2 + 3H2O, but the model answer uses a 1:2 ratio. With the fractional coefficient equation, 0.0667 mol C2H6 produces 2 × 0.0667 = 0.1334 mol CO2, giving mass = 5.87 g. The calculation is correct despite the fractional equation format.",
+        "correction": "Calculation is correct: 5.87 g CO2"
+      },
+      {
+        "label": "8a",
+        "severity": "broken",
+        "detail": "Calculation inconsistency. 2.0/30 = 0.06667 mol, not 0.0667 mol. While the difference is minor, precision matters in chemistry calculations for grade 8 standards.",
+        "correction": "Moles of C2H6 = 2.0 g / 30 g/mol = 0.0667 mol (or 0.06667 mol for full precision)"
+      },
+      {
+        "label": "9a",
+        "severity": "broken",
+        "detail": "Calculation error. Molar mass of C2H6 = 2(12.01) + 6(1.008) = 30.07 g/mol is correct. However, 10.0/30.07 = 0.3326 mol, not 0.332 mol. The rounding is acceptable but should show more precision in working.",
+        "correction": "Number of moles = 10.0 g / 30.07 g/mol = 0.333 mol (or 0.3326 mol)"
+      },
+      {
+        "label": "10a",
+        "severity": "broken",
+        "detail": "Molar mass calculation error. Molar mass of CH4 = 12.01 (C) + 4(1.008) (H) = 16.04 g/mol, not 16 g/mol. Using 16: moles = 2.0/16 = 0.125 mol. Using 16.04: moles = 0.1247 mol. The simplified value may be acceptable for grade 8 but should be noted.",
+        "correction": "Molar mass of CH4 = 16.04 g/mol (or 16 g/mol simplified). Moles = 0.125 mol"
+      }
+    ],
+    "summary": "Assessment contains multiple calculation precision issues with premature rounding in stoichiometry problems (1c, 2a, 3a, 6a, 8a, 9a). Question 5a tests only multiplication by Avogadro's number, lacking chemical reasoning appropriate for grade 8. Molar mass simplifications (10a) are borderline acceptable. All chemical concepts and equations are correct; issues are computational precision only."
+  },
+  "totalSeconds": 92
+}

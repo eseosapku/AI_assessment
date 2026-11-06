@@ -1,0 +1,794 @@
+{
+  "index": 13,
+  "label": "Cambridge / Exam / Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+  "request": {
+    "subject": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+    "textbook_id": 46,
+    "topic_ids": [
+      4333
+    ],
+    "topics": [
+      "Unit 1A: Number"
+    ],
+    "curriculum": "cambridge",
+    "grade": 4,
+    "className": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 43,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following addition problem: 2345 + 6789.",
+        "question": "Calculate the sum of 2345 and 6789.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct sum of 2345 and 6789"
+        ],
+        "hints": [
+          "Add the numbers column by column, starting from the right."
+        ],
+        "model_answer": "The sum of 2345 and 6789 is 9134.",
+        "explanation": "Add the numbers starting from the rightmost digit, carrying over when necessary.",
+        "exam_question_id": "0ad70262-290f-401c-9597-031b96b9f733:1",
+        "topic_label": "Addition (1)",
+        "image_url": "/textbook-images/textbook-bank/46/s55-f1.jpg",
+        "image_alt": "A triangle diagram with three green circles at the corners and three orange squares on the sides, joined by green lines. The top circle contains 5, the bottom left circle contains 6, and the bottom right circle contains 9. Each of the three squares, one on each side of the triangle, contains a question mark.\nLabels: (b), 5, ?, ?, 6, ?, 9\nOriginal exercise: (b)",
+        "checked": true,
+        "subtopic_id": 15225,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition (1)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following addition problem: 2345 + 6789.",
+        "question": "Write the sum of 2345 and 6789 in words.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct written form of the sum 9134"
+        ],
+        "hints": [
+          "Write out the number in full words."
+        ],
+        "model_answer": "Nine thousand one hundred thirty-four.",
+        "explanation": "Write the sum in full words as it appears.",
+        "exam_question_id": "0ad70262-290f-401c-9597-031b96b9f733:1",
+        "topic_label": "Addition (1)",
+        "image_url": "/textbook-images/textbook-bank/46/s55-f1.jpg",
+        "image_alt": "A triangle diagram with three green circles at the corners and three orange squares on the sides, joined by green lines. The top circle contains 5, the bottom left circle contains 6, and the bottom right circle contains 9. Each of the three squares, one on each side of the triangle, contains a question mark.\nLabels: (b), 5, ?, ?, 6, ?, 9\nOriginal exercise: (b)",
+        "checked": true,
+        "subtopic_id": 15225,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition (1)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following subtraction problem: 7,845 - 3,297. Use the column method to find the difference.",
+        "question": "Calculate the difference of 7,845 and 3,297 using the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly set up the subtraction problem using the column method.",
+          "Correctly subtract the numbers in each column."
+        ],
+        "hints": [
+          "Remember to borrow from the next column if necessary."
+        ],
+        "model_answer": "7,845\n-3,297\n------\n4,548",
+        "explanation": "Subtract each column from right to left, borrowing as needed.",
+        "exam_question_id": "eed6ffa4-4f1f-48ee-a637-ec10918979c6:1",
+        "topic_label": "Addition and subtraction",
+        "image_url": "/textbook-images/textbook-bank/46/s5-f1.jpg",
+        "image_alt": "Four rows, each with a number on the left, a green arrow pointing right, and an empty answer box marked with a question mark on the right. Above each arrow is a phrase. The rows read: 3000 'is one hundred less than' ?; 5000 'is one hundred more than' ?; 6500 'is one thousand more than' ?; 980 'is one hundred less than' ?.\nLabels: 3000, is one hundred less than, ?, 5000, is one hundred more than, ?, 6500, is one thousand more than, ?, 980, is one hundred less than, ?\nOriginal exercise: Find the missing numbers.",
+        "checked": true,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition and subtraction"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following subtraction problem: 7,845 - 3,297. Use the column method to find the difference.",
+        "question": "State the intermediate result when you subtract the units place in the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "(1) Correctly identify that borrowing is needed because 5 < 7",
+          "(2) Correctly calculate 15 - 7 = 8"
+        ],
+        "hints": [
+          "Focus on the rightmost column."
+        ],
+        "model_answer": "(1) Correctly identify that borrowing is needed because 5 < 7 (2) Correctly calculate 15 - 7 = 8",
+        "explanation": "Subtract the digits in the units place.",
+        "exam_question_id": "eed6ffa4-4f1f-48ee-a637-ec10918979c6:1",
+        "topic_label": "Addition and subtraction",
+        "image_url": "/textbook-images/textbook-bank/46/s5-f1.jpg",
+        "image_alt": "Four rows, each with a number on the left, a green arrow pointing right, and an empty answer box marked with a question mark on the right. Above each arrow is a phrase. The rows read: 3000 'is one hundred less than' ?; 5000 'is one hundred more than' ?; 6500 'is one thousand more than' ?; 980 'is one hundred less than' ?.\nLabels: 3000, is one hundred less than, ?, 5000, is one hundred more than, ?, 6500, is one thousand more than, ?, 980, is one hundred less than, ?\nOriginal exercise: Find the missing numbers.",
+        "checked": true,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition and subtraction"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following subtraction problem: 7,845 - 3,297. Use the column method to find the difference.",
+        "question": "Explain why you borrowed 1 from the tens place in the column method.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly explain the need to borrow from the tens place."
+        ],
+        "hints": [
+          "Explain the borrowing process and why it is necessary."
+        ],
+        "model_answer": "In the tens column, 4 is less than 9, so we borrow 1 from the hundreds column, making it 14 - 9 = 5.",
+        "explanation": "Borrowing is necessary because the digit in the subtrahend is larger than the digit in the minuend in the same place value.",
+        "exam_question_id": "eed6ffa4-4f1f-48ee-a637-ec10918979c6:1",
+        "topic_label": "Subtraction (1)",
+        "image_url": "/textbook-images/textbook-bank/46/s5-f1.jpg",
+        "image_alt": "Four rows, each with a number on the left, a green arrow pointing right, and an empty answer box marked with a question mark on the right. Above each arrow is a phrase. The rows read: 3000 'is one hundred less than' ?; 5000 'is one hundred more than' ?; 6500 'is one thousand more than' ?; 980 'is one hundred less than' ?.\nLabels: 3000, is one hundred less than, ?, 5000, is one hundred more than, ?, 6500, is one thousand more than, ?, 980, is one hundred less than, ?\nOriginal exercise: Find the missing numbers.",
+        "checked": true,
+        "subtopic_id": 15226,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Subtraction (1)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following subtraction problem: 5,872 - 3,459. Use the column method to find the difference.",
+        "question": "Calculate the difference of 5,872 and 3,459 using the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly set up the subtraction problem in columns.",
+          "Accurately perform the subtraction in each column."
+        ],
+        "hints": [
+          "Start from the rightmost column and work your way to the left."
+        ],
+        "model_answer": "5,872\n-3,459\n------\n2,413",
+        "explanation": "Subtract each digit in the second number from the corresponding digit in the first number, borrowing as needed.",
+        "exam_question_id": "a107e269-a6df-4c0f-aaa3-01f05121a44b:1",
+        "topic_label": "Addition and subtraction",
+        "image_url": "/textbook-images/textbook-bank/46/s53-f0.jpg",
+        "image_alt": "A table with 3 rows and 4 columns, and each cell holds one addition or subtraction problem. Row 1: 238 + 447, 702 − 695, 312 − 21, 125 + 112. Row 2: 432 − 179, 581 + 307, 786 + 926, 522 − 349. Row 3: 603 + 497, 595 − 403, 782 − 779, 638 + 843.\nLabels: 238 + 447, 702 − 695, 312 − 21, 125 + 112, 432 − 179, 581 + 307, 786 + 926, 522 − 349, 603 + 497, 595 − 403, 782 − 779, 638 + 843\nOriginal exercise: Look at these problems.",
+        "checked": true,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition and subtraction"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following subtraction problem: 5,872 - 3,459. Use the column method to find the difference.",
+        "question": "State the intermediate result when you subtract the hundreds place in the column method.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly subtract the hundreds place."
+        ],
+        "hints": [
+          "Subtract the hundreds digit of the second number from the hundreds digit of the first number."
+        ],
+        "model_answer": "8 - 4 = 4",
+        "explanation": "Subtract the hundreds digit of the second number from the hundreds digit of the first number.",
+        "exam_question_id": "a107e269-a6df-4c0f-aaa3-01f05121a44b:1",
+        "topic_label": "Addition and subtraction",
+        "image_url": "/textbook-images/textbook-bank/46/s53-f0.jpg",
+        "image_alt": "A table with 3 rows and 4 columns, and each cell holds one addition or subtraction problem. Row 1: 238 + 447, 702 − 695, 312 − 21, 125 + 112. Row 2: 432 − 179, 581 + 307, 786 + 926, 522 − 349. Row 3: 603 + 497, 595 − 403, 782 − 779, 638 + 843.\nLabels: 238 + 447, 702 − 695, 312 − 21, 125 + 112, 432 − 179, 581 + 307, 786 + 926, 522 − 349, 603 + 497, 595 − 403, 782 − 779, 638 + 843\nOriginal exercise: Look at these problems.",
+        "checked": true,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition and subtraction"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following subtraction problem: 5,872 - 3,459. Use the column method to find the difference.",
+        "question": "Explain why you borrowed 1 from the thousands place in the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the need to borrow.",
+          "Explain the borrowing process clearly."
+        ],
+        "hints": [
+          "Look at the tens place and determine if borrowing is necessary."
+        ],
+        "model_answer": "In the units place, 2 is less than 9, so we need to borrow 1 from the tens place, making it 12 - 9 = 3. This reduces the tens place to 6.",
+        "explanation": "When the top digit in a column is less than the bottom digit, you borrow 1 from the next higher place value (to the left), which adds 10 to the current column.",
+        "exam_question_id": "a107e269-a6df-4c0f-aaa3-01f05121a44b:1",
+        "topic_label": "Subtraction (1)",
+        "image_url": "/textbook-images/textbook-bank/46/s53-f0.jpg",
+        "image_alt": "A table with 3 rows and 4 columns, and each cell holds one addition or subtraction problem. Row 1: 238 + 447, 702 − 695, 312 − 21, 125 + 112. Row 2: 432 − 179, 581 + 307, 786 + 926, 522 − 349. Row 3: 603 + 497, 595 − 403, 782 − 779, 638 + 843.\nLabels: 238 + 447, 702 − 695, 312 − 21, 125 + 112, 432 − 179, 581 + 307, 786 + 926, 522 − 349, 603 + 497, 595 − 403, 782 − 779, 638 + 843\nOriginal exercise: Look at these problems.",
+        "checked": true,
+        "subtopic_id": 15226,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Subtraction (1)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following subtraction problem: 5,678 - 3,456. Use the column method to find the difference.",
+        "question": "Calculate the difference of 5,678 and 3,456 using the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly aligning the numbers in columns.",
+          "Correctly subtracting each column from right to left."
+        ],
+        "hints": [
+          "Remember to borrow from the next column if necessary."
+        ],
+        "model_answer": "5,678\n-3,456\n------\n2,222",
+        "explanation": "Align the numbers in columns and subtract each column from right to left, borrowing if necessary.",
+        "exam_question_id": "0bf45c8a-54a7-44a2-b7cb-88eff84fb81f:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following subtraction problem: 5,678 - 3,456. Use the column method to find the difference.",
+        "question": "State the intermediate result when you subtract the units place in the column method.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifying the intermediate result after subtracting the units place."
+        ],
+        "hints": [
+          "Look at the bottom row of your subtraction."
+        ],
+        "model_answer": "2",
+        "explanation": "The intermediate result after subtracting the units place is 2.",
+        "exam_question_id": "0bf45c8a-54a7-44a2-b7cb-88eff84fb81f:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following addition problem: 4,321 + 5,678. Use the column method to find the sum.",
+        "question": "Calculate the sum of 4,321 and 5,678 using the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly aligning the numbers for addition.",
+          "Correctly adding the numbers in each column."
+        ],
+        "hints": [
+          "Start by adding the digits in the units place."
+        ],
+        "model_answer": "4,321\n+\n5,678\n…………\n9,999",
+        "explanation": "Add the numbers column by column, starting from the rightmost digit and carrying over as needed.",
+        "exam_question_id": "c6991ceb-c393-4d98-b315-87b416dc5da4:1",
+        "topic_label": "Addition (1)",
+        "topic_id": 4333,
+        "checked": true,
+        "subtopic_id": 15225,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition (1)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following addition problem: 4,321 + 5,678. Use the column method to find the sum.",
+        "question": "State the intermediate result when you add the hundreds place in the column method.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly adding the hundreds place."
+        ],
+        "hints": [
+          "Look at the hundreds column of the numbers being added."
+        ],
+        "model_answer": "3 + 6 = 9",
+        "explanation": "Add the digits in the hundreds place and state the result.",
+        "exam_question_id": "c6991ceb-c393-4d98-b315-87b416dc5da4:1",
+        "topic_label": "Addition (1)",
+        "topic_id": 4333,
+        "checked": true,
+        "subtopic_id": 15225,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition (1)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following addition problem: 4,321 + 5,678. Use the column method to find the sum.",
+        "question": "Explain why you carried over 1 to the thousands place in the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "(1) Correctly identifying that no carry over is needed when adding the thousands place (4 + 5 = 9).",
+          "(2) Explaining that carry over only occurs when a column sum is 10 or more."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why you carried over 1 to the thousands place in the column method — develop the idea fully rather than listing short points. Make sure you also cover: (2) Explaining that over occurs when a column sum is 10 or."
+        ],
+        "model_answer": "When adding the thousands place, 4 + 5 equals 9, which is less than 10, so no carry over to the ten-thousands place is needed. Carry over only happens when the sum of a column is 10 or more.",
+        "explanation": "In this addition problem, no carry over occurs at the thousands place because 4 + 5 = 9, which is less than 10. Carry over is only needed when a column sum reaches 10 or more.",
+        "exam_question_id": "c6991ceb-c393-4d98-b315-87b416dc5da4:1",
+        "topic_label": "Addition (1)",
+        "topic_id": 4333,
+        "checked": true,
+        "subtopic_id": 15225,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition (1)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the number 4,567.",
+        "question": "Write the number 4,567 in words.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly writing the number in words."
+        ],
+        "hints": [
+          "Break down the number into thousands, hundreds, tens, and units."
+        ],
+        "model_answer": "Four thousand five hundred and sixty-seven.",
+        "explanation": "Write the number in words by breaking it down into its components.",
+        "exam_question_id": "bd48ee35-2c6a-4c90-8522-993370f15323:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the number 4,567.",
+        "question": "Round the number 4,567 to the nearest 100.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly rounding the number to the nearest 100."
+        ],
+        "hints": [
+          "Look at the tens digit to determine whether to round up or down."
+        ],
+        "model_answer": "4,600.",
+        "explanation": "Round the number 4,567 to the nearest 100 by looking at the tens digit, which is 6. Since 6 is 5 or more, round up.",
+        "exam_question_id": "bd48ee35-2c6a-4c90-8522-993370f15323:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following addition problem: 1,234 + 567. Use the column method to find the sum.",
+        "question": "Calculate the sum of 1,234 and 567 using the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly aligning numbers in the column method.",
+          "Correctly adding each column from right to left."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the sum of 1,234 and 567 using the column method — develop the idea fully rather than listing short points. Make sure you also cover: Correctly aligning numbers in the column method.; Correctly each column from right to left."
+        ],
+        "model_answer": "1,234\n+  567\n------\n1,801\n\nExplanation: Start by adding the units column (4 + 7 = 11), write down 1 and carry over 1. Then add the tens column (3 + 6 + 1 = 10), write down 0 and carry over 1. Finally, add the hundreds column (2 + 5 + 1 = 8). The thousands column is 1. The sum is 1,801.",
+        "explanation": "Add the numbers column by column, starting from the right. Remember to carry over if the sum in any column is 10 or more.",
+        "exam_question_id": "20683c16-751a-46a2-b3a9-8fd166f1c11f:1",
+        "topic_label": "Addition (1)",
+        "image_url": "/textbook-images/textbook-bank/46/s52-f3.jpg",
+        "image_alt": "A drawing of a brown paper shopping bag containing a pile of red kidney beans labelled '349 g beans' and a pile of white rice labelled '482 g rice'.\nLabels: (d), 349 g beans, 482 g rice\nOriginal exercise: Work out the total weight in each shopping bag. (d)",
+        "checked": true,
+        "subtopic_id": 15225,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition (1)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following addition problem: 1,234 + 567. Use the column method to find the sum.",
+        "question": "State the intermediate result when you add the hundreds place in the column method.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifying the intermediate result in the hundreds column."
+        ],
+        "hints": [
+          "Stay focused on this: State the intermediate result when you add the hundreds place in the column method — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "8\n\nExplanation: The intermediate result when adding the hundreds place is 8 (2 + 5 + 1 = 8).",
+        "explanation": "Identify the intermediate result in the hundreds column after adding the numbers in the column method.",
+        "exam_question_id": "20683c16-751a-46a2-b3a9-8fd166f1c11f:1",
+        "topic_label": "Addition (1)",
+        "image_url": "/textbook-images/textbook-bank/46/s52-f3.jpg",
+        "image_alt": "A drawing of a brown paper shopping bag containing a pile of red kidney beans labelled '349 g beans' and a pile of white rice labelled '482 g rice'.\nLabels: (d), 349 g beans, 482 g rice\nOriginal exercise: Work out the total weight in each shopping bag. (d)",
+        "checked": true,
+        "subtopic_id": 15225,
+        "topic_id": 4333,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Addition (1)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the number 7,234. Write the number 7,234 in words.",
+        "question": "Write the number 7,234 in words.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly writing the number in words."
+        ],
+        "hints": [
+          "Break the number into thousands, hundreds, tens, and units."
+        ],
+        "model_answer": "Seven thousand two hundred thirty-four",
+        "explanation": "Write the number 7,234 in words by breaking it down into its place values: 7,000 (seven thousand), 200 (two hundred), 30 (thirty), and 4 (four).",
+        "exam_question_id": "ad53d972-7ef1-4553-9bfb-a08d89c040db:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the number 7,234. Write the number 7,234 in words.",
+        "question": "Round the number 7,234 to the nearest 100.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly rounding the number to the nearest 100."
+        ],
+        "hints": [
+          "Look at the tens digit to determine whether to round up or down."
+        ],
+        "model_answer": "7,200",
+        "explanation": "Since the tens digit is 3, which is less than 5, round down to the nearest 100, resulting in 7,200.",
+        "exam_question_id": "ad53d972-7ef1-4553-9bfb-a08d89c040db:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the number 6,789.",
+        "question": "Write the number 6,789 in words.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly write the number in words."
+        ],
+        "hints": [
+          "Break the number into its place values."
+        ],
+        "model_answer": "six thousand seven hundred eighty-nine",
+        "explanation": "Write the number by identifying the thousands, hundreds, tens, and units.",
+        "exam_question_id": "301dfc08-82af-409a-a213-c568f7419761:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the number 6,789.",
+        "question": "Round the number 6,789 to the nearest 100.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly round the number to the nearest 100."
+        ],
+        "hints": [
+          "Look at the tens digit to decide whether to round up or down."
+        ],
+        "model_answer": "6,800",
+        "explanation": "Since the tens digit is 8, round up to the nearest 100.",
+        "exam_question_id": "301dfc08-82af-409a-a213-c568f7419761:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the number 6,789.",
+        "question": "Calculate the sum of 6,789 and 2,345 using the column method.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly perform the addition using the column method.",
+          "Write the sum in the correct format."
+        ],
+        "hints": [
+          "Add the digits in each column, starting from the right."
+        ],
+        "model_answer": "9,134",
+        "explanation": "Add the numbers column by column, carrying over as needed.",
+        "exam_question_id": "301dfc08-82af-409a-a213-c568f7419761:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the number 7,234.",
+        "question": "Write the number 7,234 in words.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly writing the number in words."
+        ],
+        "hints": [
+          "Break down the number into thousands, hundreds, tens, and units."
+        ],
+        "model_answer": "seven thousand two hundred thirty-four",
+        "explanation": "Write the number 7,234 in words by breaking it down into its place values: seven thousand, two hundred, thirty, and four.",
+        "exam_question_id": "3b1b25d7-edf7-4472-98bb-821b7f5083bd:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the number 7,234.",
+        "question": "Round the number 7,234 to the nearest 100.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly rounding the number to the nearest 100."
+        ],
+        "hints": [
+          "Look at the digit in the tens place to determine rounding."
+        ],
+        "model_answer": "7,200",
+        "explanation": "Round the number 7,234 to the nearest 100 by looking at the digit in the tens place, which is 3. Since 3 is less than 5, round down to 7,200.",
+        "exam_question_id": "3b1b25d7-edf7-4472-98bb-821b7f5083bd:1",
+        "topic_label": "Unit 1A: Number",
+        "topic_id": 4333,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Mathematics Stage 4 Learners Book 4",
+          "area": "Unit 1A: Number"
+        }
+      }
+    ],
+    "estimated_time": 48,
+    "assessment_id": "24037ea3-0a36-414b-bf0b-08841a919496",
+    "subject": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+    "topics": [
+      "Unit 1A: Number"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 46,
+    "topic_ids": [
+      4333
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 18"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 19"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1a",
+        "severity": "broken",
+        "detail": "Model answer is incorrect. 2345 + 6789 = 9134 is correct, but the question context and figure are misaligned. The figure shows a triangle diagram unrelated to the addition problem stated in the context.",
+        "correction": "Either remove the irrelevant figure or align context with figure content. Verify: 2345 + 6789 = 9134 ✓"
+      },
+      {
+        "label": "2a",
+        "severity": "broken",
+        "detail": "Context states 7,845 - 3,297 but figure shows unrelated comparison statements (e.g., '3000 is one hundred less than ?'). Figure does not support the subtraction problem.",
+        "correction": "Replace figure with one showing the column subtraction layout for 7,845 - 3,297, or remove mismatched figure."
+      },
+      {
+        "label": "2b",
+        "severity": "poor",
+        "detail": "Model answer format is confusing. It presents two separate statements as a single answer rather than clearly showing the intermediate calculation step (15 - 7 = 8).",
+        "correction": "Model answer should be: 'When subtracting the units place: 5 < 7, so borrow 1 from tens. Then 15 - 7 = 8.'"
+      },
+      {
+        "label": "3a",
+        "severity": "broken",
+        "detail": "Context states 5,872 - 3,459 but figure shows a 3×4 table of mixed addition/subtraction problems unrelated to the stated problem.",
+        "correction": "Replace figure with column subtraction layout for 5,872 - 3,459, or align context to match figure content."
+      },
+      {
+        "label": "3c",
+        "severity": "poor",
+        "detail": "Question asks why borrowing from thousands place occurred, but model answer explains borrowing from tens place (2 < 9). The question and answer address different columns.",
+        "correction": "Clarify: For 5,872 - 3,459, borrowing occurs at tens (7 < 5 is false; actually 7 ≥ 5, no borrow needed at tens). Revise question or answer for consistency."
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Model answer formatting is inconsistent with standard column method notation. Uses '…………' instead of a clear line separator.",
+        "correction": "Model answer should be: '4,321 + 5,678 = 9,999' with clear column layout and line separator."
+      },
+      {
+        "label": "5c",
+        "severity": "poor",
+        "detail": "Marking criteria (2) states 'over occurs when' which appears to be incomplete text ('carry over occurs').",
+        "correction": "Marking criteria (2) should read: 'Explaining that carry over only occurs when a column sum is 10 or more.'"
+      },
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Figure shows shopping bag with beans and rice (349g + 482g) but question asks for 1,234 + 567. Context and figure are misaligned.",
+        "correction": "Either use figure context (349 + 482 = 831g) or remove figure and keep abstract problem 1,234 + 567."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Model answer uses lowercase 'seven' while question 6a uses capitalized 'Four'. Inconsistent capitalization convention.",
+        "correction": "Standardize: 'Seven thousand two hundred thirty-four' (or 'Seven thousand two hundred and thirty-four')."
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Model answer uses lowercase 'six' while other similar questions use capitalized first letter. Inconsistent formatting.",
+        "correction": "Standardize to: 'Six thousand seven hundred eighty-nine' or 'Six thousand seven hundred and eighty-nine'."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Question 10a is identical to question 8a (both ask to write 7,234 in words). Repeated question with same data.",
+        "correction": "Remove question 10a or replace with different number/task to avoid duplication."
+      },
+      {
+        "label": "10b",
+        "severity": "poor",
+        "detail": "Question 10b is identical to question 8b (both ask to round 7,234 to nearest 100). Repeated question with same data.",
+        "correction": "Remove question 10b or replace with different number/task to avoid duplication."
+      }
+    ],
+    "summary": "Assessment contains 12 substantive issues: 4 broken (misaligned figures/contexts in questions 1a, 2a, 3a, 7a), 8 poor (formatting inconsistencies, incomplete text, logic errors in 2b, 3c, 5a, 5c, 8a, 9a, and duplicate questions 10a/10b). Figure-context misalignment is systematic across multiple questions."
+  },
+  "totalSeconds": 54
+}

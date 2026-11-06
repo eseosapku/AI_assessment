@@ -1,0 +1,1540 @@
+{
+  "index": 19,
+  "label": "Cambridge / Exam / Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+  "request": {
+    "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+    "textbook_id": 192,
+    "topic_ids": [
+      2362,
+      2355
+    ],
+    "topics": [
+      "Chapter 16: The circular flow of income",
+      "Chapter 9: Price elasticity of supply"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 124,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows two supply curves, labelled as graph a and graph b, with price on the vertical axis and quantity supplied on the horizontal axis.",
+        "question": "Name the type of price elasticity of supply shown in graph a.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the steepness of the supply curve in graph a.",
+          "Name the type of price elasticity based on the steepness."
+        ],
+        "hints": [
+          "Stay focused on this: Name the type of price elasticity of supply shown in graph a — develop the idea fully rather than listing short points. Make sure you also cover: the type of price elasticity based on the steepness."
+        ],
+        "model_answer": "The steep upward-sloping supply curve in graph a indicates inelastic supply, as the change in quantity supplied is relatively small compared to the change in price. (2 marks)",
+        "explanation": "Inelastic supply means that the quantity supplied changes very little with changes in price.",
+        "exam_question_id": "6fc1c8e4-8ac9-4b6a-9dcd-88ad3c1394bc:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page145-embedded-0.jpeg",
+        "image_alt": "Two supply graphs, a and b, each with price ($) on the vertical axis and quantity supplied on the horizontal axis, with origin 0. In graph a, a steep straight upward-sloping supply curve S starts on the horizontal axis to the right of the origin. Dashed lines mark price P with quantity Q and a higher price P1 with quantity Q1, and Q and Q1 are close together. In graph b, a shallow upward-sloping supply curve S starts on the vertical axis above the origin. Dashed lines mark P with Q and P1 with Q1, and Q and Q1 are far apart.\nLabels: a, S, P1, P, Price ($), 0, Q, Q1, Quantity supplied, b, S, P1",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows two supply curves, labelled as graph a and graph b, with price on the vertical axis and quantity supplied on the horizontal axis.",
+        "question": "Explain why the supply curve in graph b is more elastic than the supply curve in graph a.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the steepness of the supply curves in graph a and graph b.",
+          "Explain how the steepness affects the elasticity of supply.",
+          "Relate the steepness to the responsiveness of quantity supplied to price changes."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the supply curve in graph b is more elastic than the supply curve in graph a — develop the idea fully rather than listing short points. Make sure you also cover: how the steepness affects the of supply.; Relate the steepness to the responsiveness of to changes."
+        ],
+        "model_answer": "The supply curve in graph b is more elastic than the supply curve in graph a because it is less steep. A less steep curve indicates that a small change in price leads to a relatively larger change in quantity supplied, showing higher elasticity. (3 marks)",
+        "explanation": "Elasticity of supply measures how much the quantity supplied responds to a change in price. A flatter curve shows higher elasticity.",
+        "exam_question_id": "6fc1c8e4-8ac9-4b6a-9dcd-88ad3c1394bc:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page145-embedded-0.jpeg",
+        "image_alt": "Two supply graphs, a and b, each with price ($) on the vertical axis and quantity supplied on the horizontal axis, with origin 0. In graph a, a steep straight upward-sloping supply curve S starts on the horizontal axis to the right of the origin. Dashed lines mark price P with quantity Q and a higher price P1 with quantity Q1, and Q and Q1 are close together. In graph b, a shallow upward-sloping supply curve S starts on the vertical axis above the origin. Dashed lines mark P with Q and P1 with Q1, and Q and Q1 are far apart.\nLabels: a, S, P1, P, Price ($), 0, Q, Q1, Quantity supplied, b, S, P1",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a supply curve graph with a red upward-sloping straight line labelled S. The vertical axis is Price ($), with values 800, 1000, 1200, 1400, 1600, 1800, and 2000. The horizontal axis is Quantity supplied, with values 1000 to 7000.",
+        "question": "State the price at which the quantity supplied is 5000 units.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the point on the supply curve where the quantity supplied is 5000 units.",
+          "Read the corresponding price value from the vertical axis."
+        ],
+        "hints": [
+          "Stay focused on this: State the price at which the quantity supplied is 5000 units — develop the idea fully rather than listing short points. Make sure you also cover: Read the corresponding price value from the vertical axis."
+        ],
+        "model_answer": "The point on the supply curve where the quantity supplied is 5000 units corresponds to a price of $1600.",
+        "explanation": "Identify the point on the supply curve where the quantity supplied is 5000 units and read the corresponding price value from the vertical axis.",
+        "exam_question_id": "82df05f4-bc39-4b02-9203-4f4eb98aaae3:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page106-embedded-0.png",
+        "image_alt": "A supply curve graph with a red upward-sloping straight line labelled S. The vertical axis is Price ($), with values 800, 1000, 1200, 1400, 1600, 1800 and 2000 and a break symbol near 0. The horizontal axis is Quantity supplied, with values 1000 to 7000. Dashed lines mark the points (1000, 800), (2000, 1000), (3000, 1200), (4000, 1400), (5000, 1600), (6000, 1800) and (7000, 2000).\nLabels: 2000, 1800, 1600, 1400, 1200, 1000, 800, 0, Price ($), S, 1000, 2000, 3000, 4000, 5000, 6000, 7000, Quantity supplied\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a supply curve graph with a red upward-sloping straight line labelled S. The vertical axis is Price ($), with values 800, 1000, 1200, 1400, 1600, 1800, and 2000. The horizontal axis is Quantity supplied, with values 1000 to 7000.",
+        "question": "Explain why the supply curve is upward sloping.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that the supply curve represents the relationship between price and quantity supplied.",
+          "Explain that as price increases, producers are willing to supply more of the good.",
+          "Mention that higher prices lead to higher revenue and potentially higher profits, incentivising producers to supply more."
+        ],
+        "hints": [
+          "Consider the basic economic principle that relates price and quantity supplied."
+        ],
+        "model_answer": "The supply curve is upward sloping because as the price of a good increases, producers are incentivized to supply more of that good. Higher prices lead to higher revenue and potentially higher profits, encouraging producers to increase their output. This relationship is fundamental to the supply curve, which shows the quantity of a good that producers are willing to supply at different prices.",
+        "explanation": "Explain the economic principle that relates price and quantity supplied, and how higher prices incentivise producers to supply more.",
+        "exam_question_id": "82df05f4-bc39-4b02-9203-4f4eb98aaae3:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page106-embedded-0.png",
+        "image_alt": "A supply curve graph with a red upward-sloping straight line labelled S. The vertical axis is Price ($), with values 800, 1000, 1200, 1400, 1600, 1800 and 2000 and a break symbol near 0. The horizontal axis is Quantity supplied, with values 1000 to 7000. Dashed lines mark the points (1000, 800), (2000, 1000), (3000, 1200), (4000, 1400), (5000, 1600), (6000, 1800) and (7000, 2000).\nLabels: 2000, 1800, 1600, 1400, 1200, 1000, 800, 0, Price ($), S, 1000, 2000, 3000, 4000, 5000, 6000, 7000, Quantity supplied\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a supply curve graph with a red upward-sloping straight line labelled S. The vertical axis is Price ($), with values 800, 1000, 1200, 1400, 1600, 1800, and 2000. The horizontal axis is Quantity supplied, with values 1000 to 7000.",
+        "question": "Calculate the price elasticity of supply if the quantity supplied increases from 3000 units to 5000 units when the price increases from $1200 to $1600.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the percentage change in quantity supplied.",
+          "Calculate the percentage change in price.",
+          "Use the formula for price elasticity of supply to find the elasticity."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Percentage change in quantity supplied = ((5000 - 3000) / 3000) * 100 = 66.67%. Percentage change in price = ((1600 - 1200) / 1200) * 100 = 33.33%. Elasticity of Supply (Es) = 66.67% / 33.33% = 2.",
+        "explanation": "Calculate the percentage changes in quantity supplied and price, then use the elasticity formula to find the price elasticity of supply.",
+        "exam_question_id": "82df05f4-bc39-4b02-9203-4f4eb98aaae3:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page106-embedded-0.png",
+        "image_alt": "A supply curve graph with a red upward-sloping straight line labelled S. The vertical axis is Price ($), with values 800, 1000, 1200, 1400, 1600, 1800 and 2000 and a break symbol near 0. The horizontal axis is Quantity supplied, with values 1000 to 7000. Dashed lines mark the points (1000, 800), (2000, 1000), (3000, 1200), (4000, 1400), (5000, 1600), (6000, 1800) and (7000, 2000).\nLabels: 2000, 1800, 1600, 1400, 1200, 1000, 800, 0, Price ($), S, 1000, 2000, 3000, 4000, 5000, 6000, 7000, Quantity supplied\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a circular flow diagram with three labels placed around a circle: Output at the top, Income on the right, and Expenditure on the left. Curved arrows run clockwise from Output to Income, from Income to Expenditure, and from Expenditure back to Output.",
+        "question": "Name the two sectors involved in the flow of income in the circular flow diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the two sectors involved in the flow of income.",
+          "Provide the correct names of the two sectors."
+        ],
+        "hints": [
+          "Stay focused on this: Name the two sectors involved in the flow of income in the circular flow diagram — develop the idea fully rather than listing short points. Make sure you also cover: Provide the correct names of the two sectors."
+        ],
+        "model_answer": "The two sectors involved in the flow of income in the circular flow diagram are the Households sector and the Firms sector.",
+        "explanation": "The diagram shows a simplified circular flow model of an economy with two main sectors: Households and Firms. Households provide factors of production (labour, capital, land, and entrepreneurship) to firms, and in return, they receive income in the form of wages, rent, interest, and profits. Firms then use these factors of production to produce goods and services, which are sold to households, completing the circular flow of income.",
+        "exam_question_id": "0e1a0411-7de1-4aba-a4c3-47ee507f09a5:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "image_url": "/textbook-images/cambridge/192/page250-embedded-0.png",
+        "image_alt": "A circular flow diagram with three labels placed around a circle: Output at the top, Income on the right and Expenditure on the left. Curved arrows run clockwise from Output to Income, from Income to Expenditure, and from Expenditure back to Output.\nLabels: Output, Income, Expenditure\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a circular flow diagram with three labels placed around a circle: Output at the top, Income on the right, and Expenditure on the left. Curved arrows run clockwise from Output to Income, from Income to Expenditure, and from Expenditure back to Output.",
+        "question": "Explain how the flow of income is maintained in the circular flow diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the flow of income from Output to Income.",
+          "Describe the flow of income from Income to Expenditure.",
+          "Describe the flow of income from Expenditure back to Output."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The flow of income in the circular flow diagram is maintained as follows: Firms produce goods and services (Output) using factors of production provided by households. In return, firms pay households income in the form of wages, rent, interest, and profits (Income). Households then use this income to purchase goods and services from firms (Expenditure), which completes the cycle by returning income to firms as revenue, allowing them to continue producing goods and services.",
+        "explanation": "In the circular flow diagram, the economy is represented as a closed system where the flow of income is maintained through the interaction between households and firms. Households provide factors of production to firms, and in return, they receive income. This income is then spent on goods and services produced by firms, completing the cycle and allowing the economy to continue functioning.",
+        "exam_question_id": "0e1a0411-7de1-4aba-a4c3-47ee507f09a5:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "image_url": "/textbook-images/cambridge/192/page250-embedded-0.png",
+        "image_alt": "A circular flow diagram with three labels placed around a circle: Output at the top, Income on the right and Expenditure on the left. Curved arrows run clockwise from Output to Income, from Income to Expenditure, and from Expenditure back to Output.\nLabels: Output, Income, Expenditure\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows two supply curves, labelled as graph a and graph b, with price on the vertical axis and quantity supplied on the horizontal axis.",
+        "question": "Name the type of price elasticity of supply shown in graph a.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the steepness of the supply curve in graph a.",
+          "Relate the steepness to the type of price elasticity of supply."
+        ],
+        "hints": [
+          "Stay focused on this: Name the type of price elasticity of supply shown in graph a — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "In graph a, the supply curve is steep, indicating that the price elasticity of supply is inelastic. This is because a small change in price leads to a relatively small change in quantity supplied.",
+        "explanation": "An inelastic supply means that producers are not very responsive to price changes, resulting in a steep supply curve.",
+        "exam_question_id": "550f2617-bbad-4580-a2a3-e0100fcbe9ed:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page149-embedded-0.jpeg",
+        "image_alt": "Two supply and demand diagrams, a and b, each with Price ($) on the vertical axis and Quantity on the horizontal axis, origin 0. In a, supply S is steep and demand shifts right from D to D1, so price rises from P to P1 and quantity from Q to Q1, with a small rise in quantity. In b, supply S is shallow and demand shifts right from D to D1, so price rises from P to P1 slightly and quantity rises from Q to Q1 by a larger amount. Dashed lines mark P, P1, Q and Q1 at the intersections.\nLabels: a, S, P1, P, D1, D, Price ($), 0, Q, Q1, Quantity, b, S, P1, P, Price ($), D1, D, 0, Q, Q1, Quantity\nOrigi",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows two supply curves, labelled as graph a and graph b, with price on the vertical axis and quantity supplied on the horizontal axis.",
+        "question": "Explain why the supply curve in graph b is more elastic than the supply curve in graph a.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the steepness of the supply curves in both graphs.",
+          "Relate the steepness to the elasticity of supply.",
+          "Explain the factors that might cause the difference in elasticity."
+        ],
+        "hints": [
+          "Consider how the quantity supplied changes in response to price changes in both graphs."
+        ],
+        "model_answer": "In graph b, the supply curve is shallower compared to graph a, indicating that the supply is more elastic. This means that a small change in price leads to a relatively larger change in quantity supplied. The factors that might cause this difference in elasticity include the availability of resources, the time period considered, and the ease of adjusting production levels.",
+        "explanation": "A more elastic supply curve means that producers are more responsive to price changes, leading to a flatter supply curve.",
+        "exam_question_id": "550f2617-bbad-4580-a2a3-e0100fcbe9ed:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page149-embedded-0.jpeg",
+        "image_alt": "Two supply and demand diagrams, a and b, each with Price ($) on the vertical axis and Quantity on the horizontal axis, origin 0. In a, supply S is steep and demand shifts right from D to D1, so price rises from P to P1 and quantity from Q to Q1, with a small rise in quantity. In b, supply S is shallow and demand shifts right from D to D1, so price rises from P to P1 slightly and quantity rises from Q to Q1 by a larger amount. Dashed lines mark P, P1, Q and Q1 at the intersections.\nLabels: a, S, P1, P, D1, D, Price ($), 0, Q, Q1, Quantity, b, S, P1, P, Price ($), D1, D, 0, Q, Q1, Quantity\nOrigi",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows the circular flow of income in an economy with four sectors: households, firms, government, and the foreign sector. The diagram includes a red upward-sloping line labelled S + T + M, a horizontal black line labelled I + G + X, and a green vertical line from the intersection of these lines down to the horizontal axis labelled Y.",
+        "question": "Explain what the red upward-sloping line S + T + M represents in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the components of S + T + M",
+          "Explain the relationship between these components and the circular flow",
+          "Describe the direction of flow represented by the line"
+        ],
+        "hints": [
+          "Stay focused on this: Explain what the red upward-sloping line S + T + M represents in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: Identify the of S + T + M."
+        ],
+        "model_answer": "The red upward-sloping line S + T + M represents the sum of savings (S), taxes (T), and imports (M) in the economy. Savings are funds that households and firms retain after spending, taxes are compulsory payments to the government, and imports are goods and services purchased from the foreign sector. Together, these components represent leakages from the circular flow of income, as they do not directly contribute to the spending on goods and services within the domestic economy. The upward slope indicates that as income (GDP) increases, the combined amount of savings, taxes, and imports also increases.",
+        "explanation": "The red line S + T + M shows how much money is not spent on domestic goods and services, but rather saved, taxed, or spent on imports. This is important to understand because it affects the overall spending and income in the economy.",
+        "exam_question_id": "aacedc9a-0253-4f69-8d30-a0bcb818c11a:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "image_url": "/textbook-images/cambridge/192/page254-embedded-0.jpeg",
+        "image_alt": "A graph with GDP on the horizontal axis and 'Injections and withdrawals' on the vertical axis, with a zero line marked 0. A red upward-sloping line labelled S + T + M starts below zero on the vertical axis and crosses the horizontal axis. A horizontal black line labelled I + G + X meets the red line at a point, and a green vertical line from that point down to the horizontal axis is labelled Y.\nLabels: Injections and withdrawals, S + T + M, I + G + X, 0, Y, GDP\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows the circular flow of income in an economy with four sectors: households, firms, government, and the foreign sector. The diagram includes a red upward-sloping line labelled S + T + M, a horizontal black line labelled I + G + X, and a green vertical line from the intersection of these lines down to the horizontal axis labelled Y.",
+        "question": "State the significance of the point where the red line S + T + M intersects the horizontal black line I + G + X.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the components of I + G + X",
+          "Explain the equilibrium condition at the intersection point"
+        ],
+        "hints": [
+          "Stay focused on this: State the significance of the point where the red line S + T + M intersects the horizontal black line I + G + X — develop the idea fully rather than listing short points. Make sure you also cover: Identify the components of I + G + X; the condition at the intersection point."
+        ],
+        "model_answer": "The point where the red line S + T + M intersects the horizontal black line I + G + X represents the equilibrium in the circular flow of income. Here, the total injections (investments, government spending, and net exports) equal the total withdrawals (savings, taxes, and imports). This equilibrium point indicates that the income generated in the economy is exactly balanced by the spending on goods and services, leading to a stable GDP level.",
+        "explanation": "At this intersection, the economy is in a balanced state where total spending equals total income, ensuring that the economy does not grow or shrink.",
+        "exam_question_id": "aacedc9a-0253-4f69-8d30-a0bcb818c11a:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "image_url": "/textbook-images/cambridge/192/page254-embedded-0.jpeg",
+        "image_alt": "A graph with GDP on the horizontal axis and 'Injections and withdrawals' on the vertical axis, with a zero line marked 0. A red upward-sloping line labelled S + T + M starts below zero on the vertical axis and crosses the horizontal axis. A horizontal black line labelled I + G + X meets the red line at a point, and a green vertical line from that point down to the horizontal axis is labelled Y.\nLabels: Injections and withdrawals, S + T + M, I + G + X, 0, Y, GDP\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a circular flow of income model with two horizontal investment lines, I (lower) and I1 (higher), intersecting a red upward-sloping saving line S. The intersections mark points on the GDP axis labelled as Y and Y1, respectively.",
+        "question": "State the relationship between the levels of investment and the equilibrium level of GDP in the circular flow of income model.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the relationship between investment levels and GDP",
+          "Explain the concept of equilibrium in the context of the circular flow of income"
+        ],
+        "hints": [
+          "Stay focused on this: State the relationship between the levels of investment and the equilibrium level of GDP in the circular flow of income model — develop the idea fully rather than listing short points. Make sure you also cover: Identify the relationship between investment levels and GDP; the concept of…."
+        ],
+        "model_answer": "Higher levels of investment (I1) lead to a higher equilibrium level of GDP (Y1) compared to lower levels of investment (I), as shown by the intersection points on the GDP axis.",
+        "explanation": "In the circular flow of income model, investment is a key driver of economic activity. Higher investment levels increase the demand for goods and services, leading to higher production and, consequently, higher GDP. The equilibrium GDP is where the total planned expenditure (consumption, investment, government spending, and net exports) equals the total output produced.",
+        "exam_question_id": "c9685fc8-2479-48f7-b9b6-b59e202099a5:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "image_url": "/textbook-images/cambridge/192/page253-embedded-1.jpeg",
+        "image_alt": "A graph with GDP on the horizontal axis and saving and investment on the vertical axis, with the origin marked 0. A red upward-sloping saving line S crosses the horizontal axis and starts below it. Two horizontal investment lines, I (lower) and I1 (higher), cross S. A green vertical line drops from the S–I intersection to Y on the GDP axis, and a blue vertical line drops from the S–I1 intersection to Y1, which lies to the right of Y.\nLabels: Saving and investment, 0, GDP, S, I1, I, Y, Y1\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a circular flow of income model with two horizontal investment lines, I (lower) and I1 (higher), intersecting a red upward-sloping saving line S. The intersections mark points on the GDP axis labelled as Y and Y1, respectively.",
+        "question": "Explain how an increase in the level of investment from I to I1 affects the equilibrium level of GDP in the circular flow of income model.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the effect of increased investment on aggregate demand",
+          "Describe the process by which the equilibrium GDP adjusts",
+          "Use the diagram to support the explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how an increase in the level of investment from I to I1 affects the equilibrium level of GDP in the circular flow of income model — develop the idea fully rather than listing short points. Make sure you also cover: the effect of increased investment on; the process by which the…."
+        ],
+        "model_answer": "An increase in the level of investment from I to I1 raises aggregate demand, leading to higher production and, consequently, a higher equilibrium level of GDP. This is shown by the shift from point Y to point Y1 on the GDP axis, where the higher investment line I1 intersects the saving line S.",
+        "explanation": "When investment increases, businesses have more funds to expand production, leading to higher output and income. This increased income leads to higher consumption, further boosting aggregate demand. The economy adjusts to a new equilibrium where the increased demand is met by higher production, resulting in a higher GDP.",
+        "exam_question_id": "c9685fc8-2479-48f7-b9b6-b59e202099a5:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "image_url": "/textbook-images/cambridge/192/page253-embedded-1.jpeg",
+        "image_alt": "A graph with GDP on the horizontal axis and saving and investment on the vertical axis, with the origin marked 0. A red upward-sloping saving line S crosses the horizontal axis and starts below it. Two horizontal investment lines, I (lower) and I1 (higher), cross S. A green vertical line drops from the S–I intersection to Y on the GDP axis, and a blue vertical line drops from the S–I1 intersection to Y1, which lies to the right of Y.\nLabels: Saving and investment, 0, GDP, S, I1, I, Y, Y1\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows the circular flow of income in an economy with four sectors: households, firms, government, and the foreign sector. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms produce goods and services and sell them to households, government, and the foreign sector. The government collects taxes from households and firms and spends this revenue on public services and goods. The foreign sector buys goods and services from firms and sells goods and services to households and firms.",
+        "question": "Name the two sectors that directly interact in the product market.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the two sectors involved in the exchange of goods and services.",
+          "Correctly name the two sectors."
+        ],
+        "hints": [
+          "Look for the arrows showing the flow of goods and services."
+        ],
+        "model_answer": "Households and Firms\n\nHouseholds provide labor and capital to firms, and in return, they receive goods and services. Firms produce goods and services and sell them to households.",
+        "explanation": "Households and firms are the two sectors that directly interact in the product market, where households purchase goods and services from firms.",
+        "exam_question_id": "dec4120f-9bd5-47cd-ad12-69400c7fcca5:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows the circular flow of income in an economy with four sectors: households, firms, government, and the foreign sector. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms produce goods and services and sell them to households, government, and the foreign sector. The government collects taxes from households and firms and spends this revenue on public services and goods. The foreign sector buys goods and services from firms and sells goods and services to households and firms.",
+        "question": "Explain how government spending influences the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of government spending in the circular flow.",
+          "Explain how government spending affects the flow of income.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how government spending influences the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and coherent explanation."
+        ],
+        "model_answer": "Government spending influences the circular flow of income by injecting money into the economy. When the government spends on public services and goods, it pays households and firms for these services and goods. This spending increases the income of households and firms, which in turn increases their consumption and investment. This additional spending further stimulates economic activity, creating a multiplier effect throughout the economy.",
+        "explanation": "Government spending adds to the income of households and firms, which they then spend on goods and services, thereby increasing the overall economic activity and income in the economy.",
+        "exam_question_id": "dec4120f-9bd5-47cd-ad12-69400c7fcca5:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram represents the circular flow of income in a simple economy with four sectors: households, firms, government, and the foreign sector. Households supply factors of production to firms and receive income in return. Firms use these factors to produce goods and services, which are then sold to households, government, and the foreign sector. Government collects taxes from households and firms and spends this revenue on goods and services. The foreign sector also buys goods and services from firms and supplies factors of production to firms.",
+        "question": "Name the sector that provides factors of production to firms in the circular flow of income.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the sector that supplies factors of production to firms.",
+          "Provide the correct name of the sector."
+        ],
+        "hints": [
+          "Stay focused on this: Name the sector that provides factors of production to firms in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: Provide the correct name of the sector."
+        ],
+        "model_answer": "Households\n\nHouseholds are the sector that provides factors of production such as labor, land, and capital to firms in the circular flow of income.",
+        "explanation": "The diagram shows households supplying factors of production to firms, making them the sector that provides these inputs.",
+        "exam_question_id": "5ed9379d-cdcf-4bae-a32c-0e3dc21df4d0:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram represents the circular flow of income in a simple economy with four sectors: households, firms, government, and the foreign sector. Households supply factors of production to firms and receive income in return. Firms use these factors to produce goods and services, which are then sold to households, government, and the foreign sector. Government collects taxes from households and firms and spends this revenue on goods and services. The foreign sector also buys goods and services from firms and supplies factors of production to firms.",
+        "question": "Explain why the government sector is involved in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the government in the circular flow of income.",
+          "Explain how the government interacts with other sectors.",
+          "Describe the flow of income involving the government."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the government sector is involved in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: how the government interacts with other sectors."
+        ],
+        "model_answer": "The government sector is involved in the circular flow of income by collecting taxes from households and firms and then spending this revenue on goods and services. This interaction helps to regulate the economy and redistribute income. For example, the government collects taxes from households and firms, which is then used to fund public services and infrastructure. This spending by the government increases the income of households and firms, completing the circular flow of income.\n\nThe government collects taxes -> Government spends revenue -> Increases income of households and firms",
+        "explanation": "The government plays a crucial role in the circular flow of income by redistributing income through taxation and spending, which helps to stabilise and regulate the economy.",
+        "exam_question_id": "5ed9379d-cdcf-4bae-a32c-0e3dc21df4d0:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram represents the circular flow of income in a simple economy with four sectors: households, firms, government, and the foreign sector. Households supply factors of production to firms and receive income in return. Firms use these factors to produce goods and services, which are then sold to households, government, and the foreign sector. Government collects taxes from households and firms and spends this revenue on goods and services. The foreign sector also buys goods and services from firms and supplies factors of production to firms.",
+        "question": "Describe the role of the foreign sector in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the foreign sector in the circular flow of income.",
+          "Explain how the foreign sector interacts with other sectors.",
+          "Describe the flow of income involving the foreign sector."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the foreign sector in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: how the foreign sector interacts with other sectors."
+        ],
+        "model_answer": "The foreign sector plays a role in the circular flow of income by buying goods and services from firms and supplying factors of production to firms. This interaction adds an international dimension to the economy. For example, the foreign sector buys goods and services produced by firms, which generates income for the firms. In return, the foreign sector supplies factors of production such as labor or raw materials to firms, contributing to the production process. This exchange of goods, services, and factors of production between the domestic economy and the foreign sector is an essential part of the circular flow of income.\n\nForeign sector buys goods and services -> Generates income for firms -> Foreign sector supplies factors of production -> Contributes to production",
+        "explanation": "The foreign sector is integral to the circular flow of income as it facilitates international trade, bringing in additional income and resources while also supplying factors of production to domestic firms.",
+        "exam_question_id": "5ed9379d-cdcf-4bae-a32c-0e3dc21df4d0:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the circular flow of income in a simple economy with only two sectors: households and firms. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms use these resources to produce goods and services, which are then sold to households.",
+        "question": "Name the two sectors involved in the circular flow of income.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify households as one sector.",
+          "Identify firms as the other sector."
+        ],
+        "hints": [
+          "Recall the basic components of the circular flow model."
+        ],
+        "model_answer": "Households and firms.",
+        "explanation": "In the circular flow of income model, the two primary sectors are households and firms. Households supply factors of production, and firms use these factors to produce goods and services.",
+        "exam_question_id": "4a12f6c5-3413-42e5-8a2a-fb4d2023fba4:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the circular flow of income in a simple economy with only two sectors: households and firms. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms use these resources to produce goods and services, which are then sold to households.",
+        "question": "Explain the role of households in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that households provide factors of production.",
+          "Identify that households receive income in return.",
+          "Explain the types of income received by households."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of households in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: Identify that households provide factors of production."
+        ],
+        "model_answer": "Households provide labor and capital to firms. In return, they receive income in the form of wages for labor and profits for capital. This income is then spent on goods and services produced by firms.",
+        "explanation": "Households play a crucial role in the circular flow of income by supplying the factors of production (labour and capital) to firms. In exchange, they receive income, which they use to purchase the goods and services produced by firms.",
+        "exam_question_id": "4a12f6c5-3413-42e5-8a2a-fb4d2023fba4:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the circular flow of income in a simple economy with only two sectors: households and firms. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms use these resources to produce goods and services, which are then sold to households.",
+        "question": "Show with an example how the income received by households is spent on goods and services produced by firms.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide an example of income received by households.",
+          "Explain how this income is spent on goods and services.",
+          "Connect the spending to the production process."
+        ],
+        "hints": [
+          "Consider a specific type of income and a specific good or service."
+        ],
+        "model_answer": "For example, a household might receive a wage from working at a bakery. This wage is then spent on bread and pastries produced by the bakery. The bakery uses the wage income to pay for ingredients and labor, completing the circular flow.",
+        "explanation": "This example illustrates how income received by households (wages) is spent on goods and services (bread and pastries) produced by firms (the bakery). The spending on goods and services provides the firms with revenue to continue their production process.",
+        "exam_question_id": "4a12f6c5-3413-42e5-8a2a-fb4d2023fba4:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Calculate the price elasticity of supply for this product.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of percentage change in quantity supplied.",
+          "Correct calculation of percentage change in price.",
+          "Correct application of the price elasticity of supply formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the price elasticity of supply for this product — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of in; Correct calculation of in price.; Correct application of the price elasticity of supply formula."
+        ],
+        "model_answer": "Percentage change in quantity supplied = ((240 - 200) / 200) * 100 = 20%.\nPercentage change in price = ((6 - 5) / 5) * 100 = 20%.\nPES = 20% / 20% = 1.",
+        "explanation": "The price elasticity of supply is 1, indicating that the quantity supplied is equally responsive to the price change.",
+        "exam_question_id": "5cf65149-e733-4139-a39f-81c861352c90:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Explain why the price elasticity of supply is considered to be unitary in this case.",
+        "marks": 2,
+        "marking_criteria": [
+          "Clear explanation of the relationship between percentage changes in quantity supplied and price.",
+          "Correct interpretation of the unitary elasticity value."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the price elasticity of supply is considered to be unitary in this case — develop the idea fully rather than listing short points. Make sure you also cover: Clear explanation of the relationship between changes in and price.; Correct interpretation of the unitary elasticity value."
+        ],
+        "model_answer": "The price elasticity of supply is unitary because the percentage change in quantity supplied (20%) is equal to the percentage change in price (20%). This means that for every 1% increase in price, the quantity supplied also increases by 1%.",
+        "explanation": "Unitary elasticity indicates that the responsiveness of quantity supplied to price changes is balanced, with equal proportional changes in both variables.",
+        "exam_question_id": "5cf65149-e733-4139-a39f-81c861352c90:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Describe the implications of a unitary price elasticity of supply for producers in this market.",
+        "marks": 3,
+        "marking_criteria": [
+          "Unitary elasticity means quantity supplied responds proportionally to price changes (equal percentage changes).",
+          "Producers can adjust supply in line with price movements without disproportionate supply shocks.",
+          "This predictable relationship may help producers plan production, but does not guarantee stable costs or profits."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of a unitary price elasticity of supply for producers in this market — develop the idea fully rather than listing short points. Make sure you also cover: Producers can supply in line with price movements without disproportionate supply shocks.; This relationship may…."
+        ],
+        "model_answer": "A unitary price elasticity of supply means that producers' quantity supplied responds proportionally to price changes. Since a 1% increase in price leads to a 1% increase in quantity supplied, producers can plan and adjust their output in a predictable, balanced way. This proportional responsiveness allows producers to avoid extreme supply fluctuations that might destabilise the market. However, unitary elasticity does not guarantee that costs remain stable or that profit margins are protected—producers must still manage production costs when increasing output.",
+        "explanation": "Unitary elasticity allows producers to respond to price changes in a balanced way, ensuring that their supply adjustments do not disproportionately affect their financial performance.",
+        "exam_question_id": "5cf65149-e733-4139-a39f-81c861352c90:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider an economy with the following circular flow diagram. Households supply factors of production to firms, and firms supply goods and services to households. The government is involved in both the product and factor markets.",
+        "question": "Name the two main sectors involved in the product market in the circular flow of income.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify households as one sector.",
+          "Identify firms as the other sector."
+        ],
+        "hints": [
+          "Look at the arrows showing the flow of goods and services."
+        ],
+        "model_answer": "Households and Firms.",
+        "explanation": "The circular flow diagram shows households supplying factors of production to firms and firms supplying goods and services to households, indicating these are the two main sectors in the product market.",
+        "exam_question_id": "85104283-6603-4bbe-bfe5-4b9d198e1d11:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider an economy with the following circular flow diagram. Households supply factors of production to firms, and firms supply goods and services to households. The government is involved in both the product and factor markets.",
+        "question": "Explain how the government sector interacts with the product market in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify government spending on goods and services.",
+          "Identify taxation as a flow from households and firms to the government.",
+          "Explain the role of government spending in the economy."
+        ],
+        "hints": [
+          "Look at the arrows showing the flow between the government and the other sectors."
+        ],
+        "model_answer": "The government interacts with the product market by spending on goods and services (e.g., infrastructure, public services) and by collecting taxes from households and firms. Government spending increases aggregate demand, while taxes reduce disposable income, influencing economic activity.",
+        "explanation": "The government's role in the product market includes both spending on goods and services and collecting taxes, which affects the overall demand and income in the economy.",
+        "exam_question_id": "85104283-6603-4bbe-bfe5-4b9d198e1d11:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider an economy with the following circular flow diagram. Households supply factors of production to firms, and firms supply goods and services to households. The government is involved in both the product and factor markets.",
+        "question": "Describe the role of the factor market in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the flow of factors of production from households to firms.",
+          "Identify the flow of income from firms to households.",
+          "Explain the significance of the factor market in the economy."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the factor market in the circular flow of income — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The factor market is where households supply factors of production (labour, capital, land, entrepreneurship) to firms, and firms pay households income in return (wages, rent, interest, profit). This flow of factors and income is crucial for production and the functioning of the economy.",
+        "explanation": "The factor market facilitates the exchange of factors of production for income, which is essential for the production process and the distribution of income in the economy.",
+        "exam_question_id": "85104283-6603-4bbe-bfe5-4b9d198e1d11:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the circular flow of income in a simple economy where there are only households and firms. Households provide labour and other resources to firms in return for wages and other incomes. Firms use these resources to produce goods and services, which are then sold to households.",
+        "question": "Name the two main sectors involved in the circular flow of income in this economy.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify households as one sector.",
+          "Identify firms as the other sector."
+        ],
+        "hints": [
+          "Recall the two primary participants in the circular flow of income."
+        ],
+        "model_answer": "Households and firms.",
+        "explanation": "The two main sectors involved in the circular flow of income are households and firms.",
+        "exam_question_id": "dbfee8b7-c6f8-472d-b860-bc25c5e0a81d:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the circular flow of income in a simple economy where there are only households and firms. Households provide labour and other resources to firms in return for wages and other incomes. Firms use these resources to produce goods and services, which are then sold to households.",
+        "question": "Explain how income is generated and distributed in this economy.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain how households provide resources to firms.",
+          "Explain how firms use resources to produce goods and services.",
+          "Explain how income is distributed back to households."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how income is generated and distributed in this economy — develop the idea fully rather than listing short points. Make sure you also cover: how provide to; how use to and; how income is distributed back to."
+        ],
+        "model_answer": "Households provide labor and other resources to firms, which use these resources to produce goods and services. Firms sell these goods and services to households, generating income for households in the form of wages and other incomes. This income is then spent by households on goods and services, completing the circular flow of income.",
+        "explanation": "In this economy, households provide resources to firms, which use them to produce goods and services. Firms sell these goods and services to households, generating income for households. This income is then spent by households on goods and services, completing the circular flow of income.",
+        "exam_question_id": "dbfee8b7-c6f8-472d-b860-bc25c5e0a81d:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows the circular flow of income in a simple economy with three sectors: households, firms, and government. Households provide factors of production to firms, and firms provide goods and services to households. The government collects taxes from households and firms and spends this revenue on goods and services.",
+        "question": "Name the two sectors that directly interact in the factor market.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify households as one sector.",
+          "Identify firms as the other sector."
+        ],
+        "hints": [
+          "Stay focused on this: Name the two sectors that directly interact in the factor market — develop the idea fully rather than listing short points. Make sure you also cover: Identify as one sector.; Identify as the other sector."
+        ],
+        "model_answer": "Households and firms.\nHouseholds provide factors of production such as labor, capital, and land to firms.",
+        "explanation": "The factor market is where resources are bought and sold. In this case, households provide the factors of production to firms.",
+        "exam_question_id": "e2129f33-42a4-49ce-aba9-8312febf6e9c:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 31,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows the circular flow of income in a simple economy with three sectors: households, firms, and government. Households provide factors of production to firms, and firms provide goods and services to households. The government collects taxes from households and firms and spends this revenue on goods and services.",
+        "question": "Explain why the government sector is necessary in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the government in collecting taxes.",
+          "Identify the role of the government in spending revenue.",
+          "Explain the importance of these roles in the economy."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the government sector is necessary in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of the government in collecting; Identify the role of the government in revenue.; the importance of these roles in…."
+        ],
+        "model_answer": "The government sector is necessary in the circular flow of income because it collects taxes from households and firms, which are then used to fund public services and infrastructure. This redistribution of income helps to reduce inequality and provides essential services that benefit the entire economy. Additionally, the government's spending on goods and services stimulates demand and can help to stabilize the economy during downturns.",
+        "explanation": "The government collects taxes to fund public services and infrastructure, which are essential for the functioning of the economy. The government's spending also helps to stimulate demand and stabilise the economy.",
+        "exam_question_id": "e2129f33-42a4-49ce-aba9-8312febf6e9c:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 32,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a simple economy with three sectors: households, firms, and government. Households supply labour and capital to firms, and in return, they receive wages and profits. Firms use these factors of production to produce goods and services, which are then sold to households, government, and the rest of the world. The government collects taxes from households and firms and spends this revenue on goods and services. The rest of the world is not explicitly shown in the circular flow diagram.",
+        "question": "Name the two main flows in the circular flow of income model.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the flow of goods and services from firms to households, government, and the rest of the world.",
+          "Identify the flow of factors of production from households to firms."
+        ],
+        "hints": [
+          "Stay focused on this: Name the two main flows in the circular flow of income model — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The two main flows in the circular flow of income model are the flow of goods and services from firms to households, government, and the rest of the world, and the flow of factors of production (labor and capital) from households to firms.",
+        "explanation": "In the circular flow of income model, there are two main flows: the flow of goods and services from firms to households, government, and the rest of the world, and the flow of factors of production from households to firms. These flows represent the exchange of goods, services, and factors of production between the different sectors of the economy.",
+        "exam_question_id": "ed822fef-e6f4-4290-82a0-fa72bb8397a2:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 33,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a simple economy with three sectors: households, firms, and government. Households supply labour and capital to firms, and in return, they receive wages and profits. Firms use these factors of production to produce goods and services, which are then sold to households, government, and the rest of the world. The government collects taxes from households and firms and spends this revenue on goods and services. The rest of the world is not explicitly shown in the circular flow diagram.",
+        "question": "Explain why the government sector is important in the circular flow of income model.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the government in collecting taxes.",
+          "Identify the role of the government in spending revenue on goods and services.",
+          "Explain the importance of the government sector in maintaining the flow of income in the economy."
+        ],
+        "hints": [
+          "Think about how the government collects revenue and how it spends that revenue."
+        ],
+        "model_answer": "The government sector is important in the circular flow of income model because it collects taxes from households and firms, which are then used to fund government spending on goods and services. This spending helps to maintain the flow of income in the economy by providing a market for goods and services produced by firms. Additionally, government spending can also have a multiplier effect on the economy, as it creates income for households and firms, which in turn leads to further spending and income generation.",
+        "explanation": "The government sector plays a crucial role in the circular flow of income model by collecting taxes from households and firms and spending that revenue on goods and services. This spending helps to maintain the flow of income in the economy by providing a market for goods and services produced by firms. Additionally, government spending can also have a multiplier effect on the economy, as it creates income for households and firms, which in turn leads to further spending and income generation.",
+        "exam_question_id": "ed822fef-e6f4-4290-82a0-fa72bb8397a2:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 34,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows two supply curves, labelled as graph a and graph b, with price on the vertical axis and quantity supplied on the horizontal axis.",
+        "question": "Name the type of price elasticity of supply shown in graph a.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the characteristic of graph a (vertical line).",
+          "State the type of price elasticity of supply for a vertical line."
+        ],
+        "hints": [
+          "Stay focused on this: Name the type of price elasticity of supply shown in graph a — develop the idea fully rather than listing short points. Make sure you also cover: Identify the characteristic of graph a."
+        ],
+        "model_answer": "Graph a shows a vertical line, which indicates perfectly inelastic supply. This is because the quantity supplied does not change regardless of the price level.",
+        "explanation": "A vertical supply curve indicates that the quantity supplied remains constant regardless of changes in price, which defines perfectly inelastic supply.",
+        "exam_question_id": "d6c88df5-0d11-4b08-a051-9a7dfbee94cc:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page146-embedded-0.jpeg",
+        "image_alt": "Two separate supply graphs, each with Price ($) on the vertical axis and Quantity supplied on the horizontal axis, with origin 0. Graph a has a vertical line labelled S that meets the horizontal axis at Q. Graph b has a horizontal line labelled S that starts at a price labelled P on the vertical axis and extends across the graph.\nLabels: a, S, Price ($), 0, Q, Quantity supplied, b, P, S, Price ($), 0, Quantity supplied\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 35,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows two supply curves, labelled as graph a and graph b, with price on the vertical axis and quantity supplied on the horizontal axis.",
+        "question": "Explain why the supply curve in graph b is more elastic than the supply curve in graph a.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the characteristic of graph b (horizontal line).",
+          "Explain the relationship between the shape of the supply curve and price elasticity of supply.",
+          "Compare the elasticity of graph a and graph b."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Graph b shows a horizontal line, which indicates perfectly elastic supply. This is because any change in price results in an infinite change in quantity supplied. In contrast, graph a shows a vertical line, indicating perfectly inelastic supply where quantity supplied does not change with price. Therefore, the supply curve in graph b is more elastic than in graph a.",
+        "explanation": "A horizontal supply curve indicates that quantity supplied changes infinitely with any change in price, which defines perfectly elastic supply. A vertical supply curve indicates no change in quantity supplied with price changes, defining perfectly inelastic supply. Thus, graph b's supply curve is more elastic.",
+        "exam_question_id": "d6c88df5-0d11-4b08-a051-9a7dfbee94cc:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "image_url": "/textbook-images/cambridge/192/page146-embedded-0.jpeg",
+        "image_alt": "Two separate supply graphs, each with Price ($) on the vertical axis and Quantity supplied on the horizontal axis, with origin 0. Graph a has a vertical line labelled S that meets the horizontal axis at Q. Graph b has a horizontal line labelled S that starts at a price labelled P on the vertical axis and extends across the graph.\nLabels: a, S, Price ($), 0, Q, Quantity supplied, b, P, S, Price ($), 0, Quantity supplied\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 36,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Calculate the price elasticity of supply for this product.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of percentage change in price.",
+          "Correct calculation of percentage change in quantity supplied.",
+          "Correct application of the price elasticity of supply formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the price elasticity of supply for this product — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of in price.; Correct calculation of in."
+        ],
+        "model_answer": "Percentage change in price = ((6 - 5) / 5) * 100 = 20%. \nPercentage change in quantity supplied = ((240 - 200) / 200) * 100 = 20%. \nPrice elasticity of supply = Percentage change in quantity supplied / Percentage change in price = 20% / 20% = 1.\n\nThe price elasticity of supply for this product is 1.",
+        "explanation": "To calculate the price elasticity of supply, we need to determine the percentage change in price and the percentage change in quantity supplied. Then, we divide the percentage change in quantity supplied by the percentage change in price.",
+        "exam_question_id": "55cf837b-2a2a-4ea9-aac3-f22e2fcb761d:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 37,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Explain why the price elasticity of supply is considered to be unitary in this case.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of unitary price elasticity of supply.",
+          "Correct interpretation of the given data."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the price elasticity of supply is considered to be unitary in this case — develop the idea fully rather than listing short points. Make sure you also cover: Correct interpretation of the given data."
+        ],
+        "model_answer": "The price elasticity of supply is considered to be unitary in this case because the percentage change in quantity supplied is equal to the percentage change in price. Both changes are 20%.",
+        "explanation": "Unitary price elasticity of supply means that the percentage change in quantity supplied is equal to the percentage change in price. In this case, both changes are 20%, so the price elasticity of supply is unitary.",
+        "exam_question_id": "55cf837b-2a2a-4ea9-aac3-f22e2fcb761d:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 38,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Describe the implications of a unitary price elasticity of supply for producers in this market.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the implications of unitary price elasticity of supply.",
+          "Correct interpretation of the given data."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the implications of a unitary price elasticity of supply for producers in this market — develop the idea fully rather than listing short points. Make sure you also cover: Correct interpretation of the given data."
+        ],
+        "model_answer": "A unitary price elasticity of supply means that producers will supply the same percentage increase in quantity as the percentage increase in price. In this case, if the price increases by 20%, producers will also increase the quantity supplied by 20%. This means that total revenue increases: from $5 × 200 = $1000 to $6 × 240 = $1440.",
+        "explanation": "With unitary elasticity, the proportional changes in price and quantity are equal. Total revenue (Price × Quantity) increases because the price rise is multiplied by a larger quantity sold.",
+        "exam_question_id": "55cf837b-2a2a-4ea9-aac3-f22e2fcb761d:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 39,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows the circular flow of income in a simple economy with three sectors: households, firms, and government. Households provide factors of production to firms, and firms provide goods and services to households. The government collects taxes from households and firms and spends this revenue on goods and services.",
+        "question": "Name the two main sectors involved in the product market in the circular flow of income.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify households as one of the main sectors.",
+          "Identify firms as the other main sector."
+        ],
+        "hints": [
+          "Recall the role of households and firms in the product market."
+        ],
+        "model_answer": "Households and firms. Households provide factors of production, and firms provide goods and services.",
+        "explanation": "Households and firms are the main sectors in the product market, with households supplying factors of production and firms supplying goods and services.",
+        "exam_question_id": "5dc677dd-1534-4676-b4e0-8c13a620cbde:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 40,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows the circular flow of income in a simple economy with three sectors: households, firms, and government. Households provide factors of production to firms, and firms provide goods and services to households. The government collects taxes from households and firms and spends this revenue on goods and services.",
+        "question": "Explain how the government sector interacts with the product market in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that the government collects taxes from households and firms.",
+          "Explain that the government spends this revenue on goods and services.",
+          "Discuss the role of the government in the circular flow of income."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the government sector interacts with the product market in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the role of the government in the circular flow of income."
+        ],
+        "model_answer": "The government collects taxes from households and firms, which it then spends on goods and services. This interaction ensures that the government can provide public services and infrastructure, contributing to the overall economic activity in the product market.",
+        "explanation": "The government collects taxes to fund its spending on goods and services, which supports economic activity and provides public goods and services.",
+        "exam_question_id": "5dc677dd-1534-4676-b4e0-8c13a620cbde:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 41,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows the circular flow of income in a simple economy with three sectors: households, firms, and government. Households provide factors of production to firms, and firms provide goods and services to households. The government collects taxes from households and firms and spends this revenue on goods and services.",
+        "question": "Describe the role of the factor market in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that households supply factors of production to firms.",
+          "Explain that firms use these factors to produce goods and services.",
+          "Discuss the importance of the factor market in the circular flow of income."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the factor market in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: that of to; that use these to and."
+        ],
+        "model_answer": "The factor market is where households supply factors of production, such as labour and capital, to firms. Firms use these factors to produce goods and services, which are then supplied to households in the product market. This interaction is crucial for the functioning of the circular flow of income.",
+        "explanation": "The factor market facilitates the exchange of factors of production between households and firms, enabling the production of goods and services.",
+        "exam_question_id": "5dc677dd-1534-4676-b4e0-8c13a620cbde:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 42,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows the circular flow of income in a simple economy with two sectors: households and firms. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms use these resources to produce goods and services, which are then sold to households.",
+        "question": "Name the two sectors involved in the circular flow of income.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify households as one sector.",
+          "Identify firms as the other sector."
+        ],
+        "hints": [
+          "Recall the basic components of a circular flow of income model."
+        ],
+        "model_answer": "Households and firms.",
+        "explanation": "The two sectors involved in the circular flow of income are households and firms.",
+        "exam_question_id": "ed27534e-e3a6-406d-887f-1ad6e2eeb860:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 43,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows the circular flow of income in a simple economy with two sectors: households and firms. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms use these resources to produce goods and services, which are then sold to households.",
+        "question": "Explain the role of households in the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that households provide factors of production (labour and capital).",
+          "Explain that households receive income (wages and profits) in return.",
+          "Explain that households spend their income on goods and services produced by firms."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of households in the circular flow of income — develop the idea fully rather than listing short points. Make sure you also cover: that households provide factors of production and."
+        ],
+        "model_answer": "Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. They also spend their income on goods and services produced by firms.",
+        "explanation": "Households play a crucial role in the circular flow of income by providing factors of production to firms and receiving income in return. They also contribute to the flow by spending their income on goods and services produced by firms.",
+        "exam_question_id": "ed27534e-e3a6-406d-887f-1ad6e2eeb860:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 44,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows the circular flow of income in an economy with four sectors: households, firms, government, and the foreign sector. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms produce goods and services and sell them to households, government, and the foreign sector. The government collects taxes from households and firms and spends this revenue on public services and goods. The foreign sector buys goods and services from firms and sells goods and services to households and firms.",
+        "question": "Name the two sectors that directly interact in the product market.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify households as one sector.",
+          "Identify firms as the other sector."
+        ],
+        "hints": [
+          "Look for the arrows showing the exchange of goods and services."
+        ],
+        "model_answer": "Households and firms.",
+        "explanation": "In the circular flow of income, the product market is where goods and services are exchanged. Households provide labour and capital to firms, and in return, they receive income. Firms produce goods and services and sell them to households, government, and the foreign sector.",
+        "exam_question_id": "8c458b88-0a59-49aa-84c7-0ba5b97768fc:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 45,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows the circular flow of income in an economy with four sectors: households, firms, government, and the foreign sector. Households provide labour and capital to firms, and in return, they receive income in the form of wages and profits. Firms produce goods and services and sell them to households, government, and the foreign sector. The government collects taxes from households and firms and spends this revenue on public services and goods. The foreign sector buys goods and services from firms and sells goods and services to households and firms.",
+        "question": "Explain how government spending influences the circular flow of income.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that government spending is a component of expenditure.",
+          "Explain that government spending affects the income of households and firms.",
+          "Explain that government spending can stimulate economic activity."
+        ],
+        "hints": [
+          "Consider the role of government in the economy."
+        ],
+        "model_answer": "Government spending is a component of expenditure. When the government spends on goods and services, it increases the income of households and firms involved in the production of these goods and services. This additional income can be spent on other goods and services, thereby stimulating economic activity and contributing to the circular flow of income.",
+        "explanation": "Government spending is a key driver of economic activity. When the government spends money on goods and services, it increases the income of households and firms involved in the production of these goods and services. This additional income can be spent on other goods and services, thereby stimulating economic activity and contributing to the circular flow of income.",
+        "exam_question_id": "8c458b88-0a59-49aa-84c7-0ba5b97768fc:1",
+        "topic_label": "The circular flow of income",
+        "topic_id": 2362,
+        "checked": true,
+        "subtopic_id": 11878,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "The circular flow of income"
+        }
+      },
+      {
+        "id": 46,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Calculate the price elasticity of supply for this product.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of percentage change in price.",
+          "Correct calculation of percentage change in quantity supplied.",
+          "Correct application of the price elasticity of supply formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the price elasticity of supply for this product — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of percentage change in price.; Correct calculation of percentage change in quantity supplied."
+        ],
+        "model_answer": "PES = ((240 - 200) / 200) / ((6 - 5) / 5) = 40 / 200 / 1 / 5 = 1. The price elasticity of supply is 1.",
+        "explanation": "To calculate the price elasticity of supply, we first find the percentage change in quantity supplied and the percentage change in price. Then, we use the formula for price elasticity of supply to find the elasticity.",
+        "exam_question_id": "a7eaaaa5-5526-4666-8d75-230fbd511875:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      },
+      {
+        "id": 47,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a market where the price of a product increases from $5 to $6, and as a result, the quantity supplied increases from 200 units to 240 units.",
+        "question": "Explain why the price elasticity of supply is considered to be unitary in this case.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of unitary elasticity.",
+          "Correct interpretation of the given data.",
+          "Logical reasoning based on the definition of unitary elasticity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the price elasticity of supply is considered to be unitary in this case — develop the idea fully rather than listing short points. Make sure you also cover: Correct interpretation of the given data.; Logical reasoning based on the definition of unitary elasticity."
+        ],
+        "model_answer": "The price elasticity of supply is unitary because the percentage change in quantity supplied is equal to the percentage change in price. In this case, the quantity supplied increased by 20% (from 200 to 240 units), and the price increased by 20% (from $5 to $6). Therefore, the elasticity is 1, indicating unitary elasticity.",
+        "explanation": "Unitary elasticity of supply means that the percentage change in quantity supplied is equal to the percentage change in price. In this case, both the quantity supplied and the price increased by the same percentage, resulting in a unitary elasticity of supply.",
+        "exam_question_id": "a7eaaaa5-5526-4666-8d75-230fbd511875:1",
+        "topic_label": "Factors influencing price elasticity of supply",
+        "topic_id": 2355,
+        "checked": true,
+        "subtopic_id": 11836,
+        "source": {
+          "textbook": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+          "area": "Factors influencing price elasticity of supply"
+        }
+      }
+    ],
+    "estimated_time": 121,
+    "assessment_id": "c984a797-27f0-4cac-964e-3ec94f47c95d",
+    "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+    "topics": [
+      "Chapter 16: The circular flow of income",
+      "Chapter 9: Price elasticity of supply"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 192,
+    "topic_ids": [
+      2362,
+      2355
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 47,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 33,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 22"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 23"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 24"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 25"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 26"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 40,
+      "detail": "same as question 27"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 41,
+      "detail": "same as question 19"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 42,
+      "detail": "same as question 20"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 43,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 44,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 45,
+      "detail": "same as question 22"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 46,
+      "detail": "same as question 23"
+    }
+  ],
+  "figures": 7,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c",
+      "11a",
+      "11b",
+      "11c",
+      "12a",
+      "12b",
+      "13a",
+      "13b",
+      "14a",
+      "14b",
+      "15a",
+      "15b",
+      "16a",
+      "16b",
+      "16c",
+      "17a",
+      "17b",
+      "17c",
+      "18a",
+      "18b",
+      "19a",
+      "19b",
+      "20a",
+      "20b"
+    ],
+    "issues": [
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Question asks to 'name the two sectors' but the diagram shows only Output, Income, and Expenditure flows—not sector labels. The model answer assumes a two-sector model (Households and Firms) not depicted in the provided figure. Context-diagram mismatch.",
+        "correction": "Either provide a diagram showing Households and Firms sectors, or revise question to ask about the three flows shown (Output, Income, Expenditure)."
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Question asks to 'explain how the flow of income is maintained' but the diagram only shows Output→Income→Expenditure→Output. Model answer introduces Households and Firms sectors not labeled in the figure, creating inconsistency with the provided diagram.",
+        "correction": "Align model answer to the three-flow diagram provided, or replace diagram with one showing Households and Firms sectors."
+      },
+      {
+        "label": "4a",
+        "severity": "poor",
+        "detail": "Question 4 context states 'two supply curves, labelled as graph a and graph b' but the figure description shows supply AND demand curves with demand shifts (D to D1). The context description is incomplete/inaccurate relative to the figure.",
+        "correction": "Update context to accurately describe: 'Two supply and demand diagrams showing supply curves and rightward demand shifts.'"
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Model answer states S+T+M line 'starts below zero on the vertical axis' but the figure shows it crossing the horizontal axis. The description 'starts below zero' is ambiguous—clarify whether this refers to the y-intercept or initial position.",
+        "correction": "Revise to: 'The red upward-sloping line S+T+M represents withdrawals from the circular flow. It has a negative y-intercept and slopes upward, indicating that withdrawals increase with GDP.'"
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Model answer describes equilibrium but the question asks to 'state the significance'—a 2-mark question. The answer provided is more explanatory than a simple statement, and marking criteria mention 'Identify the components of I+G+X' but question does not ask for component identification.",
+        "correction": "Simplify model answer to 2-mark level: 'At this intersection, total injections equal total withdrawals, indicating equilibrium GDP where the economy is in balance.'"
+      },
+      {
+        "label": "7a",
+        "severity": "poor",
+        "detail": "Question context describes four sectors (households, firms, government, foreign) but question asks only to 'name the two sectors that directly interact in the product market.' Model answer correctly identifies Households and Firms, but the explanation is incomplete—it should clarify why these two specifically (not government or foreign sector).",
+        "correction": "Add to model answer: 'Households and Firms directly interact in the product market because households purchase goods and services from firms, while firms sell directly to households.'"
+      },
+      {
+        "label": "8c",
+        "severity": "poor",
+        "detail": "Model answer states 'Foreign sector supplies factors of production such as labor or raw materials to firms' but this is not standard circular flow theory. Typically, foreign sector supplies goods/services and buys exports; factors of production are supplied by households, not foreign sector.",
+        "correction": "Revise to: 'The foreign sector buys exports (goods and services) from firms, generating income. It also sells imports to households and firms. This trade adds an international dimension to the circular flow.'"
+      },
+      {
+        "label": "16a",
+        "severity": "poor",
+        "detail": "Model answer calculation shows 'PES = ((240 - 200) / 200) / ((6 - 5) / 5) = 40 / 200 / 1 / 5 = 1' but the arithmetic is unclear. The expression '40 / 200 / 1 / 5' does not clearly show the division steps. Correct calculation: (40/200) / (1/5) = 0.2 / 0.2 = 1.",
+        "correction": "Revise to: 'Percentage change in quantity = (40/200) × 100 = 20%. Percentage change in price = (1/5) × 100 = 20%. PES = 20% / 20% = 1.'"
+      },
+      {
+        "label": "20a",
+        "severity": "poor",
+        "detail": "Model answer shows 'PES = ((240 - 200) / 200) / ((6 - 5) / 5) = 40 / 200 / 1 / 5 = 1' with unclear arithmetic notation. Same issue as 16a—the intermediate step '40 / 200 / 1 / 5' is ambiguous and does not clearly demonstrate the calculation.",
+        "correction": "Revise to: 'Percentage change in quantity = (40/200) × 100 = 20%. Percentage change in price = (1/5) × 100 = 20%. PES = 20% / 20% = 1.'"
+      }
+    ],
+    "summary": "Assessment contains 47 questions across circular flow of income and price elasticity of supply topics. Nine substantive issues identified: diagram-context mismatches (questions 3a, 3b, 4a), ambiguous model answer descriptions (5a, 5b), incomplete explanations (7a), factually incorrect circular flow theory (8c), and unclear arithmetic notation in elasticity calculations (16a, 20a)."
+  },
+  "totalSeconds": 139
+}

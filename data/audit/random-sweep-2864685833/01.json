@@ -1,0 +1,327 @@
+{
+  "index": 1,
+  "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 8 Students Book ",
+  "request": {
+    "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "textbook_id": 30,
+    "topic_ids": [
+      392
+    ],
+    "topics": [
+      "Let's talk technology: What's going on inside"
+    ],
+    "curriculum": "cambridge",
+    "grade": 8,
+    "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 19,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Describe the main differences between system software, application software, and utility software. Provide examples of each type.",
+        "marks": 6,
+        "marking_criteria": [
+          "Identify system software",
+          "Identify application software",
+          "Identify utility software",
+          "Provide an example of each type",
+          "Describe the main differences",
+          "Use correct terminology"
+        ],
+        "hints": [
+          "First, describe each type of software. Then, provide examples. Finally, explain how they differ."
+        ],
+        "model_answer": "System software, like the operating system, manages hardware and software resources. Application software, such as word processors, helps users perform specific tasks. Utility software, like antivirus programs, maintains and optimizes the system. Each type serves different purposes: system software provides a platform, application software enables tasks, and utility software manages and maintains the system.",
+        "explanation": "A strong answer will clearly define each type of software, provide relevant examples, and highlight their differences, using appropriate terminology to earn the marks.",
+        "checked": true,
+        "topic_id": 392,
+        "topic_label": "Let's talk technology: What's going on inside",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Let's talk technology: What's going on inside"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Identify and describe the purpose of RAM, ROM, cache, and secondary storage in a computer.",
+        "marks": 6,
+        "marking_criteria": [
+          "Identify RAM",
+          "Identify ROM",
+          "Identify cache",
+          "Identify secondary storage",
+          "Describe the purpose of each",
+          "Use correct terminology"
+        ],
+        "hints": [
+          "Start by naming each component. Then, describe what each one does in the computer system."
+        ],
+        "model_answer": "RAM (Random Access Memory) is a type of volatile memory used for temporary data storage while the computer is running. ROM (Read-Only Memory) stores permanent data and firmware. Cache is a small, fast memory that stores frequently accessed data to speed up processing. Secondary storage, like hard drives and SSDs, stores data permanently and is non-volatile. Each component plays a critical role in the computer's operation.",
+        "explanation": "A strong answer will correctly identify each type of memory or storage and accurately describe its purpose, using appropriate terminology to earn the marks.",
+        "checked": true,
+        "subtopic_id": 1804,
+        "topic_id": 392,
+        "topic_label": "Computer memory types",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Computer memory types"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Describe the role of RAM in a computer system and how it differs from ROM.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of RAM's role",
+          "Explanation of ROM's role",
+          "Differences between RAM and ROM"
+        ],
+        "hints": [
+          "Describe RAM's function, then describe ROM's function, and finally compare the two."
+        ],
+        "model_answer": "RAM, or Random Access Memory, is a type of computer memory that can be accessed randomly. It temporarily stores data that the CPU needs to access quickly. This allows for faster read and write operations. In contrast, ROM, or Read-Only Memory, is non-volatile memory that permanently stores data that is essential for the system to boot up. Unlike RAM, data in ROM cannot be modified. RAM is used for running applications and processes, while ROM holds the firmware or the system's basic instructions. RAM is volatile, meaning it loses its data when the power is turned off, whereas ROM is non-volatile and retains its data even when the power is off.",
+        "explanation": "To earn full marks, your answer must clearly explain the role of RAM and ROM, and highlight their key differences. Explaining RAM's role as temporary storage for quick access and ROM's role as permanent storage for essential system instructions shows understanding of their functions. Comparing their volatility and usage further demonstrates your grasp of the topic.",
+        "checked": true,
+        "topic_id": 392,
+        "topic_label": "Let's talk technology: What's going on inside",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Let's talk technology: What's going on inside"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Explain the concept of lossy compression and give an example of its use.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of lossy compression",
+          "Example of lossy compression usage"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain the concept of lossy compression and; then give an example of its use."
+        ],
+        "model_answer": "Lossy compression is a method of data compression that reduces file size by permanently removing some data, which can result in a lower quality of the data. This type of compression is often used for media files such as images, audio, and video, where some loss of quality is acceptable to achieve significant file size reduction. An example of lossy compression is the JPEG format for images, where some visual details are lost to reduce the file size, but the image remains visually acceptable for most purposes.",
+        "explanation": "To earn full marks, your answer must clearly explain what lossy compression is and how it works. Providing a specific example, like JPEG for images, demonstrates your understanding of the concept and its practical application.",
+        "checked": true,
+        "topic_id": 392,
+        "topic_label": "Let's talk technology: What's going on inside",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Let's talk technology: What's going on inside"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Identify and describe the role of cache in a computer system.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of cache",
+          "Description of cache's role"
+        ],
+        "hints": [
+          "Name the component and then explain its function in the context of a computer system."
+        ],
+        "model_answer": "Cache is a type of high-speed memory used by the CPU to store frequently accessed data and instructions. It acts as a buffer between the CPU and the main memory (RAM), allowing for faster data retrieval and processing. By storing data that is likely to be needed again soon, the cache helps to speed up the computer's performance and reduce the time it takes to access data from the slower RAM.",
+        "explanation": "To earn full marks, your answer must correctly identify cache and describe its role in speeding up data retrieval and processing for the CPU, highlighting its importance in improving overall system performance.",
+        "checked": true,
+        "topic_id": 392,
+        "topic_label": "Let's talk technology: What's going on inside",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Let's talk technology: What's going on inside"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Look at the table. If the binary digits 1 were placed under 16, 4 and 1 and 0 under the others, what denary value would result?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "21",
+            "twenty-one",
+            "twenty one"
+          ]
+        },
+        "explanation": "Add the place values where the binary digit is 1: 16 + 4 + 1 = 21. Place values with a 0 are not counted, so the decimal value is 21.",
+        "image_url": "/textbook-images/textbook-bank/30/p76-f0.jpg",
+        "topic_label": "Binary and denary number conversion",
+        "vetted": true,
+        "image_alt": "A Google Sheets screenshot with a toolbar above a grid. Row 1 is headed 'Place Values' and holds 128, 64, 32, 16, 8, 4, 2, 1 in columns B to I. Rows 2, 3 and 4 are labelled 'Binary Digits', 'ON/OFF' and 'Processing' and their cells are empty. Row 6 has 'Decimal Value' in A6 with an empty cell beside it. Coloured arrows point at rows 2, 3 and 4 and at the Decimal Value cell. Printed on it: Place Values | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 | Binary Digits | ON/OFF | Processing | Decimal Value | A | B | C | D | E | F | G | H | I | 100% | Arial | 12.",
+        "hints": [
+          "Structure your answer around both demands: Look at the table; then If the binary digits 1 were placed under 16, 4 and 1 and 0 under the others, what denary value would result."
+        ],
+        "subtopic_id": 1806,
+        "topic_id": 392,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Binary and denary number conversion"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe the difference between lossless and lossy compression with an example of each.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of lossless compression",
+          "Example of lossless compression",
+          "Explanation of lossy compression",
+          "Example of lossy compression"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the difference between lossless and lossy compression with an example of each — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Lossless compression is a method of data compression that reduces file size without losing any data, allowing the original data to be perfectly reconstructed. An example of lossless compression is the PNG format for images, which compresses the image without losing any visual details. Lossy compression, on the other hand, reduces file size by permanently removing some data, which can result in a lower quality of the data. An example of lossy compression is the MP3 format for audio, where some audio quality is lost to reduce the file size, but the audio remains acceptable for most listening purposes.",
+        "explanation": "To earn full marks, your answer must clearly explain the differences between lossless and lossy compression, providing specific examples of each. Highlighting the preservation of data in lossless compression and the trade-off of quality for file size in lossy compression shows a comprehensive understanding of both concepts.",
+        "checked": true,
+        "subtopic_id": 1805,
+        "topic_id": 392,
+        "topic_label": "File compression",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "File compression"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Explain the concept of secondary storage and its importance in a computer system.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of secondary storage",
+          "Importance of secondary storage"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the concept of secondary storage and its importance in a computer system — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Secondary storage is a type of non-volatile storage that permanently stores data and programs even when the computer is turned off. It includes devices such as hard drives, SSDs, and external storage media. Secondary storage is important because it allows users to save files, applications, and operating systems for long-term use. Without secondary storage, a computer would not be able to store data permanently, limiting its functionality and usability.",
+        "explanation": "To earn full marks, your answer must clearly explain the concept of secondary storage and its importance in allowing for long-term data storage, which is essential for the functionality and usability of a computer system.",
+        "checked": true,
+        "topic_id": 392,
+        "topic_label": "Let's talk technology: What's going on inside",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Let's talk technology: What's going on inside"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Describe the use of augmented reality (AR) in education and provide an example.",
+        "marks": 2,
+        "marking_criteria": [
+          "Description of AR in education",
+          "Example of AR in education"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Augmented reality (AR) enhances the real-world environment by overlaying digital information and interactive elements, providing a more immersive and engaging learning experience. In education, AR can be used to create interactive lessons, visualizations, and simulations that help students understand complex concepts more effectively. An example of AR in education is using AR apps to explore the solar system, where students can see 3D models of planets and their orbits in real-time, making the learning process more interactive and memorable.",
+        "explanation": "To earn full marks, your answer must clearly describe how AR is used in educational settings to enhance learning and provide a specific example of its application, such as using AR apps for interactive lessons, to demonstrate your understanding of the concept and its practical use in education.",
+        "checked": true,
+        "subtopic_id": 1810,
+        "topic_id": 392,
+        "topic_label": "Augmented reality",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Augmented reality"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "State the primary purpose of AI in robotics and suggest an example of its application.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the primary purpose of AI in robotics",
+          "Suggest an example of AI in robotics"
+        ],
+        "hints": [
+          "State the main goal of using AI in robotics and then propose a plausible example of its application."
+        ],
+        "model_answer": "The primary purpose of AI in robotics is to enable robots to perform tasks that require understanding and interacting with the environment, such as recognizing objects, making decisions, and learning from experience. An example of AI in robotics is using machine learning algorithms to teach a robot to navigate through a warehouse, identify and pick up packages, and deliver them to the shipping area, making the process more efficient and reducing human error.",
+        "explanation": "To earn full marks, your answer must correctly state the primary purpose of AI in robotics, which is to enable robots to perform complex tasks, and suggest a specific example of its application, such as using AI for navigation and package handling in a warehouse, to demonstrate your understanding of the concept and its practical use in robotics.",
+        "checked": true,
+        "subtopic_id": 1808,
+        "topic_id": 392,
+        "topic_label": "Robotics",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Robotics"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "c26840ec-24bc-4ed1-af2e-89dd55ad83a8",
+    "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "topics": [
+      "Let's talk technology: What's going on inside"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 30,
+    "topic_ids": [
+      392
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "6",
+        "severity": "poor",
+        "detail": "Question asks for 'denary value' but accepted answers include 'twenty-one' and 'twenty one'. These are word forms, not denary (decimal) notation. Denary value should be numeric only: 21. Word forms are inconsistent with mathematical terminology.",
+        "correction": "Restrict accepted answers to numeric form only: [\"21\"] or clarify question asks for 'value in words or numbers' if word forms are intended."
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Question topic is 'Augmented reality' but assessment header specifies 'Let's talk technology: What's going on inside'. AR is not typically covered in depth in Cambridge Lower Secondary Computing 8 chapter on computer internals. Topic fit questionable for this unit.",
+        "correction": "Verify AR content appears in specified textbook chapter. If not, replace with question on relevant internal technology topic or relocate to appropriate unit."
+      },
+      {
+        "label": "10",
+        "severity": "poor",
+        "detail": "Question topic is 'Robotics' but assessment header specifies 'Let's talk technology: What's going on inside'. Robotics is not typically covered in depth in Cambridge Lower Secondary Computing 8 chapter on computer internals. Topic fit questionable for this unit.",
+        "correction": "Verify robotics content appears in specified textbook chapter. If not, replace with question on relevant internal technology topic or relocate to appropriate unit."
+      }
+    ],
+    "summary": "Assessment is largely sound with clear marking criteria and appropriate model answers. Three questions (6, 9, 10) have issues: Q6 accepts non-numeric word forms for a denary value; Q9 and Q10 on AR and robotics appear misaligned with stated chapter focus on computer internals."
+  },
+  "totalSeconds": 24
+}

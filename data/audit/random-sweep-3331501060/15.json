@@ -1,0 +1,287 @@
+{
+  "index": 15,
+  "label": "REB / Practice / P3 Mathematics PB",
+  "request": {
+    "subject": "P3 Mathematics PB",
+    "textbook_id": 149,
+    "topic_ids": [
+      1539
+    ],
+    "topics": [
+      "Numbers from 0 up to 5 000"
+    ],
+    "curriculum": "rwanda",
+    "grade": 3,
+    "className": "P3",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 11,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Which number is one thousand more than 2500?",
+        "options": [
+          "2400",
+          "3500",
+          "2600",
+          "2700"
+        ],
+        "correct_answer": 1,
+        "explanation": "The correct answer is 3500. To find a number one thousand more than 2500, we add 1000 to 2500, which equals 3500. 2400 is incorrect because it is one thousand less than 2500. 2600 is incorrect because it is only one hundred more. 2700 is incorrect because it is only two hundred more.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Numbers from 0 up to 5 000",
+        "source": {
+          "textbook": "P3 Mathematics PB",
+          "area": "Numbers from 0 up to 5 000"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Look at the table. Which number does the place value table show?",
+        "options": [
+          "3 287",
+          "3 827",
+          "2 387",
+          "3 278"
+        ],
+        "correct_answer": 0,
+        "explanation": "The table shows 3 thousands, 2 hundreds, 8 tens (5 + 3) and 7 ones, so the number is 3 287. 3 827 swaps the hundreds and tens. 2 387 mixes up the thousands and hundreds. 3 278 swaps the tens and ones.",
+        "image_url": "/textbook-images/rwanda/149/page61-embedded-2.png",
+        "topic_label": "Numbers from 0 up to 5 000",
+        "vetted": true,
+        "image_alt": "A place value table with four columns headed Th, H, T and O. The Th column has 3 large thousand cubes, the H column has 2 hundred flats, the T column has 8 ten rods (5 in one group and 3 in another), and the O column has 7 single unit cubes. Printed on it: Th | H | T | O.",
+        "source": {
+          "textbook": "P3 Mathematics PB"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "What is the value of 3000 + 1500?",
+        "options": [
+          "4500",
+          "4200",
+          "4700",
+          "4000"
+        ],
+        "correct_answer": 0,
+        "explanation": "The correct answer is 4500. When we add 3000 and 1500, we get 4500. 4000 is incorrect because it is 500 less. 4200 is incorrect because it is 300 less. 4700 is incorrect because it is 200 more.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Numbers from 0 up to 5 000",
+        "source": {
+          "textbook": "P3 Mathematics PB",
+          "area": "Numbers from 0 up to 5 000"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Look at the diagram. Which number does the abacus show?",
+        "options": [
+          "2 043",
+          "2 443",
+          "3 442",
+          "2 434"
+        ],
+        "correct_answer": 1,
+        "explanation": "The abacus has 2 thousands, 4 hundreds, 4 tens and 3 ones, so it shows 2 443. 3 442 swaps the digits from the wrong rods. 2 434 swaps the tens and ones. 2 043 leaves out the hundreds, but the H rod has 4 beads.",
+        "image_url": "/textbook-images/rwanda/149/page55-embedded-1.jpeg",
+        "topic_label": "Numbers from 0 up to 5 000",
+        "vetted": true,
+        "image_alt": "An abacus with four vertical rods labelled Th, H, T and O from left to right. The Th rod has 2 pink beads, the H rod has 4 green beads, the T rod has 4 orange beads, and the O rod has 3 light blue beads. Printed on it: Th | H | T | O.",
+        "source": {
+          "textbook": "P3 Mathematics PB"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Which number is between 4000 and 4500?",
+        "options": [
+          "3999",
+          "4501",
+          "4200",
+          "4600"
+        ],
+        "correct_answer": 2,
+        "explanation": "The correct answer is 4200. It is the only number listed that is between 4000 and 4500. 4600 is incorrect because it is more than 4500. 3999 is incorrect because it is less than 4000. 4501 is incorrect because it is more than 4500.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Numbers from 0 up to 5 000",
+        "source": {
+          "textbook": "P3 Mathematics PB",
+          "area": "Numbers from 0 up to 5 000"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "What is the total of 2000 and 3000?",
+        "options": [
+          "4000",
+          "4500",
+          "5500",
+          "5000"
+        ],
+        "correct_answer": 3,
+        "explanation": "The correct answer is 5000. When we add 2000 and 3000, we get 5000. 4000 is incorrect because it is 1000 less. 4500 is incorrect because it is 500 less. 5500 is incorrect because it is 500 more.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Numbers from 0 up to 5 000",
+        "source": {
+          "textbook": "P3 Mathematics PB",
+          "area": "Numbers from 0 up to 5 000"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "Look at the diagram. Which number do the base-ten blocks show?",
+        "options": [
+          "2 283",
+          "8 322",
+          "2 238",
+          "2 328"
+        ],
+        "correct_answer": 2,
+        "explanation": "There are 2 thousands, 2 hundreds, 3 tens and 8 ones, so the number is 2000 + 200 + 30 + 8 = 2 238. 2 328 swaps hundreds and tens. 2 283 swaps tens and ones. 8 322 reverses the digits and puts the ones first.",
+        "image_url": "/textbook-images/rwanda/149/page58-embedded-3.jpeg",
+        "topic_label": "Numbers from 0 up to 5 000",
+        "vetted": true,
+        "image_alt": "Base-ten blocks in blue. There are 2 large cubes (thousands), 2 flat squares (hundreds), 3 long rods (tens) and 8 small single cubes (ones), with the ones arranged in two rows of four. No labels or numbers are printed.",
+        "source": {
+          "textbook": "P3 Mathematics PB"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What is 4000 minus 1000?",
+        "options": [
+          "3000",
+          "5000",
+          "4500",
+          "2000"
+        ],
+        "correct_answer": 0,
+        "explanation": "The correct answer is 3000. When we subtract 1000 from 4000, we get 3000. 5000 is incorrect because it is 1000 more. 4500 is incorrect because it is 500 more. 2000 is incorrect because it is 2000 less.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Numbers from 0 up to 5 000",
+        "source": {
+          "textbook": "P3 Mathematics PB",
+          "area": "Numbers from 0 up to 5 000"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "Look at the drawing. Which sheet shows the greatest number when the numbers are compared?",
+        "options": [
+          "4178",
+          "3987",
+          "2764",
+          "4568"
+        ],
+        "correct_answer": 3,
+        "explanation": "4568 is greatest because it has 4 thousands and 5 hundreds, and 4178 has only 1 hundred. 4178 is smaller since 1 hundred is less than 5 hundreds. 3987 has only 3 thousands, so it is smaller. 2764 has the fewest thousands, so it is the smallest of these.",
+        "image_url": "/textbook-images/rwanda/149/page64-embedded-0.jpeg",
+        "topic_label": "Numbers from 0 up to 5 000",
+        "vetted": true,
+        "image_alt": "A cartoon drawing of children around a long wooden table with eight paper sheets in a row, each showing a number. A boy in a white shirt stands behind the table, and a boy in blue on the left holds the sheet 4568. The other sheets read 2764, 2987, 3078, 3157, 3456, 3987 and 4178. Printed on it: 4568 | 2764 | 2987 | 3078 | 3157 | 3456 | 3987 | 4178.",
+        "source": {
+          "textbook": "P3 Mathematics PB"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Which is the largest number in the options?",
+        "options": [
+          "1500",
+          "2000",
+          "2500",
+          "3000"
+        ],
+        "correct_answer": 3,
+        "explanation": "The correct answer is 3000. It is the largest number among the options. 1500 is incorrect because it is the smallest. 2000 is incorrect because it is less than 2500. 2500 is incorrect because it is less than 3000.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Numbers from 0 up to 5 000",
+        "source": {
+          "textbook": "P3 Mathematics PB",
+          "area": "Numbers from 0 up to 5 000"
+        }
+      }
+    ],
+    "estimated_time": 20,
+    "assessment_id": "a7cf2e27-027e-4e20-a176-c895c2f79760",
+    "subject": "P3 Mathematics PB",
+    "topics": [
+      "Numbers from 0 up to 5 000"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mcq",
+    "textbook_id": 149,
+    "topic_ids": [
+      1539
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "4",
+        "severity": "broken",
+        "detail": "Correct answer index mismatch. Explanation states answer is 2443, but correct_answer is set to 1. Index 1 is '2443' (correct), but this creates ambiguity. Verify index mapping: option[0]='2043', option[1]='2443', option[2]='3442', option[3]='2434'.",
+        "correction": "Confirm correct_answer: 1 is accurate for 2443, or clarify if index should differ."
+      },
+      {
+        "label": "9",
+        "severity": "broken",
+        "detail": "Question asks for greatest number from drawing, but 4568 exceeds the stated range 'Numbers from 0 up to 5000'. The number 4568 is outside the curriculum topic boundary (max 5000 inclusive, but 4568 is valid). However, the figure description lists 4568 as one option, creating internal inconsistency with topic scope.",
+        "correction": "Either replace 4568 with a number ≤5000, or confirm topic range extends to include 4568. If retained, note this tests boundary understanding."
+      }
+    ],
+    "summary": "Assessment is largely sound with 10 well-structured MCQs aligned to P3 Rwanda curriculum on numbers 0–5000. Two issues identified: question 4 has correct_answer index requiring verification, and question 9 includes 4568, which slightly exceeds typical topic boundary. All other questions are mathematically correct, age-appropriate, and properly explained."
+  },
+  "totalSeconds": 17
+}

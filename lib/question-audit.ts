@@ -205,7 +205,18 @@ function fitsSoundPattern(stem: string, target: string, option: string): boolean
   const { part, where } = targetSound(stem, t)
   if (!part) return false
 
-  if (where === 'start') return o.startsWith(part)
+  if (where === 'start') {
+    const onset = (word: string) => {
+      if (/^sch(?:ool|olar|eme)/.test(word)) return 'sk'
+      if (/^kn/.test(word)) return 'n'
+      if (/^wr/.test(word)) return 'r'
+      if (/^ph/.test(word)) return 'f'
+      const prefix = /^[^aeiou]+/.exec(word)?.[0] || word[0]
+      if (prefix === 'c') return /^c[eiy]/.test(word) ? 's' : 'k'
+      return prefix
+    }
+    return onset(o).startsWith(t.length > 2 ? onset(t) : onset(part))
+  }
   if (where === 'middle') return (/[aeiou]+/.exec(o)?.[0] ?? '') === part
   // A word never rhymes with itself in a question that asks which word rhymes.
   return o !== t && o.endsWith(part)
@@ -523,11 +534,11 @@ const COMMANDS =
   // -- a perfectly good question, called broken by the check meant to protect
   // it. A false alarm here costs more than the fault: it sends someone to
   // read a question that was fine.
-  '|add|subtract|multiply|divide|round|express|shade|circle|underline|fill in|rearrange|substitute|prove|construct|count|arrange' +
+  '|add|subtract|multiply|divide|round|express|shade|circle|underline|fill in|rearrange|substitute|prove|construct|count|arrange|mark|tap|put|indicate' +
   // A linear-algebra paper says "Perform LU decomposition on A = [[2, 1], [6, 5]]."
   // Perform is the command. Without it the question was deleted as a scene
   // that asks nothing, after the matrix and the job were both in the stem.
-  '|perform|compute|decompose|factor|diagonalise|diagonalize|obtain)'
+  '|perform|compute|decompose|factor|diagonalise|diagonalize|obtain|categorise|categorize)'
 
 /** A command opening a sentence: "Write the number in expanded form." */
 const COMMAND_AT_START = new RegExp(String.raw`^${COMMANDS}\b`, 'i')
@@ -588,6 +599,8 @@ function auditRepeatedScenario(list: unknown[], out: AuditFinding[]): void {
     // The first sentence, which is where a shared scenario sits.
     const first = /^[^.!?]{12,120}[.!?]/.exec(stem)?.[0]?.trim()
     if (!first) return
+    // Repeated commands under different data are not repeated scenarios.
+    if (!asksNothing(first)) return
     // "Look at the diagram." is a pointer, not a scenario. Five questions in
     // one paper opened with it and were reported as sharing a scenario, which
     // is exactly the kind of false alarm that sends someone to read five

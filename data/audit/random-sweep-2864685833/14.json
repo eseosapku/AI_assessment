@@ -1,0 +1,734 @@
+{
+  "index": 14,
+  "label": "Cambridge / Exam / Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+  "request": {
+    "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+    "textbook_id": 33,
+    "topic_ids": [
+      427
+    ],
+    "topics": [
+      "2 Materials and their structure"
+    ],
+    "curriculum": "cambridge",
+    "grade": 7,
+    "className": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 44,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the process of melting.",
+          "Correctly name the change of state."
+        ],
+        "hints": [
+          "Think about the process that occurs when ice is heated."
+        ],
+        "model_answer": "Melting.",
+        "explanation": "When ice is heated, it changes from a solid to a liquid, which is called melting.",
+        "exam_question_id": "6bc52683-f7ba-4c39-bfc3-a7d84e00cdac:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the particle arrangement in ice.",
+          "Describe the particle arrangement in liquid water.",
+          "Compare the two arrangements."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the particles are arranged in liquid water compared with ice — develop the idea fully rather than listing short points. Make sure you also cover: the particle arrangement in ice.; Compare the two arrangements."
+        ],
+        "model_answer": "In ice, the particles are in a fixed regular pattern, closely packed, and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other.",
+        "explanation": "In ice, particles are arranged in a fixed regular pattern and only vibrate. In liquid water, particles are still close together but can move past each other, leading to an irregular arrangement.",
+        "exam_question_id": "6bc52683-f7ba-4c39-bfc3-a7d84e00cdac:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student heats a beaker containing 100 grams of ice at 0°C until it becomes steam at 100°C.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the process of ice becoming liquid water.",
+          "State the correct term for this change of state."
+        ],
+        "hints": [
+          "Stay focused on this: Name the change of state when ice becomes liquid water — develop the idea fully rather than listing short points. Make sure you also cover: Identify the process of ice becoming liquid water."
+        ],
+        "model_answer": "The change of state when ice becomes liquid water is called melting.",
+        "explanation": "Melting is the process where a solid turns into a liquid.",
+        "exam_question_id": "84a32e67-d140-4fd9-b325-c2d9f8b15b62:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student heats a beaker containing 100 grams of ice at 0°C until it becomes steam at 100°C.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the arrangement of particles in ice.",
+          "Identify the arrangement of particles in liquid water.",
+          "Compare the arrangements of particles in ice and liquid water."
+        ],
+        "hints": [
+          "Consider the movement and spacing of particles in different states."
+        ],
+        "model_answer": "In ice, the particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other.",
+        "explanation": "In ice, particles are fixed in a regular pattern and only vibrate. In liquid water, particles are close together but can move past each other, leading to an irregular arrangement.",
+        "exam_question_id": "84a32e67-d140-4fd9-b325-c2d9f8b15b62:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student heats ice in a beaker until it becomes steam.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the process of ice turning into water.",
+          "State the correct term for this process."
+        ],
+        "hints": [
+          "Recall the term for the transition from solid to liquid."
+        ],
+        "model_answer": {
+          "working": "The process of ice turning into water is known as melting.",
+          "result": "Melting"
+        },
+        "explanation": "The process of ice turning into water is called melting.",
+        "exam_question_id": "73c2e500-0a06-413c-9a1e-128008299a8b:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student heats ice in a beaker until it becomes steam.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the particle arrangement in ice.",
+          "Describe the particle arrangement in liquid water.",
+          "Compare the two arrangements."
+        ],
+        "hints": [
+          "Consider the movement and spacing of particles in each state."
+        ],
+        "model_answer": {
+          "working": "In ice, the particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other.",
+          "result": "In ice, the particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other."
+        },
+        "explanation": "In ice, particles are in a fixed regular pattern and closely packed, only vibrating. In liquid water, particles are still close together but irregularly arranged and can move past each other.",
+        "exam_question_id": "73c2e500-0a06-413c-9a1e-128008299a8b:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A student heats a beaker containing 100 grams of ice at 0°C until it becomes steam at 100°C.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the process of changing from solid to liquid.",
+          "Use the correct term for the change of state."
+        ],
+        "hints": [
+          "Recall the terms for changes of state."
+        ],
+        "model_answer": "The change of state when ice becomes liquid water is called melting.",
+        "explanation": "Melting is the process where a solid turns into a liquid.",
+        "exam_question_id": "dbc19b0e-d1ce-4b95-baf8-f018ae28bb31:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A student heats a beaker containing 100 grams of ice at 0°C until it becomes steam at 100°C.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the arrangement of particles in ice.",
+          "Explain the arrangement of particles in liquid water.",
+          "Compare the two arrangements."
+        ],
+        "hints": [
+          "Think about the movement and spacing of particles in different states."
+        ],
+        "model_answer": "In ice, the particles are in a fixed regular pattern, closely packed, and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other.",
+        "explanation": "In ice, particles are tightly packed in a fixed pattern, while in liquid water, they are less orderly and can move around more freely.",
+        "exam_question_id": "dbc19b0e-d1ce-4b95-baf8-f018ae28bb31:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is heated from ice to steam in a controlled environment.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the process of ice turning into liquid water.",
+          "Use the correct term for the change of state."
+        ],
+        "hints": [
+          "Recall the term used for the process when a solid turns into a liquid."
+        ],
+        "model_answer": {
+          "working": "When ice is heated, it turns into liquid water. This process is known as melting.",
+          "result": "Melting"
+        },
+        "explanation": "The change of state when ice becomes liquid water is called melting.",
+        "exam_question_id": "f157cfbc-f48b-4f0a-90a5-48e9ee97b5eb:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is heated from ice to steam in a controlled environment.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the particle arrangement in ice.",
+          "Describe the particle arrangement in liquid water.",
+          "Compare the arrangements between ice and liquid water."
+        ],
+        "hints": [
+          "Think about the movement and spacing of particles in solids and liquids."
+        ],
+        "model_answer": {
+          "working": "In ice, particles are in a fixed regular pattern, closely packed, and only vibrating. In liquid water, particles are still close together but irregularly arranged and can move past each other.",
+          "result": "In ice, particles are in a fixed regular pattern, closely packed, and only vibrating. In liquid water, particles are still close together but irregularly arranged and can move past each other."
+        },
+        "explanation": "In ice, particles are in a fixed regular pattern and closely packed, while in liquid water, particles are still close together but can move past each other in an irregular arrangement.",
+        "exam_question_id": "f157cfbc-f48b-4f0a-90a5-48e9ee97b5eb:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The temperature of the water is increased from -10°C to 110°C.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct change of state.",
+          "Provide the correct term for the process."
+        ],
+        "hints": [
+          "Recall the term used for the transition from solid to liquid."
+        ],
+        "model_answer": "The change of state when ice becomes liquid water is called melting.",
+        "explanation": "The process of ice turning into liquid water is known as melting.",
+        "exam_question_id": "4166449d-67ac-4fc0-a7e7-15594ed64e42:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The temperature of the water is increased from -10°C to 110°C.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the particle arrangement in ice.",
+          "Describe the particle arrangement in liquid water.",
+          "Compare the arrangements in ice and liquid water."
+        ],
+        "hints": [
+          "Think about the movement and spacing of particles in solids and liquids."
+        ],
+        "model_answer": "In ice, the particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other.",
+        "explanation": "In ice, the particles are locked in a fixed, regular pattern, which is why ice has a definite shape. In liquid water, the particles have more freedom to move around, which is why liquid water takes the shape of its container.",
+        "exam_question_id": "4166449d-67ac-4fc0-a7e7-15594ed64e42:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam.",
+        "question": "Name the change of state when liquid water becomes steam.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the process of liquid water turning into steam.",
+          "Correctly name the change of state as 'boiling'."
+        ],
+        "hints": [
+          "Recall the process by which a liquid turns into a gas."
+        ],
+        "model_answer": "Boiling",
+        "explanation": "Boiling is the process by which a liquid turns into a gas at its boiling point.",
+        "exam_question_id": "5cb18a63-4f89-45aa-b1cd-2ea4c06380b1:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam.",
+        "question": "Describe how the particles are arranged in steam compared with liquid water.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the arrangement of particles in liquid water.",
+          "Explain the arrangement of particles in steam.",
+          "Compare the two arrangements correctly."
+        ],
+        "hints": [
+          "Think about the movement and spacing of particles in different states of matter."
+        ],
+        "model_answer": "In liquid water, particles are close together but can move past each other. In steam, particles are far apart and move freely.",
+        "explanation": "In liquid water, particles are close together but can move past each other. In steam, particles are far apart and move freely.",
+        "exam_question_id": "5cb18a63-4f89-45aa-b1cd-2ea4c06380b1:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is initially in the solid state (ice) at 0°C.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the change of state (melting).",
+          "Accurate naming of the process."
+        ],
+        "hints": [
+          "Recall the term used to describe the transition from solid to liquid."
+        ],
+        "model_answer": "The change of state when ice becomes liquid water is called melting.",
+        "explanation": "When ice is heated, it transitions from a solid to a liquid state. The term for this change of state is'melting'.",
+        "exam_question_id": "0f63a035-2850-4af3-8182-1a4460cf697a:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is initially in the solid state (ice) at 0°C.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct description of particle arrangement in ice.",
+          "Correct description of particle arrangement in liquid water.",
+          "Comparison of the arrangements."
+        ],
+        "hints": [
+          "Think about the movement and spacing of particles in solids versus liquids."
+        ],
+        "model_answer": "In ice, the particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other.",
+        "explanation": "In the solid state (ice), water particles are in a fixed, regular pattern and only vibrate in place. When water melts into a liquid, the particles become more loosely packed and can move past each other, allowing the liquid to flow.",
+        "exam_question_id": "0f63a035-2850-4af3-8182-1a4460cf697a:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is heated from ice to steam.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the change of state as melting.",
+          "Provides the correct term for the process."
+        ],
+        "hints": [
+          "Think about the process of changing from a solid to a liquid."
+        ],
+        "model_answer": "The change of state when ice becomes liquid water is called melting.",
+        "explanation": "When ice is heated, it changes from a solid to a liquid, which is known as melting.",
+        "exam_question_id": "a8cc8746-7e69-4f64-b92a-7d1be0eeab57:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is heated from ice to steam.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describes the particle arrangement in ice.",
+          "Describes the particle arrangement in liquid water.",
+          "Compares the two arrangements correctly."
+        ],
+        "hints": [
+          "Think about the movement and spacing of particles in solids versus liquids."
+        ],
+        "model_answer": "In ice, the particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, the particles are still close together but irregularly arranged and can move past each other.",
+        "explanation": "In ice, particles are tightly packed in a fixed structure, while in liquid water, particles are more loosely packed and can move around each other.",
+        "exam_question_id": "a8cc8746-7e69-4f64-b92a-7d1be0eeab57:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is heated from ice to steam in a controlled environment.",
+        "question": "Name the change of state when ice becomes liquid water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct term for the change of state from solid to liquid.",
+          "Use the correct terminology for the process."
+        ],
+        "hints": [
+          "Stay focused on this: Name the change of state when ice becomes liquid water — develop the idea fully rather than listing short points. Make sure you also cover: Identify the correct term for the change of state from solid to liquid.; the correct terminology for the process."
+        ],
+        "model_answer": {
+          "working": "When ice is heated, it transitions from a solid to a liquid. The term for this change of state is melting.",
+          "result": "Melting"
+        },
+        "explanation": "The change of state from solid to liquid is called melting.",
+        "exam_question_id": "1c0a2b93-9f55-46ca-9af4-567271c54822:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sample of water in different states: ice, liquid water, and steam. The sample is heated from ice to steam in a controlled environment.",
+        "question": "Describe how the particles are arranged in liquid water compared with ice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the arrangement of particles in ice.",
+          "Identify the arrangement of particles in liquid water.",
+          "Compare the two arrangements correctly."
+        ],
+        "hints": [
+          "Think about the movement and spacing of particles in each state."
+        ],
+        "model_answer": {
+          "working": "In ice, particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, particles are still close together but irregularly arranged and can move past each other.",
+          "result": "In ice, particles are in a fixed regular pattern, closely packed and only vibrating. In liquid water, particles are still close together but irregularly arranged and can move past each other."
+        },
+        "explanation": "In ice, particles are in a fixed regular pattern and closely packed, while in liquid water, particles are still close together but can move past each other.",
+        "exam_question_id": "1c0a2b93-9f55-46ca-9af4-567271c54822:1",
+        "checked": true,
+        "topic_id": 427,
+        "topic_label": "2 Materials and their structure",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 7 Learners Book Second Edition",
+          "area": "2 Materials and their structure"
+        }
+      }
+    ],
+    "estimated_time": 50,
+    "assessment_id": "7b015b75-25b9-40e7-b036-f6676adf4d00",
+    "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+    "topics": [
+      "2 Materials and their structure"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 33,
+    "topic_ids": [
+      427
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "9 questions open with the same sentence (1, 3, 5, 7, 9, 11, 15, 17, 19): \"Name the change of state when ice becomes liquid w\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "9 questions open with the same sentence (2, 4, 6, 8, 10, 12, 16, 18, 20): \"Describe how the particles are arranged in liquid \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 2,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 3,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 2"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1a, 2a, 3a, 4a, 5a, 6a, 8a, 9a, 10a",
+        "severity": "poor",
+        "detail": "Identical question repeated 9 times across all 10 assessment items. Questions 1a–6a and 8a–10a all ask 'Name the change of state when ice becomes liquid water' with identical marking criteria and model answers. This violates assessment design principles requiring question variety.",
+        "correction": "Replace repeated questions with varied content: e.g., 'Name the change of state when liquid water becomes steam' (boiling), 'Name the change of state when steam becomes liquid water' (condensation), 'Name the change of state when ice becomes steam directly' (sublimation), or questions about other materials/processes within Topic 2."
+      },
+      {
+        "label": "1b, 2b, 3b, 4b, 5b, 6b, 8b, 9b, 10b",
+        "severity": "poor",
+        "detail": "Identical question repeated 9 times. Questions 1b–6b and 8b–10b all ask 'Describe how the particles are arranged in liquid water compared with ice' with identical marking criteria and model answers. No variation in content or progression.",
+        "correction": "Replace with varied questions: e.g., 'Describe particle arrangement in steam compared with liquid water', 'Explain why ice floats on water using particle arrangement', 'Compare particle movement in ice, liquid water, and steam', or questions on other materials (metals, gases, polymers) from Topic 2."
+      },
+      {
+        "label": "7a, 7b",
+        "severity": "poor",
+        "detail": "Question 7 introduces boiling/steam but lacks context connection to earlier questions. Assessment does not progress logically from melting (questions 1–6) to boiling (question 7). No intermediate questions on condensation or other state changes.",
+        "correction": "Restructure assessment with logical progression: melting (ice→water), then boiling (water→steam), then reverse processes (condensation, freezing). Alternatively, integrate question 7 earlier or add questions on all state changes systematically."
+      }
+    ],
+    "summary": "Assessment contains severe repetition: questions 1a–6a and 8a–10a are identical (melting), as are 1b–6b and 8b–10b (particle arrangement comparison). Nine of twenty questions are duplicates. Question 7 introduces new content (boiling) without logical progression. Requires substantial restructuring to provide content variety and coherent learning progression within Topic 2."
+  },
+  "totalSeconds": 50
+}

@@ -1,0 +1,439 @@
+{
+  "seed": 569222779,
+  "baseUrl": "http://localhost:3101",
+  "buildId": "YfBQJKbLOvqy86-SUbmaP",
+  "jobs": [
+    {
+      "label": "Cambridge / Exam / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          264
+        ],
+        "topics": [
+          "Projectiles"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Computing 8 Students Book ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "textbook_id": 30,
+        "topic_ids": [
+          393,
+          394
+        ],
+        "topics": [
+          "Testing conditions: Developing games",
+          "Data input: Data collection and validation"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+        "textbook_id": 192,
+        "topic_ids": [
+          2364
+        ],
+        "topics": [
+          "Chapter 18: Economic growth"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / ICT S5 Adapted SB",
+      "exam": true,
+      "body": {
+        "subject": "ICT S5 Adapted SB",
+        "textbook_id": 120,
+        "topic_ids": [
+          1285
+        ],
+        "topics": [
+          "E-Commerce, Social Media and Online Services"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Computer Science S6 SB",
+      "exam": true,
+      "body": {
+        "subject": "Computer Science S6 SB",
+        "textbook_id": 61,
+        "topic_ids": [
+          691,
+          688
+        ],
+        "topics": [
+          "Multimedia",
+          "Collections in Java"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / English S1",
+      "exam": true,
+      "body": {
+        "subject": "English S1",
+        "textbook_id": 67,
+        "topic_ids": [
+          759
+        ],
+        "topics": [
+          "UNIT 5: BOOKS AND SCHOOL WORK HABITS"
+        ],
+        "curriculum": "rwanda",
+        "grade": 7,
+        "className": "S1",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Economics S5 SB",
+      "exam": true,
+      "body": {
+        "subject": "Economics S5 SB",
+        "textbook_id": 64,
+        "topic_ids": [
+          726,
+          733
+        ],
+        "topics": [
+          "Price Indices",
+          "Public Finance 2"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / P2 Mathematics PB",
+      "exam": true,
+      "body": {
+        "subject": "P2 Mathematics PB",
+        "textbook_id": 145,
+        "topic_ids": [
+          1510
+        ],
+        "topics": [
+          "Missing Numbers in Addition, Subtraction, Multiplication or Division"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+        "textbook_id": 198,
+        "topic_ids": [
+          2491,
+          2487
+        ],
+        "topics": [
+          "Chapter 18: a Draw the graph of In m against t.",
+          "Chapter 13: Further vector notation"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Geography S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "Geography S4 SB",
+        "textbook_id": 109,
+        "topic_ids": [
+          1149
+        ],
+        "topics": [
+          "Soils in Rwanda"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Biology S6 Student Book ",
+      "exam": true,
+      "body": {
+        "subject": "Biology S6 Student Book ",
+        "textbook_id": 9,
+        "topic_ids": [
+          127
+        ],
+        "topics": [
+          "Variation"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / Geography S5 SB (1)",
+      "exam": true,
+      "body": {
+        "subject": "Geography S5 SB (1)",
+        "textbook_id": 110,
+        "topic_ids": [
+          1162
+        ],
+        "topics": [
+          "Statistical Graphs, Diagrams and Maps"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+      "exam": true,
+      "body": {
+        "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "textbook_id": 209,
+        "topic_ids": [
+          2605
+        ],
+        "topics": [
+          "Chapter 7: Energy resources"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge-AS-A-Level-Computing-Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "textbook_id": 207,
+        "topic_ids": [
+          3028
+        ],
+        "topics": [
+          "Chapter 4: Deﬁ nition, investigation and analysis"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE® English as a Second Language Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE® English as a Second Language Coursebook",
+        "textbook_id": 14,
+        "topic_ids": [
+          2961
+        ],
+        "topics": [
+          "Unit 16: Social media"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE® English as a Second Language Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE™ ICT Coursebook ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE™ ICT Coursebook ",
+        "textbook_id": 17,
+        "topic_ids": [
+          206
+        ],
+        "topics": [
+          "Types and components of computer systems"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ ICT Coursebook ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS & A Level Physics Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS & A Level Physics Coursebook",
+        "textbook_id": 22,
+        "topic_ids": [
+          303,
+          304
+        ],
+        "topics": [
+          "Chapter 3: Dynamics – explaining motion",
+          "Chapter 4: Forces – vectors and moments"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS & A Level Physics Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Economics S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "Economics S4 SB",
+        "textbook_id": 63,
+        "topic_ids": [
+          713,
+          718
+        ],
+        "topics": [
+          "Theory of demand",
+          "Price mechanism"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Primary Science 5 Learners Book ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Primary Science 5 Learners Book ",
+        "textbook_id": 52,
+        "topic_ids": [
+          580
+        ],
+        "topics": [
+          "States of matter"
+        ],
+        "curriculum": "cambridge",
+        "grade": 5,
+        "className": "Cambridge Primary Science 5 Learners Book ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / Core Math S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "Core Math S4 SB",
+        "textbook_id": 62,
+        "topic_ids": [
+          698
+        ],
+        "topics": [
+          "Unit 6: Quadratic equations and inequalities"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    }
+  ]
+}

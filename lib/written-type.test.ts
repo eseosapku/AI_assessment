@@ -3,6 +3,11 @@ import { describe, it, expect } from 'vitest'
 import { normaliseWrittenType } from './written-type'
 
 describe('a written answer under another name', () => {
+  it('turns a structured worked answer into renderable text without losing its result', () => {
+    const q: any = { type: 'longform', model_answer: { working: 'Density = mass / volume.', result: '7.5 g/cm³' } }
+    normaliseWrittenType(q)
+    expect(q.model_answer).toBe('Density = mass / volume.\n\n7.5 g/cm³')
+  })
   it('is a longform when it carries a key', () => {
     const q = { type: 'short', question: 'Give the name of the girl who found the book.', short_answer: { accepted: ['Elara'] } }
     normaliseWrittenType(q)

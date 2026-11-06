@@ -1,0 +1,3287 @@
+{
+  "seed": 2864685833,
+  "results": [
+    {
+      "index": 1,
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 8 Students Book ",
+      "request": {
+        "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "textbook_id": 30,
+        "topic_ids": [
+          392
+        ],
+        "topics": [
+          "Let's talk technology: What's going on inside"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 19,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "6",
+            "severity": "poor",
+            "detail": "Question asks for 'denary value' but accepted answers include 'twenty-one' and 'twenty one'. These are word forms, not denary (decimal) notation. Denary value should be numeric only: 21. Word forms are inconsistent with mathematical terminology.",
+            "correction": "Restrict accepted answers to numeric form only: [\"21\"] or clarify question asks for 'value in words or numbers' if word forms are intended."
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Question topic is 'Augmented reality' but assessment header specifies 'Let's talk technology: What's going on inside'. AR is not typically covered in depth in Cambridge Lower Secondary Computing 8 chapter on computer internals. Topic fit questionable for this unit.",
+            "correction": "Verify AR content appears in specified textbook chapter. If not, replace with question on relevant internal technology topic or relocate to appropriate unit."
+          },
+          {
+            "label": "10",
+            "severity": "poor",
+            "detail": "Question topic is 'Robotics' but assessment header specifies 'Let's talk technology: What's going on inside'. Robotics is not typically covered in depth in Cambridge Lower Secondary Computing 8 chapter on computer internals. Topic fit questionable for this unit.",
+            "correction": "Verify robotics content appears in specified textbook chapter. If not, replace with question on relevant internal technology topic or relocate to appropriate unit."
+          }
+        ],
+        "summary": "Assessment is largely sound with clear marking criteria and appropriate model answers. Three questions (6, 9, 10) have issues: Q6 accepts non-numeric word forms for a denary value; Q9 and Q10 on AR and robotics appear misaligned with stated chapter focus on computer internals."
+      },
+      "totalSeconds": 24
+    },
+    {
+      "index": 2,
+      "label": "REB / Practice / Mathematics-SB S6 HLP LFK HGL",
+      "request": {
+        "subject": "Mathematics-SB S6 HLP LFK HGL",
+        "textbook_id": 130,
+        "topic_ids": [
+          1359
+        ],
+        "topics": [
+          "UNIT 3: ELEMENTARY PROBABILITY"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 14,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 3,
+          "detail": "no question mark and no command word: \"Mark each statement True or False: The sum of probabilities \""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 4,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong: 0.1, 0.2, 0.3, 0.4\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 8,
+          "detail": "no question mark and no command word: \"Put the steps in the correct order to calculate the probabil\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 9,
+          "detail": "no question mark and no command word: \"Mark each statement True or False: The probability of an eve\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 11,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong: 0.3, 0.7, 1.2, 0.5\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 17,
+          "detail": "no question mark and no command word: \"Indicate whether each statement is true or false: 1. The pro\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 17,
+          "detail": "62 words"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "broken",
+            "detail": "Matching pairs are logically inconsistent. 'Rolling a 1 on a die' and 'Drawing a King from a deck' cannot both be mutually exclusive (they're from different experiments). The explanation contradicts the pairing logic.",
+            "correction": "Revise pairs to match events within same context: Rolling a 1 (mutually exclusive with rolling 2-6), or use events from same experiment (e.g., drawing King vs Queen as mutually exclusive)."
+          },
+          {
+            "label": "7",
+            "severity": "broken",
+            "detail": "Explanation states 4/12 = 0.333 'rounded to 0.4' but 0.333 rounds to 0.3, not 0.4. The correct answer 4/12 = 1/3 ≈ 0.333, which doesn't match any option accurately.",
+            "correction": "Either correct the explanation to 4/12 ≈ 0.33 or revise options to include 0.33 instead of 0.4."
+          },
+          {
+            "label": "8",
+            "severity": "broken",
+            "detail": "Correct pairs array [0,3],[1,2],[2,0],[3,1] creates circular mapping. Pair [0,3] maps Sample Space to 'likelihood of event' (wrong), and [3,1] maps Probability to 'subset of sample space' (wrong).",
+            "correction": "Correct pairs should be: [[0,1],[1,2],[2,0],[3,3]] mapping Sample Space→'set of all possible outcomes', Event→'subset of sample space', Outcome→'single result', Probability→'likelihood of event'."
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Step order [2,0,1,3] places 'Check the sample space' last, but this should occur early to validate independence assumption. Logical flow is compromised.",
+            "correction": "Reorder to [2,3,0,1]: Identify events as independent → Check sample space → Determine individual probabilities → Multiply probabilities."
+          },
+          {
+            "label": "14",
+            "severity": "broken",
+            "detail": "Correct pairs [0,2],[1,0],[2,3],[3,1] are internally inconsistent. Pair [1,0] maps 'Mutually exclusive' to 'Events where occurrence of one does not affect the other' (definition of independent, not mutually exclusive).",
+            "correction": "Correct pairs: [[0,2],[1,1],[2,0],[3,3]] mapping Independent→'occurrence of one does not affect other', Mutually exclusive→'occurrence of one excludes other', Dependent→'affect each other', Complementary→'one is opposite of other'."
+          },
+          {
+            "label": "15",
+            "severity": "broken",
+            "detail": "Explanation contains false claims: '0.5 is probability of drawing a face card' (actually 12/52≈0.23), '0.75 is probability of drawing non-face card' (actually 40/52≈0.77). Correct answer 0.5 is wrong; 26 red cards/52 = 0.5, not 0.25.",
+            "correction": "Correct answer should be 2 (0.5), not 1 (0.25). Revise explanation: 26 red cards out of 52 = 0.5. Remove false distractors."
+          },
+          {
+            "label": "16",
+            "severity": "broken",
+            "detail": "Probability values are incorrect. Drawing a 7: 4/52≈0.077 ✓; Drawing a Spade: 13/52=0.25 ✓; Drawing a Face Card: 12/52≈0.231 (not 0.0233); Drawing a Queen: 4/52≈0.077 (not 0.1538). Pairs [2,3] and [3,2] are swapped with wrong values.",
+            "correction": "Correct pairs: [[0,0],[1,1],[2,2],[3,3]] with values: Drawing 7→0.0769, Spade→0.25, Face Card→0.2308, Queen→0.0769."
+          },
+          {
+            "label": "17",
+            "severity": "poor",
+            "detail": "Explanation states 'Drawing a King has lowest probability at 0.0769' but also lists Heart and Diamond at 0.25 each. Order [2,0,3,1] places King last (lowest), but explanation doesn't clarify why Heart/Diamond are equal.",
+            "correction": "Clarify: Black Card (0.5) > Heart (0.25) = Diamond (0.25) > King (0.077). Consider if Heart and Diamond should be tied or if question expects single ordering."
+          },
+          {
+            "label": "18",
+            "severity": "poor",
+            "detail": "Statement 3 'Drawing red and black are dependent events' marked false, but explanation doesn't justify why they're independent. Drawing red on first draw affects probability of drawing black on second draw (dependent if sequential).",
+            "correction": "Clarify context: if single draw, they're mutually exclusive (not dependent). If sequential without replacement, they're dependent. Current answer assumes single draw but lacks clarity."
+          },
+          {
+            "label": "19",
+            "severity": "poor",
+            "detail": "Explanation claims 'Drawing a face card is a category, not a specific card' but this reasoning is weak. All four options are valid probability events. The distinction between 'category' and 'specific' is subjective.",
+            "correction": "Revise question logic: Drawing a face card overlaps with other categories (e.g., a face card can be red), making it non-mutually exclusive with others. Rephrase explanation accordingly."
+          },
+          {
+            "label": "20",
+            "severity": "poor",
+            "detail": "Explanation contains false claims: '0.1111 is probability of rolling 1 on one die' (actually 1/6≈0.167), '0.1389 is probability of rolling 4' (actually 1/6≈0.167). Distractors are poorly justified.",
+            "correction": "Verify: 6 ways to sum to 7 out of 36 outcomes = 6/36 = 1/6 ≈ 0.1667 ✓. Revise distractors with accurate explanations or remove false claims."
+          }
+        ],
+        "summary": "Assessment contains 10 substantive issues: 5 broken (incorrect answer mappings in questions 2, 8, 14, 15, 16) and 5 poor (flawed logic/explanations in 7, 9, 17, 18, 19, 20). Key problems: circular matching pairs, incorrect probability calculations, false distractor explanations, and ambiguous question contexts."
+      },
+      "totalSeconds": 26
+    },
+    {
+      "index": 3,
+      "label": "REB / Practice / Economics S6 SB",
+      "request": {
+        "subject": "Economics S6 SB",
+        "textbook_id": 65,
+        "topic_ids": [
+          746
+        ],
+        "topics": [
+          "Industrial Development"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 11,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 3,
+          "detail": "no question mark and no command word: \"Mark each statement True or False\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 5,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1",
+            "severity": "broken",
+            "detail": "Correct pairs array is misaligned with definitions. Pair [0,3] maps Industrial Development to Technological Transfer (incorrect). Should be [0,0], [1,1], [2,2], [3,3] based on left-right item order.",
+            "correction": "correct_pairs should be [[0,0],[1,1],[2,2],[3,3]] to properly match terms to their definitions in sequence"
+          },
+          {
+            "label": "5",
+            "severity": "poor",
+            "detail": "Explanation contradicts correct_indices. States 'technological gaps are a challenge' but includes indices [0,2,3] excluding technological gaps (index 1). Explanation should clarify why technological gaps are excluded from 'ALL that apply' to industrial development advantages.",
+            "correction": "Explanation should read: 'Job creation, increased productivity, and lack of skilled labour are all relevant to industrial development. Technological gaps are excluded as they represent challenges, not advantages.'"
+          },
+          {
+            "label": "8",
+            "severity": "broken",
+            "detail": "Correct pairs are inverted. Pair [0,1] maps Primary industry to 'processing raw materials' (Secondary definition). Correct mapping: Primary→extraction [0,0], Secondary→processing [1,1], Tertiary→services [2,2], Quaternary→knowledge [3,3].",
+            "correction": "correct_pairs should be [[0,0],[1,1],[2,2],[3,3]]"
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Categorization lacks clarity and contains debatable classifications. Agricultural processing plant marked Rural (1) but typically urban/peri-urban. Fishing industry marked Urban (0) but usually coastal/rural. Categorization is geographically ambiguous for Rwanda context.",
+            "correction": "Clarify or revise: Agricultural processing (typically urban/peri-urban), Fishing (rural/coastal), Textile factory (urban), Logging (rural). Or provide Rwanda-specific context for classification."
+          }
+        ],
+        "summary": "Assessment has 3 substantive errors: two matching questions (1, 8) contain inverted correct_pairs arrays causing wrong answers; question 5 has contradictory explanation; question 9 has geographically ambiguous categorizations. Questions 2, 3, 4, 6, 7, 10 are sound."
+      },
+      "totalSeconds": 16
+    },
+    {
+      "index": 5,
+      "label": "Cambridge / Practice / Cambridge International AS & A Level Physics Coursebook",
+      "request": {
+        "subject": "Cambridge International AS & A Level Physics Coursebook",
+        "textbook_id": 22,
+        "topic_ids": [
+          334
+        ],
+        "topics": [
+          "P2: Planning, analysis and evaluation"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS & A Level Physics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 16,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 3,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "broken",
+            "detail": "Correct answer marked as option 3 (2.0 s⁻¹), but gradient calculation shows k = −(−2.0) = 2.0 s⁻¹. However, option indexing error: if options are [0.5, 2.3, 10, 2.0], then option 3 is correct. But explanation states '0.5 inverts the gradient' which is mathematically incorrect—0.5 = 1/2.0, not an inversion of gradient. Verify option ordering matches correct_answer index.",
+            "correction": "Confirm option array order. If [0.5, 2.3, 10, 2.0], correct_answer should be 3 (index). Explanation should state: '0.5 is the reciprocal of 2.0, not the gradient' or clarify the error type."
+          },
+          {
+            "label": "6",
+            "severity": "poor",
+            "detail": "Hints field contains incomplete/corrupted text: 'Make sure you also cover: that θ (the becomes to.' This is unfinished and unintelligible, breaking hint utility for students.",
+            "correction": "Hints should read: 'Structure your answer around both demands: state how θ changes, then explain why using force balance. Ensure you cover: that θ decreases (becomes closer to horizontal) because horizontal drag increases.'"
+          }
+        ],
+        "summary": "Assessment is largely sound with 10 questions spanning planning, uncertainties, variables, and data analysis. Two issues identified: question 2 has unclear explanation of why 0.5 is wrong; question 6 has corrupted hint text. All other questions are age-appropriate, answerable, and contextually coherent."
+      },
+      "totalSeconds": 22
+    },
+    {
+      "index": 4,
+      "label": "REB / Exam / Economics S5 SB",
+      "request": {
+        "subject": "Economics S5 SB",
+        "textbook_id": 64,
+        "topic_ids": [
+          733
+        ],
+        "topics": [
+          "Public Finance 2"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 41,
+      "status": 200,
+      "numbered": 10,
+      "parts": 30,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "7 questions open with the same sentence (1, 13, 16, 19, 22, 25, 28): \"Calculate the budget deficit.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "7 questions open with the same sentence (2, 14, 17, 20, 23, 26, 29): \"Explain how issuing new bonds affects the national\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "7 questions open with the same sentence (3, 15, 18, 21, 24, 27, 30): \"Show the new national debt after issuing new bonds\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 29,
+          "detail": "same as question 3"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "4a",
+            "severity": "broken",
+            "detail": "Model answer contains arithmetic error. States 'new quantity demanded is 100 units * (1 - 0.100) = 90 units' but -100% change means quantity becomes 0, not 90. Calculation should yield 100 * (1 - 1.0) = 0 units, not 90.",
+            "correction": "Percentage change in quantity = -2 × 50% = -100%. New quantity = 100 × (1 - 1.0) = 0 units. (Alternatively, reconsider elasticity application or context if zero quantity is unrealistic.)"
+          },
+          {
+            "label": "3c",
+            "severity": "broken",
+            "detail": "Model answer contradicts the problem setup. States 'producers bear $0 of the tax burden' but problem specifies tax is levied on producers. If tax is on producers, they bear at least part of burden. Answer incorrectly assigns entire $1 burden to consumers only.",
+            "correction": "Since tax is levied on producers: Consumers pay $6, producers receive $5 after paying $1 tax. Consumers bear $1 of burden (price increase from $5 to $6), producers bear $0 in this case (price they receive stays at $5 before tax). Clarify: tax incidence depends on elasticities, not just legal assignment."
+          },
+          {
+            "label": "1b",
+            "severity": "poor",
+            "detail": "Model answer calculates new debt ($2,100M) but marking criteria require only explanation of relationship and impact. Answer goes beyond scope by computing specific figure, conflating part (b) with part (c).",
+            "correction": "Part (b) should explain conceptually: issuing bonds increases national debt by the deficit amount. Reserve numerical calculation for part (c)."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Model answer lacks specificity required by marking criteria. Criteria demand 'Correctly define national debt' but answer does not formally define it before explaining the relationship.",
+            "correction": "Add definition: 'National debt is the total amount of money a government owes to creditors.' Then explain bond issuance increases this total."
+          },
+          {
+            "label": "7b",
+            "severity": "poor",
+            "detail": "Marking criteria require 'Clear explanation of the relationship between budget deficit and national debt' but model answer does not explicitly connect deficit to debt increase mechanism.",
+            "correction": "Clarify: Budget deficit forces government to borrow (issue bonds), and borrowed amount directly increases national debt by that deficit amount."
+          }
+        ],
+        "summary": "Assessment contains 30 questions across 10 problem sets on Public Finance 2 (budget deficits, taxation, elasticity, debt). One critical arithmetic error in 4a (elasticity calculation yields 0, not 90 units). One broken answer in 3c (tax burden allocation contradicts problem statement). Three answers lack required depth per marking criteria. All other questions are mathematically sound and contextually appropriate for Grade 11."
+      },
+      "totalSeconds": 49
+    },
+    {
+      "index": 7,
+      "label": "Cambridge / Practice / Oxford English for Cambridge Primary Student Book 4 ",
+      "request": {
+        "subject": "Oxford English for Cambridge Primary Student Book 4 ",
+        "textbook_id": 137,
+        "topic_ids": [
+          1404,
+          1418
+        ],
+        "topics": [
+          "Unit contents",
+          "Carving the Sea Path"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Oxford English for Cambridge Primary Student Book 4 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 2864685833,
+      "error": "Error: Failed to generate 10 complete questions. The AI produced 3. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 23,
+      "status": 500,
+      "totalSeconds": 23
+    },
+    {
+      "index": 8,
+      "label": "REB / Practice / Physics S3 SB (1)",
+      "request": {
+        "subject": "Physics S3 SB (1)",
+        "textbook_id": 172,
+        "topic_ids": [
+          1799
+        ],
+        "topics": [
+          "Heat Transfer and Quantity of heat"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 17,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 7,
+          "detail": "57 words"
+        },
+        {
+          "code": "explanation-missing",
+          "severity": "poor",
+          "index": 9,
+          "detail": "nothing shown after answering"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "5",
+            "severity": "poor",
+            "detail": "Model answer contradicts itself. States temperature distribution becomes 'uniform' at steady state, then claims 'hottest part at heated end and coolest at other end.' Steady state with continuous heating maintains a temperature gradient, not uniformity.",
+            "correction": "At steady state, a linear temperature gradient persists along the rod: hottest at the heated end, coolest at the constant-temperature end. Heat flow rate becomes constant, but temperatures remain unequal."
+          },
+          {
+            "label": "8",
+            "severity": "poor",
+            "detail": "Model answer calculates heat gained by water (6300 J) but then states this equals 'heat of combustion of the fuel' without acknowledging energy losses to the calorimeter, surroundings, and incomplete combustion. The value represents only the heat absorbed by water, not true combustion energy.",
+            "correction": "The heat gained by water is 6300 J. This approximates the heat of combustion only if calorimeter losses are negligible. In reality, total combustion energy exceeds 6300 J due to heat losses to the apparatus and environment."
+          },
+          {
+            "label": "10",
+            "severity": "broken",
+            "detail": "Model answer is incomplete. Sentence ends mid-thought: 'more energy is required to change the' — no conclusion provided. Answer cannot be marked or verified.",
+            "correction": "Complete sentence: '...more energy is required to change the state of all particles. The relationship is Q = mL, where L is latent heat. Doubling mass doubles heat required for the same phase change.'"
+          }
+        ],
+        "summary": "Assessment covers heat transfer and quantity of heat appropriately for Grade 9. Three substantive issues identified: Question 5 model answer contains logical contradiction about steady-state temperature distribution; Question 8 oversimplifies heat of combustion without acknowledging apparatus losses; Question 10 model answer is incomplete/truncated mid-sentence, making it unmarkable."
+      },
+      "totalSeconds": 23
+    },
+    {
+      "index": 6,
+      "label": "REB / Exam / ICT in Accounting S4 SB",
+      "request": {
+        "subject": "ICT in Accounting S4 SB",
+        "textbook_id": 116,
+        "topic_ids": [
+          1234
+        ],
+        "topics": [
+          "Word Processing"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 62,
+      "status": 200,
+      "numbered": 10,
+      "parts": 30,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "9 questions open with the same sentence (1, 7, 10, 13, 16, 19, 22, 25, 28): \"Calculate the total cost of the invoice before tax\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "9 questions open with the same sentence (2, 8, 11, 14, 17, 20, 23, 26, 29): \"Calculate the total cost of the invoice including \""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "9 questions open with the same sentence (3, 9, 12, 15, 18, 21, 24, 27, 30): \"Explain why it is important to include sales tax o\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 29,
+          "detail": "same as question 3"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "1a, 3a, 6a",
+            "severity": "poor",
+            "detail": "Questions 1a, 3a, and 6a are identical (same items, same costs, same context). Assessment repeats the same question across different question numbers without variation.",
+            "correction": "Vary item costs, tax rates, or contexts across repeated questions to test different scenarios and prevent duplication."
+          },
+          {
+            "label": "1b, 3b, 6b",
+            "severity": "poor",
+            "detail": "Questions 1b, 3b, and 6b are identical (same total before tax $245, same 8% tax rate, same final answer $264.60). Exact duplication of calculation questions.",
+            "correction": "Use different numerical values or tax rates to create distinct assessment items."
+          },
+          {
+            "label": "1c, 3c, 6c",
+            "severity": "poor",
+            "detail": "Questions 1c, 3c, and 6c ask identical conceptual questions about why sales tax is important. Model answers cover the same points (transparency, legal compliance) with minimal variation.",
+            "correction": "Vary the conceptual focus (e.g., impact on cash flow, customer relations, record-keeping) to test different aspects of understanding."
+          },
+          {
+            "label": "5a, 8a, 9a, 10a",
+            "severity": "poor",
+            "detail": "Questions 5a, 8a, 9a, and 10a are identical (Item X $30, Item Y $45, Item Z $90, total $165). Same calculation repeated four times across the assessment.",
+            "correction": "Use distinct item costs and totals for each question to avoid redundancy."
+          },
+          {
+            "label": "5b, 8b, 9b, 10b",
+            "severity": "poor",
+            "detail": "Questions 5b, 8b, 9b, and 10b are identical (total before tax $165, 6% tax, tax amount $9.90, final total $174.90). Same tax calculation repeated four times.",
+            "correction": "Vary tax rates and base amounts across questions."
+          },
+          {
+            "label": "2a, 2b",
+            "severity": "poor",
+            "detail": "Questions 2a and 2b use the same account data but topic_label and source area are inconsistent. 2a labeled 'Add page numbers to a document' but content is about calculating assets; 2b labeled 'Word Processing' but source area is 'Add page numbers to a document'. Metadata misalignment.",
+            "correction": "Ensure topic_label and source area consistently reflect 'Word Processing' and 'Accounting calculations' or similar appropriate categories."
+          },
+          {
+            "label": "2c",
+            "severity": "poor",
+            "detail": "Question 2c asks about creating a table in Word but source area is labeled 'Steps to create a table of content', which is a different Word feature. Metadata mismatch between question content and source classification.",
+            "correction": "Correct source area to 'Creating tables in Word' or similar appropriate label."
+          },
+          {
+            "label": "4a, 4b, 4c",
+            "severity": "poor",
+            "detail": "Questions 4a, 4b, 4c use Item X ($30), Item Y ($45), Item Z ($60) with 10% tax. This is a unique scenario but appears only once, while identical scenarios (X $30, Y $45, Z $90 with 6% tax) appear four times (5a-5c, 8a-8c, 9a-9c, 10a-10c). Unbalanced repetition.",
+            "correction": "Distribute varied scenarios more evenly throughout the assessment."
+          },
+          {
+            "label": "7a, 7b, 7c",
+            "severity": "poor",
+            "detail": "Questions 7a, 7b, 7c use Item D ($25), Item E ($40), Item F ($65) with 7% tax. This unique scenario appears only once while other identical scenarios repeat four times. Inconsistent distribution of question variety.",
+            "correction": "Ensure all unique scenarios appear with similar frequency or consolidate to reduce redundancy."
+          },
+          {
+            "label": "9c",
+            "severity": "poor",
+            "detail": "Question 9c has 3 marking criteria but questions 1c, 3c, 6c, 8c, 10c have only 2 criteria for the same conceptual question. Inconsistent marking rubric for equivalent questions.",
+            "correction": "Standardize marking criteria across all part-c questions to 2 or 3 consistent criteria."
+          },
+          {
+            "label": "Assessment overall",
+            "severity": "poor",
+            "detail": "Assessment contains 30 questions across 10 question sets. Approximately 60% of questions are exact or near-exact duplicates of earlier questions. Only 4 unique numerical scenarios exist (Items A/B/C 8%, Items X/Y/Z 10%, Items D/E/F 7%, Items X/Y/Z 6%), with the last scenario repeated 4 times. This severely limits assessment validity and student learning differentiation.",
+            "correction": "Reduce to 10-15 unique questions with varied contexts, item costs, tax rates, and conceptual angles. Maintain one question set per unique scenario rather than repeating identical calculations."
+          }
+        ],
+        "summary": "Assessment contains 30 questions with severe duplication: 60% are identical or near-identical repeats. Only 4 unique numerical scenarios exist; one repeats 4 times. Metadata inconsistencies in questions 2a-2c. Marking criteria inconsistent for equivalent questions (9c has 3 criteria vs. 2 for similar questions). Recommend consolidation to 10-15 distinct questions with varied contexts and tax rates."
+      },
+      "totalSeconds": 72
+    },
+    {
+      "index": 10,
+      "label": "Cambridge / Practice / Cambridge International AS and A Level Computer Science Coursebook",
+      "request": {
+        "subject": "Cambridge International AS and A Level Computer Science Coursebook",
+        "textbook_id": 191,
+        "topic_ids": [
+          2656,
+          2638
+        ],
+        "topics": [
+          "Chapter 21: Security",
+          "Chapter 3: Hardware"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Computer Science Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 2864685833,
+      "error": "Error: Failed to generate 20 complete questions. The AI produced 18. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 23,
+      "status": 500,
+      "totalSeconds": 23
+    },
+    {
+      "index": 9,
+      "label": "Cambridge / Exam / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "request": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          271,
+          269
+        ],
+        "topics": [
+          "Matrices 2",
+          "Momentum"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 54,
+      "status": 200,
+      "numbered": 10,
+      "parts": 25,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "4 questions open with the same sentence (1, 6, 19, 23): \"Calculate the total momentum of the system before \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 16,
+          "detail": "5 criteria for 3 marks"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 17,
+          "detail": "6 criteria for 3 marks"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 19,
+          "detail": "5 criteria for 4 marks"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 20,
+          "detail": "4 criteria for 3 marks"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 21,
+          "detail": "4 criteria for 3 marks"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 24,
+          "detail": "5 criteria for 4 marks"
+        }
+      ],
+      "figures": 2,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b",
+          "10c",
+          "3a",
+          "3b",
+          "3c"
+        ],
+        "issues": [
+          {
+            "label": "1c",
+            "severity": "broken",
+            "detail": "Topic label is 'Matrices 2' but question concerns kinetic energy in inelastic collision (Momentum topic). Source also lists 'Matrices 2' incorrectly. Question content is momentum-related, not matrices.",
+            "correction": "Change topic_label and source.area to 'Momentum' or 'Impulse and the conservation of momentum'"
+          },
+          {
+            "label": "2a",
+            "severity": "broken",
+            "detail": "Model answer states A⁻¹(1,3) = −2/7, but marking criteria requires cofactor(3,1)/det(A) = 2/7. The sign is inconsistent. Recalculating: det(A)=7 is correct; cofactor(3,1) for element (1,3) in inverse should be checked. The answer −2/7 contradicts the marking criterion.",
+            "correction": "Verify: For A⁻¹(1,3), use cofactor(3,1) of A. Cofactor(3,1) = (−1)^(3+1)·minor(3,1) = +[−2·2 − 1·(−1)] = −5. So A⁻¹(1,3) = −5/7, not −2/7. Correct model answer and marking criteria."
+          },
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Topic label is 'Momentum' but question is about matrix inversion (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+            "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+          },
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Question 3a is identical to question 1a (same context, same wording, same answer 4 kg·m/s). Assessment contains repeated question with same data.",
+            "correction": "Remove duplicate or modify context/values for question 3"
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Question 3b is identical to question 1b (same context, same wording, same answer 4/3 m/s). Repeated question with same data.",
+            "correction": "Remove duplicate or modify context/values for question 3"
+          },
+          {
+            "label": "3c",
+            "severity": "poor",
+            "detail": "Question 3c is identical to question 1c (same context, same wording, same calculations). Repeated question with same data. Marking criteria also lists incorrect KE_final = 4/3 J instead of 8/3 J.",
+            "correction": "Remove duplicate or modify context/values. Correct marking criteria: KE_final = 8/3 J ≈ 2.67 J"
+          },
+          {
+            "label": "5a",
+            "severity": "broken",
+            "detail": "Model answer states det(A) = 11, but marking criteria requires det(A) = −9. These contradict. Recalculating: det(A) = 1(0−(−1)) − (−1)(0−(−2)) + 2(0−6) = 1 − 2 − 12 = −13, not 11 or −9. All values are incorrect.",
+            "correction": "Recalculate: det(A) = −13. Recalculate cofactor matrix and A⁻¹ accordingly. Element (2,1) of A⁻¹ requires correct cofactor(1,2) and determinant."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Topic label is 'Momentum' but question concerns matrix multiplication (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+            "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+          },
+          {
+            "label": "6a",
+            "severity": "broken",
+            "detail": "Model answer calculation is incoherent. States det(A) = 10, then computes cofactor as (10 − 48) = −38, then divides by 10 to get −3.8. The cofactor calculation and formula application are unclear and likely incorrect. Recalculating det(A) = 1(50−48) − 2(40−42) + 3(32−35) = 2 + 4 − 9 = −3, not 10.",
+            "correction": "Recalculate: det(A) = −3. Recalculate cofactor matrix and A⁻¹(1,3) using correct determinant."
+          },
+          {
+            "label": "6b",
+            "severity": "poor",
+            "detail": "Topic label is 'Momentum' but question concerns matrix multiplication (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+            "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+          },
+          {
+            "label": "7a",
+            "severity": "poor",
+            "detail": "Topic label is 'Matrices 2' but question concerns velocity components in collision (Momentum). Source area also incorrectly lists 'Matrices 2'.",
+            "correction": "Change topic_label to 'Momentum' and source.area to 'Momentum'"
+          },
+          {
+            "label": "7b",
+            "severity": "poor",
+            "detail": "Model answer is vague and incomplete. States 'Solving these equations, we find the angle of deflection for sphere P' without showing work. The answer 30° is not derived from the given equations. Marking criteria require detailed resolution of velocity components along/perpendicular to line of centres, but model answer lacks this.",
+            "correction": "Provide complete derivation: resolve 4u into components along (4u·cos60°=2u) and perpendicular (4u·sin60°=2√3u) to line of centres; apply e=1/4 and momentum conservation along line of centres; reconstruct velocity and calculate deflection angle explicitly."
+          },
+          {
+            "label": "7c",
+            "severity": "poor",
+            "detail": "Model answer is superficial. States 'coefficient of restitution is less than 1' but does not develop the explanation as required by marking criteria. Marking criteria demand explanation of impulse, velocity component changes, and asymmetric reduction, but model answer lacks depth.",
+            "correction": "Expand model answer to explain: impulse acts along line of centres reducing that component; perpendicular component unchanged; inelastic collision (e<1) causes larger relative velocity reduction along centres; net result is smaller deflection angle."
+          },
+          {
+            "label": "9a",
+            "severity": "broken",
+            "detail": "Model answer states cofactor(1,3) = 2 and A⁻¹(1,3) = 1/8, but marking criteria state cofactor(1,3) = 1 and A⁻¹(1,3) = 1/16. These contradict. Recalculating: minor(1,3) = |1 0|/|4 1| = 1; cofactor(1,3) = (−1)^(1+3)·1 = 1; A⁻¹(1,3) = 1/16. Model answer is incorrect.",
+            "correction": "Correct model answer: cofactor(1,3) = 1, A⁻¹(1,3) = 1/16 (matching marking criteria)"
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Topic label is 'Momentum' but question concerns matrix inversion (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+            "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+          },
+          {
+            "label": "9b",
+            "severity": "poor",
+            "detail": "Model answer is generic and does not show explicit calculation. States 'The product of A and A−¹ is [[1, 0, 0], [0, 1, 0], [0, 0, 1]]' without demonstrating matrix multiplication. Marking criteria require explicit computation of at least two entries, but model answer lacks this.",
+            "correction": "Expand model answer to show at least two entries of A·A⁻¹ computed explicitly (e.g., (1,1) and (1,2) entries with full arithmetic)"
+          }
+        ],
+        "summary": "Assessment contains 9 substantive issues: 3 broken determinant/cofactor calculations (2a, 5a, 6a), 3 topic label mismatches (2a, 5b, 6b, 7a, 9a), 3 repeated questions with identical data (3a, 3b, 3c), and 3 incomplete model answers lacking required derivations (7b, 7c, 9b)."
+      },
+      "totalSeconds": 68
+    },
+    {
+      "index": 12,
+      "label": "REB / Exam / ICT  S3 SB",
+      "request": {
+        "subject": "ICT  S3 SB",
+        "textbook_id": 115,
+        "topic_ids": [
+          1223
+        ],
+        "topics": [
+          "Application and Utility Software Installation"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 76,
+      "status": 200,
+      "numbered": 10,
+      "parts": 28,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 7,
+          "detail": "7 questions open with the same sentence (8, 11, 14, 17, 20, 23, 26): \"Calculate the minimum amount of free disk space re\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 8,
+          "detail": "7 questions open with the same sentence (9, 12, 15, 18, 21, 24, 27): \"Name one utility software that could be used to ch\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 9,
+          "detail": "7 questions open with the same sentence (10, 13, 16, 19, 22, 25, 28): \"Explain the steps you would take to install WordMa\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 10"
+        }
+      ],
+      "figures": 3,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Topic mismatch: question labeled 'Functions of operating system' but assessment title specifies 'Application and Utility Software Installation'. Question 2a should align with stated topic.",
+            "correction": "Verify topic_label consistency or reassign question to correct assessment section."
+          },
+          {
+            "label": "4a",
+            "severity": "poor",
+            "detail": "Question asks to 'Calculate' but provides no calculation—only direct lookup from given data. Marking criteria and model answer confirm this is retrieval, not calculation.",
+            "correction": "Rephrase as 'State the minimum free disk space required' or provide a calculation scenario (e.g., 'If total space is X, calculate remaining after installation')."
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Identical to 4a: asks to 'Calculate' but requires only data retrieval. Repeated question with same context and data across assessments 4 and 5."
+          },
+          {
+            "label": "6a",
+            "severity": "poor",
+            "detail": "Identical to 4a and 5a: repeated question with same context and data. Third occurrence of same question."
+          },
+          {
+            "label": "7a",
+            "severity": "poor",
+            "detail": "Identical to 4a, 5a, 6a: repeated question with same context and data. Fourth occurrence."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Identical to 4a, 5a, 6a, 7a: repeated question with same context and data. Fifth occurrence."
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Identical to 4a, 5a, 6a, 7a, 8a: repeated question with same context and data. Sixth occurrence."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Identical to 4a, 5a, 6a, 7a, 8a, 9a: repeated question with same context and data. Seventh occurrence."
+          },
+          {
+            "label": "7b",
+            "severity": "poor",
+            "detail": "Model answer names 'CPU-Z' but previous questions (4b, 5b, 6b, 8b, 10b) name 'System Information'. Inconsistent utility software recommendations across repeated questions."
+          },
+          {
+            "label": "9b",
+            "severity": "poor",
+            "detail": "Model answer names 'CPU-Z' instead of 'System Information' used in most other instances. Inconsistent with majority of model answers for same question type."
+          },
+          {
+            "label": "1b",
+            "severity": "poor",
+            "detail": "Marking criteria require 'Refer to the text below the drop-down fields' but model answer is single short statement. Hints demand 'develop the idea fully' but answer is minimal."
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Marking criteria list three components but model answer conflates 'C:\\Users\\S2' as single path element. Should separately explain drive (C:), directory structure (Users), and username (S2)."
+          }
+        ],
+        "summary": "Assessment contains seven identical repeated questions (4a–10a) with same context and data, violating uniqueness requirement. Inconsistent utility software naming (CPU-Z vs System Information) across parallel questions. Misuse of 'Calculate' verb for data retrieval tasks. Minor marking criteria misalignment with model answers in questions 1b and 3b. Topic labeling inconsistency in question 2a."
+      },
+      "totalSeconds": 84
+    },
+    {
+      "index": 13,
+      "label": "Cambridge / Exam / Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+      "request": {
+        "subject": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+        "textbook_id": 195,
+        "topic_ids": [
+          3043,
+          3040
+        ],
+        "topics": [
+          "Chapter 9: Integration",
+          "Chapter 6: you will"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 44,
+      "status": 200,
+      "numbered": 10,
+      "parts": 24,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "4 questions open with the same sentence (1, 8, 13, 23): \"Find the integral of the function f(x) with respec\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 19,
+          "detail": "4 criteria for 3 marks"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 15"
+        },
+        {
+          "code": "longform-criteria-mismatch",
+          "severity": "poor",
+          "index": 21,
+          "detail": "4 criteria for 3 marks"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 7"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1b",
+            "severity": "broken",
+            "detail": "Question claims integral equals 0.5, but marking criteria and explanation both show result is 1. Model answer arithmetic: (1-1+1) - 0 = 1, not 0.5. Question statement contradicts all supporting materials.",
+            "correction": "Either change question to 'Show that the integral equals 1' or revise function/limits to produce 0.5 result."
+          },
+          {
+            "label": "4b",
+            "severity": "broken",
+            "detail": "Question asks to show integral equals 0.5, but model answer shows 6 and explanation confirms 6. Marking criteria expect 6. Question statement contradicts all supporting materials.",
+            "correction": "Change question to 'Show that the integral of f(x) from 0 to 1 is equal to 6' or revise function/limits."
+          },
+          {
+            "label": "6a",
+            "severity": "broken",
+            "detail": "Marking criteria state ∫2x³ dx = (1/2)x⁴, but model answer shows (2/3)x⁴. Correct result is (2/4)x⁴ = (1/2)x⁴. Model answer is incorrect.",
+            "correction": "Model answer should be: (1/2)x⁴ - x³ + 2x² - 6x + C"
+          },
+          {
+            "label": "6b",
+            "severity": "broken",
+            "detail": "Uses incorrect antiderivative from 6a. Marking criteria expect -7/2 but model answer shows -8/3. With correct antiderivative (1/2)x⁴ - x³ + 2x² - 6x, result at x=1 is 1/2 - 1 + 2 - 6 = -4.5 = -9/2, not -7/2 or -8/3.",
+            "correction": "Correct antiderivative: (1/2)x⁴ - x³ + 2x² - 6x; at x=1: -9/2; at x=0: 0; result: -9/2"
+          },
+          {
+            "label": "6c",
+            "severity": "broken",
+            "detail": "Model answer claims critical points are x=1 and x=2/3, but marking criteria correctly show discriminant is -60 < 0, meaning no real critical points exist. Model answer contradicts its own marking criteria.",
+            "correction": "Model answer should state: 'No real critical points exist' (discriminant is negative)"
+          },
+          {
+            "label": "7b",
+            "severity": "broken",
+            "detail": "Model answer states critical points are x=0 and x=1, but marking criteria correctly require recognising discriminant is negative (Δ = -15 < 0) with no real critical points. Model answer contradicts marking criteria.",
+            "correction": "Model answer should state: 'There are no real critical points' (discriminant is negative)"
+          },
+          {
+            "label": "8c",
+            "severity": "broken",
+            "detail": "Model answer claims common ratio is 1/4 and sum is 8/3, but explanation correctly identifies ratio as 1/2 and sum as 4. Model answer contradicts its own explanation and the geometric series pattern described.",
+            "correction": "Model answer should state: 'Common ratio is 1/2; sum = 2/(1-1/2) = 4'"
+          },
+          {
+            "label": "9b",
+            "severity": "poor",
+            "detail": "Question asks for critical points but model answer provides complex roots. For AS/A Level Pure Mathematics, critical points typically refer to real values. Context suggests real critical points should be stated as non-existent.",
+            "correction": "Clarify whether complex roots are required, or state: 'No real critical points exist'"
+          }
+        ],
+        "summary": "Assessment contains 8 substantive errors: four questions with contradictory model answers versus marking criteria (1b, 4b, 6c, 7b); one incorrect antiderivative propagating through two questions (6a, 6b); one model answer contradicting its explanation (8c); one ambiguous complex root answer (9b). Multiple show-that questions have incorrect target values."
+      },
+      "totalSeconds": 52
+    },
+    {
+      "index": 14,
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+      "request": {
+        "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "textbook_id": 33,
+        "topic_ids": [
+          427
+        ],
+        "topics": [
+          "2 Materials and their structure"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 44,
+      "status": 200,
+      "numbered": 10,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "9 questions open with the same sentence (1, 3, 5, 7, 9, 11, 15, 17, 19): \"Name the change of state when ice becomes liquid w\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "9 questions open with the same sentence (2, 4, 6, 8, 10, 12, 16, 18, 20): \"Describe how the particles are arranged in liquid \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 2,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 3,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 4,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 2"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1a, 2a, 3a, 4a, 5a, 6a, 8a, 9a, 10a",
+            "severity": "poor",
+            "detail": "Identical question repeated 9 times across all 10 assessment items. Questions 1a–6a and 8a–10a all ask 'Name the change of state when ice becomes liquid water' with identical marking criteria and model answers. This violates assessment design principles requiring question variety.",
+            "correction": "Replace repeated questions with varied content: e.g., 'Name the change of state when liquid water becomes steam' (boiling), 'Name the change of state when steam becomes liquid water' (condensation), 'Name the change of state when ice becomes steam directly' (sublimation), or questions about other materials/processes within Topic 2."
+          },
+          {
+            "label": "1b, 2b, 3b, 4b, 5b, 6b, 8b, 9b, 10b",
+            "severity": "poor",
+            "detail": "Identical question repeated 9 times. Questions 1b–6b and 8b–10b all ask 'Describe how the particles are arranged in liquid water compared with ice' with identical marking criteria and model answers. No variation in content or progression.",
+            "correction": "Replace with varied questions: e.g., 'Describe particle arrangement in steam compared with liquid water', 'Explain why ice floats on water using particle arrangement', 'Compare particle movement in ice, liquid water, and steam', or questions on other materials (metals, gases, polymers) from Topic 2."
+          },
+          {
+            "label": "7a, 7b",
+            "severity": "poor",
+            "detail": "Question 7 introduces boiling/steam but lacks context connection to earlier questions. Assessment does not progress logically from melting (questions 1–6) to boiling (question 7). No intermediate questions on condensation or other state changes.",
+            "correction": "Restructure assessment with logical progression: melting (ice→water), then boiling (water→steam), then reverse processes (condensation, freezing). Alternatively, integrate question 7 earlier or add questions on all state changes systematically."
+          }
+        ],
+        "summary": "Assessment contains severe repetition: questions 1a–6a and 8a–10a are identical (melting), as are 1b–6b and 8b–10b (particle arrangement comparison). Nine of twenty questions are duplicates. Question 7 introduces new content (boiling) without logical progression. Requires substantial restructuring to provide content variety and coherent learning progression within Topic 2."
+      },
+      "totalSeconds": 50
+    },
+    {
+      "index": 11,
+      "label": "REB / Exam / Chemistry S5 SB",
+      "request": {
+        "subject": "Chemistry S5 SB",
+        "textbook_id": 56,
+        "topic_ids": [
+          626
+        ],
+        "topics": [
+          "Entropy and Free Energy"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 210,
+      "status": 200,
+      "numbered": 20,
+      "parts": 50,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 5,
+          "detail": "12 questions open with the same sentence (6, 8, 11, 17, 22, 25, 32, 37, 40, 43, 45, 48): \"Calculate the standard Gibbs free energy change (Δ\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 6,
+          "detail": "12 questions open with the same sentence (7, 9, 12, 18, 23, 26, 33, 38, 41, 44, 46, 49): \"Explain whether the reaction is spontaneous at 298\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 9,
+          "detail": "9 questions open with the same sentence (10, 19, 24, 27, 34, 39, 42, 47, 50): \"Describe how temperature affects the spontaneity o\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 12,
+          "detail": "6 questions open with the same sentence (13, 15, 20, 28, 30, 35): \"Calculate the work done by the person climbing fro\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 29,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 30,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 31,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 32,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 33,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 34,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 35,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 36,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 37,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 38,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 39,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 40,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 41,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 42,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 43,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 44,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 45,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 46,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 47,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 48,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 49,
+          "detail": "same as question 10"
+        }
+      ],
+      "figures": 2,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "10a",
+          "10b",
+          "10c",
+          "11a",
+          "11b",
+          "11c",
+          "12a",
+          "12b",
+          "13a",
+          "13b",
+          "14a",
+          "14b",
+          "14c",
+          "15a",
+          "15b",
+          "16a",
+          "16b",
+          "16c",
+          "17a",
+          "17b",
+          "17c",
+          "18a",
+          "18b",
+          "19a",
+          "19b",
+          "19c",
+          "20a",
+          "20b",
+          "20c"
+        ],
+        "issues": [
+          {
+            "label": "3a",
+            "severity": "broken",
+            "detail": "Model answer contains arithmetic error. ΔH° calculation: -400 - (-200 - 300) = -400 - (-500) = -400 + 500 = 100 kJ/mol is correct, but the explanation states ΔH° = -200 + -300 - (-400) which is incorrect notation. More critically, the final ΔG° = 100 kJ/mol is correct only because ΔS° = 0, making the TΔS° term vanish. The working should clarify this cancellation explicitly.",
+            "correction": "ΔH° = [ΔH°f(C)] - [ΔH°f(A) + ΔH°f(B)] = (-400) - [(-200) + (-300)] = -400 + 500 = +100 kJ/mol. ΔS° = [ΔS°(C)] - [ΔS°(A) + ΔS°(B)] = 350 - (150 + 200) = 0 J/mol·K. ΔG° = 100 kJ/mol - (298 K × 0 J/mol·K) = 100 kJ/mol."
+          },
+          {
+            "label": "5a",
+            "severity": "broken",
+            "detail": "Model answer contains critical arithmetic error. States ΔH° = -500 kJ/mol + 400 kJ/mol = -100 kJ/mol, but should be: ΔH° = [(-400)] - [(-200) + (-300)] = -400 + 500 = +100 kJ/mol. The subsequent calculation is therefore incorrect.",
+            "correction": "ΔH° = -400 - (-200 - 300) = -400 + 500 = +100 kJ/mol. ΔS° = 350 - 350 = 0 J/mol·K. ΔG° = 100 kJ/mol - 0 = +100 kJ/mol (not -129.8 kJ/mol)."
+          },
+          {
+            "label": "16c",
+            "severity": "poor",
+            "detail": "Model answer contains logical error. States 'If ΔS° is positive, increasing temperature will decrease spontaneity' but this contradicts the given reaction where ΔS° = +50 J/mol·K and ΔG° is already negative. Increasing T would make -TΔS° more negative, enhancing spontaneity, not decreasing it.",
+            "correction": "For this reaction with ΔH° < 0 and ΔS° > 0, increasing temperature makes -TΔS° more negative, making ΔG° more negative and increasing spontaneity. The reaction is spontaneous at all temperatures."
+          },
+          {
+            "label": "18a",
+            "severity": "broken",
+            "detail": "Model answer states ΔH° = +100 kJ/mol but explanation says 'even though ΔH° is negative' in part 18b. Inconsistency: ΔH° is positive (+100 kJ/mol), not negative. This contradicts the explanation in 18b.",
+            "correction": "Clarify: ΔH° = +100 kJ/mol (endothermic, positive). The explanation in 18b should state 'even though ΔH° is positive' or be corrected to match the calculated value."
+          },
+          {
+            "label": "1a, 6a, 7a, 9a, 12a, 13a, 15a, 20a",
+            "severity": "poor",
+            "detail": "Multiple questions (1a, 6a, 7a, 9a, 12a, 13a, 15a, 20a) are duplicates with identical context (70 kg climber, 1000 m height, Route 1/2 volcano) and identical calculations. This violates the requirement to avoid repeated questions with the same data.",
+            "correction": "Retain only one volcano climbing question or vary the mass, height, or scenario substantially for each repetition."
+          },
+          {
+            "label": "4a, 8a, 10a, 11a, 14a, 16a, 17a, 20a",
+            "severity": "poor",
+            "detail": "Multiple questions (4a, 8a, 10a, 11a, 14a, 16a, 17a, 20a) are duplicates with identical context (298 K, ΔH° = -150 kJ/mol, ΔS° = +50 J/mol·K) and identical calculations yielding ΔG° = -164.9 kJ/mol. This violates the requirement to avoid repeated questions with the same data.",
+            "correction": "Retain only one such question or vary ΔH°, ΔS°, or temperature substantially for each repetition."
+          },
+          {
+            "label": "3a, 5a, 18a",
+            "severity": "poor",
+            "detail": "Three questions (3a, 5a, 18a) use identical context (A + B → C reaction with ΔH°f values and ΔS° values) but 3a and 5a have the same data while 18a repeats it. This violates the requirement to avoid repeated questions with the same data.",
+            "correction": "Retain only one such question or vary the formation enthalpies and entropy values substantially."
+          },
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Context states ΔH°f (B) = -300 kJ/0mol with apparent typo '0mol' instead of '/mol'. This is a data entry error.",
+            "correction": "Correct to ΔH°f (B) = -300 kJ/mol."
+          },
+          {
+            "label": "1b, 6b, 7b, 9b, 12b, 13b, 15b, 21b",
+            "severity": "poor",
+            "detail": "Multiple questions (1b, 6b, 7b, 9b, 12b, 13b, 15b, 21b) are duplicates asking why Route 2 takes more time than Route 1 with identical context and model answers. This violates the requirement to avoid repeated questions with the same data.",
+            "correction": "Retain only one such question or vary the scenario (different routes, different mountains, or different physical contexts)."
+          },
+          {
+            "label": "1a, 1b, 6a, 6b, 7a, 7b, 9a, 9b, 12a, 12b, 13a, 13b, 15a, 15b",
+            "severity": "poor",
+            "detail": "Topic fit issue: Questions 1, 6, 7, 9, 12, 13, 15 about volcano climbing and work done against gravity are tangentially related to 'Entropy and Free Energy' but primarily test mechanics (W = mgh) rather than thermodynamic concepts of entropy, enthalpy, or free energy. These questions do not directly address the stated curriculum topic.",
+            "correction": "Either replace with questions directly testing entropy and free energy concepts, or clarify the connection to thermodynamics (e.g., relating work to internal energy changes)."
+          },
+          {
+            "label": "2a, 2b, 2c",
+            "severity": "poor",
+            "detail": "Questions 2a, 2b, 2c about bomb calorimeter setup are descriptive/conceptual but do not directly test entropy or free energy. They test calorimetry and heat measurement, which are prerequisites but not the stated topic 'Entropy and Free Energy'.",
+            "correction": "Either replace with questions on entropy, enthalpy, or free energy calculations, or clarify how calorimetry connects to the entropy/free energy topic."
+          }
+        ],
+        "summary": "Assessment contains 50 questions with significant issues: (1) Extensive duplication—8 volcano climbing questions, 8 identical ΔG° calculations, 3 identical reaction scenarios; (2) Arithmetic errors in model answers (3a, 5a, 18a); (3) Logical inconsistencies (16c, 18a/18b); (4) Poor topic fit—volcano climbing and calorimetry questions do not directly address entropy and free energy; (5) Data entry error (3a typo). Recommend removing duplicates and refocusing on core thermodynamic concepts."
+      },
+      "totalSeconds": 225
+    },
+    {
+      "index": 16,
+      "label": "Cambridge / Practice / Cambridge International AS and A Level English Language Coursebook ",
+      "request": {
+        "subject": "Cambridge International AS and A Level English Language Coursebook ",
+        "textbook_id": 25,
+        "topic_ids": [
+          367,
+          362
+        ],
+        "topics": [
+          "Unit 6: English as a global language",
+          "Unit 1: Reading non-fiction"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level English Language Coursebook ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 23,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 3,
+          "detail": "no question mark and no command word: \"Mark each statement True or False\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 4,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 8,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 9,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 5"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1",
+            "severity": "broken",
+            "detail": "Correct pairs array is misaligned. Index mapping shows [0,2],[1,1],[2,3],[3,0] but should be [0,2],[1,1],[2,3],[3,0] matching Narrative→tells story, Expository→information, Descriptive→picture, Persuasive→convince. Current indexing appears correct upon verification.",
+            "correction": "Verified correct: Narrative(0)→tells story(2), Expository(1)→information(1), Descriptive(2)→picture(3), Persuasive(3)→convince(0)."
+          },
+          {
+            "label": "4",
+            "severity": "poor",
+            "detail": "Explanation contains factual error. States 'autobiography is a factual account of someone's own life' but the question's correct answer marks statement 2 ('autobiography is fictional') as FALSE, which is correct. However, explanation contradicts by implying autobiography is factual without clarifying the distinction from memoir.",
+            "correction": "Explanation should clarify: A memoir is a factual account of someone's life; an autobiography is also factual but written by the subject themselves. Both are non-fiction."
+          },
+          {
+            "label": "5",
+            "severity": "poor",
+            "detail": "Explanation is imprecise. States 'dialect is a broader term that can include non-standard forms' but this conflates concepts. Dialect refers to regional/social language varieties (standard or non-standard); the three correct items are all English varieties/standards, while 'dialect' is a linguistic category, making it the odd one out—but explanation's reasoning is unclear.",
+            "correction": "Explanation should state: Standard English, British English, and American English are specific varieties of English. 'Dialect' is a linguistic classification that encompasses all varieties, making it categorically different."
+          },
+          {
+            "label": "10",
+            "severity": "poor",
+            "detail": "Question conflates question types with rhetorical devices. Open-ended, closed-ended, and leading questions are all functional question types used in inquiry. Rhetorical questions are stylistic devices that don't require answers. However, all four terms are legitimate linguistic/rhetorical concepts; the distinction is unclear for Grade 12 students without context.",
+            "correction": "Clarify question context: If asking about 'question types for gathering information,' rhetorical question is odd. If asking about 'types of questions in English,' all four are valid. Recommend rephrasing for clarity."
+          }
+        ],
+        "summary": "Assessment is largely sound with 10 interactive questions covering Units 1 and 6. Three issues identified: Question 4 has unclear explanation about autobiography/memoir distinction; Question 5's explanation lacks precision about dialect classification; Question 10 conflates question types with rhetorical devices without clear context. No broken answer mappings detected."
+      },
+      "totalSeconds": 32
+    },
+    {
+      "index": 15,
+      "label": "Cambridge / Exam / Oxford English for Cambridge Primary Student Book 6 ",
+      "request": {
+        "subject": "Oxford English for Cambridge Primary Student Book 6 ",
+        "textbook_id": 139,
+        "topic_ids": [
+          1445
+        ],
+        "topics": [
+          "Revise and check 3"
+        ],
+        "curriculum": "cambridge",
+        "grade": 6,
+        "className": "Oxford English for Cambridge Primary Student Book 6 ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 43,
+      "status": 200,
+      "numbered": 10,
+      "parts": 28,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 19"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 5"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "3c",
+            "severity": "poor",
+            "detail": "Model answer uses plural 'scissors are' but question blank suggests singular completion. Should be 'The scissors are used to cut paper.' or question should clarify plural form expected.",
+            "correction": "Model answer is acceptable as written, but marking criteria should explicitly accept both 'scissors' alone and full sentence completion."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Question text contains formatting error: \"Name a word that starts with the letter's'.\" The apostrophe placement is incorrect—should be 'the letter 's' (with space) not 'the letter's'.",
+            "correction": "Correct to: \"Name a word that starts with the letter 's'.\""
+          },
+          {
+            "label": "8c",
+            "severity": "poor",
+            "detail": "Marking criteria incomplete: 'Correctly completes the sentence with 'sunflower'.' ends mid-phrase without completion.",
+            "correction": "Complete marking criteria: 'Correctly completes the sentence with 'sunflower'.'"
+          },
+          {
+            "label": "9c",
+            "severity": "poor",
+            "detail": "Question marked 2 marks but identical to 7c and 9a contexts (same word list, same sentence). Repetition of content across questions reduces assessment validity.",
+            "correction": "Replace with distinct question or remove duplication to maintain assessment integrity."
+          }
+        ],
+        "summary": "Assessment contains 28 basic vocabulary and sequencing questions appropriate for Grade 6. Most questions are well-structured with clear model answers. Minor issues: formatting error in 5b, incomplete marking criteria in 8c, and content repetition in 9c. No substantive curriculum misalignment detected."
+      },
+      "totalSeconds": 48
+    },
+    {
+      "index": 18,
+      "label": "REB / Practice / Physics S4 SB (1)",
+      "request": {
+        "subject": "Physics S4 SB (1)",
+        "textbook_id": 173,
+        "topic_ids": [
+          1819,
+          1817
+        ],
+        "topics": [
+          "Unit 10: Effects of electric and potential fields",
+          "Unit 8: Projectile and uniform circular motion"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 14,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1",
+            "severity": "broken",
+            "detail": "Question addresses magnetic fields and circular motion, but assessment is specified for Rwanda Physics S4 covering electric/potential fields (Unit 10) and projectile/circular motion (Unit 8). Magnetic force content is outside stated curriculum scope.",
+            "correction": "Replace with question on circular motion from Unit 8 (e.g., centripetal force direction, angular velocity) or remove if magnetic fields not in S4 curriculum."
+          },
+          {
+            "label": "4",
+            "severity": "poor",
+            "detail": "MCQ asks directional motion of 'the charge' but context provides only a point charge creating the field. No test charge is specified. Question assumes positive charge without stating this, making answer ambiguous.",
+            "correction": "Clarify: 'If a positive charge is placed at this point, in which direction will it move?' or 'A positive test charge placed at this point will move...' to make correct_answer=0 unambiguous."
+          },
+          {
+            "label": "8",
+            "severity": "broken",
+            "detail": "Explanation states F = (-2×10⁻⁶)(100) = -0.2 N, then claims magnitude is 0.2 N. However, correct_answer is 2 (option '2 N'), which contradicts the calculation. Correct magnitude is 0.2 N (option '0.2 N').",
+            "correction": "Either: (1) Change correct_answer to 0 (0.2 N is correct), or (2) Change field strength to 1000 N/C to yield 0.2 N magnitude matching option 0. Current state has answer key error."
+          },
+          {
+            "label": "9",
+            "severity": "broken",
+            "detail": "Explanation contradicts itself and the correct_answer. States 'centripetal force becomes one-fourth' when radius doubles, then claims 'force becomes quadrupled.' Formula F_c = mv²/r shows doubling r halves F. Correct answer should be 1 (halved), not 3 (quadrupled).",
+            "correction": "Correct_answer should be 1. Explanation: 'F_c = mv²/r. If r doubles and v, m constant, F becomes F/2. Force is halved.'"
+          }
+        ],
+        "summary": "Four substantive issues identified: Q1 outside stated curriculum (magnetic fields); Q4 ambiguous without specifying charge sign; Q8 calculation contradicts answer key (0.2 N vs 2 N); Q9 explanation and answer key both incorrect (should be halved, not quadrupled). Questions 2, 3, 5, 6, 7, 10 are sound."
+      },
+      "totalSeconds": 21
+    },
+    {
+      "index": 19,
+      "label": "REB / Practice / P4 Mathematics PB",
+      "request": {
+        "subject": "P4 Mathematics PB",
+        "textbook_id": 153,
+        "topic_ids": [
+          1588,
+          1585
+        ],
+        "topics": [
+          "Time",
+          "Capacity Measurements"
+        ],
+        "curriculum": "rwanda",
+        "grade": 4,
+        "className": "P4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 8,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "3",
+            "severity": "broken",
+            "detail": "Explanation contradicts correct answer. States '4:30 PM is 30 minutes after' but 4:30 PM is actually 30 minutes BEFORE 5:00 PM. The correct answer (option 3: 4:00 PM) is wrong; should be option 0 (4:30 PM).",
+            "correction": "Correct answer should be 0 (4:30 PM). Explanation should state: '4:30 PM is correct because subtracting 30 minutes from 5:00 PM gives 4:30 PM.'"
+          },
+          {
+            "label": "4",
+            "severity": "poor",
+            "detail": "Question 'How many hours are in a day?' is labeled under 'Capacity Measurements' topic but belongs to 'Time' topic. Capacity measures volume/liquid; this is a time conversion.",
+            "correction": "Change topic_label from 'Capacity Measurements' to 'Time'."
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Question 'How many seconds are in one hour?' is labeled under 'Capacity Measurements' but is a time conversion question, not capacity-related.",
+            "correction": "Change topic_label from 'Capacity Measurements' to 'Time'."
+          }
+        ],
+        "summary": "Assessment has 10 questions covering Time and Capacity Measurements. Three issues identified: Question 3 has incorrect correct answer (should be 4:30 PM, not 4:00 PM) with contradictory explanation. Questions 4 and 7 are mislabeled as Capacity when they are Time topics. All other questions are factually correct and age-appropriate for Grade 4."
+      },
+      "totalSeconds": 12
+    },
+    {
+      "index": 17,
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+      "request": {
+        "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "textbook_id": 200,
+        "topic_ids": [
+          2512,
+          2514
+        ],
+        "topics": [
+          "Chapter 6: Automated systems",
+          "Chapter 8: Programming concepts"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 2864685833,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 143,
+      "status": 200,
+      "numbered": 20,
+      "parts": 45,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "5 questions open with the same sentence (1, 5, 23, 33, 44): \"Describe how the system keeps the temperature stea\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "4 questions open with the same sentence (2, 24, 34, 45): \"Name one actuator it could use to cool the greenho\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 7,
+          "detail": "9 questions open with the same sentence (8, 10, 20, 22, 29, 31, 36, 39, 42): \"Name the data type for the variable that stores th\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 26,
+          "detail": "5 questions open with the same sentence (27, 32, 37, 40, 43): \"Explain why it is important to use meaningful vari\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 27,
+          "detail": "5 questions open with the same sentence (28, 30, 35, 38, 41): \"Calculate the total of the marks.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 4,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 29,
+          "detail": "same as question 28"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 30,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 31,
+          "detail": "same as question 27"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 32,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 33,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 34,
+          "detail": "same as question 28"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 35,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 36,
+          "detail": "same as question 27"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 37,
+          "detail": "same as question 28"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 38,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 39,
+          "detail": "same as question 27"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 40,
+          "detail": "same as question 28"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 41,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 42,
+          "detail": "same as question 27"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 43,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 44,
+          "detail": "same as question 2"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b",
+          "11a",
+          "11b",
+          "12a",
+          "12b",
+          "13a",
+          "13b",
+          "13c",
+          "14a",
+          "14b",
+          "15a",
+          "15b",
+          "15c",
+          "16a",
+          "16b",
+          "17a",
+          "17b",
+          "17c",
+          "18a",
+          "18b",
+          "18c",
+          "19a",
+          "19b",
+          "19c",
+          "20a",
+          "20b"
+        ],
+        "issues": [
+          {
+            "label": "1b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: question about greenhouse cooling actuators is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 6: Automated systems'. Actuators are automated system components, not programming concepts.",
+            "correction": "Change topic_label to 'Chapter 6: Automated systems'"
+          },
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating average scores is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: naming cooling actuators is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 6: Automated systems'. Actuators are automated system components.",
+            "correction": "Change topic_label to 'Chapter 6: Automated systems'"
+          },
+          {
+            "label": "4a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "8b",
+            "severity": "broken",
+            "detail": "Model answer is incomplete/malformed. It repeats the marking criteria instead of providing an actual answer. Should name an actuator (e.g., solenoid valve, water pump) and explain how it controls water flow.",
+            "correction": "Model answer should be: 'A water pump. The microprocessor sends a signal to activate the pump when soil moisture is below 30%, which pumps water to the plants. When moisture reaches 30%, the microprocessor deactivates the pump.'"
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating average test scores is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "11a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "12b",
+            "severity": "broken",
+            "detail": "Model answer is incomplete/malformed. It repeats the marking criteria instead of providing an actual answer. Should name an actuator (e.g., fan, pump, valve, window motor) and explain how it cools.",
+            "correction": "Model answer should be: 'A fan. The fan circulates air inside the greenhouse to help dissipate heat and cool the environment when the temperature exceeds 25°C.'"
+          },
+          {
+            "label": "13c",
+            "severity": "poor",
+            "detail": "Topic label mismatch: explaining meaningful variable names is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming best practices question.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "14a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 6: Automated systems' based on assessment structure. However, this is actually a programming calculation, so label should be 'Chapter 8: Programming concepts'.",
+            "correction": "Verify intended topic; likely should remain 'Chapter 8: Programming concepts' but context suggests inconsistent labeling throughout"
+          },
+          {
+            "label": "14b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "15a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' but belongs to 'Chapter 8: Programming concepts' (correct). However, context shows inconsistent labeling.",
+            "correction": "Verify consistency; this label appears correct"
+          },
+          {
+            "label": "15b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "15c",
+            "severity": "poor",
+            "detail": "Topic label mismatch: explaining meaningful variable names is labeled 'Chapter 8: Programming concepts' (correct). This is appropriate.",
+            "correction": "Label is correct; no change needed"
+          },
+          {
+            "label": "16b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: naming cooling actuators is labeled 'Chapter 6: Automated systems' (correct). However, part (a) is labeled with subtopic/topic IDs suggesting different classification system.",
+            "correction": "Ensure consistent labeling approach throughout assessment"
+          },
+          {
+            "label": "17a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' (correct). This is appropriate.",
+            "correction": "Label is correct; no change needed"
+          },
+          {
+            "label": "17b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "18a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming calculation exercise.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "18c",
+            "severity": "poor",
+            "detail": "Topic label mismatch: explaining meaningful variable names is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. This is a programming best practices question.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "19a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: calculating total marks is labeled 'Chapter 8: Programming concepts' (correct). This is appropriate.",
+            "correction": "Label is correct; no change needed"
+          },
+          {
+            "label": "19b",
+            "severity": "poor",
+            "detail": "Topic label mismatch: data type identification is labeled 'Chapter 6: Automated systems' but belongs to 'Chapter 8: Programming concepts'. Data types are programming concepts.",
+            "correction": "Change topic_label to 'Chapter 8: Programming concepts'"
+          },
+          {
+            "label": "20a",
+            "severity": "poor",
+            "detail": "Topic label mismatch: greenhouse temperature control is labeled 'Chapter 6: Automated systems' (correct). However, uses different metadata structure (subtopic_id, topic_id) than other questions.",
+            "correction": "Standardize metadata structure across all questions"
+          }
+        ],
+        "summary": "Assessment contains 45 questions with systematic topic label mismatches: programming calculation/concept questions incorrectly labeled as 'Chapter 6: Automated systems' and vice versa. Two questions (8b, 12b) have broken model answers repeating marking criteria instead of providing actual answers. Inconsistent metadata structure across questions. Numerical calculations verified as correct."
+      },
+      "totalSeconds": 153
+    },
+    {
+      "index": 20,
+      "label": "REB / Exam / P6 Mathematics PB (1)",
+      "request": {
+        "subject": "P6 Mathematics PB (1)",
+        "textbook_id": 165,
+        "topic_ids": [
+          1723,
+          1726
+        ],
+        "topics": [
+          "Regular Polygons and Bearings",
+          "Data Handling"
+        ],
+        "curriculum": "rwanda",
+        "grade": 6,
+        "className": "P6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 2864685833,
+      "error": "Error: Failed to generate 10 complete questions. The AI produced 8. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 192,
+      "status": 500,
+      "totalSeconds": 192
+    }
+  ]
+}

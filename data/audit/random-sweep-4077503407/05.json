@@ -1,0 +1,387 @@
+{
+  "index": 5,
+  "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 8 Students Book ",
+  "request": {
+    "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "textbook_id": 30,
+    "topic_ids": [
+      391,
+      393
+    ],
+    "topics": [
+      "It's all in the planning: Pseudocode and algorithms",
+      "Testing conditions: Developing games"
+    ],
+    "curriculum": "cambridge",
+    "grade": 8,
+    "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 86,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Consider the following pseudocode for a game where the player collects points by pressing a button. Explain how the pseudocode implements the game logic and what happens when the button is pressed. [5] BEGIN\nscore = 0\nWHILE game_is_running DO\nIF button_is_pressed THEN\nscore = score + 1\nDISPLAY score\nENDIF\nENDWHILE\nEND",
+        "marks": 5,
+        "marking_criteria": [
+          "Explain the role of the 'WHILE' loop in the pseudocode.",
+          "Describe what happens when 'button_is_pressed' is true.",
+          "Describe the purpose of 'DISPLAY score' in the pseudocode.",
+          "Explain how the game ends.",
+          "Explain any potential issues with the current pseudocode."
+        ],
+        "hints": [
+          "Explain the flow of the game logic starting from the initialisation of 'score', through the loop, and what happens on button press."
+        ],
+        "model_answer": "The pseudocode initializes the score to 0 and enters a loop that continues as long as the game is running. When the button is pressed, the condition 'button_is_pressed' becomes true, which increments the score by 1 and displays the updated score on the screen. The loop continues until the game ends, which is not explicitly defined in the pseudocode. A potential issue is that the loop may not stop if 'game_is_running' is always true, leading to an infinite loop.",
+        "explanation": "A strong answer will explain the pseudocode's flow, describe the actions when the button is pressed, explain the role of displaying the score, and identify potential issues with the pseudocode, such as the lack of a condition to end the game.",
+        "checked": true,
+        "topic_label": "It's all in the planning: Pseudocode and algorithms",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "It's all in the planning: Pseudocode and algorithms"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "A game developer is testing a puzzle game where players must solve a riddle to proceed. Write a test plan that includes input, predicted output, and actual output for a scenario where the player types an incorrect answer.",
+        "marks": 4,
+        "marking_criteria": [
+          "Describe the input for the test scenario.",
+          "Predict the output for the test input.",
+          "Explain how the actual output is determined.",
+          "Explain how the test plan verifies the correctness of the game's response to an incorrect answer."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "The test plan would include a table with three columns: 'Input', 'Predicted Output', and 'Actual Output'. The input is the player's incorrect answer to the riddle. The predicted output is a message indicating that the answer is incorrect and possibly prompting the player to try again. The actual output is what the game displays after the player enters the incorrect answer. By comparing the predicted and actual outputs, the test plan verifies if the game correctly handles an incorrect answer.",
+        "explanation": "A strong answer will detail the test plan's structure, explain how to predict and determine the output, and describe how the test verifies the game's response to an incorrect answer.",
+        "checked": true,
+        "topic_label": "Testing conditions: Developing games",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Testing conditions: Developing games"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "A student is developing a game that involves sending and receiving messages using the radio module on a micro:bit. The game requires the micro:bit to send a message when a button is pressed and receive a response from another micro:bit on the same group. Describe how the student should configure the radio module to achieve this. Include the steps for both sending and receiving messages.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the configuration steps for sending messages.",
+          "Describe the configuration steps for receiving messages.",
+          "Explain how both micro:bits should be set up to communicate with each other."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "To configure the radio module for sending and receiving messages, the student should follow these steps: \n\nFor sending: \n1. Enable the radio with radio.on(). \n2. Configure the radio group with radio.config(group=group_number), where group_number is the same for both micro:bits. \n3. Use radio.send(message) to send a message when a button is pressed. \n\nFor receiving: \n1. Enable the radio with radio.on(). \n2. Configure the radio group with radio.config(group=group_number), where group_number is the same for both micro:bits. \n3. Use a loop to continuously check for incoming messages with message = radio.receive(). \n\nBoth micro:bits should be set up with the same group number to ensure they can communicate with each other. The sending micro:bit sends a message when a button is pressed, and the receiving micro:bit listens for incoming messages in a loop.",
+        "explanation": "A strong answer clearly describes the necessary configuration steps for both sending and receiving messages, and explains how both micro:bits should be set up to communicate effectively.",
+        "checked": true,
+        "subtopic_id": 1799,
+        "topic_id": 391,
+        "topic_label": "Sending messages between micro:bits",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Sending messages between micro:bits"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "A game developer is planning to create a simple text-based game where the player can collect points by pressing a button. The developer plans to use a while True loop to continuously check if the button is pressed. Describe how the developer should use pseudocode to implement this loop and what variables should be initialised before the loop starts.",
+        "marks": 6,
+        "marking_criteria": [
+          "Description of the while True loop",
+          "Explanation of variable initialisation",
+          "Mention of button press event",
+          "Identification of necessary variables",
+          "Pseudocode snippet",
+          "Clarity and logic of the pseudocode"
+        ],
+        "hints": [
+          "Structure your answer around both demands: A game developer is planning to create a simple text-based game where the player can collect points by pressing a button; then The developer plans to use a while True loop to continuously check if the button is pressed. Make sure you also cover: Explanation of…."
+        ],
+        "model_answer": "To implement a continuous button press check, the developer should start with a while True loop. Before the loop, initialize a variable to track the score, such as 'score = 0'. Inside the loop, use an if statement to check if the button is pressed, for example, 'if button_a.is_pressed():'. If the button is pressed, increment the score by 1. The pseudocode should clearly show these steps, ensuring the logic flows from initialization to the loop and the conditional check.",
+        "explanation": "A strong answer will describe the while True loop, explain how variables are initialised before the loop, mention the button press event, identify necessary variables, include a pseudocode snippet, and ensure the logic is clear and correct.",
+        "checked": true,
+        "topic_label": "It's all in the planning: Pseudocode and algorithms",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "It's all in the planning: Pseudocode and algorithms"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Explain how ASCII codes can be used to send simple messages between two BBC micro:bits using the radio module. Include in your answer how the ord() and chr() functions are used to convert between characters and their ASCII values.",
+        "marks": 6,
+        "marking_criteria": [
+          "Explanation of ASCII codes",
+          "Role of ord() and chr() functions",
+          "Description of message conversion",
+          "Pseudocode for sending and receiving",
+          "Explanation of radio module configuration",
+          "Clarity and accuracy of the explanation"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "ASCII codes are used to represent characters as numbers, which can be sent as data. The ord() function converts a character to its ASCII value, and the chr() function does the reverse. To send a message, convert each character to its ASCII value using ord(), then send these values over the radio module. To receive the message, use chr() to convert the received ASCII values back to characters. Pseudocode should include radio module configuration, sending and receiving logic, and the use of ord() and chr() functions.",
+        "explanation": "A strong answer will explain ASCII codes, describe the role of ord() and chr() functions, detail how messages are converted, include pseudocode for sending and receiving, explain radio module configuration, and ensure clarity and accuracy.",
+        "checked": true,
+        "subtopic_id": 1799,
+        "topic_id": 391,
+        "topic_label": "Sending messages between micro:bits",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Sending messages between micro:bits"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Look at the diagram. A user enters 7 and then 5. What value does the main program store in the variable result?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "12",
+            "twelve"
+          ]
+        },
+        "explanation": "The sub-program adds number1 (7) and number2 (5) to make answer, which is 12. The line return answer sends 12 back to the main program, where result = addition() stores it in result.",
+        "image_url": "/textbook-images/textbook-bank/30/p112-f0.jpg",
+        "topic_label": "Testing conditions: Developing games",
+        "vetted": true,
+        "image_alt": "A Python program listing with a comment '#Sub-program' above a function definition 'def addition():'. Inside the function, number1 and number2 are each read with int(input(...)) using the prompts \"Enter a number: \" and \"Enter another number: \", then answer = number1 + number2 and return answer. Below is a comment '#Main program', then result = addition() and print(\"The numbers added together total\",result). Printed on it: #Sub-program | def addition(): | number1 = int(input(\"Enter a number: \")) | number2 = int(input(\"Enter another number: \")) | answer = number1 + number2 | return answer | #Mai",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then A user enters 7 and then 5."
+        ],
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Consider a scenario where a student is developing a game that involves sending and receiving messages using the radio module. Describe how the student should plan this using pseudocode and flowcharts. Include in your answer how to handle sending and receiving messages on the same group/channel.",
+        "marks": 6,
+        "marking_criteria": [
+          "Description of planning with pseudocode",
+          "Description of planning with flowcharts",
+          "Explanation of sending and receiving on the same group/channel",
+          "Identification of necessary variables",
+          "Clarity and logic of the explanation",
+          "Inclusion of pseudocode and flowchart snippets"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Consider a scenario where a student is developing a game that involves sending and receiving messages using the radio module; then Describe how the student should plan this using pseudocode and flowcharts. Make sure you also cover: Identification of necessary variables;…."
+        ],
+        "model_answer": "The student should start by planning the game using pseudocode, detailing the steps for sending and receiving messages. For example, initialize a variable for the message to send, use a while True loop to continuously check for button presses to send messages, and another loop to receive messages. Use flowcharts to visually represent these steps, showing decision points and actions. Ensure both sending and receiving occur on the same group/channel by configuring the radio module with the same group number. Pseudocode and flowcharts should clearly show these steps.",
+        "explanation": "A strong answer will describe planning with pseudocode, detail planning with flowcharts, explain sending and receiving on the same group/channel, identify necessary variables, ensure clarity and logic, and include pseudocode and flowchart snippets.",
+        "checked": true,
+        "subtopic_id": 1799,
+        "topic_id": 391,
+        "topic_label": "Sending messages between micro:bits",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Sending messages between micro:bits"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "A game developer is developing a simple text adventure game. The game asks the player to answer a riddle and then checks if the answer is correct. Describe how the developer should implement the input and output for this riddle-checking feature using Python text programming. Include an example of how the player's input is checked against the correct answer.",
+        "marks": 6,
+        "marking_criteria": [
+          "Description of input and output",
+          "Explanation of variable usage",
+          "Example of input and output checking",
+          "Use of if/elif/else and comparison operators",
+          "Explanation of score counter logic",
+          "Clarity and logic of the code"
+        ],
+        "hints": [
+          "Structure your answer around both demands: A game developer is developing a simple text adventure game; then The game asks the player to answer a riddle and then checks if the answer is correct. Make sure you also cover: Explanation of usage; Explanation of logic; Clarity and logic of the code."
+        ],
+        "model_answer": "The developer should first take the player's input using the input() function, storing it in a variable such as 'answer = input(\"Answer the riddle: \")'. Then, use an if/elif/else statement to check if the answer is correct, for example, 'if answer == \"correct answer\":'. If the answer is correct, increment the score using a score counter variable. Output the result, such as 'print(\"Correct!\")' for a correct answer or 'print(\"Try again\")' for an incorrect one. This ensures the input and output are handled correctly and the score is updated appropriately.",
+        "explanation": "A strong answer will describe input and output, explain variable usage, provide an example of input and output checking, use if/elif/else and comparison operators, explain score counter logic, and ensure clarity and logic.",
+        "checked": true,
+        "subtopic_id": 1811,
+        "topic_id": 393,
+        "topic_label": "Python programming",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Python programming"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "A student is writing a simple MicroPython program for the BBC micro:bit to display a message when a button is pressed. Describe how the student should use the while True loop and button_a.is_pressed() function to achieve this. Include a pseudocode example.",
+        "marks": 6,
+        "marking_criteria": [
+          "Description of the while True loop",
+          "Explanation of button_a.is_pressed() function",
+          "Pseudocode example",
+          "Explanation of display.show/scroll",
+          "Explanation of sleep function",
+          "Clarity and logic of the pseudocode"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "The student should use a while True loop to continuously check if button A is pressed. Inside the loop, an if statement checks if button_a.is_pressed() returns True. If the button is pressed, the program should display a message using display.show or display.scroll. To prevent the program from running too fast, include a sleep function to pause briefly. Pseudocode should clearly show these steps, ensuring the logic flows from the loop to the button check, to the display action, and the pause.",
+        "explanation": "A strong answer will describe the while True loop, explain the button_a.is_pressed() function, provide a pseudocode example, explain the display.show/scroll function, explain the sleep function, and ensure clarity and logic.",
+        "checked": true,
+        "subtopic_id": 1798,
+        "topic_id": 391,
+        "topic_label": "MicroPython with BBC micro:bit",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "MicroPython with BBC micro:bit"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "A game developer is planning a puzzle game where players must collect points by solving riddles. Describe how the developer should plan this using pseudocode and flowcharts. Include in your answer how to keep track of the player's score.",
+        "marks": 6,
+        "marking_criteria": [
+          "Description of planning with pseudocode",
+          "Description of planning with flowcharts",
+          "Explanation of score tracking",
+          "Identification of necessary variables",
+          "Clarity and logic of the explanation",
+          "Inclusion of pseudocode and flowchart snippets"
+        ],
+        "hints": [
+          "Structure your answer around both demands: A game developer is planning a puzzle game where players must collect points by solving riddles; then Describe how the developer should plan this using pseudocode and flowcharts. Make sure you also cover: Explanation of score tracking; Identification of necessary variables;…."
+        ],
+        "model_answer": "The developer should start by planning the game using pseudocode, detailing the steps for solving riddles and collecting points. For example, initialize a variable for the score, use a while True loop to continuously offer riddles, and another loop to check the player's answers. Use flowcharts to visually represent these steps, showing decision points and actions. To keep track of the score, increment the score variable each time a riddle is solved correctly. Pseudocode and flowcharts should clearly show these steps.",
+        "explanation": "A strong answer will describe planning with pseudocode, detail planning with flowcharts, explain score tracking, identify necessary variables, ensure clarity and logic, and include pseudocode and flowchart snippets.",
+        "checked": true,
+        "topic_label": "It's all in the planning: Pseudocode and algorithms",
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "It's all in the planning: Pseudocode and algorithms"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "cdd2ec1c-ed61-4e68-804f-2c55f78d3774",
+    "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "topics": [
+      "It's all in the planning: Pseudocode and algorithms",
+      "Testing conditions: Developing games"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 30,
+    "topic_ids": [
+      391,
+      393
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 0,
+      "detail": "53 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 2,
+      "detail": "65 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 3,
+      "detail": "59 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 6,
+      "detail": "46 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 7,
+      "detail": "59 words"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "3",
+        "severity": "poor",
+        "detail": "Question references 'radio module on a micro:bit' and model answer uses Python-style syntax (radio.on(), radio.config(), radio.send(), radio.receive()) but the topic is 'Sending messages between micro:bits'. MicroPython for micro:bit uses 'import radio' then radio.on(), radio.config(group=X), radio.send(string), radio.receive() which returns a string or None. The model answer mixes concepts without clarifying the actual MicroPython API correctly.",
+        "correction": "Model answer should specify: import radio module, use radio.on() to enable, radio.config(group=N) with matching N on both devices, radio.send(string_message) on button press, and continuously check message = radio.receive() in a loop (checking if message is not None)."
+      },
+      {
+        "label": "5",
+        "severity": "poor",
+        "detail": "Question asks how ASCII codes, ord(), and chr() are used to send messages between micro:bits via radio. However, the micro:bit radio.send() and radio.receive() methods work with strings directly in MicroPython; converting individual characters to ASCII values with ord() then sending integers is not the standard approach. The question conflates concepts unnecessarily for the platform.",
+        "correction": "Clarify that radio.send() accepts strings directly. If teaching ASCII conversion, explain that ord() converts character to integer and chr() converts back, but note that radio module handles string transmission without manual ASCII conversion per character."
+      },
+      {
+        "label": "6",
+        "severity": "broken",
+        "detail": "Figure description ends abruptly with '#Mai' suggesting the image/code listing is incomplete. The description states 'Printed on it: #Sub-program | def addition(): | ... | #Mai' - this truncation means the figure may not show the complete main program code, potentially confusing students about what code is actually present.",
+        "correction": "Complete the figure description to show full code: '#Main program | result = addition() | print(\"The numbers added together total\",result)' to ensure students can see the entire program context."
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Question asks for both pseudocode AND flowcharts in the answer, with marking criteria including 'Inclusion of pseudocode and flowchart snippets'. However, longform text format cannot verify if student actually provides flowchart drawings. The question is unanswerable as specified without a drawing/upload component.",
+        "correction": "Either remove flowchart requirement and focus on pseudocode description only, or change question type to allow image upload for flowchart component, or ask students to 'describe what a flowchart would show' rather than produce one."
+      },
+      {
+        "label": "10",
+        "severity": "poor",
+        "detail": "Same issue as Q7: question requires both pseudocode and flowcharts with marking criteria 'Inclusion of pseudocode and flowchart snippets', but longform text format cannot accommodate flowchart production or verification. Students cannot draw flowcharts in text responses.",
+        "correction": "Remove flowchart requirement or change to 'describe the flowchart structure' or modify question type to allow diagram uploads."
+      }
+    ],
+    "summary": "Assessment covers appropriate Grade 8 topics on pseudocode, algorithms, and game development. Main issues: Q3 and Q5 contain inaccuracies about micro:bit MicroPython radio API and ASCII usage; Q6 has truncated figure description; Q7 and Q10 demand flowcharts in text-only format making them partially unanswerable. Q6 answer (12) is correct. Most content aligns with curriculum but technical precision needs improvement."
+  },
+  "totalSeconds": 108
+}

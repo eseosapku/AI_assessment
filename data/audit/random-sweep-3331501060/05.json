@@ -1,0 +1,752 @@
+{
+  "index": 5,
+  "label": "Cambridge / Exam / Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+  "request": {
+    "subject": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+    "textbook_id": 611,
+    "topic_ids": [
+      4296
+    ],
+    "topics": [
+      "Chapter 6: Data collection and sampling"
+    ],
+    "curriculum": "cambridge",
+    "grade": 9,
+    "className": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 61,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A school has 600 students. Maya wants to find out how students travel to school. She asks the first 20 students who arrive at the school gate on Monday morning.",
+        "question": "Give one reason why this sample may be biased.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a specific group of students that is overrepresented or underrepresented.",
+          "Explain how this affects the reliability of the sample."
+        ],
+        "hints": [
+          "Consider the time and location of the survey."
+        ],
+        "model_answer": "Early arrivals may be mostly walkers or those dropped off by car, so they do not represent all students, or only one day was used.",
+        "explanation": "Explain why the sample might not accurately represent the entire student population.",
+        "exam_question_id": "c29a61ab-8dc9-4538-bc52-0ba837096f65:1",
+        "topic_label": "Chapter 6: Data collection and sampling — Data collection and sampling",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — Data collection and sampling"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A school has 600 students. Maya wants to find out how students travel to school. She asks the first 20 students who arrive at the school gate on Monday morning.",
+        "question": "Describe a better way to choose a sample of 30 students.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the method of selecting a random sample.",
+          "Ensure that every student has an equal chance of being selected.",
+          "Describe the process in detail."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a better way to choose a sample of 30 students — develop the idea fully rather than listing short points. Make sure you also cover: the method of selecting a sample.; Ensure that student has an of being selected.; the process in detail."
+        ],
+        "model_answer": "Number the 600 students from a register 1 to 600, then use a random number generator or numbers drawn from a hat to choose 30 different numbers, giving every student an equal chance.",
+        "explanation": "Describe how to ensure a fair and representative sample.",
+        "exam_question_id": "c29a61ab-8dc9-4538-bc52-0ba837096f65:1",
+        "topic_label": "Chapter 6: Data collection and sampling — Data collection and sampling",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — Data collection and sampling"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend.",
+        "question": "Explain why it is important to choose a random sample when conducting the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of why random sampling is important",
+          "Mention of unbiased representation",
+          "Mention of avoiding selection bias"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to choose a random sample when conducting the survey — develop the idea fully rather than listing short points. Make sure you also cover: Mention of unbiased representation; Mention of avoiding."
+        ],
+        "model_answer": "Choosing a random sample is important because it ensures that every visitor has an equal chance of being selected, which helps in getting a sample that accurately represents the entire population of park visitors. This avoids selection bias, where certain groups of visitors might be overrepresented or underrepresented.",
+        "explanation": "Random sampling ensures that the survey results are unbiased and representative of the entire park visitor population.",
+        "exam_question_id": "074b6613-029a-46d4-8fe3-e459383d431c:1",
+        "topic_label": "Chapter 6: Data collection and sampling — Data collection and sampling",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — Data collection and sampling"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend.",
+        "question": "Describe a method to select a random sample of 50 visitors from a park with 500 visitors on a typical weekend.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of a method to select a random sample",
+          "Mention of using a random number generator or a similar tool",
+          "Mention of ensuring each visitor has an equal chance of being selected"
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method to select a random sample of 50 visitors from a park with 500 visitors on a typical weekend — develop the idea fully rather than listing short points. Make sure you also cover: Mention of using a random or a similar tool; Mention of ensuring each visitor has an equal chance of…."
+        ],
+        "model_answer": "One method to select a random sample of 50 visitors is to number all 500 visitors from 1 to 500. Then, use a random number generator or draw numbers from a hat to select 50 unique numbers. The visitors corresponding to these numbers will form the random sample.",
+        "explanation": "This method ensures that each visitor has an equal chance of being selected, providing an unbiased sample.",
+        "exam_question_id": "074b6613-029a-46d4-8fe3-e459383d431c:1",
+        "topic_label": "Chapter 6: Data collection and sampling — Data collection and sampling",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — Data collection and sampling"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A survey is conducted to determine the average number of hours students in a school spend on homework each week. A sample of 50 students is selected.",
+        "question": "Explain why it is important to use a random sampling method when selecting the sample of students for the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of random sampling method",
+          "Importance of randomness in sample selection",
+          "Avoidance of bias in sample selection"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use a random sampling method when selecting the sample of students for the survey — develop the idea fully rather than listing short points. Make sure you also cover: Importance of randomness in sample selection; Avoidance of in sample selection."
+        ],
+        "model_answer": "Random sampling is important because it ensures that every student in the school has an equal chance of being selected for the survey. This method helps to avoid bias and ensures that the sample is representative of the entire student population. By randomly selecting students, the survey results are more likely to accurately reflect the average number of hours spent on homework by all students in the school.",
+        "explanation": "Random sampling is crucial in survey design to ensure that the sample accurately represents the entire population. By giving each student an equal chance of being selected, it minimises the risk of bias and increases the reliability of the survey results.",
+        "exam_question_id": "267d5485-b973-404a-9c8b-6caf995cdbed:1",
+        "topic_label": "Chapter 6: Data collection and sampling — cm side, not the a cm side.",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — cm side, not the a cm side."
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A survey is conducted to determine the average number of hours students in a school spend on homework each week. A sample of 50 students is selected.",
+        "question": "Describe a method to randomly select 50 students from a school with 500 students.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of a random selection method",
+          "Ensuring equal chance for all students",
+          "Practicality of the method"
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method to randomly select 50 students from a school with 500 students — develop the idea fully rather than listing short points. Make sure you also cover: Description of a selection method."
+        ],
+        "model_answer": "One method to randomly select 50 students from a school with 500 students is to assign each student a unique number from 1 to 500. Then, use a random number generator or draw numbers from a hat to select 50 unique numbers. The students corresponding to these numbers will form the sample. This method ensures that each student has an equal chance of being selected and helps to avoid bias in the sample.",
+        "explanation": "Using a random number generator or drawing numbers from a hat is a practical and effective way to ensure that each student has an equal chance of being selected for the survey. This method helps to create a sample that is representative of the entire student population.",
+        "exam_question_id": "267d5485-b973-404a-9c8b-6caf995cdbed:1",
+        "topic_label": "Chapter 6: Data collection and sampling — cm side, not the a cm side.",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — cm side, not the a cm side."
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend. Explain why it is important to choose a random sample when conducting the survey.",
+        "question": "Explain why it is important to choose a random sample when conducting the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of why random sampling is important",
+          "Mention of unbiased representation",
+          "Mention of avoiding sampling bias"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to choose a random sample when conducting the survey — develop the idea fully rather than listing short points. Make sure you also cover: Mention of; Mention of avoiding sampling."
+        ],
+        "model_answer": "Choosing a random sample is important because it ensures that every visitor has an equal chance of being selected, which helps in obtaining a sample that accurately represents the preferences of all visitors. This avoids any bias that might occur if certain times or groups of visitors are overrepresented.\n\nChoosing a random sample ensures that every visitor has an equal chance of being selected, providing an unbiased representation of the entire population.",
+        "explanation": "Choosing a random sample ensures that every visitor has an equal chance of being selected, which helps in obtaining a sample that accurately represents the preferences of all visitors. This avoids any bias that might occur if certain times or groups of visitors are overrepresented.",
+        "exam_question_id": "8b63c337-d6ad-4596-ba75-454564c8e4e3:1",
+        "topic_label": "Chapter 6: Data collection and sampling — Data collection and sampling",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — Data collection and sampling"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend. Explain why it is important to choose a random sample when conducting the survey.",
+        "question": "Describe a method to select a random sample of 50 visitors from a park with 500 visitors on a typical weekend.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of a method for random selection",
+          "Mention of equal probability for each visitor",
+          "Mention of a tool or process used for selection"
+        ],
+        "hints": [
+          "Think about how you can ensure each visitor has an equal chance of being selected."
+        ],
+        "model_answer": "One method to select a random sample of 50 visitors is to assign each visitor a unique number from 1 to 500. Then, use a random number generator or draw numbers from a hat to select 50 unique numbers. The visitors corresponding to these numbers would form the random sample.\n\nAssign each visitor a unique number from 1 to 500. Use a random number generator or draw numbers from a hat to select 50 unique numbers.",
+        "explanation": "Assigning each visitor a unique number from 1 to 500 and then using a random number generator or drawing numbers from a hat ensures that each visitor has an equal chance of being selected, thus creating a random sample.",
+        "exam_question_id": "8b63c337-d6ad-4596-ba75-454564c8e4e3:1",
+        "topic_label": "Chapter 6: Data collection and sampling — Data collection and sampling",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Chapter 6: Data collection and sampling — Data collection and sampling"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A survey is conducted to determine the average number of hours students in a school spend on homework each week. A sample of 50 students is selected.",
+        "question": "Explain why it is important to use a random sampling method when selecting the sample of students for the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the concept of random sampling.",
+          "Explanation of how random sampling ensures that every student has an equal chance of being selected.",
+          "Explanation of how random sampling helps to avoid bias in the sample."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use a random sampling method when selecting the sample of students for the survey — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Random sampling is important because it ensures that every student in the school has an equal chance of being selected for the survey. This helps to avoid bias in the sample, as it is less likely that certain groups of students will be over- or under-represented. By using random sampling, the survey results are more likely to accurately reflect the average number of hours all students spend on homework each week.",
+        "explanation": "Random sampling is crucial for ensuring that the sample is representative of the entire student population. It helps to avoid bias by giving every student an equal chance of being selected, which leads to more accurate and reliable survey results.",
+        "exam_question_id": "a1934a5d-2b2e-490a-8b73-03acdab7914b:1",
+        "topic_label": "Data collection and sampling (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Data collection and sampling (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A survey is conducted to determine the average number of hours students in a school spend on homework each week. A sample of 50 students is selected.",
+        "question": "Describe a method to randomly select 50 students from a school with 500 students.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understanding of a method to randomly select students.",
+          "Description of the method, including how to ensure each student has an equal chance of being selected."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method to randomly select 50 students from a school with 500 students — develop the idea fully rather than listing short points. Make sure you also cover: Description of the method, including how to ensure each student has an of being."
+        ],
+        "model_answer": "One method to randomly select 50 students from a school with 500 students is to assign each student a unique number from 1 to 500. Then, use a random number generator or draw numbers from a hat to select 50 different numbers. The students corresponding to these numbers would be included in the sample. This method ensures that each student has an equal chance of being selected.",
+        "explanation": "By assigning each student a unique number and using a random selection method, you ensure that every student has an equal chance of being chosen for the sample, which is the essence of random sampling.",
+        "exam_question_id": "a1934a5d-2b2e-490a-8b73-03acdab7914b:1",
+        "topic_label": "Data collection and sampling (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Data collection and sampling (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend.",
+        "question": "Explain why it is important to choose a random sample when conducting the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of why random sampling is important.",
+          "Mention of avoiding bias in the sample.",
+          "Reference to ensuring that the sample represents the entire population."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to choose a random sample when conducting the survey — develop the idea fully rather than listing short points. Make sure you also cover: Reference to ensuring that the sample represents the."
+        ],
+        "model_answer": "Random sampling is important because it helps to avoid bias in the survey results. By selecting a random sample, each visitor has an equal chance of being included in the survey, which ensures that the sample is representative of the entire population of park visitors. This helps to ensure that the survey results accurately reflect the preferences of all visitors, not just a specific group.",
+        "explanation": "Random sampling is crucial in surveys to ensure that the sample accurately represents the entire population. By giving every visitor an equal chance of being selected, we minimise bias and ensure that the survey results are reliable and reflective of the true preferences of all park visitors.",
+        "exam_question_id": "def717a8-2210-46f2-b6b8-777b436e3470:1",
+        "topic_label": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend.",
+        "question": "Describe a method to select a random sample of 50 visitors from a park with 500 visitors on a typical weekend.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of a method to select a random sample.",
+          "Mention of assigning numbers to visitors.",
+          "Reference to using a random number generator or similar method."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method to select a random sample of 50 visitors from a park with 500 visitors on a typical weekend — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "One method to select a random sample of 50 visitors is to assign a unique number to each of the 500 visitors. Then, use a random number generator or draw numbers from a hat to select 50 of these numbers. The visitors corresponding to these numbers will form the random sample. This ensures that each visitor has an equal chance of being included in the sample.",
+        "explanation": "By assigning numbers to each visitor and using a random selection method, we ensure that every visitor has an equal chance of being included in the sample. This method helps to create a sample that is representative of the entire population of park visitors.",
+        "exam_question_id": "def717a8-2210-46f2-b6b8-777b436e3470:1",
+        "topic_label": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend.",
+        "question": "Explain why it is important to choose a random sample when conducting the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies that a random sample should be representative of all visitors / avoids selecting only certain types of visitors",
+          "Explains that random sampling gives every visitor an equal chance of being selected",
+          "States that bias in sample selection leads to unreliable or inaccurate results"
+        ],
+        "hints": [
+          "Think about how a random sample helps to avoid bias."
+        ],
+        "model_answer": "A random sample is important because it ensures every visitor has an equal chance of being selected, making the sample representative of all visitors. If only certain visitors are chosen (for example, only those arriving early), the results would be biased and not accurately reflect the preferences of all park visitors. A random sample provides reliable and representative results.",
+        "explanation": "Choosing a random sample is crucial because it ensures that the survey results are representative of the entire visitor population. By giving every visitor an equal chance to be included in the sample, the survey can avoid bias and provide a more accurate reflection of the park visitors' preferences.",
+        "exam_question_id": "17290bfa-7cbd-4ff4-a7c7-c9517be5de4c:1",
+        "topic_label": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local park wants to understand the preferences of its visitors regarding weekend activities. They decide to conduct a survey by interviewing visitors at different times throughout the weekend.",
+        "question": "Describe a method to select a random sample of 50 visitors from a park with 500 visitors on a typical weekend.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain a method for selecting a random sample.",
+          "Ensure the method allows each visitor an equal chance of being selected."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method to select a random sample of 50 visitors from a park with 500 visitors on a typical weekend — develop the idea fully rather than listing short points. Make sure you also cover: Ensure the method allows each an of being."
+        ],
+        "model_answer": "One method to select a random sample of 50 visitors is to number all 500 visitors from 1 to 500. Then, use a random number generator or draw numbers from a hat to select 50 different numbers. Each number corresponds to a visitor, ensuring that every visitor has an equal chance of being selected.",
+        "explanation": "By numbering all visitors and using a random selection method, each visitor has an equal opportunity to be included in the sample. This method avoids bias and ensures that the sample is representative of the entire visitor population.",
+        "exam_question_id": "17290bfa-7cbd-4ff4-a7c7-c9517be5de4c:1",
+        "topic_label": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local library wants to understand the reading habits of its members. They decide to conduct a survey by interviewing members at different times throughout the week. Explain why it is important to choose a random sample when conducting the survey.",
+        "question": "Explain why it is important to choose a random sample when conducting the survey.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of why random sampling is important",
+          "Mention of unbiased representation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to choose a random sample when conducting the survey — develop the idea fully rather than listing short points. Make sure you also cover: Mention of unbiased representation."
+        ],
+        "model_answer": "Choosing a random sample is important because it ensures that every member of the library has an equal chance of being selected for the survey. This helps to avoid bias and ensures that the sample is representative of the entire membership. Without random sampling, certain groups of members might be over- or under-represented, leading to skewed results.\n\nChoosing a random sample is important because it ensures that every member of the library has an equal chance of being selected for the survey. This helps to avoid bias and ensures that the sample is representative of the entire membership.",
+        "explanation": "Explain why choosing a random sample is important for ensuring that the survey results are representative of the entire library membership.",
+        "exam_question_id": "28b10060-4121-47c4-853d-9a2fc0e82d96:1",
+        "topic_label": "Data collection and sampling (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Data collection and sampling (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local library wants to understand the reading habits of its members. They decide to conduct a survey by interviewing members at different times throughout the week. Explain why it is important to choose a random sample when conducting the survey.",
+        "question": "Describe a method to select a random sample of 30 members from a library with 300 members.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of a method to select a random sample",
+          "Explanation of how the method ensures randomness",
+          "Mention of equal chance for each member"
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method to select a random sample of 30 members from a library with 300 members — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of how the method randomness; Mention of for each."
+        ],
+        "model_answer": "One method to select a random sample of 30 members from a library with 300 members is to number each member from 1 to 300. Then, use a random number generator or draw numbers from a hat to select 30 different numbers. This method ensures that each member has an equal chance of being selected, providing an unbiased and representative sample.\n\nOne method to select a random sample of 30 members from a library with 300 members is to number each member from 1 to 300. Then, use a random number generator or draw numbers from a hat to select 30 different numbers.",
+        "explanation": "Describe a method to select a random sample of 30 members from a library with 300 members, ensuring that each member has an equal chance of being selected.",
+        "exam_question_id": "28b10060-4121-47c4-853d-9a2fc0e82d96:1",
+        "topic_label": "Data collection and sampling (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Data collection and sampling (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local library wants to understand the reading habits of its members. They decide to conduct a survey by interviewing members at different times throughout the week.",
+        "question": "Explain why it is important to choose a random sample when conducting the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Choosing a random sample ensures that every member of the library has an equal chance of being selected, which helps to avoid bias.",
+          "A random sample is more likely to be representative of the entire membership, leading to more accurate and reliable results.",
+          "Random sampling allows for generalisation of the survey results to the entire library membership."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to choose a random sample when conducting the survey — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Choosing a random sample ensures that every member of the library has an equal chance of being selected, which helps to avoid bias. A random sample is more likely to be representative of the entire membership, leading to more accurate and reliable results. Random sampling allows for generalization of the survey results to the entire library membership.",
+        "explanation": "Choosing a random sample ensures that every member of the library has an equal chance of being selected, which helps to avoid bias. A random sample is more likely to be representative of the entire membership, leading to more accurate and reliable results. Random sampling allows for generalisation of the survey results to the entire library membership.",
+        "exam_question_id": "25830d2d-4e7a-433e-b672-29f1e4ab1178:1",
+        "topic_label": "Data collection and sampling (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Data collection and sampling (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local library wants to understand the reading habits of its members. They decide to conduct a survey by interviewing members at different times throughout the week.",
+        "question": "Describe a method to select a random sample of 30 members from a library with 300 members.",
+        "marks": 3,
+        "marking_criteria": [
+          "Number the 300 members from 1 to 300.",
+          "Use a random number generator or draw numbers from a hat to select 30 different numbers.",
+          "Interview the members corresponding to the selected numbers."
+        ],
+        "hints": [
+          "Think about how to ensure each member has an equal chance of being selected."
+        ],
+        "model_answer": "Number the 300 members from 1 to 300. Use a random number generator or draw numbers from a hat to select 30 different numbers. Interview the members corresponding to the selected numbers.",
+        "explanation": "Number the 300 members from 1 to 300. Use a random number generator or draw numbers from a hat to select 30 different numbers. Interview the members corresponding to the selected numbers.",
+        "exam_question_id": "25830d2d-4e7a-433e-b672-29f1e4ab1178:1",
+        "topic_label": "Data collection and sampling (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "Data collection and sampling (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local library wants to understand the reading habits of its members. They decide to conduct a survey by interviewing members at different times throughout the week.",
+        "question": "Explain why it is important to choose a random sample when conducting the survey.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the purpose of the survey.",
+          "Explain the concept of a random sample.",
+          "Discuss the benefits of using a random sample in this context."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to choose a random sample when conducting the survey — develop the idea fully rather than listing short points. Make sure you also cover: Identify the purpose of the survey.; Discuss the benefits of using a random sample in this context."
+        ],
+        "model_answer": "A random sample is important in a survey because it helps to ensure that the sample is representative of the entire population. By choosing members randomly, the library can avoid biases that might occur if only certain types of members were surveyed. This ensures that the survey results can be generalized to all library members.",
+        "explanation": "Choosing a random sample ensures that every member has an equal chance of being selected, which helps to eliminate bias and provides a more accurate representation of the entire library membership.",
+        "exam_question_id": "92ff3983-2ec3-483e-a77b-f2541a904177:1",
+        "topic_label": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local library wants to understand the reading habits of its members. They decide to conduct a survey by interviewing members at different times throughout the week.",
+        "question": "Describe a method to select a random sample of 30 members from a library with 300 members.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the method of selecting a random sample.",
+          "Describe the steps to implement the method.",
+          "Ensure the method is feasible and practical."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method to select a random sample of 30 members from a library with 300 members — develop the idea fully rather than listing short points. Make sure you also cover: the steps to implement the method.; Ensure the method is feasible and practical."
+        ],
+        "model_answer": "One method to select a random sample of 30 members from a library with 300 members is to assign each member a unique number from 1 to 300. Then, use a random number generator or draw numbers from a hat to select 30 unique numbers. The members corresponding to these numbers will form the random sample.",
+        "explanation": "This method ensures that each member has an equal chance of being selected, thus providing a truly random sample.",
+        "exam_question_id": "92ff3983-2ec3-483e-a77b-f2541a904177:1",
+        "topic_label": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)",
+        "topic_id": 4296,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+          "area": "cm side, not the a cm side. (Chapter 6: Data collection and sampling)"
+        }
+      }
+    ],
+    "estimated_time": 56,
+    "assessment_id": "1f635e81-8595-4a8d-9f21-6837447f4f86",
+    "subject": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+    "topics": [
+      "Chapter 6: Data collection and sampling"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 611,
+    "topic_ids": [
+      4296
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "7 questions open with the same sentence (3, 7, 11, 13, 15, 17, 19): \"Explain why it is important to choose a random sam\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 3,
+      "detail": "4 questions open with the same sentence (4, 8, 12, 14): \"Describe a method to select a random sample of 50 \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 16"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "3a",
+        "severity": "broken",
+        "detail": "Topic label corrupted: 'Chapter 6: Data collection and sampling — cm side, not the a cm side.' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+        "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+      },
+      {
+        "label": "3b",
+        "severity": "broken",
+        "detail": "Topic label corrupted: 'Chapter 6: Data collection and sampling — cm side, not the a cm side.' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+        "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+      },
+      {
+        "label": "6a",
+        "severity": "broken",
+        "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+        "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+      },
+      {
+        "label": "6b",
+        "severity": "broken",
+        "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+        "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+      },
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+        "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+      },
+      {
+        "label": "10a",
+        "severity": "broken",
+        "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+        "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+      },
+      {
+        "label": "10b",
+        "severity": "broken",
+        "detail": "Topic label corrupted: 'cm side, not the a cm side. (Chapter 6: Data collection and sampling)' contains irrelevant geometry text. Should be 'Chapter 6: Data collection and sampling — Data collection and sampling'.",
+        "correction": "Correct topic_label to: 'Chapter 6: Data collection and sampling — Data collection and sampling'"
+      },
+      {
+        "label": "4a",
+        "severity": "poor",
+        "detail": "Model answer contains redundant duplication: 'Choosing a random sample ensures that every visitor has an equal chance of being selected, providing an unbiased representation of the entire population.' repeats the same idea twice in succession.",
+        "correction": "Remove the second sentence or consolidate into single coherent statement."
+      },
+      {
+        "label": "4b",
+        "severity": "poor",
+        "detail": "Model answer contains redundant duplication: 'Assign each visitor a unique number from 1 to 500. Use a random number generator or draw numbers from a hat to select 50 unique numbers.' repeats the method twice.",
+        "correction": "Remove the second repetition or consolidate into single clear statement."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Model answer contains redundant duplication: 'Choosing a random sample is important because it ensures that every member of the library has an equal chance of being selected for the survey. This helps to avoid bias and ensures that the sample is representative of the entire membership.' is repeated verbatim.",
+        "correction": "Remove the second repetition of the identical statement."
+      },
+      {
+        "label": "8b",
+        "severity": "poor",
+        "detail": "Model answer contains redundant duplication: 'One method to select a random sample of 30 members from a library with 300 members is to number each member from 1 to 300. Then, use a random number generator or draw numbers from a hat to select 30 different numbers.' is repeated verbatim.",
+        "correction": "Remove the second repetition of the identical statement."
+      }
+    ],
+    "summary": "Assessment contains 20 questions on data collection and sampling (Chapter 6), all age-appropriate and on-topic. Substantive issues: 7 corrupted topic labels containing irrelevant geometry text ('cm side, not the a cm side'). Additional issue: 4 model answers contain verbatim duplication. Content validity and marking criteria are sound."
+  },
+  "totalSeconds": 67
+}

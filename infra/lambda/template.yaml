@@ -17,7 +17,7 @@ Parameters:
     NoEcho: true
   BackendInternalBaseUrl:
     Type: String
-    Description: Private backend base URL (for execute relay), e.g. https://api.example.com
+    Description: Long-running backend origin for the execute relay. Its hosting and gateway must allow at least 660 seconds; the worker timeout does not extend upstream limits.
   AwsRegion:
     Type: String
     Default: eu-west-1
@@ -51,7 +51,7 @@ Resources:
   AiJobQueue:
     Type: AWS::SQS::Queue
     Properties:
-      VisibilityTimeout: 240
+      VisibilityTimeout: 4320
       MessageRetentionPeriod: 345600
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt AiJobDLQ.Arn
@@ -115,7 +115,7 @@ Resources:
     Properties:
       CodeUri: .
       Handler: handlers/execute-ai-job.handler
-      Timeout: 180
+      Timeout: 720
       MemorySize: 2048
       ReservedConcurrentExecutions: 20
       Policies:

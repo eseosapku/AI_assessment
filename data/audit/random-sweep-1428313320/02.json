@@ -1,0 +1,427 @@
+{
+  "index": 2,
+  "label": "REB / Practice / Core Math S4 SB",
+  "request": {
+    "subject": "Core Math S4 SB",
+    "textbook_id": 62,
+    "topic_ids": [
+      693
+    ],
+    "topics": [
+      "Unit 1: Fundamentals of trigonometry"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 21,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each trigonometric function to its definition in the context of a right-angled triangle",
+        "left_items": [
+          "Sine",
+          "Cosine",
+          "Tangent",
+          "Secant"
+        ],
+        "right_items": [
+          "Opposite / Hypotenuse",
+          "Adjacent / Hypotenuse",
+          "Opposite / Adjacent",
+          "Hypotenuse / Adjacent"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Sine is defined as the ratio of the length of the opposite side to the hypotenuse, Cosine is the ratio of the adjacent side to the hypotenuse, Tangent is the ratio of the opposite side to the adjacent side, and Secant is the ratio of the hypotenuse to the adjacent side.",
+        "checked": true,
+        "topic_id": 693,
+        "topic_label": "Unit 1: Fundamentals of trigonometry",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Unit 1: Fundamentals of trigonometry"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps to find the sine of an angle in a right-angled triangle in the correct order",
+        "items": [
+          "Identify the opposite side",
+          "Identify the hypotenuse",
+          "Divide the length of the opposite side by the hypotenuse",
+          "Write the result"
+        ],
+        "correct_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "First, identify the opposite side and the hypotenuse, then divide the length of the opposite side by the hypotenuse, and finally write the result.",
+        "checked": true,
+        "topic_id": 693,
+        "topic_label": "Unit 1: Fundamentals of trigonometry",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Unit 1: Fundamentals of trigonometry"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank: In a right-angled triangle, the $\\sin(\\theta)$ is equal to the ratio of the {{0}} side to the {{1}} side.",
+        "template": "In a right-angled triangle, the $\\sin(\\theta)$ is equal to the ratio of the {{0}} side to the {{1}} side.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "opposite"
+          },
+          {
+            "id": "1",
+            "correct": "hypotenuse"
+          }
+        ],
+        "word_bank": [
+          "opposite",
+          "hypotenuse",
+          "adjacent",
+          "angle",
+          "vertex"
+        ],
+        "marks": 2,
+        "explanation": "The sine of an angle in a right-angled triangle is defined as the ratio of the length of the side opposite the angle to the length of the hypotenuse.",
+        "checked": true,
+        "topic_id": 693,
+        "topic_label": "Unit 1: Fundamentals of trigonometry",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Unit 1: Fundamentals of trigonometry"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: The unit circle is a circle with a radius of 1 centred at the origin of a coordinate plane.",
+        "statements": [
+          "The unit circle is a circle with a radius of 1 centered at the origin of a coordinate plane.",
+          "The unit circle is a circle with a radius of 2 centered at the origin of a coordinate plane.",
+          "The unit circle is used to define trigonometric functions for all real numbers.",
+          "The unit circle is only used for acute angles."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "The unit circle is indeed a circle with a radius of 1 centred at the origin, and it is used to define trigonometric functions for all real numbers, not just acute angles.",
+        "checked": true,
+        "subtopic_id": 2879,
+        "topic_id": 693,
+        "topic_label": "Graphs of some trigonometric functions",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Graphs of some trigonometric functions"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: Sine, Cosine, Tangent, Square Root",
+        "items": [
+          "Sine",
+          "Cosine",
+          "Tangent",
+          "Square Root"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Sine, Cosine, and Tangent are trigonometric functions, whereas Square Root is a mathematical operation.",
+        "checked": true,
+        "subtopic_id": 2879,
+        "topic_id": 693,
+        "topic_label": "Graphs of some trigonometric functions",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Graphs of some trigonometric functions"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each reduction formula to its description: I. $\\sin(90^\\circ - \\theta) = \\cos(\\theta)$\nII. $\\cos(90^\\circ - \\theta) = \\sin(\\theta)$\nIII. $\\tan(90^\\circ - \\theta) = \\cot(\\theta)$\nIV. $\\sec(90^\\circ - \\theta) = \\csc(\\theta)$",
+        "left_items": [
+          "I. $\\sin(90^\\circ - \\theta) = \\cos(\\theta)$",
+          "II. $\\cos(90^\\circ - \\theta) = \\sin(\\theta)$",
+          "III. $\\tan(90^\\circ - \\theta) = \\cot(\\theta)$",
+          "IV. $\\sec(90^\\circ - \\theta) = \\csc(\\theta)$"
+        ],
+        "right_items": [
+          "Complementary angles sine and cosine",
+          "Complementary angles cosine and sine",
+          "Complementary angles tangent and cotangent",
+          "Complementary angles secant and cosecant"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Each pair correctly matches a reduction formula with its description based on complementary angles.",
+        "checked": true,
+        "subtopic_id": 2877,
+        "topic_id": 693,
+        "topic_label": "Reduction formulae on positive acute angles",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Reduction formulae on positive acute angles"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps to graph a sine function in the correct order: I. Identify the amplitude and period\nII. Plot the key points\nIII. Draw the curve\nIV. Label the axes",
+        "items": [
+          "Identify the amplitude and period",
+          "Plot the key points",
+          "Draw the curve",
+          "Label the axes"
+        ],
+        "correct_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "First identify amplitude and period to set scale, then plot key points on labelled axes, then draw the smooth curve through them.",
+        "checked": true,
+        "topic_id": 693,
+        "topic_label": "Unit 1: Fundamentals of trigonometry",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Unit 1: Fundamentals of trigonometry"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each trigonometric function to its definition",
+        "left_items": [
+          "Sine",
+          "Cosine",
+          "Tangent",
+          "Secant"
+        ],
+        "right_items": [
+          "Opposite/Hypotenuse",
+          "Adjacent/Hypotenuse",
+          "Opposite/Adjacent",
+          "Hypotenuse/Adjacent"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Sine is defined as the ratio of the opposite side to the hypotenuse, Cosine as the ratio of the adjacent side to the hypotenuse, Tangent as the ratio of the opposite side to the adjacent side, and Secant as the reciprocal of Cosine.",
+        "checked": true,
+        "topic_id": 693,
+        "topic_label": "Unit 1: Fundamentals of trigonometry",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Unit 1: Fundamentals of trigonometry"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps to find the sine of an angle in a right triangle in the correct order",
+        "items": [
+          "Identify the opposite side and the hypotenuse",
+          "Write the ratio of the opposite side to the hypotenuse",
+          "Calculate the sine value using a calculator",
+          "Label the sides of the triangle"
+        ],
+        "correct_order": [
+          3,
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "First, label the sides of the triangle, then identify the opposite side and the hypotenuse, next write the ratio, and finally calculate the sine value using a calculator.",
+        "checked": true,
+        "topic_id": 693,
+        "topic_label": "Unit 1: Fundamentals of trigonometry",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Unit 1: Fundamentals of trigonometry"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank",
+        "template": "The sine of an angle in a right triangle is equal to the length of the {{0}} side divided by the length of the {{1}} side.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "opposite"
+          },
+          {
+            "id": "1",
+            "correct": "hypotenuse"
+          }
+        ],
+        "word_bank": [
+          "opposite",
+          "hypotenuse",
+          "adjacent",
+          "angle",
+          "vertex"
+        ],
+        "marks": 2,
+        "explanation": "The sine of an angle in a right triangle is defined as the ratio of the length of the opposite side to the length of the hypotenuse.",
+        "checked": true,
+        "topic_id": 693,
+        "topic_label": "Unit 1: Fundamentals of trigonometry",
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Unit 1: Fundamentals of trigonometry"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "40a2cddc-5131-4899-ba87-138babdaaeb0",
+    "subject": "Core Math S4 SB",
+    "topics": [
+      "Unit 1: Fundamentals of trigonometry"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "interactive",
+    "textbook_id": 62,
+    "topic_ids": [
+      693
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1 and 8",
+        "severity": "broken",
+        "detail": "Questions 1 and 8 are identical: both match sine/cosine/tangent/secant to their definitions with identical left/right items and correct pairs. This violates the no-repetition requirement.",
+        "correction": "Remove question 8 or replace with distinct content (e.g., cosecant/cotangent definitions, or reciprocal relationships)."
+      },
+      {
+        "label": "3 and 10",
+        "severity": "broken",
+        "detail": "Questions 3 and 10 are substantively identical: both fill blanks for sine definition (opposite/hypotenuse) with identical word banks and correct answers. Violates no-repetition requirement.",
+        "correction": "Remove question 10 or replace with different trigonometric function (cosine, tangent) or different concept."
+      },
+      {
+        "label": "4",
+        "severity": "poor",
+        "detail": "Question 4 is labeled under 'Graphs of some trigonometric functions' (subtopic_id 2879) but content addresses unit circle definition, not graphing. Topic mismatch with stated curriculum area.",
+        "correction": "Relocate to 'Unit 1: Fundamentals of trigonometry' or replace with actual graphing content (amplitude, period, phase shift)."
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Step ordering is incomplete: 'Label the axes' should occur before plotting points, not after drawing curve. Logical sequence violated.",
+        "correction": "Reorder as: Identify amplitude/period → Label axes → Plot key points → Draw curve."
+      }
+    ],
+    "summary": "Assessment contains two duplicate question pairs (1/8 and 3/10), violating no-repetition requirement. Question 4 misaligned with stated topic. Question 7 has illogical step sequence. Remove duplicates and correct sequencing/topic placement."
+  },
+  "totalSeconds": 26
+}

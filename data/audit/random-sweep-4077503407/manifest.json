@@ -1,0 +1,453 @@
+{
+  "seed": 4077503407,
+  "jobs": [
+    {
+      "label": "Cambridge / Practice / Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "textbook_id": 190,
+        "topic_ids": [
+          2754
+        ],
+        "topics": [
+          "Chapter 12: Physical properties of Group 17 elements"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Practice / P2-English-PB",
+      "exam": false,
+      "body": {
+        "subject": "P2-English-PB",
+        "textbook_id": 146,
+        "topic_ids": [
+          1512,
+          1520
+        ],
+        "topics": [
+          "Greetings, introductions and talking about school",
+          "Counting and writing"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "textbook_id": 15,
+        "topic_ids": [
+          175,
+          176
+        ],
+        "topics": [
+          "Theme 1: Population and Settlement",
+          "Global Theme 1: HIV/AIDS"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Economics S6 SB",
+      "exam": false,
+      "body": {
+        "subject": "Economics S6 SB",
+        "textbook_id": 65,
+        "topic_ids": [
+          738,
+          740
+        ],
+        "topics": [
+          "Terms of Trade",
+          "Balance of Payment (BOP)"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 8 Students Book ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "textbook_id": 30,
+        "topic_ids": [
+          391,
+          393
+        ],
+        "topics": [
+          "It's all in the planning: Pseudocode and algorithms",
+          "Testing conditions: Developing games"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge IGCSE English as First Language Course Book (2)",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+        "textbook_id": 202,
+        "topic_ids": [
+          2710,
+          2711
+        ],
+        "topics": [
+          "Unit 3: Composition",
+          "Unit 4: Reading"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE English as First Language Course Book (2)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Practice / Geography SB S6",
+      "exam": false,
+      "body": {
+        "subject": "Geography SB S6",
+        "textbook_id": 112,
+        "topic_ids": [
+          1182
+        ],
+        "topics": [
+          "Wave Erosion and Deposition"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / GENERAL EDU-Chemistry-S2-SB",
+      "exam": true,
+      "body": {
+        "subject": "GENERAL EDU-Chemistry-S2-SB",
+        "textbook_id": 94,
+        "topic_ids": [
+          979,
+          977
+        ],
+        "topics": [
+          "Properties of Organic Compounds and Uses of Alkanes",
+          "Preparation and Classification of Oxides"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "textbook_id": 10,
+        "topic_ids": [
+          147
+        ],
+        "topics": [
+          "Unit 5: Curved graphs"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+        "textbook_id": 194,
+        "topic_ids": [
+          3051
+        ],
+        "topics": [
+          "Chapter 8: Continuous random variables"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Primary Computing Learners Book Stage 1 ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Primary Computing Learners Book Stage 1 ",
+        "textbook_id": 36,
+        "topic_ids": [
+          453,
+          457
+        ],
+        "topics": [
+          "Unit 7: Computers control things",
+          "Unit 11: Be an artist"
+        ],
+        "curriculum": "cambridge",
+        "grade": 1,
+        "className": "Cambridge Primary Computing Learners Book Stage 1 ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Economics S5 SB",
+      "exam": true,
+      "body": {
+        "subject": "Economics S5 SB",
+        "textbook_id": 64,
+        "topic_ids": [
+          731,
+          727
+        ],
+        "topics": [
+          "Unemployment",
+          "Consumption, Saving, Investment and Multipliers"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / chemistry S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "chemistry S4 SB",
+        "textbook_id": 55,
+        "topic_ids": [
+          604,
+          611
+        ],
+        "topics": [
+          "Formation of Ionic and Metallic Bonds",
+          "Trends in Chemical Properties of Group 15 Elements and Their Compounds"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Practice / GENERAL EDU-History-S6-SB (1)",
+      "exam": false,
+      "body": {
+        "subject": "GENERAL EDU-History-S6-SB (1)",
+        "textbook_id": 101,
+        "topic_ids": [
+          1057,
+          1060
+        ],
+        "topics": [
+          "UNIT 4: AFRICAN NATIONALISM AND ACQUISITION OF INDEPENDENCE",
+          "UNIT 7: GENOCIDE PREVENTION IN RWANDA AND ABROAD"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / P1 Mathematics PB ,",
+      "exam": true,
+      "body": {
+        "subject": "P1 Mathematics PB ,",
+        "textbook_id": 140,
+        "topic_ids": [
+          1448,
+          1459
+        ],
+        "topics": [
+          "Numbers from 1 up to 5",
+          "Rwandan currency from 1 frw up to 100 frw"
+        ],
+        "curriculum": "rwanda",
+        "grade": 1,
+        "className": "P1",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 8 Learners Book",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary Science 8 Learners Book",
+        "textbook_id": 34,
+        "topic_ids": [
+          440,
+          437
+        ],
+        "topics": [
+          "Science Skills",
+          "7 Diet and growth"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Cambridge Lower Secondary Science 8 Learners Book",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Primary Computing Learners Book Stage 4 ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "textbook_id": 39,
+        "topic_ids": [
+          474
+        ],
+        "topics": [
+          "Unit 2: Be a data controller"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / GENERAL EDU-Chemistry-S1-SB",
+      "exam": false,
+      "body": {
+        "subject": "GENERAL EDU-Chemistry-S1-SB",
+        "textbook_id": 92,
+        "topic_ids": [
+          947
+        ],
+        "topics": [
+          "Chemistry and Society"
+        ],
+        "curriculum": "rwanda",
+        "grade": 7,
+        "className": "S1",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          267,
+          256
+        ],
+        "topics": [
+          "Hooke's law",
+          "Polar coordinates"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Mathematics-SB S6 HLP LFK HGL",
+      "exam": true,
+      "body": {
+        "subject": "Mathematics-SB S6 HLP LFK HGL",
+        "textbook_id": 130,
+        "topic_ids": [
+          1359,
+          1358
+        ],
+        "topics": [
+          "UNIT 3: ELEMENTARY PROBABILITY",
+          "UNIT 2: COUNTING TECHNIQUES"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    }
+  ]
+}

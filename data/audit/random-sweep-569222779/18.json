@@ -1,0 +1,659 @@
+{
+  "index": 18,
+  "label": "REB / Exam / Economics S4 SB",
+  "request": {
+    "subject": "Economics S4 SB",
+    "textbook_id": 63,
+    "topic_ids": [
+      713,
+      718
+    ],
+    "topics": [
+      "Theory of demand",
+      "Price mechanism"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 66,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain what the diagram shows regarding the market for this product.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the equilibrium point E",
+          "Explain the meaning of the intersection of the Minimum Price line with the demand and supply curves",
+          "Describe the implication of the Excess supply arrow"
+        ],
+        "hints": [
+          "Stay focused on this: Explain what the diagram shows regarding the market for this product — develop the idea fully rather than listing short points. Make sure you also cover: the point E; the meaning of the of the with the and curves; the implication of the."
+        ],
+        "model_answer": "The diagram shows that at the equilibrium point E, the quantity supplied equals the quantity demanded, with the price at PE and quantity at QE. The Minimum Price line at PM is above the equilibrium price, causing an intersection with the demand curve above quantity QO1 and the supply curve above quantity Q3. This intersection indicates the potential new supply and demand quantities if the price is fixed at PM. The Excess supply arrow between QO1 and Q3 shows the gap where there is more supply than demand at the minimum price.",
+        "explanation": "To answer this question, you need to understand the key concepts of equilibrium, the impact of a price floor (minimum price) on supply and demand, and the resulting excess supply.",
+        "exam_question_id": "88898c81-da32-4be2-8d49-74f749bf7d64:1",
+        "topic_label": "Factors determining price in the market",
+        "topic_id": 713,
+        "image_url": "/textbook-images/textbook-bank/63/p226-f0.png",
+        "image_alt": "A supply and demand graph with Price on the vertical axis and Quantity on the horizontal axis. The downward-sloping demand curve DD and upward-sloping supply curve SS cross at equilibrium point E, with equilibrium price PE and equilibrium quantity QE. A horizontal line labelled Minimum Price sits at PM, above PE. It meets the demand curve above QO1 and the supply curve above Q3. A double-headed arrow labelled Excess supply spans the gap between QO1 and Q3.\nLabels: Price, S, D, Excess supply, Minimum, Price, PM, E, PE, S, D, 0, QO1, QE, Q3, Quantity\nOriginal exercise: OPE is the equilibrium pri",
+        "checked": true,
+        "subtopic_id": 2982,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Factors determining price in the market"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the quantity supplied at the minimum price PM.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the quantity supplied at the minimum price on the diagram",
+          "State the value of the quantity supplied at the minimum price"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the quantity supplied at the minimum price PM — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The quantity supplied at the minimum price PM is Q3, as shown by the intersection of the Minimum Price line with the supply curve SS.",
+        "explanation": "To find the quantity supplied at the minimum price, locate where the horizontal line at PM intersects the supply curve SS on the diagram.",
+        "exam_question_id": "88898c81-da32-4be2-8d49-74f749bf7d64:1",
+        "topic_label": "Price mechanism",
+        "topic_id": 718,
+        "image_url": "/textbook-images/textbook-bank/63/p226-f0.png",
+        "image_alt": "A supply and demand graph with Price on the vertical axis and Quantity on the horizontal axis. The downward-sloping demand curve DD and upward-sloping supply curve SS cross at equilibrium point E, with equilibrium price PE and equilibrium quantity QE. A horizontal line labelled Minimum Price sits at PM, above PE. It meets the demand curve above QO1 and the supply curve above Q3. A double-headed arrow labelled Excess supply spans the gap between QO1 and Q3.\nLabels: Price, S, D, Excess supply, Minimum, Price, PM, E, PE, S, D, 0, QO1, QE, Q3, Quantity\nOriginal exercise: OPE is the equilibrium pri",
+        "checked": true,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Price mechanism"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows three different demand curves D2, D1, and D3, where the price is on the vertical axis and the quantity is on the horizontal axis. A dashed horizontal line from P1 crosses all three curves, and dashed vertical lines drop to Q2 (on D2), Q1 (on D1), and Q3 (on D3). The arrows indicate changes in demand. At price OP1, the quantity demanded is OQ1. The price remains constant, but the quantity demanded either decreases to OQ2 and the demand curve also shifts to D2, or it increases to OQ3 and the demand curve shifts to D3.",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain what the shift from D1 to D2 represents in terms of demand.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the shift from D1 to D2",
+          "Explain the concept of decrease in demand",
+          "Relate the shift to the change in quantity demanded at price P1"
+        ],
+        "hints": [
+          "Stay focused on this: Explain what the shift from D1 to D2 represents in terms of demand — develop the idea fully rather than listing short points. Make sure you also cover: Relate the shift to the change in at P1."
+        ],
+        "model_answer": "The shift from D1 to D2 represents a decrease in demand. When the demand curve shifts to the left from D1 to D2, it means that at the price level P1, the quantity demanded has decreased from OQ1 to OQ2. This shift indicates that fewer units of the good are demanded at every price level, suggesting factors other than price have reduced consumers' willingness or ability to purchase the good.",
+        "explanation": "When the demand curve shifts to the left, it shows a decrease in demand. This means that at the same price, consumers are willing to buy less of the good. The shift from D1 to D2 indicates that the quantity demanded at price P1 has decreased from OQ1 to OQ2.",
+        "exam_question_id": "ab5445d0-2eb6-44fa-a6b0-48239cb9ac80:1",
+        "topic_label": "Abnormal demand curves",
+        "topic_id": 713,
+        "image_url": "/textbook-images/textbook-bank/63/p113-f0.png",
+        "image_alt": "A graph with Price on the vertical axis and Quantity on the horizontal axis, with origin O. Three parallel downward-sloping demand curves are drawn: D2 on the left, D1 in the middle and D3 on the right. A dashed horizontal line from P1 crosses all three curves, and dashed vertical lines drop to Q2 (on D2), Q1 (on D1) and Q3 (on D3). An arrow from D1 towards D2 is labelled 'Decrease in demand', and an arrow from D1 towards D3 is labelled 'Increase in demand'. Arrows along the quantity axis point from Q1 towards Q2 and from Q1 towards Q3.\nLabels: Price, D2, D1, D3, Decrease in demand, Increase i",
+        "subtopic_id": 2993,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Abnormal demand curves"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The diagram shows three different demand curves D2, D1, and D3, where the price is on the vertical axis and the quantity is on the horizontal axis. A dashed horizontal line from P1 crosses all three curves, and dashed vertical lines drop to Q2 (on D2), Q1 (on D1), and Q3 (on D3). The arrows indicate changes in demand. At price OP1, the quantity demanded is OQ1. The price remains constant, but the quantity demanded either decreases to OQ2 and the demand curve also shifts to D2, or it increases to OQ3 and the demand curve shifts to D3.",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe what the shift from D1 to D3 represents in terms of demand.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the shift from D1 to D3",
+          "Explain the concept of increase in demand",
+          "Relate the shift to the change in quantity demanded at price P1"
+        ],
+        "hints": [
+          "Stay focused on this: Describe what the shift from D1 to D3 represents in terms of demand — develop the idea fully rather than listing short points. Make sure you also cover: Relate the shift to the change in at P1."
+        ],
+        "model_answer": "The shift from D1 to D3 represents an increase in demand. When the demand curve shifts to the right from D1 to D3, it means that at the price level P1, the quantity demanded has increased from OQ1 to OQ3. This shift indicates that more units of the good are demanded at every price level, suggesting factors other than price have increased consumers' willingness or ability to purchase the good.",
+        "explanation": "When the demand curve shifts to the right, it shows an increase in demand. This means that at the same price, consumers are willing to buy more of the good. The shift from D1 to D3 indicates that the quantity demanded at price P1 has increased from OQ1 to OQ3.",
+        "exam_question_id": "ab5445d0-2eb6-44fa-a6b0-48239cb9ac80:1",
+        "topic_label": "Abnormal demand curves",
+        "topic_id": 713,
+        "image_url": "/textbook-images/textbook-bank/63/p113-f0.png",
+        "image_alt": "A graph with Price on the vertical axis and Quantity on the horizontal axis, with origin O. Three parallel downward-sloping demand curves are drawn: D2 on the left, D1 in the middle and D3 on the right. A dashed horizontal line from P1 crosses all three curves, and dashed vertical lines drop to Q2 (on D2), Q1 (on D1) and Q3 (on D3). An arrow from D1 towards D2 is labelled 'Decrease in demand', and an arrow from D1 towards D3 is labelled 'Increase in demand'. Arrows along the quantity axis point from Q1 towards Q2 and from Q1 towards Q3.\nLabels: Price, D2, D1, D3, Decrease in demand, Increase i",
+        "subtopic_id": 2993,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Abnormal demand curves"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the diagram showing the relationship between price and quantity demanded. The left pair of arrows indicates a rise in price, while the right pair indicates a fall in price.",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain the relationship between price and quantity demanded as shown in the diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the inverse relationship between price and quantity demanded",
+          "Mention of the law of demand",
+          "Correct use of the diagram to support the explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the relationship between price and quantity demanded as shown in the diagram — develop the idea fully rather than listing short points. Make sure you also cover: Mention of the law of; Correct use of the diagram to support the explanation."
+        ],
+        "model_answer": "The diagram shows that as the price increases (light blue arrow pointing up), the quantity demanded decreases (grey arrow pointing down). Conversely, as the price decreases (light blue arrow pointing down), the quantity demanded increases (grey arrow pointing up). This is consistent with the law of demand, which states that there is an inverse relationship between price and quantity demanded.",
+        "explanation": "Your explanation should mention the inverse relationship between price and quantity demanded, refer to the law of demand, and correctly use the diagram to support your explanation.",
+        "exam_question_id": "9491a089-0c4c-4392-bb21-6e693f88a4e6:1",
+        "topic_label": "Change in quantity demanded",
+        "topic_id": 713,
+        "image_url": "/textbook-images/textbook-bank/63/p98-f0.png",
+        "image_alt": "Four vertical block arrows in two pairs. In the left pair, a light blue arrow labelled PRICE points up, and next to it a grey arrow labelled QUANTITY DEMANDED points down. In the right pair, a light blue arrow labelled PRICE points down, and next to it a grey arrow labelled QUANTITY DEMANDED points up.\nLabels: PRICE, QUANTITY DEMANDED, PRICE, QUANTITY DEMANDED\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 2995,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Change in quantity demanded"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the diagram showing the relationship between price and quantity demanded. The left pair of arrows indicates a rise in price, while the right pair indicates a fall in price.",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the change in quantity demanded if the price increases from $3 to $5, assuming the demand function is Qd = 10 - 2P.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct application of the demand function",
+          "Calculation of the initial quantity demanded at $3",
+          "Calculation of the new quantity demanded at $5",
+          "Correct calculation of the change in quantity demanded"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the change in quantity demanded if the price increases from $3 to $5, assuming the demand function is Qd = 10 - 2P — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the demand function."
+        ],
+        "model_answer": "Initial quantity demanded at $3: Qd = 10 - 2*3 = 4. New quantity demanded at $5: Qd = 10 - 2*5 = 0. Change in quantity demanded: 0 - 4 = -4.",
+        "explanation": "Apply the demand function to find the initial quantity demanded at $3 and the new quantity demanded at $5. Subtract the initial quantity demanded from the new quantity demanded to find the change in quantity demanded.",
+        "exam_question_id": "9491a089-0c4c-4392-bb21-6e693f88a4e6:1",
+        "topic_label": "Change in quantity demanded",
+        "topic_id": 713,
+        "image_url": "/textbook-images/textbook-bank/63/p98-f0.png",
+        "image_alt": "Four vertical block arrows in two pairs. In the left pair, a light blue arrow labelled PRICE points up, and next to it a grey arrow labelled QUANTITY DEMANDED points down. In the right pair, a light blue arrow labelled PRICE points down, and next to it a grey arrow labelled QUANTITY DEMANDED points up.\nLabels: PRICE, QUANTITY DEMANDED, PRICE, QUANTITY DEMANDED\nOriginal exercise:",
+        "checked": true,
+        "subtopic_id": 2995,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Change in quantity demanded"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following price data for a product in the local market over the last five weeks. Prices are given in dollars.\n\nWeek 1: $10\nWeek 2: $12\nWeek 3: $11\nWeek 4: $13\nWeek 5: $10",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the average price of the product over the five weeks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the sum of prices",
+          "Correct division by the number of weeks",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Sum the prices for all five weeks and then divide by 5."
+        ],
+        "model_answer": "The sum of the prices is $10 + $12 + $11 + $13 + $10 = $56. The average price is $56 / 5 = $11.20.",
+        "explanation": "To find the average price, add up all the weekly prices and divide by the number of weeks.",
+        "exam_question_id": "391c0990-95ac-4baa-9316-5b3063f5c0e0:1",
+        "topic_label": "Factors determining price in the market",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2982,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Factors determining price in the market"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following price data for a product in the local market over the last five weeks. Prices are given in dollars.\n\nWeek 1: $10\nWeek 2: $12\nWeek 3: $11\nWeek 4: $13\nWeek 5: $10",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the price of the product fluctuated over the five weeks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of factors affecting price",
+          "Logical explanation based on the data",
+          "Clarity of explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the price of the product fluctuated over the five weeks — develop the idea fully rather than listing short points. Make sure you also cover: Identification of factors affecting price; Logical explanation based on the data; Clarity of explanation."
+        ],
+        "model_answer": "The price fluctuations could be due to changes in supply and demand, seasonal effects, or increased competition from other sellers. For example, a rise in demand during certain weeks might have pushed prices up, while an increase in supply could have led to price drops.",
+        "explanation": "To explain price fluctuations, consider various economic factors that could influence market prices over time.",
+        "exam_question_id": "391c0990-95ac-4baa-9316-5b3063f5c0e0:1",
+        "topic_label": "Price fluctuations",
+        "topic_id": 718,
+        "checked": true,
+        "subtopic_id": 3021,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Price fluctuations"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The following table shows the quantity demanded and supplied of a product at different price levels.\n\n| Price (USD) | Quantity Demanded | Quantity Supplied |\n|------------|-------------------|-------------------|\n| 8          | 1000              | 600               |\n| 10         | 800               | 800               |\n| 12         | 600               | 1000              |\n| 14         | 400               | 1200              |\n| 16         | 200               | 1400              |",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "At which price level is the market in equilibrium?",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of equilibrium price",
+          "Explanation based on quantity demanded and supplied",
+          "Clarity of conclusion"
+        ],
+        "hints": [
+          "Stay focused on this: At which price level is the market in equilibrium — develop the idea fully rather than listing short points. Make sure you also cover: Explanation based on and; Clarity of conclusion."
+        ],
+        "model_answer": "The market is in equilibrium at $10 because at this price, the quantity demanded (800) equals the quantity supplied (800).",
+        "explanation": "Market equilibrium occurs when the quantity demanded by consumers equals the quantity supplied by producers.",
+        "exam_question_id": "391c0990-95ac-4baa-9316-5b3063f5c0e0:2",
+        "topic_label": "Change in quantity demanded",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2995,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Change in quantity demanded"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The following table shows the quantity demanded and supplied of a product at different price levels.\n\n| Price (USD) | Quantity Demanded | Quantity Supplied |\n|------------|-------------------|-------------------|\n| 8          | 1000              | 600               |\n| 10         | 800               | 800               |\n| 12         | 600               | 1000              |\n| 14         | 400               | 1200              |\n| 16         | 200               | 1400              |",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "If the price is set at $14, describe the market condition and what is likely to happen to the price in the future.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of market condition (excess supply or demand)",
+          "Explanation of price adjustment process",
+          "Clarity of prediction"
+        ],
+        "hints": [
+          "Consider the relationship between quantity demanded and quantity supplied at $14."
+        ],
+        "model_answer": "At $14, there is an excess supply of 800 units (1200 supplied - 400 demanded). This surplus will likely cause the price to decrease in the future as suppliers reduce prices to sell the excess stock.",
+        "explanation": "When there is an excess supply, prices tend to fall until a new equilibrium is reached where quantity demanded equals quantity supplied.",
+        "exam_question_id": "391c0990-95ac-4baa-9316-5b3063f5c0e0:2",
+        "topic_label": "Change in quantity demanded",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2995,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Change in quantity demanded"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A city has implemented a new policy to set a minimum wage for workers in the retail sector at $15 per hour. The following table shows the impact on employment levels in the sector over the past year.\n\n| Month       | Employment Level |\n|-------------|------------------|\n| January     | 5000            |\n| February    | 4800            |\n| March       | 4700            |\n| April       | 4600            |\n| May         | 4500            |\n| June        | 4400            |\n| July        | 4300            |\n| August      | 4200            |\n| September   | 4100            |\n| October     | 4000            |\n| November    | 3900            |\n| December    | 3800            |",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total change in employment levels from January to December.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct subtraction of December's employment level from January's",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The total change in employment levels is 5000 - 3800 = 1200 jobs lost.",
+        "explanation": "To find the total change, subtract the final employment level from the initial employment level.",
+        "exam_question_id": "391c0990-95ac-4baa-9316-5b3063f5c0e0:3",
+        "topic_label": "Price mechanism (Price mechanism)",
+        "topic_id": 718,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Price mechanism (Price mechanism)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A city has implemented a new policy to set a minimum wage for workers in the retail sector at $15 per hour. The following table shows the impact on employment levels in the sector over the past year.\n\n| Month       | Employment Level |\n|-------------|------------------|\n| January     | 5000            |\n| February    | 4800            |\n| March       | 4700            |\n| April       | 4600            |\n| May         | 4500            |\n| June        | 4400            |\n| July        | 4300            |\n| August      | 4200            |\n| September   | 4100            |\n| October     | 4000            |\n| November    | 3900            |\n| December    | 3800            |",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain the possible reasons for the decrease in employment levels after the implementation of the minimum wage policy.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of possible economic reasons",
+          "Logical explanation based on the data",
+          "Clarity of explanation"
+        ],
+        "hints": [
+          "Consider the impact of higher wages on business costs and hiring decisions."
+        ],
+        "model_answer": "The decrease in employment levels could be due to higher labor costs for businesses, which might lead them to hire fewer workers or reduce working hours. Some businesses might also automate jobs or cut costs in other areas to manage the increased wage expenses.",
+        "explanation": "Higher minimum wages can increase business costs, potentially leading to reduced hiring or other cost-saving measures.",
+        "exam_question_id": "391c0990-95ac-4baa-9316-5b3063f5c0e0:3",
+        "topic_label": "Price mechanism (Price mechanism)",
+        "topic_id": 718,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Price mechanism (Price mechanism)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following price data for a product in the local market over the last five weeks. Prices are given in dollars.\nWeek 1: $8\nWeek 2: $10\nWeek 3: $9\nWeek 4: $11\nWeek 5: $10",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the average price of the product over the five weeks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the sum of prices",
+          "Correct division by the number of weeks",
+          "Correct final average value"
+        ],
+        "hints": [
+          "Sum the prices for all five weeks and divide by 5."
+        ],
+        "model_answer": "The average price is calculated as follows:\nSum of prices: $8 + $10 + $9 + $11 + $10 = $48\nAverage price: $48 / 5 = $9.60",
+        "explanation": "To find the average price, add up all the weekly prices and then divide by the number of weeks.",
+        "exam_question_id": "2cb21624-11a1-4606-a932-77b3ac0528aa:1",
+        "topic_label": "Factors determining price in the market",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2982,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Factors determining price in the market"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the following price data for a product in the local market over the last five weeks. Prices are given in dollars.\nWeek 1: $8\nWeek 2: $10\nWeek 3: $9\nWeek 4: $11\nWeek 5: $10",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the price of the product fluctuated over the five weeks.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of possible factors affecting price",
+          "Clear and logical explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the price of the product fluctuated over the five weeks — develop the idea fully rather than listing short points. Make sure you also cover: Identification of possible factors affecting price; Clear and logical explanation."
+        ],
+        "model_answer": "The price of the product fluctuated due to changes in supply and demand, market competition, or seasonal changes. For example, an increase in demand or a decrease in supply can lead to higher prices, while an increase in supply or a decrease in demand can lead to lower prices.",
+        "explanation": "Explain the factors that could cause the price to change over time, considering economic principles.",
+        "exam_question_id": "2cb21624-11a1-4606-a932-77b3ac0528aa:1",
+        "topic_label": "Factors determining price in the market",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2982,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Factors determining price in the market"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The following table shows the quantity demanded and supplied of a product at different price levels.\nPrice (Dollars) | Quantity Demanded | Quantity Supplied\n$12 | 100 | 50\n$14 | 80 | 70\n$16 | 60 | 90\n$18 | 40 | 110\n$20 | 20 | 130",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "At which price level is the market in equilibrium?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of equilibrium condition",
+          "Correct price level where quantity demanded equals quantity supplied"
+        ],
+        "hints": [
+          "Stay focused on this: At which price level is the market in equilibrium — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of equilibrium condition; Correct price level where equals."
+        ],
+        "model_answer": "The market is in equilibrium at a price of $16. At this price, the quantity demanded (60) is equal to the quantity supplied (90).",
+        "explanation": "Market equilibrium occurs when the quantity demanded by consumers equals the quantity supplied by producers.",
+        "exam_question_id": "2cb21624-11a1-4606-a932-77b3ac0528aa:2",
+        "topic_label": "Change in quantity demanded",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2995,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Change in quantity demanded"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "The following table shows the quantity demanded and supplied of a product at different price levels.\nPrice (Dollars) | Quantity Demanded | Quantity Supplied\n$12 | 100 | 50\n$14 | 80 | 70\n$16 | 60 | 90\n$18 | 40 | 110\n$20 | 20 | 130",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "If the price is set at $14, describe the market condition and what is likely to happen to the price.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of market condition (surplus or shortage)",
+          "Correct explanation of the likely price change"
+        ],
+        "hints": [
+          "Stay focused on this: If the price is set at $14, describe the market condition and what is likely to happen to the price — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of market condition or shortage); Correct explanation of the likely price change."
+        ],
+        "model_answer": "At a price of $14, there is a surplus of 10 units (quantity demanded is 80, and quantity supplied is 70). This surplus will likely cause the price to fall in the market.",
+        "explanation": "A surplus occurs when the quantity supplied exceeds the quantity demanded at a given price, leading to downward pressure on the price.",
+        "exam_question_id": "2cb21624-11a1-4606-a932-77b3ac0528aa:2",
+        "topic_label": "Change in quantity demanded",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2995,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Change in quantity demanded"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A city has implemented a new policy to set a minimum wage for workers in the retail sector at $15 per hour. The following table shows the impact on employment levels in the sector over the past year.\nMonth | Employment Levels\nJanuary | 500\nApril | 480\nJuly | 470\nOctober | 450\nDecember | 440",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total change in employment levels from January to December.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct subtraction of initial and final employment levels",
+          "Correct final value"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total change in employment levels from January to December — develop the idea fully rather than listing short points. Make sure you also cover: Correct subtraction of initial and final employment levels; Correct final value."
+        ],
+        "model_answer": "The total change in employment levels from January to December is calculated as follows:\n500 (January) - 440 (December) = 60\nThe total change in employment levels is a decrease of 60.",
+        "explanation": "To find the total change in employment levels, subtract the final employment level from the initial employment level.",
+        "exam_question_id": "2cb21624-11a1-4606-a932-77b3ac0528aa:3",
+        "topic_label": "Price determination in the market (Theory of demand)",
+        "topic_id": 713,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Price determination in the market (Theory of demand)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A city has implemented a new policy to set a minimum wage for workers in the retail sector at $15 per hour. The following table shows the impact on employment levels in the sector over the past year.\nMonth | Employment Levels\nJanuary | 500\nApril | 480\nJuly | 470\nOctober | 450\nDecember | 440",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain the possible reasons for the decrease in employment levels after the implementation of the minimum wage policy.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of possible economic factors",
+          "Clear and logical explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the possible reasons for the decrease in employment levels after the implementation of the minimum wage policy — develop the idea fully rather than listing short points. Make sure you also cover: Identification of possible economic; Clear and logical explanation."
+        ],
+        "model_answer": "The decrease in employment levels could be due to several factors. Increased labor costs may reduce businesses' profitability, leading them to cut jobs. Additionally, if the minimum wage increase leads to higher prices for goods and services, consumer spending may decrease, reducing demand for retail products and leading to further job cuts.",
+        "explanation": "Explain the potential economic consequences of the new minimum wage policy on employment levels, considering various factors.",
+        "exam_question_id": "2cb21624-11a1-4606-a932-77b3ac0528aa:3",
+        "topic_label": "Price determination in the market (Theory of demand)",
+        "topic_id": 713,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Price determination in the market (Theory of demand)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the price and quantity of a product in a local market over the last five weeks. Prices are given in dollars.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the average price of the product over the five weeks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of total price",
+          "Correct division by number of weeks",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average price of the product over the five weeks — develop the idea fully rather than listing short points. Make sure you also cover: calculation of total price; final answer."
+        ],
+        "model_answer": "Correct working: (12 + 15 + 14 + 13 + 16) / 5 = 14 dollars. Explanation: Sum the weekly prices and divide by the number of weeks to find the average price.",
+        "explanation": "Calculate the average price by adding up all the weekly prices and dividing by the number of weeks.",
+        "exam_question_id": "3e691da9-06a8-4fd5-9769-245f4dcd9312:1",
+        "topic_label": "Factors determining price in the market",
+        "topic_id": 713,
+        "checked": true,
+        "subtopic_id": 2982,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Factors determining price in the market"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "The table below shows the price and quantity of a product in a local market over the last five weeks. Prices are given in dollars.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the price of the product fluctuated over the five weeks.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of factors affecting price",
+          "Logical explanation based on the data",
+          "Use of economic concepts"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the price of the product fluctuated over the five weeks — develop the idea fully rather than listing short points. Make sure you also cover: Identification of affecting price; Logical based on the data; of economic concepts."
+        ],
+        "model_answer": "Possible reasons could include changes in supply, demand, or external events such as weather conditions or changes in production costs. Explanation: Fluctuations in price are often due to changes in supply, demand, or external factors that affect the market.",
+        "explanation": "Explain the reasons for price fluctuations by considering economic factors such as supply, demand, and external events.",
+        "exam_question_id": "3e691da9-06a8-4fd5-9769-245f4dcd9312:1",
+        "topic_label": "Price fluctuations",
+        "topic_id": 718,
+        "checked": true,
+        "subtopic_id": 3021,
+        "source": {
+          "textbook": "Economics S4 SB",
+          "area": "Price fluctuations"
+        }
+      }
+    ],
+    "estimated_time": 54,
+    "assessment_id": "12a63bcc-0b09-45cc-8ef6-90c0a35349b1",
+    "subject": "Economics S4 SB",
+    "topics": [
+      "Theory of demand",
+      "Price mechanism"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 63,
+    "topic_ids": [
+      713,
+      718
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 8"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 68
+}

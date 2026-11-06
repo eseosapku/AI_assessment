@@ -1,0 +1,441 @@
+{
+  "seed": 3392178121,
+  "jobs": [
+    {
+      "label": "Cambridge / Exam / CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+      "exam": true,
+      "body": {
+        "subject": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+        "textbook_id": 42,
+        "topic_ids": [
+          4320
+        ],
+        "topics": [
+          "5 Multiplication and division"
+        ],
+        "curriculum": "cambridge",
+        "grade": 3,
+        "className": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / GENERAL EDU-Chemistry-S2-SB",
+      "exam": false,
+      "body": {
+        "subject": "GENERAL EDU-Chemistry-S2-SB",
+        "textbook_id": 94,
+        "topic_ids": [
+          974,
+          972
+        ],
+        "topics": [
+          "Categories of Chemical Reactions",
+          "Water Pollution"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / P2-English-PB",
+      "exam": false,
+      "body": {
+        "subject": "P2-English-PB",
+        "textbook_id": 146,
+        "topic_ids": [
+          1518,
+          1516
+        ],
+        "topics": [
+          "Weather",
+          "Stories and descriptions"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / ICT in Accounting S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "ICT in Accounting S4 SB",
+        "textbook_id": 116,
+        "topic_ids": [
+          1235
+        ],
+        "topics": [
+          "Microsoft Excel"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Practice / Geography S5 SB (1)",
+      "exam": false,
+      "body": {
+        "subject": "Geography S5 SB (1)",
+        "textbook_id": 110,
+        "topic_ids": [
+          1167
+        ],
+        "topics": [
+          "Internal Landform Processes"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Complete English for Cambridge Lower Secondary Student Book 8",
+      "exam": false,
+      "body": {
+        "subject": "Complete English for Cambridge Lower Secondary Student Book 8",
+        "textbook_id": 59,
+        "topic_ids": [
+          658
+        ],
+        "topics": [
+          "Unit 6: Monsters"
+        ],
+        "curriculum": "cambridge",
+        "grade": 8,
+        "className": "Complete English for Cambridge Lower Secondary Student Book 8",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          259,
+          258
+        ],
+        "topics": [
+          "Continuous random variables",
+          "Proof by induction"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+        "textbook_id": 27,
+        "topic_ids": [
+          374,
+          376
+        ],
+        "topics": [
+          "France, 1774–1814",
+          "Liberalism and nationalism in Germany, 1815–71"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Mathematics-S2-SB",
+      "exam": true,
+      "body": {
+        "subject": "Mathematics-S2-SB",
+        "textbook_id": 128,
+        "topic_ids": [
+          1344,
+          1345
+        ],
+        "topics": [
+          "Isometries",
+          "Statistics (Grouped Data)"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Primary Computing Learners Book Stage 2 ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Primary Computing Learners Book Stage 2 ",
+        "textbook_id": 37,
+        "topic_ids": [
+          460,
+          458
+        ],
+        "topics": [
+          "Term 3",
+          "Term 1"
+        ],
+        "curriculum": "cambridge",
+        "grade": 2,
+        "className": "Cambridge Primary Computing Learners Book Stage 2 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / GENERAL EDU-Literature in english-S5-SB",
+      "exam": true,
+      "body": {
+        "subject": "GENERAL EDU-Literature in english-S5-SB",
+        "textbook_id": 104,
+        "topic_ids": [
+          1085,
+          1083
+        ],
+        "topics": [
+          "Development of European Drama",
+          "Odes"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Computer Science S6 SB",
+      "exam": true,
+      "body": {
+        "subject": "Computer Science S6 SB",
+        "textbook_id": 61,
+        "topic_ids": [
+          682
+        ],
+        "topics": [
+          "SQL and Database Project"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+        "textbook_id": 194,
+        "topic_ids": [
+          3050
+        ],
+        "topics": [
+          "Chapter 7: The binomial distribution"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE English as First Language Course Book (2)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+        "textbook_id": 202,
+        "topic_ids": [
+          2710
+        ],
+        "topics": [
+          "Unit 3: Composition"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE English as First Language Course Book (2)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / ICT S4 Adapted SB 2022",
+      "exam": false,
+      "body": {
+        "subject": "ICT S4 Adapted SB 2022",
+        "textbook_id": 119,
+        "topic_ids": [
+          1277
+        ],
+        "topics": [
+          "Google sheets"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "textbook_id": 15,
+        "topic_ids": [
+          178,
+          176
+        ],
+        "topics": [
+          "Global Theme 2: Reducing Carbon Emissions",
+          "Global Theme 1: HIV/AIDS"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Mathematics Learners Book 7",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary Mathematics Learners Book 7",
+        "textbook_id": 32,
+        "topic_ids": [
+          410
+        ],
+        "topics": [
+          "6 Statistical investigations"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Mathematics Learners Book 7",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Practice / Sub Maths S6 SB Corrected",
+      "exam": false,
+      "body": {
+        "subject": "Sub Maths S6 SB Corrected",
+        "textbook_id": 186,
+        "topic_ids": [
+          1944
+        ],
+        "topics": [
+          "Complex Numbers"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE™ ICT Coursebook ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE™ ICT Coursebook ",
+        "textbook_id": 17,
+        "topic_ids": [
+          206
+        ],
+        "topics": [
+          "Types and components of computer systems"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ ICT Coursebook ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / P6 Mathematics PB (1)",
+      "exam": true,
+      "body": {
+        "subject": "P6 Mathematics PB (1)",
+        "textbook_id": 165,
+        "topic_ids": [
+          1723
+        ],
+        "topics": [
+          "Regular Polygons and Bearings"
+        ],
+        "curriculum": "rwanda",
+        "grade": 6,
+        "className": "P6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    }
+  ]
+}

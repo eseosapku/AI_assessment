@@ -3,6 +3,11 @@ import { describe, it, expect } from 'vitest'
 import { dropRepeatedSentences, stripPartLabels, dropRepeatedFigures, tidyPaper, dropRepeatedScenarios } from './paper-tidy'
 
 describe('a sentence the stem already said', () => {
+  it('never removes a repeated calculation demand and leaves only an assumption', () => {
+    const demand = 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride.'
+    const paper = Array.from({ length: 4 }, () => ({ question: `${demand} (Assume the molar mass is 78.5 g/mol.)` }))
+    expect(tidyPaper(paper).questions.every((q) => q.question.startsWith('Calculate the mass'))).toBe(true)
+  })
   it('removes the pasted-in repeat', () => {
     // Shipped verbatim on a Science paper.
     const stem = 'Look at the graph. During a lesson, Sam noticed that the graph shows a peak at a certain element. Look at the graph. Sam noticed that the graph shows a peak at a certain element. Write down the name of the element where the peak occurs.'

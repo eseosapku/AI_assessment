@@ -20,6 +20,15 @@ export function normaliseWrittenType(q: unknown): void {
   if (!q || typeof q !== 'object') return
   const o = q as Record<string, unknown>
   const type = String(o.type ?? '').toLowerCase().trim()
+  if (type === 'longform' || WRITTEN_ALIASES.has(type)) {
+    const flatten = (value: unknown): string => {
+      if (typeof value === 'string' || typeof value === 'number') return String(value)
+      if (Array.isArray(value)) return value.map(flatten).filter(Boolean).join('\n')
+      if (value && typeof value === 'object') return Object.values(value).map(flatten).filter(Boolean).join('\n\n')
+      return ''
+    }
+    if (o.model_answer && typeof o.model_answer === 'object') o.model_answer = flatten(o.model_answer)
+  }
   if (!WRITTEN_ALIASES.has(type)) return
   const keyed = Boolean(o.short_answer)
   const marked = Array.isArray(o.marking_criteria) && o.marking_criteria.length > 0

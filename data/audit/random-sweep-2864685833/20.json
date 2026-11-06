@@ -1,0 +1,32 @@
+{
+  "index": 20,
+  "label": "REB / Exam / P6 Mathematics PB (1)",
+  "request": {
+    "subject": "P6 Mathematics PB (1)",
+    "textbook_id": 165,
+    "topic_ids": [
+      1723,
+      1726
+    ],
+    "topics": [
+      "Regular Polygons and Bearings",
+      "Data Handling"
+    ],
+    "curriculum": "rwanda",
+    "grade": 6,
+    "className": "P6",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 2864685833,
+  "error": "Error: Failed to generate 10 complete questions. The AI produced 8. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 192,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 10 complete questions. The AI produced 8. Please try again."
+  },
+  "totalSeconds": 192
+}

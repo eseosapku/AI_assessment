@@ -1,0 +1,819 @@
+{
+  "index": 7,
+  "label": "REB / Exam / Economics S5 SB",
+  "request": {
+    "subject": "Economics S5 SB",
+    "textbook_id": 64,
+    "topic_ids": [
+      726,
+      733
+    ],
+    "topics": [
+      "Price Indices",
+      "Public Finance 2"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 118,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following table of price indices for various goods over a period of three years. All indices are based on the year 2020 with a base value of 100.",
+        "question": "Calculate the percentage change in the price index for 'Food' from 2020 to 2022.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of percentage change",
+          "Correct application of the formula",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Use the formula: ((New Value - Old Value) / Old Value) * 100."
+        ],
+        "model_answer": "In 2020, the price index for 'Food' is 100. In 2022, it is 112. Using the formula: ((112 - 100) / 100) * 100 = 12%.",
+        "explanation": "To find the percentage change in the price index for 'Food' from 2020 to 2022, subtract the 2020 index from the 2022 index, divide by the 2020 index, and multiply by 100.",
+        "exam_question_id": "8147732c-1163-4bd6-90f3-2e4cbe86aad7:1",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following table of price indices for various goods over a period of three years. All indices are based on the year 2020 with a base value of 100.",
+        "question": "Explain why the price index for 'Transport' increased from 2020 to 2021 but then decreased from 2021 to 2022.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of factors affecting price",
+          "Logical explanation of the trend",
+          "Correct conclusion based on data"
+        ],
+        "hints": [
+          "Consider external factors such as fuel prices, economic policies, or supply chain issues."
+        ],
+        "model_answer": "The price index for 'Transport' increased from 100 in 2020 to 110 in 2021, likely due to rising fuel prices or increased demand. However, it decreased to 108 in 2022, possibly due to stabilization of fuel prices or implementation of subsidies.",
+        "explanation": "To explain the trend, consider the factors that could cause fluctuations in transport costs, such as fuel prices, economic policies, or supply chain issues, and relate these to the changes in the price index.",
+        "exam_question_id": "8147732c-1163-4bd6-90f3-2e4cbe86aad7:1",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following data on the price of selected goods over two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Bread      | 1.50         | 1.60        |\n| Milk       | 2.00         | 2.10        |\n| Eggs       | 1.00         | 1.05        |\n| Coffee     | 3.50         | 3.70        |\n| Electricity| 0.15         | 0.16        |",
+        "question": "Calculate the Laspeyres Price Index for Year 2 using Year 1 as the base year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total expenditure on goods in Year 1.",
+          "Correctly calculate the total expenditure on goods in Year 2 using Year 1 weights.",
+          "Correctly apply the formula for the Laspeyres Price Index."
+        ],
+        "hints": [
+          "Use the formula: Laspeyres Index = (Sum of Year 2 prices * Year 1 quantity) / Sum of Year 1 prices * Year 1 quantity * 100."
+        ],
+        "model_answer": "Laspeyres Index = ((1.60 * 1) + (2.10 * 1) + (1.05 * 1) + (3.70 * 1) + (0.16 * 1)) / ((1.50 * 1) + (2.00 * 1) + (1.00 * 1) + (3.50 * 1) + (0.15 * 1)) * 100 = 104.67",
+        "explanation": "Calculate the total expenditure on goods in Year 2 using Year 1 quantities and the Year 2 prices, then divide by the total expenditure in Year 1 using Year 1 quantities and prices, and multiply by 100 to get the index.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:1",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following data on the price of selected goods over two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Bread      | 1.50         | 1.60        |\n| Milk       | 2.00         | 2.10        |\n| Eggs       | 1.00         | 1.05        |\n| Coffee     | 3.50         | 3.70        |\n| Electricity| 0.15         | 0.16        |",
+        "question": "Calculate the Paasche Price Index for Year 2 using Year 1 as the base year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total expenditure on goods in Year 2.",
+          "Correctly calculate the total expenditure on goods in Year 1 using Year 2 weights.",
+          "Correctly apply the formula for the Paasche Price Index."
+        ],
+        "hints": [
+          "Use the formula: Paasche Index = (Sum of Year 2 prices * Year 2 quantity) / Sum of Year 1 prices * Year 2 quantity * 100."
+        ],
+        "model_answer": "Paasche Index = ((1.60 * 1) + (2.10 * 1) + (1.05 * 1) + (3.70 * 1) + (0.16 * 1)) / ((1.50 * 1) + (2.00 * 1) + (1.00 * 1) + (3.50 * 1) + (0.15 * 1)) * 100 = 105.33",
+        "explanation": "Calculate the total expenditure on goods in Year 2 using Year 2 quantities and the Year 2 prices, then divide by the total expenditure in Year 1 using Year 2 quantities and prices, and multiply by 100 to get the index.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:1",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following data on the price of selected goods over two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Bread      | 1.50         | 1.60        |\n| Milk       | 2.00         | 2.10        |\n| Eggs       | 1.00         | 1.05        |\n| Coffee     | 3.50         | 3.70        |\n| Electricity| 0.15         | 0.16        |",
+        "question": "Explain why the Laspeyres and Paasche Price Indices might differ.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly explain the difference in the weights used in the indices.",
+          "Correctly explain the impact of changes in consumption patterns on the indices."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the Laspeyres and Paasche Price Indices might differ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly explain the difference in the used in the indices.; Correctly explain the impact of changes in on the indices."
+        ],
+        "model_answer": "The Laspeyres Price Index uses the quantities from the base year to weight the current year prices, while the Paasche Price Index uses the quantities from the current year. If consumption patterns change significantly between the two years, the indices may differ because they reflect different sets of weights and therefore different consumption patterns.",
+        "explanation": "The difference in the indices arises from the different weights used in each index. The Laspeyres Index uses the base year quantities, while the Paasche Index uses the current year quantities.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:1",
+        "topic_label": "Uses of price indices",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3071,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Uses of price indices"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In a region, the following data on the price of selected goods is provided for two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Rice       | 0.50         | 0.55        |\n| Fish       | 3.00         | 3.20        |\n| Oil        | 1.00         | 1.05        |\n| Clothes    | 20.00        | 21.00       |\n| Rent       | 500.00       | 525.00      |",
+        "question": "Calculate the Consumer Price Index (CPI) for Year 2 using Year 1 as the base year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total expenditure on goods in Year 1.",
+          "Correctly calculate the total expenditure on goods in Year 2 using Year 1 weights.",
+          "Correctly apply the formula for the Consumer Price Index."
+        ],
+        "hints": [
+          "Use the formula: CPI = (Sum of Year 2 prices * Year 1 quantity) / Sum of Year 1 prices * Year 1 quantity * 100."
+        ],
+        "model_answer": "CPI = ((0.55 * 1) + (3.20 * 1) + (1.05 * 1) + (21.00 * 1) + (525.00 * 1)) / ((0.50 * 1) + (3.00 * 1) + (1.00 * 1) + (20.00 * 1) + (500.00 * 1)) * 100 = 105.00",
+        "explanation": "Calculate the total expenditure on goods in Year 2 using Year 1 quantities and the Year 2 prices, then divide by the total expenditure in Year 1 using Year 1 quantities and prices, and multiply by 100 to get the index.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:2",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In a region, the following data on the price of selected goods is provided for two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Rice       | 0.50         | 0.55        |\n| Fish       | 3.00         | 3.20        |\n| Oil        | 1.00         | 1.05        |\n| Clothes    | 20.00        | 21.00       |\n| Rent       | 500.00       | 525.00      |",
+        "question": "Calculate the Fisher Price Index for Year 2 using Year 1 as the base year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the expenditure shares for both years.",
+          "Correctly calculate the Laspeyres and Paasche indices.",
+          "Correctly apply the formula for the Fisher Price Index."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the Fisher Price Index for Year 2 using Year 1 as the base year — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the expenditure shares for both years.; Correctly calculate the and indices.; Correctly apply the formula for the…."
+        ],
+        "model_answer": "Laspeyres Index = 105.00\nPaasche Index = 105.00\nFisher Index = sqrt(105.00 * 105.00) = 105.00",
+        "explanation": "Calculate the Laspeyres and Paasche indices, then use their geometric mean to find the Fisher Price Index.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:2",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In a region, the following data on the price of selected goods is provided for two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Rice       | 0.50         | 0.55        |\n| Fish       | 3.00         | 3.20        |\n| Oil        | 1.00         | 1.05        |\n| Clothes    | 20.00        | 21.00       |\n| Rent       | 500.00       | 525.00      |",
+        "question": "Explain the advantages and disadvantages of using the Fisher Price Index over the Laspeyres and Paasche Price Indices.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly describe the advantage of the Fisher Price Index.",
+          "Correctly describe the disadvantage of the Fisher Price Index."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the advantages and disadvantages of using the Fisher Price Index over the Laspeyres and Paasche Price Indices — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The Fisher Price Index is more accurate as it uses both current and base year quantities and prices, taking into account changes in consumption patterns. However, it is more complex to calculate compared to the Laspeyres and Paasche indices, which only use either base year or current year quantities.",
+        "explanation": "The Fisher Price Index combines the advantages of both the Laspeyres and Paasche indices by using a geometric mean, but at the cost of increased complexity.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:2",
+        "topic_label": "Procedure for computing cost of living index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3070,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Procedure for computing cost of living index"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The following data represents the price of goods in a country over two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Apples     | 0.75         | 0.80        |\n| Bananas    | 0.50         | 0.55        |\n| Oranges    | 1.00         | 1.05        |\n| Tomatoes   | 2.00         | 2.10        |\n| Potatoes   | 0.25         | 0.26        |",
+        "question": "Calculate the Simple Aggregate Price Index for Year 2 using Year 1 as the base year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total expenditure on goods in Year 1.",
+          "Correctly calculate the total expenditure on goods in Year 2 using Year 1 weights.",
+          "Correctly apply the formula for the Simple Aggregate Price Index."
+        ],
+        "hints": [
+          "Use the formula: Simple Aggregate Index = (Sum of Year 2 prices) / Sum of Year 1 prices * 100."
+        ],
+        "model_answer": "Simple Aggregate Index = ((0.80 * 1) + (0.55 * 1) + (1.05 * 1) + (2.10 * 1) + (0.26 * 1)) / ((0.75 * 1) + (0.50 * 1) + (1.00 * 1) + (2.00 * 1) + (0.25 * 1)) * 100 = 103.33",
+        "explanation": "Calculate the total expenditure on goods in Year 2 using Year 1 quantities and the Year 2 prices, then divide by the total expenditure in Year 1 using Year 1 quantities and prices, and multiply by 100 to get the index.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:3",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The following data represents the price of goods in a country over two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Apples     | 0.75         | 0.80        |\n| Bananas    | 0.50         | 0.55        |\n| Oranges    | 1.00         | 1.05        |\n| Tomatoes   | 2.00         | 2.10        |\n| Potatoes   | 0.25         | 0.26        |",
+        "question": "Calculate the Weighted Aggregate Price Index for Year 2 using Year 1 as the base year, where the weights are the proportions of the total expenditure in Year 1.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly calculate the total expenditure on goods in Year 1.",
+          "Correctly calculate the weights for each good based on Year 1 expenditure.",
+          "Correctly calculate the total expenditure on goods in Year 2 using Year 1 weights.",
+          "Correctly apply the formula for the Weighted Aggregate Price Index."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the Weighted Aggregate Price Index for Year 2 using Year 1 as the base year, where the weights are the proportions of the total expenditure in Year 1 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the weights for each good based…."
+        ],
+        "model_answer": "Total Expenditure in Year 1 = 0.75 + 0.50 + 1.00 + 2.00 + 0.25 = 4.50\nWeights:\nApples: 0.75 / 4.50 = 0.1667\nBananas: 0.50 / 4.50 = 0.1111\nOranges: 1.00 / 4.50 = 0.2222\nTomatoes: 2.00 / 4.50 = 0.4444\nPotatoes: 0.25 / 4.50 = 0.0556\n\nWeighted Aggregate Index = ((0.80 * 0.1667) + (0.55 * 0.1111) + (1.05 * 0.2222) + (2.10 * 0.4444) + (0.26 * 0.0556)) / ((0.75 * 0.1667) + (0.50 * 0.1111) + (1.00 * 0.2222) + (2.00 * 0.4444) + (0.25 * 0.0556)) * 100 = 103.33",
+        "explanation": "Calculate the weights for each good based on the total expenditure in Year 1, then use these weights to calculate the total expenditure in Year 2, and finally apply the formula to get the index.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:3",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The following data represents the price of goods in a country over two consecutive years:\n\n| Good       | Year 1 Price | Year 2 Price |\n|------------|--------------|--------------|\n| Apples     | 0.75         | 0.80        |\n| Bananas    | 0.50         | 0.55        |\n| Oranges    | 1.00         | 1.05        |\n| Tomatoes   | 2.00         | 2.10        |\n| Potatoes   | 0.25         | 0.26        |",
+        "question": "Explain why the Simple Aggregate Price Index and the Weighted Aggregate Price Index might differ.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly explain the difference in the weights used in the indices.",
+          "Correctly explain the impact of the weights on the overall index."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the Simple Aggregate Price Index and the Weighted Aggregate Price Index might differ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly explain the difference in the used in the indices.; Correctly explain the impact of the on the index."
+        ],
+        "model_answer": "The Simple Aggregate Price Index uses equal weights for all goods, while the Weighted Aggregate Price Index uses weights based on the proportion of total expenditure on each good in the base year. If the expenditure on goods varies significantly, the Weighted Aggregate Price Index will more accurately reflect the changes in the cost of living because it accounts for the different importance of each good in the overall expenditure.",
+        "explanation": "The difference in the indices arises from the different weights used in each index. The Simple Aggregate Index uses equal weights, while the Weighted Aggregate Index uses weights based on the base year expenditure.",
+        "exam_question_id": "314092af-a37a-47b4-af22-3de10a0e752f:3",
+        "topic_label": "Uses of price indices",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3071,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Uses of price indices"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following table of price indices for various goods over a period of three years. All indices are based on the year 2020 with a base value of 100.\n\n| Good          | 2020 | 2021 | 2022 |\n|---------------|------|------|------|\n| Food          | 100  | 105  | 110  |\n| Clothing      | 100  | 103  | 106  |\n| Transport     | 100  | 110  | 105  |\n| Utilities     | 100  | 102  | 103  |\n| Electronics   | 100  | 95   | 90   |",
+        "question": "Calculate the percentage change in the price index for 'Food' from 2020 to 2022.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the price indices for 'Food' in 2020 and 2022.",
+          "Apply the percentage change formula correctly.",
+          "Provide the final percentage change with appropriate rounding."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage change in the price index for 'Food' from 2020 to 2022 — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final percentage change with appropriate rounding."
+        ],
+        "model_answer": "The price index for 'Food' in 2020 is 100 and in 2022 is 110. Using the formula: Percentage Change = ((110 - 100) / 100) * 100 = 10%.",
+        "explanation": "Use the given price indices for 'Food' in 2020 and 2022, apply the percentage change formula, and ensure the final answer is rounded correctly.",
+        "exam_question_id": "468fb671-10f2-49e6-b671-b4410dc86692:1",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following table of price indices for various goods over a period of three years. All indices are based on the year 2020 with a base value of 100.\n\n| Good          | 2020 | 2021 | 2022 |\n|---------------|------|------|------|\n| Food          | 100  | 105  | 110  |\n| Clothing      | 100  | 103  | 106  |\n| Transport     | 100  | 110  | 105  |\n| Utilities     | 100  | 102  | 103  |\n| Electronics   | 100  | 95   | 90   |",
+        "question": "Explain why the price index for 'Transport' increased from 2020 to 2021 but then decreased from 2021 to 2022.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the price indices for 'Transport' in 2020, 2021, and 2022.",
+          "Provide a plausible explanation for the increase from 2020 to 2021.",
+          "Provide a plausible explanation for the decrease from 2021 to 2022."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The price index for 'Transport' increased from 100 in 2020 to 110 in 2021, likely due to rising fuel prices and increased demand. It then decreased to 105 in 2022, possibly due to reduced fuel prices and decreased demand or improved efficiency.",
+        "explanation": "Analyse the given data and consider economic factors that could explain the changes in the price index for 'Transport' over the years.",
+        "exam_question_id": "468fb671-10f2-49e6-b671-b4410dc86692:1",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "checked": true,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following data on government expenditure for Country Y over the past five years. All values are in billions of Country Y Dollars (CYD).",
+        "question": "Calculate the total government expenditure for Country Y in 2023.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of total expenditure.",
+          "Summation of all expenditure categories.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Add up all the expenditure values for 2023."
+        ],
+        "model_answer": "Expenditure on Education: 50\nExpenditure on Health: 40\nExpenditure on Infrastructure: 30\nExpenditure on Defense: 20\nExpenditure on Social Welfare: 10\nTotal Expenditure = 50 + 40 + 30 + 20 + 10 = 150 billion CYD.",
+        "explanation": "Add all the values of government expenditure for the year 2023 to find the total.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:1",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following data on government expenditure for Country Y over the past five years. All values are in billions of Country Y Dollars (CYD).",
+        "question": "Explain why the government expenditure on Health increased from 2019 to 2020 but decreased from 2020 to 2021.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of possible reasons for the increase.",
+          "Identification of possible reasons for the decrease.",
+          "Logical explanation with reasonable assumptions."
+        ],
+        "hints": [
+          "Consider possible external factors that could have influenced the expenditure."
+        ],
+        "model_answer": "Possible reasons for the increase (2019 to 2020): Outbreak of a pandemic, increased need for healthcare services. Possible reasons for the decrease (2020 to 2021): Gradual control of the pandemic, reallocation of budget to other sectors.",
+        "explanation": "Provide a logical explanation based on possible economic or political events.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:1",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following data on government expenditure for Country Y over the past five years. All values are in billions of Country Y Dollars (CYD).",
+        "question": "Describe a potential consequence of the government's decision to increase spending on Education from 2019 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of a potential positive consequence.",
+          "Logical explanation of the consequence."
+        ],
+        "hints": [
+          "Think about the impact on the education sector and the economy."
+        ],
+        "model_answer": "Potential positive consequence: Improved quality of education, better-trained workforce, long-term economic growth. Logical explanation: Increased spending on education leads to better-educated citizens, which can contribute to economic growth and development.",
+        "explanation": "Explain how increased education spending can benefit the economy in the long run.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:1",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The following data shows the budget allocation for different sectors by the government of Country Z over the last five years. All values are in billions of Country Z Dollars (CZD).",
+        "question": "Calculate the total budget allocation for the year 2024.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of total budget allocation.",
+          "Summation of all budget allocations.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total budget allocation for the year 2024 — develop the idea fully rather than listing short points. Make sure you also cover: Summation of all budget allocations.; Correct final answer."
+        ],
+        "model_answer": "Budget for Education: 60\nBudget for Health: 50\nBudget for Infrastructure: 40\nBudget for Defense: 30\nBudget for Social Welfare: 20\nTotal Budget Allocation = 60 + 50 + 40 + 30 + 20 = 200 billion CZD.",
+        "explanation": "Add all the values of budget allocation for the year 2024 to find the total.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:2",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The following data shows the budget allocation for different sectors by the government of Country Z over the last five years. All values are in billions of Country Z Dollars (CZD).",
+        "question": "Explain why the budget allocation for Defence decreased from 2020 to 2021.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of possible reasons for the decrease.",
+          "Logical explanation with reasonable assumptions."
+        ],
+        "hints": [
+          "Consider possible political or economic factors that could have influenced the budget allocation."
+        ],
+        "model_answer": "Possible reasons for the decrease: Reduction in external threats, reallocation of funds to other sectors, economic downturn. Logical explanation: A decrease in external threats might lead the government to reduce defense spending. Additionally, an economic downturn might force the government to cut costs in various sectors, including defense.",
+        "explanation": "Provide a logical explanation based on possible political or economic events.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:2",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The following data shows the budget allocation for different sectors by the government of Country Z over the last five years. All values are in billions of Country Z Dollars (CZD).",
+        "question": "Describe a potential consequence of the government's decision to increase spending on Social Welfare from 2019 to 2020.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of a potential positive consequence.",
+          "Logical explanation of the consequence."
+        ],
+        "hints": [
+          "Think about the impact on the social welfare sector and the economy."
+        ],
+        "model_answer": "Potential positive consequence: Improved living standards for the poor, reduced poverty levels, increased social stability. Logical explanation: Increased spending on social welfare can help lift people out of poverty, improve their living standards, and contribute to a more stable society.",
+        "explanation": "Explain how increased social welfare spending can benefit the economy and society.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:2",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The following data shows the budget allocation for different sectors by the government of Country A over the last five years. All values are in billions of Country A Dollars (CAD).",
+        "question": "Calculate the total budget allocation for the year 2025.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of total budget allocation.",
+          "Summation of all budget allocations.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total budget allocation for the year 2025 — develop the idea fully rather than listing short points. Make sure you also cover: Summation of all budget allocations.; Correct final answer."
+        ],
+        "model_answer": "Budget for Education: 70\nBudget for Health: 60\nBudget for Infrastructure: 50\nBudget for Defense: 40\nBudget for Social Welfare: 30\nTotal Budget Allocation = 70 + 60 + 50 + 40 + 30 = 250 billion CAD.",
+        "explanation": "Add all the values of budget allocation for the year 2025 to find the total.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:3",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The following data shows the budget allocation for different sectors by the government of Country A over the last five years. All values are in billions of Country A Dollars (CAD).",
+        "question": "Explain why the budget allocation for Health increased from 2021 to 2022.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of possible reasons for the increase.",
+          "Logical explanation with reasonable assumptions."
+        ],
+        "hints": [
+          "Consider possible external factors that could have influenced the budget allocation."
+        ],
+        "model_answer": "Possible reasons for the increase: Outbreak of a new disease, increased need for healthcare services, government's focus on public health. Logical explanation: An outbreak of a new disease or an increased need for healthcare services might lead the government to allocate more funds to the health sector. Additionally, a government focus on public health could also result in increased health spending.",
+        "explanation": "Provide a logical explanation based on possible economic or political events.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:3",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The following data shows the budget allocation for different sectors by the government of Country A over the last five years. All values are in billions of Country A Dollars (CAD).",
+        "question": "Describe a potential consequence of the government's decision to increase spending on Infrastructure from 2020 to 2021.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of a potential positive consequence.",
+          "Logical explanation of the consequence."
+        ],
+        "hints": [
+          "Think about the impact on the infrastructure sector and the economy."
+        ],
+        "model_answer": "Potential positive consequence: Improved transportation networks, better public services, long-term economic growth. Logical explanation: Increased spending on infrastructure can lead to better transportation networks, improved public services, and long-term economic growth.",
+        "explanation": "Explain how increased infrastructure spending can benefit the economy and society.",
+        "exam_question_id": "7b603fd6-0585-4781-97ae-767775915f1f:3",
+        "topic_label": "Forms of fiscal policy (Public Finance 2)",
+        "topic_id": 733,
+        "checked": true,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Forms of fiscal policy (Public Finance 2)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The government of Country A has implemented a new fiscal policy to stimulate economic growth. The policy includes a reduction in income tax rates and an increase in government spending on infrastructure. The following table shows the changes in government revenue and expenditure over the last two fiscal years.",
+        "question": "Calculate the net fiscal impact of the policy on the national budget in Country A.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the values for government revenue and expenditure in both fiscal years.",
+          "Accurately calculate the change in government revenue and expenditure.",
+          "Correctly compute the net fiscal impact."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the net fiscal impact of the policy on the national budget in Country A — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the values for government and in both fiscal years.; Accurately calculate the change in government and."
+        ],
+        "model_answer": "Net fiscal impact = (Expenditure FY2 - Expenditure FY1) - (Revenue FY2 - Revenue FY1)\nNet fiscal impact = (80 - 70) - (60 - 55) = 10 - 5 = 5 (in billion CXD)",
+        "explanation": "Calculate the difference in government expenditure and revenue between the two fiscal years to find the net fiscal impact.",
+        "exam_question_id": "c6abc925-b88a-4d34-9a83-46e3758e9955:1",
+        "topic_label": "Fiscal policy",
+        "topic_id": 733,
+        "subtopic_id": 3159,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Fiscal policy"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The government of Country A has implemented a new fiscal policy to stimulate economic growth. The policy includes a reduction in income tax rates and an increase in government spending on infrastructure. The following table shows the changes in government revenue and expenditure over the last two fiscal years.",
+        "question": "Explain why a reduction in income tax rates might lead to an increase in government spending on infrastructure.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the relationship between income tax rates and disposable income.",
+          "Explain how increased disposable income can lead to increased government spending on infrastructure."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why a reduction in income tax rates might lead to an increase in government spending on infrastructure — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "A reduction in income tax rates increases disposable income for households, leading to higher consumption and investment. This increased demand can stimulate economic growth, providing the government with more tax revenue. The government can then use this additional revenue to fund infrastructure projects.",
+        "explanation": "Explain how lower income tax rates can lead to higher disposable income, increased consumption and investment, and ultimately more government revenue for infrastructure spending.",
+        "exam_question_id": "c6abc925-b88a-4d34-9a83-46e3758e9955:1",
+        "topic_label": "Fiscal policy",
+        "topic_id": 733,
+        "subtopic_id": 3159,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Fiscal policy"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The government of Country A has implemented a new fiscal policy to stimulate economic growth. The policy includes a reduction in income tax rates and an increase in government spending on infrastructure. The following table shows the changes in government revenue and expenditure over the last two fiscal years.",
+        "question": "Describe a potential negative consequence of increasing government spending on infrastructure.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a potential negative consequence of increased government spending.",
+          "Explain the consequence in the context of fiscal policy."
+        ],
+        "hints": [
+          "Stay focused on this: Describe a potential negative consequence of increasing government spending on infrastructure — develop the idea fully rather than listing short points. Make sure you also cover: the consequence in the context of fiscal policy."
+        ],
+        "model_answer": "A potential negative consequence of increasing government spending on infrastructure is an increase in the national debt. If the government finances this spending through borrowing, it can lead to higher interest payments in the future, potentially crowding out private investment and limiting the government's ability to fund other essential services.",
+        "explanation": "Describe how increased government spending on infrastructure can lead to higher national debt and the potential negative consequences of this.",
+        "exam_question_id": "c6abc925-b88a-4d34-9a83-46e3758e9955:1",
+        "topic_label": "Fiscal policy",
+        "topic_id": 733,
+        "subtopic_id": 3159,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Fiscal policy"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following data on the price of selected goods over two consecutive years: \n\n| Good | Year 1 Price | Year 2 Price |\n|------|-------------|--------------|\n| A    | 10          | 12          |\n| B    | 20          | 22          |\n| C    | 30          | 28          |\n\nCalculate the Laspeyres Price Index for Year 2 using Year 1 as the base year.",
+        "question": "Calculate the Laspeyres Price Index for Year 2 using Year 1 as the base year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the prices for each good in both years.",
+          "Accurately calculate the price ratio for each good.",
+          "Correctly sum the price ratios and divide by the number of goods to find the Laspeyres Price Index."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the Laspeyres Price Index for Year 2 using Year 1 as the base year — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the prices for each good in both years.; Accurately calculate the price ratio for each good."
+        ],
+        "model_answer": "Laspeyres Price Index = ((12/10 * 1) + (22/20 * 1) + (28/30 * 1)) / 3\nLaspeyres Price Index = (1.2 + 1.1 + 0.9333) / 3\nLaspeyres Price Index = 1.0778",
+        "explanation": "Calculate the price ratio for each good, sum them, and divide by the number of goods to find the Laspeyres Price Index.",
+        "exam_question_id": "c6abc925-b88a-4d34-9a83-46e3758e9955:3",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following data on the price of selected goods over two consecutive years: \n\n| Good | Year 1 Price | Year 2 Price |\n|------|-------------|--------------|\n| A    | 10          | 12          |\n| B    | 20          | 22          |\n| C    | 30          | 28          |\n\nCalculate the Laspeyres Price Index for Year 2 using Year 1 as the base year.",
+        "question": "Calculate the Paasche Price Index for Year 2 using Year 1 as the base year.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the prices for each good in both years.",
+          "Accurately calculate the price ratio for each good.",
+          "Correctly sum the price ratios weighted by the quantity in Year 2 and divide by the sum of the quantities in Year 2 to find the Paasche Price Index."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the Paasche Price Index for Year 2 using Year 1 as the base year — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the prices for each good in both years.; Accurately calculate the price ratio for each good."
+        ],
+        "model_answer": "Paasche Price Index = ((12/10 * 1) + (22/20 * 1) + (28/30 * 1)) / 3\nPaasche Price Index = (1.2 + 1.1 + 0.9333) / 3\nPaasche Price Index = 1.0778",
+        "explanation": "Calculate the price ratio for each good, sum them weighted by the quantity in Year 2, and divide by the sum of the quantities in Year 2 to find the Paasche Price Index.",
+        "exam_question_id": "c6abc925-b88a-4d34-9a83-46e3758e9955:3",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following data on the price of selected goods over two consecutive years: \n\n| Good | Year 1 Price | Year 2 Price |\n|------|-------------|--------------|\n| A    | 10          | 12          |\n| B    | 20          | 22          |\n| C    | 30          | 28          |\n\nCalculate the Laspeyres Price Index for Year 2 using Year 1 as the base year.",
+        "question": "Explain why the Laspeyres and Paasche Price Indices might differ.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the concept of the Laspeyres Price Index.",
+          "Explain the concept of the Paasche Price Index.",
+          "Discuss the reasons why the two indices might yield different results."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the Laspeyres and Paasche Price Indices might differ — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the reasons why the two indices might yield results."
+        ],
+        "model_answer": "The Laspeyres Price Index uses the base year quantities to calculate the price ratios, while the Paasche Price Index uses the current year quantities. Since the quantities of goods consumed can change over time, using different base years for quantities can lead to different price index values. Additionally, the Laspeyres Index tends to overstate inflation when prices are rising, while the Paasche Index tends to understate inflation.",
+        "explanation": "Explain how the use of different base year quantities in the Laspeyres and Paasche Price Indices can lead to different results.",
+        "exam_question_id": "c6abc925-b88a-4d34-9a83-46e3758e9955:3",
+        "topic_label": "The price index",
+        "topic_id": 726,
+        "subtopic_id": 3068,
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "The price index"
+        }
+      }
+    ],
+    "estimated_time": 75,
+    "assessment_id": "4c7bf99a-82ca-4a4c-8eec-07c3dafaa08d",
+    "subject": "Economics S5 SB",
+    "topics": [
+      "Price Indices",
+      "Public Finance 2"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 64,
+    "topic_ids": [
+      726,
+      733
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 28,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 5"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 118
+}

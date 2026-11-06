@@ -1,0 +1,619 @@
+{
+  "index": 16,
+  "label": "Cambridge / Exam / Cambridge IGCSE™ ICT Coursebook ",
+  "request": {
+    "subject": "Cambridge IGCSE™ ICT Coursebook ",
+    "textbook_id": 17,
+    "topic_ids": [
+      206
+    ],
+    "topics": [
+      "Types and components of computer systems"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE™ ICT Coursebook ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 42,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "You are using a school computer lab with desktop computers, laptops, tablets, and smartphones. Your teacher asks you to compare and contrast these devices based on their advantages and disadvantages as shown in the diagram.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "State two advantages of desktop computers.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify an advantage of desktop computers.",
+          "Identify another advantage of desktop computers."
+        ],
+        "hints": [
+          "Look at the 'Advantages' column for desktops in the diagram."
+        ],
+        "model_answer": "Advantages of desktop computers:\n1. More powerful than mobile devices.\n2. Usually have a larger screen than a laptop.",
+        "explanation": "Look for advantages listed in the 'Advantages' column for desktops in the diagram provided.",
+        "exam_question_id": "7195ecfa-113b-4c08-95d7-0b9c1a4aa167:1",
+        "topic_label": "Types and components of computer systems",
+        "topic_id": 206,
+        "image_url": "/textbook-images/textbook-bank/17/s20-f0.jpg",
+        "image_alt": "A table titled 'Table 1.2: Summary of computer types' with columns Devices, Advantages and Disadvantages, and rows for Desktops, Laptops, Tablets and Smartphones. Each row lists bullet-style advantages and disadvantages of that device type.\nLabels: Devices, Advantages, Disadvantages, Desktops, More powerful than mobile devices., Usually have a larger screen than a laptop., Screen at eye level and so helps with better posture., Easy to upgrade and expand, e.g. adding more memory., Less easy to steal and carry away., Cost less for the power and facilities they offer., Not portable., Restricted t",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types and components of computer systems"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "You are using a school computer lab with desktop computers, laptops, tablets, and smartphones. Your teacher asks you to compare and contrast these devices based on their advantages and disadvantages as shown in the diagram.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain one disadvantage of tablets.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a disadvantage of tablets.",
+          "Explain why this is a disadvantage."
+        ],
+        "hints": [
+          "Look at the 'Disadvantages' column for tablets in the diagram."
+        ],
+        "model_answer": "Disadvantage of tablets:\n- Can be expensive.\nExplanation: Tablets can be expensive because of their high-quality components and the cost of brand names. This makes them less affordable for some users.",
+        "explanation": "Identify the disadvantage listed in the 'Disadvantages' column for tablets in the diagram and provide a brief explanation.",
+        "exam_question_id": "7195ecfa-113b-4c08-95d7-0b9c1a4aa167:1",
+        "topic_label": "Types and components of computer systems",
+        "topic_id": 206,
+        "image_url": "/textbook-images/textbook-bank/17/s20-f0.jpg",
+        "image_alt": "A table titled 'Table 1.2: Summary of computer types' with columns Devices, Advantages and Disadvantages, and rows for Desktops, Laptops, Tablets and Smartphones. Each row lists bullet-style advantages and disadvantages of that device type.\nLabels: Devices, Advantages, Disadvantages, Desktops, More powerful than mobile devices., Usually have a larger screen than a laptop., Screen at eye level and so helps with better posture., Easy to upgrade and expand, e.g. adding more memory., Less easy to steal and carry away., Cost less for the power and facilities they offer., Not portable., Restricted t",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types and components of computer systems"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A computer repair shop receives a computer that is not turning on. The technician needs to diagnose the problem using a checklist of components.",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "List two internal components that the technician should check first.",
+        "marks": 1,
+        "marking_criteria": [
+          "Name two relevant internal components."
+        ],
+        "hints": [
+          "Think about the components that are essential for the computer to start."
+        ],
+        "model_answer": "Power supply, Motherboard",
+        "explanation": "The power supply and motherboard are critical for the computer to turn on and function properly.",
+        "exam_question_id": "b04be478-51c9-47b8-89f4-70300141c668:3",
+        "topic_label": "The main components of computer systems",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 976,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "The main components of computer systems"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A computer repair shop receives a computer that is not turning on. The technician needs to diagnose the problem using a checklist of components.",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the power supply is an important component to check.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the function of the power supply.",
+          "Explain its importance in the boot process."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the power supply is an important component to check — develop the idea fully rather than listing short points. Make sure you also cover: its importance in the boot process."
+        ],
+        "model_answer": "The power supply converts AC power from the wall outlet into DC power that the computer's components can use. If the power supply is faulty, the computer will not receive the necessary power to turn on. It is crucial to check the power supply first because it is the primary source of power for the entire system.",
+        "explanation": "A faulty power supply can prevent the computer from receiving power, making it a critical component to check when diagnosing startup issues.",
+        "exam_question_id": "b04be478-51c9-47b8-89f4-70300141c668:3",
+        "topic_label": "The main components of computer systems",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 976,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "The main components of computer systems"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A school is setting up a new computer lab with various types of computers. The computers include desktops, laptops, tablets, and smartphones.",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "Name two differences between desktops and laptops.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a relevant difference between desktops and laptops.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Think about the physical size and portability."
+        ],
+        "model_answer": "Differences: Desktops are larger and not portable; laptops are smaller and portable.",
+        "explanation": "Mention that desktops are larger and not portable, while laptops are smaller and portable.",
+        "exam_question_id": "74570223-b64b-4f55-98eb-581eb1429de3:1",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A school is setting up a new computer lab with various types of computers. The computers include desktops, laptops, tablets, and smartphones.",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "State one advantage of using a tablet over a smartphone for educational purposes.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify an educational advantage of tablets.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: State one advantage of using a tablet over a smartphone for educational purposes — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "One advantage of using a tablet over a smartphone for educational purposes is the larger screen size, which is better for reading and multitasking.",
+        "explanation": "Mention the larger screen size as an advantage for tasks like reading and multitasking.",
+        "exam_question_id": "74570223-b64b-4f55-98eb-581eb1429de3:1",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A student is using a computer with a Windows operating system and notices that some files saved on the computer are not readable.",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain why the student might be unable to read some files on the computer.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a possible reason for unreadable files.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the student might be unable to read some files on the computer — develop the idea fully rather than listing short points. Make sure you also cover: Identify a possible reason for unreadable files.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "The student might be unable to read some files because the files are saved in a format that is not compatible with the Windows operating system. For example, files saved in a macOS-specific format may not be readable on a Windows computer.",
+        "explanation": "Mention file format incompatibility as a reason for unreadable files.",
+        "exam_question_id": "74570223-b64b-4f55-98eb-581eb1429de3:2",
+        "topic_label": "Operating systems (Types and components of computer systems)",
+        "topic_id": 206,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Operating systems (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A student is using a computer with a Windows operating system and notices that some files saved on the computer are not readable.",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Name a possible solution to make the files readable on the computer.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a possible solution to the problem.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Think about converting file formats or using specific software."
+        ],
+        "model_answer": "A possible solution is to convert the files to a format compatible with the Windows operating system, or use specific software that can open the files.",
+        "explanation": "Mention file format conversion or using specific software as solutions.",
+        "exam_question_id": "74570223-b64b-4f55-98eb-581eb1429de3:2",
+        "topic_label": "Operating systems (Types and components of computer systems)",
+        "topic_id": 206,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Operating systems (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A company is setting up a new network and needs to choose between a LAN (Local Area Network) and a WAN (Wide Area Network).",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "Describe the main difference between a LAN and a WAN.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the main difference between LAN and WAN.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the main difference between a LAN and a WAN — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "The main difference between a LAN and a WAN is the geographical coverage. A LAN covers a small area like a single building or campus, while a WAN covers a large geographical area, connecting multiple LANs.",
+        "explanation": "Mention geographical coverage as the main difference between LAN and WAN.",
+        "exam_question_id": "74570223-b64b-4f55-98eb-581eb1429de3:3",
+        "topic_label": "Operating systems (Types and components of computer systems)",
+        "topic_id": 206,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Operating systems (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A company is setting up a new network and needs to choose between a LAN (Local Area Network) and a WAN (Wide Area Network).",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why a company might choose a WAN over a LAN for its network setup.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a reason for choosing a WAN.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why a company might choose a WAN over a LAN for its network setup — develop the idea fully rather than listing short points. Make sure you also cover: Identify a reason for choosing a WAN.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "A company might choose a WAN over a LAN if it needs to connect multiple locations that are geographically separated. A WAN allows for the connection of different LANs over a large area, facilitating communication and data sharing between distant locations.",
+        "explanation": "Mention the need for connecting multiple locations as a reason for choosing a WAN.",
+        "exam_question_id": "74570223-b64b-4f55-98eb-581eb1429de3:3",
+        "topic_label": "Operating systems (Types and components of computer systems)",
+        "topic_id": 206,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Operating systems (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A classroom is setting up a new computer system for its students.",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Identify two types of input devices that could be used in the classroom.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a keyboard as an input device.",
+          "Identify a mouse as an input device."
+        ],
+        "hints": [
+          "Think about common devices used to interact with a computer."
+        ],
+        "model_answer": "Two types of input devices that could be used in the classroom are a keyboard and a mouse.",
+        "explanation": "A keyboard and a mouse are common input devices used to interact with a computer, allowing users to input data and commands.",
+        "exam_question_id": "4e1efd8d-c743-4229-85c7-7dbc226c6198:3",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A classroom is setting up a new computer system for its students.",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain how a computer system can benefit students in their learning.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explain that computers provide access to a wide range of educational resources.",
+          "Explain that computers can facilitate interactive learning.",
+          "Explain that computers can help with research and project work.",
+          "Explain that computers can improve digital literacy skills."
+        ],
+        "hints": [
+          "Consider the various ways computers can enhance the learning experience."
+        ],
+        "model_answer": "A computer system can benefit students in their learning by providing access to a wide range of educational resources, such as online textbooks, educational videos, and interactive learning tools. Computers can facilitate interactive learning through educational software and applications. They can also help with research and project work by providing access to online databases, reference materials, and collaboration tools. Additionally, using computers can improve students' digital literacy skills, which are essential in today's technology-driven world.",
+        "explanation": "Computers enhance learning by providing access to resources, facilitating interactive learning, aiding in research, and improving digital literacy skills.",
+        "exam_question_id": "4e1efd8d-c743-4229-85c7-7dbc226c6198:3",
+        "topic_label": "Types of computer (Types and components of computer systems)",
+        "topic_id": 206,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A new computer system is being set up in a classroom.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Name two types of input devices that could be used in the classroom.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify two input devices",
+          "Provide a relevant example for each"
+        ],
+        "hints": [
+          "Consider common devices used for entering data into a computer."
+        ],
+        "model_answer": "Two types of input devices that could be used in the classroom are a keyboard and a mouse. The keyboard is used for typing text and commands, while the mouse is used for pointing and clicking.",
+        "explanation": "Input devices are essential for users to interact with the computer. Common examples include keyboards and mice.",
+        "exam_question_id": "34a00282-b2ab-43dd-9594-00be334115de:1",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A new computer system is being set up in a classroom.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain how a computer system can benefit students in their learning.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the role of computers in education",
+          "Provide specific benefits for students"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how a computer system can benefit students in their learning — develop the idea fully rather than listing short points. Make sure you also cover: the role of in education; Provide specific benefits for students."
+        ],
+        "model_answer": "A computer system can benefit students in their learning by providing access to a vast amount of information through the internet, enabling research and study. It can also facilitate communication with teachers and peers through email and online forums. Additionally, computers can enhance learning through interactive educational software and multimedia resources.",
+        "explanation": "Computers provide numerous benefits in the classroom, including access to information, communication tools, and interactive learning resources.",
+        "exam_question_id": "34a00282-b2ab-43dd-9594-00be334115de:1",
+        "topic_label": "Emerging technologies (Types and components of computer systems)",
+        "topic_id": 206,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Emerging technologies (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A school has recently installed new tablets for its students.",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "State two differences between tablets and smartphones.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify two differences",
+          "Provide a clear explanation for each"
+        ],
+        "hints": [
+          "Stay focused on this: State two differences between tablets and smartphones — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear explanation for each."
+        ],
+        "model_answer": "Two differences between tablets and smartphones are size and functionality. Tablets are larger than smartphones, providing a bigger screen for better viewing and multitasking. Additionally, tablets often come with features such as stylus support and larger battery life, making them more suitable for extended use and productivity tasks.",
+        "explanation": "Tablets and smartphones differ in size and functionality, with tablets offering larger screens and additional features for productivity.",
+        "exam_question_id": "34a00282-b2ab-43dd-9594-00be334115de:2",
+        "topic_label": "Emerging technologies (Types and components of computer systems)",
+        "topic_id": 206,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Emerging technologies (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A school has recently installed new tablets for its students.",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain one advantage of using tablets over smartphones for educational purposes.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify an advantage",
+          "Provide a detailed explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain one advantage of using tablets over smartphones for educational purposes — develop the idea fully rather than listing short points. Make sure you also cover: Provide a detailed explanation."
+        ],
+        "model_answer": "One advantage of using tablets over smartphones for educational purposes is the larger screen size, which allows for better readability and multitasking. Tablets can display more content at once, making it easier for students to work on assignments, read textbooks, and use educational apps without the need to scroll frequently. This larger screen can also facilitate group work and collaborative learning activities.",
+        "explanation": "The larger screen size of tablets provides better readability and multitasking capabilities, which are beneficial for educational purposes.",
+        "exam_question_id": "34a00282-b2ab-43dd-9594-00be334115de:2",
+        "topic_label": "Emerging technologies (Types and components of computer systems)",
+        "topic_id": 206,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Emerging technologies (Types and components of computer systems)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A company is setting up a new computer lab with various types of computers.",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Name two differences between desktops and laptops.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify two differences",
+          "Provide a clear explanation for each"
+        ],
+        "hints": [
+          "Stay focused on this: Name two differences between desktops and laptops — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear explanation for each."
+        ],
+        "model_answer": "Two differences between desktops and laptops are size and portability. Desktops are larger and less portable, typically requiring a desk or table for use. Laptops, on the other hand, are smaller and more portable, allowing users to work from different locations and easily transport them. Additionally, laptops often have integrated batteries, while desktops require an external power source.",
+        "explanation": "Desktops and laptops differ in size, portability, and power requirements, with laptops offering greater mobility.",
+        "exam_question_id": "34a00282-b2ab-43dd-9594-00be334115de:3",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A company is setting up a new computer lab with various types of computers.",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "State one advantage of using a tablet over a smartphone for educational purposes.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify an advantage",
+          "Provide a detailed explanation"
+        ],
+        "hints": [
+          "Stay focused on this: State one advantage of using a tablet over a smartphone for educational purposes — develop the idea fully rather than listing short points. Make sure you also cover: Provide a detailed explanation."
+        ],
+        "model_answer": "One advantage of using a tablet over a smartphone for educational purposes is the larger screen size, which allows for better readability and multitasking. Tablets can display more content at once, making it easier for students to work on assignments, read textbooks, and use educational apps without the need to scroll frequently. This larger screen can also facilitate group work and collaborative learning activities.",
+        "explanation": "The larger screen size of tablets provides better readability and multitasking capabilities, which are beneficial for educational purposes.",
+        "exam_question_id": "34a00282-b2ab-43dd-9594-00be334115de:3",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A company is setting up a new computer lab with various types of computers. The computers include desktops, laptops, tablets, and smartphones.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Name two differences between desktops and laptops.",
+        "marks": 2,
+        "marking_criteria": [
+          "Difference in portability (1 mark)",
+          "Difference in power source (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Name two differences between desktops and laptops — develop the idea fully rather than listing short points. Make sure you also cover: Difference in portability (1 mark); Difference in source (1 mark)."
+        ],
+        "model_answer": "Two differences between desktops and laptops are that desktops are not portable and typically require a power outlet, while laptops are portable and usually have an internal battery.",
+        "explanation": "Desktops are larger and heavier, making them stationary and requiring a power outlet. Laptops, on the other hand, are designed for portability and come with an internal battery, allowing them to be used without being plugged in.",
+        "exam_question_id": "89b23a55-2f32-4a50-911e-c5e15e59ce60:2",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A company is setting up a new computer lab with various types of computers. The computers include desktops, laptops, tablets, and smartphones.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "State one advantage of using a tablet over a smartphone for educational purposes.",
+        "marks": 2,
+        "marking_criteria": [
+          "Larger screen for better readability (1 mark)",
+          "Easier to use with accessories like stylus (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: State one advantage of using a tablet over a smartphone for educational purposes — develop the idea fully rather than listing short points. Make sure you also cover: for (1 mark); Easier to use with (1 mark)."
+        ],
+        "model_answer": "One advantage of using a tablet over a smartphone for educational purposes is the larger screen size, which provides better readability and ease of use, especially when using accessories like a stylus for note-taking or drawing.",
+        "explanation": "Tablets have larger screens compared to smartphones, making them more suitable for reading, writing, and other educational activities. The larger screen also allows for better multitasking and the use of educational apps and tools.",
+        "exam_question_id": "89b23a55-2f32-4a50-911e-c5e15e59ce60:2",
+        "topic_label": "Types of computer",
+        "topic_id": 206,
+        "checked": true,
+        "subtopic_id": 978,
+        "source": {
+          "textbook": "Cambridge IGCSE™ ICT Coursebook",
+          "area": "Types of computer"
+        }
+      }
+    ],
+    "estimated_time": 42,
+    "assessment_id": "5e39285a-76b0-4029-8f3f-347095f69464",
+    "subject": "Cambridge IGCSE™ ICT Coursebook ",
+    "topics": [
+      "Types and components of computer systems"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 17,
+    "topic_ids": [
+      206
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 6"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 42
+}

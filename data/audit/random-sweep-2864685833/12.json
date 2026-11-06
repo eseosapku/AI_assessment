@@ -1,0 +1,983 @@
+{
+  "index": 12,
+  "label": "REB / Exam / ICT  S3 SB",
+  "request": {
+    "subject": "ICT  S3 SB",
+    "textbook_id": 115,
+    "topic_ids": [
+      1223
+    ],
+    "topics": [
+      "Application and Utility Software Installation"
+    ],
+    "curriculum": "rwanda",
+    "grade": 9,
+    "className": "S3",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 76,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "the diagram shows a screenshot of the Windows Setup window on a dark purple background with the Windows logo at the top. It has three drop-down fields: 'Language to install' set to English (United States), 'Time and currency format' set to English (United States), and 'Keyboard or input method' set to US. Below them is the text 'Enter your language and other preferences and click \"Next\" to continue.' A Next button is at the bottom right, and '© 2015 Microsoft Corporation. All rights reserved.' is at the bottom left.",
+        "question": "State the language selected for installation.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the language correctly",
+          "Refer to the drop-down field 'Language to install'"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The language selected for installation is English (United States).",
+        "explanation": "Refer to the drop-down field labelled 'Language to install' in the diagram to find the answer.",
+        "exam_question_id": "bbc0a06d-e6ff-4dc7-a189-cac35a936ab5:1",
+        "image_url": "/textbook-images/rwanda/115/page25-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Windows Setup window on a dark purple background with the Windows logo at the top. It has three drop-down fields: 'Language to install' set to English (United States), 'Time and currency format' set to English (United States), and 'Keyboard or input method' set to US. Below them is the text 'Enter your language and other preferences and click \"Next\" to continue.' A Next button is at the bottom right, and '© 2015 Microsoft Corporation. All rights reserved.' is at the bottom left.\nLabels: Windows Setup, Windows, Language to install:, English (United States), Time and currency",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "the diagram shows a screenshot of the Windows Setup window on a dark purple background with the Windows logo at the top. It has three drop-down fields: 'Language to install' set to English (United States), 'Time and currency format' set to English (United States), and 'Keyboard or input method' set to US. Below them is the text 'Enter your language and other preferences and click \"Next\" to continue.' A Next button is at the bottom right, and '© 2015 Microsoft Corporation. All rights reserved.' is at the bottom left.",
+        "question": "Name the next step after entering language and other preferences.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the button to proceed",
+          "Refer to the text below the drop-down fields"
+        ],
+        "hints": [
+          "Stay focused on this: Name the next step after entering language and other preferences — develop the idea fully rather than listing short points. Make sure you also cover: Identify the button to proceed; Refer to the text below the drop-down fields."
+        ],
+        "model_answer": "The next step is to click \"Next\".",
+        "explanation": "The text below the drop-down fields instructs to click 'Next' to continue.",
+        "exam_question_id": "bbc0a06d-e6ff-4dc7-a189-cac35a936ab5:1",
+        "image_url": "/textbook-images/rwanda/115/page25-embedded-0.jpeg",
+        "image_alt": "A screenshot of the Windows Setup window on a dark purple background with the Windows logo at the top. It has three drop-down fields: 'Language to install' set to English (United States), 'Time and currency format' set to English (United States), and 'Keyboard or input method' set to US. Below them is the text 'Enter your language and other preferences and click \"Next\" to continue.' A Next button is at the bottom right, and '© 2015 Microsoft Corporation. All rights reserved.' is at the bottom left.\nLabels: Windows Setup, Windows, Language to install:, English (United States), Time and currency",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of a window titled 'Windows Setup' with a dark purple background. The Windows logo and the word 'Windows' are at the top centre. Below them is an 'Install now' button. At the bottom left are the link 'Repair your computer' and the text '© 2014 Microsoft Corporation. All rights reserved.'",
+        "question": "State the purpose of the 'Install now' button in the Windows Setup window.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the 'Install now' button",
+          "State its purpose"
+        ],
+        "hints": [
+          "Look at the label of the button."
+        ],
+        "model_answer": "The 'Install now' button is used to start the installation process of Windows.",
+        "explanation": "The 'Install now' button is clearly labelled and its function is to initiate the installation of the Windows operating system.",
+        "exam_question_id": "df9a09db-1f75-4a65-89ed-36d85f433a69:1",
+        "image_url": "/textbook-images/rwanda/115/page25-embedded-1.jpeg",
+        "image_alt": "A screenshot of a window titled \"Windows Setup\" with a dark purple background. The Windows logo and the word \"Windows\" are at the top center. Below them is an \"Install now\" button. At the bottom left are the link \"Repair your computer\" and the text \"© 2014 Microsoft Corporation. All rights reserved.\"\nLabels: Windows Setup, Windows, Install now, Repair your computer, © 2014 Microsoft Corporation. All rights reserved.\nOriginal exercise: Step 5: In the next screen, click on “Install Now” to install Windows.",
+        "subtopic_id": 5978,
+        "topic_id": 1223,
+        "topic_label": "Functions of operating system",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Functions of operating system"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of a window titled 'Windows Setup' with a dark purple background. The Windows logo and the word 'Windows' are at the top centre. Below them is an 'Install now' button. At the bottom left are the link 'Repair your computer' and the text '© 2014 Microsoft Corporation. All rights reserved.'",
+        "question": "Name the link provided at the bottom left of the Windows Setup window.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the link at the bottom left",
+          "State its name"
+        ],
+        "hints": [
+          "Look at the text below the 'Install now' button."
+        ],
+        "model_answer": "The link provided at the bottom left of the Windows Setup window is 'Repair your computer'.",
+        "explanation": "The link is clearly labelled as 'Repair your computer' and is intended to assist users in repairing issues with their Windows installation.",
+        "exam_question_id": "df9a09db-1f75-4a65-89ed-36d85f433a69:1",
+        "image_url": "/textbook-images/rwanda/115/page25-embedded-1.jpeg",
+        "image_alt": "A screenshot of a window titled \"Windows Setup\" with a dark purple background. The Windows logo and the word \"Windows\" are at the top center. Below them is an \"Install now\" button. At the bottom left are the link \"Repair your computer\" and the text \"© 2014 Microsoft Corporation. All rights reserved.\"\nLabels: Windows Setup, Windows, Install now, Repair your computer, © 2014 Microsoft Corporation. All rights reserved.\nOriginal exercise: Step 5: In the next screen, click on “Install Now” to install Windows.",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a screenshot of a Windows Command Prompt window with the title bar 'Command Prompt'. It prints 'Microsoft Windows [Version 10.0.10240]' and '(c) 2015 Microsoft Corporation. All rights reserved.', followed by the prompt 'C:\\Users\\S2>' with a blank cursor line. The window has minimise, maximise and close buttons and a scroll bar on the right.",
+        "question": "State the version of Microsoft Windows displayed in the Command Prompt window.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the version number from the text.",
+          "Provide the correct version number."
+        ],
+        "hints": [
+          "Stay focused on this: State the version of Microsoft Windows displayed in the Command Prompt window — develop the idea fully rather than listing short points. Make sure you also cover: Identify the version number from the text.; Provide the correct version number."
+        ],
+        "model_answer": "The version of Microsoft Windows displayed in the Command Prompt window is 10.0.10240.",
+        "explanation": "Look at the text printed in the Command Prompt window and identify the version number as 10.0.10240.",
+        "exam_question_id": "5023ef6b-5dbc-4107-83ee-ca50476af4a2:1",
+        "image_url": "/textbook-images/rwanda/115/page15-embedded-0.jpeg",
+        "image_alt": "A screenshot of a Windows Command Prompt window with the title bar 'Command Prompt'. It prints 'Microsoft Windows [Version 10.0.10240]' and '(c) 2015 Microsoft Corporation. All rights reserved.', followed by the prompt 'C:\\Users\\S2>' with a blank cursor line. The window has minimize, maximize and close buttons and a scroll bar on the right.\nLabels: Command Prompt, Microsoft Windows [Version 10.0.10240], (c) 2015 Microsoft Corporation. All rights reserved., C:\\Users\\S2>\nOriginal exercise: Picture 1.1: Command Line Interface",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a screenshot of a Windows Command Prompt window with the title bar 'Command Prompt'. It prints 'Microsoft Windows [Version 10.0.10240]' and '(c) 2015 Microsoft Corporation. All rights reserved.', followed by the prompt 'C:\\Users\\S2>' with a blank cursor line. The window has minimise, maximise and close buttons and a scroll bar on the right.",
+        "question": "Explain the significance of the prompt 'C:\\Users\\S2>' in the Command Prompt window.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the components of the prompt.",
+          "Explain the significance of the directory path.",
+          "Explain the significance of the user name 'S2'."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the significance of the prompt 'C:\\Users\\S2>' in the Command Prompt window — develop the idea fully rather than listing short points. Make sure you also cover: Identify the components of the prompt.; the significance of the; the significance of the name 'S2'."
+        ],
+        "model_answer": "The prompt 'C:\\Users\\S2>' indicates that the current directory is 'C:\\Users\\S2' and the user logged in is 'S2'. This shows the path where the command prompt is currently operating and the user account being used.",
+        "explanation": "Understand that the prompt shows the current directory path and the user account, which helps in navigating and executing commands in the correct context.",
+        "exam_question_id": "5023ef6b-5dbc-4107-83ee-ca50476af4a2:1",
+        "image_url": "/textbook-images/rwanda/115/page15-embedded-0.jpeg",
+        "image_alt": "A screenshot of a Windows Command Prompt window with the title bar 'Command Prompt'. It prints 'Microsoft Windows [Version 10.0.10240]' and '(c) 2015 Microsoft Corporation. All rights reserved.', followed by the prompt 'C:\\Users\\S2>' with a blank cursor line. The window has minimize, maximize and close buttons and a scroll bar on the right.\nLabels: Command Prompt, Microsoft Windows [Version 10.0.10240], (c) 2015 Microsoft Corporation. All rights reserved., C:\\Users\\S2>\nOriginal exercise: Picture 1.1: Command Line Interface",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a screenshot of a Windows Command Prompt window with the title bar 'Command Prompt'. It prints 'Microsoft Windows [Version 10.0.10240]' and '(c) 2015 Microsoft Corporation. All rights reserved.', followed by the prompt 'C:\\Users\\S2>' with a blank cursor line. The window has minimise, maximise and close buttons and a scroll bar on the right.",
+        "question": "Describe the function of the buttons labelled'minimise','maximise', and 'close' in the Command Prompt window.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the function of the 'minimise' button.",
+          "Describe the function of the 'maximise' button.",
+          "Describe the function of the 'close' button."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The'minimize' button reduces the Command Prompt window to the taskbar. The'maximize' button enlarges the window to fill the entire screen. The 'close' button shuts down the Command Prompt window.",
+        "explanation": "Understand the basic functions of these window management buttons, which are common in most graphical user interfaces.",
+        "exam_question_id": "5023ef6b-5dbc-4107-83ee-ca50476af4a2:1",
+        "image_url": "/textbook-images/rwanda/115/page15-embedded-0.jpeg",
+        "image_alt": "A screenshot of a Windows Command Prompt window with the title bar 'Command Prompt'. It prints 'Microsoft Windows [Version 10.0.10240]' and '(c) 2015 Microsoft Corporation. All rights reserved.', followed by the prompt 'C:\\Users\\S2>' with a blank cursor line. The window has minimize, maximize and close buttons and a scroll bar on the right.\nLabels: Command Prompt, Microsoft Windows [Version 10.0.10240], (c) 2015 Microsoft Corporation. All rights reserved., C:\\Users\\S2>\nOriginal exercise: Picture 1.1: Command Line Interface",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Calculate the minimum amount of free disk space required to install WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the minimum free disk space requirement.",
+          "Provide the correct unit of measurement."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the minimum amount of free disk space required to install WordMaster — develop the idea fully rather than listing short points. Make sure you also cover: Provide the correct unit of measurement."
+        ],
+        "model_answer": "The minimum free disk space required to install WordMaster is 1 GB.\n\nExplanation: According to the system requirements, WordMaster needs at least 1 GB of free disk space to be installed.",
+        "explanation": "To find the minimum amount of free disk space required, refer to the system requirements provided in the scenario. The scenario states that WordMaster requires 1 GB of free disk space.",
+        "exam_question_id": "52d87657-f91f-4ad8-b3b9-c63a3d498602:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Name one utility software that could be used to check if your computer meets the system requirements for WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Name a utility software.",
+          "Explain how the software can be used to check system requirements."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "One utility software that could be used to check if your computer meets the system requirements for WordMaster is 'System Information'.\n\nExplanation: The 'System Information' utility software provides detailed information about your computer's hardware and operating system. It can be used to check the amount of RAM, available disk space, and the operating system version, which are all part of the system requirements for WordMaster.",
+        "explanation": "To name a utility software that can check system requirements, think about software that provides detailed information about your computer's hardware and operating system. 'System Information' is one such utility that can be used to check the necessary details.",
+        "exam_question_id": "52d87657-f91f-4ad8-b3b9-c63a3d498602:1",
+        "subtopic_id": 5978,
+        "topic_id": 1223,
+        "topic_label": "Functions of operating system",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Functions of operating system"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Explain the steps you would take to install WordMaster on your computer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the steps to download the installation file.",
+          "Describe the steps to run the installation file.",
+          "Describe the steps to complete the installation process."
+        ],
+        "hints": [
+          "Consider the typical steps involved in installing software."
+        ],
+        "model_answer": "To install WordMaster on your computer, you would follow these steps:\n\n1. Download the installation file: Open your web browser and navigate to the official website of WordMaster. Locate the download link for the 'WordMaster_setup.exe' file and click on it to download the file to your computer.\n2. Run the installation file: Once the download is complete, locate the 'WordMaster_setup.exe' file in your downloads folder and double-click on it to run the installation file.\n3. Complete the installation process: Follow the on-screen instructions provided by the installation wizard. This typically involves accepting the license agreement, choosing the installation location, and clicking on the 'Install' button. Once the installation is complete, you may be prompted to restart your computer.\n\nExplanation: These steps outline the process of downloading, running, and completing the installation of WordMaster on your computer.",
+        "explanation": "To explain the steps to install WordMaster, consider the typical steps involved in installing software. Start by downloading the installation file from the official website, then run the file by double-clicking on it. Finally, follow the on-screen instructions provided by the installation wizard to complete the installation process.",
+        "exam_question_id": "52d87657-f91f-4ad8-b3b9-c63a3d498602:1",
+        "subtopic_id": 5981,
+        "topic_id": 1223,
+        "topic_label": "Installation of software",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Installation of software"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Calculate the minimum amount of free disk space required to install WordMaster.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the minimum free disk space requirement from the system requirements.",
+          "State the minimum free disk space requirement.",
+          "Provide the unit of measurement."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the minimum amount of free disk space required to install WordMaster — develop the idea fully rather than listing short points. Make sure you also cover: Provide the unit of measurement."
+        ],
+        "model_answer": "The minimum amount of free disk space required to install WordMaster is 1 GB.\n\nExplanation: According to the system requirements, WordMaster requires 1 GB of free disk space to be installed.",
+        "explanation": "To calculate the minimum amount of free disk space required, refer to the system requirements provided. The system requirements state that WordMaster requires 1 GB of free disk space. Therefore, the minimum amount of free disk space required is 1 GB.",
+        "exam_question_id": "94e7fb42-c31d-40e8-9717-6c8712c3e1d4:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Name one utility software that could be used to check if your computer meets the system requirements for WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a utility software that can check system requirements.",
+          "Provide the name of the utility software."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "One utility software that could be used to check if your computer meets the system requirements for WordMaster is 'System Information'.\n\nExplanation: 'System Information' is a utility software that provides detailed information about the computer's hardware and software configuration, including the amount of RAM and free disk space. This information can be used to verify if the computer meets the system requirements for WordMaster.",
+        "explanation": "To name a utility software that could be used to check if your computer meets the system requirements for WordMaster, consider software that provides system information. 'System Information' is a utility software that can provide detailed information about the computer's hardware and software configuration, including the amount of RAM and free disk space. This information can be used to verify if the computer meets the system requirements for WordMaster.",
+        "exam_question_id": "94e7fb42-c31d-40e8-9717-6c8712c3e1d4:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Explain the steps you would take to install WordMaster on your computer.",
+        "marks": 4,
+        "marking_criteria": [
+          "Describe the steps to download the installation file.",
+          "Describe the steps to verify system requirements.",
+          "Describe the steps to install the software.",
+          "Provide the sequence of steps."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the steps you would take to install WordMaster on your computer — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The steps to install WordMaster on your computer are as follows:\n\n1. Download the installation file: Locate a trusted source to download the 'WordMaster_setup.exe' file.\n2. Verify system requirements: Use a utility software like 'System Information' to check if your computer meets the system requirements for WordMaster.\n3. Install the software: Double-click on the 'WordMaster_setup.exe' file and follow the on-screen instructions to complete the installation.\n\nExplanation: To install WordMaster on your computer, you need to download the installation file from a trusted source. After downloading, it is important to verify that your computer meets the system requirements for WordMaster using a utility software like 'System Information'. Once the system requirements are confirmed, you can proceed with the installation by double-clicking on the 'WordMaster_setup.exe' file and following the on-screen instructions.",
+        "explanation": "To explain the steps to install WordMaster on your computer, consider the process of downloading, verifying, and installing software. First, download the installation file from a trusted source. Then, use a utility software like 'System Information' to verify that your computer meets the system requirements for WordMaster. Finally, install the software by double-clicking on the 'WordMaster_setup.exe' file and following the on-screen instructions.",
+        "exam_question_id": "94e7fb42-c31d-40e8-9717-6c8712c3e1d4:1",
+        "subtopic_id": 5980,
+        "topic_id": 1223,
+        "topic_label": "Download software",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Download software"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Calculate the minimum amount of free disk space required to install WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the minimum free disk space requirement from the given system requirements.",
+          "State the minimum free disk space required."
+        ],
+        "hints": [
+          "Look at the system requirements for WordMaster."
+        ],
+        "model_answer": "The minimum free disk space required to install WordMaster is 1 GB.",
+        "explanation": "The system requirements for WordMaster state that a minimum of 1 GB of free disk space is needed.",
+        "exam_question_id": "1ed8130e-c23a-4073-a067-c8ab0b68e8ae:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Name one utility software that could be used to check if your computer meets the system requirements for WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a utility software that can check system requirements.",
+          "Name the utility software."
+        ],
+        "hints": [
+          "Stay focused on this: Name one utility software that could be used to check if your computer meets the system requirements for WordMaster — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "One utility software that could be used is 'System Information'.",
+        "explanation": "Utility software like 'System Information' can provide details about your computer's hardware and operating system, helping you verify if it meets the requirements.",
+        "exam_question_id": "1ed8130e-c23a-4073-a067-c8ab0b68e8ae:1",
+        "subtopic_id": 5978,
+        "topic_id": 1223,
+        "topic_label": "Functions of operating system",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Functions of operating system"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Explain the steps you would take to install WordMaster on your computer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the process of downloading the installation file.",
+          "Describe the process of running the installation file.",
+          "Describe the process of following the installation prompts."
+        ],
+        "hints": [
+          "Think about the typical steps involved in installing software."
+        ],
+        "model_answer": "1. Download the installation file 'WordMaster_setup.exe' from a trusted source.\n2. Double-click on the 'WordMaster_setup.exe' file to run the installer.\n3. Follow the installation prompts, agreeing to the terms and conditions, selecting the installation location, and clicking 'Install'.",
+        "explanation": "These are the typical steps to install software on a computer, ensuring that the software is installed correctly and securely.",
+        "exam_question_id": "1ed8130e-c23a-4073-a067-c8ab0b68e8ae:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Calculate the minimum amount of free disk space required to install WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the system requirement for free disk space.",
+          "State the minimum amount of free disk space required."
+        ],
+        "hints": [
+          "Refer to the system requirements provided in the scenario."
+        ],
+        "model_answer": "The minimum amount of free disk space required to install WordMaster is 1 GB.",
+        "explanation": "The scenario specifies that WordMaster requires 1 GB of free disk space to be installed.",
+        "exam_question_id": "dd5e13f2-86d7-4fcd-8ca9-9625a0c5a565:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Name one utility software that could be used to check if your computer meets the system requirements for WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the need for a utility software to check system requirements.",
+          "Name a suitable utility software."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "One utility software that could be used to check if your computer meets the system requirements for WordMaster is 'CPU-Z'.",
+        "explanation": "Utility software such as 'CPU-Z' can provide detailed information about your computer's hardware, including the amount of RAM and available disk space.",
+        "exam_question_id": "dd5e13f2-86d7-4fcd-8ca9-9625a0c5a565:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Explain the steps you would take to install WordMaster on your computer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the process of downloading the installation file.",
+          "Describe the process of running the installation file.",
+          "Describe the process of following the installation prompts."
+        ],
+        "hints": [
+          "Consider the typical steps involved in installing software on a Windows computer."
+        ],
+        "model_answer": "To install WordMaster on your computer, you would first download the installation file 'WordMaster_setup.exe' from a trusted source. Next, you would run the installation file by double-clicking on it. Then, you would follow the installation prompts, which may include accepting the license agreement, choosing the installation location, and confirming the installation. Finally, you would wait for the installation to complete and then launch WordMaster from the Start menu or desktop shortcut.",
+        "explanation": "The steps to install software typically involve downloading the installation file, running it, and following the prompts to complete the installation process.",
+        "exam_question_id": "dd5e13f2-86d7-4fcd-8ca9-9625a0c5a565:1",
+        "subtopic_id": 5981,
+        "topic_id": 1223,
+        "topic_label": "Installation of software",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Installation of software"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Calculate the minimum amount of free disk space required to install WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the minimum free disk space requirement from the system requirements.",
+          "State the minimum free disk space required."
+        ],
+        "hints": [
+          "Look at the system requirements provided for WordMaster."
+        ],
+        "model_answer": "The minimum amount of free disk space required to install WordMaster is 1 GB.",
+        "explanation": "According to the system requirements, WordMaster needs at least 1 GB of free disk space to be installed.",
+        "exam_question_id": "69f202f8-fb64-488d-b3f4-0b9832c376c4:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Name one utility software that could be used to check if your computer meets the system requirements for WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a utility software that can check system requirements.",
+          "Provide the name of the utility software."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "One utility software that could be used to check if your computer meets the system requirements for WordMaster is 'System Information'.",
+        "explanation": "'System Information' is a utility software that can provide detailed information about the system, including RAM and operating system version, which can be used to check if the computer meets the system requirements for WordMaster.",
+        "exam_question_id": "69f202f8-fb64-488d-b3f4-0b9832c376c4:1",
+        "subtopic_id": 5978,
+        "topic_id": 1223,
+        "topic_label": "Functions of operating system",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Functions of operating system"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Explain the steps you would take to install WordMaster on your computer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the first step of the installation process.",
+          "Describe the second step of the installation process.",
+          "Describe the third step of the installation process."
+        ],
+        "hints": [
+          "Think about the typical steps involved in installing software on a computer."
+        ],
+        "model_answer": "To install WordMaster on your computer, you would first download the installation file 'WordMaster_setup.exe' from a trusted source. Next, you would double-click on the downloaded file to start the installation process. Finally, you would follow the on-screen instructions to complete the installation.",
+        "explanation": "These are the typical steps involved in installing software on a computer. Downloading the installation file initiates the process, double-clicking on the file starts the installation, and following the on-screen instructions completes the installation.",
+        "exam_question_id": "69f202f8-fb64-488d-b3f4-0b9832c376c4:1",
+        "subtopic_id": 5981,
+        "topic_id": 1223,
+        "topic_label": "Installation of software",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Installation of software"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Calculate the minimum amount of free disk space required to install WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the minimum free disk space requirement from the system requirements.",
+          "Provide the correct unit of measurement."
+        ],
+        "hints": [
+          "Look at the system requirements provided for WordMaster."
+        ],
+        "model_answer": "The minimum amount of free disk space required to install WordMaster is 1 GB.",
+        "explanation": "According to the system requirements, WordMaster needs at least 1 GB of free disk space to be installed.",
+        "exam_question_id": "57218561-340b-4057-beb5-3024e1ba0821:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Name one utility software that could be used to check if your computer meets the system requirements for WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a utility software that can check system requirements.",
+          "Provide a valid and relevant example."
+        ],
+        "hints": [
+          "Stay focused on this: Name one utility software that could be used to check if your computer meets the system requirements for WordMaster — develop the idea fully rather than listing short points. Make sure you also cover: Provide a valid and relevant example."
+        ],
+        "model_answer": "One utility software that could be used to check if your computer meets the system requirements for WordMaster is 'CPU-Z'.",
+        "explanation": "CPU-Z is a utility software that provides detailed information about your computer's hardware, including RAM and operating system version.",
+        "exam_question_id": "57218561-340b-4057-beb5-3024e1ba0821:1",
+        "subtopic_id": 5978,
+        "topic_id": 1223,
+        "topic_label": "Functions of operating system",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Functions of operating system"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Explain the steps you would take to install WordMaster on your computer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the initial steps to prepare for installation.",
+          "Explain the process of running the installation file.",
+          "Mention any post-installation steps or checks."
+        ],
+        "hints": [
+          "Think about the typical steps involved in installing software on a computer."
+        ],
+        "model_answer": "To install WordMaster on your computer, you would first ensure that your computer meets the system requirements by checking the amount of RAM and free disk space. Then, you would download the installation file 'WordMaster_setup.exe' from a trusted source. After that, you would double-click on the file to run the installer and follow the on-screen instructions. Once the installation is complete, you may need to restart your computer to finalize the installation.",
+        "explanation": "These are the general steps involved in installing software on a computer. Make sure to follow the specific instructions provided by the software installer.",
+        "exam_question_id": "57218561-340b-4057-beb5-3024e1ba0821:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Calculate the minimum amount of free disk space required to install WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the minimum free disk space requirement.",
+          "Provide the correct calculation or reasoning."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the minimum amount of free disk space required to install WordMaster — develop the idea fully rather than listing short points. Make sure you also cover: Provide the correct calculation or reasoning."
+        ],
+        "model_answer": "Minimum free disk space required: 1 GB.\n\nExplanation: According to the system requirements, WordMaster needs at least 1 GB of free disk space to be installed.",
+        "explanation": "Based on the system requirements provided, the minimum amount of free disk space needed to install WordMaster is 1 GB.",
+        "exam_question_id": "c642fca1-b776-4a3f-881b-e6361917ac83:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Name one utility software that could be used to check if your computer meets the system requirements for WordMaster.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a utility software that can check system requirements.",
+          "Provide the correct name of the utility software."
+        ],
+        "hints": [
+          "Stay focused on this: Name one utility software that could be used to check if your computer meets the system requirements for WordMaster — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "One utility software that could be used is 'System Information'.\n\nExplanation: 'System Information' is a built-in utility in Windows that provides detailed information about your computer's hardware and software, including RAM and operating system version.",
+        "explanation": "Utility software such as 'System Information' can be used to check if your computer meets the system requirements for WordMaster by providing details about your computer's hardware and software.",
+        "exam_question_id": "c642fca1-b776-4a3f-881b-e6361917ac83:1",
+        "topic_id": 1223,
+        "topic_label": "Application and Utility Software Installation",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Application and Utility Software Installation"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are tasked with installing a new software application on your computer. The software is a popular word processing tool called 'WordMaster'. The installation file is a single executable file named 'WordMaster_setup.exe'. The system requirements for WordMaster are: 2 GB of RAM, 1 GB of free disk space, and an operating system of Windows 10 or higher.",
+        "question": "Explain the steps you would take to install WordMaster on your computer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the steps to download the installation file.",
+          "Describe the steps to verify system requirements.",
+          "Describe the steps to install the software."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the steps you would take to install WordMaster on your computer — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Steps to install WordMaster:\n\n1. Download the installation file: Locate the 'WordMaster_setup.exe' file on a trusted website and download it to your computer.\n2. Verify system requirements: Use a utility software like 'System Information' to check if your computer meets the system requirements (2 GB of RAM, 1 GB of free disk space, Windows 10 or higher).\n3. Install the software: Double-click the 'WordMaster_setup.exe' file to start the installation process. Follow the on-screen instructions to complete the installation.",
+        "explanation": "To install WordMaster, you would first download the installation file, then verify that your computer meets the system requirements using a utility software, and finally run the installation file to complete the process.",
+        "exam_question_id": "c642fca1-b776-4a3f-881b-e6361917ac83:1",
+        "subtopic_id": 5980,
+        "topic_id": 1223,
+        "topic_label": "Download software",
+        "source": {
+          "textbook": "ICT  S3 SB",
+          "area": "Download software"
+        }
+      }
+    ],
+    "estimated_time": 67,
+    "assessment_id": "6d89761f-3de4-450d-ac3f-74fabe393f06",
+    "subject": "ICT  S3 SB",
+    "topics": [
+      "Application and Utility Software Installation"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 115,
+    "topic_ids": [
+      1223
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 28,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 7,
+      "detail": "7 questions open with the same sentence (8, 11, 14, 17, 20, 23, 26): \"Calculate the minimum amount of free disk space re\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 8,
+      "detail": "7 questions open with the same sentence (9, 12, 15, 18, 21, 24, 27): \"Name one utility software that could be used to ch\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 9,
+      "detail": "7 questions open with the same sentence (10, 13, 16, 19, 22, 25, 28): \"Explain the steps you would take to install WordMa\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 10"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Topic mismatch: question labeled 'Functions of operating system' but assessment title specifies 'Application and Utility Software Installation'. Question 2a should align with stated topic.",
+        "correction": "Verify topic_label consistency or reassign question to correct assessment section."
+      },
+      {
+        "label": "4a",
+        "severity": "poor",
+        "detail": "Question asks to 'Calculate' but provides no calculation—only direct lookup from given data. Marking criteria and model answer confirm this is retrieval, not calculation.",
+        "correction": "Rephrase as 'State the minimum free disk space required' or provide a calculation scenario (e.g., 'If total space is X, calculate remaining after installation')."
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Identical to 4a: asks to 'Calculate' but requires only data retrieval. Repeated question with same context and data across assessments 4 and 5."
+      },
+      {
+        "label": "6a",
+        "severity": "poor",
+        "detail": "Identical to 4a and 5a: repeated question with same context and data. Third occurrence of same question."
+      },
+      {
+        "label": "7a",
+        "severity": "poor",
+        "detail": "Identical to 4a, 5a, 6a: repeated question with same context and data. Fourth occurrence."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Identical to 4a, 5a, 6a, 7a: repeated question with same context and data. Fifth occurrence."
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Identical to 4a, 5a, 6a, 7a, 8a: repeated question with same context and data. Sixth occurrence."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Identical to 4a, 5a, 6a, 7a, 8a, 9a: repeated question with same context and data. Seventh occurrence."
+      },
+      {
+        "label": "7b",
+        "severity": "poor",
+        "detail": "Model answer names 'CPU-Z' but previous questions (4b, 5b, 6b, 8b, 10b) name 'System Information'. Inconsistent utility software recommendations across repeated questions."
+      },
+      {
+        "label": "9b",
+        "severity": "poor",
+        "detail": "Model answer names 'CPU-Z' instead of 'System Information' used in most other instances. Inconsistent with majority of model answers for same question type."
+      },
+      {
+        "label": "1b",
+        "severity": "poor",
+        "detail": "Marking criteria require 'Refer to the text below the drop-down fields' but model answer is single short statement. Hints demand 'develop the idea fully' but answer is minimal."
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Marking criteria list three components but model answer conflates 'C:\\Users\\S2' as single path element. Should separately explain drive (C:), directory structure (Users), and username (S2)."
+      }
+    ],
+    "summary": "Assessment contains seven identical repeated questions (4a–10a) with same context and data, violating uniqueness requirement. Inconsistent utility software naming (CPU-Z vs System Information) across parallel questions. Misuse of 'Calculate' verb for data retrieval tasks. Minor marking criteria misalignment with model answers in questions 1b and 3b. Topic labeling inconsistency in question 2a."
+  },
+  "totalSeconds": 84
+}

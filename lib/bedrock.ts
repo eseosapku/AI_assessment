@@ -141,6 +141,11 @@ function buildInvokeBody(
   image?: ImageInput
 ): string {
   const m = stripPrefix(modelId)
+  if (m.startsWith('anthropic.')) {
+    const content: any[] = [{ type: 'text', text: prompt }]
+    if (image) content.unshift({ type: 'image', source: { type: 'base64', media_type: image.mimeType, data: image.base64 } })
+    return JSON.stringify({ anthropic_version: 'bedrock-2023-05-31', messages: [{ role: 'user', content }], max_tokens: maxTokens, temperature })
+  }
   if (m.startsWith('amazon.nova')) {
     const content: any[] = [{ text: prompt }]
     if (image) {

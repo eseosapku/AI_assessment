@@ -1,0 +1,822 @@
+{
+  "index": 3,
+  "label": "Cambridge / Exam / Cambridge International AS & A Level Physics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "textbook_id": 22,
+    "topic_ids": [
+      307
+    ],
+    "topics": [
+      "Chapter 7: Matter and materials"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS & A Level Physics Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 43,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A diagram is printed with the first part. It shows: Two drawings of springs hanging from a wooden support, each with a mass at the bottom. In (a), two springs are joined end to end in a single line (in series) and hang from the support, with a mass attached to the lower end. In (b), two springs hang side by side (in parallel) from the support, and a single rod across their lower ends holds one mass.",
+        "question": "State the type of arrangement shown in",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify series arrangement in (a)",
+          "Identify parallel arrangement in (b)"
+        ],
+        "hints": [
+          "Look at how the springs are connected and where the mass is attached."
+        ],
+        "model_answer": "The arrangement in (a) is in series, and the arrangement in (b) is in parallel.",
+        "explanation": "In a series arrangement, the springs are connected end to end, and in a parallel arrangement, the springs are connected side by side.",
+        "exam_question_id": "7b351fb7-133b-48b3-8e8c-363609aec464:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page202-embedded-1.jpeg",
+        "image_alt": "Two drawings of springs hanging from a wooden support, each with a mass at the bottom. In (a), two springs are joined end to end in a single line (in series) and hang from the support, with a mass attached to the lower end. In (b), two springs hang side by side (in parallel) from the support, and a single rod across their lower ends holds one mass.\nLabels: a, b\nOriginal exercise: PRACTICAL ACTIVITY 7.1 Investigating springs Springs can be combined in different ways (Figure 7.1",
+        "options": [
+          "and",
+          "for the two springs."
+        ],
+        "correct_answer": 0,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A diagram is printed with the first part. It shows: Two drawings of springs hanging from a wooden support, each with a mass at the bottom. In (a), two springs are joined end to end in a single line (in series) and hang from the support, with a mass attached to the lower end. In (b), two springs hang side by side (in parallel) from the support, and a single rod across their lower ends holds one mass.",
+        "question": "Explain the difference in the extension of the springs in the series and parallel arrangements when the same mass is attached.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain extension in series arrangement",
+          "Explain extension in parallel arrangement",
+          "Compare the two extensions"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the difference in the extension of the springs in the series and parallel arrangements when the same mass is attached — develop the idea fully rather than listing short points. Make sure you also cover: Compare the two."
+        ],
+        "model_answer": "In the series arrangement, the same force stretches both springs, so the total extension is the sum of the extensions of each spring. In the parallel arrangement, the force is shared between the springs, so each spring extends less than in the series arrangement. Therefore, the total extension in the parallel arrangement is less than in the series arrangement.",
+        "explanation": "In a series arrangement, the total extension is the sum of the extensions of each spring because they are connected end to end. In a parallel arrangement, the force is shared between the springs, so each spring extends less, leading to a smaller total extension.",
+        "exam_question_id": "7b351fb7-133b-48b3-8e8c-363609aec464:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page202-embedded-1.jpeg",
+        "image_alt": "Two drawings of springs hanging from a wooden support, each with a mass at the bottom. In (a), two springs are joined end to end in a single line (in series) and hang from the support, with a mass attached to the lower end. In (b), two springs hang side by side (in parallel) from the support, and a single rod across their lower ends holds one mass.\nLabels: a, b\nOriginal exercise: PRACTICAL ACTIVITY 7.1 Investigating springs Springs can be combined in different ways (Figure 7.1",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A diagram is printed with the first part. It shows: Two drawings of springs hanging from a wooden support, each with a mass at the bottom. In (a), two springs are joined end to end in a single line (in series) and hang from the support, with a mass attached to the lower end. In (b), two springs hang side by side (in parallel) from the support, and a single rod across their lower ends holds one mass.",
+        "question": "Calculate the total extension of the springs in the series arrangement if each spring extends by 0.1 m when a mass of 1 kg is attached.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the extension of each spring",
+          "Calculate total extension in series"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total extension of the springs in the series arrangement if each spring extends by 0.1 m when a mass of 1 kg is attached — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Each spring extends by 0.1 m, so the total extension in the series arrangement is 0.1 m + 0.1 m = 0.2 m.",
+        "explanation": "Since the springs are connected end to end, the total extension is the sum of the individual extensions.",
+        "exam_question_id": "7b351fb7-133b-48b3-8e8c-363609aec464:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page202-embedded-1.jpeg",
+        "image_alt": "Two drawings of springs hanging from a wooden support, each with a mass at the bottom. In (a), two springs are joined end to end in a single line (in series) and hang from the support, with a mass attached to the lower end. In (b), two springs hang side by side (in parallel) from the support, and a single rod across their lower ends holds one mass.\nLabels: a, b\nOriginal exercise: PRACTICAL ACTIVITY 7.1 Investigating springs Springs can be combined in different ways (Figure 7.1",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram showing a graph of stress against strain for three materials labelled P, Q, and R. The origin is labelled O, and the axes are stress (vertical) and strain (horizontal).",
+        "question": "State the material represented by curve P.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the curve P",
+          "State the material property related to curve P"
+        ],
+        "hints": [
+          "Refer to the steepness of the curve at the origin."
+        ],
+        "model_answer": "Curve P represents a material with high stiffness, typically a metal like steel.",
+        "explanation": "Material P shows a steep linear relationship at the origin, indicating high stiffness.",
+        "exam_question_id": "6e9bdfd4-456f-4f11-9206-75a54a7b922a:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page214-embedded-1.jpeg",
+        "image_alt": "A graph of stress (vertical axis) against strain (horizontal axis) with the origin labelled O. Three curves start at the origin. P is a steep straight line that curves over at its top end. Q rises with a lower gradient, curves, reaches a maximum and then falls. R is a straight line with the smallest gradient. No numerical values are printed.\nLabels: Stress, O, 0, P, Q, R, Strain\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram showing a graph of stress against strain for three materials labelled P, Q, and R. The origin is labelled O, and the axes are stress (vertical) and strain (horizontal).",
+        "question": "Explain why material Q has a lower gradient than material P in the initial linear region.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the gradient in the initial linear region",
+          "Relate gradient to material properties",
+          "Explain why Q has a lower gradient"
+        ],
+        "hints": [
+          "Consider the relationship between stress and strain in the initial region."
+        ],
+        "model_answer": "Material Q has a lower gradient in the initial linear region because it has a lower Young's modulus compared to material P. This indicates that material Q is less stiff and more ductile.",
+        "explanation": "The gradient in the initial linear region represents the Young's modulus. A lower gradient means a lower Young's modulus, indicating less stiffness.",
+        "exam_question_id": "6e9bdfd4-456f-4f11-9206-75a54a7b922a:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page214-embedded-1.jpeg",
+        "image_alt": "A graph of stress (vertical axis) against strain (horizontal axis) with the origin labelled O. Three curves start at the origin. P is a steep straight line that curves over at its top end. Q rises with a lower gradient, curves, reaches a maximum and then falls. R is a straight line with the smallest gradient. No numerical values are printed.\nLabels: Stress, O, 0, P, Q, R, Strain\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the diagram showing a graph of stress against strain for three materials labelled P, Q, and R. The origin is labelled O, and the axes are stress (vertical) and strain (horizontal).",
+        "question": "Describe the behaviour of material R in terms of its stress-strain relationship.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the linear relationship",
+          "Mention any notable features or limits"
+        ],
+        "hints": [
+          "Focus on the straight-line portion of curve R."
+        ],
+        "model_answer": "Material R shows a linear relationship between stress and strain up to a certain point, indicating elastic behaviour. Beyond this point, the material may yield or fracture.",
+        "explanation": "The linear portion of curve R shows a direct proportionality between stress and strain, characteristic of elastic materials.",
+        "exam_question_id": "6e9bdfd4-456f-4f11-9206-75a54a7b922a:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page214-embedded-1.jpeg",
+        "image_alt": "A graph of stress (vertical axis) against strain (horizontal axis) with the origin labelled O. Three curves start at the origin. P is a steep straight line that curves over at its top end. Q rises with a lower gradient, curves, reaches a maximum and then falls. R is a straight line with the smallest gradient. No numerical values are printed.\nLabels: Stress, O, 0, P, Q, R, Strain\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the stress-strain graph provided for a material. The x-axis represents strain in units of 10^-3 and ranges from 0 to 12.0 with increments of 2.0. The y-axis represents stress in GPa, ranging from 0 to 1.6 with increments of 0.2. The line rises from the origin to a point labelled 'elastic limit' at a strain of 8.0 × 10^-3 and stress about 1.2 GPa. It then curves to a point labelled 'breaks' at a strain of 12.0 × 10^-3 and stress about 1.5 GPa.",
+        "question": "State the value of the stress at the elastic limit.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the stress value at the elastic limit",
+          "Correct numerical value with units"
+        ],
+        "hints": [
+          "Stay focused on this: State the value of the stress at the elastic limit — develop the idea fully rather than listing short points. Make sure you also cover: Correct numerical value with units."
+        ],
+        "model_answer": "The stress at the elastic limit is 1.2 GPa.",
+        "explanation": "Read the value of stress directly from the graph at the point labelled 'elastic limit'.",
+        "exam_question_id": "c89a665d-0d5d-4114-b746-c74794ff6a98:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page215-embedded-0.jpeg",
+        "image_alt": "A stress–strain graph with Strain / 10^-3 on the x-axis (0 to 12.0 in steps of 2.0) and Stress / GPa on the y-axis (0 to 1.6 in steps of 0.2). The line rises straight from the origin to a point labelled 'elastic limit' at strain 8.0 ×10^-3 and stress about 1.2 GPa. It then curves with a decreasing gradient to a point labelled 'breaks' at strain 12.0 ×10^-3 and stress about 1.5 GPa.\nLabels: 1.6, 1.4, 1.2, 1.0, 0.8, 0.6, 0.4, 0.2, 0, Stress / GPa, elastic limit, breaks, 0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, Strain / 10^-3\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the stress-strain graph provided for a material. The x-axis represents strain in units of 10^-3 and ranges from 0 to 12.0 with increments of 2.0. The y-axis represents stress in GPa, ranging from 0 to 1.6 with increments of 0.2. The line rises from the origin to a point labelled 'elastic limit' at a strain of 8.0 × 10^-3 and stress about 1.2 GPa. It then curves to a point labelled 'breaks' at a strain of 12.0 × 10^-3 and stress about 1.5 GPa.",
+        "question": "Explain what the term 'elastic limit' represents in the context of this graph.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the elastic limit on the graph",
+          "Describe the significance of the elastic limit",
+          "Explain the behaviour of the material up to and beyond the elastic limit"
+        ],
+        "hints": [
+          "Stay focused on this: Explain what the term 'elastic limit' represents in the context of this graph — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The 'elastic limit' is the maximum extent a solid can be stretched or compressed without permanent deformation. In the context of this graph, it is the point beyond which the material will not return to its original shape if the stress is removed.",
+        "explanation": "The elastic limit is the point on the graph where the material transitions from elastic to plastic behaviour. Beyond this point, the material deforms permanently.",
+        "exam_question_id": "c89a665d-0d5d-4114-b746-c74794ff6a98:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page215-embedded-0.jpeg",
+        "image_alt": "A stress–strain graph with Strain / 10^-3 on the x-axis (0 to 12.0 in steps of 2.0) and Stress / GPa on the y-axis (0 to 1.6 in steps of 0.2). The line rises straight from the origin to a point labelled 'elastic limit' at strain 8.0 ×10^-3 and stress about 1.2 GPa. It then curves with a decreasing gradient to a point labelled 'breaks' at strain 12.0 ×10^-3 and stress about 1.5 GPa.\nLabels: 1.6, 1.4, 1.2, 1.0, 0.8, 0.6, 0.4, 0.2, 0, Stress / GPa, elastic limit, breaks, 0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, Strain / 10^-3\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the stress-strain graph provided for a material. The x-axis represents strain in units of 10^-3 and ranges from 0 to 12.0 with increments of 2.0. The y-axis represents stress in GPa, ranging from 0 to 1.6 with increments of 0.2. The line rises from the origin to a point labelled 'elastic limit' at a strain of 8.0 × 10^-3 and stress about 1.2 GPa. It then curves to a point labelled 'breaks' at a strain of 12.0 × 10^-3 and stress about 1.5 GPa.",
+        "question": "Calculate the Young's Modulus of the material using the initial linear portion of the graph.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial linear portion of the graph",
+          "Use the formula for Young's Modulus (Y = Stress/Strain)",
+          "Perform the calculation accurately"
+        ],
+        "hints": [
+          "Use the stress and strain values at the beginning of the linear portion."
+        ],
+        "model_answer": "Young's Modulus (Y) = Stress / Strain = 1.2 GPa / 8.0 × 10^-3 = 150 GPa.",
+        "explanation": "Young's Modulus is calculated using the initial linear portion of the stress-strain graph, where the material behaves elastically. The formula Y = Stress/Strain is applied using the values at the 'elastic limit' point.",
+        "exam_question_id": "c89a665d-0d5d-4114-b746-c74794ff6a98:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page215-embedded-0.jpeg",
+        "image_alt": "A stress–strain graph with Strain / 10^-3 on the x-axis (0 to 12.0 in steps of 2.0) and Stress / GPa on the y-axis (0 to 1.6 in steps of 0.2). The line rises straight from the origin to a point labelled 'elastic limit' at strain 8.0 ×10^-3 and stress about 1.2 GPa. It then curves with a decreasing gradient to a point labelled 'breaks' at strain 12.0 ×10^-3 and stress about 1.5 GPa.\nLabels: 1.6, 1.4, 1.2, 1.0, 0.8, 0.6, 0.4, 0.2, 0, Stress / GPa, elastic limit, breaks, 0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, Strain / 10^-3\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular tank is filled with a liquid of density ρ. The height of the liquid is marked as h by a double-headed arrow on the right side of the tank. The base area of the tank is marked as A.",
+        "question": "Calculate the pressure at the base of the tank due to the liquid.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula for pressure due to a liquid column.",
+          "Substitute the given values into the formula.",
+          "Provide the final answer with correct units."
+        ],
+        "hints": [
+          "Use the formula P = ρgh, where P is pressure, ρ is density, g is acceleration due to gravity, and h is height."
+        ],
+        "model_answer": "P = ρgh = ρ × 9.8 m/s² × h",
+        "explanation": "Pressure at the base of the tank is due to the weight of the liquid above it. Using the formula for pressure due to a liquid column, substitute the given values to calculate the pressure.",
+        "exam_question_id": "a122bd81-0474-4e9d-abbf-d08d5acf71ce:1",
+        "topic_label": "Density",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page196-embedded-0.jpeg",
+        "image_alt": "A rectangular tank drawn as a transparent box, filled with light blue liquid up to a height marked h by a double-headed arrow on the right. The liquid is labelled \"density of liquid ρ\" with a line pointing to its top surface. The base of the tank has a shaded area labelled A.\nLabels: density of liquid ρ, h, A\nOriginal exercise: We can derive this relationship using Figure 7.2. Figure 7.2: The weight of water in a tank exerts pressure on its base. The force acting on the shaded area A on the bottom of the tank is caused by the weight of water above",
+        "checked": true,
+        "subtopic_id": 1267,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Density"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular tank is filled with a liquid of density ρ. The height of the liquid is marked as h by a double-headed arrow on the right side of the tank. The base area of the tank is marked as A.",
+        "question": "Explain why the pressure at the base of the tank increases if the height of the liquid is increased, assuming the density remains constant.",
+        "marks": 2,
+        "marking_criteria": [
+          "State that pressure is directly proportional to height in a liquid column.",
+          "Explain the relationship using the formula for pressure due to a liquid column."
+        ],
+        "hints": [
+          "Refer to the formula P = ρgh and explain the effect of increasing h."
+        ],
+        "model_answer": "Pressure increases because it is directly proportional to the height of the liquid column. As h increases, P = ρgh increases.",
+        "explanation": "The pressure at the base of the tank increases with the height of the liquid because the weight of the liquid above increases, leading to a higher pressure according to the formula P = ρgh.",
+        "exam_question_id": "a122bd81-0474-4e9d-abbf-d08d5acf71ce:1",
+        "topic_label": "Density",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page196-embedded-0.jpeg",
+        "image_alt": "A rectangular tank drawn as a transparent box, filled with light blue liquid up to a height marked h by a double-headed arrow on the right. The liquid is labelled \"density of liquid ρ\" with a line pointing to its top surface. The base of the tank has a shaded area labelled A.\nLabels: density of liquid ρ, h, A\nOriginal exercise: We can derive this relationship using Figure 7.2. Figure 7.2: The weight of water in a tank exerts pressure on its base. The force acting on the shaded area A on the bottom of the tank is caused by the weight of water above",
+        "checked": true,
+        "subtopic_id": 1267,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Density"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical tank with a flat base is filled with water to a height of 1.5 m. The base area of the tank is 0.5 m².",
+        "question": "Calculate the pressure at the bottom of the tank due to the water column.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of the formula for pressure (P = ρgh)",
+          "Substitution of the given values into the formula",
+          "Correct calculation and unit"
+        ],
+        "hints": [
+          "Recall the formula for pressure in a fluid at rest: P = ρgh, where ρ is the density of the fluid, g is the acceleration due to gravity, and h is the height of the fluid column."
+        ],
+        "model_answer": "Pressure (P) = Density (ρ) x Gravity (g) x Height (h) = 1000 kg/m³ x 9.8 m/s² x 1.5 m = 14700 Pa",
+        "explanation": "Use the formula for pressure in a fluid to calculate the pressure at the bottom of the tank due to the water column.",
+        "exam_question_id": "9e1bdf94-b3cd-4ebe-a08d-ef03038d7a0a:1",
+        "topic_label": "Pressure",
+        "topic_id": 307,
+        "checked": true,
+        "subtopic_id": 1268,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Pressure"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical tank with a flat base is filled with water to a height of 1.5 m. The base area of the tank is 0.5 m².",
+        "question": "Explain why the pressure at the bottom of the tank is greater than the pressure at the top of the tank.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the pressure difference due to the height of the water column",
+          "Understanding that pressure increases with depth in a fluid"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the pressure at the bottom of the tank is greater than the pressure at the top of the tank — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the pressure difference due to the height of the; Understanding that pressure increases with…."
+        ],
+        "model_answer": "The pressure at the bottom of the tank is greater than at the top because the water column above exerts a force on the water below, increasing the pressure with depth due to the weight of the water.",
+        "explanation": "Explain the relationship between the height of the water column and the pressure exerted by the water.",
+        "exam_question_id": "9e1bdf94-b3cd-4ebe-a08d-ef03038d7a0a:1",
+        "topic_label": "Pressure",
+        "topic_id": 307,
+        "checked": true,
+        "subtopic_id": 1268,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Pressure"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A cylindrical tank with a flat base is filled with water to a height of 1.5 m. The base area of the tank is 0.5 m².",
+        "question": "Determine the total force exerted by the water on the base of the tank.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of the formula for force (F = PA)",
+          "Substitution of the calculated pressure and base area into the formula",
+          "Correct calculation and unit"
+        ],
+        "hints": [
+          "Recall the formula for force exerted by a fluid: F = PA, where P is the pressure and A is the area."
+        ],
+        "model_answer": "Force (F) = Pressure (P) x Area (A) = 14700 Pa x 0.5 m² = 7350 N",
+        "explanation": "Use the calculated pressure and the base area of the tank to determine the total force exerted by the water on the base.",
+        "exam_question_id": "9e1bdf94-b3cd-4ebe-a08d-ef03038d7a0a:1",
+        "topic_label": "Pressure (Chapter 7: Matter and materials)",
+        "topic_id": 307,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Pressure (Chapter 7: Matter and materials)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A balloon is filled with helium to a volume of 2.0 m³ at a pressure of 1.0 x 10¹ Pa. The balloon is then taken to a higher altitude where the atmospheric pressure decreases to 0.5 x 10¹ Pa.",
+        "question": "Calculate the new volume of the balloon at the higher altitude, assuming the temperature remains constant.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of Boyle's Law (P1V1 = P2V2)",
+          "Substitution of the given values into the equation",
+          "Correct calculation and unit"
+        ],
+        "hints": [
+          "Use Boyle's Law to relate the initial and final states of the gas."
+        ],
+        "model_answer": "Using Boyle's Law: P1V1 = P2V2, 1.0 x 10¹ Pa x 2.0 m³ = 0.5 x 10¹ Pa x V2, V2 = 4.0 m³",
+        "explanation": "Apply Boyle's Law to find the new volume of the balloon at the higher altitude.",
+        "exam_question_id": "9e1bdf94-b3cd-4ebe-a08d-ef03038d7a0a:2",
+        "topic_label": "Pressure",
+        "topic_id": 307,
+        "checked": true,
+        "subtopic_id": 1268,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Pressure"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A balloon is filled with helium to a volume of 2.0 m³ at a pressure of 1.0 x 10¹ Pa. The balloon is then taken to a higher altitude where the atmospheric pressure decreases to 0.5 x 10¹ Pa.",
+        "question": "Explain why the volume of the balloon increases as the atmospheric pressure decreases.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the relationship between pressure and volume in a gas",
+          "Understanding that a decrease in pressure results in an increase in volume"
+        ],
+        "hints": [
+          "Consider the effect of a decrease in external pressure on the gas inside the balloon."
+        ],
+        "model_answer": "The volume of the balloon increases because, according to Boyle's Law, when the pressure on a gas decreases, the volume of the gas increases if the temperature remains constant.",
+        "explanation": "Explain the relationship between pressure and volume for a gas using Boyle's Law.",
+        "exam_question_id": "9e1bdf94-b3cd-4ebe-a08d-ef03038d7a0a:2",
+        "topic_label": "Pressure",
+        "topic_id": 307,
+        "checked": true,
+        "subtopic_id": 1268,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Pressure"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A balloon is filled with helium to a volume of 2.0 m³ at a pressure of 1.0 x 10¹ Pa. The balloon is then taken to a higher altitude where the atmospheric pressure decreases to 0.5 x 10¹ Pa.",
+        "question": "State the assumption made in this calculation regarding the temperature of the gas.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identification of the assumption that temperature remains constant"
+        ],
+        "hints": [
+          "Recall the conditions under which Boyle's Law is applicable."
+        ],
+        "model_answer": "The assumption made is that the temperature of the gas remains constant.",
+        "explanation": "State the assumption made in the calculation.",
+        "exam_question_id": "9e1bdf94-b3cd-4ebe-a08d-ef03038d7a0a:2",
+        "topic_label": "Pressure",
+        "topic_id": 307,
+        "checked": true,
+        "subtopic_id": 1268,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Pressure"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a cylindrical metal rod with a length of 2 m and a diameter of 1 cm. A force of 500 N is applied to stretch the rod.",
+        "question": "Calculate the stress experienced by the rod.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula for stress",
+          "Substitute the given values into the formula",
+          "Calculate the result"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the stress experienced by the rod — develop the idea fully rather than listing short points. Make sure you also cover: Identify the formula for stress; Substitute the given values into the formula; Calculate the result."
+        ],
+        "model_answer": "Stress = Force / Area = 500 N / (π * (0.01 m / 2)^2) = 15915494.3 N/m^2",
+        "explanation": "Stress is calculated using the formula Stress = Force / Area. The force applied is 500 N, and the area of the rod is calculated using the formula for the area of a circle, A = πr^2, where r is the radius of the rod.",
+        "exam_question_id": "79971aab-bfe3-4c77-9990-6420bbcb08b2:2",
+        "topic_label": "Compressive and tensile forces (Chapter 7: Matter and materials)",
+        "topic_id": 307,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Compressive and tensile forces (Chapter 7: Matter and materials)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a cylindrical metal rod with a length of 2 m and a diameter of 1 cm. A force of 500 N is applied to stretch the rod.",
+        "question": "Explain why the stress in the rod is uniform throughout its length.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the distribution of force along the rod",
+          "Relate the uniformity of stress to the material's properties"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the stress in the rod is uniform throughout its length — develop the idea fully rather than listing short points. Make sure you also cover: the distribution of the rod; Relate the uniformity of stress to the material's properties."
+        ],
+        "model_answer": "The stress in the rod is uniform throughout its length because the force is applied evenly along the entire length of the rod. The cross-sectional area of the rod is uniform, which means that the force is distributed evenly across the entire area. This results in a uniform stress throughout the rod.",
+        "explanation": "The stress in the rod is uniform throughout its length because the force is applied evenly along the entire length of the rod, and the cross-sectional area of the rod is uniform. This results in an even distribution of force across the entire area, leading to a uniform stress throughout the rod.",
+        "exam_question_id": "79971aab-bfe3-4c77-9990-6420bbcb08b2:2",
+        "topic_label": "Compressive and tensile forces (Chapter 7: Matter and materials)",
+        "topic_id": 307,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Compressive and tensile forces (Chapter 7: Matter and materials)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A metal beam is supported at both ends and has a length of 4 m. A load of 1000 N is placed at the centre of the beam.",
+        "question": "Calculate the maximum bending moment experienced by the beam.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula for the bending moment",
+          "Substitute the given values into the formula",
+          "Calculate the result"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the maximum bending moment experienced by the beam — develop the idea fully rather than listing short points. Make sure you also cover: Identify the formula for the bending moment; Substitute the given values into the formula; Calculate the result."
+        ],
+        "model_answer": "M = (F * L) / 4 = (1000 N * 4 m) / 4 = 1000 Nm",
+        "explanation": "The bending moment is calculated using the formula M = (F * L) / 4. The force (F) is the load placed at the centre of the beam, and the length (L) of the beam is 4 m.",
+        "exam_question_id": "79971aab-bfe3-4c77-9990-6420bbcb08b2:3",
+        "topic_label": "Compressive and tensile forces (Chapter 7: Matter and materials)",
+        "topic_id": 307,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Compressive and tensile forces (Chapter 7: Matter and materials)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A metal beam is supported at both ends and has a length of 4 m. A load of 1000 N is placed at the centre of the beam.",
+        "question": "Explain why the maximum bending moment occurs at the centre of the beam.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the distribution of the bending moment along the beam",
+          "Relate the location of the maximum bending moment to the load placement"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the maximum bending moment occurs at the centre of the beam — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The maximum bending moment occurs at the center of the beam because the load is placed at the center, and the beam is supported at both ends. The bending moment is distributed evenly along the length of the beam, with the maximum bending moment occurring at the point of maximum deflection, which is the center of the beam.",
+        "explanation": "The maximum bending moment occurs at the centre of the beam because the load is placed at the centre, and the beam is supported at both ends. The bending moment is distributed evenly along the length of the beam, with the maximum bending moment occurring at the point of maximum deflection, which is the centre of the beam.",
+        "exam_question_id": "79971aab-bfe3-4c77-9990-6420bbcb08b2:3",
+        "topic_label": "Compressive and tensile forces (Chapter 7: Matter and materials)",
+        "topic_id": 307,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Compressive and tensile forces (Chapter 7: Matter and materials)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "the diagram shows a line graph of Force / N (vertical axis, 0 to 10, labelled every 2) against Extension / mm (horizontal axis, 0 to 1.0, labelled every 0.2). A straight line passes through the origin and reaches 10 N at 0.8 mm. The graph sits on a fine square grid. Labels: Force / N, Extension / mm, 10, 8, 6, 4, 2, 0, 0, 0.2, 0.4, 0.6, 0.8, 1.0",
+        "question": "Calculate the Young modulus.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the formula for Young's modulus: Y = Stress / Strain.",
+          "Determine the stress from the force and the area of the material.",
+          "Determine the strain from the extension and the original length of the material."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the Young modulus — develop the idea fully rather than listing short points. Make sure you also cover: Determine the from the and the of the material.; Determine the from the and the of the material."
+        ],
+        "model_answer": "Young's modulus (Y) = Stress / Strain = (Force / Area) / (Extension / Original length) = (10 N / Area) / (0.8 mm / Original length). Assuming the area and original length are known, plug in the values to find Y.",
+        "explanation": "Young's modulus calculation requires both stress and strain, which depend on the area and original length of the material, not provided in the question.",
+        "exam_question_id": "d3899b56-192d-4bc1-909e-1d6ad9abcc0e:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page214-embedded-0.jpeg",
+        "image_alt": "A line graph of Force / N (vertical axis, 0 to 10, labelled every 2) against Extension / mm (horizontal axis, 0 to 1.0, labelled every 0.2). A straight line passes through the origin and reaches 10 N at 0.8 mm. The graph sits on a fine square grid.\nLabels: Force / N, Extension / mm, 10, 8, 6, 4, 2, 0, 0, 0.2, 0.4, 0.6, 0.8, 1.0\nOriginal exercise: Figure 7.20 Calculate the Young modulus. [3] Determine the energy stored in the wire when the extension is 0.8 mm. [2] Calculate the work done in stretching the wire between 0.4 mm and 0.8 mm. [2] [Total: 7]",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "the diagram shows a line graph of Force / N (vertical axis, 0 to 10, labelled every 2) against Extension / mm (horizontal axis, 0 to 1.0, labelled every 0.2). A straight line passes through the origin and reaches 10 N at 0.8 mm. The graph sits on a fine square grid. Labels: Force / N, Extension / mm, 10, 8, 6, 4, 2, 0, 0, 0.2, 0.4, 0.6, 0.8, 1.0",
+        "question": "Determine the energy stored in the wire when the extension is 0.8 mm.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use the formula for elastic potential energy: E = 0.5 * Force * Extension.",
+          "Substitute the force and extension values from the graph."
+        ],
+        "hints": [
+          "Stay focused on this: Determine the energy stored in the wire when the extension is 0.8 mm — develop the idea fully rather than listing short points. Make sure you also cover: the formula for elastic potential energy: E = 0.5 * * Extension.; Substitute the and extension values from the graph."
+        ],
+        "model_answer": "Energy stored (E) = 0.5 * Force * Extension = 0.5 * 10 N * 0.8 mm = 4 J.",
+        "explanation": "Use the given data from the graph to calculate the energy stored in the wire when the extension is 0.8 mm.",
+        "exam_question_id": "d3899b56-192d-4bc1-909e-1d6ad9abcc0e:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page214-embedded-0.jpeg",
+        "image_alt": "A line graph of Force / N (vertical axis, 0 to 10, labelled every 2) against Extension / mm (horizontal axis, 0 to 1.0, labelled every 0.2). A straight line passes through the origin and reaches 10 N at 0.8 mm. The graph sits on a fine square grid.\nLabels: Force / N, Extension / mm, 10, 8, 6, 4, 2, 0, 0, 0.2, 0.4, 0.6, 0.8, 1.0\nOriginal exercise: Figure 7.20 Calculate the Young modulus. [3] Determine the energy stored in the wire when the extension is 0.8 mm. [2] Calculate the work done in stretching the wire between 0.4 mm and 0.8 mm. [2] [Total: 7]",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "the diagram shows a line graph of Force / N (vertical axis, 0 to 10, labelled every 2) against Extension / mm (horizontal axis, 0 to 1.0, labelled every 0.2). A straight line passes through the origin and reaches 10 N at 0.8 mm. The graph sits on a fine square grid. Labels: Force / N, Extension / mm, 10, 8, 6, 4, 2, 0, 0, 0.2, 0.4, 0.6, 0.8, 1.0",
+        "question": "Calculate the work done in stretching the wire between 0.4 mm and 0.8 mm.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use the formula for work done: Work = 0.5 * Force * (Final Extension - Initial Extension).",
+          "Substitute the force and extension values from the graph."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the work done in stretching the wire between 0.4 mm and 0.8 mm — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the and values from the graph."
+        ],
+        "model_answer": "Work done = 0.5 * Force * (Final Extension - Initial Extension) = 0.5 * 10 N * (0.8 mm - 0.4 mm) = 2 J.",
+        "explanation": "Use the given data from the graph to calculate the work done in stretching the wire between 0.4 mm and 0.8 mm.",
+        "exam_question_id": "d3899b56-192d-4bc1-909e-1d6ad9abcc0e:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page214-embedded-0.jpeg",
+        "image_alt": "A line graph of Force / N (vertical axis, 0 to 10, labelled every 2) against Extension / mm (horizontal axis, 0 to 1.0, labelled every 0.2). A straight line passes through the origin and reaches 10 N at 0.8 mm. The graph sits on a fine square grid.\nLabels: Force / N, Extension / mm, 10, 8, 6, 4, 2, 0, 0, 0.2, 0.4, 0.6, 0.8, 1.0\nOriginal exercise: Figure 7.20 Calculate the Young modulus. [3] Determine the energy stored in the wire when the extension is 0.8 mm. [2] Calculate the work done in stretching the wire between 0.4 mm and 0.8 mm. [2] [Total: 7]",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A diagram is printed with the first part. It shows: A graph with Extension on the horizontal axis and Force on the vertical axis. Both axes have arrows and the origin is marked 0 on each axis. A straight line starts at the origin and rises steadily to the upper right. The spring has a force constant k = 80 N m−1. The spring is compressed by 0.060 m, within the limit of proportionality.",
+        "question": "State what is represented by the gradient of the graph.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the gradient as the force constant k."
+        ],
+        "hints": [
+          "Stay focused on this: State what is represented by the gradient of the graph — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The gradient of the graph represents the force constant k of the spring, which is 80 N m−1.",
+        "explanation": "The gradient of a Force vs. Extension graph is equal to the force constant k according to Hooke's Law.",
+        "exam_question_id": "8c16a752-9e2b-4eae-964f-f573d0a7857e:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page216-embedded-0.jpeg",
+        "image_alt": "A graph with Extension on the horizontal axis and Force on the vertical axis. Both axes have arrows and the origin is marked 0 on each axis. A straight line starts at the origin and rises steadily to the upper right.\nLabels: Force, 0, 0, Extension\nOriginal exercise: Figure 7.23 State what is represented by: the gradient of the graph [1] the area under the graph. [1] The spring has force constant k = 80 N m−1. The spring is compressed by 0.060 m, within the limit of",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A diagram is printed with the first part. It shows: A graph with Extension on the horizontal axis and Force on the vertical axis. Both axes have arrows and the origin is marked 0 on each axis. A straight line starts at the origin and rises steadily to the upper right. The spring has a force constant k = 80 N m−1. The spring is compressed by 0.060 m, within the limit of proportionality.",
+        "question": "State what is represented by the area under the graph.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the area under the graph as the work done or energy stored in the spring."
+        ],
+        "hints": [
+          "Stay focused on this: State what is represented by the area under the graph — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The area under the graph represents the work done or the energy stored in the spring when it is extended or compressed.",
+        "explanation": "The area under a Force vs. Extension graph represents the work done or the energy stored in the spring.",
+        "exam_question_id": "8c16a752-9e2b-4eae-964f-f573d0a7857e:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page216-embedded-0.jpeg",
+        "image_alt": "A graph with Extension on the horizontal axis and Force on the vertical axis. Both axes have arrows and the origin is marked 0 on each axis. A straight line starts at the origin and rises steadily to the upper right.\nLabels: Force, 0, 0, Extension\nOriginal exercise: Figure 7.23 State what is represented by: the gradient of the graph [1] the area under the graph. [1] The spring has force constant k = 80 N m−1. The spring is compressed by 0.060 m, within the limit of",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A diagram is printed with the first part. It shows: A graph with Extension on the horizontal axis and Force on the vertical axis. Both axes have arrows and the origin is marked 0 on each axis. A straight line starts at the origin and rises steadily to the upper right. The spring has a force constant k = 80 N m−1. The spring is compressed by 0.060 m, within the limit of proportionality.",
+        "question": "Calculate the force exerted by the spring when it is compressed by 0.060 m.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use Hooke's Law F = kx to calculate the force.",
+          "Substitute the given values into the equation."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the force exerted by the spring when it is compressed by 0.060 m — develop the idea fully rather than listing short points. Make sure you also cover: Hooke's Law F = kx to calculate the force.; Substitute the given values into the equation."
+        ],
+        "model_answer": "F = kx = 80 N m−1 * 0.060 m = 4.8 N. The force exerted by the spring when it is compressed by 0.060 m is 4.8 N.",
+        "explanation": "Using Hooke's Law, the force exerted by the spring can be calculated by multiplying the force constant k by the extension x.",
+        "exam_question_id": "8c16a752-9e2b-4eae-964f-f573d0a7857e:1",
+        "topic_label": "Chapter 7: Matter and materials",
+        "topic_id": 307,
+        "image_url": "/textbook-images/cambridge/22/page216-embedded-0.jpeg",
+        "image_alt": "A graph with Extension on the horizontal axis and Force on the vertical axis. Both axes have arrows and the origin is marked 0 on each axis. A straight line starts at the origin and rises steadily to the upper right.\nLabels: Force, 0, 0, Extension\nOriginal exercise: Figure 7.23 State what is represented by: the gradient of the graph [1] the area under the graph. [1] The spring has force constant k = 80 N m−1. The spring is compressed by 0.060 m, within the limit of",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 7: Matter and materials"
+        }
+      }
+    ],
+    "estimated_time": 65,
+    "assessment_id": "7de9e0a9-7fa4-40b0-a55b-e01f99e4aaa4",
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "topics": [
+      "Chapter 7: Matter and materials"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 22,
+    "topic_ids": [
+      307
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 27,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 6,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "9a",
+        "severity": "broken or poor",
+        "detail": "The question lacks necessary data to calculate Young's modulus accurately.",
+        "correction": "Requires area and original length of the material to be provided."
+      }
+    ],
+    "summary": "Minor issue with missing data for accurate Young's modulus calculation."
+  },
+  "totalSeconds": 48
+}

@@ -1,0 +1,287 @@
+{
+  "index": 19,
+  "label": "REB / Practice / P4 Mathematics PB",
+  "request": {
+    "subject": "P4 Mathematics PB",
+    "textbook_id": 153,
+    "topic_ids": [
+      1588,
+      1585
+    ],
+    "topics": [
+      "Time",
+      "Capacity Measurements"
+    ],
+    "curriculum": "rwanda",
+    "grade": 4,
+    "className": "P4",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 8,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What is the time 15 minutes after 3:00 PM?",
+        "options": [
+          "3:15 PM",
+          "3:30 PM",
+          "3:45 PM",
+          "4:00 PM"
+        ],
+        "correct_answer": 0,
+        "explanation": "3:15 PM is correct because if you add 15 minutes to 3:00 PM, you get 3:15 PM. The other options are wrong: 3:30 PM is 30 minutes after, 3:45 PM is 45 minutes after, and 4:00 PM is 60 minutes after.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Time",
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Time"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "How many seconds are in one minute?",
+        "options": [
+          "90",
+          "60",
+          "100",
+          "120"
+        ],
+        "correct_answer": 1,
+        "explanation": "60 is correct because there are 60 seconds in one minute. The other options are wrong: 100, 120, and 90 seconds are not correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Time",
+        "source": {
+          "textbook": "P4 Mathematics PB"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "What is the time 30 minutes before 5:00 PM?",
+        "options": [
+          "4:30 PM",
+          "5:30 PM",
+          "6:00 PM",
+          "4:00 PM"
+        ],
+        "correct_answer": 3,
+        "explanation": "4:00 PM is correct because if you subtract 30 minutes from 5:00 PM, you get 4:30 PM. The other options are wrong: 4:30 PM is 30 minutes after, 5:30 PM is 30 minutes after, and 6:00 PM is 60 minutes after.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Time",
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Time"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "How many hours are in a day?",
+        "options": [
+          "60",
+          "100",
+          "24",
+          "12"
+        ],
+        "correct_answer": 2,
+        "explanation": "24 is correct because there are 24 hours in a day. The other options are wrong: 12, 60, and 100 hours are not correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Capacity Measurements",
+        "source": {
+          "textbook": "P4 Mathematics PB"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "How many minutes are in one hour?",
+        "options": [
+          "60",
+          "120",
+          "30",
+          "90"
+        ],
+        "correct_answer": 0,
+        "explanation": "60 is correct because there are 60 minutes in one hour. The other options are wrong: 120, 30, and 90 minutes are not correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Time",
+        "source": {
+          "textbook": "P4 Mathematics PB"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Look at the diagram. Which analogue clock shows the same time as the black square watch showing 13:00?",
+        "options": [
+          "The black-rimmed clock with the minute hand at 9",
+          "The black-rimmed clock with the minute hand at 6 and the hour hand just past 6",
+          "None of the clocks, because 13 is not on a clock face",
+          "The red-rimmed clock with the minute hand at 12 and the hour hand at 1"
+        ],
+        "correct_answer": 3,
+        "explanation": "13:00 in 24-hour time is 1:00 in the afternoon. The red clock has its minute hand at 12 and its hour hand at 1, so it matches. The clock with the minute hand at 9 shows 12:45. The clock with the minute hand at 6 shows 6:30. Clocks can show 13:00 as 1 o'clock.",
+        "image_url": "/textbook-images/rwanda/153/page129-embedded-3.jpeg",
+        "topic_label": "Time",
+        "vetted": true,
+        "image_alt": "Two columns for a matching activity. On the left are three digital watches: a blue child's watch showing 12:45, a black smartwatch showing 06:30 (PM, 2018.12.10), and a black square watch showing 13:00. On the right are three analogue clocks: a red-rimmed clock with hands at about 1 o'clock (hour hand near 1, minute hand at 12), a black-rimmed clock with the minute hand at 9 and the hour hand just before 1, and a black-rimmed clock with the minute hand at 6 and the hour hand just past 6. Printed on it: 12:45 | 06:30 | PM | 2018.12.10 | 13:00 | 12 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11.",
+        "source": {
+          "textbook": "P4 Mathematics PB"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "How many seconds are in one hour?",
+        "options": [
+          "5400",
+          "3600",
+          "6000",
+          "7200"
+        ],
+        "correct_answer": 1,
+        "explanation": "3600 is correct because there are 3600 seconds in one hour (60 seconds * 60 minutes). The other options are wrong: 6000, 7200, and 5400 seconds are not correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Capacity Measurements",
+        "source": {
+          "textbook": "P4 Mathematics PB"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What is the best unit to measure the capacity of a bottle of juice?",
+        "options": [
+          "centimetres",
+          "grams",
+          "litres",
+          "meters"
+        ],
+        "correct_answer": 2,
+        "explanation": "Litres is the correct unit for measuring the capacity of a bottle of juice because it is a unit of volume. Grams measure weight, meters measure length, and centimetres also measure length. So, litres is the right choice to measure how much juice the bottle can hold.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Capacity Measurements",
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Capacity Measurements"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "If you have a container that holds 1 litre of water, how many millilitres is that?",
+        "options": [
+          "500",
+          "2000",
+          "100",
+          "1000"
+        ],
+        "correct_answer": 3,
+        "explanation": "1 litre is equal to 1000 millilitres. This conversion is standard in measuring capacity. If you have a container holding 1 litre of water, it means it holds 1000 millilitres. Other options do not match this conversion.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Capacity Measurements",
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Capacity Measurements"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Which of the following is the smallest unit for measuring capacity?",
+        "options": [
+          "litre",
+          "millilitre",
+          "gallon",
+          "quart"
+        ],
+        "correct_answer": 1,
+        "explanation": "A millilitre is the smallest unit among the options provided. A litre, gallon, and quart are larger units of measuring capacity. The millilitre is used for smaller amounts of liquid.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "topic_label": "Capacity Measurements",
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Capacity Measurements"
+        }
+      }
+    ],
+    "estimated_time": 20,
+    "assessment_id": "2f2307ad-1e7f-4cef-b39d-aa7a63c66c9f",
+    "subject": "P4 Mathematics PB",
+    "topics": [
+      "Time",
+      "Capacity Measurements"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mcq",
+    "textbook_id": 153,
+    "topic_ids": [
+      1588,
+      1585
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "3",
+        "severity": "broken",
+        "detail": "Explanation contradicts correct answer. States '4:30 PM is 30 minutes after' but 4:30 PM is actually 30 minutes BEFORE 5:00 PM. The correct answer (option 3: 4:00 PM) is wrong; should be option 0 (4:30 PM).",
+        "correction": "Correct answer should be 0 (4:30 PM). Explanation should state: '4:30 PM is correct because subtracting 30 minutes from 5:00 PM gives 4:30 PM.'"
+      },
+      {
+        "label": "4",
+        "severity": "poor",
+        "detail": "Question 'How many hours are in a day?' is labeled under 'Capacity Measurements' topic but belongs to 'Time' topic. Capacity measures volume/liquid; this is a time conversion.",
+        "correction": "Change topic_label from 'Capacity Measurements' to 'Time'."
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Question 'How many seconds are in one hour?' is labeled under 'Capacity Measurements' but is a time conversion question, not capacity-related.",
+        "correction": "Change topic_label from 'Capacity Measurements' to 'Time'."
+      }
+    ],
+    "summary": "Assessment has 10 questions covering Time and Capacity Measurements. Three issues identified: Question 3 has incorrect correct answer (should be 4:30 PM, not 4:00 PM) with contradictory explanation. Questions 4 and 7 are mislabeled as Capacity when they are Time topics. All other questions are factually correct and age-appropriate for Grade 4."
+  },
+  "totalSeconds": 12
+}

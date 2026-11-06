@@ -77,6 +77,16 @@ export function unanswerableReason(q: AnswerableQuestion): string | null {
   const stem = typeof q.question === 'string' ? q.question.trim() : ''
   if (!stem) return null
 
+  // The worked answer sometimes admits that the requested calculation cannot
+  // be completed. A picture or unrelated digit must not override that evidence.
+  const solution = `${String(q.model_answer ?? '')} ${String(q.explanation ?? '')}`
+  if (opensWithComputation(stem) && !/\b(?:in terms of|expression for|symbolic)\b/i.test(stem)
+    && !/\b(?:not required|not needed|cancels? out)\b/i.test(solution)
+    && (/\b(?:requires?|needs?|depends? on)\b[\s\S]{0,240}\b(?:not provided|not given|missing)\b/i.test(solution)
+      || /\bassum(?:e|ing)\b[\s\S]{0,90}\b(?:is|are) known\b[\s\S]{0,90}\b(?:plug|substitut)/i.test(solution))) {
+    return 'worked answer admits essential calculation data is missing'
+  }
+
   if (asksNothing(stem)) return 'sets a scene and asks nothing'
   if (asksTwoThings(q)) return 'asks two things in a one-word answer box'
   // The same fault in a one-mark WRITTEN slot, which carries marking criteria

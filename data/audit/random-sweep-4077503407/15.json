@@ -1,0 +1,731 @@
+{
+  "index": 15,
+  "label": "REB / Exam / P1 Mathematics PB ,",
+  "request": {
+    "subject": "P1 Mathematics PB ,",
+    "textbook_id": 140,
+    "topic_ids": [
+      1448,
+      1459
+    ],
+    "topics": [
+      "Numbers from 1 up to 5",
+      "Rwandan currency from 1 frw up to 100 frw"
+    ],
+    "curriculum": "rwanda",
+    "grade": 1,
+    "className": "P1",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 55,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram. It shows a girl in a green sweater, blue skirt, white socks, and red shoes standing on the left. She holds a yellow notebook in one hand and a pen in the other. On the right, a brown hen is pecking at the ground with three small chicks around it.",
+        "question": "How many shoes does the girl have?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct number of shoes",
+          "Show the correct working"
+        ],
+        "hints": [
+          "Look at the girl's feet."
+        ],
+        "model_answer": "2 shoes\n\nThe girl has 2 shoes.",
+        "explanation": "You should have counted that the girl has 2 shoes, one on each foot.",
+        "exam_question_id": "f7e5b067-ac53-4ebb-a2b1-64e636e7e828:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/rwanda/140/page7-embedded-0.jpeg",
+        "image_alt": "A girl in a green sweater, blue skirt, white socks and red shoes stands on the left. She holds a yellow notebook in one hand and a pen in the other. On the right, a brown hen is pecking at the ground with three small chicks around it. No text or numbers are printed on it.\nLabels: \nOriginal exercise: 1. Look at the picture. 2. What do you see? 3. How many hens? 4. How many pens? 5. How many notebooks?",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram. It shows a girl in a green sweater, blue skirt, white socks, and red shoes standing on the left. She holds a yellow notebook in one hand and a pen in the other. On the right, a brown hen is pecking at the ground with three small chicks around it.",
+        "question": "How many chicks are around the hen?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct number of chicks",
+          "Show the correct working"
+        ],
+        "hints": [
+          "Look at the right side of the diagram."
+        ],
+        "model_answer": "3 chicks\n\nThere are 3 chicks around the hen.",
+        "explanation": "You should have counted that there are 3 chicks around the hen.",
+        "exam_question_id": "f7e5b067-ac53-4ebb-a2b1-64e636e7e828:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/rwanda/140/page7-embedded-0.jpeg",
+        "image_alt": "A girl in a green sweater, blue skirt, white socks and red shoes stands on the left. She holds a yellow notebook in one hand and a pen in the other. On the right, a brown hen is pecking at the ground with three small chicks around it. No text or numbers are printed on it.\nLabels: \nOriginal exercise: 1. Look at the picture. 2. What do you see? 3. How many hens? 4. How many pens? 5. How many notebooks?",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Look at the diagram. It shows a girl in a green sweater, blue skirt, white socks, and red shoes standing on the left. She holds a yellow notebook in one hand and a pen in the other. On the right, a brown hen is pecking at the ground with three small chicks around it.",
+        "question": "Name the colour of the notebook the girl is holding.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct colour of the notebook",
+          "Show the correct working"
+        ],
+        "hints": [
+          "Look at the girl's hand."
+        ],
+        "model_answer": "Yellow\n\nThe notebook is yellow.",
+        "explanation": "You should have identified that the notebook the girl is holding is yellow.",
+        "exam_question_id": "f7e5b067-ac53-4ebb-a2b1-64e636e7e828:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/rwanda/140/page7-embedded-0.jpeg",
+        "image_alt": "A girl in a green sweater, blue skirt, white socks and red shoes stands on the left. She holds a yellow notebook in one hand and a pen in the other. On the right, a brown hen is pecking at the ground with three small chicks around it. No text or numbers are printed on it.\nLabels: \nOriginal exercise: 1. Look at the picture. 2. What do you see? 3. How many hens? 4. How many pens? 5. How many notebooks?",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows two hens and their eggs. One hen has 3 eggs and the other has 2 eggs.\n\nThis hen has 3 eggs\nThis hen has 2 eggs\nThe two hens have",
+        "question": "Calculate the total number of eggs the two hens have together.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly adds the number of eggs from both hens (1 mark)",
+          "Provides the final answer (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of eggs the two hens have together — develop the idea fully rather than listing short points. Make sure you also cover: Correctly adds the number of eggs from both hens (1 mark); Provides the final answer (1 mark)."
+        ],
+        "model_answer": "3 + 2 = 5. The two hens have 5 eggs together.",
+        "explanation": "To find the total number of eggs, add the number of eggs from the first hen (3) to the number of eggs from the second hen (2). This gives you the total number of eggs the two hens have together.",
+        "exam_question_id": "557b1de9-f1b3-4e34-bf94-4a20b1853b95:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p23-f0.jpg",
+        "image_alt": "Three boxed word problems with pictures. In the first, one hen with 3 eggs is labelled 'This hen has 3 eggs' and a second hen with 2 eggs is labelled 'This hen has 2 eggs'; 'The two hens have' is followed by an empty answer box. In the second, two bananas are labelled 'Gasore has 2 bananas' and one more banana is labelled 'Gasore gets 1 banana'; 'The total number of bananas is' is followed by an empty box. In the third, three goats are labelled 'Munezero has 3 goats' and two more goats are labelled 'Munezero gets 2 more goats'; 'The number of all goats is' is followed by an empty box.\nLabels: ",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows two hens and their eggs. One hen has 3 eggs and the other has 2 eggs.\n\nThis hen has 3 eggs\nThis hen has 2 eggs\nThe two hens have",
+        "question": "Calculate the total number of bananas Gasore has after getting the additional banana.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly adds the bananas Gasore originally has to the additional banana (1 mark)",
+          "Provides the final answer (1 mark)"
+        ],
+        "hints": [
+          "Add the number of bananas Gasore originally has to the number he gets."
+        ],
+        "model_answer": "2 + 1 = 3. Gasore has 3 bananas in total.",
+        "explanation": "To find the total number of bananas Gasore has, add the number of bananas he originally has (2) to the additional banana he gets (1). This gives you the total number of bananas Gasore has now.",
+        "exam_question_id": "557b1de9-f1b3-4e34-bf94-4a20b1853b95:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p23-f0.jpg",
+        "image_alt": "Three boxed word problems with pictures. In the first, one hen with 3 eggs is labelled 'This hen has 3 eggs' and a second hen with 2 eggs is labelled 'This hen has 2 eggs'; 'The two hens have' is followed by an empty answer box. In the second, two bananas are labelled 'Gasore has 2 bananas' and one more banana is labelled 'Gasore gets 1 banana'; 'The total number of bananas is' is followed by an empty box. In the third, three goats are labelled 'Munezero has 3 goats' and two more goats are labelled 'Munezero gets 2 more goats'; 'The number of all goats is' is followed by an empty box.\nLabels: ",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows two hens and their eggs. One hen has 3 eggs and the other has 2 eggs.\n\nThis hen has 3 eggs\nThis hen has 2 eggs\nThe two hens have",
+        "question": "Calculate the total number of goats Munezero has after getting the additional goats.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly adds the number of goats Munezero originally has to the additional goats (1 mark)",
+          "Provides the final answer (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of goats Munezero has after getting the additional goats — develop the idea fully rather than listing short points. Make sure you also cover: Provides the final answer (1 mark)."
+        ],
+        "model_answer": "3 + 2 = 5. Munezero has 5 goats in total.",
+        "explanation": "To find the total number of goats Munezero has, add the number of goats he originally has (3) to the additional goats he gets (2). This gives you the total number of goats Munezero has now.",
+        "exam_question_id": "557b1de9-f1b3-4e34-bf94-4a20b1853b95:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p23-f0.jpg",
+        "image_alt": "Three boxed word problems with pictures. In the first, one hen with 3 eggs is labelled 'This hen has 3 eggs' and a second hen with 2 eggs is labelled 'This hen has 2 eggs'; 'The two hens have' is followed by an empty answer box. In the second, two bananas are labelled 'Gasore has 2 bananas' and one more banana is labelled 'Gasore gets 1 banana'; 'The total number of bananas is' is followed by an empty box. In the third, three goats are labelled 'Munezero has 3 goats' and two more goats are labelled 'Munezero gets 2 more goats'; 'The number of all goats is' is followed by an empty box.\nLabels: ",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram. It shows: Three rows of picture addition sums, each with three boxes holding pictures, joined by + and = signs. Row 1 (Tomatoes): 3 tomatoes + 2 tomatoes = 5 tomatoes, with numbers 3 and 2 printed and the answer box empty. Row 2 (Cows): 1 cow + 2 cows = 3 cows, with numbers 1 and 2 printed and the answer box empty. Row 3 (Tree tomatoes): 2 tree tomatoes + 2 tree tomatoes = 4 tree tomatoes, with numbers 2 and 2 printed and the answer box empty.",
+        "question": "Calculate the missing number in the first row where 3 tomatoes + 2 tomatoes = 5 tomatoes.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the sum of tomatoes.",
+          "Writing the correct number in the answer box."
+        ],
+        "hints": [
+          "Add the numbers of tomatoes given in the first row."
+        ],
+        "model_answer": "3 + 2 = 5. The missing number is 5.",
+        "explanation": "Add the numbers of tomatoes shown in the first row to find the total number of tomatoes.",
+        "exam_question_id": "7a3d6ad7-da41-4a70-bf9e-8f0332208249:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p20-f1.jpg",
+        "image_alt": "Three rows of picture addition sums, each with three boxes holding pictures, joined by + and = signs. Row 1 (Tomatoes): 3 tomatoes + 2 tomatoes = 5 tomatoes, with numbers 3 and 2 printed and the answer box empty. Row 2 (Cows): 1 cow + 2 cows = 3 cows, with numbers 1 and 2 printed and the answer box empty. Row 3 (Tree tomatoes): 2 tree tomatoes + 2 tree tomatoes = 4 tree tomatoes, with numbers 2 and 2 printed and the answer box empty.\nLabels: Tomatoes, 3, +, 2, =, Cows, 1, +, 2, =, Tree tomatoes, 2, +, 2, =\nOriginal exercise: Count and find the missing number",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram. It shows: Three rows of picture addition sums, each with three boxes holding pictures, joined by + and = signs. Row 1 (Tomatoes): 3 tomatoes + 2 tomatoes = 5 tomatoes, with numbers 3 and 2 printed and the answer box empty. Row 2 (Cows): 1 cow + 2 cows = 3 cows, with numbers 1 and 2 printed and the answer box empty. Row 3 (Tree tomatoes): 2 tree tomatoes + 2 tree tomatoes = 4 tree tomatoes, with numbers 2 and 2 printed and the answer box empty.",
+        "question": "State the total number of cows in the second row.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identifying the total number of cows in the second row."
+        ],
+        "hints": [
+          "Look at the numbers of cows in the second row and add them together."
+        ],
+        "model_answer": "1 + 2 = 3. The total number of cows is 3.",
+        "explanation": "Add the numbers of cows shown in the second row to find the total number of cows.",
+        "exam_question_id": "7a3d6ad7-da41-4a70-bf9e-8f0332208249:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p20-f1.jpg",
+        "image_alt": "Three rows of picture addition sums, each with three boxes holding pictures, joined by + and = signs. Row 1 (Tomatoes): 3 tomatoes + 2 tomatoes = 5 tomatoes, with numbers 3 and 2 printed and the answer box empty. Row 2 (Cows): 1 cow + 2 cows = 3 cows, with numbers 1 and 2 printed and the answer box empty. Row 3 (Tree tomatoes): 2 tree tomatoes + 2 tree tomatoes = 4 tree tomatoes, with numbers 2 and 2 printed and the answer box empty.\nLabels: Tomatoes, 3, +, 2, =, Cows, 1, +, 2, =, Tree tomatoes, 2, +, 2, =\nOriginal exercise: Count and find the missing number",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Look at the diagram. It shows: Three rows of picture addition sums, each with three boxes holding pictures, joined by + and = signs. Row 1 (Tomatoes): 3 tomatoes + 2 tomatoes = 5 tomatoes, with numbers 3 and 2 printed and the answer box empty. Row 2 (Cows): 1 cow + 2 cows = 3 cows, with numbers 1 and 2 printed and the answer box empty. Row 3 (Tree tomatoes): 2 tree tomatoes + 2 tree tomatoes = 4 tree tomatoes, with numbers 2 and 2 printed and the answer box empty.",
+        "question": "Explain how you found the total number of tree tomatoes in the third row.",
+        "marks": 2,
+        "marking_criteria": [
+          "Demonstrating the addition process.",
+          "Writing the correct total number of tree tomatoes."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how you found the total number of tree tomatoes in the third row — develop the idea fully rather than listing short points. Make sure you also cover: Demonstrating the addition process."
+        ],
+        "model_answer": "2 + 2 = 4. I added the two numbers of tree tomatoes together to find the total number of tree tomatoes.",
+        "explanation": "Explain the addition process by showing how you added the numbers of tree tomatoes in the third row.",
+        "exam_question_id": "7a3d6ad7-da41-4a70-bf9e-8f0332208249:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p20-f1.jpg",
+        "image_alt": "Three rows of picture addition sums, each with three boxes holding pictures, joined by + and = signs. Row 1 (Tomatoes): 3 tomatoes + 2 tomatoes = 5 tomatoes, with numbers 3 and 2 printed and the answer box empty. Row 2 (Cows): 1 cow + 2 cows = 3 cows, with numbers 1 and 2 printed and the answer box empty. Row 3 (Tree tomatoes): 2 tree tomatoes + 2 tree tomatoes = 4 tree tomatoes, with numbers 2 and 2 printed and the answer box empty.\nLabels: Tomatoes, 3, +, 2, =, Cows, 1, +, 2, =, Tree tomatoes, 2, +, 2, =\nOriginal exercise: Count and find the missing number",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram. It shows four panels, each with two oval groups of pictures and a number sentence below. Bees: 1 bee in the left oval and 4 bees in the right oval; the sentence is 5 = 1 + an empty box. Elephants: 3 elephants in the left oval and 1 in the right; the sentence is 4 = 3 + an empty box. Butterflies: 2 in the left oval and 3 in the right; the sentence is 5 = 2 + an empty box. Maize: 2 maize cobs in the left oval and 2 in the right; the sentence is 4 = 2 + an empty box.",
+        "question": "Calculate the number of bees in the right oval.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the number of bees in the left oval (1 point)",
+          "Correctly calculate the number of bees in the right oval by solving the equation (1 point)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of bees in the right oval — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "5 = 1 + an empty box. To find the missing number, subtract 1 from 5. 5 - 1 = 4. So, there are 4 bees in the right oval.",
+        "explanation": "To find the number of bees in the right oval, use the number sentence 5 = 1 + an empty box. Subtract 1 from 5 to get the number in the empty box.",
+        "exam_question_id": "9fa430a9-7f88-4dc9-9162-c4d5f72e99ee:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p21-f0.jpg",
+        "image_alt": "Four panels, each with two oval groups of pictures and a number sentence below. Bees: 1 bee in the left oval and 4 bees in the right oval; the sentence is 5 = 1 + an empty box. Elephants: 3 elephants in the left oval and 1 in the right; the sentence is 4 = 3 + an empty box. Butterflies: 2 in the left oval and 3 in the right; the sentence is 5 = 2 + an empty box. Maize: 2 maize cobs in the left oval and 2 in the right; the sentence is 4 = 2 + an empty box.\nLabels: Bees, 5, =, 1, +, Elephants, 4, =, 3, +, Butterflies, 5, =, 2, +, Maize, 4, =, 2, +\nOriginal exercise: Count objects.\nAdd numbers.",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram. It shows four panels, each with two oval groups of pictures and a number sentence below. Bees: 1 bee in the left oval and 4 bees in the right oval; the sentence is 5 = 1 + an empty box. Elephants: 3 elephants in the left oval and 1 in the right; the sentence is 4 = 3 + an empty box. Butterflies: 2 in the left oval and 3 in the right; the sentence is 5 = 2 + an empty box. Maize: 2 maize cobs in the left oval and 2 in the right; the sentence is 4 = 2 + an empty box.",
+        "question": "Calculate the number of elephants in the right oval.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the number of elephants in the left oval (1 point)",
+          "Correctly calculate the number of elephants in the right oval by solving the equation (1 point)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of elephants in the right oval — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the number of elephants in the left oval (1 point)."
+        ],
+        "model_answer": "4 = 3 + an empty box. To find the missing number, subtract 3 from 4. 4 - 3 = 1. So, there is 1 elephant in the right oval.",
+        "explanation": "To find the number of elephants in the right oval, use the number sentence 4 = 3 + an empty box. Subtract 3 from 4 to get the number in the empty box.",
+        "exam_question_id": "9fa430a9-7f88-4dc9-9162-c4d5f72e99ee:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/textbook-bank/140/p21-f0.jpg",
+        "image_alt": "Four panels, each with two oval groups of pictures and a number sentence below. Bees: 1 bee in the left oval and 4 bees in the right oval; the sentence is 5 = 1 + an empty box. Elephants: 3 elephants in the left oval and 1 in the right; the sentence is 4 = 3 + an empty box. Butterflies: 2 in the left oval and 3 in the right; the sentence is 5 = 2 + an empty box. Maize: 2 maize cobs in the left oval and 2 in the right; the sentence is 4 = 2 + an empty box.\nLabels: Bees, 5, =, 1, +, Elephants, 4, =, 3, +, Butterflies, 5, =, 2, +, Maize, 4, =, 2, +\nOriginal exercise: Count objects.\nAdd numbers.",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "There are 4 red marbles and 6 blue marbles in a bag.",
+        "question": "Calculate the total number of marbles in the bag.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the number of red marbles.",
+          "Correctly identifies the number of blue marbles.",
+          "Sums the total number of marbles correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of marbles in the bag — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the number of red marbles.; Correctly identifies the number of marbles.; Sums the total number of marbles correctly."
+        ],
+        "model_answer": "4 red marbles + 6 blue marbles = 10 marbles",
+        "explanation": "You correctly added the number of red and blue marbles to find the total number of marbles in the bag.",
+        "exam_question_id": "8b529f70-ff24-45bf-8e20-f5a15aa40799:2",
+        "topic_label": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "There are 4 red marbles and 6 blue marbles in a bag.",
+        "question": "Calculate the total number of blue marbles if 2 more blue marbles are added.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the initial number of blue marbles.",
+          "Adds the additional blue marbles correctly.",
+          "Sums the total number of blue marbles correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of blue marbles if 2 more blue marbles are added — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the initial number of blue marbles.; Adds the additional blue marbles correctly.; Sums the total number of blue…."
+        ],
+        "model_answer": "6 blue marbles + 2 blue marbles = 8 blue marbles",
+        "explanation": "You correctly added the additional blue marbles to the initial number to find the new total number of blue marbles.",
+        "exam_question_id": "8b529f70-ff24-45bf-8e20-f5a15aa40799:2",
+        "topic_label": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Liam has 5 toy cars and his friend has 3 toy cars.",
+        "question": "Calculate the total number of toy cars they have together.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the number of toy cars Liam has.",
+          "Correctly identifies the number of toy cars his friend has.",
+          "Sums the total number of toy cars correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of toy cars they have together — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the number of toy cars Liam has.; Correctly identifies the number of toy cars his friend has.; Sums the total number of toy cars…."
+        ],
+        "model_answer": "5 toy cars + 3 toy cars = 8 toy cars",
+        "explanation": "You correctly added the number of toy cars Liam and his friend have to find the total number of toy cars.",
+        "exam_question_id": "8b529f70-ff24-45bf-8e20-f5a15aa40799:3",
+        "topic_label": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Liam has 5 toy cars and his friend has 3 toy cars.",
+        "question": "If Liam gives 1 toy car to his friend, how many toy cars will they each have?",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identifies the number of toy cars Liam gives to his friend.",
+          "Subtracts the toy car from Liam's total correctly.",
+          "Adds the toy car to his friend's total correctly.",
+          "States the final number of toy cars each has clearly."
+        ],
+        "hints": [
+          "Subtract the toy car Liam gives from his total and add it to his friend's total."
+        ],
+        "model_answer": "Liam: 5 toy cars - 1 toy car = 4 toy cars. Friend: 3 toy cars + 1 toy car = 4 toy cars.",
+        "explanation": "You correctly subtracted the toy car Liam gave from his total and added it to his friend's total to find the new number of toy cars each has.",
+        "exam_question_id": "8b529f70-ff24-45bf-8e20-f5a15aa40799:3",
+        "topic_label": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5 — Counting, Reading and writing the number 2"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram. It shows: Three green trees are drawn on a patch of brown ground. Two trees stand upright on the ground. The third tree lies on its side to the right, off the ground patch, and has a large black X drawn over it.",
+        "question": "Calculate the number of trees that are standing upright.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the number of trees standing upright.",
+          "Provides the final answer."
+        ],
+        "hints": [
+          "Count the number of trees with trunks touching the ground."
+        ],
+        "model_answer": "There are 2 trees standing upright. The answer is 2.",
+        "explanation": "Count the trees that are drawn with their roots touching the ground. Ignore the tree that is lying on its side.",
+        "exam_question_id": "17b9fcc2-a1f9-4173-a7cb-5a0a8be58816:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/rwanda/140/page29-embedded-4.jpeg",
+        "image_alt": "Three green trees are drawn on a patch of brown ground. Two trees stand upright on the ground. The third tree lies on its side to the right, off the ground patch, and has a large black X drawn over it.\nLabels: \nOriginal exercise: Fiona has 3 trees in her garden.  A goat damages 1 tree and",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram. It shows: Three green trees are drawn on a patch of brown ground. Two trees stand upright on the ground. The third tree lies on its side to the right, off the ground patch, and has a large black X drawn over it.",
+        "question": "State the number of trees that are damaged by the goat.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the damaged tree.",
+          "Provides the final answer."
+        ],
+        "hints": [
+          "Look for the tree with a black X over it."
+        ],
+        "model_answer": "There is 1 damaged tree. The answer is 1.",
+        "explanation": "The tree with a black X over it is considered damaged.",
+        "exam_question_id": "17b9fcc2-a1f9-4173-a7cb-5a0a8be58816:1",
+        "topic_label": "Numbers from 1 up to 5",
+        "topic_id": 1448,
+        "image_url": "/textbook-images/rwanda/140/page29-embedded-4.jpeg",
+        "image_alt": "Three green trees are drawn on a patch of brown ground. Two trees stand upright on the ground. The third tree lies on its side to the right, off the ground patch, and has a large black X drawn over it.\nLabels: \nOriginal exercise: Fiona has 3 trees in her garden.  A goat damages 1 tree and",
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Numbers from 1 up to 5"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram. It shows a basket with 3 apples and another basket with 2 oranges. The two baskets together have",
+        "question": "Calculate the total number of fruits in the two baskets.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the number of apples and oranges",
+          "Adds the number of apples and oranges correctly",
+          "Provides the correct total number of fruits"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of fruits in the two baskets — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the number of and; Adds the number of and correctly."
+        ],
+        "model_answer": "3 apples + 2 oranges = 5 fruits. The total number of fruits is 5.",
+        "explanation": "To find the total number of fruits, add the number of apples to the number of oranges.",
+        "exam_question_id": "a39b76d4-d0e2-48cf-892e-ff2b30ed1368:1",
+        "topic_label": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram. It shows a basket with 3 apples and another basket with 2 oranges. The two baskets together have",
+        "question": "State the number of apples in the first basket.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the number of apples",
+          "Provides the correct number"
+        ],
+        "hints": [
+          "Look at the first basket."
+        ],
+        "model_answer": "3 apples",
+        "explanation": "Count the number of apples in the first basket.",
+        "exam_question_id": "a39b76d4-d0e2-48cf-892e-ff2b30ed1368:1",
+        "topic_label": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "There are 4 red apples and 3 green apples in a basket. The basket has",
+        "question": "Calculate the total number of apples in the basket.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the number of red and green apples",
+          "Adds the number of red and green apples correctly",
+          "Provides the correct total number of apples"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of apples in the basket — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "4 red apples + 3 green apples = 7 apples. The total number of apples is 7.",
+        "explanation": "To find the total number of apples, add the number of red apples to the number of green apples.",
+        "exam_question_id": "a39b76d4-d0e2-48cf-892e-ff2b30ed1368:2",
+        "topic_label": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "There are 4 red apples and 3 green apples in a basket. The basket has",
+        "question": "State the number of green apples in the basket.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the number of green apples",
+          "Provides the correct number"
+        ],
+        "hints": [
+          "Stay focused on this: State the number of green apples in the basket — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the number of green apples; Provides the correct number."
+        ],
+        "model_answer": "3 green apples",
+        "explanation": "Count the number of green apples in the basket.",
+        "exam_question_id": "a39b76d4-d0e2-48cf-892e-ff2b30ed1368:2",
+        "topic_label": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram. It shows a playground with 2 swings and 3 slides. The playground has",
+        "question": "Calculate the total number of swings and slides together.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the number of swings and slides",
+          "Adds the number of swings and slides correctly",
+          "Provides the correct total number"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of swings and slides together — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "2 swings + 3 slides = 5. The total number is 5.",
+        "explanation": "To find the total number of swings and slides, add the number of swings to the number of slides.",
+        "exam_question_id": "a39b76d4-d0e2-48cf-892e-ff2b30ed1368:3",
+        "topic_label": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram. It shows a playground with 2 swings and 3 slides. The playground has",
+        "question": "State the number of slides in the playground.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the number of slides",
+          "Provides the correct number"
+        ],
+        "hints": [
+          "Stay focused on this: State the number of slides in the playground — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the number of slides; Provides the correct number."
+        ],
+        "model_answer": "3 slides",
+        "explanation": "Count the number of slides in the playground.",
+        "exam_question_id": "a39b76d4-d0e2-48cf-892e-ff2b30ed1368:3",
+        "topic_label": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)",
+        "topic_id": 1448,
+        "checked": true,
+        "source": {
+          "textbook": "P1 Mathematics PB ,",
+          "area": "Counting, Reading and writing the number 2 (Numbers from 1 up to 5)"
+        }
+      }
+    ],
+    "estimated_time": 54,
+    "assessment_id": "ff9315f5-3b4a-4fe0-ac00-4d2ee6c4f128",
+    "subject": "P1 Mathematics PB ,",
+    "topics": [
+      "Numbers from 1 up to 5",
+      "Rwandan currency from 1 frw up to 100 frw"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 140,
+    "topic_ids": [
+      1448,
+      1459
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 23,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 5,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1c",
+        "severity": "poor",
+        "detail": "Question asks to 'Name the colour of the notebook' but marking criteria includes 'Show the correct working' which is inappropriate for a colour identification task. No working is needed to name a colour.",
+        "correction": "Remove 'Show the correct working' from marking criteria. Use only 'Identify the correct colour of the notebook' (2 marks)."
+      },
+      {
+        "label": "5a",
+        "severity": "broken",
+        "detail": "Topic is 'Numbers from 1 up to 5' but question involves 4+6=10. The numbers 6 and 10 exceed the curriculum scope of 1-5.",
+        "correction": "Change to numbers within 1-5 range, e.g., '2 red marbles and 3 blue marbles' giving total of 5."
+      },
+      {
+        "label": "5b",
+        "severity": "broken",
+        "detail": "Question involves 6+2=8, exceeding the topic scope 'Numbers from 1 up to 5'. Both 6 and 8 are outside the specified range.",
+        "correction": "Change to '3 blue marbles, if 1 more is added' giving 3+1=4, within the 1-5 range."
+      },
+      {
+        "label": "6a",
+        "severity": "broken",
+        "detail": "Question involves 5+3=8. The numbers 8 exceeds the topic scope 'Numbers from 1 up to 5'.",
+        "correction": "Change to '2 toy cars and 3 toy cars' giving total of 5, within curriculum range."
+      },
+      {
+        "label": "9a",
+        "severity": "broken",
+        "detail": "Question involves 4+3=7. The number 7 exceeds the topic scope 'Numbers from 1 up to 5'.",
+        "correction": "Change to '2 red apples and 3 green apples' giving total of 5, within curriculum range."
+      },
+      {
+        "label": "All questions",
+        "severity": "broken",
+        "detail": "Assessment claims to cover 'Rwandan currency from 1 frw up to 100 frw' but no questions address currency at all. This requested topic is completely absent.",
+        "correction": "Add questions involving Rwandan francs (e.g., counting coins, simple transactions with 1, 5, 10, 20, 50, 100 frw)."
+      }
+    ],
+    "summary": "Assessment has substantive issues: Questions 5a, 5b, 6a, and 9a use numbers exceeding the 1-5 curriculum scope (involving 6, 7, 8, 10). The entire topic 'Rwandan currency from 1 frw up to 100 frw' is missing. Question 1c has inappropriate marking criteria. All other mathematical answers are correct."
+  },
+  "totalSeconds": 72
+}

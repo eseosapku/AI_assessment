@@ -1,0 +1,317 @@
+{
+  "index": 19,
+  "label": "Cambridge / Practice / Cambridge International AS  A Level Further Mathematics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "textbook_id": 19,
+    "topic_ids": [
+      267,
+      256
+    ],
+    "topics": [
+      "Hooke's law",
+      "Polar coordinates"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 34,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What is the polar coordinate equivalent of the Cartesian point (3, 4)?",
+        "options": [
+          "$(3, \\tan^{-1}(4/3))$",
+          "$(4, \\tan^{-1}(3/4))$",
+          "$(\\sqrt{3^2 + 4^2}, \\tan^{-1}(4/3))$",
+          "$(\\sqrt{3^2 + 4^2}, \\tan^{-1}(3/4))$"
+        ],
+        "correct_answer": 2,
+        "explanation": "For Cartesian point (x,y) to polar (r,θ): r = √(x²+y²) = √(3²+4²) = 5, and θ = tan⁻¹(y/x) = tan⁻¹(4/3).",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Polar coordinates",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Polar coordinates"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Which of the following is a correct representation of Hooke's law?",
+        "options": [
+          "$F = kx$",
+          "$F = \\frac{k}{x}$",
+          "$F = k + x$",
+          "$F = \\frac{k}{x^2}$"
+        ],
+        "correct_answer": 0,
+        "explanation": "Hooke's law states that the force F required to extend or compress a spring by some distance x scales linearly with x, and is given by $F = kx$, where k is a constant called the spring constant. Option 0 correctly represents this relationship.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 1166,
+        "topic_id": 267,
+        "topic_label": "Hooke's law",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Hooke's law"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "If a spring is stretched by 0.2 metres and the spring constant is 100 N/m, what is the force exerted by the spring?",
+        "options": [
+          "200 N",
+          "20 N",
+          "50 N",
+          "100 N"
+        ],
+        "correct_answer": 1,
+        "explanation": "Using Hooke's law, $F = kx$, where $k = 100 N/m$ and $x = 0.2 m$. Therefore, $F = 100 \\times 0.2 = 20 N$. Option 0 is correct.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 1166,
+        "topic_id": 267,
+        "topic_label": "Hooke's law",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Hooke's law"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Calculate the work done in stretching a spring with a spring constant of 200 N/m from its natural length to a length of 0.3 metres.",
+        "marks": 3,
+        "marking_criteria": [
+          "Application of Hooke's law",
+          "Calculation of work done",
+          "Correct use of formula"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the work done in stretching a spring with a spring constant of 200 N/m from its natural length to a length of 0.3 metres — develop the idea fully rather than listing short points. Make sure you also cover: Application of Hooke's law; Correct use of."
+        ],
+        "model_answer": "The work done in stretching a spring is given by the formula $W = \\frac{1}{2}kx^2$, where k is the spring constant and x is the displacement from the natural length. For a spring with $k = 200 N/m$ stretched to 0.3 meters, the work done is $W = \\frac{1}{2} \\times 200 \\times (0.3)^2 = 9 J$. Therefore, the work done in stretching the spring to 0.3 meters is 9 Joules.",
+        "explanation": "A strong answer will correctly apply Hooke's law, use the work formula, and show the calculation leading to the work done.",
+        "checked": true,
+        "subtopic_id": 1166,
+        "topic_id": 267,
+        "topic_label": "Hooke's law",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Hooke's law"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "In a system where Hooke's Law applies, what does the force constant k represent?",
+        "options": [
+          "The displacement of the spring from its equilibrium position",
+          "The ratio of force to displacement in the spring",
+          "The mass of the object attached to the spring",
+          "The velocity of the spring as it oscillates"
+        ],
+        "correct_answer": 1,
+        "explanation": "The correct answer is 'The ratio of force to displacement in the spring'. Hooke's Law is given by F = kx, where F is the force applied, x is the displacement, and k is the force constant. The force constant k is a measure of the spring's stiffness. The displacement of the spring from its equilibrium position is incorrect because it describes the displacement, not the constant. The mass of the object attached to the spring is incorrect as it describes mass, not a property of the spring. The velocity of the spring as it oscillates is incorrect because it refers to velocity, which is unrelated to Hooke's Law.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 1166,
+        "topic_id": 267,
+        "topic_label": "Hooke's law",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Hooke's law"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Look at the graph. State the polar coordinates of the point where the two cardioids intersect in the first quadrant, and explain why they meet there.",
+        "marks": 2,
+        "marking_criteria": [
+          "States θ = π/4 (with r = 1 + √2/2), giving the intersection point as (1 + √2/2, π/4)",
+          "Explains that at the intersection 1 + sin θ = 1 + cos θ, so sin θ = cos θ, giving tan θ = 1"
+        ],
+        "model_answer": "The curves meet where 1 + sin θ = 1 + cos θ, so sin θ = cos θ and tan θ = 1. In the first quadrant θ = π/4, so r = 1 + √2/2 and the point is (1 + √2/2, π/4), about (1.71, π/4).",
+        "explanation": "A strong answer sets the two equations for r equal and simplifies to tan θ = 1. It then picks the first-quadrant angle π/4 and substitutes it to find r, giving both polar coordinates of the point.",
+        "image_url": "/textbook-images/textbook-bank/19/s125-f0.jpg",
+        "topic_label": "Applications of polar coordinates",
+        "vetted": true,
+        "image_alt": "A polar graph with the initial line (θ = 0) horizontal and the line θ = π/2 vertical, with the pole labelled O. Two cardioids are drawn: r = 1 + sin θ in blue/dark and r = 1 + cos θ in red. The region inside both curves (their overlap) is shaded a darker light blue, and the rest of the blue curve's interior is shaded very lightly. The axes are marked from -1.5 to 2.0 horizontally and from -1.0 to 2.0 vertically. Printed on it: θ = π/2 | r = 1 + sin θ | r = 1 + cos θ | 2.0 | 1.5 | 1.0 | 0.5 | O | θ = 0 | -1.5 | -1.0 | -0.5 | 0.5 | 1.0 | 1.5 | 2.0 | -0.5 | -1.0.",
+        "hints": [
+          "Structure your answer around both demands: Look at the graph; then State the polar coordinates of the point where the two cardioids intersect in the first quadrant, and explain why they meet there. Make sure you also cover: θ = π/4 (with r = 1 + √2/2), giving the intersection point as (1 + √2/2, π/4); that at the…."
+        ],
+        "subtopic_id": 1128,
+        "topic_id": 256,
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Applications of polar coordinates"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Explain how polar coordinates can be used to simplify the integration process for certain functions.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of polar coordinates",
+          "Description of the simplification in integration",
+          "Example or justification of the process"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how polar coordinates can be used to simplify the integration process for certain functions — develop the idea fully rather than listing short points. Make sure you also cover: Description of the simplification in integration."
+        ],
+        "model_answer": "Polar coordinates can simplify the integration process by transforming the region of integration into a more manageable form. For example, a circular region is naturally described in polar coordinates, making the integral easier to evaluate. In polar coordinates, the area element dA = r dr dθ, which can be advantageous when integrating over circular regions. This is because the limits of integration for θ can be straightforward, and the r term can often be factored out, simplifying the integral significantly.",
+        "explanation": "A strong answer will include an explanation of how polar coordinates are defined, how they simplify the integration of certain functions, and may include an example or reasoning to justify the process.",
+        "checked": true,
+        "subtopic_id": 1128,
+        "topic_id": 256,
+        "topic_label": "Applications of polar coordinates",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Applications of polar coordinates"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Which of the following is the correct expression for the elastic potential energy stored in a spring according to Hooke's Law?",
+        "options": [
+          "PE = 1/2 kx^2",
+          "PE = kx",
+          "PE = k/x^2",
+          "PE = kx^3"
+        ],
+        "correct_answer": 0,
+        "explanation": "The correct answer is 'PE = 1/2 kx^2'. The elastic potential energy stored in a spring is given by the formula PE = 1/2 kx^2, where k is the spring constant and x is the displacement from the equilibrium position. PE = kx, 'PE = kx', is incorrect because it does not account for the square of the displacement. PE = k/x^2, 'PE = k/x^2', and PE = kx^3, 'PE = kx^3', are also incorrect as they do not match the standard formula for elastic potential energy.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 1167,
+        "topic_id": 267,
+        "topic_label": "Elastic potential energy",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Elastic potential energy"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Describe how you would convert a Cartesian equation to a polar equation and provide an example.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the conversion process",
+          "Correct application of conversion formulas",
+          "Example with working"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Describe how you would convert a Cartesian equation to a polar equation and; then provide an example. Make sure you also cover: Explanation of the conversion process; Correct application of conversion formulas."
+        ],
+        "model_answer": "To convert a Cartesian equation to a polar equation, one needs to use the relationships x = r cos(θ) and y = r sin(θ). For example, to convert x^2 + y^2 = 9 to polar form, substitute x and y with r cos(θ) and r sin(θ) respectively, resulting in (r cos(θ))^2 + (r sin(θ))^2 = 9. Simplifying this using the Pythagorean identity gives r^2 = 9, and thus r = 3. Therefore, the polar equation is r = 3, which represents a circle of radius 3 centered at the origin.",
+        "explanation": "A strong answer will include an explanation of the conversion process, correctly apply the conversion formulas, and provide an example with full working to illustrate the process.",
+        "checked": true,
+        "topic_label": "Polar coordinates",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Polar coordinates"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "In polar coordinates, what does the angle θ represent?",
+        "options": [
+          "The area enclosed by the radius vector",
+          "The distance from the origin to the point",
+          "The angle between the positive x-axis and the line connecting the point to the origin",
+          "The slope of the line connecting the point to the origin"
+        ],
+        "correct_answer": 2,
+        "explanation": "The correct answer is 'The angle between the positive x-axis and the line connecting the point to the origin'. In polar coordinates, θ is the angle measured from the positive x-axis to the line connecting the point to the origin. The distance from the origin to the point is incorrect as it describes the radial distance r, not the angle. The slope of the line connecting the point to the origin is incorrect because the slope is not directly represented by θ in polar coordinates. The area enclosed by the radius vector is incorrect as it describes an area, not an angle.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 1128,
+        "topic_id": 256,
+        "topic_label": "Applications of polar coordinates",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Applications of polar coordinates"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "a7acfd0c-1333-4083-a0c3-96a7967721ba",
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "topics": [
+      "Hooke's law",
+      "Polar coordinates"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mixed",
+    "textbook_id": 19,
+    "topic_ids": [
+      267,
+      256
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 1,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "3",
+        "severity": "broken",
+        "detail": "The explanation states 'Option 0 is correct' but the correct_answer field is 1. Checking: F = kx = 100 × 0.2 = 20 N. Option 0 is '200 N' and option 1 is '20 N'. The correct answer is option 1 (20 N), so the explanation text is wrong.",
+        "correction": "Change explanation to state 'Option 1 is correct' or 'The correct answer is 20 N'"
+      },
+      {
+        "label": "6",
+        "severity": "poor",
+        "detail": "The model answer states r = 1 + √2/2 ≈ 1.71. Verification: sin(π/4) = cos(π/4) = √2/2 ≈ 0.707, so r = 1 + 0.707 ≈ 1.707. However, √2/2 ≈ 0.707, not giving 1.71 when added to 1. The approximation should be (1 + √2/2) ≈ 1.707, which rounds to 1.71, so this is acceptable but the phrasing 'about (1.71, π/4)' could be clearer as '≈ (1.707, π/4)'.",
+        "correction": "Clarify: 'so r = 1 + √2/2 ≈ 1.707, giving the point approximately (1.707, π/4)'"
+      }
+    ],
+    "summary": "Assessment contains 10 questions covering Hooke's law and polar coordinates appropriately for grade 12. One broken issue found: Q3's explanation incorrectly references 'Option 0' when correct_answer is 1. One minor clarity issue in Q6's approximation presentation. All other calculations, MCQ options, and model answers are mathematically correct and age-appropriate."
+  },
+  "totalSeconds": 45
+}

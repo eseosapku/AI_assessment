@@ -1,0 +1,160 @@
+{
+  "seed": 3392178121,
+  "results": [
+    {
+      "index": 2,
+      "label": "REB / Practice / GENERAL EDU-Chemistry-S2-SB",
+      "request": {
+        "subject": "GENERAL EDU-Chemistry-S2-SB",
+        "textbook_id": 94,
+        "topic_ids": [
+          974,
+          972
+        ],
+        "topics": [
+          "Categories of Chemical Reactions",
+          "Water Pollution"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3392178121,
+      "error": "ValidationException: Access to Anthropic models is not allowed for this account.",
+      "stage": "complete",
+      "generationSeconds": 26,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 2,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "totalSeconds": 28
+    },
+    {
+      "index": 3,
+      "label": "REB / Practice / P2-English-PB",
+      "request": {
+        "subject": "P2-English-PB",
+        "textbook_id": 146,
+        "topic_ids": [
+          1518,
+          1516
+        ],
+        "topics": [
+          "Weather",
+          "Stories and descriptions"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3392178121,
+      "error": "ValidationException: Access to Anthropic models is not allowed for this account.",
+      "stage": "complete",
+      "generationSeconds": 13,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "totalSeconds": 14
+    },
+    {
+      "index": 1,
+      "label": "Cambridge / Exam / CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+      "request": {
+        "subject": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+        "textbook_id": 42,
+        "topic_ids": [
+          4320
+        ],
+        "topics": [
+          "5 Multiplication and division"
+        ],
+        "curriculum": "cambridge",
+        "grade": 3,
+        "className": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 3392178121,
+      "error": "ValidationException: Access to Anthropic models is not allowed for this account.",
+      "stage": "complete",
+      "generationSeconds": 43,
+      "status": 200,
+      "numbered": 10,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 4"
+        }
+      ],
+      "figures": 5,
+      "imageErrors": [],
+      "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "totalSeconds": 46
+    }
+  ]
+}

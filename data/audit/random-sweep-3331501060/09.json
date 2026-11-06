@@ -1,0 +1,2044 @@
+{
+  "index": 9,
+  "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+  "request": {
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "textbook_id": 209,
+    "topic_ids": [
+      2571,
+      2585
+    ],
+    "topics": [
+      "Chapter 7: Density and floating",
+      "Chapter 21: Properties of sound"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 129,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a sound wave with a frequency of 440 Hz. The speed of sound in air is 340 m/s.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for wavelength.",
+          "Substitute the given values into the formula.",
+          "Perform the calculation to find the wavelength."
+        ],
+        "hints": [
+          "Use the formula: wavelength = speed / frequency."
+        ],
+        "model_answer": "Wavelength = 340 m/s / 440 Hz = 0.77 m",
+        "explanation": "To find the wavelength, use the formula wavelength = speed / frequency. Substitute the given values and perform the calculation.",
+        "exam_question_id": "045b9377-559c-458b-9b78-85aa1474d9fc:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "image_url": "/textbook-images/textbook-bank/209/s239-f0.jpg",
+        "image_alt": "A wave drawn as a smooth sine-like curve with a horizontal dashed line through the middle as the undisturbed (equilibrium) position. The curve has about two and a half cycles. Arrow A is vertical and runs from the dashed line up to a crest. Arrow B is vertical and runs from a crest down to the adjacent trough. Arrow C is horizontal and lies just below the dashed line, spanning from one point where the curve crosses the dashed line to the next crossing point two crossings later, so it covers one full wavelength. Arrow D is horizontal and runs above the curve from one crest to the next crest.\nLa",
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a sound wave with a frequency of 440 Hz. The speed of sound in air is 340 m/s.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "Pitch is determined by frequency.",
+          "Doubling the frequency causes the pitch to increase / become higher.",
+          "Clear explanation of the relationship."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: Doubling the frequency causes the pitch to / become; Clear explanation of the relationship."
+        ],
+        "model_answer": "If the frequency is doubled from 440 Hz to 880 Hz, the pitch of the sound will increase, making it higher. Pitch is directly proportional to frequency, so a higher frequency produces a higher pitch.",
+        "explanation": "Pitch is directly related to frequency. Doubling the frequency will double the pitch, making the sound higher.",
+        "exam_question_id": "045b9377-559c-458b-9b78-85aa1474d9fc:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "image_url": "/textbook-images/textbook-bank/209/s239-f0.jpg",
+        "image_alt": "A wave drawn as a smooth sine-like curve with a horizontal dashed line through the middle as the undisturbed (equilibrium) position. The curve has about two and a half cycles. Arrow A is vertical and runs from the dashed line up to a crest. Arrow B is vertical and runs from a crest down to the adjacent trough. Arrow C is horizontal and lies just below the dashed line, spanning from one point where the curve crosses the dashed line to the next crossing point two crossings later, so it covers one full wavelength. Arrow D is horizontal and runs above the curve from one crest to the next crest.\nLa",
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a sound wave with a frequency of 440 Hz. The speed of sound in air is 340 m/s.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 3,
+        "marking_criteria": [
+          "Amplitude determines loudness.",
+          "Increasing amplitude causes loudness to increase / become louder.",
+          "Clear explanation of the relationship."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points. Make sure you also cover: Increasing amplitude causes loudness to / become; Clear explanation of the relationship."
+        ],
+        "model_answer": "If the amplitude of the wave is increased by a factor of 4, the loudness of the sound will increase, making it much louder. Loudness is directly related to amplitude, so a larger amplitude produces a louder sound.",
+        "explanation": "Loudness is related to the amplitude of the sound wave. Increasing the amplitude by a factor of 4 will increase the loudness by the same factor, making the sound much louder.",
+        "exam_question_id": "045b9377-559c-458b-9b78-85aa1474d9fc:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "image_url": "/textbook-images/textbook-bank/209/s239-f0.jpg",
+        "image_alt": "A wave drawn as a smooth sine-like curve with a horizontal dashed line through the middle as the undisturbed (equilibrium) position. The curve has about two and a half cycles. Arrow A is vertical and runs from the dashed line up to a crest. Arrow B is vertical and runs from a crest down to the adjacent trough. Arrow C is horizontal and lies just below the dashed line, spanning from one point where the curve crosses the dashed line to the next crossing point two crossings later, so it covers one full wavelength. Arrow D is horizontal and runs above the curve from one crest to the next crest.\nLa",
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through water at a speed of 1500 m/s. The frequency of the wave is 1000 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the given values: speed (v) and frequency (f).",
+          "Use the wave speed formula: v = f * wavelength.",
+          "Rearrange the formula to solve for wavelength: wavelength = v / f."
+        ],
+        "hints": [
+          "Remember the units for wavelength should be in meters (m)."
+        ],
+        "model_answer": "Wavelength = 1500 m/s / 1000 Hz = 1.5 m",
+        "explanation": "Using the given speed and frequency, you can calculate the wavelength of the sound wave in water.",
+        "exam_question_id": "97fc734d-c4b8-441d-b699-7208364e571d:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through water at a speed of 1500 m/s. The frequency of the wave is 1000 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that pitch is related to frequency.",
+          "State that doubling the frequency will double the pitch (or increase it proportionally)."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "If the frequency is doubled, the pitch of the sound will also double (increase by a factor of 2).",
+        "explanation": "Pitch is directly related to frequency; thus, doubling the frequency will double the pitch.",
+        "exam_question_id": "97fc734d-c4b8-441d-b699-7208364e571d:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through water at a speed of 1500 m/s. The frequency of the wave is 1000 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that loudness is related to amplitude.",
+          "State that increasing the amplitude will increase the loudness."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "If the amplitude of the wave is increased by a factor of 4, the loudness of the sound will also increase by a factor of 4.",
+        "explanation": "Loudness is directly related to amplitude; thus, increasing the amplitude by a factor of 4 will increase the loudness by a factor of 4.",
+        "exam_question_id": "97fc734d-c4b8-441d-b699-7208364e571d:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate the volume of the cylindrical rod.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the formula for the volume of a cylinder (V = πr²h).",
+          "Substitute the given values into the formula and perform the calculation."
+        ],
+        "hints": [
+          "Recall that the radius (r) is half of the diameter."
+        ],
+        "model_answer": "The radius of the rod is 3.0 cm / 2 = 1.5 cm. The volume is V = π(1.5 cm)²(10.0 cm) = 70.7 cm³.",
+        "explanation": "Use the formula for the volume of a cylinder and substitute the given values to find the volume of the rod.",
+        "exam_question_id": "92c96f25-359a-42a7-a2d9-2b5c6ec1d728:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate the density of the metal rod in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the volume calculated in part (a).",
+          "Use the formula for density (ρ = m/V).",
+          "Substitute the given values into the formula and perform the calculation."
+        ],
+        "hints": [
+          "Remember that density is mass per unit volume."
+        ],
+        "model_answer": "ρ = 250 g / 70.7 cm³ = 3.54 g/cm³.",
+        "explanation": "Use the mass of the rod and the volume calculated in part (a) to find the density of the metal rod.",
+        "exam_question_id": "92c96f25-359a-42a7-a2d9-2b5c6ec1d728:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Will the rod float or sink in water? Explain.",
+        "marks": 2,
+        "marking_criteria": [
+          "Compare the density of the rod with the density of water.",
+          "Explain the reasoning based on the comparison."
+        ],
+        "hints": [
+          "Stay focused on this: Will the rod float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: the reasoning based on the comparison."
+        ],
+        "model_answer": "The rod will sink in water because its density (3.54 g/cm³) is greater than the density of water (1.0 g/cm³).",
+        "explanation": "An object will sink if its density is greater than the density of the liquid it is placed in.",
+        "exam_question_id": "92c96f25-359a-42a7-a2d9-2b5c6ec1d728:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 880 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly use the wave speed formula.",
+          "Substitute the given values into the formula.",
+          "Calculate the wavelength correctly."
+        ],
+        "hints": [
+          "Use the formula: wavelength = speed / frequency."
+        ],
+        "model_answer": "Wavelength = 340 m/s / 880 Hz = 0.386 m",
+        "explanation": "Use the wave speed formula to find the wavelength of the sound wave.",
+        "exam_question_id": "79f63293-8268-4d0a-9f2e-805778775fa2:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 880 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understand the relationship between frequency and pitch.",
+          "Explain the effect of doubling the frequency on pitch.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: Understand the relationship between frequency and pitch.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "If the frequency is doubled, the pitch of the sound would also increase, making it higher.",
+        "explanation": "Explain the relationship between frequency and pitch, and describe the effect of doubling the frequency.",
+        "exam_question_id": "79f63293-8268-4d0a-9f2e-805778775fa2:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 880 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understand the relationship between amplitude and loudness.",
+          "Describe the effect of increasing the amplitude by a factor of 4 on loudness.",
+          "Provide a clear and concise description."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points. Make sure you also cover: Understand the relationship between amplitude and loudness.; Provide a clear and concise description."
+        ],
+        "model_answer": "If the amplitude of the wave is increased by a factor of 4, the loudness of the sound would also increase, making it louder.",
+        "explanation": "Describe the relationship between amplitude and loudness, and explain the effect of increasing the amplitude by a factor of 4.",
+        "exam_question_id": "79f63293-8268-4d0a-9f2e-805778775fa2:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly use the formula for the volume of a cylinder (V = πr²h).",
+          "Substitute the given values into the formula and calculate the volume."
+        ],
+        "hints": [
+          "Remember to convert the diameter to radius before calculating the volume."
+        ],
+        "model_answer": "V = πr²h = π(1.5 cm)²(10.0 cm) = π(2.25 cm²)(10.0 cm) = 70.65 cm³",
+        "explanation": "The volume of the cylindrical rod can be calculated using the formula for the volume of a cylinder, V = πr²h, where r is the radius and h is the height. The radius is half the diameter, so r = 1.5 cm. Substituting the values into the formula gives the volume.",
+        "exam_question_id": "923ee5b9-0dc9-4de5-9694-0b9e2256cc94:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the volume of the rod as in part (a).",
+          "Use the formula for density (ρ = m/V).",
+          "Substitute the mass and volume into the formula and calculate the density."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the volume of the rod as in part (a).; the formula for density (ρ = m/V).; Substitute the mass and volume into the formula and calculate the density."
+        ],
+        "model_answer": "ρ = m/V = 250 g / 70.65 cm³ = 3.54 g/cm³",
+        "explanation": "The density of the rod can be calculated using the formula ρ = m/V, where m is the mass and V is the volume. The mass is given as 250 g and the volume was calculated in part (a) as 70.65 cm³. Substituting these values into the formula gives the density.",
+        "exam_question_id": "923ee5b9-0dc9-4de5-9694-0b9e2256cc94:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the volume of the cylindrical rod using the formula V = πr²h.",
+          "Provide the final answer in cm³."
+        ],
+        "hints": [
+          "Remember to convert the diameter to radius and use 3.14 for π."
+        ],
+        "model_answer": "V = πr²h = 3.14 * (3.0/2)² * 10.0 = 3.14 * 2.25 * 10.0 = 70.65 cm³",
+        "explanation": "To find the volume of the cylindrical rod, we use the formula for the volume of a cylinder, V = πr²h, where r is the radius and h is the height. The radius is half the diameter, so r = 3.0/2 = 1.5 cm. Substituting the values into the formula, we get V = 3.14 * (1.5)² * 10.0 = 70.65 cm³.",
+        "exam_question_id": "c669745c-852b-41d3-bb2d-16847ae1e11c:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the density using the formula ρ = m/V.",
+          "Provide the final answer in g/cm³.",
+          "Show the intermediate steps of the calculation."
+        ],
+        "hints": [
+          "Use the volume calculated in part (a) for your calculation."
+        ],
+        "model_answer": "ρ = m/V = 250 g / 70.65 cm³ = 3.54 g/cm³",
+        "explanation": "To find the density of the metal rod, we use the formula for density, ρ = m/V, where m is the mass and V is the volume. We already calculated the volume in part (a) to be 70.65 cm³. Substituting the values into the formula, we get ρ = 250 g / 70.65 cm³ = 3.54 g/cm³.",
+        "exam_question_id": "c669745c-852b-41d3-bb2d-16847ae1e11c:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Will the rod float or sink in water? Explain.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the density of water (1.0 g/cm³).",
+          "Compare the density of the rod with the density of water.",
+          "Explain whether the rod will float or sink based on the comparison.",
+          "Show the logical reasoning for the conclusion."
+        ],
+        "hints": [
+          "Remember that an object will float if its density is less than the density of the liquid it is placed in."
+        ],
+        "model_answer": "The density of water is 1.0 g/cm³. The density of the rod is 3.54 g/cm³. Since the density of the rod is greater than the density of water, the rod will sink in water.",
+        "explanation": "The density of water is 1.0 g/cm³. We calculated the density of the rod to be 3.54 g/cm³. Since the density of the rod is greater than the density of water, the rod will sink in water because it is denser than water.",
+        "exam_question_id": "c669745c-852b-41d3-bb2d-16847ae1e11c:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly apply the formula for the volume of a rectangular prism.",
+          "State the final answer in cm³."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its volume — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the formula for the volume of a rectangular prism.; the final answer in cm³."
+        ],
+        "model_answer": "V = 4.0 cm × 5.0 cm × 2.0 cm = 40 cm³",
+        "explanation": "Use the dimensions of the block to calculate its volume.",
+        "exam_question_id": "a0008d23-1fbb-4fdb-b639-2719996d980e:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the formula for density: ρ = m/V.",
+          "Substitute the given mass and calculated volume into the formula.",
+          "State the final answer in g/cm³."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the formula for density: ρ = m/V.; Substitute the given mass and calculated volume into the formula.; the final answer in g/cm³."
+        ],
+        "model_answer": "ρ = 316 g / 40 cm³ = 7.9 g/cm³",
+        "explanation": "Use the mass and volume of the block to calculate its density.",
+        "exam_question_id": "a0008d23-1fbb-4fdb-b639-2719996d980e:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Will the block float or sink in water? Explain.",
+        "marks": 4,
+        "marking_criteria": [
+          "Compare the density of the block with the density of water.",
+          "Explain the condition for an object to float or sink based on density.",
+          "State whether the block will float or sink.",
+          "Provide a clear explanation based on the comparison."
+        ],
+        "hints": [
+          "An object will float if its density is less than the density of the liquid it is placed in."
+        ],
+        "model_answer": "The block will sink in water because its density (7.9 g/cm³) is greater than the density of water (1.0 g/cm³).",
+        "explanation": "Compare the density of the block with the density of water to determine if it will float or sink.",
+        "exam_question_id": "a0008d23-1fbb-4fdb-b639-2719996d980e:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 500 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly uses the formula for wavelength \\( \\lambda = \\frac{v}{f} \\)",
+          "Substitutes the given values into the formula"
+        ],
+        "hints": [
+          "Recall the relationship between speed, frequency, and wavelength."
+        ],
+        "model_answer": "Wavelength \\( \\lambda = \\frac{v}{f} = \\frac{340}{500} = 0.68 \\) m",
+        "explanation": "The wavelength of a sound wave can be found using the formula \\( \\lambda = \\frac{v}{f} \\), where \\( v \\) is the speed of the wave and \\( f \\) is the frequency. Substituting the given values, we get \\( \\lambda = \\frac{340}{500} = 0.68 \\) m.",
+        "exam_question_id": "78a83a2f-7dff-45d1-810f-f7b493168bc9:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 500 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly relates pitch to frequency",
+          "Explains the effect of doubling the frequency on pitch",
+          "Uses appropriate terminology"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: appropriate terminology."
+        ],
+        "model_answer": "The pitch of the sound would increase. Pitch is directly related to the frequency of the sound wave. Doubling the frequency would result in a higher pitch.",
+        "explanation": "Pitch is a perceptual property of sound that is directly related to the frequency of the sound wave. If the frequency is doubled, the pitch will also increase, making the sound higher in tone.",
+        "exam_question_id": "78a83a2f-7dff-45d1-810f-f7b493168bc9:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 500 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly relates loudness to amplitude",
+          "Describes the effect of increasing amplitude by a factor of 4 on loudness",
+          "Uses appropriate terminology"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points. Make sure you also cover: appropriate terminology."
+        ],
+        "model_answer": "The loudness of the sound would increase significantly. Loudness is related to the amplitude of the sound wave. Increasing the amplitude by a factor of 4 would make the sound much louder.",
+        "explanation": "Loudness is a perceptual property of sound that is related to the amplitude of the sound wave. Increasing the amplitude by a factor of 4 would result in a significant increase in loudness, making the sound much louder.",
+        "exam_question_id": "78a83a2f-7dff-45d1-810f-f7b493168bc9:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly use the formula for volume of a rectangular prism.",
+          "Provide the correct numerical answer with appropriate units."
+        ],
+        "hints": [
+          "Remember the formula for the volume of a rectangular prism is length × width × height."
+        ],
+        "model_answer": "V = 4.0 cm × 5.0 cm × 2.0 cm = 40 cm³",
+        "explanation": "The volume of a rectangular prism is calculated by multiplying its length, width, and height.",
+        "exam_question_id": "9d768bf1-b9fd-427f-919b-b6ceef220f89:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the correct formula for density.",
+          "Substitute the correct values for mass and volume.",
+          "Provide the correct numerical answer with appropriate units."
+        ],
+        "hints": [
+          "Remember the formula for density is mass divided by volume."
+        ],
+        "model_answer": "ρ = m/V = 316 g / 40 cm³ = 7.9 g/cm³",
+        "explanation": "Density is calculated by dividing the mass of an object by its volume.",
+        "exam_question_id": "9d768bf1-b9fd-427f-919b-b6ceef220f89:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A metal block measures 4.0 cm × 5.0 cm × 2.0 cm and has a mass of 316 g.",
+        "question": "Will the block float or sink in water? Explain.",
+        "marks": 4,
+        "marking_criteria": [
+          "Compare the density of the block with the density of water.",
+          "State whether the block will float or sink based on the comparison.",
+          "Provide a clear and concise explanation.",
+          "Use appropriate units and scientific terms."
+        ],
+        "hints": [
+          "An object will float if its density is less than the density of the liquid it is placed in."
+        ],
+        "model_answer": "The block will sink in water because its density (7.9 g/cm³) is greater than the density of water (1.0 g/cm³).",
+        "explanation": "An object will sink in a liquid if its density is greater than the density of the liquid.",
+        "exam_question_id": "9d768bf1-b9fd-427f-919b-b6ceef220f89:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the formula for the volume of a cylinder.",
+          "Substitute the given values into the formula and perform the calculation."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its volume — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for the volume of a cylinder.; Substitute the given values into the formula and perform the calculation."
+        ],
+        "model_answer": "V = πr^2h = π(1.5)^2(10) = π(2.25)(10) = 70.65 cm^3",
+        "explanation": "The volume of a cylinder is calculated using the formula V = πr^2h, where r is the radius and h is the height. The radius is half the diameter, so r = 1.5 cm. Substitute the values into the formula and calculate the volume.",
+        "exam_question_id": "e3214ae7-6394-4371-a726-5b26a298a9ce:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for density.",
+          "Substitute the given values into the formula and perform the calculation.",
+          "Provide the final answer with the correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for density.; Substitute the given values into the formula and perform the calculation.; Provide the final answer with the correct units."
+        ],
+        "model_answer": "ρ = m/V = 250 g / 70.65 cm^3 = 3.54 g/cm^3",
+        "explanation": "The density of an object is calculated using the formula ρ = m/V, where m is the mass and V is the volume. Substitute the values into the formula and calculate the density. Remember to include the correct units in your answer.",
+        "exam_question_id": "e3214ae7-6394-4371-a726-5b26a298a9ce:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Will the rod float or sink in water? Explain.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly identify the density of water.",
+          "Compare the density of the rod with the density of water.",
+          "Explain whether the rod will float or sink based on the comparison.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Will the rod float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the of water.; whether the rod will float or sink based on the comparison.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "The rod will sink in water because its density (3.54 g/cm³) is greater than the density of water (1.0 g/cm³). Objects with a density greater than water will sink.",
+        "explanation": "Compare the density of the rod with the density of water. If the density of the rod is greater than the density of water, it will sink. If the density of the rod is less than the density of water, it will float. In this case, the rod will sink because its density is greater than the density of water.",
+        "exam_question_id": "e3214ae7-6394-4371-a726-5b26a298a9ce:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 600 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the given values: speed of sound (v) = 340 m/s, frequency (f) = 600 Hz.",
+          "Use the formula for wavelength: \\( \\lambda = \\frac{v}{f} \\).",
+          "Substitute the given values into the formula and calculate the wavelength."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the wavelength of the sound wave — develop the idea fully rather than listing short points. Make sure you also cover: Identify the given values: speed of sound (v) = 340 m/s, frequency (f) = 600 Hz.; the formula for wavelength: \\( = \\frac{v}{f} \\).; Substitute the given values into the…."
+        ],
+        "model_answer": "v = 340 m/s, f = 600 Hz, \\( \\lambda = \\frac{340}{600} = 0.567 \\) m",
+        "explanation": "Use the formula for wavelength, \\( \\lambda = \\frac{v}{f} \\), to calculate the wavelength of the sound wave.",
+        "exam_question_id": "3fea0d83-857f-41da-a5d4-a4a99cb5878f:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 31,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 600 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that pitch is directly related to frequency.",
+          "Explain that if the frequency is doubled, the pitch will also increase.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "If the frequency is doubled, the pitch will also increase because pitch is directly related to frequency.",
+        "explanation": "Explain the relationship between frequency and pitch, and how doubling the frequency affects the pitch.",
+        "exam_question_id": "3fea0d83-857f-41da-a5d4-a4a99cb5878f:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 32,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 600 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that loudness is related to the amplitude of the sound wave.",
+          "Explain that increasing the amplitude by a factor of 4 will increase the loudness of the sound."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Increasing the amplitude of the sound wave by a factor of 4 will increase the loudness of the sound.",
+        "explanation": "Describe the relationship between amplitude and loudness, and how increasing the amplitude affects the loudness.",
+        "exam_question_id": "3fea0d83-857f-41da-a5d4-a4a99cb5878f:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 33,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 680 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the formula for wavelength (\\( \\lambda = \\frac{v}{f} \\)).",
+          "Substitute the given values into the formula and calculate the wavelength."
+        ],
+        "hints": [
+          "Remember that the speed of sound in air is 340 m/s and the frequency is 680 Hz."
+        ],
+        "model_answer": "Wavelength (\\( \\lambda \\)) = \\frac{340}{680} = 0.5 m",
+        "explanation": "Use the formula for wavelength, \\( \\lambda = \\frac{v}{f} \\), where v is the speed of sound and f is the frequency.",
+        "exam_question_id": "619580c5-4582-49b4-ac68-97d3493e004c:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 34,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 680 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "State that pitch is related to frequency.",
+          "Explain that doubling the frequency results in a higher pitch (or the pitch increases).",
+          "Recognise that the relationship is direct/proportional."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: Recognise that the relationship is direct/proportional."
+        ],
+        "model_answer": "Pitch is directly related to frequency. If the frequency is doubled, the pitch will increase (become higher). The higher the frequency, the higher the pitch perceived.",
+        "explanation": "Pitch is a perception related to the frequency of a sound wave. A higher frequency corresponds to a higher pitch.",
+        "exam_question_id": "619580c5-4582-49b4-ac68-97d3493e004c:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 35,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 680 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 3,
+        "marking_criteria": [
+          "State that loudness is related to amplitude.",
+          "Explain that increasing the amplitude increases the loudness.",
+          "Recognise that a larger amplitude produces a louder sound."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Loudness is related to the amplitude of a sound wave. If the amplitude is increased by a factor of 4, the loudness of the sound would increase significantly. A larger amplitude produces a louder sound.",
+        "explanation": "Loudness is a perception related to the amplitude of a sound wave. An increase in amplitude results in a significant increase in loudness.",
+        "exam_question_id": "619580c5-4582-49b4-ac68-97d3493e004c:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 36,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 660 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for wavelength.",
+          "Substitute the given values into the formula.",
+          "Perform the calculation and provide the correct answer with units."
+        ],
+        "hints": [
+          "Use the formula: wavelength = speed / frequency."
+        ],
+        "model_answer": "Wavelength = 340 m/s / 660 Hz = 0.515 m.",
+        "explanation": "Use the formula for wavelength, which is the speed of sound divided by the frequency of the sound wave.",
+        "exam_question_id": "06d6a51b-3957-44cb-bc72-945f3480d1c5:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 37,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 660 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly define pitch in terms of frequency.",
+          "Explain the relationship between frequency and pitch.",
+          "Provide a clear explanation of the effect of doubling the frequency on the pitch."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: Correctly define pitch in terms of frequency.; Provide a clear explanation of the effect of doubling the frequency on the pitch."
+        ],
+        "model_answer": "If the frequency of the sound wave is doubled, the pitch of the sound will also increase. Higher frequency means a higher pitch.",
+        "explanation": "Pitch is directly related to the frequency of the sound wave. Doubling the frequency will result in a higher pitch.",
+        "exam_question_id": "06d6a51b-3957-44cb-bc72-945f3480d1c5:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 38,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 660 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly define loudness in terms of amplitude.",
+          "Explain the relationship between amplitude and loudness."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly define loudness in terms of amplitude."
+        ],
+        "model_answer": "If the amplitude of the sound wave is increased by a factor of 4, the loudness of the sound will also increase significantly.",
+        "explanation": "Loudness is directly related to the amplitude of the sound wave. Increasing the amplitude by a factor of 4 will result in a much louder sound.",
+        "exam_question_id": "06d6a51b-3957-44cb-bc72-945f3480d1c5:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 39,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 780 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the speed of sound in air (340 m/s) and the frequency of the wave (780 Hz).",
+          "Use the wave equation v = fλ to calculate the wavelength λ.",
+          "Substitute the given values into the equation and solve for λ."
+        ],
+        "hints": [
+          "Recall the wave equation v = fλ where v is the speed of sound, f is the frequency, and λ is the wavelength."
+        ],
+        "model_answer": "v = fλ\n340 = 780 * λ\nλ = 340 / 780\nλ = 0.4359 m",
+        "explanation": "Use the wave equation to calculate the wavelength of the sound wave.",
+        "exam_question_id": "34502fa6-ea02-4f37-88ec-dfc85f9dce61:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 40,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 780 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that pitch is related to frequency.",
+          "Explain that if the frequency doubles, the pitch will also increase."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "If the frequency of the sound wave is doubled, the pitch will also increase because pitch is directly related to frequency.",
+        "explanation": "Explain the relationship between frequency and pitch.",
+        "exam_question_id": "34502fa6-ea02-4f37-88ec-dfc85f9dce61:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 41,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the formula for the volume of a cylinder (V = πr²h).",
+          "Substitute the given values into the formula to find the volume."
+        ],
+        "hints": [
+          "Convert the diameter to radius and use the formula for the volume of a cylinder."
+        ],
+        "model_answer": "V = πr²h = π(1.5 cm)²(10.0 cm) = 70.65 cm³",
+        "explanation": "The volume of a cylinder is calculated using the formula V = πr²h, where r is the radius and h is the height. Here, the diameter is given as 3.0 cm, so the radius is half of that, which is 1.5 cm. Substitute these values into the formula to find the volume.",
+        "exam_question_id": "961a1a68-1a7d-464a-ac75-c215004f7e0e:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 42,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the volume of the rod using the formula for the volume of a cylinder.",
+          "Use the given mass and calculated volume to find the density using the formula ρ = m/V.",
+          "Provide the final answer in g/cm³."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the volume of the rod using the formula for the volume of a cylinder.; the given mass and calculated volume to find the density using the formula ρ = m/V.; Provide the…."
+        ],
+        "model_answer": "ρ = m/V = 250 g / 70.65 cm³ = 3.54 g/cm³",
+        "explanation": "The density of the rod is calculated by dividing the mass by the volume. Use the volume calculated in part (a) and the given mass to find the density. The final answer should be in g/cm³.",
+        "exam_question_id": "961a1a68-1a7d-464a-ac75-c215004f7e0e:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 43,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A cylindrical metal rod has a diameter of 3.0 cm and a length of 10.0 cm. The mass of the rod is 250 g.",
+        "question": "Will the rod float or sink in water? Explain.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the density of water (1 g/cm³).",
+          "Compare the density of the rod to the density of water.",
+          "Explain whether the rod will float or sink based on the comparison.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Will the rod float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: whether the rod will float or sink based on the comparison.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "The rod will sink in water because its density (3.54 g/cm³) is greater than the density of water (1 g/cm³).",
+        "explanation": "The rod will sink in water because its density is greater than the density of water. Compare the density of the rod to the density of water to determine if it will float or sink.",
+        "exam_question_id": "961a1a68-1a7d-464a-ac75-c215004f7e0e:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 44,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 700 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly use the formula for wavelength.",
+          "Substitute the given values into the formula and calculate the wavelength."
+        ],
+        "hints": [
+          "Use the formula: wavelength = speed of sound / frequency."
+        ],
+        "model_answer": "Wavelength = 340 m/s / 700 Hz = 0.4857 m (rounded to 0.49 m for simplicity).",
+        "explanation": "Use the formula for wavelength, which is the speed of sound divided by the frequency of the wave.",
+        "exam_question_id": "0ef0bcf5-4e90-449c-8221-ffffca595e6f:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 45,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 700 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that pitch is related to frequency.",
+          "State that doubling the frequency will increase the pitch.",
+          "Provide a simple explanation of why the pitch increases."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: Provide a simple explanation of why the pitch."
+        ],
+        "model_answer": "If the frequency is doubled, the pitch of the sound will also increase. This is because pitch is directly related to frequency, and as the frequency increases, the pitch becomes higher.",
+        "explanation": "Explain that pitch is related to frequency and that increasing the frequency will increase the pitch.",
+        "exam_question_id": "0ef0bcf5-4e90-449c-8221-ffffca595e6f:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 46,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 770 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for wavelength.",
+          "Substitute the given values into the formula.",
+          "Perform the calculation to find the wavelength."
+        ],
+        "hints": [
+          "Use the formula: wavelength = speed of sound / frequency."
+        ],
+        "model_answer": "Wavelength = 340 m/s / 770 Hz = 0.4416 m.",
+        "explanation": "To find the wavelength of the sound wave, we use the formula wavelength = speed of sound / frequency. Substituting the given values, we calculate the wavelength to be 0.4416 metres.",
+        "exam_question_id": "9832f788-64ce-4f5a-bbe6-1489dc0a3241:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 47,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 770 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understand the relationship between frequency and pitch.",
+          "Explain the effect of doubling the frequency on pitch.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points. Make sure you also cover: Understand the relationship between frequency and pitch.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "If the frequency is doubled, the pitch of the sound will also increase. This is because pitch is directly related to frequency, and a higher frequency results in a higher pitch.",
+        "explanation": "Pitch is directly related to frequency. If the frequency of the sound wave is doubled, the pitch will also increase, resulting in a higher-pitched sound.",
+        "exam_question_id": "9832f788-64ce-4f5a-bbe6-1489dc0a3241:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 48,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 770 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understand the relationship between amplitude and loudness.",
+          "Describe the effect of increasing the amplitude by a factor of 4 on loudness."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points. Make sure you also cover: Understand the relationship between amplitude and loudness."
+        ],
+        "model_answer": "If the amplitude of the sound wave is increased by a factor of 4, the loudness of the sound will also increase. This is because loudness is directly related to the amplitude of the sound wave, and a higher amplitude results in a louder sound.",
+        "explanation": "Loudness is related to the amplitude of the sound wave. If the amplitude is increased by a factor of 4, the loudness will also increase, resulting in a louder sound.",
+        "exam_question_id": "9832f788-64ce-4f5a-bbe6-1489dc0a3241:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 49,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A cylindrical metal rod has a diameter of 2.0 cm and a length of 8.0 cm. The mass of the rod is 180 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the formula for the volume of a cylinder.",
+          "Correctly substitute the given values into the formula and calculate the volume."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its volume — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for the volume of a cylinder.; Correctly substitute the given values into the formula and calculate the volume."
+        ],
+        "model_answer": "V = πr²h = π(1.0 cm)²(8.0 cm) = 25.1 cm³",
+        "explanation": "Calculate the volume of the cylindrical rod using the given diameter and length.",
+        "exam_question_id": "434d7ba9-c4ce-4936-8bbc-a31cc5201241:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 50,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A cylindrical metal rod has a diameter of 2.0 cm and a length of 8.0 cm. The mass of the rod is 180 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for density.",
+          "Correctly substitute the calculated volume and given mass into the formula.",
+          "Correctly calculate the density."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density in g/cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for density.; Correctly substitute the calculated volume and given mass into the formula.; Correctly calculate the density."
+        ],
+        "model_answer": "ρ = m/V = 180 g / 25.1 cm³ = 7.17 g/cm³",
+        "explanation": "Calculate the density of the cylindrical rod using the calculated volume and given mass.",
+        "exam_question_id": "434d7ba9-c4ce-4936-8bbc-a31cc5201241:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 51,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A cylindrical metal rod has a diameter of 2.0 cm and a length of 8.0 cm. The mass of the rod is 180 g.",
+        "question": "Will the rod float or sink in water? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly compare the density of the rod to the density of water.",
+          "Correctly explain whether the rod will float or sink based on the comparison.",
+          "Provide a clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Will the rod float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Correctly compare the of the rod to the of water.; Correctly explain whether the rod will float or sink based on the comparison.; Provide a clear and logical…."
+        ],
+        "model_answer": "The density of the rod is 7.17 g/cm³, which is greater than the density of water (1.0 g/cm³). Therefore, the rod will sink in water.",
+        "explanation": "Determine whether the rod will float or sink in water by comparing its density to the density of water.",
+        "exam_question_id": "434d7ba9-c4ce-4936-8bbc-a31cc5201241:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 52,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 800 Hz.",
+        "question": "Calculate the wavelength of the sound wave.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the given values: speed of sound (v) and frequency (f).",
+          "Use the formula for wavelength: \\( \\lambda = \\frac{v}{f} \\).",
+          "Substitute the given values into the formula and calculate the wavelength."
+        ],
+        "hints": [
+          "Recall that the speed of sound in air is approximately 340 m/s."
+        ],
+        "model_answer": "v = 340 m/s, f = 800 Hz, \\( \\lambda = \\frac{340}{800} = 0.425 \\) m",
+        "explanation": "The wavelength of the sound wave can be calculated using the formula \\( \\lambda = \\frac{v}{f} \\), where v is the speed of sound and f is the frequency of the wave.",
+        "exam_question_id": "c8a8e017-ac9b-4fa8-8dd7-7f56c1c550d2:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 53,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 800 Hz.",
+        "question": "Explain how the pitch of the sound would change if the frequency is doubled.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that pitch is related to the frequency of the sound wave.",
+          "State that if the frequency is doubled, the pitch will also increase."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the pitch of the sound would change if the frequency is doubled — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "If the frequency of the sound wave is doubled, the pitch will also increase because pitch is directly related to frequency.",
+        "explanation": "Pitch is a perceptual response to the frequency of a sound wave. If the frequency is doubled, the pitch will also increase.",
+        "exam_question_id": "c8a8e017-ac9b-4fa8-8dd7-7f56c1c550d2:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 54,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A sound wave travels through air at a speed of 340 m/s. The frequency of the wave is 800 Hz.",
+        "question": "Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that loudness is related to the amplitude of the sound wave.",
+          "State that if the amplitude is increased by a factor of 4, the loudness will also increase."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the loudness of the sound would change if the amplitude of the wave is increased by a factor of 4 — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "If the amplitude of the sound wave is increased by a factor of 4, the loudness will also increase because loudness is directly related to amplitude.",
+        "explanation": "Loudness is a perceptual response to the amplitude of a sound wave. If the amplitude is increased by a factor of 4, the loudness will also increase.",
+        "exam_question_id": "c8a8e017-ac9b-4fa8-8dd7-7f56c1c550d2:1",
+        "topic_label": "Chapter 21: Properties of sound",
+        "topic_id": 2585,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 21: Properties of sound"
+        }
+      },
+      {
+        "id": 55,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A metal block measures 6.0 cm × 8.0 cm × 3.0 cm and has a mass of 432 g.",
+        "question": "Calculate its volume.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the block.",
+          "Calculate the volume using the formula V = l × w × h."
+        ],
+        "hints": [
+          "Remember to convert the dimensions from cm to m if necessary."
+        ],
+        "model_answer": "V = 6.0 cm × 8.0 cm × 3.0 cm = 144 cm³ = 0.0144 m³",
+        "explanation": "The volume calculation 6.0 × 8.0 × 3.0 = 144 cm³ is correct. To convert to m³: 1 cm³ = 10⁻⁶ m³, so 144 cm³ = 0.000144 m³ (not 0.0144 m³).",
+        "exam_question_id": "9d63ca5c-0f9c-43f0-a4a7-fc991e0901e1:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 56,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A metal block measures 6.0 cm × 8.0 cm × 3.0 cm and has a mass of 432 g.",
+        "question": "Calculate its density in g/cm³.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the mass and volume of the block.",
+          "Use the density formula ρ = m/V.",
+          "Provide the answer in g/cm³."
+        ],
+        "hints": [
+          "Use the volume calculated in part (a)."
+        ],
+        "model_answer": "ρ = 432 g / 144 cm³ = 3 g/cm³",
+        "explanation": "Use the mass and volume from part (a) to calculate the density using the formula ρ = m/V.",
+        "exam_question_id": "9d63ca5c-0f9c-43f0-a4a7-fc991e0901e1:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      },
+      {
+        "id": 57,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A metal block measures 6.0 cm × 8.0 cm × 3.0 cm and has a mass of 432 g.",
+        "question": "Will the block float or sink in water? Explain.",
+        "marks": 4,
+        "marking_criteria": [
+          "Compare the density of the block with the density of water.",
+          "State whether the block will float or sink based on the comparison.",
+          "Explain the reasoning behind the conclusion.",
+          "Provide the densities in the same units for comparison."
+        ],
+        "hints": [
+          "Use the density calculated in part (b)."
+        ],
+        "model_answer": "The block will sink in water because its density (3 g/cm³) is greater than the density of water (1.0 g/cm³). An object sinks if its density is greater than the density of the liquid it is placed in.",
+        "explanation": "Compare the density of the block with the density of water and explain whether the block will float or sink based on the comparison.",
+        "exam_question_id": "9d63ca5c-0f9c-43f0-a4a7-fc991e0901e1:1",
+        "topic_label": "Chapter 7: Density and floating",
+        "topic_id": 2571,
+        "checked": true,
+        "source": {
+          "textbook": "IGCSE-Physics-Coursebook-by-David-Sang",
+          "area": "Chapter 7: Density and floating"
+        }
+      }
+    ],
+    "estimated_time": 156,
+    "assessment_id": "85a4ae73-6f11-41ad-bd4f-d103fb5fe267",
+    "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+    "topics": [
+      "Chapter 7: Density and floating",
+      "Chapter 21: Properties of sound"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 209,
+    "topic_ids": [
+      2571,
+      2585
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 57,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "11 questions open with the same sentence (1, 4, 10, 21, 30, 33, 36, 39, 44, 46, 52): \"Calculate the wavelength of the sound wave.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "11 questions open with the same sentence (2, 5, 11, 22, 31, 34, 37, 40, 45, 47, 53): \"Explain how the pitch of the sound would change if\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "9 questions open with the same sentence (3, 6, 12, 23, 32, 35, 38, 48, 54): \"Describe how the loudness of the sound would chang\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 8,
+      "detail": "5 questions open with the same sentence (9, 17, 29, 43, 51): \"Will the rod float or sink in water? Explain.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 12,
+      "detail": "8 questions open with the same sentence (13, 15, 18, 24, 27, 41, 49, 55): \"Calculate its volume.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 13,
+      "detail": "8 questions open with the same sentence (14, 16, 19, 25, 28, 42, 50, 56): \"Calculate its density in g/cm³.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 3,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 12,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 14,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 17,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 23,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 20"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 26,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 31,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 32,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 33,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 40,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 40,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 41,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 42,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 43,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 44,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 45,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 46,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 47,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 48,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 48,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 49,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 50,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 51,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 52,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 53,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 54,
+      "detail": "3 words: \"Calculate its volume.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 54,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 55,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 56,
+      "detail": "same as question 20"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c",
+      "11a",
+      "11b",
+      "11c",
+      "12a",
+      "12b",
+      "12c",
+      "13a",
+      "13b",
+      "13c",
+      "14a",
+      "14b",
+      "15a",
+      "15b",
+      "15c",
+      "16a",
+      "16b",
+      "17a",
+      "17b",
+      "17c",
+      "18a",
+      "18b",
+      "18c",
+      "19a",
+      "19b",
+      "19c",
+      "20a",
+      "20b",
+      "20c"
+    ],
+    "issues": [
+      {
+        "label": "1c",
+        "severity": "poor",
+        "detail": "Model answer claims loudness increases 'by the same factor' (4×) when amplitude increases 4×. Physically, loudness (perceived intensity) is logarithmic; intensity is proportional to amplitude squared. Amplitude 4× → intensity 16×, not 4×.",
+        "correction": "Model answer should state: 'Loudness will increase significantly. Loudness is related to the intensity of the sound wave, which depends on amplitude squared. Increasing amplitude by a factor of 4 increases intensity by a factor of 16, making the sound much louder.'"
+      },
+      {
+        "label": "2c",
+        "severity": "poor",
+        "detail": "Model answer incorrectly states loudness increases 'by a factor of 4' when amplitude increases 4×. Same error as 1c: intensity ∝ amplitude², so 4× amplitude → 16× intensity.",
+        "correction": "Model answer should state: 'Loudness will increase significantly because intensity is proportional to amplitude squared. Increasing amplitude by a factor of 4 increases intensity by a factor of 16.'"
+      },
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Model answer gives 70.7 cm³ but calculation shown is π(1.5)²(10) = π(2.25)(10) = 70.685... ≈ 70.7 cm³. Rounding is acceptable but inconsistent with later parts using 70.65 cm³.",
+        "correction": "Use consistent rounding: either 70.7 cm³ or 70.65 cm³ throughout all related questions. Recommend 70.7 cm³ (2 s.f. appropriate for given data)."
+      },
+      {
+        "label": "4c",
+        "severity": "poor",
+        "detail": "Model answer states loudness 'would also increase' without quantifying. Same amplitude-loudness error: intensity ∝ amplitude², not linearly.",
+        "correction": "Model answer should clarify: 'Loudness will increase significantly. Since intensity is proportional to amplitude squared, increasing amplitude by a factor of 4 increases intensity by a factor of 16, making the sound much louder.'"
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Model answer gives 70.65 cm³ but uses π without specifying value. Calculation: π(1.5)²(10) = 70.685... Rounding differs from question 3a (70.7 cm³).",
+        "correction": "Standardize: state 'V = π(1.5)²(10) ≈ 70.7 cm³' or consistently use 70.65 cm³ across all cylinder questions."
+      },
+      {
+        "label": "6a",
+        "severity": "poor",
+        "detail": "Model answer uses π = 3.14 explicitly, giving 70.65 cm³. This differs from questions 3a/5a which use π ≈ 3.14159, yielding 70.7 cm³. Inconsistent precision across identical scenarios.",
+        "correction": "Standardize all cylinder volume calculations to use same π value and rounding convention across questions 3a, 5a, 6a, 10a, 15a, 18a."
+      },
+      {
+        "label": "8c",
+        "severity": "poor",
+        "detail": "Model answer: 'Loudness would increase significantly...increasing amplitude by a factor of 4 would make the sound much louder.' Lacks quantitative relationship; intensity ∝ amplitude², so 4× amplitude → 16× intensity.",
+        "correction": "Add: 'Since intensity is proportional to amplitude squared, a 4× increase in amplitude results in a 16× increase in intensity.'"
+      },
+      {
+        "label": "11c",
+        "severity": "poor",
+        "detail": "Model answer: 'Increasing amplitude by a factor of 4 will increase loudness.' Vague; does not explain intensity ∝ amplitude² relationship.",
+        "correction": "Clarify: 'Loudness increases significantly because intensity is proportional to amplitude squared. A 4× amplitude increase produces a 16× intensity increase.'"
+      },
+      {
+        "label": "12c",
+        "severity": "poor",
+        "detail": "Model answer: 'Increasing amplitude by a factor of 4 will increase loudness of the sound.' Lacks quantitative explanation of amplitude-intensity relationship.",
+        "correction": "Add: 'Since intensity is proportional to amplitude squared, increasing amplitude by a factor of 4 increases intensity by a factor of 16.'"
+      },
+      {
+        "label": "13c",
+        "severity": "poor",
+        "detail": "Model answer: 'Loudness will also increase significantly' without explaining intensity ∝ amplitude² relationship.",
+        "correction": "Clarify: 'Loudness increases significantly. Since intensity is proportional to amplitude squared, a 4× amplitude increase produces a 16× intensity increase.'"
+      },
+      {
+        "label": "14b",
+        "severity": "poor",
+        "detail": "Question 14 context ends abruptly; question 14b exists but question 14c is missing. Assessment is incomplete for this question set.",
+        "correction": "Either complete question 14 with part (c) or remove incomplete question set."
+      },
+      {
+        "label": "17c",
+        "severity": "poor",
+        "detail": "Model answer: 'Loudness will also increase' without quantifying. Lacks intensity ∝ amplitude² explanation.",
+        "correction": "Add: 'Since intensity is proportional to amplitude squared, a 4× amplitude increase produces a 16× intensity increase.'"
+      },
+      {
+        "label": "20a",
+        "severity": "broken",
+        "detail": "Model answer states 144 cm³ = 0.0144 m³. Correct conversion: 144 cm³ = 0.000144 m³ (1 cm³ = 10⁻⁶ m³). Error by factor of 100.",
+        "correction": "Model answer should state: 'V = 6.0 × 8.0 × 3.0 = 144 cm³ = 0.000144 m³' or omit m³ conversion if not required."
+      }
+    ],
+    "summary": "Assessment contains 51 questions across density/floating and sound properties. Main issues: systematic errors in amplitude-loudness relationship (10 questions incorrectly state linear proportionality instead of intensity ∝ amplitude²); inconsistent π rounding in cylinder volumes; unit conversion error in 20a (off by factor 100); incomplete question 14. No missing data or repeated identical questions detected."
+  },
+  "totalSeconds": 141
+}

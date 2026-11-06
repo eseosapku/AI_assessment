@@ -8,6 +8,12 @@ const short = (question: string) => ({
 })
 
 describe('what a learner cannot answer', () => {
+  it('rejects a numerical calculation whose worked answer admits missing data even beside a figure', () => {
+    expect(unanswerableReason({ type: 'longform', question: 'Calculate the Young modulus.', image_url: '/force-extension.png', scenario: 'Force is 10 N at extension 0.8 mm.', model_answer: 'Assuming the area and original length are known, plug in their values.', explanation: 'The calculation requires area and original length, not provided in the question.' })).toMatch(/essential calculation data/)
+  })
+  it('keeps an intentional symbolic calculation with general quantities', () => {
+    expect(unanswerableReason({ type: 'longform', question: 'Calculate the Young modulus in terms of A and L.', scenario: 'Force F produces extension x in a wire of area A and length L.', model_answer: 'E = FL/(Ax).' })).toBeNull()
+  })
   it('catches a scenario that asks nothing', () => {
     // Shipped, twice, in one Science paper.
     expect(unanswerableReason({

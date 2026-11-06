@@ -1,0 +1,669 @@
+{
+  "index": 2,
+  "label": "REB / Practice / Advanced Mathematics S6 SB (1)",
+  "request": {
+    "subject": "Advanced Mathematics S6 SB (1)",
+    "textbook_id": 2,
+    "topic_ids": [
+      12,
+      18
+    ],
+    "topics": [
+      "Complex Numbers",
+      "Transformation of Matrices"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 23,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What is the imaginary part of the complex number $3 + 4i$?",
+        "options": [
+          "3",
+          "4",
+          "4i",
+          "-4i"
+        ],
+        "correct_answer": 1,
+        "explanation": "The imaginary part of a complex number $a + bi$ is the coefficient of $i$, which is 4 in this case. 3 is the real part, and options C and D are incorrect because they either misrepresent the imaginary part or include the imaginary unit incorrectly.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 37,
+        "topic_id": 12,
+        "topic_label": "Algebraic form of a complex number",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Algebraic form of a complex number"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Look at the diagram. M(z) has coordinates (cos x, sin x) and angle θ lies between OM and ON. What is the argument of z'?",
+        "options": [
+          "θ",
+          "x",
+          "x + θ",
+          "θ − x"
+        ],
+        "correct_answer": 2,
+        "explanation": "The argument of z' is the angle from the positive x-axis to ON. This is angle x (to OM) plus angle θ (from OM to ON), so x + θ. θ alone ignores x. θ − x subtracts instead of adding. x is only the argument of z.",
+        "image_url": "/textbook-images/rwanda/2/page76-embedded-4.jpeg",
+        "topic_label": "Complex Numbers",
+        "vetted": true,
+        "image_alt": "A coordinate plane with x and y axes and origin 0. Two red segments start at the origin and end at M(z) and N(z'). M(z) has x-coordinate cos x and y-coordinate sin x, marked by dotted purple lines. N(z') has x-coordinate a and y-coordinate b, also marked by dotted lines. The angle x lies between the x-axis and OM, and the angle θ lies between OM and ON. Printed on it: y | x | 0 | b | N(z') | sin x | M(z) | θ | x | a | cos x.",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Complex Number",
+            "right": "A number of the form a + bi where a and b are real numbers and i is the imaginary unit"
+          },
+          {
+            "left": "Real Part",
+            "right": "The real number part of a complex number"
+          },
+          {
+            "left": "Imaginary Part",
+            "right": "The coefficient of the imaginary unit i in a complex number"
+          },
+          {
+            "left": "Imaginary Unit",
+            "right": "The unit i, where i^2 = -1"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is matched to its definition, ensuring students understand the basic components and properties of complex numbers.",
+        "left_items": [
+          "Complex Number",
+          "Real Part",
+          "Imaginary Part",
+          "Imaginary Unit"
+        ],
+        "right_items": [
+          "The real number part of a complex number",
+          "The coefficient of the imaginary unit i in a complex number",
+          "The unit i, where i^2 = -1",
+          "A number of the form a + bi where a and b are real numbers and i is the imaginary unit"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 36,
+        "topic_id": 12,
+        "topic_label": "Concepts of complex numbers",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Concepts of complex numbers"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps to convert a complex number from rectangular form to exponential form in the correct order",
+        "ordered_items": [
+          "Calculate the modulus r",
+          "Calculate the argument θ",
+          "Write the number in the form $re^{iθ}$"
+        ],
+        "marks": 3,
+        "explanation": "The correct sequence begins with calculating the modulus, then the argument, and finally expressing the number in exponential form.",
+        "items": [
+          "Calculate the argument θ",
+          "Write the number in the form $re^{iθ}$",
+          "Calculate the modulus r"
+        ],
+        "correct_order": [
+          2,
+          0,
+          1
+        ],
+        "checked": true,
+        "subtopic_id": 39,
+        "topic_id": 12,
+        "topic_label": "Exponential form of a complex number",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Exponential form of a complex number"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Look at the diagram. Which expression gives the modulus r of z = x + yi in terms of x and y?",
+        "options": [
+          "√(x² + y²)",
+          "x² + y²",
+          "x + y",
+          "√(x² − y²)"
+        ],
+        "correct_answer": 0,
+        "explanation": "The segment r is the hypotenuse of a right triangle with sides x (r cos θ) and y (r sin θ). By Pythagoras, r = √(x² + y²). x² + y² is r² and lacks the square root. x + y adds the sides, which ignores the right angle. √(x² − y²) wrongly subtracts, but Pythagoras adds the squares.",
+        "image_url": "/textbook-images/rwanda/2/page49-embedded-4.jpeg",
+        "topic_label": "Complex Numbers",
+        "vetted": true,
+        "image_alt": "An Argand diagram with horizontal x axis and vertical y axis meeting at the origin 0. A red line segment of length r runs from the origin to the point z = x + yi, making angle θ with the positive x axis. Dotted purple lines go from the point to y on the y axis and to x on the x axis; the horizontal side is labelled r cos θ and the vertical side r sin θ. Printed on it: y | x | 0 | r | θ | z = x + yi | y | r sin θ | r cos θ | x.",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which of the following is the correct elementary row operation for transforming a matrix?",
+        "options": [
+          "Multiplying a row by a non-zero scalar",
+          "Swapping two rows",
+          "Adding a multiple of one row to another row",
+          "All of the above"
+        ],
+        "correct_answer": 3,
+        "explanation": "All listed operations are valid elementary row operations. Multiplying a row by a non-zero scalar refers to scaling a row, B refers to swapping rows, and C refers to adding a multiple of one row to another, making All of the above the correct choice.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 58,
+        "topic_id": 18,
+        "topic_label": "Elementary row/column operations",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Elementary row/column operations"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Elementary row operations can change the solution set of a system of linear equations",
+          "The determinant of a matrix is unaffected by elementary row operations",
+          "Adding a multiple of one row to another row is an elementary row operation",
+          "Elementary row operations can only be applied to the first row of a matrix"
+        ],
+        "correct_answers": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Statement A is false because elementary row operations do not change the solution set. Statement B is false because elementary row operations can change the determinant: swapping two rows negates it, and multiplying a row by a scalar multiplies the determinant by that scalar. Statement C is true because adding a multiple of one row to another is a valid elementary row operation. Statement D is false because row operations can be applied to any row, not only the first.",
+        "checked": true,
+        "subtopic_id": 58,
+        "topic_id": 18,
+        "topic_label": "Elementary row/column operations",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Elementary row/column operations"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Look at the diagram. Written as a complex number, what is the impedance of the top branch, containing R1 and XL?",
+        "options": [
+          "12 − 5j Ω",
+          "4 + 3j Ω",
+          "4 − 3j Ω",
+          "7j Ω"
+        ],
+        "correct_answer": 1,
+        "explanation": "The top branch has R1 = 4 Ω in series with an inductive reactance XL = 3 Ω, so Z = R + jXL = 4 + 3j Ω. 4 − 3j would be a capacitor. 7j wrongly adds the values and drops the real and imaginary distinction. 12 − 5j is the bottom branch.",
+        "image_url": "/textbook-images/rwanda/2/page92-embedded-1.jpeg",
+        "topic_label": "Algebraic form of a complex number",
+        "vetted": true,
+        "image_alt": "A circuit diagram with three parallel branches connected across a supply labelled 240 V, 50 Hz. The top branch has a resistor R1 = 4 Ω in series with an inductor of reactance XL = 3 Ω. The middle branch has a resistor R2 = 10 Ω. The bottom branch has a resistor R3 = 12 Ω in series with a capacitor of reactance Xc = 5 Ω. The total current i enters on the left side. Printed on it: R1 = 4Ω | XL = 3Ω | R2 = 10Ω | R3 = 12Ω | Xc = 5Ω | i | 240 V, 50Hz.",
+        "subtopic_id": 37,
+        "topic_id": 12,
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Algebraic form of a complex number"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "In the exponential form of a complex number, what does 'e' represent?",
+        "options": [
+          "The base of natural logarithms",
+          "The imaginary unit",
+          "A scalar multiple",
+          "A real number coefficient"
+        ],
+        "correct_answer": 0,
+        "explanation": "In the exponential form $re^{iθ}$, 'e' represents the base of natural logarithms. This is a fundamental constant in mathematics, approximately equal to 2.71828. The other options incorrectly describe 'e' or are unrelated to the exponential form of complex numbers.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 39,
+        "topic_id": 12,
+        "topic_label": "Exponential form of a complex number",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Exponential form of a complex number"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Which of the following represents the algebraic form of a complex number?",
+        "options": [
+          "a + bi - c",
+          "a + bi + c",
+          "a + bi",
+          "a - bi"
+        ],
+        "correct_answer": 2,
+        "explanation": "The algebraic form of a complex number is represented as a + bi, where a and b are real numbers and i is the imaginary unit. a + bi is correct because it matches this form. a - bi is incorrect because it represents a different form. a + bi - c and D are incorrect because they include additional terms that do not belong in the algebraic form.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 37,
+        "topic_id": 12,
+        "topic_label": "Algebraic form of a complex number",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Algebraic form of a complex number"
+        }
+      },
+      {
+        "id": 11,
+        "type": "mcq",
+        "question": "Look at the diagram. The vertices z0 to z4 form a regular pentagon on the unit circle. What is the argument of z2?",
+        "options": [
+          "3π/5",
+          "π/2",
+          "4π/5",
+          "2π/5"
+        ],
+        "correct_answer": 2,
+        "explanation": "The five vertices are equally spaced by 2π/5, starting at z0 with argument 0. So z2 has argument 2×2π/5 = 4π/5. 2π/5 is the argument of z1. 3π/5 would be for a pentagon spaced by 3π/5, which is wrong. π/2 would be on the y-axis, but z2 is not there.",
+        "image_url": "/textbook-images/rwanda/2/page68-embedded-0.png",
+        "topic_label": "Complex Numbers",
+        "vetted": true,
+        "image_alt": "An Argand diagram with x and y axes and a red unit circle centred at the origin 0, with -1 and 1 marked on both axes. A blue regular pentagon is inscribed in the circle with vertices z0 at (1,0), z1 in the upper right, z2 in the upper left, z3 in the lower left and z4 in the lower right. z2 and z3 are joined by a vertical side. Printed on it: y | x | 1 | z1 | z2 | z0 | -1 | 0 | 1 | z3 | z4 | -1.",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each complex number to its conjugate.",
+        "matched_pairs": [
+          {
+            "left": "3 + 4i",
+            "right": "3 - 4i"
+          },
+          {
+            "left": "2 - 5i",
+            "right": "2 + 5i"
+          },
+          {
+            "left": "7 + 2i",
+            "right": "7 - 2i"
+          },
+          {
+            "left": "-1 - 6i",
+            "right": "-1 + 6i"
+          }
+        ],
+        "marks": 4,
+        "explanation": "The conjugate of a complex number a + bi is a - bi. Each pair correctly matches a complex number to its conjugate.",
+        "left_items": [
+          "3 + 4i",
+          "2 - 5i",
+          "7 + 2i",
+          "-1 - 6i"
+        ],
+        "right_items": [
+          "3 - 4i",
+          "-1 + 6i",
+          "7 - 2i",
+          "2 + 5i"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 37,
+        "topic_id": 12,
+        "topic_label": "Algebraic form of a complex number",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Algebraic form of a complex number"
+        }
+      },
+      {
+        "id": 13,
+        "type": "mcq",
+        "question": "Look at the diagram. Written as a complex number, what is the impedance of the middle branch (R2 with XL)?",
+        "options": [
+          "40 − j50 Ω",
+          "30 − j20 Ω",
+          "90 Ω",
+          "40 + j50 Ω"
+        ],
+        "correct_answer": 3,
+        "explanation": "The middle branch has R2 = 40 Ω in series with an inductor XL = 50 Ω. Inductive reactance is positive imaginary, so Z = 40 + j50 Ω. 40 − j50 wrongly treats the inductor as a capacitor. 30 − j20 is the top branch. 90 Ω adds the resistance and reactance as real numbers.",
+        "image_url": "/textbook-images/rwanda/2/page92-embedded-0.jpeg",
+        "topic_label": "Algebraic form of a complex number",
+        "vetted": true,
+        "image_alt": "A circuit diagram with three parallel branches connected across a supply of V = 200 V, with the total current I marked on the left side. The top branch has a capacitor Xc = 20 Ω in series with a resistor R1 = 30 Ω. The middle branch has a resistor R2 = 40 Ω in series with an inductor XL = 50 Ω. The bottom branch has a resistor R3 = 25 Ω. Printed on it: Xc = 20Ω | R1 = 30Ω | R2 = 40Ω | XL = 50Ω | R3 = 25Ω | I | V = 200V.",
+        "subtopic_id": 37,
+        "topic_id": 12,
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Algebraic form of a complex number"
+        }
+      },
+      {
+        "id": 14,
+        "type": "mcq",
+        "question": "Which of the following is a use of complex numbers in applications?",
+        "options": [
+          "Solving quadratic equations",
+          "Calculating electrical circuits",
+          "Graphing on a number line",
+          "Finding the area of a rectangle"
+        ],
+        "correct_answer": 1,
+        "explanation": "Complex numbers are used in applications such as calculating electrical circuits. Solving quadratic equations is incorrect because solving quadratic equations can be done with real numbers. Graphing on a number line is incorrect because graphing on a number line is done with real numbers. Finding the area of a rectangle is incorrect because finding the area of a rectangle is done with real numbers.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 37,
+        "topic_id": 12,
+        "topic_label": "Algebraic form of a complex number",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Algebraic form of a complex number"
+        }
+      },
+      {
+        "id": 15,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps to diagonalise a matrix in the correct order.",
+        "ordered_items": [
+          "Find the eigenvalues",
+          "Find the eigenvectors",
+          "Form the matrix P",
+          "Form the diagonal matrix D"
+        ],
+        "marks": 4,
+        "explanation": "The correct order for diagonalising a matrix is: find the eigenvalues, find the eigenvectors, form the matrix P using the eigenvectors, and form the diagonal matrix D using the eigenvalues.",
+        "items": [
+          "Form the matrix P",
+          "Form the diagonal matrix D",
+          "Find the eigenvalues",
+          "Find the eigenvectors"
+        ],
+        "correct_order": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "checked": true,
+        "topic_label": "Complex Numbers",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "mcq",
+        "question": "Look at the graph. Which pair of conditions on z describes the green shaded region?",
+        "options": [
+          "|z − 1 − i| ≤ 3 and 0 ≤ arg z ≤ π/4",
+          "|z − 1 − i| ≥ 3 and 0 ≤ arg z ≤ π/4",
+          "|z − 1 − i| ≤ 3 and π/4 ≤ arg z ≤ π/2",
+          "|z − 1| ≤ 3 and 0 ≤ arg z ≤ π/4"
+        ],
+        "correct_answer": 0,
+        "explanation": "The circle is centred at 1 + i with radius 3, and the shading is inside it, so |z − 1 − i| ≤ 3. The shading lies between the positive x-axis and the line at π/4, so 0 ≤ arg z ≤ π/4. The second option describes the outside of the circle. The third uses the wrong angle range. The fourth gives a circle centred at 1, not 1 + i.",
+        "image_url": "/textbook-images/rwanda/2/page48-embedded-0.jpeg",
+        "topic_label": "Complex Numbers",
+        "vetted": true,
+        "image_alt": "An Argand-style coordinate diagram with x and y axes, a blue circle centred at the marked point (1, 1) with radius 3, and a red line from the origin through (1, 1) at an angle of π/4 to the positive x-axis. The region between the x-axis and the red line, inside the circle, is shaded with green hatching, and the angle π/4 is marked at the origin. Printed on it: y | x | -5 | -4 | -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | π/4 | 4 | 3 | 2 | 1 | -1 | -2.",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "mcq",
+        "question": "What is the polar form of the complex number $3 + 3i$?",
+        "options": [
+          "$3\\sqrt{2} \\text{cis} \\frac{\\pi}{4}$",
+          "$6 \\text{cis} \\frac{\\pi}{4}$",
+          "$3\\sqrt{2} \\text{cis} \\frac{\\pi}{2}$",
+          "$6 \\text{cis} \\frac{\\pi}{2}$"
+        ],
+        "correct_answer": 0,
+        "explanation": "The correct answer is $3\\sqrt{2} \\text{cis} \\frac{\\pi}{4}$ because the magnitude of the complex number $3 + 3i$ is $3\\sqrt{2}$, and the argument is $\\frac{\\pi}{4}$. The other options either have the wrong magnitude or argument.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 38,
+        "topic_id": 12,
+        "topic_label": "Polar form of a complex number",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Polar form of a complex number"
+        }
+      },
+      {
+        "id": 18,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put these steps in the correct order to find the range of a transformation represented by a matrix",
+        "ordered_items": [
+          "Compute the matrix product for each basis vector",
+          "Determine the span of the resulting vectors",
+          "Identify the basis vectors of the domain",
+          "Write down the matrix representing the transformation"
+        ],
+        "marks": 4,
+        "explanation": "You must first establish what matrix you're working with, then identify the domain's basis vectors, apply the matrix to each one, and finally find the span of those images to determine the range.",
+        "items": [
+          "Identify the basis vectors of the domain",
+          "Write down the matrix representing the transformation",
+          "Determine the span of the resulting vectors",
+          "Compute the matrix product for each basis vector"
+        ],
+        "correct_order": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "checked": true,
+        "subtopic_id": 57,
+        "topic_id": 18,
+        "topic_label": "Kernel and range of a transformation",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Kernel and range of a transformation"
+        }
+      },
+      {
+        "id": 19,
+        "type": "mcq",
+        "question": "Look at the diagram. In panel (a), the phasor V is the diagonal of the rectangle with sides V_R and V_L. Which complex-number expression gives its magnitude?",
+        "options": [
+          "|V| = V_R × V_L",
+          "|V| = √(V_R² + V_L²)",
+          "|V| = V_R + V_L",
+          "|V| = √(V_R² − V_L²)"
+        ],
+        "correct_answer": 1,
+        "explanation": "V_R and V_L are perpendicular, like the real and imaginary parts of V = V_R + jV_L. Its modulus is the diagonal, √(V_R² + V_L²), by Pythagoras. Adding the sides ignores the right angle. Subtracting the squares gives a wrong triangle. Multiplying the sides gives an area-like quantity, not a length.",
+        "image_url": "/textbook-images/rwanda/2/page79-embedded-0.png",
+        "topic_label": "Algebraic form of a complex number",
+        "vetted": true,
+        "image_alt": "The image is upright and shows two panels, (a) and (b), each with a circuit diagram above and a phasor diagram below. In (a), the circuit is a resistor R in series with an inductor L; the phasor diagram has horizontal side V_R along current I, vertical side V_L, and diagonal V at angle θ to I. In (b), the circuit is a resistor R in series with a capacitor C; the phasor diagram has horizontal side V_R along I, a downward vertical side V_C, and diagonal V at angle φ to I. Each circuit has the labels V across the whole circuit, V_R across the resistor, and V_L or V_C across the other component, w",
+        "subtopic_id": 37,
+        "topic_id": 12,
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Algebraic form of a complex number"
+        }
+      },
+      {
+        "id": 20,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: The kernel of a linear transformation is always a subspace of the domain.",
+        "statements": [
+          "The kernel of a linear transformation is always a subspace of the domain.",
+          "The range of a linear transformation is always a subspace of the codomain.",
+          "A matrix can have multiple kernels.",
+          "The rank of a matrix is the dimension of its range."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "The kernel of a linear transformation is indeed always a subspace of the domain. The range of a linear transformation is always a subspace of the codomain. A matrix cannot have multiple kernels. The rank of a matrix is the dimension of its range.",
+        "checked": true,
+        "subtopic_id": 57,
+        "topic_id": 18,
+        "topic_label": "Kernel and range of a transformation",
+        "source": {
+          "textbook": "Advanced Mathematics S6 SB (1)",
+          "area": "Kernel and range of a transformation"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "5b526200-2871-41d3-bacf-fcb0e0e7f5fd",
+    "subject": "Advanced Mathematics S6 SB (1)",
+    "topics": [
+      "Complex Numbers",
+      "Transformation of Matrices"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "study_mixed",
+    "textbook_id": 2,
+    "topic_ids": [
+      12,
+      18
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "mcq-catch-all-option",
+      "severity": "poor",
+      "index": 5,
+      "detail": "\"All of the above\" is guessable and untestable"
+    }
+  ],
+  "figures": 7,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "14",
+        "severity": "poor",
+        "detail": "Explanation incorrectly dismisses solving quadratic equations as not using complex numbers. Quadratic equations with negative discriminants require complex solutions, making this a valid application of complex numbers.",
+        "correction": "Revise explanation: 'Complex numbers are used in applications such as calculating electrical circuits and solving quadratic equations with negative discriminants. Graphing on a number line and finding rectangle areas use only real numbers.'"
+      },
+      {
+        "label": "15",
+        "severity": "broken",
+        "detail": "Question asks to diagonalise a matrix but is labelled under 'Complex Numbers' topic (topic_id 12). Diagonalisation belongs to matrix transformation topics (topic_id 18). Topic label mismatch indicates misclassification.",
+        "correction": "Change topic_label from 'Complex Numbers' to 'Matrix Transformations' and verify topic_id should be 18, not 12."
+      }
+    ],
+    "summary": "Assessment is largely sound with 20 well-structured questions covering complex numbers and matrix transformations. Two issues identified: question 14's explanation incorrectly dismisses quadratic equations as a complex number application, and question 15 is mislabelled under Complex Numbers when it belongs to Matrix Transformations. All diagrams, MCQ answers, and interactive mappings are correct."
+  },
+  "totalSeconds": 30
+}

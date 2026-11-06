@@ -1,0 +1,829 @@
+{
+  "index": 8,
+  "label": "REB / Exam / Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+  "request": {
+    "subject": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+    "textbook_id": 185,
+    "topic_ids": [
+      1941,
+      1942
+    ],
+    "topics": [
+      "UNIT 1: ARITHMETICS",
+      "UNIT 2: EQUATIONS AND INEQUALITIES"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 30,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing two straight lines: x + y = 4 and x - y = 2. These lines intersect at the point (3,1).",
+        "question": "Calculate the coordinates of the intersection point of the two lines.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the intersection point (3,1).",
+          "Proper use of the equations to verify the intersection point."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the coordinates of the intersection point of the two lines — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the intersection point (3,1).; Proper use of the to verify the intersection point."
+        ],
+        "model_answer": "The intersection point is (3,1). This can be verified by substituting x = 3 and y = 1 into both equations: \n1. x + y = 4 \n   3 + 1 = 4 (True) \n2. x - y = 2 \n   3 - 1 = 2 (True)",
+        "explanation": "The intersection point of two lines is where both equations are satisfied simultaneously. Here, substituting x = 3 and y = 1 into both equations confirms that (3,1) is indeed the intersection point.",
+        "exam_question_id": "52039efe-509b-42a7-9144-070abfd99338:1",
+        "image_url": "/textbook-images/rwanda/185/page93-embedded-0.jpeg",
+        "image_alt": "A coordinate grid with x from -4 to 6 and y from -6 to 8 shows two straight lines. The line labelled x + y = 4 passes through (0,4) and (4,0) and slopes downward. The line labelled x − y = 2 passes through (2,0) and (0,−2) and slopes upward. The two lines cross at a bold dot at (3,1).\nLabels: y, 8, 7, 6, 5, 4, 3, 2, 1, -1, -2, -3, -4, -5, -6, x, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, x + y = 4, x − y = 2\nOriginal exercise: The two lines intersect at point  3,1 . Therefore the solution set is     3,1 S  .",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing two straight lines: x + y = 4 and x - y = 2. These lines intersect at the point (3,1).",
+        "question": "State the slope of the line x + y = 4.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the slope of the line x + y = 4.",
+          "Proper manipulation of the equation to find the slope."
+        ],
+        "hints": [
+          "Stay focused on this: State the slope of the line x + y = 4 — develop the idea fully rather than listing short points. Make sure you also cover: Proper manipulation of the to the slope."
+        ],
+        "model_answer": "The slope of the line x + y = 4 is -1. To find the slope, rewrite the equation in slope-intercept form: \n1. x + y = 4 \n   y = -x + 4 \nThe coefficient of x is the slope, which is -1.",
+        "explanation": "The slope of a line in the form y = mx + b is given by the coefficient of x. By rewriting the equation x + y = 4 as y = -x + 4, we see that the slope is -1.",
+        "exam_question_id": "52039efe-509b-42a7-9144-070abfd99338:1",
+        "image_url": "/textbook-images/rwanda/185/page93-embedded-0.jpeg",
+        "image_alt": "A coordinate grid with x from -4 to 6 and y from -6 to 8 shows two straight lines. The line labelled x + y = 4 passes through (0,4) and (4,0) and slopes downward. The line labelled x − y = 2 passes through (2,0) and (0,−2) and slopes upward. The two lines cross at a bold dot at (3,1).\nLabels: y, 8, 7, 6, 5, 4, 3, 2, 1, -1, -2, -3, -4, -5, -6, x, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, x + y = 4, x − y = 2\nOriginal exercise: The two lines intersect at point  3,1 . Therefore the solution set is     3,1 S  .",
+        "topic_label": "UNIT 1: ARITHMETICS",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing two straight lines: x + y = 4 and x - y = 2. These lines intersect at the point (3,1).",
+        "question": "Explain why the point (3,1) is the solution to both equations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of the point (3,1) into both equations.",
+          "Explanation of why the point satisfies both equations.",
+          "Clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the point (3,1) is the solution to both equations — develop the idea fully rather than listing short points. Make sure you also cover: Clear and logical explanation."
+        ],
+        "model_answer": "The point (3,1) is the solution to both equations because when we substitute x = 3 and y = 1 into each equation, both equations are satisfied. \n1. For x + y = 4: \n   3 + 1 = 4 (True) \n2. For x - y = 2: \n   3 - 1 = 2 (True) \nThus, (3,1) is the solution to both equations.",
+        "explanation": "The point (3,1) is the solution to both equations because substituting x = 3 and y = 1 into each equation results in true statements. This means that the point lies on both lines, confirming it as the intersection point.",
+        "exam_question_id": "52039efe-509b-42a7-9144-070abfd99338:1",
+        "image_url": "/textbook-images/rwanda/185/page93-embedded-0.jpeg",
+        "image_alt": "A coordinate grid with x from -4 to 6 and y from -6 to 8 shows two straight lines. The line labelled x + y = 4 passes through (0,4) and (4,0) and slopes downward. The line labelled x − y = 2 passes through (2,0) and (0,−2) and slopes upward. The two lines cross at a bold dot at (3,1).\nLabels: y, 8, 7, 6, 5, 4, 3, 2, 1, -1, -2, -3, -4, -5, -6, x, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, x + y = 4, x − y = 2\nOriginal exercise: The two lines intersect at point  3,1 . Therefore the solution set is     3,1 S  .",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing two straight lines: a red line labelled y = -3x + 5 and a blue line labelled y = x - 2. The lines cross at about x = 1.75, y = -0.25. Four blue points are plotted and labelled A = (-1, 1), B = (2, 2), C = (3, -1) and D = (1, -2).",
+        "question": "Calculate the x-coordinate of the intersection point of the two lines.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation leading to x = 1.75",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Set the two equations equal to each other and solve for x."
+        ],
+        "model_answer": "Set -3x + 5 = x - 2, solve for x: 4x = 7, x = 1.75.",
+        "explanation": "To find the intersection point, set the two equations equal to each other and solve for x.",
+        "exam_question_id": "ce8ddd8e-cd31-4d95-bcb7-4db24f0c709c:1",
+        "image_url": "/textbook-images/rwanda/185/page96-embedded-0.png",
+        "image_alt": "A coordinate grid with two straight lines: a red line labelled y = -3x + 5 and a blue line labelled y = x - 2. The lines cross at about x = 1.75, y = -0.25. Four blue points are plotted and labelled A = (-1, 1), B = (2, 2), C = (3, -1) and D = (1, -2).\nLabels: y, x, y = -3x + 5, y = x - 2, A = (-1, 1), B = (2, 2), C = (3, -1), D = (1, -2), -3, -2, -1, 1, 2, 3, 4, 5, 6\nOriginal exercise:",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing two straight lines: a red line labelled y = -3x + 5 and a blue line labelled y = x - 2. The lines cross at about x = 1.75, y = -0.25. Four blue points are plotted and labelled A = (-1, 1), B = (2, 2), C = (3, -1) and D = (1, -2).",
+        "question": "Determine which of the points A, B, C, and D lie on the line y = x - 2.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution for each point",
+          "Correct evaluation of the equation for each point",
+          "Correct identification of points on the line"
+        ],
+        "hints": [
+          "Substitute the x-coordinate of each point into the equation y = x - 2 and check if the y-coordinate matches."
+        ],
+        "model_answer": "For A: 1 = -1 - 2 (False), For B: 2 = 2 - 2 (True), For C: -1 = 3 - 2 (False), For D: -2 = 1 - 2 (True). Points B and D lie on the line.",
+        "explanation": "Substitute the x-coordinate of each point into the equation y = x - 2 and check if the y-coordinate matches.",
+        "exam_question_id": "ce8ddd8e-cd31-4d95-bcb7-4db24f0c709c:1",
+        "image_url": "/textbook-images/rwanda/185/page96-embedded-0.png",
+        "image_alt": "A coordinate grid with two straight lines: a red line labelled y = -3x + 5 and a blue line labelled y = x - 2. The lines cross at about x = 1.75, y = -0.25. Four blue points are plotted and labelled A = (-1, 1), B = (2, 2), C = (3, -1) and D = (1, -2).\nLabels: y, x, y = -3x + 5, y = x - 2, A = (-1, 1), B = (2, 2), C = (3, -1), D = (1, -2), -3, -2, -1, 1, 2, 3, 4, 5, 6\nOriginal exercise:",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram which shows a coordinate grid with x from about -3 to 6 and y from -2 to 6. The diagram includes a brown line labelled y = -0.89x + 4.66, a red horizontal line labelled y = 2, and the point where they intersect is (3, 2).",
+        "question": "Calculate the x-coordinate of the point where the brown line y = -0.89x + 4.66 intersects the red line y = 2.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly set up the equation -0.89x + 4.66 = 2.",
+          "Correctly solve the equation for x."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the x-coordinate of the point where the brown line y = -0.89x + 4.66 intersects the red line y = 2 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly set up the equation -0.89x + 4.66 = 2.; Correctly solve the equation for x."
+        ],
+        "model_answer": "-0.89x + 4.66 = 2\n-0.89x = 2 - 4.66\n-0.89x = -2.66\nx = -2.66 / -0.89\nx = 3",
+        "explanation": "To find the x-coordinate of the intersection point, set the equation of the brown line equal to the y-value of the red line and solve for x.",
+        "exam_question_id": "5306b508-d1be-475b-a226-c2705e894038:1",
+        "image_url": "/textbook-images/rwanda/185/page91-embedded-2.png",
+        "image_alt": "A coordinate grid with x from about -3 to 6 and y from -2 to 6 shows two straight lines. A brown line labelled y = -0.89x + 4.66 slopes downward, and a red horizontal line is labelled y = 2. The two lines meet at a blue point at (3, 2).\nLabels: y, x, y = -0.89x + 4.66, y = 2, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, -1, -2, 1, 2, 3, 4, 5, 6\nOriginal exercise:",
+        "topic_label": "UNIT 1: ARITHMETICS",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram which shows a coordinate grid with x from about -3 to 6 and y from -2 to 6. The diagram includes a brown line labelled y = -0.89x + 4.66, a red horizontal line labelled y = 2, and the point where they intersect is (3, 2).",
+        "question": "Explain why the point (3, 2) is the solution to the system of equations represented by the lines y = -0.89x + 4.66 and y = 2.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that the point (3, 2) satisfies both equations.",
+          "Explain that the x-coordinate of the intersection point is 3.",
+          "Explain that the y-coordinate of the intersection point is 2."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the point (3, 2) is the solution to the system of equations represented by the lines y = -0.89x + 4.66 and y = 2 — develop the idea fully rather than listing short points. Make sure you also cover: Identify that the point (3, 2) satisfies equations.; that the x-coordinate of the…."
+        ],
+        "model_answer": "The point (3, 2) is the solution because when x = 3, y = -0.89(3) + 4.66 = 2, which matches the y-value of the red line y = 2. Therefore, the point (3, 2) lies on both lines.",
+        "explanation": "The point (3, 2) is the solution because it satisfies both equations, meaning it is the intersection point of the two lines.",
+        "exam_question_id": "5306b508-d1be-475b-a226-c2705e894038:1",
+        "image_url": "/textbook-images/rwanda/185/page91-embedded-2.png",
+        "image_alt": "A coordinate grid with x from about -3 to 6 and y from -2 to 6 shows two straight lines. A brown line labelled y = -0.89x + 4.66 slopes downward, and a red horizontal line is labelled y = 2. The two lines meet at a blue point at (3, 2).\nLabels: y, x, y = -0.89x + 4.66, y = 2, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, -1, -2, 1, 2, 3, 4, 5, 6\nOriginal exercise:",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing two line segments for x from 0 to 5. The blue line f(x) = If(0 ≤ x ≤ 5, 40 + 40x) starts at y0 = (0, 40) and ends at G = (5, 240). The red line g(x) = If(0 ≤ x ≤ 5, 60x) starts at E at the origin (0, 0) and ends at F = (5, 300). The two lines cross at D = (2, 120).",
+        "question": "Calculate the value of x at the point D where the two lines intersect.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly set up the equation 40 + 40x = 60x.",
+          "Solve the equation for x."
+        ],
+        "hints": [
+          "Set the two equations equal to each other and solve for x."
+        ],
+        "model_answer": "Set 40 + 40x = 60x. Solving for x gives 40 = 20x, so x = 2.",
+        "explanation": "Set the two equations for the lines equal to each other and solve for x to find the intersection point.",
+        "exam_question_id": "b66f9742-b1c6-4d2b-8338-014907877395:1",
+        "image_url": "/textbook-images/rwanda/185/page111-embedded-0.png",
+        "image_alt": "Two line segments are drawn on a coordinate grid for x from 0 to 5. The blue line f(x) = If(0 ≤ x ≤ 5, 40 + 40x) starts at y0 = (0, 40) and ends at G = (5, 240). The red line g(x) = If(0 ≤ x ≤ 5, 60x) starts at E at the origin (0, 0) and ends at F = (5, 300). The two lines cross at D = (2, 120).\nLabels: y, x, F = (5, 300), G = (5, 240), D = (2, 120), f(x) = If(0 ≤ x ≤ 5, 40 + 40x), g(x) = If(0 ≤ x ≤ 5, 60x), y0 = (0, 40), E, B, 300, 250, 200, 150, 100, 50, -50, -1, 0, 1, 2, 3, 4, 5, 6\nOriginal exercise:",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing two line segments for x from 0 to 5. The blue line f(x) = If(0 ≤ x ≤ 5, 40 + 40x) starts at y0 = (0, 40) and ends at G = (5, 240). The red line g(x) = If(0 ≤ x ≤ 5, 60x) starts at E at the origin (0, 0) and ends at F = (5, 300). The two lines cross at D = (2, 120).",
+        "question": "Find the y-coordinate of the point where the blue line f(x) intersects the x-axis.",
+        "marks": 2,
+        "marking_criteria": [
+          "Set the equation of the blue line to 0 and solve for x.",
+          "Substitute the x-value back into the equation to find the y-coordinate."
+        ],
+        "hints": [
+          "Stay focused on this: Find the y-coordinate of the point where the blue line f(x) intersects the x-axis — develop the idea fully rather than listing short points. Make sure you also cover: Set the equation of the blue line to 0 and solve for x.; the x-value back into the equation to find the y-coordinate."
+        ],
+        "model_answer": "Set 40 + 40x = 0, solving for x gives x = -1. Substitute x = -1 into f(x) = 40 + 40(-1) to find y = 0. The point is (-1, 0).",
+        "explanation": "Set the equation of the blue line to 0 to find the x-intercept, then substitute back to find the y-coordinate.",
+        "exam_question_id": "b66f9742-b1c6-4d2b-8338-014907877395:1",
+        "image_url": "/textbook-images/rwanda/185/page111-embedded-0.png",
+        "image_alt": "Two line segments are drawn on a coordinate grid for x from 0 to 5. The blue line f(x) = If(0 ≤ x ≤ 5, 40 + 40x) starts at y0 = (0, 40) and ends at G = (5, 240). The red line g(x) = If(0 ≤ x ≤ 5, 60x) starts at E at the origin (0, 0) and ends at F = (5, 300). The two lines cross at D = (2, 120).\nLabels: y, x, F = (5, 300), G = (5, 240), D = (2, 120), f(x) = If(0 ≤ x ≤ 5, 40 + 40x), g(x) = If(0 ≤ x ≤ 5, 60x), y0 = (0, 40), E, B, 300, 250, 200, 150, 100, 50, -50, -1, 0, 1, 2, 3, 4, 5, 6\nOriginal exercise:",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing two line segments for x from 0 to 5. The blue line f(x) = If(0 ≤ x ≤ 5, 40 + 40x) starts at y0 = (0, 40) and ends at G = (5, 240). The red line g(x) = If(0 ≤ x ≤ 5, 60x) starts at E at the origin (0, 0) and ends at F = (5, 300). The two lines cross at D = (2, 120).",
+        "question": "Explain why the point D = (2, 120) is the intersection point of the two lines.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly state the equations of the two lines.",
+          "Explain how setting the two equations equal to each other leads to finding the intersection point.",
+          "Verify the solution by substituting the x-value back into both equations."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the point D = (2, 120) is the intersection point of the two lines — develop the idea fully rather than listing short points. Make sure you also cover: Correctly state the of the two lines.; how the two equal to each other leads to finding the intersection point.; Verify the solution…."
+        ],
+        "model_answer": "The equations of the lines are f(x) = 40 + 40x and g(x) = 60x. Setting 40 + 40x = 60x gives x = 2. Substituting x = 2 into both equations gives y = 120, confirming the point (2, 120).",
+        "explanation": "Explain how solving the system of equations leads to the intersection point and verify the solution.",
+        "exam_question_id": "b66f9742-b1c6-4d2b-8338-014907877395:1",
+        "image_url": "/textbook-images/rwanda/185/page111-embedded-0.png",
+        "image_alt": "Two line segments are drawn on a coordinate grid for x from 0 to 5. The blue line f(x) = If(0 ≤ x ≤ 5, 40 + 40x) starts at y0 = (0, 40) and ends at G = (5, 240). The red line g(x) = If(0 ≤ x ≤ 5, 60x) starts at E at the origin (0, 0) and ends at F = (5, 300). The two lines cross at D = (2, 120).\nLabels: y, x, F = (5, 300), G = (5, 240), D = (2, 120), f(x) = If(0 ≤ x ≤ 5, 40 + 40x), g(x) = If(0 ≤ x ≤ 5, 60x), y0 = (0, 40), E, B, 300, 250, 200, 150, 100, 50, -50, -1, 0, 1, 2, 3, 4, 5, 6\nOriginal exercise:",
+        "subtopic_id": 9840,
+        "topic_id": 1942,
+        "topic_label": "Simultaneous linear equations in two unknowns (Solving by equating two same variables)",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "Simultaneous linear equations in two unknowns (Solving by equating two same variables)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a demand graph with Quantity on the horizontal axis and Price on the vertical axis. A straight line labelled \"Demand\" slopes downward. Point A is at price 10 and quantity 88. Point B is at price 14 and quantity 80. Dotted lines connect each point to its axis values. A red arrow beside the price axis points up from 10 to 14, and a red arrow beside the quantity axis points left from 88 to 80. Labels: Price, 14, 10, B, A, Demand, 80, 88, Quantity",
+        "question": "Calculate the change in price and the change in quantity between points A and B on the demand graph.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the price change (14 - 10).",
+          "Identify the quantity change (88 - 80).",
+          "Provide the correct numerical values for both changes."
+        ],
+        "hints": [
+          "Look at the red arrows indicating the changes on the axes."
+        ],
+        "model_answer": "Change in price = 14 - 10 = 4. Change in quantity = 88 - 80 = 8.",
+        "explanation": "Determine the difference in price and quantity between the two points by subtracting the smaller value from the larger value for each axis.",
+        "exam_question_id": "a70c4d50-4ad6-40ed-908b-1ae9bcac2d92:1",
+        "image_url": "/textbook-images/rwanda/185/page63-embedded-0.png",
+        "image_alt": "A demand graph with Quantity on the horizontal axis and Price on the vertical axis. A straight line labelled \"Demand\" slopes downward. Point A is at price 10 and quantity 88. Point B is at price 14 and quantity 80. Dotted lines connect each point to its axis values. A red arrow beside the price axis points up from 10 to 14, and a red arrow beside the quantity axis points left from 88 to 80.\nLabels: Price, 14, 10, B, A, Demand, 80, 88, Quantity\nOriginal exercise:",
+        "subtopic_id": 9845,
+        "topic_id": 1942,
+        "topic_label": "Applications of linear and quadratic equations in economics and finance: Problems about supply and demand (equilibrium price)",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "Applications of linear and quadratic equations in economics and finance: Problems about supply and demand (equilibrium price)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a demand graph with Quantity on the horizontal axis and Price on the vertical axis. A straight line labelled \"Demand\" slopes downward. Point A is at price 10 and quantity 88. Point B is at price 14 and quantity 80. Dotted lines connect each point to its axis values. A red arrow beside the price axis points up from 10 to 14, and a red arrow beside the quantity axis points left from 88 to 80. Labels: Price, 14, 10, B, A, Demand, 80, 88, Quantity",
+        "question": "Explain the relationship between the changes in price and quantity as shown on the demand graph.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the direction of the changes in price and quantity.",
+          "Explain the inverse relationship between price and quantity on the demand curve."
+        ],
+        "hints": [
+          "Recall the law of demand in economics."
+        ],
+        "model_answer": "As the price increases from 10 to 14, the quantity demanded decreases from 88 to 80. This shows an inverse relationship between price and quantity demanded, which is typical for a demand curve.",
+        "explanation": "Describe how an increase in price leads to a decrease in quantity demanded, consistent with the law of demand.",
+        "exam_question_id": "a70c4d50-4ad6-40ed-908b-1ae9bcac2d92:1",
+        "image_url": "/textbook-images/rwanda/185/page63-embedded-0.png",
+        "image_alt": "A demand graph with Quantity on the horizontal axis and Price on the vertical axis. A straight line labelled \"Demand\" slopes downward. Point A is at price 10 and quantity 88. Point B is at price 14 and quantity 80. Dotted lines connect each point to its axis values. A red arrow beside the price axis points up from 10 to 14, and a red arrow beside the quantity axis points left from 88 to 80.\nLabels: Price, 14, 10, B, A, Demand, 80, 88, Quantity\nOriginal exercise:",
+        "subtopic_id": 9845,
+        "topic_id": 1942,
+        "topic_label": "Applications of linear and quadratic equations in economics and finance: Problems about supply and demand (equilibrium price)",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "Applications of linear and quadratic equations in economics and finance: Problems about supply and demand (equilibrium price)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the two equations: 2x + 3y = 6 and 4x - y = 5. These equations intersect at the point (3, 0).",
+        "question": "Calculate the coordinates of the intersection point of the two lines.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly set up the system of equations.",
+          "Correctly solve the system of equations.",
+          "Provide the final answer."
+        ],
+        "hints": [
+          "Use substitution or elimination method to solve the system of equations."
+        ],
+        "model_answer": "2x + 3y = 6\n4x - y = 5\n\nFrom the second equation, y = 4x - 5.\nSubstitute y into the first equation: 2x + 3(4x - 5) = 6\n14x - 15 = 6\n14x = 21\nx = 21/14 = 1.5\ny = 4(1.5) - 5 = 6 - 5 = 1\n\nThe intersection point is (1.5, 1).",
+        "explanation": "To find the intersection point, we solve the system of equations using substitution or elimination. Here, we used substitution by expressing y in terms of x from the second equation and then substituting into the first equation.",
+        "exam_question_id": "c493023c-8c4b-466d-840c-be9799fc17d2:1",
+        "subtopic_id": 9841,
+        "topic_id": 1942,
+        "topic_label": "Simultaneous linear equations in two unknowns (solving by row operations or elimination method)",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "Simultaneous linear equations in two unknowns (solving by row operations or elimination method)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the two equations: 2x + 3y = 6 and 4x - y = 5. These equations intersect at the point (3, 0).",
+        "question": "Explain why the point (1.5, 1) is the solution to both equations.",
+        "marks": 2,
+        "marking_criteria": [
+          "Substitute the coordinates into both equations.",
+          "Show that both equations are satisfied by the coordinates."
+        ],
+        "hints": [
+          "Plug the coordinates into each equation and verify the equality."
+        ],
+        "model_answer": "For the first equation: 2(1.5) + 3(1) = 3 + 3 = 6 (True)\nFor the second equation: 4(1.5) - 1 = 6 - 1 = 5 (True)\n\nThe point (1.5, 1) satisfies both equations.",
+        "explanation": "To verify that a point is a solution to a system of equations, we substitute the coordinates into each equation and check if both sides of the equations are equal.",
+        "exam_question_id": "c493023c-8c4b-466d-840c-be9799fc17d2:1",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the two equations: 2x + 3y = 6 and 4x - y = 5. These equations intersect at the point (3, 0).",
+        "question": "State the slope of the line 2x + 3y = 6.",
+        "marks": 2,
+        "marking_criteria": [
+          "Rearrange the equation into slope-intercept form.",
+          "Identify the coefficient of x as the slope."
+        ],
+        "hints": [
+          "Stay focused on this: State the slope of the line 2x + 3y = 6 — develop the idea fully rather than listing short points. Make sure you also cover: Rearrange the equation into slope-intercept form.; Identify the coefficient of x as the slope."
+        ],
+        "model_answer": "2x + 3y = 6\n3y = -2x + 6\ny = -(2/3)x + 2\n\nThe slope is -2/3.",
+        "explanation": "The slope of a line in the form y = mx + b is given by the coefficient of x, which is m.",
+        "exam_question_id": "c493023c-8c4b-466d-840c-be9799fc17d2:1",
+        "topic_label": "UNIT 1: ARITHMETICS",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x + 4. These lines intersect at the point (1, 3).",
+        "question": "Calculate the coordinates of the intersection point of the two lines.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly set up the equations for the lines.",
+          "Solve the system of equations to find the intersection point."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the coordinates of the intersection point of the two lines — develop the idea fully rather than listing short points. Make sure you also cover: Correctly set up the for the lines.; Solve the system of to the intersection point."
+        ],
+        "model_answer": "To find the intersection point, set the equations equal to each other: 2x + 1 = -x + 4. Solving for x gives x = 1. Substitute x = 1 into either equation to find y: y = 2(1) + 1 = 3. Therefore, the intersection point is (1, 3).",
+        "explanation": "You need to solve the system of equations to find where the two lines meet. Set the equations equal to each other and solve for x, then substitute back to find y.",
+        "exam_question_id": "79293ab2-ab15-44bc-a535-2a86a1ca5333:1",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x + 4. These lines intersect at the point (1, 3).",
+        "question": "State the slope of the line y = 2x + 1.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify the coefficient of x in the equation."
+        ],
+        "hints": [
+          "Stay focused on this: State the slope of the line y = 2x + 1 — develop the idea fully rather than listing short points. Make sure you also cover: Identify the coefficient of x in the equation."
+        ],
+        "model_answer": "The slope of the line y = 2x + 1 is 2.",
+        "explanation": "The slope of a line in the form y = mx + b is the coefficient of x, which is 2 in this case.",
+        "exam_question_id": "79293ab2-ab15-44bc-a535-2a86a1ca5333:1",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x + 4. These lines intersect at the point (1, 3).",
+        "question": "Explain why the point (1, 3) is the solution to both equations.",
+        "marks": 2,
+        "marking_criteria": [
+          "Substitute the point (1, 3) into both equations to verify it satisfies both.",
+          "Explain the significance of the point satisfying both equations."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the point (1, 3) is the solution to both equations — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Substituting x = 1 and y = 3 into the first equation: 3 = 2(1) + 1, which simplifies to 3 = 3, a true statement. Substituting x = 1 and y = 3 into the second equation: 3 = -1 + 4, which simplifies to 3 = 3, another true statement. Therefore, the point (1, 3) satisfies both equations, making it the intersection point.",
+        "explanation": "To verify that a point is the solution to a system of equations, substitute the point into each equation and check if it satisfies both. The point (1, 3) satisfies both equations, confirming it is the intersection point.",
+        "exam_question_id": "79293ab2-ab15-44bc-a535-2a86a1ca5333:1",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the two equations: 3x + 2y = 12 and x - y = 1. These equations intersect at the point (2, 1).",
+        "question": "Calculate the coordinates of the intersection point of the two lines.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly solve the system of equations.",
+          "Provide the coordinates of the intersection point.",
+          "Show all working steps."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the coordinates of the intersection point of the two lines — develop the idea fully rather than listing short points. Make sure you also cover: Correctly the of; all working steps."
+        ],
+        "model_answer": "To find the intersection point, we solve the system of equations:\n\n3x + 2y = 12 \n\nx - y = 1 \n\nFrom the second equation, we can express y in terms of x:\n\ny = x - 1 \n\nSubstitute y = x - 1 into the first equation:\n\n3x + 2(x - 1) = 12 \n\n3x + 2x - 2 = 12 \n\n5x - 2 = 12 \n\n5x = 14 \n\nx = 14/5 = 2.8 \n\nSubstitute x = 2.8 back into y = x - 1:\n\ny = 2.8 - 1 = 1.8 \n\nThe coordinates of the intersection point are (2.8, 1.8).",
+        "explanation": "To find the intersection point of the two lines, we solve the system of equations using substitution or elimination method. Here, we used the substitution method by expressing y in terms of x from the second equation and then substituting it into the first equation. After solving, we find the coordinates of the intersection point to be (2.8, 1.8).",
+        "exam_question_id": "b054e043-1083-4852-8f08-08a87e85358b:1",
+        "subtopic_id": 9841,
+        "topic_id": 1942,
+        "topic_label": "Simultaneous linear equations in two unknowns (solving by row operations or elimination method)",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "Simultaneous linear equations in two unknowns (solving by row operations or elimination method)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the two equations: 3x + 2y = 12 and x - y = 1. These equations intersect at the point (2, 1).",
+        "question": "Explain why the point (2, 1) is the solution to both equations.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain how the point satisfies both equations.",
+          "Show all working steps."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the point (2, 1) is the solution to both equations — develop the idea fully rather than listing short points. Make sure you also cover: all working steps."
+        ],
+        "model_answer": "To verify that the point (2, 1) is the solution to both equations, we substitute x = 2 and y = 1 into each equation:\n\nFor the first equation:\n\n3(2) + 2(1) = 6 + 2 = 8 ≠ 12 \n\nFor the second equation:\n\n2 - 1 = 1 \n\nSince the point (2, 1) does not satisfy the first equation, it is not the solution to both equations. The correct intersection point is (2.8, 1.8) as calculated in part (a).",
+        "explanation": "To verify that a point is the solution to both equations, we substitute the coordinates of the point into each equation and check if the equality holds. In this case, the point (2, 1) does not satisfy the first equation, hence it is not the solution to both equations.",
+        "exam_question_id": "b054e043-1083-4852-8f08-08a87e85358b:1",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the two equations: 3x + 2y = 12 and x - y = 1. These equations intersect at the point (2, 1).",
+        "question": "State the slope of the line 3x + 2y = 12.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly find the slope of the line from the equation.",
+          "Provide the slope value."
+        ],
+        "hints": [
+          "Stay focused on this: State the slope of the line 3x + 2y = 12 — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "To find the slope of the line 3x + 2y = 12, we rewrite the equation in slope-intercept form y = mx + b:\n\n3x + 2y = 12 \n\n2y = -3x + 12 \n\ny = (-3/2)x + 6 \n\nThe slope of the line is -3/2.",
+        "explanation": "To find the slope of a line from its equation, we rewrite the equation in the slope-intercept form y = mx + b, where m is the slope. For the line 3x + 2y = 12, after rearranging, we find that the slope is -3/2.",
+        "exam_question_id": "b054e043-1083-4852-8f08-08a87e85358b:1",
+        "topic_label": "UNIT 1: ARITHMETICS",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a coordinate grid with x from about -3 to 9 and y from about -3 to 9. The diagram shows three inequalities: a solid blue line labelled y ≥ -(2/3)x + 4 passing through (0,4) and (6,0), a dashed red line labelled y < 2x - (1/4) rising steeply, and a dashed vertical line at x = 4 labelled x < 4. The regions are shaded in overlapping colours, with the darkest region where all three overlap.",
+        "question": "Calculate the y-intercept of the solid blue line.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the y-intercept from the equation or the graph.",
+          "Provide the correct value of the y-intercept."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the y-intercept of the solid blue line — develop the idea fully rather than listing short points. Make sure you also cover: Identify the y-intercept from the or the graph.; Provide the correct value of the y-intercept."
+        ],
+        "model_answer": "The y-intercept of the solid blue line is the point where x = 0. Substituting x = 0 into the equation y ≥ -(2/3)x + 4, we get y = 4. Therefore, the y-intercept is (0, 4).",
+        "explanation": "The y-intercept is the point where the line crosses the y-axis, which is when x equals zero. By substituting x = 0 into the equation of the line, we can find the y-value at that point.",
+        "exam_question_id": "6bc169cd-1c0e-4dea-b217-40b6090c3ce1:1",
+        "image_url": "/textbook-images/rwanda/185/page98-embedded-3.png",
+        "image_alt": "A coordinate grid with x from about -3 to 9 and y from about -3 to 9 shows three inequalities. A solid blue line labelled y ≥ -(2/3)x + 4 passes through (0,4) and (6,0). A dashed red line labelled y < 2x - (1/4) rises steeply, and a dashed vertical line at x = 4 is labelled x < 4. The regions are shaded in overlapping colours, and the region where all three overlap is darkest.\nLabels: y, x, x < 4, y ≥ -(2 / 3)x + 4, y < 2x - (1 / 4), -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9\nOriginal exercise: Similarly, draw a dashed line of related equation of the second",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a coordinate grid with x from about -3 to 9 and y from about -3 to 9. The diagram shows three inequalities: a solid blue line labelled y ≥ -(2/3)x + 4 passing through (0,4) and (6,0), a dashed red line labelled y < 2x - (1/4) rising steeply, and a dashed vertical line at x = 4 labelled x < 4. The regions are shaded in overlapping colours, with the darkest region where all three overlap.",
+        "question": "Find the x-coordinate of the intersection point of the dashed red line and the dashed vertical line.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the equations of the dashed red line and the dashed vertical line.",
+          "Solve the system of equations to find the intersection point."
+        ],
+        "hints": [
+          "Stay focused on this: Find the x-coordinate of the intersection point of the dashed red line and the dashed vertical line — develop the idea fully rather than listing short points. Make sure you also cover: Solve the system of equations to find the intersection point."
+        ],
+        "model_answer": "The dashed vertical line is x = 4. To find the intersection point with the dashed red line, substitute x = 4 into the equation of the dashed red line: y < 2(4) - (1/4). This simplifies to y < 8 - 0.25, or y < 7.75. Therefore, the x-coordinate of the intersection point is 4.",
+        "explanation": "The intersection point of two lines is found by solving the system of equations that represent the lines. Since the dashed vertical line is x = 4, we substitute this value into the equation of the dashed red line to find the corresponding y-coordinate.",
+        "exam_question_id": "6bc169cd-1c0e-4dea-b217-40b6090c3ce1:1",
+        "image_url": "/textbook-images/rwanda/185/page98-embedded-3.png",
+        "image_alt": "A coordinate grid with x from about -3 to 9 and y from about -3 to 9 shows three inequalities. A solid blue line labelled y ≥ -(2/3)x + 4 passes through (0,4) and (6,0). A dashed red line labelled y < 2x - (1/4) rises steeply, and a dashed vertical line at x = 4 is labelled x < 4. The regions are shaded in overlapping colours, and the region where all three overlap is darkest.\nLabels: y, x, x < 4, y ≥ -(2 / 3)x + 4, y < 2x - (1 / 4), -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9\nOriginal exercise: Similarly, draw a dashed line of related equation of the second",
+        "subtopic_id": 9840,
+        "topic_id": 1942,
+        "topic_label": "Simultaneous linear equations in two unknowns (Solving by equating two same variables)",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "Simultaneous linear equations in two unknowns (Solving by equating two same variables)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing a coordinate grid with x from about -3 to 9 and y from about -3 to 9. The diagram shows three inequalities: a solid blue line labelled y ≥ -(2/3)x + 4 passing through (0,4) and (6,0), a dashed red line labelled y < 2x - (1/4) rising steeply, and a dashed vertical line at x = 4 labelled x < 4. The regions are shaded in overlapping colours, with the darkest region where all three overlap.",
+        "question": "Explain why the region where all three inequalities overlap is the solution to the system of inequalities.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the meaning of each inequality.",
+          "Explain how the overlapping region satisfies all three inequalities.",
+          "Provide a clear and logical explanation."
+        ],
+        "hints": [
+          "Consider the meaning of each inequality and how they combine to form the solution set."
+        ],
+        "model_answer": "The solid blue line y ≥ -(2/3)x + 4 represents all points (x, y) that are on or above the line. The dashed red line y < 2x - (1/4) represents all points (x, y) that are below the line. The dashed vertical line x < 4 represents all points (x, y) that are to the left of the line. The region where all three inequalities overlap is the set of points that satisfy all three conditions simultaneously. Therefore, this region is the solution to the system of inequalities.",
+        "explanation": "Each inequality represents a set of points on the coordinate plane. The solution to the system of inequalities is the set of points that satisfy all the inequalities at the same time. The overlapping region is where all these conditions are met.",
+        "exam_question_id": "6bc169cd-1c0e-4dea-b217-40b6090c3ce1:1",
+        "image_url": "/textbook-images/rwanda/185/page98-embedded-3.png",
+        "image_alt": "A coordinate grid with x from about -3 to 9 and y from about -3 to 9 shows three inequalities. A solid blue line labelled y ≥ -(2/3)x + 4 passes through (0,4) and (6,0). A dashed red line labelled y < 2x - (1/4) rises steeply, and a dashed vertical line at x = 4 is labelled x < 4. The regions are shaded in overlapping colours, and the region where all three overlap is darkest.\nLabels: y, x, x < 4, y ≥ -(2 / 3)x + 4, y < 2x - (1 / 4), -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9\nOriginal exercise: Similarly, draw a dashed line of related equation of the second",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing two straight lines: y = 3x + 1 and y = -2x + 5. These lines intersect at the point (1, 4).",
+        "question": "Calculate the coordinates of the intersection point of the two lines.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifying the intersection point (1, 4)",
+          "Showing the working to verify the intersection point"
+        ],
+        "hints": [
+          "Substitute the x-coordinate of the intersection point into both equations to check if they yield the same y-coordinate."
+        ],
+        "model_answer": "For y = 3x + 1: y = 3(1) + 1 = 4\nFor y = -2x + 5: y = -2(1) + 5 = 3\nThe coordinates of the intersection point are (1, 4).",
+        "explanation": "Substitute x = 1 into both equations to find the corresponding y-values and verify the intersection point.",
+        "exam_question_id": "6642b8ba-3158-4719-8e03-2f72626c9b71:1",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing two straight lines: y = 3x + 1 and y = -2x + 5. These lines intersect at the point (1, 4).",
+        "question": "Explain why the point (1, 4) is the solution to both equations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly substituting the coordinates into both equations",
+          "Demonstrating that both equations are satisfied",
+          "Providing a clear explanation"
+        ],
+        "hints": [
+          "Plug x = 1 and y = 4 into both equations and show that they hold true."
+        ],
+        "model_answer": "For y = 3x + 1: 4 = 3(1) + 1, which simplifies to 4 = 4.\nFor y = -2x + 5: 4 = -2(1) + 5, which simplifies to 4 = 3.\nThe point (1, 4) satisfies both equations, making it the solution.",
+        "explanation": "Substitute x = 1 and y = 4 into both equations to show that they are satisfied, confirming the intersection point.",
+        "exam_question_id": "6642b8ba-3158-4719-8e03-2f72626c9b71:1",
+        "topic_label": "UNIT 2: EQUATIONS AND INEQUALITIES",
+        "source": {
+          "textbook": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+          "area": "UNIT 2: EQUATIONS AND INEQUALITIES"
+        }
+      }
+    ],
+    "estimated_time": 61,
+    "assessment_id": "becb0198-ca50-4e84-bd2a-c3bfeddb1036",
+    "subject": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+    "topics": [
+      "UNIT 1: ARITHMETICS",
+      "UNIT 2: EQUATIONS AND INEQUALITIES"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 185,
+    "topic_ids": [
+      1941,
+      1942
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 26,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 3,
+      "detail": "73 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 4,
+      "detail": "81 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 5,
+      "detail": "73 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 6,
+      "detail": "78 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 7,
+      "detail": "89 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 8,
+      "detail": "89 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 9,
+      "detail": "91 words"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 10,
+      "detail": "no question mark and no command word: \"Refer to the diagram showing a demand graph with Quantity on\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 10,
+      "detail": "110 words"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 11,
+      "detail": "no question mark and no command word: \"Refer to the diagram showing a demand graph with Quantity on\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 11,
+      "detail": "107 words"
+    },
+    {
+      "code": "assumes-unseen-text",
+      "severity": "broken",
+      "index": 14,
+      "detail": "\"Consider the two equations: 2x + 3y = 6 and 4x - y = 5. These equation\""
+    },
+    {
+      "code": "visual-promised-not-attached",
+      "severity": "broken",
+      "index": 15,
+      "detail": "\"Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x\""
+    },
+    {
+      "code": "visual-promised-not-attached",
+      "severity": "broken",
+      "index": 16,
+      "detail": "\"Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x\""
+    },
+    {
+      "code": "visual-promised-not-attached",
+      "severity": "broken",
+      "index": 17,
+      "detail": "\"Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x\""
+    },
+    {
+      "code": "assumes-unseen-text",
+      "severity": "broken",
+      "index": 20,
+      "detail": "\"Consider the two equations: 3x + 2y = 12 and x - y = 1. These equation\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 21,
+      "detail": "90 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 22,
+      "detail": "99 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 23,
+      "detail": "99 words"
+    },
+    {
+      "code": "visual-promised-not-attached",
+      "severity": "broken",
+      "index": 24,
+      "detail": "\"Refer to the diagram showing two straight lines: y = 3x + 1 and y = -2\""
+    },
+    {
+      "code": "visual-promised-not-attached",
+      "severity": "broken",
+      "index": 25,
+      "detail": "\"Refer to the diagram showing two straight lines: y = 3x + 1 and y = -2\""
+    }
+  ],
+  "figures": 6,
+  "imageErrors": [
+    "/textbook-images/rwanda/185/page93-embedded-0.jpeg: HTTP 404",
+    "/textbook-images/rwanda/185/page96-embedded-0.png: HTTP 404",
+    "/textbook-images/rwanda/185/page91-embedded-2.png: HTTP 404",
+    "/textbook-images/rwanda/185/page111-embedded-0.png: HTTP 404",
+    "/textbook-images/rwanda/185/page63-embedded-0.png: HTTP 404",
+    "/textbook-images/rwanda/185/page98-embedded-3.png: HTTP 404"
+  ],
+  "totalSeconds": 32
+}

@@ -3,6 +3,10 @@ import { describe, it, expect } from 'vitest'
 import { tagTokens, TAG_STOPWORDS } from './tag-tokens'
 
 describe('tagTokens', () => {
+  it('matches the irregular plural matrices to matrix in a question', () => {
+    expect(tagTokens('Transformation of Matrices')).toContain('matrix')
+    expect(tagTokens('Diagonalise a matrix')).toContain('matrix')
+  })
   it('lowercases and keeps only alphanumeric runs', () => {
     expect(tagTokens('Photosynthesis: light-dependent REACTIONS!')).toEqual([
       'photosynthesis', 'light', 'dependent', 'reactions',

@@ -1,0 +1,26 @@
+{
+  "index": 9,
+  "label": "Cambridge / Exam / Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "request": {
+    "subject": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+    "textbook_id": 198,
+    "topic_ids": [
+      2491,
+      2487
+    ],
+    "topics": [
+      "Chapter 18: a Draw the graph of In m against t.",
+      "Chapter 13: Further vector notation"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "generating"
+}

@@ -1,0 +1,446 @@
+{
+  "index": 16,
+  "label": "Cambridge / Practice / Cambridge International AS and A Level English Language Coursebook ",
+  "request": {
+    "subject": "Cambridge International AS and A Level English Language Coursebook ",
+    "textbook_id": 25,
+    "topic_ids": [
+      367,
+      362
+    ],
+    "topics": [
+      "Unit 6: English as a global language",
+      "Unit 1: Reading non-fiction"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS and A Level English Language Coursebook ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 23,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "left_items": [
+          "Narrative",
+          "Expository",
+          "Descriptive",
+          "Persuasive"
+        ],
+        "right_items": [
+          "Writing that aims to convince the reader",
+          "Writing that provides information",
+          "Writing that tells a story",
+          "Writing that paints a picture with words"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Each term is matched to its definition based on the purpose of the writing type.",
+        "checked": true,
+        "topic_label": "Unit 6: English as a global language",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Fiction",
+          "Non-fiction"
+        ],
+        "items": [
+          "Novel",
+          "Biography",
+          "Science fiction",
+          "Historical account"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Novel and science fiction are categorised as fiction, while biography and historical account are categorised as non-fiction.",
+        "checked": true,
+        "topic_label": "Unit 1: Reading non-fiction",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook",
+          "area": "Unit 1: Reading non-fiction"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank",
+        "template": "A good commentary should begin with an {{0}} and end with a {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "introduction"
+          },
+          {
+            "id": "1",
+            "correct": "conclusion"
+          }
+        ],
+        "word_bank": [
+          "introduction",
+          "conclusion",
+          "body",
+          "ending",
+          "opening"
+        ],
+        "marks": 2,
+        "explanation": "The words 'introduction' and 'conclusion' are appropriate for starting and ending a commentary.",
+        "checked": true,
+        "topic_label": "Unit 1: Reading non-fiction",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "A memoir is a factual account of someone's life",
+          "An autobiography is a fictional story about someone's life",
+          "Descriptive writing is about painting a picture with words",
+          "Persuasive writing aims to entertain the reader"
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "A memoir is a factual account, while an autobiography is a factual account of someone's own life. Descriptive writing paints a picture, and persuasive writing aims to convince.",
+        "checked": true,
+        "subtopic_id": 1656,
+        "topic_id": 362,
+        "topic_label": "Descriptive writing",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook",
+          "area": "Descriptive writing"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Standard English",
+          "British English",
+          "American English",
+          "Dialect"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "The other three items are varieties of English, while 'dialect' is a broader term that can include non-standard forms.",
+        "checked": true,
+        "subtopic_id": 1685,
+        "topic_id": 367,
+        "topic_label": "English: standard and non-standard",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook",
+          "area": "English: standard and non-standard"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Standard English",
+          "Non-standard English"
+        ],
+        "items": [
+          "I ain't got no money",
+          "I have no money",
+          "Y'all come back now, ya hear?",
+          "They are returning now"
+        ],
+        "correct_category": [
+          1,
+          0,
+          1,
+          0
+        ],
+        "marks": 4,
+        "explanation": "The first and third items are examples of non-standard English, while the second and fourth items are examples of standard English.",
+        "checked": true,
+        "subtopic_id": 1685,
+        "topic_id": 367,
+        "topic_label": "English: standard and non-standard",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook",
+          "area": "English: standard and non-standard"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each key reading skill with its description",
+        "left_items": [
+          "Skimming",
+          "Scanning",
+          "Close reading",
+          "Annotation"
+        ],
+        "right_items": [
+          "Quickly identifying the main ideas",
+          "Searching for specific information",
+          "In-depth analysis of text",
+          "Writing notes or comments in the margins"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Each skill is matched with its correct description based on common reading techniques.",
+        "checked": true,
+        "subtopic_id": 1653,
+        "topic_id": 362,
+        "topic_label": "Key reading skills for responding to passages",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook",
+          "area": "Key reading skills for responding to passages"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category of persuasive writing techniques",
+        "categories": [
+          "Appeal to emotion",
+          "Appeal to logic"
+        ],
+        "items": [
+          "Using statistics to support an argument",
+          "Telling a personal story to connect with readers",
+          "Citing expert opinions",
+          "Using vivid imagery to evoke feelings"
+        ],
+        "correct_category": [
+          1,
+          0,
+          1,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Each technique is categorised based on whether it appeals to emotion or logic.",
+        "checked": true,
+        "subtopic_id": 1659,
+        "topic_id": 362,
+        "topic_label": "Persuasive writing",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook",
+          "area": "Persuasive writing"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "British English",
+          "American English",
+          "Indian English",
+          "Pirate English"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "'Pirate English' is the odd one out as it is not a recognised regional variation of English like the others.",
+        "checked": true,
+        "topic_label": "Unit 6: English as a global language",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook",
+          "area": "Unit 6: English as a global language"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "open-ended question",
+          "closed-ended question",
+          "rhetorical question",
+          "leading question"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "A rhetorical question is a figure of speech and not a type of question used for gathering information, unlike the other options.",
+        "checked": true,
+        "topic_label": "Unit 6: English as a global language",
+        "source": {
+          "textbook": "Cambridge International AS and A Level English Language Coursebook"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "cb9f590b-292d-4fc9-bf80-135ff1abd799",
+    "subject": "Cambridge International AS and A Level English Language Coursebook ",
+    "topics": [
+      "Unit 6: English as a global language",
+      "Unit 1: Reading non-fiction"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "interactive",
+    "textbook_id": 25,
+    "topic_ids": [
+      367,
+      362
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 3,
+      "detail": "no question mark and no command word: \"Mark each statement True or False\""
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 4,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 8,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 9,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 5"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1",
+        "severity": "broken",
+        "detail": "Correct pairs array is misaligned. Index mapping shows [0,2],[1,1],[2,3],[3,0] but should be [0,2],[1,1],[2,3],[3,0] matching Narrative→tells story, Expository→information, Descriptive→picture, Persuasive→convince. Current indexing appears correct upon verification.",
+        "correction": "Verified correct: Narrative(0)→tells story(2), Expository(1)→information(1), Descriptive(2)→picture(3), Persuasive(3)→convince(0)."
+      },
+      {
+        "label": "4",
+        "severity": "poor",
+        "detail": "Explanation contains factual error. States 'autobiography is a factual account of someone's own life' but the question's correct answer marks statement 2 ('autobiography is fictional') as FALSE, which is correct. However, explanation contradicts by implying autobiography is factual without clarifying the distinction from memoir.",
+        "correction": "Explanation should clarify: A memoir is a factual account of someone's life; an autobiography is also factual but written by the subject themselves. Both are non-fiction."
+      },
+      {
+        "label": "5",
+        "severity": "poor",
+        "detail": "Explanation is imprecise. States 'dialect is a broader term that can include non-standard forms' but this conflates concepts. Dialect refers to regional/social language varieties (standard or non-standard); the three correct items are all English varieties/standards, while 'dialect' is a linguistic category, making it the odd one out—but explanation's reasoning is unclear.",
+        "correction": "Explanation should state: Standard English, British English, and American English are specific varieties of English. 'Dialect' is a linguistic classification that encompasses all varieties, making it categorically different."
+      },
+      {
+        "label": "10",
+        "severity": "poor",
+        "detail": "Question conflates question types with rhetorical devices. Open-ended, closed-ended, and leading questions are all functional question types used in inquiry. Rhetorical questions are stylistic devices that don't require answers. However, all four terms are legitimate linguistic/rhetorical concepts; the distinction is unclear for Grade 12 students without context.",
+        "correction": "Clarify question context: If asking about 'question types for gathering information,' rhetorical question is odd. If asking about 'types of questions in English,' all four are valid. Recommend rephrasing for clarity."
+      }
+    ],
+    "summary": "Assessment is largely sound with 10 interactive questions covering Units 1 and 6. Three issues identified: Question 4 has unclear explanation about autobiography/memoir distinction; Question 5's explanation lacks precision about dialect classification; Question 10 conflates question types with rhetorical devices without clear context. No broken answer mappings detected."
+  },
+  "totalSeconds": 32
+}

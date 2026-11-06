@@ -1,0 +1,979 @@
+{
+  "index": 10,
+  "label": "REB / Exam / P2 Mathematics PB",
+  "request": {
+    "subject": "P2 Mathematics PB",
+    "textbook_id": 145,
+    "topic_ids": [
+      1506
+    ],
+    "topics": [
+      "Hour, Months of the Year and Days of Each Month"
+    ],
+    "curriculum": "rwanda",
+    "grade": 2,
+    "className": "P2",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 65,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 15th of June. You need to send out invitations 2 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly determine the date 2 weeks before the 15th of June.",
+          "State the final date in the correct format (day, month)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the date on which you should send out the invitations — develop the idea fully rather than listing short points. Make sure you also cover: Correctly determine the date 2 the of; the final date in the correct format (day, month)."
+        ],
+        "model_answer": "To find the date 2 weeks before the 15th of June, we subtract 14 days from June 15th. June has 30 days, so 15 - 14 = 1. Therefore, the date to send out the invitations is the 1st of June.",
+        "explanation": "To find the date two weeks before the party, subtract 14 days from the party date. If the party is on the 15th, then 15 - 14 = 1, which is the 1st of June.",
+        "exam_question_id": "77725980-159f-4ad0-9bb9-761ded8556dd:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 15th of June. You need to send out invitations 2 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identify the month from the calculated date."
+        ],
+        "hints": [
+          "Stay focused on this: Name the month in which the invitations should be sent out — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the month from the date."
+        ],
+        "model_answer": "From part (a), we calculated that the invitations should be sent out on the 1st of June. The month is June.",
+        "explanation": "The month in which the invitations should be sent out is the same as the month of the party date minus two weeks.",
+        "exam_question_id": "77725980-159f-4ad0-9bb9-761ded8556dd:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 15th of June. You need to send out invitations 2 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 2 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide a logical reason for sending out invitations 2 weeks in advance.",
+          "Explain how this allows guests enough time to plan and RSVP.",
+          "Mention any potential issues that could arise if invitations are sent out too late."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 2 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Provide a logical reason for out invitations 2 weeks in advance.; how this to and; Mention any potential issues that could arise if…."
+        ],
+        "model_answer": "Sending out invitations 2 weeks before the party is important because it gives guests enough time to plan and RSVP. If invitations are sent too late, guests may not have enough time to make arrangements and confirm their attendance. This could lead to a lower turnout and make the party less enjoyable. Additionally, sending invitations early allows for any last-minute changes or cancellations to be managed effectively.",
+        "explanation": "Explaining the importance of sending invitations early helps guests plan and ensures a good turnout for the party.",
+        "exam_question_id": "77725980-159f-4ad0-9bb9-761ded8556dd:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 15th of July. You need to send out invitations 2 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the date of the party.",
+          "Correctly calculate the date two weeks prior.",
+          "Provide the final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the date on which you should send out the invitations — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the date of the; Correctly calculate the date two prior.; Provide the final answer."
+        ],
+        "model_answer": "The party is on the 15th of July. Two weeks before that is 14 days back. Counting back 14 days from the 15th of July, we land on the 1st of July. So, the invitations should be sent out on the 1st of July.",
+        "explanation": "To find the date two weeks before the party, count back 14 days from the 15th of July.",
+        "exam_question_id": "14d2d51c-29c7-4237-b13b-174924ef4bf7:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 15th of July. You need to send out invitations 2 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the month from the calculated date.",
+          "Provide the final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Name the month in which the invitations should be sent out — develop the idea fully rather than listing short points. Make sure you also cover: Identify the month from the date.; Provide the final answer."
+        ],
+        "model_answer": "From part (a), we calculated that the invitations should be sent out on the 1st of July. The month is July.",
+        "explanation": "Use the date calculated in part (a) to determine the month.",
+        "exam_question_id": "14d2d51c-29c7-4237-b13b-174924ef4bf7:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 20th of September. You need to send out invitations 3 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly subtract 21 days from 20 September",
+          "Recognise that this requires going back to the previous month (August)",
+          "Calculate 31 − 1 = 30 to find the date in August",
+          "State the final date as 30 August in correct format"
+        ],
+        "hints": [
+          "Remember to account for the days in each week."
+        ],
+        "model_answer": "The party is on 20 September. Subtract 3 weeks (21 days). Since 20 − 21 = −1, we cannot stay in September. We go back to August, which has 31 days. Counting back: we need 1 day into August, so 31 − 1 = 30. The invitations should be sent out on 30 August.",
+        "explanation": "To find the date for sending out invitations, we subtract 21 days from the party date. Since we can't have a negative date, we adjust by going back into the previous month.",
+        "exam_question_id": "d1f537be-6aef-4172-aaf3-83e66bd0954c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 20th of September. You need to send out invitations 3 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the month from the corrected date (30 August)",
+          "State the month name correctly"
+        ],
+        "hints": [
+          "Refer to the date calculated in part (a)."
+        ],
+        "model_answer": "From part (a), the invitations should be sent out on 30 August. Therefore, the invitations should be sent out in the month of August.",
+        "explanation": "Using the date found in part (a), we determine the month by looking at the month portion of the date.",
+        "exam_question_id": "d1f537be-6aef-4172-aaf3-83e66bd0954c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 20th of September. You need to send out invitations 3 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 3 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide a reason related to guest preparation.",
+          "Mention the importance of giving guests enough time to respond.",
+          "Explain the benefits of early planning for the party organiser."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 3 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Provide a reason related to preparation.; Mention the importance of giving to respond.; the benefits of for the party organiser."
+        ],
+        "model_answer": "It is important to send out invitations 3 weeks before the party because it gives guests enough time to plan and make arrangements to attend. This allows them to RSVP (Reply to Save the Date) and confirm their attendance. For the party organizer, early planning ensures that they have an accurate guest list and can make necessary preparations for the event.",
+        "explanation": "Sending out invitations early ensures that guests have ample time to respond and plan, which helps both the guests and the party organiser.",
+        "exam_question_id": "d1f537be-6aef-4172-aaf3-83e66bd0954c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 20th of August. You need to send out invitations 3 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifying 3 weeks = 21 days",
+          "Counting back 21 days from 20 August correctly",
+          "Providing the correct date: 30 July"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the date on which you should send out the invitations — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifying 3 = 21; 21 from 20 correctly; Providing the correct date: 30."
+        ],
+        "model_answer": "There are 3 weeks before the party, which is 3 × 7 = 21 days. The party is on 20 August. Counting back 21 days: August 20 back to August 1 is 19 days; we need 2 more days, so we go to July 31 and July 30. The invitations should be sent out on 30 July.",
+        "explanation": "To find the date to send out invitations, you need to count back 21 days from the party date. Remember to adjust for the number of days in the month if necessary.",
+        "exam_question_id": "233a8d0f-425d-493c-a0cf-b44fa31a129f:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 20th of August. You need to send out invitations 3 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifying the month from the calculated date.",
+          "Providing the correct month name."
+        ],
+        "hints": [
+          "Look at the date you calculated in part (a)."
+        ],
+        "model_answer": "The invitations should be sent out on the 30th of July, which is in the month of July.",
+        "explanation": "The month is determined by the date you calculated in part (a). Ensure you name the correct month.",
+        "exam_question_id": "233a8d0f-425d-493c-a0cf-b44fa31a129f:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 20th of August. You need to send out invitations 3 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 3 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explaining the importance of giving guests enough time to respond.",
+          "Mentioning the need to arrange for any necessary preparations.",
+          "Providing a logical and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 3 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Explaining the importance of giving to; Mentioning the need to arrange for any; Providing a logical and coherent explanation."
+        ],
+        "model_answer": "It is important to send out invitations 3 weeks before the party so that guests have enough time to plan and respond. This allows them to make arrangements to attend and ensures that they are aware of the party well in advance. Additionally, it gives the host enough time to make any necessary preparations for the event.",
+        "explanation": "Consider the practical reasons for sending out invitations well in advance, such as giving guests time to respond and allowing the host to prepare for the party.",
+        "exam_question_id": "233a8d0f-425d-493c-a0cf-b44fa31a129f:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 15th of August. You need to send out invitations 3 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the date of the party.",
+          "Correctly calculate 3 weeks prior to the party date.",
+          "Provide the correct date for sending out invitations."
+        ],
+        "hints": [
+          "Remember to account for all 7 days in a week."
+        ],
+        "model_answer": "The party is on the 15th of August. Three weeks before that is 21 days. Counting back 21 days from the 15th of August, we get to the 25th of July. Therefore, the invitations should be sent out on the 25th of July.",
+        "explanation": "To find the date for sending out invitations, start from the party date and count back 21 days. Ensure to correctly account for each day in the weeks.",
+        "exam_question_id": "667b6dcf-fc64-4552-ae1c-f45e83eb120c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 15th of August. You need to send out invitations 3 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the month from the date calculated in part (a).",
+          "Provide the correct month name."
+        ],
+        "hints": [
+          "Stay focused on this: Name the month in which the invitations should be sent out — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the month from the date calculated in part (a).; Provide the correct month name."
+        ],
+        "model_answer": "The invitations should be sent out on the 25th of July, which is in the month of July.",
+        "explanation": "Based on the date calculated in part (a), identify the month of the date.",
+        "exam_question_id": "667b6dcf-fc64-4552-ae1c-f45e83eb120c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 10th of October. You need to send out invitations 3 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the number of days in 3 weeks.",
+          "Accurately subtract the number of days from the party date.",
+          "Provide the correct date for sending out invitations."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the date on which you should send out the invitations — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the number of in 3; Accurately subtract the number of from the date.; Provide the correct date for sending out invitations."
+        ],
+        "model_answer": "The party is on the 10th of October. Three weeks before that is 21 days (3 weeks * 7 days/week). Counting back 21 days from the 10th of October, we get the 19th of September. Therefore, you should send out the invitations on the 19th of September.",
+        "explanation": "To find the date for sending out the invitations, you need to count back 21 days from the party date. Make sure to adjust for the number of days in each month.",
+        "exam_question_id": "5a849864-95e4-4edb-af31-b124ce25be0c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 10th of October. You need to send out invitations 3 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the month from the calculated date.",
+          "Provide the correct month name."
+        ],
+        "hints": [
+          "Look at the date you calculated in part (a)."
+        ],
+        "model_answer": "The invitations should be sent out in September.",
+        "explanation": "From the date calculated in part (a), identify the month.",
+        "exam_question_id": "5a849864-95e4-4edb-af31-b124ce25be0c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 10th of October. You need to send out invitations 3 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 3 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide a logical reason for sending out invitations early.",
+          "Explain the benefits of giving guests enough time to respond.",
+          "Ensure the explanation is clear and relevant."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 3 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Provide a logical reason for sending out invitations early.; the benefits of giving to respond.; Ensure the explanation is clear and…."
+        ],
+        "model_answer": "It is important to send out invitations 3 weeks before the party so that guests have enough time to plan and RSVP. This gives them ample opportunity to make arrangements and confirm their attendance, ensuring a better turnout and a more enjoyable party.",
+        "explanation": "Explain the importance of giving guests sufficient time to respond to the invitation.",
+        "exam_question_id": "5a849864-95e4-4edb-af31-b124ce25be0c:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 10th of November. You need to send out invitations 2 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the party date as 10th of November",
+          "Correctly calculate 2 weeks as 14 days",
+          "Correctly subtract 14 days from 10 November to get 26 October"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the date on which you should send out the invitations — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the date as of; Correctly calculate 2 as 14; Correctly subtract 14 from 10 to get 26."
+        ],
+        "model_answer": "The party is on the 10th of November. 2 weeks before the party is 14 days. Subtracting 14 days from the 10th of November: 10 − 14 = −4, so we go back to October. October has 31 days, so 31 − 4 = 27... [recalculating: from 10 Nov, count back 10 days to 1 Nov, then 4 more days into October gives 31 − 3 = 28... actually: 10 Nov back 14 days: 9, 8, 7, 6, 5, 4, 3, 2, 1 Nov (9 days), then 31, 30, 29, 28, 27, 26 Oct (5 more days) = 26 Oct]. So, you should send out the invitations on the 26th of October.",
+        "explanation": "To find the date for sending out invitations, start with the party date and count back 14 days. Ensure to adjust for the end of the month if necessary.",
+        "exam_question_id": "dfcc9363-2e92-4fa9-a0fc-ccf1c8b913c8:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 10th of November. You need to send out invitations 2 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the invitation date as 26th of October (from part a)",
+          "State the month as October"
+        ],
+        "hints": [
+          "Check the month of the 27th of October."
+        ],
+        "model_answer": "The invitations should be sent out in October.",
+        "explanation": "Since the invitation date is the 27th of October, the month for sending out invitations is October.",
+        "exam_question_id": "dfcc9363-2e92-4fa9-a0fc-ccf1c8b913c8:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 10th of November. You need to send out invitations 2 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 2 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide a reasonable explanation for sending out invitations in advance.",
+          "Mention the importance of giving guests enough time to RSVP.",
+          "Mention the importance of planning and preparation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 2 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Provide a reasonable explanation for sending out invitations in advance.; Mention the importance of giving to RSVP.; Mention the…."
+        ],
+        "model_answer": "It is important to send out invitations 2 weeks before the party because it gives guests enough time to respond and plan. This allows them to make arrangements and confirm their attendance. It also gives the host enough time to finalize party details and make any necessary preparations.",
+        "explanation": "Explain the benefits of sending invitations early, such as giving guests time to RSVP and allowing the host to prepare for the party.",
+        "exam_question_id": "dfcc9363-2e92-4fa9-a0fc-ccf1c8b913c8:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 30th of November. You need to send out invitations 4 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the number of days in 4 weeks.",
+          "Correctly subtract the number of days from the party date.",
+          "Correctly determine the date 4 weeks before the party."
+        ],
+        "hints": [
+          "Remember that 1 week has 7 days."
+        ],
+        "model_answer": "4 weeks = 28 days. 30th November - 28 days = 2nd November. The date to send out invitations is 2nd November.",
+        "explanation": "To find the date 4 weeks before the party, subtract 28 days (4 weeks) from the party date of 30th November.",
+        "exam_question_id": "96ea3f2d-c9df-42d2-8db0-94a5eb979b87:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 30th of November. You need to send out invitations 4 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the month from the calculated date.",
+          "Provide the correct month name."
+        ],
+        "hints": [
+          "Look at the date you calculated in part (a)."
+        ],
+        "model_answer": "The invitations should be sent out in the month of November.",
+        "explanation": "Since the date calculated in part (a) is 2nd November, the invitations should be sent out in November.",
+        "exam_question_id": "96ea3f2d-c9df-42d2-8db0-94a5eb979b87:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 30th of November. You need to send out invitations 4 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 4 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide a reason related to planning and preparation.",
+          "Explain how advance notice helps in organising the party.",
+          "Mention any other relevant points."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 4 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Provide a reason related to planning and preparation.; how advance notice helps in organising the party.; Mention any other relevant…."
+        ],
+        "model_answer": "It is important to send out invitations 4 weeks before the party because it gives guests enough time to plan and RSVP. This allows the host to know how many people will attend and to make necessary arrangements for the party, such as food, decorations, and activities.",
+        "explanation": "Sending out invitations well in advance ensures guests have enough time to respond and helps the host prepare adequately for the event.",
+        "exam_question_id": "96ea3f2d-c9df-42d2-8db0-94a5eb979b87:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 25th of November. You need to send out invitations 4 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify that 4 weeks = 28 days",
+          "Correctly count back 28 days from 25 November",
+          "Correctly determine the date is 28 October"
+        ],
+        "hints": [
+          "Remember to account for the days in each month."
+        ],
+        "model_answer": "The party is on the 25th of November. Four weeks before this is 28 days. Counting back 28 days from the 25th of November: 25 − 28 = −3, so we go back into October. October has 31 days, so 31 − 3 = 28. The date to send out the invitations is the 28th of October.",
+        "explanation": "To find the date 4 weeks before the party, we need to subtract 28 days from the party date. We count back through the months, ensuring we adjust for the number of days in each month.",
+        "exam_question_id": "e64a5449-dc3e-44b8-bd26-a7ee4d45c8e8:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 25th of November. You need to send out invitations 4 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the month from the calculated date in part (a)",
+          "Provide the correct month name: October"
+        ],
+        "hints": [
+          "Stay focused on this: Name the month in which the invitations should be sent out — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the month from the calculated in (a); Provide the correct month name:."
+        ],
+        "model_answer": "From part (a), the date to send out the invitations is the 28th of October. The month is October.",
+        "explanation": "Using the date calculated in part (a), we identify the month in which the invitations should be sent out.",
+        "exam_question_id": "e64a5449-dc3e-44b8-bd26-a7ee4d45c8e8:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 25th of November. You need to send out invitations 4 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 4 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide a reasonable explanation related to planning and preparation.",
+          "Mention the importance of giving guests enough time to RSVP.",
+          "Explain the benefits of early invitations for party planning."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 4 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Provide a reasonable explanation related to planning and preparation.; Mention the importance of giving to RSVP.; the benefits of…."
+        ],
+        "model_answer": "It is important to send out invitations 4 weeks before the party because it gives guests enough time to respond and plan their schedules. This allows the host to know how many people will attend and to make necessary preparations, such as ordering food and arranging decorations.",
+        "explanation": "Sending out invitations well in advance ensures that guests have sufficient time to respond and plan their attendance, which helps the host in planning the party effectively.",
+        "exam_question_id": "e64a5449-dc3e-44b8-bd26-a7ee4d45c8e8:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 25th of December. You need to send out invitations 4 weeks before the party.",
+        "question": "Calculate the date on which you should send out the invitations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify that 4 weeks = 28 days",
+          "Subtract 28 days from 25th December, accounting for the month boundary (November has 30 days)",
+          "Provide the correct date: 27th November"
+        ],
+        "hints": [
+          "Remember that 1 week has 7 days."
+        ],
+        "model_answer": "4 weeks = 4 × 7 = 28 days. To subtract 28 days from 25th December: December has 31 days, so we need to go back into November. 25 − 28 = −3, meaning we go 3 days into November from the end. November has 30 days, so 30 − 3 = 27. The date to send out invitations is 27th November.",
+        "explanation": "To find the date to send out invitations, we need to subtract 28 days from the party date of 25th December. This gives us the date of 29th November.",
+        "exam_question_id": "43fb8034-ecb8-421a-921d-d2eb215ab425:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 25th of December. You need to send out invitations 4 weeks before the party.",
+        "question": "Name the month in which the invitations should be sent out.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the month of the calculated date for sending out invitations.",
+          "Provide the correct month name."
+        ],
+        "hints": [
+          "Stay focused on this: Name the month in which the invitations should be sent out — develop the idea fully rather than listing short points. Make sure you also cover: Identify the month of the calculated date for sending out invitations.; Provide the correct month name."
+        ],
+        "model_answer": "The month is November.",
+        "explanation": "The date calculated in part (a) is 27th of November, so the month is November.",
+        "exam_question_id": "43fb8034-ecb8-421a-921d-d2eb215ab425:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are planning a birthday party for your friend. The party is scheduled for the 25th of December. You need to send out invitations 4 weeks before the party.",
+        "question": "Explain why it is important to send out invitations 4 weeks before the party.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provide a reason related to planning and preparation.",
+          "Mention the importance of giving guests enough time to RSVP.",
+          "Explain the benefit of having a clear timeline for the party."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to send out invitations 4 weeks before the party — develop the idea fully rather than listing short points. Make sure you also cover: Provide a reason related to planning and preparation.; Mention the importance of giving to RSVP.; the benefit of having a clear…."
+        ],
+        "model_answer": "It is important to send out invitations 4 weeks before the party because it gives guests enough time to plan and respond. This allows the host to know how many people will attend and make necessary preparations. It also helps in ensuring that the party runs smoothly and everyone can enjoy the celebration.",
+        "explanation": "Sending out invitations 4 weeks before the party allows guests to plan their schedules and respond in time, ensuring the host can make proper arrangements and the party can proceed without any last-minute issues.",
+        "exam_question_id": "43fb8034-ecb8-421a-921d-d2eb215ab425:1",
+        "topic_label": "Hour, Months of the Year and Days of Each Month",
+        "topic_id": 1506,
+        "checked": true,
+        "source": {
+          "textbook": "P2 Mathematics PB",
+          "area": "Hour, Months of the Year and Days of Each Month"
+        }
+      }
+    ],
+    "estimated_time": 74,
+    "assessment_id": "647c7711-aa46-4805-80de-81dce7fd5aee",
+    "subject": "P2 Mathematics PB",
+    "topics": [
+      "Hour, Months of the Year and Days of Each Month"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 145,
+    "topic_ids": [
+      1506
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 28,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "10 questions open with the same sentence (1, 4, 6, 9, 12, 14, 17, 20, 23, 26): \"Calculate the date on which you should send out th\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "10 questions open with the same sentence (2, 5, 7, 10, 13, 15, 18, 21, 24, 27): \"Name the month in which the invitations should be \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 3,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 22"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 22"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Model answer states 26 October but hint references 27 October. Calculation: 10 Nov − 14 days = 27 Oct (counting back: 10 Nov to 1 Nov = 9 days, then 4 more days into Oct = 31−3 = 28 Oct). Correct answer is 27 October, not 26.",
+        "correction": "Model answer should state: '10 November − 14 days = 27 October.' Hint should reference 27 October."
+      },
+      {
+        "label": "7b",
+        "severity": "broken",
+        "detail": "Explanation states '27th of October' but model answer says invitations sent in October without specifying date. Inconsistency with corrected 7a answer (27 Oct, not 26 Oct).",
+        "correction": "Model answer: 'The invitations should be sent out on 27th of October, which is in the month of October.'"
+      },
+      {
+        "label": "10a",
+        "severity": "broken",
+        "detail": "Model answer claims 27 November but explanation states 29 November. Calculation: 25 Dec − 28 days: from 25 Dec back 25 days = 1 Dec, then 3 more days into Nov = 30−2 = 28 Nov. Correct answer is 28 November.",
+        "correction": "Model answer should state: '25 December − 28 days = 28 November.' Explanation should also state 28 November, not 29."
+      },
+      {
+        "label": "10b",
+        "severity": "broken",
+        "detail": "Model answer states November (correct month) but references 27 November from part (a). Should reference corrected date of 28 November.",
+        "correction": "Model answer: 'The date calculated in part (a) is 28th of November, so the month is November.'"
+      }
+    ],
+    "summary": "Assessment contains 28 questions across 10 scenarios on months and date calculations. Four substantive errors identified: inconsistent date calculations in questions 7a–7b (26 vs 27 October) and 10a–10b (27 vs 28 November). Model answers conflict with explanations. Remaining questions are mathematically sound and age-appropriate for Grade 2."
+  },
+  "totalSeconds": 71
+}

@@ -10,6 +10,10 @@ import {
 } from './answer-position'
 
 describe('reading the answer the explanation asserts', () => {
+  it('replaces a stale numeric correct-option reference with the verified answer', () => {
+    const q = { options: ['200 N', '20 N', '2 N', '0.2 N'], correct_answer: 1, explanation: 'Option 0 is correct because F = 100 × 0.2 = 20 N.' }
+    expect(delexicaliseExplanation(q).explanation).toBe('20 N is correct because F = 100 × 0.2 = 20 N.')
+  })
   it('reads a parenthesised value beside "correct"', () => {
     expect(assertedAnswer('The correct answer is 7 because 3 + 4 = 7. Option B (7) is correct.')).toBe('7')
   })

@@ -1,0 +1,874 @@
+{
+  "index": 1,
+  "label": "REB / Exam / S3 HISTORY AND CITIZENSHIP SB",
+  "request": {
+    "subject": "S3 HISTORY AND CITIZENSHIP SB",
+    "textbook_id": 182,
+    "topic_ids": [
+      1907
+    ],
+    "topics": [
+      "The 1789 French Revolution"
+    ],
+    "curriculum": "rwanda",
+    "grade": 9,
+    "className": "S3",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 50,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram showing a painted portrait of a heavyset man with a powdered white curled wig. He wears a white lace cravat and a white ermine robe with black spots. A gold embroidered band crosses the robe, and a decorated cross hangs on a ribbon at the chest. A blue fabric is visible behind his shoulder. The portrait has no caption or printed text.",
+        "question": "Identify the type of clothing and accessories depicted in the portrait.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the wig",
+          "Identify the cravat and robe"
+        ],
+        "hints": [
+          "Look at the headwear and neckwear."
+        ],
+        "model_answer": "The portrait depicts a powdered white curled wig, a white lace cravat, and a white ermine robe with black spots. A gold embroidered band crosses the robe, and a decorated cross hangs on a ribbon at the chest.",
+        "explanation": "Identify the key elements of the clothing and accessories shown in the portrait.",
+        "exam_question_id": "899f1445-d3b0-4488-be72-45f4daabf2da:1",
+        "image_url": "/textbook-images/rwanda/182/page16-embedded-0.jpeg",
+        "image_alt": "A painted portrait of a heavyset man with a powdered white curled wig. He wears a white lace cravat and a white ermine robe with black spots. A gold embroidered band crosses the robe, and a decorated cross hangs on a ribbon at the chest. A blue fabric is visible behind his shoulder. The portrait has no caption or printed text.\nLabels: \nOriginal exercise:",
+        "topic_id": 1907,
+        "topic_label": "The 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "The 1789 French Revolution"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram showing a painted portrait of a heavyset man with a powdered white curled wig. He wears a white lace cravat and a white ermine robe with black spots. A gold embroidered band crosses the robe, and a decorated cross hangs on a ribbon at the chest. A blue fabric is visible behind his shoulder. The portrait has no caption or printed text.",
+        "question": "Explain the significance of the ermine robe and the cross in the context of the 1789 French Revolution.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the ermine robe",
+          "Explain the significance of the cross",
+          "Connect to the 1789 French Revolution"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the significance of the ermine robe and the cross in the context of the 1789 French Revolution — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The ermine robe was a symbol of high status and authority, often worn by nobility and royalty. The cross could indicate religious affiliation or a specific order. During the 1789 French Revolution, such symbols were often associated with the old regime and its privileges, which were challenged and often abolished by revolutionaries seeking equality and reform.",
+        "explanation": "Explain the historical significance of the ermine robe and the cross, and how they relate to the context of the 1789 French Revolution.",
+        "exam_question_id": "899f1445-d3b0-4488-be72-45f4daabf2da:1",
+        "image_url": "/textbook-images/rwanda/182/page16-embedded-0.jpeg",
+        "image_alt": "A painted portrait of a heavyset man with a powdered white curled wig. He wears a white lace cravat and a white ermine robe with black spots. A gold embroidered band crosses the robe, and a decorated cross hangs on a ribbon at the chest. A blue fabric is visible behind his shoulder. The portrait has no caption or printed text.\nLabels: \nOriginal exercise:",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are given a diagram showing a painted portrait of a young woman from the 18th century. The portrait depicts her with a pale face, blue eyes, powdered hair decorated with white feathers, strings of pearls, and a large jeweled star brooch. She wears a light blue gown with a jeweled brooch at the chest, pearls, and a dark blue cloak, with a landscape in the background. No text is printed on the figure.",
+        "question": "Identify two elements in the diagram that suggest the social status of the young woman.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the decorative elements (jewels, feathers, pearls)",
+          "Explain how these elements indicate social status"
+        ],
+        "hints": [
+          "Consider the materials and decorations used in the portrait."
+        ],
+        "model_answer": "The young woman's powdered hair decorated with white feathers, strings of pearls, and a large jeweled star brooch, along with her light blue gown with a jeweled brooch at the chest and pearls, all suggest a high social status. These elements indicate wealth and affluence, typical of the aristocracy during the 18th century.",
+        "explanation": "Look closely at the details of the portrait and think about what these elements might signify in terms of social standing.",
+        "exam_question_id": "0e9b45f0-4999-454b-9906-63211bd76f8b:1",
+        "image_url": "/textbook-images/rwanda/182/page18-embedded-0.jpeg",
+        "image_alt": "A painted portrait of a young woman with a pale face and blue eyes. Her powdered hair is piled high and decorated with white feathers, strings of pearls and a large jeweled star brooch. She wears a light blue gown with a jeweled brooch at the chest, pearls and a dark blue cloak, and there is a landscape behind her. No text is printed on the figure.\nLabels: \nOriginal exercise:",
+        "topic_id": 1907,
+        "topic_label": "The 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "The 1789 French Revolution"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are given a diagram showing a painted portrait of a young woman from the 18th century. The portrait depicts her with a pale face, blue eyes, powdered hair decorated with white feathers, strings of pearls, and a large jeweled star brooch. She wears a light blue gown with a jeweled brooch at the chest, pearls, and a dark blue cloak, with a landscape in the background. No text is printed on the figure.",
+        "question": "Explain how the clothing and accessories of the young woman in the diagram reflect the fashion trends of the late 18th century.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify specific fashion elements in the portrait",
+          "Explain the historical context of these fashion elements",
+          "Relate the fashion elements to the late 18th century"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the clothing and accessories of the young woman in the diagram reflect the fashion trends of the late 18th century — develop the idea fully rather than listing short points. Make sure you also cover: Identify specific fashion in the portrait; the historical context of these fashion."
+        ],
+        "model_answer": "The young woman's powdered hair, strings of pearls, and large jeweled star brooch reflect the elaborate hairstyles and accessories that were fashionable in the late 18th century. Her light blue gown with a jeweled brooch and pearls is indicative of the luxurious fabrics and intricate designs that were popular among the aristocracy. These elements show how fashion during this period emphasized wealth and status.",
+        "explanation": "Consider the specific details of the portrait and how they align with historical fashion trends of the late 18th century.",
+        "exam_question_id": "0e9b45f0-4999-454b-9906-63211bd76f8b:1",
+        "image_url": "/textbook-images/rwanda/182/page18-embedded-0.jpeg",
+        "image_alt": "A painted portrait of a young woman with a pale face and blue eyes. Her powdered hair is piled high and decorated with white feathers, strings of pearls and a large jeweled star brooch. She wears a light blue gown with a jeweled brooch at the chest, pearls and a dark blue cloak, and there is a landscape behind her. No text is printed on the figure.\nLabels: \nOriginal exercise:",
+        "topic_id": 1907,
+        "topic_label": "The 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "The 1789 French Revolution"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "State the year the French Revolution began.",
+        "marks": 1,
+        "marking_criteria": [
+          "State the correct year (1789)."
+        ],
+        "hints": [
+          "Think about the starting point of the French Revolution."
+        ],
+        "model_answer": "1789",
+        "explanation": "The French Revolution began in the year 1789.",
+        "exam_question_id": "0ba497bb-20bc-44b2-a9df-0659067794c0:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Calculate the duration of the French Revolution in years.",
+        "marks": 3,
+        "marking_criteria": [
+          "Subtract the start year from the end year.",
+          "State the correct duration in years.",
+          "Show the calculation process."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the duration of the French Revolution in years — develop the idea fully rather than listing short points. Make sure you also cover: Subtract the start year from the end year.; the calculation process."
+        ],
+        "model_answer": "Duration = 1799 - 1789 = 10 years",
+        "explanation": "To find the duration, subtract the start year (1789) from the end year (1799). The result is 10 years.",
+        "exam_question_id": "0ba497bb-20bc-44b2-a9df-0659067794c0:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Explain why the French Revolution is considered a significant event in world history.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the radical social and political changes.",
+          "Explain the impact on France and other countries.",
+          "Provide a coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the French Revolution is considered a significant event in world history — develop the idea fully rather than listing short points. Make sure you also cover: Mention the social and political; the impact on and; Provide a coherent explanation."
+        ],
+        "model_answer": "The French Revolution is considered significant because it led to radical changes in government and society in France. It introduced ideas of liberty, equality, and fraternity, which influenced other countries and led to the spread of revolutionary movements worldwide.",
+        "explanation": "The French Revolution was significant because it brought about major changes in France's government and society, and its ideas spread to other parts of the world, inspiring similar movements.",
+        "exam_question_id": "0ba497bb-20bc-44b2-a9df-0659067794c0:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The French Revolution began in 1789 and had several significant causes. One of the key causes was the financial crisis faced by the French government.",
+        "question": "Name one reason why the French government was in a financial crisis in 1789.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify a valid reason for the financial crisis",
+          "Provide a clear and concise explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Name one reason why the French government was in a financial crisis in 1789 — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "One reason for the financial crisis was excessive spending by the monarchy, particularly on wars and lavish lifestyles. Another reason was poor tax collection, which left the government with insufficient revenue.",
+        "explanation": "The French government was in debt due to years of expensive wars, including support for the American Revolution, and the lavish spending of King Louis XVI and his court.",
+        "exam_question_id": "8b8d145a-4bdd-4160-b7f6-50bc332f85bc:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The French Revolution began in 1789 and had several significant causes. One of the key causes was the financial crisis faced by the French government.",
+        "question": "Explain how the financial crisis contributed to the outbreak of the French Revolution.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the link between the financial crisis and public discontent",
+          "Describe the impact of the crisis on different social classes",
+          "Provide a clear and coherent explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the financial crisis contributed to the outbreak of the French Revolution — develop the idea fully rather than listing short points. Make sure you also cover: the link between the financial crisis and public; the impact of the crisis on different social classes; Provide a clear and…."
+        ],
+        "model_answer": "The financial crisis led to increased taxes on the Third Estate, who were already struggling with high bread prices due to poor harvests. This caused widespread discontent and frustration, leading to the formation of the National Assembly and the eventual outbreak of the revolution.",
+        "explanation": "The financial crisis made the Third Estate, who bore the brunt of the taxes, increasingly discontented. This discontent, combined with the influence of Enlightenment ideas, fuelled the revolution.",
+        "exam_question_id": "8b8d145a-4bdd-4160-b7f6-50bc332f85bc:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The French Revolution began in 1789 and had several significant causes. One of the key causes was the financial crisis faced by the French government.",
+        "question": "Describe the significance of the storming of the Bastille in the French Revolution.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the significance of the event",
+          "Explain its impact on the revolution",
+          "Provide a clear and detailed explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the significance of the storming of the Bastille in the French Revolution — develop the idea fully rather than listing short points. Make sure you also cover: Identify the significance of the event; Provide a clear and detailed explanation."
+        ],
+        "model_answer": "The storming of the Bastille symbolized the end of the monarchy's absolute power and the beginning of the people's fight for liberty, equality, and fraternity. It marked a turning point in the revolution, leading to the abolition of feudal privileges and the establishment of a constitutional monarchy.",
+        "explanation": "The storming of the Bastille represented a major victory for the revolutionaries and a significant step towards achieving their goals. It became a powerful symbol of the revolution and is celebrated as Bastille Day in France.",
+        "exam_question_id": "8b8d145a-4bdd-4160-b7f6-50bc332f85bc:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The French Revolution began in 1789 and had several significant causes. One of the key causes was the financial crisis faced by the French government. Explain how the financial crisis contributed to the outbreak of the French Revolution.",
+        "question": "Explain how the financial crisis contributed to the outbreak of the French Revolution.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the financial crisis",
+          "Explanation of how the financial crisis affected the government",
+          "Connection between the financial crisis and the outbreak of the revolution"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The financial crisis contributed to the outbreak of the French Revolution by placing immense strain on the French government. The government was heavily in debt due to costly wars, including involvement in the American Revolution, and extravagant spending by the monarchy. To address this debt, the government attempted to increase taxes, but the burden fell disproportionately on the common people, particularly the Third Estate, who were already suffering from poor harvests and high bread prices. This led to widespread discontent and protests, culminating in the convening of the Estates-General in 1789, which ultimately sparked the Revolution.",
+        "explanation": "In this part, you need to explain the relationship between the financial crisis and the start of the French Revolution. Think about how the government's debt and the resulting need to increase taxes affected the different social classes and led to the revolutionary events.",
+        "exam_question_id": "8a38bf2e-2beb-4aba-b241-5e73edcb7043:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The French Revolution began in 1789 and had several significant causes. One of the key causes was the financial crisis faced by the French government. Explain how the financial crisis contributed to the outbreak of the French Revolution.",
+        "question": "Describe the significance of the storming of the Bastille in the French Revolution.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the event (storming of the Bastille)",
+          "Explanation of its significance in the context of the Revolution"
+        ],
+        "hints": [
+          "Think about what the Bastille represented and what happened during the storming."
+        ],
+        "model_answer": "The storming of the Bastille on July 14, 1789, was a pivotal event in the French Revolution. The Bastille was a symbol of royal authority and oppression. Its capture by the revolutionaries marked a significant turning point, demonstrating the power of the people and their willingness to challenge the monarchy. This event is celebrated as Bastille Day in France and is seen as a symbol of freedom and the fight against tyranny.",
+        "explanation": "Here, you need to describe what happened during the storming of the Bastille and why it was important for the French Revolution. Consider what the Bastille represented and what its capture meant for the revolutionaries.",
+        "exam_question_id": "8a38bf2e-2beb-4aba-b241-5e73edcb7043:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "State the year the French Revolution began.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct year 1789",
+          "Provide a clear and concise statement"
+        ],
+        "hints": [
+          "Recall the starting year of the French Revolution."
+        ],
+        "model_answer": "1789",
+        "explanation": "The French Revolution started in the year 1789.",
+        "exam_question_id": "331b298d-2919-4c18-9e88-daf989ded216:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Calculate the duration of the French Revolution in years.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly subtract the start year from the end year",
+          "Provide the result as a whole number",
+          "Explain the calculation process"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the duration of the French Revolution in years — develop the idea fully rather than listing short points. Make sure you also cover: Correctly subtract the start year from the end year; Provide the result as a whole number; the calculation process."
+        ],
+        "model_answer": "1799 - 1789 = 10 years",
+        "explanation": "The French Revolution lasted for 10 years, from 1789 to 1799.",
+        "exam_question_id": "331b298d-2919-4c18-9e88-daf989ded216:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Explain why the French Revolution is considered a significant event in world history.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the radical changes in society and politics",
+          "Discuss the influence on other countries and revolutions",
+          "Provide a clear and coherent explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the French Revolution is considered a significant event in world history — develop the idea fully rather than listing short points. Make sure you also cover: Mention the in and; Discuss the influence on countries and; Provide a clear and coherent explanation."
+        ],
+        "model_answer": "The French Revolution is considered significant because it led to radical changes in society and politics in France, including the abolition of the monarchy, the rise of democracy, and the spread of Enlightenment ideas. It also inspired other revolutions and movements around the world, such as the American Revolution and the Latin American wars of independence.",
+        "explanation": "The French Revolution had a profound impact on the world, leading to significant changes in society and politics and inspiring other revolutions and movements.",
+        "exam_question_id": "331b298d-2919-4c18-9e88-daf989ded216:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "State the year the French Revolution began.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct year.",
+          "Provide no additional information."
+        ],
+        "hints": [
+          "Look at the start year of the French Revolution mentioned in the scenario."
+        ],
+        "model_answer": "1789",
+        "explanation": "The year the French Revolution began is clearly stated in the scenario.",
+        "exam_question_id": "b90c5185-3250-4330-bea7-1200594c075d:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Calculate the duration of the French Revolution in years.",
+        "marks": 3,
+        "marking_criteria": [
+          "Subtract the start year from the end year.",
+          "Provide the correct duration.",
+          "Show the calculation."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the duration of the French Revolution in years — develop the idea fully rather than listing short points. Make sure you also cover: Subtract the start year from the end year.; the calculation."
+        ],
+        "model_answer": "Duration = 1799 - 1789 = 10 years",
+        "explanation": "Subtract the start year (1789) from the end year (1799) to find the duration of the French Revolution.",
+        "exam_question_id": "b90c5185-3250-4330-bea7-1200594c075d:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Explain why the French Revolution is considered a significant event in world history.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the radical changes in social and political structures.",
+          "Discuss the influence on other countries and revolutions.",
+          "Provide a coherent explanation."
+        ],
+        "hints": [
+          "Think about the changes that occurred during the French Revolution and their global impact."
+        ],
+        "model_answer": "The French Revolution is considered significant because it led to radical changes in social and political structures in France, including the end of the monarchy and the rise of republicanism. It also influenced other countries and revolutions, spreading ideas of liberty, equality, and fraternity.",
+        "explanation": "Explain the importance of the French Revolution by discussing the changes it brought about and its influence on other parts of the world.",
+        "exam_question_id": "b90c5185-3250-4330-bea7-1200594c075d:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "State the year the French Revolution began.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct year",
+          "Provide no other information"
+        ],
+        "hints": [
+          "Look at the beginning of the French Revolution."
+        ],
+        "model_answer": "1789",
+        "explanation": "The question asks for the year the French Revolution began, which is clearly stated in the scenario.",
+        "exam_question_id": "58639fbe-0670-48ca-87a7-7dcf348f4ca6:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Calculate the duration of the French Revolution in years.",
+        "marks": 3,
+        "marking_criteria": [
+          "Subtract the start year from the end year",
+          "Show the calculation",
+          "Provide the correct answer"
+        ],
+        "hints": [
+          "Use simple subtraction to find the difference between the years."
+        ],
+        "model_answer": "1799 - 1789 = 10 years",
+        "explanation": "To find the duration, subtract the start year (1789) from the end year (1799). The difference is 10 years.",
+        "exam_question_id": "58639fbe-0670-48ca-87a7-7dcf348f4ca6:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Explain why the French Revolution is considered a significant event in world history.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify key impacts of the French Revolution",
+          "Explain the significance of these impacts",
+          "Provide a coherent explanation"
+        ],
+        "hints": [
+          "Think about the changes in government, society, and ideas that resulted from the revolution."
+        ],
+        "model_answer": "The French Revolution is considered significant because it led to the end of absolute monarchy in France, the rise of democratic ideals, and the spread of nationalism. It inspired other revolutions around the world and changed the course of history by promoting ideas of liberty, equality, and fraternity.",
+        "explanation": "The French Revolution had profound impacts on governance, society, and ideology, making it a pivotal event in world history.",
+        "exam_question_id": "58639fbe-0670-48ca-87a7-7dcf348f4ca6:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram showing a painted portrait of a heavyset man with a powdered white curled wig. He wears a white lace cravat and a white ermine robe with black spots. A gold embroidered band crosses the robe, and a decorated cross hangs on a ribbon at the chest. A blue fabric is visible behind his shoulder. The portrait has no caption or printed text.",
+        "question": "Identify the type of clothing and accessories depicted in the portrait.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the wig",
+          "Identify the cravat"
+        ],
+        "hints": [
+          "Think about the historical fashion of the 18th century."
+        ],
+        "model_answer": "The wig is a powdered white curled wig, the cravat is a white lace cravat, the robe is a white ermine robe with black spots, the band is gold embroidered, and the cross is decorated.",
+        "explanation": "The wig, cravat, robe, band, and cross are all elements of 18th-century fashion worn by the aristocracy.",
+        "exam_question_id": "0cf9a7ec-dc45-422f-85bc-2c9935e39824:1",
+        "topic_id": 1907,
+        "topic_label": "The 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "The 1789 French Revolution"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram showing a painted portrait of a heavyset man with a powdered white curled wig. He wears a white lace cravat and a white ermine robe with black spots. A gold embroidered band crosses the robe, and a decorated cross hangs on a ribbon at the chest. A blue fabric is visible behind his shoulder. The portrait has no caption or printed text.",
+        "question": "Explain the significance of the ermine robe and the cross in the context of the 1789 French Revolution.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the significance of the ermine robe",
+          "Explain the significance of the cross",
+          "Connect both elements to the 1789 French Revolution"
+        ],
+        "hints": [
+          "Consider the symbolism of ermine and crosses in historical contexts."
+        ],
+        "model_answer": "The ermine robe signifies nobility and high social status, while the cross could represent religious or royal affiliations. During the 1789 French Revolution, such symbols were often targets of revolutionary anger against the old regime.",
+        "explanation": "The ermine robe and cross were symbols of the aristocracy and monarchy, which were opposed during the revolution.",
+        "exam_question_id": "0cf9a7ec-dc45-422f-85bc-2c9935e39824:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "State the year the French Revolution began.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the correct year.",
+          "Provide a brief explanation or context."
+        ],
+        "hints": [
+          "Stay focused on this: State the year the French Revolution began — develop the idea fully rather than listing short points. Make sure you also cover: Provide a brief explanation or context."
+        ],
+        "model_answer": "The French Revolution began in 1789. This was the year when the Estates-General was convened, leading to the formation of the National Assembly and the beginning of the revolution.",
+        "explanation": "The year 1789 is the starting point of the French Revolution, marking the convening of the Estates-General and the formation of the National Assembly.",
+        "exam_question_id": "bfb19b8e-a296-43c4-b10d-fb490ffdc15f:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Calculate the duration of the French Revolution in years.",
+        "marks": 3,
+        "marking_criteria": [
+          "Subtract the start year from the end year.",
+          "Show the calculation process.",
+          "Provide the final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the duration of the French Revolution in years — develop the idea fully rather than listing short points. Make sure you also cover: Subtract the from the end; the calculation process.; Provide the final answer."
+        ],
+        "model_answer": "Duration = End year - Start year = 1799 - 1789 = 10 years. The French Revolution lasted for 10 years.",
+        "explanation": "To find the duration, subtract the start year (1789) from the end year (1799).",
+        "exam_question_id": "bfb19b8e-a296-43c4-b10d-fb490ffdc15f:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The French Revolution began in 1789 and ended in 1799. It was a period of radical social and political upheaval in France.",
+        "question": "Explain why the French Revolution is considered a significant event in world history.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the impact on France.",
+          "Discuss the influence on other countries.",
+          "Explain the lasting effects."
+        ],
+        "hints": [
+          "Think about the changes in government and society."
+        ],
+        "model_answer": "The French Revolution is considered significant because it led to the end of the monarchy in France and the establishment of a republic. It inspired other countries to challenge their own monarchies and led to the spread of revolutionary ideas such as liberty, equality, and fraternity. The revolution also had lasting effects on the political and social structures of many nations.",
+        "explanation": "The French Revolution had a profound impact on France and influenced other countries to challenge their own governments, spreading revolutionary ideas globally.",
+        "exam_question_id": "bfb19b8e-a296-43c4-b10d-fb490ffdc15f:1",
+        "subtopic_id": 9690,
+        "topic_id": 1907,
+        "topic_label": "Causes of the 1789 French Revolution",
+        "source": {
+          "textbook": "S3 HISTORY AND CITIZENSHIP SB",
+          "area": "Causes of the 1789 French Revolution"
+        }
+      }
+    ],
+    "estimated_time": 68,
+    "assessment_id": "7818c262-8557-4049-9458-73ac9f016bba",
+    "subject": "S3 HISTORY AND CITIZENSHIP SB",
+    "topics": [
+      "The 1789 French Revolution"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 182,
+    "topic_ids": [
+      1907
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 26,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "4 questions open with the same sentence (1, 2, 22, 23): \"Consider the diagram showing a painted portrait of\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 4,
+      "detail": "15 questions open with the same sentence (5, 6, 7, 13, 14, 15, 16, 17, 18, 19, 20, 21, 24, 25, 26): \"The French Revolution began in 1789 and ended in 1\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 7,
+      "detail": "5 questions open with the same sentence (8, 9, 10, 11, 12): \"The French Revolution began in 1789 and had severa\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 0,
+      "detail": "76 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 1,
+      "detail": "83 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 2,
+      "detail": "89 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 3,
+      "detail": "96 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 10,
+      "detail": "51 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 11,
+      "detail": "51 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 21,
+      "detail": "76 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 22,
+      "detail": "83 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 7"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [
+    "/textbook-images/rwanda/182/page16-embedded-0.jpeg: HTTP 404",
+    "/textbook-images/rwanda/182/page18-embedded-0.jpeg: HTTP 404"
+  ],
+  "totalSeconds": 52
+}

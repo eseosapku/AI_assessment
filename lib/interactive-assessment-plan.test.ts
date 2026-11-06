@@ -1,6 +1,30 @@
 // lib/interactive-assessment-plan.test.ts
 import { describe, it, expect } from 'vitest'
-import { normalizeInteractiveQuestion } from './interactive-assessment-plan'
+import { normalizeInteractiveQuestion, buildInteractiveSchemaBlock } from './interactive-assessment-plan'
+
+describe('keys derived from semantic content', () => {
+  it('asks the model for category names rather than a copied numeric pattern', () => {
+    const schema = buildInteractiveSchemaBlock(['categorize'])
+    expect(schema).toContain('actual category NAME')
+    expect(schema).not.toContain('[0,1,0,1,0,1]')
+  })
+  it('keeps every correct match after shuffling the right-hand display', () => {
+    const raw = { kind: 'match', question: 'Match each term to its definition.', matched_pairs: [
+      { left: 'Sample space', right: 'All possible outcomes' }, { left: 'Event', right: 'A subset of the sample space' },
+      { left: 'Probability', right: 'The likelihood of an event' },
+    ] }
+    const q: any = normalizeInteractiveQuestion(raw)
+    for (const [left, right] of q.correct_pairs) expect(q.right_items[right]).toBe(raw.matched_pairs[left].right)
+    expect(normalizeInteractiveQuestion(q)).toEqual(q)
+  })
+  it('keeps the intended sequence after shuffling displayed steps', () => {
+    const steps = ['Ethene reacts with bromine', 'The double bond breaks', 'Bromine atoms attach', 'The product forms']
+    const q: any = normalizeInteractiveQuestion({ kind: 'order', question: 'Order the reaction steps.', ordered_items: steps })
+    expect(q.correct_order.map((i: number) => q.items[i])).toEqual(steps)
+    expect(q.items).not.toEqual(steps)
+    expect(normalizeInteractiveQuestion(q)).toEqual(q)
+  })
+})
 
 const table = (correct: unknown[]) => ({
   type: 'interactive',

@@ -1,0 +1,332 @@
+{
+  "index": 18,
+  "label": "REB / Practice / GENERAL EDU-Chemistry-S1-SB",
+  "request": {
+    "subject": "GENERAL EDU-Chemistry-S1-SB",
+    "textbook_id": 92,
+    "topic_ids": [
+      947
+    ],
+    "topics": [
+      "Chemistry and Society"
+    ],
+    "curriculum": "rwanda",
+    "grade": 7,
+    "className": "S1",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 123,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Explain how chemistry is used in food preservation.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the role of chemistry in food preservation",
+          "Describe a chemical method used in food preservation",
+          "Explain how the method works",
+          "Describe the benefits of using the method"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how chemistry is used in food preservation — develop the idea fully rather than listing short points. Make sure you also cover: the of using the."
+        ],
+        "model_answer": "Chemistry is used in food preservation to extend the shelf life of food products. One chemical method is the use of preservatives like sodium benzoate. This preservative works by inhibiting the growth of bacteria and fungi. The benefits include reduced food waste, safer food supply, and longer availability of food products, making it easier to manage food distribution and storage.",
+        "explanation": "A strong answer will state the role of chemistry, describe a specific chemical method, explain how the method works through chemical principles, and describe the benefits, showing understanding of food chemistry.",
+        "checked": true,
+        "topic_id": 947,
+        "topic_label": "Chemistry and Society",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Chemistry and Society"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Describe the importance of chemistry in the pharmaceutical industry.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the importance of chemistry in the pharmaceutical industry",
+          "Describe how chemistry is used in drug development",
+          "Explain the role of a specific chemical compound in drug development",
+          "Describe the benefits of using chemistry in pharmaceuticals"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the importance of chemistry in the pharmaceutical industry — develop the idea fully rather than listing short points. Make sure you also cover: the role of a compound in drug."
+        ],
+        "model_answer": "Chemistry is of utmost importance in the pharmaceutical industry as it drives the discovery and development of new drugs. It is used to synthesize new compounds and test their effectiveness. A specific example is the use of aspirin, which is synthesized through chemical processes. Aspirin works by reducing inflammation and pain. The benefits include the ability to treat various conditions effectively, improving health outcomes and quality of life.",
+        "explanation": "A strong answer will state the importance, describe how chemistry is used in drug development, explain the role of a specific chemical compound, and describe the benefits, demonstrating understanding of pharmaceutical chemistry.",
+        "checked": true,
+        "subtopic_id": 4503,
+        "topic_id": 947,
+        "topic_label": "Applications of Chemistry in Industry",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Applications of Chemistry in Industry"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Explain the role of chemistry in energy production.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the role of chemistry in energy production",
+          "Describe a chemical process used in energy production",
+          "Explain how the process works",
+          "Describe the benefits of using the process"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of chemistry in energy production — develop the idea fully rather than listing short points. Make sure you also cover: how the works; the of using the."
+        ],
+        "model_answer": "Chemistry plays a critical role in energy production by facilitating processes that convert raw materials into usable energy. One chemical process is the combustion of fossil fuels, such as coal and natural gas, to produce electricity. This process involves the chemical reaction of the fuel with oxygen, releasing energy in the form of heat. The benefits include a reliable and efficient source of energy, although it also has environmental impacts that need to be managed.",
+        "explanation": "A strong answer will state the role of chemistry, describe a specific chemical process, explain how the process works through chemical reactions, and describe the benefits, showing understanding of energy chemistry.",
+        "checked": true,
+        "topic_id": 947,
+        "topic_label": "Chemistry and Society",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Chemistry and Society"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Describe the impact of chemistry on modern agriculture.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the impact of chemistry on modern agriculture",
+          "Describe a chemical used in agriculture",
+          "Explain how the chemical is used",
+          "Describe the benefits of using the chemical"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the impact of chemistry on modern agriculture — develop the idea fully rather than listing short points. Make sure you also cover: how the is used; the of using the."
+        ],
+        "model_answer": "Chemistry has a significant impact on modern agriculture by providing tools and techniques to improve crop yield and protect plants. One chemical used is glyphosate, a herbicide that controls weeds. Glyphosate works by inhibiting an enzyme essential for plant growth. The benefits include higher crop yields, reduced labor costs, and more efficient use of land, contributing to global food security.",
+        "explanation": "A strong answer will state the impact, describe a specific chemical, explain how it is used in agriculture, and describe the benefits, demonstrating understanding of agricultural chemistry.",
+        "checked": true,
+        "topic_id": 947,
+        "topic_label": "Chemistry and Society",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Chemistry and Society"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Describe the importance of chemistry in our daily lives, providing at least three examples.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify the role of chemistry in one aspect of daily life",
+          "Explain how chemistry impacts another aspect of daily life",
+          "Describe a third example of chemistry's importance in everyday activities",
+          "Use examples to illustrate the impact of chemistry"
+        ],
+        "hints": [
+          "Start by identifying a specific area where chemistry is crucial, then explain its importance, followed by another example, and finally a third one."
+        ],
+        "model_answer": "Chemistry plays a vital role in our daily lives. For example, it is essential in medicine, where it helps in developing drugs that treat diseases. Another area is food production, where chemistry is used to enhance flavor and preserve food. Lastly, chemistry is important in cleaning products, which rely on chemical reactions to remove dirt and stains. These examples show how chemistry impacts our health, nutrition, and hygiene.",
+        "explanation": "Each example provided should clearly illustrate how chemistry is integral to specific aspects of daily life, demonstrating the broad and essential role of chemistry in society.",
+        "checked": true,
+        "subtopic_id": 4502,
+        "topic_id": 947,
+        "topic_label": "Importance of Chemistry",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Importance of Chemistry"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Explain how chemistry contributes to the economy of Rwanda by naming at least two industries.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify one industry where chemistry contributes to the economy",
+          "Explain how chemistry supports that industry",
+          "Name another industry that benefits from chemistry",
+          "Describe the economic impact of chemistry in that second industry"
+        ],
+        "hints": [
+          "Begin by naming an industry that relies on chemical processes, then explain the role of chemistry in that industry, followed by another industry, and finally its economic impact."
+        ],
+        "model_answer": "Chemistry significantly contributes to Rwanda's economy through various industries. For instance, the agriculture sector benefits from chemical fertilizers, which enhance crop yield and ensure food security. Another industry is pharmaceuticals, where chemistry is essential for developing and producing medicines. These industries not only create jobs but also boost the country's export earnings and technological advancement.",
+        "explanation": "A strong answer will name specific industries, explain how chemistry is integral to their operations, and describe the economic benefits, showing a clear understanding of chemistry's role in the economy.",
+        "checked": true,
+        "subtopic_id": 4504,
+        "topic_id": 947,
+        "topic_label": "Contribution of Chemistry to the economy of Rwanda",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Contribution of Chemistry to the economy of Rwanda"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe the contribution of chemistry to public health.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify a way chemistry contributes to public health",
+          "Explain how this contribution benefits public health",
+          "Describe another contribution and its benefits",
+          "Summarise the overall impact of chemistry on public health"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the contribution of chemistry to public health — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Chemistry contributes significantly to public health by enabling the development of vaccines and medicines. For instance, chemists design drugs that target specific diseases, improving treatment outcomes. Another contribution is the development of water purification methods, which ensure access to clean drinking water, preventing waterborne diseases. These contributions enhance the quality of life and extend life expectancy, demonstrating the critical role of chemistry in public health.",
+        "explanation": "A strong answer will identify specific contributions of chemistry to public health, explain how they benefit public health, and summarise their overall impact.",
+        "checked": true,
+        "subtopic_id": 4504,
+        "topic_id": 947,
+        "topic_label": "Contribution of Chemistry to the economy of Rwanda",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Contribution of Chemistry to the economy of Rwanda"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Explain the role of chemistry in the development of new technologies.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify a technology developed through chemistry",
+          "Explain how chemistry contributed to its development",
+          "Describe another technology and its chemical development",
+          "Summarise the role of chemistry in technological advancement"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of chemistry in the development of new technologies — develop the idea fully rather than listing short points. Make sure you also cover: Identify a developed through chemistry; Summarise the role of chemistry in technological advancement."
+        ],
+        "model_answer": "Chemistry plays a pivotal role in the development of new technologies. For example, the creation of semiconductors, which are essential for electronic devices, involves complex chemical processes. Another technology is the development of biofuels, where chemistry is used to convert biomass into energy sources. These advancements highlight how chemistry drives innovation and improves our quality of life by enabling new technologies.",
+        "explanation": "A strong answer will identify specific technologies, explain how chemistry contributed to their development, and summarise the overall role of chemistry in technological advancement.",
+        "checked": true,
+        "topic_id": 947,
+        "topic_label": "Chemistry and Society",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Chemistry and Society"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "State the definition of chemistry as it pertains to its role in society.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the definition of chemistry",
+          "Identify the role of chemistry in society"
+        ],
+        "hints": [
+          "Give a concise definition of chemistry followed by an explanation of its role in society."
+        ],
+        "model_answer": "Chemistry is the study of matter and its interactions. It plays a crucial role in society by providing the fundamental understanding needed to develop new materials, medicines, and technologies that improve our quality of life.",
+        "explanation": "A strong answer will include a precise definition of chemistry and clearly state its role in society, which earns the marks for each criterion.",
+        "checked": true,
+        "subtopic_id": 4501,
+        "topic_id": 947,
+        "topic_label": "Definition of Chemistry",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Definition of Chemistry"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Describe the definition of chemistry and its importance in society.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the definition of chemistry.",
+          "Explain the importance of chemistry in society.",
+          "Provide one example of how chemistry is important in society.",
+          "Provide a brief explanation of the example."
+        ],
+        "hints": [
+          "Start by defining chemistry, then explain its importance with a clear example."
+        ],
+        "model_answer": "Chemistry is the study of substances, their properties, and the changes they undergo. It is important in society as it helps us understand and improve the materials we use daily, from medicines to cleaning products. For instance, chemistry is crucial in the production of medicines, which are essential for treating diseases and improving public health. This example shows how chemistry directly impacts our well-being and daily life.",
+        "explanation": "A strong answer will include a clear definition of chemistry, explain its importance with a relevant example, and provide a brief explanation of how the example demonstrates this importance. This shows understanding of the topic and its significance.",
+        "checked": true,
+        "subtopic_id": 4501,
+        "topic_id": 947,
+        "topic_label": "Definition of Chemistry",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S1-SB",
+          "area": "Definition of Chemistry"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "fe2f8e9d-b88f-4e8e-8f08-737b806946e4",
+    "subject": "GENERAL EDU-Chemistry-S1-SB",
+    "topics": [
+      "Chemistry and Society"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 92,
+    "topic_ids": [
+      947
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "poor",
+        "detail": "The model answer states aspirin 'reduces inflammation and pain' but doesn't explain the chemical role/mechanism as required by marking criterion 3 ('Explain the role of a specific chemical compound in drug development'). The answer describes therapeutic effects, not the chemical role in development (e.g., acetylation of cyclooxygenase enzymes).",
+        "correction": "Should explain aspirin's chemical mechanism: it acetylates cyclooxygenase enzymes, blocking prostaglandin synthesis, which is the chemical basis for its anti-inflammatory action."
+      },
+      {
+        "label": "4",
+        "severity": "poor",
+        "detail": "The model answer states glyphosate 'inhibits an enzyme essential for plant growth' but doesn't specify which enzyme or explain how this relates to weed control versus crop protection. For grade 7, should clarify it inhibits EPSPS enzyme in the shikimate pathway, affecting aromatic amino acid synthesis.",
+        "correction": "Should specify: glyphosate inhibits the EPSPS enzyme needed for plants to make essential amino acids, causing weeds to die while genetically modified crops remain unaffected."
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "The model answer defines chemistry as 'the study of matter and its interactions' which is incomplete. Standard definition includes 'composition, structure, properties, and changes' of matter. The vague 'interactions' doesn't adequately cover chemical reactions and transformations central to chemistry.",
+        "correction": "Chemistry is the study of the composition, structure, properties, and changes of matter and the energy involved in these changes."
+      }
+    ],
+    "summary": "Assessment is generally appropriate for grade 7 Rwanda curriculum on Chemistry and Society. Three issues identified: Question 2's model answer lacks chemical mechanism explanation for aspirin's role; Question 4 needs clearer enzyme specification for glyphosate; Question 9's chemistry definition is incomplete, missing key components like composition and structure. All questions are answerable and age-appropriate with correct marking criteria alignment."
+  },
+  "totalSeconds": 136
+}

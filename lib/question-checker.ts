@@ -33,6 +33,8 @@ export interface CheckContext {
   passage?: string
   /** One line per OTHER question on the paper, for spotting repeats. */
   others: string[]
+  /** A numbered question's parts are checked together at the book's actual level. */
+  examPaper?: boolean
 }
 
 export interface Verdict {
@@ -49,6 +51,12 @@ export interface Verdict {
   correct_columns?: string[]
   /** A replacement mark scheme with exactly one point per mark. */
   mark_scheme?: string[]
+  model_answer?: string
+  correct_pairs?: [number, number][]
+  correct_order?: number[]
+  correct_answers?: boolean[]
+  correct_blanks?: string[]
+  correct_index?: number
   /** A corrected explanation, when the shown one contradicts the answer. */
   explanation?: string
   /**
@@ -63,7 +71,7 @@ export interface Verdict {
 
 type Q = Record<string, any>
 
-const RUBRIC = `You are checking questions an AI wrote for a Cambridge practice paper or quiz, before a learner sees them. Be a strict, careful examiner. Work out every answer yourself -- do the arithmetic, check the science, find the answer in the reading text, read the figure data. Never trust the key you are shown.
+const RUBRIC = `You are checking questions an AI wrote for the curriculum and level named under PAPER, before a learner sees them. Work out every answer yourself -- do the arithmetic, check the science, find the answer in the reading text, read the figure data. Never trust the key you are shown. Report substantive, evidenced errors, not wording preferences.
 
 A figure is described to you as FIGURE DATA (its exact numbers and labels), a list of the text drawn on it, or a description. Use only that. NEVER guess or invent what a figure shows: if a question's answer depends on values you were not given, judge only what you can see, and do not "work out" an answer from imagined values.
 
@@ -77,8 +85,16 @@ For each question give ONE verdict:
           "correct_options": 0-based indices of ALL true statements -- for a tick list
           "correct_columns": the column heading for each row, in order -- for a table
           "mark_scheme": one creditable point per step the answer needs -- at least as many points as the scheme shown
+          "model_answer": a complete corrected worked answer whenever a written mark scheme changes. Keep the scheme, model answer and explanation numerically consistent.
+          For interactive questions, independently solve EVERY item and return the complete corrected key for its kind:
+          "correct_pairs": [[leftIndex,rightIndex],...] for match (0-based indices into the printed arrays, not the order of the explanation)
+          "correct_order": all item indices in the correct sequence for order
+          "correct_answers": one boolean per statement for true_false
+          "correct_blanks": one word-bank answer per blank, in blanks array order, for fill_blank
+          "correct_index": the one item index for odd_one_out
+          Use correct_options for multi_select and correct_columns for categorize.
           "explanation": a corrected explanation, when the one shown contradicts the right answer (the learner reads it after answering)
-          If an open question ("name one...", "give a reason...") has more right answers than a key can list, prefer "drop".
+          For an open written answer ("name one...", "give a reason..."), accept valid alternatives in the mark scheme. Do not drop it merely for having multiple acceptable answers.
 
 "drop" -- the QUESTION itself is broken. Drop it when ANY of these is true:
           - it needs something the learner cannot see or is not told (a figure, table, text, earlier part or data that is not there; a figure that does not show what it asks about)
@@ -86,8 +102,11 @@ For each question give ONE verdict:
           - it is beyond the stage named under PAPER: it needs content first taught at a LATER stage (judge by WHAT THE BOOK TEACHES where it is given; Primary Stage N is about age N+5, Lower Secondary Stage 9 about age 14)
           - it is not a question for this subject, or a comprehension question about something the text does not contain, or about the wrong paragraph
           - it repeats a question listed under OTHER QUESTIONS, or an earlier one in this batch (same demand, however worded)
-          - it is garbled, ungrammatical, cut off, uses American spelling, or contains instructions meant for the writer
+          - it is cut off or garbled enough that the task cannot be understood, or contains instructions meant for the writer
           - a ring-around has two right options, or none
+
+Do not drop a sound question for minor spelling, grammar or presentation preferences. Accept sensible rounding and equivalent formulas; recompute before declaring a numerical error. Do not invent curriculum restrictions unsupported by the supplied book/scope. For "show that" tasks the target is intentional, but verify it follows from the data.
+For written rubrics, fix missing variable names or corrupted phrases using the actual scenario and worked answer. Each point must express a meaningful marking requirement. Do not create multiple redundant points for naming one variable.
 
 A ring-around (mcq) is shown WITHOUT its key. For every one, whatever its verdict, also give:
           "right": the 0-based index of EVERY option a fair examiner would mark correct for the question exactly as written. Solve it, then test each option on its own. An option that is also true counts, even when another seems "more" right: on parallel lines alternate AND corresponding angles are both equal; a melting solid's particles both "move faster" and "gain energy"; a toy car can use batteries. Count an option only if it is really correct, not merely plausible.
@@ -119,7 +138,9 @@ function describe(q: Q): string {
   // dropped "a two-word answer worth 25 marks" that seating would have made
   // worth one. Seating owns marks.
   const out = [`--- Q${q.id} ${kind}`]
+  if (q.part) out.push(`PART: (${q.part}) of numbered question ${q.exam_question_id || ''}`)
   if (q.scenario) out.push(`SCENARIO: ${q.scenario}`)
+  if (q.topic_label) out.push(`REQUESTED TOPIC/FOCUS: ${q.topic_label}`)
   out.push(`QUESTION: ${q.question}`)
   out.push(...describeFigure(q))
   if (Array.isArray(q.options)) {
@@ -130,9 +151,13 @@ function describe(q: Q): string {
     const right = new Set(isRingAround(q) ? [] : Array.isArray(q.correct_indices) ? q.correct_indices : [q.correct_answer])
     q.options.forEach((o: unknown, i: number) => out.push(`   ${right.has(i) ? '*' : ' '} ${letter(i)}. ${o}`))
   }
-  if (Array.isArray(q.items)) {
+  if (Array.isArray(q.items) && q.kind === 'categorize') {
     out.push(`COLUMNS: ${JSON.stringify(q.categories ?? [])}`)
     q.items.forEach((it: unknown, i: number) => out.push(`   row "${it}" -> ${q.categories?.[q.correct_category?.[i]] ?? '?'}`))
+  }
+  if (q.type === 'interactive') {
+    const { id, question, explanation, image_url, image_alt, diagram_svg, source, ...exercise } = q
+    out.push(`INTERACTIVE EXERCISE AND CURRENT KEY (verify every index): ${JSON.stringify(exercise)}`)
   }
   if (q.short_answer) out.push(`ANSWER KEY: ${JSON.stringify(q.short_answer.accepted ?? [])}`)
   if (Array.isArray(q.marking_criteria) && q.marking_criteria.length) {
@@ -140,12 +165,22 @@ function describe(q: Q): string {
   }
   // Not for a ring-around: its explanation names the key.
   if (q.explanation && !isRingAround(q)) out.push(`EXPLANATION (shown to the learner afterwards): ${String(q.explanation).slice(0, 400)}`)
+  if (q.model_answer && !isRingAround(q)) out.push(`WORKED MODEL ANSWER: ${String(q.model_answer).slice(0, 1400)}`)
   return out.join('\n')
 }
 
 export function buildCheckPrompt(questions: readonly Q[], ctx: CheckContext): string {
   return [
     RUBRIC,
+    ...(ctx.examPaper ? [
+      'NUMBERED EXAM REVIEW — apply these clarifications to the rules above:',
+      'All parts of this numbered question are shown together. Use the shared scenario and earlier parts as context; do not demand that each part repeat the data.',
+      'Symbolic answers in terms of u, a, g, theta or other defined variables are valid. A numerical value is only required when the question explicitly requests a numerical answer. Read the worked model answer before claiming data is missing.',
+      'A "show that" question intentionally gives its target result: the working is what earns marks. This is not answer leakage. However, independently recompute the target: a false numerical or algebraic target is a broken premise and must be dropped. "State" may request an expression or velocity components; accept an equivalent correct form.',
+      'Prefer fix for a sound question with an incorrect or restrictive mark scheme. For open written answers, supply creditable alternatives in the mark scheme. Do not drop a valid question for phrasing preference, American spelling, or a small command-word mismatch.',
+      'Only drop for a substantive, evidenced fault: an impossible scenario, missing essential data even for a symbolic solution, an incorrect premise, or an actual duplicate using the same setup and data. Two similar demands with different data are separate questions.',
+      'Judge level from the named textbook/programme, not from an IGCSE age assumption. AS/A Level and Further Mathematics legitimately use advanced mechanics and calculus.',
+    ] : []),
     '',
     `PAPER: ${ctx.subject}, ${ctx.stage}.`,
     ...(ctx.scope ? ['', 'WHAT THE BOOK TEACHES AT THIS STAGE:', ctx.scope.trim()] : []),
@@ -190,6 +225,37 @@ const strings = (x: unknown): string[] | null =>
  */
 function applyFix(q: Q, v: Verdict): boolean {
   let applied = false
+  if (v.correct_pairs !== undefined) {
+    const pairs = v.correct_pairs
+    if (q.kind !== 'match' || !Array.isArray(pairs) || pairs.length !== q.left_items?.length
+      || pairs.some((p) => !Array.isArray(p) || p.length !== 2 || !p.every(Number.isInteger) || p[0] < 0 || p[0] >= q.left_items.length || p[1] < 0 || p[1] >= q.right_items.length)
+      || new Set(pairs.map((p) => p[0])).size !== pairs.length || new Set(pairs.map((p) => p[1])).size !== pairs.length) return false
+    q.correct_pairs = pairs
+    applied = true
+  }
+  if (v.correct_order !== undefined) {
+    const order = v.correct_order
+    if (q.kind !== 'order' || !Array.isArray(order) || order.length !== q.items?.length || new Set(order).size !== order.length
+      || order.some((i) => !Number.isInteger(i) || i < 0 || i >= q.items.length)) return false
+    q.correct_order = order
+    applied = true
+  }
+  if (v.correct_answers !== undefined) {
+    if (q.kind !== 'true_false' || !Array.isArray(v.correct_answers) || v.correct_answers.length !== q.statements?.length || v.correct_answers.some((a) => typeof a !== 'boolean')) return false
+    q.correct_answers = v.correct_answers
+    applied = true
+  }
+  if (v.correct_blanks !== undefined) {
+    const answers = strings(v.correct_blanks)
+    if (q.kind !== 'fill_blank' || !answers || answers.length !== q.blanks?.length || answers.some((a) => !q.word_bank?.includes(a))) return false
+    q.blanks = q.blanks.map((b: Q, i: number) => ({ ...b, correct: answers[i] }))
+    applied = true
+  }
+  if (v.correct_index !== undefined) {
+    if (q.kind !== 'odd_one_out' || !Number.isInteger(v.correct_index) || v.correct_index < 0 || v.correct_index >= q.items?.length) return false
+    q.correct_index = v.correct_index
+    applied = true
+  }
   const accepted = strings(v.accepted)
   if (accepted && q.short_answer) {
     q.short_answer = { ...q.short_answer, accepted }
@@ -219,9 +285,21 @@ function applyFix(q: Q, v: Verdict): boolean {
   if (v.mark_scheme !== undefined) {
     const scheme = strings(v.mark_scheme)
     const before = Array.isArray(q.marking_criteria) ? q.marking_criteria.length : 0
-    // Fewer points than it replaces is not a mend: marks would be lost.
-    if (!scheme || scheme.length < Math.max(1, before)) return false
+    // Printed Checkpoint slots own their marks. Generated exam parts may have
+    // overallocated marks for a simple task; repair that allocation together
+    // with the rubric rather than discarding a sound question.
+    const generatedExam = Boolean(q.exam_question_id)
+    if (!scheme || !scheme.length || (!generatedExam && scheme.length < Math.max(1, before))) return false
+    const changesScheme = JSON.stringify(scheme) !== JSON.stringify(q.marking_criteria)
+    if (q.model_answer && changesScheme && (typeof v.model_answer !== 'string' || !v.model_answer.trim())) return false
     q.marking_criteria = scheme
+    if (generatedExam) q.marks = scheme.length
+    // Do not leave the old, contradictory worked answer beside a corrected rubric.
+    if (q.model_answer && typeof v.model_answer === 'string' && v.model_answer.trim()) q.model_answer = v.model_answer.trim()
+    applied = true
+  }
+  if (typeof v.model_answer === 'string' && v.model_answer.trim() && q.type === 'longform') {
+    q.model_answer = v.model_answer.trim()
     applied = true
   }
   if (typeof v.explanation === 'string' && v.explanation.trim()) {
@@ -248,6 +326,10 @@ export function applyVerdicts<T extends Q>(questions: readonly T[], verdicts: re
     }
     if (v.verdict === 'drop') {
       dropped.push({ id: Number(q.id), why: String(v.why ?? '').slice(0, 160) })
+      continue
+    }
+    if (isRingAround(q) && !Array.isArray(v.right) && v.correct_option === undefined) {
+      dropped.push({ id: Number(q.id), why: 'The blind MCQ check supplied no verified correct option.' })
       continue
     }
     if (isRingAround(q) && Array.isArray(v.right)) {

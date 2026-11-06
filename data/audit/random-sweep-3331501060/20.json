@@ -1,0 +1,442 @@
+{
+  "index": 20,
+  "label": "Cambridge / Practice / Cambridge International AS & A Level Physics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "textbook_id": 22,
+    "topic_ids": [
+      319,
+      308
+    ],
+    "topics": [
+      "Chapter 18: Gravitational fields",
+      "Chapter 8: Electric fields"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS & A Level Physics Coursebook",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 65,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Gravitational field strength",
+            "right": "Force per unit mass at a point in a gravitational field"
+          },
+          {
+            "left": "Electric field",
+            "right": "Region around a charged object where another charged object experiences a force"
+          },
+          {
+            "left": "Gravitational potential",
+            "right": "Work done per unit mass to move a mass from infinity to a point in a gravitational field"
+          },
+          {
+            "left": "Electric potential",
+            "right": "Work done per unit charge to move a charge from infinity to a point in an electric field"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Gravitational field strength measures the force a mass experiences in a gravitational field. An electric field is a region around a charged object where another charged object would feel a force. Gravitational potential is the work required to bring a unit mass from infinity to a point in a gravitational field. Electric potential is the work needed to move a unit charge from infinity to a point in an electric field.",
+        "left_items": [
+          "Gravitational field strength",
+          "Electric field",
+          "Gravitational potential",
+          "Electric potential"
+        ],
+        "right_items": [
+          "Region around a charged object where another charged object experiences a force",
+          "Work done per unit mass to move a mass from infinity to a point in a gravitational field",
+          "Work done per unit charge to move a charge from infinity to a point in an electric field",
+          "Force per unit mass at a point in a gravitational field"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 1274,
+        "topic_id": 308,
+        "topic_label": "Electric field strength",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Electric field strength"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Gravitational fields",
+          "Electric fields"
+        ],
+        "items": [
+          "Gravitational field strength",
+          "Electric field",
+          "Gravitational potential",
+          "Electric potential"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Gravitational field strength and gravitational potential are related to gravitational fields, while electric field and electric potential are related to electric fields.",
+        "checked": true,
+        "subtopic_id": 1274,
+        "topic_id": 308,
+        "topic_label": "Electric field strength",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Electric field strength"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Gravitational potential decreases with increasing distance from the source mass.",
+          "Electric potential is always positive.",
+          "Gravitational field strength increases as you move away from the source mass.",
+          "Electric field lines always point from positive to negative charges."
+        ],
+        "correct_answers": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "Gravitational potential increases (becomes less negative) with distance from the source mass. Electric potential can be positive or negative depending on the charge. Gravitational field strength decreases with distance, not increases. Electric field lines point from positive to negative charges.",
+        "checked": true,
+        "subtopic_id": 1274,
+        "topic_id": 308,
+        "topic_label": "Electric field strength",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Electric field strength"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply to gravitational fields",
+        "options": [
+          "They are measured in Newtons per kilogram",
+          "They are measured in Volts per metre",
+          "They are scalar quantities",
+          "They are vector quantities"
+        ],
+        "correct_indices": [
+          0,
+          3
+        ],
+        "marks": 4,
+        "explanation": "Gravitational fields are measured in Newtons per kilogram (N/kg) and they are vector quantities, meaning they have both magnitude and direction.",
+        "checked": true,
+        "topic_label": "Chapter 18: Gravitational fields",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 18: Gravitational fields"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the following steps of calculating the orbital period of a satellite in the correct order",
+        "ordered_items": [
+          "Use the formula for the orbital period",
+          "Determine the radius of the orbit",
+          "Substitute the values into the formula",
+          "Calculate the orbital period"
+        ],
+        "marks": 4,
+        "explanation": "First, determine the radius of the orbit. Then, use the formula for the orbital period. Substitute the values into the formula and calculate the orbital period.",
+        "items": [
+          "Use the formula for the orbital period",
+          "Substitute the values into the formula",
+          "Calculate the orbital period",
+          "Determine the radius of the orbit"
+        ],
+        "correct_order": [
+          3,
+          0,
+          1,
+          2
+        ],
+        "checked": true,
+        "subtopic_id": 1346,
+        "topic_id": 319,
+        "topic_label": "The orbital period",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "The orbital period"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Gravitational Fields",
+          "Electric Fields"
+        ],
+        "items": [
+          "Gravitational field strength",
+          "Electric potential",
+          "Orbiting the Earth",
+          "Force on a charge"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Gravitational field strength and orbiting the Earth relate to gravitational fields. Electric potential and force on a charge relate to electric fields.",
+        "checked": true,
+        "subtopic_id": 1274,
+        "topic_id": 308,
+        "topic_label": "Electric field strength",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Electric field strength"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank",
+        "template": "The force on a charge in an electric field is given by the equation F = qE, where {{0}} represents the charge and {{1}} represents the electric field strength.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "q"
+          },
+          {
+            "id": "1",
+            "correct": "E"
+          }
+        ],
+        "word_bank": [
+          "q",
+          "E",
+          "m",
+          "v",
+          "F"
+        ],
+        "marks": 2,
+        "explanation": "Q represents the charge and E represents the electric field strength in the equation for force on a charge in an electric field.",
+        "checked": true,
+        "subtopic_id": 1274,
+        "topic_id": 308,
+        "topic_label": "Electric field strength",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Electric field strength"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank: Newton's law of gravitation states that every particle of matter in the universe attracts every other particle with a force that is proportional to the product of their masses and inversely proportional to the square of the distance between their centres, which is expressed as F = G\\(\\frac{m_1 m_2}{r^2}\\), where {{0}} represents the gravitational constant and {{1}} represents the distance between the centres of the two masses.",
+        "template": "Newton's law of gravitation states that every particle of matter in the universe attracts every other particle with a force that is proportional to the product of their masses and inversely proportional to the square of the distance between their centers, which is expressed as F = G\\(\\frac{m_1 m_2}{r^2}\\), where {{0}} represents the gravitational constant and {{1}} represents the distance between the centers of the two masses.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "G"
+          },
+          {
+            "id": "1",
+            "correct": "r"
+          }
+        ],
+        "word_bank": [
+          "G",
+          "r",
+          "m",
+          "F",
+          "m1"
+        ],
+        "marks": 2,
+        "explanation": "G represents the gravitational constant, and r represents the distance between the centres of the two masses. These are the correct terms to complete the sentence accurately.",
+        "topic_label": "Chapter 18: Gravitational fields",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Chapter 18: Gravitational fields"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False:\n1. A satellite in a circular orbit around the Earth is subject to a centripetal force directed towards the Earth's centre. 2. The gravitational force acting on an object on the surface of the Earth is independent of the object's mass. 3. The gravitational field strength decreases as the distance from the source mass increases. 4. The electric field strength increases with the square of the distance from the source charge.",
+        "statements": [
+          "A satellite in a circular orbit around the Earth is subject to a centripetal force directed towards the Earth's center.",
+          "The gravitational force acting on an object on the surface of the Earth is independent of the object's mass.",
+          "The gravitational field strength decreases as the distance from the source mass increases.",
+          "The electric field strength increases with the square of the distance from the source charge."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "A satellite in a circular orbit is subject to a centripetal force directed towards the Earth's centre. The gravitational force depends on the mass of the object. Gravitational field strength decreases with distance, and electric field strength decreases with distance, not increases.",
+        "subtopic_id": 1274,
+        "topic_id": 308,
+        "topic_label": "Electric field strength",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Electric field strength"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply to the factors affecting the gravitational force between two objects:",
+        "options": [
+          "The masses of the objects",
+          "The distance between the objects",
+          "The charge of the objects",
+          "The gravitational constant"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          3
+        ],
+        "marks": 4,
+        "explanation": "The gravitational force depends on the masses of the objects, the distance between them, and the gravitational constant. The charge of the objects does not affect gravitational force.",
+        "subtopic_id": 1275,
+        "topic_id": 308,
+        "topic_label": "Force on a charge",
+        "source": {
+          "textbook": "Cambridge International AS & A Level Physics Coursebook",
+          "area": "Force on a charge"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "ef3a4123-dc87-4e0f-ae4e-491ed4b1c200",
+    "subject": "Cambridge International AS & A Level Physics Coursebook",
+    "topics": [
+      "Chapter 18: Gravitational fields",
+      "Chapter 8: Electric fields"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "interactive",
+    "textbook_id": 22,
+    "topic_ids": [
+      319,
+      308
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 7,
+      "detail": "74 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 8,
+      "detail": "77 words"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "3",
+        "severity": "broken",
+        "detail": "Statement 1 marked false is incorrect. Gravitational potential is negative and becomes less negative (increases) with distance, but the statement says 'decreases with increasing distance' which is false only if interpreted as algebraic value. Standard physics convention: gravitational potential increases (becomes less negative) with distance. Answer should be true.",
+        "correction": "Statement 1 correct answer: true. Gravitational potential increases (algebraically) with distance from source mass, moving from more negative to less negative values."
+      },
+      {
+        "label": "6",
+        "severity": "poor",
+        "detail": "Categorization error: 'Force on a charge' is categorized as Electric Fields, but this is ambiguous. While typically associated with electric fields (F=qE), gravitational fields also exert forces on masses. The question lacks clarity on whether 'force on a charge' specifically means electric force.",
+        "correction": "Clarify as 'Electric force on a charge' or provide context that distinguishes it from gravitational force on mass."
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Statement 2 explanation states 'gravitational force depends on mass' but the statement says force is 'independent of object's mass,' which is correctly marked false. However, the phrasing is ambiguous—gravitational force F=mg depends on the object's mass, but field strength g is independent of it. Explanation could mislead.",
+        "correction": "Clarify: 'Gravitational force on an object depends on its mass (F=mg), but gravitational field strength is independent of the test mass.'"
+      }
+    ],
+    "summary": "Assessment covers Chapter 18 and 8 appropriately with mixed question types. Three issues identified: statement 3 has incorrect answer key (gravitational potential increases with distance); question 6 ambiguously categorizes 'force on a charge'; question 9 explanation conflates force and field strength concepts. All other questions are factually sound and age-appropriate."
+  },
+  "totalSeconds": 70
+}

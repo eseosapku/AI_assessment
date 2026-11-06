@@ -1,0 +1,663 @@
+{
+  "index": 2,
+  "label": "Cambridge / Exam / Cambridge Lower Secondary Computing 8 Students Book ",
+  "request": {
+    "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "textbook_id": 30,
+    "topic_ids": [
+      393,
+      394
+    ],
+    "topics": [
+      "Testing conditions: Developing games",
+      "Data input: Data collection and validation"
+    ],
+    "curriculum": "cambridge",
+    "grade": 8,
+    "className": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 74,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A school uses a spreadsheet to record students' scores in a math test. The scores are recorded in a cell with a validation check to ensure they are between 0 and 100.",
+        "question": "Name the validation check used for the score field.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the type of validation (range check)",
+          "States the name clearly"
+        ],
+        "hints": [
+          "Think about the type of validation that ensures values are within a certain range."
+        ],
+        "model_answer": "The validation check used for the score field is a range check. This ensures that the score entered is between 0 and 100.",
+        "explanation": "A range check is used to ensure the input value is within a specified range.",
+        "exam_question_id": "4b8a15e0-db93-4f3f-9652-0ba6a290f9ff:2",
+        "topic_label": "Data-capture forms (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Data-capture forms (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A school uses a spreadsheet to record students' scores in a math test. The scores are recorded in a cell with a validation check to ensure they are between 0 and 100.",
+        "question": "Explain why a score of 105 would be rejected by the validation check.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identifies the range check",
+          "Explains why the score is out of range",
+          "States the boundary values clearly"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why a score of 105 would be rejected by the validation check — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the check; the boundary values clearly."
+        ],
+        "model_answer": "A score of 105 would be rejected by the validation check because it is outside the allowed range of 0 to 100. The upper limit of the range is 100, and 105 is greater than this value.",
+        "explanation": "Explain that the score is rejected because it is above the maximum allowable value.",
+        "exam_question_id": "4b8a15e0-db93-4f3f-9652-0ba6a290f9ff:2",
+        "topic_label": "Data-capture forms (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Data-capture forms (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following Python program that adds two numbers. The program contains a sub-program called 'addition' that reads two numbers from the user and returns their sum. The main program then calls this sub-program and prints the result.",
+        "question": "Calculate the output of the program if the user inputs 3 and 5.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the sub-program and its purpose.",
+          "Correctly determine the output based on the given inputs."
+        ],
+        "hints": [
+          "Identify the lines of code that read the inputs and perform the addition."
+        ],
+        "model_answer": "The output of the program will be 'The numbers added together total 8'. The numbers entered by the user are 3 and 5, and the addition function adds these numbers together and returns 8. The main program then prints this result.",
+        "explanation": "To find the output, first recognise that the sub-program 'addition' reads two numbers and adds them. Then, use the given inputs (3 and 5) to perform the calculation. The result is then printed by the main program.",
+        "exam_question_id": "4e2c9c54-7f2c-4627-90e1-d536bd907862:1",
+        "topic_label": "Testing conditions: Developing games",
+        "topic_id": 393,
+        "image_url": "/textbook-images/textbook-bank/30/p112-f0.jpg",
+        "image_alt": "A Python program listing with a comment '#Sub-program' above a function definition 'def addition():'. Inside the function, number1 and number2 are each read with int(input(...)) using the prompts \"Enter a number: \" and \"Enter another number: \", then answer = number1 + number2 and return answer. Below is a comment '#Main program', then result = addition() and print(\"The numbers added together total\",result).\nLabels: #Sub-program, def addition():, number1 = int(input(\"Enter a number: \")), number2 = int(input(\"Enter another number: \")), answer = number1 + number2, return answer, #Main program, re",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Testing conditions: Developing games"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following Python program that adds two numbers. The program contains a sub-program called 'addition' that reads two numbers from the user and returns their sum. The main program then calls this sub-program and prints the result.",
+        "question": "State which line in the program contains an error if the user inputs 'five' instead of a number.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the lines of code that read the inputs.",
+          "Explain why these lines can cause an error with non-numeric input."
+        ],
+        "hints": [
+          "Look at the lines of code where the program reads inputs from the user."
+        ],
+        "model_answer": "Lines 3 and 4 contain the error. These lines use the int() function to convert the user input to an integer. If the input is 'five', which is not a number, it will cause a ValueError.",
+        "explanation": "Lines 3 and 4 are responsible for reading the user inputs and converting them to integers. If the input is not a number (e.g., 'five'), the int() function will fail, causing a ValueError.",
+        "exam_question_id": "4e2c9c54-7f2c-4627-90e1-d536bd907862:1",
+        "topic_label": "Testing conditions: Developing games",
+        "topic_id": 393,
+        "image_url": "/textbook-images/textbook-bank/30/p112-f0.jpg",
+        "image_alt": "A Python program listing with a comment '#Sub-program' above a function definition 'def addition():'. Inside the function, number1 and number2 are each read with int(input(...)) using the prompts \"Enter a number: \" and \"Enter another number: \", then answer = number1 + number2 and return answer. Below is a comment '#Main program', then result = addition() and print(\"The numbers added together total\",result).\nLabels: #Sub-program, def addition():, number1 = int(input(\"Enter a number: \")), number2 = int(input(\"Enter another number: \")), answer = number1 + number2, return answer, #Main program, re",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Testing conditions: Developing games"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable 'score'. The following code snippet is used to update the score when a puzzle is solved:",
+        "question": "What will be the output if the variable 'points_earned' is set to 10? Assume the initial value of 'score' is 0.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct output value",
+          "Explanation of how the output was calculated"
+        ],
+        "hints": [
+          "Structure your answer around both demands: What will be the output if the variable 'points_earned' is set to 10; then Assume the initial value of 'score' is 0. Make sure you also cover: Correct output value."
+        ],
+        "model_answer": "The output will be 10. Explanation: The initial score is 0. After adding the points_earned (10), the new score becomes 0 + 10 = 10.",
+        "explanation": "To find the output, add the value of points_earned to the initial score.",
+        "exam_question_id": "cdd909a0-3133-462e-8dc8-1bfe1b9c27fe:1",
+        "topic_label": "Selection (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Selection (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable 'score'. The following code snippet is used to update the score when a puzzle is solved:",
+        "question": "If the variable 'points_earned' is set to 25, what will be the value of 'score' after the code snippet is executed? Assume the initial value of'score' is 0.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct value of 'score'",
+          "Explanation of how the value was calculated"
+        ],
+        "hints": [
+          "Re-read the code snippet and consider the effect of the addition operation."
+        ],
+        "model_answer": "The value of 'score' will be 25. Explanation: The initial score is 0. After adding the points_earned (25), the new score becomes 0 + 25 = 25.",
+        "explanation": "To find the new value of 'score', add the value of points_earned to the initial score.",
+        "exam_question_id": "cdd909a0-3133-462e-8dc8-1bfe1b9c27fe:1",
+        "topic_label": "Selection (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Selection (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable 'score'. The following code snippet is used to update the score when a puzzle is solved:",
+        "question": "If the variable 'points_earned' is set to -5, what will be the value of 'score' after the code snippet is executed? Assume the initial value of'score' is 0.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct value of'score'",
+          "Explanation of how the value was calculated"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "The value of'score' will be -5. Explanation: The initial score is 0. After adding the points_earned (-5), the new score becomes 0 + (-5) = -5.",
+        "explanation": "To find the new value of'score', add the value of points_earned to the initial score, even if it is a negative number.",
+        "exam_question_id": "cdd909a0-3133-462e-8dc8-1bfe1b9c27fe:1",
+        "topic_label": "Selection (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Selection (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable'score'. The following code snippet is used to update the score when a puzzle is solved:",
+        "question": "If the variable 'points_earned' is set to 5, what will be the output if the initial value of 'score' is 15?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct output value",
+          "Explanation of how the output was calculated"
+        ],
+        "hints": [
+          "Stay focused on this: If the variable 'points_earned' is set to 5, what will be the output if the initial value of 'score' is 15 — develop the idea fully rather than listing short points. Make sure you also cover: Correct output value."
+        ],
+        "model_answer": "The output will be 20. Explanation: The initial score is 15. After adding the points_earned (5), the new score becomes 15 + 5 = 20.",
+        "explanation": "To find the output, add the value of points_earned to the initial score.",
+        "exam_question_id": "cdd909a0-3133-462e-8dc8-1bfe1b9c27fe:2",
+        "topic_label": "Selection (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Selection (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable'score'. The following code snippet is used to update the score when a puzzle is solved:",
+        "question": "If the variable 'points_earned' is set to 7, what will be the value of 'score' after the code snippet is executed? Assume the initial value of'score' is 20.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct value of 'score'",
+          "Explanation of how the value was calculated"
+        ],
+        "hints": [
+          "Re-read the code snippet and consider the effect of the addition operation."
+        ],
+        "model_answer": "The value of'score' will be 27. Explanation: The initial score is 20. After adding the points_earned (7), the new score becomes 20 + 7 = 27.",
+        "explanation": "To find the new value of'score', add the value of points_earned to the initial score.",
+        "exam_question_id": "cdd909a0-3133-462e-8dc8-1bfe1b9c27fe:2",
+        "topic_label": "Selection (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Selection (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable'score'. The following code snippet is used to update the score when a puzzle is solved:",
+        "question": "If the variable 'points_earned' is set to -3, what will be the value of 'score' after the code snippet is executed? Assume the initial value of'score' is 10.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct value of'score'",
+          "Explanation of how the value was calculated"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "The value of'score' will be 7. Explanation: The initial score is 10. After adding the points_earned (-3), the new score becomes 10 + (-3) = 7.",
+        "explanation": "To find the new value of 'score', add the value of points_earned to the initial score, even if it is a negative number.",
+        "exam_question_id": "cdd909a0-3133-462e-8dc8-1bfe1b9c27fe:2",
+        "topic_label": "Selection (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Selection (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following short snippet of a game code in Python. The game asks the player to guess a hidden number between 1 and 5. If the player guesses correctly, they gain a point. If they guess incorrectly, the game tells them whether their guess was too high or too low. The game code is as follows:\n\n```python\nhidden_number = 3\nguess = int(input('Guess a number between 1 and 5: '))\nif guess == hidden_number:\n    score = 1\n    print('Correct! Your score is:', score)\nelif guess > hidden_number:\n    print('Too high! Try again.')\nelse:\n    print('Too low! Try again.')\n```",
+        "question": "What will the output be if the player guesses the number 3?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the output message about the score.",
+          "Recognises the correct print statement for a correct guess."
+        ],
+        "hints": [
+          "Stay focused on this: What will the output be if the player guesses the number 3 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the output about the; Recognises the print statement for a."
+        ],
+        "model_answer": "The output will be: 'Correct! Your score is: 1'. The code checks if the guess is equal to the hidden number and, if so, increments the score and prints the score message.",
+        "explanation": "When the player guesses the number 3, the condition `guess == hidden_number` is true, so the code inside the `if` block executes. It sets the score to 1 and prints 'Correct! Your score is: 1'.",
+        "exam_question_id": "d81c9a53-45dd-467d-84e1-bf770f30d47f:1",
+        "topic_label": "Game development (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Game development (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following short snippet of a game code in Python. The game asks the player to guess a hidden number between 1 and 5. If the player guesses correctly, they gain a point. If they guess incorrectly, the game tells them whether their guess was too high or too low. The game code is as follows:\n\n```python\nhidden_number = 3\nguess = int(input('Guess a number between 1 and 5: '))\nif guess == hidden_number:\n    score = 1\n    print('Correct! Your score is:', score)\nelif guess > hidden_number:\n    print('Too high! Try again.')\nelse:\n    print('Too low! Try again.')\n```",
+        "question": "What value does the variable `score` hold after the player guesses the number 2?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the condition that is not met for a correct guess.",
+          "Recognises that the score variable is not updated."
+        ],
+        "hints": [
+          "Check the conditions for a correct guess and the associated actions."
+        ],
+        "model_answer": "The variable `score` holds the value 0 after the player guesses the number 2. The code does not update the score because the guess is not equal to the hidden number, and the else condition is not met for an incorrect guess.",
+        "explanation": "When the player guesses the number 2, the condition `guess == hidden_number` is false, and the condition `guess > hidden_number` is also false, so the `else` block executes. The score is not updated, so it remains at its initial value of 0.",
+        "exam_question_id": "d81c9a53-45dd-467d-84e1-bf770f30d47f:1",
+        "topic_label": "Game development (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Game development (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable'score'. The following code snippet is used to update the score when a puzzle is solved: \n\n```python\nscore = 0\npoints_earned = 10\nscore += points_earned\n```",
+        "question": "If the variable 'points_earned' is set to 5, what will be the output if the initial value of 'score' is 15?",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial value of 'score' (15)",
+          "Identify the value of 'points_earned' (5)",
+          "Calculate the new value of 'score' by adding 'points_earned' to the initial value"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The initial value of'score' is 15. The value of 'points_earned' is 5. The new value of'score' is 15 + 5 = 20.",
+        "explanation": "Add the value of 'points_earned' to the initial value of 'score' to find the new score.",
+        "exam_question_id": "e9db5aaf-155b-4454-a9e2-78a0bdef2ee5:1",
+        "topic_label": "Sequencing (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Sequencing (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable'score'. The following code snippet is used to update the score when a puzzle is solved: \n\n```python\nscore = 0\npoints_earned = 10\nscore += points_earned\n```",
+        "question": "If the variable 'points_earned' is set to 7, what will be the value of'score' after the code snippet is executed?",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial value of'score' (0)",
+          "Identify the value of 'points_earned' (7)",
+          "Calculate the new value of'score' by adding 'points_earned' to the initial value"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The initial value of'score' is 0. The value of 'points_earned' is 7. The new value of'score' is 0 + 7 = 7.",
+        "explanation": "Add the value of 'points_earned' to the initial value of'score' to find the new score.",
+        "exam_question_id": "e9db5aaf-155b-4454-a9e2-78a0bdef2ee5:1",
+        "topic_label": "Sequencing (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Sequencing (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "In a text-based adventure game, players can collect points by solving puzzles. The game records the player's score in the variable'score'. The following code snippet is used to update the score when a puzzle is solved: \n\n```python\nscore = 0\npoints_earned = 10\nscore += points_earned\n```",
+        "question": "If the variable 'points_earned' is set to -3, what will be the value of 'score' after the code snippet is executed?",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial value of'score' (0)",
+          "Identify the value of 'points_earned' (-3)",
+          "Calculate the new value of'score' by adding 'points_earned' to the initial value"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The initial value of'score' is 0. The value of 'points_earned' is -3. The new value of'score' is 0 + (-3) = -3.",
+        "explanation": "Add the value of 'points_earned' to the initial value of'score' to find the new score.",
+        "exam_question_id": "e9db5aaf-155b-4454-a9e2-78a0bdef2ee5:1",
+        "topic_label": "Sequencing (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Sequencing (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A school spreadsheet records a student's participation in extracurricular activities. The participation is marked as 'Yes' or 'No' in cell C3. A formula in cell D3 calculates the total participation by adding the values in cells C3 to C10.",
+        "question": "If the value in cell C3 is 'Yes' and the values in cells C4 to C10 are all 'No', what will be the value in cell D3 if each 'Yes' is counted as 1 and each 'No' is counted as 0?",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula in cell D3.",
+          "Calculate the total based on the given values.",
+          "Provide the final value in cell D3."
+        ],
+        "hints": [
+          "Stay focused on this: If the value in cell C3 is 'Yes' and the values in cells C4 to C10 are all 'No', what will be the value in cell D3 if each 'Yes' is counted as 1 and each 'No' is counted as 0 — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the total based on the…."
+        ],
+        "model_answer": "The value in cell D3 will be 1. The formula in cell D3 adds the values in cells C3 to C10, so 1 (for 'Yes' in C3) + 0 (for 'No' in C4) + 0 (for 'No' in C5) + 0 (for 'No' in C6) + 0 (for 'No' in C7) + 0 (for 'No' in C8) + 0 (for 'No' in C9) + 0 (for 'No' in C10) = 1.",
+        "explanation": "The formula in cell D3 sums up the values in cells C3 to C10, treating 'Yes' as 1 and 'No' as 0.",
+        "exam_question_id": "52263e51-4bc3-4990-bdc2-cf1ebe713d93:2",
+        "topic_label": "What-if analysis (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "What-if analysis (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A school spreadsheet records a student's participation in extracurricular activities. The participation is marked as 'Yes' or 'No' in cell C3. A formula in cell D3 calculates the total participation by adding the values in cells C3 to C10.",
+        "question": "What formula should be used in cell D3 to calculate the total participation?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct formula.",
+          "Explain why this formula is used."
+        ],
+        "hints": [
+          "Consider the SUM function and the range of cells."
+        ],
+        "model_answer": "The formula in cell D3 should be =SUM(C3:C10). This formula adds the values in cells C3 to C10, treating 'Yes' as 1 and 'No' as 0.",
+        "explanation": "The SUM function adds up the numerical values in the specified range, which in this case are the participation counts.",
+        "exam_question_id": "52263e51-4bc3-4990-bdc2-cf1ebe713d93:2",
+        "topic_label": "What-if analysis (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "What-if analysis (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A fitness centre tracks the number of members who attended each workout session in a week. The number of attendees is recorded in cells B2 to B8. A formula in cell B9 calculates the average number of attendees per session.",
+        "question": "If the number of attendees in cells B2 to B8 are 30, 35, 40, 45, 50, 55, and 60, what will be the value in cell B9?",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula in cell B9.",
+          "Calculate the average based on the given values.",
+          "Provide the final value in cell B9."
+        ],
+        "hints": [
+          "Use the AVERAGE function on the range B2 to B8."
+        ],
+        "model_answer": "The value in cell B9 will be 45. The formula in cell B9 calculates the average of the values in cells B2 to B8: (30 + 35 + 40 + 45 + 50 + 55 + 60) / 7 = 315 / 7 = 45.",
+        "explanation": "The AVERAGE function calculates the mean of the numbers in the specified range, providing the average number of attendees per session.",
+        "exam_question_id": "52263e51-4bc3-4990-bdc2-cf1ebe713d93:3",
+        "topic_label": "What-if analysis (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "What-if analysis (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A fitness centre tracks the number of members who attended each workout session in a week. The number of attendees is recorded in cells B2 to B8. A formula in cell B9 calculates the average number of attendees per session.",
+        "question": "What formula should be used in cell B9 to calculate the average number of attendees per session?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct formula.",
+          "Explain why this formula is used."
+        ],
+        "hints": [
+          "Stay focused on this: What formula should be used in cell B9 to calculate the average number of attendees per session — develop the idea fully rather than listing short points. Make sure you also cover: Identify the correct formula."
+        ],
+        "model_answer": "The formula in cell B9 should be =AVERAGE(B2:B8). This formula calculates the average of the values in cells B2 to B8.",
+        "explanation": "The AVERAGE function computes the mean of the numerical values in the specified range, giving the average number of attendees per session.",
+        "exam_question_id": "52263e51-4bc3-4990-bdc2-cf1ebe713d93:3",
+        "topic_label": "What-if analysis (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "What-if analysis (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A local bakery uses a spreadsheet to track the daily sales of five different types of cakes. The total sales for each cake type are recorded in cells B2 to B6. The bakery owner wants to calculate the total sales for all cake types combined, which is recorded in cell B7. The formula in cell B7 is set to =SUM(B2:B6).",
+        "question": "Calculate the value in cell B7 if the sales figures for cakes in cells B2 to B6 are 10, 15, 20, 25, and 30 respectively.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of total sales",
+          "Correct use of the SUM formula"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the value in cell B7 if the sales figures for cakes in cells B2 to B6 are 10, 15, 20, 25, and 30 respectively — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of total sales; Correct use of the SUM formula."
+        ],
+        "model_answer": "The value in cell B7 is calculated by adding the sales figures from cells B2 to B6: 10 + 15 + 20 + 25 + 30 = 100.",
+        "explanation": "To find the total sales, you need to sum up the sales figures for each cake type listed in cells B2 to B6.",
+        "exam_question_id": "6b7980b4-6230-4664-a9c1-614ed7f8f88a:1",
+        "topic_label": "Linking data elements with formulae (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Linking data elements with formulae (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A local bakery uses a spreadsheet to track the daily sales of five different types of cakes. The total sales for each cake type are recorded in cells B2 to B6. The bakery owner wants to calculate the total sales for all cake types combined, which is recorded in cell B7. The formula in cell B7 is set to =SUM(B2:B6).",
+        "question": "What value will be displayed in cell B7 if the sales figure for the cake type in cell B4 is changed to 5?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct recalculation of total sales with updated value",
+          "Correct understanding of the SUM formula"
+        ],
+        "hints": [
+          "Stay focused on this: What value will be displayed in cell B7 if the sales figure for the cake type in cell B4 is changed to 5 — develop the idea fully rather than listing short points. Make sure you also cover: Correct recalculation of total sales with updated value; Correct understanding of the SUM formula."
+        ],
+        "model_answer": "The new value in cell B7 will be calculated by adding the sales figures from cells B2, B3, B4 (now 5), B5, and B6: 10 + 15 + 5 + 25 + 30 = 85.",
+        "explanation": "When the value in cell B4 is changed, the total sales in cell B7 will update to reflect this new value.",
+        "exam_question_id": "6b7980b4-6230-4664-a9c1-614ed7f8f88a:1",
+        "topic_label": "Linking data elements with formulae (Data input: Data collection and validation)",
+        "topic_id": 394,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Linking data elements with formulae (Data input: Data collection and validation)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following short snippet of a game code in Python. The game asks the player to guess a hidden number between 1 and 5. If the player guesses correctly, they gain a point. If they guess incorrectly, the game tells them to try again. Initially, the score is set to 0.",
+        "question": "What will the output be if the player guesses the number 3?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the condition that checks if the guess is correct.",
+          "Explain the output if the condition is met."
+        ],
+        "hints": [
+          "Stay focused on this: What will the output be if the player guesses the number 3 — develop the idea fully rather than listing short points. Make sure you also cover: Identify the that if the is."
+        ],
+        "model_answer": "The output will be 'Correct! You gained a point.'. The code checks if the guess is equal to the hidden number, which is 3 in this case. If the condition is true, the player is told they guessed correctly and their score is incremented by 1.",
+        "explanation": "The correct output is determined by the if statement that checks if the player's guess matches the hidden number. If the guess is correct, the player is informed of this and their score is updated.",
+        "exam_question_id": "cd59791a-8d3d-40b6-b7a9-09cf8532e0e1:1",
+        "topic_label": "Problem decomposition (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Problem decomposition (Testing conditions: Developing games)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following short snippet of a game code in Python. The game asks the player to guess a hidden number between 1 and 5. If the player guesses correctly, they gain a point. If they guess incorrectly, the game tells them to try again. Initially, the score is set to 0.",
+        "question": "What value does the variable `score` hold after the player guesses the number 2?",
+        "marks": 2,
+        "marking_criteria": [
+          "Determine the initial value of `score`.",
+          "Explain the change in `score` value after the player's guess."
+        ],
+        "hints": [
+          "Stay focused on this: What value does the variable `score` hold after the player guesses the number 2 — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The value of `score` remains 0. The player guessed incorrectly, so there is no increment to the score. The initial value of `score` was 0, and since the guess was not correct, it stays at 0.",
+        "explanation": "The variable `score` is initialised to 0. The player's guess of 2 is incorrect, so the score does not change from its initial value.",
+        "exam_question_id": "cd59791a-8d3d-40b6-b7a9-09cf8532e0e1:1",
+        "topic_label": "Problem decomposition (Testing conditions: Developing games)",
+        "topic_id": 393,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Computing 8 Students Book",
+          "area": "Problem decomposition (Testing conditions: Developing games)"
+        }
+      }
+    ],
+    "estimated_time": 52,
+    "assessment_id": "0c10c2fc-0838-402d-8032-ee4b5c97516e",
+    "subject": "Cambridge Lower Secondary Computing 8 Students Book ",
+    "topics": [
+      "Testing conditions: Developing games",
+      "Data input: Data collection and validation"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 30,
+    "topic_ids": [
+      393,
+      394
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 23,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 12"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 75
+}

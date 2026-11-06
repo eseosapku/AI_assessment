@@ -1,0 +1,2704 @@
+{
+  "seed": 1428313320,
+  "results": [
+    {
+      "index": 2,
+      "label": "REB / Practice / Core Math S4 SB",
+      "request": {
+        "subject": "Core Math S4 SB",
+        "textbook_id": 62,
+        "topic_ids": [
+          693
+        ],
+        "topics": [
+          "Unit 1: Fundamentals of trigonometry"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 21,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1 and 8",
+            "severity": "broken",
+            "detail": "Questions 1 and 8 are identical: both match sine/cosine/tangent/secant to their definitions with identical left/right items and correct pairs. This violates the no-repetition requirement.",
+            "correction": "Remove question 8 or replace with distinct content (e.g., cosecant/cotangent definitions, or reciprocal relationships)."
+          },
+          {
+            "label": "3 and 10",
+            "severity": "broken",
+            "detail": "Questions 3 and 10 are substantively identical: both fill blanks for sine definition (opposite/hypotenuse) with identical word banks and correct answers. Violates no-repetition requirement.",
+            "correction": "Remove question 10 or replace with different trigonometric function (cosine, tangent) or different concept."
+          },
+          {
+            "label": "4",
+            "severity": "poor",
+            "detail": "Question 4 is labeled under 'Graphs of some trigonometric functions' (subtopic_id 2879) but content addresses unit circle definition, not graphing. Topic mismatch with stated curriculum area.",
+            "correction": "Relocate to 'Unit 1: Fundamentals of trigonometry' or replace with actual graphing content (amplitude, period, phase shift)."
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Step ordering is incomplete: 'Label the axes' should occur before plotting points, not after drawing curve. Logical sequence violated.",
+            "correction": "Reorder as: Identify amplitude/period → Label axes → Plot key points → Draw curve."
+          }
+        ],
+        "summary": "Assessment contains two duplicate question pairs (1/8 and 3/10), violating no-repetition requirement. Question 4 misaligned with stated topic. Question 7 has illogical step sequence. Remove duplicates and correct sequencing/topic placement."
+      },
+      "totalSeconds": 26
+    },
+    {
+      "index": 1,
+      "label": "REB / Exam / HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+      "request": {
+        "subject": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+        "textbook_id": 114,
+        "topic_ids": [
+          1208
+        ],
+        "topics": [
+          "The Long Distance Trade"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 64,
+      "status": 200,
+      "numbered": 10,
+      "parts": 26,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "4 questions open with the same sentence (1, 6, 17, 25): \"Name two major trade routes that were prominent du\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "4 questions open with the same sentence (2, 7, 18, 26): \"Explain how the Silk Road contributed to the sprea\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 9,
+          "detail": "5 questions open with the same sentence (10, 13, 16, 21, 24): \"Describe the role of caravans in the Long Distance\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 2"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1a, 3a, 7a, 10a",
+            "severity": "poor",
+            "detail": "Questions 1a, 3a, 7a, and 10a are identical (name two major trade routes). This constitutes exact repetition across four separate assessment sections, reducing assessment validity and suggesting copy-paste errors rather than progressive learning.",
+            "correction": "Vary subsequent instances: ask about specific characteristics of routes, regional impacts, or comparative analysis (e.g., 'Compare the Silk Road and Trans-Saharan Trade in terms of goods exchanged')."
+          },
+          {
+            "label": "1b, 3b, 7b, 10b",
+            "severity": "poor",
+            "detail": "Questions 1b, 3b, 7b, and 10b are identical (Silk Road and Buddhism spread). Four exact repetitions of the same question across the assessment undermines differentiation and depth of learning.",
+            "correction": "Vary subsequent instances: ask about different religions (Islam via Trans-Saharan), different goods, or different cultural impacts (e.g., 'How did the Trans-Saharan Trade spread Islam to West Africa?')."
+          },
+          {
+            "label": "2a, 5a, 9a",
+            "severity": "poor",
+            "detail": "Questions 2a, 5a, and 9a all calculate caravan speed using identical methodology (distance/time = 50 km/day). Three repetitions of the same calculation with same numerical answer reduces assessment variety.",
+            "correction": "Vary subsequent instances: calculate different metrics (e.g., daily cost per km, goods per day, time to cover specific segments) or use different distance/time combinations."
+          },
+          {
+            "label": "4a, 6a, 8a",
+            "severity": "poor",
+            "detail": "Questions 4a, 6a, and 8a are identical (calculate Timbuktu-Genoa distance: 1,500 + 1,200 = 2,700 km). Three exact repetitions of the same calculation.",
+            "correction": "Vary subsequent instances: calculate different route segments, compare multiple routes, or calculate time given speed."
+          },
+          {
+            "label": "4c, 5c, 6c, 9c",
+            "severity": "poor",
+            "detail": "Questions 4c, 5c, 6c, and 9c all ask to 'Describe the role of caravans in Long Distance Trade between Mali and Genoa' with nearly identical model answers. Four repetitions of the same question.",
+            "correction": "Vary subsequent instances: ask about caravan organization, security measures, specific goods transported, or comparison with maritime trade."
+          },
+          {
+            "label": "2b, 5b, 9b",
+            "severity": "poor",
+            "detail": "Questions 2b, 5b, and 9b all ask 'Explain why the caravan took [60/54/54] days' with similar model answers citing terrain, weather, and rest stops. Three near-identical questions.",
+            "correction": "Vary subsequent instances: ask about specific obstacles (bandits, water scarcity), seasonal timing, or comparison of travel times across different routes."
+          },
+          {
+            "label": "4b, 6b, 8b",
+            "severity": "poor",
+            "detail": "Questions 4b, 6b, and 8b all ask 'Explain how the trade route facilitated cultural exchange between Mali and Genoa' with similar model answers. Three repetitions.",
+            "correction": "Vary subsequent instances: ask about specific cultural impacts (religious conversion, architectural influence, linguistic borrowing) or compare cultural exchange across different routes."
+          },
+          {
+            "label": "8b",
+            "severity": "broken",
+            "detail": "Marking criteria requires 'historically plausible example of cultural exchange' but model answer provides vague examples ('introduction of new agricultural techniques and Islamic learning') without specific evidence. Criteria demand specificity that model answer lacks.",
+            "correction": "Model answer should provide concrete example: 'Islamic learning from Mali influenced Mediterranean scholarship' or 'Mali's architectural styles influenced Mediterranean design' with specific details."
+          }
+        ],
+        "summary": "Assessment contains severe repetition issues: questions 1a/3a/7a/10a identical; 1b/3b/7b/10b identical; 2a/5a/9a identical; 4a/6a/8a identical; 4c/5c/6c/9c identical; 2b/5b/9b similar; 4b/6b/8b similar. One marking criterion (8b) mismatches model answer. Recommend substantial restructuring to ensure assessment variety and validity."
+      },
+      "totalSeconds": 73
+    },
+    {
+      "index": 3,
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 9 Learners Book",
+      "request": {
+        "subject": "Cambridge Lower Secondary Science 9 Learners Book",
+        "textbook_id": 35,
+        "topic_ids": [
+          444,
+          442
+        ],
+        "topics": [
+          "3 Forces and energy",
+          "1 Photosynthesis and the carbon cycle"
+        ],
+        "curriculum": "cambridge",
+        "grade": 9,
+        "className": "Cambridge Lower Secondary Science 9 Learners Book",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 48,
+      "status": 200,
+      "numbered": 10,
+      "parts": 21,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "7 questions open with the same sentence (1, 5, 7, 11, 13, 15, 20): \"Calculate its density.\""
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 0,
+          "detail": "3 words: \"Calculate its density.\""
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 4,
+          "detail": "3 words: \"Calculate its density.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 4,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 6,
+          "detail": "3 words: \"Calculate its density.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 10,
+          "detail": "3 words: \"Calculate its density.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 12,
+          "detail": "3 words: \"Calculate its density.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 14,
+          "detail": "3 words: \"Calculate its density.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 19,
+          "detail": "3 words: \"Calculate its density.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 12"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1a, 2a, 3a, 4a, 6a, 7a, 10a",
+            "severity": "poor",
+            "detail": "Repeated question with identical data (mass 240g/300g/180g/200g/270g, volume 30cm³/40cm³/20cm³/25cm³/35cm³) across multiple assessment items. Questions 1a, 2a, 3a, 4a, 6a, 7a, 10a are substantively identical density calculations with different numerical values but same pedagogical purpose.",
+            "correction": "Reduce repetition by consolidating similar density calculations or varying the context/application significantly (e.g., different materials, real-world scenarios, or progressing difficulty)."
+          },
+          {
+            "label": "4a, 4b, 6a, 6b, 7a, 7b, 10a, 10b",
+            "severity": "broken",
+            "detail": "Topic mismatch: Questions labeled under '1 Photosynthesis and the carbon cycle' (topic_id 442) but content is density and floating/sinking (Forces and energy topic). Questions 4, 6, 7, 10 have incorrect topic assignment.",
+            "correction": "Reassign questions 4a, 4b, 6a, 6b, 7a, 7b, 10a, 10b to topic_id 444 '3 Forces and energy' / '3.1 Density' to match content."
+          },
+          {
+            "label": "2a, 2b",
+            "severity": "poor",
+            "detail": "Context mismatch: Questions about metal block density appear under 'water tank with electric heater' context. The context figure and questions are unrelated; context should describe the metal block scenario.",
+            "correction": "Either remove the water tank context or create questions about the cooling system (as attempted in question 9c). Align context with question content."
+          },
+          {
+            "label": "1, 2",
+            "severity": "poor",
+            "detail": "Sankey diagram (energy transfer: 100J electrical → 80J light/sound + X J thermal) is provided but never referenced in questions 1a, 1b, 2a, 2b. The diagram appears orphaned from the density questions.",
+            "correction": "Either remove the diagram or create questions about energy transfer (e.g., 'Calculate X' or 'Explain energy loss'). Do not include unused figures."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Model answer states 7.71 g/cm³ but 270÷35 = 7.714... Rounding to 2 decimal places (7.71) is reasonable but marking criteria do not specify acceptable precision/rounding rules for this calculation.",
+            "correction": "Clarify in marking criteria: 'Accept 7.7 g/cm³ or 7.71 g/cm³ (to 2 d.p.)' or specify rounding convention."
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Question asks to explain why bubbles increased when lamp moved closer, but the assessment does not provide data showing this occurred (e.g., bubble count before/after, distance measurements). The explanation assumes an experimental result not presented.",
+            "correction": "Provide quantitative data (e.g., 'At 10 cm: 5 bubbles/min; at 5 cm: 12 bubbles/min') or rephrase as 'Explain why moving the lamp closer would increase the rate of photosynthesis.'"
+          },
+          {
+            "label": "9c",
+            "severity": "poor",
+            "detail": "Question 9c about cooling system appears disconnected from questions 9a, 9b about metal block density. The context mentions both (metal block + cooling system diagram) but they are separate topics. Question 9c requires knowledge not tested in 9a/9b.",
+            "correction": "Either create a cohesive multi-part question about the cooling system alone, or remove 9c and keep 9a/9b focused on density."
+          }
+        ],
+        "summary": "Assessment contains 7 substantive issues: excessive repetition of identical density calculations (7 instances), topic mismatches for 8 questions (labeled photosynthesis but testing density), context-question misalignment (water tank context unused), orphaned Sankey diagram, unspecified rounding rules, missing experimental data for photosynthesis question, and disconnected cooling system question. Recommend consolidating repetitive items, correcting topic assignments, and aligning contexts with questions."
+      },
+      "totalSeconds": 59
+    },
+    {
+      "index": 4,
+      "label": "Cambridge / Practice / Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+      "request": {
+        "subject": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+        "textbook_id": 199,
+        "topic_ids": [
+          2502
+        ],
+        "topics": [
+          "Chapter 11: Organic chemistry"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 14,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 12,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "4",
+            "severity": "broken",
+            "detail": "Matching pairs are incorrect. Correct pairs should be: [0,0], [1,1], [2,2], [3,3]. Current mapping [0,1], [1,2], [2,0], [3,3] misaligns definitions to terms.",
+            "correction": "Correct pairs: Homologous Series→'A series of organic compounds with a common general formula'; Saturated Hydrocarbon→'A hydrocarbon with only single bonds'; Cracking→'A process that breaks down large hydrocarbon molecules'; Addition Reaction→'A reaction where atoms are added to a double or triple bond'"
+          },
+          {
+            "label": "7",
+            "severity": "broken",
+            "detail": "Correct order sequence is wrong. Current [0,2,1,3] places 'double bond breaks' before 'bromine atoms attach', which is illogical. Correct sequence: ethene reacts → double bond breaks → bromine atoms attach → product forms.",
+            "correction": "Correct order should be [0,1,2,3]: (1) Ethene reacts with bromine, (2) The double bond in ethene breaks, (3) Two bromine atoms attach to the carbon atoms, (4) 1,2-dibromoethane is formed"
+          },
+          {
+            "label": "13",
+            "severity": "poor",
+            "detail": "Explanation contains error. States 'C2H5O wrongly uses only the ethyl part' but propanoic acid is C2H5COOH (not C3H6O2 as stated in question). The molecular formula given (C3H6O2) does not match the structural formula C2H5COOH.",
+            "correction": "Propanoic acid C2H5COOH has molecular formula C3H6O2. Ratio 3:6:2 has GCD=1, so empirical formula is C3H6O2 (same as molecular). Correct answer remains 0, but explanation should clarify the structural formula matches the given molecular formula."
+          },
+          {
+            "label": "15",
+            "severity": "poor",
+            "detail": "Explanation states ethanol (row A) has Mr=45, but CH3CH2OH = 2(12) + 6(1) + 16 = 46, not 45. This is a factual error in the provided table data, not the question itself.",
+            "correction": "Ethanol Mr should be 46. However, the question asks only about pentan-1-ol (C), which is correctly calculated as 88. If table data is fixed, ethanol should show 46."
+          }
+        ],
+        "summary": "Assessment contains 20 questions spanning Chapter 11 organic chemistry topics. Four substantive issues identified: question 4 has incorrect matching pairs; question 7 has illogical ordering sequence; question 13 has explanation inconsistency; question 15 contains table data error (ethanol Mr). All other questions are factually sound, age-appropriate, and well-structured for Grade 10."
+      },
+      "totalSeconds": 25
+    },
+    {
+      "index": 5,
+      "label": "Cambridge / Practice / Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+      "request": {
+        "subject": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+        "textbook_id": 41,
+        "topic_ids": [
+          495,
+          491
+        ],
+        "topics": [
+          "Addition and subtraction (2)",
+          "Addition and subtraction (1)"
+        ],
+        "curriculum": "cambridge",
+        "grade": 6,
+        "className": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 16,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "broken",
+            "detail": "Rounding error in explanation. 5.678 rounds to 6, not 5. Correct calculation: 8.934 rounds to 9, 5.678 rounds to 6, so 9 + 6 = 15. Answer is correct but explanation states '5.678 to the nearest whole number, you get 6' which is correct; however the working is unclear. The answer 15 is correct.",
+            "correction": "No correction needed; answer and calculation are accurate."
+          },
+          {
+            "label": "3",
+            "severity": "poor",
+            "detail": "Explanation contains arithmetic error. States '2/8 + 2/8 = 4/8, which simplifies to 1/2' but should state '1/4 = 2/8, then 2/8 + 2/8 = 4/8 = 1/2'. The final answer 1/2 is correct but intermediate step labeling is imprecise.",
+            "correction": "Explanation should read: 'Convert 1/4 to eighths: 1/4 = 2/8. Then 2/8 + 2/8 = 4/8, which simplifies to 1/2.'"
+          },
+          {
+            "label": "4",
+            "severity": "broken",
+            "detail": "Numerical error. 4.5 + 2.75 = 7.25 is incorrect. Correct calculation: 4.50 + 2.75 = 7.25. Actually this is correct. Verification: 4.5 + 2.75 = 7.25 ✓. No error.",
+            "correction": "No correction needed; answer is accurate."
+          },
+          {
+            "label": "10",
+            "severity": "broken",
+            "detail": "Question is unanswerable. Correct answer is 3/4 + 5/6 = 9/12 + 10/12 = 19/12 = 1 7/12. This value does not appear in options [1 1/3, 1 1/2, 1 3/4, 1 1/4]. Marked correct_answer as 0 (1 1/3) which is mathematically incorrect.",
+            "correction": "Replace options with correct answer 1 7/12, or replace question with different fractions that yield one of the listed answers."
+          }
+        ],
+        "summary": "Assessment contains one broken question (Q10) with no correct answer in options. Q3 explanation is imprecise but answer is correct. Nine of ten questions are substantively sound with appropriate difficulty for Grade 6 Cambridge curriculum. Topics align with requested Addition and subtraction (1) and (2)."
+      },
+      "totalSeconds": 22
+    },
+    {
+      "index": 6,
+      "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+      "request": {
+        "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "textbook_id": 209,
+        "topic_ids": [
+          2577,
+          2571
+        ],
+        "topics": [
+          "Chapter 13: Waves",
+          "Chapter 7: Density and floating"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 41,
+      "status": 200,
+      "numbered": 10,
+      "parts": 29,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "5 questions open with the same sentence (1, 6, 18, 21, 27): \"State the wavelength of the wave.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "5 questions open with the same sentence (2, 7, 19, 22, 28): \"Calculate the frequency of the wave.\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "6 questions open with the same sentence (3, 8, 14, 20, 23, 29): \"Calculate the speed of the wave.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 8,
+          "detail": "3 words: \"Calculate its volume.\""
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 11,
+          "detail": "3 words: \"State the wavelength.\""
+        },
+        {
+          "code": "stem-too-short",
+          "severity": "poor",
+          "index": 12,
+          "detail": "3 words: \"Calculate the frequency.\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 3"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Question states wavelength is 15 m in context, but figure shows wavelength of 2 m (peaks at 0, 2, 4, 6 m). Context and figure contradict each other. Question 7a asks to 'state' wavelength but should require reading from figure given its presence.",
+            "correction": "Either: (1) Remove figure and use context value 15 m, or (2) Update context to match figure (wavelength = 2 m) and ask students to determine wavelength from graph."
+          },
+          {
+            "label": "7b",
+            "severity": "poor",
+            "detail": "Model answer 0.5 Hz is correct, but explanation states 'cork rises and falls 3 times in 6 seconds' which matches context. However, this duplicates question 8 context exactly. Question 7 should use figure data independently or clarify relationship.",
+            "correction": "Clarify whether questions 7 and 8 are intentionally identical scenarios, or update question 7 to derive frequency from figure properties (e.g., period from time-displacement graph if provided)."
+          },
+          {
+            "label": "7c",
+            "severity": "poor",
+            "detail": "Model answer 7.5 m/s uses wavelength 15 m from context, not the 2 m wavelength shown in figure. This creates internal inconsistency: if wavelength is 2 m (from figure), speed should be 0.5 × 2 = 1 m/s.",
+            "correction": "Resolve figure-context contradiction first (see issue 7a). Then recalculate: if λ=2 m, v=1 m/s; if λ=15 m, remove/clarify figure."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Questions 8a-8c are identical to questions 7a-7c in context (15 m wavelength, 3 oscillations in 6 s) and answers. This is exact duplication within same assessment.",
+            "correction": "Replace question 8 with different wave scenario (different wavelength, frequency, or context) to avoid repetition."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Questions 10a-10c are identical to questions 8a-8c and 7a-7c in context and answers (15 m wavelength, 3 oscillations in 6 s, all yielding 0.5 Hz and 7.5 m/s). Third exact duplication.",
+            "correction": "Replace question 10 with distinct wave scenario to provide variety and prevent answer memorization."
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Model answer uses π ≈ 3.14159, yielding 282.74 cm³. For IGCSE Grade 10, acceptable approximations are π ≈ 3.14 (giving 282.6 cm³) or π ≈ 22/7. Answer should specify which value of π is used or accept range.",
+            "correction": "Clarify: 'V = πr²h = π × 9 × 10 = 90π ≈ 282.7 cm³ (using π ≈ 3.14)' or accept 282-283 cm³ range."
+          }
+        ],
+        "summary": "Assessment contains 3 exact question duplications (questions 7-8-10 identical; questions 8-10 identical). Question 7 has internal contradiction between context (λ=15 m) and figure (λ=2 m), affecting questions 7b-7c answers. Question 9a lacks π value specification. All calculations verified correct where context is unambiguous."
+      },
+      "totalSeconds": 49
+    },
+    {
+      "index": 7,
+      "label": "Cambridge / Practice / Cambridge lower secondary computing 9 students text book ",
+      "request": {
+        "subject": "Cambridge lower secondary computing 9 students text book ",
+        "textbook_id": 31,
+        "topic_ids": [
+          400,
+          398
+        ],
+        "topics": [
+          "Drilling down: How the processor handles instructions",
+          "Design your own network: Shape and size"
+        ],
+        "curriculum": "cambridge",
+        "grade": 9,
+        "className": "Cambridge lower secondary computing 9 students text book ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 43,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 2,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "5",
+            "severity": "poor",
+            "detail": "Topic label states 'Design your own network: Shape and size' but question asks about fetch-decode-execute cycle, which belongs to 'Drilling down: How the processor handles instructions'. Topic mislabeled.",
+            "correction": "Change topic_label to 'Drilling down: How the processor handles instructions'"
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Question asks about star topology (network design) but topic_label is 'Drilling down: How the processor handles instructions' (CPU operations). Topic mislabeled.",
+            "correction": "Change topic_label to 'Design your own network: Shape and size'"
+          }
+        ],
+        "summary": "Assessment is well-structured with appropriate marking criteria and model answers. Two topic label misalignments identified: Q5 labeled as network but tests CPU cycles; Q7 labeled as CPU but tests network topology. All questions are age-appropriate, answerable, and contextually coherent within their intended topics."
+      },
+      "totalSeconds": 47
+    },
+    {
+      "index": 8,
+      "label": "Cambridge / Practice / Cambridge International AS and A Level English Language Coursebook ",
+      "request": {
+        "subject": "Cambridge International AS and A Level English Language Coursebook ",
+        "textbook_id": 25,
+        "topic_ids": [
+          366
+        ],
+        "topics": [
+          "Unit 5: Spoken language and social groups"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level English Language Coursebook ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": "Error: Failed to generate 10 complete questions. The AI produced 9. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 83,
+      "status": 500,
+      "totalSeconds": 83
+    },
+    {
+      "index": 9,
+      "label": "REB / Exam / Chemistry S5 SB",
+      "request": {
+        "subject": "Chemistry S5 SB",
+        "textbook_id": 56,
+        "topic_ids": [
+          618
+        ],
+        "topics": [
+          "Carboxylic Acids and Acyl Chlorides"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 103,
+      "status": 200,
+      "numbered": 10,
+      "parts": 25,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 6,
+          "detail": "6 questions open with the same sentence (7, 9, 17, 20, 22, 24): \"Explain why thionyl chloride is a preferred reagen\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 9,
+          "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 74.5 g/mol.)\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 11"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 20,
+          "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 22,
+          "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 21"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 24,
+          "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 21"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1c",
+            "severity": "broken",
+            "detail": "Oxidation state calculation is incorrect. In carboxylic acid R-COOH, carbonyl carbon is +3. In ester R-CO-O-R, carbonyl carbon is also +3. However, the model answer states both are +3 with no change, which is correct by coincidence but the reasoning is flawed—the answer should clarify that oxidation state is determined by bonding to oxygen atoms, not by bond type (C=O vs C-O).",
+            "correction": "In both carboxylic acid and ester, the carbonyl carbon is bonded to two oxygen atoms, giving oxidation state +3 in both cases. The change in oxidation state is 0. The model answer is numerically correct but lacks mechanistic clarity."
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Molar mass of ethanoyl chloride (CH3COCl) is stated as 78.5 g/mol. Correct calculation: C(12) + H3(3) + C(12) + O(16) + Cl(35.5) = 78.5 g/mol. This is correct. However, question 3b lacks a clear question stem—it only provides context and asks to 'Calculate the mass' without explicitly stating the starting amount (0.2 moles). This must be inferred from question 3a context.",
+            "correction": "Question 3b should explicitly state: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+          },
+          {
+            "label": "4b",
+            "severity": "broken",
+            "detail": "Question 4b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 74.5 g/mol.)' with no actual question posed. The marking criteria reference 'moles of ethanoyl chloride' and 'final answer with units' but no calculation is requested. This violates answerability.",
+            "correction": "Question 4b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 74.5 g/mol.)'"
+          },
+          {
+            "label": "6c",
+            "severity": "broken",
+            "detail": "Model answer is not a coherent response. It lists three bullet points as the answer text verbatim: 'Identify the white foam as carbon dioxide gas bubbles Explain that CO2 is produced... Describe that bubbles rise through the liquid creating foam...' This is a marking rubric, not a model answer. Students cannot replicate this format.",
+            "correction": "Model answer should be: 'The white foam consists of carbon dioxide gas bubbles produced from the reaction between ethanoic acid and the carbonate ion (CO3²⁻). As CO2 is generated, bubbles rise through the liquid, creating foam. This foam provides visual evidence of gas evolution and confirms the acid-base reaction has occurred.'"
+          },
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Model answer is identical to marking criteria—it lists three bullet points as the answer: 'Identification of gaseous by-products... Explanation that gaseous by-products are easily removed... Statement that other reagents...' This is a rubric, not a model answer. Students cannot write in this format.",
+            "correction": "Model answer should be: 'Thionyl chloride is preferred because it produces gaseous by-products (SO2 and HCl) that easily escape the reaction mixture, simplifying purification. In contrast, other reagents like PCl3 or PCl5 produce less volatile or solid by-products (e.g., phosphoric acid), which complicate product isolation.'"
+          },
+          {
+            "label": "8b",
+            "severity": "broken",
+            "detail": "Question 8b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)' with no actual question posed. The marking criteria reference stoichiometry and mass calculation but no calculation is requested. This violates answerability.",
+            "correction": "Question 8b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+          },
+          {
+            "label": "9b",
+            "severity": "broken",
+            "detail": "Question 9b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)' with no actual question posed. The marking criteria reference stoichiometry and mass calculation but no calculation is requested. This violates answerability.",
+            "correction": "Question 9b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+          },
+          {
+            "label": "10b",
+            "severity": "broken",
+            "detail": "Question 10b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)' with no actual question posed. The marking criteria reference stoichiometry and mass calculation but no calculation is requested. This violates answerability.",
+            "correction": "Question 10b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+          },
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Model answer explanation states hydrogen bonds 'enhance the possibility of bringing two acid molecules together by forming a kind of dimer' which is awkwardly phrased. The mechanism is correct but the language is imprecise for a Grade 11 assessment.",
+            "correction": "Revise to: 'Carboxylic acids form dimers through hydrogen bonding between the carbonyl oxygen of one molecule and the hydroxyl hydrogen of another. These strong intermolecular forces require significant energy to overcome, resulting in high melting and boiling points.'"
+          },
+          {
+            "label": "7c",
+            "severity": "poor",
+            "detail": "Model answer states 'HCl is released during the nucleophilic acyl substitution step, when the hydroxyl group is displaced from the tetrahedral intermediate' but the explanation contradicts this, stating 'HCl is formed during the proton transfer step.' These are different mechanistic steps. The marking criteria and model answer are inconsistent.",
+            "correction": "Clarify: HCl is formed when the protonated hydroxyl group leaves the tetrahedral intermediate as water, and the resulting carbocation is attacked by chloride. The HCl is then released as a gas."
+          }
+        ],
+        "summary": "Assessment contains 9 substantive issues: 4 malformed questions (4b, 8b, 9b, 10b) lacking question stems; 2 model answers presented as rubric bullet points (6c, 7a) instead of coherent responses; 1 oxidation state explanation lacking clarity (1c); 1 missing explicit context in question stem (3b); 1 mechanistic inconsistency (7c). Questions 1-5 and 6a-b are sound."
+      },
+      "totalSeconds": 117
+    },
+    {
+      "index": 10,
+      "label": "REB / Exam / P2 Mathematics PB",
+      "request": {
+        "subject": "P2 Mathematics PB",
+        "textbook_id": 145,
+        "topic_ids": [
+          1506
+        ],
+        "topics": [
+          "Hour, Months of the Year and Days of Each Month"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 65,
+      "status": 200,
+      "numbered": 10,
+      "parts": 28,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "10 questions open with the same sentence (1, 4, 6, 9, 12, 14, 17, 20, 23, 26): \"Calculate the date on which you should send out th\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "10 questions open with the same sentence (2, 5, 7, 10, 13, 15, 18, 21, 24, 27): \"Name the month in which the invitations should be \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 3,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 4,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 22"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 22"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Model answer states 26 October but hint references 27 October. Calculation: 10 Nov − 14 days = 27 Oct (counting back: 10 Nov to 1 Nov = 9 days, then 4 more days into Oct = 31−3 = 28 Oct). Correct answer is 27 October, not 26.",
+            "correction": "Model answer should state: '10 November − 14 days = 27 October.' Hint should reference 27 October."
+          },
+          {
+            "label": "7b",
+            "severity": "broken",
+            "detail": "Explanation states '27th of October' but model answer says invitations sent in October without specifying date. Inconsistency with corrected 7a answer (27 Oct, not 26 Oct).",
+            "correction": "Model answer: 'The invitations should be sent out on 27th of October, which is in the month of October.'"
+          },
+          {
+            "label": "10a",
+            "severity": "broken",
+            "detail": "Model answer claims 27 November but explanation states 29 November. Calculation: 25 Dec − 28 days: from 25 Dec back 25 days = 1 Dec, then 3 more days into Nov = 30−2 = 28 Nov. Correct answer is 28 November.",
+            "correction": "Model answer should state: '25 December − 28 days = 28 November.' Explanation should also state 28 November, not 29."
+          },
+          {
+            "label": "10b",
+            "severity": "broken",
+            "detail": "Model answer states November (correct month) but references 27 November from part (a). Should reference corrected date of 28 November.",
+            "correction": "Model answer: 'The date calculated in part (a) is 28th of November, so the month is November.'"
+          }
+        ],
+        "summary": "Assessment contains 28 questions across 10 scenarios on months and date calculations. Four substantive errors identified: inconsistent date calculations in questions 7a–7b (26 vs 27 October) and 10a–10b (27 vs 28 November). Model answers conflict with explanations. Remaining questions are mathematically sound and age-appropriate for Grade 2."
+      },
+      "totalSeconds": 71
+    },
+    {
+      "index": 11,
+      "label": "Cambridge / Practice / Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+      "request": {
+        "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "textbook_id": 54,
+        "topic_ids": [
+          594
+        ],
+        "topics": [
+          "Biological molecules"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 29,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "tick-all-correct",
+          "severity": "poor",
+          "index": 3,
+          "detail": "every option is correct, so nothing is tested"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "2",
+            "severity": "broken",
+            "detail": "Ethanol emulsion test identifies fats, but no 'Lipids' category exists. The item cannot be correctly sorted into the two provided categories (Carbohydrates, Proteins). Question is unanswerable as presented.",
+            "correction": "Add 'Lipids' as a third category, or replace ethanol emulsion test with a carbohydrate or protein test (e.g., Fehling's test, ninhydrin test)."
+          },
+          {
+            "label": "6",
+            "severity": "broken",
+            "detail": "Proteins are polymers of amino acids (monomers), not triglycerides. Correct categorization should place Proteins in 'Polymers of monomers' (category 0), not separately. Current correct_category [0,1,0,0] is incomplete—Proteins belong in category 0 but are marked as category 0 without explicit acknowledgment in explanation.",
+            "correction": "Explanation should clarify: 'Starch, proteins, and cellulose are polymers of monomers (glucose or amino acids). Fats are triglycerides composed of glycerol and fatty acids.' Correct_category remains [0,1,0,0] but explanation must be corrected."
+          },
+          {
+            "label": "10",
+            "severity": "broken",
+            "detail": "Question states 'Protein' should be sorted but correct_category shows only 4 items [0,0,0,1]. The fourth item 'Protein' is assigned category 1 (CHO+N), but category 2 (CHO+N+S) exists and is never used. Proteins commonly contain sulphur in methionine and cysteine residues; assignment to CHO+N alone is incomplete.",
+            "correction": "Revise correct_category to [0,0,0,2] and explanation: 'Proteins contain carbon, hydrogen, oxygen, nitrogen, and often sulphur (in amino acids methionine and cysteine).'"
+          }
+        ],
+        "summary": "Three substantive issues identified: Question 2 contains an unanswerable item (ethanol emulsion test) with no matching category. Question 6's explanation incompletely addresses protein classification. Question 10 incorrectly assigns proteins to CHO+N when sulphur-containing amino acids warrant CHO+N+S category."
+      },
+      "totalSeconds": 34
+    },
+    {
+      "index": 12,
+      "label": "REB / Practice / GENERAL EDU-History-S4-SB",
+      "request": {
+        "subject": "GENERAL EDU-History-S4-SB",
+        "textbook_id": 99,
+        "topic_ids": [
+          1041,
+          1043
+        ],
+        "topics": [
+          "Human Rights Codification and Its Impact",
+          "Role of Gacaca and Abunzi in Conflict Solving"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 48,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "4",
+            "severity": "broken",
+            "detail": "MCQ correct_answer is 3, but option index 3 is 'It served as a foundation for numerous international treaties.' The correct answer should be index 3 (0-indexed), which corresponds to the fourth option. Indexing is inconsistent with standard 0-based array notation.",
+            "correction": "Verify correct_answer value matches intended option. If option 3 (0-indexed) is correct, confirm correct_answer: 3 is intended; if the fourth displayed option is intended, ensure indexing aligns with array structure (typically 0-3 for four options)."
+          },
+          {
+            "label": "5",
+            "severity": "broken",
+            "detail": "MCQ correct_answer is 0, but explanation states 'Abunzi emphasised community involvement and dialogue in conflict resolution,' which matches option index 0. However, the explanation text does not appear in the options list provided—option 0 reads 'Abunzi emphasised community involvement and dialogue.' Verify option text matches explanation.",
+            "correction": "Confirm option[0] text is 'Abunzi emphasised community involvement and dialogue' and correct_answer: 0 is accurate."
+          },
+          {
+            "label": "7",
+            "severity": "poor",
+            "detail": "Marking criteria lists three items but hints text is incomplete: 'Assessment of its impact on.' appears truncated. Criterion clarity is compromised for marker guidance.",
+            "correction": "Complete hints text: 'Assessment of its impact on reconciliation and societal healing.'"
+          },
+          {
+            "label": "9",
+            "severity": "poor",
+            "detail": "Question asks 'How useful is the source' (source evaluation), but this is a meta-question about the source itself rather than testing content knowledge of Gacaca's role. While valid for historiography, it shifts from content mastery to source criticism without prior context establishing this skill focus.",
+            "correction": "Acceptable if source evaluation is an explicit curriculum objective; otherwise replace with direct content question on Gacaca's limitations or complementary role with ICTR."
+          }
+        ],
+        "summary": "Assessment is largely sound with accurate factual content, appropriate marking criteria, and topic alignment. Three minor issues identified: MCQ indexing clarity (Q4), option text verification (Q5), incomplete marking guidance (Q7), and one meta-question (Q9) that shifts to source evaluation. No repeated questions, missing data, or age-inappropriateness detected."
+      },
+      "totalSeconds": 55
+    },
+    {
+      "index": 13,
+      "label": "Cambridge / Exam / Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+      "request": {
+        "subject": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+        "textbook_id": 46,
+        "topic_ids": [
+          4333
+        ],
+        "topics": [
+          "Unit 1A: Number"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 43,
+      "status": 200,
+      "numbered": 10,
+      "parts": 24,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 18"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 19"
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b"
+        ],
+        "issues": [
+          {
+            "label": "1a",
+            "severity": "broken",
+            "detail": "Model answer is incorrect. 2345 + 6789 = 9134 is correct, but the question context and figure are misaligned. The figure shows a triangle diagram unrelated to the addition problem stated in the context.",
+            "correction": "Either remove the irrelevant figure or align context with figure content. Verify: 2345 + 6789 = 9134 ✓"
+          },
+          {
+            "label": "2a",
+            "severity": "broken",
+            "detail": "Context states 7,845 - 3,297 but figure shows unrelated comparison statements (e.g., '3000 is one hundred less than ?'). Figure does not support the subtraction problem.",
+            "correction": "Replace figure with one showing the column subtraction layout for 7,845 - 3,297, or remove mismatched figure."
+          },
+          {
+            "label": "2b",
+            "severity": "poor",
+            "detail": "Model answer format is confusing. It presents two separate statements as a single answer rather than clearly showing the intermediate calculation step (15 - 7 = 8).",
+            "correction": "Model answer should be: 'When subtracting the units place: 5 < 7, so borrow 1 from tens. Then 15 - 7 = 8.'"
+          },
+          {
+            "label": "3a",
+            "severity": "broken",
+            "detail": "Context states 5,872 - 3,459 but figure shows a 3×4 table of mixed addition/subtraction problems unrelated to the stated problem.",
+            "correction": "Replace figure with column subtraction layout for 5,872 - 3,459, or align context to match figure content."
+          },
+          {
+            "label": "3c",
+            "severity": "poor",
+            "detail": "Question asks why borrowing from thousands place occurred, but model answer explains borrowing from tens place (2 < 9). The question and answer address different columns.",
+            "correction": "Clarify: For 5,872 - 3,459, borrowing occurs at tens (7 < 5 is false; actually 7 ≥ 5, no borrow needed at tens). Revise question or answer for consistency."
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Model answer formatting is inconsistent with standard column method notation. Uses '…………' instead of a clear line separator.",
+            "correction": "Model answer should be: '4,321 + 5,678 = 9,999' with clear column layout and line separator."
+          },
+          {
+            "label": "5c",
+            "severity": "poor",
+            "detail": "Marking criteria (2) states 'over occurs when' which appears to be incomplete text ('carry over occurs').",
+            "correction": "Marking criteria (2) should read: 'Explaining that carry over only occurs when a column sum is 10 or more.'"
+          },
+          {
+            "label": "7a",
+            "severity": "broken",
+            "detail": "Figure shows shopping bag with beans and rice (349g + 482g) but question asks for 1,234 + 567. Context and figure are misaligned.",
+            "correction": "Either use figure context (349 + 482 = 831g) or remove figure and keep abstract problem 1,234 + 567."
+          },
+          {
+            "label": "8a",
+            "severity": "poor",
+            "detail": "Model answer uses lowercase 'seven' while question 6a uses capitalized 'Four'. Inconsistent capitalization convention.",
+            "correction": "Standardize: 'Seven thousand two hundred thirty-four' (or 'Seven thousand two hundred and thirty-four')."
+          },
+          {
+            "label": "9a",
+            "severity": "poor",
+            "detail": "Model answer uses lowercase 'six' while other similar questions use capitalized first letter. Inconsistent formatting.",
+            "correction": "Standardize to: 'Six thousand seven hundred eighty-nine' or 'Six thousand seven hundred and eighty-nine'."
+          },
+          {
+            "label": "10a",
+            "severity": "poor",
+            "detail": "Question 10a is identical to question 8a (both ask to write 7,234 in words). Repeated question with same data.",
+            "correction": "Remove question 10a or replace with different number/task to avoid duplication."
+          },
+          {
+            "label": "10b",
+            "severity": "poor",
+            "detail": "Question 10b is identical to question 8b (both ask to round 7,234 to nearest 100). Repeated question with same data.",
+            "correction": "Remove question 10b or replace with different number/task to avoid duplication."
+          }
+        ],
+        "summary": "Assessment contains 12 substantive issues: 4 broken (misaligned figures/contexts in questions 1a, 2a, 3a, 7a), 8 poor (formatting inconsistencies, incomplete text, logic errors in 2b, 3c, 5a, 5c, 8a, 9a, and duplicate questions 10a/10b). Figure-context misalignment is systematic across multiple questions."
+      },
+      "totalSeconds": 54
+    },
+    {
+      "index": 15,
+      "label": "REB / Practice / Biology S6 Student Book ",
+      "request": {
+        "subject": "Biology S6 Student Book ",
+        "textbook_id": 9,
+        "topic_ids": [
+          129,
+          119
+        ],
+        "topics": [
+          "Evolution and Speciation",
+          "Excretion and Osmoregulation"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 16,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ],
+        "issues": [
+          {
+            "label": "3",
+            "severity": "broken",
+            "detail": "Question asks to order kidney transplantation stages but is labeled under 'Evolution and Speciation' topic. This is an Excretion/Osmoregulation topic and misplaced in the assessment structure.",
+            "correction": "Relocate question 3 to Excretion and Osmoregulation section or correct topic_label to 'Kidney transplants and dialysis machines' (topic_id 119)."
+          },
+          {
+            "label": "6",
+            "severity": "poor",
+            "detail": "Explanation incomplete: states collecting duct is 'main site for controlled reabsorption' but proximal convoluted tubule reabsorbs majority of glucose, amino acids, and ions. Collecting duct primarily controls water reabsorption via ADH.",
+            "correction": "Revise explanation: 'The collecting duct is where ADH regulates water reabsorption. However, the proximal convoluted tubule reabsorbs most ions and useful substances. The collecting duct is the primary site for regulated water reabsorption.'"
+          },
+          {
+            "label": "9",
+            "severity": "broken",
+            "detail": "Question labeled under 'Evolution and Speciation' topic but content is entirely about osmoregulatory strategies (Excretion and Osmoregulation). Topic mismatch.",
+            "correction": "Change topic_label to 'Excretion and Osmoregulation' and topic_id to 119."
+          },
+          {
+            "label": "14",
+            "severity": "poor",
+            "detail": "Correct pairs mapping shows [0,0],[1,2],[2,1],[3,3] but right_items array order is [0: Filtration..., 1: Excretion CO2..., 2: Excretion salts..., 3: Conversion ammonia...]. Mapping [1,2] pairs Skin with 'Excretion CO2' (lungs function), and [2,1] pairs Lungs with 'Excretion salts' (skin function). Indices are reversed.",
+            "correction": "Correct pairs should be [[0,0],[1,2],[2,1],[3,3]] requires right_items reordered as: [0: Filtration blood, 1: Excretion salts sweat, 2: Excretion CO2 water, 3: Conversion ammonia] OR correct_pairs should be [[0,0],[1,2],[2,1],[3,3]]."
+          },
+          {
+            "label": "15",
+            "severity": "broken",
+            "detail": "Correct order [0,3,1,2] maps to [Glomerular filtration, Reabsorption, Secretion, Excretion] but explanation states 'filtration, reabsorption, secretion, excretion'. Items array is [Glomerular filtration, Secretion, Excretion, Reabsorption]. Index 3=Reabsorption, index 1=Secretion, index 2=Excretion. Correct order should be [0,3,1,2] which gives correct sequence, but explanation wording matches items not indices.",
+            "correction": "Verify: correct_order [0,3,1,2] produces Glomerular filtration→Reabsorption→Secretion→Excretion. This is correct. No correction needed; explanation is accurate."
+          },
+          {
+            "label": "20",
+            "severity": "broken",
+            "detail": "Correct pairs [[0,0],[1,2],[2,1],[3,3]] with right_items [Regulates ADH, Produces aldosterone, Stores releases ADH, Filters blood]. Pair [1,2] maps Pituitary to 'Produces aldosterone' (adrenal function). Pair [2,1] maps Adrenal to 'Stores releases ADH' (pituitary function). Indices reversed.",
+            "correction": "Correct pairs should be [[0,0],[1,2],[2,1],[3,3]] requires right_items reordered as [Regulates ADH, Stores releases ADH, Produces aldosterone, Filters blood] OR correct_pairs [[0,0],[1,2],[2,1],[3,3]]."
+          }
+        ],
+        "summary": "Assessment contains 20 questions spanning Evolution/Speciation and Excretion/Osmoregulation. Three substantive issues identified: question 3 and 9 have incorrect topic labels; questions 14 and 20 have reversed index mappings in matching pairs. Question 6 has incomplete explanation. Question 15 verified as correct."
+      },
+      "totalSeconds": 24
+    },
+    {
+      "index": 16,
+      "label": "Cambridge / Exam / Cambridge-AS-A-Level-Computing-Coursebook",
+      "request": {
+        "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "textbook_id": 207,
+        "topic_ids": [
+          3028
+        ],
+        "topics": [
+          "Chapter 4: Deﬁ nition, investigation and analysis"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 59,
+      "status": 200,
+      "numbered": 10,
+      "parts": 28,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 6"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "1c",
+            "severity": "poor",
+            "detail": "Topic label mismatch: question assigned to 'Chapter 1: Components of a computer system and modes of use' but should be 'Chapter 4: Definition, investigation and analysis' to match assessment context and other waterfall model questions (1a, 1b).",
+            "correction": "Change topic_label to '4.4 Software development, programming, testing and installation' and topic_id to 3028"
+          },
+          {
+            "label": "2a",
+            "severity": "poor",
+            "detail": "Model answer is malformed: lists marking criteria as the answer instead of providing actual descriptive content. Should contain a coherent explanation of bubble sort process.",
+            "correction": "Model answer should be: 'Bubble sort makes repeated passes through the array, comparing adjacent pairs of elements and swapping them if they are in the wrong order. This process continues until no more swaps are needed, indicating the array is sorted.'"
+          },
+          {
+            "label": "2b",
+            "severity": "poor",
+            "detail": "Model answer is malformed: lists marking criteria instead of showing working and calculation. Should demonstrate step-by-step comparison counting.",
+            "correction": "Model answer should show: Pass 1: 4 comparisons; Pass 2: 3 comparisons; Pass 3: 2 comparisons; Pass 4: 1 comparison; Total: 10 comparisons"
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Model answer contains formula error: uses (low + high) / 2 but should specify integer division (low + high) // 2 to avoid floating-point indices.",
+            "correction": "Correct formula to: middle = (low + high) // 2"
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Model answer format inconsistent: includes unnecessary 'Explanation:' section within model_answer field. Should contain only the answer values.",
+            "correction": "Model answer should be: 'Low index: 0, High index: 9'"
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Model answer format inconsistent: includes unnecessary 'Explanation:' section within model_answer field. Should contain only the calculated value.",
+            "correction": "Model answer should be: 'Middle index: 4'"
+          },
+          {
+            "label": "6b",
+            "severity": "broken",
+            "detail": "Calculation error: middle of [1,3,5,7,9,11,13,15] is at index 3.5→3 or 4, giving element 7 or 9, not 10. The model answer claims middle element is 10, which is incorrect for this array.",
+            "correction": "Correct calculation: middle index = (0+7)//2 = 3, middle element = 7. Since target is 7, found in 1 comparison. If target were different, show correct iterations."
+          },
+          {
+            "label": "7a",
+            "severity": "poor",
+            "detail": "Calculation error in model answer: claims 4 comparisons to find 16, but array has 10 elements (indices 0-9). Middle of [2,4,6,8,10,12,14,16,18,20] is index 4 (value 10). Correct sequence yields 3 comparisons, not 4.",
+            "correction": "Iteration 1: middle=10, 16>10, search right half. Iteration 2: middle=14, 16>14, search right half. Iteration 3: middle=18, 16<18, search left half. Iteration 4: middle=16, found. Total: 4 comparisons is correct but working shown is unclear."
+          },
+          {
+            "label": "10b",
+            "severity": "poor",
+            "detail": "Model answer contains logical error in step 2: states '1 comparison (5 < 7), 1 comparison (5 < 3)' but 5 is not less than 3, so second comparison is incorrect. Insertion logic flawed.",
+            "correction": "Step 2 should be: Insert 5 into [3,7]: compare 5 with 7 (5<7, shift), compare 5 with 3 (5>3, stop). Total: 2 comparisons. Recalculate total as 1+2+1+4=8 (result correct but reasoning flawed)."
+          }
+        ],
+        "summary": "Assessment covers Chapter 4 topics appropriately with 28 questions on algorithms (sorting, searching). Nine substantive issues identified: one topic label mismatch, three malformed model answers, one formula error, two formatting inconsistencies, and two calculation errors in binary search and insertion sort examples. Most questions are well-structured; corrections needed for accuracy."
+      },
+      "totalSeconds": 69
+    },
+    {
+      "index": 17,
+      "label": "REB / Practice / P2-English-PB",
+      "request": {
+        "subject": "P2-English-PB",
+        "textbook_id": 146,
+        "topic_ids": [
+          1519,
+          1517
+        ],
+        "topics": [
+          "The zoo",
+          "Family members and household activities"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 39,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "explanation-contradicts-key",
+          "severity": "broken",
+          "index": 3,
+          "detail": "explanation says C is correct; the key says B"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "explanation-contradicts-key",
+          "severity": "broken",
+          "index": 7,
+          "detail": "explanation says C is correct; the key says D"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "1",
+            "severity": "broken",
+            "detail": "Correct answer marked as 2 but should be 2 (0-indexed). However, explanation states 'B. They jumped and played' which is option index 2. Indexing inconsistency: correct_answer should be 2 (matching explanation), but options are labeled A-D in explanation while indexed 0-3 in data.",
+            "correction": "Clarify indexing: if correct_answer=2, explanation should reference option C (0-indexed), not B. Standardize to 0-indexed: correct_answer should remain 2."
+          },
+          {
+            "label": "2",
+            "severity": "broken",
+            "detail": "Correct answer marked as 3 but explanation states 'B. She took pictures'. Option B (index 1) is 'She roared loudly'; option D (index 3) is 'She took pictures'. Indexing mismatch between correct_answer value and explanation letter reference.",
+            "correction": "Correct answer should be 3 (0-indexed, matching 'She took pictures'). Explanation letter reference is incorrect; should state 'D. She took pictures' not 'B.'"
+          },
+          {
+            "label": "3",
+            "severity": "broken",
+            "detail": "Correct answer marked as 0 but explanation states 'C. It was sunny'. Option C (index 2) is 'It was raining'; option A (index 0) is 'It was sunny'. Indexing mismatch: correct_answer=0 is correct but explanation incorrectly references 'C' instead of 'A'.",
+            "correction": "Explanation should state 'A. It was sunny' not 'C. It was sunny'. Correct answer value 0 is accurate."
+          },
+          {
+            "label": "4",
+            "severity": "broken",
+            "detail": "Correct answer marked as 1 but explanation states 'C. Lions'. Option C (index 2) is 'Birds'; option B (index 1) is 'Lions'. Indexing mismatch: correct_answer=1 is correct but explanation incorrectly references 'C' instead of 'B'.",
+            "correction": "Explanation should state 'B. Lions' not 'C. Lions'. Correct answer value 1 is accurate."
+          },
+          {
+            "label": "8",
+            "severity": "poor",
+            "detail": "Question 8 duplicates Question 3 exactly (same passage, same question about weather, same answer 'sunny'). Repeated question violates assessment design standards.",
+            "correction": "Remove Question 8 or replace with distinct question from passage (e.g., about family members' activities or animal descriptions)."
+          },
+          {
+            "label": "10",
+            "severity": "poor",
+            "detail": "Question 10 duplicates Question 1 exactly (same passage, same question about monkeys' behavior, same answer 'jumped and played'). Repeated question violates assessment design standards.",
+            "correction": "Remove Question 10 or replace with distinct question covering untested content from passage."
+          }
+        ],
+        "summary": "Assessment contains 6 substantive issues: 4 indexing mismatches between correct_answer numeric values and explanation letter references (labels 1,2,3,4), and 2 exact question duplicates (labels 8 and 10). All MCQ options are unique within questions. Content is age-appropriate for Grade 2."
+      },
+      "totalSeconds": 45
+    },
+    {
+      "index": 18,
+      "label": "REB / Practice / ICT  S3 SB",
+      "request": {
+        "subject": "ICT  S3 SB",
+        "textbook_id": 115,
+        "topic_ids": [
+          1222
+        ],
+        "topics": [
+          "Introduction to ICT"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 25,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 9,
+          "detail": "49 words"
+        }
+      ],
+      "figures": 3,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "issues": [
+          {
+            "label": "10",
+            "severity": "broken",
+            "detail": "Model answer is identical to the marking criteria structure and contains no substantive content. It merely restates the four criterion labels without providing any actual answer about NGO social media strategy, making it impossible for markers to assess student responses fairly.",
+            "correction": "Model answer must provide a complete, detailed response addressing all four criteria: e.g., 'Target audience includes youth, donors, and community members. Facebook suits longer-form storytelling and community building; Instagram uses visual content like infographics and impact stories. Engagement on Facebook involves discussion posts and live Q&As; on Instagram, hashtag campaigns and user-generated content. Facebook's groups enable sustained dialogue; Instagram's reach maximizes awareness through shareable visual content.'"
+          },
+          {
+            "label": "1",
+            "severity": "poor",
+            "detail": "Hint text contains incomplete placeholder phrases ('the purpose of the; the purpose of the; the purpose of the') that do not specify which stages' purposes should be covered, creating ambiguity for students about what to include.",
+            "correction": "Hints should read: 'Make sure you also cover: the purpose of the first stage; the purpose of the second stage; the purpose of the third stage.'"
+          },
+          {
+            "label": "2",
+            "severity": "poor",
+            "detail": "Hint text contains incomplete placeholder phrase ('that Crop away/removes the of the keeping the selected') with missing words, making the hint unclear and unhelpful to students.",
+            "correction": "Hints should read: 'Make sure you also cover: that Crop cuts away/removes the outer parts of the image, keeping the selected area.'"
+          }
+        ],
+        "summary": "Assessment contains 10 questions aligned to ICT S3 curriculum. Critical issue: Question 10's model answer is structurally broken—it restates marking criteria labels without substantive content, preventing fair assessment. Minor issues: Questions 1 and 2 have incomplete placeholder text in hints. Questions 6 and 9 are well-constructed with clear numerical/practical demands. No repeated questions detected."
+      },
+      "totalSeconds": 38
+    },
+    {
+      "index": 14,
+      "label": "REB / Exam / Computer Science S4 SB",
+      "request": {
+        "subject": "Computer Science S4 SB",
+        "textbook_id": 60,
+        "topic_ids": [
+          663
+        ],
+        "topics": [
+          "Unit 2: Computer Architecture & Assembly"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "average"
+      },
+      "seed": 1428313320,
+      "error": "Error: Failed to generate 20 complete questions. The AI produced 7. Please try again.",
+      "stage": "complete",
+      "generationSeconds": 243,
+      "status": 500,
+      "totalSeconds": 243
+    },
+    {
+      "index": 19,
+      "label": "Cambridge / Exam / Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+      "request": {
+        "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+        "textbook_id": 192,
+        "topic_ids": [
+          2362,
+          2355
+        ],
+        "topics": [
+          "Chapter 16: The circular flow of income",
+          "Chapter 9: Price elasticity of supply"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 124,
+      "status": 200,
+      "numbered": 20,
+      "parts": 47,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 33,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 34,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 35,
+          "detail": "same as question 22"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 36,
+          "detail": "same as question 23"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 37,
+          "detail": "same as question 24"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 38,
+          "detail": "same as question 25"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 39,
+          "detail": "same as question 26"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 40,
+          "detail": "same as question 27"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 41,
+          "detail": "same as question 19"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 42,
+          "detail": "same as question 20"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 43,
+          "detail": "same as question 14"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 44,
+          "detail": "same as question 15"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 45,
+          "detail": "same as question 22"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 46,
+          "detail": "same as question 23"
+        }
+      ],
+      "figures": 7,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "2a",
+          "2b",
+          "2c",
+          "3a",
+          "3b",
+          "4a",
+          "4b",
+          "5a",
+          "5b",
+          "6a",
+          "6b",
+          "7a",
+          "7b",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c",
+          "11a",
+          "11b",
+          "11c",
+          "12a",
+          "12b",
+          "13a",
+          "13b",
+          "14a",
+          "14b",
+          "15a",
+          "15b",
+          "16a",
+          "16b",
+          "16c",
+          "17a",
+          "17b",
+          "17c",
+          "18a",
+          "18b",
+          "19a",
+          "19b",
+          "20a",
+          "20b"
+        ],
+        "issues": [
+          {
+            "label": "3a",
+            "severity": "poor",
+            "detail": "Question asks to 'name the two sectors' but the diagram shows only Output, Income, and Expenditure flows—not sector labels. The model answer assumes a two-sector model (Households and Firms) not depicted in the provided figure. Context-diagram mismatch.",
+            "correction": "Either provide a diagram showing Households and Firms sectors, or revise question to ask about the three flows shown (Output, Income, Expenditure)."
+          },
+          {
+            "label": "3b",
+            "severity": "poor",
+            "detail": "Question asks to 'explain how the flow of income is maintained' but the diagram only shows Output→Income→Expenditure→Output. Model answer introduces Households and Firms sectors not labeled in the figure, creating inconsistency with the provided diagram.",
+            "correction": "Align model answer to the three-flow diagram provided, or replace diagram with one showing Households and Firms sectors."
+          },
+          {
+            "label": "4a",
+            "severity": "poor",
+            "detail": "Question 4 context states 'two supply curves, labelled as graph a and graph b' but the figure description shows supply AND demand curves with demand shifts (D to D1). The context description is incomplete/inaccurate relative to the figure.",
+            "correction": "Update context to accurately describe: 'Two supply and demand diagrams showing supply curves and rightward demand shifts.'"
+          },
+          {
+            "label": "5a",
+            "severity": "poor",
+            "detail": "Model answer states S+T+M line 'starts below zero on the vertical axis' but the figure shows it crossing the horizontal axis. The description 'starts below zero' is ambiguous—clarify whether this refers to the y-intercept or initial position.",
+            "correction": "Revise to: 'The red upward-sloping line S+T+M represents withdrawals from the circular flow. It has a negative y-intercept and slopes upward, indicating that withdrawals increase with GDP.'"
+          },
+          {
+            "label": "5b",
+            "severity": "poor",
+            "detail": "Model answer describes equilibrium but the question asks to 'state the significance'—a 2-mark question. The answer provided is more explanatory than a simple statement, and marking criteria mention 'Identify the components of I+G+X' but question does not ask for component identification.",
+            "correction": "Simplify model answer to 2-mark level: 'At this intersection, total injections equal total withdrawals, indicating equilibrium GDP where the economy is in balance.'"
+          },
+          {
+            "label": "7a",
+            "severity": "poor",
+            "detail": "Question context describes four sectors (households, firms, government, foreign) but question asks only to 'name the two sectors that directly interact in the product market.' Model answer correctly identifies Households and Firms, but the explanation is incomplete—it should clarify why these two specifically (not government or foreign sector).",
+            "correction": "Add to model answer: 'Households and Firms directly interact in the product market because households purchase goods and services from firms, while firms sell directly to households.'"
+          },
+          {
+            "label": "8c",
+            "severity": "poor",
+            "detail": "Model answer states 'Foreign sector supplies factors of production such as labor or raw materials to firms' but this is not standard circular flow theory. Typically, foreign sector supplies goods/services and buys exports; factors of production are supplied by households, not foreign sector.",
+            "correction": "Revise to: 'The foreign sector buys exports (goods and services) from firms, generating income. It also sells imports to households and firms. This trade adds an international dimension to the circular flow.'"
+          },
+          {
+            "label": "16a",
+            "severity": "poor",
+            "detail": "Model answer calculation shows 'PES = ((240 - 200) / 200) / ((6 - 5) / 5) = 40 / 200 / 1 / 5 = 1' but the arithmetic is unclear. The expression '40 / 200 / 1 / 5' does not clearly show the division steps. Correct calculation: (40/200) / (1/5) = 0.2 / 0.2 = 1.",
+            "correction": "Revise to: 'Percentage change in quantity = (40/200) × 100 = 20%. Percentage change in price = (1/5) × 100 = 20%. PES = 20% / 20% = 1.'"
+          },
+          {
+            "label": "20a",
+            "severity": "poor",
+            "detail": "Model answer shows 'PES = ((240 - 200) / 200) / ((6 - 5) / 5) = 40 / 200 / 1 / 5 = 1' with unclear arithmetic notation. Same issue as 16a—the intermediate step '40 / 200 / 1 / 5' is ambiguous and does not clearly demonstrate the calculation.",
+            "correction": "Revise to: 'Percentage change in quantity = (40/200) × 100 = 20%. Percentage change in price = (1/5) × 100 = 20%. PES = 20% / 20% = 1.'"
+          }
+        ],
+        "summary": "Assessment contains 47 questions across circular flow of income and price elasticity of supply topics. Nine substantive issues identified: diagram-context mismatches (questions 3a, 3b, 4a), ambiguous model answer descriptions (5a, 5b), incomplete explanations (7a), factually incorrect circular flow theory (8c), and unclear arithmetic notation in elasticity calculations (16a, 20a)."
+      },
+      "totalSeconds": 139
+    },
+    {
+      "index": 20,
+      "label": "REB / Exam / GENERAL EDU-History-S5-SB",
+      "request": {
+        "subject": "GENERAL EDU-History-S5-SB",
+        "textbook_id": 100,
+        "topic_ids": [
+          1051
+        ],
+        "topics": [
+          "The National Duties and Obligations"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 1428313320,
+      "error": null,
+      "stage": "complete",
+      "generationSeconds": 109,
+      "status": 200,
+      "numbered": 10,
+      "parts": 29,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "9 questions open with the same sentence (1, 6, 9, 12, 15, 18, 21, 24, 27): \"State the three main national duties of citizens i\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 1,
+          "detail": "9 questions open with the same sentence (2, 7, 10, 13, 16, 19, 22, 25, 28): \"Explain why obeying the laws is crucial for the fu\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 2,
+          "detail": "9 questions open with the same sentence (3, 8, 11, 14, 17, 20, 23, 26, 29): \"Describe the importance of voting in a democratic \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 5,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 6,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 7,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 8,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 9,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 3"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "review": {
+        "reviewed_labels": [
+          "1a",
+          "1b",
+          "1c",
+          "2a",
+          "2b",
+          "3a",
+          "3b",
+          "3c",
+          "4a",
+          "4b",
+          "4c",
+          "5a",
+          "5b",
+          "5c",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+          "9b",
+          "9c",
+          "10a",
+          "10b",
+          "10c"
+        ],
+        "issues": [
+          {
+            "label": "1a, 3a, 4a, 5a, 6a, 7a, 8a, 9a, 10a",
+            "severity": "poor",
+            "detail": "Inconsistent model answers across identical questions. Question 1a lists voting/military service; 3a lists obeying laws/taxes/jury service; 4a lists taxes/laws/voting; 5a lists taxes/laws/jury; 6a lists laws/voting/taxes; 7a lists laws/voting/jury; 8a lists laws/voting/taxes; 9a lists laws/voting/jury; 10a lists taxes/laws/voting. No single authoritative answer established for Rwanda S5 curriculum.",
+            "correction": "Establish single definitive model answer aligned with Rwanda's GENERAL EDU-History-S5-SB textbook. Verify against source material and apply consistently across all instances."
+          },
+          {
+            "label": "1a, 1b, 1c, 2a, 2b, 3a, 3b, 3c, 4a, 4b, 4c, 5a, 5b, 5c, 6a, 6b, 6c, 7a, 7b, 7c, 8a, 8b, 8c, 9a, 9b, 9c, 10a, 10b, 10c",
+            "severity": "poor",
+            "detail": "Assessment contains 10 near-identical question sets with minimal variation. Questions 1-10 repeat the same three-part structure (state duties, explain law obedience, describe voting) with identical contexts and overlapping model answers. This creates redundancy rather than progressive assessment.",
+            "correction": "Consolidate into single comprehensive assessment or develop distinct question sets addressing different aspects of national duties/obligations (e.g., constitutional framework, historical context, comparative analysis, application scenarios)."
+          },
+          {
+            "label": "2a, 2b",
+            "severity": "poor",
+            "detail": "Question 2 shifts focus to voting importance and voter information without addressing the three main national duties established in Question 1. Context states duties are 'one of these is voting' but doesn't maintain coherent progression through all duties.",
+            "correction": "Either integrate voting questions into comprehensive duty framework or explicitly signal thematic shift in context."
+          },
+          {
+            "label": "1a, 3a, 5a, 7a, 9a",
+            "severity": "poor",
+            "detail": "Model answers for these questions list military service (1a), jury service (3a, 5a, 7a, 9a) as third duty, but questions 4a, 6a, 8a, 10a list taxes instead. No explanation for variation or curriculum basis provided.",
+            "correction": "Verify Rwanda S5 curriculum specification for third duty. Standardize across all instances with textbook citation."
+          }
+        ],
+        "summary": "Assessment contains 29 questions across 10 near-identical sets addressing national duties/obligations. Critical issue: inconsistent model answers for identical questions (duties listed vary across sets). Redundant structure lacks progressive complexity. Requires consolidation and verification against Rwanda GENERAL EDU-History-S5-SB source material."
+      },
+      "totalSeconds": 115
+    }
+  ]
+}

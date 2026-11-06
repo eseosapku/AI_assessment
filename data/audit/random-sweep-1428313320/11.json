@@ -1,0 +1,431 @@
+{
+  "index": 11,
+  "label": "Cambridge / Practice / Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+  "request": {
+    "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+    "textbook_id": 54,
+    "topic_ids": [
+      594
+    ],
+    "topics": [
+      "Biological molecules"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 29,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Order the steps of protein synthesis from DNA to a functional protein.",
+        "ordered_items": [
+          "Transcription",
+          "Translation",
+          "RNA Processing",
+          "Protein Folding"
+        ],
+        "marks": 4,
+        "explanation": "The correct order is: Transcription (DNA copied to mRNA), RNA Processing (mRNA modified in nucleus), Translation (mRNA translated to protein at ribosome), Protein Folding (protein gains 3D structure).",
+        "items": [
+          "Translation",
+          "RNA Processing",
+          "Protein Folding",
+          "Transcription"
+        ],
+        "correct_order": [
+          3,
+          1,
+          0,
+          2
+        ],
+        "checked": true,
+        "subtopic_id": 2378,
+        "topic_id": 594,
+        "topic_label": "The structure of DNA",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "The structure of DNA"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each food test into the correct category based on the nutrient it identifies.",
+        "categories": [
+          "Carbohydrates",
+          "Proteins"
+        ],
+        "items": [
+          "Iodine test",
+          "Benedict's test",
+          "Biuret test",
+          "Ethanol emulsion test"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "marks": 4,
+        "explanation": "The iodine and Benedict's tests identify carbohydrates. The biuret test identifies proteins. The ethanol emulsion test identifies fats, which is not a category in this question—this item cannot be correctly sorted as presented.",
+        "checked": true,
+        "subtopic_id": 2377,
+        "topic_id": 594,
+        "topic_label": "Carbohydrates, fats and proteins",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Carbohydrates, fats and proteins"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False.",
+        "statements": [
+          "Carbohydrates are made of glucose monomers.",
+          "Fats are composed of fatty acids and glycerol.",
+          "Proteins are made of amino acids linked by peptide bonds.",
+          "Nucleic acids contain phosphorus and sulfur."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Carbohydrates are indeed made of glucose monomers, fats are composed of fatty acids and glycerol, and proteins are made of amino acids linked by peptide bonds. However, nucleic acids contain phosphorus but not sulphur.",
+        "checked": true,
+        "subtopic_id": 2377,
+        "topic_id": 594,
+        "topic_label": "Carbohydrates, fats and proteins",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Carbohydrates, fats and proteins"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply.",
+        "options": [
+          "Iodine test identifies starch.",
+          "Benedict's test identifies reducing sugars.",
+          "Biuret test identifies proteins.",
+          "Ethanol emulsion test identifies fats."
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "All the listed food tests are correctly matched to the nutrients they identify. The iodine test identifies starch, Benedict's test identifies reducing sugars, the biuret test identifies proteins, and the ethanol emulsion test identifies fats.",
+        "checked": true,
+        "subtopic_id": 2377,
+        "topic_id": 594,
+        "topic_label": "Carbohydrates, fats and proteins",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Carbohydrates, fats and proteins"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong.",
+        "items": [
+          "Starch",
+          "Glycogen",
+          "Cellulose",
+          "Protein"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Starch, glycogen, and cellulose are all carbohydrates composed of glucose monomers. Protein, however, is a macromolecule made of amino acids, making it the odd one out in this set.",
+        "checked": true,
+        "topic_id": 594,
+        "topic_label": "Biological molecules",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Biological molecules"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each biological molecule into the correct category based on its structure.",
+        "categories": [
+          "Polymers of monomers",
+          "Triglycerides"
+        ],
+        "items": [
+          "Starch",
+          "Fats",
+          "Proteins",
+          "Cellulose"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Starch and cellulose are polymers of glucose monomers, while fats (triglycerides) are composed of glycerol and fatty acids. Proteins are also polymers, but they are made of amino acids rather than simple sugar monomers.",
+        "checked": true,
+        "subtopic_id": 2377,
+        "topic_id": 594,
+        "topic_label": "Carbohydrates, fats and proteins",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Carbohydrates, fats and proteins"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Starch",
+            "right": "A polymer of glucose used for energy storage in plants"
+          },
+          {
+            "left": "Glycogen",
+            "right": "A polymer of glucose used for energy storage in animals"
+          },
+          {
+            "left": "Cellulose",
+            "right": "A structural component of plant cell walls, made of glucose"
+          },
+          {
+            "left": "Fats",
+            "right": "Molecules made of fatty acids and glycerol, used for long-term energy storage"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Starch, glycogen, and cellulose are all polymers of glucose, while fats are composed of fatty acids and glycerol.",
+        "left_items": [
+          "Starch",
+          "Glycogen",
+          "Cellulose",
+          "Fats"
+        ],
+        "right_items": [
+          "A polymer of glucose used for energy storage in animals",
+          "A polymer of glucose used for energy storage in plants",
+          "Molecules made of fatty acids and glycerol, used for long-term energy storage",
+          "A structural component of plant cell walls, made of glucose"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "topic_id": 594,
+        "topic_label": "Biological molecules",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Biological molecules"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the stages of fat digestion in the correct order",
+        "ordered_items": [
+          "Lipase breaks down fats into fatty acids and glycerol",
+          "Bile salts emulsify fats into smaller droplets",
+          "Fatty acids and glycerol are absorbed by the small intestine",
+          "Fats enter the small intestine"
+        ],
+        "marks": 4,
+        "explanation": "Fats must enter the small intestine first, then be emulsified by bile salts to increase surface area, then lipase can break them down, and finally the products are absorbed.",
+        "items": [
+          "Lipase breaks down fats into fatty acids and glycerol",
+          "Fats enter the small intestine",
+          "Fatty acids and glycerol are absorbed by the small intestine",
+          "Bile salts emulsify fats into smaller droplets"
+        ],
+        "correct_order": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "checked": true,
+        "topic_id": 594,
+        "topic_label": "Biological molecules",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Biological molecules"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Carbohydrates",
+          "Fats"
+        ],
+        "items": [
+          "Starch",
+          "Glycogen",
+          "Cellulose",
+          "Fats"
+        ],
+        "correct_category": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Starch, glycogen, and cellulose are carbohydrates, while fats are a type of lipid.",
+        "checked": true,
+        "subtopic_id": 2377,
+        "topic_id": 594,
+        "topic_label": "Carbohydrates, fats and proteins",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Carbohydrates, fats and proteins"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category based on whether it is a biological molecule made of carbon, hydrogen, and oxygen (CHO), or also includes nitrogen (N) or sulphur (S). Items: Starch, Glycogen, Cellulose, Protein.",
+        "categories": [
+          "CHO",
+          "CHO+N",
+          "CHO+N+S"
+        ],
+        "items": [
+          "Starch",
+          "Glycogen",
+          "Cellulose",
+          "Protein"
+        ],
+        "correct_category": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Starch, glycogen, and cellulose are carbohydrates composed of carbon, hydrogen, and oxygen. Proteins are made of amino acids that include carbon, hydrogen, oxygen, and nitrogen, and sometimes sulphur.",
+        "checked": true,
+        "subtopic_id": 2377,
+        "topic_id": 594,
+        "topic_label": "Carbohydrates, fats and proteins",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Carbohydrates, fats and proteins"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "7d5fb022-d829-40b9-8dff-adef5027c624",
+    "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+    "topics": [
+      "Biological molecules"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "interactive",
+    "textbook_id": 54,
+    "topic_ids": [
+      594
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "tick-all-correct",
+      "severity": "poor",
+      "index": 3,
+      "detail": "every option is correct, so nothing is tested"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "broken",
+        "detail": "Ethanol emulsion test identifies fats, but no 'Lipids' category exists. The item cannot be correctly sorted into the two provided categories (Carbohydrates, Proteins). Question is unanswerable as presented.",
+        "correction": "Add 'Lipids' as a third category, or replace ethanol emulsion test with a carbohydrate or protein test (e.g., Fehling's test, ninhydrin test)."
+      },
+      {
+        "label": "6",
+        "severity": "broken",
+        "detail": "Proteins are polymers of amino acids (monomers), not triglycerides. Correct categorization should place Proteins in 'Polymers of monomers' (category 0), not separately. Current correct_category [0,1,0,0] is incomplete—Proteins belong in category 0 but are marked as category 0 without explicit acknowledgment in explanation.",
+        "correction": "Explanation should clarify: 'Starch, proteins, and cellulose are polymers of monomers (glucose or amino acids). Fats are triglycerides composed of glycerol and fatty acids.' Correct_category remains [0,1,0,0] but explanation must be corrected."
+      },
+      {
+        "label": "10",
+        "severity": "broken",
+        "detail": "Question states 'Protein' should be sorted but correct_category shows only 4 items [0,0,0,1]. The fourth item 'Protein' is assigned category 1 (CHO+N), but category 2 (CHO+N+S) exists and is never used. Proteins commonly contain sulphur in methionine and cysteine residues; assignment to CHO+N alone is incomplete.",
+        "correction": "Revise correct_category to [0,0,0,2] and explanation: 'Proteins contain carbon, hydrogen, oxygen, nitrogen, and often sulphur (in amino acids methionine and cysteine).'"
+      }
+    ],
+    "summary": "Three substantive issues identified: Question 2 contains an unanswerable item (ethanol emulsion test) with no matching category. Question 6's explanation incompletely addresses protein classification. Question 10 incorrectly assigns proteins to CHO+N when sulphur-containing amino acids warrant CHO+N+S category."
+  },
+  "totalSeconds": 34
+}

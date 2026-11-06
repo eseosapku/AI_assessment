@@ -1,0 +1,885 @@
+{
+  "index": 7,
+  "label": "REB / Exam / Mathematics-SB S6 HLP LFK HGL",
+  "request": {
+    "subject": "Mathematics-SB S6 HLP LFK HGL",
+    "textbook_id": 130,
+    "topic_ids": [
+      1358,
+      1357
+    ],
+    "topics": [
+      "UNIT 2: COUNTING TECHNIQUES",
+      "UNIT 1: BIVARIATE STATISTICS"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 51,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing three scatter plots labelled (a), (b), and (c). Each plot has a Y axis and an X axis. In plot (a), the green points lie almost exactly on a straight line rising from the bottom left to the top right. In plot (b), the grey points are scattered with no visible pattern. In plot (c), the blue points lie almost exactly on a straight line falling from the top left to the bottom right.",
+        "question": "Describe the type of relationship shown in plot (a).",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the type of relationship (positive linear correlation)",
+          "Explain the characteristics of the relationship"
+        ],
+        "hints": [
+          "Consider the direction and linearity of the points in plot (a)."
+        ],
+        "model_answer": "The relationship shown in plot (a) is a positive linear correlation. This is because the green points lie almost exactly on a straight line that rises from the bottom left to the top right, indicating that as the X values increase, the Y values also increase in a consistent manner.",
+        "explanation": "A positive linear correlation means that as one variable increases, the other variable also increases in a consistent and predictable way, forming a straight line.",
+        "exam_question_id": "b04f1f42-f1a9-4e15-8db3-22e538214f7c:1",
+        "image_url": "/textbook-images/rwanda/130/page11-embedded-0.jpeg",
+        "image_alt": "Three scatter plots, each with a Y axis and an X axis, labelled (a), (b) and (c). In (a) the green points lie almost exactly on a straight line rising from the bottom left to the top right. In (b) the grey points are scattered with no visible pattern. In (c) the blue points lie almost exactly on a straight line falling from the top left to the bottom right.\nLabels: Y, X, (a), Y, X, (b), Y, X, (c)\nOriginal exercise:",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing three scatter plots labelled (a), (b), and (c). Each plot has a Y axis and an X axis. In plot (a), the green points lie almost exactly on a straight line rising from the bottom left to the top right. In plot (b), the grey points are scattered with no visible pattern. In plot (c), the blue points lie almost exactly on a straight line falling from the top left to the bottom right.",
+        "question": "Explain why plot (b) does not show a clear relationship between the variables.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the pattern or lack thereof in plot (b)",
+          "Explain why the points are scattered without a clear pattern",
+          "Discuss the implications of this scatter for any potential relationship"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why plot (b) does not show a clear relationship between the variables — develop the idea fully rather than listing short points. Make sure you also cover: Identify the or thereof in plot (b); Discuss the implications of this scatter for any potential relationship."
+        ],
+        "model_answer": "Plot (b) does not show a clear relationship between the variables because the grey points are scattered with no visible pattern. This means that there is no consistent trend or direction in how the Y values change as the X values change. The lack of a clear pattern suggests that there is no significant correlation between the variables.",
+        "explanation": "When points are scattered without a clear pattern, it indicates that there is no consistent relationship between the variables, and thus no significant correlation can be determined.",
+        "exam_question_id": "b04f1f42-f1a9-4e15-8db3-22e538214f7c:1",
+        "image_url": "/textbook-images/rwanda/130/page11-embedded-0.jpeg",
+        "image_alt": "Three scatter plots, each with a Y axis and an X axis, labelled (a), (b) and (c). In (a) the green points lie almost exactly on a straight line rising from the bottom left to the top right. In (b) the grey points are scattered with no visible pattern. In (c) the blue points lie almost exactly on a straight line falling from the top left to the bottom right.\nLabels: Y, X, (a), Y, X, (b), Y, X, (c)\nOriginal exercise:",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing three scatter plots labelled (a), (b), and (c). Each plot has a Y axis and an X axis. In plot (a), the green points lie almost exactly on a straight line rising from the bottom left to the top right. In plot (b), the grey points are scattered with no visible pattern. In plot (c), the blue points lie almost exactly on a straight line falling from the top left to the bottom right.",
+        "question": "Calculate the slope of the line in plot (c) if the points (2, 8) and (4, 4) lie on this line.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use the formula for the slope of a line",
+          "Substitute the given points into the formula and calculate"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the slope of the line in plot (c) if the points (2, 8) and (4, 4) lie on this line — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the given points into the and calculate."
+        ],
+        "model_answer": "The slope (m) of the line in plot (c) can be calculated using the formula m = (Y2 - Y1) / (X2 - X1). Substituting the points (2, 8) and (4, 4) into the formula, we get m = (4 - 8) / (4 - 2) = -4 / 2 = -2. Therefore, the slope of the line in plot (c) is -2.",
+        "explanation": "The slope of a line measures the steepness and direction of the line. A negative slope indicates that the line is falling from left to right.",
+        "exam_question_id": "b04f1f42-f1a9-4e15-8db3-22e538214f7c:1",
+        "image_url": "/textbook-images/rwanda/130/page11-embedded-0.jpeg",
+        "image_alt": "Three scatter plots, each with a Y axis and an X axis, labelled (a), (b) and (c). In (a) the green points lie almost exactly on a straight line rising from the bottom left to the top right. In (b) the grey points are scattered with no visible pattern. In (c) the blue points lie almost exactly on a straight line falling from the top left to the bottom right.\nLabels: Y, X, (a), Y, X, (b), Y, X, (c)\nOriginal exercise:",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Calculate the number of ways to choose 4 objects from the set of 10 distinct objects.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly applying the combination formula",
+          "Substituting the correct values into the formula",
+          "Calculating the final result"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways to choose 4 objects from the set of 10 distinct objects — develop the idea fully rather than listing short points. Make sure you also cover: Correctly applying the combination formula; Substituting the correct values into the formula; Calculating the final result."
+        ],
+        "model_answer": "C(10, 4) = 10! / [4!(10-4)!] = 10! / [4!6!] = (10*9*8*7) / (4*3*2*1) = 210",
+        "explanation": "To find the number of ways to choose 4 objects from a set of 10, we use the combination formula, which is C(n, r) = n! / [r!(n-r)!]. Here, n=10 and r=4. Substituting these values into the formula gives us the number of combinations.",
+        "exam_question_id": "314db8c8-fb2e-4656-a970-f77bb093a728:1",
+        "subtopic_id": 7311,
+        "topic_id": 1358,
+        "topic_label": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Calculate the number of ways to arrange 4 objects from the set of 10 distinct objects.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly applying the permutation formula",
+          "Substituting the correct values into the formula",
+          "Calculating the final result"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways to arrange 4 objects from the set of 10 distinct objects — develop the idea fully rather than listing short points. Make sure you also cover: Correctly applying the permutation formula; Substituting the correct values into the formula; Calculating the final result."
+        ],
+        "model_answer": "P(10, 4) = 10! / (10-4)! = 10! / 6! = (10*9*8*7) = 5040",
+        "explanation": "To find the number of ways to arrange 4 objects from a set of 10, we use the permutation formula, which is P(n, r) = n! / (n-r)!. Here, n=10 and r=4. Substituting these values into the formula gives us the number of permutations.",
+        "exam_question_id": "314db8c8-fb2e-4656-a970-f77bb093a728:1",
+        "subtopic_id": 7311,
+        "topic_id": 1358,
+        "topic_label": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Explain why the number of ways to choose 4 objects is different from the number of ways to arrange 4 objects.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly explaining the difference between combinations and permutations",
+          "Providing a clear and concise explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the number of ways to choose 4 objects is different from the number of ways to arrange 4 objects — develop the idea fully rather than listing short points. Make sure you also cover: Correctly explaining the difference between and; Providing a clear and concise explanation."
+        ],
+        "model_answer": "The number of ways to choose 4 objects from a set of 10 is different from the number of ways to arrange 4 objects because combinations do not consider the order of selection, while permutations do. In combinations, the order of selection does not matter, so ABC is the same as CBA. In permutations, the order of selection matters, so ABC is different from CBA.",
+        "explanation": "Combinations and permutations are different because combinations do not consider the order of selection, while permutations do. This means that in combinations, the order of the selected objects does not matter, while in permutations, the order of the selected objects does matter.",
+        "exam_question_id": "314db8c8-fb2e-4656-a970-f77bb093a728:1",
+        "subtopic_id": 7312,
+        "topic_id": 1358,
+        "topic_label": "Indistinguishable arrangements: Permutations of r objects selected from mixture of n alike and unlike objects",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Indistinguishable arrangements: Permutations of r objects selected from mixture of n alike and unlike objects"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a set of 5 distinct books. You are asked to find the number of ways to arrange 3 of these books on a shelf.",
+        "question": "Calculate the number of ways to arrange 3 books out of 5.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for permutations of n items taken r at a time.",
+          "Substitute the correct values into the formula.",
+          "Calculate the result accurately."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways to arrange 3 books out of 5 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the for permutations of n items taken r at a time.; Substitute the correct values into the; Calculate the result accurately."
+        ],
+        "model_answer": "The number of ways to arrange 3 books out of 5 is calculated using the permutation formula: P(5, 3) = 5! / (5 - 3)! = 5 * 4 * 3 = 60 ways.",
+        "explanation": "To find the number of arrangements, we use the permutation formula which accounts for the order of selection.",
+        "exam_question_id": "fa984a21-a762-4efa-aaae-a6578b56de35:1",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a set of 5 distinct books. You are asked to find the number of ways to arrange 3 of these books on a shelf.",
+        "question": "Find the number of ways to choose 3 books out of 5.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for combinations of n items taken r at a time.",
+          "Substitute the correct values into the formula.",
+          "Calculate the result accurately."
+        ],
+        "hints": [
+          "Stay focused on this: Find the number of ways to choose 3 books out of 5 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the for combinations of n items taken r at a time.; Substitute the correct values into the; Calculate the result accurately."
+        ],
+        "model_answer": "The number of ways to choose 3 books out of 5 is calculated using the combination formula: C(5, 3) = 5! / [3! * (5 - 3)!] = (5 * 4 * 3) / (3 * 2 * 1) = 10 ways.",
+        "explanation": "To find the number of combinations, we use the combination formula which does not account for the order of selection.",
+        "exam_question_id": "fa984a21-a762-4efa-aaae-a6578b56de35:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a set of 5 distinct books. You are asked to find the number of ways to arrange 3 of these books on a shelf.",
+        "question": "Explain why the number of arrangements in part (a) is greater than the number of combinations in part (b).",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly explain the difference between permutations and combinations.",
+          "Relate the difference to the context of arranging and choosing books."
+        ],
+        "hints": [
+          "Structure your answer around both demands: is greater than the number of combinations in part; then . Make sure you also cover: Correctly explain the difference between and combinations.; Relate the difference to the context of arranging and choosing."
+        ],
+        "model_answer": "The number of arrangements in part (a) is greater than the number of combinations in part (b) because permutations consider the order of selection, while combinations do not. This means that for every combination of 3 books, there are multiple ways to arrange them, leading to a higher total count for permutations.",
+        "explanation": "Permutations account for the order of selection, while combinations do not, resulting in a larger number of outcomes for permutations.",
+        "exam_question_id": "fa984a21-a762-4efa-aaae-a6578b56de35:1",
+        "subtopic_id": 7311,
+        "topic_id": 1358,
+        "topic_label": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the X values.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the X values.",
+          "Divide the sum by the number of data points."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mean of the X values — develop the idea fully rather than listing short points. Make sure you also cover: Correctly sum the X values.; Divide the sum by the number of data points."
+        ],
+        "model_answer": "Mean of X = (1 + 2 + 3 + 4 + 5) / 5 = 3.",
+        "explanation": "Add up all the X values and then divide by the number of data points to find the mean.",
+        "exam_question_id": "c6eb1f3a-caf1-4ffb-a6b5-efdd7bea34af:1",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the Y values.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the Y values.",
+          "Divide the sum by the number of data points."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mean of the Y values — develop the idea fully rather than listing short points. Make sure you also cover: Correctly sum the Y values.; Divide the sum by the number of data points."
+        ],
+        "model_answer": "Mean of Y = (60 + 65 + 70 + 75 + 80) / 5 = 70.",
+        "explanation": "Add up all the Y values and then divide by the number of data points to find the mean.",
+        "exam_question_id": "c6eb1f3a-caf1-4ffb-a6b5-efdd7bea34af:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the covariance of the X and Y values.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the mean of X and Y.",
+          "Subtract the mean of X from each X value and the mean of Y from each Y value.",
+          "Multiply the deviations and sum them, then divide by the number of data points minus one."
+        ],
+        "hints": [
+          "Use the formula for covariance: Cov(X, Y) = Σ[(Xi - mean(X)) * (Yi - mean(Y))] / (n - 1)."
+        ],
+        "model_answer": "Cov(X, Y) = [(1-3)*(60-70) + (2-3)*(65-70) + (3-3)*(70-70) + (4-3)*(75-70) + (5-3)*(80-70)] / 4 = 50 / 4 = 12.5.",
+        "explanation": "Calculate the deviations from the mean for both X and Y, multiply them, sum the products, and then divide by n-1 to find the covariance.",
+        "exam_question_id": "c6eb1f3a-caf1-4ffb-a6b5-efdd7bea34af:1",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Calculate the number of ways to choose 4 objects from the set of 10 distinct objects.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the use of combinations.",
+          "Apply the combination formula correctly.",
+          "Provide the final numerical answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways to choose 4 objects from the set of 10 distinct objects — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the use of combinations.; Apply the correctly.; Provide the final numerical answer."
+        ],
+        "model_answer": "Using the combination formula C(10, 4) = 10! / [4!(10-4)!] = 10! / [4!6!] = (10*9*8*7) / (4*3*2*1) = 210.",
+        "explanation": "To find the number of ways to choose 4 objects from a set of 10, we use the combination formula which accounts for the number of ways to choose a subset without regard to order.",
+        "exam_question_id": "ac7fc066-b978-47df-9853-ce13d6b4a836:1",
+        "subtopic_id": 7311,
+        "topic_id": 1358,
+        "topic_label": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Calculate the number of ways to arrange 4 objects from the set of 10 distinct objects.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the use of permutations.",
+          "Apply the permutation formula correctly.",
+          "Provide the final numerical answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways to arrange 4 objects from the set of 10 distinct objects — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the use of permutations.; Apply the correctly.; Provide the final numerical answer."
+        ],
+        "model_answer": "Using the permutation formula P(10, 4) = 10! / (10-4)! = 10! / 6! = (10*9*8*7) = 5040.",
+        "explanation": "To find the number of ways to arrange 4 objects from a set of 10, we use the permutation formula which accounts for the order of selection.",
+        "exam_question_id": "ac7fc066-b978-47df-9853-ce13d6b4a836:1",
+        "subtopic_id": 7309,
+        "topic_id": 1358,
+        "topic_label": "Circular permutation of all n objects",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Circular permutation of all n objects"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Explain why the number of ways to choose 4 objects is different from the number of ways to arrange 4 objects.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly differentiate between combinations and permutations.",
+          "Provide a clear explanation of why the counts differ."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the number of ways to choose 4 objects is different from the number of ways to arrange 4 objects — develop the idea fully rather than listing short points. Make sure you also cover: Correctly differentiate between and; Provide a clear explanation of why the counts differ."
+        ],
+        "model_answer": "The number of ways to choose 4 objects (combinations) is different from the number of ways to arrange 4 objects (permutations) because combinations do not consider the order of selection, while permutations do. This means that the same group of 4 objects can be arranged in multiple ways, increasing the total count for permutations.",
+        "explanation": "Combinations count the number of ways to select a group without considering the order, while permutations count the number of ways to select and arrange a group, thus permutations will always yield a higher count for the same group size.",
+        "exam_question_id": "ac7fc066-b978-47df-9853-ce13d6b4a836:1",
+        "subtopic_id": 7311,
+        "topic_id": 1358,
+        "topic_label": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the X values.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the X values.",
+          "Divide the sum by the number of data points."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mean of the X values — develop the idea fully rather than listing short points. Make sure you also cover: Divide the sum by the number of data points."
+        ],
+        "model_answer": "The X values are 1, 2, 3, 4, and 5. Their sum is 15. The mean is 15 divided by 5, which equals 3.",
+        "explanation": "To find the mean of the X values, you sum all the X values and then divide by the number of data points.",
+        "exam_question_id": "8983edff-02d7-405b-94bb-d82d05b9d6df:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the Y values.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the Y values.",
+          "Divide the sum by the number of data points."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mean of the Y values — develop the idea fully rather than listing short points. Make sure you also cover: Divide the sum by the number of data points."
+        ],
+        "model_answer": "The Y values are 60, 65, 70, 75, and 80. Their sum is 350. The mean is 350 divided by 5, which equals 70.",
+        "explanation": "To find the mean of the Y values, you sum all the Y values and then divide by the number of data points.",
+        "exam_question_id": "8983edff-02d7-405b-94bb-d82d05b9d6df:1",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the covariance of the X and Y values.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the mean of X and Y values.",
+          "Calculate the deviations of X and Y from their means.",
+          "Multiply the deviations and sum them, then divide by the number of data points minus one."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the covariance of the X and Y values — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the of X and Y values.; Calculate the of X and Y from their means.; Multiply the and sum them, then divide by the number of data points minus one."
+        ],
+        "model_answer": "The mean of X is 3 and the mean of Y is 70. The deviations are (-2, -5), (-1, -5), (0, 0), (1, 5), and (2, 10). Multiplying and summing these gives -10 - 5 + 0 + 5 + 20 = 10. Dividing by 4 (5-1) gives 2.5. So, the covariance is 2.5.",
+        "explanation": "To find the covariance, you first find the mean of X and Y, then calculate the deviations of each value from their respective means, multiply these deviations, sum them, and finally divide by the number of data points minus one.",
+        "exam_question_id": "8983edff-02d7-405b-94bb-d82d05b9d6df:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing a tree diagram with column headings 'First child', 'Second child', and 'Third child', starting from a point on the left. The first branch splits into Boy and Girl. Each of these splits into Boy and Girl for the second child, and each of those splits again into Boy and Girl for the third child. The eight outcomes at the end of the branches are BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG. Boy labels are blue and Girl labels are red.",
+        "question": "Calculate the probability of having exactly two girls in a family of three children.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the outcomes with exactly two girls.",
+          "Count the number of such outcomes.",
+          "Divide the number of outcomes with two girls by the total number of outcomes."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of having exactly two girls in a family of three children — develop the idea fully rather than listing short points. Make sure you also cover: Count the of."
+        ],
+        "model_answer": "The outcomes with exactly two girls are BGG, GBG, and GGB. There are 3 such outcomes. The total number of outcomes is 8. Therefore, the probability is 3/8.",
+        "explanation": "To find the probability of having exactly two girls, identify the outcomes that meet this condition and divide by the total number of outcomes.",
+        "exam_question_id": "14324ae0-3b0c-41d4-b82f-0354f428cbd8:1",
+        "image_url": "/textbook-images/rwanda/130/page54-embedded-0.png",
+        "image_alt": "A tree diagram with column headings 'First child', 'Second child' and 'Third child', starting from a point on the left. The first branch splits into Boy and Girl. Each of these splits into Boy and Girl for the second child, and each of those splits again into Boy and Girl for the third child. The eight outcomes at the end of the branches are BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG. Boy labels are blue and Girl labels are red.\nLabels: First child, Second child, Third child, Boy, Boy, Boy, BBB, Girl, BBG, Girl, Boy, BGB, Girl, BGG, Girl, Boy, Boy, GBB, Girl, GBG, Girl, Boy, GGB, Girl, GGG\nOrigina",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing a tree diagram with column headings 'First child', 'Second child', and 'Third child', starting from a point on the left. The first branch splits into Boy and Girl. Each of these splits into Boy and Girl for the second child, and each of those splits again into Boy and Girl for the third child. The eight outcomes at the end of the branches are BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG. Boy labels are blue and Girl labels are red.",
+        "question": "Calculate the probability of having at least one boy in a family of three children.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the outcomes with no boys.",
+          "Count the number of such outcomes.",
+          "Subtract the number of outcomes with no boys from the total number of outcomes and divide by the total number of outcomes."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the probability of having at least one boy in a family of three children — develop the idea fully rather than listing short points. Make sure you also cover: Identify the with no; Count the of; Subtract the of with no from the of and divide by the of."
+        ],
+        "model_answer": "The only outcome with no boys is GGG. There is 1 such outcome. The total number of outcomes is 8. Therefore, the probability of having at least one boy is (8 - 1) / 8 = 7/8.",
+        "explanation": "To find the probability of having at least one boy, subtract the probability of having no boys from 1.",
+        "exam_question_id": "14324ae0-3b0c-41d4-b82f-0354f428cbd8:1",
+        "image_url": "/textbook-images/rwanda/130/page54-embedded-0.png",
+        "image_alt": "A tree diagram with column headings 'First child', 'Second child' and 'Third child', starting from a point on the left. The first branch splits into Boy and Girl. Each of these splits into Boy and Girl for the second child, and each of those splits again into Boy and Girl for the third child. The eight outcomes at the end of the branches are BBB, BBG, BGB, BGG, GBB, GBG, GGB, GGG. Boy labels are blue and Girl labels are red.\nLabels: First child, Second child, Third child, Boy, Boy, Boy, BBB, Girl, BBG, Girl, Boy, BGB, Girl, BGG, Girl, Boy, Boy, GBB, Girl, GBG, Girl, Boy, GGB, Girl, GGG\nOrigina",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the X values.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the X values",
+          "Divide the sum by the number of data points"
+        ],
+        "hints": [
+          "Add up all the X values and then divide by the total number of data points."
+        ],
+        "model_answer": "The X values are 1, 2, 3, 4, and 5. Their sum is 15. The mean of the X values is 15/5 = 3.",
+        "explanation": "To find the mean of the X values, add all the X values together and then divide by the number of data points.",
+        "exam_question_id": "4656b707-b63f-4ce7-8631-f34ea5ba328f:1",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the Y values.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the Y values",
+          "Divide the sum by the number of data points"
+        ],
+        "hints": [
+          "Add up all the Y values and then divide by the total number of data points."
+        ],
+        "model_answer": "The Y values are 60, 65, 70, 75, and 80. Their sum is 350. The mean of the Y values is 350/5 = 70.",
+        "explanation": "To find the mean of the Y values, add all the Y values together and then divide by the number of data points.",
+        "exam_question_id": "4656b707-b63f-4ce7-8631-f34ea5ba328f:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the covariance of the X and Y values.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the mean of X and Y",
+          "Calculate the deviations of X and Y from their means",
+          "Multiply the deviations and sum them, then divide by n-1"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the covariance of the X and Y values — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the of X and Y; Calculate the of X and Y from their means; Multiply the and sum them, then divide by n-1."
+        ],
+        "model_answer": "The mean of X is 3 and the mean of Y is 70. The deviations are (-2, -5), (-1, -5), (0, 0), (1, 5), (2, 10). The covariance is (-10 - 5 + 0 + 5 + 20) / 4 = 10 / 4 = 2.5.",
+        "explanation": "To calculate the covariance, first find the mean of X and Y, then calculate the deviations of each data point from their respective means, multiply these deviations, sum them, and finally divide by n-1.",
+        "exam_question_id": "4656b707-b63f-4ce7-8631-f34ea5ba328f:1",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Calculate the number of ways to choose 4 objects from the set of 10 distinct objects.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct application of the combination formula",
+          "Correct calculation"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways to choose 4 objects from the set of 10 distinct objects — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the; Correct calculation."
+        ],
+        "model_answer": "The number of ways to choose 4 objects from a set of 10 is given by the combination formula C(10, 4) = 10! / (4!(10-4)!) = 210.",
+        "explanation": "To find the number of ways to choose 4 objects from a set of 10, we use the combination formula which is C(n, k) = n! / (k!(n-k)!). Here, n is 10 and k is 4.",
+        "exam_question_id": "7c1f4d25-6c9e-4c97-956d-ff3c6ee529c7:1",
+        "subtopic_id": 7311,
+        "topic_id": 1358,
+        "topic_label": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Distinguishable arrangements (Permutations of r unlike objects chosen from n distinct objects without repetition)"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Calculate the number of ways to arrange 4 objects from the set of 10 distinct objects.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the permutation formula",
+          "Correct calculation",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of ways to arrange 4 objects from the set of 10 distinct objects — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the; Correct calculation; Correct final answer."
+        ],
+        "model_answer": "The number of ways to arrange 4 objects from a set of 10 is given by the permutation formula P(10, 4) = 10! / (10-4)! = 5040.",
+        "explanation": "To find the number of ways to arrange 4 objects from a set of 10, we use the permutation formula which is P(n, k) = n! / (n-k)!. Here, n is 10 and k is 4.",
+        "exam_question_id": "7c1f4d25-6c9e-4c97-956d-ff3c6ee529c7:1",
+        "subtopic_id": 7309,
+        "topic_id": 1358,
+        "topic_label": "Circular permutation of all n objects",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Circular permutation of all n objects"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a set of 10 distinct objects. You are to choose a subset of 4 objects from this set.",
+        "question": "Explain why the number of ways to choose 4 objects is different from the number of ways to arrange 4 objects.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the difference between combination and permutation",
+          "Correct conclusion"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the number of ways to choose 4 objects is different from the number of ways to arrange 4 objects — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the difference between combination and permutation; Correct conclusion."
+        ],
+        "model_answer": "The number of ways to choose 4 objects from a set of 10 is different from the number of ways to arrange 4 objects because choosing does not consider the order of the objects, whereas arranging does. This means that for arrangements, each different order of the same objects is counted separately, leading to a higher number of outcomes.",
+        "explanation": "Choosing a subset of objects (combination) does not consider the order, while arranging objects (permutation) does. This results in more possible outcomes for arrangements.",
+        "exam_question_id": "7c1f4d25-6c9e-4c97-956d-ff3c6ee529c7:1",
+        "subtopic_id": 7309,
+        "topic_id": 1358,
+        "topic_label": "Circular permutation of all n objects",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL",
+          "area": "Circular permutation of all n objects"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the X values.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the X values from the data set.",
+          "Calculate the sum of the X values.",
+          "Divide the sum by the number of data points to find the mean."
+        ],
+        "hints": [
+          "The X values are the first numbers in each pair."
+        ],
+        "model_answer": "The X values are 1, 2, 3, 4, 5. The sum of the X values is 1 + 2 + 3 + 4 + 5 = 15. The mean of the X values is 15 / 5 = 3.",
+        "explanation": "To find the mean of the X values, add up all the X values and then divide by the number of data points.",
+        "exam_question_id": "e439d8d4-e2e7-4dac-aa0a-3893cee4ed8c:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the mean of the Y values.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the Y values from the data set.",
+          "Calculate the sum of the Y values.",
+          "Divide the sum by the number of data points to find the mean."
+        ],
+        "hints": [
+          "The Y values are the second numbers in each pair."
+        ],
+        "model_answer": "The Y values are 60, 65, 70, 75, 80. The sum of the Y values is 60 + 65 + 70 + 75 + 80 = 350. The mean of the Y values is 350 / 5 = 70.",
+        "explanation": "To find the mean of the Y values, add up all the Y values and then divide by the number of data points.",
+        "exam_question_id": "e439d8d4-e2e7-4dac-aa0a-3893cee4ed8c:1",
+        "topic_label": "UNIT 1: BIVARIATE STATISTICS",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following bivariate data set for the number of hours studied (X) and the corresponding test scores (Y): (1, 60), (2, 65), (3, 70), (4, 75), (5, 80).",
+        "question": "Calculate the covariance of the X and Y values.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the mean of the X values.",
+          "Calculate the mean of the Y values.",
+          "For each pair, subtract the mean of X from the X value and the mean of Y from the Y value, then multiply these differences and sum the results."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the covariance of the X and Y values — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the of the X values.; Calculate the of the Y values."
+        ],
+        "model_answer": "Mean of X = 3, Mean of Y = 70. Covariance = [(1-3)(60-70) + (2-3)(65-70) + (3-3)(70-70) + (4-3)(75-70) + (5-3)(80-70)] / 5 = [-2*-10 + -1*-5 + 0*0 + 1*5 + 2*10] / 5 = [20 + 5 + 0 + 5 + 20] / 5 = 50 / 5 = 10.",
+        "explanation": "To calculate the covariance, first find the means of X and Y. Then, for each pair, subtract the mean of X from the X value and the mean of Y from the Y value. Multiply these differences and sum the results, then divide by the number of data points.",
+        "exam_question_id": "e439d8d4-e2e7-4dac-aa0a-3893cee4ed8c:1",
+        "topic_label": "UNIT 2: COUNTING TECHNIQUES",
+        "source": {
+          "textbook": "Mathematics-SB S6 HLP LFK HGL"
+        }
+      }
+    ],
+    "estimated_time": 74,
+    "assessment_id": "018f9e68-1f6f-44ae-ba96-d324dd5b3d87",
+    "subject": "Mathematics-SB S6 HLP LFK HGL",
+    "topics": [
+      "UNIT 2: COUNTING TECHNIQUES",
+      "UNIT 1: BIVARIATE STATISTICS"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 130,
+    "topic_ids": [
+      1358,
+      1357
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 29,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 3,
+      "detail": "9 questions open with the same sentence (4, 5, 6, 13, 14, 15, 24, 25, 26): \"Consider a set of 10 distinct objects. You are to \""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 0,
+      "detail": "88 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 1,
+      "detail": "92 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 2,
+      "detail": "100 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 18,
+      "detail": "100 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 19,
+      "detail": "101 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 12"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [
+    "/textbook-images/rwanda/130/page11-embedded-0.jpeg: HTTP 404",
+    "/textbook-images/rwanda/130/page54-embedded-0.png: HTTP 404"
+  ],
+  "totalSeconds": 52
+}

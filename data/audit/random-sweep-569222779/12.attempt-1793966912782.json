@@ -1,0 +1,24 @@
+{
+  "index": 12,
+  "label": "REB / Exam / Geography S5 SB (1)",
+  "request": {
+    "subject": "Geography S5 SB (1)",
+    "textbook_id": 110,
+    "topic_ids": [
+      1162
+    ],
+    "topics": [
+      "Statistical Graphs, Diagrams and Maps"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "generating"
+}

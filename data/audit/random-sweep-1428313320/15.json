@@ -1,0 +1,811 @@
+{
+  "index": 15,
+  "label": "REB / Practice / Biology S6 Student Book ",
+  "request": {
+    "subject": "Biology S6 Student Book ",
+    "textbook_id": 9,
+    "topic_ids": [
+      129,
+      119
+    ],
+    "topics": [
+      "Evolution and Speciation",
+      "Excretion and Osmoregulation"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 16,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Which of the following correctly describes the role of the nephron in the kidney?",
+        "options": [
+          "Filters blood to remove waste and balance electrolytes",
+          "Transports oxygen to the cells",
+          "Converts glucose to energy",
+          "Produces hormones that regulate blood pressure"
+        ],
+        "correct_answer": 0,
+        "explanation": "The nephron is the functional unit of the kidney that filters blood to remove waste products and balance electrolytes, making Filters blood to remove waste and balance electrolytes correct. Options B, C, and D describe functions of other body systems.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 586,
+        "topic_id": 119,
+        "topic_label": "Role of hypothalamus, pituitary gland, adrenal gland and nephron in varying the blood osmotic pressure",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Role of hypothalamus, pituitary gland, adrenal gland and nephron in varying the blood osmotic pressure"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Natural Selection",
+            "right": "The process where organisms better adapted to their environment tend to survive and produce more offspring."
+          },
+          {
+            "left": "Speciation",
+            "right": "The formation of new and distinct species in the course of evolution."
+          },
+          {
+            "left": "Extinction",
+            "right": "The end of an organism or group of organisms (taxon), normally a species."
+          },
+          {
+            "left": "Evolution",
+            "right": "The change in the heritable characteristics of biological populations over successive generations."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Natural selection is correctly matched with its definition as the survival and reproduction of organisms best adapted to their environment. Speciation, extinction, and evolution are matched with their respective definitions.",
+        "left_items": [
+          "Natural Selection",
+          "Speciation",
+          "Extinction",
+          "Evolution"
+        ],
+        "right_items": [
+          "The end of an organism or group of organisms (taxon), normally a species.",
+          "The formation of new and distinct species in the course of evolution.",
+          "The process where organisms better adapted to their environment tend to survive and produce more offspring.",
+          "The change in the heritable characteristics of biological populations over successive generations."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 644,
+        "topic_id": 129,
+        "topic_label": "Roles natural selection in speciation",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Roles natural selection in speciation"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the stages of kidney transplantation in the correct order",
+        "ordered_items": [
+          "Preoperative evaluation of the donor and recipient",
+          "Surgical implantation of the kidney",
+          "Postoperative care and monitoring",
+          "Matching donor and recipient blood types and tissue compatibility"
+        ],
+        "marks": 4,
+        "explanation": "The correct sequence is: preoperative evaluation (item 3), then matching donor and recipient blood types and tissue compatibility (item 2), then surgical implantation (item 0), and finally postoperative care and monitoring (item 1).",
+        "items": [
+          "Surgical implantation of the kidney",
+          "Postoperative care and monitoring",
+          "Matching donor and recipient blood types and tissue compatibility",
+          "Preoperative evaluation of the donor and recipient"
+        ],
+        "correct_order": [
+          3,
+          2,
+          0,
+          1
+        ],
+        "checked": true,
+        "topic_label": "Evolution and Speciation",
+        "source": {
+          "textbook": "Biology S6 Student Book"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: Extinct species can no longer be found on Earth and have no living descendants.",
+        "statements": [
+          "Extinct species can no longer be found on Earth and have no living descendants.",
+          "Evolution is a process that occurs over millions of years.",
+          "Natural selection is the only mechanism of evolution.",
+          "Speciation can occur in a single generation."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          false,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Extinct species indeed have no living descendants and cannot be found on Earth. Evolution typically occurs over millions of years. Natural selection is one of several mechanisms of evolution. Speciation usually takes longer than a single generation.",
+        "checked": true,
+        "subtopic_id": 644,
+        "topic_id": 129,
+        "topic_label": "Roles natural selection in speciation",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Roles natural selection in speciation"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which of the following are methods to prevent organ rejection after a transplant?",
+        "options": [
+          "Administering immunosuppressive drugs",
+          "Matching donor and recipient blood types",
+          "Using dialysis machines",
+          "Performing genetic engineering on the donor organ"
+        ],
+        "correct_indices": [
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Administering immunosuppressive drugs and matching donor and recipient blood types are both methods to prevent organ rejection. Using dialysis machines and performing genetic engineering on the donor organ are not direct methods for preventing organ rejection after a transplant.",
+        "checked": true,
+        "subtopic_id": 587,
+        "topic_id": 119,
+        "topic_label": "Kidney transplants and dialysis machines",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Kidney transplants and dialysis machines"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which part of the nephron is primarily responsible for reabsorbing water and ions?",
+        "options": [
+          "Proximal Convoluted Tubule",
+          "Loop of Henle",
+          "Distal Convoluted Tubule",
+          "Collecting Duct"
+        ],
+        "correct_answer": 3,
+        "explanation": "The collecting duct is where ADH regulates water reabsorption, and it also reabsorbs ions. This is the main site for controlled reabsorption of both substances.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Excretion and Osmoregulation",
+        "source": {
+          "textbook": "Biology S6 Student Book"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term with its correct definition related to osmoregulation.",
+        "matched_pairs": [
+          {
+            "left": "Osmoregulation",
+            "right": "Maintenance of water and ion balance"
+          },
+          {
+            "left": "Osmoregulator",
+            "right": "Organism that maintains a constant internal environment"
+          },
+          {
+            "left": "Osmoconformer",
+            "right": "Organism that changes its internal environment to match the external environment"
+          },
+          {
+            "left": "Osmolarity",
+            "right": "Concentration of solutes in a solution"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is matched with its correct definition: Osmoregulation involves maintaining balance, osmoregulators maintain a constant internal environment, osmoconformers adjust their internal environment to match the external, and osmolarity refers to solute concentration.",
+        "left_items": [
+          "Osmoregulation",
+          "Osmoregulator",
+          "Osmoconformer",
+          "Osmolarity"
+        ],
+        "right_items": [
+          "Organism that maintains a constant internal environment",
+          "Organism that changes its internal environment to match the external environment",
+          "Concentration of solutes in a solution",
+          "Maintenance of water and ion balance"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "topic_label": "Excretion and Osmoregulation",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Excretion and Osmoregulation"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the stages of the nephron filtration process in the correct order.",
+        "ordered_items": [
+          "Glomerular Filtration",
+          "Selective Reabsorption",
+          "Tubular Secretion",
+          "Formation of Urine"
+        ],
+        "marks": 4,
+        "explanation": "The correct order is: Glomerular Filtration where blood is filtered in the glomerulus, Selective Reabsorption where useful substances are reabsorbed, Tubular Secretion where additional waste is secreted, and Formation of Urine where the final product is produced.",
+        "items": [
+          "Formation of Urine",
+          "Glomerular Filtration",
+          "Selective Reabsorption",
+          "Tubular Secretion"
+        ],
+        "correct_order": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "checked": true,
+        "subtopic_id": 585,
+        "topic_id": 119,
+        "topic_label": "Formation of urine and purification of blood",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Formation of urine and purification of blood"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each organism into the correct osmoregulatory strategy category.",
+        "categories": [
+          "Osmoregulators",
+          "Osmoconformers"
+        ],
+        "items": [
+          "Shark",
+          "Salmon",
+          "Clam",
+          "Human"
+        ],
+        "correct_category": [
+          1,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Sharks, salmon, and humans are osmoregulators because they maintain a stable internal osmotic environment despite external changes. Clams are osmoconformers because their internal osmolarity matches their external marine environment.",
+        "checked": true,
+        "topic_label": "Evolution and Speciation",
+        "source": {
+          "textbook": "Biology S6 Student Book"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False about evolution.",
+        "statements": [
+          "Fossils provide evidence of past life forms.",
+          "Evolution is a random process.",
+          "Natural selection leads to the survival of the fittest.",
+          "Mutations always result in new species."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Fossils do provide evidence of past life forms. Evolution is not random but is driven by natural selection. Natural selection does lead to the survival of the fittest. Not all mutations result in new species; they must accumulate over many generations.",
+        "checked": true,
+        "subtopic_id": 641,
+        "topic_id": 129,
+        "topic_label": "Evidence of evolution",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Evidence of evolution"
+        }
+      },
+      {
+        "id": 11,
+        "type": "mcq",
+        "question": "Look at the diagram. Each placental mammal resembles an Australian marsupial in the same row. What best explains these similarities?",
+        "options": [
+          "Similar environments and lifestyles led to similar adaptations in unrelated lineages",
+          "Marsupials evolved directly from the placental mammals in each row",
+          "Marsupials and placental mammals exchanged genes through interbreeding",
+          "Both groups descended recently from one shared ancestor with the same body form"
+        ],
+        "correct_answer": 0,
+        "explanation": "Similar selection pressures from comparable niches (burrowing, gliding, hunting) shaped similar body forms in separate lineages, which is convergent evolution. A recent shared ancestor is wrong because the two groups diverged long ago. Marsupials did not evolve from placentals. Interbreeding is impossible between such distantly related species.",
+        "image_url": "/textbook-images/rwanda/9/page471-embedded-0.png",
+        "topic_label": "Convergent evolution",
+        "vetted": true,
+        "image_alt": "A two-column comparison of drawn animals. The left column is headed 'Placental mammals' and the right column 'Australian marsupials'. Seven rows are labelled burrower, anteater (printed 'andeader'), mouse, climber, glider, cat and wolf. Each row pairs a placental mammal with an Australian marsupial of similar body form and lifestyle. Printed on it: Placental mammals | Australian marsupials | burrower | andeader | mouse | climber | glider | cat | wolf.",
+        "subtopic_id": 647,
+        "topic_id": 129,
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Convergent evolution"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply regarding speciation.",
+        "options": [
+          "Geographic isolation can lead to speciation.",
+          "Speciation always results in new species.",
+          "Speciation can occur through genetic drift.",
+          "Speciation requires reproductive isolation."
+        ],
+        "correct_indices": [
+          0,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "Geographic isolation can lead to speciation by preventing gene flow. Genetic drift can contribute to speciation by causing random changes in allele frequencies. Reproductive isolation is necessary for speciation to occur.",
+        "checked": true,
+        "topic_label": "Evolution and Speciation",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Evolution and Speciation"
+        }
+      },
+      {
+        "id": 13,
+        "type": "mcq",
+        "question": "In the human nephron, where does the initial filtration of blood to form urine occur?",
+        "options": [
+          "Collecting duct",
+          "Distal convoluted tubule",
+          "Bowman's capsule",
+          "Loop of Henle"
+        ],
+        "correct_answer": 2,
+        "explanation": "The Bowman's capsule is the site in the nephron where the initial filtration of blood occurs to form the filtrate, which eventually becomes urine. This is where the process of urine formation begins.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 585,
+        "topic_id": 119,
+        "topic_label": "Formation of urine and purification of blood",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Formation of urine and purification of blood"
+        }
+      },
+      {
+        "id": 14,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each excretory organ to its function in maintaining osmoregulation.",
+        "matched_pairs": [
+          {
+            "left": "Kidney",
+            "right": "Filtration of blood and formation of urine"
+          },
+          {
+            "left": "Skin",
+            "right": "Excretion of salts and urea through sweat"
+          },
+          {
+            "left": "Lungs",
+            "right": "Excretion of carbon dioxide and water vapor"
+          },
+          {
+            "left": "Liver",
+            "right": "Conversion of ammonia to urea"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each organ listed has a specific role in the process of excretion and osmoregulation, helping to maintain the body's water and electrolyte balance.",
+        "left_items": [
+          "Kidney",
+          "Skin",
+          "Lungs",
+          "Liver"
+        ],
+        "right_items": [
+          "Filtration of blood and formation of urine",
+          "Excretion of carbon dioxide and water vapor",
+          "Excretion of salts and urea through sweat",
+          "Conversion of ammonia to urea"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 589,
+        "topic_id": 119,
+        "topic_label": "Excretion and osmoregulation in protoctista, insects, fish, amphibians and birds",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Excretion and osmoregulation in protoctista, insects, fish, amphibians and birds"
+        }
+      },
+      {
+        "id": 15,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the stages of urine formation in the nephron in the correct order.",
+        "ordered_items": [
+          "Glomerular filtration",
+          "Reabsorption",
+          "Secretion",
+          "Excretion"
+        ],
+        "marks": 4,
+        "explanation": "Urine formation begins with glomerular filtration, followed by reabsorption, secretion, and finally excretion, each stage playing a crucial role in the purification of blood.",
+        "items": [
+          "Glomerular filtration",
+          "Secretion",
+          "Excretion",
+          "Reabsorption"
+        ],
+        "correct_order": [
+          0,
+          3,
+          1,
+          2
+        ],
+        "checked": true,
+        "subtopic_id": 585,
+        "topic_id": 119,
+        "topic_label": "Formation of urine and purification of blood",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Formation of urine and purification of blood"
+        }
+      },
+      {
+        "id": 16,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each organism into the correct category based on its excretory system.",
+        "categories": [
+          "Protoctista",
+          "Insects",
+          "Fish",
+          "Amphibians",
+          "Birds"
+        ],
+        "items": [
+          "Paramecium",
+          "Cockroach",
+          "Goldfish",
+          "Frog",
+          "Pigeon"
+        ],
+        "correct_category": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "marks": 5,
+        "explanation": "Each organism is categorised based on its specific excretory system, which varies among different groups of animals.",
+        "checked": true,
+        "topic_label": "Excretion and Osmoregulation",
+        "source": {
+          "textbook": "Biology S6 Student Book"
+        }
+      },
+      {
+        "id": 17,
+        "type": "mcq",
+        "question": "Which of the following is NOT a cause of evolution?",
+        "options": [
+          "Mutation",
+          "Genetic drift",
+          "Natural selection",
+          "Sexual reproduction"
+        ],
+        "correct_answer": 3,
+        "explanation": "Sexual reproduction is a mechanism for creating genetic variation, but it is not a direct cause of evolution. Causes of evolution include genetic drift, natural selection, and mutation.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 642,
+        "topic_id": 129,
+        "topic_label": "Causes of evolution",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Causes of evolution"
+        }
+      },
+      {
+        "id": 18,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: Divergent evolution can lead to the formation of new species.",
+        "statements": [
+          "Divergent evolution can lead to speciation.",
+          "Divergent evolution always results in the extinction of one population.",
+          "Divergent evolution is a form of convergent evolution.",
+          "Divergent evolution occurs due to genetic isolation."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "Divergent evolution can indeed lead to the formation of new species as populations become more distinct, but it does not always result in the extinction of one population. It is distinct from convergent evolution and often involves genetic isolation.",
+        "checked": true,
+        "subtopic_id": 647,
+        "topic_id": 129,
+        "topic_label": "Convergent evolution",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Convergent evolution"
+        }
+      },
+      {
+        "id": 19,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which of the following factors can contribute to divergent evolution?",
+        "options": [
+          "Geographical isolation",
+          "Different food sources",
+          "Predator presence",
+          "Climate change",
+          "Competition for mates"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "marks": 5,
+        "explanation": "Geographical isolation, different food sources, climate change, and competition for mates can all contribute to divergent evolution by creating different selective pressures on populations.",
+        "checked": true,
+        "subtopic_id": 646,
+        "topic_id": 129,
+        "topic_label": "Divergent evolution",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Divergent evolution"
+        }
+      },
+      {
+        "id": 20,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct function related to excretion and osmoregulation.",
+        "matched_pairs": [
+          {
+            "left": "Hypothalamus",
+            "right": "Regulates ADH release"
+          },
+          {
+            "left": "Pituitary gland",
+            "right": "Stores and releases ADH"
+          },
+          {
+            "left": "Adrenal gland",
+            "right": "Produces aldosterone"
+          },
+          {
+            "left": "Nephron",
+            "right": "Filters blood and reabsorbs water"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each gland and organ has a specific role in the process of excretion and osmoregulation. The hypothalamus regulates ADH, the pituitary gland stores and releases ADH, the adrenal gland produces aldosterone, and the nephron filters blood and reabsorbs water.",
+        "left_items": [
+          "Hypothalamus",
+          "Pituitary gland",
+          "Adrenal gland",
+          "Nephron"
+        ],
+        "right_items": [
+          "Regulates ADH release",
+          "Produces aldosterone",
+          "Stores and releases ADH",
+          "Filters blood and reabsorbs water"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 586,
+        "topic_id": 119,
+        "topic_label": "Role of hypothalamus, pituitary gland, adrenal gland and nephron in varying the blood osmotic pressure",
+        "source": {
+          "textbook": "Biology S6 Student Book",
+          "area": "Role of hypothalamus, pituitary gland, adrenal gland and nephron in varying the blood osmotic pressure"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "e6d8ce1b-247b-4600-9e66-326139450334",
+    "subject": "Biology S6 Student Book ",
+    "topics": [
+      "Evolution and Speciation",
+      "Excretion and Osmoregulation"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "study_mixed",
+    "textbook_id": 9,
+    "topic_ids": [
+      129,
+      119
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "3",
+        "severity": "broken",
+        "detail": "Question asks to order kidney transplantation stages but is labeled under 'Evolution and Speciation' topic. This is an Excretion/Osmoregulation topic and misplaced in the assessment structure.",
+        "correction": "Relocate question 3 to Excretion and Osmoregulation section or correct topic_label to 'Kidney transplants and dialysis machines' (topic_id 119)."
+      },
+      {
+        "label": "6",
+        "severity": "poor",
+        "detail": "Explanation incomplete: states collecting duct is 'main site for controlled reabsorption' but proximal convoluted tubule reabsorbs majority of glucose, amino acids, and ions. Collecting duct primarily controls water reabsorption via ADH.",
+        "correction": "Revise explanation: 'The collecting duct is where ADH regulates water reabsorption. However, the proximal convoluted tubule reabsorbs most ions and useful substances. The collecting duct is the primary site for regulated water reabsorption.'"
+      },
+      {
+        "label": "9",
+        "severity": "broken",
+        "detail": "Question labeled under 'Evolution and Speciation' topic but content is entirely about osmoregulatory strategies (Excretion and Osmoregulation). Topic mismatch.",
+        "correction": "Change topic_label to 'Excretion and Osmoregulation' and topic_id to 119."
+      },
+      {
+        "label": "14",
+        "severity": "poor",
+        "detail": "Correct pairs mapping shows [0,0],[1,2],[2,1],[3,3] but right_items array order is [0: Filtration..., 1: Excretion CO2..., 2: Excretion salts..., 3: Conversion ammonia...]. Mapping [1,2] pairs Skin with 'Excretion CO2' (lungs function), and [2,1] pairs Lungs with 'Excretion salts' (skin function). Indices are reversed.",
+        "correction": "Correct pairs should be [[0,0],[1,2],[2,1],[3,3]] requires right_items reordered as: [0: Filtration blood, 1: Excretion salts sweat, 2: Excretion CO2 water, 3: Conversion ammonia] OR correct_pairs should be [[0,0],[1,2],[2,1],[3,3]]."
+      },
+      {
+        "label": "15",
+        "severity": "broken",
+        "detail": "Correct order [0,3,1,2] maps to [Glomerular filtration, Reabsorption, Secretion, Excretion] but explanation states 'filtration, reabsorption, secretion, excretion'. Items array is [Glomerular filtration, Secretion, Excretion, Reabsorption]. Index 3=Reabsorption, index 1=Secretion, index 2=Excretion. Correct order should be [0,3,1,2] which gives correct sequence, but explanation wording matches items not indices.",
+        "correction": "Verify: correct_order [0,3,1,2] produces Glomerular filtration→Reabsorption→Secretion→Excretion. This is correct. No correction needed; explanation is accurate."
+      },
+      {
+        "label": "20",
+        "severity": "broken",
+        "detail": "Correct pairs [[0,0],[1,2],[2,1],[3,3]] with right_items [Regulates ADH, Produces aldosterone, Stores releases ADH, Filters blood]. Pair [1,2] maps Pituitary to 'Produces aldosterone' (adrenal function). Pair [2,1] maps Adrenal to 'Stores releases ADH' (pituitary function). Indices reversed.",
+        "correction": "Correct pairs should be [[0,0],[1,2],[2,1],[3,3]] requires right_items reordered as [Regulates ADH, Stores releases ADH, Produces aldosterone, Filters blood] OR correct_pairs [[0,0],[1,2],[2,1],[3,3]]."
+      }
+    ],
+    "summary": "Assessment contains 20 questions spanning Evolution/Speciation and Excretion/Osmoregulation. Three substantive issues identified: question 3 and 9 have incorrect topic labels; questions 14 and 20 have reversed index mappings in matching pairs. Question 6 has incomplete explanation. Question 15 verified as correct."
+  },
+  "totalSeconds": 24
+}

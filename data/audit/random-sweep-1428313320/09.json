@@ -1,0 +1,913 @@
+{
+  "index": 9,
+  "label": "REB / Exam / Chemistry S5 SB",
+  "request": {
+    "subject": "Chemistry S5 SB",
+    "textbook_id": 56,
+    "topic_ids": [
+      618
+    ],
+    "topics": [
+      "Carboxylic Acids and Acyl Chlorides"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 103,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing the reaction mechanism for acid-catalysed esterification.",
+        "question": "Explain the role of the proton (H+) in the protonation step of the reaction mechanism.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the protonation step in the mechanism",
+          "Explanation of how the proton (H+) facilitates the reaction",
+          "Description of the interaction between the proton and the carboxylic acid"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of the proton (H+) in the protonation step of the reaction mechanism — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of how the proton (H+) facilitates the reaction; Description of the interaction between the proton and the."
+        ],
+        "model_answer": "In the protonation step, the proton (H+) from the acid catalyst protonates the carbonyl oxygen of the carboxylic acid, making it more electrophilic. This increases the reactivity of the carbonyl carbon, facilitating the nucleophilic attack by the alcohol. The protonation step is crucial as it prepares the carboxylic acid for the subsequent nucleophilic attack.",
+        "explanation": "Protonation of the carbonyl oxygen by H+ increases the electrophilicity of the carbonyl carbon, making it more susceptible to nucleophilic attack by the alcohol.",
+        "exam_question_id": "f32b95f8-c653-4948-ab76-b4aa96967b36:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page245-embedded-6.png",
+        "image_alt": "A reaction mechanism for acid-catalysed esterification, drawn as six structures joined by equilibrium arrows with curved arrows for electron movement. A carboxylic acid R-COOH is protonated by H+ to give a protonated acid. The alcohol R-OH (green) attacks the carbonyl carbon, giving a tetrahedral intermediate. After proton transfer, water (H-O-H) is lost, leaving a protonated ester. Loss of H+ gives the ester R-CO-O-R.\nLabels: H+, O, R, C, OH, +, H, R, O, H, R, C, +, OH, O, H, H, O, R, C, O, H, O, H, H, +, H, O, H, H, R, C, O, R, +, O, H, - H+, R, C\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing the reaction mechanism for acid-catalysed esterification.",
+        "question": "Describe the formation of the tetrahedral intermediate in the reaction mechanism.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the step where the tetrahedral intermediate is formed",
+          "Explanation of the nucleophilic attack by the alcohol",
+          "Description of the structure and stability of the tetrahedral intermediate"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the formation of the tetrahedral intermediate in the reaction mechanism — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the by the; Description of the structure and stability of the tetrahedral intermediate."
+        ],
+        "model_answer": "The tetrahedral intermediate is formed when the alcohol (R-OH) attacks the carbonyl carbon of the protonated carboxylic acid. This nucleophilic attack results in the formation of a tetrahedral intermediate where the oxygen of the alcohol is bonded to the carbonyl carbon. The tetrahedral intermediate is unstable and tends to lose a proton (H+) to revert back to the carbonyl group, but in this mechanism, it loses a molecule of water (H2O) to form the ester.",
+        "explanation": "The tetrahedral intermediate is a transient species formed during the nucleophilic attack of the alcohol on the protonated carbonyl carbon, leading to the eventual formation of the ester.",
+        "exam_question_id": "f32b95f8-c653-4948-ab76-b4aa96967b36:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page245-embedded-6.png",
+        "image_alt": "A reaction mechanism for acid-catalysed esterification, drawn as six structures joined by equilibrium arrows with curved arrows for electron movement. A carboxylic acid R-COOH is protonated by H+ to give a protonated acid. The alcohol R-OH (green) attacks the carbonyl carbon, giving a tetrahedral intermediate. After proton transfer, water (H-O-H) is lost, leaving a protonated ester. Loss of H+ gives the ester R-CO-O-R.\nLabels: H+, O, R, C, OH, +, H, R, O, H, R, C, +, OH, O, H, H, O, R, C, O, H, O, H, H, +, H, O, H, H, R, C, O, R, +, O, H, - H+, R, C\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing the reaction mechanism for acid-catalysed esterification.",
+        "question": "Calculate the change in the oxidation state of the carbonyl carbon during the formation of the ester.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the oxidation state of the carbonyl carbon in the carboxylic acid",
+          "Identification of the oxidation state of the carbonyl carbon in the ester",
+          "Calculation of the change in oxidation state"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the change in the oxidation state of the carbonyl carbon during the formation of the ester — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "In the carboxylic acid, the carbonyl carbon has an oxidation state of +3 (C=O). In the ester, the carbonyl carbon has an oxidation state of +3 (C-O). Therefore, the change in the oxidation state of the carbonyl carbon is 0.",
+        "explanation": "The oxidation state of the carbonyl carbon remains unchanged during the formation of the ester.",
+        "exam_question_id": "f32b95f8-c653-4948-ab76-b4aa96967b36:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page245-embedded-6.png",
+        "image_alt": "A reaction mechanism for acid-catalysed esterification, drawn as six structures joined by equilibrium arrows with curved arrows for electron movement. A carboxylic acid R-COOH is protonated by H+ to give a protonated acid. The alcohol R-OH (green) attacks the carbonyl carbon, giving a tetrahedral intermediate. After proton transfer, water (H-O-H) is lost, leaving a protonated ester. Loss of H+ gives the ester R-CO-O-R.\nLabels: H+, O, R, C, OH, +, H, R, O, H, R, C, +, OH, O, H, H, O, R, C, O, H, O, H, H, +, H, O, H, H, R, C, O, R, +, O, H, - H+, R, C\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing the dimeric structure of carboxylic acid molecules.",
+        "question": "Explain why carboxylic acids have high melting and boiling points using the information from the diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of hydrogen bonding in the diagram.",
+          "Explanation of how hydrogen bonding affects intermolecular forces.",
+          "Connection between strong intermolecular forces and high melting/boiling points."
+        ],
+        "hints": [
+          "Consider the role of hydrogen bonds in holding molecules together."
+        ],
+        "model_answer": {
+          "working": "The diagram shows carboxylic acid molecules forming dimers through hydrogen bonds. These hydrogen bonds are strong intermolecular forces that require significant energy to break. Therefore, carboxylic acids have high melting and boiling points.",
+          "result": "Carboxylic acids have high melting and boiling points because their hydrogen bonds enhance the possibility of bringing two acid molecules together by forming a kind of dimer, which requires significant energy to break."
+        },
+        "explanation": "Use the diagram to explain how the hydrogen bonds between carboxylic acid molecules contribute to their high melting and boiling points.",
+        "exam_question_id": "2efee11b-2d65-4eb8-a81a-d1cc511c1feb:1",
+        "topic_label": "Acidity of carboxylic acids",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page234-embedded-0.png",
+        "image_alt": "A structural diagram of a carboxylic acid dimer. Two R–C(=O)–OH molecules are joined by two dashed hydrogen bonds in a ring. Each bond runs from the carbonyl oxygen (δ-) of one molecule to the hydrogen (δ+) of the hydroxyl group of the other. A line points to one dashed bond and labels it 'Hydrogen bonding'. The caption reads 'Dimeric structure of carboxylic acid molecules'.\nLabels: Hydrogen bonding, δ-, δ+, O, H, O, R, C, C, R, O, H, δ+, δ-, O, Dimeric structure of carboxylic acid molecules\nOriginal exercise: Carboxylic acids have high melting and boiling points because their hydrogen bonds e",
+        "checked": true,
+        "subtopic_id": 2508,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Acidity of carboxylic acids"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing the dimeric structure of carboxylic acid molecules.",
+        "question": "Describe the role of the carbonyl oxygen and hydroxyl hydrogen in the formation of hydrogen bonds in carboxylic acid dimers.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the carbonyl oxygen and hydroxyl hydrogen in the diagram.",
+          "Explanation of the role of these atoms in hydrogen bond formation."
+        ],
+        "hints": [
+          "Consider the electronegativity of oxygen and the partial charges on the atoms involved."
+        ],
+        "model_answer": {
+          "working": "The carbonyl oxygen (δ-) and the hydroxyl hydrogen (δ+) are involved in hydrogen bonding. The carbonyl oxygen, being more electronegative, has a partial negative charge (δ-), while the hydroxyl hydrogen has a partial positive charge (δ+). These opposite partial charges allow the oxygen and hydrogen to attract each other, forming a hydrogen bond.",
+          "result": "The carbonyl oxygen (δ-) and the hydroxyl hydrogen (δ+) form hydrogen bonds by attracting each other due to their opposite partial charges."
+        },
+        "explanation": "Explain how the partial charges on the carbonyl oxygen and hydroxyl hydrogen lead to the formation of hydrogen bonds in carboxylic acid dimers.",
+        "exam_question_id": "2efee11b-2d65-4eb8-a81a-d1cc511c1feb:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page234-embedded-0.png",
+        "image_alt": "A structural diagram of a carboxylic acid dimer. Two R–C(=O)–OH molecules are joined by two dashed hydrogen bonds in a ring. Each bond runs from the carbonyl oxygen (δ-) of one molecule to the hydrogen (δ+) of the hydroxyl group of the other. A line points to one dashed bond and labels it 'Hydrogen bonding'. The caption reads 'Dimeric structure of carboxylic acid molecules'.\nLabels: Hydrogen bonding, δ-, δ+, O, H, O, R, C, C, R, O, H, δ+, δ-, O, Dimeric structure of carboxylic acid molecules\nOriginal exercise: Carboxylic acids have high melting and boiling points because their hydrogen bonds e",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing the dimeric structure of carboxylic acid molecules.",
+        "question": "Calculate the number of hydrogen bonds in one carboxylic acid dimer based on the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the number of hydrogen bonds shown in the diagram.",
+          "Calculation of the total number of hydrogen bonds in one dimer."
+        ],
+        "hints": [
+          "Count the number of dashed lines representing hydrogen bonds in the diagram."
+        ],
+        "model_answer": {
+          "working": "The diagram shows two hydrogen bonds in one carboxylic acid dimer. Therefore, the total number of hydrogen bonds in one dimer is 2.",
+          "result": "There are 2 hydrogen bonds in one carboxylic acid dimer."
+        },
+        "explanation": "Count the number of hydrogen bonds in the diagram and provide the total number.",
+        "exam_question_id": "2efee11b-2d65-4eb8-a81a-d1cc511c1feb:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page234-embedded-0.png",
+        "image_alt": "A structural diagram of a carboxylic acid dimer. Two R–C(=O)–OH molecules are joined by two dashed hydrogen bonds in a ring. Each bond runs from the carbonyl oxygen (δ-) of one molecule to the hydrogen (δ+) of the hydroxyl group of the other. A line points to one dashed bond and labels it 'Hydrogen bonding'. The caption reads 'Dimeric structure of carboxylic acid molecules'.\nLabels: Hydrogen bonding, δ-, δ+, O, H, O, R, C, C, R, O, H, δ+, δ-, O, Dimeric structure of carboxylic acid molecules\nOriginal exercise: Carboxylic acids have high melting and boiling points because their hydrogen bonds e",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products.",
+        "question": "Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the role of thionyl chloride in the reaction.",
+          "Explanation of the by-products formed.",
+          "Comparison with alternative reagents."
+        ],
+        "hints": [
+          "Consider the by-products and their physical states."
+        ],
+        "model_answer": "Thionyl chloride is preferred for converting carboxylic acids to acyl chlorides because it produces gaseous by-products, sulfur dioxide (SO2) and hydrogen chloride (HCl), which can easily be removed from the reaction mixture, driving the reaction to completion. This contrasts with other reagents that may produce less volatile by-products, which can hinder the reaction.",
+        "explanation": "Thionyl chloride is favoured in this reaction due to the ease of removing its gaseous by-products, which helps in achieving a higher yield of the desired acyl chloride.",
+        "exam_question_id": "8e9a7f40-79c9-421e-ac01-dd2c51f9e290:1",
+        "topic_label": "Acidity of carboxylic acids",
+        "topic_id": 618,
+        "checked": true,
+        "subtopic_id": 2508,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Acidity of carboxylic acids"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products.",
+        "question": "Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of stoichiometry.",
+          "Calculation of the molar mass of ethanoyl chloride.",
+          "Correct final answer with units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of; Correct final answer with units."
+        ],
+        "model_answer": "The balanced chemical equation for the reaction is: CH3COOH + SOCl2 → CH3COCl + SO2 + HCl. The molar mass of ethanoyl chloride (CH3COCl) is 78.5 g/mol. Using stoichiometry, 0.2 moles of ethanoic acid will produce 0.2 moles of ethanoyl chloride. Mass of ethanoyl chloride = 0.2 moles × 78.5 g/mol = 15.7 g.",
+        "explanation": "By using the stoichiometric relationship from the balanced equation and the molar mass of ethanoyl chloride, we can calculate the mass of the product formed from the given amount of reactant.",
+        "exam_question_id": "8e9a7f40-79c9-421e-ac01-dd2c51f9e290:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides.",
+        "marks": 3,
+        "marking_criteria": [
+          "Mention the formation of gaseous by-products (SO2 and HCl).",
+          "Explain the ease of removal of gaseous by-products from the reaction mixture.",
+          "Discuss the high reactivity of thionyl chloride with carboxylic acids."
+        ],
+        "hints": [
+          "Consider the nature of the by-products and their physical states."
+        ],
+        "model_answer": "Thionyl chloride is preferred for converting carboxylic acids to acyl chlorides because it forms gaseous by-products, sulfur dioxide (SO2) and hydrogen chloride (HCl), which can easily be removed from the reaction mixture. This simplifies the purification process. Additionally, thionyl chloride is highly reactive with carboxylic acids, leading to efficient conversion.",
+        "explanation": "Thionyl chloride is a preferred reagent due to the gaseous nature of the by-products, which simplifies the purification process. It is also highly reactive with carboxylic acids, ensuring efficient conversion.",
+        "exam_question_id": "ddf7c793-4817-4e34-95ed-b15541ae7760:1",
+        "topic_label": "Acidity of carboxylic acids",
+        "topic_id": 618,
+        "checked": true,
+        "subtopic_id": 2508,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Acidity of carboxylic acids"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "(Assume the molar mass of ethanoyl chloride is 74.5 g/mol.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly use stoichiometry to find the moles of ethanoyl chloride produced.",
+          "Calculate the mass of ethanoyl chloride using its molar mass.",
+          "Provide the final answer with appropriate units."
+        ],
+        "hints": [
+          "Stay focused on this: (Assume the molar mass of ethanoyl chloride is 74.5 g/mol.) — develop the idea fully rather than listing short points. Make sure you also cover: Correctly use stoichiometry to find the of ethanoyl chloride; Provide the final answer with appropriate units."
+        ],
+        "model_answer": "From the balanced equation, 1 mole of ethanoic acid produces 1 mole of ethanoyl chloride. Therefore, 0.2 moles of ethanoic acid will produce 0.2 moles of ethanoyl chloride. The mass of ethanoyl chloride produced is: 0.2 moles * 74.5 g/mol = 14.9 g.",
+        "explanation": "Using stoichiometry, we find that 0.2 moles of ethanoic acid will produce 0.2 moles of ethanoyl chloride. The mass of ethanoyl chloride is calculated by multiplying the moles by its molar mass.",
+        "exam_question_id": "ddf7c793-4817-4e34-95ed-b15541ae7760:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Describe the role of hydrogen chloride (HCl) in the reaction mechanism between ethanoic acid and thionyl chloride.",
+        "marks": 3,
+        "marking_criteria": [
+          "HCl is formed as a by-product when SOCl2 reacts with the carboxylic acid.",
+          "HCl acts as an acid catalyst, protonating the carboxylic acid to activate the carbonyl carbon for nucleophilic attack.",
+          "The escape of HCl gas helps drive the reaction to completion (Le Chatelier's principle)."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of hydrogen chloride (HCl) in the reaction mechanism between ethanoic acid and thionyl chloride — develop the idea fully rather than listing short points. Make sure you also cover: The of HCl gas the reaction to (Le Chatelier's principle)."
+        ],
+        "model_answer": "Hydrogen chloride (HCl) is formed as a by-product during the reaction. In the reaction mechanism, HCl acts as an acid catalyst, protonating the carboxylic acid and activating the carbonyl carbon for nucleophilic attack by SOCl2. The escape of HCl as a gas also helps drive the reaction to completion.",
+        "explanation": "HCl plays a dual role: it catalyses the reaction by protonating the carboxylic acid, and its escape as a gas shifts equilibrium forward.",
+        "exam_question_id": "ddf7c793-4817-4e34-95ed-b15541ae7760:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing three identical soap (sodium carboxylate) molecules at the boundary between an upper pink region labelled 'oil' and a lower blue region labelled 'water'. Each molecule has a red CH3 and (CH2)14 chain in the oil, and a carboxylate group C(=O)O¹ with a Na¹ ion beneath it in the water.",
+        "question": "Explain the role of the carboxylate group in the emulsification process shown in the diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the carboxylate group in the diagram.",
+          "Explanation of the polar nature of the carboxylate group.",
+          "Description of how the polar carboxylate group interacts with water and the non-polar hydrocarbon chain interacts with oil."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of the carboxylate group in the emulsification process shown in the diagram — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The carboxylate group (C(=O)O¹) in the soap molecule is polar due to the presence of the negatively charged oxygen atom. This polar group interacts with the polar water molecules, allowing the soap to dissolve in water. The non-polar hydrocarbon chain (CH3 and (CH2)14) interacts with the non-polar oil, effectively bridging the gap between the two immiscible liquids and allowing them to mix.",
+        "explanation": "The carboxylate group's polar nature allows it to interact with water, while the non-polar hydrocarbon chain interacts with oil, facilitating the emulsification process.",
+        "exam_question_id": "55d4c108-91a3-4f84-835e-63ec3a390283:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page278-embedded-2.jpeg",
+        "image_alt": "Three identical soap (sodium carboxylate) molecules sit at the boundary between an upper pink region labelled 'oil' and a lower blue region labelled 'water'. Each molecule has a red CH3 and (CH2)14 chain in the oil, and a carboxylate group C(=O)O⁻ with a Na⁺ ion beneath it in the water.\nLabels: oil, CH3, CH3, CH3, (CH2)14, (CH2)14, (CH2)14, C, O, C, O, C, O, O, O, O, -, -, -, Na+, Na+, Na+, water\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing three identical soap (sodium carboxylate) molecules at the boundary between an upper pink region labelled 'oil' and a lower blue region labelled 'water'. Each molecule has a red CH3 and (CH2)14 chain in the oil, and a carboxylate group C(=O)O¹ with a Na¹ ion beneath it in the water.",
+        "question": "Calculate the number of sodium ions (Na¹) present in the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of the number of soap molecules in the diagram.",
+          "Recognition that each soap molecule has one sodium ion."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of sodium ions (Na¹) present in the diagram — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "There are three soap molecules shown in the diagram. Each soap molecule has one sodium ion, so the total number of sodium ions is 3.",
+        "explanation": "Each soap molecule contains one sodium ion, and there are three soap molecules in the diagram.",
+        "exam_question_id": "55d4c108-91a3-4f84-835e-63ec3a390283:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page278-embedded-2.jpeg",
+        "image_alt": "Three identical soap (sodium carboxylate) molecules sit at the boundary between an upper pink region labelled 'oil' and a lower blue region labelled 'water'. Each molecule has a red CH3 and (CH2)14 chain in the oil, and a carboxylate group C(=O)O⁻ with a Na⁺ ion beneath it in the water.\nLabels: oil, CH3, CH3, CH3, (CH2)14, (CH2)14, (CH2)14, C, O, C, O, C, O, O, O, O, -, -, -, Na+, Na+, Na+, water\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing the reaction between ethanoic acid (CH3COOH) and sodium carbonate (Na2CO3). The diagram shows a glass test tube standing upright on a blue tray, filled in its lower part with white foam made of many small bubbles. Behind it are white plastic bottles, a white bottle cap, and a blue test tube rack on a lab bench.",
+        "question": "Explain the role of sodium carbonate in the reaction with ethanoic acid, as observed in the diagram.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of sodium carbonate as a base.",
+          "Explain the reaction between sodium carbonate and ethanoic acid.",
+          "Describe the observable outcome of the reaction in the diagram."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the role of sodium carbonate in the reaction with ethanoic acid, as observed in the diagram — develop the idea fully rather than listing short points. Make sure you also cover: the observable outcome of the reaction in the diagram."
+        ],
+        "model_answer": "Sodium carbonate acts as a base in this reaction, accepting a proton from ethanoic acid. The reaction between sodium carbonate and ethanoic acid produces carbon dioxide gas, which is observed as the white foam in the lower part of the test tube. The balanced chemical equation for this reaction is: Na2CO3 + 2CH3COOH -> 2CH3COONa + CO2 + H2O.",
+        "explanation": "In this reaction, sodium carbonate neutralises ethanoic acid, leading to the production of carbon dioxide gas, which causes the foam in the test tube.",
+        "exam_question_id": "df72908c-70b9-4c98-92ee-3e48f249748d:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page244-embedded-3.jpeg",
+        "image_alt": "A photograph of a glass test tube standing upright on a blue tray, filled in its lower part with white foam made of many small bubbles. Behind it are white plastic bottles, a white bottle cap and a blue test tube rack on a lab bench. There are no labels or printed values.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing the reaction between ethanoic acid (CH3COOH) and sodium carbonate (Na2CO3). The diagram shows a glass test tube standing upright on a blue tray, filled in its lower part with white foam made of many small bubbles. Behind it are white plastic bottles, a white bottle cap, and a blue test tube rack on a lab bench.",
+        "question": "Calculate the mass of carbon dioxide produced if 0.1 moles of ethanoic acid react completely with sodium carbonate.",
+        "marks": 3,
+        "marking_criteria": [
+          "Write the balanced chemical equation for the reaction.",
+          "Determine the molar ratio of ethanoic acid to carbon dioxide.",
+          "Calculate the mass of carbon dioxide using the molar mass of CO2."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of carbon dioxide produced if 0.1 moles of ethanoic acid react completely with sodium carbonate — develop the idea fully rather than listing short points. Make sure you also cover: Write the for the; Determine the molar ratio of ethanoic acid to carbon dioxide.; Calculate the…."
+        ],
+        "model_answer": "The balanced chemical equation for the reaction is: Na2CO3 + 2CH3COOH -> 2CH3COONa + CO2 + H2O. From the equation, 2 moles of ethanoic acid produce 1 mole of CO2. Therefore, 0.1 moles of ethanoic acid will produce 0.05 moles of CO2. The mass of CO2 produced is 0.05 moles * 44 g/mol = 2.2 g.",
+        "explanation": "By using the stoichiometry of the reaction and the molar mass of CO2, we can calculate the mass of CO2 produced from a given amount of ethanoic acid.",
+        "exam_question_id": "df72908c-70b9-4c98-92ee-3e48f249748d:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page244-embedded-3.jpeg",
+        "image_alt": "A photograph of a glass test tube standing upright on a blue tray, filled in its lower part with white foam made of many small bubbles. Behind it are white plastic bottles, a white bottle cap and a blue test tube rack on a lab bench. There are no labels or printed values.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing the reaction between ethanoic acid (CH3COOH) and sodium carbonate (Na2CO3). The diagram shows a glass test tube standing upright on a blue tray, filled in its lower part with white foam made of many small bubbles. Behind it are white plastic bottles, a white bottle cap, and a blue test tube rack on a lab bench.",
+        "question": "Describe the role of the white foam in the lower part of the test tube in the reaction between ethanoic acid and sodium carbonate.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the white foam as carbon dioxide gas bubbles",
+          "Explain that CO2 is produced from the reaction between the acid (CH3COOH) and the carbonate ion (CO3²⁻)",
+          "Describe that bubbles rise through the liquid creating foam, providing visual evidence of gas evolution"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of the white foam in the lower part of the test tube in the reaction between ethanoic acid and sodium carbonate — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Identify the white foam as carbon dioxide gas bubbles Explain that CO2 is produced from the reaction between the acid (CH3COOH) and the carbonate ion (CO3²⁻) Describe that bubbles rise through the liquid creating foam, providing visual evidence of gas evolution",
+        "explanation": "The white foam is a direct result of the carbon dioxide gas produced in the reaction, providing a visual cue of the gas evolution.",
+        "exam_question_id": "df72908c-70b9-4c98-92ee-3e48f249748d:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "image_url": "/textbook-images/rwanda/56/page244-embedded-3.jpeg",
+        "image_alt": "A photograph of a glass test tube standing upright on a blue tray, filled in its lower part with white foam made of many small bubbles. Behind it are white plastic bottles, a white bottle cap and a blue test tube rack on a lab bench. There are no labels or printed values.\nLabels: \nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of gaseous by-products (SO2 and HCl) formed in the reaction.",
+          "Explanation that gaseous by-products are easily removed, simplifying purification.",
+          "Statement that other reagents (e.g. PCl3, PCl5) produce less volatile or solid by-products, complicating purification (or equivalent valid comparison)."
+        ],
+        "hints": [
+          "Consider the nature of the by-products and their ease of removal."
+        ],
+        "model_answer": "Identification of gaseous by-products (SO2 and HCl) formed in the reaction. Explanation that gaseous by-products are easily removed, simplifying purification. Statement that other reagents (e.g. PCl3, PCl5) produce less volatile or solid by-products, complicating purification (or equivalent valid comparison).",
+        "explanation": "Thionyl chloride is often used in the laboratory to convert carboxylic acids into acyl chlorides because it generates gaseous by-products, which can be easily removed from the reaction mixture, simplifying the purification process.",
+        "exam_question_id": "9270b6a1-067e-494b-bf69-24571420c65b:1",
+        "topic_label": "Acidity of carboxylic acids",
+        "topic_id": 618,
+        "checked": true,
+        "subtopic_id": 2508,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Acidity of carboxylic acids"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use of the stoichiometric relationship from the balanced equation.",
+          "Correct calculation of moles of ethanoyl chloride produced.",
+          "Accurate calculation of the mass of ethanoyl chloride using its molar mass."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride — develop the idea fully rather than listing short points. Make sure you also cover: of the stoichiometric relationship from the."
+        ],
+        "model_answer": "From the balanced equation, 1 mole of ethanoic acid produces 1 mole of ethanoyl chloride. Therefore, 0.2 moles of ethanoic acid will produce 0.2 moles of ethanoyl chloride. The mass of ethanoyl chloride produced is 0.2 moles * 78.5 g/mol = 15.7 g.",
+        "explanation": "Using the stoichiometric relationship from the balanced chemical equation, we can determine the amount of ethanoyl chloride produced. Since the reaction is 1:1, the number of moles of ethanoyl chloride produced is equal to the number of moles of ethanoic acid reacted. The mass of ethanoyl chloride can then be calculated using its molar mass.",
+        "exam_question_id": "9270b6a1-067e-494b-bf69-24571420c65b:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Describe the role of hydrogen chloride (HCl) in the reaction mechanism between ethanoic acid and thionyl chloride.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of HCl as a by-product of the reaction.",
+          "Explanation that HCl is released during the nucleophilic acyl substitution step, when the hydroxyl group is displaced from the tetrahedral intermediate (or equivalent mechanistic description)."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Hydrogen chloride (HCl) is formed as a by-product in the reaction between ethanoic acid and thionyl chloride. In the reaction mechanism, after the carbonyl carbon is activated and attacked by chloride, HCl is released as the leaving group when the hydroxyl group is displaced, forming the acyl chloride product.",
+        "explanation": "Hydrogen chloride is a by-product of the reaction between ethanoic acid and thionyl chloride. It is formed during the proton transfer step in the reaction mechanism, where the ethanoic acid donates a proton to thionyl chloride.",
+        "exam_question_id": "9270b6a1-067e-494b-bf69-24571420c65b:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of thionyl chloride as a chlorinating agent.",
+          "Explanation of the by-products formed (SO2 and HCl).",
+          "Discussion of the efficiency and selectivity of thionyl chloride in the conversion process."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the by-products formed (SO2 and HCl).; Discussion of the and selectivity of thionyl chloride…."
+        ],
+        "model_answer": "Thionyl chloride is preferred for converting carboxylic acids to acyl chlorides because it acts as a strong chlorinating agent. When ethanoic acid reacts with thionyl chloride, it forms ethanoyl chloride, sulfur dioxide, and hydrogen chloride as by-products. The efficiency of thionyl chloride lies in its ability to readily donate a chlorine atom to the carboxylic acid, forming the acyl chloride. Additionally, the by-products (SO2 and HCl) are gases that escape the reaction mixture, driving the reaction to completion.",
+        "explanation": "Thionyl chloride efficiently converts carboxylic acids to acyl chlorides by acting as a strong chlorinating agent. The by-products formed are gases, which helps to drive the reaction forward.",
+        "exam_question_id": "8b36915c-0cc2-4905-af43-14a86a063169:1",
+        "topic_label": "Acidity of carboxylic acids",
+        "topic_id": 618,
+        "checked": true,
+        "subtopic_id": 2508,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Acidity of carboxylic acids"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of stoichiometry from the balanced equation.",
+          "Correct calculation using the molar mass of ethanoyl chloride.",
+          "Correct unit and significant figures."
+        ],
+        "hints": [
+          "Stay focused on this: (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.) — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of stoichiometry from the; Correct unit and significant figures."
+        ],
+        "model_answer": "From the balanced equation, 1 mole of ethanoic acid produces 1 mole of ethanoyl chloride. Therefore, 0.2 moles of ethanoic acid will produce 0.2 moles of ethanoyl chloride. The molar mass of ethanoyl chloride is 78.5 g/mol. Mass of ethanoyl chloride produced = moles of ethanoyl chloride * molar mass = 0.2 moles * 78.5 g/mol = 15.7 g.",
+        "explanation": "Using the stoichiometry of the balanced equation and the given molar mass, we can calculate the mass of ethanoyl chloride produced from the given amount of ethanoic acid.",
+        "exam_question_id": "8b36915c-0cc2-4905-af43-14a86a063169:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the reactivity of thionyl chloride with carboxylic acids.",
+          "Mention of the by-products formed (SO2 and HCl).",
+          "Explanation of why SO2 and HCl are gaseous and easily removed, facilitating the reaction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of why SO2 and HCl are and facilitating the."
+        ],
+        "model_answer": "Thionyl chloride (SOCl2) is preferred for converting carboxylic acids to acyl chlorides because it is highly reactive with carboxylic acids. When ethanoic acid (CH3COOH) reacts with thionyl chloride, it forms ethanoyl chloride (CH3COCl) along with sulfur dioxide (SO2) and hydrogen chloride (HCl) as by-products. The reaction is as follows: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl. The by-products, SO2 and HCl, are gaseous and can be easily removed from the reaction mixture, which drives the reaction to completion and facilitates the formation of the acyl chloride.",
+        "explanation": "Thionyl chloride is a highly reactive reagent that effectively converts carboxylic acids to acyl chlorides. The gaseous by-products formed during the reaction help to drive the reaction forward by being easily removed from the reaction mixture.",
+        "exam_question_id": "2f375228-bff7-4fa5-a65d-bed04df9ad7b:1",
+        "topic_label": "Acidity of carboxylic acids",
+        "topic_id": 618,
+        "checked": true,
+        "subtopic_id": 2508,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Acidity of carboxylic acids"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of stoichiometry from the balanced equation.",
+          "Correct calculation of moles of ethanoyl chloride produced.",
+          "Correct calculation of mass of ethanoyl chloride produced using the molar mass."
+        ],
+        "hints": [
+          "Stay focused on this: (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.) — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of stoichiometry from the."
+        ],
+        "model_answer": "From the balanced equation, 1 mole of ethanoic acid (CH3COOH) reacts with 1 mole of thionyl chloride (SOCl2) to produce 1 mole of ethanoyl chloride (CH3COCl). Therefore, if 0.2 moles of ethanoic acid react completely, 0.2 moles of ethanoyl chloride will be produced. The molar mass of ethanoyl chloride is 78.5 g/mol. Thus, the mass of ethanoyl chloride produced is: 0.2 moles * 78.5 g/mol = 15.7 g.",
+        "explanation": "Using the balanced chemical equation, we can determine the amount of ethanoyl chloride produced from a given amount of ethanoic acid. The mass of the product is then calculated using its molar mass.",
+        "exam_question_id": "2f375228-bff7-4fa5-a65d-bed04df9ad7b:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "Explain why thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the by-products of the reaction.",
+          "Explain the advantage of gaseous by-products in the reaction.",
+          "Explain the reactivity of thionyl chloride with carboxylic acids."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Thionyl chloride is a preferred reagent for converting carboxylic acids to acyl chlorides because it produces gaseous by-products (SO2 and HCl) that easily escape from the reaction mixture, driving the reaction to completion. The gaseous nature of the by-products minimizes their interference with the desired product, ethanoyl chloride. Additionally, thionyl chloride is highly reactive with carboxylic acids, facilitating the conversion efficiently.",
+        "explanation": "Thionyl chloride is favoured in this reaction due to its ability to produce gaseous by-products that readily leave the reaction environment, which helps push the reaction towards the formation of the desired acyl chloride. This characteristic is beneficial as it reduces the likelihood of by-products interfering with the reaction and product isolation.",
+        "exam_question_id": "5a8bcf4b-427f-48cc-842e-c4ea50509539:1",
+        "topic_label": "Acidity of carboxylic acids",
+        "topic_id": 618,
+        "checked": true,
+        "subtopic_id": 2508,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Acidity of carboxylic acids"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction between ethanoic acid (CH3COOH) and thionyl chloride (SOCl2) to form ethanoyl chloride (CH3COCl) and by-products. The balanced chemical equation for this reaction is: CH3COOH + SOCl2 -> CH3COCl + SO2 + HCl.",
+        "question": "(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)",
+        "marks": 3,
+        "marking_criteria": [
+          "Use stoichiometry to determine the moles of ethanoyl chloride produced.",
+          "Calculate the mass of ethanoyl chloride using its molar mass.",
+          "Provide the final answer with appropriate units."
+        ],
+        "hints": [
+          "Stay focused on this: (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.) — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer with appropriate units."
+        ],
+        "model_answer": "From the balanced equation, 1 mole of CH3COOH produces 1 mole of CH3COCl. Therefore, 0.2 moles of CH3COOH will produce 0.2 moles of CH3COCl. The mass of ethanoyl chloride produced is calculated as follows: Mass = moles x molar mass = 0.2 moles x 78.5 g/mol = 15.7 g.",
+        "explanation": "By using the stoichiometry from the balanced equation and the given molar mass of ethanoyl chloride, we can determine the mass of the product formed from the given amount of reactant.",
+        "exam_question_id": "5a8bcf4b-427f-48cc-842e-c4ea50509539:1",
+        "topic_label": "Carboxylic Acids and Acyl Chlorides",
+        "topic_id": 618,
+        "checked": true,
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Carboxylic Acids and Acyl Chlorides"
+        }
+      }
+    ],
+    "estimated_time": 71,
+    "assessment_id": "d1c703df-f634-41c2-b776-2f663a4687cb",
+    "subject": "Chemistry S5 SB",
+    "topics": [
+      "Carboxylic Acids and Acyl Chlorides"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 56,
+    "topic_ids": [
+      618
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 25,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 6,
+      "detail": "6 questions open with the same sentence (7, 9, 17, 20, 22, 24): \"Explain why thionyl chloride is a preferred reagen\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 9,
+      "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 74.5 g/mol.)\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 20,
+      "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 22,
+      "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 21"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 24,
+      "detail": "no question mark and no command word: \"(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 21"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1c",
+        "severity": "broken",
+        "detail": "Oxidation state calculation is incorrect. In carboxylic acid R-COOH, carbonyl carbon is +3. In ester R-CO-O-R, carbonyl carbon is also +3. However, the model answer states both are +3 with no change, which is correct by coincidence but the reasoning is flawed—the answer should clarify that oxidation state is determined by bonding to oxygen atoms, not by bond type (C=O vs C-O).",
+        "correction": "In both carboxylic acid and ester, the carbonyl carbon is bonded to two oxygen atoms, giving oxidation state +3 in both cases. The change in oxidation state is 0. The model answer is numerically correct but lacks mechanistic clarity."
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Molar mass of ethanoyl chloride (CH3COCl) is stated as 78.5 g/mol. Correct calculation: C(12) + H3(3) + C(12) + O(16) + Cl(35.5) = 78.5 g/mol. This is correct. However, question 3b lacks a clear question stem—it only provides context and asks to 'Calculate the mass' without explicitly stating the starting amount (0.2 moles). This must be inferred from question 3a context.",
+        "correction": "Question 3b should explicitly state: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+      },
+      {
+        "label": "4b",
+        "severity": "broken",
+        "detail": "Question 4b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 74.5 g/mol.)' with no actual question posed. The marking criteria reference 'moles of ethanoyl chloride' and 'final answer with units' but no calculation is requested. This violates answerability.",
+        "correction": "Question 4b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 74.5 g/mol.)'"
+      },
+      {
+        "label": "6c",
+        "severity": "broken",
+        "detail": "Model answer is not a coherent response. It lists three bullet points as the answer text verbatim: 'Identify the white foam as carbon dioxide gas bubbles Explain that CO2 is produced... Describe that bubbles rise through the liquid creating foam...' This is a marking rubric, not a model answer. Students cannot replicate this format.",
+        "correction": "Model answer should be: 'The white foam consists of carbon dioxide gas bubbles produced from the reaction between ethanoic acid and the carbonate ion (CO3²⁻). As CO2 is generated, bubbles rise through the liquid, creating foam. This foam provides visual evidence of gas evolution and confirms the acid-base reaction has occurred.'"
+      },
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Model answer is identical to marking criteria—it lists three bullet points as the answer: 'Identification of gaseous by-products... Explanation that gaseous by-products are easily removed... Statement that other reagents...' This is a rubric, not a model answer. Students cannot write in this format.",
+        "correction": "Model answer should be: 'Thionyl chloride is preferred because it produces gaseous by-products (SO2 and HCl) that easily escape the reaction mixture, simplifying purification. In contrast, other reagents like PCl3 or PCl5 produce less volatile or solid by-products (e.g., phosphoric acid), which complicate product isolation.'"
+      },
+      {
+        "label": "8b",
+        "severity": "broken",
+        "detail": "Question 8b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)' with no actual question posed. The marking criteria reference stoichiometry and mass calculation but no calculation is requested. This violates answerability.",
+        "correction": "Question 8b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+      },
+      {
+        "label": "9b",
+        "severity": "broken",
+        "detail": "Question 9b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)' with no actual question posed. The marking criteria reference stoichiometry and mass calculation but no calculation is requested. This violates answerability.",
+        "correction": "Question 9b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+      },
+      {
+        "label": "10b",
+        "severity": "broken",
+        "detail": "Question 10b is malformed. The entire question text is only '(Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)' with no actual question posed. The marking criteria reference stoichiometry and mass calculation but no calculation is requested. This violates answerability.",
+        "correction": "Question 10b should read: 'Calculate the mass of ethanoyl chloride produced if 0.2 moles of ethanoic acid react completely with thionyl chloride. (Assume the molar mass of ethanoyl chloride is 78.5 g/mol.)'"
+      },
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Model answer explanation states hydrogen bonds 'enhance the possibility of bringing two acid molecules together by forming a kind of dimer' which is awkwardly phrased. The mechanism is correct but the language is imprecise for a Grade 11 assessment.",
+        "correction": "Revise to: 'Carboxylic acids form dimers through hydrogen bonding between the carbonyl oxygen of one molecule and the hydroxyl hydrogen of another. These strong intermolecular forces require significant energy to overcome, resulting in high melting and boiling points.'"
+      },
+      {
+        "label": "7c",
+        "severity": "poor",
+        "detail": "Model answer states 'HCl is released during the nucleophilic acyl substitution step, when the hydroxyl group is displaced from the tetrahedral intermediate' but the explanation contradicts this, stating 'HCl is formed during the proton transfer step.' These are different mechanistic steps. The marking criteria and model answer are inconsistent.",
+        "correction": "Clarify: HCl is formed when the protonated hydroxyl group leaves the tetrahedral intermediate as water, and the resulting carbocation is attacked by chloride. The HCl is then released as a gas."
+      }
+    ],
+    "summary": "Assessment contains 9 substantive issues: 4 malformed questions (4b, 8b, 9b, 10b) lacking question stems; 2 model answers presented as rubric bullet points (6c, 7a) instead of coherent responses; 1 oxidation state explanation lacking clarity (1c); 1 missing explicit context in question stem (3b); 1 mechanistic inconsistency (7c). Questions 1-5 and 6a-b are sound."
+  },
+  "totalSeconds": 117
+}

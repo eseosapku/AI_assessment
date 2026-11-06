@@ -1,0 +1,1713 @@
+{
+  "index": 11,
+  "label": "REB / Exam / Chemistry S5 SB",
+  "request": {
+    "subject": "Chemistry S5 SB",
+    "textbook_id": 56,
+    "topic_ids": [
+      626
+    ],
+    "topics": [
+      "Entropy and Free Energy"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 210,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the two routes on the Karisimbi volcano from point A at the base to point B at the summit. Route 1 is a direct climb (red line labelled 1), and Route 2 is a longer path around the base and up the ridge (green line labelled 2). Assume that the total height difference between points A and B is 1000 metres for both routes.",
+        "question": "Calculate the work done by a person of mass 70 kg climbing from point A to point B along Route 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for work done (W = mgh).",
+          "Substitute the given values into the formula.",
+          "Calculate the work done and provide the correct units."
+        ],
+        "hints": [
+          "Recall that work done is equal to the force applied multiplied by the distance moved in the direction of the force."
+        ],
+        "model_answer": "Work done, W = mgh = 70 kg * 9.8 m/s^2 * 1000 m = 686,000 J",
+        "explanation": "To find the work done, we use the formula for work which is the product of mass, gravitational acceleration, and height difference. Substituting the given values will yield the work done by the person climbing Route 1.",
+        "exam_question_id": "f47b53ab-1618-4bf5-ba2d-fcf86afc32c0:1",
+        "image_url": "/textbook-images/rwanda/56/page519-embedded-0.jpeg",
+        "image_alt": "A photograph of a mountain (Karisimbi volcano) with two routes drawn from point A at the base to point B at the summit. Route 1 is a red line labelled 1 that climbs directly up the steep face from A to B. Route 2 is a green line labelled 2 that goes from A along the base, around to the right, and then up the ridge to B.\nLabels: B, 1, 2, A\nOriginal exercise: Activity 14.5 Observe the above image and answer the following questions. 1. In which case a person climbing by foot, Karisimbi volcano from point A t",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the two routes on the Karisimbi volcano from point A at the base to point B at the summit. Route 1 is a direct climb (red line labelled 1), and Route 2 is a longer path around the base and up the ridge (green line labelled 2). Assume that the total height difference between points A and B is 1000 metres for both routes.",
+        "question": "Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that the distance travelled is longer for Route 2.",
+          "Explain that a longer distance requires more time to cover.",
+          "Consider factors such as terrain and obstacles that might slow down the climber on Route 2."
+        ],
+        "hints": [
+          "Think about the difference in distances between the two routes and how it affects the time taken to climb."
+        ],
+        "model_answer": "Climbing Route 2 requires more time than climbing Route 1 because Route 2 is longer in distance. Even though the height difference is the same, the additional distance and possibly more challenging terrain on Route 2 will take more time to cover.",
+        "explanation": "Even though the height difference is the same for both routes, the longer distance of Route 2 and potentially more difficult terrain can result in a longer time to climb. This is due to the need to cover more ground and possibly face more obstacles.",
+        "exam_question_id": "f47b53ab-1618-4bf5-ba2d-fcf86afc32c0:1",
+        "image_url": "/textbook-images/rwanda/56/page519-embedded-0.jpeg",
+        "image_alt": "A photograph of a mountain (Karisimbi volcano) with two routes drawn from point A at the base to point B at the summit. Route 1 is a red line labelled 1 that climbs directly up the steep face from A to B. Route 2 is a green line labelled 2 that goes from A along the base, around to the right, and then up the ridge to B.\nLabels: B, 1, 2, A\nOriginal exercise: Activity 14.5 Observe the above image and answer the following questions. 1. In which case a person climbing by foot, Karisimbi volcano from point A t",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the bomb calorimeter setup shown in the diagram. The insulated jacket surrounds a calorimeter bucket filled with water. Inside the water is a bomb with an O2 inlet on top and a sample cup at the bottom holding the sample. An ignition wire runs down from the lid to the sample cup. A thermometer and a stirrer are placed in the water through the lid.",
+        "question": "State the purpose of the insulated jacket in the bomb calorimeter setup.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the purpose of insulation in the setup.",
+          "Explain how the insulated jacket helps in maintaining a controlled environment."
+        ],
+        "hints": [
+          "Consider what insulation does in general."
+        ],
+        "model_answer": "The insulated jacket serves to minimize heat loss from the calorimeter to the surroundings, ensuring that the temperature change measured is solely due to the reaction occurring inside the bomb.",
+        "explanation": "The insulated jacket is crucial for maintaining the accuracy of the temperature measurement by preventing external heat exchange.",
+        "exam_question_id": "2945d8b8-a3b1-4cc3-a949-ee7edcafc412:1",
+        "image_url": "/textbook-images/rwanda/56/page514-embedded-0.jpeg",
+        "image_alt": "A cutaway diagram of a bomb calorimeter. An insulated jacket surrounds a calorimeter bucket filled with water. Inside the water is a bomb with an O2 inlet on top and a sample cup at the bottom holding the sample. An ignition wire runs down from the lid to the sample cup. A thermometer and a stirrer are placed in the water through the lid.\nLabels: Thermometer, Stirrer, Ignition wire, Calorimeter bucket, Insulated jacket, Water, O2 inlet, Bomb, Sample cup\nOriginal exercise:",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the bomb calorimeter setup shown in the diagram. The insulated jacket surrounds a calorimeter bucket filled with water. Inside the water is a bomb with an O2 inlet on top and a sample cup at the bottom holding the sample. An ignition wire runs down from the lid to the sample cup. A thermometer and a stirrer are placed in the water through the lid.",
+        "question": "Explain the role of the stirrer in the bomb calorimeter.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the function of the stirrer in the setup.",
+          "Explain how the stirrer ensures uniform temperature distribution."
+        ],
+        "hints": [
+          "Consider the effect of stirring on temperature distribution."
+        ],
+        "model_answer": "The stirrer ensures that the heat generated by the reaction is evenly distributed throughout the water, providing an accurate and consistent temperature reading on the thermometer.",
+        "explanation": "A uniform temperature distribution is essential for precise measurement of the enthalpy change of the reaction.",
+        "exam_question_id": "2945d8b8-a3b1-4cc3-a949-ee7edcafc412:1",
+        "image_url": "/textbook-images/rwanda/56/page514-embedded-0.jpeg",
+        "image_alt": "A cutaway diagram of a bomb calorimeter. An insulated jacket surrounds a calorimeter bucket filled with water. Inside the water is a bomb with an O2 inlet on top and a sample cup at the bottom holding the sample. An ignition wire runs down from the lid to the sample cup. A thermometer and a stirrer are placed in the water through the lid.\nLabels: Thermometer, Stirrer, Ignition wire, Calorimeter bucket, Insulated jacket, Water, O2 inlet, Bomb, Sample cup\nOriginal exercise:",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the bomb calorimeter setup shown in the diagram. The insulated jacket surrounds a calorimeter bucket filled with water. Inside the water is a bomb with an O2 inlet on top and a sample cup at the bottom holding the sample. An ignition wire runs down from the lid to the sample cup. A thermometer and a stirrer are placed in the water through the lid.",
+        "question": "Calculate the enthalpy change of a reaction if the temperature rise of 2 kg of water is 3°C, and the specific heat capacity of water is 4.18 J/g°C.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula for calculating enthalpy change.",
+          "Substitute the given values into the formula.",
+          "Show all working and provide the final answer with units."
+        ],
+        "hints": [
+          "Use the formula q = mcΔT, where q is the heat energy, m is the mass, c is the specific heat capacity, and ΔT is the temperature change."
+        ],
+        "model_answer": "q = mcΔT \nq = 2000 g × 4.18 J/g°C × 3°C \nq = 25080 J \nThe enthalpy change of the reaction is 25,080 J.",
+        "explanation": "The enthalpy change is calculated using the mass of water, its specific heat capacity, and the temperature change observed.",
+        "exam_question_id": "2945d8b8-a3b1-4cc3-a949-ee7edcafc412:1",
+        "image_url": "/textbook-images/rwanda/56/page514-embedded-0.jpeg",
+        "image_alt": "A cutaway diagram of a bomb calorimeter. An insulated jacket surrounds a calorimeter bucket filled with water. Inside the water is a bomb with an O2 inlet on top and a sample cup at the bottom holding the sample. An ignition wire runs down from the lid to the sample cup. A thermometer and a stirrer are placed in the water through the lid.\nLabels: Thermometer, Stirrer, Ignition wire, Calorimeter bucket, Insulated jacket, Water, O2 inlet, Bomb, Sample cup\nOriginal exercise:",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a reaction at 298 K with the following standard enthalpies of formation: ΔH°f (A) = -200 kJ/mol, ΔH°f (B) = -300 kJ/0mol, ΔH°f (C) = -400 kJ/mol. The balanced chemical equation for the reaction is: A + B → C. The standard entropy changes for the reaction are: ΔS° (A) = 150 J/mol·K, ΔS° (B) = 200 J/mol·K, ΔS° (C) = 350 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify and apply the Gibbs free energy equation.",
+          "Substitute the given values into the equation.",
+          "Show all steps of the calculation."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the values into the; all steps of the calculation."
+        ],
+        "model_answer": "The Gibbs free energy change for the reaction can be calculated using the equation: ΔG° = ΔH° - TΔS°.\n\nGiven: ΔH° = ΔH°f (C) - [ΔH°f (A) + ΔH°f (B)] = -400 kJ/mol - [(-200 kJ/mol) + (-300 kJ/mol)] = -400 kJ/mol + 500 kJ/mol = 100 kJ/mol.\nT = 298 K.\nΔS° = ΔS° (C) - [ΔS° (A) + ΔS° (B)] = 350 J/mol·K - [150 J/mol·K + 200 J/mol·K] = 350 J/mol·K - 350 J/mol·K = 0 J/mol·K.\n\nΔG° = 100 kJ/mol - (298 K × 0 J/mol·K) = 100 kJ/mol.\n\nNote: Since ΔS° = 0, ΔG° = ΔH°.",
+        "explanation": "You correctly used the Gibbs free energy equation and substituted the given values into the equation to calculate the standard Gibbs free energy change for the reaction.",
+        "exam_question_id": "6083c900-2896-4732-b118-a87892f73914:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a reaction at 298 K with the following standard enthalpies of formation: ΔH°f (A) = -200 kJ/mol, ΔH°f (B) = -300 kJ/0mol, ΔH°f (C) = -400 kJ/mol. The balanced chemical equation for the reaction is: A + B → C. The standard entropy changes for the reaction are: ΔS° (A) = 150 J/mol·K, ΔS° (B) = 200 J/mol·K, ΔS° (C) = 350 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly interpret the sign of ΔG°.",
+          "Relate the sign of ΔG° to the spontaneity of the reaction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Correctly interpret the sign of ΔG°.; Relate the sign of ΔG° to the spontaneity of the reaction."
+        ],
+        "model_answer": "The reaction is spontaneous if ΔG° is negative. From part (a), we calculated ΔG° = 100 kJ/mol. Since ΔG° is positive, the reaction is not spontaneous at 298 K.",
+        "explanation": "You correctly interpreted the sign of ΔG° and related it to the spontaneity of the reaction.",
+        "exam_question_id": "6083c900-2896-4732-b118-a87892f73914:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the Gibbs free energy equation.",
+          "Substitute the given values for ΔH° and ΔS°.",
+          "Provide the final answer with correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the Gibbs free energy equation.; Substitute the given values for ΔH° and ΔS°.; Provide the final answer with correct units."
+        ],
+        "model_answer": "ΔG° = -150 kJ/mol - (298 K * 0.050 kJ/mol·K) = -150 kJ/mol - 14.9 kJ/mol = -164.9 kJ/mol",
+        "explanation": "To find the standard Gibbs free energy change, use the Gibbs free energy equation and substitute the given values for the standard enthalpy change and the standard entropy change. Ensure you convert units properly and calculate the final value.",
+        "exam_question_id": "3f0564c7-6fc0-4e53-bfcf-ba67ee9eb2d0:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the condition for spontaneity based on ΔG°.",
+          "Compare the calculated ΔG° to zero."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Identify the condition for spontaneity based on ΔG°.; Compare the calculated ΔG° to."
+        ],
+        "model_answer": "Since ΔG° = -164.9 kJ/mol, which is less than zero, the reaction is spontaneous at 298 K.",
+        "explanation": "To determine if the reaction is spontaneous, check if the calculated ΔG° is negative. If ΔG° is negative, the reaction will proceed spontaneously.",
+        "exam_question_id": "3f0564c7-6fc0-4e53-bfcf-ba67ee9eb2d0:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the relationship between ΔG°, ΔH°, and ΔS°.",
+          "Discuss how temperature influences the term TΔS°.",
+          "Describe the overall effect on spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how temperature affects the spontaneity of the reaction — develop the idea fully rather than listing short points. Make sure you also cover: the relationship between ΔG°, ΔH°, and ΔS°.; Discuss how temperature influences the TΔS°.; the overall effect on spontaneity."
+        ],
+        "model_answer": "As temperature increases, the term TΔS° increases in magnitude. If TΔS° becomes large enough, it can potentially make ΔG° positive, thus affecting the spontaneity of the reaction. Conversely, if TΔS° is small, the reaction remains spontaneous as ΔG° remains negative.",
+        "explanation": "Temperature affects the spontaneity of a reaction by influencing the TΔS° term in the Gibbs free energy equation. Higher temperatures can increase TΔS°, potentially changing the sign of ΔG° and affecting the reaction's spontaneity.",
+        "exam_question_id": "3f0564c7-6fc0-4e53-bfcf-ba67ee9eb2d0:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a reaction at 298 K with the following standard enthalpies of formation: ΔH°f (A) = -200 kJ/mol, ΔH°f (B) = -300 kJ/mol, ΔH°f (C) = -400 kJ/mol. The balanced chemical equation for the reaction is: A + B → C. The standard entropy changes for the reaction are: ΔS° (A) = 150 J/mol·K, ΔS° (B) = 200 J/mol·K, ΔS° (C) = 350 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the Gibbs free energy equation.",
+          "Correctly substitute the values for enthalpy and entropy changes.",
+          "Correctly calculate the Gibbs free energy change."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the Gibbs free energy equation.; Correctly substitute the values for enthalpy and entropy changes.; Correctly calculate the…."
+        ],
+        "model_answer": "ΔG° = ΔH° - TΔS° = (-200 kJ/mol + -300 kJ/mol) - (-400 kJ/mol) - (298 K * (150 J/mol·K + 200 J/mol·K - 350 J/mol·K))\nΔG° = -500 kJ/mol + 400 kJ/mol - 298 K * 100 J/mol·K\nΔG° = -100 kJ/mol - 29800 J/mol\nΔG° = -100 kJ/mol - 29.8 kJ/mol\nΔG° = -129.8 kJ/mol",
+        "explanation": "To calculate the standard Gibbs free energy change for the reaction, we use the Gibbs free energy equation ΔG° = ΔH° - TΔS°. Substitute the given values for the enthalpy and entropy changes, and the temperature (298 K), into the equation to find the Gibbs free energy change.",
+        "exam_question_id": "15e3075d-34e1-4839-a8f6-2958b41fe288:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a reaction at 298 K with the following standard enthalpies of formation: ΔH°f (A) = -200 kJ/mol, ΔH°f (B) = -300 kJ/mol, ΔH°f (C) = -400 kJ/mol. The balanced chemical equation for the reaction is: A + B → C. The standard entropy changes for the reaction are: ΔS° (A) = 150 J/mol·K, ΔS° (B) = 200 J/mol·K, ΔS° (C) = 350 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly interpret the sign of ΔG°.",
+          "Relate the sign of ΔG° to the spontaneity of the reaction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Correctly interpret the sign of ΔG°.; Relate the sign of ΔG° to the spontaneity of the reaction."
+        ],
+        "model_answer": "Since ΔG° = -129.8 kJ/mol is negative, the reaction is spontaneous at 298 K.",
+        "explanation": "A reaction is spontaneous if the Gibbs free energy change (ΔG°) is negative. Since we calculated ΔG° to be -129.8 kJ/mol, which is negative, the reaction is spontaneous at 298 K.",
+        "exam_question_id": "15e3075d-34e1-4839-a8f6-2958b41fe288:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Calculate the work done by the person climbing from point A to point B along Route 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for work done: Work = mgh.",
+          "Substitute the given values into the formula.",
+          "Calculate the work done with correct units."
+        ],
+        "hints": [
+          "Remember to convert the mass from kg to grams if necessary."
+        ],
+        "model_answer": "Work = mgh = 70 kg * 9.8 m/s^2 * 1000 m = 686,000 J",
+        "explanation": "The work done by the person is the product of their mass, the acceleration due to gravity, and the height difference between points A and B.",
+        "exam_question_id": "ade12694-63a2-409e-ae34-be04732c48a0:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that the time taken depends on the path length and speed.",
+          "Explain that Route 2 is longer than Route 1."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Climbing Route 2 might require more time than climbing Route 1 because Route 2 is longer, even though the height difference is the same. The longer path means the climber has to cover more distance, which takes more time if the speed is constant.",
+        "explanation": "The time taken to climb a route depends on the length of the path and the speed at which the climber ascends. A longer path means more distance to cover, resulting in more time taken.",
+        "exam_question_id": "ade12694-63a2-409e-ae34-be04732c48a0:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Calculate the work done by the person climbing from point A to point B along Route 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the formula for work done (W = mgh).",
+          "Substitute the given values into the formula.",
+          "Calculate the work done with correct units."
+        ],
+        "hints": [
+          "Recall that work done is equal to the force applied multiplied by the distance moved in the direction of the force."
+        ],
+        "model_answer": "Work done (W) = mass (m) * gravitational acceleration (g) * height (h)\nW = 70 kg * 9.8 m/s^2 * 1000 m = 686,000 J",
+        "explanation": "The work done by the person climbing from point A to point B along Route 1 is 686,000 Joules.",
+        "exam_question_id": "9506b9e6-3f78-41ab-9929-bbea70f143d0:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that Route 2 is longer in distance.",
+          "Explain that a longer distance requires more time to cover."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Route 2 is longer in distance compared to Route 1, even though the height difference is the same. Therefore, climbing Route 2 would require more time to cover the greater distance.",
+        "explanation": "Climbing Route 2 might require more time than climbing Route 1 because Route 2 is longer in distance, even though the height difference is the same.",
+        "exam_question_id": "9506b9e6-3f78-41ab-9929-bbea70f143d0:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the Gibbs free energy equation.",
+          "Correct substitution of given values into the equation.",
+          "Correct calculation leading to the final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of into the; Correct calculation leading to the final answer."
+        ],
+        "model_answer": "The Gibbs free energy equation is ΔG° = ΔH° - TΔS°. Substituting the given values: ΔG° = -150 kJ/mol - (298 K × 50 J/mol·K × 1 kJ/1000 J). ΔG° = -150 kJ/mol - (298 K × 0.05 kJ/mol·K). ΔG° = -150 kJ/mol - 14.9 kJ/mol. ΔG° = -164.9 kJ/mol.",
+        "explanation": "To find the standard Gibbs free energy change for the reaction, we use the Gibbs free energy equation. The standard enthalpy change and standard entropy change are given, and the temperature is 298 K. The result is the Gibbs free energy change for the reaction.",
+        "exam_question_id": "2f8fa7b0-155a-462a-9205-36b92918afdd:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct interpretation of the sign of ΔG°.",
+          "Explanation of the relationship between ΔG° and spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Correct interpretation of the sign of ΔG°.; Explanation of the relationship between ΔG° and spontaneity."
+        ],
+        "model_answer": "The standard Gibbs free energy change (ΔG°) for the reaction is -164.9 kJ/mol. Since ΔG° is negative, the reaction is spontaneous at 298 K.",
+        "explanation": "A reaction is spontaneous if the Gibbs free energy change is negative. Since we calculated a negative ΔG°, the reaction is spontaneous at 298 K.",
+        "exam_question_id": "2f8fa7b0-155a-462a-9205-36b92918afdd:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the effect of temperature on ΔG°.",
+          "Understanding the relationship between temperature, ΔH°, and ΔS°."
+        ],
+        "hints": [
+          "Consider how changes in temperature can affect the sign of ΔG°."
+        ],
+        "model_answer": "The spontaneity of a reaction can be affected by temperature because the Gibbs free energy change (ΔG°) depends on both ΔH° and ΔS°. If the reaction is endothermic (ΔH° > 0), increasing the temperature can make ΔG° more positive, potentially making the reaction non-spontaneous. If the reaction is exothermic (ΔH° < 0), increasing the temperature can make ΔG° more negative, maintaining or increasing spontaneity.",
+        "explanation": "Temperature affects the spontaneity of a reaction by influencing the Gibbs free energy change. For an exothermic reaction, higher temperatures generally favour spontaneity, while for an endothermic reaction, higher temperatures can decrease spontaneity.",
+        "exam_question_id": "2f8fa7b0-155a-462a-9205-36b92918afdd:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Calculate the work done by the person climbing from point A to point B along Route 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for work done against gravity.",
+          "Substitute the given values into the formula.",
+          "Calculate the work done with correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the work done by the person climbing from point A to point B along Route 1 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for work done against gravity.; Substitute the given values into the formula.; Calculate the…."
+        ],
+        "model_answer": "Work = mgh = 70 kg * 9.8 m/s^2 * 1000 m = 686,000 J",
+        "explanation": "The work done by the person climbing from point A to point B is the product of their mass, the acceleration due to gravity, and the height difference. This is a straightforward calculation using the formula for work done against gravity.",
+        "exam_question_id": "950adb9c-9f7f-4aea-a505-7e2021ca15e3:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that distance affects time taken.",
+          "Explain that Route 2 is longer in distance."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same — develop the idea fully rather than listing short points. Make sure you also cover: Identify that affects time taken."
+        ],
+        "model_answer": "Route 2 is longer in distance than Route 1, so it takes more time to climb even though the height difference is the same.",
+        "explanation": "The time taken to climb a route depends on the distance of the route. Route 2 is longer, so it takes more time to climb even though the height difference is the same as Route 1.",
+        "exam_question_id": "950adb9c-9f7f-4aea-a505-7e2021ca15e3:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the Gibbs free energy equation.",
+          "Substitute the given values into the equation.",
+          "Perform the calculation accurately and present the result in kJ/mol."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the Gibbs free energy equation.; Substitute the given values into the equation.; Perform the calculation accurately and…."
+        ],
+        "model_answer": "ΔG° = ΔH° - TΔS° = -150 kJ/mol - (298 K * 50 J/mol·K * 1 kJ/1000 J) = -150 kJ/mol - 14.9 kJ/mol = -164.9 kJ/mol",
+        "explanation": "Use the Gibbs free energy equation to calculate the standard Gibbs free energy change for the reaction.",
+        "exam_question_id": "a31bb6d2-4cca-4ca9-9e85-c8644123a356:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the condition for spontaneity based on ΔG°.",
+          "Explain the relationship between ΔG° and spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Identify the condition for spontaneity based on ΔG°.; the relationship between ΔG° and spontaneity."
+        ],
+        "model_answer": "Since ΔG° = -164.9 kJ/mol is negative, the reaction is spontaneous at 298 K.",
+        "explanation": "A reaction is spontaneous if the Gibbs free energy change is negative.",
+        "exam_question_id": "a31bb6d2-4cca-4ca9-9e85-c8644123a356:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of temperature in the Gibbs free energy equation.",
+          "Describe how changes in temperature can affect ΔG°.",
+          "Discuss the implications for spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how temperature affects the spontaneity of the reaction — develop the idea fully rather than listing short points. Make sure you also cover: how changes in temperature can affect ΔG°.; Discuss the implications for spontaneity."
+        ],
+        "model_answer": "Temperature affects the spontaneity of the reaction through the term TΔS° in the Gibbs free energy equation. If the temperature increases, the term TΔS° increases, which can potentially make ΔG° less negative or even positive, affecting the spontaneity of the reaction.",
+        "explanation": "Temperature influences the spontaneity of a reaction by affecting the magnitude of the entropy term in the Gibbs free energy equation.",
+        "exam_question_id": "a31bb6d2-4cca-4ca9-9e85-c8644123a356:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the Gibbs free energy equation.",
+          "Substitute the given values for ΔH° and ΔS° into the equation.",
+          "Perform the calculation to find ΔG°."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the given values for ΔH° and ΔS° into the; Perform the calculation to find ΔG°."
+        ],
+        "model_answer": "Using the Gibbs free energy equation: \nΔG° = ΔH° - TΔS° \nΔG° = -150 kJ/mol - (298 K × 50 J/mol·K × 1 kJ/1000 J) \nΔG° = -150 kJ/mol - (298 K × 0.05 kJ/mol·K) \nΔG° = -150 kJ/mol - 14.9 kJ/mol \nΔG° = -164.9 kJ/mol",
+        "explanation": "The Gibbs free energy change for the reaction is calculated using the given standard enthalpy and entropy changes. The equation used is ΔG° = ΔH° - TΔS°, where T is the temperature in Kelvin. The result is -164.9 kJ/mol, indicating that the reaction is spontaneous under these conditions.",
+        "exam_question_id": "d23f4ccc-0740-42dc-b4b4-1fb59fe0c385:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understand the relationship between ΔG° and spontaneity.",
+          "State that a negative ΔG° indicates a spontaneous reaction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Understand the relationship between ΔG° and spontaneity."
+        ],
+        "model_answer": "A reaction is spontaneous if ΔG° is negative. In this case, ΔG° = -164.9 kJ/mol, which is negative. Therefore, the reaction is spontaneous at 298 K.",
+        "explanation": "The spontaneity of a reaction is determined by the sign of the Gibbs free energy change. A negative ΔG° indicates that the reaction is spontaneous, meaning it will proceed without the need for external energy input.",
+        "exam_question_id": "d23f4ccc-0740-42dc-b4b4-1fb59fe0c385:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understand the effect of temperature on ΔG°.",
+          "Explain that increasing temperature can make a non-spontaneous reaction spontaneous if ΔS° is positive."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how temperature affects the spontaneity of the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Understand the effect of temperature on ΔG°."
+        ],
+        "model_answer": "The spontaneity of a reaction is affected by temperature through the Gibbs free energy equation: ΔG° = ΔH° - TΔS°. If ΔS° is positive, increasing the temperature (T) will make the term -TΔS° more negative, potentially making a non-spontaneous reaction (positive ΔG°) spontaneous.",
+        "explanation": "Temperature plays a crucial role in determining the spontaneity of a reaction. For reactions with a positive ΔS°, increasing the temperature can shift the Gibbs free energy change to a negative value, making the reaction spontaneous.",
+        "exam_question_id": "d23f4ccc-0740-42dc-b4b4-1fb59fe0c385:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Calculate the work done by the person climbing from point A to point B along Route 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for work done (W = mgh).",
+          "Substitute the given values into the formula (m = 70 kg, g = 9.8 m/s², h = 1000 m).",
+          "Calculate the work done accurately."
+        ],
+        "hints": [
+          "Remember to convert the mass into kilograms if it's given in another unit."
+        ],
+        "model_answer": "W = mgh = 70 kg * 9.8 m/s² * 1000 m = 686,000 J",
+        "explanation": "Work done is the product of mass, gravitational acceleration, and height difference. Ensure you use consistent units for each value.",
+        "exam_question_id": "815efd46-f3b6-48e9-8b89-b80138b42d9c:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that time taken is influenced by the distance and possibly the gradient.",
+          "Explain that Route 2 is longer and may have a less steep gradient, requiring more time."
+        ],
+        "hints": [
+          "Think about the relationship between distance, speed, and time."
+        ],
+        "model_answer": "Route 2 is longer than Route 1, and may have a less steep gradient, which means the climber would have to cover more distance at a potentially slower pace, thus requiring more time.",
+        "explanation": "The time taken to climb is influenced by the total distance and the gradient of the path. A longer route with a less steep gradient will take more time.",
+        "exam_question_id": "815efd46-f3b6-48e9-8b89-b80138b42d9c:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Calculate the work done by the person climbing from point A to point B along Route 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for work done against gravity.",
+          "Substitute the given values into the formula.",
+          "Calculate the work done and provide the answer in joules."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the work done by the person climbing from point A to point B along Route 1 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the formula for work done against gravity.; Substitute the given values into the formula.; Calculate the…."
+        ],
+        "model_answer": "Work = 70 kg * 9.8 m/s^2 * 1000 m = 686,000 J",
+        "explanation": "To find the work done by the person climbing, we use the formula for work done against gravity, which is the product of mass, gravitational acceleration, and height difference. Substituting the given values, we get the work done as 686,000 joules.",
+        "exam_question_id": "0803d693-f06b-48d9-b25b-844914c9a34a:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 31,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that Route 2 is longer in distance.",
+          "Explain that a longer distance requires more time to cover, even if the height difference is the same."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Climbing Route 2 might require more time because it is a longer path around the base and up the ridge, even though the height difference is the same as Route 1.",
+        "explanation": "Route 2 is longer in distance compared to Route 1, which means it takes more time to cover the same height difference. Therefore, climbing Route 2 might require more time.",
+        "exam_question_id": "0803d693-f06b-48d9-b25b-844914c9a34a:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 32,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of Gibbs free energy equation",
+          "Correct substitution of values",
+          "Correct calculation and unit"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of; Correct calculation and unit."
+        ],
+        "model_answer": "The Gibbs free energy equation is ΔG° = ΔH° - TΔS°. Substituting the given values, ΔG° = -150 kJ/mol - (298 K)(+50 J/mol·K). Convert J to kJ: 50 J/mol·K = 0.05 kJ/mol·K. Therefore, ΔG° = -150 kJ/mol - (298 K)(0.05 kJ/mol·K) = -150 kJ/mol - 14.9 kJ/mol = -164.9 kJ/mol.",
+        "explanation": "To calculate the standard Gibbs free energy change for the reaction, we use the Gibbs free energy equation, which relates enthalpy change, entropy change, and temperature. The given values are substituted into the equation, and the calculation is performed to find the Gibbs free energy change.",
+        "exam_question_id": "cf198490-01ed-44b1-920a-5e0868e6cc1b:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 33,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct understanding of the relationship between ΔG° and spontaneity",
+          "Correct explanation based on the calculated ΔG° value"
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Correct understanding of the relationship between ΔG° and spontaneity; Correct explanation based on the ΔG° value."
+        ],
+        "model_answer": "A reaction is spontaneous if the Gibbs free energy change (ΔG°) is negative. In this case, the calculated ΔG° is -164.9 kJ/mol, which is negative. Therefore, the reaction is spontaneous at 298 K.",
+        "explanation": "The spontaneity of a reaction can be determined by examining the sign of the Gibbs free energy change. If ΔG° is negative, the reaction is spontaneous. In this case, the calculated ΔG° is negative, indicating that the reaction is spontaneous at 298 K.",
+        "exam_question_id": "cf198490-01ed-44b1-920a-5e0868e6cc1b:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 34,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct understanding of the effect of temperature on spontaneity",
+          "Correct explanation based on the Gibbs free energy equation",
+          "Correct use of the temperature variable in the equation"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how temperature affects the spontaneity of the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correct understanding of the effect of temperature on spontaneity; Correct explanation based on the; Correct use of the temperature variable in the."
+        ],
+        "model_answer": "The spontaneity of a reaction can be affected by temperature. According to the Gibbs free energy equation, ΔG° = ΔH° - TΔS°, an increase in temperature can change the sign of ΔG°. If ΔS° is positive, as in this case, an increase in temperature can make ΔG° more negative, leading to a more spontaneous reaction. Conversely, a decrease in temperature can make ΔG° less negative or even positive, resulting in a less spontaneous or non-spontaneous reaction.",
+        "explanation": "Temperature plays a crucial role in determining the spontaneity of a reaction. By examining the Gibbs free energy equation, we can see that an increase in temperature can affect the sign of ΔG°. In this case, since ΔS° is positive, an increase in temperature can make ΔG° more negative, leading to a more spontaneous reaction. Conversely, a decrease in temperature can have the opposite effect.",
+        "exam_question_id": "cf198490-01ed-44b1-920a-5e0868e6cc1b:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 35,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Calculate the work done by the person climbing from point A to point B along Route 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the formula for work done (W = mgh).",
+          "Substitute the given values into the formula.",
+          "Provide the correct numerical answer with units."
+        ],
+        "hints": [
+          "Recall that work done is equal to the force applied times the distance moved in the direction of the force."
+        ],
+        "model_answer": "Work done (W) = mass (m) x gravitational acceleration (g) x height (h)\nW = 70 kg x 9.8 m/s^2 x 1000 m\nW = 686,000 J",
+        "explanation": "The work done by the person climbing from point A to point B along Route 1 is 686,000 Joules.",
+        "exam_question_id": "0920feae-7438-4103-8cc9-2e83dd119c0a:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 36,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a person of mass 70 kg climbing from point A to point B on the Karisimbi volcano. Assume that the total height difference between points A and B is 1000 metres for Route 1.",
+        "question": "Explain why climbing Route 2 might require more time than climbing Route 1, even though the height difference is the same.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that the distance of Route 2 is longer than Route 1.",
+          "Explain that a longer distance requires more time to cover."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Route 2 is longer than Route 1, even though the height difference is the same. This means that the person has to cover a greater distance to reach the summit. Since the speed of climbing is constant, it will take more time to cover a longer distance.",
+        "explanation": "Climbing Route 2 might require more time than climbing Route 1 because Route 2 is longer, and it takes more time to cover a greater distance at a constant speed.",
+        "exam_question_id": "0920feae-7438-4103-8cc9-2e83dd119c0a:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 37,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the Gibbs free energy equation.",
+          "Correct substitution of values into the equation.",
+          "Correct calculation leading to the final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of into the; Correct calculation leading to the final answer."
+        ],
+        "model_answer": "The Gibbs free energy equation is ΔG° = ΔH° - TΔS°. Substituting the given values, ΔH° = -150 kJ/mol, ΔS° = +50 J/mol·K, and T = 298 K, we get ΔG° = -150,000 J/mol - (298 K × 50 J/mol·K) = -150,000 J/mol - 14,900 J/mol = -164,900 J/mol = -164.9 kJ/mol.",
+        "explanation": "The Gibbs free energy change (ΔG°) for a reaction at a given temperature can be calculated using the equation ΔG° = ΔH° - TΔS°, where ΔH° is the change in enthalpy, T is the temperature in Kelvin, and ΔS° is the change in entropy. In this case, the enthalpy change is -150 kJ/mol and the entropy change is +50 J/mol·K. The temperature is 298 K. Substituting these values into the equation, we get ΔG° = -150,000 J/mol - (298 K × 50 J/mol·K) = -150,000 J/mol - 14,900 J/mol = -164,900 J/mol = -164.9 kJ/mol.",
+        "exam_question_id": "15057b5a-a84e-4399-a896-bb21d2003a70:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 38,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the relationship between ΔG° and spontaneity.",
+          "Correct interpretation of the calculated ΔG° value."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the relationship between ΔG° and spontaneity.; Correct interpretation of the ΔG° value."
+        ],
+        "model_answer": "The reaction is spontaneous if ΔG° is negative. From part (a), we calculated ΔG° to be -164.9 kJ/mol, which is negative. Therefore, the reaction is spontaneous at 298 K.",
+        "explanation": "A reaction is spontaneous if the change in Gibbs free energy (ΔG°) is negative. This means that the reaction will proceed on its own without the need for external energy input. In part (a), we calculated ΔG° to be -164.9 kJ/mol, which is negative. Therefore, the reaction is spontaneous at 298 K.",
+        "exam_question_id": "15057b5a-a84e-4399-a896-bb21d2003a70:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 39,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of the effect of temperature on ΔG°.",
+          "Correct explanation of how temperature affects spontaneity.",
+          "Correct conclusion based on the relationship between ΔG° and temperature."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how temperature affects the spontaneity of the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the effect of temperature on ΔG°.; Correct explanation of how temperature affects spontaneity.; Correct conclusion based on…."
+        ],
+        "model_answer": "The spontaneity of a reaction is affected by temperature through the Gibbs free energy equation, ΔG° = ΔH° - TΔS°. As temperature increases, the TΔS° term becomes more significant. If ΔS° is positive, increasing temperature will make TΔS° more positive, potentially making ΔG° less negative or even positive, which would decrease spontaneity. Conversely, if ΔS° is negative, increasing temperature will make TΔS° less negative, potentially making ΔG° more negative, which would increase spontaneity. In this case, since ΔS° is positive, increasing temperature will decrease spontaneity.",
+        "explanation": "The spontaneity of a reaction is determined by the Gibbs free energy change (ΔG°). The relationship between ΔG°, ΔH°, and ΔS° is given by the equation ΔG° = ΔH° - TΔS°. As temperature increases, the TΔS° term becomes more significant. If ΔS° is positive, increasing temperature will make TΔS° more positive, potentially making ΔG° less negative or even positive, which would decrease spontaneity. Conversely, if ΔS° is negative, increasing temperature will make TΔS° less negative, potentially making ΔG° more negative, which would increase spontaneity. In this case, since ΔS° is positive, increasing temperature will decrease spontaneity.",
+        "exam_question_id": "15057b5a-a84e-4399-a896-bb21d2003a70:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 40,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the Gibbs free energy equation ΔG° = ΔH° - TΔS°.",
+          "Substitute the given values into the equation.",
+          "Perform the calculation to find ΔG°."
+        ],
+        "hints": [
+          "Use the formula ΔG° = ΔH° - TΔS°."
+        ],
+        "model_answer": "ΔG° = ΔH° - TΔS°\nΔG° = -150 kJ/mol - (298 K * 50 J/mol·K * 10^-3 kJ/J)\nΔG° = -150 kJ/mol - 14.9 kJ/mol\nΔG° = -164.9 kJ/mol",
+        "explanation": "To calculate the standard Gibbs free energy change, use the formula ΔG° = ΔH° - TΔS°. Substitute the given values for ΔH° and ΔS°, and convert ΔS° from J/mol·K to kJ/mol·K by multiplying by 10^-3. Perform the calculation to find ΔG°.",
+        "exam_question_id": "3b4ca41a-4545-44b1-9ffd-56075058f136:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 41,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the condition for spontaneity based on ΔG°.",
+          "Determine the sign of ΔG° and relate it to spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Identify the condition for spontaneity based on ΔG°.; Determine the sign of ΔG° and relate it to spontaneity."
+        ],
+        "model_answer": "A reaction is spontaneous if ΔG° is negative. From part (a), ΔG° = -164.9 kJ/mol, which is negative. Therefore, the reaction is spontaneous at 298 K.",
+        "explanation": "A reaction is spontaneous if the standard Gibbs free energy change (ΔG°) is negative. Since ΔG° is negative in this case, the reaction is spontaneous at 298 K.",
+        "exam_question_id": "3b4ca41a-4545-44b1-9ffd-56075058f136:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 42,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -150 kJ/mol and the standard entropy change (ΔS°) is +50 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the relationship between temperature and spontaneity.",
+          "Discuss how changing temperature affects ΔG°."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how temperature affects the spontaneity of the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Discuss how changing temperature affects ΔG°."
+        ],
+        "model_answer": "The spontaneity of a reaction is affected by temperature through the TΔS° term in the Gibbs free energy equation. If the reaction is endothermic (ΔH° > 0) and has a positive ΔS°, increasing the temperature will make TΔS° larger, potentially making ΔG° less negative or even positive, thus affecting spontaneity. Conversely, if the reaction is exothermic (ΔH° < 0) and has a positive ΔS°, increasing the temperature will still make TΔS° larger, but the negative ΔH° term will dominate, keeping ΔG° negative and the reaction spontaneous.",
+        "explanation": "Temperature affects the spontaneity of a reaction by influencing the TΔS° term in the Gibbs free energy equation. For an endothermic reaction with a positive ΔS°, increasing temperature can make ΔG° less negative or even positive, potentially making the reaction non-spontaneous. For an exothermic reaction with a positive ΔS°, increasing temperature will still increase TΔS°, but the negative ΔH° term will generally keep ΔG° negative, maintaining spontaneity.",
+        "exam_question_id": "3b4ca41a-4545-44b1-9ffd-56075058f136:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 43,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a reaction at 298 K with the following standard enthalpies of formation: ΔH°f (A) = -200 kJ/mol, ΔH°f (B) = -300 kJ/mol, ΔH°f (C) = -400 kJ/mol. The balanced chemical equation for the reaction is: A + B → C. The standard entropy changes for the reaction are: ΔS° (A) = 150 J/mol·K, ΔS° (B) = 200 J/mol·K, ΔS° (C) = 350 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate ΔH° for the reaction using standard enthalpies of formation.",
+          "Correctly calculate ΔS° for the reaction using standard entropy changes.",
+          "Correctly apply the Gibbs free energy equation ΔG° = ΔH° - TΔS°."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate ΔH° for the reaction using standard enthalpies of formation.; Correctly calculate ΔS° for the reaction using standard…."
+        ],
+        "model_answer": "To calculate ΔH° for the reaction: \nΔH° = ΔH°f (C) - [ΔH°f (A) + ΔH°f (B)] = -400 kJ/mol - [(-200 kJ/mol) + (-300 kJ/mol)] = -400 kJ/mol + 500 kJ/mol = +100 kJ/mol. \n\nTo calculate ΔS° for the reaction: \nΔS° = ΔS° (C) - [ΔS° (A) + ΔS° (B)] = 350 J/mol·K - [150 J/mol·K + 200 J/mol·K] = 350 J/mol·K - 350 J/mol·K = 0 J/mol·K. \n\nApply the Gibbs free energy equation: \nΔG° = ΔH° - TΔS° = 100 kJ/mol - (298 K × 0 J/mol·K) = 100 kJ/mol.",
+        "explanation": "The standard Gibbs free energy change (ΔG°) for the reaction is 100 kJ/mol. This value indicates that the reaction is non-spontaneous at 298 K because ΔG° is positive.",
+        "exam_question_id": "8fd007a1-ffe9-4f94-bf31-d62fb7300243:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 44,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a reaction at 298 K with the following standard enthalpies of formation: ΔH°f (A) = -200 kJ/mol, ΔH°f (B) = -300 kJ/mol, ΔH°f (C) = -400 kJ/mol. The balanced chemical equation for the reaction is: A + B → C. The standard entropy changes for the reaction are: ΔS° (A) = 150 J/mol·K, ΔS° (B) = 200 J/mol·K, ΔS° (C) = 350 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly interpret the sign of ΔG° in relation to spontaneity.",
+          "Explain the relationship between ΔG°, ΔH°, and ΔS° in determining spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Correctly interpret the sign of ΔG° in relation to spontaneity.; the ΔG°, ΔH°, and ΔS° in determining spontaneity."
+        ],
+        "model_answer": "The reaction is non-spontaneous at 298 K because the calculated ΔG° is positive (100 kJ/mol). A positive ΔG° indicates that the reaction requires an input of energy to proceed spontaneously. The relationship between ΔG°, ΔH°, and ΔS° is given by the Gibbs free energy equation: ΔG° = ΔH° - TΔS°. In this case, even though ΔH° is negative, the term TΔS° is zero, resulting in a positive ΔG°.",
+        "explanation": "The reaction is non-spontaneous at 298 K because the Gibbs free energy change (ΔG°) is positive. This means that the reaction will not proceed on its own without an external input of energy.",
+        "exam_question_id": "8fd007a1-ffe9-4f94-bf31-d62fb7300243:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 45,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -100 kJ/mol and the standard entropy change (ΔS°) is +75 J/mol·K. The balanced chemical equation for the reaction is: X + Y → Z.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of Gibbs free energy equation ΔG° = ΔH° - TΔS°.",
+          "Correct substitution of given values into the equation.",
+          "Correct calculation and unit."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the standard Gibbs free energy change (ΔG°) for the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of Gibbs free energy equation ΔG° = ΔH° - TΔS°.; Correct substitution of values into the equation.; Correct calculation and unit."
+        ],
+        "model_answer": "Given: ΔH° = -100 kJ/mol, ΔS° = 75 J/mol·K, T = 298 K. \nΔG° = (-100 × 1000 J/mol) - (298 K × 75 J/mol·K) = -100000 J/mol - 22350 J/mol = -122350 J/mol = -122.35 kJ/mol.",
+        "explanation": "The standard Gibbs free energy change for the reaction is -122.35 kJ/mol.",
+        "exam_question_id": "4fdf3723-ac47-4686-bc97-672cc88051bf:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 46,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -100 kJ/mol and the standard entropy change (ΔS°) is +75 J/mol·K. The balanced chemical equation for the reaction is: X + Y → Z.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the relationship between ΔG° and spontaneity.",
+          "Correct interpretation of the calculated ΔG° value."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the relationship between ΔG° and spontaneity.; Correct interpretation of the calculated ΔG° value."
+        ],
+        "model_answer": "Since ΔG° is negative (-122.35 kJ/mol), the reaction is spontaneous at 298 K.",
+        "explanation": "The reaction is spontaneous at 298 K because the standard Gibbs free energy change is negative.",
+        "exam_question_id": "4fdf3723-ac47-4686-bc97-672cc88051bf:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 47,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -100 kJ/mol and the standard entropy change (ΔS°) is +75 J/mol·K. The balanced chemical equation for the reaction is: X + Y → Z.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of the relationship between temperature and spontaneity.",
+          "Correct interpretation of the effect of temperature on ΔG°.",
+          "Correct conclusion based on the interpretation."
+        ],
+        "hints": [
+          "Consider how changes in temperature affect the sign of ΔG°."
+        ],
+        "model_answer": "As temperature increases, the TΔS° term becomes more significant. If TΔS° becomes larger than ΔH°, ΔG° could become positive, making the reaction non-spontaneous. Conversely, if T decreases, TΔS° becomes smaller, potentially making ΔG° more negative and the reaction more spontaneous.",
+        "explanation": "The spontaneity of the reaction is affected by temperature. An increase in temperature can make the reaction non-spontaneous if TΔS° becomes larger than ΔH°, while a decrease in temperature can make the reaction more spontaneous.",
+        "exam_question_id": "4fdf3723-ac47-4686-bc97-672cc88051bf:1",
+        "topic_id": 626,
+        "topic_label": "Entropy and Free Energy",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Entropy and Free Energy"
+        }
+      },
+      {
+        "id": 48,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -100 kJ/mol and the standard entropy change (ΔS°) is +75 J/mol·K.",
+        "question": "Calculate the standard Gibbs free energy change (ΔG°) for the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the Gibbs free energy equation ΔG° = ΔH° - TΔS°.",
+          "Substitute the given values into the equation.",
+          "Perform the calculation to find ΔG°."
+        ],
+        "hints": [
+          "Remember to convert J/mol·K to kJ/mol·K by dividing by 1000."
+        ],
+        "model_answer": "Using the Gibbs free energy equation: \nΔG° = ΔH° - TΔS°\nΔG° = -100 kJ/mol - (298 K * 0.075 kJ/mol·K)\nΔG° = -100 kJ/mol - 22.35 kJ/mol\nΔG° = -122.35 kJ/mol",
+        "explanation": "Calculate the Gibbs free energy change for the reaction using the provided enthalpy and entropy values.",
+        "exam_question_id": "e98c37ef-a649-4cf8-af0f-b31ea76bd8a6:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 49,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -100 kJ/mol and the standard entropy change (ΔS°) is +75 J/mol·K.",
+        "question": "Explain whether the reaction is spontaneous at 298 K.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the condition for spontaneity in terms of ΔG°.",
+          "Explain the relationship between ΔG° and spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain whether the reaction is spontaneous at 298 K — develop the idea fully rather than listing short points. Make sure you also cover: Identify the condition for spontaneity in terms of ΔG°.; the relationship between ΔG° and spontaneity."
+        ],
+        "model_answer": "A reaction is spontaneous if ΔG° is negative. Since ΔG° = -122.35 kJ/mol, which is negative, the reaction is spontaneous at 298 K.",
+        "explanation": "Determine the spontaneity of the reaction based on the calculated Gibbs free energy change.",
+        "exam_question_id": "e98c37ef-a649-4cf8-af0f-b31ea76bd8a6:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      },
+      {
+        "id": 50,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a chemical reaction occurring at 298 K. The standard enthalpy change (ΔH°) for the reaction is -100 kJ/mol and the standard entropy change (ΔS°) is +75 J/mol·K.",
+        "question": "Describe how temperature affects the spontaneity of the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of temperature in the Gibbs free energy equation.",
+          "Discuss how changes in temperature can affect the sign of ΔG°.",
+          "Provide a general conclusion about the effect of temperature on spontaneity."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how temperature affects the spontaneity of the reaction — develop the idea fully rather than listing short points. Make sure you also cover: Discuss how changes in temperature can affect the sign of ΔG°.; Provide a general conclusion about the effect of temperature on spontaneity."
+        ],
+        "model_answer": "Temperature affects the spontaneity of a reaction through the TΔS° term in the Gibbs free energy equation. If TΔS° is large enough, it can make ΔG° positive, even if ΔH° is negative. Therefore, as temperature increases, the spontaneity of a reaction with positive ΔS° can decrease. Conversely, for reactions with negative ΔS°, increasing temperature can enhance spontaneity.",
+        "explanation": "Explain the influence of temperature on the spontaneity of the reaction based on the Gibbs free energy equation.",
+        "exam_question_id": "e98c37ef-a649-4cf8-af0f-b31ea76bd8a6:1",
+        "subtopic_id": 2571,
+        "topic_id": 626,
+        "topic_label": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility",
+        "source": {
+          "textbook": "Chemistry S5 SB",
+          "area": "Feasibility of chemical reactions: relationship between free energy, enthalpy and entropy feasibility"
+        }
+      }
+    ],
+    "estimated_time": 127,
+    "assessment_id": "b18f0cff-4a8e-4acd-87ea-9119385239ae",
+    "subject": "Chemistry S5 SB",
+    "topics": [
+      "Entropy and Free Energy"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 56,
+    "topic_ids": [
+      626
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 50,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 5,
+      "detail": "12 questions open with the same sentence (6, 8, 11, 17, 22, 25, 32, 37, 40, 43, 45, 48): \"Calculate the standard Gibbs free energy change (Δ\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 6,
+      "detail": "12 questions open with the same sentence (7, 9, 12, 18, 23, 26, 33, 38, 41, 44, 46, 49): \"Explain whether the reaction is spontaneous at 298\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 9,
+      "detail": "9 questions open with the same sentence (10, 19, 24, 27, 34, 39, 42, 47, 50): \"Describe how temperature affects the spontaneity o\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 12,
+      "detail": "6 questions open with the same sentence (13, 15, 20, 28, 30, 35): \"Calculate the work done by the person climbing fro\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 31,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 32,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 33,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 40,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 41,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 42,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 43,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 44,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 45,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 46,
+      "detail": "same as question 10"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 47,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 48,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 49,
+      "detail": "same as question 10"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "10a",
+      "10b",
+      "10c",
+      "11a",
+      "11b",
+      "11c",
+      "12a",
+      "12b",
+      "13a",
+      "13b",
+      "14a",
+      "14b",
+      "14c",
+      "15a",
+      "15b",
+      "16a",
+      "16b",
+      "16c",
+      "17a",
+      "17b",
+      "17c",
+      "18a",
+      "18b",
+      "19a",
+      "19b",
+      "19c",
+      "20a",
+      "20b",
+      "20c"
+    ],
+    "issues": [
+      {
+        "label": "3a",
+        "severity": "broken",
+        "detail": "Model answer contains arithmetic error. ΔH° calculation: -400 - (-200 - 300) = -400 - (-500) = -400 + 500 = 100 kJ/mol is correct, but the explanation states ΔH° = -200 + -300 - (-400) which is incorrect notation. More critically, the final ΔG° = 100 kJ/mol is correct only because ΔS° = 0, making the TΔS° term vanish. The working should clarify this cancellation explicitly.",
+        "correction": "ΔH° = [ΔH°f(C)] - [ΔH°f(A) + ΔH°f(B)] = (-400) - [(-200) + (-300)] = -400 + 500 = +100 kJ/mol. ΔS° = [ΔS°(C)] - [ΔS°(A) + ΔS°(B)] = 350 - (150 + 200) = 0 J/mol·K. ΔG° = 100 kJ/mol - (298 K × 0 J/mol·K) = 100 kJ/mol."
+      },
+      {
+        "label": "5a",
+        "severity": "broken",
+        "detail": "Model answer contains critical arithmetic error. States ΔH° = -500 kJ/mol + 400 kJ/mol = -100 kJ/mol, but should be: ΔH° = [(-400)] - [(-200) + (-300)] = -400 + 500 = +100 kJ/mol. The subsequent calculation is therefore incorrect.",
+        "correction": "ΔH° = -400 - (-200 - 300) = -400 + 500 = +100 kJ/mol. ΔS° = 350 - 350 = 0 J/mol·K. ΔG° = 100 kJ/mol - 0 = +100 kJ/mol (not -129.8 kJ/mol)."
+      },
+      {
+        "label": "16c",
+        "severity": "poor",
+        "detail": "Model answer contains logical error. States 'If ΔS° is positive, increasing temperature will decrease spontaneity' but this contradicts the given reaction where ΔS° = +50 J/mol·K and ΔG° is already negative. Increasing T would make -TΔS° more negative, enhancing spontaneity, not decreasing it.",
+        "correction": "For this reaction with ΔH° < 0 and ΔS° > 0, increasing temperature makes -TΔS° more negative, making ΔG° more negative and increasing spontaneity. The reaction is spontaneous at all temperatures."
+      },
+      {
+        "label": "18a",
+        "severity": "broken",
+        "detail": "Model answer states ΔH° = +100 kJ/mol but explanation says 'even though ΔH° is negative' in part 18b. Inconsistency: ΔH° is positive (+100 kJ/mol), not negative. This contradicts the explanation in 18b.",
+        "correction": "Clarify: ΔH° = +100 kJ/mol (endothermic, positive). The explanation in 18b should state 'even though ΔH° is positive' or be corrected to match the calculated value."
+      },
+      {
+        "label": "1a, 6a, 7a, 9a, 12a, 13a, 15a, 20a",
+        "severity": "poor",
+        "detail": "Multiple questions (1a, 6a, 7a, 9a, 12a, 13a, 15a, 20a) are duplicates with identical context (70 kg climber, 1000 m height, Route 1/2 volcano) and identical calculations. This violates the requirement to avoid repeated questions with the same data.",
+        "correction": "Retain only one volcano climbing question or vary the mass, height, or scenario substantially for each repetition."
+      },
+      {
+        "label": "4a, 8a, 10a, 11a, 14a, 16a, 17a, 20a",
+        "severity": "poor",
+        "detail": "Multiple questions (4a, 8a, 10a, 11a, 14a, 16a, 17a, 20a) are duplicates with identical context (298 K, ΔH° = -150 kJ/mol, ΔS° = +50 J/mol·K) and identical calculations yielding ΔG° = -164.9 kJ/mol. This violates the requirement to avoid repeated questions with the same data.",
+        "correction": "Retain only one such question or vary ΔH°, ΔS°, or temperature substantially for each repetition."
+      },
+      {
+        "label": "3a, 5a, 18a",
+        "severity": "poor",
+        "detail": "Three questions (3a, 5a, 18a) use identical context (A + B → C reaction with ΔH°f values and ΔS° values) but 3a and 5a have the same data while 18a repeats it. This violates the requirement to avoid repeated questions with the same data.",
+        "correction": "Retain only one such question or vary the formation enthalpies and entropy values substantially."
+      },
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Context states ΔH°f (B) = -300 kJ/0mol with apparent typo '0mol' instead of '/mol'. This is a data entry error.",
+        "correction": "Correct to ΔH°f (B) = -300 kJ/mol."
+      },
+      {
+        "label": "1b, 6b, 7b, 9b, 12b, 13b, 15b, 21b",
+        "severity": "poor",
+        "detail": "Multiple questions (1b, 6b, 7b, 9b, 12b, 13b, 15b, 21b) are duplicates asking why Route 2 takes more time than Route 1 with identical context and model answers. This violates the requirement to avoid repeated questions with the same data.",
+        "correction": "Retain only one such question or vary the scenario (different routes, different mountains, or different physical contexts)."
+      },
+      {
+        "label": "1a, 1b, 6a, 6b, 7a, 7b, 9a, 9b, 12a, 12b, 13a, 13b, 15a, 15b",
+        "severity": "poor",
+        "detail": "Topic fit issue: Questions 1, 6, 7, 9, 12, 13, 15 about volcano climbing and work done against gravity are tangentially related to 'Entropy and Free Energy' but primarily test mechanics (W = mgh) rather than thermodynamic concepts of entropy, enthalpy, or free energy. These questions do not directly address the stated curriculum topic.",
+        "correction": "Either replace with questions directly testing entropy and free energy concepts, or clarify the connection to thermodynamics (e.g., relating work to internal energy changes)."
+      },
+      {
+        "label": "2a, 2b, 2c",
+        "severity": "poor",
+        "detail": "Questions 2a, 2b, 2c about bomb calorimeter setup are descriptive/conceptual but do not directly test entropy or free energy. They test calorimetry and heat measurement, which are prerequisites but not the stated topic 'Entropy and Free Energy'.",
+        "correction": "Either replace with questions on entropy, enthalpy, or free energy calculations, or clarify how calorimetry connects to the entropy/free energy topic."
+      }
+    ],
+    "summary": "Assessment contains 50 questions with significant issues: (1) Extensive duplication—8 volcano climbing questions, 8 identical ΔG° calculations, 3 identical reaction scenarios; (2) Arithmetic errors in model answers (3a, 5a, 18a); (3) Logical inconsistencies (16c, 18a/18b); (4) Poor topic fit—volcano climbing and calorimetry questions do not directly address entropy and free energy; (5) Data entry error (3a typo). Recommend removing duplicates and refocusing on core thermodynamic concepts."
+  },
+  "totalSeconds": 225
+}

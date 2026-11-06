@@ -1,0 +1,30 @@
+{
+  "index": 10,
+  "label": "Cambridge / Exam / Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+  "request": {
+    "subject": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+    "textbook_id": 194,
+    "topic_ids": [
+      3051
+    ],
+    "topics": [
+      "Chapter 8: Continuous random variables"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS and A Level Mathematics Probability _ Statistics 1 Coursebook - Cambridge University Press (2018)",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 4077503407,
+  "error": "Error: Failed to generate 20 complete questions. The AI produced 6. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 249,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 20 complete questions. The AI produced 6. Please try again."
+  },
+  "totalSeconds": 249
+}

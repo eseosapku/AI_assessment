@@ -1,0 +1,405 @@
+{
+  "index": 11,
+  "label": "REB / Practice / Geography S5 SB (1)",
+  "request": {
+    "subject": "Geography S5 SB (1)",
+    "textbook_id": 110,
+    "topic_ids": [
+      1168
+    ],
+    "topics": [
+      "Soils"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 9,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each soil constituent to its role in soil formation",
+        "left_items": [
+          "Mineral particles",
+          "Organic matter",
+          "Water",
+          "Air"
+        ],
+        "right_items": [
+          "Provides structure and nutrients",
+          "Enhances fertility and water retention",
+          "Medium for chemical reactions",
+          "Allows root respiration"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Mineral particles provide structure, water is the medium for reactions, organic matter enhances fertility, and air allows root respiration.",
+        "subtopic_id": 5746,
+        "topic_id": 1168,
+        "topic_label": "Morphological properties, soil profile, soil catena and fertility",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Morphological properties, soil profile, soil catena and fertility"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category based on its effect on soil pH",
+        "categories": [
+          "Acidic",
+          "Neutral"
+        ],
+        "items": [
+          "Lime",
+          "Sulphur",
+          "Water",
+          "Salt"
+        ],
+        "correct_category": [
+          1,
+          0,
+          1,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Lime and water have a neutral effect, while sulphur and salt increase acidity.",
+        "topic_id": 1168,
+        "topic_label": "Soils",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Soils"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Soil organic matter improves soil structure and fertility",
+          "High clay content in soil makes it more fertile",
+          "Soil pH affects nutrient availability",
+          "Soil compaction reduces water infiltration"
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          true
+        ],
+        "marks": 4,
+        "explanation": "Soil organic matter improves structure and fertility; high clay content can lead to poor drainage; soil pH affects nutrient availability; soil compaction reduces water infiltration.",
+        "subtopic_id": 5746,
+        "topic_id": 1168,
+        "topic_label": "Morphological properties, soil profile, soil catena and fertility",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Morphological properties, soil profile, soil catena and fertility"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply to factors affecting soil formation",
+        "options": [
+          "Parent material",
+          "Climate",
+          "Topography",
+          "Human activities"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "marks": 4,
+        "explanation": "All listed factors contribute to soil formation.",
+        "topic_id": 1168,
+        "topic_label": "Soils",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Soils"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Mineral particles",
+          "Organic matter",
+          "Water",
+          "Plant roots"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Plant roots are not a constituent of soil but rather interact with soil.",
+        "topic_id": 1168,
+        "topic_label": "Soils",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Soils"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each type of soil horizon to its description",
+        "left_items": [
+          "O horizon",
+          "A horizon",
+          "B horizon",
+          "C horizon"
+        ],
+        "right_items": [
+          "Topsoil with organic matter",
+          "Subsoil with accumulation of minerals",
+          "Partially weathered parent material",
+          "Surface layer with decomposed organic matter"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "marks": 4,
+        "explanation": "O horizon is the surface layer with organic matter, A horizon is topsoil with organic matter, B horizon is subsoil with mineral accumulation, C horizon is partially weathered parent material.",
+        "topic_id": 1168,
+        "topic_label": "Soils",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Soils"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category based on its role in soil erosion",
+        "categories": [
+          "Prevents erosion",
+          "Causes erosion"
+        ],
+        "items": [
+          "Cover crops",
+          "Deforestation",
+          "Terracing",
+          "Overgrazing"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Cover crops and terracing prevent erosion, while deforestation and overgrazing cause erosion.",
+        "topic_id": 1168,
+        "topic_label": "Soils",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Soils"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition related to soil morphology.",
+        "left_items": [
+          "Humus",
+          "Soil texture",
+          "Soil structure",
+          "Soil permeability"
+        ],
+        "right_items": [
+          "Organic matter decomposed in soil",
+          "The relative proportions of sand, silt, and clay",
+          "The arrangement of soil particles into aggregates",
+          "The ability of soil to allow water to pass through"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Humus is decomposed organic matter, soil texture refers to particle size proportions, soil structure is the arrangement of aggregates, and soil permeability is water passage ability.",
+        "topic_id": 1168,
+        "topic_label": "Soils",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Soils"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category related to the soil profile.",
+        "categories": [
+          "Horizon A",
+          "Horizon B"
+        ],
+        "items": [
+          "Topsoil",
+          "Subsoil",
+          "Leached minerals",
+          "Organic material"
+        ],
+        "correct_category": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Topsoil and organic material belong to Horizon A, while leached minerals and subsoil belong to Horizon B.",
+        "subtopic_id": 5746,
+        "topic_id": 1168,
+        "topic_label": "Morphological properties, soil profile, soil catena and fertility",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Morphological properties, soil profile, soil catena and fertility"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank: The soil catena is a series of soils that develop in a ______ and are influenced by ______ and ______.",
+        "template": "The soil catena is a series of soils that develop in a {{0}} and are influenced by {{1}} and {{2}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "landscape"
+          },
+          {
+            "id": "1",
+            "correct": "topography"
+          },
+          {
+            "id": "2",
+            "correct": "parent material"
+          }
+        ],
+        "word_bank": [
+          "landscape",
+          "topography",
+          "parent material",
+          "climate",
+          "vegetation"
+        ],
+        "marks": 3,
+        "explanation": "The soil catena is a series of soils that develop in a landscape influenced by topography and parent material.",
+        "subtopic_id": 5746,
+        "topic_id": 1168,
+        "topic_label": "Morphological properties, soil profile, soil catena and fertility",
+        "source": {
+          "textbook": "Geography S5 SB (1)",
+          "area": "Morphological properties, soil profile, soil catena and fertility"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "10799d3b-c381-4351-8e78-4a22b1f304c5",
+    "subject": "Geography S5 SB (1)",
+    "topics": [
+      "Soils"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "interactive",
+    "textbook_id": 110,
+    "topic_ids": [
+      1168
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 2,
+      "detail": "no question mark and no command word: \"Mark each statement True or False\""
+    },
+    {
+      "code": "tick-all-correct",
+      "severity": "poor",
+      "index": 3,
+      "detail": "every option is correct, so nothing is tested"
+    },
+    {
+      "code": "no-question-asked",
+      "severity": "broken",
+      "index": 4,
+      "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "totalSeconds": 10
+}

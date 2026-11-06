@@ -1,0 +1,829 @@
+{
+  "index": 15,
+  "label": "Cambridge / Exam / Oxford English for Cambridge Primary Student Book 6 ",
+  "request": {
+    "subject": "Oxford English for Cambridge Primary Student Book 6 ",
+    "textbook_id": 139,
+    "topic_ids": [
+      1445
+    ],
+    "topics": [
+      "Revise and check 3"
+    ],
+    "curriculum": "cambridge",
+    "grade": 6,
+    "className": "Oxford English for Cambridge Primary Student Book 6 ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 43,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words: 'cat', 'dog', 'bat', 'rat','mat'. The words are written in a sequence.",
+        "question": "Name the word that comes right after 'bat'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifying the word after 'bat'."
+        ],
+        "hints": [
+          "Look at the sequence of words provided."
+        ],
+        "model_answer": "The word that comes right after 'bat' is 'rat'.",
+        "explanation": "Identify the position of 'bat' in the sequence and find the word that follows it.",
+        "exam_question_id": "a97794ad-9419-4c4d-b39d-4193eb61b175:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words: 'cat', 'dog', 'bat', 'rat','mat'. The words are written in a sequence.",
+        "question": "Find the position of the word 'mat' in the sequence.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifying the position of 'mat'."
+        ],
+        "hints": [
+          "Count the positions starting from the first word."
+        ],
+        "model_answer": "The word'mat' is in the 5th position.",
+        "explanation": "Count the positions of the words starting from 1 to find the position of'mat'.",
+        "exam_question_id": "a97794ad-9419-4c4d-b39d-4193eb61b175:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words: 'cat', 'dog', 'bat', 'rat','mat'. The words are written in a sequence.",
+        "question": "Complete the sequence by adding the word 'hat' at the end.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly adding the word 'hat' at the end of the sequence."
+        ],
+        "hints": [
+          "Append the word 'hat' to the end of the given sequence."
+        ],
+        "model_answer": "The completed sequence is: 'cat', 'dog', 'bat', 'rat','mat', 'hat'.",
+        "explanation": "Add the word 'hat' to the end of the given sequence of words.",
+        "exam_question_id": "a97794ad-9419-4c4d-b39d-4193eb61b175:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words: 'cat', 'dog', 'elephant', 'giraffe', 'tiger'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Find the words that start with the letter 'd'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identify the word(s) starting with 'd'."
+        ],
+        "hints": [
+          "Look for words in the list that begin with the letter 'd'."
+        ],
+        "model_answer": "The word that starts with the letter 'd' is 'dog'.",
+        "explanation": "Identify the word(s) in the list that begin with the specified letter.",
+        "exam_question_id": "70cc6a81-137b-464f-82a2-d9e94d8cb6c1:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words: 'cat', 'dog', 'elephant', 'giraffe', 'tiger'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Name a word that starts with the letter 'g'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly name a word starting with 'g'."
+        ],
+        "hints": [
+          "Look for words in the list that begin with the letter 'g'."
+        ],
+        "model_answer": "A word that starts with the letter 'g' is 'giraffe'.",
+        "explanation": "Name one word from the list that begins with the specified letter.",
+        "exam_question_id": "70cc6a81-137b-464f-82a2-d9e94d8cb6c1:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words: 'cat', 'dog', 'elephant', 'giraffe', 'tiger'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Complete the sentence with a word from the list that starts with the letter 't'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly complete the sentence with a word starting with 't'."
+        ],
+        "hints": [
+          "Choose a word from the list that begins with the letter 't'."
+        ],
+        "model_answer": "The completed sentence is: 'The tiger is a wild animal.'",
+        "explanation": "Complete the sentence with a word from the list that starts with the specified letter.",
+        "exam_question_id": "70cc6a81-137b-464f-82a2-d9e94d8cb6c1:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words: 'pencil', 'eraser', 'ruler', 'notebook','sharpener','scissors', 'glue'.",
+        "question": "Find the word that starts with the letter 'n'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifying the word 'notebook'."
+        ],
+        "hints": [
+          "Look for a word that begins with the letter 'n'."
+        ],
+        "model_answer": "notebook",
+        "explanation": "The word 'notebook' starts with the letter 'n'.",
+        "exam_question_id": "079f6fe5-d844-4c63-ba84-d0d0b3f9e273:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words: 'pencil', 'eraser', 'ruler', 'notebook','sharpener','scissors', 'glue'.",
+        "question": "Name the word that is the longest in the list.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifying the word 'sharpener'."
+        ],
+        "hints": [
+          "Look for the word with the most letters."
+        ],
+        "model_answer": "sharpener",
+        "explanation": "The word 'sharpener' has the most letters in the list.",
+        "exam_question_id": "079f6fe5-d844-4c63-ba84-d0d0b3f9e273:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words: 'pencil', 'eraser', 'ruler', 'notebook','sharpener','scissors', 'glue'.",
+        "question": "Complete the sentence: 'The _______ is used to cut paper.'",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly completing the sentence with 'scissors'."
+        ],
+        "hints": [
+          "Look for a word that describes an object used for cutting."
+        ],
+        "model_answer": "The scissors are used to cut paper.",
+        "explanation": "Scissors are used to cut paper.",
+        "exam_question_id": "079f6fe5-d844-4c63-ba84-d0d0b3f9e273:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words: 'pencil', 'eraser', 'notebook', 'ruler','sharpener','marker','stapler'. Find the word that starts with the letter 'r'.",
+        "question": "Find the word that starts with the letter 'r'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the word starting with 'r'."
+        ],
+        "hints": [
+          "Look for a word that begins with the letter 'r'."
+        ],
+        "model_answer": "ruler",
+        "explanation": "Look through the list and identify the word that starts with the letter 'r'.",
+        "exam_question_id": "4abe24a8-e964-46f8-b676-f690cc519299:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words: 'pencil', 'eraser', 'notebook', 'ruler','sharpener','marker','stapler'. Find the word that starts with the letter 'r'.",
+        "question": "Name the word that is the longest in the list.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the longest word."
+        ],
+        "hints": [
+          "Count the letters in each word to find the longest one."
+        ],
+        "model_answer": "sharpener",
+        "explanation": "Count the number of letters in each word and identify the one with the most letters.",
+        "exam_question_id": "4abe24a8-e964-46f8-b676-f690cc519299:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words: 'umbrella', 'jacket', 'gloves','scarf', 'boots', 'hat'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Find the word that starts with the letter 'j'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the word starting with 'j'."
+        ],
+        "hints": [
+          "Look for a word in the list that begins with the letter 'j'."
+        ],
+        "model_answer": "jacket",
+        "explanation": "Identify the word in the list that starts with the letter 'j'.",
+        "exam_question_id": "5a9d122d-a06e-4e49-816e-15f6e98db745:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words: 'umbrella', 'jacket', 'gloves','scarf', 'boots', 'hat'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Name a word that starts with the letter's'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of a word starting with 's'."
+        ],
+        "hints": [
+          "Look for a word in the list that begins with the letter's'."
+        ],
+        "model_answer": "scarf",
+        "explanation": "Identify a word in the list that starts with the letter's'.",
+        "exam_question_id": "5a9d122d-a06e-4e49-816e-15f6e98db745:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words: 'umbrella', 'jacket', 'gloves','scarf', 'boots', 'hat'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Complete the sentence: 'The _______ is used to protect from rain.'",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct completion of the sentence with an appropriate word from the list."
+        ],
+        "hints": [
+          "Choose a word from the list that fits the description in the sentence."
+        ],
+        "model_answer": "The umbrella is used to protect from rain.",
+        "explanation": "Complete the sentence with a word from the list that matches the description.",
+        "exam_question_id": "5a9d122d-a06e-4e49-816e-15f6e98db745:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words: 'apple', 'banana', 'cherry', 'date', 'elderberry'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Find the word that starts with the letter 'c'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the word starting with 'c'."
+        ],
+        "hints": [
+          "Look for a word that begins with the letter 'c'."
+        ],
+        "model_answer": "cherry",
+        "explanation": "The word 'cherry' starts with the letter 'c'.",
+        "exam_question_id": "c46788ad-e023-462f-8c0f-1b34c591be96:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words: 'apple', 'banana', 'cherry', 'date', 'elderberry'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Name a word that starts with the letter 'e'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of a word starting with 'e'."
+        ],
+        "hints": [
+          "Look for a word that begins with the letter 'e'."
+        ],
+        "model_answer": "elderberry",
+        "explanation": "The word 'elderberry' starts with the letter 'e'.",
+        "exam_question_id": "c46788ad-e023-462f-8c0f-1b34c591be96:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words:'sun','moon','star', 'planet', 'comet'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Find the word that starts with the letter 'p'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the word 'planet'."
+        ],
+        "hints": [
+          "Stay focused on this: Find the word that starts with the letter 'p' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the word."
+        ],
+        "model_answer": "The word that starts with the letter 'p' is 'planet'.",
+        "explanation": "Identify the word in the list that begins with the letter 'p'.",
+        "exam_question_id": "9ac0c347-6f00-4e08-8fc0-a33d4e3b582b:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words:'sun','moon','star', 'planet', 'comet'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Name a word that starts with the letter 'c'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the word 'comet'."
+        ],
+        "hints": [
+          "Stay focused on this: Name a word that starts with the letter 'c' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the word."
+        ],
+        "model_answer": "A word that starts with the letter 'c' is 'comet'.",
+        "explanation": "Identify a word in the list that begins with the letter 'c'.",
+        "exam_question_id": "9ac0c347-6f00-4e08-8fc0-a33d4e3b582b:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words:'sun','moon','star', 'planet', 'comet'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Complete the sentence: 'The _______ is a celestial body that emits light and heat.'",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly completes the sentence with 'sun'."
+        ],
+        "hints": [
+          "Stay focused on this: Complete the sentence: 'The _______ is a celestial body that emits light and heat.' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly completes the sentence with 'sun'."
+        ],
+        "model_answer": "The sun is a celestial body that emits light and heat.",
+        "explanation": "Complete the sentence with a word from the list that matches the description.",
+        "exam_question_id": "9ac0c347-6f00-4e08-8fc0-a33d4e3b582b:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words:'sunflower', 'rose', 'daisy', 'lily', 'tulip'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Find the word that starts with the letter 'l'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the word 'lily'."
+        ],
+        "hints": [
+          "Stay focused on this: Find the word that starts with the letter 'l' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the word."
+        ],
+        "model_answer": "The word that starts with the letter 'l' is 'lily'.",
+        "explanation": "Identify the word in the list that begins with the letter 'l'.",
+        "exam_question_id": "0fbeec8c-53a7-4017-b1d9-de8ee66cf032:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words:'sunflower', 'rose', 'daisy', 'lily', 'tulip'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Name a word that starts with the letter 'd'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the word 'daisy'."
+        ],
+        "hints": [
+          "Stay focused on this: Name a word that starts with the letter 'd' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the word."
+        ],
+        "model_answer": "A word that starts with the letter 'd' is 'daisy'.",
+        "explanation": "Identify a word in the list that begins with the letter 'd'.",
+        "exam_question_id": "0fbeec8c-53a7-4017-b1d9-de8ee66cf032:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words:'sunflower', 'rose', 'daisy', 'lily', 'tulip'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Complete the sentence: 'The _______ is a type of flower that is often yellow.'",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly completes the sentence with 'sunflower'."
+        ],
+        "hints": [
+          "Stay focused on this: Complete the sentence: 'The _______ is a type of flower that is often yellow.' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly completes the sentence with."
+        ],
+        "model_answer": "The sunflower is a type of flower that is often yellow.",
+        "explanation": "Complete the sentence with a word from the list that describes a yellow flower.",
+        "exam_question_id": "0fbeec8c-53a7-4017-b1d9-de8ee66cf032:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words:'sun','moon','star', 'planet', 'comet'. These words are used in a game where players need to find words related to space.",
+        "question": "Find the word that comes right after 'moon'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the word 'star'."
+        ],
+        "hints": [
+          "Look at the list and find the word that follows 'moon'."
+        ],
+        "model_answer": "The word that comes right after 'moon' is 'star'.",
+        "explanation": "Identify the word that directly follows 'moon' in the given list.",
+        "exam_question_id": "103efa30-0b01-46e1-bca4-0962aee5f8e3:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words:'sun','moon','star', 'planet', 'comet'. These words are used in a game where players need to find words related to space.",
+        "question": "Name a word that starts with the letter 'p'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the word 'planet'."
+        ],
+        "hints": [
+          "Stay focused on this: Name a word that starts with the letter 'p' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the word."
+        ],
+        "model_answer": "A word that starts with the letter 'p' is 'planet'.",
+        "explanation": "Identify a word from the list that begins with the letter 'p'.",
+        "exam_question_id": "103efa30-0b01-46e1-bca4-0962aee5f8e3:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words:'sun','moon','star', 'planet', 'comet'. These words are used in a game where players need to find words related to space.",
+        "question": "Complete the sentence: 'The _______ is a celestial body that emits light and heat.'",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly completes the sentence with 'sun'.",
+          "Provides a reasonable explanation for the choice."
+        ],
+        "hints": [
+          "Stay focused on this: Complete the sentence: 'The _______ is a celestial body that emits light and heat.' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly completes the sentence with 'sun'.; a reasonable explanation for the."
+        ],
+        "model_answer": "The sentence is completed as: 'The sun is a celestial body that emits light and heat.' The sun is the correct choice because it is the star at the center of our solar system that provides light and heat to the planets.",
+        "explanation": "Complete the sentence with the appropriate word from the list and provide a brief explanation for your choice.",
+        "exam_question_id": "103efa30-0b01-46e1-bca4-0962aee5f8e3:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following list of words: 'bicycle', 'car', 'train','motorcycle', 'airplane'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Find the word that starts with the letter'm'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the word starting with 'm'."
+        ],
+        "hints": [
+          "Look for a word in the list that begins with the letter'm'."
+        ],
+        "model_answer": "motorcycle",
+        "explanation": "The word 'motorcycle' starts with the letter'm'.",
+        "exam_question_id": "b5c1b387-0bf9-49b0-9999-132c3578e9e7:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following list of words: 'bicycle', 'car', 'train','motorcycle', 'airplane'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Name a word that starts with the letter 'a'.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of a word starting with 'a'."
+        ],
+        "hints": [
+          "Look for a word in the list that begins with the letter 'a'."
+        ],
+        "model_answer": "airplane",
+        "explanation": "The word 'airplane' starts with the letter 'a'.",
+        "exam_question_id": "b5c1b387-0bf9-49b0-9999-132c3578e9e7:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following list of words: 'bicycle', 'car', 'train','motorcycle', 'airplane'. These words are used in a game where players need to find words that start with a specific letter.",
+        "question": "Complete the sentence: 'The _______ is a mode of transportation that runs on tracks.'",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of a word that fits the sentence."
+        ],
+        "hints": [
+          "Look for a word in the list that describes a mode of transportation that runs on tracks."
+        ],
+        "model_answer": "train",
+        "explanation": "The word 'train' is a mode of transportation that runs on tracks.",
+        "exam_question_id": "b5c1b387-0bf9-49b0-9999-132c3578e9e7:1",
+        "checked": true,
+        "topic_label": "Revise and check 3",
+        "source": {
+          "textbook": "Oxford English for Cambridge Primary Student Book 6",
+          "area": "Revise and check 3"
+        }
+      }
+    ],
+    "estimated_time": 56,
+    "assessment_id": "6a953f2f-6fb8-44d8-8ca3-7a50aff9e528",
+    "subject": "Oxford English for Cambridge Primary Student Book 6 ",
+    "topics": [
+      "Revise and check 3"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 139,
+    "topic_ids": [
+      1445
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 28,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 19"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 5"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "3c",
+        "severity": "poor",
+        "detail": "Model answer uses plural 'scissors are' but question blank suggests singular completion. Should be 'The scissors are used to cut paper.' or question should clarify plural form expected.",
+        "correction": "Model answer is acceptable as written, but marking criteria should explicitly accept both 'scissors' alone and full sentence completion."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Question text contains formatting error: \"Name a word that starts with the letter's'.\" The apostrophe placement is incorrect—should be 'the letter 's' (with space) not 'the letter's'.",
+        "correction": "Correct to: \"Name a word that starts with the letter 's'.\""
+      },
+      {
+        "label": "8c",
+        "severity": "poor",
+        "detail": "Marking criteria incomplete: 'Correctly completes the sentence with 'sunflower'.' ends mid-phrase without completion.",
+        "correction": "Complete marking criteria: 'Correctly completes the sentence with 'sunflower'.'"
+      },
+      {
+        "label": "9c",
+        "severity": "poor",
+        "detail": "Question marked 2 marks but identical to 7c and 9a contexts (same word list, same sentence). Repetition of content across questions reduces assessment validity.",
+        "correction": "Replace with distinct question or remove duplication to maintain assessment integrity."
+      }
+    ],
+    "summary": "Assessment contains 28 basic vocabulary and sequencing questions appropriate for Grade 6. Most questions are well-structured with clear model answers. Minor issues: formatting error in 5b, incomplete marking criteria in 8c, and content repetition in 9c. No substantive curriculum misalignment detected."
+  },
+  "totalSeconds": 48
+}

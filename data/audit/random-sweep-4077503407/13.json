@@ -1,0 +1,807 @@
+{
+  "index": 13,
+  "label": "REB / Exam / chemistry S4 SB",
+  "request": {
+    "subject": "chemistry S4 SB",
+    "textbook_id": 55,
+    "topic_ids": [
+      604,
+      611
+    ],
+    "topics": [
+      "Formation of Ionic and Metallic Bonds",
+      "Trends in Chemical Properties of Group 15 Elements and Their Compounds"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 211,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the Ostwald process for producing nitric acid as shown in the diagram. The process involves the following steps:\n1. The converter unit where ammonia and oxygen react in the presence of a platinum catalyst to produce nitric oxide (NO) and water.\n2. The oxidation chamber where nitric oxide (NO) reacts with oxygen (O2) to form nitrogen dioxide (NO2).\n3. The absorption tower where nitrogen dioxide (NO2) is absorbed by water to produce nitric acid (HNO3).\n\nThe balanced chemical equations for these steps are:\n1. 4NH3 + 5O2 -> 4NO + 6H2O\n2. 2NO + O2 -> 2NO2\n3. 3NO2 + H2O -> 2HNO3 + NO",
+        "question": "Calculate the mass of nitric acid (HNO3) produced when 100 g of ammonia (NH3) is used in the Ostwald process.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the molar mass of NH3 and HNO3.",
+          "Use stoichiometry to find the moles of NH3 and then HNO3 produced.",
+          "Convert moles of HNO3 to mass using its molar mass."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of nitric acid (HNO3) produced when 100 g of ammonia (NH3) is used in the Ostwald process — develop the idea fully rather than listing short points. Make sure you also cover: stoichiometry to find the of NH3 and then HNO3 produced."
+        ],
+        "model_answer": "The molar mass of NH3 is 17 g/mol and the molar mass of HNO3 is 63 g/mol.\n\n1. Calculate moles of NH3: 100 g / 17 g/mol = 5.88 mol\n2. From the first reaction, 4 moles of NH3 produce 4 moles of NO.\n   So, 5.88 moles of NH3 produce 5.88 moles of NO.\n3. From the second reaction, 2 moles of NO produce 2 moles of NO2.\n   So, 5.88 moles of NO produce 5.88 moles of NO2.\n4. From the third reaction, 3 moles of NO2 produce 2 moles of HNO3.\n   So, 5.88 moles of NO2 produce (5.88/3) * 2 = 3.92 moles of HNO3.\n5. Convert moles of HNO3 to mass: 3.92 mol * 63 g/mol = 246.96 g.\n\nThe mass of nitric acid produced is 246.96 g.",
+        "explanation": "You need to use the molar masses of ammonia and nitric acid, along with stoichiometry, to find the mass of nitric acid produced from a given mass of ammonia.",
+        "exam_question_id": "a68a16d3-6762-4c14-8696-7ace67a20eed:1",
+        "topic_label": "Ammonia and nitric acid",
+        "topic_id": 611,
+        "image_url": "/textbook-images/rwanda/55/page291-embedded-0.jpeg",
+        "image_alt": "A flow diagram of the Ostwald process for making nitric acid. The first unit is a converter holding platinum gauze, fed from below with '1 vol. Ammonia + 8 vol. oxygen', and NO leaves it and enters the oxidation chamber, which is labelled '2NO + O2→2NO2'. The oxidation chamber is joined to an absorption tower with water sprayed in at the top, a section of quartz pieces, waste gases leaving at the top right, and nitric acid collecting and leaving at the bottom.\nLabels: Water, waste gases, NO, Quartz pieces, 2NO + O2→2NO2, Platinum gauze, Nitric acid, 1 vol.Ammonia + 8 vol. oxygen converter, Oxi",
+        "checked": true,
+        "subtopic_id": 2458,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ammonia and nitric acid"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the Ostwald process for producing nitric acid as shown in the diagram. The process involves the following steps:\n1. The converter unit where ammonia and oxygen react in the presence of a platinum catalyst to produce nitric oxide (NO) and water.\n2. The oxidation chamber where nitric oxide (NO) reacts with oxygen (O2) to form nitrogen dioxide (NO2).\n3. The absorption tower where nitrogen dioxide (NO2) is absorbed by water to produce nitric acid (HNO3).\n\nThe balanced chemical equations for these steps are:\n1. 4NH3 + 5O2 -> 4NO + 6H2O\n2. 2NO + O2 -> 2NO2\n3. 3NO2 + H2O -> 2HNO3 + NO",
+        "question": "Explain why the use of a platinum catalyst in the converter unit is crucial for the Ostwald process.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the role of the catalyst in the reaction.",
+          "Explain the effect of the catalyst on the reaction rate and energy requirements."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the use of a platinum catalyst in the converter unit is crucial for the Ostwald process — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of the catalyst in the; the effect of the catalyst on the rate and requirements."
+        ],
+        "model_answer": "A catalyst, such as platinum, is crucial in the converter unit because it provides an alternative reaction pathway with lower activation energy. This allows the reaction between ammonia and oxygen to proceed more quickly and efficiently, even at lower temperatures. Without the catalyst, the reaction would require much higher temperatures, making the process less efficient and more energy-intensive.",
+        "explanation": "Catalysts are essential in chemical processes as they lower the activation energy required for a reaction to occur, making the process faster and more energy-efficient.",
+        "exam_question_id": "a68a16d3-6762-4c14-8696-7ace67a20eed:1",
+        "topic_label": "Ammonia and nitric acid",
+        "topic_id": 611,
+        "image_url": "/textbook-images/rwanda/55/page291-embedded-0.jpeg",
+        "image_alt": "A flow diagram of the Ostwald process for making nitric acid. The first unit is a converter holding platinum gauze, fed from below with '1 vol. Ammonia + 8 vol. oxygen', and NO leaves it and enters the oxidation chamber, which is labelled '2NO + O2→2NO2'. The oxidation chamber is joined to an absorption tower with water sprayed in at the top, a section of quartz pieces, waste gases leaving at the top right, and nitric acid collecting and leaving at the bottom.\nLabels: Water, waste gases, NO, Quartz pieces, 2NO + O2→2NO2, Platinum gauze, Nitric acid, 1 vol.Ammonia + 8 vol. oxygen converter, Oxi",
+        "checked": true,
+        "subtopic_id": 2458,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ammonia and nitric acid"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the Ostwald process for producing nitric acid as shown in the diagram. The process involves the following steps:\n1. The converter unit where ammonia and oxygen react in the presence of a platinum catalyst to produce nitric oxide (NO) and water.\n2. The oxidation chamber where nitric oxide (NO) reacts with oxygen (O2) to form nitrogen dioxide (NO2).\n3. The absorption tower where nitrogen dioxide (NO2) is absorbed by water to produce nitric acid (HNO3).\n\nThe balanced chemical equations for these steps are:\n1. 4NH3 + 5O2 -> 4NO + 6H2O\n2. 2NO + O2 -> 2NO2\n3. 3NO2 + H2O -> 2HNO3 + NO",
+        "question": "Describe the function of the absorption tower in the Ostwald process and how it ensures the safe handling of nitrogen dioxide (NO2).",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of the absorption tower in the process.",
+          "Describe how the absorption tower ensures safe handling of NO2.",
+          "Mention the use of water and quartz pieces in the tower."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The absorption tower in the Ostwald process serves to absorb nitrogen dioxide (NO2) produced in the oxidation chamber, converting it into nitric acid (HNO3) through the reaction with water. The tower ensures the safe handling of NO2 by allowing it to react with water sprayed in at the top. The quartz pieces help to distribute the water evenly and increase the surface area for the reaction, ensuring that NO2 is effectively absorbed and converted into HNO3. This prevents the release of toxic NO2 into the atmosphere and allows for the efficient collection of nitric acid at the bottom of the tower.",
+        "explanation": "The absorption tower is a critical component in the Ostwald process, ensuring that nitrogen dioxide is safely converted into nitric acid and preventing environmental pollution.",
+        "exam_question_id": "a68a16d3-6762-4c14-8696-7ace67a20eed:1",
+        "topic_label": "Ammonia and nitric acid",
+        "topic_id": 611,
+        "image_url": "/textbook-images/rwanda/55/page291-embedded-0.jpeg",
+        "image_alt": "A flow diagram of the Ostwald process for making nitric acid. The first unit is a converter holding platinum gauze, fed from below with '1 vol. Ammonia + 8 vol. oxygen', and NO leaves it and enters the oxidation chamber, which is labelled '2NO + O2→2NO2'. The oxidation chamber is joined to an absorption tower with water sprayed in at the top, a section of quartz pieces, waste gases leaving at the top right, and nitric acid collecting and leaving at the bottom.\nLabels: Water, waste gases, NO, Quartz pieces, 2NO + O2→2NO2, Platinum gauze, Nitric acid, 1 vol.Ammonia + 8 vol. oxygen converter, Oxi",
+        "checked": true,
+        "subtopic_id": 2458,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ammonia and nitric acid"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following bar chart which shows the lattice enthalpies of the sodium halides (in kJ/mol). Use the chart to answer the following questions.",
+        "question": "Calculate the difference in lattice enthalpy between NaF and NaCl.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the lattice enthalpy values for NaF and NaCl from the chart.",
+          "Subtract the lattice enthalpy of NaCl from that of NaF."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the difference in lattice enthalpy between NaF and NaCl — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Lattice enthalpy of NaF = 900 kJ/mol, Lattice enthalpy of NaCl = 770 kJ/mol. Difference = 900 - 770 = 130 kJ/mol.",
+        "explanation": "Use the provided values from the bar chart to find the difference in lattice enthalpies.",
+        "exam_question_id": "44388397-db29-4e8d-b893-cb283b3e3ead:1",
+        "topic_label": "Formation of Ionic and Metallic Bonds",
+        "topic_id": 604,
+        "image_url": "/textbook-images/rwanda/55/page91-embedded-1.png",
+        "image_alt": "A bar chart of the lattice enthalpies of the sodium halides, in kJ/mol. The vertical axis runs from 0 to 1000 in steps of 200. The bars fall from left to right: NaF is about 900, NaCl about 770, NaBr about 730 and NaI about 680.\nLabels: lattice enthalpies of sodiun halides (Kj/mol), 1000, 800, 600, 400, 200, 0, Naf, NaCl, NaBr, NaI\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of Ionic and Metallic Bonds"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following bar chart which shows the lattice enthalpies of the sodium halides (in kJ/mol). Use the chart to answer the following questions.",
+        "question": "Explain why the lattice enthalpy decreases as you move from NaF to NaI.",
+        "marks": 3,
+        "marking_criteria": [
+          "Discuss the relationship between lattice enthalpy and ionic size.",
+          "Explain how the size of the halide ions affects the lattice enthalpy.",
+          "Include the effect of the increasing ionic radius from F- to I-."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the lattice enthalpy decreases as you move from NaF to NaI — develop the idea fully rather than listing short points. Make sure you also cover: Include the effect of the increasing from F- to I-."
+        ],
+        "model_answer": "The lattice enthalpy decreases as you move from NaF to NaI because the size of the halide ions increases. Larger ions have a weaker electrostatic attraction to the sodium ion, resulting in a lower lattice enthalpy. As the radius increases from F- to I-, the distance between the ions increases, reducing the strength of the ionic bond.",
+        "explanation": "Explain the concept of lattice enthalpy in terms of ion size and the strength of ionic bonds.",
+        "exam_question_id": "44388397-db29-4e8d-b893-cb283b3e3ead:1",
+        "topic_label": "Formation of Ionic and Metallic Bonds",
+        "topic_id": 604,
+        "image_url": "/textbook-images/rwanda/55/page91-embedded-1.png",
+        "image_alt": "A bar chart of the lattice enthalpies of the sodium halides, in kJ/mol. The vertical axis runs from 0 to 1000 in steps of 200. The bars fall from left to right: NaF is about 900, NaCl about 770, NaBr about 730 and NaI about 680.\nLabels: lattice enthalpies of sodiun halides (Kj/mol), 1000, 800, 600, 400, 200, 0, Naf, NaCl, NaBr, NaI\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of Ionic and Metallic Bonds"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following bar chart which shows the lattice enthalpies of the sodium halides (in kJ/mol). Use the chart to answer the following questions.",
+        "question": "Describe how the lattice enthalpy of NaBr compares to that of NaCl and suggest a reason for the difference.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the lattice enthalpies of NaBr and NaCl.",
+          "Suggest a reason for the difference based on ion size.",
+          "Explain the relationship between ion size and lattice enthalpy."
+        ],
+        "hints": [
+          "Refer to the values from the bar chart."
+        ],
+        "model_answer": "The lattice enthalpy of NaBr (730 kJ/mol) is slightly lower than that of NaCl (770 kJ/mol). This difference can be attributed to the slightly larger size of the Br- ion compared to the Cl- ion. The larger Br- ion results in a weaker electrostatic attraction to the sodium ion, leading to a lower lattice enthalpy.",
+        "explanation": "Compare the lattice enthalpies and explain the influence of ion size on lattice enthalpy.",
+        "exam_question_id": "44388397-db29-4e8d-b893-cb283b3e3ead:1",
+        "topic_label": "Formation of Ionic and Metallic Bonds",
+        "topic_id": 604,
+        "image_url": "/textbook-images/rwanda/55/page91-embedded-1.png",
+        "image_alt": "A bar chart of the lattice enthalpies of the sodium halides, in kJ/mol. The vertical axis runs from 0 to 1000 in steps of 200. The bars fall from left to right: NaF is about 900, NaCl about 770, NaBr about 730 and NaI about 680.\nLabels: lattice enthalpies of sodiun halides (Kj/mol), 1000, 800, 600, 400, 200, 0, Naf, NaCl, NaBr, NaI\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of Ionic and Metallic Bonds"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the bar chart showing the lattice enthalpies of the group 1 chlorides LiCl, NaCl, KCl, RbCl, and CsCl. The y-axis represents the lattice enthalpy values from 0 to 1000 in steps of 200.",
+        "question": "Calculate the difference in lattice enthalpy between LiCl and NaCl.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the lattice enthalpy values for LiCl and NaCl from the chart.",
+          "Subtract the lattice enthalpy of NaCl from LiCl and provide the correct difference."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the difference in lattice enthalpy between LiCl and NaCl — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the lattice enthalpy values for LiCl and NaCl from the chart.; Subtract the lattice enthalpy of NaCl from LiCl and provide…."
+        ],
+        "model_answer": "LiCl: ~850, NaCl: ~780, Difference: 850 - 780 = 70.",
+        "explanation": "Subtract the lattice enthalpy of NaCl from LiCl to find the difference.",
+        "exam_question_id": "9cff22ad-ff6d-49fb-abc9-6f215ca38e3b:1",
+        "topic_label": "Formation of Ionic and Metallic Bonds",
+        "topic_id": 604,
+        "image_url": "/textbook-images/rwanda/55/page92-embedded-0.png",
+        "image_alt": "A bar chart of the lattice enthalpies of the group 1 chlorides LiCl, NaCl, KCl, RbCl and CsCl, with five blue bars. The y-axis runs from 0 to 1000 in steps of 200 and is labelled 'lattice enthalpies of group 1chorides'. The bars get shorter from LiCl (about 850) to NaCl (about 780), KCl (about 700), RbCl (about 675) and CsCl (about 650).\nLabels: lattice enthalpies of group 1chorides, 1000, 800, 600, 400, 200, 0, LiCl, NaCl, KCl, RbCl, CsCl\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of Ionic and Metallic Bonds"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the bar chart showing the lattice enthalpies of the group 1 chlorides LiCl, NaCl, KCl, RbCl, and CsCl. The y-axis represents the lattice enthalpy values from 0 to 1000 in steps of 200.",
+        "question": "Explain why the lattice enthalpy decreases from LiCl to CsCl.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify that lattice enthalpy is related to the strength of the ionic bond.",
+          "Explain that as the size of the cation increases, the ionic bond weakens.",
+          "Describe how this weakening affects the lattice enthalpy."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the lattice enthalpy decreases from LiCl to CsCl — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify that lattice enthalpy is related to the strength of the; that as the of the the."
+        ],
+        "model_answer": "The lattice enthalpy decreases from LiCl to CsCl because as the size of the cation increases, the ionic bond weakens due to the larger distance between ions, leading to a decrease in lattice enthalpy.",
+        "explanation": "Larger cations lead to weaker ionic bonds and thus lower lattice enthalpy values.",
+        "exam_question_id": "9cff22ad-ff6d-49fb-abc9-6f215ca38e3b:1",
+        "topic_label": "Formation of Ionic and Metallic Bonds",
+        "topic_id": 604,
+        "image_url": "/textbook-images/rwanda/55/page92-embedded-0.png",
+        "image_alt": "A bar chart of the lattice enthalpies of the group 1 chlorides LiCl, NaCl, KCl, RbCl and CsCl, with five blue bars. The y-axis runs from 0 to 1000 in steps of 200 and is labelled 'lattice enthalpies of group 1chorides'. The bars get shorter from LiCl (about 850) to NaCl (about 780), KCl (about 700), RbCl (about 675) and CsCl (about 650).\nLabels: lattice enthalpies of group 1chorides, 1000, 800, 600, 400, 200, 0, LiCl, NaCl, KCl, RbCl, CsCl\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of Ionic and Metallic Bonds"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the bar chart showing the lattice enthalpies of the group 1 chlorides LiCl, NaCl, KCl, RbCl, and CsCl. The y-axis represents the lattice enthalpy values from 0 to 1000 in steps of 200.",
+        "question": "Describe how the lattice enthalpy affects the melting point of these compounds.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the relationship between lattice enthalpy and melting point.",
+          "Describe how stronger bonds require more energy to break.",
+          "Relate the trend in lattice enthalpy to the trend in melting points."
+        ],
+        "hints": [
+          "Consider how bond strength impacts the energy needed to change the state of a compound."
+        ],
+        "model_answer": "The lattice enthalpy affects the melting point of these compounds because stronger ionic bonds require more energy to break. Therefore, compounds with higher lattice enthalpy, such as LiCl, have higher melting points, while those with lower lattice enthalpy, such as CsCl, have lower melting points.",
+        "explanation": "Compounds with stronger ionic bonds (higher lattice enthalpy) require more energy to melt, leading to higher melting points.",
+        "exam_question_id": "9cff22ad-ff6d-49fb-abc9-6f215ca38e3b:1",
+        "topic_label": "Formation of Ionic and Metallic Bonds",
+        "topic_id": 604,
+        "image_url": "/textbook-images/rwanda/55/page92-embedded-0.png",
+        "image_alt": "A bar chart of the lattice enthalpies of the group 1 chlorides LiCl, NaCl, KCl, RbCl and CsCl, with five blue bars. The y-axis runs from 0 to 1000 in steps of 200 and is labelled 'lattice enthalpies of group 1chorides'. The bars get shorter from LiCl (about 850) to NaCl (about 780), KCl (about 700), RbCl (about 675) and CsCl (about 650).\nLabels: lattice enthalpies of group 1chorides, 1000, 800, 600, 400, 200, 0, LiCl, NaCl, KCl, RbCl, CsCl\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of Ionic and Metallic Bonds"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following reaction of phosphorus trichloride (PCl3) with water: PCl3 + 3H2O -> H3PO3 + 3HCl.",
+        "question": "Calculate the moles of HCl produced when 0.2 moles of PCl3 reacts completely with water.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of moles of HCl produced",
+          "Correct use of stoichiometry from the balanced equation"
+        ],
+        "hints": [
+          "Use the stoichiometric ratio from the balanced equation."
+        ],
+        "model_answer": "0.2 moles of PCl3 produces 0.6 moles of HCl.",
+        "explanation": "Using the balanced equation, for every 1 mole of PCl3, 3 moles of HCl are produced. Therefore, 0.2 moles of PCl3 will produce 0.2 * 3 = 0.6 moles of HCl.",
+        "exam_question_id": "d2eda0f1-27b4-4acb-b852-46c1b64b4d9e:1",
+        "topic_label": "Trends in Chemical Properties of Group 15 Elements and Their Compounds — Reactions of group 15 elements",
+        "topic_id": 611,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Trends in Chemical Properties of Group 15 Elements and Their Compounds — Reactions of group 15 elements"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following reaction of phosphorus trichloride (PCl3) with water: PCl3 + 3H2O -> H3PO3 + 3HCl.",
+        "question": "Explain why the reaction between PCl3 and water is exothermic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of bond-breaking and bond-forming processes",
+          "Explanation of energy changes in the reaction",
+          "Connection between energy changes and exothermic nature"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the reaction between PCl3 and water is exothermic — develop the idea fully rather than listing short points. Make sure you also cover: Identification of bond-breaking and bond-forming processes; Explanation of changes in the reaction; Connection between changes and exothermic nature."
+        ],
+        "model_answer": "The reaction between PCl3 and water is exothermic because the energy released when new bonds form in H3PO3 and HCl is greater than the energy required to break bonds in PCl3 and H2O.",
+        "explanation": "In exothermic reactions, the total energy of the products is less than the total energy of the reactants. This is due to the fact that more energy is released during the formation of new bonds than is consumed in breaking the old ones.",
+        "exam_question_id": "d2eda0f1-27b4-4acb-b852-46c1b64b4d9e:1",
+        "topic_label": "Formation of metallic bonds and physical properties of metals",
+        "topic_id": 604,
+        "checked": true,
+        "subtopic_id": 2413,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of metallic bonds and physical properties of metals"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following reaction of phosphorus trichloride (PCl3) with water: PCl3 + 3H2O -> H3PO3 + 3HCl.",
+        "question": "If an additional 0.1 moles of PCl3 is added to the reaction mixture, calculate the new total moles of HCl produced.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of additional moles of HCl produced",
+          "Correct addition to initial moles of HCl"
+        ],
+        "hints": [
+          "Use the stoichiometric ratio from the balanced equation."
+        ],
+        "model_answer": "The new total moles of HCl produced is 0.9 moles.",
+        "explanation": "Initially, 0.2 moles of PCl3 produces 0.6 moles of HCl. Adding 0.1 moles of PCl3, which produces an additional 0.3 moles of HCl, results in a total of 0.6 + 0.3 = 0.9 moles of HCl.",
+        "exam_question_id": "d2eda0f1-27b4-4acb-b852-46c1b64b4d9e:1",
+        "topic_label": "Trends in Chemical Properties of Group 15 Elements and Their Compounds — Reactions of group 15 elements",
+        "topic_id": 611,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Trends in Chemical Properties of Group 15 Elements and Their Compounds — Reactions of group 15 elements"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of magnesium with oxygen to form magnesium oxide: 2Mg + O2 -> 2MgO. A student conducted an experiment where 1.0 g of magnesium was burned in excess oxygen.",
+        "question": "Calculate the mass of magnesium oxide produced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of stoichiometry.",
+          "Correct calculation of molar mass of magnesium and magnesium oxide.",
+          "Correct conversion of mass to moles and calculation of mass of magnesium oxide."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of magnesium oxide produced — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of stoichiometry.; Correct calculation of mass of magnesium and magnesium oxide.; Correct conversion of mass to and calculation of mass of…."
+        ],
+        "model_answer": "Molar mass of Mg = 24.31 g/mol, Molar mass of MgO = 40.31 g/mol. Moles of Mg = 1.0 g / 24.31 g/mol = 0.0411 mol. From the balanced equation, 2 moles of Mg produce 2 moles of MgO. Therefore, 0.0411 mol of Mg will produce 0.0411 mol of MgO. Mass of MgO = 0.0411 mol * 40.31 g/mol = 1.655 g.",
+        "explanation": "Calculate the moles of magnesium and use the stoichiometric ratio from the balanced equation to find the moles of magnesium oxide produced. Then, convert moles of magnesium oxide to mass using its molar mass.",
+        "exam_question_id": "34effb58-b475-4b21-af3e-0ffe252998cd:1",
+        "topic_label": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of magnesium with oxygen to form magnesium oxide: 2Mg + O2 -> 2MgO. A student conducted an experiment where 1.0 g of magnesium was burned in excess oxygen.",
+        "question": "Explain why excess oxygen is used in the experiment.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the role of excess reactant.",
+          "Understanding of the concept of limiting reactant."
+        ],
+        "hints": [
+          "Consider the stoichiometry of the reaction and the need to ensure complete reaction of magnesium."
+        ],
+        "model_answer": "Excess oxygen is used to ensure that all the magnesium is completely reacted. Magnesium is the limiting reactant in this scenario, and using excess oxygen ensures that no magnesium is left unreacted, maximizing the yield of magnesium oxide.",
+        "explanation": "Explain the necessity of using excess oxygen to ensure complete reaction of magnesium, which is the limiting reactant in this scenario.",
+        "exam_question_id": "34effb58-b475-4b21-af3e-0ffe252998cd:1",
+        "topic_label": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of sodium with chlorine to form sodium chloride: 2Na + Cl2 -> 2NaCl. A student conducted an experiment where 2.3 g of sodium was reacted with chlorine.",
+        "question": "Calculate the mass of sodium chloride produced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of stoichiometry.",
+          "Correct calculation of molar mass of sodium and sodium chloride.",
+          "Correct conversion of mass to moles and calculation of mass of sodium chloride."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of sodium chloride produced — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of stoichiometry.; Correct calculation of mass of sodium and sodium chloride.; Correct conversion of mass to and calculation of mass of sodium…."
+        ],
+        "model_answer": "Molar mass of Na = 22.99 g/mol, Molar mass of NaCl = 58.44 g/mol. Moles of Na = 2.3 g / 22.99 g/mol = 0.100 mol. From the balanced equation, 2 moles of Na produce 2 moles of NaCl. Therefore, 0.100 mol of Na will produce 0.100 mol of NaCl. Mass of NaCl = 0.100 mol * 58.44 g/mol = 5.844 g.",
+        "explanation": "Calculate the moles of sodium and use the stoichiometric ratio from the balanced equation to find the moles of sodium chloride produced. Then, convert moles of sodium chloride to mass using its molar mass.",
+        "exam_question_id": "34effb58-b475-4b21-af3e-0ffe252998cd:2",
+        "topic_label": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of sodium with chlorine to form sodium chloride: 2Na + Cl2 -> 2NaCl. A student conducted an experiment where 2.3 g of sodium was reacted with chlorine.",
+        "question": "Explain why the reaction between sodium and chlorine is exothermic.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of bond formation and energy release.",
+          "Understanding of exothermic reactions."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the reaction between sodium and chlorine is exothermic — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of bond and; Understanding of exothermic reactions."
+        ],
+        "model_answer": "The reaction between sodium and chlorine is exothermic because the energy released during the formation of the ionic bonds in sodium chloride is greater than the energy required to break the bonds in the reactants. This results in a net release of energy as heat.",
+        "explanation": "Explain why the reaction is exothermic by discussing the energy changes associated with bond formation in sodium chloride.",
+        "exam_question_id": "34effb58-b475-4b21-af3e-0ffe252998cd:2",
+        "topic_label": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction of aluminium with oxygen to form aluminium oxide: 4Al + 3O2 -> 2Al2O3. A student conducted an experiment where 5.4 g of aluminium was burned in excess oxygen.",
+        "question": "Calculate the mass of aluminium oxide produced.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of stoichiometry.",
+          "Correct calculation of molar mass of aluminium and aluminium oxide.",
+          "Correct conversion of mass to moles and calculation of mass of aluminium oxide."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of aluminium oxide produced — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of stoichiometry.; Correct calculation of mass of aluminium and aluminium oxide.; Correct conversion of mass to and calculation of mass of…."
+        ],
+        "model_answer": "Molar mass of Al = 26.98 g/mol, Molar mass of Al2O3 = 101.96 g/mol. Moles of Al = 5.4 g / 26.98 g/mol = 0.200 mol. From the balanced equation, 4 moles of Al produce 2 moles of Al2O3. Therefore, 0.200 mol of Al will produce 0.100 mol of Al2O3. Mass of Al2O3 = 0.100 mol * 101.96 g/mol = 10.196 g.",
+        "explanation": "Calculate the moles of aluminium and use the stoichiometric ratio from the balanced equation to find the moles of aluminium oxide produced. Then, convert moles of aluminium oxide to mass using its molar mass.",
+        "exam_question_id": "34effb58-b475-4b21-af3e-0ffe252998cd:3",
+        "topic_label": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction of aluminium with oxygen to form aluminium oxide: 4Al + 3O2 -> 2Al2O3. A student conducted an experiment where 5.4 g of aluminium was burned in excess oxygen.",
+        "question": "Explain why aluminium oxide has a high melting point.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of ionic bonding and lattice structure.",
+          "Understanding of the relationship between bond strength and melting point."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why aluminium oxide has a high melting point — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of bonding and structure.; Understanding of the relationship bond strength and melting point."
+        ],
+        "model_answer": "Aluminum oxide has a high melting point because it is composed of strongly bonded aluminum and oxygen ions held together by ionic bonds. The high lattice energy due to the strong electrostatic attractions between the positive aluminum ions and negative oxygen ions requires a significant amount of energy to overcome, resulting in a high melting point.",
+        "explanation": "Explain why aluminium oxide has a high melting point by discussing the strength of ionic bonds and lattice energy in its structure.",
+        "exam_question_id": "34effb58-b475-4b21-af3e-0ffe252998cd:3",
+        "topic_label": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Stability of atoms and why they bind together (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a metal sample with a mass of 50 g and a volume of 20 cm³. You are provided with a set of equipment including a graduated cylinder, a balance, and a heat source. You are asked to investigate the relationship between the temperature and electrical conductivity of the metal.",
+        "question": "Calculate the density of the metal sample.",
+        "marks": 3,
+        "marking_criteria": [
+          "State the formula for density.",
+          "Substitute the given values into the formula.",
+          "Provide the correct numerical answer with units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the density of the metal sample — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the given values into the formula.; Provide the correct numerical answer with units."
+        ],
+        "model_answer": "Density = Mass / Volume = 50 g / 20 cm³ = 2.5 g/cm³",
+        "explanation": "Use the provided mass and volume to calculate the density of the metal.",
+        "exam_question_id": "33251ed1-068b-424e-bca9-9ba1d86f493d:1",
+        "topic_label": "Formation of metallic bonds and physical properties of metals (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of metallic bonds and physical properties of metals (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a metal sample with a mass of 50 g and a volume of 20 cm³. You are provided with a set of equipment including a graduated cylinder, a balance, and a heat source. You are asked to investigate the relationship between the temperature and electrical conductivity of the metal.",
+        "question": "Explain why increasing the temperature of the metal might affect its electrical conductivity.",
+        "marks": 3,
+        "marking_criteria": [
+          "Discuss the effect of temperature on the movement of electrons in metals.",
+          "Relate the movement of electrons to the electrical conductivity.",
+          "Provide a clear explanation of the expected outcome."
+        ],
+        "hints": [
+          "Consider how thermal energy affects electron mobility."
+        ],
+        "model_answer": "Increasing the temperature of the metal increases the kinetic energy of the atoms, causing them to vibrate more. This increased vibration can impede the movement of electrons, leading to a decrease in electrical conductivity.",
+        "explanation": "Explain the relationship between temperature and electrical conductivity in metals.",
+        "exam_question_id": "33251ed1-068b-424e-bca9-9ba1d86f493d:1",
+        "topic_label": "Formation of metallic bonds and physical properties of metals (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Formation of metallic bonds and physical properties of metals (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the following reaction between ammonia and nitric acid: NH3 + HNO3 -> NH4NO3. A student is tasked with determining the mass of ammonium nitrate produced when 5.0 g of ammonia reacts with an excess of nitric acid. Use the molar masses: NH3 = 17 g/mol, HNO3 = 63 g/mol, NH4NO3 = 80 g/mol.",
+        "question": "Calculate the mass of ammonium nitrate (NH4NO3) produced when 5.0 g of ammonia (NH3) reacts with an excess of nitric acid (HNO3).",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of moles of NH3.",
+          "Correct stoichiometric relationship used.",
+          "Correct calculation of mass of NH4NO3."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of ammonium nitrate (NH4NO3) produced when 5.0 g of ammonia (NH3) reacts with an excess of nitric acid (HNO3) — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of of NH3.; Correct stoichiometric relationship used."
+        ],
+        "model_answer": "Moles of NH3 = 5.0 g / 17 g/mol = 0.294 moles. According to the balanced equation, 1 mole of NH3 produces 1 mole of NH4NO3. Therefore, moles of NH4NO3 = 0.294 moles. Mass of NH4NO3 = 0.294 moles * 80 g/mol = 23.5 g.",
+        "explanation": "First, convert the mass of ammonia to moles using its molar mass. Then, use the stoichiometric relationship from the balanced equation to find the moles of ammonium nitrate produced. Finally, convert the moles of ammonium nitrate to grams using its molar mass.",
+        "exam_question_id": "d5e4e89a-2e55-4e90-bf0e-41fef2c818ab:1",
+        "topic_label": "Ammonia and nitric acid",
+        "topic_id": 611,
+        "checked": true,
+        "subtopic_id": 2458,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ammonia and nitric acid"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the following reaction between ammonia and nitric acid: NH3 + HNO3 -> NH4NO3. A student is tasked with determining the mass of ammonium nitrate produced when 5.0 g of ammonia reacts with an excess of nitric acid. Use the molar masses: NH3 = 17 g/mol, HNO3 = 63 g/mol, NH4NO3 = 80 g/mol.",
+        "question": "Explain why it is important to use an excess of nitric acid in this reaction.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understanding of the concept of limiting reactants.",
+          "Explanation of how excess reactant ensures complete reaction."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use an excess of nitric acid in this reaction — develop the idea fully rather than listing short points. Make sure you also cover: Understanding of the concept of reactants.; Explanation of how excess complete reaction."
+        ],
+        "model_answer": "Using an excess of nitric acid ensures that all the ammonia reacts completely, maximizing the yield of ammonium nitrate. If ammonia were the limiting reactant, not all of it would react, reducing the amount of ammonium nitrate produced.",
+        "explanation": "An excess of one reactant ensures the other reactant is completely used up, maximising the yield of the desired product.",
+        "exam_question_id": "d5e4e89a-2e55-4e90-bf0e-41fef2c818ab:1",
+        "topic_label": "Ammonia and nitric acid",
+        "topic_id": 611,
+        "checked": true,
+        "subtopic_id": 2458,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ammonia and nitric acid"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the following reaction between ammonia and nitric acid: NH3 + HNO3 -> NH4NO3. A student is tasked with determining the mass of ammonium nitrate produced when 5.0 g of ammonia reacts with an excess of nitric acid. Use the molar masses: NH3 = 17 g/mol, HNO3 = 63 g/mol, NH4NO3 = 80 g/mol.",
+        "question": "If the actual yield of ammonium nitrate is 4.5 g, calculate the percentage yield of the reaction.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of theoretical yield.",
+          "Correct calculation of percentage yield."
+        ],
+        "hints": [
+          "Use the mass of ammonium nitrate calculated in part (a)."
+        ],
+        "model_answer": "Theoretical yield of NH4NO3 = 23.5 g. Percentage yield = (actual yield / theoretical yield) * 100 = (4.5 g / 23.5 g) * 100 = 19.1%.",
+        "explanation": "The percentage yield is calculated by dividing the actual yield by the theoretical yield and multiplying by 100.",
+        "exam_question_id": "d5e4e89a-2e55-4e90-bf0e-41fef2c818ab:1",
+        "topic_label": "Ammonia and nitric acid",
+        "topic_id": 611,
+        "checked": true,
+        "subtopic_id": 2458,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ammonia and nitric acid"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the reaction between aluminium and oxygen to form aluminium oxide: 4Al + 3O2 -> 2Al2O3. A student conducted an experiment where 4.0 g of aluminium was burned in excess oxygen.",
+        "question": "Calculate the mass of aluminium oxide produced when 4.0 g of aluminium reacts with excess oxygen.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly use stoichiometry to find the moles of aluminium oxide produced.",
+          "Use the molar masses of aluminium and aluminium oxide in the calculation.",
+          "Correct numerical answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the mass of aluminium oxide produced when 4.0 g of aluminium reacts with excess oxygen — develop the idea fully rather than listing short points. Make sure you also cover: Correctly use to find the of aluminium oxide produced.; the molar masses of aluminium and aluminium oxide in the…."
+        ],
+        "model_answer": "Moles of Al = 4.0 g / 26.98 g/mol = 0.148 mol. Since the stoichiometry of the reaction is 4:2 for Al to Al2O3, the moles of aluminum oxide produced is 0.148 mol * 2/4 = 0.074 mol. Mass of Al2O3 = 0.074 mol * 101.96 g/mol = 7.54 g.",
+        "explanation": "Use stoichiometry and the molar masses of aluminium and aluminium oxide to calculate the mass of aluminium oxide produced.",
+        "exam_question_id": "82a078bb-0702-4db5-81cf-db607405e0af:3",
+        "topic_label": "Ionic bonding (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ionic bonding (Formation of Ionic and Metallic Bonds)"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the reaction between aluminium and oxygen to form aluminium oxide: 4Al + 3O2 -> 2Al2O3. A student conducted an experiment where 4.0 g of aluminium was burned in excess oxygen.",
+        "question": "Explain why aluminium oxide has a high melting point.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the type of bonding in aluminium oxide.",
+          "Explain the relationship between the type of bonding and the melting point.",
+          "Use appropriate scientific terminology."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why aluminium oxide has a high melting point — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the type of bonding in aluminium oxide.; the relationship the type of bonding and the melting point.; appropriate scientific terminology."
+        ],
+        "model_answer": "Aluminum oxide has a high melting point because it consists of strongly bonded aluminum and oxygen ions held together by ionic bonds. The strong electrostatic attraction between the positively charged aluminum ions and the negatively charged oxygen ions requires a large amount of energy to overcome, resulting in a high melting point.",
+        "explanation": "Explain the relationship between the ionic bonding in aluminium oxide and its high melting point.",
+        "exam_question_id": "82a078bb-0702-4db5-81cf-db607405e0af:3",
+        "topic_label": "Ionic bonding",
+        "topic_id": 604,
+        "checked": true,
+        "subtopic_id": 2412,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ionic bonding"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the reaction between aluminium and oxygen to form aluminium oxide: 4Al + 3O2 -> 2Al2O3. A student conducted an experiment where 4.0 g of aluminium was burned in excess oxygen.",
+        "question": "If the actual yield of aluminium oxide is 3.8 g, calculate the percentage yield of the reaction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the theoretical yield of aluminium oxide.",
+          "Use the formula for percentage yield: (actual yield / theoretical yield) * 100%.",
+          "Correct numerical answer."
+        ],
+        "hints": [
+          "Remember to use the mass of aluminium and the stoichiometry of the reaction to find the theoretical yield."
+        ],
+        "model_answer": "Theoretical yield of Al2O3 = 4.0 g * (2 * 101.96 g/mol / 4 * 26.98 g/mol) = 7.54 g. Percentage yield = (3.8 g / 7.54 g) * 100% = 50.39%.",
+        "explanation": "Calculate the percentage yield of the reaction using the actual and theoretical yields of aluminium oxide.",
+        "exam_question_id": "82a078bb-0702-4db5-81cf-db607405e0af:3",
+        "topic_label": "Ionic bonding (Formation of Ionic and Metallic Bonds)",
+        "topic_id": 604,
+        "checked": true,
+        "source": {
+          "textbook": "chemistry S4 SB",
+          "area": "Ionic bonding (Formation of Ionic and Metallic Bonds)"
+        }
+      }
+    ],
+    "estimated_time": 68,
+    "assessment_id": "8c928beb-f6d8-44a5-87fd-111eeaf25e2e",
+    "subject": "chemistry S4 SB",
+    "topics": [
+      "Formation of Ionic and Metallic Bonds",
+      "Trends in Chemical Properties of Group 15 Elements and Their Compounds"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 55,
+    "topic_ids": [
+      604,
+      611
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 26,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 18"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "9c",
+        "severity": "broken",
+        "detail": "Question 9c asks to calculate percentage yield when actual yield is 4.5 g, but uses theoretical yield from 9a (23.5 g). However, 9a calculates product from 5.0 g NH3, yielding 23.5 g NH4NO3. An actual yield of only 4.5 g (19.1%) is unrealistically low and inconsistent with the context of a student experiment. The question appears to contain an error in the stated actual yield value.",
+        "correction": "Actual yield should be approximately 20-22 g for a realistic percentage yield of 85-95%, or clarify this is a failed experiment scenario."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Model answer shows calculation: 4.0 g Al / 26.98 g/mol = 0.148 mol, then 0.148 × (2/4) = 0.074 mol Al2O3, giving 0.074 × 101.96 = 7.54 g. However, 0.148 × 0.5 × 101.96 = 7.545 g, which rounds to 7.55 g or 7.5 g, not 7.54 g as stated.",
+        "correction": "Mass of Al2O3 = 7.55 g (or 7.5 g with appropriate significant figures)"
+      },
+      {
+        "label": "10c",
+        "severity": "broken",
+        "detail": "Model answer states theoretical yield = 4.0 g × (2 × 101.96 / 4 × 26.98) = 7.54 g, but this formula is incorrect. Should be: 4.0 g × (2 × 101.96) / (4 × 26.98) = 7.55 g. Then percentage yield = (3.8/7.55) × 100% = 50.33%, not 50.39%.",
+        "correction": "Theoretical yield = 7.55 g; Percentage yield = 50.33%"
+      }
+    ],
+    "summary": "Assessment covers requested topics appropriately for grade 10. Found three numerical errors: Q9c has an unrealistically low actual yield (4.5g vs 23.5g theoretical = 19%), Q10a rounds incorrectly to 7.54g instead of 7.55g, and Q10c miscalculates percentage yield as 50.39% instead of 50.33%. All other calculations, stoichiometry, and explanations are correct."
+  },
+  "totalSeconds": 226
+}

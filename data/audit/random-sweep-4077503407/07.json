@@ -1,0 +1,313 @@
+{
+  "index": 7,
+  "label": "REB / Practice / Geography SB S6",
+  "request": {
+    "subject": "Geography SB S6",
+    "textbook_id": 112,
+    "topic_ids": [
+      1182
+    ],
+    "topics": [
+      "Wave Erosion and Deposition"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 23,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Which of the following best describes wave erosion?",
+        "options": [
+          "The process where waves transport and deposit sediments along the coast",
+          "The process where waves break and wear away the coastline",
+          "The process where sediments accumulate on the coast forming landforms",
+          "The process where coastal landforms are uplifted due to tectonic activity"
+        ],
+        "correct_answer": 1,
+        "explanation": "Wave erosion is the correct answer because it refers to the process where waves break and wear away the coastline. The process where waves transport and deposit sediments along the coast describes deposition, not erosion. The process where sediments accumulate on the coast forming landforms also describes deposition, and The process where coastal landforms are uplifted due to tectonic activity refers to tectonic activity, which is unrelated to wave erosion.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 5824,
+        "topic_id": 1182,
+        "topic_label": "Importance of coast landforms produced by wave action",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Importance of coast landforms produced by wave action"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Explain how wave erosion and deposition contribute to the formation of coastal landforms. Provide examples.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of wave erosion",
+          "Explanation of deposition",
+          "Examples of coastal landforms"
+        ],
+        "hints": [
+          "Explain the processes of erosion and deposition, then provide specific examples of landforms created by these processes."
+        ],
+        "model_answer": "Wave erosion involves the wearing away of the coastline by the action of waves, which transport sediments along the shore. This process leads to the formation of features like cliffs and wave-cut platforms. Deposition occurs when waves lose energy and drop the sediments they are carrying, leading to the creation of landforms such as beaches, spits, and bars. For example, a beach forms when sediments are deposited along the shore, while a spit is a narrow landform that extends from the coast into the sea due to deposition.",
+        "explanation": "A strong answer will detail the processes of erosion and deposition, explain how they contribute to the formation of coastal landforms, and provide clear examples to support the explanation.",
+        "checked": true,
+        "subtopic_id": 5823,
+        "topic_id": 1182,
+        "topic_label": "Formation of coastal landforms",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Formation of coastal landforms"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Look at the diagram. Which process mainly built the barrier that separates the lagoon lake from the open sea?",
+        "options": [
+          "Wave erosion cutting back a headland into a cliff",
+          "River erosion carving a deep valley to the sea",
+          "Glacial deposition leaving a ridge of moraine",
+          "Longshore drift and wave deposition of sand and shingle"
+        ],
+        "correct_answer": 3,
+        "explanation": "Waves and longshore drift carry sand and shingle along the coast and deposit it where energy falls, building a barrier across the water and enclosing a lagoon. Wave erosion of headlands removes material and does not build barriers. River erosion cuts valleys inland. Glacial moraine is not how coastal barriers form in this setting.",
+        "image_url": "/textbook-images/rwanda/112/page271-embedded-0.jpeg",
+        "topic_label": "Importance of coast landforms produced by wave action",
+        "vetted": true,
+        "image_alt": "A 3D block diagram of a coastal lagoon lake. A barrier lies along the seaward edge, with the Inner Continental Shelf at the front left. A Flood & Ebb Tidal Delta sits at the gap at the barrier's end. The lagoon lake is in the centre and is ringed by Intertidal Flats. Around it are a Rocky Reef, Saltmarsh/Mangrove/Saltflats, a Channel, and a Fluvial (Bayhead) Delta, with hills behind. Printed on it: Saltmarsh/ Mangrove/ Saltflats | Channel | Rocky Reef | Intertidal Flats | Fluvial (Bayhead) Delta | Lagoon Lake | Barrier | Flood & Ebb Tidal Delta | Inner Continental Shelf.",
+        "subtopic_id": 5824,
+        "topic_id": 1182,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Importance of coast landforms produced by wave action"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Which type of coast is characterised by having both erosion and deposition occurring at different parts of the coastline?",
+        "options": [
+          "Discordant coast",
+          "Erosional coast",
+          "Depositional coast",
+          "Concordant coast"
+        ],
+        "correct_answer": 0,
+        "explanation": "A discordant coast is the correct answer because it features varying rock resistances, leading to different parts of the coast experiencing erosion and deposition simultaneously. A concordant coast has uniform rock types and typically experiences uniform erosion. Erosional and depositional coasts are not specific types but rather describe processes that can occur in any coast.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 5822,
+        "topic_id": 1182,
+        "topic_label": "Types, factors and action processes of waves",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Types, factors and action processes of waves"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Describe the impact of isostatic and eustatic changes on coastal landforms.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of isostatic changes",
+          "Explanation of eustatic changes",
+          "Impact on coastal landforms"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the impact of isostatic and eustatic changes on coastal landforms — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Isostatic changes involve the uplift or subsidence of the Earth's crust, which can lead to the emergence or submergence of coastal areas. For instance, after the melting of ice sheets, the crust may rise, exposing previously submerged coastal areas. Eustatic changes refer to global changes in sea level, often due to climatic factors. A rise in sea level can lead to the submergence of coastal areas, while a fall can expose new land. Both types of changes significantly alter coastal landforms by changing the relative positions of the land and sea.",
+        "explanation": "A strong answer will define isostatic and eustatic changes, explain their impacts on the coastline, and describe how these changes affect coastal landforms.",
+        "checked": true,
+        "subtopic_id": 5827,
+        "topic_id": 1182,
+        "topic_label": "Isostatic and Eustatic changes on the coast",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Isostatic and Eustatic changes on the coast"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which of the following is NOT a coastal landform formed by deposition?",
+        "options": [
+          "Spit",
+          "Bar",
+          "Cliff",
+          "Tombolo"
+        ],
+        "correct_answer": 2,
+        "explanation": "A cliff is the correct answer because it is a feature formed by erosion, not deposition. A spit, bar, and tombolo are all landforms created by the deposition of sediments along the coast.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 5821,
+        "topic_id": 1182,
+        "topic_label": "Coastal landforms: definition of key terms",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Coastal landforms: definition of key terms"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "What is the primary cause of eustatic changes in sea level?",
+        "options": [
+          "Tectonic activity",
+          "Volcanic eruptions",
+          "Earthquakes",
+          "Glacial melting"
+        ],
+        "correct_answer": 3,
+        "explanation": "Glacial melting is the correct answer because it directly affects the volume of water in the oceans, causing eustatic changes in sea level. Tectonic activity, volcanic eruptions, and earthquakes can cause local changes in sea level but do not lead to global eustatic changes.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 5827,
+        "topic_id": 1182,
+        "topic_label": "Isostatic and Eustatic changes on the coast",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Isostatic and Eustatic changes on the coast"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Look at the diagram. Which process, acting along the coast, formed the lagoon behind the bay barrier?",
+        "options": [
+          "Waves and currents deposited sand across a bay mouth, cutting off a body of water",
+          "Waves eroded the headland to form a flat rock surface under the sea",
+          "Rivers deposited sediment to join an island to the mainland",
+          "Tides carved a deep channel through the hills"
+        ],
+        "correct_answer": 0,
+        "explanation": "A bay barrier is a ridge of sand deposited by waves and currents across a bay mouth, which traps seawater behind it as a lagoon. Erosion forming a flat rock surface describes a wave-cut platform. Joining an island to the mainland describes a tombolo, and it is formed by waves, not rivers. Tides do not carve the lagoon through the hills.",
+        "image_url": "/textbook-images/rwanda/112/page138-embedded-0.jpeg",
+        "topic_label": "Importance of coast landforms produced by wave action",
+        "vetted": true,
+        "image_alt": "A 3D block diagram of a coastline with hills, sea, and coastal landforms. Labelled features are Beach, Tombolo, Barrier spit, Lagoon, Bay barrier, Tidal inlet, Wave-cut platform and Wave-built terrace. The block's cut side shows the wave-cut platform and wave-built terrace beneath the sea. Printed on it: Beach | Tombolo | Barrier spit | Lagoon | Bay barrier | Tidal inlet | Wave-cut platform | Wave-built terrace.",
+        "subtopic_id": 5824,
+        "topic_id": 1182,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Importance of coast landforms produced by wave action"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "Which of the following is a primary agent of wave erosion?",
+        "options": [
+          "Wind",
+          "Rivers",
+          "Waves",
+          "Glaciers"
+        ],
+        "correct_answer": 2,
+        "explanation": "Waves are a primary agent of wave erosion because they transport and deposit sediments along the coast, leading to the formation and modification of coastal landforms. Wind, rivers, and glaciers do not directly cause wave erosion.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 5823,
+        "topic_id": 1182,
+        "topic_label": "Formation of coastal landforms",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Formation of coastal landforms"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "What is the primary process by which beaches are formed?",
+        "options": [
+          "Deposition",
+          "Erosion",
+          "Subduction",
+          "Volcanism"
+        ],
+        "correct_answer": 0,
+        "explanation": "Deposition is the primary process by which beaches are formed, as waves transport and deposit sediments along the coastline. Erosion, subduction, and volcanism are not directly responsible for beach formation.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_id": 1182,
+        "topic_label": "Wave Erosion and Deposition",
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Wave Erosion and Deposition"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "543470c6-1f6e-464b-bb41-af4b608b0daa",
+    "subject": "Geography SB S6",
+    "topics": [
+      "Wave Erosion and Deposition"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mixed",
+    "textbook_id": 112,
+    "topic_ids": [
+      1182
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 2,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1",
+        "severity": "poor",
+        "detail": "Explanation incorrectly states option 1 is correct when the correct_answer field indicates option 1 (index 1, which is 'The process where waves break and wear away the coastline'). The explanation text says 'Wave erosion is the correct answer because it refers to the process where waves break and wear away the coastline' but then contradicts itself by discussing why other options are wrong as if a different option were marked correct.",
+        "correction": "The correct_answer index 1 and the explanation's first sentence align correctly. Remove the contradictory phrasing that suggests confusion about which answer is correct."
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Explanation states 'Waves are a primary agent of wave erosion because they transport and deposit sediments along the coast' - this describes both erosion AND deposition processes, not specifically erosion. The explanation conflates the two processes when the question asks specifically about wave erosion agents.",
+        "correction": "Explanation should read: 'Waves are the primary agent of wave erosion because they break against the coastline, wearing it away through hydraulic action, abrasion, attrition, and corrosion. Wind, rivers, and glaciers are not agents of wave erosion.'"
+      }
+    ],
+    "summary": "Assessment is generally sound with appropriate topic coverage, correct MCQ answer keys, valid diagrams with proper context, and reasonable marking criteria. Two explanations contain minor logical inconsistencies or imprecise wording but do not affect answer correctness. All questions are answerable, age-appropriate for grade 12, and aligned with wave erosion and deposition topics."
+  },
+  "totalSeconds": 34
+}

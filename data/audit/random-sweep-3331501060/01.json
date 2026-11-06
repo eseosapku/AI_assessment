@@ -1,0 +1,823 @@
+{
+  "index": 1,
+  "label": "Cambridge / Exam / Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+  "request": {
+    "subject": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+    "textbook_id": 27,
+    "topic_ids": [
+      375,
+      376
+    ],
+    "topics": [
+      "The Industrial Revolution in Britain, 1750–1850",
+      "Liberalism and nationalism in Germany, 1815–71"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 53,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Industrial Revolution in Britain, 1750–1850 — What were the causes of the Industrial Revolution?",
+        "question": "Explain two causes of the Industrial Revolution in Britain between 1750 and 1850.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify and explain one cause of the Industrial Revolution.",
+          "Identify and explain a second cause of the Industrial Revolution."
+        ],
+        "hints": [
+          "Consider the role of technological advancements and inventions."
+        ],
+        "model_answer": "One cause of the Industrial Revolution was the development of new technologies and inventions, such as the steam engine, which increased production efficiency and productivity. Another cause was the availability of capital and investment, which allowed for the expansion of industries and the construction of factories.",
+        "explanation": "Mention at least two distinct causes and provide a brief explanation for each. They should refer to specific examples of technological advancements and economic factors that contributed to the Industrial Revolution.",
+        "exam_question_id": "fcafad60-d73a-4dda-9224-f76eeb325418:1",
+        "topic_label": "What were the causes of the Industrial Revolution?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1716,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the causes of the Industrial Revolution?"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Industrial Revolution in Britain, 1750–1850 — What were the causes of the Industrial Revolution?",
+        "question": "Describe how agricultural changes contributed to the Industrial Revolution in Britain.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify and describe one agricultural change.",
+          "Explain how this agricultural change contributed to the Industrial Revolution."
+        ],
+        "hints": [
+          "Think about the impact on food production and labour availability."
+        ],
+        "model_answer": "One agricultural change that contributed to the Industrial Revolution was the enclosure movement, which consolidated small farms into larger ones and introduced more efficient farming practices. This led to increased food production and allowed more people to move to cities to work in factories, contributing to urbanization and industrialization.",
+        "explanation": "Describe a specific agricultural change and explain its role in the Industrial Revolution, focusing on how it influenced labour and production.",
+        "exam_question_id": "fcafad60-d73a-4dda-9224-f76eeb325418:1",
+        "topic_label": "What were the causes of the Industrial Revolution?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1716,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the causes of the Industrial Revolution?"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The Industrial Revolution in Britain, 1750–1850 — What were the causes of the Industrial Revolution?",
+        "question": "State one social change that occurred as a result of the Industrial Revolution.",
+        "marks": 1,
+        "marking_criteria": [
+          "Identify and state a social change resulting from the Industrial Revolution."
+        ],
+        "hints": [
+          "Think about changes in population and urbanisation."
+        ],
+        "model_answer": "One social change that occurred as a result of the Industrial Revolution was the growth of urban populations as people moved from rural areas to cities in search of work in factories.",
+        "explanation": "Identify and state a clear social change that resulted from the Industrial Revolution, such as urbanisation or changes in living conditions.",
+        "exam_question_id": "fcafad60-d73a-4dda-9224-f76eeb325418:1",
+        "topic_label": "What were the causes of the Industrial Revolution?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1716,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the causes of the Industrial Revolution?"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Industrial Revolution in Britain, 1750–1850 — Why was there a rapid growth of industrialisation after 1780?",
+        "question": "Explain why the introduction of new technologies played a significant role in the rapid growth of industrialisation in Britain after 1780.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of specific technologies introduced during this period.",
+          "Explanation of how these technologies increased productivity.",
+          "Connection between increased productivity and the growth of industrialisation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the introduction of new technologies played a significant role in the rapid growth of industrialisation in Britain after 1780 — develop the idea fully rather than listing short points. Make sure you also cover: Identification of specific technologies introduced during this period."
+        ],
+        "model_answer": "The introduction of new technologies such as the spinning jenny, steam engine, and power loom significantly increased productivity. The spinning jenny allowed for the production of multiple spools of thread at once, greatly increasing textile production. The steam engine provided a reliable power source for factories, enabling them to operate independently of water sources. The power loom automated the weaving process, further boosting textile production. These technological advancements led to higher output and efficiency, which were crucial for the rapid growth of industrialisation in Britain after 1780.",
+        "explanation": "To answer this question, you need to discuss specific technologies introduced during the Industrial Revolution and explain how they increased productivity and contributed to the growth of industrialisation.",
+        "exam_question_id": "227e565a-f0eb-4272-b688-603c957d3ae8:1",
+        "topic_label": "Why was there a rapid growth of industrialisation after 1780?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1717,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "Why was there a rapid growth of industrialisation after 1780?"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Industrial Revolution in Britain, 1750–1850 — Why was there a rapid growth of industrialisation after 1780?",
+        "question": "Describe how the availability of capital and investment influenced the growth of industrialisation in Britain after 1780.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the role of capital and investment in industrialisation.",
+          "Identification of sources of capital and investment.",
+          "Connection between capital, investment, and industrial growth."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The availability of capital and investment was crucial for the growth of industrialisation in Britain after 1780. Banks and joint-stock companies provided the necessary funds for entrepreneurs to establish and expand factories. Profits from trade and agriculture also contributed to the pool of capital available for investment in industrial ventures. This influx of capital enabled the construction of new factories, the purchase of machinery, and the development of infrastructure such as canals and railways. As a result, the growth of industrialisation was significantly accelerated by the availability of capital and investment.",
+        "explanation": "To answer this question, you need to discuss how capital and investment were available and used to support the growth of industrialisation in Britain after 1780.",
+        "exam_question_id": "227e565a-f0eb-4272-b688-603c957d3ae8:1",
+        "topic_label": "Why was there a rapid growth of industrialisation after 1780?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1717,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "Why was there a rapid growth of industrialisation after 1780?"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the period of the Industrial Revolution in Britain, 1750–1850. The rapid growth of industries led to significant changes in the urban landscape.",
+        "question": "Explain why urbanisation resulted from industrialisation in Britain during this period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the factors leading to urbanisation",
+          "Explanation of the relationship between industrialisation and urbanisation",
+          "Use of specific examples to support the explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why urbanisation resulted from industrialisation in Britain during this period — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the factors to urbanisation; Explanation of the relationship between industrialisation and urbanisation;…."
+        ],
+        "model_answer": "Urbanisation resulted from industrialisation due to the demand for labour in factories, which attracted people from rural areas. As industries grew, more jobs were created in urban centres, leading to a migration of people seeking employment. This migration increased the population in cities, resulting in rapid urban growth.",
+        "explanation": "Your answer should explain the link between the growth of industries and the increase in urban population, using specific examples from the period.",
+        "exam_question_id": "8bcaa7d4-521a-4b90-89a7-a8afc2b07606:1",
+        "topic_label": "Why was there a rapid growth of industrialisation after 1780?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1717,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "Why was there a rapid growth of industrialisation after 1780?"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the period of the Industrial Revolution in Britain, 1750–1850. The rapid growth of industries led to significant changes in the urban landscape.",
+        "question": "Describe the consequences of urbanisation on the living conditions of the working class in Britain during this period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the consequences of urbanisation",
+          "Description of the impact on living conditions",
+          "Use of specific examples to illustrate the consequences"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the consequences of urbanisation on the living conditions of the working class in Britain during this period — develop the idea fully rather than listing short points. Make sure you also cover: of specific examples to illustrate the consequences."
+        ],
+        "model_answer": "The consequences of urbanisation included overcrowded housing, poor sanitation, and health issues. Many workers lived in cramped and unsanitary conditions, leading to the spread of diseases. Overcrowded housing led to a lack of space and privacy, further exacerbating the poor living conditions of the working class.",
+        "explanation": "Your answer should describe the specific challenges faced by the working class due to rapid urbanisation, using examples to illustrate these points.",
+        "exam_question_id": "8bcaa7d4-521a-4b90-89a7-a8afc2b07606:1",
+        "topic_label": "What were the causes of the Industrial Revolution?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1716,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the causes of the Industrial Revolution?"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The Industrial Revolution in Britain, 1750–1850 — Why, and with what consequences, did industrialisation result in popular protest and political change?",
+        "question": "Explain why the Industrial Revolution led to popular protest in Britain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of key factors leading to protest (1 mark)",
+          "Explanation of how these factors caused unrest (1 mark)",
+          "Examples of specific protests or groups involved (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the Industrial Revolution led to popular protest in Britain — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of how these caused unrest (1 mark); Examples of or groups involved (1 mark)."
+        ],
+        "model_answer": "The Industrial Revolution led to popular protest in Britain due to several key factors. Firstly, the rapid pace of industrialization resulted in significant changes to the workforce, with many traditional jobs being replaced by machinery, leading to unemployment and economic insecurity. Secondly, living conditions in rapidly growing industrial towns were often poor, with overcrowded housing and inadequate sanitation. Thirdly, the introduction of new technologies and factory systems disrupted traditional ways of life and led to long working hours and low wages. Specific protests include the Luddite movement, where workers destroyed machinery in an attempt to protect their jobs, and the Peterloo Massacre, where a peaceful protest was violently suppressed by the authorities.",
+        "explanation": "In this part, you need to identify the key factors that led to popular protest during the Industrial Revolution and explain how these factors caused unrest among the population. Use specific examples to illustrate your points.",
+        "exam_question_id": "b385957c-4b14-4f4a-ab97-81619c445abd:1",
+        "topic_label": "Why, and with what consequences, did industrialisation result in popular protest and political change?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1719,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "Why, and with what consequences, did industrialisation result in popular protest and political change?"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The Industrial Revolution in Britain, 1750–1850 — Why, and with what consequences, did industrialisation result in popular protest and political change?",
+        "question": "Describe the consequences of industrialisation on political change in Britain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of key political changes (1 mark)",
+          "Explanation of how industrialisation influenced these changes (1 mark)",
+          "Examples of specific political reforms or movements (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the consequences of industrialisation on political change in Britain — develop the idea fully rather than listing short points. Make sure you also cover: Examples of specific political or (1 mark)."
+        ],
+        "model_answer": "The consequences of industrialisation on political change in Britain were significant. Firstly, the growth of the industrial working class led to increased demands for political representation and rights. This resulted in the formation of political movements such as the Chartists, who advocated for universal male suffrage and other democratic reforms. Secondly, the economic power of industrialists and factory owners influenced government policies, leading to legislation such as the Factory Acts, which aimed to improve working conditions. Thirdly, the unrest caused by industrialisation prompted the government to take more active roles in regulating industry and addressing social issues. These changes laid the groundwork for the development of modern democratic institutions in Britain.",
+        "explanation": "In this part, you need to describe the key political changes that resulted from industrialisation and explain how industrialisation influenced these changes. Use specific examples to illustrate your points.",
+        "exam_question_id": "b385957c-4b14-4f4a-ab97-81619c445abd:1",
+        "topic_label": "Why, and with what consequences, did industrialisation result in popular protest and political change?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1719,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "Why, and with what consequences, did industrialisation result in popular protest and political change?"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. What were the causes of the revolutions in 1848–49?",
+        "question": "Explain two causes of the revolutions in Germany in 1848–49.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify and describe the first cause of the revolutions.",
+          "Identify and describe the second cause of the revolutions.",
+          "Provide relevant historical context for each cause.",
+          "Use evidence from primary and secondary sources."
+        ],
+        "hints": [
+          "Stay focused on this: Explain two causes of the revolutions in Germany in 1848–49 — develop the idea fully rather than listing short points. Make sure you also cover: Identify and describe the first of the revolutions.; Identify and describe the second of the revolutions.; Provide relevant historical context for each."
+        ],
+        "model_answer": "The revolutions in Germany in 1848–49 were caused by a combination of political discontent and economic hardship. Firstly, the desire for political reform and the demand for a constitution was a significant cause. Many Germans were dissatisfied with the conservative policies of the German Confederation and wanted more democratic governance. Secondly, economic difficulties, such as high unemployment and rising food prices, exacerbated the discontent among the populace. These economic issues led to widespread unrest and demands for change.",
+        "explanation": "This question asks you to identify and explain two causes of the revolutions in Germany in 1848–49. You should provide a clear and detailed explanation for each cause, supported by relevant historical context and evidence.",
+        "exam_question_id": "9016a34e-8b83-409c-95bc-5c863939c743:1",
+        "topic_label": "What were the causes of the revolutions in 1848–49?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1720,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the causes of the revolutions in 1848–49?"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. What were the causes of the revolutions in 1848–49?",
+        "question": "Describe how nationalism influenced the revolutions in Germany in 1848–49.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the role of nationalism in the revolutions.",
+          "Provide examples of how nationalism was expressed during the revolutions.",
+          "Discuss the impact of nationalism on the outcomes of the revolutions."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how nationalism influenced the revolutions in Germany in 1848–49 — develop the idea fully rather than listing short points. Make sure you also cover: Discuss the impact of nationalism on the outcomes of the revolutions."
+        ],
+        "model_answer": "Nationalism played a crucial role in the revolutions in Germany in 1848–49. The desire for a unified German state was a driving force behind the revolutionaries' demands. Nationalist sentiments were expressed through various means, such as the use of symbols like the black-red-gold flag and the creation of national anthems. However, the revolutions ultimately failed to achieve a unified Germany, as the various German states remained divided and the conservative forces regained control.",
+        "explanation": "This question requires you to describe the influence of nationalism on the revolutions in Germany in 1848–49. You should explain how nationalism motivated the revolutionaries and provide examples of its expression during the period.",
+        "exam_question_id": "9016a34e-8b83-409c-95bc-5c863939c743:1",
+        "topic_label": "What were the causes of the revolutions in 1848–49?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1720,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the causes of the revolutions in 1848–49?"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the period of the 1848–49 revolutions in Germany. The revolutions led to significant political and social changes. Explain the immediate political consequences of the 1848–49 revolutions in Germany.",
+        "question": "Explain the immediate political consequences of the 1848–49 revolutions in Germany.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the establishment of the Frankfurt Assembly.",
+          "Explanation of the role and impact of the Frankfurt Assembly.",
+          "Discussion of the eventual failure of the revolutions and its political aftermath."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the immediate political consequences of the 1848–49 revolutions in Germany — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the of the; Explanation of the role and impact of the; Discussion of the eventual failure of the revolutions…."
+        ],
+        "model_answer": "The immediate political consequence of the 1848–49 revolutions in Germany was the establishment of the Frankfurt Assembly, a national parliament that aimed to create a unified German state. The Assembly sought to draft a constitution and establish a constitutional monarchy. However, the Assembly faced significant opposition from conservative forces and ultimately failed to achieve its goals, leading to the restoration of conservative rule across the German states.",
+        "explanation": "The Frankfurt Assembly was a key political outcome of the revolutions, representing an attempt to unify Germany under a constitutional framework. Its failure highlighted the deep divisions within German society and the resistance of conservative forces to liberal and nationalist reforms.",
+        "exam_question_id": "1e5e0c92-65c5-48e1-8e49-50e6a91b806d:1",
+        "topic_label": "What were the consequences of the 1848–49 revolutions?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1721,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the consequences of the 1848–49 revolutions?"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the period of the 1848–49 revolutions in Germany. The revolutions led to significant political and social changes. Explain the immediate political consequences of the 1848–49 revolutions in Germany.",
+        "question": "Describe the social consequences of the 1848–49 revolutions in Germany.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the rise of nationalist and liberal sentiments among the populace.",
+          "Explanation of the impact on social classes, particularly the middle class and workers.",
+          "Discussion of the long-term effects on German society."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the social consequences of the 1848–49 revolutions in Germany — develop the idea fully rather than listing short points. Make sure you also cover: Identification of the of and the; Explanation of the impact on social classes, particularly the and; Discussion of the long-term effects on…."
+        ],
+        "model_answer": "The social consequences of the 1848–49 revolutions in Germany included the rise of nationalist and liberal sentiments among the populace. The middle class, in particular, became more politically active, demanding greater rights and representation. Workers also participated in the revolutions, seeking improved working conditions and social rights. Although the revolutions failed to achieve immediate social reforms, they planted the seeds for future social change and laid the groundwork for the eventual unification of Germany.",
+        "explanation": "The revolutions brought about a greater awareness and mobilisation of various social classes, particularly the middle class and workers, who began to demand more significant political and social rights. These changes set the stage for future developments in German society.",
+        "exam_question_id": "1e5e0c92-65c5-48e1-8e49-50e6a91b806d:1",
+        "topic_label": "What were the consequences of the 1848–49 revolutions?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1721,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were the consequences of the 1848–49 revolutions?"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the period of the 1848–49 revolutions in Germany. The revolutions led to significant political and social changes. Explain the immediate political consequences of the 1848–49 revolutions in Germany.",
+        "question": "Explain the long-term consequences of the 1848–49 revolutions on the path to German unification.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the role of the revolutions in shaping future political movements and nationalist sentiment.",
+          "Explanation of how conservative figures like Bismarck responded to or rejected the revolutionary ideals, and used alternative methods (realpolitik, military action) to achieve unification.",
+          "Discussion of the eventual unification of Germany in 1871 and how it differed from the constitutional framework the revolutions had sought."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The long-term consequences of the 1848–49 revolutions on the path to German unification were significant. The revolutions demonstrated the power of nationalist and liberal sentiments, which continued to influence political thought and movements in the following decades. However, conservative figures like Otto von Bismarck rejected the liberal constitutional framework the revolutions had sought. Instead, Bismarck used realpolitik and military power to achieve unification under Prussian leadership, bypassing the liberal and democratic ideals of 1848–49. The eventual unification of Germany in 1871 was achieved through Prussian dominance rather than the constitutional monarchy the revolutions had envisioned, showing how the revolutionary legacy was transformed by conservative statecraft.",
+        "explanation": "The revolutions of 1848–49, though unsuccessful in their immediate aims, laid the ideological and political groundwork for the eventual unification of Germany under Prussian leadership in 1871. The ideas and sentiments that emerged during the revolutions continued to shape German politics and society in the years that followed.",
+        "exam_question_id": "1e5e0c92-65c5-48e1-8e49-50e6a91b806d:1",
+        "topic_label": "How and why was the unification of Germany achieved by 1871?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1723,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "How and why was the unification of Germany achieved by 1871?"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Liberalism and nationalism in Germany, 1815–71 — What were Bismarck's intentions for Prussia and Germany from 1862 to 1866?",
+        "question": "Explain Bismarck's intentions for Prussia and Germany during his tenure as Minister President from 1862 to 1866.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of Bismarck's role and position during this period.",
+          "Description of Bismarck's political strategies and objectives.",
+          "Analysis of the impact of his intentions on Prussia and Germany."
+        ],
+        "hints": [
+          "Stay focused on this: Explain Bismarck's intentions for Prussia and Germany during his tenure as Minister President from 1862 to 1866 — develop the idea fully rather than listing short points. Make sure you also cover: Identification of Bismarck's role and position during this period.; Description of Bismarck's…."
+        ],
+        "model_answer": "Bismarck, as Minister President from 1862 to 1866, aimed to strengthen Prussia and achieve the unification of Germany under Prussian leadership. His intentions included consolidating Prussian power, modernizing the army, and using a combination of diplomacy and war to eliminate external threats and rivals such as Austria. Bismarck's realpolitik approach involved pragmatic and often ruthless tactics to achieve his goals, leading to significant changes in the political landscape of Germany.",
+        "explanation": "Bismarck's intentions were crucial in setting the stage for the unification of Germany and the establishment of the German Empire in 1871.",
+        "exam_question_id": "68a828ca-514e-4ed2-bd6a-12261c7eca4a:1",
+        "topic_label": "What were Bismarck's intentions for Prussia and Germany from 1862 to 1866?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1722,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were Bismarck's intentions for Prussia and Germany from 1862 to 1866?"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Liberalism and nationalism in Germany, 1815–71 — What were Bismarck's intentions for Prussia and Germany from 1862 to 1866?",
+        "question": "Describe how Bismarck's policies and actions from 1862 to 1866 contributed to the unification of Germany.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of specific policies and actions taken by Bismarck.",
+          "Explanation of how these policies and actions facilitated unification.",
+          "Analysis of the outcomes of Bismarck's strategies on the German states."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how Bismarck's policies and actions from 1862 to 1866 contributed to the unification of Germany — develop the idea fully rather than listing short points. Make sure you also cover: Analysis of the outcomes of Bismarck's strategies on the."
+        ],
+        "model_answer": "Bismarck's policies and actions from 1862 to 1866, such as the implementation of a strong military and his strategic use of wars (e.g., the Danish War, the Austro-Prussian War), were pivotal in unifying Germany. By defeating Austria in the Austro-Prussian War of 1866, Bismarck was able to exclude it from the German Confederation and pave the way for the creation of the North German Confederation, which was a significant step towards unification. His realpolitik approach and ability to manipulate international relations also played a crucial role in consolidating Prussian dominance over the German states.",
+        "explanation": "Bismarck's strategic use of war and diplomacy was instrumental in achieving the unification of Germany under Prussian leadership.",
+        "exam_question_id": "68a828ca-514e-4ed2-bd6a-12261c7eca4a:1",
+        "topic_label": "What were Bismarck's intentions for Prussia and Germany from 1862 to 1866?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1722,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "What were Bismarck's intentions for Prussia and Germany from 1862 to 1866?"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. The unification of Germany was influenced by various factors including political, economic, and social changes. Explain how the Congress of Vienna and the creation of the German Confederation contributed to the unification of Germany by 1871.",
+        "question": "Explain how the Congress of Vienna and the creation of the German Confederation contributed to the unification of Germany by 1871.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the Congress of Vienna in shaping post-Napoleonic Europe.",
+          "Explain the establishment and purpose of the German Confederation.",
+          "Discuss how these events laid the groundwork for future unification efforts."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the Congress of Vienna and the creation of the German Confederation contributed to the unification of Germany by 1871 — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of the Congress of Vienna in shaping post-Napoleonic; Discuss…."
+        ],
+        "model_answer": "The Congress of Vienna (1814-1815) aimed to restore stability in Europe after the Napoleonic Wars by creating a balance of power. It established the German Confederation, a loose association of 39 German states, which aimed to maintain peace and order. However, the Confederation's weaknesses, such as the lack of a strong central authority and the dominance of Austria, hindered effective cooperation among the states. This set the stage for future leaders like Otto von Bismarck to pursue unification through more assertive policies.",
+        "explanation": "This part asks you to explain the historical context and events that contributed to the eventual unification of Germany.",
+        "exam_question_id": "8b5309cc-f89b-4216-ad38-a4579955cf2b:1",
+        "topic_label": "How and why was the unification of Germany achieved by 1871?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1723,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "How and why was the unification of Germany achieved by 1871?"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. The unification of Germany was influenced by various factors including political, economic, and social changes. Explain how the Congress of Vienna and the creation of the German Confederation contributed to the unification of Germany by 1871.",
+        "question": "Describe the role of Otto von Bismarck in the unification process and how his policies and actions led to the creation of the German Empire in 1871.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify Otto von Bismarck's position and role in German politics.",
+          "Explain Bismarck's key policies and strategies for unification.",
+          "Discuss the outcomes of these policies, leading to the establishment of the German Empire."
+        ],
+        "hints": [
+          "Focus on Bismarck's use of realpolitik and his approach to 'blood and iron'."
+        ],
+        "model_answer": "Otto von Bismarck, appointed as the Prussian Chancellor in 1862, played a crucial role in the unification of Germany. He pursued a policy of realpolitik, using both diplomatic and military means to achieve unification. Bismarck orchestrated three wars (the Danish War, the Austro-Prussian War, and the Franco-Prussian War) that weakened rival states and expanded Prussian influence. His strategic alliances and the establishment of the North German Confederation in 1867 paved the way for the proclamation of the German Empire in 1871, with Wilhelm I as its first emperor.",
+        "explanation": "This part asks you to describe Bismarck's contributions and the specific actions he took to achieve German unification.",
+        "exam_question_id": "8b5309cc-f89b-4216-ad38-a4579955cf2b:1",
+        "topic_label": "How and why was the unification of Germany achieved by 1871?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1723,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "How and why was the unification of Germany achieved by 1871?"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. The unification of Germany was influenced by various factors including political, economic, and social changes. Explain how the Congress of Vienna and the creation of the German Confederation contributed to the unification of Germany by 1871.",
+        "question": "Explain the impact of economic developments and the role of the Zollverein on the unification of Germany.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the economic changes that occurred in Germany during this period.",
+          "Explain the significance of the Zollverein in promoting economic integration.",
+          "Discuss how economic developments contributed to the unification process."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the impact of economic developments and the role of the Zollverein on the unification of Germany — develop the idea fully rather than listing short points. Make sure you also cover: Identify the economic changes that occurred in Germany during this period."
+        ],
+        "model_answer": "Economic developments in Germany, particularly the growth of industries and the expansion of the railway network, played a significant role in the unification process. The creation of the Zollverein, a customs union among German states, facilitated trade and economic integration, reducing barriers between states and fostering a sense of shared economic interest. This economic interdependence made political unification more feasible and desirable, as a unified Germany promised greater economic stability and growth. The success of the Zollverein demonstrated the benefits of cooperation, encouraging states to consider broader political unification.",
+        "explanation": "This part asks you to explain the economic factors and the role of the Zollverein in the unification of Germany.",
+        "exam_question_id": "8b5309cc-f89b-4216-ad38-a4579955cf2b:1",
+        "topic_label": "How and why was the unification of Germany achieved by 1871?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1723,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "How and why was the unification of Germany achieved by 1871?"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. The unification of Germany was influenced by various factors including political, economic, and social changes.",
+        "question": "Explain how the Congress of Vienna and the creation of the German Confederation contributed to the unification of Germany by 1871.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the Congress of Vienna's outcomes relevant to German unification.",
+          "Explanation of the German Confederation's role in fostering a sense of national identity.",
+          "Connection between the Congress of Vienna and the German Confederation in the unification process."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the Congress of Vienna and the creation of the German Confederation contributed to the unification of Germany by 1871 — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the German Confederation's role in a of national."
+        ],
+        "model_answer": "The Congress of Vienna in 1815 redrew the map of Europe and established the German Confederation, a loose association of 39 German states. This provided a framework for cooperation and interaction among the German states, fostering a sense of shared identity and purpose. The German Confederation, while not a unified state, allowed for economic cooperation through the Zollverein and political discussions that would later contribute to the unification movement led by figures like Otto von Bismarck.",
+        "explanation": "The Congress of Vienna created the German Confederation, which was crucial in laying the groundwork for German unification. It established a political structure that allowed for the interaction and cooperation among German states, which was essential for the eventual unification under Prussian leadership.",
+        "exam_question_id": "1c770970-1b86-4003-850c-d473185f4cb8:1",
+        "topic_label": "How and why was the unification of Germany achieved by 1871?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1723,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "How and why was the unification of Germany achieved by 1871?"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. The unification of Germany was influenced by various factors including political, economic, and social changes.",
+        "question": "Describe the role of Otto von Bismarck in the unification process and how his policies and actions led to the creation of the German Empire in 1871.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of Bismarck's role as Minister President of Prussia.",
+          "Description of Bismarck's policies and actions that contributed to unification.",
+          "Explanation of how these actions led to the creation of the German Empire."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of Otto von Bismarck in the unification process and how his policies and actions led to the creation of the German Empire in 1871 — develop the idea fully rather than listing short points. Make sure you also cover: Description of Bismarck's policies and actions that contributed…."
+        ],
+        "model_answer": "Otto von Bismarck played a pivotal role in the unification of Germany. As Minister President of Prussia from 1862, he pursued a policy of 'blood and iron', using war and diplomacy to unify the German states under Prussian leadership. His strategic wars against Denmark, Austria, and France, combined with his political maneuvering, resulted in the establishment of the North German Confederation and eventually the German Empire in 1871, with Wilhelm I as its first Kaiser.",
+        "explanation": "Bismarck's strategic use of war and diplomacy was central to the unification of Germany. His leadership and political acumen were instrumental in transforming the political landscape of Germany and establishing the German Empire.",
+        "exam_question_id": "1c770970-1b86-4003-850c-d473185f4cb8:1",
+        "topic_label": "How and why was the unification of Germany achieved by 1871?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1723,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "How and why was the unification of Germany achieved by 1871?"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the period of Liberalism and nationalism in Germany, 1815–71. The unification of Germany was influenced by various factors including political, economic, and social changes.",
+        "question": "Explain the impact of economic developments and the role of the Zollverein on the unification of Germany.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of economic developments in Germany during this period.",
+          "Explanation of the role of the Zollverein in economic integration.",
+          "Connection between economic integration and political unification."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Economic developments, particularly the rise of industrialization, played a significant role in the unification of Germany. The establishment of the Zollverein, a customs union among many German states, facilitated economic integration and interdependence, reducing barriers to trade and fostering a sense of shared economic interest. This economic unity laid the groundwork for political unification by creating a network of states that benefited from cooperation and shared economic prosperity, making the idea of a unified Germany more appealing and feasible.",
+        "explanation": "The economic integration through the Zollverein was crucial in unifying Germany. It created a strong economic rationale for political unification by demonstrating the benefits of a unified market and reducing the economic barriers between German states.",
+        "exam_question_id": "1c770970-1b86-4003-850c-d473185f4cb8:1",
+        "topic_label": "How and why was the unification of Germany achieved by 1871?",
+        "topic_id": 376,
+        "checked": true,
+        "subtopic_id": 1723,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "How and why was the unification of Germany achieved by 1871?"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the period of the Industrial Revolution in Britain, 1750–1850. The rapid growth of industries led to significant changes in the urban landscape.",
+        "question": "Explain why urbanisation resulted from industrialisation in Britain during this period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of industrialisation in attracting people to cities.",
+          "Explain the availability of jobs in industries.",
+          "Discuss the impact of technological advancements on urban growth."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why urbanisation resulted from industrialisation in Britain during this period — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of industrialisation in attracting to; the availability of in industries.; Discuss the impact of on."
+        ],
+        "model_answer": "Industrialisation in Britain during 1750-1850 led to urbanisation due to the creation of numerous jobs in factories. The demand for labour attracted people from rural areas to cities. Technological advancements such as the steam engine and power looms increased production, further boosting urban growth. Cities became hubs of economic activity, drawing people seeking employment opportunities.",
+        "explanation": "Urbanisation was a direct consequence of industrialisation as people moved from rural areas to cities in search of work in the newly established factories. The technological innovations of the period made industries more efficient, creating a higher demand for labour and thus accelerating urban growth.",
+        "exam_question_id": "8e65fa39-449c-4f25-8ccd-c525a1cd14fe:1",
+        "topic_label": "Why was there a rapid growth of industrialisation after 1780?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1717,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "Why was there a rapid growth of industrialisation after 1780?"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the period of the Industrial Revolution in Britain, 1750–1850. The rapid growth of industries led to significant changes in the urban landscape.",
+        "question": "Describe the consequences of urbanisation on the living conditions of the working class in Britain during this period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the challenges faced by the working class in urban areas.",
+          "Explain the impact of overcrowding on living conditions.",
+          "Discuss the effects of poor sanitation and health issues."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the consequences of urbanisation on the living conditions of the working class in Britain during this period — develop the idea fully rather than listing short points. Make sure you also cover: Identify the challenges faced by the working class in areas.; Discuss the effects of and."
+        ],
+        "model_answer": "Urbanisation during the Industrial Revolution led to severe overcrowding in British cities, resulting in cramped and unsanitary living conditions for the working class. Many workers lived in poorly constructed housing with inadequate ventilation and sanitation, leading to the spread of diseases. The lack of clean water and proper sewage systems exacerbated health issues, making life difficult for the urban poor.",
+        "explanation": "The rapid urbanisation brought about by industrialisation had dire consequences for the living conditions of the working class. Overcrowded and unsanitary living conditions, combined with poor public health infrastructure, led to widespread health issues and a lower quality of life for many urban dwellers.",
+        "exam_question_id": "8e65fa39-449c-4f25-8ccd-c525a1cd14fe:1",
+        "topic_label": "Why, and with what consequences, did urbanisation result from industrialisation?",
+        "topic_id": 375,
+        "checked": true,
+        "subtopic_id": 1718,
+        "source": {
+          "textbook": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+          "area": "Why, and with what consequences, did urbanisation result from industrialisation?"
+        }
+      }
+    ],
+    "estimated_time": 70,
+    "assessment_id": "13da5ff1-6acc-4255-b1f7-62ed8ec4e1d5",
+    "subject": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+    "topics": [
+      "The Industrial Revolution in Britain, 1750–1850",
+      "Liberalism and nationalism in Germany, 1815–71"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 27,
+    "topic_ids": [
+      375,
+      376
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 17"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 18"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 19"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 7"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Model answer is underdeveloped for 3 marks. It provides only basic explanation of labour demand and migration without addressing specific examples (e.g., Manchester, textile industry) or discussing agricultural displacement, capital availability, or infrastructure development that would justify the mark allocation.",
+        "correction": "Model answer should include: specific industrial cities/sectors; role of agricultural enclosure in freeing labour; infrastructure development (canals, railways); regional variations; and explicit link between each factor and urbanisation growth."
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Model answer lacks specific examples to support claims. For 3 marks, answer should reference particular diseases (cholera, typhoid), specific cities (Manchester, Birmingham), housing types (back-to-back terraces), or quantifiable conditions rather than generic statements about overcrowding and sanitation.",
+        "correction": "Expand with: specific disease outbreaks; named cities and housing conditions; statistics or contemporary accounts; comparison to rural conditions; discussion of class variations in urban living standards."
+      },
+      {
+        "label": "5a",
+        "severity": "poor",
+        "detail": "Marking criteria requires 'evidence from primary and secondary sources' (criterion 4) but model answer provides none. For 4 marks, this is a substantive omission. Answer discusses causes but lacks any documentary or scholarly evidence.",
+        "correction": "Add primary source evidence (e.g., contemporary accounts of economic hardship, political demands) or secondary source references to support claims about political discontent and economic difficulties."
+      },
+      {
+        "label": "6c",
+        "severity": "poor",
+        "detail": "Model answer conflates Bismarck's role (1862-1871) with the 1848-49 revolutions' long-term consequences. The question asks about consequences of 1848-49 revolutions on unification path, but answer primarily describes Bismarck's separate realpolitik strategy rather than tracing ideological/political continuity from the revolutions themselves.",
+        "correction": "Restructure to show: how 1848-49 nationalist/liberal sentiment persisted; how it influenced subsequent movements; how Bismarck co-opted or rejected these ideals; then explain the contrast between revolutionary constitutional aims and 1871 outcome."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Model answer states Congress of Vienna 'established the German Confederation' but this is imprecise. The Congress created the framework; the Confederation was formally established by the Final Act (1815). Answer also underexplains how these 'weaknesses' specifically contributed to unification rather than merely hindering cooperation.",
+        "correction": "Clarify: Congress established the principle; Final Act (1815) formally created Confederation. Explain how Austrian dominance and lack of central authority created power vacuum that Bismarck exploited, and how economic fragmentation motivated Zollverein and later unification."
+      },
+      {
+        "label": "8a and 9a",
+        "severity": "poor",
+        "detail": "Questions 8a and 9a are identical in content and marking criteria, with nearly identical model answers. This represents question duplication within the same assessment, violating the requirement to check for repeated questions with the same data.",
+        "correction": "Remove one instance (recommend removing 9a) or substantially differentiate by asking different aspects (e.g., 8a on Congress/Confederation framework; 9a on nationalist sentiment or economic integration separately)."
+      },
+      {
+        "label": "8b and 9b",
+        "severity": "poor",
+        "detail": "Questions 8b and 9b are substantively identical with nearly identical model answers. Both ask about Bismarck's role and policies leading to 1871 German Empire. This violates the no-repetition requirement.",
+        "correction": "Differentiate: e.g., 8b on Bismarck's intentions/strategies; 9b on specific wars and their outcomes; or 9b on domestic Prussian reforms vs. external wars."
+      },
+      {
+        "label": "8c and 9c",
+        "severity": "poor",
+        "detail": "Questions 8c and 9c are identical, asking about economic developments and Zollverein's role in unification. Model answers are nearly identical. This is the third repeated question set in sections 8 and 9.",
+        "correction": "Remove duplication. If both sections needed, differentiate by asking: 8c on Zollverein's economic mechanisms; 9c on how economic integration influenced political attitudes toward unification."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Question 10a repeats question 3a (both ask 'Explain why urbanisation resulted from industrialisation in Britain during this period' with identical marking criteria). Model answers are substantively similar. This violates the no-repetition requirement.",
+        "correction": "Remove question 10a or substantially differentiate (e.g., ask about regional variations, timeline differences, or comparison with continental Europe)."
+      },
+      {
+        "label": "10b",
+        "severity": "poor",
+        "detail": "Question 10b repeats question 3b (both ask about consequences of urbanisation on working-class living conditions with identical marking criteria). Model answers are substantively similar.",
+        "correction": "Remove question 10b or differentiate by asking about: government responses, regional variations, or comparison of urban vs. rural working-class conditions."
+      }
+    ],
+    "summary": "Assessment contains substantive duplication: questions 8-9 are nearly identical (8a/9a, 8b/9b, 8c/9c); questions 3 and 10 repeat (3a/10a, 3b/10b). Question 5a lacks required source evidence. Model answers for 3a, 3b, 8a lack sufficient detail/examples for mark allocation. Question 6c conflates 1848-49 consequences with Bismarck's separate strategy."
+  },
+  "totalSeconds": 65
+}

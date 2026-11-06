@@ -1,0 +1,622 @@
+{
+  "index": 19,
+  "label": "Cambridge / Exam / Cambridge Primary Science 5 Learners Book ",
+  "request": {
+    "subject": "Cambridge Primary Science 5 Learners Book ",
+    "textbook_id": 52,
+    "topic_ids": [
+      580
+    ],
+    "topics": [
+      "States of matter"
+    ],
+    "curriculum": "cambridge",
+    "grade": 5,
+    "className": "Cambridge Primary Science 5 Learners Book ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 40,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "Imagine two bowls, each containing 100 ml of water at 20°C. One bowl is placed in a sunny spot, while the other is kept in a cool, shaded area.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain which bowl's water will evaporate faster and why.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the effect of temperature on evaporation rate.",
+          "Explain the role of sunlight in increasing evaporation rate.",
+          "State the conclusion based on the conditions provided."
+        ],
+        "hints": [
+          "Stay focused on this: Explain which bowl's water will evaporate faster and why — develop the idea fully rather than listing short points. Make sure you also cover: Identify the effect of temperature on rate.; the role of in increasing rate.; the conclusion based on the conditions provided."
+        ],
+        "model_answer": "The bowl in the sunny spot will have water that evaporates faster. Higher temperatures increase the kinetic energy of water molecules, causing them to escape into the air as vapour more quickly. Sunlight also adds energy to the water, further speeding up the evaporation process.",
+        "explanation": "Evaporation is faster at higher temperatures because the increased energy causes more water molecules to turn into vapour.",
+        "exam_question_id": "4c101b31-b410-45ef-8547-b81d7a20b0b4:1",
+        "topic_label": "States of matter",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s54-f0.jpg",
+        "image_alt": "A diagram of the water cycle. A sun is at top left, and wavy arrows rise from the sea toward a white cloud, with label line A pointing to the arrows. A block arrow points from the white cloud to a grey rain cloud, with label line B pointing to the arrow. Rain falls from the grey cloud onto green mountains with a snow-capped peak, and a small white cloud beside the peak drops snow or hail, with label line C pointing to that cloud. A river runs down the land into the sea, and label line D points to the green land.\nLabels: B, A, C, D\nOriginal exercise: Label the processes that take place at point",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "States of matter"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Imagine two bowls, each containing 100 ml of water at 20°C. One bowl is placed in a sunny spot, while the other is kept in a cool, shaded area.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe the process of evaporation and how it leads to the cooling of the remaining water.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the process of evaporation.",
+          "Explain how the phase change from liquid to gas affects temperature.",
+          "Link the process to the cooling of the remaining water."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the process of evaporation and how it leads to the cooling of the remaining water — develop the idea fully rather than listing short points. Make sure you also cover: how the phase change from to gas affects."
+        ],
+        "model_answer": "Evaporation is the process where water changes from a liquid to a gas. As the fastest-moving water molecules escape into the air, the remaining water loses energy, causing its temperature to drop. This is because the molecules with higher energy (and thus higher temperature) are the ones that evaporate first.",
+        "explanation": "When water evaporates, the energy required to change from liquid to gas is taken from the remaining water, causing it to cool.",
+        "exam_question_id": "4c101b31-b410-45ef-8547-b81d7a20b0b4:1",
+        "topic_label": "Evaporation",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s54-f0.jpg",
+        "image_alt": "A diagram of the water cycle. A sun is at top left, and wavy arrows rise from the sea toward a white cloud, with label line A pointing to the arrows. A block arrow points from the white cloud to a grey rain cloud, with label line B pointing to the arrow. Rain falls from the grey cloud onto green mountains with a snow-capped peak, and a small white cloud beside the peak drops snow or hail, with label line C pointing to that cloud. A river runs down the land into the sea, and label line D points to the green land.\nLabels: B, A, C, D\nOriginal exercise: Label the processes that take place at point",
+        "checked": true,
+        "subtopic_id": 2315,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Evaporation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Two identical wet T-shirts are hung outside on a sunny day. One is hung in a windy area and the other is hung in a still area.",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "Which T-shirt do you think will dry faster? Explain your answer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify factors affecting evaporation",
+          "Explain the role of wind",
+          "Explain the role of sunlight"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Which T-shirt do you think will dry faster; then Explain your answer. Make sure you also cover: Identify factors affecting; the role of; the role of."
+        ],
+        "model_answer": "The T-shirt hung in the windy area will dry faster. Wind helps to remove the water vapor from around the T-shirt, allowing more water to evaporate. Sunlight provides the heat needed for evaporation to occur more quickly.",
+        "explanation": "Explain why wind and sunlight speed up the drying process.",
+        "exam_question_id": "835927e1-7b90-459e-a857-22935913a123:1",
+        "topic_label": "Investigating evaporation from a solution (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation from a solution (States of matter)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Two identical wet T-shirts are hung outside on a sunny day. One is hung in a windy area and the other is hung in a still area.",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "If you were to repeat this experiment on a cold day, how might the results change? Explain your answer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the effect of temperature on evaporation",
+          "Explain the role of cold temperature",
+          "Predict the outcome on a cold day"
+        ],
+        "hints": [
+          "Structure your answer around both demands: If you were to repeat this experiment on a cold day, how might the results change; then Explain your answer. Make sure you also cover: Identify the effect of on; Predict the outcome on a cold day."
+        ],
+        "model_answer": "On a cold day, both T-shirts will dry more slowly because the lower temperature reduces the rate of evaporation. Even with wind, the lack of heat will slow down the process.",
+        "explanation": "Explain how temperature affects the rate of evaporation and predict the results on a cold day.",
+        "exam_question_id": "835927e1-7b90-459e-a857-22935913a123:1",
+        "topic_label": "Investigating evaporation from a solution (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation from a solution (States of matter)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A science class is investigating how the surface area of water affects the rate of evaporation. They use three bowls of water with different surface areas.",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "What do you think will happen to the rate of evaporation if the surface area of the water is increased? Explain your answer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the relationship between surface area and evaporation",
+          "Explain how a larger surface area affects evaporation",
+          "Predict the outcome of increasing surface area"
+        ],
+        "hints": [
+          "Structure your answer around both demands: What do you think will happen to the rate of evaporation if the surface area of the water is increased; then Explain your answer. Make sure you also cover: Predict the outcome of increasing surface area."
+        ],
+        "model_answer": "If the surface area of the water is increased, the rate of evaporation will increase. A larger surface area provides more space for water molecules to escape into the air, allowing more water to change into vapor.",
+        "explanation": "Explain how increasing the surface area affects the rate of evaporation.",
+        "exam_question_id": "835927e1-7b90-459e-a857-22935913a123:2",
+        "topic_label": "Investigating evaporation",
+        "topic_id": 580,
+        "subtopic_id": 2317,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A science class is investigating how the surface area of water affects the rate of evaporation. They use three bowls of water with different surface areas.",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe a method you could use to test this idea in a fair way.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the need for a fair test",
+          "Describe controlled variables (same temperature, same amount of water, etc.)",
+          "Explain the method to measure evaporation"
+        ],
+        "hints": [
+          "Stay focused on this: Describe a method you could use to test this idea in a fair way — develop the idea fully rather than listing short points. Make sure you also cover: controlled variables of etc.); the method to."
+        ],
+        "model_answer": "To test this idea in a fair way, use three identical bowls with the same amount of water. Place each bowl in the same location with the same temperature and wind conditions. Measure the amount of water left in each bowl at the same time intervals to compare the rates of evaporation.",
+        "explanation": "Describe how to conduct a fair test to investigate the effect of surface area on the rate of evaporation.",
+        "exam_question_id": "835927e1-7b90-459e-a857-22935913a123:2",
+        "topic_label": "Investigating evaporation",
+        "topic_id": 580,
+        "subtopic_id": 2317,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A student observes that a puddle of water on a sidewalk evaporates faster on a hot day than on a cool day.",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain why the puddle evaporates faster on a hot day.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the effect of temperature on evaporation",
+          "Explain the role of heat in the evaporation process",
+          "Relate temperature to the energy of water molecules"
+        ],
+        "hints": [
+          "Think about how heat affects the movement of water molecules."
+        ],
+        "model_answer": "The puddle evaporates faster on a hot day because higher temperatures provide more energy to the water molecules, causing them to move faster and escape into the air more quickly. On a cool day, the water molecules have less energy and move more slowly, resulting in slower evaporation.",
+        "explanation": "Explain why higher temperatures increase the rate of evaporation.",
+        "exam_question_id": "835927e1-7b90-459e-a857-22935913a123:3",
+        "topic_label": "Investigating evaporation from a solution (States of matter)",
+        "topic_id": 580,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation from a solution (States of matter)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A student observes that a puddle of water on a sidewalk evaporates faster on a hot day than on a cool day.",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Suggest one way to measure how quickly the puddle evaporates on different days.",
+        "marks": 2,
+        "marking_criteria": [
+          "Propose a method to measure evaporation",
+          "Ensure the method is practical and repeatable"
+        ],
+        "hints": [
+          "Stay focused on this: Suggest one way to measure how quickly the puddle evaporates on different days — develop the idea fully rather than listing short points. Make sure you also cover: Propose a method to measure evaporation; Ensure the method is practical and repeatable."
+        ],
+        "model_answer": "One way to measure how quickly the puddle evaporates is to mark the water level in the puddle at the same time each day and compare the water levels over several days. This will show how much water has evaporated and how quickly.",
+        "explanation": "Suggest a practical method to measure the rate of evaporation in a puddle.",
+        "exam_question_id": "835927e1-7b90-459e-a857-22935913a123:3",
+        "topic_label": "Investigating evaporation from a solution (States of matter)",
+        "topic_id": 580,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation from a solution (States of matter)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is observing the water cycle in a small ecosystem they have created. They place a bowl of water under direct sunlight and another in a shaded area.",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain why the water in the bowl under direct sunlight evaporates faster than the water in the shaded bowl.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the effect of sunlight on evaporation rate",
+          "Explanation of the effect of temperature on evaporation rate"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the water in the bowl under direct sunlight evaporates faster than the water in the shaded bowl — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the effect of sunlight on; Explanation of the effect of on."
+        ],
+        "model_answer": "The water in the bowl under direct sunlight evaporates faster because the sunlight provides energy that increases the temperature of the water, causing the water molecules to move faster and evaporate more quickly. The higher temperature in the sunny bowl also increases the rate of evaporation.",
+        "explanation": "Explain that sunlight and temperature both play a role in the speed of evaporation by affecting the energy and movement of water molecules.",
+        "exam_question_id": "3aedf110-910b-46ad-903b-603124526aec:1",
+        "topic_label": "The water cycle",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2320,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "The water cycle"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is observing the water cycle in a small ecosystem they have created. They place a bowl of water under direct sunlight and another in a shaded area.",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe what happens to the water molecules in each bowl during the process of evaporation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Description of the process of evaporation",
+          "Explanation of the role of energy in evaporation"
+        ],
+        "hints": [
+          "Stay focused on this: Describe what happens to the water molecules in each bowl during the process of evaporation — develop the idea fully rather than listing short points. Make sure you also cover: Description of the process of evaporation; Explanation of the role of in evaporation."
+        ],
+        "model_answer": "During evaporation, water molecules gain energy from the sun or ambient heat and change from a liquid state to a gaseous state, becoming water vapor. In the sunny bowl, the higher temperature and energy from sunlight cause more water molecules to evaporate quickly, while in the shaded bowl, fewer molecules gain enough energy to evaporate, resulting in a slower rate.",
+        "explanation": "Describe the transition of water molecules from liquid to gas and the role of energy in this process.",
+        "exam_question_id": "3aedf110-910b-46ad-903b-603124526aec:1",
+        "topic_label": "The water cycle",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2320,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "The water cycle"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A student is investigating how wind affects the drying time of wet clothes. They hang two identical wet shirts outside on a windy day and a still day.",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Which shirt do you think will dry faster? Explain your answer.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the effect of wind on evaporation rate",
+          "Comparison of conditions on a windy day versus a still day"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Which shirt do you think will dry faster; then Explain your answer. Make sure you also cover: Explanation of the effect of on rate; Comparison of conditions on a day versus a day."
+        ],
+        "model_answer": "The shirt hung on a windy day will dry faster because the wind removes the water vapor from the surface of the shirt more quickly, allowing more water to evaporate. On a still day, the water vapor remains around the shirt, slowing down the evaporation process.",
+        "explanation": "Explain how wind aids in the evaporation process by removing water vapour from the surface of the clothes.",
+        "exam_question_id": "3aedf110-910b-46ad-903b-603124526aec:2",
+        "topic_label": "Investigating evaporation",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2317,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A student is investigating how wind affects the drying time of wet clothes. They hang two identical wet shirts outside on a windy day and a still day.",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "If you were to repeat this experiment on a cold day, how might the results change? Explain your answer.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the effect of temperature on evaporation rate",
+          "Prediction of results under different temperature conditions"
+        ],
+        "hints": [
+          "Structure your answer around both demands: If you were to repeat this experiment on a cold day, how might the results change; then Explain your answer. Make sure you also cover: Explanation of the effect of on; Prediction of results under different conditions."
+        ],
+        "model_answer": "On a cold day, both shirts would take longer to dry because the lower temperature reduces the energy available for water molecules to evaporate. The wind would still help to some extent by removing water vapor, but the overall rate of evaporation would be slower compared to a warmer day.",
+        "explanation": "Predict that lower temperatures will slow down the evaporation process and explain how temperature affects the energy available for evaporation.",
+        "exam_question_id": "3aedf110-910b-46ad-903b-603124526aec:2",
+        "topic_label": "Investigating evaporation",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2317,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Investigating evaporation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is conducting an experiment to observe the process of boiling. They heat two identical pots of water on a stove. One pot is filled to the brim with water, while the other pot is half-filled with water.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain why the water in the pot that is filled to the brim takes longer to boil than the water in the half-filled pot.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of heat distribution",
+          "Explanation of surface area",
+          "Connection to boiling point"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the water in the pot that is filled to the brim takes longer to boil than the water in the half-filled pot — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of distribution; Explanation of; Connection to point."
+        ],
+        "model_answer": "The water in the pot that is filled to the brim takes longer to boil because it has more water to heat up. The heat has to distribute itself over a larger volume of water, which takes more time. Additionally, the surface area exposed to the heat is smaller in the full pot, which also slows down the boiling process.",
+        "explanation": "Consider the volume of water and the surface area exposed to the heat source.",
+        "exam_question_id": "5eb4d8dd-b772-4d07-a1dc-007666372249:1",
+        "topic_label": "Boiling",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2321,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is conducting an experiment to observe the process of boiling. They heat two identical pots of water on a stove. One pot is filled to the brim with water, while the other pot is half-filled with water.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe what happens to the water molecules in each pot as the water approaches its boiling point.",
+        "marks": 2,
+        "marking_criteria": [
+          "Description of molecular movement",
+          "Explanation of phase change"
+        ],
+        "hints": [
+          "Think about how the water molecules behave at different temperatures."
+        ],
+        "model_answer": "As the water in each pot approaches its boiling point, the water molecules gain energy and move faster. In the half-filled pot, the molecules reach the energy level required to turn into gas (steam) more quickly because there is less water to heat. In the full pot, it takes longer for the molecules to gain enough energy to boil because there is more water to heat.",
+        "explanation": "Consider the energy required for the phase change from liquid to gas.",
+        "exam_question_id": "5eb4d8dd-b772-4d07-a1dc-007666372249:1",
+        "topic_label": "Boiling",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2321,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is comparing the drying times of paper towels. They use three paper towels, each with a surface area of 10 cm², and place them in different environments. Paper towel A is placed in a warm, dry room. Paper towel B is placed in a warm, humid room. Paper towel C is placed in a cool, dry room.",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "Which paper towel do you think will dry the fastest? Explain your answer.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the fastest drying paper towel",
+          "Accurate explanation based on environmental conditions"
+        ],
+        "hints": [
+          "Consider the effect of temperature and humidity on evaporation."
+        ],
+        "model_answer": "Paper towel A is placed in a warm, dry room. Warmth increases the rate of evaporation, and dry air has a lower concentration of water vapor, which also increases the rate of evaporation. Therefore, paper towel A will dry the fastest.\n\nPaper towel A will dry the fastest.",
+        "explanation": "Explain why the paper towel placed in a warm, dry environment will dry faster than the others.",
+        "exam_question_id": "7ca9f318-ffb1-4a8d-9249-75f49e61b003:1",
+        "topic_label": "States of matter",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s37-f1.jpg",
+        "image_alt": "A drawing of a flat wooden rack with a mesh base divided into six sections. Bunches of green grapes lie on the mesh, and a few loose grapes are in one section. A bright yellow sun with rays is drawn above the rack. The caption reads 'grapes drying on a rack in the sun'.\nLabels: grapes drying on a rack, in the sun\nOriginal exercise: Talk about how evaporation happens in each of the pictures and how it is useful.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "States of matter"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is comparing the drying times of paper towels. They use three paper towels, each with a surface area of 10 cm², and place them in different environments. Paper towel A is placed in a warm, dry room. Paper towel B is placed in a warm, humid room. Paper towel C is placed in a cool, dry room.",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "How might the results change if the paper towels were placed in a cold, dry environment? Explain your answer.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the effect of temperature on evaporation",
+          "Accurate explanation of the effect of a cold environment on drying time",
+          "Connection to the concept of evaporation"
+        ],
+        "hints": [
+          "Structure your answer around both demands: How might the results change if the paper towels were placed in a cold, dry environment; then Explain your answer. Make sure you also cover: Correct identification of the of temperature on; Connection to the concept of."
+        ],
+        "model_answer": "If the paper towels were placed in a cold, dry environment, the drying time would increase for all paper towels. Cold temperatures slow down the rate of evaporation, and dry air has a lower concentration of water vapor, which increases the rate of evaporation. However, the overall effect of cold temperatures will dominate, leading to longer drying times.\n\nThe drying time would increase for all paper towels.",
+        "explanation": "Explain how placing the paper towels in a cold, dry environment would affect the drying time.",
+        "exam_question_id": "7ca9f318-ffb1-4a8d-9249-75f49e61b003:1",
+        "topic_label": "States of matter",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s37-f1.jpg",
+        "image_alt": "A drawing of a flat wooden rack with a mesh base divided into six sections. Bunches of green grapes lie on the mesh, and a few loose grapes are in one section. A bright yellow sun with rays is drawn above the rack. The caption reads 'grapes drying on a rack in the sun'.\nLabels: grapes drying on a rack, in the sun\nOriginal exercise: Talk about how evaporation happens in each of the pictures and how it is useful.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "States of matter"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is setting up an experiment to investigate how temperature affects the rate of evaporation. They use three identical bowls of water, each at a different temperature: 20°C, 30°C, and 40°C.",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain which bowl's water will evaporate faster and why.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the effect of temperature on evaporation rate.",
+          "Identification of the relationship between temperature and evaporation speed."
+        ],
+        "hints": [
+          "Stay focused on this: Explain which bowl's water will evaporate faster and why — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the effect of temperature on evaporation rate.; Identification of the relationship between temperature and evaporation speed."
+        ],
+        "model_answer": "The water in the bowl at 40°C will evaporate faster because higher temperatures give water molecules more energy, causing them to escape into the air more quickly.",
+        "explanation": "Higher temperatures increase the energy of water molecules, allowing more of them to escape from the liquid phase into the gas phase.",
+        "exam_question_id": "b737e6e6-367d-492d-a934-30a58f2ca72f:1",
+        "topic_label": "Evaporation",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2315,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Evaporation"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A science class is setting up an experiment to investigate how temperature affects the rate of evaporation. They use three identical bowls of water, each at a different temperature: 20°C, 30°C, and 40°C.",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe a method you could use to test this idea in a fair way.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of the experimental setup.",
+          "Identification of controlled variables.",
+          "Explanation of how to measure the rate of evaporation."
+        ],
+        "hints": [
+          "Think about how you can keep other factors constant while changing the temperature."
+        ],
+        "model_answer": "To test this idea in a fair way, place each bowl in a separate room with the same air flow and humidity. Use a measuring cup to measure the amount of water that evaporates over the same period of time for each bowl.",
+        "explanation": "By controlling other variables such as air flow and humidity, the experiment can accurately measure the effect of temperature on the rate of evaporation.",
+        "exam_question_id": "b737e6e6-367d-492d-a934-30a58f2ca72f:1",
+        "topic_label": "Evaporation",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2315,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Evaporation"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A science class is observing the boiling points of different liquids. They heat samples of water, alcohol, and oil in identical containers until they boil.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain why water has a higher boiling point than alcohol and oil.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of the strength of intermolecular forces in water.",
+          "Comparison of intermolecular forces in water, alcohol, and oil."
+        ],
+        "hints": [
+          "Consider the types of bonds present in each liquid."
+        ],
+        "model_answer": "Water has a higher boiling point than alcohol and oil because it has stronger hydrogen bonds between its molecules, which require more energy to break and allow the molecules to escape into the gas phase.",
+        "explanation": "Hydrogen bonds are stronger than the bonds in alcohol and oil, so more energy is needed to boil water.",
+        "exam_question_id": "b737e6e6-367d-492d-a934-30a58f2ca72f:3",
+        "topic_label": "Boiling",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2321,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A science class is observing the boiling points of different liquids. They heat samples of water, alcohol, and oil in identical containers until they boil.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe what happens to the molecules in each liquid as they approach their boiling point.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of the molecular behaviour in water.",
+          "Description of the molecular behaviour in alcohol.",
+          "Description of the molecular behaviour in oil."
+        ],
+        "hints": [
+          "Stay focused on this: Describe what happens to the molecules in each liquid as they approach their boiling point — develop the idea fully rather than listing short points. Make sure you also cover: Description of the molecular behaviour in; Description of the molecular behaviour in; Description of the molecular…."
+        ],
+        "model_answer": "As they approach their boiling point, the molecules in water, alcohol, and oil gain more kinetic energy and move faster. In water, the hydrogen bonds break, allowing the molecules to escape into the gas phase. In alcohol, the weaker intermolecular forces break, allowing the molecules to escape. In oil, the even weaker intermolecular forces break, allowing the molecules to escape.",
+        "explanation": "As the temperature increases, the molecules gain energy and move faster, eventually breaking the intermolecular forces and escaping into the gas phase.",
+        "exam_question_id": "b737e6e6-367d-492d-a934-30a58f2ca72f:3",
+        "topic_label": "Boiling",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2321,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling"
+        }
+      }
+    ],
+    "estimated_time": 51,
+    "assessment_id": "d7c9fdcb-d459-4f55-8f8f-3f99f7f94c87",
+    "subject": "Cambridge Primary Science 5 Learners Book ",
+    "topics": [
+      "States of matter"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 52,
+    "topic_ids": [
+      580
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 6"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 41
+}

@@ -1,0 +1,792 @@
+{
+  "index": 3,
+  "label": "Cambridge / Exam / Cambridge Lower Secondary Science 9 Learners Book",
+  "request": {
+    "subject": "Cambridge Lower Secondary Science 9 Learners Book",
+    "textbook_id": 35,
+    "topic_ids": [
+      444,
+      442
+    ],
+    "topics": [
+      "3 Forces and energy",
+      "1 Photosynthesis and the carbon cycle"
+    ],
+    "curriculum": "cambridge",
+    "grade": 9,
+    "className": "Cambridge Lower Secondary Science 9 Learners Book",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 48,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A block of metal has a mass of 240 g and a volume of 30 cm³.",
+        "question": "Calculate its density.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify mass and volume from the scenario.",
+          "Apply the density formula: density = mass / volume."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density — develop the idea fully rather than listing short points. Make sure you also cover: Identify and from the scenario."
+        ],
+        "model_answer": "Density = mass / volume = 240 g / 30 cm³ = 8 g/cm³.",
+        "explanation": "Density is a measure of how much mass is contained in a given volume. It is calculated by dividing the mass of the object by its volume.",
+        "exam_question_id": "d14508e8-7f07-4ce0-8347-4faf2458d63d:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "image_url": "/textbook-images/textbook-bank/35/s112-f1.jpg",
+        "image_alt": "An energy transfer (Sankey-style) diagram with a wide orange-yellow arrow on the left labelled 100 J electrical energy. The arrow continues to the right as a wide arrow labelled 80 J light and sound energy. A thinner arrow curves downward from it and is labelled X J thermal energy.\nLabels: 100 J, electrical energy, 80 J, light and sound energy, X J, thermal energy\nOriginal exercise: b A television",
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A block of metal has a mass of 240 g and a volume of 30 cm³.",
+        "question": "Will it float or sink in water, which has a density of 1 g/cm³? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the density of the metal block to the density of water.",
+          "Explain the relationship between density and floating/sinking.",
+          "Provide a clear conclusion based on the comparison."
+        ],
+        "hints": [
+          "Recall the relationship between the density of an object and its ability to float or sink in a fluid."
+        ],
+        "model_answer": "The metal block will sink because its density (8 g/cm³) is greater than the density of water (1 g/cm³). Objects with a higher density than the fluid they are placed in will sink.",
+        "explanation": "An object will float if its density is less than the density of the fluid it is placed in, and it will sink if its density is greater.",
+        "exam_question_id": "d14508e8-7f07-4ce0-8347-4faf2458d63d:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "image_url": "/textbook-images/textbook-bank/35/s112-f1.jpg",
+        "image_alt": "An energy transfer (Sankey-style) diagram with a wide orange-yellow arrow on the left labelled 100 J electrical energy. The arrow continues to the right as a wide arrow labelled 80 J light and sound energy. A thinner arrow curves downward from it and is labelled X J thermal energy.\nLabels: 100 J, electrical energy, 80 J, light and sound energy, X J, thermal energy\nOriginal exercise: b A television",
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a water tank with an electric heater to heat the water.",
+        "question": "Calculate the density of a block of metal that has a mass of 240 g and a volume of 30 cm³.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify mass and volume from the scenario.",
+          "Correctly apply the density formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the density of a block of metal that has a mass of 240 g and a volume of 30 cm³ — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify mass and volume from the scenario.; Correctly apply the density formula."
+        ],
+        "model_answer": "Density = mass/volume = 240 g / 30 cm³ = 8 g/cm³.",
+        "explanation": "Density is a measure of how much mass is contained in a given volume. To find the density of the metal block, divide its mass by its volume.",
+        "exam_question_id": "c7ad8ff6-31d0-4589-949c-4e6facbe7b69:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "image_url": "/textbook-images/textbook-bank/35/s129-f0.jpg",
+        "image_alt": "A tall upright water tank with rounded top and bottom, filled with light blue water. A pipe at the top leads left, with an arrow labelled 'hot water out'. At the bottom left a pipe has an arrow pointing in, labelled 'cold water in'. Near the bottom inside the tank is a red electric heater element, and the labels 'water' and 'electric heater' point to the water and the heater.\nLabels: hot water out, water, cold water in, electric heater\nOriginal exercise: The diagram shows a water tank with an electric heater to heat the water.",
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a water tank with an electric heater to heat the water.",
+        "question": "Will the block of metal float or sink in water, which has a density of 1 g/cm³? Explain.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly compare the density of the metal block with the density of water.",
+          "Provide a clear explanation based on the comparison."
+        ],
+        "hints": [
+          "Stay focused on this: Will the block of metal float or sink in water, which has a density of 1 g/cm³? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear explanation based on the comparison."
+        ],
+        "model_answer": "The block of metal will sink in water because its density (8 g/cm³) is greater than the density of water (1 g/cm³).",
+        "explanation": "Objects sink in a fluid if their density is greater than the fluid's density. Since the metal block's density is higher than water's, it will sink.",
+        "exam_question_id": "c7ad8ff6-31d0-4589-949c-4e6facbe7b69:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "image_url": "/textbook-images/textbook-bank/35/s129-f0.jpg",
+        "image_alt": "A tall upright water tank with rounded top and bottom, filled with light blue water. A pipe at the top leads left, with an arrow labelled 'hot water out'. At the bottom left a pipe has an arrow pointing in, labelled 'cold water in'. Near the bottom inside the tank is a red electric heater element, and the labels 'water' and 'electric heater' point to the water and the heater.\nLabels: hot water out, water, cold water in, electric heater\nOriginal exercise: The diagram shows a water tank with an electric heater to heat the water.",
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A metal block has a mass of 300 g and a volume of 40 cm³.",
+        "question": "Calculate its density.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly apply the density formula (density = mass/volume).",
+          "Provide the answer with the correct units (g/cm³)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density — develop the idea fully rather than listing short points. Make sure you also cover: Provide the answer with the correct units (g/cm³)."
+        ],
+        "model_answer": "Density = mass / volume = 300 g / 40 cm³ = 7.5 g/cm³",
+        "explanation": "To find the density of the metal block, divide its mass by its volume.",
+        "exam_question_id": "59051593-f0f3-43e7-8cac-f713e79af732:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A metal block has a mass of 300 g and a volume of 40 cm³.",
+        "question": "Will the metal block float or sink in water? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the density of the metal block to the density of water.",
+          "State whether the metal block will float or sink based on the comparison.",
+          "Provide a clear explanation of the reasoning."
+        ],
+        "hints": [
+          "Stay focused on this: Will the metal block float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: whether the metal block will float or sink based on the comparison.; Provide a clear explanation of the reasoning."
+        ],
+        "model_answer": "The metal block will sink in water because its density (7.5 g/cm³) is greater than the density of water (1 g/cm³). Objects with a density greater than water will sink.",
+        "explanation": "Objects sink in a fluid if their density is greater than the fluid's density. Here, the metal block's density is higher than water's, so it will sink.",
+        "exam_question_id": "59051593-f0f3-43e7-8cac-f713e79af732:1",
+        "topic_label": "3 Forces and energy",
+        "topic_id": 444,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3 Forces and energy"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A block of metal has a mass of 300 g and a volume of 40 cm³.",
+        "question": "Calculate its density.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of density using mass and volume.",
+          "Correct units for density."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of density using and; Correct units for density."
+        ],
+        "model_answer": "Density = mass / volume = 300 g / 40 cm³ = 7.5 g/cm³",
+        "explanation": "To find the density of the metal block, divide the mass by the volume. Ensure to use the correct units for density.",
+        "exam_question_id": "0ff25ee7-6414-4d7c-9ef6-31fac94755a3:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A block of metal has a mass of 300 g and a volume of 40 cm³.",
+        "question": "Will it float or sink in water? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct comparison of the density of the metal block and water.",
+          "Correct explanation based on the comparison.",
+          "Correct conclusion about whether the block will float or sink."
+        ],
+        "hints": [
+          "Stay focused on this: Will it float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Correct comparison of the of the and water.; Correct explanation based on the comparison.; Correct conclusion about whether the will float or sink."
+        ],
+        "model_answer": "The density of the metal block is 7.5 g/cm³, which is greater than the density of water (1 g/cm³). Therefore, the block will sink in water.",
+        "explanation": "The block will sink because its density is greater than the density of water.",
+        "exam_question_id": "0ff25ee7-6414-4d7c-9ef6-31fac94755a3:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Marcus did an experiment to compare the rate of photosynthesis of two types of seaweed. Seaweeds are plant-like organisms that live in sea water. The diagram shows the apparatus he used.",
+        "question": "Name the gas in the bubbles produced by the seaweed in the measuring cylinder.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the gas produced during photosynthesis.",
+          "Recall that oxygen is produced during photosynthesis."
+        ],
+        "hints": [
+          "Consider the process of photosynthesis."
+        ],
+        "model_answer": "The gas in the bubbles is oxygen.",
+        "explanation": "During photosynthesis, plants like seaweed produce oxygen as a byproduct, which is collected in the measuring cylinder.",
+        "exam_question_id": "4cd496b4-b8fc-4cf6-a17f-0d6a7477a3fd:1",
+        "topic_label": "1.1 Photosynthesis",
+        "topic_id": 442,
+        "image_url": "/textbook-images/textbook-bank/35/s49-f0.jpg",
+        "image_alt": "A drawing of apparatus: a beaker of sea water holds an upside down funnel with a piece of seaweed inside it. The narrow stem of the funnel leads into a measuring cylinder that stands upside down in the water and has a scale and small bubbles rising inside. Labels point to the measuring cylinder, beaker, sea water, upside down funnel and seaweed. The figure also has the printed marks [1], [3] and [2] at the right.\nLabels: measuring cylinder, beaker, sea water, [1], upside down funnel, [3], seaweed, [2]\nOriginal exercise: Marcus did an experiment to compare the rate of photosynthesis of two type",
+        "checked": true,
+        "subtopic_id": 1966,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1.1 Photosynthesis"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Marcus did an experiment to compare the rate of photosynthesis of two types of seaweed. Seaweeds are plant-like organisms that live in sea water. The diagram shows the apparatus he used.",
+        "question": "Explain why the number of bubbles increased when Marcus moved the lamp closer to the seaweed.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of light in photosynthesis.",
+          "Explain how increased light intensity affects the rate of photosynthesis.",
+          "Relate the increase in photosynthesis rate to the number of bubbles."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the number of bubbles increased when Marcus moved the lamp closer to the seaweed — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of in; how increased intensity affects the of."
+        ],
+        "model_answer": "When Marcus moved the lamp closer to the seaweed, the number of bubbles increased because more light energy was available. This increased the rate of photosynthesis, leading to more oxygen being produced and collected as bubbles in the measuring cylinder.",
+        "explanation": "Light is a key factor in the rate of photosynthesis. More light energy allows the seaweed to photosynthesise more efficiently, producing more oxygen, which is observed as an increase in the number of bubbles.",
+        "exam_question_id": "4cd496b4-b8fc-4cf6-a17f-0d6a7477a3fd:1",
+        "topic_label": "1.2 More about photosynthesis",
+        "topic_id": 442,
+        "image_url": "/textbook-images/textbook-bank/35/s49-f0.jpg",
+        "image_alt": "A drawing of apparatus: a beaker of sea water holds an upside down funnel with a piece of seaweed inside it. The narrow stem of the funnel leads into a measuring cylinder that stands upside down in the water and has a scale and small bubbles rising inside. Labels point to the measuring cylinder, beaker, sea water, upside down funnel and seaweed. The figure also has the printed marks [1], [3] and [2] at the right.\nLabels: measuring cylinder, beaker, sea water, [1], upside down funnel, [3], seaweed, [2]\nOriginal exercise: Marcus did an experiment to compare the rate of photosynthesis of two type",
+        "checked": true,
+        "subtopic_id": 1967,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1.2 More about photosynthesis"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A block of metal has a mass of 180 g and a volume of 20 cm³.",
+        "question": "Calculate its density.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify mass and volume.",
+          "Correctly apply the density formula."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify and; Correctly apply the density formula."
+        ],
+        "model_answer": "Density = mass / volume = 180 g / 20 cm³ = 9 g/cm³.",
+        "explanation": "To find the density of the metal block, divide the mass by the volume.",
+        "exam_question_id": "7de2831d-a5f3-40d4-b1c6-2b63b31257d1:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A block of metal has a mass of 180 g and a volume of 20 cm³.",
+        "question": "Will the block float or sink in water? Explain.",
+        "marks": 2,
+        "marking_criteria": [
+          "Compare the density of the metal block to the density of water.",
+          "Correctly explain the relationship between density and floating/sinking."
+        ],
+        "hints": [
+          "Stay focused on this: Will the block float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Correctly explain the relationship between and floating/sinking."
+        ],
+        "model_answer": "The block will sink in water because its density (9 g/cm³) is greater than the density of water (1 g/cm³). Objects with a higher density than water will sink.",
+        "explanation": "Objects sink in a fluid if their density is greater than the fluid's density.",
+        "exam_question_id": "7de2831d-a5f3-40d4-b1c6-2b63b31257d1:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A block of metal has a mass of 200 g and a volume of 25 cm³. Calculate its density.",
+        "question": "Calculate its density.",
+        "marks": 2,
+        "marking_criteria": [
+          "State the formula for density.",
+          "Substitute the given values into the formula and calculate the density."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the given values into the formula and calculate the density."
+        ],
+        "model_answer": "Density = mass/volume = 200 g / 25 cm³ = 8 g/cm³",
+        "explanation": "To find the density of the metal block, divide the mass by the volume.",
+        "exam_question_id": "cd36562d-e22e-41d6-942f-387bd1459736:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A block of metal has a mass of 200 g and a volume of 25 cm³. Calculate its density.",
+        "question": "Will it float or sink in water, which has a density of 1 g/cm³? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the density of the metal block with the density of water.",
+          "State whether the metal block will float or sink based on the comparison.",
+          "Provide a clear explanation for the conclusion."
+        ],
+        "hints": [
+          "Stay focused on this: Will it float or sink in water, which has a density of 1 g/cm³? Explain — develop the idea fully rather than listing short points. Make sure you also cover: whether the will float or sink based on the comparison.; Provide a clear explanation for the conclusion."
+        ],
+        "model_answer": "The density of the metal block is 8 g/cm³, which is greater than the density of water (1 g/cm³). Therefore, the metal block will sink in water.",
+        "explanation": "An object will sink in a fluid if its density is greater than the fluid's density.",
+        "exam_question_id": "cd36562d-e22e-41d6-942f-387bd1459736:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A block of metal has a mass of 270 g and a volume of 35 cm³.",
+        "question": "Calculate its density.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly apply the density formula (density = mass ÷ volume).",
+          "Provide the correct numerical answer with appropriate units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the density formula (density = ÷; Provide the correct numerical answer with appropriate units."
+        ],
+        "model_answer": "Density = mass ÷ volume = 270 g ÷ 35 cm³ = 7.71 g/cm³",
+        "explanation": "To find the density of the block of metal, divide its mass by its volume. Ensure you use the correct units for your answer.",
+        "exam_question_id": "857733b4-d610-479f-9e94-f795c8ac56b5:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A block of metal has a mass of 270 g and a volume of 35 cm³.",
+        "question": "Will it float or sink in water? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Compare the density of the metal block to the density of water.",
+          "Explain whether the metal block will float or sink based on the comparison.",
+          "Provide a clear and logical explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Will it float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: whether the will float or sink based on the comparison.; Provide a clear and logical explanation."
+        ],
+        "model_answer": "The density of the metal block is 7.71 g/cm³, which is greater than the density of water (1 g/cm³). Therefore, the metal block will sink in water because it is denser than water.",
+        "explanation": "To determine if the metal block will float or sink, compare its density to the density of water. If the metal block's density is greater, it will sink.",
+        "exam_question_id": "857733b4-d610-479f-9e94-f795c8ac56b5:1",
+        "topic_label": "3 Forces and energy",
+        "topic_id": 444,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3 Forces and energy"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A block of metal has a mass of 180 g and a volume of 20 cm³. The diagram shows a car engine cooling system.",
+        "question": "Calculate the density of the block of metal.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify mass and volume from the scenario.",
+          "Correctly apply the density formula: density = mass / volume."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the density of the block of metal — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify and from the scenario.; Correctly apply the density formula: density = /."
+        ],
+        "model_answer": "Density = mass / volume = 180 g / 20 cm³ = 9 g/cm³",
+        "explanation": "To find the density of the block of metal, divide its mass by its volume.",
+        "exam_question_id": "b0c39e9b-a3f4-4f94-9838-8ced02e5f29e:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "image_url": "/textbook-images/textbook-bank/35/s119-f0.jpg",
+        "image_alt": "A simplified diagram of a car engine cooling system. An engine block containing four cylinders is joined to a radiator by a top hose, which carries coolant from the top of the engine block to the top of the radiator, and a bottom hose, which carries coolant from the bottom of the radiator back to the engine block. Red arrows show hot coolant rising past the cylinders and moving along the top hose. Red-to-blue arrows show the coolant cooling as it flows down the radiator tubes. Blue arrows show cooled coolant returning through the bottom hose and moving across the cylinders.\nLabels: engine bloc",
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A block of metal has a mass of 180 g and a volume of 20 cm³. The diagram shows a car engine cooling system.",
+        "question": "Will the block float or sink in water, which has a density of 1 g/cm³? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly compare the density of the block with the density of water.",
+          "Provide a clear explanation based on the comparison.",
+          "Use correct units and terminology."
+        ],
+        "hints": [
+          "Stay focused on this: Will the block float or sink in water, which has a density of 1 g/cm³? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear explanation based on the comparison.; correct units and terminology."
+        ],
+        "model_answer": "The block will sink in water because its density (9 g/cm³) is greater than the density of water (1 g/cm³).",
+        "explanation": "Objects sink in a fluid if their density is greater than the fluid's density.",
+        "exam_question_id": "b0c39e9b-a3f4-4f94-9838-8ced02e5f29e:1",
+        "topic_label": "3.1 Density",
+        "topic_id": 444,
+        "image_url": "/textbook-images/textbook-bank/35/s119-f0.jpg",
+        "image_alt": "A simplified diagram of a car engine cooling system. An engine block containing four cylinders is joined to a radiator by a top hose, which carries coolant from the top of the engine block to the top of the radiator, and a bottom hose, which carries coolant from the bottom of the radiator back to the engine block. Red arrows show hot coolant rising past the cylinders and moving along the top hose. Red-to-blue arrows show the coolant cooling as it flows down the radiator tubes. Blue arrows show cooled coolant returning through the bottom hose and moving across the cylinders.\nLabels: engine bloc",
+        "checked": true,
+        "subtopic_id": 1974,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.1 Density"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A block of metal has a mass of 180 g and a volume of 20 cm³. The diagram shows a car engine cooling system.",
+        "question": "Describe how the cooling system works to maintain the engine's temperature.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the role of the engine block, top hose, radiator, and bottom hose.",
+          "Explain the flow of coolant and its temperature change.",
+          "Use correct terminology related to heat transfer and energy flow."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the cooling system works to maintain the engine's temperature — develop the idea fully rather than listing short points. Make sure you also cover: Identify the role of the engine top and; the flow of and its temperature change.; correct terminology related to transfer and energy flow."
+        ],
+        "model_answer": "Hot coolant rises from the engine block through the top hose to the radiator, where it loses heat and cools down. The cooled coolant then flows down through the bottom hose back to the engine block. This cycle helps maintain the engine's temperature.",
+        "explanation": "The cooling system works by transferring heat from the engine to the coolant and then dissipating that heat through the radiator.",
+        "exam_question_id": "b0c39e9b-a3f4-4f94-9838-8ced02e5f29e:1",
+        "topic_label": "3.2 Heat and temperature",
+        "topic_id": 444,
+        "image_url": "/textbook-images/textbook-bank/35/s119-f0.jpg",
+        "image_alt": "A simplified diagram of a car engine cooling system. An engine block containing four cylinders is joined to a radiator by a top hose, which carries coolant from the top of the engine block to the top of the radiator, and a bottom hose, which carries coolant from the bottom of the radiator back to the engine block. Red arrows show hot coolant rising past the cylinders and moving along the top hose. Red-to-blue arrows show the coolant cooling as it flows down the radiator tubes. Blue arrows show cooled coolant returning through the bottom hose and moving across the cylinders.\nLabels: engine bloc",
+        "checked": true,
+        "subtopic_id": 1975,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "3.2 Heat and temperature"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A block of metal has a mass of 180 g and a volume of 20 cm³.",
+        "question": "Calculate its density.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly state the formula for density.",
+          "Substitute the given values into the formula and calculate the density."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate its density — develop the idea fully rather than listing short points. Make sure you also cover: Correctly state the formula for density.; Substitute the given values into the formula and calculate the density."
+        ],
+        "model_answer": "Density = mass / volume = 180 g / 20 cm³ = 9 g/cm³",
+        "explanation": "To find the density of the metal block, divide its mass by its volume.",
+        "exam_question_id": "9a11f972-2bf5-408b-85e2-61eb39826092:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A block of metal has a mass of 180 g and a volume of 20 cm³.",
+        "question": "Will the block float or sink in water? Explain.",
+        "marks": 3,
+        "marking_criteria": [
+          "State the density of water.",
+          "Compare the density of the metal block to the density of water.",
+          "Provide a clear explanation based on the comparison."
+        ],
+        "hints": [
+          "Stay focused on this: Will the block float or sink in water? Explain — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear explanation based on the comparison."
+        ],
+        "model_answer": "The density of the metal block is 9 g/cm³, which is greater than the density of water (1 g/cm³). Therefore, the block will sink in water.",
+        "explanation": "A substance will sink in water if its density is greater than that of water.",
+        "exam_question_id": "9a11f972-2bf5-408b-85e2-61eb39826092:1",
+        "topic_label": "1 Photosynthesis and the carbon cycle",
+        "topic_id": 442,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Lower Secondary Science 9 Learners Book",
+          "area": "1 Photosynthesis and the carbon cycle"
+        }
+      }
+    ],
+    "estimated_time": 51,
+    "assessment_id": "ebd63a8b-e88e-46a2-9407-1b395b3e8738",
+    "subject": "Cambridge Lower Secondary Science 9 Learners Book",
+    "topics": [
+      "3 Forces and energy",
+      "1 Photosynthesis and the carbon cycle"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 35,
+    "topic_ids": [
+      444,
+      442
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 21,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "7 questions open with the same sentence (1, 5, 7, 11, 13, 15, 20): \"Calculate its density.\""
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 0,
+      "detail": "3 words: \"Calculate its density.\""
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 4,
+      "detail": "3 words: \"Calculate its density.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 6,
+      "detail": "3 words: \"Calculate its density.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 10,
+      "detail": "3 words: \"Calculate its density.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 12,
+      "detail": "3 words: \"Calculate its density.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 14,
+      "detail": "3 words: \"Calculate its density.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 8"
+    },
+    {
+      "code": "stem-too-short",
+      "severity": "poor",
+      "index": 19,
+      "detail": "3 words: \"Calculate its density.\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 12"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1a, 2a, 3a, 4a, 6a, 7a, 10a",
+        "severity": "poor",
+        "detail": "Repeated question with identical data (mass 240g/300g/180g/200g/270g, volume 30cm³/40cm³/20cm³/25cm³/35cm³) across multiple assessment items. Questions 1a, 2a, 3a, 4a, 6a, 7a, 10a are substantively identical density calculations with different numerical values but same pedagogical purpose.",
+        "correction": "Reduce repetition by consolidating similar density calculations or varying the context/application significantly (e.g., different materials, real-world scenarios, or progressing difficulty)."
+      },
+      {
+        "label": "4a, 4b, 6a, 6b, 7a, 7b, 10a, 10b",
+        "severity": "broken",
+        "detail": "Topic mismatch: Questions labeled under '1 Photosynthesis and the carbon cycle' (topic_id 442) but content is density and floating/sinking (Forces and energy topic). Questions 4, 6, 7, 10 have incorrect topic assignment.",
+        "correction": "Reassign questions 4a, 4b, 6a, 6b, 7a, 7b, 10a, 10b to topic_id 444 '3 Forces and energy' / '3.1 Density' to match content."
+      },
+      {
+        "label": "2a, 2b",
+        "severity": "poor",
+        "detail": "Context mismatch: Questions about metal block density appear under 'water tank with electric heater' context. The context figure and questions are unrelated; context should describe the metal block scenario.",
+        "correction": "Either remove the water tank context or create questions about the cooling system (as attempted in question 9c). Align context with question content."
+      },
+      {
+        "label": "1, 2",
+        "severity": "poor",
+        "detail": "Sankey diagram (energy transfer: 100J electrical → 80J light/sound + X J thermal) is provided but never referenced in questions 1a, 1b, 2a, 2b. The diagram appears orphaned from the density questions.",
+        "correction": "Either remove the diagram or create questions about energy transfer (e.g., 'Calculate X' or 'Explain energy loss'). Do not include unused figures."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Model answer states 7.71 g/cm³ but 270÷35 = 7.714... Rounding to 2 decimal places (7.71) is reasonable but marking criteria do not specify acceptable precision/rounding rules for this calculation.",
+        "correction": "Clarify in marking criteria: 'Accept 7.7 g/cm³ or 7.71 g/cm³ (to 2 d.p.)' or specify rounding convention."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Question asks to explain why bubbles increased when lamp moved closer, but the assessment does not provide data showing this occurred (e.g., bubble count before/after, distance measurements). The explanation assumes an experimental result not presented.",
+        "correction": "Provide quantitative data (e.g., 'At 10 cm: 5 bubbles/min; at 5 cm: 12 bubbles/min') or rephrase as 'Explain why moving the lamp closer would increase the rate of photosynthesis.'"
+      },
+      {
+        "label": "9c",
+        "severity": "poor",
+        "detail": "Question 9c about cooling system appears disconnected from questions 9a, 9b about metal block density. The context mentions both (metal block + cooling system diagram) but they are separate topics. Question 9c requires knowledge not tested in 9a/9b.",
+        "correction": "Either create a cohesive multi-part question about the cooling system alone, or remove 9c and keep 9a/9b focused on density."
+      }
+    ],
+    "summary": "Assessment contains 7 substantive issues: excessive repetition of identical density calculations (7 instances), topic mismatches for 8 questions (labeled photosynthesis but testing density), context-question misalignment (water tank context unused), orphaned Sankey diagram, unspecified rounding rules, missing experimental data for photosynthesis question, and disconnected cooling system question. Recommend consolidating repetitive items, correcting topic assignments, and aligning contexts with questions."
+  },
+  "totalSeconds": 59
+}

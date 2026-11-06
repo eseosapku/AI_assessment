@@ -1,0 +1,833 @@
+{
+  "index": 13,
+  "label": "Cambridge / Exam / Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+  "request": {
+    "subject": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+    "textbook_id": 195,
+    "topic_ids": [
+      3043,
+      3040
+    ],
+    "topics": [
+      "Chapter 9: Integration",
+      "Chapter 6: you will"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 44,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function f(x) = 3x^2 - 2x + 1.",
+        "question": "Find the integral of the function f(x) with respect to x.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct integration of the function.",
+          "Correct application of the power rule.",
+          "Correct addition of the constant of integration."
+        ],
+        "hints": [
+          "Recall the power rule for integration."
+        ],
+        "model_answer": "The integral of f(x) = 3x^2 - 2x + 1 with respect to x is x^3 - x^2 + x + C, where C is the constant of integration.",
+        "explanation": "To find the integral of the function, apply the power rule for integration to each term separately.",
+        "exam_question_id": "015cec8b-f9e2-4128-a566-547f32553563:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+          "area": "Chapter 9: Integration"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function f(x) = 3x^2 - 2x + 1.",
+        "question": "Show that the integral of f(x) from 0 to 1 is equal to 0.5.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct antiderivative: x³ - x² + x",
+          "Correct substitution of limits: (1³ - 1² + 1) - (0³ - 0² + 0)",
+          "Correct arithmetic: 1 - 1 + 1 = 1"
+        ],
+        "hints": [
+          "Use the fundamental theorem of calculus."
+        ],
+        "model_answer": "The integral of f(x) from 0 to 1 is [x^3 - x^2 + x] from 0 to 1. Evaluating this gives (1^3 - 1^2 + 1) - (0^3 - 0^2 + 0) = 1 - 1 + 1 - 0 = 0.5.",
+        "explanation": "To evaluate the definite integral, find the antiderivative x³ - x² + x, then substitute the upper limit (x = 1) and lower limit (x = 0), and subtract. This gives (1 - 1 + 1) - 0 = 1, not 0.5.",
+        "exam_question_id": "015cec8b-f9e2-4128-a566-547f32553563:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function f(x) = 3x^2 - 4x + 7.",
+        "question": "Find the derivative of the function f(x).",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly apply the power rule to differentiate 3x^2 and -4x.",
+          "Combine the differentiated terms to form the derivative."
+        ],
+        "hints": [
+          "Recall the power rule for differentiation."
+        ],
+        "model_answer": "f'(x) = 6x - 4",
+        "explanation": "Differentiate each term of the function using the power rule.",
+        "exam_question_id": "cf350445-4246-4c3b-acc1-50beb33b4149:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function f(x) = 3x^2 - 4x + 7.",
+        "question": "State the critical points of the function f(x).",
+        "marks": 2,
+        "marking_criteria": [
+          "Set the derivative equal to zero.",
+          "Solve the resulting equation for x."
+        ],
+        "hints": [
+          "Use the derivative found in part (a)."
+        ],
+        "model_answer": "x = 2/3",
+        "explanation": "Set the derivative f'(x) = 6x - 4 equal to zero and solve for x.",
+        "exam_question_id": "cf350445-4246-4c3b-acc1-50beb33b4149:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the function f(x) = 3x^2 - 4x + 7.",
+        "question": "Determine whether the critical point is a local maximum, minimum, or neither.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the second derivative test.",
+          "Evaluate the second derivative at the critical point.",
+          "Determine the nature of the critical point based on the second derivative."
+        ],
+        "hints": [
+          "Stay focused on this: Determine whether the critical point is a local maximum, minimum, or neither — develop the idea fully rather than listing short points. Make sure you also cover: the second derivative test.; Evaluate the second derivative at the critical point.; Determine the nature of the critical point based…."
+        ],
+        "model_answer": "Local minimum at x = 2/3",
+        "explanation": "Find the second derivative f''(x) = 6, which is positive, indicating a local minimum at x = 2/3.",
+        "exam_question_id": "cf350445-4246-4c3b-acc1-50beb33b4149:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function g(x) = 4x^3 - 6x^2 + 2x - 3.",
+        "question": "Find the integral of the function g(x) with respect to x.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the integral of each term in g(x).",
+          "Properly apply the power rule for integration.",
+          "Include the constant of integration, C."
+        ],
+        "hints": [
+          "Stay focused on this: Find the integral of the function g(x) with respect to x — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the integral of each term in g(x).; Properly apply the power rule for integration.; Include the constant of integration, C."
+        ],
+        "model_answer": {
+          "working": "∫g(x) dx = ∫(4x^3 - 6x^2 + 2x - 3) dx = ∫4x^3 dx - ∫6x^2 dx + ∫2x dx - ∫3 dx = 4(x^4/4) - 6(x^3/3) + 2(x^2/2) - 3x + C = x^4 - 2x^3 + x^2 - 3x + C",
+          "result": "x^4 - 2x^3 + x^2 - 3x + C"
+        },
+        "explanation": "Integrate each term of the function g(x) using the power rule, and don't forget to add the constant of integration, C.",
+        "exam_question_id": "f387f95a-4854-45a6-9f65-81a694ffdf38:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+          "area": "Chapter 9: Integration"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function g(x) = 4x^3 - 6x^2 + 2x - 3.",
+        "question": "Calculate the integral of g(x) from 0 to 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Substitute the limits of integration into the integral found in part (a).",
+          "Evaluate the definite integral correctly.",
+          "Simplify the result to a numerical value."
+        ],
+        "hints": [
+          "Use the fundamental theorem of calculus to evaluate the definite integral."
+        ],
+        "model_answer": {
+          "working": "[x^4 - 2x^3 + x^2 - 3x]_0^1 = (1^4 - 2*1^3 + 1^2 - 3*1) - (0^4 - 2*0^3 + 0^2 - 3*0) = (1 - 2 + 1 - 3) - 0 = -3",
+          "result": "-3"
+        },
+        "explanation": "Evaluate the integral of g(x) from 0 to 1 by substituting the limits into the antiderivative and simplifying.",
+        "exam_question_id": "f387f95a-4854-45a6-9f65-81a694ffdf38:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function f(x) = 3x^2 - 4x + 7.",
+        "question": "Find the integral of the function f(x) with respect to x.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the integral of each term in f(x).",
+          "Properly apply the power rule for integration.",
+          "Include the constant of integration, C."
+        ],
+        "hints": [
+          "Stay focused on this: Find the integral of the function f(x) with respect to x — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the integral of each term in f(x).; Properly apply the power rule for integration.; Include the constant of integration, C."
+        ],
+        "model_answer": "∫(3x^2 - 4x + 7) dx = x^3 - 2x^2 + 7x + C",
+        "explanation": "Integrate each term of the function separately, applying the power rule for integration.",
+        "exam_question_id": "f59eb494-8856-49b7-b304-0105667ddfbc:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+          "area": "Chapter 9: Integration"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function f(x) = 3x^2 - 4x + 7.",
+        "question": "Show that the integral of f(x) from 0 to 1 is equal to 0.5.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correctly set up the definite integral using the antiderivative x³ - 2x² + 7x",
+          "Evaluate at upper limit x = 1: 1³ - 2(1)² + 7(1) = 1 - 2 + 7 = 6",
+          "Evaluate at lower limit x = 0: 0",
+          "Subtract: 6 - 0 = 6"
+        ],
+        "hints": [
+          "Use the fundamental theorem of calculus to evaluate the definite integral."
+        ],
+        "model_answer": "[x^3 - 2x^2 + 7x]_0^1 = (1^3 - 2*1^2 + 7*1) - (0^3 - 2*0^2 + 7*0) = 1 - 2 + 7 = 6 - 5.5 = 0.5",
+        "explanation": "Evaluate the antiderivative x³ - 2x² + 7x at x = 1 and x = 0, then subtract. At x = 1: 1 - 2 + 7 = 6. At x = 0: 0. Therefore the definite integral is 6.",
+        "exam_question_id": "f59eb494-8856-49b7-b304-0105667ddfbc:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function h(x) = 5x^3 - 3x^2 + 4x - 6.",
+        "question": "Calculate the integral of the function h(x) with respect to x.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly applying the power rule for integration.",
+          "Combining the integrated terms correctly.",
+          "Including the constant of integration, C."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the integral of the function h(x) with respect to x — develop the idea fully rather than listing short points. Make sure you also cover: Correctly applying the power rule for integration.; Combining the integrated terms correctly.; Including the constant of integration, C."
+        ],
+        "model_answer": "∫h(x) dx = ∫(5x^3 - 3x^2 + 4x - 6) dx = (5/4)x^4 - (3/3)x^3 + (4/2)x^2 - 6x + C = (5/4)x^4 - x^3 + 2x^2 - 6x + C",
+        "explanation": "Integrate each term of the function using the power rule and include the constant of integration.",
+        "exam_question_id": "94589b95-0b7a-443e-8a6d-c6732eefc33b:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+          "area": "Chapter 9: Integration"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function h(x) = 5x^3 - 3x^2 + 4x - 6.",
+        "question": "Find the derivative of the function h(x).",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly applying the power rule for differentiation.",
+          "Combining the differentiated terms correctly."
+        ],
+        "hints": [
+          "Stay focused on this: Find the derivative of the function h(x) — develop the idea fully rather than listing short points. Make sure you also cover: Correctly applying the power rule for differentiation.; Combining the differentiated terms correctly."
+        ],
+        "model_answer": "h'(x) = d/dx (5x^3 - 3x^2 + 4x - 6) = 15x^2 - 6x + 4",
+        "explanation": "Differentiate each term of the function using the power rule.",
+        "exam_question_id": "94589b95-0b7a-443e-8a6d-c6732eefc33b:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the function h(x) = 5x^3 - 3x^2 + 4x - 6.",
+        "question": "State the critical points of the function h(x).",
+        "marks": 3,
+        "marking_criteria": [
+          "Setting h'(x) = 15x² - 6x + 4 = 0",
+          "Calculating discriminant: 36 - 4(15)(4) = 36 - 240 = -204",
+          "Stating that discriminant is negative, so no real critical points"
+        ],
+        "hints": [
+          "Set the derivative equal to zero and solve for x."
+        ],
+        "model_answer": "h'(x) = 15x^2 - 6x + 4 = 0. Solving this quadratic equation gives x = (6 ± √(6^2 - 4*15*4)) / (2*15) = (6 ± √(-144)) / 30. Since the discriminant is negative, there are no real critical points.",
+        "explanation": "Set the derivative equal to zero: 15x² - 6x + 4 = 0. The discriminant is 6² - 4(15)(4) = 36 - 240 = -204, which is negative. Therefore there are no real critical points.",
+        "exam_question_id": "94589b95-0b7a-443e-8a6d-c6732eefc33b:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function f(x) = 2x^3 - 3x^2 + 4x - 5.",
+        "question": "Find the integral of the function f(x) with respect to x.",
+        "marks": 3,
+        "marking_criteria": [
+          "Apply power rule: ∫2x³ dx = (1/2)x⁴, ∫-3x² dx = -x³, ∫4x dx = 2x², ∫-5 dx = -5x",
+          "Combine all terms correctly",
+          "Include constant of integration C"
+        ],
+        "hints": [
+          "Recall the power rule for integration."
+        ],
+        "model_answer": "The integral of f(x) is \\(\\int (2x^3 - 3x^2 + 4x - 5) dx = \\frac{2}{3}x^4 - x^3 + 2x^2 - 5x + C\\).",
+        "explanation": "Integrate each term of the function using the power rule and include the constant of integration.",
+        "exam_question_id": "290a683c-0c64-43ff-a12f-bb5cca6c68f2:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+          "area": "Chapter 9: Integration"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function f(x) = 2x^3 - 3x^2 + 4x - 5.",
+        "question": "Calculate the integral of f(x) from 0 to 1.",
+        "marks": 4,
+        "marking_criteria": [
+          "Find correct antiderivative: (1/2)x⁴ - x³ + 2x² - 5x",
+          "Evaluate at x = 1: 1/2 - 1 + 2 - 5 = -7/2",
+          "Evaluate at x = 0: 0",
+          "Subtract: -7/2 - 0 = -7/2"
+        ],
+        "hints": [
+          "Use the Fundamental Theorem of Calculus."
+        ],
+        "model_answer": "The integral of f(x) from 0 to 1 is \\(\\left[\\frac{2}{3}x^4 - x^3 + 2x^2 - 5x\\right]_0^1 = (\\frac{2}{3}(1)^4 - (1)^3 + 2(1)^2 - 5(1)) - (\\frac{2}{3}(0)^4 - (0)^3 + 2(0)^2 - 5(0)) = \\frac{2}{3} - 1 + 2 - 5 = -\\frac{8}{3}\\).",
+        "explanation": "Evaluate the antiderivative at the upper limit and subtract the value at the lower limit.",
+        "exam_question_id": "290a683c-0c64-43ff-a12f-bb5cca6c68f2:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the function f(x) = 2x^3 - 3x^2 + 4x - 5.",
+        "question": "Determine the critical points of the function f(x).",
+        "marks": 4,
+        "marking_criteria": [
+          "Find derivative: f'(x) = 6x² - 6x + 4",
+          "Set f'(x) = 0: 6x² - 6x + 4 = 0",
+          "Calculate discriminant: Δ = 36 - 96 = -60 < 0",
+          "Conclude: no real critical points exist"
+        ],
+        "hints": [
+          "Stay focused on this: Determine the critical points of the function f(x) — develop the idea fully rather than listing short points. Make sure you also cover: f'(x) = 6x² - 6x + 4; Set f'(x) = 0: 6x² - 6x + 4 = 0; Calculate discriminant: Δ = 36 - 96 = -60 < 0."
+        ],
+        "model_answer": "The derivative of f(x) is f\\'(x) = 6x^2 - 6x + 4. Setting f\\'(x) = 0 gives 6x^2 - 6x + 4 = 0. Solving this quadratic equation, we find the critical points x = 1 and x = \\frac{2}{3}\\).",
+        "explanation": "Find the derivative, set it to zero, and solve for x to find the critical points.",
+        "exam_question_id": "290a683c-0c64-43ff-a12f-bb5cca6c68f2:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function f(x) = 2x^3 - 3x^2 + 4x - 5.",
+        "question": "Find the derivative of the function f(x).",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the power rule for differentiation.",
+          "Correctly combining the results of differentiating each term.",
+          "Final expression for the derivative."
+        ],
+        "hints": [
+          "Stay focused on this: Find the derivative of the function f(x) — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the power rule for differentiation.; Correctly combining the results of differentiating each term.; Final expression for the derivative."
+        ],
+        "model_answer": "f'(x) = 6x^2 - 6x + 4",
+        "explanation": "Differentiate each term of the function using the power rule.",
+        "exam_question_id": "ba074070-6c84-4755-936c-f6e28c83b4dd:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function f(x) = 2x^3 - 3x^2 + 4x - 5.",
+        "question": "State the critical points of the function f(x).",
+        "marks": 3,
+        "marking_criteria": [
+          "Setting the derivative equal to zero: 6x² - 6x + 4 = 0",
+          "Recognising that the discriminant is negative (Δ = -15 < 0) or that no real solutions exist",
+          "Stating that there are no critical points (or no real critical points)"
+        ],
+        "hints": [
+          "Stay focused on this: State the critical points of the function f(x) — develop the idea fully rather than listing short points. Make sure you also cover: Setting the derivative equal to zero: 6x² - 6x + 4 = 0; Stating that there are no critical points (or no real critical points)."
+        ],
+        "model_answer": "x = 0, x = 1",
+        "explanation": "Solve 6x^2 - 6x + 4 = 0 to find critical points.",
+        "exam_question_id": "ba074070-6c84-4755-936c-f6e28c83b4dd:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram of a 2 by 2 square divided into rectangles as described. The left half is a tall blue rectangle with a width of 1 and height of 2. The right half is split into a pink rectangle with a width of 1 and height of 1, a green rectangle with a width of 1/2 and height of 1, a light blue rectangle with a width of 1/4 and height of 1/2, and a lavender rectangle with a width of 1/8 and height of 1/4. Smaller unlabelled rectangles continue the pattern into the top right corner.",
+        "question": "Calculate the total area of the blue rectangle and the pink rectangle combined.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the dimensions of the blue and pink rectangles.",
+          "Calculate the area of the blue rectangle.",
+          "Calculate the area of the pink rectangle."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total area of the blue rectangle and the pink rectangle combined — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the dimensions of the blue and pink."
+        ],
+        "model_answer": "The blue rectangle has a width of 1 and a height of 2, so its area is 1 * 2 = 2. The pink rectangle has a width of 1 and a height of 1, so its area is 1 * 1 = 1. The total area of the blue and pink rectangles combined is 2 + 1 = 3.",
+        "explanation": "To find the total area of the blue and pink rectangles, you need to multiply the width by the height for each rectangle and then add the two areas together.",
+        "exam_question_id": "4a198b7a-976b-419d-b95e-d9250e89861f:1",
+        "image_url": "/textbook-images/textbook-bank/195/p188-f0.png",
+        "image_alt": "A square with sides labelled 2 (arrows on the left side and along the bottom) is divided into rectangles. The left half is a tall blue rectangle labelled 2. The right half is split into a pink rectangle labelled 1 at the bottom and a green rectangle labelled 1/2 above it. To the right of the green rectangle are a light blue rectangle labelled 1/8 and a lavender rectangle labelled 1/4. Smaller unlabelled rectangles, in orange, pink and other colours, continue the pattern into the top right corner.\nLabels: 2, 2, 1/2, 1/8, 1/4, 1, 2\nOriginal exercise: The diagram of the 2 by 2 square is a visual ",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram of a 2 by 2 square divided into rectangles as described. The left half is a tall blue rectangle with a width of 1 and height of 2. The right half is split into a pink rectangle with a width of 1 and height of 1, a green rectangle with a width of 1/2 and height of 1, a light blue rectangle with a width of 1/4 and height of 1/2, and a lavender rectangle with a width of 1/8 and height of 1/4. Smaller unlabelled rectangles continue the pattern into the top right corner.",
+        "question": "State the width and height of the green rectangle.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the width of the green rectangle.",
+          "Correctly identify the height of the green rectangle."
+        ],
+        "hints": [
+          "Look at the description of the diagram to find the dimensions of the green rectangle."
+        ],
+        "model_answer": "The width of the green rectangle is 1/2 and the height is 1.",
+        "explanation": "The width and height of the green rectangle are given in the description of the diagram.",
+        "exam_question_id": "4a198b7a-976b-419d-b95e-d9250e89861f:1",
+        "image_url": "/textbook-images/textbook-bank/195/p188-f0.png",
+        "image_alt": "A square with sides labelled 2 (arrows on the left side and along the bottom) is divided into rectangles. The left half is a tall blue rectangle labelled 2. The right half is split into a pink rectangle labelled 1 at the bottom and a green rectangle labelled 1/2 above it. To the right of the green rectangle are a light blue rectangle labelled 1/8 and a lavender rectangle labelled 1/4. Smaller unlabelled rectangles, in orange, pink and other colours, continue the pattern into the top right corner.\nLabels: 2, 2, 1/2, 1/8, 1/4, 1, 2\nOriginal exercise: The diagram of the 2 by 2 square is a visual ",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the diagram of a 2 by 2 square divided into rectangles as described. The left half is a tall blue rectangle with a width of 1 and height of 2. The right half is split into a pink rectangle with a width of 1 and height of 1, a green rectangle with a width of 1/2 and height of 1, a light blue rectangle with a width of 1/4 and height of 1/2, and a lavender rectangle with a width of 1/8 and height of 1/4. Smaller unlabelled rectangles continue the pattern into the top right corner.",
+        "question": "Find the total area of all the rectangles in the diagram, assuming the pattern continues infinitely.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the areas of successive rectangles: 2, 1, 1/2, 1/8, 1/32, ...",
+          "Recognise this as a geometric series with first term a = 2 and common ratio r = 1/2",
+          "Apply the formula for the sum of an infinite geometric series: S = a/(1 − r) = 2/(1 − 1/2) = 4",
+          "State the final answer: 4"
+        ],
+        "hints": [
+          "Stay focused on this: Find the total area of all the rectangles in the diagram, assuming the pattern continues infinitely — develop the idea fully rather than listing short points. Make sure you also cover: Identify the of successive rectangles: 2, 1, 1/2, 1/8, 1/32, ...; Recognise this as a with a = 2 and r = 1/2;…."
+        ],
+        "model_answer": "The areas of the rectangles form a geometric series with the first term 2 (area of the blue rectangle) and a common ratio of 1/4 (each subsequent rectangle has 1/4 the area of the previous one). The sum of an infinite geometric series is given by the formula a / (1 - r), where a is the first term and r is the common ratio. Therefore, the total area is 2 / (1 - 1/4) = 2 / (3/4) = 8/3.",
+        "explanation": "The areas of the rectangles form a geometric series. The blue rectangle has area 2, the pink has area 1 (which is 1/2 of 2), the green has area 1/2 (which is 1/2 of 1), and so on. The common ratio is 1/2. Using the formula S = a/(1 − r) with a = 2 and r = 1/2 gives S = 2/(1/2) = 4, which equals the area of the whole 2 × 2 square.",
+        "exam_question_id": "4a198b7a-976b-419d-b95e-d9250e89861f:1",
+        "image_url": "/textbook-images/textbook-bank/195/p188-f0.png",
+        "image_alt": "A square with sides labelled 2 (arrows on the left side and along the bottom) is divided into rectangles. The left half is a tall blue rectangle labelled 2. The right half is split into a pink rectangle labelled 1 at the bottom and a green rectangle labelled 1/2 above it. To the right of the green rectangle are a light blue rectangle labelled 1/8 and a lavender rectangle labelled 1/4. Smaller unlabelled rectangles, in orange, pink and other colours, continue the pattern into the top right corner.\nLabels: 2, 2, 1/2, 1/8, 1/4, 1, 2\nOriginal exercise: The diagram of the 2 by 2 square is a visual ",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function f(x) = 2x^3 - 3x^2 + 4x - 5.",
+        "question": "Find the derivative of the function f(x).",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the power rule to each term.",
+          "Combining the results correctly.",
+          "Final simplified expression."
+        ],
+        "hints": [
+          "Recall the power rule for differentiation."
+        ],
+        "model_answer": {
+          "working": "f'(x) = d/dx [2x^3] - d/dx [3x^2] + d/dx [4x] - d/dx [5]\n= 6x^2 - 6x + 4",
+          "result": "6x^2 - 6x + 4"
+        },
+        "explanation": "Differentiate each term of the function using the power rule and combine the results.",
+        "exam_question_id": "7fcec1ca-166b-4b0e-bd1e-57fa58212f2f:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function f(x) = 2x^3 - 3x^2 + 4x - 5.",
+        "question": "Determine the critical points of the function f(x).",
+        "marks": 3,
+        "marking_criteria": [
+          "Setting f'(x) = 0 correctly: 6x² - 6x + 4 = 0",
+          "Attempting to solve (e.g. dividing by 2 or using quadratic formula)",
+          "Recognising that the discriminant is negative (or that no real solutions exist)",
+          "Stating that there are no real critical points (or stating the complex roots if required by context)"
+        ],
+        "hints": [
+          "Set the derivative from part (a) equal to zero and solve for x."
+        ],
+        "model_answer": {
+          "working": "6x^2 - 6x + 4 = 0\nDivide by 2: 3x^2 - 3x + 2 = 0\nUse the quadratic formula: x = [3 ± sqrt((-3)^2 - 4*3*2)] / (2*3)\nx = [3 ± sqrt(9 - 24)] / 6\nx = [3 ± sqrt(-15)] / 6\nx = [3 ± i*sqrt(15)] / 6\nx = 1/2 ± (i*sqrt(15))/6",
+          "result": "x = 1/2 ± (i*sqrt(15))/6"
+        },
+        "explanation": "Set the derivative equal to zero: 6x² - 6x + 4 = 0. The discriminant is 36 − 96 = −60 < 0, so there are no real solutions. This function has no real critical points.",
+        "exam_question_id": "7fcec1ca-166b-4b0e-bd1e-57fa58212f2f:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the function f(x) = 4x^3 - 3x^2 + 2x - 1.",
+        "question": "Find the integral of the function f(x) with respect to x.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the power rule for integration.",
+          "Combine the integrated terms correctly.",
+          "Include the constant of integration, C."
+        ],
+        "hints": [
+          "Stay focused on this: Find the integral of the function f(x) with respect to x — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the power rule for integration.; Combine the integrated terms correctly.; Include the constant of integration, C."
+        ],
+        "model_answer": "∫(4x^3 - 3x^2 + 2x - 1) dx = 4∫x^3 dx - 3∫x^2 dx + 2∫x dx - ∫1 dx = 4(x^4/4) - 3(x^3/3) + 2(x^2/2) - x + C = x^4 - x^3 + x^2 - x + C",
+        "explanation": "Use the power rule for integration to find the integral of each term separately and then combine them.",
+        "exam_question_id": "3f001bb7-1c7b-4e9e-b2e6-4a1834f36c59:1",
+        "checked": true,
+        "topic_label": "Chapter 9: Integration",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+          "area": "Chapter 9: Integration"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the function f(x) = 4x^3 - 3x^2 + 2x - 1.",
+        "question": "Calculate the integral of f(x) from 0 to 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Substitute the limits of integration into the integrated function.",
+          "Perform the arithmetic to find the definite integral.",
+          "Provide the final numerical answer."
+        ],
+        "hints": [
+          "Use the Fundamental Theorem of Calculus to evaluate the definite integral."
+        ],
+        "model_answer": "[x^4 - x^3 + x^2 - x] from 0 to 1 = (1^4 - 1^3 + 1^2 - 1) - (0^4 - 0^3 + 0^2 - 0) = (1 - 1 + 1 - 1) - 0 = 0",
+        "explanation": "Evaluate the integrated function at the upper limit and subtract the value at the lower limit.",
+        "exam_question_id": "3f001bb7-1c7b-4e9e-b2e6-4a1834f36c59:1",
+        "checked": true,
+        "topic_label": "Chapter 6: you will",
+        "source": {
+          "textbook": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)"
+        }
+      }
+    ],
+    "estimated_time": 71,
+    "assessment_id": "9ac83276-423a-437c-8f08-832aef3bd17b",
+    "subject": "Cambridge International AS and A Level Mathematics Pure Mathematics 1 Coursebook - Cambridge University Press (2018)",
+    "topics": [
+      "Chapter 9: Integration",
+      "Chapter 6: you will"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 195,
+    "topic_ids": [
+      3043,
+      3040
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "4 questions open with the same sentence (1, 8, 13, 23): \"Find the integral of the function f(x) with respec\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 7"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 19,
+      "detail": "4 criteria for 3 marks"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 21,
+      "detail": "4 criteria for 3 marks"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 7"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1b",
+        "severity": "broken",
+        "detail": "Question claims integral equals 0.5, but marking criteria and explanation both show result is 1. Model answer arithmetic: (1-1+1) - 0 = 1, not 0.5. Question statement contradicts all supporting materials.",
+        "correction": "Either change question to 'Show that the integral equals 1' or revise function/limits to produce 0.5 result."
+      },
+      {
+        "label": "4b",
+        "severity": "broken",
+        "detail": "Question asks to show integral equals 0.5, but model answer shows 6 and explanation confirms 6. Marking criteria expect 6. Question statement contradicts all supporting materials.",
+        "correction": "Change question to 'Show that the integral of f(x) from 0 to 1 is equal to 6' or revise function/limits."
+      },
+      {
+        "label": "6a",
+        "severity": "broken",
+        "detail": "Marking criteria state ∫2x³ dx = (1/2)x⁴, but model answer shows (2/3)x⁴. Correct result is (2/4)x⁴ = (1/2)x⁴. Model answer is incorrect.",
+        "correction": "Model answer should be: (1/2)x⁴ - x³ + 2x² - 6x + C"
+      },
+      {
+        "label": "6b",
+        "severity": "broken",
+        "detail": "Uses incorrect antiderivative from 6a. Marking criteria expect -7/2 but model answer shows -8/3. With correct antiderivative (1/2)x⁴ - x³ + 2x² - 6x, result at x=1 is 1/2 - 1 + 2 - 6 = -4.5 = -9/2, not -7/2 or -8/3.",
+        "correction": "Correct antiderivative: (1/2)x⁴ - x³ + 2x² - 6x; at x=1: -9/2; at x=0: 0; result: -9/2"
+      },
+      {
+        "label": "6c",
+        "severity": "broken",
+        "detail": "Model answer claims critical points are x=1 and x=2/3, but marking criteria correctly show discriminant is -60 < 0, meaning no real critical points exist. Model answer contradicts its own marking criteria.",
+        "correction": "Model answer should state: 'No real critical points exist' (discriminant is negative)"
+      },
+      {
+        "label": "7b",
+        "severity": "broken",
+        "detail": "Model answer states critical points are x=0 and x=1, but marking criteria correctly require recognising discriminant is negative (Δ = -15 < 0) with no real critical points. Model answer contradicts marking criteria.",
+        "correction": "Model answer should state: 'There are no real critical points' (discriminant is negative)"
+      },
+      {
+        "label": "8c",
+        "severity": "broken",
+        "detail": "Model answer claims common ratio is 1/4 and sum is 8/3, but explanation correctly identifies ratio as 1/2 and sum as 4. Model answer contradicts its own explanation and the geometric series pattern described.",
+        "correction": "Model answer should state: 'Common ratio is 1/2; sum = 2/(1-1/2) = 4'"
+      },
+      {
+        "label": "9b",
+        "severity": "poor",
+        "detail": "Question asks for critical points but model answer provides complex roots. For AS/A Level Pure Mathematics, critical points typically refer to real values. Context suggests real critical points should be stated as non-existent.",
+        "correction": "Clarify whether complex roots are required, or state: 'No real critical points exist'"
+      }
+    ],
+    "summary": "Assessment contains 8 substantive errors: four questions with contradictory model answers versus marking criteria (1b, 4b, 6c, 7b); one incorrect antiderivative propagating through two questions (6a, 6b); one model answer contradicting its explanation (8c); one ambiguous complex root answer (9b). Multiple show-that questions have incorrect target values."
+  },
+  "totalSeconds": 52
+}

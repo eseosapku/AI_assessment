@@ -1,0 +1,488 @@
+{
+  "index": 9,
+  "label": "REB / Practice / English S6 SB",
+  "request": {
+    "subject": "English S6 SB",
+    "textbook_id": 70,
+    "topic_ids": [
+      792
+    ],
+    "topics": [
+      "Unit 6: Money"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 15,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition related to types of income.",
+        "matched_pairs": [
+          {
+            "left": "Wages",
+            "right": "Payment for regular work hours."
+          },
+          {
+            "left": "Salaries",
+            "right": "Fixed annual payment for employment."
+          },
+          {
+            "left": "Interest",
+            "right": "Income earned on savings or investments."
+          },
+          {
+            "left": "Rent",
+            "right": "Income from property leasing."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is correctly paired with its definition as it pertains to different forms of income.",
+        "left_items": [
+          "Wages",
+          "Salaries",
+          "Interest",
+          "Rent"
+        ],
+        "right_items": [
+          "Payment for regular work hours.",
+          "Income from property leasing.",
+          "Income earned on savings or investments.",
+          "Fixed annual payment for employment."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 3635,
+        "topic_id": 792,
+        "topic_label": "Describing Types of Income",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Describing Types of Income"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category related to types of debts.",
+        "categories": [
+          "Short-term Debts",
+          "Long-term Debts"
+        ],
+        "items": [
+          "Credit card debt",
+          "Student loan",
+          "Mortgage",
+          "Utility bill"
+        ],
+        "correct_category": [
+          0,
+          1,
+          1,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Categorising debts into short-term and long-term helps manage financial obligations effectively.",
+        "checked": true,
+        "topic_id": 792,
+        "topic_label": "Unit 6: Money",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Unit 6: Money"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentences using the word bank to describe types of income.",
+        "template": "Earnings from work are called {{0}}, while money from investments is {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "salaries"
+          },
+          {
+            "id": "1",
+            "correct": "interest"
+          }
+        ],
+        "word_bank": [
+          "salaries",
+          "interest",
+          "dividends",
+          "bonuses"
+        ],
+        "marks": 2,
+        "explanation": "Salaries are regular earnings from employment, and interest is income from investments.",
+        "checked": true,
+        "subtopic_id": 3635,
+        "topic_id": 792,
+        "topic_label": "Describing Types of Income",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Describing Types of Income"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False regarding talking about debts.",
+        "statements": [
+          "Debts should always be avoided.",
+          "Communicating about debts can help manage them better.",
+          "Debts are always negative.",
+          "Some debts can be beneficial if managed properly."
+        ],
+        "correct_answers": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "While some debts are negative, others like mortgages can be beneficial if managed properly.",
+        "checked": true,
+        "subtopic_id": 3637,
+        "topic_id": 792,
+        "topic_label": "Talking About Debts",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Talking About Debts"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong when describing types of income.",
+        "items": [
+          "Rent",
+          "Salaries",
+          "Interest",
+          "Vacation"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Vacation is not a type of income; it is a period of leisure.",
+        "checked": true,
+        "subtopic_id": 3635,
+        "topic_id": 792,
+        "topic_label": "Describing Types of Income",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Describing Types of Income"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition related to talking about debts.",
+        "matched_pairs": [
+          {
+            "left": "Liability",
+            "right": "Financial obligation to pay back."
+          },
+          {
+            "left": "Credit",
+            "right": "Ability to borrow money."
+          },
+          {
+            "left": "Debt",
+            "right": "Money owed to another party."
+          },
+          {
+            "left": "Loan",
+            "right": "Amount of money borrowed and to be repaid with interest."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is correctly paired with its definition as it pertains to financial obligations and borrowing.",
+        "left_items": [
+          "Liability",
+          "Credit",
+          "Debt",
+          "Loan"
+        ],
+        "right_items": [
+          "Financial obligation to pay back.",
+          "Amount of money borrowed and to be repaid with interest.",
+          "Money owed to another party.",
+          "Ability to borrow money."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 3637,
+        "topic_id": 792,
+        "topic_label": "Talking About Debts",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Talking About Debts"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category related to types of income.",
+        "categories": [
+          "Direct Income",
+          "Indirect Income"
+        ],
+        "items": [
+          "Wages",
+          "Interest",
+          "Rent",
+          "Dividends"
+        ],
+        "correct_category": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Categorising income into direct and indirect helps understand the sources of income.",
+        "checked": true,
+        "subtopic_id": 3635,
+        "topic_id": 792,
+        "topic_label": "Describing Types of Income",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Describing Types of Income"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentences using the word bank to talk about debts.",
+        "template": "A {{0}} is a financial obligation, while a {{1}} is the act of borrowing money.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "debt"
+          },
+          {
+            "id": "1",
+            "correct": "credit"
+          }
+        ],
+        "word_bank": [
+          "debt",
+          "credit",
+          "interest",
+          "loan"
+        ],
+        "marks": 2,
+        "explanation": "Debt is the state of owing money, and credit is the ability to borrow money.",
+        "checked": true,
+        "topic_id": 792,
+        "topic_label": "Unit 6: Money",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Unit 6: Money"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Income",
+            "right": "Money received from work or investments"
+          },
+          {
+            "left": "Tax",
+            "right": "Compulsory financial charge or levy imposed by the government"
+          },
+          {
+            "left": "Salary",
+            "right": "Regular payment made by an employer to an employee"
+          },
+          {
+            "left": "Wages",
+            "right": "Compensation for labor or services rendered"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is correctly defined according to its common understanding in financial and economic contexts.",
+        "left_items": [
+          "Income",
+          "Tax",
+          "Salary",
+          "Wages"
+        ],
+        "right_items": [
+          "Regular payment made by an employer to an employee",
+          "Compensation for labor or services rendered",
+          "Money received from work or investments",
+          "Compulsory financial charge or levy imposed by the government"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "topic_id": 792,
+        "topic_label": "Unit 6: Money",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Unit 6: Money"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Tax Types",
+          "Income Sources"
+        ],
+        "items": [
+          "Income tax",
+          "Property tax",
+          "Wages",
+          "Dividends",
+          "Rental income",
+          "Interest"
+        ],
+        "correct_category": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "marks": 6,
+        "explanation": "'Income tax' and 'Property tax' are types of tax, not sources of income.",
+        "checked": true,
+        "subtopic_id": 3635,
+        "topic_id": 792,
+        "topic_label": "Describing Types of Income",
+        "source": {
+          "textbook": "English S6 SB",
+          "area": "Describing Types of Income"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "f9d0b1ed-bd78-4b3c-8d79-c899a69803d0",
+    "subject": "English S6 SB",
+    "topics": [
+      "Unit 6: Money"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "interactive",
+    "textbook_id": 70,
+    "topic_ids": [
+      792
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "9",
+        "severity": "broken or poor",
+        "detail": "Incorrect matching of terms to definitions. 'Income' should match with 'Money received from work or investments', 'Tax' with 'Compulsory financial charge or levy imposed by the government', 'Salary' with 'Regular payment made by an employer to an employee', and 'Wages' with 'Compensation for labor or services rendered'.",
+        "correction": "Correct pairs should be [[0, 2], [1, 3], [2, 0], [3, 1]]."
+      },
+      {
+        "label": "10",
+        "severity": "broken or poor",
+        "detail": "Incorrect categorization. 'Income tax' and 'Property tax' are indeed tax types, but 'Wages', 'Dividends', 'Rental income', and 'Interest' are all sources of income.",
+        "correction": "Correct categories should be [0, 0, 1, 1, 1, 1] for ['Income tax', 'Property tax', 'Wages', 'Dividends', 'Rental income', 'Interest']."
+      }
+    ],
+    "summary": "Minor issues in matching and categorization found in questions 9 and 10."
+  },
+  "totalSeconds": 18
+}

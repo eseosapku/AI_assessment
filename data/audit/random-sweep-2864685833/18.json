@@ -1,0 +1,327 @@
+{
+  "index": 18,
+  "label": "REB / Practice / Physics S4 SB (1)",
+  "request": {
+    "subject": "Physics S4 SB (1)",
+    "textbook_id": 173,
+    "topic_ids": [
+      1819,
+      1817
+    ],
+    "topics": [
+      "Unit 10: Effects of electric and potential fields",
+      "Unit 8: Projectile and uniform circular motion"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 14,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "A charged particle moves in a circular path in a magnetic field. Which of the following is true about the direction of the magnetic force on the particle?",
+        "options": [
+          "The magnetic force is in the same direction as the particle's velocity.",
+          "The magnetic force is perpendicular to the particle's velocity.",
+          "The magnetic force is in the opposite direction of the particle's velocity.",
+          "The magnetic force acts along the radius of the circular path."
+        ],
+        "correct_answer": 1,
+        "explanation": "The magnetic force is always perpendicular to the velocity of a charged particle moving in a magnetic field, which is why the particle follows a circular path. This is due to the right-hand rule, where the magnetic force is directed into the plane of the circular motion for a positive charge.",
+        "needs_diagram": true,
+        "diagram_hint": "Draw a diagram of a charged particle moving in a circular path in a magnetic field, showing the direction of the velocity and the magnetic force.",
+        "subtopic_id": 8941,
+        "topic_id": 1817,
+        "topic_label": "Circular motion",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Circular motion"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "According to Coulomb's law, if the distance between two charges is doubled, what happens to the force between them?",
+        "options": [
+          "The force becomes half as strong.",
+          "The force becomes twice as strong.",
+          "The force becomes four times stronger.",
+          "The force becomes four times weaker."
+        ],
+        "correct_answer": 3,
+        "explanation": "Coulomb's law states that the force between two charges is inversely proportional to the square of the distance between them. If the distance is doubled, the force becomes one-fourth, or four times weaker.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "subtopic_id": 8950,
+        "topic_id": 1819,
+        "topic_label": "Coulomb's law",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Coulomb's law"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Explain the concept of centripetal acceleration and how it relates to uniform circular motion. Provide an example of an object experiencing centripetal acceleration.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of centripetal acceleration",
+          "Relation to uniform circular motion",
+          "Example of centripetal acceleration"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Centripetal acceleration is the acceleration directed towards the center of a circular path, keeping an object in uniform circular motion. It is given by the formula $a_c = \\frac{v^2}{r}$, where $v$ is the velocity of the object and $r$ is the radius of the circular path. An example of centripetal acceleration is a car moving around a circular track, where the frictional force between the tires and the road provides the necessary centripetal force to keep the car moving in a circle.",
+        "explanation": "A strong answer will include a clear explanation of centripetal acceleration, how it is related to uniform circular motion, and a relevant example that demonstrates the concept.",
+        "subtopic_id": 8943,
+        "topic_id": 1817,
+        "topic_label": "Centripetal acceleration",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Centripetal acceleration"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "In which direction will the charge move?",
+        "options": [
+          "In the direction of the electric field.",
+          "Opposite to the direction of the electric field.",
+          "Perpendicular to the direction of the electric field.",
+          "The charge will not move."
+        ],
+        "correct_answer": 0,
+        "explanation": "A positive charge in an electric field will move in the direction of the electric field because the force exerted on the charge is in the same direction as the field lines.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "scenario": "Calculate the electric field strength at a point 0.5 metres away from a point charge of 3 μC.",
+        "subtopic_id": 8951,
+        "topic_id": 1819,
+        "topic_label": "Electric field",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Electric field"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "State your answer in N/C.",
+        "marks": 4,
+        "marking_criteria": [
+          "Use of Coulomb's law",
+          "Correct substitution of values",
+          "Correct calculation",
+          "State answer with units"
+        ],
+        "hints": [
+          "Stay focused on this: State your answer in N/C — develop the idea fully rather than listing short points. Make sure you also cover: of Coulomb's law; Correct substitution of values; Correct calculation."
+        ],
+        "model_answer": "Using the formula for electric field strength $E = \\frac{k|q|}{r^2}$, where $k = 8.99 \\times 10^9 N m^2/C^2$, $q = 3 \\times 10^{-6} C$, and $r = 0.5 m$, we calculate $E = \\frac{(8.99 \\times 10^9)(3 \\times 10^{-6})}{(0.5)^2} = 1.0788 \\times 10^5 N/C$. Therefore, the electric field strength is approximately $1.08 \\times 10^5 N/C$.",
+        "explanation": "A strong answer will show the correct application of Coulomb's law, accurate substitution of values, and a clear calculation leading to the final answer with the correct units.",
+        "scenario": "Calculate the electric field strength at a point 0.5 metres away from a point charge of 3 μC.",
+        "subtopic_id": 8950,
+        "topic_id": 1819,
+        "topic_label": "Coulomb's law",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Coulomb's law"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Look at the drawing. The minute hand of this clock moves in uniform circular motion. What is its approximate angular speed?",
+        "options": [
+          "1.7 × 10⁻³ rad/s",
+          "0.105 rad/s",
+          "1.5 × 10⁻⁴ rad/s",
+          "0.5 rad/s"
+        ],
+        "correct_answer": 0,
+        "explanation": "The minute hand completes one revolution (2π rad) in 60 min = 3600 s, so ω = 2π/3600 ≈ 1.7×10⁻³ rad/s. 0.105 rad/s is the second hand (period 60 s). 1.5×10⁻⁴ rad/s is the hour hand (period 12 h). 0.5 rad/s matches no hand on the clock.",
+        "image_url": "/textbook-images/rwanda/173/page301-embedded-0.jpeg",
+        "topic_label": "Circular motion",
+        "vetted": true,
+        "image_alt": "A round analog wall clock with a black frame and white face, with large black numerals 1 to 12 and the brand text \"HOWARD MILLER\" under the 12. The hour hand points near 2, the minute hand points at 10, and a thin second hand points toward the 8, so the clock reads about 1:50. Printed on it: 11 | 12 | 1 | 10 | 2 | HOWARD MILLER | 9 | 3 | 8 | 4 | 7 | 6 | 5.",
+        "subtopic_id": 8941,
+        "topic_id": 1817,
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Circular motion"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe how the motion of an electron in a vacuum is affected by an electric field. Include the calculation of the force experienced by the electron.",
+        "marks": 4,
+        "marking_criteria": [
+          "Description of electron motion",
+          "Use of Coulomb's law",
+          "Correct calculation",
+          "State answer with units"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Describe how the motion of an electron in a vacuum is affected by an electric field; then Include the calculation of the force experienced by the electron. Make sure you also cover: Description of electron motion; of Coulomb's law; Correct calculation."
+        ],
+        "model_answer": "An electron in a vacuum will accelerate in the direction of the electric field due to the force exerted by the field. The force on the electron is given by $F = qE$, where $q$ is the charge of the electron ($-1.6 \\times 10^{-19} C$) and $E$ is the electric field strength. For an electric field of $5 \\times 10^4 N/C$, the force is $F = (-1.6 \\times 10^{-19} C)(5 \\times 10^4 N/C) = -8 \\times 10^{-15} N$. The negative sign indicates the force is opposite to the direction of the electric field. Thus, the electron experiences a force of $8 \\times 10^{-15} N$ in the direction opposite to the electric field.",
+        "explanation": "A strong answer will describe the interaction between the electric field and the electron, show the correct application of Coulomb's law, and provide a clear calculation leading to the final answer with the correct units.",
+        "subtopic_id": 8954,
+        "topic_id": 1819,
+        "topic_label": "Motion of electric charges in an electric field",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Motion of electric charges in an electric field"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "The field strength at a point in an electric field is given by $E = 100 N/C$. If a charge of $-2 μC$ is placed at this point, what is the magnitude of the force experienced by the charge?",
+        "options": [
+          "0.2 N",
+          "200 N",
+          "2 N",
+          "20 N"
+        ],
+        "correct_answer": 2,
+        "explanation": "The force on a charge in an electric field is given by $F = qE$. Here, $q = -2 \\times 10^{-6} C$ and $E = 100 N/C$. Thus, $F = (-2 \\times 10^{-6} C)(100 N/C) = -0.2 N$. The magnitude of the force is 0.2 N.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "subtopic_id": 8952,
+        "topic_id": 1819,
+        "topic_label": "Field strength and charge density",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Field strength and charge density"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "An object is moving in a circular path. If the radius of the circle is doubled while keeping the speed constant, what happens to the centripetal force? (Assume the mass of the object remains unchanged.)",
+        "options": [
+          "It remains the same",
+          "It is halved",
+          "It is doubled",
+          "It is quadrupled"
+        ],
+        "correct_answer": 3,
+        "explanation": "The centripetal force is directly proportional to the square of the velocity and inversely proportional to the radius. If the radius is doubled, the centripetal force becomes one-fourth of its original value. However, since the speed is constant and the mass remains unchanged, the force becomes quadrupled.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "subtopic_id": 8945,
+        "topic_id": 1817,
+        "topic_label": "Centripetal force",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Centripetal force"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Explain the difference between attractive and repulsive forces in an electric field. Provide an example of each.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of attractive force",
+          "Explanation of repulsive force",
+          "Example of attractive force",
+          "Example of repulsive force"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Attractive forces in an electric field occur between opposite charges, such as a proton and an electron, where they are drawn towards each other. Repulsive forces occur between like charges, such as two protons or two electrons, where they are pushed away from each other. An example of an attractive force is the electrostatic attraction between a negatively charged balloon and positively charged hair strands. An example of a repulsive force is the repulsion between two positively charged balloons when they come close to each other.",
+        "explanation": "A strong answer will explain the fundamental differences between attractive and repulsive electric forces and provide relevant examples to illustrate each type of force.",
+        "subtopic_id": 8951,
+        "topic_id": 1819,
+        "topic_label": "Electric field",
+        "source": {
+          "textbook": "Physics S4 SB (1)",
+          "area": "Electric field"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "e4f154fb-2bd8-47bf-ab2d-d03870f7d6a3",
+    "subject": "Physics S4 SB (1)",
+    "topics": [
+      "Unit 10: Effects of electric and potential fields",
+      "Unit 8: Projectile and uniform circular motion"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mixed",
+    "textbook_id": 173,
+    "topic_ids": [
+      1819,
+      1817
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1",
+        "severity": "broken",
+        "detail": "Question addresses magnetic fields and circular motion, but assessment is specified for Rwanda Physics S4 covering electric/potential fields (Unit 10) and projectile/circular motion (Unit 8). Magnetic force content is outside stated curriculum scope.",
+        "correction": "Replace with question on circular motion from Unit 8 (e.g., centripetal force direction, angular velocity) or remove if magnetic fields not in S4 curriculum."
+      },
+      {
+        "label": "4",
+        "severity": "poor",
+        "detail": "MCQ asks directional motion of 'the charge' but context provides only a point charge creating the field. No test charge is specified. Question assumes positive charge without stating this, making answer ambiguous.",
+        "correction": "Clarify: 'If a positive charge is placed at this point, in which direction will it move?' or 'A positive test charge placed at this point will move...' to make correct_answer=0 unambiguous."
+      },
+      {
+        "label": "8",
+        "severity": "broken",
+        "detail": "Explanation states F = (-2×10⁻⁶)(100) = -0.2 N, then claims magnitude is 0.2 N. However, correct_answer is 2 (option '2 N'), which contradicts the calculation. Correct magnitude is 0.2 N (option '0.2 N').",
+        "correction": "Either: (1) Change correct_answer to 0 (0.2 N is correct), or (2) Change field strength to 1000 N/C to yield 0.2 N magnitude matching option 0. Current state has answer key error."
+      },
+      {
+        "label": "9",
+        "severity": "broken",
+        "detail": "Explanation contradicts itself and the correct_answer. States 'centripetal force becomes one-fourth' when radius doubles, then claims 'force becomes quadrupled.' Formula F_c = mv²/r shows doubling r halves F. Correct answer should be 1 (halved), not 3 (quadrupled).",
+        "correction": "Correct_answer should be 1. Explanation: 'F_c = mv²/r. If r doubles and v, m constant, F becomes F/2. Force is halved.'"
+      }
+    ],
+    "summary": "Four substantive issues identified: Q1 outside stated curriculum (magnetic fields); Q4 ambiguous without specifying charge sign; Q8 calculation contradicts answer key (0.2 N vs 2 N); Q9 explanation and answer key both incorrect (should be halved, not quadrupled). Questions 2, 3, 5, 6, 7, 10 are sound."
+  },
+  "totalSeconds": 21
+}

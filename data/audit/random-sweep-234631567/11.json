@@ -1,0 +1,763 @@
+{
+  "index": 11,
+  "label": "REB / Exam / Mathematics-S2-SB",
+  "request": {
+    "subject": "Mathematics-S2-SB",
+    "textbook_id": 128,
+    "topic_ids": [
+      1343
+    ],
+    "topics": [
+      "Parallel and Orthogonal Projection"
+    ],
+    "curriculum": "rwanda",
+    "grade": 8,
+    "className": "S2",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "reviewing",
+  "generationSeconds": 44,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are designing a shadow puppet theatre using parallel projection. The height of the object you want to project is 3 units and the distance from the object to the screen is 5 units. The distance from the light source to the object is 2 units.",
+        "question": "Calculate the height of the shadow on the screen.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of the parallel projection formula",
+          "Correct calculation",
+          "Correct units"
+        ],
+        "hints": [
+          "Use the formula: Height of shadow = (Height of object * Distance to screen) / Distance to light source."
+        ],
+        "model_answer": "Height of shadow = (3 * 5) / 2 = 7.5 units",
+        "explanation": "Using the formula for parallel projection, we multiply the height of the object by the distance to the screen and then divide by the distance to the light source.",
+        "exam_question_id": "3767c08e-85e2-41bf-9016-1cf8e261493f:1",
+        "topic_label": "Introduction to Parallel projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7166,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are designing a shadow puppet theatre using parallel projection. The height of the object you want to project is 3 units and the distance from the object to the screen is 5 units. The distance from the light source to the object is 2 units.",
+        "question": "Explain why the height of the shadow remains constant regardless of the distance from the light source to the object.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of parallel projection",
+          "Correct terminology"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the height of the shadow remains constant regardless of the distance from the light source to the object — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of; Correct terminology."
+        ],
+        "model_answer": "In parallel projection, the shadow height remains constant because the light rays are parallel and do not converge or diverge, maintaining a constant ratio between the object height and the shadow height.",
+        "explanation": "In parallel projection, the height of the shadow is determined by the ratio of the object height to the light source distance, which remains constant.",
+        "exam_question_id": "3767c08e-85e2-41bf-9016-1cf8e261493f:1",
+        "topic_label": "Introduction to Parallel projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7166,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A street light is 10 metres tall and casts a shadow that is 5 metres long on the ground. The distance from the top of the street light to the tip of the shadow is 15 metres. Calculate the height of the shadow if the street light is moved to a new location where the distance from the top of the street light to the tip of the shadow is 20 metres.",
+        "question": "Calculate the height of the shadow.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct use of the parallel projection formula",
+          "Correct calculation",
+          "Correct units"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the height of the shadow — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of the parallel projection formula; Correct calculation; Correct units."
+        ],
+        "model_answer": "Height of shadow = (10 * 20) / 15 = 13.33 meters",
+        "explanation": "Using the formula for parallel projection, we multiply the height of the street light by the new distance to the tip of the shadow and then divide by the original distance to the tip of the shadow.",
+        "exam_question_id": "3767c08e-85e2-41bf-9016-1cf8e261493f:3",
+        "topic_label": "Introduction to Parallel projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7166,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A street light is 10 metres tall and casts a shadow that is 5 metres long on the ground. The distance from the top of the street light to the tip of the shadow is 15 metres. Calculate the height of the shadow if the street light is moved to a new location where the distance from the top of the street light to the tip of the shadow is 20 metres.",
+        "question": "Explain how the movement of the street light affects the length of its shadow.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of the effect of movement on shadow length",
+          "Correct use of examples"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the movement of the street light affects the length of its shadow — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of examples."
+        ],
+        "model_answer": "The movement of the street light affects the length of its shadow by changing the angle of the light rays. When the street light is moved closer to the ground, the angle of the light rays increases, resulting in a longer shadow. Conversely, when the street light is moved further away, the angle decreases, resulting in a shorter shadow.",
+        "explanation": "The length of the shadow is affected by the angle of the light rays, which changes as the street light is moved to a different location.",
+        "exam_question_id": "3767c08e-85e2-41bf-9016-1cf8e261493f:3",
+        "topic_label": "Introduction to Parallel projection (Parallel and Orthogonal Projection)",
+        "topic_id": 1343,
+        "checked": true,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection (Parallel and Orthogonal Projection)"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a point P(2, 3) and a line L given by the equation y = x.",
+        "question": "Calculate the parallel projection of point P on line L.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the coordinates of the projection point.",
+          "Correct use of the projection formula.",
+          "Correct simplification of the result."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the parallel projection of point P on line L — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the coordinates of the projection point.; Correct use of the projection formula.; Correct simplification of the result."
+        ],
+        "model_answer": "Projection of P on L: P' = ((2+3)/2, (2+3)/2) = (2.5, 2.5)",
+        "explanation": "The parallel projection of a point on a line is found by averaging the x and y coordinates of the point and the coordinates of a point on the line. However, the correct approach for parallel projection onto the line y=x involves finding a point on the line that aligns with the original point when projected parallel to the line, which is not simply averaging coordinates.",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:1",
+        "topic_label": "Parallel projection of a point on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7167,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a point on a line"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a point P(2, 3) and a line L given by the equation y = x.",
+        "question": "Find the orthogonal projection of point P on line L.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the coordinates of the projection point.",
+          "Correct use of the orthogonal projection formula.",
+          "Correct simplification of the result."
+        ],
+        "hints": [
+          "Stay focused on this: Find the orthogonal projection of point P on line L — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the coordinates of the projection point.; Correct simplification of the result."
+        ],
+        "model_answer": "Orthogonal projection of P on L: P' = ((2+3)/2, (2+3)/2) = (2.5, 2.5)",
+        "explanation": "The orthogonal projection of a point on a line is found by calculating the point on the line that is closest to the original point. For the line y=x, the orthogonal projection of point P(2, 3) is actually at (2.5, 2.5), but the method described in the explanation is incorrect for parallel projection, not orthogonal.",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:1",
+        "topic_label": "Parallel projection of a point on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7167,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a point on a line"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a point P(2, 3) and a line L given by the equation y = x.",
+        "question": "Explain the difference between parallel and orthogonal projections.",
+        "marks": 2,
+        "marking_criteria": [
+          "Clear explanation of parallel projection.",
+          "Clear explanation of orthogonal projection."
+        ],
+        "hints": [
+          "Describe how each type of projection is calculated."
+        ],
+        "model_answer": "Parallel projection involves averaging the coordinates, while orthogonal projection finds the closest point on the line.",
+        "explanation": "Parallel projection involves calculating the average of the coordinates of the point and a point on the line. Orthogonal projection finds the point on the line that is closest to the original point.",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:1",
+        "topic_label": "Parallel projection of a point on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7167,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a point on a line"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a point Q(4, 5) and a line M given by the equation y = 2x.",
+        "question": "Calculate the parallel projection of point Q on line M.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the coordinates of the projection point.",
+          "Correct use of the projection formula.",
+          "Correct simplification of the result."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the parallel projection of point Q on line M — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the coordinates of the projection point.; Correct use of the projection formula.; Correct simplification of the result."
+        ],
+        "model_answer": "Projection of Q on M: Q' = ((4+10)/3, (4+10)/3) = (14/3, 14/3)",
+        "explanation": "The parallel projection of a point on a line is found by averaging the x and y coordinates of the point and the coordinates of a point on the line. The correct coordinates are (14/3, 14/3).",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:2",
+        "topic_label": "Parallel projection of a point on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7167,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a point on a line"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a point Q(4, 5) and a line M given by the equation y = 2x.",
+        "question": "Find the orthogonal projection of point Q on line M.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the coordinates of the projection point.",
+          "Correct use of the orthogonal projection formula.",
+          "Correct simplification of the result."
+        ],
+        "hints": [
+          "Stay focused on this: Find the orthogonal projection of point Q on line M — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the coordinates of the projection point.; Correct simplification of the result."
+        ],
+        "model_answer": "Orthogonal projection of Q on M: Q' = ((2*4-5)/(2^2+1), (2*2*4-5*2)/(2^2+1)) = (3/5, 6/5)",
+        "explanation": "The orthogonal projection of a point on a line is found by calculating the point on the line that is closest to the original point.",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:2",
+        "topic_label": "Orthogonal projection of a geometric figure on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7173,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Orthogonal projection of a geometric figure on a line"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a point Q(4, 5) and a line M given by the equation y = 2x.",
+        "question": "Explain why the orthogonal projection of Q on line M is different from its parallel projection.",
+        "marks": 2,
+        "marking_criteria": [
+          "Clear explanation of the difference between parallel and orthogonal projections.",
+          "Correct use of projection concepts."
+        ],
+        "hints": [
+          "Compare the methods of calculating each type of projection."
+        ],
+        "model_answer": "Orthogonal projection finds the closest point on the line, while parallel projection averages the coordinates.",
+        "explanation": "Orthogonal projection calculates the point on the line that minimises the distance to the original point. Parallel projection calculates the average of the coordinates of the point and a point on the line.",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:2",
+        "topic_label": "Parallel projection of a point on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7167,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a point on a line"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a point R(3, 1) and a line N given by the equation y = -x + 4.",
+        "question": "Calculate the parallel projection of point R on line N.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the coordinates of the projection point.",
+          "Correct use of the projection formula.",
+          "Correct simplification of the result."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the parallel projection of point R on line N — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the coordinates of the projection point.; Correct use of the projection formula.; Correct simplification of the result."
+        ],
+        "model_answer": "Projection of R on N: R' = ((3-1)/2, (3+1)/2) = (1, 2)",
+        "explanation": "The parallel projection of a point on a line is not found by averaging the x and y coordinates of the point and the coordinates of a point on the line. The correct method involves using the direction vector of the line.",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:3",
+        "topic_label": "Parallel projection of a point on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7167,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a point on a line"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a point R(3, 1) and a line N given by the equation y = -x + 4.",
+        "question": "Find the orthogonal projection of point R on line N.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the coordinates of the projection point.",
+          "Correct use of the orthogonal projection formula.",
+          "Correct simplification of the result."
+        ],
+        "hints": [
+          "Stay focused on this: Find the orthogonal projection of point R on line N — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the coordinates of the projection point.; Correct simplification of the result."
+        ],
+        "model_answer": "Orthogonal projection of R on N: R' = ((3+1)/2, (-3+1)/2) = (2, -1)",
+        "explanation": "The orthogonal projection of a point on a line is found by calculating the point on the line that is closest to the original point. The correct coordinates for the orthogonal projection of R on N are (2, 1).",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:3",
+        "topic_label": "Orthogonal projection of a geometric figure on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7173,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Orthogonal projection of a geometric figure on a line"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a point R(3, 1) and a line N given by the equation y = -x + 4.",
+        "question": "Explain how the slope of line N affects the orthogonal projection of point R.",
+        "marks": 2,
+        "marking_criteria": [
+          "Clear explanation of the role of the slope in orthogonal projection.",
+          "Correct use of projection concepts."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the slope of line N affects the orthogonal projection of point R — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of projection concepts."
+        ],
+        "model_answer": "The slope affects the direction and distance of the orthogonal projection from the point to the line.",
+        "explanation": "The slope of the line determines the direction in which the orthogonal projection is calculated. It affects the coordinates of the projection point.",
+        "exam_question_id": "c298ec31-b3a8-44a0-87c9-02f0c2071fa5:3",
+        "topic_label": "Orthogonal projection of a geometric figure on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7173,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Orthogonal projection of a geometric figure on a line"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangle with vertices at (0, 0), (3, 0), (3, 2), and (0, 2) is subjected to an orthogonal projection onto the x-axis.",
+        "question": "State the coordinates of the projection of the rectangle onto the x-axis.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of x-coordinates",
+          "Correct identification of y-coordinates"
+        ],
+        "hints": [
+          "Orthogonal projection onto the x-axis only affects the y-coordinates."
+        ],
+        "model_answer": "The coordinates of the projection are (0, 0), (3, 0), (3, 0), and (0, 0).",
+        "explanation": "When projecting onto the x-axis, the y-coordinates of all points are set to zero, resulting in the projection coordinates (0, 0), (3, 0), (3, 0), and (0, 0).",
+        "exam_question_id": "c152fd35-8900-4480-9f18-dc4cc0ac5545:2",
+        "topic_label": "Introduction to orthogonal projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7171,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to orthogonal projection"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangle with vertices at (0, 0), (3, 0), (3, 2), and (0, 2) is subjected to an orthogonal projection onto the x-axis.",
+        "question": "Explain how the area of the rectangle changes after the orthogonal projection.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of area change",
+          "Correct reasoning or formula used",
+          "Correct final conclusion"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the area of the rectangle changes after the orthogonal projection — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of area change; Correct reasoning or formula used; Correct final conclusion."
+        ],
+        "model_answer": "The area of the rectangle becomes zero after the orthogonal projection because the height of the rectangle is projected to zero, resulting in a line segment with no area.",
+        "explanation": "Orthogonal projection onto the x-axis sets the height of the rectangle to zero, reducing the area to zero. The resulting shape is a line segment, which has no area.",
+        "exam_question_id": "c152fd35-8900-4480-9f18-dc4cc0ac5545:2",
+        "topic_label": "Orthogonal projection of a line segment on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7172,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Orthogonal projection of a line segment on a line"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A triangle with vertices at (1, 1), (4, 1), and (2, 4) is subjected to a parallel projection onto a direction vector (1, 1).",
+        "question": "Calculate the coordinates of the projection of the vertex (2, 4) onto the direction vector.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of projection formula",
+          "Correct calculation of vector components",
+          "Correct final coordinates"
+        ],
+        "hints": [
+          "Use the formula for projection of a vector onto another vector."
+        ],
+        "model_answer": "Projection of (2, 4) = ((2, 4) . (1, 1)) / (||1, 1||^2) * (1, 1) = (6/2) * (1, 1) = (3, 3)",
+        "explanation": "To find the projection of the vertex (2, 4) onto the direction vector, we first calculate the dot product of (2, 4) and the direction vector, then divide by the square of the magnitude of the direction vector. Finally, we multiply the resulting scalar by the direction vector itself.",
+        "exam_question_id": "c152fd35-8900-4480-9f18-dc4cc0ac5545:3",
+        "topic_label": "Introduction to Parallel projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7166,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A triangle with vertices at (1, 1), (4, 1), and (2, 4) is subjected to a parallel projection onto a direction vector (1, 1).",
+        "question": "Describe how the shape of the triangle changes after the parallel projection.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of shape change",
+          "Correct reasoning or formula used"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the shape of the triangle changes after the parallel projection — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of shape; Correct reasoning or formula used."
+        ],
+        "model_answer": "The shape of the triangle remains a triangle after the parallel projection, but its orientation and position change.",
+        "explanation": "Parallel projection preserves the shape of the triangle, but alters its orientation and position by projecting it onto the direction vector.",
+        "exam_question_id": "c152fd35-8900-4480-9f18-dc4cc0ac5545:3",
+        "topic_label": "Introduction to Parallel projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7166,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A line segment AB has endpoints A(1, 2) and B(4, 6). The line segment is projected onto a line L given by the equation y = x.",
+        "question": "Calculate the parallel projection of point A on line L.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the projection of point A.",
+          "Correctly state the coordinates of the projection."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the parallel projection of point A on line L — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the projection of point A.; Correctly state the coordinates of the projection."
+        ],
+        "model_answer": "Projection of A: ((1+2)/2, (2+1)/2) = (1.5, 1.5)",
+        "explanation": "The parallel projection of a point onto a line can be found by averaging the coordinates of the point with the coordinates of the closest point on the line.",
+        "exam_question_id": "78ec2a09-3fa0-4551-a4c7-b0b1a86ec71d:1",
+        "topic_label": "Parallel projection of a line segment on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7168,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a line segment on a line"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A line segment AB has endpoints A(1, 2) and B(4, 6). The line segment is projected onto a line L given by the equation y = x.",
+        "question": "Calculate the parallel projection of point B on line L.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the projection of point B.",
+          "Correctly state the coordinates of the projection."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the parallel projection of point B on line L — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the projection of point B.; Correctly state the coordinates of the projection."
+        ],
+        "model_answer": "Projection of B: ((4+6)/2, (6+4)/2) = (5, 5)",
+        "explanation": "The parallel projection of a point onto a line can be found by averaging the coordinates of the point with the coordinates of the closest point on the line.",
+        "exam_question_id": "78ec2a09-3fa0-4551-a4c7-b0b1a86ec71d:1",
+        "topic_label": "Parallel projection of a line segment on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7168,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a line segment on a line"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A line segment AB has endpoints A(1, 2) and B(4, 6). The line segment is projected onto a line L given by the equation y = x.",
+        "question": "Explain the difference between the parallel projection of points A and B on line L.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly describe the difference in coordinates.",
+          "Correctly explain why the projections are different.",
+          "Correctly connect the projection to the original coordinates."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the difference between the parallel projection of points A and B on line L — develop the idea fully rather than listing short points. Make sure you also cover: Correctly explain why the projections are; Correctly connect the projection to the."
+        ],
+        "model_answer": "The projection of A is (1.5, 1.5) and the projection of B is (5, 5). The difference in coordinates is due to the different original coordinates of points A and B.",
+        "explanation": "The parallel projection depends on the coordinates of the original point. Since A and B have different coordinates, their projections will also be different.",
+        "exam_question_id": "78ec2a09-3fa0-4551-a4c7-b0b1a86ec71d:1",
+        "topic_label": "Parallel projection of a line segment on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7168,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Parallel projection of a line segment on a line"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A line segment CD has endpoints C(2, 3) and D(5, 7). The line segment is projected onto a line M given by the equation y = 2x.",
+        "question": "Calculate the orthogonal projection of point C on line M.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the orthogonal projection of point C.",
+          "Correctly state the coordinates of the projection.",
+          "Correctly show the working."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the orthogonal projection of point C on line M — develop the idea fully rather than listing short points. Make sure you also cover: Correctly state the coordinates of the projection.; Correctly show the working."
+        ],
+        "model_answer": "Orthogonal projection of C: ((2+6)/3, (3+10)/3) = (8/3, 13/3)",
+        "explanation": "The orthogonal projection of a point onto a line can be found by using the formula that involves the dot product and the line's direction vector.",
+        "exam_question_id": "78ec2a09-3fa0-4551-a4c7-b0b1a86ec71d:2",
+        "topic_label": "Orthogonal projection of a line segment on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7172,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Orthogonal projection of a line segment on a line"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A line segment CD has endpoints C(2, 3) and D(5, 7). The line segment is projected onto a line M given by the equation y = 2x.",
+        "question": "Calculate the orthogonal projection of point D on line M.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the orthogonal projection of point D.",
+          "Correctly state the coordinates of the projection.",
+          "Correctly show the working."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the orthogonal projection of point D on line M — develop the idea fully rather than listing short points. Make sure you also cover: Correctly state the coordinates of the projection.; Correctly show the working."
+        ],
+        "model_answer": "Orthogonal projection of D: ((5+10)/3, (7+20)/3) = (15/3, 27/3) = (5, 9)",
+        "explanation": "The orthogonal projection of a point onto a line can be found by using the formula that involves the dot product and the line's direction vector.",
+        "exam_question_id": "78ec2a09-3fa0-4551-a4c7-b0b1a86ec71d:2",
+        "topic_label": "Orthogonal projection of a line segment on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7172,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Orthogonal projection of a line segment on a line"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A line segment CD has endpoints C(2, 3) and D(5, 7). The line segment is projected onto a line M given by the equation y = 2x.",
+        "question": "Explain why the orthogonal projection of C on line M is different from its parallel projection.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly describe the difference in projections.",
+          "Correctly explain why the projections are different."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the orthogonal projection of C on line M is different from its parallel projection — develop the idea fully rather than listing short points. Make sure you also cover: Correctly describe the difference in projections.; Correctly explain why the projections are different."
+        ],
+        "model_answer": "The orthogonal projection is the point on the line that is closest to the original point, while the parallel projection is the point on the line that is directly above or below the original point. These are different because orthogonal projection minimizes the distance to the line, while parallel projection maintains the same direction.",
+        "explanation": "Orthogonal projection finds the shortest distance to the line, while parallel projection maintains the direction of the line. This results in different coordinates for the projections.",
+        "exam_question_id": "78ec2a09-3fa0-4551-a4c7-b0b1a86ec71d:2",
+        "topic_label": "Orthogonal projection of a line segment on a line",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7172,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Orthogonal projection of a line segment on a line"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a rectangle with vertices at (0, 0), (2, 0), (2, 3), and (0, 3) subjected to a parallel projection onto the x-axis.",
+        "question": "Calculate the coordinates of the projection of the vertex (2, 3) onto the x-axis.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the x-coordinate of the projection.",
+          "Identify that the y-coordinate becomes zero in a parallel projection onto the x-axis.",
+          "Provide the final coordinates of the projection."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the coordinates of the projection of the vertex (2, 3) onto the x-axis — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The x-coordinate of the vertex (2, 3) is 2. In a parallel projection onto the x-axis, the y-coordinate becomes zero. Therefore, the coordinates of the projection are (2, 0).",
+        "explanation": "You correctly identified that the x-coordinate remains unchanged and the y-coordinate becomes zero in a parallel projection onto the x-axis.",
+        "exam_question_id": "e033afe1-8b44-4f19-8a53-5236ad37b33e:1",
+        "topic_label": "Introduction to Parallel projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7166,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a rectangle with vertices at (0, 0), (2, 0), (2, 3), and (0, 3) subjected to a parallel projection onto the x-axis.",
+        "question": "Explain why the height of the rectangle remains constant after the parallel projection onto the x-axis.",
+        "marks": 2,
+        "marking_criteria": [
+          "Understand that parallel projection does not change the x-coordinates of the vertices.",
+          "Recognise that the height of the rectangle is determined by the y-coordinates of the vertices."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "In a parallel projection onto the x-axis, the x-coordinates of the vertices remain unchanged, but the y-coordinates become zero. Therefore, the height of the rectangle, which is determined by the difference in y-coordinates of the top and bottom vertices, remains constant because the y-coordinates of the top and bottom vertices both become zero.",
+        "explanation": "The height remains constant because the y-coordinates of the top and bottom vertices are the same after projection, not because they both become zero. The height is determined by the unchanged x-coordinates of the vertices.",
+        "exam_question_id": "e033afe1-8b44-4f19-8a53-5236ad37b33e:1",
+        "topic_label": "Introduction to Parallel projection",
+        "topic_id": 1343,
+        "checked": true,
+        "subtopic_id": 7166,
+        "source": {
+          "textbook": "Mathematics-S2-SB",
+          "area": "Introduction to Parallel projection"
+        }
+      }
+    ],
+    "estimated_time": 64,
+    "assessment_id": "94a48c14-7eb1-4e02-ab6a-f5893f24af18",
+    "subject": "Mathematics-S2-SB",
+    "topics": [
+      "Parallel and Orthogonal Projection"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 128,
+    "topic_ids": [
+      1343
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 25,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 6"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 21"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 10"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": []
+}

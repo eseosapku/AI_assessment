@@ -59,7 +59,7 @@ export function assessLanguagePassagePlan(opts: {
   const wantsPassage = PASSAGE_TOPIC.test(blob)
   const wantsDirect = DIRECT_SKILL_TOPIC.test(blob)
 
-  if (wantsDirect && !wantsPassage) return empty
+  if ((wantsDirect || /\b(writing|phonics|vocabulary|speaking|tenses?|nouns?|verbs?|adjectives?|adverbs?)\b/i.test(blob)) && !wantsPassage) return empty
 
   if (wantsPassage && !wantsDirect) {
     return {
@@ -80,8 +80,9 @@ export function assessLanguagePassagePlan(opts: {
     }
   }
 
-  // Default for language subjects: skill questions aligned to curriculum topics, not generic passages.
-  return empty
+  // Story/unit titles rarely contain the word "comprehension". Questions on
+  // "Carving the Sea Path" still need an actual extract, not an unseen book.
+  return { usePassageFlow: true, passageQuestionCount: count, directQuestionCount: 0, requirePassageOnAll: true }
 }
 
 function normalizeText(text: string): string {

@@ -110,9 +110,7 @@ export function buildInteractiveSchemaBlock(kinds: InteractiveKind[]): string {
       "type": "interactive",
       "kind": "match",
       "question": "<instruction, e.g. Match each term to its correct definition>",
-      "left_items": ["<term 1>", "<term 2>", "<term 3>", "<term 4>"],
-      "right_items": ["<definition A>", "<definition B>", "<definition C>", "<definition D>"],
-      "correct_pairs": [[0,2],[1,0],[2,3],[3,1]],
+      "matched_pairs": [{"left":"<term 1>","right":"<its correct definition>"},{"left":"<term 2>","right":"<its correct definition>"},{"left":"<term 3>","right":"<its correct definition>"},{"left":"<term 4>","right":"<its correct definition>"}],
       "marks": 4,
       "explanation": "<why these pairings are correct>"
     }`)
@@ -123,8 +121,7 @@ export function buildInteractiveSchemaBlock(kinds: InteractiveKind[]): string {
       "type": "interactive",
       "kind": "order",
       "question": "<instruction, e.g. Put these stages in the correct order>",
-      "items": ["<step A>", "<step B>", "<step C>", "<step D>"],
-      "correct_order": [2,0,1,3],
+      "ordered_items": ["<actual first step>", "<actual second step>", "<actual third step>", "<actual fourth step>"],
       "marks": 4,
       "explanation": "<why this sequence is correct>"
     }`)
@@ -137,7 +134,7 @@ export function buildInteractiveSchemaBlock(kinds: InteractiveKind[]): string {
       "question": "<instruction, e.g. Sort each item into the correct category>",
       "categories": ["<Category 1>", "<Category 2>"],
       "items": ["<item 1>", "<item 2>", "<item 3>", "<item 4>", "<item 5>", "<item 6>"],
-      "correct_category": [0,1,0,1,0,1],
+      "correct_category": ["<actual category NAME for item 1>","<actual category NAME for item 2>","<actual category NAME for item 3>","<actual category NAME for item 4>","<actual category NAME for item 5>","<actual category NAME for item 6>"],
       "marks": 6,
       "explanation": "<brief explanation>"
     }`)
@@ -205,9 +202,10 @@ TOPIC FOCUS: ${topicLine}
 - Allowed kinds for this subject: ${profile.kinds.join(', ')}.
 - Each question must be fully self-contained (no passages, no diagrams required).
 - "marks" must equal the number of gradable items (pairs, steps, items, or blanks).
-- For "match": left_items and right_items must be same length (3–5 pairs). correct_pairs uses 0-based indices; right_items should be shuffled so indices don't align by position.
-- For "order": 4–6 items; correct_order is a permutation of indices 0..n-1.
-- For "categorize": 2–3 categories; 4–8 items; balanced distribution.
+- For "match": give 3–5 matched_pairs objects, each with a term and its CORRECT partner. The app shuffles the display and computes indices; do not invent index keys.
+- For "order": give ordered_items in their actual correct chronological or logical order. The app shuffles them and computes the answer key.
+- For "order": supply 4–6 ordered_items in their correct order, without an index key.
+- For "categorize": 2–3 categories; 4–8 items. correct_category must contain each item's actual category NAME, not a numeric index. Check the classification of each item; never misclassify it to force balance.
 - For "fill_blank": 2–4 blanks; word_bank must include all correct answers plus 2–4 plausible distractors.
 - For "true_false": 4–6 short factual statements; correct_answers is boolean array same length.
 - For "multi_select": 4–6 options; 2–4 correct_indices (0-based); include plausible distractors.
@@ -222,6 +220,20 @@ function statementTruth(value: unknown): boolean | null {
   if (text === 'true' || text === 't' || text === 'yes') return true
   if (text === 'false' || text === 'f' || text === 'no') return false
   return null
+}
+
+/** Stable display permutation; answer indices are computed from content, never guessed by the model. */
+function displayOrder(items: string[]): number[] {
+  let seed = 2166136261
+  for (const char of items.join('|')) seed = Math.imul(seed ^ char.charCodeAt(0), 16777619) >>> 0
+  const indices = items.map((_, i) => i)
+  for (let i = indices.length - 1; i > 0; i--) {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0
+    const j = seed % (i + 1)
+    ;[indices[i], indices[j]] = [indices[j], indices[i]]
+  }
+  if (indices.length > 1 && indices.every((n, i) => n === i)) indices.push(indices.shift()!)
+  return indices
 }
 
 export function normalizeInteractiveQuestion(raw: any): InteractiveQuestion | null {
@@ -239,6 +251,14 @@ export function normalizeInteractiveQuestion(raw: any): InteractiveQuestion | nu
   if (!base.question) return null
 
   if (kind === 'match') {
+    if (!Array.isArray(raw.left_items) && Array.isArray(raw.matched_pairs)) {
+      const pairs = raw.matched_pairs.map((p: any) => ({ left: String(p?.left ?? '').trim(), right: String(p?.right ?? '').trim() }))
+      if (pairs.length < 3 || pairs.length > 5 || pairs.some((p: any) => !p.left || !p.right)
+        || new Set(pairs.map((p: any) => p.left.toLowerCase())).size !== pairs.length
+        || new Set(pairs.map((p: any) => p.right.toLowerCase())).size !== pairs.length) return null
+      const order = displayOrder(pairs.map((p: any) => p.right))
+      return { ...base, kind: 'match', left_items: pairs.map((p: any) => p.left), right_items: order.map((i) => pairs[i].right), correct_pairs: pairs.map((_: any, i: number) => [i, order.indexOf(i)] as [number, number]), marks: pairs.length }
+    }
     const left = (Array.isArray(raw.left_items) ? raw.left_items : []).map(String).filter(Boolean)
     const right = (Array.isArray(raw.right_items) ? raw.right_items : []).map(String).filter(Boolean)
     if (left.length < 3 || right.length < 3 || left.length !== right.length) return null
@@ -261,6 +281,12 @@ export function normalizeInteractiveQuestion(raw: any): InteractiveQuestion | nu
   }
 
   if (kind === 'order') {
+    if (!Array.isArray(raw.items) && Array.isArray(raw.ordered_items)) {
+      const correct = raw.ordered_items.map((s: unknown) => String(s ?? '').trim()) as string[]
+      if (correct.length < 3 || correct.some((s) => !s) || new Set(correct).size !== correct.length) return null
+      const order = displayOrder(correct)
+      return { ...base, kind: 'order', items: order.map((i) => correct[i]), correct_order: correct.map((_, i) => order.indexOf(i)), marks: correct.length }
+    }
     const items = (Array.isArray(raw.items) ? raw.items : []).map(String).filter(Boolean)
     if (items.length < 3) return null
     let order = (Array.isArray(raw.correct_order) ? raw.correct_order : []).map(Number)

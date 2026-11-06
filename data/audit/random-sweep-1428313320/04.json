@@ -1,0 +1,594 @@
+{
+  "index": 4,
+  "label": "Cambridge / Practice / Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+  "request": {
+    "subject": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+    "textbook_id": 199,
+    "topic_ids": [
+      2502
+    ],
+    "topics": [
+      "Chapter 11: Organic chemistry"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 14,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Look at the diagram. Which compound is unsaturated and would rapidly decolourise bromine water?",
+        "options": [
+          "A",
+          "B",
+          "C",
+          "E"
+        ],
+        "correct_answer": 2,
+        "explanation": "C is propene, which has a C=C double bond. This makes it unsaturated, so it undergoes addition with bromine and decolourises bromine water. A (propane) and E (ethane) are saturated, with only single bonds. B (ethanoic acid) has a C=O double bond, but no C=C, so it does not decolourise bromine water.",
+        "image_url": "/textbook-images/textbook-bank/199/s370-f0.jpg",
+        "topic_label": "Chapter 11: Organic chemistry",
+        "vetted": true,
+        "image_alt": "Five displayed (structural) formulae labelled A to E. A is propane (three carbons in a chain, all single bonds, each carbon with H atoms). B is ethanoic acid (CH3 group bonded to a C that has a C=O double bond and an O–H). C is propene (CH2=CH–CH3, with a C=C double bond). D is methanol (CH3–O–H). E is ethane (two carbons with single bonds, each with three H atoms). Printed on it: A | B | C | D | E | H | C | O.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "What is the general formula for alkenes in a homologous series?",
+        "options": [
+          "CnH2n+2",
+          "CnH2n",
+          "CnH2n+1",
+          "CnH2n-2"
+        ],
+        "correct_answer": 1,
+        "explanation": "The general formula for alkenes is CnH2n, which reflects the presence of a carbon-carbon double bond in their structure. CnH2n+2 represents the formula for alkanes, while options C and D do not match the formula for any common homologous series.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_id": 2502,
+        "topic_label": "Chapter 11: Organic chemistry",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Chapter 11: Organic chemistry"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Look at the diagram. What term describes the two compounds, which both have the formula C3H7OH but different structures?",
+        "options": [
+          "Isomers",
+          "Isotopes",
+          "Homologues",
+          "Allotropes"
+        ],
+        "correct_answer": 0,
+        "explanation": "Isomers are compounds with the same molecular formula but different structural formulae. Here the OH group is on an end carbon in one and on the middle carbon in the other. Isotopes are atoms of one element with different neutron numbers. Homologues differ by CH2 in the same series. Allotropes are different forms of one element.",
+        "image_url": "/textbook-images/textbook-bank/199/s388-f0.jpg",
+        "topic_label": "Chapter 11: Organic chemistry",
+        "vetted": true,
+        "image_alt": "Two structural formulae of C3H7OH isomers drawn side by side. The left one is a chain of three carbon atoms, C–C–C, with the O–H group on the end carbon, and hydrogens fill the remaining bonds. The right one is a chain of three carbon atoms with the O–H group below the middle carbon, and hydrogens fill the remaining bonds. Printed on it: H | H | H | H | C | C | C | O | H | H | H | H | H | H | C | C | C | H | H | O | H | H.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "left_items": [
+          "Homologous Series",
+          "Saturated Hydrocarbon",
+          "Cracking",
+          "Addition Reaction"
+        ],
+        "right_items": [
+          "A series of organic compounds with a common general formula",
+          "A hydrocarbon with only single bonds between carbon atoms",
+          "A process that breaks down large hydrocarbon molecules into smaller ones",
+          "A reaction where atoms are added to a double or triple bond"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "marks": 4,
+        "explanation": "Homologous Series matches with a series of organic compounds with a common general formula. Saturated Hydrocarbon matches with a hydrocarbon with only single bonds between carbon atoms. Cracking matches with a process that breaks down large hydrocarbon molecules into smaller ones. Addition Reaction matches with a reaction where atoms are added to a double or triple bond.",
+        "checked": true,
+        "topic_id": 2502,
+        "topic_label": "Chapter 11: Organic chemistry",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Chapter 11: Organic chemistry"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Look at the table. Which statement best explains the trend in boiling points as the alcohols get larger?",
+        "options": [
+          "Covalent bonds within each molecule get stronger, so more energy is needed to break them",
+          "The O–H group becomes more reactive as the carbon chain gets longer",
+          "Longer molecules contain fewer hydrogen atoms, so they boil at higher temperatures",
+          "Stronger intermolecular forces between longer molecules need more energy to overcome"
+        ],
+        "correct_answer": 3,
+        "explanation": "Boiling points rise steadily from 65 °C to 158 °C because longer molecules have stronger intermolecular forces, so more energy is needed to separate them. Boiling does not break covalent bonds. Reactivity of O–H is not what controls boiling point. Longer chains actually contain more hydrogen atoms, not fewer.",
+        "image_url": "/textbook-images/textbook-bank/199/s367-f0.jpg",
+        "topic_label": "Alcohols",
+        "vetted": true,
+        "image_alt": "A two-column table with headers 'Name of alcohol' and 'Boiling point / °C'. It lists six alcohols with boiling points: methanol 65, ethanol 78, propan-1-ol 97, butan-1-ol 117, pentan-1-ol 137, hexan-1-ol 158. Printed on it: Name of alcohol | Boiling point / °C | methanol | 65 | ethanol | 78 | propan-1-ol | 97 | butan-1-ol | 117 | pentan-1-ol | 137 | hexan-1-ol | 158.",
+        "subtopic_id": 12800,
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Alcohols"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Look at the diagram. Why is the mixture heated with a vertical condenser fitted to the flask?",
+        "options": [
+          "To let vapours condense and fall back into the flask, so none escape",
+          "To collect pure ester in a separate container as it forms",
+          "To keep the flask cool so the reaction does not become too fast",
+          "To let hydrogen gas escape so the reaction goes to completion"
+        ],
+        "correct_answer": 0,
+        "explanation": "In reflux, vapours of the volatile reactants rise, are cooled by the water in the condenser, and drip back into the flask, so heating can continue without losing them. Collecting ester is distillation, which needs a different setup. The flask is heated, not cooled. No hydrogen gas is produced in esterification, and the apparatus is not open for gas to escape.",
+        "image_url": "/textbook-images/textbook-bank/199/s389-f0.jpg",
+        "topic_label": "Chapter 11: Organic chemistry",
+        "vetted": true,
+        "image_alt": "A drawing of reflux apparatus: a round-bottomed flask holds a dark liquid labelled 'ethanoic acid + ethanol + conc. sulfuric acid'. A vertical condenser is fitted into the neck of the flask, with 'water in' at the lower side arm and 'water out' at the upper side arm. A dashed line under the flask with a bold upward arrow labelled 'heat' shows where heat is applied, and drops are falling back into the flask. Printed on it: water out | condenser | water in | ethanoic acid | + ethanol | + conc. sulfuric acid | heat.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the stages of the addition reaction of ethene with bromine in the correct order",
+        "items": [
+          "Ethene reacts with bromine",
+          "The double bond in ethene breaks",
+          "Two bromine atoms attach to the carbon atoms",
+          "1,2-dibromoethane is formed"
+        ],
+        "correct_order": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "marks": 4,
+        "explanation": "The correct sequence starts with ethene reacting with bromine. The double bond in ethene breaks, allowing two bromine atoms to attach to the carbon atoms. Finally, 1,2-dibromoethane is formed.",
+        "checked": true,
+        "topic_id": 2502,
+        "topic_label": "Chapter 11: Organic chemistry",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Chapter 11: Organic chemistry"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "Look at the graph. What happens to the boiling point of the alkanes as the number of carbon atoms in one molecule increases?",
+        "options": [
+          "It stays constant because all alkanes are hydrocarbons",
+          "It increases, with smaller rises for longer molecules",
+          "It increases by the same amount for each extra carbon atom",
+          "It decreases, with smaller falls for longer molecules"
+        ],
+        "correct_answer": 1,
+        "explanation": "The curve rises from about -160 °C at 1 carbon towards 70 °C at 7 carbons, but it flattens, so each extra carbon raises the boiling point by less. The rises are not equal, so the straight-line option is wrong. The boiling point does not fall or stay constant. Larger molecules have stronger intermolecular forces.",
+        "image_url": "/textbook-images/textbook-bank/199/s371-f0.jpg",
+        "topic_label": "Alkanes",
+        "vetted": true,
+        "image_alt": "A line graph with a dashed curve through plotted points. The x-axis is 'Number of carbon atoms in one molecule of the alkane' from 1 to 7, and the y-axis is 'Boiling point / °C' from -160 to 120 in steps of 40. Points are plotted at 1 carbon (about -160), 2 (about -89), 3 (about -42), 4 (about 0), 5 (about 36) and 6 (about 69), and the curve rises steeply at first and then flattens, continuing toward 7 carbons. Printed on it: 120 | 80 | 40 | 0 | -40 | -80 | -120 | -160 | Boiling point / °C | 1 | 2 | 3 | 4 | 5 | 6 | 7 | Number of carbon atoms in one molecule of the alkane.",
+        "subtopic_id": 12798,
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Alkanes"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Saturated Hydrocarbons",
+          "Unsaturated Hydrocarbons"
+        ],
+        "items": [
+          "Methane",
+          "Ethene",
+          "Propane",
+          "Propene"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Methane and propane are saturated hydrocarbons because they contain only single bonds. Ethene and propene are unsaturated hydrocarbons because they contain a double bond.",
+        "checked": true,
+        "topic_id": 2502,
+        "topic_label": "Chapter 11: Organic chemistry",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Chapter 11: Organic chemistry"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Look at the table. Which row correctly shows whether each substance produces carbon dioxide when it burns completely?",
+        "options": [
+          "Row A",
+          "Row B",
+          "Row C",
+          "Row D"
+        ],
+        "correct_answer": 3,
+        "explanation": "Butane and ethanol both contain carbon, so burning them gives carbon dioxide (yes, yes). Hydrogen contains no carbon, so it makes only water (no). This matches row D. Row A wrongly says hydrogen gives CO2. Row B wrongly says ethanol does not. Row C reverses butane and ethanol.",
+        "image_url": "/textbook-images/textbook-bank/199/s412-f0.jpg",
+        "topic_label": "Chapter 11: Organic chemistry",
+        "vetted": true,
+        "image_alt": "A table with columns headed butane, ethanol and hydrogen, and rows labelled A to D. Each cell says yes or no. Row A: yes, yes, yes. Row B: yes, no, yes. Row C: no, yes, no. Row D: yes, yes, no. Printed on it: butane | ethanol | hydrogen | A | yes | yes | yes | B | yes | no | yes | C | no | yes | no | D | yes | yes | no.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 11,
+        "type": "mcq",
+        "question": "Look at the diagram. The two four-carbon structures C=C–C–C and C–C=C–C are drawn side by side. What is the relationship between them?",
+        "options": [
+          "They are homologous series members differing by CH2",
+          "They are saturated hydrocarbons with formula C4H10",
+          "They are structural isomers, both C4H8",
+          "They are the same compound drawn differently"
+        ],
+        "correct_answer": 2,
+        "explanation": "Each has four carbons and one C=C, so each is C4H8 once hydrogens are added (4 + 4). The double bond is in different positions, so they are structural isomers. They are not the same compound, since the double bond position differs. They do not differ by CH2. They are unsaturated, not C4H10.",
+        "image_url": "/textbook-images/textbook-bank/16/s148-f0.jpg",
+        "topic_label": "Introduction to organic chemistry",
+        "vetted": true,
+        "image_alt": "Two carbon-skeleton structural formulae are drawn side by side, each with four carbon atoms in a chain and no hydrogen atoms shown. The left one is C=C–C–C, with a double bond between the first and second carbons. The right one is C–C=C–C, with a double bond between the second and third carbons. Printed on it: C=C–C–C | C–C=C–C.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank: Alcohols can be produced by the hydration of _____ and by _____.",
+        "template": "Alcohols can be produced by the hydration of {{0}} and by {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "alkenes"
+          },
+          {
+            "id": "1",
+            "correct": "fermentation"
+          }
+        ],
+        "word_bank": [
+          "alkenes",
+          "fermentation",
+          "esters",
+          "oxidation",
+          "cracking"
+        ],
+        "marks": 2,
+        "explanation": "Alcohols can be produced by the hydration of alkenes, where a water molecule adds across the double bond. Alcohols can also be produced by fermentation, a biological process where sugars are converted into alcohols and carbon dioxide.",
+        "checked": true,
+        "subtopic_id": 12800,
+        "topic_id": 2502,
+        "topic_label": "Alcohols",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Alcohols"
+        }
+      },
+      {
+        "id": 13,
+        "type": "mcq",
+        "question": "Look at the table. Which empirical formula correctly completes the empty cell for propanoic acid, C2H5COOH, whose molecular formula is C3H6O2?",
+        "options": [
+          "C3H6O2",
+          "CH2O",
+          "C3H6O",
+          "C2H5O"
+        ],
+        "correct_answer": 0,
+        "explanation": "Molecular formula C3H6O2 has atom ratio 3:6:2. The highest common factor is 1, so it cannot be simplified and the empirical formula is C3H6O2. CH2O would need the ratio 1:2:1, which is wrong. C3H6O loses an oxygen atom. C2H5O wrongly uses only the ethyl part of the formula.",
+        "image_url": "/textbook-images/textbook-bank/16/s143-f1.jpg",
+        "topic_label": "Introduction to organic chemistry",
+        "vetted": true,
+        "image_alt": "A table with four columns headed Compound, Molecular formula, Structural formula and Empirical formula, and five rows of compounds. Butane has the molecular formula C4H10 and the empirical formula C2H5, with its structural formula blank. Propene has the molecular formula C3H6 and the structural formula CH3CH=CH2, with its empirical formula blank. Ethanol, propanoic acid and propyl ethanoate have only their molecular formulae given, and their other two cells are blank. Printed on it: Compound | Molecular formula | Structural formula | Empirical formula | butane | C4H10 | C2H5 | propene | C3H6 |",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 14,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Ethanol is an unsaturated alcohol",
+          "Cracking is used to produce smaller hydrocarbons",
+          "Ethene is an unsaturated hydrocarbon",
+          "Methane is a saturated hydrocarbon"
+        ],
+        "correct_answers": [
+          false,
+          true,
+          true,
+          true
+        ],
+        "marks": 4,
+        "explanation": "Ethanol is a saturated alcohol because it contains only single bonds. Cracking is indeed used to produce smaller hydrocarbons. Ethene is an unsaturated hydrocarbon due to its carbon-carbon double bond. Methane is a saturated hydrocarbon as it has only single bonds.",
+        "checked": true,
+        "topic_id": 2502,
+        "topic_label": "Chapter 11: Organic chemistry",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Chapter 11: Organic chemistry"
+        }
+      },
+      {
+        "id": 15,
+        "type": "mcq",
+        "question": "Look at the table. What is the relative molecular mass of pentan-1-ol, shown as C?",
+        "options": [
+          "90",
+          "88",
+          "74",
+          "86"
+        ],
+        "correct_answer": 1,
+        "explanation": "Pentan-1-ol is C5H11OH, which is C5H12O. Mr = 5×12 + 12×1 + 16 = 60 + 12 + 16 = 88. The value 74 is butan-1-ol, which has one fewer CH2. 86 comes from miscounting hydrogens as 10. 90 comes from counting 14 hydrogens.",
+        "image_url": "/textbook-images/textbook-bank/16/s152-f0.jpg",
+        "topic_label": "Introduction to organic chemistry",
+        "vetted": true,
+        "image_alt": "A table with four columns: name of alcohol, structure, relative molecular mass of alcohol (C = 12, H = 1, O = 16), and boiling point in °C. Rows for methanol, A, propan-1-ol, butan-1-ol and pentan-1-ol have some cells blank and labelled A, B, C and D for completion. The other cells are filled in with values. Printed on it: Name of alcohol | Structure | Relative molecular mass of alcohol (C = 12, H = 1, O = 16) | Boiling point / °C | methanol | CH3OH | 32 | 65 | A: | CH3CH2OH | 45 | 78 | propan-1-ol | CH3CH2CH2OH | 60 | D: | butan-1-ol | CH3CH2CH2CH2OH | 74 | 118 | pentan-1-ol | B: | C: | 138.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 16,
+        "type": "mcq",
+        "question": "Look at the diagram. Which statement about cyclopentane is correct, based on its displayed formula?",
+        "options": [
+          "It has the formula C5H12, the same as a straight-chain alkane",
+          "It contains a C=C double bond, like the ring in aspirin",
+          "It is saturated, with only single bonds between its carbon atoms",
+          "It is unsaturated, because its carbon atoms form a ring"
+        ],
+        "correct_answer": 2,
+        "explanation": "Every C–C bond in cyclopentane is single, and each carbon has two H atoms, so it is saturated (formula C5H10). Being a ring does not make it unsaturated. C5H12 is pentane, which has two more H atoms because it has no ring. The double bonds are in aspirin's ring, not in cyclopentane.",
+        "image_url": "/textbook-images/textbook-bank/16/s144-f0.jpg",
+        "topic_label": "Introduction to organic chemistry",
+        "vetted": true,
+        "image_alt": "Three organic structures: cyclopentane, a five-carbon ring with two H on each carbon, drawn as a displayed formula; aspirin, a benzene ring with an ester group (O–C(=O)–CH3) and a carboxylic acid group (COOH) on adjacent carbons, drawn as a displayed formula; and cholesterol, a structural formula of four fused rings with an HO group at one end, CH3 groups at ring junctions, and a branched side chain of CH3, CH2 and CH groups. Printed on it: H | C | Cyclopentane | H | O | C | O | Aspirin | Cholesterol | CH3 | CH3 | CH2 | CH2 | CH3 | CH | CH | CH2 | CH3 | HO.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 17,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which of the following are uses of alcohols?",
+        "options": [
+          "Fuel",
+          "Antiseptic",
+          "Solvent",
+          "Fertiliser"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2
+        ],
+        "marks": 4,
+        "explanation": "Alcohols such as ethanol are used as fuel, antiseptics, and solvents. They are not used as fertilisers.",
+        "checked": true,
+        "subtopic_id": 12800,
+        "topic_id": 2502,
+        "topic_label": "Alcohols",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Alcohols"
+        }
+      },
+      {
+        "id": 18,
+        "type": "mcq",
+        "question": "Look at the table. Which molecular formula correctly completes the blank cell for propanol, based on its displayed formula?",
+        "options": [
+          "C3H6O",
+          "C3H7O2",
+          "C3H8",
+          "C3H8O"
+        ],
+        "correct_answer": 3,
+        "explanation": "The displayed formula shows 3 carbon atoms, 8 hydrogen atoms (7 on carbon, 1 in O–H) and 1 oxygen atom, so C3H8O. C3H6O has too few hydrogens. C3H7O2 has the wrong number of hydrogens and oxygens. C3H8 is propane, with no oxygen, so it is not an alcohol.",
+        "image_url": "/textbook-images/textbook-bank/16/s143-f0.jpg",
+        "topic_label": "Introduction to organic chemistry",
+        "vetted": true,
+        "image_alt": "A table with four columns headed 'Name of compound', 'Homologous series', 'Molecular formula' and 'Displayed formula', and five rows of compounds. Propanol has only its displayed formula given (a three-carbon chain with H atoms and an O–H group on the end carbon). Ethanoic acid gives CH3COOH, propene gives C3H6, ethanol gives 'an alcohol', and ethane gives 'an alkane' and C2H6. All other cells are blank. Printed on it: Name of compound | Homologous series | Molecular formula | Displayed formula | propanol | H | H | H | H | C | C | C | O | H | H | H | H | ethanoic acid | CH3COOH | propene | C3H",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      },
+      {
+        "id": 19,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Methane",
+          "Ethane",
+          "Ethene",
+          "Ethanol"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Methane, ethane, and ethene are all hydrocarbons, while ethanol is an alcohol containing oxygen. Therefore, ethanol is the odd one out.",
+        "checked": true,
+        "topic_id": 2502,
+        "topic_label": "Chapter 11: Organic chemistry",
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+          "area": "Chapter 11: Organic chemistry"
+        }
+      },
+      {
+        "id": 20,
+        "type": "mcq",
+        "question": "Look at the table. Using the pattern in the formulae, what is the formula of hexene?",
+        "options": [
+          "C6H12",
+          "C6H14",
+          "C6H10",
+          "C7H14"
+        ],
+        "correct_answer": 0,
+        "explanation": "Each alkene is one CH2 larger than the one before (C3H6, C4H8, C5H10), so hexene is C6H12, with H = 2 × C. C6H14 is the alkane formula. C6H10 has too few hydrogens. C7H14 has seven carbons, but hex- means six.",
+        "image_url": "/textbook-images/textbook-bank/16/s141-f0.jpg",
+        "topic_label": "Introduction to organic chemistry",
+        "vetted": true,
+        "image_alt": "A table with three columns headed Name, Formula and Boiling point / °C, and five rows. The first row has no name, formula C2H4 and boiling point -102. The next rows are propene C3H6 -48, butene C4H8 -7 and pentene C5H10 30. The last row has the name hexene, with the formula and boiling point cells left blank. Printed on it: Name | Formula | Boiling point / °C | C2H4 | -102 | propene | C3H6 | -48 | butene | C4H8 | -7 | pentene | C5H10 | 30 | hexene.",
+        "topic_id": 2502,
+        "source": {
+          "textbook": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "39c33aed-b26d-43b4-b1d5-8a3babe66758",
+    "subject": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+    "topics": [
+      "Chapter 11: Organic chemistry"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "study_mixed",
+    "textbook_id": 199,
+    "topic_ids": [
+      2502
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 12,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "4",
+        "severity": "broken",
+        "detail": "Matching pairs are incorrect. Correct pairs should be: [0,0], [1,1], [2,2], [3,3]. Current mapping [0,1], [1,2], [2,0], [3,3] misaligns definitions to terms.",
+        "correction": "Correct pairs: Homologous Series→'A series of organic compounds with a common general formula'; Saturated Hydrocarbon→'A hydrocarbon with only single bonds'; Cracking→'A process that breaks down large hydrocarbon molecules'; Addition Reaction→'A reaction where atoms are added to a double or triple bond'"
+      },
+      {
+        "label": "7",
+        "severity": "broken",
+        "detail": "Correct order sequence is wrong. Current [0,2,1,3] places 'double bond breaks' before 'bromine atoms attach', which is illogical. Correct sequence: ethene reacts → double bond breaks → bromine atoms attach → product forms.",
+        "correction": "Correct order should be [0,1,2,3]: (1) Ethene reacts with bromine, (2) The double bond in ethene breaks, (3) Two bromine atoms attach to the carbon atoms, (4) 1,2-dibromoethane is formed"
+      },
+      {
+        "label": "13",
+        "severity": "poor",
+        "detail": "Explanation contains error. States 'C2H5O wrongly uses only the ethyl part' but propanoic acid is C2H5COOH (not C3H6O2 as stated in question). The molecular formula given (C3H6O2) does not match the structural formula C2H5COOH.",
+        "correction": "Propanoic acid C2H5COOH has molecular formula C3H6O2. Ratio 3:6:2 has GCD=1, so empirical formula is C3H6O2 (same as molecular). Correct answer remains 0, but explanation should clarify the structural formula matches the given molecular formula."
+      },
+      {
+        "label": "15",
+        "severity": "poor",
+        "detail": "Explanation states ethanol (row A) has Mr=45, but CH3CH2OH = 2(12) + 6(1) + 16 = 46, not 45. This is a factual error in the provided table data, not the question itself.",
+        "correction": "Ethanol Mr should be 46. However, the question asks only about pentan-1-ol (C), which is correctly calculated as 88. If table data is fixed, ethanol should show 46."
+      }
+    ],
+    "summary": "Assessment contains 20 questions spanning Chapter 11 organic chemistry topics. Four substantive issues identified: question 4 has incorrect matching pairs; question 7 has illogical ordering sequence; question 13 has explanation inconsistency; question 15 contains table data error (ethanol Mr). All other questions are factually sound, age-appropriate, and well-structured for Grade 10."
+  },
+  "totalSeconds": 25
+}

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { figureBaseUrl, figureSrc } from './figure-src'
 import { bookInBank, familyOf, figuresForQuiz, isSelfAssessmentChart, keepAndSpread, stageOfBook, type TextbookFigure } from './textbook-figure-bank'
 import { buildTextbookFigurePrompt } from './textbook-figure-prompt'
 
@@ -105,7 +106,7 @@ describe('keepAndSpread', () => {
 })
 
 describe('the textbook bank on disk', () => {
-  it('holds only figures with a topic, a description, an exercise and an image that exists', async () => {
+  it('holds figures with topic metadata and local assets or configured CDN locations', async () => {
     const fs = await import('node:fs')
     const path = await import('node:path')
     const { loadTextbookFigureBank, resetTextbookFigureBank } = await import('./textbook-figure-bank')
@@ -119,10 +120,14 @@ describe('the textbook bank on disk', () => {
       // and so may a crop judged from its page text.
       if (!/^(rw|lb)/.test(f.id) && !f.pageText) expect(f.original, f.id).toBeTruthy()
       expect(f.textbookIds.length, f.id).toBeGreaterThan(0)
-      expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
+      if (figureBaseUrl()) {
+        const url = new URL(figureSrc(f.localPath))
+        expect(url.protocol, f.localPath).toMatch(/^https?:$/)
+        expect(url.pathname.endsWith(f.localPath), f.localPath).toBe(true)
+      } else expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
       expect(f.shows, f.id).not.toMatch(/^(an?|two|three)?\s*(empty|blank)\b/i)
     }
-    // Some 10,800 figures, each image checked on disk: past the 5-second
+    // Some 10,800 figures, each asset location checked: past the 5-second
     // default once, with the whole suite running beside it.
   }, 30_000)
 })

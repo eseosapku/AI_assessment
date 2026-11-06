@@ -1,0 +1,30 @@
+{
+  "index": 19,
+  "label": "REB / Exam / Geography S4 SB",
+  "request": {
+    "subject": "Geography S4 SB",
+    "textbook_id": 109,
+    "topic_ids": [
+      1157
+    ],
+    "topics": [
+      "Fishing in Rwanda"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": "Error: Failed to generate 20 complete questions. The AI produced 16. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 253,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 20 complete questions. The AI produced 16. Please try again."
+  },
+  "totalSeconds": 253
+}

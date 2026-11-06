@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { asksNothing } from '@/lib/question-audit'
 import { levelFromBook } from './book-level'
 import type { StyleTemplate } from './style-template'
 
@@ -110,7 +111,8 @@ function usableExample(text: string): boolean {
   if (/^\s*(draw|sketch|plot)\b/i.test(cleaned)) return false
   if (/\bfig\.?\s*\d/i.test(cleaned) && !/[?]/.test(cleaned)) return false
   const words = cleaned.split(' ').length
-  return words >= 8 && words <= 80
+  if (words < 8 || words > 80) return false
+  return !asksNothing(cleaned)
 }
 
 const LEVEL_LABEL: Record<string, string> = {

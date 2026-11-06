@@ -1,0 +1,315 @@
+{
+  "index": 16,
+  "label": "REB / Practice / Subsidiary Mathematics SB S6",
+  "request": {
+    "subject": "Subsidiary Mathematics SB S6",
+    "textbook_id": 187,
+    "topic_ids": [
+      1949,
+      1948
+    ],
+    "topics": [
+      "Unit 2: Logarithmic and Exponential Functions",
+      "Unit 1: Complex Numbers"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 14,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Which of the following is the derivative of the function $f(x) = e^{3x}$?",
+        "options": [
+          "$3e^{3x}$",
+          "$e^{3x}$",
+          "$3e^{2x}$",
+          "$9e^{3x}$"
+        ],
+        "correct_answer": 0,
+        "explanation": "The derivative of $e^{3x}$ is $3e^{3x}$, which follows from the rule that the derivative of $e^{ax}$ is $ae^{ax}$. $e^{3x}$ is incorrect because it omits the multiplicative constant. $3e^{2x}$ is incorrect as it incorrectly changes the exponent. $9e^{3x}$ is incorrect because it multiplies the exponent by 3 instead of the constant.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Look at the graph. As x gets closer to 0 from the right, what happens to the values of y = lnx?",
+        "options": [
+          "They approach 1",
+          "They decrease without bound, toward negative infinity",
+          "They increase without bound, toward positive infinity",
+          "They approach 0"
+        ],
+        "correct_answer": 1,
+        "explanation": "The curve drops steeply downward beside the y-axis, so ln x becomes more and more negative as x tends to 0 from the right. It does not rise to positive infinity, and it does not approach 0 or 1. The value 0 is reached only at x = 1, where the curve crosses the x-axis.",
+        "image_url": "/textbook-images/rwanda/187/page56-embedded-0.jpeg",
+        "topic_label": "Unit 2: Logarithmic and Exponential Functions",
+        "vetted": true,
+        "image_alt": "A graph of the curve y = ln x drawn in green on a coordinate grid, with the curve labelled \"y = lnx\". The curve lies to the right of the y-axis and falls steeply toward negative infinity as x approaches 0. It crosses the x-axis at x = 1, passes about y = 1 near x = 2.7, and reaches about y = 2 at x = 7. The x-axis is marked from -3 to 7 and the y-axis from -4 to 6. Printed on it: y | x | y = lnx | -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | -1 | -2 | -3 | -4.",
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Explain how to solve the equation $\\log_2(x) = 4$.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of the logarithmic to exponential conversion",
+          "Correct application of the conversion",
+          "Solving for x",
+          "Final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how to solve the equation $\\log_2(x) = 4$ — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the logarithmic to conversion; Correct application of the conversion; Solving for x."
+        ],
+        "model_answer": "To solve the equation $\\log_2(x) = 4$, we first convert it to exponential form, which gives us $2^4 = x$. Calculating $2^4$ yields 16, so $x = 16$. This involves understanding that the base of the logarithm becomes the base of the exponent, and the right-hand side of the equation becomes the exponent of the base.",
+        "explanation": "A strong answer will start by converting the logarithmic equation to its exponential form, clearly showing the base and the exponent. It must then calculate the value of the exponent, correctly arriving at the final answer of 16. Each step must be logically connected to the previous one.",
+        "checked": true,
+        "subtopic_id": 9946,
+        "topic_id": 1949,
+        "topic_label": "Applications of logarithmic and exponential functions",
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6",
+          "area": "Applications of logarithmic and exponential functions"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Look at the diagram. Using the point z = a + bi plotted at (3, 4), what is the value of r, the modulus of z?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "5",
+            "r = 5",
+            "r=5",
+            "|z| = 5",
+            "5 units"
+          ]
+        },
+        "explanation": "The point z is at (3, 4), so a = 3 and b = 4. The arrow r is the hypotenuse of the right-angled triangle, so r = √(3² + 4²) = √25 = 5.",
+        "image_url": "/textbook-images/rwanda/187/page36-embedded-0.png",
+        "topic_label": "Unit 1: Complex Numbers",
+        "vetted": true,
+        "image_alt": "An Argand diagram with the horizontal axis Re(Z) from -2 to 7 and the vertical axis Im(Z) from -1 to 5. An arrow of length r runs from the origin to the point z = a + bi at (3, 4). A dashed horizontal line from the point to the Im axis is labelled a, and a vertical line from the point down to the Re axis is labelled b. The angle θ is marked between the positive real axis and the arrow. Unit vectors i and j are drawn along the axes at the origin. Printed on it: Im(Z) | 5 | 4 | 3 | 2 | 1 | a | z = a + bi | r | b | θ | j | i | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | -1 | -2 | -1 | Re(Z).",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Using the point z = a + bi plotted at (3, 4), what is the value of r, the modulus of z."
+        ],
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "What is the value of $log_{10}(1000)$?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "10"
+        ],
+        "correct_answer": 2,
+        "explanation": "The value of $log_{10}(1000)$ is 3 because $10^3 = 1000$. 1 is incorrect because it assumes $10^1 = 1000$. 3 is correct because $10^3 = 1000$. 10 is incorrect because it assumes $10^{10} = 1000$.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 1: Complex Numbers",
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which of the following is a solution to the equation $2^{x} = 8$?",
+        "options": [
+          "3",
+          "4",
+          "5",
+          "2"
+        ],
+        "correct_answer": 0,
+        "explanation": "Since 8 = 2³, the equation 2^x = 8 becomes 2^x = 2³, so x = 3.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Unit 2: Logarithmic and Exponential Functions",
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Look at the graph. State the risk of accident when the concentration is 0, and state what type of function the curve represents, giving a reason.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that the risk of accident is 1 when the concentration is 0.",
+          "Identifies the curve as an exponential function (growth), because the risk increases at an ever faster rate as concentration increases."
+        ],
+        "model_answer": "When the concentration is 0, the risk of accident is 1. The curve represents an exponential growth function, because the risk rises faster and faster as the concentration increases, for example from about 3.3 at 3 to 5 at 4.",
+        "explanation": "A strong answer reads the value where the curve cuts the vertical axis, which is 1. It must also name the curve as exponential growth and justify this by the increasing steepness of the curve as concentration rises.",
+        "image_url": "/textbook-images/rwanda/187/page96-embedded-0.png",
+        "topic_label": "Continuity and asymptotes of exponential function",
+        "vetted": true,
+        "image_alt": "A curve on axes with 'concentration' on the horizontal axis (marked 0 to 6) and 'Risk of accident' on the vertical axis (marked 0 to 6), with dashed gridlines. The curve rises increasingly steeply, passing through (0, 1), about (2, 2.2), about (3, 3.3) and (4, 5), and reaching 6 at a concentration of about 4.5. Printed on it: Risk of accident | 6 | 5 | 4 | 3 | 2 | 1 | 0 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | concentration.",
+        "hints": [
+          "Structure your answer around both demands: Look at the graph; then State the risk of accident when the concentration is 0, and state what type of function the curve represents, giving a reason."
+        ],
+        "subtopic_id": 9943,
+        "topic_id": 1949,
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6",
+          "area": "Continuity and asymptotes of exponential function"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Describe how to find the modulus of a complex number $z = a + bi$.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the modulus formula",
+          "Correct application of the formula",
+          "Final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how to find the modulus of a complex number $z = a + bi$ — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the; Final answer."
+        ],
+        "model_answer": "To find the modulus of a complex number $z = a + bi$, we use the formula $|z| = \\sqrt{a^2 + b^2}$. For example, if $z = 3 + 4i$, then $|z| = \\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$. This involves squaring the real and imaginary parts, adding them, and taking the square root of the sum.",
+        "explanation": "A strong answer will correctly identify the modulus formula and apply it to a specific example, correctly calculating the modulus. Each step must be clearly explained and logically connected.",
+        "checked": true,
+        "subtopic_id": 9923,
+        "topic_id": 1948,
+        "topic_label": "Modulus of a complex number",
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6",
+          "area": "Modulus of a complex number"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Look at the diagram. Impedances 0 + jX1 and 0 + jX2 both lie on the jX axis. What is the argument of 0 + jX1, in degrees?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "90",
+            "90°",
+            "90 degrees",
+            "π/2",
+            "pi/2",
+            "π/2 radians"
+          ]
+        },
+        "explanation": "0 + jX1 (Pure L) lies on the positive jX axis, because its real part is 0 and its imaginary part X1 is positive. The positive imaginary axis is 90° (π/2) from the positive real axis, so the argument is 90°.",
+        "image_url": "/textbook-images/rwanda/187/page19-embedded-0.png",
+        "topic_label": "Unit 1: Complex Numbers",
+        "vetted": true,
+        "image_alt": "An Argand-style diagram with a horizontal axis labelled R and a vertical axis labelled jX, meeting at a dot at the origin. The upper part of the vertical axis is labelled \"0 + jX1 (Pure L)\". The lower part is labelled \"0 + jX2 (Pure C) (CX2<0)\". Printed on it: jX | R | 0 + jX1 | ( Pure L) | 0 + jX2 | ( Pure C) | ( CX2<0).",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Impedances 0 + jX1 and 0 + jX2 both lie on the jX axis."
+        ],
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Which of the following is the argument of the complex number $z = -1 + i$?",
+        "options": [
+          "$\\frac{7\\pi}{4}$",
+          "$\\frac{\\pi}{4}$",
+          "$\\frac{3\\pi}{4}$",
+          "$\\frac{5\\pi}{4}$"
+        ],
+        "correct_answer": 2,
+        "explanation": "The complex number z = -1 + i lies in quadrant II. The argument is π - arctan(1/1) = π - π/4 = 3π/4.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 9927,
+        "topic_id": 1948,
+        "topic_label": "Definition and properties of a complex number in polar form",
+        "source": {
+          "textbook": "Subsidiary Mathematics SB S6",
+          "area": "Definition and properties of a complex number in polar form"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "2fa6030f-fe91-4397-8e4d-1f8c5f3c8c16",
+    "subject": "Subsidiary Mathematics SB S6",
+    "topics": [
+      "Unit 2: Logarithmic and Exponential Functions",
+      "Unit 1: Complex Numbers"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mixed",
+    "textbook_id": 187,
+    "topic_ids": [
+      1949,
+      1948
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "5",
+        "severity": "broken",
+        "detail": "Question asks for log₁₀(1000) but is labeled under 'Unit 1: Complex Numbers'. This is a logarithmic function question belonging to Unit 2. Topic label is incorrect.",
+        "correction": "Change topic_label from 'Unit 1: Complex Numbers' to 'Unit 2: Logarithmic and Exponential Functions'"
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Question topic_label states 'Continuity and asymptotes of exponential function' but this is not one of the two requested units (Unit 1: Complex Numbers; Unit 2: Logarithmic and Exponential Functions). Topic classification is vague and non-standard.",
+        "correction": "Relabel as 'Unit 2: Logarithmic and Exponential Functions' to align with assessment scope"
+      }
+    ],
+    "summary": "Assessment contains 10 questions spanning both requested units. Two topic labeling errors identified: Q5 incorrectly assigned to Complex Numbers (should be Unit 2), and Q7 uses non-standard topic label. All mathematical content, model answers, and marking criteria are substantively correct. MCQ answers are unique and verifiable."
+  },
+  "totalSeconds": 20
+}

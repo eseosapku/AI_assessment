@@ -1,0 +1,513 @@
+{
+  "index": 5,
+  "label": "Cambridge / Practice / Cambridge IGCSE English as First Language Course Book (2)",
+  "request": {
+    "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+    "textbook_id": 202,
+    "topic_ids": [
+      2713
+    ],
+    "topics": [
+      "Unit 6: Composition"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE English as First Language Course Book (2)",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 12,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Metaphor",
+            "right": "A direct comparison between two unlike things"
+          },
+          {
+            "left": "Simile",
+            "right": "A figure of speech that uses 'like' or 'as' to compare two things"
+          },
+          {
+            "left": "Personification",
+            "right": "Attributing human characteristics to non-human things"
+          },
+          {
+            "left": "Alliteration",
+            "right": "The repetition of consonant sounds at the beginning of words"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is correctly paired with its definition, which helps in understanding figurative language.",
+        "left_items": [
+          "Metaphor",
+          "Simile",
+          "Personification",
+          "Alliteration"
+        ],
+        "right_items": [
+          "Attributing human characteristics to non-human things",
+          "The repetition of consonant sounds at the beginning of words",
+          "A figure of speech that uses 'like' or 'as' to compare two things",
+          "A direct comparison between two unlike things"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Descriptive Language",
+          "Structural Features"
+        ],
+        "items": [
+          "Imagery",
+          "Paragraph",
+          "Metaphor",
+          "Transition",
+          "Personification",
+          "Hook"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 6,
+        "explanation": "Each item is correctly categorised based on its role in composition.",
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "A paragraph typically contains five to seven sentences.",
+          "Imagery uses all five senses to create a mental picture.",
+          "Transitions are used to end a paragraph.",
+          "A hook is used at the beginning of an essay to grab the reader's attention."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          false,
+          true
+        ],
+        "marks": 4,
+        "explanation": "The first and fourth statements are true, while the second and third statements are false based on their definitions.",
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Imagery",
+          "Metaphor",
+          "Paragraph",
+          "Alliteration"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "'Paragraph' does not belong as it is a structural feature, while the others are types of descriptive language.",
+        "checked": true,
+        "subtopic_id": 13820,
+        "topic_id": 2713,
+        "topic_label": "Descriptive language",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Descriptive language"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each descriptive language term to its example",
+        "matched_pairs": [
+          {
+            "left": "Simile",
+            "right": "She sings like a bird."
+          },
+          {
+            "left": "Metaphor",
+            "right": "Time is a thief."
+          },
+          {
+            "left": "Personification",
+            "right": "The wind whispered through the trees."
+          },
+          {
+            "left": "Alliteration",
+            "right": "Peter Piper picked a peck of pickled peppers."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is correctly matched with an example that demonstrates its use.",
+        "left_items": [
+          "Simile",
+          "Metaphor",
+          "Personification",
+          "Alliteration"
+        ],
+        "right_items": [
+          "Time is a thief.",
+          "Peter Piper picked a peck of pickled peppers.",
+          "The wind whispered through the trees.",
+          "She sings like a bird."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 13820,
+        "topic_id": 2713,
+        "topic_label": "Descriptive language",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Descriptive language"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Descriptive Language",
+          "Structural Features"
+        ],
+        "items": [
+          "Simile",
+          "Transition",
+          "Imagery",
+          "Paragraph",
+          "Metaphor",
+          "Hook"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 6,
+        "explanation": "Each item is correctly categorised based on its role in composition.",
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Imagery",
+          "Sound Devices"
+        ],
+        "items": [
+          "The waves crashed against the rocks.",
+          "The soft purr of the cat was calming.",
+          "The scent of fresh flowers filled the air.",
+          "The rustling of leaves was soothing."
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Each item is sorted into the category that best describes the literary device used.",
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Simile",
+          "Metaphor",
+          "Personification",
+          "Onomatopoeia"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Onomatopoeia is the odd one out as it refers to words that imitate sounds, unlike the other options which are figures of speech.",
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each example to the correct figure of speech",
+        "matched_pairs": [
+          {
+            "left": "Her smile was like the sun.",
+            "right": "Simile"
+          },
+          {
+            "left": "The world is a stage.",
+            "right": "Metaphor"
+          },
+          {
+            "left": "The wind whispered secrets.",
+            "right": "Personification"
+          },
+          {
+            "left": "The bees buzzed busily.",
+            "right": "Onomatopoeia"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each example is matched with the correct figure of speech it represents.",
+        "left_items": [
+          "Her smile was like the sun.",
+          "The world is a stage.",
+          "The wind whispered secrets.",
+          "The bees buzzed busily."
+        ],
+        "right_items": [
+          "Personification",
+          "Metaphor",
+          "Simile",
+          "Onomatopoeia"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Imagery",
+          "Sound Devices"
+        ],
+        "items": [
+          "The fog rolled in silently.",
+          "The clock chimed loudly.",
+          "The meadow was a sea of flowers.",
+          "The thunder clapped fiercely."
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Each item is categorised based on whether it uses imagery or sound devices.",
+        "checked": true,
+        "topic_id": 2713,
+        "topic_label": "Unit 6: Composition",
+        "source": {
+          "textbook": "Cambridge IGCSE English as First Language Course Book (2)",
+          "area": "Unit 6: Composition"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "93813a5c-aa2a-4807-8114-d7c004a6cdb2",
+    "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+    "topics": [
+      "Unit 6: Composition"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "interactive",
+    "textbook_id": 202,
+    "topic_ids": [
+      2713
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 2"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "1",
+        "severity": "broken or poor",
+        "detail": "Incorrect matching of terms to definitions. 'Metaphor' should be matched with 'A direct comparison between two unlike things', 'Simile' with 'A figure of speech that uses 'like' or 'as' to compare two things', 'Personification' with 'Attributing human characteristics to non-human things', and 'Alliteration' with 'The repetition of consonant sounds at the beginning of words'.",
+        "correction": "Correct pairs should be [[0, 3], [1, 2], [2, 0], [3, 1]]."
+      },
+      {
+        "label": "3",
+        "severity": "broken or poor",
+        "detail": "Incorrect true/false answers. The statement 'Imagery uses all five senses to create a mental picture.' is true, not false.",
+        "correction": "Correct answers should be [true, true, false, true]."
+      },
+      {
+        "label": "5",
+        "severity": "broken or poor",
+        "detail": "Incorrect matching of descriptive language terms to examples. 'Simile' should be matched with 'She sings like a bird.', 'Metaphor' with 'Time is a thief.', 'Personification' with 'The wind whispered through the trees.', and 'Alliteration' with 'Peter Piper picked a peck of pickled peppers.'",
+        "correction": "Correct pairs should be [[0, 3], [1, 0], [2, 2], [3, 1]]."
+      },
+      {
+        "label": "9",
+        "severity": "broken or poor",
+        "detail": "Incorrect matching of examples to figures of speech. 'Her smile was like the sun.' is a simile, 'The world is a stage.' is a metaphor, 'The wind whispered secrets.' is personification, and 'The bees buzzed busily.' is onomatopoeia.",
+        "correction": "Correct pairs should be [[0, 2], [1, 1], [2, 0], [3, 3]]."
+      }
+    ],
+    "summary": "Minor issues in matching and true/false questions need correction."
+  },
+  "totalSeconds": 16
+}

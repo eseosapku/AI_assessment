@@ -1,0 +1,771 @@
+{
+  "index": 4,
+  "label": "Cambridge / Exam / Cambridge Primary Science 5 Learners Book ",
+  "request": {
+    "subject": "Cambridge Primary Science 5 Learners Book ",
+    "textbook_id": 52,
+    "topic_ids": [
+      580,
+      579
+    ],
+    "topics": [
+      "States of matter",
+      "The life cycle of flowering plants"
+    ],
+    "curriculum": "cambridge",
+    "grade": 5,
+    "className": "Cambridge Primary Science 5 Learners Book ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 217,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to evaporate from identical bowls placed in similar conditions.",
+        "question": "Calculate the average time taken for each amount of water to evaporate.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the total evaporation time for each amount of water.",
+          "Divide the total evaporation time by the number of trials to find the average.",
+          "Provide the average time in seconds for each amount of water."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average time taken for each amount of water to evaporate — develop the idea fully rather than listing short points. Make sure you also cover: Divide the evaporation time by the of to find the average."
+        ],
+        "model_answer": "Assuming the table shows the following data:\n\nAmount of Water (ml)\tTotal Time (seconds)\tNumber of Trials\n50\t\t180\t\t3\n100\t\t360\t\t3\n150\t\t540\t\t3\n\nCalculations:\nAverage time for 50 ml = 180 seconds / 3 trials = 60 seconds\nAverage time for 100 ml = 360 seconds / 3 trials = 120 seconds\nAverage time for 150 ml = 540 seconds / 3 trials = 180 seconds\n\nAverage times: 50 ml = 60 seconds, 100 ml = 120 seconds, 150 ml = 180 seconds.",
+        "explanation": "Calculate the average evaporation time for each amount of water by dividing the total time by the number of trials.",
+        "exam_question_id": "042a1dbc-1aa2-4f09-955d-e738bbe0759a:1",
+        "topic_label": "States of matter",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s37-f1.jpg",
+        "image_alt": "A drawing of a flat wooden rack with a mesh base divided into six sections. Bunches of green grapes lie on the mesh, and a few loose grapes are in one section. A bright yellow sun with rays is drawn above the rack. The caption reads 'grapes drying on a rack in the sun'.\nLabels: grapes drying on a rack, in the sun\nOriginal exercise: Talk about how evaporation happens in each of the pictures and how it is useful.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "States of matter"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to evaporate from identical bowls placed in similar conditions.",
+        "question": "Describe how the amount of water affects the evaporation time.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the relationship between the amount of water and evaporation time.",
+          "Explain the observed trend in simple terms."
+        ],
+        "hints": [
+          "Look at the average times calculated in part (a)."
+        ],
+        "model_answer": "As the amount of water increases, the average time taken for evaporation also increases. For example, 50 ml of water takes 60 seconds to evaporate, while 150 ml takes 180 seconds. This shows that more water takes longer to evaporate.",
+        "explanation": "Describe the relationship between the amount of water and the evaporation time using the average times from part (a).",
+        "exam_question_id": "042a1dbc-1aa2-4f09-955d-e738bbe0759a:1",
+        "topic_label": "Evaporation",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s37-f1.jpg",
+        "image_alt": "A drawing of a flat wooden rack with a mesh base divided into six sections. Bunches of green grapes lie on the mesh, and a few loose grapes are in one section. A bright yellow sun with rays is drawn above the rack. The caption reads 'grapes drying on a rack in the sun'.\nLabels: grapes drying on a rack, in the sun\nOriginal exercise: Talk about how evaporation happens in each of the pictures and how it is useful.",
+        "checked": true,
+        "subtopic_id": 2315,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Evaporation"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to evaporate from identical bowls placed in similar conditions.",
+        "question": "Explain why larger amounts of water take longer to evaporate.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the factors that affect evaporation rate.",
+          "Explain the role of water quantity in evaporation.",
+          "Provide a logical conclusion based on the observations."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why larger amounts of water take longer to evaporate — develop the idea fully rather than listing short points. Make sure you also cover: Identify the factors that affect evaporation rate.; the role of water quantity in evaporation.; Provide a logical conclusion based on the observations."
+        ],
+        "model_answer": "Larger amounts of water take longer to evaporate because they require more energy to turn from liquid to gas. The surface area of the water is the same in each bowl, but the total amount of water is different. More water means more energy is needed to evaporate all of it, so it takes longer. For example, 150 ml of water takes longer to evaporate than 50 ml because it has more water molecules that need to gain energy to become vapour.",
+        "explanation": "Explain why larger amounts of water take longer to evaporate by considering the energy required and the role of water quantity.",
+        "exam_question_id": "042a1dbc-1aa2-4f09-955d-e738bbe0759a:1",
+        "topic_label": "States of matter",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s37-f1.jpg",
+        "image_alt": "A drawing of a flat wooden rack with a mesh base divided into six sections. Bunches of green grapes lie on the mesh, and a few loose grapes are in one section. A bright yellow sun with rays is drawn above the rack. The caption reads 'grapes drying on a rack in the sun'.\nLabels: grapes drying on a rack, in the sun\nOriginal exercise: Talk about how evaporation happens in each of the pictures and how it is useful.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "States of matter"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the life cycle of a flowering plant, which includes the stages of seed, germination, growth, flowering, pollination, and seed formation. Use the diagram provided to match the terms.",
+        "question": "Name the part of a flowering plant where pollination occurs.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of pollination stage",
+          "Correct part named"
+        ],
+        "hints": [
+          "Pollination involves the transfer of pollen."
+        ],
+        "model_answer": "The part of a flowering plant where pollination occurs is the stigma.",
+        "explanation": "Pollination is the process where pollen is transferred from the stamen (male part) to the stigma (female part) of a flower, enabling fertilisation.",
+        "exam_question_id": "407620bd-2d44-4935-b1e1-9365425ee296:1",
+        "topic_label": "Plant life cycles",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s17-f0.jpg",
+        "image_alt": "Two separate tables side by side. Column A lists five numbered words: 1 seed, 2 embryo, 3 seed coat, 4 germinate, 5 environment. Column B lists five lettered meanings: A the outer cover that protects the seed, B when a seed start to grow, C everything around us, D part of a plant that can grow into a new plant, E part of a seed that grows into a new plant.\nLabels: Column A, 1, seed, 2, embryo, 3, seed coat, 4, germinate, 5, environment, Column B, A, the outer cover that protects the seed, B, when a seed start to grow, C, everything around us, D, part of a plant that can grow into a new plant, ",
+        "checked": true,
+        "subtopic_id": 2314,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Plant life cycles"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the life cycle of a flowering plant, which includes the stages of seed, germination, growth, flowering, pollination, and seed formation. Use the diagram provided to match the terms.",
+        "question": "Explain why the seed coat is important for the seed's survival.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of seed coat's role",
+          "Connection to seed survival",
+          "Clarity of explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the seed coat is important for the seed's survival — develop the idea fully rather than listing short points. Make sure you also cover: Clarity of explanation."
+        ],
+        "model_answer": "The seed coat is important for the seed's survival because it acts as a protective layer that safeguards the embryo inside from physical damage, pathogens, and adverse environmental conditions. This protection is crucial for the seed's ability to germinate and grow into a new plant.",
+        "explanation": "The seed coat serves as a barrier that shields the delicate embryo, ensuring it remains viable until conditions are right for germination.",
+        "exam_question_id": "407620bd-2d44-4935-b1e1-9365425ee296:1",
+        "topic_label": "Plant life cycles",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s17-f0.jpg",
+        "image_alt": "Two separate tables side by side. Column A lists five numbered words: 1 seed, 2 embryo, 3 seed coat, 4 germinate, 5 environment. Column B lists five lettered meanings: A the outer cover that protects the seed, B when a seed start to grow, C everything around us, D part of a plant that can grow into a new plant, E part of a seed that grows into a new plant.\nLabels: Column A, 1, seed, 2, embryo, 3, seed coat, 4, germinate, 5, environment, Column B, A, the outer cover that protects the seed, B, when a seed start to grow, C, everything around us, D, part of a plant that can grow into a new plant, ",
+        "checked": true,
+        "subtopic_id": 2314,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Plant life cycles"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider the life cycle of a flowering plant, which includes the stages of seed, germination, growth, flowering, pollination, and seed formation. Use the diagram provided to match the terms.",
+        "question": "Describe the process of germination and why it is important for the plant's life cycle.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of germination process",
+          "Importance to plant's life cycle",
+          "Clarity of description"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the process of germination and why it is important for the plant's life cycle — develop the idea fully rather than listing short points. Make sure you also cover: Clarity of description."
+        ],
+        "model_answer": "Germination is the process by which a seed starts to grow into a new plant. It begins when the seed absorbs water, causing the seed coat to soften and the embryo to begin growing. The root emerges first, followed by the shoot. Germination is important because it marks the beginning of the plant's life cycle, allowing it to develop into a mature plant capable of photosynthesis and reproduction.",
+        "explanation": "Germination is a critical phase in the plant's life cycle as it transitions from a dormant seed to an actively growing organism.",
+        "exam_question_id": "407620bd-2d44-4935-b1e1-9365425ee296:1",
+        "topic_label": "Plant life cycles",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s17-f0.jpg",
+        "image_alt": "Two separate tables side by side. Column A lists five numbered words: 1 seed, 2 embryo, 3 seed coat, 4 germinate, 5 environment. Column B lists five lettered meanings: A the outer cover that protects the seed, B when a seed start to grow, C everything around us, D part of a plant that can grow into a new plant, E part of a seed that grows into a new plant.\nLabels: Column A, 1, seed, 2, embryo, 3, seed coat, 4, germinate, 5, environment, Column B, A, the outer cover that protects the seed, B, when a seed start to grow, C, everything around us, D, part of a plant that can grow into a new plant, ",
+        "checked": true,
+        "subtopic_id": 2314,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Plant life cycles"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a close-up photograph of a branch of a bush willow with green leaves. Several reddish-brown seeds hang from thin stalks along the branch, and each seed has a papery, wing-like outer part surrounding a small green central body.",
+        "question": "Name the part of the bush willow seed that is responsible for its dispersal.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly identifies the wing-like outer part of the seed."
+        ],
+        "hints": [
+          "Look at the structure of the seed in the diagram."
+        ],
+        "model_answer": "The wing-like outer part of the seed.",
+        "explanation": "The wing-like outer part of the bush willow seed helps it to be carried away by the wind, aiding in its dispersal.",
+        "exam_question_id": "6e3c45d3-306a-4c82-b94a-8d7ca563be87:1",
+        "topic_label": "The life cycle of flowering plants",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s24-f0.jpg",
+        "image_alt": "A close-up photograph of a branch of a bush willow with green leaves. Several reddish-brown seeds hang from thin stalks along the branch, and each seed has a papery, wing-like outer part surrounding a small green central body. The caption reads 'Bush willow seed.'\nLabels: Bush willow seed.\nOriginal exercise: How do think the bush willow seed is dispersed? Give a reason for your answer.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "The life cycle of flowering plants"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a close-up photograph of a branch of a bush willow with green leaves. Several reddish-brown seeds hang from thin stalks along the branch, and each seed has a papery, wing-like outer part surrounding a small green central body.",
+        "question": "Explain how the wing-like outer part of the bush willow seed aids in its dispersal.",
+        "marks": 2,
+        "marking_criteria": [
+          "Mentions the role of the wing-like outer part in dispersal.",
+          "Explains how the wing-like outer part helps the seed to be carried by the wind."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The wing-like outer part of the bush willow seed acts like a parachute, allowing the seed to float and be carried by the wind over long distances, which aids in its dispersal.",
+        "explanation": "The wing-like outer part of the seed allows it to be carried by the wind, spreading the bush willow's seeds to new areas.",
+        "exam_question_id": "6e3c45d3-306a-4c82-b94a-8d7ca563be87:1",
+        "topic_label": "The life cycle of flowering plants",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s24-f0.jpg",
+        "image_alt": "A close-up photograph of a branch of a bush willow with green leaves. Several reddish-brown seeds hang from thin stalks along the branch, and each seed has a papery, wing-like outer part surrounding a small green central body. The caption reads 'Bush willow seed.'\nLabels: Bush willow seed.\nOriginal exercise: How do think the bush willow seed is dispersed? Give a reason for your answer.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "The life cycle of flowering plants"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a close-up photograph of a branch of a bush willow with green leaves. Several reddish-brown seeds hang from thin stalks along the branch, and each seed has a papery, wing-like outer part surrounding a small green central body.",
+        "question": "Describe one advantage of the bush willow seed being dispersed by the wind.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifies an advantage of wind dispersal.",
+          "Explains why this advantage is beneficial."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "One advantage of the bush willow seed being dispersed by the wind is that it allows the seeds to travel far from the parent plant, reducing competition among seedlings for resources such as sunlight, water, and nutrients.",
+        "explanation": "By being dispersed by the wind, the bush willow seeds can spread out and find new areas to grow, which helps the plant to reproduce and thrive.",
+        "exam_question_id": "6e3c45d3-306a-4c82-b94a-8d7ca563be87:1",
+        "topic_label": "How seeds are spread",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s24-f0.jpg",
+        "image_alt": "A close-up photograph of a branch of a bush willow with green leaves. Several reddish-brown seeds hang from thin stalks along the branch, and each seed has a papery, wing-like outer part surrounding a small green central body. The caption reads 'Bush willow seed.'\nLabels: Bush willow seed.\nOriginal exercise: How do think the bush willow seed is dispersed? Give a reason for your answer.",
+        "checked": true,
+        "subtopic_id": 2309,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "How seeds are spread"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you have two identical pieces of wet cloth. One piece is placed on a sunny, windy day, and the other is placed in a cool, calm room.",
+        "question": "Explain why the piece of cloth on the sunny, windy day dries faster than the piece in the cool, calm room.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the factors affecting evaporation.",
+          "Explain how warmth affects the rate of evaporation.",
+          "Explain how wind affects the rate of evaporation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the piece of cloth on the sunny, windy day dries faster than the piece in the cool, calm room — develop the idea fully rather than listing short points. Make sure you also cover: Identify the factors affecting evaporation.; how affects the rate of evaporation.; how affects the rate…."
+        ],
+        "model_answer": "The piece of cloth on the sunny, windy day dries faster because the warmth from the sun increases the energy of the water molecules, making them move faster and evaporate quicker. The wind also helps by carrying away the water vapour, preventing it from re-condensing on the cloth.",
+        "explanation": "The piece of cloth on the sunny, windy day dries faster because it is warmer and there is a breeze, which increases the rate of evaporation.",
+        "exam_question_id": "240b3525-60ad-4726-9a36-436bbc062e24:1",
+        "topic_label": "States of matter",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s54-f0.jpg",
+        "image_alt": "A diagram of the water cycle. A sun is at top left, and wavy arrows rise from the sea toward a white cloud, with label line A pointing to the arrows. A block arrow points from the white cloud to a grey rain cloud, with label line B pointing to the arrow. Rain falls from the grey cloud onto green mountains with a snow-capped peak, and a small white cloud beside the peak drops snow or hail, with label line C pointing to that cloud. A river runs down the land into the sea, and label line D points to the green land.\nLabels: B, A, C, D\nOriginal exercise: Label the processes that take place at point",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "States of matter"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you have two identical pieces of wet cloth. One piece is placed on a sunny, windy day, and the other is placed in a cool, calm room.",
+        "question": "Describe the process occurring at point A in the water cycle diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the process of evaporation.",
+          "Explain how water changes from liquid to gas."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the process occurring at point A in the water cycle diagram — develop the idea fully rather than listing short points. Make sure you also cover: Identify the process of evaporation."
+        ],
+        "model_answer": "At point A, water from the sea is evaporating into water vapour in the air. This happens because the sun heats the water, causing it to change from a liquid to a gas.",
+        "explanation": "At point A, water is evaporating from the sea into the air due to the heat from the sun.",
+        "exam_question_id": "240b3525-60ad-4726-9a36-436bbc062e24:1",
+        "topic_label": "The water cycle",
+        "topic_id": 580,
+        "image_url": "/textbook-images/textbook-bank/52/s54-f0.jpg",
+        "image_alt": "A diagram of the water cycle. A sun is at top left, and wavy arrows rise from the sea toward a white cloud, with label line A pointing to the arrows. A block arrow points from the white cloud to a grey rain cloud, with label line B pointing to the arrow. Rain falls from the grey cloud onto green mountains with a snow-capped peak, and a small white cloud beside the peak drops snow or hail, with label line C pointing to that cloud. A river runs down the land into the sea, and label line D points to the green land.\nLabels: B, A, C, D\nOriginal exercise: Label the processes that take place at point",
+        "checked": true,
+        "subtopic_id": 2320,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "The water cycle"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows two drawings labelled A and B. A shows a winged seed (like a sycamore or maple fruit) with two flat, pale, wing-like parts joined at a green centre with a small stalk on top. B shows an open green pod with round seeds inside and several seeds falling out, with curly tendrils at the bottom. Labels: A, B",
+        "question": "Explain how the wing-like outer part of the seed in drawing A aids in its dispersal.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the wing-like outer part's role in dispersal",
+          "Explain the effect of wind on the dispersal",
+          "Mention the advantage of being carried by the wind"
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The wing-like outer part of the seed in drawing A aids in its dispersal by catching the wind. The flat, wing-like parts allow the seed to float and be carried by the wind over long distances, increasing the chances of finding a suitable place to germinate. The small stalk on top helps it stay attached to the central body while being carried.",
+        "explanation": "Explain the function of the wing-like outer part in the dispersal of the seed, considering the effect of wind.",
+        "exam_question_id": "9cb7fa65-3db2-4f26-93d2-473612299c64:1",
+        "topic_label": "The life cycle of flowering plants",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s33-f0.jpg",
+        "image_alt": "Two drawings labelled A and B. A shows a winged seed (like a sycamore or maple fruit) with two flat, pale, wing-like parts joined at a green centre with a small stalk on top. B shows an open green pod with round seeds inside and several seeds falling out, with curly tendrils at the bottom.\nLabels: A, B\nOriginal exercise: How are the seeds shown in the pictures spread? Give a reason for your answers.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "The life cycle of flowering plants"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows two drawings labelled A and B. A shows a winged seed (like a sycamore or maple fruit) with two flat, pale, wing-like parts joined at a green centre with a small stalk on top. B shows an open green pod with round seeds inside and several seeds falling out, with curly tendrils at the bottom. Labels: A, B",
+        "question": "Describe the process of seed dispersal for the seed shown in drawing B.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the method of dispersal",
+          "Explain how the structure aids in dispersal",
+          "Mention the role of tendrils in the process"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the process of seed dispersal for the seed shown in drawing B — develop the idea fully rather than listing short points. Make sure you also cover: Identify the method of dispersal; how the structure aids in dispersal."
+        ],
+        "model_answer": "The seed dispersal process for the seed shown in drawing B involves the seeds being released from the open pod. The seeds have curly tendrils that can attach to animals or clothing, allowing the seeds to be carried to new locations. This increases the chances of the seeds finding a suitable environment to germinate.",
+        "explanation": "Describe how the seeds in drawing B are dispersed, focusing on the role of the tendrils.",
+        "exam_question_id": "9cb7fa65-3db2-4f26-93d2-473612299c64:1",
+        "topic_label": "The life cycle of flowering plants",
+        "topic_id": 579,
+        "image_url": "/textbook-images/textbook-bank/52/s33-f0.jpg",
+        "image_alt": "Two drawings labelled A and B. A shows a winged seed (like a sycamore or maple fruit) with two flat, pale, wing-like parts joined at a green centre with a small stalk on top. B shows an open green pod with round seeds inside and several seeds falling out, with curly tendrils at the bottom.\nLabels: A, B\nOriginal exercise: How are the seeds shown in the pictures spread? Give a reason for your answers.",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "The life cycle of flowering plants"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the table below which shows the time taken for different amounts of water to boil at sea level.",
+        "question": "Calculate the average time taken for 100 ml of water to boil.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the average time.",
+          "Shows working.",
+          "Correct answer."
+        ],
+        "hints": [
+          "Sum the times and divide by the number of trials."
+        ],
+        "model_answer": "Given times for 100 ml: 4 min, 4 min 10 sec, 4 min 5 sec. Sum = 12 min 35 sec. Average = 12 min 35 sec / 3 = 4 min 11.67 sec.",
+        "explanation": "Calculate the average time taken by adding up the times and dividing by the number of times the experiment was conducted.",
+        "exam_question_id": "2200c2e2-0ceb-42a4-86d3-fd6036812ff8:1",
+        "topic_label": "Boiling (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling (States of matter)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the table below which shows the time taken for different amounts of water to boil at sea level.",
+        "question": "Explain why the time taken to boil increases as the amount of water increases.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of the relationship between water amount and boiling time.",
+          "Mentions energy transfer or heat distribution.",
+          "Correct conclusion."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the time taken to boil increases as the amount of water increases — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the relationship between water amount and time.; Mentions transfer or distribution.; Correct conclusion."
+        ],
+        "model_answer": "Larger amounts of water take longer to boil because the heat energy needs to be distributed over a greater volume. More energy is required to raise the temperature of more water to the boiling point.",
+        "explanation": "As the volume of water increases, the heat energy needs to be spread out over a larger area, requiring more time to reach the boiling point.",
+        "exam_question_id": "2200c2e2-0ceb-42a4-86d3-fd6036812ff8:1",
+        "topic_label": "Boiling (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling (States of matter)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are boiling water in a saucepan on the stove. You notice that the water starts to boil at different times when you use different amounts of water.",
+        "question": "Describe the process that occurs when water boils.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct description of the boiling process.",
+          "Mentions bubbles forming and rising.",
+          "Correct conclusion."
+        ],
+        "hints": [
+          "Consider what happens to the water molecules as they gain energy."
+        ],
+        "model_answer": "When water boils, bubbles of water vapor form at the bottom of the saucepan and rise to the surface. This process occurs when the water reaches its boiling point and the vapor pressure equals the atmospheric pressure.",
+        "explanation": "Boiling is a phase change from liquid to gas, characterised by the formation and rise of vapour bubbles.",
+        "exam_question_id": "2200c2e2-0ceb-42a4-86d3-fd6036812ff8:2",
+        "topic_label": "Boiling",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2321,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are boiling water in a saucepan on the stove. You notice that the water starts to boil at different times when you use different amounts of water.",
+        "question": "Explain why the boiling point of water changes when you move from sea level to a high altitude.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of the effect of altitude on boiling point.",
+          "Mentions atmospheric pressure.",
+          "Correct conclusion."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the boiling point of water changes when you move from sea level to a high altitude — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of the effect of altitude on boiling point.; Mentions; Correct conclusion."
+        ],
+        "model_answer": "At higher altitudes, the atmospheric pressure is lower. This causes the boiling point of water to decrease because less energy is required for the water molecules to escape into the air as vapor.",
+        "explanation": "Boiling point is the temperature at which the vapour pressure of a liquid equals the atmospheric pressure. At higher altitudes, where the atmospheric pressure is lower, water boils at a lower temperature.",
+        "exam_question_id": "2200c2e2-0ceb-42a4-86d3-fd6036812ff8:2",
+        "topic_label": "Boiling",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2321,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two identical beakers, each containing 100 ml of water at room temperature. One beaker is covered with a lid, and the other is left uncovered. Both beakers are placed in a room with a constant temperature of 25°C.",
+        "question": "Explain why the beaker left uncovered will lose water more quickly than the covered beaker.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that evaporation is the process by which water changes from a liquid to a gas.",
+          "Explain that the uncovered beaker allows water vapour to escape into the air, increasing the rate of evaporation.",
+          "Explain that the covered beaker reduces the rate of evaporation by limiting the escape of water vapour."
+        ],
+        "hints": [
+          "Think about how air movement and exposure to air affect evaporation."
+        ],
+        "model_answer": "The beaker left uncovered will lose water more quickly than the covered beaker because evaporation is the process by which water changes from a liquid to a gas. The uncovered beaker allows water vapour to escape into the air, increasing the rate of evaporation. The covered beaker reduces the rate of evaporation by limiting the escape of water vapour.",
+        "explanation": "Evaporation occurs faster when water is exposed to air, as it allows water vapour to escape. A covered beaker limits this escape, slowing the evaporation process.",
+        "exam_question_id": "303906bc-7018-416a-97a7-f2ca7ff91952:1",
+        "topic_label": "Condensation (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Condensation (States of matter)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two identical beakers, each containing 100 ml of water at room temperature. One beaker is covered with a lid, and the other is left uncovered. Both beakers are placed in a room with a constant temperature of 25°C.",
+        "question": "Describe what happens to the rate of evaporation if the temperature of the room increases to 35°C.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that an increase in temperature increases the kinetic energy of water molecules.",
+          "Describe that increased kinetic energy causes more water molecules to escape from the liquid as vapour."
+        ],
+        "hints": [
+          "Stay focused on this: Describe what happens to the rate of evaporation if the temperature of the room increases to 35°C — develop the idea fully rather than listing short points. Make sure you also cover: that increased causes to from the as."
+        ],
+        "model_answer": "If the temperature of the room increases to 35°C, the rate of evaporation will increase. This is because an increase in temperature increases the kinetic energy of water molecules, causing more water molecules to escape from the liquid as vapour.",
+        "explanation": "Higher temperatures give water molecules more energy, causing them to move faster and escape from the liquid more readily.",
+        "exam_question_id": "303906bc-7018-416a-97a7-f2ca7ff91952:1",
+        "topic_label": "Evaporation",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2315,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Evaporation"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to boil at sea level. The table includes the following data: 50 ml of water takes 5 minutes to boil, 100 ml of water takes 10 minutes to boil, 150 ml of water takes 15 minutes to boil, 200 ml of water takes 20 minutes to boil, and 250 ml of water takes 25 minutes to boil.",
+        "question": "Calculate the average time taken for 100 ml of water to boil.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the time taken for 100 ml of water to boil from the table.",
+          "Correctly calculate the average time by summing the times and dividing by the number of trials.",
+          "Provide the final answer with the correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the average time taken for 100 ml of water to boil — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the time taken for 100 ml of water to boil from the table.; Provide the final answer with the correct units."
+        ],
+        "model_answer": "10 minutes",
+        "explanation": "Using the data from the table, the time taken for 100 ml of water to boil is 10 minutes. Since there is only one trial for 100 ml, the average time is simply the time taken for that trial, which is 10 minutes.",
+        "exam_question_id": "489c10ea-9246-4759-8345-ae978653f40c:1",
+        "topic_label": "Boiling (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling (States of matter)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to boil at sea level. The table includes the following data: 50 ml of water takes 5 minutes to boil, 100 ml of water takes 10 minutes to boil, 150 ml of water takes 15 minutes to boil, 200 ml of water takes 20 minutes to boil, and 250 ml of water takes 25 minutes to boil.",
+        "question": "Explain why the time taken to boil increases as the amount of water increases.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that more water requires more energy to heat.",
+          "Describe how heat energy is transferred to the water.",
+          "Link the increase in water amount to the increase in boiling time."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "As the amount of water increases, the time taken to boil also increases because more water requires more energy to heat up. When boiling, heat energy is transferred to the water molecules, causing them to move faster and eventually turn into steam. With more water, there are more molecules that need to be heated, which takes more time.",
+        "explanation": "The more water you have, the more energy is needed to heat all the water molecules to the boiling point. This results in a longer boiling time as the heat energy must be distributed among a larger number of water molecules.",
+        "exam_question_id": "489c10ea-9246-4759-8345-ae978653f40c:1",
+        "topic_label": "Boiling (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling (States of matter)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to boil at sea level. The table includes the following data: 50 ml of water takes 5 minutes to boil, 100 ml of water takes 10 minutes to boil, 150 ml of water takes 15 minutes to boil, 200 ml of water takes 20 minutes to boil, and 250 ml of water takes 25 minutes to boil.",
+        "question": "Describe the process that occurs when water boils.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the change in state from liquid to gas.",
+          "Explain the role of heat energy in this process.",
+          "Mention the formation of bubbles and their rise to the surface."
+        ],
+        "hints": [
+          "Stay focused on this: Describe the process that occurs when water boils — develop the idea fully rather than listing short points. Make sure you also cover: the change in from to gas.; Mention the formation of and their to the."
+        ],
+        "model_answer": "When water boils, it changes from a liquid state to a gas state. This process requires heat energy, which is supplied by the stove. As the water gains heat, the molecules move faster and eventually form bubbles of water vapor. These bubbles rise to the surface and escape into the air as steam.",
+        "explanation": "Boiling is a phase transition where water molecules gain enough energy to break free from the liquid state and become gas. The heat energy causes the water molecules to move rapidly, forming bubbles that rise to the surface and release steam.",
+        "exam_question_id": "489c10ea-9246-4759-8345-ae978653f40c:1",
+        "topic_label": "Boiling (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Boiling (States of matter)"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to evaporate from identical bowls placed in similar conditions. The table includes the following data: 50 ml of water takes 10 minutes to evaporate, 100 ml of water takes 20 minutes to evaporate, 150 ml of water takes 30 minutes to evaporate, 200 ml of water takes 40 minutes to evaporate, and 250 ml of water takes 50 minutes to evaporate.",
+        "question": "Calculate the average time taken for 100 ml of water to evaporate.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of average time.",
+          "Use of correct formula for average.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Sum the total evaporation times for 100 ml of water and divide by the number of observations."
+        ],
+        "model_answer": "The average time taken for 100 ml of water to evaporate is (10 + 20 + 30 + 40 + 50) / 5 = 30 minutes.",
+        "explanation": "The table directly states that 100 ml of water takes 20 minutes to evaporate, so no calculation is needed.",
+        "exam_question_id": "c9384ecb-ad9f-4318-a163-151f3792735a:1",
+        "topic_label": "Condensation (States of matter)",
+        "topic_id": 580,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Condensation (States of matter)"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are provided with a table showing the time it takes for different amounts of water to evaporate from identical bowls placed in similar conditions. The table includes the following data: 50 ml of water takes 10 minutes to evaporate, 100 ml of water takes 20 minutes to evaporate, 150 ml of water takes 30 minutes to evaporate, 200 ml of water takes 40 minutes to evaporate, and 250 ml of water takes 50 minutes to evaporate.",
+        "question": "Describe how the amount of water affects the evaporation time.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of a trend in the data.",
+          "Correct explanation of the trend.",
+          "Clear and concise description."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the amount of water affects the evaporation time — develop the idea fully rather than listing short points. Make sure you also cover: Identification of a trend in the data.; Correct explanation of the trend.; Clear and concise description."
+        ],
+        "model_answer": "As the amount of water increases, the time it takes for the water to evaporate also increases. For example, 50 ml takes 10 minutes, while 250 ml takes 50 minutes.",
+        "explanation": "Explain that more water takes longer to evaporate, using examples from the data provided.",
+        "exam_question_id": "c9384ecb-ad9f-4318-a163-151f3792735a:1",
+        "topic_label": "Evaporation",
+        "topic_id": 580,
+        "checked": true,
+        "subtopic_id": 2315,
+        "source": {
+          "textbook": "Cambridge Primary Science 5 Learners Book",
+          "area": "Evaporation"
+        }
+      }
+    ],
+    "estimated_time": 65,
+    "assessment_id": "62f3d61e-80f6-4f2b-96f5-1c485c375f18",
+    "subject": "Cambridge Primary Science 5 Learners Book ",
+    "topics": [
+      "States of matter",
+      "The life cycle of flowering plants"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 52,
+    "topic_ids": [
+      580,
+      579
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 2"
+    }
+  ],
+  "figures": 5,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "10a",
+        "severity": "broken or poor",
+        "detail": "The question asks for the average time for 100 ml of water to evaporate, but the provided data shows a single value of 20 minutes, not multiple observations.",
+        "correction": "The average time for 100 ml of water to evaporate is 20 minutes, as there is only one observation."
+      }
+    ],
+    "summary": "Minor issue with calculation instruction in question 10a."
+  },
+  "totalSeconds": 222
+}

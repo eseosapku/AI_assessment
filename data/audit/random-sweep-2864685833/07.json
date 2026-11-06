@@ -1,0 +1,32 @@
+{
+  "index": 7,
+  "label": "Cambridge / Practice / Oxford English for Cambridge Primary Student Book 4 ",
+  "request": {
+    "subject": "Oxford English for Cambridge Primary Student Book 4 ",
+    "textbook_id": 137,
+    "topic_ids": [
+      1404,
+      1418
+    ],
+    "topics": [
+      "Unit contents",
+      "Carving the Sea Path"
+    ],
+    "curriculum": "cambridge",
+    "grade": 4,
+    "className": "Oxford English for Cambridge Primary Student Book 4 ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 2864685833,
+  "error": "Error: Failed to generate 10 complete questions. The AI produced 3. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 23,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 10 complete questions. The AI produced 3. Please try again."
+  },
+  "totalSeconds": 23
+}

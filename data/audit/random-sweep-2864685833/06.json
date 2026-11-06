@@ -1,0 +1,1051 @@
+{
+  "index": 6,
+  "label": "REB / Exam / ICT in Accounting S4 SB",
+  "request": {
+    "subject": "ICT in Accounting S4 SB",
+    "textbook_id": 116,
+    "topic_ids": [
+      1234
+    ],
+    "topics": [
+      "Word Processing"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 62,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120. Sales tax is 8%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly add the costs of Item A, Item B, and Item C.",
+          "Provide the correct total cost."
+        ],
+        "hints": [
+          "Sum the costs of all items."
+        ],
+        "model_answer": "Item A: $50\nItem B: $75\nItem C: $120\nTotal cost before tax = $50 + $75 + $120 = $245",
+        "explanation": "Add up the costs of all the items to find the total cost before tax.",
+        "exam_question_id": "3a6c946f-edc2-460f-adef-cf5b97f709ea:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120. Sales tax is 8%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the total cost before tax.",
+          "Calculate the sales tax amount.",
+          "Add the sales tax to the total cost before tax to get the final total cost."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the tax amount."
+        ],
+        "model_answer": "Total cost before tax = $245\nSales tax = 8% of $245 = 0.08 * $245 = $19.60\nTotal cost including tax = $245 + $19.60 = $264.60",
+        "explanation": "First, calculate the total cost before tax. Then, calculate the sales tax by multiplying the total cost by 8%. Finally, add the sales tax to the total cost before tax to get the final total cost.",
+        "exam_question_id": "3a6c946f-edc2-460f-adef-cf5b97f709ea:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120. Sales tax is 8%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the importance of transparency in billing.",
+          "Explain the legal requirement to include tax on invoices."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain why it is important to; then include sales tax on an invoice. Make sure you also cover: the importance of in; the to include tax on invoices."
+        ],
+        "model_answer": "It is important to include sales tax on an invoice to ensure transparency in billing. This allows the client to see the exact amount they owe, including any applicable taxes. Additionally, including sales tax on an invoice is a legal requirement in many jurisdictions, ensuring compliance with tax laws.",
+        "explanation": "Inclusion of sales tax on an invoice is crucial for transparency and legal compliance. It ensures the client knows the exact amount they owe, including taxes, and helps maintain legal adherence.",
+        "exam_question_id": "3a6c946f-edc2-460f-adef-cf5b97f709ea:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are given a Word document containing a list of accounts and their balances as follows: \n\nAccount Name, Balance\nCash, $15,000\nAccounts Receivable, $8,000\nInventory, $12,000\nEquipment, $20,000\nAccounts Payable, $5,000\n",
+        "question": "Calculate the total assets.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify all asset accounts and their balances.",
+          "Sum the balances of all asset accounts."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total assets — develop the idea fully rather than listing short points. Make sure you also cover: Identify all asset and their balances.; Sum the balances of all asset."
+        ],
+        "model_answer": "Assets: \nCash: $15,000\nAccounts Receivable: $8,000\nInventory: $12,000\nEquipment: $20,000\n\nTotal Assets = $15,000 + $8,000 + $12,000 + $20,000 = $55,000",
+        "explanation": "To find the total assets, you need to add up all the balances of the asset accounts listed in the document.",
+        "exam_question_id": "f855df4b-5326-42c7-b539-0c1a8befb18f:1",
+        "subtopic_id": 6085,
+        "topic_id": 1234,
+        "topic_label": "Add page numbers to a document",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Add page numbers to a document"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are given a Word document containing a list of accounts and their balances as follows: \n\nAccount Name, Balance\nCash, $15,000\nAccounts Receivable, $8,000\nInventory, $12,000\nEquipment, $20,000\nAccounts Payable, $5,000\n",
+        "question": "Calculate the total liabilities.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the liability account and its balance.",
+          "Sum the balance of the liability account."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total liabilities — develop the idea fully rather than listing short points. Make sure you also cover: Identify the liability account and its balance.; Sum the balance of the liability account."
+        ],
+        "model_answer": "Liabilities: \nAccounts Payable: $5,000\n\nTotal Liabilities = $5,000",
+        "explanation": "To find the total liabilities, you need to sum the balance of the liability account listed in the document.",
+        "exam_question_id": "f855df4b-5326-42c7-b539-0c1a8befb18f:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are given a Word document containing a list of accounts and their balances as follows: \n\nAccount Name, Balance\nCash, $15,000\nAccounts Receivable, $8,000\nInventory, $12,000\nEquipment, $20,000\nAccounts Payable, $5,000\n",
+        "question": "Explain how you would create a table in Word to display the accounts and their balances.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the steps to insert a table.",
+          "Explain how to enter data into the table.",
+          "Describe how to format the table for clarity."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how you would create a table in Word to display the accounts and their balances — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "To create a table in Word: \n1. Go to the 'Insert' tab and select 'Table'.\n2. Choose the number of rows and columns needed (e.g., 6 rows and 2 columns).\n3. Enter the account names in the first column and their balances in the second column.\n4. Use the formatting options under the 'Layout' tab to adjust column widths and align text for clarity.",
+        "explanation": "Creating a table in Word involves inserting a table, entering data into the cells, and formatting the table for readability. Follow these steps to ensure the information is organised and easy to read.",
+        "exam_question_id": "f855df4b-5326-42c7-b539-0c1a8befb18f:1",
+        "subtopic_id": 6087,
+        "topic_id": 1234,
+        "topic_label": "Steps to create a table of content",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Steps to create a table of content"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120. Sales tax is 8%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the costs of Item A, Item B, and Item C.",
+          "Provide the final sum without including tax."
+        ],
+        "hints": [
+          "Add the prices of all items together."
+        ],
+        "model_answer": "Item A: $50\nItem B: $75\nItem C: $120\nTotal before tax: $50 + $75 + $120 = $245",
+        "explanation": "Add up the costs of Item A, Item B, and Item C to find the total cost before tax.",
+        "exam_question_id": "c1d028da-638c-4eeb-bc4b-fad81b37a105:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120. Sales tax is 8%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total cost before tax.",
+          "Correctly calculate the sales tax amount.",
+          "Add the sales tax to the total cost before tax to get the final total."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the total cost tax.; Correctly calculate the tax amount."
+        ],
+        "model_answer": "Total before tax: $245\nSales tax: 8% of $245 = $19.60\nTotal including tax: $245 + $19.60 = $264.60",
+        "explanation": "Find the total cost before tax, calculate the tax amount, and then add the tax to the total cost before tax to get the final total.",
+        "exam_question_id": "c1d028da-638c-4eeb-bc4b-fad81b37a105:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120. Sales tax is 8%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Provide a clear explanation of the importance of including sales tax.",
+          "Mention legal or compliance reasons."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain why it is important to; then include sales tax on an invoice. Make sure you also cover: Provide a clear explanation of the importance of sales tax.; Mention or reasons."
+        ],
+        "model_answer": "Including sales tax on an invoice is important because it ensures that the client is aware of the total cost they need to pay, which includes the tax. This is a legal requirement in many jurisdictions and helps in maintaining transparency and compliance with tax laws.",
+        "explanation": "Explaining the importance of including sales tax on an invoice helps the student understand the necessity of this practice in real-world scenarios.",
+        "exam_question_id": "c1d028da-638c-4eeb-bc4b-fad81b37a105:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $60. Sales tax is 10%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the costs of each item.",
+          "Correctly sums the costs of all items."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice before tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies the costs of each; Correctly sums the costs of all items."
+        ],
+        "model_answer": "Item X: $30\nItem Y: $45\nItem Z: $60\nTotal cost before tax: $30 + $45 + $60 = $135",
+        "explanation": "Add the costs of all items to get the total cost before tax.",
+        "exam_question_id": "3696107f-d113-4033-94b8-e3675c372097:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $60. Sales tax is 10%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculates the total cost before tax.",
+          "Correctly calculates the sales tax.",
+          "Correctly adds the sales tax to the total cost before tax."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculates the tax."
+        ],
+        "model_answer": "Total cost before tax: $135\nSales tax: 10% of $135 = $13.50\nTotal cost including tax: $135 + $13.50 = $148.50",
+        "explanation": "First, find the sales tax by calculating 10% of the total cost before tax. Then, add the sales tax to the total cost before tax to get the total cost including tax.",
+        "exam_question_id": "3696107f-d113-4033-94b8-e3675c372097:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $60. Sales tax is 10%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Provides a clear explanation of the importance of including sales tax.",
+          "Explains the legal and financial implications of not including sales tax."
+        ],
+        "hints": [
+          "Consider the legal requirements and the impact on the client's total cost."
+        ],
+        "model_answer": "Including sales tax on an invoice is important because it ensures that the client is charged the correct amount, which includes the applicable tax. This is a legal requirement in most jurisdictions and helps to avoid any discrepancies or legal issues. Not including sales tax could lead to underpayment of taxes, which can result in penalties and legal consequences for the seller.",
+        "explanation": "Including sales tax on an invoice is crucial for legal compliance and accurate financial reporting. It ensures that the client is charged the correct total amount, which includes the tax, and helps to avoid any legal or financial issues.",
+        "exam_question_id": "3696107f-d113-4033-94b8-e3675c372097:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly sum the costs of Item X, Item Y, and Item Z.",
+          "Provide the correct total before tax."
+        ],
+        "hints": [
+          "Add the costs of all items together."
+        ],
+        "model_answer": "Total cost before tax = $30 + $45 + $90 = $165",
+        "explanation": "Add the individual costs of Item X, Item Y, and Item Z to find the total cost before tax.",
+        "exam_question_id": "2df9cc5f-c1ff-492c-86e7-6b9b6689745f:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total cost before tax.",
+          "Correctly calculate the sales tax.",
+          "Add the sales tax to the total cost before tax to get the total cost including tax."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the tax."
+        ],
+        "model_answer": "Total cost before tax = $165\nSales tax = $165 * 0.06 = $9.90\nTotal cost including tax = $165 + $9.90 = $174.90",
+        "explanation": "First, find the total cost before tax by adding the costs of all items. Then, calculate the sales tax by multiplying the total cost before tax by 6%. Finally, add the sales tax to the total cost before tax to get the total cost including tax.",
+        "exam_question_id": "2df9cc5f-c1ff-492c-86e7-6b9b6689745f:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the importance of including sales tax.",
+          "Mention compliance with tax laws and regulations."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain why it is important to; then include sales tax on an invoice. Make sure you also cover: Mention with tax and."
+        ],
+        "model_answer": "Including sales tax on an invoice is important because it ensures compliance with tax laws and regulations. It also provides transparency in the total cost to the client, which is essential for financial accuracy and accountability.",
+        "explanation": "Explain that including sales tax on an invoice is crucial for legal compliance and financial transparency. It helps in accurately reflecting the total cost to the client.",
+        "exam_question_id": "2df9cc5f-c1ff-492c-86e7-6b9b6689745f:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly adds the costs of Item A, Item B, and Item C.",
+          "Provides the correct total cost before tax."
+        ],
+        "hints": [
+          "Sum the individual costs of the items."
+        ],
+        "model_answer": "Item A: $50\nItem B: $75\nItem C: $120\nTotal cost before tax = $50 + $75 + $120 = $245",
+        "explanation": "Add the costs of all items to get the total cost before tax.",
+        "exam_question_id": "88845d82-acf6-464f-9dca-77d71bf4a97d:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculates the total cost before tax.",
+          "Correctly calculates the sales tax.",
+          "Adds the sales tax to the total cost before tax to get the final total cost."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculates the tax."
+        ],
+        "model_answer": "Total cost before tax = $245\nSales tax = 8% of $245 = 0.08 * $245 = $19.60\nTotal cost including tax = $245 + $19.60 = $264.60",
+        "explanation": "First, find the total cost before tax. Then calculate the sales tax and add it to the total cost before tax to get the final total cost.",
+        "exam_question_id": "88845d82-acf6-464f-9dca-77d71bf4a97d:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item A costing $50, Item B costing $75, and Item C costing $120.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Provides a clear and relevant reason for including sales tax.",
+          "Explains the importance of transparency and compliance with tax laws."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain why it is important to; then include sales tax on an invoice. Make sure you also cover: Provides a clear and relevant reason for including sales tax.; the importance of and with tax."
+        ],
+        "model_answer": "It is important to include sales tax on an invoice because it ensures transparency in the total cost to the client. It also ensures compliance with tax laws, which is necessary for legal and ethical business practices.",
+        "explanation": "Including sales tax on an invoice ensures that the client is fully aware of the total cost, including taxes, and helps in maintaining legal and ethical standards in business transactions.",
+        "exam_question_id": "88845d82-acf6-464f-9dca-77d71bf4a97d:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item D costing $25, Item E costing $40, and Item F costing $65. Sales tax is 7%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly add the costs of Item D, Item E, and Item F.",
+          "State the total cost before tax."
+        ],
+        "hints": [
+          "Sum the individual costs of the items."
+        ],
+        "model_answer": "Cost of Item D: $25\nCost of Item E: $40\nCost of Item F: $65\nTotal cost before tax = $25 + $40 + $65 = $130",
+        "explanation": "Add the costs of all the items to find the total cost before tax.",
+        "exam_question_id": "2e214ba8-6b24-4c44-a39f-a4e2f39df2b1:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item D costing $25, Item E costing $40, and Item F costing $65. Sales tax is 7%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total cost before tax.",
+          "Correctly calculate the sales tax.",
+          "Add the sales tax to the total cost before tax to find the total cost including tax."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the tax."
+        ],
+        "model_answer": "Total cost before tax = $130\nSales tax = 7% of $130 = 0.07 * $130 = $9.10\nTotal cost including tax = $130 + $9.10 = $139.10",
+        "explanation": "First, find the total cost before tax by adding the costs of all items. Then, calculate the sales tax by taking 7% of the total cost before tax. Finally, add the sales tax to the total cost before tax to get the total cost including tax.",
+        "exam_question_id": "2e214ba8-6b24-4c44-a39f-a4e2f39df2b1:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item D costing $25, Item E costing $40, and Item F costing $65. Sales tax is 7%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Mention the legal requirement to include sales tax.",
+          "Explain the importance of transparency and compliance with tax regulations."
+        ],
+        "hints": [
+          "Think about the legal and ethical reasons for including sales tax."
+        ],
+        "model_answer": "It is important to include sales tax on an invoice because it is a legal requirement to accurately reflect the total cost of the goods or services provided. This ensures transparency and compliance with tax regulations, which helps maintain the integrity of financial records and avoids potential legal issues.",
+        "explanation": "Including sales tax on an invoice is crucial for legal compliance and transparency. It ensures that the total cost of the items is accurately represented and helps avoid any legal complications.",
+        "exam_question_id": "2e214ba8-6b24-4c44-a39f-a4e2f39df2b1:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly add the costs of Item X, Item Y, and Item Z.",
+          "Provide the final sum of the items' costs."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice before tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly add the costs of X, Y, and Z.; Provide the final sum of the items' costs."
+        ],
+        "model_answer": "Item X: $30\nItem Y: $45\nItem Z: $90\nTotal before tax: $30 + $45 + $90 = $165",
+        "explanation": "Add the costs of each item to find the total cost before tax.",
+        "exam_question_id": "d303377a-f582-4009-8f45-a14c39e9b435:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total cost before tax.",
+          "Correctly calculate the sales tax amount.",
+          "Add the sales tax to the total cost before tax to find the total cost including tax."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the total cost tax.; Correctly calculate the tax amount."
+        ],
+        "model_answer": "Total before tax: $165\nSales tax (6%): $165 * 0.06 = $9.90\nTotal including tax: $165 + $9.90 = $174.90",
+        "explanation": "Calculate the sales tax by multiplying the total cost before tax by 6%, then add this amount to the total cost before tax.",
+        "exam_question_id": "d303377a-f582-4009-8f45-a14c39e9b435:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Provide a clear explanation of the importance of including sales tax.",
+          "Explain the legal and financial implications of not including sales tax."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Including sales tax on an invoice is important because it ensures compliance with legal requirements. It also provides a clear and complete financial record of the transaction, which is essential for both the client and the business. Omitting sales tax can lead to legal issues and inaccuracies in financial reporting.",
+        "explanation": "Explain the necessity of including sales tax for legal compliance and accurate financial records.",
+        "exam_question_id": "d303377a-f582-4009-8f45-a14c39e9b435:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly add the costs of Item X, Item Y, and Item Z.",
+          "Provide the final sum of the costs."
+        ],
+        "hints": [
+          "Sum the costs of all items listed on the invoice."
+        ],
+        "model_answer": "Item X: $30\nItem Y: $45\nItem Z: $90\nTotal cost before tax: $30 + $45 + $90 = $165",
+        "explanation": "Add the cost of each item to find the total cost before tax.",
+        "exam_question_id": "1f4955c5-bf53-49d9-bd83-8c98d07a3837:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total cost before tax.",
+          "Correctly calculate the sales tax.",
+          "Add the sales tax to the total cost before tax to find the total cost including tax."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total cost of the invoice including tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the tax."
+        ],
+        "model_answer": "Total cost before tax: $165\nSales tax: $165 * 6% = $9.90\nTotal cost including tax: $165 + $9.90 = $174.90",
+        "explanation": "First, calculate the total cost before tax. Then, calculate the sales tax by multiplying the total cost before tax by the sales tax rate. Finally, add the sales tax to the total cost before tax to find the total cost including tax.",
+        "exam_question_id": "1f4955c5-bf53-49d9-bd83-8c98d07a3837:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the legal requirement for including sales tax.",
+          "Explain the importance of transparency in invoicing.",
+          "Explain the impact on the client's financial records."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain why it is important to; then include sales tax on an invoice. Make sure you also cover: the importance of in invoicing."
+        ],
+        "model_answer": "It is important to include sales tax on an invoice because it is a legal requirement for businesses to charge and collect sales tax from their customers. This ensures that the government receives the appropriate amount of tax revenue. Including sales tax on the invoice also provides transparency and clarity for the client, showing exactly what they are being charged for. Accurate financial records are crucial for both the business and the client, as they help in tracking expenses and income, and in preparing financial statements and tax returns.",
+        "explanation": "Explain the legal, transparency, and financial record-keeping reasons for including sales tax on an invoice.",
+        "exam_question_id": "1f4955c5-bf53-49d9-bd83-8c98d07a3837:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice before tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly adds the costs of Item X, Item Y, and Item Z.",
+          "Provides the final sum without including tax."
+        ],
+        "hints": [
+          "Sum the costs of all items."
+        ],
+        "model_answer": "Item X: $30\nItem Y: $45\nItem Z: $90\nTotal before tax: $30 + $45 + $90 = $165",
+        "explanation": "Add the cost of each item to find the total cost before tax.",
+        "exam_question_id": "5f3d949b-e5de-4b9b-8d48-ad37966a26f9:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Calculate the total cost of the invoice including tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculates the total cost before tax.",
+          "Applies the sales tax rate to the total cost before tax.",
+          "Provides the final sum including tax."
+        ],
+        "hints": [
+          "Then, calculate the tax amount by multiplying the total cost by the tax rate."
+        ],
+        "model_answer": "Total before tax: $165\nSales tax: $165 * 6% = $9.90\nTotal including tax: $165 + $9.90 = $174.90",
+        "explanation": "First, calculate the total cost before tax. Then, calculate the tax amount by multiplying the total cost by the tax rate. Finally, add the tax amount to the total cost before tax to get the total cost including tax.",
+        "exam_question_id": "5f3d949b-e5de-4b9b-8d48-ad37966a26f9:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are working on a word processing document to create an invoice for a client. The invoice includes the following items: Item X costing $30, Item Y costing $45, and Item Z costing $90. Sales tax is 6%.",
+        "question": "Explain why it is important to include sales tax on an invoice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explains the importance of including sales tax for legal and financial transparency.",
+          "Mentions compliance with tax laws and regulations."
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain why it is important to; then include sales tax on an invoice. Make sure you also cover: Mentions with tax and."
+        ],
+        "model_answer": "It is important to include sales tax on an invoice because it ensures legal and financial transparency. Sales tax is a mandatory tax that must be collected and remitted to the government. Including sales tax on the invoice helps the client understand the total cost of the goods or services provided and ensures compliance with tax laws and regulations.",
+        "explanation": "Including sales tax on an invoice is crucial for legal and financial transparency. It ensures that the client is aware of the total cost, including tax, and helps businesses comply with tax laws and regulations.",
+        "exam_question_id": "5f3d949b-e5de-4b9b-8d48-ad37966a26f9:1",
+        "topic_id": 1234,
+        "topic_label": "Word Processing",
+        "source": {
+          "textbook": "ICT in Accounting S4 SB",
+          "area": "Word Processing"
+        }
+      }
+    ],
+    "estimated_time": 71,
+    "assessment_id": "9760e58f-4576-45da-a7ba-4a963047effd",
+    "subject": "ICT in Accounting S4 SB",
+    "topics": [
+      "Word Processing"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 116,
+    "topic_ids": [
+      1234
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 30,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "9 questions open with the same sentence (1, 7, 10, 13, 16, 19, 22, 25, 28): \"Calculate the total cost of the invoice before tax\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "9 questions open with the same sentence (2, 8, 11, 14, 17, 20, 23, 26, 29): \"Calculate the total cost of the invoice including \""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "9 questions open with the same sentence (3, 9, 12, 15, 18, 21, 24, 27, 30): \"Explain why it is important to include sales tax o\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "1a, 3a, 6a",
+        "severity": "poor",
+        "detail": "Questions 1a, 3a, and 6a are identical (same items, same costs, same context). Assessment repeats the same question across different question numbers without variation.",
+        "correction": "Vary item costs, tax rates, or contexts across repeated questions to test different scenarios and prevent duplication."
+      },
+      {
+        "label": "1b, 3b, 6b",
+        "severity": "poor",
+        "detail": "Questions 1b, 3b, and 6b are identical (same total before tax $245, same 8% tax rate, same final answer $264.60). Exact duplication of calculation questions.",
+        "correction": "Use different numerical values or tax rates to create distinct assessment items."
+      },
+      {
+        "label": "1c, 3c, 6c",
+        "severity": "poor",
+        "detail": "Questions 1c, 3c, and 6c ask identical conceptual questions about why sales tax is important. Model answers cover the same points (transparency, legal compliance) with minimal variation.",
+        "correction": "Vary the conceptual focus (e.g., impact on cash flow, customer relations, record-keeping) to test different aspects of understanding."
+      },
+      {
+        "label": "5a, 8a, 9a, 10a",
+        "severity": "poor",
+        "detail": "Questions 5a, 8a, 9a, and 10a are identical (Item X $30, Item Y $45, Item Z $90, total $165). Same calculation repeated four times across the assessment.",
+        "correction": "Use distinct item costs and totals for each question to avoid redundancy."
+      },
+      {
+        "label": "5b, 8b, 9b, 10b",
+        "severity": "poor",
+        "detail": "Questions 5b, 8b, 9b, and 10b are identical (total before tax $165, 6% tax, tax amount $9.90, final total $174.90). Same tax calculation repeated four times.",
+        "correction": "Vary tax rates and base amounts across questions."
+      },
+      {
+        "label": "2a, 2b",
+        "severity": "poor",
+        "detail": "Questions 2a and 2b use the same account data but topic_label and source area are inconsistent. 2a labeled 'Add page numbers to a document' but content is about calculating assets; 2b labeled 'Word Processing' but source area is 'Add page numbers to a document'. Metadata misalignment.",
+        "correction": "Ensure topic_label and source area consistently reflect 'Word Processing' and 'Accounting calculations' or similar appropriate categories."
+      },
+      {
+        "label": "2c",
+        "severity": "poor",
+        "detail": "Question 2c asks about creating a table in Word but source area is labeled 'Steps to create a table of content', which is a different Word feature. Metadata mismatch between question content and source classification.",
+        "correction": "Correct source area to 'Creating tables in Word' or similar appropriate label."
+      },
+      {
+        "label": "4a, 4b, 4c",
+        "severity": "poor",
+        "detail": "Questions 4a, 4b, 4c use Item X ($30), Item Y ($45), Item Z ($60) with 10% tax. This is a unique scenario but appears only once, while identical scenarios (X $30, Y $45, Z $90 with 6% tax) appear four times (5a-5c, 8a-8c, 9a-9c, 10a-10c). Unbalanced repetition.",
+        "correction": "Distribute varied scenarios more evenly throughout the assessment."
+      },
+      {
+        "label": "7a, 7b, 7c",
+        "severity": "poor",
+        "detail": "Questions 7a, 7b, 7c use Item D ($25), Item E ($40), Item F ($65) with 7% tax. This unique scenario appears only once while other identical scenarios repeat four times. Inconsistent distribution of question variety.",
+        "correction": "Ensure all unique scenarios appear with similar frequency or consolidate to reduce redundancy."
+      },
+      {
+        "label": "9c",
+        "severity": "poor",
+        "detail": "Question 9c has 3 marking criteria but questions 1c, 3c, 6c, 8c, 10c have only 2 criteria for the same conceptual question. Inconsistent marking rubric for equivalent questions.",
+        "correction": "Standardize marking criteria across all part-c questions to 2 or 3 consistent criteria."
+      },
+      {
+        "label": "Assessment overall",
+        "severity": "poor",
+        "detail": "Assessment contains 30 questions across 10 question sets. Approximately 60% of questions are exact or near-exact duplicates of earlier questions. Only 4 unique numerical scenarios exist (Items A/B/C 8%, Items X/Y/Z 10%, Items D/E/F 7%, Items X/Y/Z 6%), with the last scenario repeated 4 times. This severely limits assessment validity and student learning differentiation.",
+        "correction": "Reduce to 10-15 unique questions with varied contexts, item costs, tax rates, and conceptual angles. Maintain one question set per unique scenario rather than repeating identical calculations."
+      }
+    ],
+    "summary": "Assessment contains 30 questions with severe duplication: 60% are identical or near-identical repeats. Only 4 unique numerical scenarios exist; one repeats 4 times. Metadata inconsistencies in questions 2a-2c. Marking criteria inconsistent for equivalent questions (9c has 3 criteria vs. 2 for similar questions). Recommend consolidation to 10-15 distinct questions with varied contexts and tax rates."
+  },
+  "totalSeconds": 72
+}

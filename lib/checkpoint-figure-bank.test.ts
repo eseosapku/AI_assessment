@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
+import { figureBaseUrl, figureSrc } from './figure-src'
 import {
   answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, loadFigureBank, optionsCopyOriginal,
   resetFigureBank, stripFigureTokens, type BankFigure,
@@ -157,7 +158,7 @@ describe('stripFigureTokens', () => {
 })
 
 describe('the bank on disk', () => {
-  it('holds only usable figures, each with a focus, a description and an image that exists', async () => {
+  it('holds usable figures with local assets or configured CDN locations', async () => {
     const fs = await import('node:fs')
     const path = await import('node:path')
     const bank = loadFigureBank()
@@ -166,7 +167,12 @@ describe('the bank on disk', () => {
       expect(f.focus, f.id).toBeTruthy()
       expect(f.strand, f.id).toBeTruthy()
       expect(f.shows.length, f.id).toBeGreaterThan(20)
-      expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
+      if (figureBaseUrl()) {
+        // Remote image availability is checked by the explicit live sweep.
+        const url = new URL(figureSrc(f.localPath))
+        expect(url.protocol, f.localPath).toMatch(/^https?:$/)
+        expect(url.pathname.endsWith(f.localPath), f.localPath).toBe(true)
+      } else expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
     }
   })
 })

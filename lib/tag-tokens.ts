@@ -27,7 +27,7 @@ export const TAG_STOPWORDS = new Set([
  * Never throws — it is fed model output and curriculum names alike.
  */
 export function tagTokens(value: string): string[] {
-  return (String(value || '').toLowerCase().match(/[a-z0-9]+/g) ?? []).filter(
+  return (String(value || '').toLowerCase().match(/[a-z0-9]+/g) ?? []).map((w) => w === 'matrices' ? 'matrix' : w).filter(
     (w) => w.length > 2 && !TAG_STOPWORDS.has(w)
   )
 }

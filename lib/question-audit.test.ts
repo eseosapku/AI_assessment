@@ -13,6 +13,12 @@ const mcq = (over: Record<string, unknown> = {}) => ({
 })
 
 describe('what makes a paper broken', () => {
+  it('compares initial sounds rather than just spelling', () => {
+    expect(codes([mcq({ question: "Which word starts with the same sound as 'school'?", options: ['Ship', 'Shoes', 'Sun', 'Sky'], correct_answer: 3 })])).not.toContain('no-option-fits')
+  })
+  it('recognises categorisation commands', () => {
+    expect(codes([mcq({ question: 'Categorise each item as a paragraph or essay component.' })])).not.toContain('no-question-asked')
+  })
   it('passes a sound MCQ without complaint', () => {
     expect(codes([mcq()])).toEqual([])
   })
@@ -469,6 +475,14 @@ describe('the arithmetic imperatives a Maths paper is made of', () => {
 })
 
 describe('a pointer is not a scenario', () => {
+  it('does not treat repeated commands under distinct contexts as repeated scenarios', () => {
+    const qs = Array.from({ length: 5 }, (_, i) => ({ type: 'longform', question: 'Name the independent variable.', scenario: `Experiment ${i + 1} varies a different factor.`, marks: 1, marking_criteria: ['Names the manipulated factor.'] }))
+    expect(codes(qs)).not.toContain('scenario-repeated-across-paper')
+  })
+  it('does not call an interrogative stem a repeated declarative scenario', () => {
+    const qs = Array.from({ length: 4 }, (_, i) => ({ type: 'longform', question: 'What can be inferred about the writer?', scenario: `A different reading extract ${i + 1}.`, marks: 1, marking_criteria: ['An inference grounded in this extract.'] }))
+    expect(codes(qs)).not.toContain('scenario-repeated-across-paper')
+  })
   it('does not report five questions sharing "Look at the diagram."', () => {
     // Reported as a repeated scenario across a real paper. It is the generic
     // opener for any illustrated question, and flagging it sends someone to

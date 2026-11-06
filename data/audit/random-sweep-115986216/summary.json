@@ -1,0 +1,1435 @@
+{
+  "seed": 115986216,
+  "results": [
+    {
+      "index": 1,
+      "label": "REB / Exam / S3 HISTORY AND CITIZENSHIP SB",
+      "request": {
+        "subject": "S3 HISTORY AND CITIZENSHIP SB",
+        "textbook_id": 182,
+        "topic_ids": [
+          1907
+        ],
+        "topics": [
+          "The 1789 French Revolution"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 50,
+      "status": 200,
+      "numbered": 10,
+      "parts": 26,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "4 questions open with the same sentence (1, 2, 22, 23): \"Consider the diagram showing a painted portrait of\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 4,
+          "detail": "15 questions open with the same sentence (5, 6, 7, 13, 14, 15, 16, 17, 18, 19, 20, 21, 24, 25, 26): \"The French Revolution began in 1789 and ended in 1\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 7,
+          "detail": "5 questions open with the same sentence (8, 9, 10, 11, 12): \"The French Revolution began in 1789 and had severa\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 0,
+          "detail": "76 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 1,
+          "detail": "83 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 2,
+          "detail": "89 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 3,
+          "detail": "96 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 10,
+          "detail": "51 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 11,
+          "detail": "51 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 21,
+          "detail": "76 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 22,
+          "detail": "83 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 2"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 7"
+        }
+      ],
+      "figures": 2,
+      "imageErrors": [
+        "/textbook-images/rwanda/182/page16-embedded-0.jpeg: HTTP 404",
+        "/textbook-images/rwanda/182/page18-embedded-0.jpeg: HTTP 404"
+      ],
+      "totalSeconds": 52
+    },
+    {
+      "index": 3,
+      "label": "REB / Practice / Advanced Mathematics S6 SB (1)",
+      "request": {
+        "subject": "Advanced Mathematics S6 SB (1)",
+        "textbook_id": 2,
+        "topic_ids": [
+          20,
+          13
+        ],
+        "topics": [
+          "Random Variables",
+          "Logarithmic and Exponential Functions"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 11,
+      "status": 200,
+      "numbered": 20,
+      "parts": 20,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 4,
+          "detail": "no question mark and no command word: \"Mark each statement True or False. The logarithmic function \""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 5,
+          "detail": "no question mark and no command word: \"Put the steps in the correct order to solve the exponential \""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 6,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong.\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 10,
+          "detail": "no question mark and no command word: \"Put these steps in the correct order to solve the equation 2\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 11,
+          "detail": "no question mark and no command word: \"Mark each statement True or False: The exponential function \""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 13,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong: y = 2^x, y = 3^x, y = 4^x\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 15,
+          "detail": "no question mark and no command word: \"Put the steps to solve the exponential equation 2^x = 16 in \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 18,
+          "detail": "no question mark and no command word: \"Mark each statement True or False: The logarithm of 1 is alw\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 19,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong: log(100), log(10), log(1)\""
+        }
+      ],
+      "figures": 4,
+      "imageErrors": [
+        "/textbook-images/rwanda/2/page499-embedded-0.png: HTTP 404",
+        "/textbook-images/rwanda/2/page500-embedded-0.png: HTTP 404",
+        "/textbook-images/rwanda/2/page502-embedded-0.png: HTTP 404",
+        "/textbook-images/rwanda/2/page103-embedded-0.jpeg: HTTP 404"
+      ],
+      "totalSeconds": 13
+    },
+    {
+      "index": 4,
+      "label": "Cambridge / Exam / Cambridge Primary Science 1 Learner’s Book ",
+      "request": {
+        "subject": "Cambridge Primary Science 1 Learner’s Book ",
+        "textbook_id": 48,
+        "topic_ids": [
+          560
+        ],
+        "topics": [
+          "Hearing sounds"
+        ],
+        "curriculum": "cambridge",
+        "grade": 1,
+        "className": "Cambridge Primary Science 1 Learner’s Book ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 39,
+      "status": 200,
+      "numbered": 10,
+      "parts": 25,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 5,
+          "detail": "9 questions open with the same sentence (6, 7, 8, 14, 15, 16, 21, 22, 23): \"Imagine you are at a park and you hear the sound o\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 8,
+          "detail": "5 questions open with the same sentence (9, 10, 11, 17, 18): \"Imagine you are at a playground and you hear a chi\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 11,
+          "detail": "6 questions open with the same sentence (12, 13, 19, 20, 24, 25): \"Imagine you are in a park and you hear a dog barki\""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 9"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 7"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 8"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 13"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [
+        "/textbook-images/textbook-bank/48/s59-f0.jpg: HTTP 404"
+      ],
+      "totalSeconds": 41
+    },
+    {
+      "index": 5,
+      "label": "Cambridge / Practice / Cambridge-AS-A-Level-Computing-Coursebook",
+      "request": {
+        "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "textbook_id": 207,
+        "topic_ids": [
+          3026,
+          3025
+        ],
+        "topics": [
+          "Chapter 2: Designing solutions to problems",
+          "Chapter 1: Components of a computer system and modes of use"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 17,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [],
+      "figures": 6,
+      "imageErrors": [
+        "/textbook-images/cambridge/207/page136-embedded-0.png: HTTP 404",
+        "/textbook-images/cambridge/207/page121-embedded-2.png: HTTP 404",
+        "/textbook-images/textbook-bank/207/p152-f0.png: HTTP 404",
+        "/textbook-images/textbook-bank/207/p102-f0.png: HTTP 404",
+        "/textbook-images/textbook-bank/207/p100-f1.png: HTTP 404",
+        "/textbook-images/textbook-bank/207/p104-f0.png: HTTP 404"
+      ],
+      "totalSeconds": 19
+    },
+    {
+      "index": 2,
+      "label": "Cambridge / Exam / Complete English Language for Cambridge International AS & A Level Second Edition",
+      "request": {
+        "subject": "Complete English Language for Cambridge International AS & A Level Second Edition",
+        "textbook_id": 208,
+        "topic_ids": [
+          2622
+        ],
+        "topics": [
+          "Chapter 1: Elements of language"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Complete English Language for Cambridge International AS & A Level Second Edition",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 128,
+      "status": 200,
+      "numbered": 20,
+      "parts": 59,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 0,
+          "detail": "26 questions open with the same sentence (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 21, 22, 23, 27, 28, 29, 33, 34, 35, 42, 43, 44, 57, 58, 59): \"Consider the sentence: 'The quick brown fox jumps \""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 11,
+          "detail": "21 questions open with the same sentence (12, 13, 14, 18, 19, 20, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56): \"Consider the sentence: 'The cat sat on the mat.' I\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 14,
+          "detail": "6 questions open with the same sentence (15, 16, 17, 30, 31, 32): \"Consider the following sentence: 'The quick brown \""
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 32,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 34,
+          "detail": "same as question 3"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 54,
+          "detail": "same as question 45"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 55,
+          "detail": "same as question 47"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 56,
+          "detail": "same as question 21"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "totalSeconds": 130
+    },
+    {
+      "index": 7,
+      "label": "REB / Exam / Mathematics-SB S6 HLP LFK HGL",
+      "request": {
+        "subject": "Mathematics-SB S6 HLP LFK HGL",
+        "textbook_id": 130,
+        "topic_ids": [
+          1358,
+          1357
+        ],
+        "topics": [
+          "UNIT 2: COUNTING TECHNIQUES",
+          "UNIT 1: BIVARIATE STATISTICS"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 51,
+      "status": 200,
+      "numbered": 10,
+      "parts": 29,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 3,
+          "detail": "9 questions open with the same sentence (4, 5, 6, 13, 14, 15, 24, 25, 26): \"Consider a set of 10 distinct objects. You are to \""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 0,
+          "detail": "88 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 1,
+          "detail": "92 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 2,
+          "detail": "100 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 12,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 13,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 14,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 15,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 16,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 17,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 18,
+          "detail": "100 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 19,
+          "detail": "101 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 25,
+          "detail": "same as question 6"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 26,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 27,
+          "detail": "same as question 10"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 28,
+          "detail": "same as question 12"
+        }
+      ],
+      "figures": 2,
+      "imageErrors": [
+        "/textbook-images/rwanda/130/page11-embedded-0.jpeg: HTTP 404",
+        "/textbook-images/rwanda/130/page54-embedded-0.png: HTTP 404"
+      ],
+      "totalSeconds": 52
+    },
+    {
+      "index": 8,
+      "label": "REB / Exam / Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+      "request": {
+        "subject": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+        "textbook_id": 185,
+        "topic_ids": [
+          1941,
+          1942
+        ],
+        "topics": [
+          "UNIT 1: ARITHMETICS",
+          "UNIT 2: EQUATIONS AND INEQUALITIES"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 30,
+      "status": 200,
+      "numbered": 10,
+      "parts": 26,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 3,
+          "detail": "73 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 4,
+          "detail": "81 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 5,
+          "detail": "73 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 6,
+          "detail": "78 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 7,
+          "detail": "89 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 8,
+          "detail": "89 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 9,
+          "detail": "91 words"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 10,
+          "detail": "no question mark and no command word: \"Refer to the diagram showing a demand graph with Quantity on\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 10,
+          "detail": "110 words"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 11,
+          "detail": "no question mark and no command word: \"Refer to the diagram showing a demand graph with Quantity on\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 11,
+          "detail": "107 words"
+        },
+        {
+          "code": "assumes-unseen-text",
+          "severity": "broken",
+          "index": 14,
+          "detail": "\"Consider the two equations: 2x + 3y = 6 and 4x - y = 5. These equation\""
+        },
+        {
+          "code": "visual-promised-not-attached",
+          "severity": "broken",
+          "index": 15,
+          "detail": "\"Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x\""
+        },
+        {
+          "code": "visual-promised-not-attached",
+          "severity": "broken",
+          "index": 16,
+          "detail": "\"Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x\""
+        },
+        {
+          "code": "visual-promised-not-attached",
+          "severity": "broken",
+          "index": 17,
+          "detail": "\"Refer to the diagram showing two straight lines: y = 2x + 1 and y = -x\""
+        },
+        {
+          "code": "assumes-unseen-text",
+          "severity": "broken",
+          "index": 20,
+          "detail": "\"Consider the two equations: 3x + 2y = 12 and x - y = 1. These equation\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 21,
+          "detail": "90 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 22,
+          "detail": "99 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 23,
+          "detail": "99 words"
+        },
+        {
+          "code": "visual-promised-not-attached",
+          "severity": "broken",
+          "index": 24,
+          "detail": "\"Refer to the diagram showing two straight lines: y = 3x + 1 and y = -2\""
+        },
+        {
+          "code": "visual-promised-not-attached",
+          "severity": "broken",
+          "index": 25,
+          "detail": "\"Refer to the diagram showing two straight lines: y = 3x + 1 and y = -2\""
+        }
+      ],
+      "figures": 6,
+      "imageErrors": [
+        "/textbook-images/rwanda/185/page93-embedded-0.jpeg: HTTP 404",
+        "/textbook-images/rwanda/185/page96-embedded-0.png: HTTP 404",
+        "/textbook-images/rwanda/185/page91-embedded-2.png: HTTP 404",
+        "/textbook-images/rwanda/185/page111-embedded-0.png: HTTP 404",
+        "/textbook-images/rwanda/185/page63-embedded-0.png: HTTP 404",
+        "/textbook-images/rwanda/185/page98-embedded-3.png: HTTP 404"
+      ],
+      "totalSeconds": 32
+    },
+    {
+      "index": 9,
+      "label": "REB / Practice / ICT  S3 SB",
+      "request": {
+        "subject": "ICT  S3 SB",
+        "textbook_id": 115,
+        "topic_ids": [
+          1226
+        ],
+        "topics": [
+          "ArcGIS"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 19,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 3,
+          "detail": "56 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 4,
+          "detail": "51 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 6,
+          "detail": "47 words"
+        },
+        {
+          "code": "explanation-missing",
+          "severity": "poor",
+          "index": 9,
+          "detail": "nothing shown after answering"
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "totalSeconds": 20
+    },
+    {
+      "index": 6,
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+      "request": {
+        "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "textbook_id": 33,
+        "topic_ids": [
+          430
+        ],
+        "topics": [
+          "5 Properties of materials"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 112,
+      "status": 200,
+      "numbered": 10,
+      "parts": 24,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 11,
+          "detail": "6 questions open with the same sentence (12, 13, 19, 20, 21, 22): \"A student adds universal indicator to a liquid and\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 13,
+          "detail": "4 questions open with the same sentence (14, 15, 23, 24): \"You have a mixture of iron filings and sand.\nDescr\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 0,
+          "detail": "89 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 1,
+          "detail": "89 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 1,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 2,
+          "detail": "89 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 2,
+          "detail": "same as question 1"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 3,
+          "detail": "no question mark and no command word: \"The table gives information about the melting points and boi\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 3,
+          "detail": "117 words"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 4,
+          "detail": "no question mark and no command word: \"The table gives information about the melting points and boi\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 4,
+          "detail": "114 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 18,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 19,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 20,
+          "detail": "same as question 12"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 21,
+          "detail": "same as question 13"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 22,
+          "detail": "no question mark and no command word: \"You have a mixture of iron filings and sand. The table below\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 22,
+          "detail": "94 words"
+        },
+        {
+          "code": "explanation-addresses-the-marker",
+          "severity": "poor",
+          "index": 22,
+          "detail": "This question tests your understanding of the physical prope"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 23,
+          "detail": "no question mark and no command word: \"You have a mixture of iron filings and sand. The table below\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 23,
+          "detail": "90 words"
+        },
+        {
+          "code": "explanation-addresses-the-marker",
+          "severity": "poor",
+          "index": 23,
+          "detail": "This question tests your understanding of the physical prope"
+        }
+      ],
+      "figures": 2,
+      "imageErrors": [
+        "/textbook-images/textbook-bank/33/s163-f0.jpg: HTTP 404",
+        "/textbook-images/textbook-bank/33/s192-f0.jpg: HTTP 404"
+      ],
+      "totalSeconds": 114
+    },
+    {
+      "index": 11,
+      "label": "REB / Practice / Geography S5 SB (1)",
+      "request": {
+        "subject": "Geography S5 SB (1)",
+        "textbook_id": 110,
+        "topic_ids": [
+          1168
+        ],
+        "topics": [
+          "Soils"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 9,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 2,
+          "detail": "no question mark and no command word: \"Mark each statement True or False\""
+        },
+        {
+          "code": "tick-all-correct",
+          "severity": "poor",
+          "index": 3,
+          "detail": "every option is correct, so nothing is tested"
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 4,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "totalSeconds": 10
+    },
+    {
+      "index": 12,
+      "label": "Cambridge / Practice / IGCSE-Physics-Coursebook-by-David-Sang",
+      "request": {
+        "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "textbook_id": 209,
+        "topic_ids": [
+          2589
+        ],
+        "topics": [
+          "Chapter 25: The magnetic effect of current"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 24,
+      "status": 200,
+      "numbered": 10,
+      "parts": 10,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 0,
+          "detail": "no question mark and no command word: \"Put these stages in the correct order for creating an electr\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 2,
+          "detail": "no question mark and no command word: \"Mark each statement True or False\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 4,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 5,
+          "detail": "no question mark and no command word: \"Mark each statement True or False: The magnetic field streng\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 7,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong: Fleming's left-hand rule,\""
+        },
+        {
+          "code": "no-question-asked",
+          "severity": "broken",
+          "index": 9,
+          "detail": "no question mark and no command word: \"Tap the item that does NOT belong: Right-hand grip rule, Fle\""
+        }
+      ],
+      "figures": 0,
+      "imageErrors": [],
+      "totalSeconds": 25
+    },
+    {
+      "index": 13,
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 7 ",
+      "request": {
+        "subject": "Cambridge Lower Secondary Computing 7 ",
+        "textbook_id": 29,
+        "topic_ids": [
+          385,
+          389
+        ],
+        "topics": [
+          "Decomposing problems: Creating a smart solution",
+          "Sequencing and pattern recognition: Getting the message across"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Computing 7 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      },
+      "seed": 115986216,
+      "error": "Error: Failed to generate 10 complete questions. The AI produced 5. Please try again.",
+      "generationSeconds": 22,
+      "status": 500,
+      "totalSeconds": 22
+    },
+    {
+      "index": 10,
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+      "request": {
+        "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "textbook_id": 15,
+        "topic_ids": [
+          178
+        ],
+        "topics": [
+          "Global Theme 2: Reducing Carbon Emissions"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      },
+      "seed": 115986216,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 91,
+      "status": 200,
+      "numbered": 10,
+      "parts": 28,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 3,
+          "detail": "14 questions open with the same sentence (4, 5, 6, 9, 10, 11, 12, 13, 20, 21, 22, 23, 24, 25): \"Consider a city that has implemented various measu\""
+        },
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 13,
+          "detail": "6 questions open with the same sentence (14, 15, 16, 17, 18, 19): \"Consider a country that has implemented various me\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 3,
+          "detail": "50 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 4,
+          "detail": "51 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 5,
+          "detail": "49 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 6,
+          "detail": "84 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 7,
+          "detail": "98 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 8,
+          "detail": "111 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 9,
+          "detail": "125 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 10,
+          "detail": "50 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 10,
+          "detail": "same as question 4"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 11,
+          "detail": "51 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 11,
+          "detail": "same as question 5"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 12,
+          "detail": "62 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 13,
+          "detail": "50 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 14,
+          "detail": "51 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 15,
+          "detail": "49 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 16,
+          "detail": "50 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 17,
+          "detail": "51 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 18,
+          "detail": "49 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 19,
+          "detail": "66 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 20,
+          "detail": "67 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 21,
+          "detail": "65 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 22,
+          "detail": "66 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 22,
+          "detail": "same as question 20"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 23,
+          "detail": "67 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 23,
+          "detail": "same as question 21"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 24,
+          "detail": "65 words"
+        },
+        {
+          "code": "duplicate-question",
+          "severity": "poor",
+          "index": 24,
+          "detail": "same as question 22"
+        }
+      ],
+      "figures": 2,
+      "imageErrors": [
+        "/textbook-images/textbook-bank/15/s141-f0.jpg: HTTP 404",
+        "/textbook-images/textbook-bank/15/s200-f0.jpg: HTTP 404"
+      ],
+      "totalSeconds": 92
+    }
+  ]
+}

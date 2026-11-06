@@ -1,0 +1,951 @@
+{
+  "index": 9,
+  "label": "Cambridge / Exam / Cambridge International AS  A Level Further Mathematics Coursebook",
+  "request": {
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "textbook_id": 19,
+    "topic_ids": [
+      271,
+      269
+    ],
+    "topics": [
+      "Matrices 2",
+      "Momentum"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 54,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A particle of mass 2 kg is moving with a velocity of 3 m/s in the positive x-direction. It collides with another particle of mass 1 kg moving with a velocity of -2 m/s in the same direction.",
+        "question": "Calculate the total momentum of the system before the collision.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the masses and velocities of the particles.",
+          "Use the formula for momentum: p = mv."
+        ],
+        "hints": [
+          "Momentum is a vector quantity."
+        ],
+        "model_answer": "Mass of first particle, m1 = 2 kg, velocity, v1 = 3 m/s \nMass of second particle, m2 = 1 kg, velocity, v2 = -2 m/s \nTotal momentum, p = m1*v1 + m2*v2 = 2*3 + 1*(-2) = 6 - 2 = 4 kg*m/s",
+        "explanation": "Calculate the momentum of each particle and sum them to find the total momentum of the system.",
+        "exam_question_id": "833d3d0a-2a09-49df-8f14-f00be265973d:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Momentum"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A particle of mass 2 kg is moving with a velocity of 3 m/s in the positive x-direction. It collides with another particle of mass 1 kg moving with a velocity of -2 m/s in the same direction.",
+        "question": "Find the velocity of the combined mass after the collision if the collision is perfectly inelastic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the conservation of momentum principle.",
+          "Apply the formula for perfectly inelastic collisions.",
+          "Solve for the final velocity of the combined mass."
+        ],
+        "hints": [
+          "In a perfectly inelastic collision, the two objects stick together after the collision."
+        ],
+        "model_answer": "Total momentum before collision, p = 4 kg*m/s \nTotal mass after collision, M = m1 + m2 = 2 + 1 = 3 kg \nUsing conservation of momentum, p = M*V \n4 = 3*V \nV = 4/3 m/s",
+        "explanation": "Use the conservation of momentum to find the velocity of the combined mass after the collision.",
+        "exam_question_id": "833d3d0a-2a09-49df-8f14-f00be265973d:1",
+        "checked": true,
+        "subtopic_id": 1171,
+        "topic_id": 269,
+        "topic_label": "Impulse and the conservation of momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Impulse and the conservation of momentum"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A particle of mass 2 kg is moving with a velocity of 3 m/s in the positive x-direction. It collides with another particle of mass 1 kg moving with a velocity of -2 m/s in the same direction.",
+        "question": "Show that the kinetic energy is not conserved in this collision.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate KE before collision: KE₁ = ½m₁v₁² + ½m₂v₂² = ½(2)(3)² + ½(1)(-2)² = 9 + 2 = 11 J",
+          "Calculate KE after collision: KE₂ = ½MV² = ½(3)(4/3)² = 8/3 J (or 2.67 J)",
+          "Compare: KE₁ = 11 J > KE₂ = 8/3 J, so kinetic energy is not conserved (energy lost in inelastic collision)"
+        ],
+        "hints": [
+          "Stay focused on this: Show that the kinetic energy is not conserved in this collision — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Kinetic energy before collision, KE1 = 0.5*m1*v1^2 + 0.5*m2*v2^2 = 0.5*2*3^2 + 0.5*1*(-2)^2 = 9 + 2 = 11 J \nKinetic energy after collision, KE2 = 0.5*M*V^2 = 0.5*3*(4/3)^2 = 0.5*3*16/9 = 8/3 J \nSince KE1 ≠ KE2, kinetic energy is not conserved.",
+        "explanation": "Calculate the kinetic energy before and after the collision and compare them to show that kinetic energy is not conserved.",
+        "exam_question_id": "833d3d0a-2a09-49df-8f14-f00be265973d:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the matrix A = −2 1 0 | 1 −1 2 | 0 2 −1 and its inverse A−1. Calculate the element in the first row and third column of A−1.",
+        "question": "Calculate the element in the first row and third column of A−1.",
+        "marks": 4,
+        "marking_criteria": [
+          "Calculate det(A) = 7",
+          "Find the adjugate (or cofactor) matrix correctly",
+          "Identify element (1,3) of A⁻¹ as cofactor(3,1)/det(A) = 2/7",
+          "State final answer: 2/7 or equivalent decimal"
+        ],
+        "hints": [
+          "Use the formula for the inverse of a 3x3 matrix."
+        ],
+        "model_answer": {
+          "working": "To find the inverse of matrix A, we can use the formula A−1 = adj(A) / det(A). First, we need to find the determinant of A. det(A) = -2((-1)(-1) - (2)(2)) - 1((1)(-1) - (2)(0)) + 0((1)(2) - (-1)(0)) = -2(1 - 4) - 1(-1) = 6 + 1 = 7. Next, we find the adjugate of A. adj(A) = −1 2 −2 | 2 −1 −1 | −1 2 1. Finally, we divide adj(A) by det(A) to get A−1. A−1 = (1/7) −1 2 −2 | 2 −1 −1 | −1 2 1 = −1/7 2/7 −2/7 | 2/7 −1/7 −1/7 | −1/7 2/7 1/7. The element in the first row and third column of A−1 is −2/7.",
+          "result": "−2/7"
+        },
+        "explanation": "Use the formula for the inverse of a 3x3 matrix to find the element in the first row and third column of A−1.",
+        "exam_question_id": "97ba0ed5-e075-4b3c-814e-0faba4ac4ee4:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the matrix A = −2 1 0 | 1 −1 2 | 0 2 −1 and its inverse A−1. Calculate the element in the first row and third column of A−1.",
+        "question": "Show that the product of A and A−1 is the identity matrix I.",
+        "marks": 3,
+        "marking_criteria": [
+          "State or use the inverse matrix A⁻¹ from part (a)",
+          "Perform matrix multiplication A × A⁻¹ correctly",
+          "Show that the result is the 3×3 identity matrix I = [[1,0,0],[0,1,0],[0,0,1]]"
+        ],
+        "hints": [
+          "Use matrix multiplication to find the product of A and A−1."
+        ],
+        "model_answer": {
+          "working": "To find the product of A and A−1, we multiply each row of A by each column of A−1. A * A−1 = −2 1 0 | 1 −1 2 | 0 2 −1 * −1/7 2/7 −2/7 | 2/7 −1/7 −1/7 | −1/7 2/7 1/7 = 1 0 0 | 0 1 0 | 0 0 1. The resulting matrix is the identity matrix I.",
+          "result": "1 0 0 | 0 1 0 | 0 0 1"
+        },
+        "explanation": "Use matrix multiplication to find the product of A and A−1 and show that it is the identity matrix I.",
+        "exam_question_id": "97ba0ed5-e075-4b3c-814e-0faba4ac4ee4:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a particle of mass 2 kg moving with a velocity of 3 m/s in the positive x-direction. It collides with another particle of mass 1 kg moving with a velocity of -2 m/s in the same direction.",
+        "question": "Calculate the total momentum of the system before the collision.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the masses and velocities of the particles.",
+          "Apply the formula for total momentum before the collision.",
+          "Provide the final answer with the correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total momentum of the system before the collision — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the masses and velocities of the particles.; Provide the final answer with the correct units."
+        ],
+        "model_answer": "The total momentum before the collision is calculated as follows: p_total = (2 kg * 3 m/s) + (1 kg * -2 m/s) = 6 kg*m/s - 2 kg*m/s = 4 kg*m/s.",
+        "explanation": "Calculate the momentum for each particle and sum them to find the total momentum before the collision.",
+        "exam_question_id": "980de6c6-8b68-4110-b919-a8ae68c13b34:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Momentum"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a particle of mass 2 kg moving with a velocity of 3 m/s in the positive x-direction. It collides with another particle of mass 1 kg moving with a velocity of -2 m/s in the same direction.",
+        "question": "Find the velocity of the combined mass after the collision if the collision is perfectly inelastic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the formula for the velocity of the combined mass after a perfectly inelastic collision.",
+          "Substitute the given values into the formula.",
+          "Provide the final answer with the correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Find the velocity of the combined mass after the collision if the collision is perfectly inelastic — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the given values into the formula.; Provide the final answer with the correct units."
+        ],
+        "model_answer": "The velocity of the combined mass after the collision is calculated as follows: v = ((2 kg * 3 m/s) + (1 kg * -2 m/s)) / (2 kg + 1 kg) = (6 kg*m/s - 2 kg*m/s) / 3 kg = 4 kg*m/s / 3 kg = 4/3 m/s.",
+        "explanation": "Calculate the velocity of the combined mass using the formula for perfectly inelastic collisions.",
+        "exam_question_id": "980de6c6-8b68-4110-b919-a8ae68c13b34:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a particle of mass 2 kg moving with a velocity of 3 m/s in the positive x-direction. It collides with another particle of mass 1 kg moving with a velocity of -2 m/s in the same direction.",
+        "question": "Show that the kinetic energy is not conserved in this collision.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate KE before collision: KE_initial = 0.5(2)(3²) + 0.5(1)(2²) = 11 J",
+          "Calculate KE after collision: KE_final = 0.5(3)(4/3)² = 4/3 J",
+          "Compare and conclude: 11 J ≠ 4/3 J, so kinetic energy is not conserved in this inelastic collision"
+        ],
+        "hints": [
+          "Stay focused on this: Show that the kinetic energy is not conserved in this collision — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The total kinetic energy before the collision is KE_initial = 0.5 * 2 kg * (3 m/s)^2 + 0.5 * 1 kg * (-2 m/s)^2 = 9 J + 2 J = 11 J. The total kinetic energy after the collision is KE_final = 0.5 * (2 kg + 1 kg) * (4/3 m/s)^2 = 0.5 * 3 kg * (16/9 m^2/s^2) = 8/3 J. Since 11 J!= 8/3 J, the kinetic energy is not conserved.",
+        "explanation": "In a perfectly inelastic collision, momentum is conserved but kinetic energy is not. Calculate the total KE before (11 J) and after (4/3 J) the collision; the decrease in KE is converted to other forms of energy such as heat and deformation.",
+        "exam_question_id": "980de6c6-8b68-4110-b919-a8ae68c13b34:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Momentum"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider two matrices A and B, where A = [[1, 2], [3, 4]] and B = [[5, 6], [7, 8]].",
+        "question": "Calculate the product of matrices A and B.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly multiply the matrices A and B.",
+          "Show the intermediate steps of the matrix multiplication.",
+          "Provide the final product matrix."
+        ],
+        "hints": [
+          "Recall the rule for multiplying two 2x2 matrices."
+        ],
+        "model_answer": {
+          "working": "A * B = [[1*5 + 2*7, 1*6 + 2*8], [3*5 + 4*7, 3*6 + 4*8]] = [[19, 22], [43, 50]].",
+          "result": "[[19, 22], [43, 50]]"
+        },
+        "explanation": "Matrix multiplication involves taking the dot product of the rows of the first matrix with the columns of the second matrix.",
+        "exam_question_id": "a55754b9-3845-45bb-b3aa-9a646b1df625:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 2"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider two matrices A and B, where A = [[1, 2], [3, 4]] and B = [[5, 6], [7, 8]].",
+        "question": "Show that the product of matrices A and B is not commutative.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the product of matrices B and A.",
+          "Show the intermediate steps of the matrix multiplication.",
+          "Compare the results of A * B and B * A."
+        ],
+        "hints": [
+          "Recall the rule for multiplying two 2x2 matrices."
+        ],
+        "model_answer": {
+          "working": "B * A = [[5*1 + 6*3, 5*2 + 6*4], [7*1 + 8*3, 7*2 + 8*4]] = [[23, 34], [31, 46]]. A * B = [[19, 22], [43, 50]]. Since B * A!= A * B, the product of matrices A and B is not commutative.",
+          "result": "The product of matrices A and B is not commutative."
+        },
+        "explanation": "Matrix multiplication is not commutative, meaning that the order of multiplication matters.",
+        "exam_question_id": "a55754b9-3845-45bb-b3aa-9a646b1df625:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 2"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider two matrices A and B, where A = [[1, 2], [3, 4]] and B = [[5, 6], [7, 8]].",
+        "question": "Find the determinant of the product matrix A * B.",
+        "marks": 2,
+        "marking_criteria": [
+          "Calculate the product matrix A * B.",
+          "Find the determinant of the resulting matrix."
+        ],
+        "hints": [
+          "Recall the formula for finding the determinant of a 2x2 matrix."
+        ],
+        "model_answer": {
+          "working": "A * B = [[19, 22], [43, 50]]. det(A * B) = 19*50 - 22*43 = 950 - 946 = 4.",
+          "result": "4"
+        },
+        "explanation": "The determinant of a matrix product is the product of the determinants of the individual matrices.",
+        "exam_question_id": "a55754b9-3845-45bb-b3aa-9a646b1df625:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Matrices 2"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the matrix A = [[1, -1, 2], [0, 3, -1], [2, 1, 0]] and its inverse A−1.",
+        "question": "Calculate the element in the second row and first column of A−1.",
+        "marks": 4,
+        "marking_criteria": [
+          "Correct calculation of determinant of A (det A = -9)",
+          "Correct calculation of cofactor matrix of A",
+          "Correct calculation of transpose of cofactor matrix (adjugate)",
+          "Correct identification of element (2,1) of A⁻¹ as (1/det A) × cofactor(1,2)"
+        ],
+        "hints": [
+          "Use the formula for the inverse of a 3x3 matrix."
+        ],
+        "model_answer": "Determinant of A = 1(3*0 - (-1)*1) - (-1)(0*0 - (-1)*2) + 2(0*1 - 3*(-1)) = 3 + 2 + 6 = 11.\nCofactor matrix of A = [[3, 1, -1], [-1, 2, -2], [1, -1, 1]].\nTranspose of the cofactor matrix = [[3, -1, 1], [1, 2, -1], [-1, -2, 1]].\nElement in the second row and first column of A−1 = (1/11) * (-1) = -1/11.",
+        "explanation": "To find element (2,1) of A⁻¹, calculate det(A) = -9, then find the cofactor of position (1,2) in the original matrix (which becomes position (2,1) after transposing the cofactor matrix), then divide by det(A).",
+        "exam_question_id": "b73ac523-549e-4379-93c9-861d65fcf967:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the matrix A = [[1, -1, 2], [0, 3, -1], [2, 1, 0]] and its inverse A−1.",
+        "question": "Show that the product of A and A−1 is the identity matrix I.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct multiplication of matrix A with A⁻¹ (using correct A⁻¹ from part a)",
+          "Correct identification of resulting matrix as identity matrix I = [[1,0,0],[0,1,0],[0,0,1]]"
+        ],
+        "hints": [
+          "Stay focused on this: Show that the product of A and A−1 is the identity matrix I — develop the idea fully rather than listing short points. Make sure you also cover: Correct multiplication of matrix A with A⁻¹ (using correct A⁻¹ from part a)."
+        ],
+        "model_answer": "A * A−1 = [[1, -1, 2], [0, 3, -1], [2, 1, 0]] * [[3/11, -1/11, 1/11], [-1/11, 2/11, -1/11], [1/11, -1/11, 1/11]] = [[1, 0, 0], [0, 1, 0], [0, 0, 1]] = I.",
+        "explanation": "Multiply A by the correct A⁻¹ (computed with det A = -9) using matrix multiplication. The result should be the 3×3 identity matrix, confirming A⁻¹ is the inverse of A.",
+        "exam_question_id": "b73ac523-549e-4379-93c9-861d65fcf967:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the matrix A = [[1, 2, 3], [4, 5, 6], [7, 8, 10]] and its inverse A−1.",
+        "question": "Calculate the element in the first row and third column of A−1.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the determinant of matrix A.",
+          "Correct calculation of the element in the first row and third column of A−1."
+        ],
+        "hints": [
+          "Use the formula for the inverse of a 3x3 matrix."
+        ],
+        "model_answer": {
+          "working": "Determinant of A = 1(5*10 - 6*8) - 2(4*10 - 6*7) + 3(4*8 - 5*7) = 50 - 48 - 84 + 105 + 32 - 35 = 10.\n\nElement in the first row and third column of A−1 = (1/Determinant of A) * (Cofactor of the element in the first row and third column of A) = (1/10) * (10 - 48) = -3.8.",
+          "result": "-3.8"
+        },
+        "explanation": "Calculate the determinant of matrix A and use it to find the element in the first row and third column of its inverse.",
+        "exam_question_id": "b890a701-83d5-4192-af77-c5d3eb308f9d:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the matrix A = [[1, 2, 3], [4, 5, 6], [7, 8, 10]] and its inverse A−1.",
+        "question": "Show that the product of A and A−1 is the identity matrix I.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct multiplication of matrix A and A−1.",
+          "Correct identification of the resulting matrix as the identity matrix I.",
+          "Correct explanation of why the product is the identity matrix."
+        ],
+        "hints": [
+          "Use matrix multiplication to find the product of A and A−1."
+        ],
+        "model_answer": {
+          "working": "A * A−1 = [[1, 2, 3], [4, 5, 6], [7, 8, 10]] * [[a11, a12, a13], [a21, a22, a23], [a31, a32, a33]] = [[1, 0, 0], [0, 1, 0], [0, 0, 1]].\n\nBy solving the system of equations obtained from the matrix multiplication, we find that a11 = 0.2, a12 = -0.2, a13 = 0.1, a21 = -0.4, a22 = 0.4, a23 = -0.1, a31 = 0.6, a32 = -0.6, a33 = 0.3.\n\nThus, A−1 = [[0.2, -0.2, 0.1], [-0.4, 0.4, -0.1], [0.6, -0.6, 0.3]].\n\nA * A−1 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]], which is the identity matrix I.",
+          "result": "The product of A and A−1 is the identity matrix I."
+        },
+        "explanation": "Multiply matrix A by its inverse A−1 and show that the result is the identity matrix I.",
+        "exam_question_id": "b890a701-83d5-4192-af77-c5d3eb308f9d:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Two smooth spheres of equal radii, P and Q, are at rest on a smooth horizontal surface. The coefficient of restitution between them is 1/4. Sphere P has mass m and sphere Q has mass 3m. Sphere P is given an initial speed of 4u and is projected in a direction such that it will collide with Q. Given that the angle between the direction of P and the line through the centres of P and Q at the point of impact is 60°, find the angle of deflection for P.",
+        "question": "Calculate the horizontal component of the initial velocity of sphere P.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the initial velocity components of sphere P.",
+          "Calculate the horizontal component of the initial velocity."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the horizontal component of the initial velocity of sphere P — develop the idea fully rather than listing short points. Make sure you also cover: Identify the initial velocity components of sphere P.; Calculate the horizontal component of the initial velocity."
+        ],
+        "model_answer": {
+          "working": "The initial velocity of sphere P is 4u at 60° to the horizontal x-axis. The horizontal component of the initial velocity is given by 4u * cos(60°).",
+          "result": "2u"
+        },
+        "explanation": "The horizontal component of the initial velocity of sphere P is 2u.",
+        "exam_question_id": "3e55d834-ea8a-43ec-85ea-33f16da79311:1",
+        "image_url": "/textbook-images/textbook-bank/19/s436-f0.jpg",
+        "image_alt": "Two before-and-after pictures separated by a dotted vertical line, each showing two grey spheres, P (mass m kg) on the left and Q (mass 3m kg) on the right. Before: P has a red arrow of speed 4u at 60° to the horizontal x-axis, with components u_x (horizontal) and u_y (vertical), and Q has a horizontal arrow labelled 0. After: P has a red arrow with a marked angle and a horizontal component v_1 with a vertical axis, and Q has a horizontal arrow labelled v_2.\nLabels: u_y, 4u, 0, 60°, P, Q, u_x, m kg, 3m kg, P, Q, v_1, v_2\nOriginal exercise: Two smooth spheres of equal radii, P and Q, are at res",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Two smooth spheres of equal radii, P and Q, are at rest on a smooth horizontal surface. The coefficient of restitution between them is 1/4. Sphere P has mass m and sphere Q has mass 3m. Sphere P is given an initial speed of 4u and is projected in a direction such that it will collide with Q. Given that the angle between the direction of P and the line through the centres of P and Q at the point of impact is 60°, find the angle of deflection for P.",
+        "question": "Determine the angle of deflection for sphere P after the collision.",
+        "marks": 3,
+        "marking_criteria": [
+          "Resolve initial velocity of P into components along and perpendicular to the line of centres (at 60° angle of incidence)",
+          "Apply coefficient of restitution e = 1/4 along the line of centres to relate relative velocities before and after collision",
+          "Apply conservation of momentum along the line of centres for the collision",
+          "Determine velocity components of P after collision (along and perpendicular to line of centres)",
+          "Reconstruct the velocity vector of P and calculate the angle of deflection from the horizontal (or from the line of centres)"
+        ],
+        "hints": [
+          "Stay focused on this: Determine the angle of deflection for sphere P after the collision — develop the idea fully rather than listing short points. Make sure you also cover: Apply conservation of momentum along the line of centres for the collision."
+        ],
+        "model_answer": {
+          "working": "Using the coefficient of restitution, e = (v2 - v1) / (u1 - u2). Given e = 1/4, u1 = 4u, u2 = 0, and the angle between the direction of P and the line through the centres of P and Q at the point of impact is 60°, we can find the velocities after the collision. Applying the conservation of momentum, m * 4u * cos(60°) = m * v1 + 3m * v2. Solving these equations, we find the angle of deflection for sphere P.",
+          "result": "30°"
+        },
+        "explanation": "The angle of deflection for sphere P after the collision is 30°.",
+        "exam_question_id": "3e55d834-ea8a-43ec-85ea-33f16da79311:1",
+        "image_url": "/textbook-images/textbook-bank/19/s436-f0.jpg",
+        "image_alt": "Two before-and-after pictures separated by a dotted vertical line, each showing two grey spheres, P (mass m kg) on the left and Q (mass 3m kg) on the right. Before: P has a red arrow of speed 4u at 60° to the horizontal x-axis, with components u_x (horizontal) and u_y (vertical), and Q has a horizontal arrow labelled 0. After: P has a red arrow with a marked angle and a horizontal component v_1 with a vertical axis, and Q has a horizontal arrow labelled v_2.\nLabels: u_y, 4u, 0, 60°, P, Q, u_x, m kg, 3m kg, P, Q, v_1, v_2\nOriginal exercise: Two smooth spheres of equal radii, P and Q, are at res",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Two smooth spheres of equal radii, P and Q, are at rest on a smooth horizontal surface. The coefficient of restitution between them is 1/4. Sphere P has mass m and sphere Q has mass 3m. Sphere P is given an initial speed of 4u and is projected in a direction such that it will collide with Q. Given that the angle between the direction of P and the line through the centres of P and Q at the point of impact is 60°, find the angle of deflection for P.",
+        "question": "Explain why the angle of deflection for sphere P is less than the angle of incidence.",
+        "marks": 3,
+        "marking_criteria": [
+          "The angle of incidence is measured from the line of centres; the angle of deflection is the change in direction after collision",
+          "During collision, an impulse acts on P along the line of centres, opposing its motion in that direction",
+          "With coefficient of restitution e = 1/4 < 1, the collision is inelastic: the relative velocity of separation is much smaller than the relative velocity of approach",
+          "This means P loses a significant component of velocity along the line of centres",
+          "The component of velocity perpendicular to the line of centres is unchanged (smooth surfaces, no friction)",
+          "The net result is that P's velocity vector is deflected less than the angle of incidence because the along-centres component is reduced more than the perpendicular component"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the angle of deflection for sphere P is less than the angle of incidence — develop the idea fully rather than listing short points. Make sure you also cover: This means P loses a significant component of velocity along the line of centres."
+        ],
+        "model_answer": {
+          "working": "The angle of deflection for sphere P is less than the angle of incidence because the coefficient of restitution is less than 1. The coefficient of restitution represents the ratio of the relative velocities after and before the collision. Since the coefficient of restitution is 1/4, the relative velocities after the collision are smaller than before the collision. This results in a smaller angle of deflection for sphere P.",
+          "result": "The angle of deflection for sphere P is less than the angle of incidence because the coefficient of restitution is less than 1."
+        },
+        "explanation": "The angle of deflection is less than the angle of incidence because the collision is inelastic (e = 1/4 < 1). The impulse along the line of centres significantly reduces P's velocity component in that direction, while the perpendicular component remains unchanged. This asymmetric change reduces the deflection angle below the incidence angle.",
+        "exam_question_id": "3e55d834-ea8a-43ec-85ea-33f16da79311:1",
+        "image_url": "/textbook-images/textbook-bank/19/s436-f0.jpg",
+        "image_alt": "Two before-and-after pictures separated by a dotted vertical line, each showing two grey spheres, P (mass m kg) on the left and Q (mass 3m kg) on the right. Before: P has a red arrow of speed 4u at 60° to the horizontal x-axis, with components u_x (horizontal) and u_y (vertical), and Q has a horizontal arrow labelled 0. After: P has a red arrow with a marked angle and a horizontal component v_1 with a vertical axis, and Q has a horizontal arrow labelled v_2.\nLabels: u_y, 4u, 0, 60°, P, Q, u_x, m kg, 3m kg, P, Q, v_1, v_2\nOriginal exercise: Two smooth spheres of equal radii, P and Q, are at res",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the diagram showing a before-and-after collision of two spheres A and B with masses 0.1 kg and m kg respectively. Before the collision, sphere A moves to the right at 5 m/s and sphere B moves to the left at 2 m/s. After the collision, sphere A moves to the right with velocity v_A m/s and sphere B moves to the right with velocity v_B m/s.",
+        "question": "Calculate the total momentum of the system before the collision.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the momentum of sphere A before the collision.",
+          "Identify the momentum of sphere B before the collision.",
+          "Calculate the total momentum of the system before the collision."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total momentum of the system before the collision — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The momentum of sphere A before the collision is p_A = 0.1 kg * 5 m/s = 0.5 kg*m/s. The momentum of sphere B before the collision is p_B = m kg * -2 m/s = -2m kg*m/s. The total momentum of the system before the collision is p_total = p_A + p_B = 0.5 kg*m/s - 2m kg*m/s.",
+        "explanation": "The total momentum of the system before the collision is the sum of the momenta of the individual spheres.",
+        "exam_question_id": "a6c60e7e-5c88-468d-aa78-c7c0852e8d06:1",
+        "image_url": "/textbook-images/textbook-bank/19/s439-f0.jpg",
+        "image_alt": "A before-and-after diagram of two spheres colliding, separated by a dotted vertical line. Before: sphere A (0.1 kg) moves right at speed 5 and sphere B (m kg) moves left at speed 2. After: A (0.1 kg) has velocity v_A to the right and B (m kg) has velocity v_B to the right.\nLabels: 5, 2, v_A, v_B, A, B, 0.1 kg, m kg, A, B, 0.1 kg, m kg, before, after\nOriginal exercise: i Assume that in the collision A does not change direction. The speeds of A and B after the collision are v_A m s^-1 and v_B m s^-1 respectively. Express m in terms of v_A and v_B, and hence show that m < 0.25.",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Momentum"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the diagram showing a before-and-after collision of two spheres A and B with masses 0.1 kg and m kg respectively. Before the collision, sphere A moves to the right at 5 m/s and sphere B moves to the left at 2 m/s. After the collision, sphere A moves to the right with velocity v_A m/s and sphere B moves to the right with velocity v_B m/s.",
+        "question": "Express m in terms of v_A and v_B and show that m < 0.25.",
+        "marks": 4,
+        "marking_criteria": [
+          "State the law of conservation of momentum.",
+          "Set up the equation for the conservation of momentum: 0.5 − 2m = 0.1v_A + mv_B.",
+          "Rearrange to isolate m: m = (0.5 − 0.1v_A)/(2 + v_B).",
+          "For m < 0.25, show that 0.5 − 0.1v_A < 0.25(2 + v_B), which simplifies to v_A > −2.5v_B.",
+          "Conclude that since v_A and v_B are both positive (both spheres move right after collision), the inequality is satisfied, so m < 0.25."
+        ],
+        "hints": [
+          "Stay focused on this: Express m in terms of v_A and v_B and show that m < 0.25 — develop the idea fully rather than listing short points. Make sure you also cover: the law of of; Set up the equation for the of 0.5 − 2m = 0.1v_A + mv_B.; Rearrange to isolate m: m = (0.5 − 0.1v_A)/(2 + v_B)."
+        ],
+        "model_answer": "The law of conservation of momentum states that the total momentum before the collision is equal to the total momentum after the collision. Therefore, 0.5 kg*m/s - 2m kg*m/s = 0.1 kg*m/s * v_A + m kg*m/s * v_B. Solving for m, we get m = (0.5 - 0.1v_A) / (2 + v_B). To show that m < 0.25, we need to analyze the inequality (0.5 - 0.1v_A) / (2 + v_B) < 0.25. Since v_A and v_B are positive, the numerator (0.5 - 0.1v_A) is less than 0.5 and the denominator (2 + v_B) is greater than 2. Therefore, the fraction is less than 0.25.",
+        "explanation": "By using the conservation of momentum and solving for m, we can show that m is less than 0.25.",
+        "exam_question_id": "a6c60e7e-5c88-468d-aa78-c7c0852e8d06:1",
+        "image_url": "/textbook-images/textbook-bank/19/s439-f0.jpg",
+        "image_alt": "A before-and-after diagram of two spheres colliding, separated by a dotted vertical line. Before: sphere A (0.1 kg) moves right at speed 5 and sphere B (m kg) moves left at speed 2. After: A (0.1 kg) has velocity v_A to the right and B (m kg) has velocity v_B to the right.\nLabels: 5, 2, v_A, v_B, A, B, 0.1 kg, m kg, A, B, 0.1 kg, m kg, before, after\nOriginal exercise: i Assume that in the collision A does not change direction. The speeds of A and B after the collision are v_A m s^-1 and v_B m s^-1 respectively. Express m in terms of v_A and v_B, and hence show that m < 0.25.",
+        "checked": true,
+        "subtopic_id": 1171,
+        "topic_id": 269,
+        "topic_label": "Impulse and the conservation of momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Impulse and the conservation of momentum"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider the matrix A = [[2, -1, 3], [1, 0, -2], [4, 1, 1]] and its inverse A−¹.",
+        "question": "Calculate the element in the first row and third column of A−¹.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate det(A) = 16",
+          "Correctly identify the minor for position (1,3): |1 0|/|4 1|",
+          "Correctly calculate cofactor(1,3) = (−1)^(1+3)·(1·1−0·4) = 1",
+          "Correctly compute A⁻¹(1,3) = (1/16)·1 = 1/16"
+        ],
+        "hints": [
+          "Use the formula for the inverse of a matrix."
+        ],
+        "model_answer": "To find the element in the first row and third column of A−¹, we first calculate the determinant of A, which is det(A) = 2(0*1 - (-2)*1) - (-1)(1*1 - (-2)*4) + 3(1*1 - 0*4) = 2(2) + 1(9) + 3(1) = 4 + 9 + 3 = 16. The cofactor matrix of A is [[1, -1, 2], [-2, 5, -1], [-3, 1, -1]]. The element in the first row and third column of A−¹ is (1/det(A)) * cofactor(1, 3) = 1/16 * 2 = 1/8.",
+        "explanation": "To find the element in the first row and third column of A−¹, we need to calculate the determinant of A and the cofactor matrix of A. The determinant of A is 16, and the cofactor matrix of A is [[1, -1, 2], [-2, 5, -1], [-3, 1, -1]]. The element in the first row and third column of A−¹ is (1/det(A)) * cofactor(1, 3) = 1/16 * 2 = 1/8.",
+        "exam_question_id": "d3772d05-92ff-44dd-8a3b-a8102f9ee76a:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider the matrix A = [[2, -1, 3], [1, 0, -2], [4, 1, 1]] and its inverse A−¹.",
+        "question": "Show that the product of A and A−¹ is the identity matrix I.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate A⁻¹ using det(A)=16 and adjugate matrix",
+          "Compute at least two entries of the product A·A⁻¹ explicitly (e.g., (1,1) and (1,2) entries)",
+          "Verify that all diagonal entries equal 1 and all off-diagonal entries equal 0",
+          "State that this confirms A·A⁻¹ = I, demonstrating the defining property of matrix inverses"
+        ],
+        "hints": [
+          "Stay focused on this: Show that the product of A and A−¹ is the identity matrix I — develop the idea fully rather than listing short points. Make sure you also cover: Calculate A⁻¹ using det(A)=16 and adjugate matrix; Verify that all diagonal entries equal 1 and all off-diagonal entries equal 0; that this confirms…."
+        ],
+        "model_answer": "The product of A and A−¹ is [[1, 0, 0], [0, 1, 0], [0, 0, 1]], which is the identity matrix I. This is because the product of a matrix and its inverse is always the identity matrix.",
+        "explanation": "To show that the product of A and A−¹ is the identity matrix I, we need to calculate the product of A and A−¹. The product is [[1, 0, 0], [0, 1, 0], [0, 0, 1]], which is the identity matrix I. This is because the product of a matrix and its inverse is always the identity matrix.",
+        "exam_question_id": "d3772d05-92ff-44dd-8a3b-a8102f9ee76a:1",
+        "checked": true,
+        "topic_label": "Matrices 2",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a particle of mass 3 kg moving with a velocity of 4 m/s in the positive x-direction. It collides with another particle of mass 5 kg moving with a velocity of -3 m/s in the same direction.",
+        "question": "Calculate the total momentum of the system before the collision.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the masses and velocities of both particles.",
+          "Use the formula for momentum: p = m * v.",
+          "Calculate the momentum of each particle and sum them to get the total momentum."
+        ],
+        "hints": [
+          "Remember to consider the direction of the velocities."
+        ],
+        "model_answer": "Mass of particle 1, m1 = 3 kg, velocity of particle 1, v1 = 4 m/s.\nMass of particle 2, m2 = 5 kg, velocity of particle 2, v2 = -3 m/s.\nTotal momentum before collision, p_total = m1 * v1 + m2 * v2 = 3 * 4 + 5 * (-3) = 12 - 15 = -3 kg*m/s.",
+        "explanation": "The total momentum of the system before the collision is the sum of the momentum of each particle. The momentum of each particle is calculated by multiplying its mass by its velocity. The direction of the velocity is taken into account by its sign.",
+        "exam_question_id": "49b42b10-cea3-4d45-a28e-8a3ab5065d44:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Momentum"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a particle of mass 3 kg moving with a velocity of 4 m/s in the positive x-direction. It collides with another particle of mass 5 kg moving with a velocity of -3 m/s in the same direction.",
+        "question": "Find the velocity of the combined mass after the collision if the collision is perfectly inelastic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Use the formula for the velocity of the combined mass after a perfectly inelastic collision.",
+          "Calculate the total momentum of the system before the collision.",
+          "Use the conservation of momentum to find the velocity of the combined mass after the collision."
+        ],
+        "hints": [
+          "Stay focused on this: Find the velocity of the combined mass after the collision if the collision is perfectly inelastic — develop the idea fully rather than listing short points. Make sure you also cover: Calculate the of the system the collision."
+        ],
+        "model_answer": "Total momentum before collision, p_total = -3 kg*m/s (from part a).\nLet v_combined be the velocity of the combined mass after the collision.\nTotal mass, m_total = m1 + m2 = 3 + 5 = 8 kg.\nBy conservation of momentum, p_total = m_total * v_combined.\n-3 = 8 * v_combined.\nv_combined = -3 / 8 = -0.375 m/s.",
+        "explanation": "In a perfectly inelastic collision, the total momentum of the system is conserved. The velocity of the combined mass after the collision is found by dividing the total momentum by the total mass.",
+        "exam_question_id": "49b42b10-cea3-4d45-a28e-8a3ab5065d44:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Momentum"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a particle of mass 3 kg moving with a velocity of 4 m/s in the positive x-direction. It collides with another particle of mass 5 kg moving with a velocity of -3 m/s in the same direction.",
+        "question": "Show that the kinetic energy is not conserved in this collision.",
+        "marks": 4,
+        "marking_criteria": [
+          "Calculate KE of particle 1 before collision: 0.5 × 3 × 4² = 24 J",
+          "Calculate KE of particle 2 before collision: 0.5 × 5 × (−3)² = 22.5 J",
+          "Total KE before collision: 24 + 22.5 = 46.5 J",
+          "Calculate KE of combined mass after collision: 0.5 × 8 × (−0.375)² = 0.5625 J",
+          "Compare: 46.5 J ≠ 0.5625 J, therefore kinetic energy is not conserved"
+        ],
+        "hints": [
+          "Stay focused on this: Show that the kinetic energy is not conserved in this collision — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Kinetic energy of particle 1 before collision, KE1 = 0.5 * m1 * v1^2 = 0.5 * 3 * 4^2 = 24 J.\nKinetic energy of particle 2 before collision, KE2 = 0.5 * m2 * v2^2 = 0.5 * 5 * (-3)^2 = 22.5 J.\nTotal kinetic energy before collision, KE_total_before = KE1 + KE2 = 24 + 22.5 = 46.5 J.\nKinetic energy of the combined mass after collision, KE_combined = 0.5 * m_total * v_combined^2 = 0.5 * 8 * (-0.375)^2 = 0.5 * 8 * 0.140625 = 0.5625 J.\nKE_total_before = 46.5 J is not equal to KE_combined = 0.5625 J. Therefore, the kinetic energy is not conserved in this collision.",
+        "explanation": "In a perfectly inelastic collision, momentum is always conserved but kinetic energy is not. Energy is lost as heat, sound, and deformation. Here, 46.5 J before becomes only 0.5625 J after, confirming this is an inelastic collision.",
+        "exam_question_id": "49b42b10-cea3-4d45-a28e-8a3ab5065d44:1",
+        "checked": true,
+        "topic_label": "Momentum",
+        "source": {
+          "textbook": "Cambridge International AS  A Level Further Mathematics Coursebook",
+          "area": "Momentum"
+        }
+      }
+    ],
+    "estimated_time": 74,
+    "assessment_id": "4e607c38-ae01-4252-96f5-189ede2a342e",
+    "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+    "topics": [
+      "Matrices 2",
+      "Momentum"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 19,
+    "topic_ids": [
+      271,
+      269
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 25,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "4 questions open with the same sentence (1, 6, 19, 23): \"Calculate the total momentum of the system before \""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 16,
+      "detail": "5 criteria for 3 marks"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 17,
+      "detail": "6 criteria for 3 marks"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 19,
+      "detail": "5 criteria for 4 marks"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 20,
+      "detail": "4 criteria for 3 marks"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 21,
+      "detail": "4 criteria for 3 marks"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "longform-criteria-mismatch",
+      "severity": "poor",
+      "index": 24,
+      "detail": "5 criteria for 4 marks"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b",
+      "10c",
+      "3a",
+      "3b",
+      "3c"
+    ],
+    "issues": [
+      {
+        "label": "1c",
+        "severity": "broken",
+        "detail": "Topic label is 'Matrices 2' but question concerns kinetic energy in inelastic collision (Momentum topic). Source also lists 'Matrices 2' incorrectly. Question content is momentum-related, not matrices.",
+        "correction": "Change topic_label and source.area to 'Momentum' or 'Impulse and the conservation of momentum'"
+      },
+      {
+        "label": "2a",
+        "severity": "broken",
+        "detail": "Model answer states A⁻¹(1,3) = −2/7, but marking criteria requires cofactor(3,1)/det(A) = 2/7. The sign is inconsistent. Recalculating: det(A)=7 is correct; cofactor(3,1) for element (1,3) in inverse should be checked. The answer −2/7 contradicts the marking criterion.",
+        "correction": "Verify: For A⁻¹(1,3), use cofactor(3,1) of A. Cofactor(3,1) = (−1)^(3+1)·minor(3,1) = +[−2·2 − 1·(−1)] = −5. So A⁻¹(1,3) = −5/7, not −2/7. Correct model answer and marking criteria."
+      },
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Topic label is 'Momentum' but question is about matrix inversion (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+        "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+      },
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Question 3a is identical to question 1a (same context, same wording, same answer 4 kg·m/s). Assessment contains repeated question with same data.",
+        "correction": "Remove duplicate or modify context/values for question 3"
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Question 3b is identical to question 1b (same context, same wording, same answer 4/3 m/s). Repeated question with same data.",
+        "correction": "Remove duplicate or modify context/values for question 3"
+      },
+      {
+        "label": "3c",
+        "severity": "poor",
+        "detail": "Question 3c is identical to question 1c (same context, same wording, same calculations). Repeated question with same data. Marking criteria also lists incorrect KE_final = 4/3 J instead of 8/3 J.",
+        "correction": "Remove duplicate or modify context/values. Correct marking criteria: KE_final = 8/3 J ≈ 2.67 J"
+      },
+      {
+        "label": "5a",
+        "severity": "broken",
+        "detail": "Model answer states det(A) = 11, but marking criteria requires det(A) = −9. These contradict. Recalculating: det(A) = 1(0−(−1)) − (−1)(0−(−2)) + 2(0−6) = 1 − 2 − 12 = −13, not 11 or −9. All values are incorrect.",
+        "correction": "Recalculate: det(A) = −13. Recalculate cofactor matrix and A⁻¹ accordingly. Element (2,1) of A⁻¹ requires correct cofactor(1,2) and determinant."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Topic label is 'Momentum' but question concerns matrix multiplication (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+        "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+      },
+      {
+        "label": "6a",
+        "severity": "broken",
+        "detail": "Model answer calculation is incoherent. States det(A) = 10, then computes cofactor as (10 − 48) = −38, then divides by 10 to get −3.8. The cofactor calculation and formula application are unclear and likely incorrect. Recalculating det(A) = 1(50−48) − 2(40−42) + 3(32−35) = 2 + 4 − 9 = −3, not 10.",
+        "correction": "Recalculate: det(A) = −3. Recalculate cofactor matrix and A⁻¹(1,3) using correct determinant."
+      },
+      {
+        "label": "6b",
+        "severity": "poor",
+        "detail": "Topic label is 'Momentum' but question concerns matrix multiplication (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+        "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+      },
+      {
+        "label": "7a",
+        "severity": "poor",
+        "detail": "Topic label is 'Matrices 2' but question concerns velocity components in collision (Momentum). Source area also incorrectly lists 'Matrices 2'.",
+        "correction": "Change topic_label to 'Momentum' and source.area to 'Momentum'"
+      },
+      {
+        "label": "7b",
+        "severity": "poor",
+        "detail": "Model answer is vague and incomplete. States 'Solving these equations, we find the angle of deflection for sphere P' without showing work. The answer 30° is not derived from the given equations. Marking criteria require detailed resolution of velocity components along/perpendicular to line of centres, but model answer lacks this.",
+        "correction": "Provide complete derivation: resolve 4u into components along (4u·cos60°=2u) and perpendicular (4u·sin60°=2√3u) to line of centres; apply e=1/4 and momentum conservation along line of centres; reconstruct velocity and calculate deflection angle explicitly."
+      },
+      {
+        "label": "7c",
+        "severity": "poor",
+        "detail": "Model answer is superficial. States 'coefficient of restitution is less than 1' but does not develop the explanation as required by marking criteria. Marking criteria demand explanation of impulse, velocity component changes, and asymmetric reduction, but model answer lacks depth.",
+        "correction": "Expand model answer to explain: impulse acts along line of centres reducing that component; perpendicular component unchanged; inelastic collision (e<1) causes larger relative velocity reduction along centres; net result is smaller deflection angle."
+      },
+      {
+        "label": "9a",
+        "severity": "broken",
+        "detail": "Model answer states cofactor(1,3) = 2 and A⁻¹(1,3) = 1/8, but marking criteria state cofactor(1,3) = 1 and A⁻¹(1,3) = 1/16. These contradict. Recalculating: minor(1,3) = |1 0|/|4 1| = 1; cofactor(1,3) = (−1)^(1+3)·1 = 1; A⁻¹(1,3) = 1/16. Model answer is incorrect.",
+        "correction": "Correct model answer: cofactor(1,3) = 1, A⁻¹(1,3) = 1/16 (matching marking criteria)"
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Topic label is 'Momentum' but question concerns matrix inversion (Matrices 2). Source area also incorrectly lists 'Momentum'.",
+        "correction": "Change topic_label to 'Matrices 2' and source.area to 'Matrices 2'"
+      },
+      {
+        "label": "9b",
+        "severity": "poor",
+        "detail": "Model answer is generic and does not show explicit calculation. States 'The product of A and A−¹ is [[1, 0, 0], [0, 1, 0], [0, 0, 1]]' without demonstrating matrix multiplication. Marking criteria require explicit computation of at least two entries, but model answer lacks this.",
+        "correction": "Expand model answer to show at least two entries of A·A⁻¹ computed explicitly (e.g., (1,1) and (1,2) entries with full arithmetic)"
+      }
+    ],
+    "summary": "Assessment contains 9 substantive issues: 3 broken determinant/cofactor calculations (2a, 5a, 6a), 3 topic label mismatches (2a, 5b, 6b, 7a, 9a), 3 repeated questions with identical data (3a, 3b, 3c), and 3 incomplete model answers lacking required derivations (7b, 7c, 9b)."
+  },
+  "totalSeconds": 68
+}

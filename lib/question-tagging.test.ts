@@ -9,6 +9,21 @@ const subs = [
 ]
 
 describe('tagQuestionsWithSubtopics', () => {
+  it('corrects a planned label when the actual question clearly tests another selected chapter', () => {
+    const questions: any[] = [{ exam_question_id: 'q1', topic_id: 442, topic_label: 'Photosynthesis', scenario: 'A metal block has mass 300 g and volume 40 cm³.', question: 'Calculate its density.' }]
+    tagQuestionsWithSubtopics(questions, [{ id: 1, name: 'Photosynthesis', topic_id: 442 }, { id: 2, name: 'Density', topic_id: 444 }])
+    expect(questions[0].topic_id).toBe(444)
+    expect(questions[0].topic_label).toBe('Density')
+  })
+  it('keeps the known chapter when a short part has no reliable section match', () => {
+    const questions: any[] = [{ exam_question_id: 'q1', topic_id: 10, topic_label: 'Matrices', scenario: 'Matrix A is specified.', question: 'Calculate its inverse.', explanation: 'Use algebra.' }]
+    tagQuestionsWithSubtopics(questions, [
+      { id: 100, name: 'Matrix determinants', topic_id: 10 },
+      { id: 200, name: 'Conservation of momentum', topic_id: 20 },
+    ])
+    expect(questions[0].topic_id).toBe(10)
+    expect(questions[0].subtopic_id).toBeUndefined()
+  })
   it('tags a question to a section it shares two words with', () => {
     const q: any = { question: 'What is the intersection of the sets A and B?' }
     expect(tagQuestionsWithSubtopics([q], subs)).toEqual([2])

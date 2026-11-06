@@ -1,0 +1,282 @@
+{
+  "index": 5,
+  "label": "Cambridge / Practice / Cambridge-AS-A-Level-Computing-Coursebook",
+  "request": {
+    "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+    "textbook_id": 207,
+    "topic_ids": [
+      3026,
+      3025
+    ],
+    "topics": [
+      "Chapter 2: Designing solutions to problems",
+      "Chapter 1: Components of a computer system and modes of use"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge-AS-A-Level-Computing-Coursebook",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 17,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "Look at the diagram. The loop counter runs from 2 down in steps of -0.2. Why does the last row show 2.77555756156289E-16 instead of 0?",
+        "options": [
+          "Fractional steps cannot be stored exactly as Double values, so rounding errors build up",
+          "The loop stops before Count reaches zero, so the last value is left over from the previous pass",
+          "The Step value is negative, so VB.NET always outputs the final value in standard form",
+          "The list box rounds any value smaller than 1 to scientific notation"
+        ],
+        "correct_answer": 0,
+        "explanation": "Decimal fractions like 0.2 cannot be represented exactly in binary floating point, so repeated subtraction accumulates tiny errors, leaving about 2.78E-16 rather than 0. The loop does not leave a stale value, a negative step does not cause standard form, and the list box does not round values; it only shows the stored value.",
+        "image_url": "/textbook-images/cambridge/207/page136-embedded-0.png",
+        "topic_label": "Chapter 2: Designing solutions to problems",
+        "vetted": true,
+        "image_alt": "A Windows form titled Form1 with a Start button at the top and an Exit button at the bottom. A list box between them shows two columns of output: 2 and 4, 1.8 and 3.24, 1.6 and 2.56, 1.4 and 1.96, 1.2 and 1.44, 1 and 1, 0.8 and 0.64, 0.6 and 0.36, 0.4 and 0.16, 0.2 and 0.0400000000000001, then 2.77555756156289E-16 and 7.70371977754894E-32. Printed on it: Form1 | Start | 2 | 4 | 1.8 | 3.24 | 1.6 | 2.56 | 1.4 | 1.96 | 1.2 | 1.44 | 1 | 1 | 0.8 | 0.64 | 0.6 | 0.36 | 0.4 | 0.16 | 0.2 | 0.0400000000000001 | 2.77555756156289E-16 | 7.70371977754894E-32 | Exit.",
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Which mode of use describes a computer system designed for interactive tasks and user engagement?",
+        "options": [
+          "Interactive processing",
+          "Distributed processing",
+          "Batch processing",
+          "Real-time processing"
+        ],
+        "correct_answer": 0,
+        "explanation": "Interactive processing is the mode where the computer responds to user inputs in real-time, making it suitable for tasks that require user engagement such as gaming or office applications.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 14978,
+        "topic_id": 3025,
+        "topic_label": "Components of a computer system and",
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Components of a computer system and"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Look at the bar chart. A manager wants to compare expense categories for each employee. Why is a clustered bar chart suitable for this report?",
+        "options": [
+          "It shows only the total expenses for each employee as a single bar",
+          "It shows how the expenses change over time during the month",
+          "It places each category's bar side by side for every employee, so values can be compared directly",
+          "It stores the employees' expense data permanently so the figures cannot be changed"
+        ],
+        "correct_answer": 2,
+        "explanation": "A clustered bar chart groups bars for Travelling, Telephone, Postage and Meals under each employee, so categories and employees can be compared easily. It does not store data. It does not show only totals, because each category has its own bar. It does not show change over time, because it covers one month only.",
+        "image_url": "/textbook-images/cambridge/207/page121-embedded-2.png",
+        "topic_label": "Chapter 2: Designing solutions to problems",
+        "vetted": true,
+        "image_alt": "A clustered bar chart titled 'Monthly Expenses August 2010', with the subtitle 'Printed 3rd September 2010'. The x-axis is 'Employee' with A. Beans, C. Doncaster, E. Franks and G. Harris, and the y-axis runs from 0 to 350 in steps of 50. Each employee has bars for Travelling, Telephone, Postage and Meals. Approximate values: Beans travelling 177, telephone 83, postage about 3, meals 90. Doncaster travelling 300, telephone 98, postage about 5, meals 188. Franks travelling 158, telephone 76, postage about 3, meals 76. Harris travelling 167, telephone 85, postage about 3, and no meals bar. Printe",
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Which design principle involves breaking down a problem into smaller, manageable parts?",
+        "options": [
+          "Modularity",
+          "Incremental development",
+          "Encapsulation",
+          "Abstraction"
+        ],
+        "correct_answer": 0,
+        "explanation": "Modularity is the design principle of dividing a system into smaller, independent, manageable modules. Abstraction hides complexity; incremental development is a process; encapsulation bundles related items.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_label": "Chapter 1: Components of a computer system and modes of use",
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Chapter 1: Components of a computer system and modes of use"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Look at the table. State the index of the element holding \"Lee\", and explain how a program would use that index to output this surname.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that the index of Lee is 3",
+          "Explains that the program refers to the array name with the index (subscript) 3, e.g. Surname[3], to access and output the value stored there"
+        ],
+        "model_answer": "Lee is stored at index 3. A program would give the array name followed by the index in brackets, such as OUTPUT Surname[3], which selects that one element and outputs the value stored in it.",
+        "explanation": "A strong answer reads the index for Lee correctly from the table. It must also explain that the index acts as a subscript with the array name, picking out one element so its stored value can be output.",
+        "image_url": "/textbook-images/textbook-bank/207/p152-f0.png",
+        "topic_label": "Chapter 2: Designing solutions to problems",
+        "vetted": true,
+        "image_alt": "A one-dimensional array drawn as a two-column table with the headings Index and Surname. Rows read: 0 Smith, 1 Williams, 2 Khan, 3 Lee, 4 Yung, 5 Shah, 6 Patel. Three vertical dots follow, then the last row, 20 Carter. Printed on it: Index | Surname | 0 | Smith | 1 | Williams | 2 | Khan | 3 | Lee | 4 | Yung | 5 | Shah | 6 | Patel | . | . | . | 20 | Carter | Figure 2.3.1 A one-dimensional array..",
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Look at the diagram. For which combination of inputs A, B and C will the Output be 1?",
+        "options": [
+          "A = 1, B = 1, C = 0",
+          "A = 0, B = 0, C = 0",
+          "A = 1, B = 0, C = 1",
+          "A = 0, B = 0, C = 1"
+        ],
+        "correct_answer": 3,
+        "explanation": "Output is 1 only when D (NOT A) and E (B OR C) are both 1. A = 0, B = 0, C = 1 gives D = 1 and E = 1, so the Output is 1. A = 1, B = 1, C = 0 gives D = 0. A = 0, B = 0, C = 0 gives E = 0. A = 1, B = 0, C = 1 gives D = 0.",
+        "image_url": "/textbook-images/textbook-bank/207/p102-f0.png",
+        "topic_label": "Chapter 1: Components of a computer system and modes of use",
+        "vetted": true,
+        "image_alt": "A logic circuit with three inputs A, B and C. Input A goes into a NOT gate, whose output is labelled D. Inputs B and C go into an OR gate, whose output is labelled E. D and E are the two inputs to an AND gate, which gives the line labelled Output. Printed on it: A | D | B | C | E | Output | Figure 1.10.14 A circuit with three inputs..",
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Explain how the design of a user interface can impact the usability of a software application. Provide examples to support your explanation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of key design elements",
+          "Explanation of how design elements affect usability",
+          "Use of examples to support the explanation"
+        ],
+        "hints": [
+          "Structure your answer around both demands: Explain how the design of a user interface can impact the usability of a software application; then Provide examples to support your explanation. Make sure you also cover: of examples to support the explanation."
+        ],
+        "model_answer": "A user interface (UI) design significantly impacts the usability of a software application by affecting how easily and efficiently users can interact with the application. For example, a clear and intuitive layout allows users to find features quickly, reducing frustration. A consistent color scheme helps users recognize different functions and states within the application, enhancing their experience. Good user feedback, such as confirmation messages or error alerts, informs users about the success or failure of their actions, guiding them to correct mistakes or proceed confidently. These design elements collectively improve user satisfaction and productivity.",
+        "explanation": "A strong answer will identify key design elements, explain their impact on usability, and use relevant examples to illustrate these points, earning full marks.",
+        "checked": true,
+        "subtopic_id": 14976,
+        "topic_id": 3025,
+        "topic_label": "1.9 Designing the user interface",
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "1.9 Designing the user interface"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Look at the diagram. Both switches are drawn open. What output value would the circuit give if switch A were closed and switch B stayed open?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "1",
+            "output is 1",
+            "the output would be 1",
+            "1 (on)"
+          ]
+        },
+        "explanation": "The output is 1. In an OR circuit the switches are in parallel, so closing either switch completes a path from the input labelled 1 to the output. Switch B being open does not matter.",
+        "image_url": "/textbook-images/textbook-bank/207/p100-f1.png",
+        "topic_label": "Chapter 1: Components of a computer system and modes of use",
+        "vetted": true,
+        "image_alt": "A circuit diagram of two switches, switch A (top) and switch B (bottom), wired in parallel between an input on the left labelled 1 and an output on the right labelled 0. Each switch is drawn open, with its lever angled up and away from the contact. The caption reads 'Figure 1.10.6 An OR circuit.' Printed on it: 1 | switch A | switch B | 0 | Figure 1.10.6 An OR circuit..",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Both switches are drawn open."
+        ],
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "Which of the following best describes the concept of abstraction in computer science?",
+        "options": [
+          "Creating a detailed blueprint of a system",
+          "Testing a system under various conditions",
+          "Documenting every step of a process",
+          "Hiding the details of a complex system to focus on essential features"
+        ],
+        "correct_answer": 3,
+        "explanation": "Abstraction in computer science involves hiding the complex details of a system and exposing only the essential features, making it easier to understand and manage. The other options describe different activities such as documentation, testing, and detailed planning, which do not align with the concept of abstraction.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "subtopic_id": 14978,
+        "topic_id": 3025,
+        "topic_label": "Components of a computer system and",
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook",
+          "area": "Components of a computer system and"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Look at the diagram. State the output Z when A and B are both 1, and name the single gate that behaves identically to this circuit.",
+        "marks": 2,
+        "marking_criteria": [
+          "States that Z is 0 when A and B are both 1 (the AND output of 1 is inverted by the NOT gate)",
+          "Identifies that the single equivalent gate is a NAND gate"
+        ],
+        "model_answer": "When A and B are both 1, the AND gate outputs 1, and the NOT gate inverts this, so Z is 0. The circuit behaves exactly like a single NAND gate.",
+        "explanation": "A strong answer works through the circuit in order: the AND gate first, then the NOT gate inverting its result. Give the value of Z for inputs 1 and 1, then name the single gate with the same behaviour for every input combination.",
+        "image_url": "/textbook-images/textbook-bank/207/p104-f0.png",
+        "topic_label": "Chapter 1: Components of a computer system and modes of use",
+        "vetted": true,
+        "image_alt": "A logic circuit with two inputs, A and B, going into an AND gate. The output of the AND gate goes into a NOT gate (a triangle with a small circle at its tip). The NOT gate's output is labelled Z. Printed on it: A | B | Z | Figure 1.10.18 A circuit for Question 1b..",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then State the output Z when A and B are both 1, and name the single gate that behaves identically to this circuit."
+        ],
+        "source": {
+          "textbook": "Cambridge-AS-A-Level-Computing-Coursebook"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "ddf706a0-b3f7-4eb2-a5a4-8b61dcafe8a0",
+    "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+    "topics": [
+      "Chapter 2: Designing solutions to problems",
+      "Chapter 1: Components of a computer system and modes of use"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mixed",
+    "textbook_id": 207,
+    "topic_ids": [
+      3026,
+      3025
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 6,
+  "imageErrors": [
+    "/textbook-images/cambridge/207/page136-embedded-0.png: HTTP 404",
+    "/textbook-images/cambridge/207/page121-embedded-2.png: HTTP 404",
+    "/textbook-images/textbook-bank/207/p152-f0.png: HTTP 404",
+    "/textbook-images/textbook-bank/207/p102-f0.png: HTTP 404",
+    "/textbook-images/textbook-bank/207/p100-f1.png: HTTP 404",
+    "/textbook-images/textbook-bank/207/p104-f0.png: HTTP 404"
+  ],
+  "totalSeconds": 19
+}

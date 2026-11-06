@@ -1,0 +1,30 @@
+{
+  "index": 17,
+  "label": "REB / Practice / Literature in English  S3 SB",
+  "request": {
+    "subject": "Literature in English  S3 SB",
+    "textbook_id": 122,
+    "topic_ids": [
+      1291
+    ],
+    "topics": [
+      "Plot development"
+    ],
+    "curriculum": "rwanda",
+    "grade": 9,
+    "className": "S3",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 3331501060,
+  "error": "Error: Failed to generate 10 complete questions. The AI produced 8. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 153,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 10 complete questions. The AI produced 8. Please try again."
+  },
+  "totalSeconds": 153
+}

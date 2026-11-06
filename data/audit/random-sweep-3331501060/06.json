@@ -1,0 +1,861 @@
+{
+  "index": 6,
+  "label": "REB / Exam / P3-English-PB (1)",
+  "request": {
+    "subject": "P3-English-PB (1)",
+    "textbook_id": 150,
+    "topic_ids": [
+      1561,
+      1559
+    ],
+    "topics": [
+      "UNIT 10: Shopping",
+      "UNIT 8: Rwanda"
+    ],
+    "curriculum": "rwanda",
+    "grade": 3,
+    "className": "P3",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 76,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in Rwanda, and you are given a map with compass points. The map shows that you are currently at a point marked 'A'. The directions from point 'A' to point 'B' are given as 30 degrees North of East.",
+        "question": "Calculate the compass bearing from point 'A' to point 'B'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the compass bearing from point 'A' to point 'B'.",
+          "Use the correct format for compass bearings."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The compass bearing from point 'A' to point 'B' is 30 degrees North of East, or 030 degrees.",
+        "explanation": "To find the compass bearing, start from North and count the degrees towards East. 30 degrees North of East is 030 degrees.",
+        "exam_question_id": "9ddc5cd9-2dad-4691-afc8-5087e1a34bd9:1",
+        "topic_label": "Compass points",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7797,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Compass points"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in Rwanda, and you are given a map with compass points. The map shows that you are currently at a point marked 'A'. The directions from point 'A' to point 'B' are given as 30 degrees North of East.",
+        "question": "Calculate the compass bearing from point 'B' to point 'A'.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the compass bearing from point 'B' to point 'A'.",
+          "Use the correct format for compass bearings."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The compass bearing from point 'B' to point 'A' is 210 degrees (30 degrees South of West).",
+        "explanation": "To find the compass bearing from B to A, you need to take the opposite direction of the bearing from A to B. Since 030 degrees is North of East, the opposite direction is South of West, which is 210 degrees.",
+        "exam_question_id": "9ddc5cd9-2dad-4691-afc8-5087e1a34bd9:1",
+        "topic_label": "Compass points",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7797,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Compass points"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are reading a short extract about life in Rwanda. The extract mentions that many people in Rwanda live in rural areas and that the capital city is Kigali.",
+        "question": "Name the capital city of Rwanda mentioned in the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies Kigali as the capital city.",
+          "Provides the answer in a clear and concise manner."
+        ],
+        "hints": [
+          "Stay focused on this: Name the capital city of Rwanda mentioned in the extract — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identifies as the capital city.; Provides the answer in a clear and concise manner."
+        ],
+        "model_answer": "Kigali",
+        "explanation": "The extract specifically mentions Kigali as the capital city of Rwanda.",
+        "exam_question_id": "53c33788-1f86-4c6e-9e3c-83be84d700b7:1",
+        "topic_label": "UNIT 8: Rwanda — Where do you live",
+        "topic_id": 1559,
+        "checked": true,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "UNIT 8: Rwanda — Where do you live"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are reading a short extract about life in Rwanda. The extract mentions that many people in Rwanda live in rural areas and that the capital city is Kigali.",
+        "question": "Explain why living in rural areas might be different from living in the capital city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Provides a clear explanation of the differences.",
+          "Uses examples from the extract or general knowledge about urban and rural living.",
+          "Answers in a logical and coherent manner."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why living in rural areas might be different from living in the capital city — develop the idea fully rather than listing short points. Make sure you also cover: Provides a clear explanation of the differences.; examples from the extract or general knowledge about urban and rural…."
+        ],
+        "model_answer": "Living in rural areas might be different from living in the capital city because rural areas often have fewer amenities and services compared to the capital city. For example, in rural areas, people might have to travel longer distances to access healthcare, education, and other services. In contrast, the capital city, Kigali, likely has more facilities, better infrastructure, and a faster-paced lifestyle.",
+        "explanation": "The extract does not provide specific details, but general knowledge about urban and rural living can be used to explain the differences.",
+        "exam_question_id": "53c33788-1f86-4c6e-9e3c-83be84d700b7:1",
+        "topic_label": "UNIT 8: Rwanda — Where do you live",
+        "topic_id": 1559,
+        "checked": true,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "UNIT 8: Rwanda — Where do you live"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are reading a short extract about life in Rwanda. The extract mentions that many people in Rwanda live in rural areas and that the capital city is Kigali.",
+        "question": "Describe one aspect of life in Rwanda that you found interesting from the extract.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifies and describes an interesting aspect of life in Rwanda.",
+          "Provides a clear and detailed description."
+        ],
+        "hints": [
+          "Think about the details and descriptions provided in the extract."
+        ],
+        "model_answer": "One interesting aspect of life in Rwanda is the way people live in rural areas. The extract mentions that many people live in rural areas, which might have a different lifestyle compared to the capital city. For example, people in rural areas might have closer ties to nature and engage in traditional farming practices.",
+        "explanation": "The extract provides information about rural living, which can be considered an interesting aspect of life in Rwanda.",
+        "exam_question_id": "53c33788-1f86-4c6e-9e3c-83be84d700b7:1",
+        "topic_label": "UNIT 8: Rwanda — Where do you live",
+        "topic_id": 1559,
+        "checked": true,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "UNIT 8: Rwanda — Where do you live"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are exploring the beautiful country of Rwanda. Rwanda has many geographical features such as mountains, rivers, and lakes. For this question, we will focus on identifying and naming these features.",
+        "question": "Name three basic geographical features found in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Name one mountain from Rwanda (e.g. Mount Karisimbi, Mount Bisoke, Mount Muhabura)",
+          "Name one river from Rwanda (e.g. Nile River, Akanyaru River, Nyabarongo River)",
+          "Name one lake from Rwanda (e.g. Lake Kivu, Lake Burera, Lake Ruhondo, Lake Ihema)"
+        ],
+        "hints": [
+          "Stay focused on this: Name three basic geographical features found in Rwanda — develop the idea fully rather than listing short points. Make sure you also cover: one mountain from Rwanda (e.g.; one from Rwanda (e.g.; one from Rwanda (e.g. Ihema)."
+        ],
+        "model_answer": "Mountains: Mount Karisimbi, Mount Bisoke, Mount Muhabura. Rivers: The Nile River, Akanyaru River, Nyabarongo River. Lakes: Lake Kivu, Lake Burera, Lake Ruhondo.",
+        "explanation": "Think about the different types of geographical features and their names in Rwanda.",
+        "exam_question_id": "d8f5c7cb-4f9e-4e55-a26c-18efe4da1aa7:1",
+        "topic_label": "Naming basic geographical features",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7799,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Naming basic geographical features"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are exploring the beautiful country of Rwanda. Rwanda has many geographical features such as mountains, rivers, and lakes. For this question, we will focus on identifying and naming these features.",
+        "question": "Explain why it is important to know the names of geographical features in a country.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the importance of knowing geographical names for navigation.",
+          "Explain the importance of knowing geographical names for cultural understanding."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to know the names of geographical features in a country — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Knowing the names of geographical features is important for navigation because it helps people find their way around the country. It is also important for cultural understanding because it allows people to communicate effectively about the country's geography.",
+        "explanation": "Consider how geographical names help in both practical and cultural contexts.",
+        "exam_question_id": "d8f5c7cb-4f9e-4e55-a26c-18efe4da1aa7:1",
+        "topic_label": "Naming basic geographical features",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7799,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Naming basic geographical features"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Imagine you are exploring the beautiful country of Rwanda. Rwanda has many geographical features such as mountains, rivers, and lakes. For this question, we will focus on identifying and naming these features.",
+        "question": "Describe the location of Lake Kivu in Rwanda.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the position of Lake Kivu in relation to other geographical features (e.g. western Rwanda, border with DRC)",
+          "Describe the size and shape of Lake Kivu (e.g. large, elongated/narrow)",
+          "Describe the significance of Lake Kivu in Rwanda (e.g. water supply, fishing, hydroelectric power, transport)"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the location of Lake Kivu in Rwanda — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Lake Kivu is located in western Rwanda, on the border with the Democratic Republic of Congo. It is a large lake with an elongated shape. Lake Kivu is significant because it provides water for drinking, irrigation, fishing, and hydroelectric power for the region.",
+        "explanation": "Consider the geographical context, physical characteristics, and importance of Lake Kivu in Rwanda.",
+        "exam_question_id": "d8f5c7cb-4f9e-4e55-a26c-18efe4da1aa7:1",
+        "topic_label": "Naming basic geographical features",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7799,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Naming basic geographical features"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are given a list of items from a shopping list. The list includes: 3 apples, 2 bottles of milk, 1 loaf of bread, 5 bananas, and 4 oranges. Identify the countable and uncountable nouns from the list.",
+        "question": "Name the countable nouns from the shopping list.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify countable nouns",
+          "List all countable nouns correctly"
+        ],
+        "hints": [
+          "Stay focused on this: Name the countable nouns from the shopping list — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Countable nouns: apples, bottles, loaf, bananas, oranges",
+        "explanation": "Countable nouns are items that can be counted individually. From the list, apples, bottles, loaf, bananas, and oranges are countable nouns because you can count them one by one.",
+        "exam_question_id": "577cc94f-4d55-4a6e-aef5-d319be376503:1",
+        "topic_label": "Countable and uncountable nouns",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7811,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Countable and uncountable nouns"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are given a list of items from a shopping list. The list includes: 3 apples, 2 bottles of milk, 1 loaf of bread, 5 bananas, and 4 oranges. Identify the countable and uncountable nouns from the list.",
+        "question": "Name the uncountable nouns from the shopping list.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify uncountable nouns",
+          "List all uncountable nouns correctly"
+        ],
+        "hints": [
+          "Stay focused on this: Name the uncountable nouns from the shopping list — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Uncountable nouns: milk, bread",
+        "explanation": "Uncountable nouns are items that cannot be counted individually. From the list, milk and bread are uncountable nouns because they are measured in quantities rather than counted as individual items.",
+        "exam_question_id": "577cc94f-4d55-4a6e-aef5-d319be376503:1",
+        "topic_label": "Countable and uncountable nouns",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7811,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Countable and uncountable nouns"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are given a list of items from a shopping list. The list includes: 3 apples, 2 bottles of milk, 1 loaf of bread, 5 bananas, and 4 oranges. Identify the countable and uncountable nouns from the list.",
+        "question": "Explain why some nouns are countable and others are uncountable.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the difference between countable and uncountable nouns",
+          "Provide examples from the list",
+          "Use correct terminology"
+        ],
+        "hints": [
+          "Think about whether you can count the items individually."
+        ],
+        "model_answer": "Countable nouns are things that can be counted individually, such as apples and bananas. Uncountable nouns are things that cannot be counted individually, like milk and bread, and are measured in quantities.",
+        "explanation": "Countable nouns are items that can be counted one by one, such as apples or bananas. Uncountable nouns, on the other hand, are things that are measured in quantities rather than counted individually, like milk or bread.",
+        "exam_question_id": "577cc94f-4d55-4a6e-aef5-d319be376503:1",
+        "topic_label": "Countable and uncountable nouns",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7811,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Countable and uncountable nouns"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in a market in Rwanda. The market is bustling with activity, and you see various stalls selling different items. The extract describes what you see at the market. Here is an extract from your observation: 'In the market, you can find fresh fruits like apples, bananas, and oranges. There are also stalls selling vegetables, grains, and dairy products. Some people are selling handmade crafts and clothing.'",
+        "question": "Describe what you see at the market.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of fresh fruits",
+          "Identification of vegetables, grains, and dairy products",
+          "Identification of handmade crafts and clothing"
+        ],
+        "hints": [
+          "Look for items that are commonly found in a market."
+        ],
+        "model_answer": "At the market, I see fresh fruits like apples, bananas, and oranges. There are stalls selling vegetables, grains, and dairy products. I also notice some people selling handmade crafts and clothing.",
+        "explanation": "Describe the items you see in the market based on the extract provided.",
+        "exam_question_id": "d1dbcb46-af33-4c7e-b37b-881c462132f4:1",
+        "topic_label": "The market: What do we find in the market?",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7810,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "The market: What do we find in the market?"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in a market in Rwanda. The market is bustling with activity, and you see various stalls selling different items. The extract describes what you see at the market. Here is an extract from your observation: 'In the market, you can find fresh fruits like apples, bananas, and oranges. There are also stalls selling vegetables, grains, and dairy products. Some people are selling handmade crafts and clothing.'",
+        "question": "Name three items you can buy at the market.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of any three items from the list",
+          "Correct spelling of the items"
+        ],
+        "hints": [
+          "Refer to the extract for the items available."
+        ],
+        "model_answer": "Three items I can buy at the market are apples, bananas, and oranges.",
+        "explanation": "Name any three items from the list provided in the extract.",
+        "exam_question_id": "d1dbcb46-af33-4c7e-b37b-881c462132f4:1",
+        "topic_label": "The market: What do we find in the market?",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7810,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "The market: What do we find in the market?"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are visiting a market in Rwanda. The market is bustling with activity, and you see a variety of stalls selling different items. From one stall, you see the following items for sale: 5 kg of rice, 3 kg of sugar, 2 kg of flour, 10 bananas, and 6 apples.",
+        "question": "Identify the countable and uncountable nouns from the list of items for sale at the market stall.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify countable nouns.",
+          "Identify uncountable nouns."
+        ],
+        "hints": [
+          "Stay focused on this: Identify the countable and uncountable nouns from the list of items for sale at the market stall — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Countable nouns: bananas (10), apples (6). Uncountable nouns: rice (5 kg), sugar (3 kg), flour (2 kg).",
+        "explanation": "Countable nouns are items that can be counted individually, such as bananas and apples. Uncountable nouns are items that cannot be counted individually, such as rice, sugar, and flour, and are measured in quantities like kilograms.",
+        "exam_question_id": "62e8bff3-a7d3-4b81-a7cc-6a65717adfe6:1",
+        "topic_label": "Countable and uncountable nouns",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7811,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Countable and uncountable nouns"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are visiting a market in Rwanda. The market is bustling with activity, and you see a variety of stalls selling different items. From one stall, you see the following items for sale: 5 kg of rice, 3 kg of sugar, 2 kg of flour, 10 bananas, and 6 apples.",
+        "question": "Name the countable nouns from the list of items for sale at the market stall.",
+        "marks": 1,
+        "marking_criteria": [
+          "List all countable nouns."
+        ],
+        "hints": [
+          "Remember, countable nouns are things you can count individually."
+        ],
+        "model_answer": "Bananas, apples.",
+        "explanation": "Countable nouns are items that can be counted individually, such as bananas and apples.",
+        "exam_question_id": "62e8bff3-a7d3-4b81-a7cc-6a65717adfe6:1",
+        "topic_label": "Countable and uncountable nouns",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7811,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Countable and uncountable nouns"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "You are visiting a market in Rwanda. The market is bustling with activity, and you see a variety of stalls selling different items. From one stall, you see the following items for sale: 5 kg of rice, 3 kg of sugar, 2 kg of flour, 10 bananas, and 6 apples.",
+        "question": "Explain why some nouns are countable and others are uncountable.",
+        "marks": 2,
+        "marking_criteria": [
+          "Provide a reason for countable nouns.",
+          "Provide a reason for uncountable nouns."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why some nouns are countable and others are uncountable — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Countable nouns like bananas and apples can be counted individually because you can separate them and count each one. Uncountable nouns like rice, sugar, and flour are measured in quantities because they are substances that cannot be counted individually.",
+        "explanation": "Countable nouns are things that can be counted individually, while uncountable nouns are substances that are measured in quantities and cannot be counted individually.",
+        "exam_question_id": "62e8bff3-a7d3-4b81-a7cc-6a65717adfe6:1",
+        "topic_label": "Countable and uncountable nouns",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7811,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Countable and uncountable nouns"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in Rwanda, and you are given a map with compass points. The map shows that you are currently at a point marked 'A'. The directions from point 'A' to point 'B' are given as 30 degrees North of East.",
+        "question": "Calculate the compass bearing from point 'A' to point 'B'.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify direction as 30 degrees North of East",
+          "Recognise East is at 090° on compass",
+          "Calculate 090° − 30° = 060°",
+          "State final bearing as 060°"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the compass bearing from point 'A' to point 'B' — develop the idea fully rather than listing short points. Make sure you also cover: Identify direction as 30 of; Calculate 090° − 30° = 060°."
+        ],
+        "model_answer": "The compass bearing from point A to point B is 30 degrees North of East. East is at 090° on the compass. Moving 30° toward North from East: 090° − 30° = 060°. The compass bearing is 060°.",
+        "explanation": "To find the compass bearing, we start from the East direction and move 30 degrees towards the North, which gives us 030 degrees.",
+        "exam_question_id": "6a48d136-a932-4f01-8b87-999a022ca72e:1",
+        "topic_label": "Compass points",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7797,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Compass points"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in Rwanda, and you are given a map with compass points. The map shows that you are currently at a point marked 'A'. The directions from point 'A' to point 'B' are given as 30 degrees North of East.",
+        "question": "Calculate the compass bearing from point 'B' to point 'A'.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify reverse direction as 30 degrees South of West",
+          "Recognise West is at 270° on compass",
+          "Calculate 270° − 30° = 240°",
+          "State final bearing as 240°"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the compass bearing from point 'B' to point 'A' — develop the idea fully rather than listing short points. Make sure you also cover: Identify direction as 30 of; Calculate 270° − 30° = 240°."
+        ],
+        "model_answer": "The compass bearing from point B to point A is the reverse of A to B. The forward bearing was 060°. The reverse bearing is 060° + 180° = 240°. Alternatively: 30 degrees South of West means starting from West (270°) and rotating 30° toward South: 270° − 30° = 240°. The compass bearing is 240°.",
+        "explanation": "To find the compass bearing, we start from the West direction and move 30 degrees towards the South, which gives us 210 degrees.",
+        "exam_question_id": "6a48d136-a932-4f01-8b87-999a022ca72e:1",
+        "topic_label": "Compass points",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7797,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Compass points"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in a market in Rwanda. The market is bustling with activity, and you see various stalls selling different items. Here is an extract from your observation: 'In the market, you can find fresh fruits like apples, bananas, and oranges. There are also stalls selling vegetables, grains, and dairy products. Some people are selling handmade crafts and clothing.'",
+        "question": "Describe what you see at the market.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describes fresh fruits (apples, bananas, oranges).",
+          "Mentions stalls selling vegetables, grains, and dairy products.",
+          "Mentions handmade crafts and clothing."
+        ],
+        "hints": [
+          "Think about the different types of items you see at the market."
+        ],
+        "model_answer": "At the market, I see stalls with fresh fruits like apples, bananas, and oranges. There are also stalls selling vegetables, grains, and dairy products. Some people are selling handmade crafts and clothing.",
+        "explanation": "Describe the different items and types of stalls you see at the market based on the extract.",
+        "exam_question_id": "83a1fba7-a652-47c9-99f2-f2a696e2b434:1",
+        "topic_label": "The market: What do we find in the market?",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7810,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "The market: What do we find in the market?"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in a market in Rwanda. The market is bustling with activity, and you see various stalls selling different items. Here is an extract from your observation: 'In the market, you can find fresh fruits like apples, bananas, and oranges. There are also stalls selling vegetables, grains, and dairy products. Some people are selling handmade crafts and clothing.'",
+        "question": "Name three items you can buy at the market.",
+        "marks": 3,
+        "marking_criteria": [
+          "Names apples.",
+          "Names bananas.",
+          "Names oranges or any other acceptable item from the extract."
+        ],
+        "hints": [
+          "Look at the extract to see what items are mentioned."
+        ],
+        "model_answer": "You can buy apples, bananas, and oranges at the market.",
+        "explanation": "Name three items from the market that are mentioned in the extract.",
+        "exam_question_id": "83a1fba7-a652-47c9-99f2-f2a696e2b434:1",
+        "topic_label": "The market: What do we find in the market?",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7810,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "The market: What do we find in the market?"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in a market in Rwanda. The market is bustling with activity, and you see various stalls selling different items. Here is an extract from your observation: 'In the market, you can find fresh fruits like apples, bananas, and oranges. There are also stalls selling vegetables, grains, and dairy products. Some people are selling handmade crafts and clothing.'",
+        "question": "Describe what you see at the market.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of fresh fruits",
+          "Description of vegetables",
+          "Description of grains and dairy products"
+        ],
+        "hints": [
+          "Look at the extract for details about the items available at the market."
+        ],
+        "model_answer": "At the market, you can see fresh fruits such as apples, bananas, and oranges. There are stalls selling vegetables, grains, and dairy products. Additionally, some people are selling handmade crafts and clothing.",
+        "explanation": "Describe the different types of items available at the market based on the extract provided.",
+        "exam_question_id": "d9fcc9f7-9840-4e42-9b2d-cf18b461e9b0:1",
+        "topic_label": "The market: What do we find in the market?",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7810,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "The market: What do we find in the market?"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in a market in Rwanda. The market is bustling with activity, and you see various stalls selling different items. Here is an extract from your observation: 'In the market, you can find fresh fruits like apples, bananas, and oranges. There are also stalls selling vegetables, grains, and dairy products. Some people are selling handmade crafts and clothing.'",
+        "question": "Name three items you can buy at the market.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of an apple",
+          "Correct identification of a banana",
+          "Correct identification of an orange"
+        ],
+        "hints": [
+          "Look at the extract for examples of fresh fruits."
+        ],
+        "model_answer": "Three items you can buy at the market are apples, bananas, and oranges.",
+        "explanation": "Name three specific items mentioned in the extract that are available at the market.",
+        "exam_question_id": "d9fcc9f7-9840-4e42-9b2d-cf18b461e9b0:1",
+        "topic_label": "The market: What do we find in the market?",
+        "topic_id": 1561,
+        "checked": true,
+        "subtopic_id": 7810,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "The market: What do we find in the market?"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Imagine you are in Rwanda, and you are given a map with compass points. The map shows that you are currently at a point marked 'A'. The directions from point 'A' to point 'B' are given as 30 degrees North of East.",
+        "question": "Calculate the compass bearing from point 'A' to point 'B'.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly interpret '30 degrees North of East' as 30° measured from East toward North",
+          "Calculate bearing: East (90°) minus 30° = 60°",
+          "State final answer: 60° (or N60°E, or equivalent notation)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the compass bearing from point 'A' to point 'B' — develop the idea fully rather than listing short points. Make sure you also cover: Correctly interpret '30 of as 30° measured from; final answer: 60° (or N60°E, or equivalent notation)."
+        ],
+        "model_answer": "To calculate the compass bearing from point A to B: East is at 90°. '30 degrees North of East' means 30° toward North from the East direction. Moving 30° counterclockwise from East (90°) gives 90° − 30° = 60°. Therefore, the compass bearing from point A to point B is 60°.",
+        "explanation": "Compass bearings are measured clockwise from North. East is 90°. Moving 30° toward North from East means subtracting 30° from 90°, giving 60°.",
+        "exam_question_id": "6480c4fe-c5da-44da-9956-d1a0e247f883:1",
+        "topic_label": "Compass points",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7797,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Compass points"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Imagine you are in Rwanda, and you are given a map with compass points. The map shows that you are currently at a point marked 'A'. The directions from point 'A' to point 'B' are given as 30 degrees North of East.",
+        "question": "Calculate the compass bearing from point 'B' to point 'A'.",
+        "marks": 3,
+        "marking_criteria": [
+          "Recognize that the reverse bearing is 180° opposite to the forward bearing",
+          "Calculate: 60° + 180° = 240°",
+          "State final answer: 240° (or S60°W, or equivalent notation)"
+        ],
+        "hints": [
+          "Remember that South of West means subtracting the degrees from the West direction."
+        ],
+        "model_answer": "To calculate the compass bearing from point B to point A: The reverse bearing is always 180° opposite to the forward bearing. From part (a), the bearing from A to B is 60°. Therefore, the bearing from B to A is 60° + 180° = 240°. The compass bearing from point B to point A is 240°.",
+        "explanation": "To find the bearing in the opposite direction, add 180° to the original bearing. Since A→B is 60°, the reverse bearing B→A is 60° + 180° = 240°.",
+        "exam_question_id": "6480c4fe-c5da-44da-9956-d1a0e247f883:1",
+        "topic_label": "Compass points",
+        "topic_id": 1559,
+        "checked": true,
+        "subtopic_id": 7797,
+        "source": {
+          "textbook": "P3-English-PB (1)",
+          "area": "Compass points"
+        }
+      }
+    ],
+    "estimated_time": 63,
+    "assessment_id": "bd3bacc1-80a7-4183-bfd6-25d04dec4bec",
+    "subject": "P3-English-PB (1)",
+    "topics": [
+      "UNIT 10: Shopping",
+      "UNIT 8: Rwanda"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 150,
+    "topic_ids": [
+      1561,
+      1559
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 24,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 1,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 12"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 1"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1a",
+        "severity": "broken",
+        "detail": "Model answer states '030 degrees' but explanation and marking criteria indicate compass bearing format should be '060°'. The bearing from North clockwise to 30° North of East is 60°, not 30°. Inconsistency between model answer and explanation.",
+        "correction": "Model answer should be: 'The compass bearing from point A to point B is 60° (or N60°E). East is at 90° on the compass. Moving 30° toward North from East: 90° − 30° = 60°.'"
+      },
+      {
+        "label": "1b",
+        "severity": "broken",
+        "detail": "Model answer states '210 degrees' but explanation contradicts this. If A→B is 60°, then B→A should be 60° + 180° = 240°, not 210°. The calculation shown (270° − 30° = 240°) contradicts the stated answer of 210°.",
+        "correction": "Model answer should be: 'The compass bearing from point B to point A is 240°. The reverse bearing is 180° opposite to the forward bearing: 60° + 180° = 240°.'"
+      },
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Question asks to 'Explain why' but marking criteria and model answer only require naming the capital. Mismatch between question demand (explain) and assessment criteria (identify). Model answer is single word 'Kigali' but hints demand full development.",
+        "correction": "Either revise question to 'Name the capital city' or require explanation of why Kigali is the capital (e.g., administrative centre, largest city)."
+      },
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Marking criteria require one mountain, one river, one lake (3 features total), but model answer lists 3 mountains, 3 rivers, 3 lakes (9 features). Criteria-answer mismatch. Question asks 'Name three' but criteria specify one of each type.",
+        "correction": "Clarify: either require 'one mountain, one river, one lake' OR 'any three geographical features'. Adjust model answer accordingly."
+      },
+      {
+        "label": "4b",
+        "severity": "poor",
+        "detail": "Model answer lists 'milk, bread' as uncountable, but 'bread' is typically countable (1 loaf, 2 loaves). The context shows '1 loaf of bread' where 'loaf' is countable. Factual error in classification.",
+        "correction": "Model answer should be: 'Uncountable nouns: milk. (Bread is countable when measured as loaves.)' Or revise context to use 'flour' instead of 'bread'."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Marking criteria specify 'Correct spelling of the items' but model answer provides only 3 items. Criteria do not align with question demand (name three items). Criteria should specify 'any three items from extract'.",
+        "correction": "Revise marking criteria to: 'Identification of any three items from the extract; Correct spelling of items named.'"
+      },
+      {
+        "label": "6a",
+        "severity": "poor",
+        "detail": "Model answer classifies rice, sugar, flour as uncountable, but these are measured in kg (countable units). They are mass nouns but presented with countable quantities. Classification is oversimplified for Grade 3 context.",
+        "correction": "Clarify: 'Rice, sugar, flour are mass nouns measured in kilograms. Bananas and apples are count nouns (individual items).'"
+      },
+      {
+        "label": "7a",
+        "severity": "broken",
+        "detail": "Marking criteria state 'Calculate 090° − 30° = 060°' but model answer states '060°' while explanation says '030 degrees'. Internal contradiction. Criteria and explanation conflict on final answer.",
+        "correction": "Align all to 060°: Model answer and explanation should both state 'The compass bearing is 060°' with calculation 090° − 30° = 060°."
+      },
+      {
+        "label": "7b",
+        "severity": "broken",
+        "detail": "Marking criteria state 'Calculate 270° − 30° = 240°' but explanation states '210 degrees'. Criteria and explanation contradict. Model answer correctly states 240° but explanation is wrong.",
+        "correction": "Revise explanation to: 'To find the reverse bearing, add 180° to the forward bearing: 060° + 180° = 240°.'"
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Marking criteria require 'Description of fresh fruits', 'Description of vegetables', 'Description of grains and dairy products' (3 criteria) but question asks to 'Describe what you see' (singular). Criteria are overly prescriptive for a description task.",
+        "correction": "Revise marking criteria to: 'Identifies fresh fruits; Identifies vegetables, grains, dairy products; Mentions handmade crafts and clothing.'"
+      },
+      {
+        "label": "9b",
+        "severity": "poor",
+        "detail": "Marking criteria specify 'Correct identification of an apple', 'Correct identification of a banana', 'Correct identification of an orange' (3 marks for 3 items) but question is worth 3 marks total. Marks allocation unclear.",
+        "correction": "Clarify: either 1 mark per item (3 marks total) or adjust criteria to reflect total mark value."
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Question context and marking criteria are age-appropriate for Grade 3, but compass bearing calculations (90° − 30° = 60°) exceed typical Grade 3 curriculum. Content mismatch with stated grade level.",
+        "correction": "Verify alignment with P3-English-PB curriculum. If included, simplify to cardinal directions (N, S, E, W) rather than degree calculations."
+      },
+      {
+        "label": "10b",
+        "severity": "poor",
+        "detail": "Marking criteria reference 'S60°W' notation but model answer uses only '240°'. Notation inconsistency. Grade 3 students unlikely to use quadrant bearing notation.",
+        "correction": "Standardize to single notation format: either '240°' or 'S60°W', not both. Recommend '240°' for Grade 3."
+      }
+    ],
+    "summary": "Assessment contains 12 substantive issues: 4 broken (contradictory answers/explanations in compass bearing questions 1b, 7a, 7b; grade-inappropriate content in 2a); 8 poor (classification errors in 4b, 6a; criteria-question misalignment in 2a, 3a, 5b, 9a, 9b; age-appropriateness in 10a, 10b). Repeated market context across questions 5, 8, 9 with identical extract. Compass bearing calculations exceed Grade 3 expectations."
+  },
+  "totalSeconds": 89
+}

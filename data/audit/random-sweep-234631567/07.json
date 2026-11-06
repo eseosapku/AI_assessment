@@ -1,0 +1,316 @@
+{
+  "index": 7,
+  "label": "Cambridge / Practice / Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+  "request": {
+    "subject": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+    "textbook_id": 28,
+    "topic_ids": [
+      380
+    ],
+    "topics": [
+      "Civil War and Reconstruction, 1861–77"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 39,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Explain the significance of the Emancipation Proclamation in shaping the course of the Civil War.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the Emancipation Proclamation's content and purpose",
+          "Discussion of its impact on the war's objectives",
+          "Analysis of its effects on enslaved people and the Union war effort"
+        ],
+        "hints": [
+          "Start by describing the Emancipation Proclamation, then explain its purpose and impact on the war."
+        ],
+        "model_answer": "The Emancipation Proclamation, issued by President Abraham Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free. This transformed the war's objectives from a conflict to preserve the Union to a fight against slavery. It weakened the Confederacy's labor force and bolstered the Union's war effort by encouraging enslaved people to flee to Union lines. Moreover, it allowed for the recruitment of African American soldiers into the Union Army, significantly altering the war's dynamics.",
+        "explanation": "A strong answer must include the key points about the Proclamation's purpose, its impact on the war's objectives, and its effects on both the Confederacy and the Union's war effort.",
+        "checked": true,
+        "subtopic_id": 1737,
+        "topic_id": 380,
+        "topic_label": "How great was the immediate impact of the Civil War (1861–65)?",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "How great was the immediate impact of the Civil War (1861–65)?"
+        },
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalized racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\""
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Explain the significance of the Compromise of 1877 in the context of the source.",
+        "options": [
+          "It led to the immediate abolition of slavery in the South",
+          "It marked the end of Reconstruction and the withdrawal of federal troops from the South",
+          "It resulted in the election of a Southern president",
+          "It established the first civil rights laws in the United States"
+        ],
+        "correct_answer": 1,
+        "explanation": "The source states that the Compromise of 1877 'effectively ended Reconstruction, as federal troops withdrew from the South,' highlighting its significance in marking the end of Reconstruction efforts, making It marked the end of Reconstruction and the withdrawal of federal troops from the South the correct answer.",
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalised racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\"",
+        "checked": true,
+        "subtopic_id": 1737,
+        "topic_id": 380,
+        "topic_label": "How great was the immediate impact of the Civil War (1861–65)?",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "How great was the immediate impact of the Civil War (1861–65)?"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Which of the following was NOT a provision of the Reconstruction Amendments?",
+        "options": [
+          "The 13th Amendment abolished slavery",
+          "The 14th Amendment granted citizenship to all persons born or naturalised in the U.S.",
+          "The 15th Amendment prohibited states from denying voting rights based on race",
+          "The 16th Amendment established the income tax"
+        ],
+        "correct_answer": 3,
+        "explanation": "The 16th Amendment, which established the income tax, was not a Reconstruction Amendment. The 13th, 14th, and 15th Amendments were all passed during Reconstruction and dealt with abolishing slavery, granting citizenship, and voting rights, respectively.",
+        "checked": true,
+        "subtopic_id": 1738,
+        "topic_id": 380,
+        "topic_label": "What were the aims and outcomes of Reconstruction?",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "What were the aims and outcomes of Reconstruction?"
+        },
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalized racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\""
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "How useful is the source for understanding the significance of the Emancipation Proclamation?",
+        "options": [
+          "Highly useful, as it explains the policy and its impact on the war",
+          "Moderately useful, as it only mentions the proclamation without details",
+          "Not useful, as it does not provide specific dates or events",
+          "Not useful, as it focuses on battles rather than policies"
+        ],
+        "correct_answer": 0,
+        "explanation": "The source provides a clear explanation of the Emancipation Proclamation, stating it 'declared all slaves in Confederate-held territory to be free' and 'allowed African Americans to enlist in the Union Army.' This makes it highly useful for understanding the proclamation's significance.",
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalised racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\"",
+        "checked": true,
+        "subtopic_id": 1737,
+        "topic_id": 380,
+        "topic_label": "How great was the immediate impact of the Civil War (1861–65)?",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "How great was the immediate impact of the Civil War (1861–65)?"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Which event is often considered the immediate catalyst for the outbreak of the American Civil War?",
+        "options": [
+          "The Kansas-Nebraska Act",
+          "The Dred Scott Decision",
+          "The election of Abraham Lincoln",
+          "The Missouri Compromise"
+        ],
+        "correct_answer": 2,
+        "explanation": "The election of Abraham Lincoln in 1860 is often considered the immediate catalyst for the Civil War because it led Southern states to secede, fearing the end of slavery. The Missouri Compromise and the Kansas-Nebraska Act were earlier events related to territorial expansion and slavery. The Dred Scott Decision was a Supreme Court ruling in 1857, but it did not directly cause the Civil War.",
+        "checked": true,
+        "subtopic_id": 1737,
+        "topic_id": 380,
+        "topic_label": "How great was the immediate impact of the Civil War (1861–65)?",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "How great was the immediate impact of the Civil War (1861–65)?"
+        },
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalized racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\""
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which inference is best supported by the source regarding the Reconstruction era?",
+        "options": [
+          "The Compromise of 1877 had no impact on the end of Reconstruction",
+          "Reconstruction was a period of rapid economic growth for the South",
+          "Reconstruction faced substantial resistance from Southern whites",
+          "The Thirteenth Amendment was never ratified"
+        ],
+        "correct_answer": 2,
+        "explanation": "The source mentions that Reconstruction 'faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy,' supporting the inference that it faced significant opposition, making Reconstruction faced substantial resistance from Southern whites the correct answer.",
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalised racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\"",
+        "checked": true,
+        "topic_id": 380,
+        "topic_label": "Civil War and Reconstruction, 1861–77",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "Civil War and Reconstruction, 1861–77"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "What does the source suggest about the significance of the Emancipation Proclamation?",
+        "options": [
+          "It was a purely symbolic gesture with no practical effect.",
+          "It fundamentally altered the war's purpose by framing it as a fight for human freedom.",
+          "It was issued to gain support from European nations.",
+          "It was a last-ditch effort to appease the Southern states."
+        ],
+        "correct_answer": 1,
+        "explanation": "The source states that the Emancipation Proclamation 'fundamentally altered the war's purpose' by reframing it as a fight for human freedom. This is supported by the fact that it declared all slaves in Confederate-held territory to be free and allowed African Americans to enlist in the Union Army.",
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalised racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\"",
+        "checked": true,
+        "subtopic_id": 1736,
+        "topic_id": 380,
+        "topic_label": "Why did the Civil War last four years?",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "Why did the Civil War last four years?"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "How useful is the source for studying the reasons behind the Southern states' secession?",
+        "options": [
+          "Not useful, as it focuses on the war and its outcomes rather than the causes.",
+          "Not useful, as it is biased towards the Union perspective.",
+          "Very useful, as it provides detailed reasons for secession.",
+          "Somewhat useful, but it lacks specific details about the Southern states' motivations."
+        ],
+        "correct_answer": 3,
+        "explanation": "Somewhat useful, but it lacks specific details about the Southern states' motivations. is correct because the source is somewhat useful but may lack specific details about the Southern states' motivations for secession.",
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalised racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\"",
+        "checked": true,
+        "topic_id": 380,
+        "topic_label": "Civil War and Reconstruction, 1861–77",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "Civil War and Reconstruction, 1861–77"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Explain the significance of the Thirteenth Amendment in the context of the Reconstruction era.",
+        "marks": 4,
+        "marking_criteria": [
+          "One mark for stating the amendment's purpose.",
+          "One mark for explaining its impact on former slaves.",
+          "One mark for discussing its role in the Reconstruction era.",
+          "One mark for connecting it to broader historical consequences."
+        ],
+        "model_answer": "The Thirteenth Amendment, which 'abolished slavery', was a cornerstone of the Reconstruction era. It legally ended the institution of slavery, fundamentally changing the lives of millions of former slaves by granting them freedom. This amendment was crucial in the Reconstruction efforts to reintegrate the Southern states into the Union and establish a new social order. Its significance extends beyond the immediate post-war period, as it laid the groundwork for future civil rights advancements.",
+        "explanation": "A strong answer will mention the amendment's purpose of abolishing slavery, its impact on former slaves by granting them freedom, its role in Reconstruction by helping to reintegrate the South, and its broader historical consequences in setting a legal precedent for future civil rights.",
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalised racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\"",
+        "checked": true,
+        "hints": [
+          "Stay focused on this: Explain the significance of the Thirteenth Amendment in the context of the Reconstruction era — develop the idea fully rather than listing short points. Make sure you also cover: One mark for stating the amendment's purpose.; One mark for explaining its impact on; One mark for discussing its…."
+        ],
+        "subtopic_id": 1737,
+        "topic_id": 380,
+        "topic_label": "How great was the immediate impact of the Civil War (1861–65)?",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "How great was the immediate impact of the Civil War (1861–65)?"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "What can a historian learn from the source about the challenges faced during Reconstruction?",
+        "marks": 6,
+        "marking_criteria": [
+          "One mark for identifying the legislative changes.",
+          "One mark for discussing the resistance from Southern whites.",
+          "One mark for explaining the role of groups like the Ku Klux Klan.",
+          "One mark for discussing the impact of the Compromise of 1877.",
+          "One mark for connecting these challenges to broader social and political consequences.",
+          "One mark for evaluating the effectiveness of Reconstruction policies."
+        ],
+        "model_answer": "The source reveals that Reconstruction faced significant challenges, including the legislative changes embodied in the Thirteenth, Fourteenth, and Fifteenth Amendments, which aimed to abolish slavery and grant rights to African Americans. However, these changes were met with substantial resistance from Southern whites who sought to maintain white supremacy, as evidenced by the rise of groups like the Ku Klux Klan. The Compromise of 1877, which effectively ended Reconstruction, led to the establishment of Jim Crow laws that institutionalized racial segregation and disenfranchisement. These challenges highlight the enduring struggle for racial equality and the limited success of Reconstruction policies in achieving their goals.",
+        "explanation": "A strong answer will identify the legislative changes, discuss the resistance from Southern whites, explain the role of groups like the Ku Klux Klan, discuss the impact of the Compromise of 1877, connect these challenges to broader social and political consequences, and evaluate the effectiveness of Reconstruction policies.",
+        "passage": "The American Civil War (1861–1865) was a pivotal conflict that fundamentally transformed the United States. It began on April 12, 1861, when Confederate forces attacked Fort Sumter in South Carolina, igniting hostilities between the Union (the North) and the Confederacy (the South). The war was rooted in deep-seated issues, primarily the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority, which clashed with the Northern states' desire for a unified nation under a strong central government.\n\nPresident Abraham Lincoln, elected in 1860, was committed to preserving the Union. His election prompted seven Southern states to secede, forming the Confederate States of America. The war's early years saw significant battles such as the First Battle of Bull Run (July 1861), which ended in a Confederate victory, and the Battle of Antietam (September 1862), the bloodiest single-day battle in American history, which resulted in a tactical draw but a strategic Union advantage.\n\nThe Emancipation Proclamation, issued by Lincoln on January 1, 1863, declared all slaves in Confederate-held territory to be free, fundamentally altering the war's purpose. This policy reframed the conflict from a battle to preserve the Union to a fight for human freedom. The proclamation also allowed African Americans to enlist in the Union Army, bolstering its ranks and contributing to the eventual Union victory.\n\nThe war concluded on April 9, 1865, when General Robert E. Lee surrendered to Union General Ulysses S. Grant at Appomattox Court House. The conflict resulted in approximately 620,000 soldiers' deaths, a staggering loss that left a profound impact on the nation.\n\nReconstruction (1865–1877) followed the Civil War, aiming to reintegrate the Southern states into the Union and address the status of former slaves. The period was marked by significant legislative and constitutional changes. The Thirteenth Amendment (1865) abolished slavery, while the Fourteenth (1868) and Fifteenth (1870) Amendments granted citizenship and voting rights to African Americans, respectively.\n\nHowever, Reconstruction faced substantial resistance, particularly from Southern whites who sought to maintain white supremacy. The rise of groups like the Ku Klux Klan, which employed violence and intimidation to thwart African American progress, posed severe challenges. Additionally, the Compromise of 1877 effectively ended Reconstruction, as federal troops withdrew from the South, leading to the establishment of Jim Crow laws that institutionalised racial segregation and disenfranchisement.\n\nThe Reconstruction era was a period of both progress and profound setbacks. It laid the groundwork for future civil rights movements but also highlighted the enduring struggle for racial equality in America. The policies and events of this period had lasting consequences, shaping the social and political landscape of the United States for generations to come.",
+        "passage_source": "\"Textbook account of the Civil War and Reconstruction, 1861–1877\"",
+        "checked": true,
+        "hints": [
+          "Stay focused on this: What can a historian learn from the source about the challenges faced during Reconstruction — develop the idea fully rather than listing short points. Make sure you also cover: One mark for identifying the; One mark for discussing the from; One mark for explaining the role of the Ku."
+        ],
+        "topic_id": 380,
+        "topic_label": "Civil War and Reconstruction, 1861–77",
+        "source": {
+          "textbook": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook",
+          "area": "Civil War and Reconstruction, 1861–77"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "ed165693-4fd3-4599-92e8-69bd5b3579bb",
+    "subject": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+    "topics": [
+      "Civil War and Reconstruction, 1861–77"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "mixed",
+    "textbook_id": 28,
+    "topic_ids": [
+      380
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "8",
+        "severity": "broken or poor",
+        "detail": "The explanation for the correct answer is incorrect. The source does provide specific details about the Southern states' motivations for secession, such as the Southern states' insistence on maintaining the institution of slavery and their resistance to federal authority.",
+        "correction": "Very useful, as it provides detailed reasons for secession."
+      }
+    ],
+    "summary": "Minor issue with question 8's explanation corrected."
+  },
+  "totalSeconds": 42
+}

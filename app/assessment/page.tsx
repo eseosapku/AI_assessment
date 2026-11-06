@@ -48,6 +48,7 @@ import {
 } from '@/lib/assessment-retake'
 import { improvementBetween, describeImprovement } from '@/lib/study-loop'
 import { registerViolation, BLUR_GRACE_MS } from '@/lib/assessment-proctor'
+import { navLabels, paperGroups, paperProgress } from '@/lib/exam-parts'
 import {
   questionState,
   unansweredQuestions,
@@ -98,6 +99,8 @@ interface MCQQuestion {
   passage_source?: string
   /** The setup this question shares with its siblings, lifted off the stem. */
   scenario?: string
+  /** Exam part within a numbered question: "a", "b", "c". */
+  part?: string
   diagram_svg?: string
   image_url?: string
   /** What the figure shows, for a screen reader. */
@@ -126,6 +129,8 @@ interface LongFormQuestion {
   passage_source?: string
   /** The setup this question shares with its siblings, lifted off the stem. */
   scenario?: string
+  /** Exam part within a numbered question: "a", "b", "c". */
+  part?: string
   diagram_svg?: string
   image_url?: string
   /** What the figure shows, for a screen reader. */
@@ -338,11 +343,13 @@ function PassageBox({ passage, source }: { passage: string; source?: string }) {
 function LongFormResultCard({
   q,
   idx,
+  label,
   studentAnswer,
   grade,
 }: {
   q: LongFormQuestion
   idx: number
+  label?: string
   studentAnswer: string
   grade: LongFormGrade | undefined
 }) {
@@ -380,7 +387,7 @@ function LongFormResultCard({
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm text-apple-dark-gray">Question {idx + 1}</span>
+            <span className="text-sm text-apple-dark-gray">Question {label ?? idx + 1}</span>
             <span className="px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-semibold">
               Long-form · {q.marks} {q.marks === 1 ? 'mark' : 'marks'}
             </span>
@@ -951,6 +958,7 @@ function AssessmentPageClient() {
     const dateStamp = new Date().toISOString().slice(0, 10)
     const reportTitle = `${safeSubject || 'Assessment'}_Report_${dateStamp}`
     const optionLabels = ['A', 'B', 'C', 'D']
+    const reportLabels = navLabels(assessment.questions)
 
     const questionsHtml = assessment.questions.map((q, idx) => {
       if (isLongForm(q)) {
@@ -977,7 +985,7 @@ function AssessmentPageClient() {
         return `
           <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:20px;border-left:4px solid ${grade && grade.marks_awarded >= Math.ceil(grade.marks_total / 2) ? '#22c55e' : '#ef4444'};">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-              <span style="background:#f3e8ff;color:#7c3aed;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">Q${idx + 1} · Long-form · ${lf.marks} marks</span>
+              <span style="background:#f3e8ff;color:#7c3aed;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">Q${reportLabels[idx]} · Long-form · ${lf.marks} marks</span>
               <span style="font-weight:700;font-size:15px;color:${grade && grade.marks_awarded >= Math.ceil(grade.marks_total / 2) ? '#15803d' : '#b91c1c'};">${marksLabel} marks awarded</span>
             </div>
             ${passageHtml}
@@ -1331,7 +1339,7 @@ function AssessmentPageClient() {
         assignment_id: assignmentId ?? null,
         student_email: authUser?.email ?? storedUser?.email ?? null,
         answers: { mcq: selectedAnswers, longform: longFormAnswers, interactive: interactiveAnswers },
-        total_questions: questions.length,
+        total_questions: paperGroups(questions).length,
         score: finalScore,
         grade,
         feedback: generatedFeedback,
@@ -1875,6 +1883,7 @@ function AssessmentPageClient() {
                     <LongFormResultCard
                       q={q}
                       idx={idx}
+                      label={navLabels(assessment.questions)[idx]}
                       studentAnswer={longFormAnswers[idx] || ''}
                       grade={longFormGrades[idx]}
                     />
@@ -1989,6 +1998,12 @@ function AssessmentPageClient() {
 
   // ── Quiz view ───────────────────────────────────────────────────────────────
   const question = assessment.questions[currentQuestion]
+  const labels = navLabels(assessment.questions)
+  const groups = paperGroups(assessment.questions)
+  const paperGroup = groups.find((group) => currentQuestion >= group.start && currentQuestion < group.end) ?? groups[0]
+  const here = paperGroup ? String(paperGroup.number) : (labels[currentQuestion] ?? String(currentQuestion + 1))
+  const groupedParts = paperGroup ? assessment.questions.slice(paperGroup.start, paperGroup.end) : []
+  const showPartsTogether = groupedParts.length > 1
   const isCurrentLongForm = isLongForm(question)
   const isCurrentInteractive = isInteractive(question)
   // Every question on a reading paper carries the same text, so this is
@@ -2004,23 +2019,24 @@ function AssessmentPageClient() {
   // learner reads "Look at the diagram", scrolls up to look, and scrolls back
   // to find out what was being asked -- reported as "I don't like that I have
   // to scroll down or up to view the image".
-  const currentFigure = question.image_url || question.diagram_svg ? question : null
+  const currentFigure = groupedParts.find((q) => q.image_url || q.diagram_svg) ?? null
   // The layout is decided once for the quiz, not per question: switching between a narrow column and
   // the wide grid as a learner moved from an image question to a text one made the Next button jump
   // sideways and up and down (lib/quiz-layout.ts).
   const wideLayout = quizUsesWideLayout(assessment.questions as unknown as SideContentFields[])
   const sideContent = Boolean(currentPassage) || Boolean(currentFigure)
+  const numberedProgress = paperProgress(assessment.questions, answeredSet, visited)
   const progressInput: ProgressInput = {
-    total: assessment.questions.length,
-    current: currentQuestion,
-    answered: answeredSet,
-    visited,
+    total: groups.length,
+    current: groups.indexOf(paperGroup),
+    answered: numberedProgress.answered,
+    visited: numberedProgress.visited,
   }
   const answered = answeredCount(progressInput)
   // Was (currentQuestion + 1) / total — that measured how far the student had
   // paged, not how much they had actually done, so skipping ahead showed a
   // bar that had not been earned.
-  const progress = (answered / assessment.questions.length) * 100
+  const progress = (answered / groups.length) * 100
   const blanks = unansweredQuestions(progressInput)
 
   // Pace, in minutes rather than percent.
@@ -2085,7 +2101,7 @@ function AssessmentPageClient() {
                   belongs to. */}
               <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-ss-slate [&>*+*]:before:content-['·'] [&>*+*]:before:mr-2.5">
                 <span className="font-semibold">
-                  {assessment.questions.length} questions
+                  {groups.length} {groups.length === 1 ? 'question' : 'questions'}
                 </span>
                 <span className="font-semibold">
                   {assessment.questions.reduce((t: number, q: any) => t + (Number(q?.marks) || 0), 0)} marks
@@ -2218,7 +2234,7 @@ function AssessmentPageClient() {
             className="mt-4 flex w-full items-center justify-between gap-2 rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[13px] font-semibold text-ss-ink sm:hidden"
           >
             <span>
-              Question {currentQuestion + 1} of {assessment.questions.length}
+              Question {here} of {groups.length}
             </span>
             <span className="font-medium text-ss-slate">
               {navOpen ? 'Hide list' : 'All questions'}
@@ -2231,8 +2247,10 @@ function AssessmentPageClient() {
             role="group"
             aria-label="Jump to a question"
           >
-            {assessment.questions.map((_, i) => {
-              const state = questionState(i, progressInput)
+            {groups.map((group, groupIndex) => {
+              const i = group.start
+              const inGroup = currentQuestion >= group.start && currentQuestion < group.end
+              const state = questionState(groupIndex, progressInput)
               const style =
                 state === 'answered'
                   ? 'bg-ss-accent text-white border-ss-accent'
@@ -2247,20 +2265,20 @@ function AssessmentPageClient() {
                   type="button"
                   onClick={() => setCurrentQuestion(i)}
                   data-flagged={flagged[i] ? 'true' : undefined}
-                  aria-current={state === 'current' ? 'step' : undefined}
+                  aria-current={inGroup ? 'step' : undefined}
                   aria-label={
-                    `Question ${i + 1}: ` +
+                    `Question ${group.number}: ` +
                     (state === 'answered' ? 'answered' : state === 'skipped' ? 'seen but not answered' : state === 'current' ? 'current question' : 'not reached yet') +
                     (flagged[i] ? ', flagged for review' : '')
                   }
                   title={(() => {
                     const q = assessment.questions[i]
                     const kind = isLongForm(q) ? `Long-form, ${(q as LongFormQuestion).marks} marks` : isInteractive(q) ? 'Interactive' : 'Multiple choice'
-                    return `Question ${i + 1} — ${kind}`
+                    return `Question ${group.number} — ${kind}`
                   })()}
                   className={`relative h-8 min-w-8 rounded-lg border-2 px-2 text-[12px] font-extrabold transition-colors ${style}`}
                 >
-                  {i + 1}
+                  {group.number}
                   {flagged[i] && (
                     // A corner wedge rather than a colour: flagged is
                     // orthogonal to answered, and a learner can flag a
@@ -2309,7 +2327,7 @@ function AssessmentPageClient() {
                 type="button"
                 onClick={() => {
                   setShowUnansweredCheck(false)
-                  setCurrentQuestion(n - 1)
+                    setCurrentQuestion(groups[n - 1].start)
                 }}
                 className="h-9 min-w-9 rounded-lg border-2 border-amber-500 bg-amber-50 px-2.5 text-[13px] font-extrabold text-amber-900 hover:bg-amber-100 dark:bg-amber-900/25 dark:text-amber-100"
                 aria-label={`Go to question ${n}`}
@@ -2324,7 +2342,7 @@ function AssessmentPageClient() {
               type="button"
               onClick={() => {
                 setShowUnansweredCheck(false)
-                setCurrentQuestion(blanks[0] - 1)
+                setCurrentQuestion(groups[blanks[0] - 1].start)
               }}
               className="flex-1 rounded-xl bg-ss-accent px-5 py-3 text-[14px] font-extrabold text-white hover:opacity-90"
             >
@@ -2508,13 +2526,18 @@ function AssessmentPageClient() {
                 wideLayout && !sideContent ? 'lg:col-span-2 lg:mx-auto lg:w-full lg:max-w-3xl' : ''
               }`}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold">
-                  Question {currentQuestion + 1} of {assessment.questions.length}
+              <div className="flex flex-wrap items-center gap-3 mb-6">
+                <div className="inline-flex whitespace-nowrap items-center justify-center px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold">
+                  Question {here} of {groups.length}
                 </div>
+                {!showPartsTogether && 'part' in question && question.part && (
+                  <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-ss-chip text-ss-ink text-xs sm:text-sm font-semibold">
+                    Part ({question.part})
+                  </div>
+                )}
                 {isCurrentLongForm && (
-                  <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-xs sm:text-sm font-semibold">
-                    {(question as LongFormQuestion).marks} {(question as LongFormQuestion).marks === 1 ? 'mark' : 'marks'}
+                  <div className="inline-flex whitespace-nowrap items-center justify-center px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-xs sm:text-sm font-semibold">
+                    {groupedParts.reduce((sum, q) => sum + (isLongForm(q) ? q.marks : 0), 0)} marks
                   </div>
                 )}
                 {isCurrentInteractive && (
@@ -2530,7 +2553,7 @@ function AssessmentPageClient() {
                   type="button"
                   onClick={() => setFlagged((f) => ({ ...f, [currentQuestion]: !f[currentQuestion] }))}
                   aria-pressed={Boolean(flagged[currentQuestion])}
-                  className={`ml-auto inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                  className={`ml-auto inline-flex whitespace-nowrap items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
                     flagged[currentQuestion] ? 'text-ss-warn' : 'border-ss-line text-ss-slate hover:text-ss-warn'
                   }`}
                   // ss-* are CSS variables, so Tailwind's alpha modifiers do
@@ -2569,17 +2592,74 @@ function AssessmentPageClient() {
                 />
               )}
 
+              {showPartsTogether && (
+                <div className="space-y-8">
+                  {'scenario' in question && question.scenario && (
+                    <h2 id={`question-text-${currentQuestion}`} className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight">
+                      <L>{question.scenario}</L>
+                    </h2>
+                  )}
+                  {[...groupedParts]
+                    .map((partQuestion, offset) => ({ partQuestion, index: (paperGroup?.start ?? 0) + offset }))
+                    .filter(({ partQuestion }) => {
+                      const letter = 'part' in partQuestion ? String(partQuestion.part ?? '').toLowerCase() : ''
+                      return !letter || letter === 'a' || letter === 'b' || letter === 'c'
+                    })
+                    .sort((left, right) => String(('part' in left.partQuestion && left.partQuestion.part) || '').localeCompare(String(('part' in right.partQuestion && right.partQuestion.part) || '')))
+                    .map(({ partQuestion, index }) => {
+                    const written = isLongForm(partQuestion)
+                    const interactive = isInteractive(partQuestion)
+                    return (
+                      <section key={index} className="scroll-mt-24 border-t border-ss-line pt-6">
+                        <p className="mb-2 text-sm font-semibold text-ss-slate">({('part' in partQuestion && partQuestion.part) || 'a'}) · {isLongForm(partQuestion) ? `${partQuestion.marks} marks` : 'Multiple choice'}</p>
+                        <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
+                          <L>{stripPrintedMarks(partQuestion.question)}</L>
+                        </h3>
+                        {written && (
+                          <div className="space-y-3"><textarea
+                            value={longFormAnswers[index] || ''}
+                            onChange={(event) => setLongFormAnswers({ ...longFormAnswers, [index]: event.target.value })}
+                            placeholder="Write your answer here..."
+                            rows={4}
+                            className="w-full rounded-2xl border-2 border-gray-200 bg-gray-50 p-4 text-sm text-gray-900 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-800/60 dark:text-white"
+                          />
+                          {hintsEnabled && <LongformHintPanel questionKey={index} hints={studentHintsOf(partQuestion as LongFormQuestion)} />}
+                          </div>
+                        )}
+                        {!written && !interactive && 'options' in partQuestion && (
+                          <div className="space-y-3">
+                            {partQuestion.options.map((option, optionIndex) => {
+                              const checked = selectedAnswers[index] === optionIndex
+                              return (
+                                <button
+                                  key={optionIndex}
+                                  type="button"
+                                  onClick={() => setSelectedAnswers({ ...selectedAnswers, [index]: optionIndex })}
+                                  className={`mcq-option w-full text-left ${checked ? 'selected' : ''}`}
+                                >
+                                  <span className="text-sm"><L>{option}</L></span>
+                                </button>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </section>
+                    )
+                  })}
+                </div>
+              )}
+
               {/* The situation this question and its siblings share.
                   Printed once above the demand rather than inside every one
                   of them: five parts each restating it read as five copies
                   of the same question. */}
-              {'scenario' in question && question.scenario && (
-                <p className="mb-4 rounded-2xl border-l-4 border-ss-accent bg-ss-chip px-4 py-3 text-[15px] leading-relaxed text-ss-ink">
-                  {question.scenario}
+              {!showPartsTogether && 'scenario' in question && question.scenario && (
+                <p className="mb-6 text-lg leading-relaxed text-gray-900 dark:text-white">
+                  <L>{question.scenario}</L>
                 </p>
               )}
 
-              <h2
+              {!showPartsTogether && <h2
                 id={`question-text-${currentQuestion}`}
                 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight"
               >
@@ -2590,10 +2670,10 @@ function AssessmentPageClient() {
                     sessionStorage was made before that and still carries it,
                     and this costs nothing. */}
                 <L>{stripPrintedMarks(isCurrentInteractive && question.kind === 'fill_blank' ? (question as InteractiveQuestion & { kind: 'fill_blank' }).question : question.question)}</L>
-              </h2>
+              </h2>}
 
               {/* Interactive study */}
-              {isCurrentInteractive && (
+              {!showPartsTogether && isCurrentInteractive && (
                 <InteractiveQuestionPlayer
                   question={question as InteractiveQuestion}
                   value={interactiveAnswers[currentQuestion]}
@@ -2609,7 +2689,7 @@ function AssessmentPageClient() {
                   They are now a real radio group: role, checked state, and
                   arrow-key movement, with a roving tabindex so Tab enters the
                   group once rather than stepping through every option. */}
-              {!isCurrentLongForm && !isCurrentInteractive && (
+              {!showPartsTogether && !isCurrentLongForm && !isCurrentInteractive && (
                 <div
                   role="radiogroup"
                   aria-labelledby={`question-text-${currentQuestion}`}
@@ -2671,7 +2751,7 @@ function AssessmentPageClient() {
                   twenty-five words misdescribes the question -- the real
                   paper prints a single ruled line, sometimes with the unit
                   already beside it. */}
-              {isCurrentLongForm && isShortAnswer(question) && (
+              {!showPartsTogether && isCurrentLongForm && isShortAnswer(question) && (
                 <div>
                   <div className="text-xs text-ss-slate mb-2">
                     One answer — a word, a phrase or a number.
@@ -2694,7 +2774,7 @@ function AssessmentPageClient() {
                 </div>
               )}
 
-              {isCurrentLongForm && !isShortAnswer(question) && (
+              {!showPartsTogether && isCurrentLongForm && !isShortAnswer(question) && (
                 <div>
                   {/* A calculation is not measured in words.
                       A multi-mark Maths question is a `written` slot, which is
@@ -2782,8 +2862,12 @@ function AssessmentPageClient() {
           >
           <div className={`mx-auto flex w-full items-center justify-between gap-2 ${wideLayout ? 'max-w-7xl' : 'max-w-3xl'}`}>
             <motion.button
-              onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
-              disabled={currentQuestion === 0}
+              onClick={() => {
+                const at = groups.findIndex((group) => currentQuestion >= group.start && currentQuestion < group.end)
+                const previous = groups[Math.max(0, at - 1)]
+                setCurrentQuestion(previous?.start ?? 0)
+              }}
+              disabled={!paperGroup || paperGroup.start === 0}
               whileHover={{ scale: currentQuestion === 0 ? 1 : 1.05 }}
               whileTap={{ scale: currentQuestion === 0 ? 1 : 0.95 }}
               className="btn-secondary flex items-center gap-1 sm:gap-2 disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3 [@media(max-height:500px)]:py-1.5"
@@ -2793,7 +2877,7 @@ function AssessmentPageClient() {
               <span className="sm:hidden">Prev</span>
             </motion.button>
 
-            {currentQuestion === assessment.questions.length - 1 ? (
+            {paperGroup && paperGroup.end >= assessment.questions.length ? (
               <motion.button
                 onClick={() => (blanks.length > 0 ? setShowUnansweredCheck(true) : handleSubmit())}
                 whileHover={{ scale: 1.05 }}
@@ -2805,7 +2889,11 @@ function AssessmentPageClient() {
               </motion.button>
             ) : (
               <motion.button
-                onClick={() => setCurrentQuestion(Math.min(assessment.questions.length - 1, currentQuestion + 1))}
+                onClick={() => {
+                  const at = groups.findIndex((group) => currentQuestion >= group.start && currentQuestion < group.end)
+                  const next = groups[at + 1]
+                  if (next) setCurrentQuestion(next.start)
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn-primary flex items-center gap-1 sm:gap-2 text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3 [@media(max-height:500px)]:py-1.5"

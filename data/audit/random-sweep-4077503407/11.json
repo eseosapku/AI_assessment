@@ -1,0 +1,32 @@
+{
+  "index": 11,
+  "label": "Cambridge / Exam / Cambridge Primary Computing Learners Book Stage 1 ",
+  "request": {
+    "subject": "Cambridge Primary Computing Learners Book Stage 1 ",
+    "textbook_id": 36,
+    "topic_ids": [
+      453,
+      457
+    ],
+    "topics": [
+      "Unit 7: Computers control things",
+      "Unit 11: Be an artist"
+    ],
+    "curriculum": "cambridge",
+    "grade": 1,
+    "className": "Cambridge Primary Computing Learners Book Stage 1 ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 4077503407,
+  "error": "Error: Failed to generate 10 complete questions. The AI produced 3. Please try again.",
+  "stage": "complete",
+  "generationSeconds": 253,
+  "status": 500,
+  "data": {
+    "error": "Failed to generate 10 complete questions. The AI produced 3. Please try again."
+  },
+  "totalSeconds": 253
+}

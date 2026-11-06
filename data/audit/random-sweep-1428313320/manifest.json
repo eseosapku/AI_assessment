@@ -1,0 +1,441 @@
+{
+  "seed": 1428313320,
+  "jobs": [
+    {
+      "label": "REB / Exam / HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+      "exam": true,
+      "body": {
+        "subject": "HISTORY AND CITIZENSHIP STUDENT BOOK S2",
+        "textbook_id": 114,
+        "topic_ids": [
+          1208
+        ],
+        "topics": [
+          "The Long Distance Trade"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / Core Math S4 SB",
+      "exam": false,
+      "body": {
+        "subject": "Core Math S4 SB",
+        "textbook_id": 62,
+        "topic_ids": [
+          693
+        ],
+        "topics": [
+          "Unit 1: Fundamentals of trigonometry"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 9 Learners Book",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary Science 9 Learners Book",
+        "textbook_id": 35,
+        "topic_ids": [
+          444,
+          442
+        ],
+        "topics": [
+          "3 Forces and energy",
+          "1 Photosynthesis and the carbon cycle"
+        ],
+        "curriculum": "cambridge",
+        "grade": 9,
+        "className": "Cambridge Lower Secondary Science 9 Learners Book",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+        "textbook_id": 199,
+        "topic_ids": [
+          2502
+        ],
+        "topics": [
+          "Chapter 11: Organic chemistry"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+        "textbook_id": 41,
+        "topic_ids": [
+          495,
+          491
+        ],
+        "topics": [
+          "Addition and subtraction (2)",
+          "Addition and subtraction (1)"
+        ],
+        "curriculum": "cambridge",
+        "grade": 6,
+        "className": "Cambridge Primary Mathematics Learners Book 6, 2nd Edition ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+      "exam": true,
+      "body": {
+        "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "textbook_id": 209,
+        "topic_ids": [
+          2577,
+          2571
+        ],
+        "topics": [
+          "Chapter 13: Waves",
+          "Chapter 7: Density and floating"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge lower secondary computing 9 students text book ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge lower secondary computing 9 students text book ",
+        "textbook_id": 31,
+        "topic_ids": [
+          400,
+          398
+        ],
+        "topics": [
+          "Drilling down: How the processor handles instructions",
+          "Design your own network: Shape and size"
+        ],
+        "curriculum": "cambridge",
+        "grade": 9,
+        "className": "Cambridge lower secondary computing 9 students text book ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS and A Level English Language Coursebook ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS and A Level English Language Coursebook ",
+        "textbook_id": 25,
+        "topic_ids": [
+          366
+        ],
+        "topics": [
+          "Unit 5: Spoken language and social groups"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level English Language Coursebook ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Chemistry S5 SB",
+      "exam": true,
+      "body": {
+        "subject": "Chemistry S5 SB",
+        "textbook_id": 56,
+        "topic_ids": [
+          618
+        ],
+        "topics": [
+          "Carboxylic Acids and Acyl Chlorides"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / P2 Mathematics PB",
+      "exam": true,
+      "body": {
+        "subject": "P2 Mathematics PB",
+        "textbook_id": 145,
+        "topic_ids": [
+          1506
+        ],
+        "topics": [
+          "Hour, Months of the Year and Days of Each Month"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "textbook_id": 54,
+        "topic_ids": [
+          594
+        ],
+        "topics": [
+          "Biological molecules"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / GENERAL EDU-History-S4-SB",
+      "exam": false,
+      "body": {
+        "subject": "GENERAL EDU-History-S4-SB",
+        "textbook_id": 99,
+        "topic_ids": [
+          1041,
+          1043
+        ],
+        "topics": [
+          "Human Rights Codification and Its Impact",
+          "Role of Gacaca and Abunzi in Conflict Solving"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+        "textbook_id": 46,
+        "topic_ids": [
+          4333
+        ],
+        "topics": [
+          "Unit 1A: Number"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / Computer Science S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "Computer Science S4 SB",
+        "textbook_id": 60,
+        "topic_ids": [
+          663
+        ],
+        "topics": [
+          "Unit 2: Computer Architecture & Assembly"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / Biology S6 Student Book ",
+      "exam": false,
+      "body": {
+        "subject": "Biology S6 Student Book ",
+        "textbook_id": 9,
+        "topic_ids": [
+          129,
+          119
+        ],
+        "topics": [
+          "Evolution and Speciation",
+          "Excretion and Osmoregulation"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge-AS-A-Level-Computing-Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "textbook_id": 207,
+        "topic_ids": [
+          3028
+        ],
+        "topics": [
+          "Chapter 4: Deﬁ nition, investigation and analysis"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / P2-English-PB",
+      "exam": false,
+      "body": {
+        "subject": "P2-English-PB",
+        "textbook_id": 146,
+        "topic_ids": [
+          1519,
+          1517
+        ],
+        "topics": [
+          "The zoo",
+          "Family members and household activities"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / ICT  S3 SB",
+      "exam": false,
+      "body": {
+        "subject": "ICT  S3 SB",
+        "textbook_id": 115,
+        "topic_ids": [
+          1222
+        ],
+        "topics": [
+          "Introduction to ICT"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+        "textbook_id": 192,
+        "topic_ids": [
+          2362,
+          2355
+        ],
+        "topics": [
+          "Chapter 16: The circular flow of income",
+          "Chapter 9: Price elasticity of supply"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS _ A Level Economics Fourth edition Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / GENERAL EDU-History-S5-SB",
+      "exam": true,
+      "body": {
+        "subject": "GENERAL EDU-History-S5-SB",
+        "textbook_id": 100,
+        "topic_ids": [
+          1051
+        ],
+        "topics": [
+          "The National Duties and Obligations"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    }
+  ]
+}

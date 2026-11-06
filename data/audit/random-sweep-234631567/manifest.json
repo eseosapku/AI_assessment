@@ -1,0 +1,441 @@
+{
+  "seed": 234631567,
+  "jobs": [
+    {
+      "label": "Cambridge / Practice / Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "textbook_id": 54,
+        "topic_ids": [
+          592
+        ],
+        "topics": [
+          "Cells"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Mathematics Learners Book 7",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Lower Secondary Mathematics Learners Book 7",
+        "textbook_id": 32,
+        "topic_ids": [
+          407
+        ],
+        "topics": [
+          "4 Decimals"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Mathematics Learners Book 7",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS & A Level Physics Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS & A Level Physics Coursebook",
+        "textbook_id": 22,
+        "topic_ids": [
+          307
+        ],
+        "topics": [
+          "Chapter 7: Matter and materials"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS & A Level Physics Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Primary Science 5 Learners Book ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Primary Science 5 Learners Book ",
+        "textbook_id": 52,
+        "topic_ids": [
+          580,
+          579
+        ],
+        "topics": [
+          "States of matter",
+          "The life cycle of flowering plants"
+        ],
+        "curriculum": "cambridge",
+        "grade": 5,
+        "className": "Cambridge Primary Science 5 Learners Book ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge IGCSE English as First Language Course Book (2)",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge IGCSE English as First Language Course Book (2)",
+        "textbook_id": 202,
+        "topic_ids": [
+          2713
+        ],
+        "topics": [
+          "Unit 6: Composition"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE English as First Language Course Book (2)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS and A Level Biology Coursebook ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS and A Level Biology Coursebook ",
+        "textbook_id": 23,
+        "topic_ids": [
+          354,
+          338
+        ],
+        "topics": [
+          "Genetic technology",
+          "Cell membranes and transport"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Biology Coursebook ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+        "textbook_id": 28,
+        "topic_ids": [
+          380
+        ],
+        "topics": [
+          "Civil War and Reconstruction, 1861–77"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS Level History The History of the USA, 1820–1941 Coursebook ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge International AS and A Level Computer Science Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS and A Level Computer Science Coursebook",
+        "textbook_id": 191,
+        "topic_ids": [
+          2649
+        ],
+        "topics": [
+          "Chapter 14: Programming and data representation"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS and A Level Computer Science Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / English S6 SB",
+      "exam": false,
+      "body": {
+        "subject": "English S6 SB",
+        "textbook_id": 70,
+        "topic_ids": [
+          792
+        ],
+        "topics": [
+          "Unit 6: Money"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / P4 Mathematics PB",
+      "exam": true,
+      "body": {
+        "subject": "P4 Mathematics PB",
+        "textbook_id": 153,
+        "topic_ids": [
+          1586,
+          1584
+        ],
+        "topics": [
+          "Mass Measurements",
+          "Length Measurements"
+        ],
+        "curriculum": "rwanda",
+        "grade": 4,
+        "className": "P4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Mathematics-S2-SB",
+      "exam": true,
+      "body": {
+        "subject": "Mathematics-S2-SB",
+        "textbook_id": 128,
+        "topic_ids": [
+          1343
+        ],
+        "topics": [
+          "Parallel and Orthogonal Projection"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Primary Mathematics Learner’s Book 2, 2nd Edition ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Primary Mathematics Learner’s Book 2, 2nd Edition ",
+        "textbook_id": 45,
+        "topic_ids": [
+          549,
+          543
+        ],
+        "topics": [
+          "Telling the time",
+          "Money"
+        ],
+        "curriculum": "cambridge",
+        "grade": 2,
+        "className": "Cambridge Primary Mathematics Learner’s Book 2, 2nd Edition ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Geography S4 SB",
+      "exam": false,
+      "body": {
+        "subject": "Geography S4 SB",
+        "textbook_id": 109,
+        "topic_ids": [
+          1159
+        ],
+        "topics": [
+          "Power and energy in Rwanda"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+      "exam": true,
+      "body": {
+        "subject": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+        "textbook_id": 185,
+        "topic_ids": [
+          1942,
+          1941
+        ],
+        "topics": [
+          "UNIT 2: EQUATIONS AND INEQUALITIES",
+          "UNIT 1: ARITHMETICS"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary English Stage 9 (syllabus outline)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary English Stage 9 (syllabus outline)",
+        "textbook_id": 612,
+        "topic_ids": [
+          4306,
+          4307
+        ],
+        "topics": [
+          "Chapter 1: Relic",
+          "Chapter 2: Right and wrong"
+        ],
+        "curriculum": "cambridge",
+        "grade": 9,
+        "className": "Cambridge Lower Secondary English Stage 9 (syllabus outline)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / GENERAL EDU-History-S4-SB",
+      "exam": true,
+      "body": {
+        "subject": "GENERAL EDU-History-S4-SB",
+        "textbook_id": 99,
+        "topic_ids": [
+          1032
+        ],
+        "topics": [
+          "Contribution of the Main Ancient Civilizations to the Development of the Modern Society"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / Geography S5 SB",
+      "exam": false,
+      "body": {
+        "subject": "Geography S5 SB",
+        "textbook_id": 111,
+        "topic_ids": [
+          1174
+        ],
+        "topics": [
+          "The Origin of the Earth"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / P1-English-PB .",
+      "exam": false,
+      "body": {
+        "subject": "P1-English-PB .",
+        "textbook_id": 141,
+        "topic_ids": [
+          1469
+        ],
+        "topics": [
+          "Unit 8: Animals at home"
+        ],
+        "curriculum": "rwanda",
+        "grade": 1,
+        "className": "P1",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Biology S6 Student Book ",
+      "exam": true,
+      "body": {
+        "subject": "Biology S6 Student Book ",
+        "textbook_id": 9,
+        "topic_ids": [
+          115,
+          122
+        ],
+        "topics": [
+          "Effect of Human Activities on Ecosystem",
+          "Hormonal Coordination in Animals"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / HISTORY  AND CITIZENSHIP STUDENT BOOK S1",
+      "exam": false,
+      "body": {
+        "subject": "HISTORY  AND CITIZENSHIP STUDENT BOOK S1",
+        "textbook_id": 113,
+        "topic_ids": [
+          1199,
+          1200
+        ],
+        "topics": [
+          "Organization of Pre-Colonial Rwanda",
+          "Forms and Principles of Democracy"
+        ],
+        "curriculum": "rwanda",
+        "grade": 7,
+        "className": "S1",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    }
+  ]
+}

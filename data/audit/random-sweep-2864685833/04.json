@@ -1,0 +1,980 @@
+{
+  "index": 4,
+  "label": "REB / Exam / Economics S5 SB",
+  "request": {
+    "subject": "Economics S5 SB",
+    "textbook_id": 64,
+    "topic_ids": [
+      733
+    ],
+    "topics": [
+      "Public Finance 2"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 41,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $500 million, Total Expenditure = $600 million, and National Debt = $2,000 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Calculate the budget deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify Total Revenue and Total Expenditure.",
+          "Calculate the budget deficit using the formula: Budget Deficit = Total Expenditure - Total Revenue."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the budget deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify and."
+        ],
+        "model_answer": "Total Revenue = $500 million\nTotal Expenditure = $600 million\nBudget Deficit = $600 million - $500 million = $100 million",
+        "explanation": "To find the budget deficit, subtract the total revenue from the total expenditure.",
+        "exam_question_id": "e9f31c5e-b9a1-4677-930a-ec7a203c8c62:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $500 million, Total Expenditure = $600 million, and National Debt = $2,000 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Explain how issuing new bonds affects the national debt.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the relationship between issuing bonds and national debt.",
+          "Explain the impact of the deficit on national debt.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how issuing new bonds affects the national debt — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "Issuing new bonds to cover the budget deficit will increase the national debt. Since the government is borrowing money to cover the $100 million deficit, the national debt will increase by $100 million, making it $2,100 million.",
+        "explanation": "Issuing bonds means the government borrows money, which increases the national debt by the amount of the deficit.",
+        "exam_question_id": "e9f31c5e-b9a1-4677-930a-ec7a203c8c62:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $500 million, Total Expenditure = $600 million, and National Debt = $2,000 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Show the new national debt after issuing new bonds to cover the deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Calculate the budget deficit.",
+          "Add the deficit to the existing national debt to find the new national debt."
+        ],
+        "hints": [
+          "Stay focused on this: Show the new national debt after issuing new bonds to cover the deficit — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Budget Deficit = $100 million\nNew National Debt = $2,000 million + $100 million = $2,100 million",
+        "explanation": "To find the new national debt, add the budget deficit to the existing national debt.",
+        "exam_question_id": "e9f31c5e-b9a1-4677-930a-ec7a203c8c62:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government that imposes a tax of $5 per unit on a good. The supply function is given by Qs = 2P - 10 and the demand function is given by Qd = 50 - P. Assume that the tax is levied on the producers.",
+        "question": "Calculate the new equilibrium price and quantity after the tax is imposed.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the new supply function after tax.",
+          "Correctly set up and solve the equilibrium condition with the new supply and demand functions.",
+          "Correctly present the equilibrium price and quantity."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the new equilibrium price and quantity after the tax is imposed — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the new after tax.; Correctly set up and solve the equilibrium condition with the new and functions."
+        ],
+        "model_answer": "The new supply function is Qs = 2(P - 5) - 10 = 2P - 10 - 10 = 2P - 20. Setting Qs equal to Qd: 2P - 20 = 50 - P. Solving for P gives 3P = 70, so P = 70/3 ≈ 23.33. Substituting P back into the demand function: Qd = 50 - 23.33 = 26.67. Therefore, the new equilibrium price is approximately $23.33 and the equilibrium quantity is approximately 26.67 units.",
+        "explanation": "First, adjust the supply function to account for the tax. Then, set the new supply function equal to the demand function and solve for the equilibrium price. Finally, substitute the equilibrium price back into either the supply or demand function to find the equilibrium quantity.",
+        "exam_question_id": "26fadf22-109b-48ec-99c7-c37374704ec1:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government that imposes a tax of $5 per unit on a good. The supply function is given by Qs = 2P - 10 and the demand function is given by Qd = 50 - P. Assume that the tax is levied on the producers.",
+        "question": "Find the tax revenue generated by this tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the equilibrium quantity.",
+          "Correctly calculate the tax revenue using the equilibrium quantity and tax rate."
+        ],
+        "hints": [
+          "Stay focused on this: Find the tax revenue generated by this tax — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the; Correctly calculate the tax revenue using the and tax."
+        ],
+        "model_answer": "The equilibrium quantity found in part (a) is approximately 26.67 units. The tax revenue is calculated as the tax rate multiplied by the equilibrium quantity: Tax Revenue = 5 * 26.67 = $133.35.",
+        "explanation": "Use the equilibrium quantity calculated in part (a) and multiply it by the tax rate to find the total tax revenue.",
+        "exam_question_id": "26fadf22-109b-48ec-99c7-c37374704ec1:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government that imposes a tax of $5 per unit on a good. The supply function is given by Qs = 2P - 10 and the demand function is given by Qd = 50 - P. Assume that the tax is levied on the producers.",
+        "question": "Explain the effect of this tax on the consumer surplus and producer surplus in the market.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly describe the change in consumer surplus.",
+          "Correctly describe the change in producer surplus.",
+          "Correctly explain the overall effect on total surplus."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The imposition of a tax increases the price paid by consumers and decreases the price received by producers. This results in a reduction in consumer surplus because consumers pay more for the good than they would without the tax. Similarly, producer surplus decreases because producers receive less for the good than they would without the tax. The overall effect is a reduction in total surplus in the market, which is the sum of consumer and producer surplus.",
+        "explanation": "Explain how the tax shifts the burden between consumers and producers and the resulting changes in consumer surplus, producer surplus, and total surplus.",
+        "exam_question_id": "26fadf22-109b-48ec-99c7-c37374704ec1:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government that imposes a tax on cigarettes. The tax is set at $1 per pack. Before the tax, the price of a pack of cigarettes was $5. After the tax, the price increased to $6 per pack. The quantity demanded decreased from 100 packs per day to 80 packs per day.",
+        "question": "Calculate the tax revenue generated by this tax.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the quantity of cigarettes sold after the tax.",
+          "Calculate the tax per pack.",
+          "Multiply the quantity sold by the tax per pack to find the total tax revenue."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the tax revenue generated by this tax — develop the idea fully rather than listing short points. Make sure you also cover: Identify the of cigarettes the tax.; Calculate the tax per; Multiply the by the tax per to find the total tax revenue."
+        ],
+        "model_answer": "The tax revenue is calculated by multiplying the tax per pack ($1) by the quantity sold after the tax (80 packs). Therefore, the tax revenue is $1 * 80 = $80 per day.",
+        "explanation": "To find the tax revenue, we need to know how many packs are sold after the tax and the tax amount per pack. Multiply these two figures to get the total tax revenue.",
+        "exam_question_id": "51fa0d7d-c74f-4a09-9e6b-f7161d5734e2:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government that imposes a tax on cigarettes. The tax is set at $1 per pack. Before the tax, the price of a pack of cigarettes was $5. After the tax, the price increased to $6 per pack. The quantity demanded decreased from 100 packs per day to 80 packs per day.",
+        "question": "Explain how the tax affects the quantity of cigarettes demanded.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain the effect of the tax on the price of cigarettes.",
+          "Describe the relationship between price and quantity demanded."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the tax affects the quantity of cigarettes demanded — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "The tax increases the price of cigarettes from $5 to $6. According to the law of demand, as the price of a good increases, the quantity demanded decreases. Therefore, the tax causes the quantity demanded to decrease from 100 packs to 80 packs per day.",
+        "explanation": "When the price of a good increases, consumers tend to buy less of it. This is known as the law of demand. In this case, the tax on cigarettes increased the price, leading to a decrease in the quantity demanded.",
+        "exam_question_id": "51fa0d7d-c74f-4a09-9e6b-f7161d5734e2:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government that imposes a tax on cigarettes. The tax is set at $1 per pack. Before the tax, the price of a pack of cigarettes was $5. After the tax, the price increased to $6 per pack. The quantity demanded decreased from 100 packs per day to 80 packs per day.",
+        "question": "Show the division of the tax burden between consumers and producers.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the price increase due to the tax.",
+          "Determine the price paid by consumers after the tax.",
+          "Determine the price received by producers after the tax."
+        ],
+        "hints": [
+          "Remember to consider the original price and the tax amount."
+        ],
+        "model_answer": "The tax increases the price by $1, from $5 to $6. Consumers pay $6 per pack, while producers receive $5 per pack (since the tax is paid by the producers to the government). Therefore, consumers bear $1 of the tax burden, and producers bear $0 of the tax burden.",
+        "explanation": "The tax is added to the original price, increasing it from $5 to $6. Consumers pay the full $6, while producers receive only $5 after paying the $1 tax to the government. This shows how the tax burden is divided between consumers and producers.",
+        "exam_question_id": "51fa0d7d-c74f-4a09-9e6b-f7161d5734e2:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government that imposes a tax of $5 per unit on a good. The initial price of the good is $10 and the initial quantity demanded is 100 units. The price elasticity of demand is -2.",
+        "question": "Calculate the new quantity demanded after the tax is imposed.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly apply the formula for price elasticity of demand.",
+          "Calculate the percentage change in price due to the tax.",
+          "Calculate the new quantity demanded using the elasticity value."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the new quantity demanded after the tax is imposed — develop the idea fully rather than listing short points. Make sure you also cover: Correctly apply the formula for of demand.; Calculate the in due to the tax."
+        ],
+        "model_answer": "The initial price is $10 and the tax is $5, so the new price is $15. The percentage change in price is ($5/$10) * 100 = 50%. Using the elasticity of -2, the percentage change in quantity demanded is -2 * 50% = -100%. The new quantity demanded is 100 units * (1 - 0.100) = 90 units.",
+        "explanation": "To find the new quantity demanded, we first determine the new price after the tax. Then, we use the elasticity of demand to find the percentage change in quantity demanded and apply it to the initial quantity.",
+        "exam_question_id": "7db49f8b-2fe1-41f4-9dd0-bd44ace9f4c3:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government that imposes a tax of $5 per unit on a good. The initial price of the good is $10 and the initial quantity demanded is 100 units. The price elasticity of demand is -2.",
+        "question": "Calculate the tax revenue generated from this tax.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the tax per unit and the new quantity demanded.",
+          "Calculate the tax revenue using the formula: Tax Revenue = Tax per unit * New Quantity Demanded."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the tax revenue generated from this tax — develop the idea fully rather than listing short points. Make sure you also cover: Identify the tax per and the new."
+        ],
+        "model_answer": "The tax per unit is $5 and the new quantity demanded is 90 units. The tax revenue is $5 * 90 units = $450.",
+        "explanation": "Tax revenue is calculated by multiplying the tax per unit by the new quantity demanded after the tax is imposed.",
+        "exam_question_id": "7db49f8b-2fe1-41f4-9dd0-bd44ace9f4c3:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government that imposes a tax of $5 per unit on a good. The initial price of the good is $10 and the initial quantity demanded is 100 units. The price elasticity of demand is -2.",
+        "question": "Explain the effect of this tax on consumer surplus and producer surplus.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the effect on consumer surplus.",
+          "Describe the effect on producer surplus.",
+          "Explain the deadweight loss created by the tax."
+        ],
+        "hints": [
+          "Stay focused on this: Explain the effect of this tax on consumer surplus and producer surplus — develop the idea fully rather than listing short points. Make sure you also cover: the created by the tax."
+        ],
+        "model_answer": "The tax reduces consumer surplus because consumers pay a higher price for the good. It also reduces producer surplus because producers receive a lower price for the good. The deadweight loss is the area representing the lost surplus that neither consumers nor producers receive, due to the tax.",
+        "explanation": "The tax creates a wedge between the price paid by consumers and the price received by producers, reducing both consumer and producer surplus. The area representing this lost surplus is the deadweight loss.",
+        "exam_question_id": "7db49f8b-2fe1-41f4-9dd0-bd44ace9f4c3:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Calculate the budget deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify total revenue and total expenditure.",
+          "Correctly calculate the budget deficit."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the budget deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify and."
+        ],
+        "model_answer": "Total Revenue = $300 million\nTotal Expenditure = $400 million\nBudget Deficit = Total Expenditure - Total Revenue\nBudget Deficit = $400 million - $300 million = $100 million",
+        "explanation": "The budget deficit is the difference between the total expenditure and the total revenue. In this case, the total expenditure is higher than the total revenue, leading to a budget deficit.",
+        "exam_question_id": "694ee35d-6939-4776-be90-0038819f34ec:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Explain how issuing new bonds affects the national debt.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly define national debt.",
+          "Explain the relationship between issuing bonds and national debt.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how issuing new bonds affects the national debt — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "Issuing new bonds to cover the budget deficit increases the national debt. When the government issues bonds, it borrows money from investors, which adds to the total amount of money the government owes. This increase in debt is reflected in the national debt figure.",
+        "explanation": "When the government issues new bonds to cover a budget deficit, it borrows money from the public or financial institutions, thereby increasing the national debt.",
+        "exam_question_id": "694ee35d-6939-4776-be90-0038819f34ec:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Show the new national debt after issuing new bonds to cover the deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the budget deficit.",
+          "Correctly add the budget deficit to the national debt to find the new national debt."
+        ],
+        "hints": [
+          "Stay focused on this: Show the new national debt after issuing new bonds to cover the deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the deficit."
+        ],
+        "model_answer": "Budget Deficit = $100 million (from part a)\nNew National Debt = Old National Debt + Budget Deficit\nNew National Debt = $1,500 million + $100 million = $1,600 million",
+        "explanation": "To find the new national debt, add the budget deficit to the existing national debt. This reflects the additional borrowing needed to cover the deficit.",
+        "exam_question_id": "694ee35d-6939-4776-be90-0038819f34ec:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $400 million, Total Expenditure = $550 million, and National Debt = $1,800 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Calculate the budget deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify total revenue and total expenditure.",
+          "Correctly calculate the budget deficit."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the budget deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify and."
+        ],
+        "model_answer": "Total Revenue = $400 million\nTotal Expenditure = $550 million\nBudget Deficit = Total Expenditure - Total Revenue = $550 million - $400 million = $150 million",
+        "explanation": "The budget deficit is calculated by subtracting the total revenue from the total expenditure.",
+        "exam_question_id": "1e799284-69a0-44a7-88eb-454d9c3e0c60:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $400 million, Total Expenditure = $550 million, and National Debt = $1,800 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Explain how issuing new bonds affects the national debt.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly explain the concept of national debt.",
+          "Correctly describe the effect of issuing new bonds on national debt.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how issuing new bonds affects the national debt — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "Issuing new bonds means the government borrows more money to cover its budget deficit. This additional borrowing increases the national debt, as the total amount of money the government owes to its creditors increases.",
+        "explanation": "Issuing new bonds to cover the budget deficit increases the national debt because it adds to the total amount the government owes.",
+        "exam_question_id": "1e799284-69a0-44a7-88eb-454d9c3e0c60:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $400 million, Total Expenditure = $550 million, and National Debt = $1,800 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Show the new national debt after issuing new bonds to cover the deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the budget deficit.",
+          "Correctly add the budget deficit to the existing national debt."
+        ],
+        "hints": [
+          "Stay focused on this: Show the new national debt after issuing new bonds to cover the deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly calculate the deficit."
+        ],
+        "model_answer": "Budget Deficit = $150 million\nNew National Debt = Existing National Debt + Budget Deficit = $1,800 million + $150 million = $1,950 million",
+        "explanation": "The new national debt is found by adding the budget deficit to the existing national debt.",
+        "exam_question_id": "1e799284-69a0-44a7-88eb-454d9c3e0c60:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Calculate the budget deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify total revenue and total expenditure.",
+          "Correctly calculate the budget deficit."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the budget deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify and."
+        ],
+        "model_answer": "Total Revenue = $300 million\nTotal Expenditure = $400 million\nBudget Deficit = Total Expenditure - Total Revenue\nBudget Deficit = $400 million - $300 million = $100 million",
+        "explanation": "To find the budget deficit, subtract the total revenue from the total expenditure.",
+        "exam_question_id": "f560fb02-d401-41b0-a7a2-a45e64d2749c:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Explain how issuing new bonds affects the national debt.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of how issuing bonds increases national debt.",
+          "Clear explanation of the relationship between budget deficit and national debt.",
+          "Correct terminology used."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how issuing new bonds affects the national debt — develop the idea fully rather than listing short points. Make sure you also cover: Clear explanation of the relationship between and national debt.; Correct terminology used."
+        ],
+        "model_answer": "Issuing new bonds to cover the budget deficit means the government borrows money from lenders. This borrowed money is added to the national debt, increasing it. The national debt is the total amount of money the government owes to its creditors, and issuing new bonds increases this amount.",
+        "explanation": "When the government issues new bonds to cover the budget deficit, it borrows money, which is then added to the national debt.",
+        "exam_question_id": "f560fb02-d401-41b0-a7a2-a45e64d2749c:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Show the new national debt after issuing new bonds to cover the deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the budget deficit.",
+          "Correctly calculate the new national debt."
+        ],
+        "hints": [
+          "Stay focused on this: Show the new national debt after issuing new bonds to cover the deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the deficit."
+        ],
+        "model_answer": "Budget Deficit = $100 million\nNational Debt = $1,500 million\nNew National Debt = National Debt + Budget Deficit\nNew National Debt = $1,500 million + $100 million = $1,600 million",
+        "explanation": "To find the new national debt, add the budget deficit to the existing national debt.",
+        "exam_question_id": "f560fb02-d401-41b0-a7a2-a45e64d2749c:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $400 million, Total Expenditure = $550 million, and National Debt = $1,800 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Calculate the budget deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly subtract Total Revenue from Total Expenditure.",
+          "State the result as the budget deficit."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the budget deficit — develop the idea fully rather than listing short points. Make sure you also cover: Correctly subtract from."
+        ],
+        "model_answer": "Total Expenditure = $550 million\nTotal Revenue = $400 million\nBudget Deficit = Total Expenditure - Total Revenue\nBudget Deficit = $550 million - $400 million\nBudget Deficit = $150 million",
+        "explanation": "The budget deficit is the amount by which Total Expenditure exceeds Total Revenue. Subtract the Total Revenue from the Total Expenditure to find the budget deficit.",
+        "exam_question_id": "029ac3ab-4bc1-41da-b073-6d623b8cc400:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $400 million, Total Expenditure = $550 million, and National Debt = $1,800 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Explain how issuing new bonds affects the national debt.",
+        "marks": 3,
+        "marking_criteria": [
+          "State that issuing new bonds increases the national debt.",
+          "Explain that the new bonds add to the existing national debt.",
+          "Mention that the national debt is the sum of all past deficits."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how issuing new bonds affects the national debt — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Issuing new bonds means the government is borrowing money to cover the budget deficit. This borrowed money adds to the existing national debt. The national debt is the total amount of money the government owes, which increases when new bonds are issued.",
+        "explanation": "When the government issues new bonds, it is borrowing money. This borrowed money is added to the existing national debt, increasing it.",
+        "exam_question_id": "029ac3ab-4bc1-41da-b073-6d623b8cc400:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $400 million, Total Expenditure = $550 million, and National Debt = $1,800 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Show the new national debt after issuing new bonds to cover the deficit.",
+        "marks": 3,
+        "marking_criteria": [
+          "Calculate the budget deficit.",
+          "Add the budget deficit to the existing national debt.",
+          "State the new national debt."
+        ],
+        "hints": [
+          "Stay focused on this: Show the new national debt after issuing new bonds to cover the deficit — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "Budget Deficit = $150 million\nNational Debt = $1,800 million\nNew National Debt = National Debt + Budget Deficit\nNew National Debt = $1,800 million + $150 million\nNew National Debt = $1,950 million",
+        "explanation": "To find the new national debt, add the budget deficit to the existing national debt. This gives the total amount the government owes after issuing new bonds.",
+        "exam_question_id": "029ac3ab-4bc1-41da-b073-6d623b8cc400:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Calculate the budget deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the budget deficit.",
+          "Provide the final numerical answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the budget deficit — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final numerical answer."
+        ],
+        "model_answer": "Budget Deficit = Total Expenditure - Total Revenue = $400 million - $300 million = $100 million.",
+        "explanation": "The budget deficit is the difference between the government's total expenditure and its total revenue. Here, the deficit is $100 million.",
+        "exam_question_id": "e3926e71-c5d2-4d4a-9bfb-c5f618160349:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Explain how issuing new bonds affects the national debt.",
+        "marks": 3,
+        "marking_criteria": [
+          "Accurately describe the relationship between issuing bonds and national debt.",
+          "Explain the process of how issuing bonds increases the national debt.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how issuing new bonds affects the national debt — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and concise explanation."
+        ],
+        "model_answer": "Issuing new bonds means the government borrows money from the public, which increases the national debt. When the government issues bonds, it promises to pay back the borrowed amount with interest in the future, thus adding to the existing national debt.",
+        "explanation": "When the government issues new bonds, it takes on additional debt. This debt is added to the existing national debt, increasing the total amount the government owes.",
+        "exam_question_id": "e3926e71-c5d2-4d4a-9bfb-c5f618160349:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Show the new national debt after issuing new bonds to cover the deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly calculate the new national debt.",
+          "Provide the final numerical answer."
+        ],
+        "hints": [
+          "Stay focused on this: Show the new national debt after issuing new bonds to cover the deficit — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final numerical answer."
+        ],
+        "model_answer": "New National Debt = Existing National Debt + Budget Deficit = $1,500 million + $100 million = $1,600 million.",
+        "explanation": "To find the new national debt, add the budget deficit to the existing national debt. Here, the new national debt is $1,600 million.",
+        "exam_question_id": "e3926e71-c5d2-4d4a-9bfb-c5f618160349:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Calculate the budget deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of budget deficit",
+          "Clear and accurate presentation of the result"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the budget deficit — develop the idea fully rather than listing short points. Make sure you also cover: Clear and accurate presentation of the result."
+        ],
+        "model_answer": "Budget Deficit = Total Expenditure - Total Revenue = $400 million - $300 million = $100 million",
+        "explanation": "To find the budget deficit, subtract the total revenue from the total expenditure.",
+        "exam_question_id": "ad2aed2b-5862-46b7-b574-a95ada2b2e29:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Explain how issuing new bonds affects the national debt.",
+        "marks": 3,
+        "marking_criteria": [
+          "Accurate explanation of bond issuance",
+          "Clear understanding of its impact on national debt",
+          "Logical reasoning and clarity in explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how issuing new bonds affects the national debt — develop the idea fully rather than listing short points. Make sure you also cover: Accurate explanation of bond issuance; Clear understanding of its impact on national debt; Logical reasoning and clarity in explanation."
+        ],
+        "model_answer": "Issuing new bonds to cover the budget deficit means the government borrows additional funds, which increases the national debt. The amount borrowed will be equal to the budget deficit, which in this case is $100 million. Therefore, the new national debt will be $1,500 million + $100 million = $1,600 million.",
+        "explanation": "When the government issues new bonds to cover a budget deficit, it borrows money from investors, thereby increasing the national debt by the amount of the deficit.",
+        "exam_question_id": "ad2aed2b-5862-46b7-b574-a95ada2b2e29:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a government budget with the following data: Total Revenue = $300 million, Total Expenditure = $400 million, and National Debt = $1,500 million. The government plans to issue new bonds to cover the budget deficit.",
+        "question": "Show the new national debt after issuing new bonds to cover the deficit.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of new national debt",
+          "Clear and accurate presentation of the result"
+        ],
+        "hints": [
+          "Stay focused on this: Show the new national debt after issuing new bonds to cover the deficit — develop the idea fully rather than listing short points. Make sure you also cover: Clear and accurate presentation of the result."
+        ],
+        "model_answer": "New National Debt = Current National Debt + Budget Deficit = $1,500 million + $100 million = $1,600 million",
+        "explanation": "To find the new national debt, add the budget deficit to the current national debt.",
+        "exam_question_id": "ad2aed2b-5862-46b7-b574-a95ada2b2e29:1",
+        "topic_id": 733,
+        "topic_label": "Public Finance 2",
+        "source": {
+          "textbook": "Economics S5 SB",
+          "area": "Public Finance 2"
+        }
+      }
+    ],
+    "estimated_time": 74,
+    "assessment_id": "faed2060-2984-4584-98b5-dbc576ee1cdf",
+    "subject": "Economics S5 SB",
+    "topics": [
+      "Public Finance 2"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 64,
+    "topic_ids": [
+      733
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 30,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "7 questions open with the same sentence (1, 13, 16, 19, 22, 25, 28): \"Calculate the budget deficit.\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "7 questions open with the same sentence (2, 14, 17, 20, 23, 26, 29): \"Explain how issuing new bonds affects the national\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "7 questions open with the same sentence (3, 15, 18, 21, 24, 27, 30): \"Show the new national debt after issuing new bonds\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "4a",
+        "severity": "broken",
+        "detail": "Model answer contains arithmetic error. States 'new quantity demanded is 100 units * (1 - 0.100) = 90 units' but -100% change means quantity becomes 0, not 90. Calculation should yield 100 * (1 - 1.0) = 0 units, not 90.",
+        "correction": "Percentage change in quantity = -2 × 50% = -100%. New quantity = 100 × (1 - 1.0) = 0 units. (Alternatively, reconsider elasticity application or context if zero quantity is unrealistic.)"
+      },
+      {
+        "label": "3c",
+        "severity": "broken",
+        "detail": "Model answer contradicts the problem setup. States 'producers bear $0 of the tax burden' but problem specifies tax is levied on producers. If tax is on producers, they bear at least part of burden. Answer incorrectly assigns entire $1 burden to consumers only.",
+        "correction": "Since tax is levied on producers: Consumers pay $6, producers receive $5 after paying $1 tax. Consumers bear $1 of burden (price increase from $5 to $6), producers bear $0 in this case (price they receive stays at $5 before tax). Clarify: tax incidence depends on elasticities, not just legal assignment."
+      },
+      {
+        "label": "1b",
+        "severity": "poor",
+        "detail": "Model answer calculates new debt ($2,100M) but marking criteria require only explanation of relationship and impact. Answer goes beyond scope by computing specific figure, conflating part (b) with part (c).",
+        "correction": "Part (b) should explain conceptually: issuing bonds increases national debt by the deficit amount. Reserve numerical calculation for part (c)."
+      },
+      {
+        "label": "5b",
+        "severity": "poor",
+        "detail": "Model answer lacks specificity required by marking criteria. Criteria demand 'Correctly define national debt' but answer does not formally define it before explaining the relationship.",
+        "correction": "Add definition: 'National debt is the total amount of money a government owes to creditors.' Then explain bond issuance increases this total."
+      },
+      {
+        "label": "7b",
+        "severity": "poor",
+        "detail": "Marking criteria require 'Clear explanation of the relationship between budget deficit and national debt' but model answer does not explicitly connect deficit to debt increase mechanism.",
+        "correction": "Clarify: Budget deficit forces government to borrow (issue bonds), and borrowed amount directly increases national debt by that deficit amount."
+      }
+    ],
+    "summary": "Assessment contains 30 questions across 10 problem sets on Public Finance 2 (budget deficits, taxation, elasticity, debt). One critical arithmetic error in 4a (elasticity calculation yields 0, not 90 units). One broken answer in 3c (tax burden allocation contradicts problem statement). Three answers lack required depth per marking criteria. All other questions are mathematically sound and contextually appropriate for Grade 11."
+  },
+  "totalSeconds": 49
+}

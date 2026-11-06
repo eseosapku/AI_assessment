@@ -1,0 +1,754 @@
+{
+  "index": 1,
+  "label": "Cambridge / Practice / Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+  "request": {
+    "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+    "textbook_id": 54,
+    "topic_ids": [
+      592
+    ],
+    "topics": [
+      "Cells"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+    "style": "Test Style (Textbooks)",
+    "questionType": "study_mixed",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 27,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Nucleus",
+            "right": "Contains genetic material"
+          },
+          {
+            "left": "Mitochondria",
+            "right": "Site of cellular respiration"
+          },
+          {
+            "left": "Chloroplasts",
+            "right": "Site of photosynthesis"
+          },
+          {
+            "left": "Cell wall",
+            "right": "Provides support and protection"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each term is matched with its correct definition based on the functions described.",
+        "left_items": [
+          "Nucleus",
+          "Mitochondria",
+          "Chloroplasts",
+          "Cell wall"
+        ],
+        "right_items": [
+          "Site of cellular respiration",
+          "Site of photosynthesis",
+          "Provides support and protection",
+          "Contains genetic material"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the stages of cell division in the correct order",
+        "ordered_items": [
+          "Prophase",
+          "Metaphase",
+          "Anaphase",
+          "Telophase"
+        ],
+        "marks": 4,
+        "explanation": "The correct order of cell division stages is Prophase, Metaphase, Anaphase, Telophase.",
+        "items": [
+          "Metaphase",
+          "Telophase",
+          "Anaphase",
+          "Prophase"
+        ],
+        "correct_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Animal Cell Structures",
+          "Plant Cell Structures"
+        ],
+        "items": [
+          "Nucleus",
+          "Chloroplasts",
+          "Cell Membrane",
+          "Cell Wall"
+        ],
+        "correct_category": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Each item is categorised based on whether it is found in animal cells, plant cells, or both.",
+        "checked": true,
+        "subtopic_id": 2370,
+        "topic_id": 592,
+        "topic_label": "Animal and plant cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Animal and plant cells"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "Look at the photograph. Which statement correctly describes the function of the structure labelled C?",
+        "options": [
+          "It releases energy from glucose during aerobic respiration",
+          "It makes proteins by joining amino acids together",
+          "It stores genetic information as chromosomes",
+          "It controls which substances enter and leave the cell"
+        ],
+        "correct_answer": 0,
+        "explanation": "C points to a mitochondrion, with folded inner membranes, which is the site of aerobic respiration and releases energy from glucose. Making proteins is done by ribosomes, the small dots in the cytoplasm. Chromosomes are stored in the nucleus. The cell surface membrane controls what enters and leaves the cell.",
+        "image_url": "/textbook-images/textbook-bank/1/s242-f0.jpg",
+        "topic_label": "Cells",
+        "vetted": true,
+        "image_alt": "A black and white electron micrograph of part of a cell. It shows many mitochondria, round and elongated, with internal membranes, surrounded by a cytoplasm full of small dots. Four parts are marked by label lines A, B, C and D. A points to the dotted cytoplasm at the top right. B points to a pale, round empty-looking space. C points to a mitochondrion. D points to the cytoplasm among the elongated mitochondria at the lower right. Printed on it: A | B | C | D.",
+        "topic_id": 592,
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank",
+        "template": "Respiration occurs in the {{0}} and produces {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "mitochondria"
+          },
+          {
+            "id": "1",
+            "correct": "ATP"
+          }
+        ],
+        "word_bank": [
+          "mitochondria",
+          "ATP",
+          "chloroplast",
+          "oxygen",
+          "nucleus"
+        ],
+        "marks": 2,
+        "explanation": "Mitochondria are the site of respiration and ATP is the energy molecule produced during this process.",
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "The cell membrane controls what enters and exits the cell.",
+          "Chloroplasts are found in all plant cells.",
+          "The nucleus contains the cell's genetic material.",
+          "Mitochondria are only found in animal cells."
+        ],
+        "correct_answers": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "The cell membrane controls substance movement (True), chloroplasts are not in all plant cells (False), the nucleus contains genetic material (True), and mitochondria are in both plant and animal cells (False).",
+        "checked": true,
+        "subtopic_id": 2370,
+        "topic_id": 592,
+        "topic_label": "Animal and plant cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Animal and plant cells"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Nucleus",
+          "Chloroplasts",
+          "Ribosomes",
+          "Cell Wall"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Ribosomes are found in both plant and animal cells, whereas nucleus, chloroplasts, and cell wall are structures specific to plant cells or only found in some plant cells.",
+        "checked": true,
+        "subtopic_id": 2370,
+        "topic_id": 592,
+        "topic_label": "Animal and plant cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Animal and plant cells"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each cell type with its function.",
+        "matched_pairs": [
+          {
+            "left": "Root hair cell",
+            "right": "Increases surface area for absorption of water and minerals"
+          },
+          {
+            "left": "Palisade cell",
+            "right": "Carries out photosynthesis in leaves"
+          },
+          {
+            "left": "Red blood cell",
+            "right": "Carries oxygen in the blood"
+          },
+          {
+            "left": "Neurone",
+            "right": "Transmits nerve impulses"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each cell type is matched with its specific function. Root hair cells are specialised for absorption, palisade cells for photosynthesis, red blood cells for oxygen transport, and neurones for nerve impulse transmission.",
+        "left_items": [
+          "Root hair cell",
+          "Palisade cell",
+          "Red blood cell",
+          "Neurone"
+        ],
+        "right_items": [
+          "Carries out photosynthesis in leaves",
+          "Carries oxygen in the blood",
+          "Transmits nerve impulses",
+          "Increases surface area for absorption of water and minerals"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 2372,
+        "topic_id": 592,
+        "topic_label": "Specialised cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Specialised cells"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "fill_blank",
+        "question": "Complete the sentence using the word bank: Photosynthesis occurs in the {{0}} and produces {{1}}.",
+        "template": "Photosynthesis occurs in the {{0}} and produces {{1}}.",
+        "blanks": [
+          {
+            "id": "0",
+            "correct": "chloroplast"
+          },
+          {
+            "id": "1",
+            "correct": "glucose"
+          }
+        ],
+        "word_bank": [
+          "chloroplast",
+          "glucose",
+          "mitochondria",
+          "oxygen",
+          "nucleus"
+        ],
+        "marks": 2,
+        "explanation": "Photosynthesis occurs in the chloroplast, where light energy is converted into chemical energy, producing glucose and oxygen as products.",
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False: Neurones have dendrites and axons.",
+        "statements": [
+          "Neurones have dendrites and axons.",
+          "Neurones transmit electrical impulses.",
+          "Neurones are found in the brain and spinal cord.",
+          "Neurones can regenerate."
+        ],
+        "correct_answers": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Neurones have dendrites and axons, transmit electrical impulses, and are found in the brain and spinal cord. However, mature neurones generally cannot regenerate.",
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 11,
+        "type": "mcq",
+        "question": "Look at the diagram. Which label points to the part of the cell that contains cell sap and keeps the cell firm (turgid)?",
+        "options": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "correct_answer": 3,
+        "explanation": "D points to the large central space, the permanent vacuole. It holds cell sap, and when full it pushes on the cell wall to keep the cell turgid. A is the cell wall and membrane, which gives support but does not store sap. B is the small nucleus, which controls the cell. C is the cytoplasm, where metabolic reactions happen.",
+        "image_url": "/textbook-images/textbook-bank/1/s55-f0.jpg",
+        "topic_label": "Cells",
+        "vetted": true,
+        "image_alt": "An outline drawing of a plant leaf cell with a double-lined outer boundary. Inside is a large irregular space, and a small oval structure sits against the left side. Four label lines are drawn: A points to the outer boundary on the left, B to the small oval structure, C to the region between the outer boundary and the large inner space, and D to the large inner space. Printed on it: A | B | C | D.",
+        "topic_id": 592,
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed"
+        }
+      },
+      {
+        "id": 12,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: Cell wall, Chloroplast, Nucleus, Vacuole.",
+        "items": [
+          "Cell wall",
+          "Chloroplast",
+          "Nucleus",
+          "Vacuole"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "The nucleus is the odd one out because it is found in both plant and animal cells, whereas cell wall, chloroplast, and vacuole are unique to plant cells.",
+        "checked": true,
+        "subtopic_id": 2370,
+        "topic_id": 592,
+        "topic_label": "Animal and plant cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Animal and plant cells"
+        }
+      },
+      {
+        "id": 13,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the steps of using a light microscope in the correct order",
+        "ordered_items": [
+          "Place the slide on the stage",
+          "Focus using the coarse adjustment knob",
+          "Look through the eyepiece",
+          "Switch to the highest magnification objective lens"
+        ],
+        "marks": 4,
+        "explanation": "The correct order is to first place the slide on the stage, then look through the eyepiece and focus using the coarse adjustment knob, and finally switch to the highest magnification objective lens. This ensures proper alignment and clear viewing.",
+        "items": [
+          "Switch to the highest magnification objective lens",
+          "Place the slide on the stage",
+          "Focus using the coarse adjustment knob",
+          "Look through the eyepiece"
+        ],
+        "correct_order": [
+          1,
+          3,
+          2,
+          0
+        ],
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 14,
+        "type": "interactive",
+        "kind": "multi_select",
+        "question": "Select ALL that apply: Which of the following are parts of a light microscope?",
+        "options": [
+          "Eyepiece",
+          "Objective lens",
+          "Stage",
+          "Illuminator",
+          "Coarse adjustment knob"
+        ],
+        "correct_indices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "marks": 5,
+        "explanation": "All listed items are parts of a light microscope. The eyepiece, objective lens, stage, illuminator, and coarse adjustment knob are all essential components.",
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 15,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong: Microscope parts or Functions",
+        "items": [
+          "Contrast",
+          "Magnification",
+          "Stage",
+          "Resolution"
+        ],
+        "correct_index": 0,
+        "marks": 1,
+        "explanation": "Contrast is a function or capability of the microscope, whereas magnification, stage, and resolution are parts or capabilities of the microscope.",
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 16,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each cell structure to its function.",
+        "matched_pairs": [
+          {
+            "left": "Cell wall",
+            "right": "Provides structural support and protection."
+          },
+          {
+            "left": "Chloroplast",
+            "right": "Carries out photosynthesis."
+          },
+          {
+            "left": "Nucleus",
+            "right": "Contains the cell's genetic material."
+          },
+          {
+            "left": "Mitochondria",
+            "right": "Produces energy through cellular respiration."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Each cell structure is matched with its primary function. The cell wall provides support and protection, chloroplasts are involved in photosynthesis, the nucleus houses genetic material, and mitochondria produce energy.",
+        "left_items": [
+          "Cell wall",
+          "Chloroplast",
+          "Nucleus",
+          "Mitochondria"
+        ],
+        "right_items": [
+          "Contains the cell's genetic material.",
+          "Produces energy through cellular respiration.",
+          "Provides structural support and protection.",
+          "Carries out photosynthesis."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 17,
+        "type": "mcq",
+        "question": "Look at the drawing. Each cell has one small dark dot. What is this dot, and what does it do?",
+        "options": [
+          "A mitochondrion, which releases energy in respiration",
+          "The nucleus, which controls the activities of the cell",
+          "A chloroplast, which absorbs light for photosynthesis",
+          "A vacuole, which stores cell sap and keeps the cell firm"
+        ],
+        "correct_answer": 1,
+        "explanation": "The single small dark dot in each cell is the nucleus, which contains DNA and controls the cell's activities. Chloroplasts are green and numerous, so they are not a single dot. The vacuole is a large sap-filled space, not a small dot. Mitochondria are too small to see with a light microscope and there are many of them.",
+        "image_url": "/textbook-images/textbook-bank/1/s56-f0.jpg",
+        "topic_label": "Cells",
+        "vetted": true,
+        "image_alt": "A group of elongated plant cells, drawn in outline and packed closely together, slanting from lower left to upper right. Each cell has a thin cell wall and one small dark dot, which is its nucleus. There are no labels or printed values.",
+        "topic_id": 592,
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed"
+        }
+      },
+      {
+        "id": 18,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each cell structure into the correct category: Plant cell only, Animal cell only, Both plant and animal cells.",
+        "categories": [
+          "Plant cell only",
+          "Animal cell only",
+          "Both plant and animal cells"
+        ],
+        "items": [
+          "Cell wall",
+          "Chloroplast",
+          "Vacuole",
+          "Mitochondria",
+          "Nucleus"
+        ],
+        "correct_category": [
+          0,
+          0,
+          2,
+          2,
+          2
+        ],
+        "marks": 5,
+        "explanation": "Vacuoles are more prominent in plant cells but can also be found in animal cells, though less prominently. The categorisation should reflect this.",
+        "checked": true,
+        "subtopic_id": 2370,
+        "topic_id": 592,
+        "topic_label": "Animal and plant cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Animal and plant cells"
+        }
+      },
+      {
+        "id": 19,
+        "type": "mcq",
+        "question": "Which unit is used to measure the size of a cell?",
+        "options": [
+          "Kilometres",
+          "Millimetres",
+          "Micrometres",
+          "Nanometres"
+        ],
+        "correct_answer": 2,
+        "explanation": "Micrometres (µm) is the correct unit for measuring the size of a cell, as it provides the necessary precision for such small structures. Kilometres and millimetres are too large, while nanometres are too small for this purpose.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      },
+      {
+        "id": 20,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the following steps in the correct order for calculating magnification using a microscope.",
+        "ordered_items": [
+          "Measure the size of the image",
+          "Divide the size of the image by the actual size",
+          "Determine the actual size of the object",
+          "Record the magnification"
+        ],
+        "marks": 4,
+        "explanation": "First, determine the actual size of the object. Then, measure the size of the image as seen through the microscope. Divide the size of the image by the actual size to find the magnification, and finally, record the magnification.",
+        "needs_diagram": false,
+        "diagram_hint": "",
+        "items": [
+          "Determine the actual size of the object",
+          "Record the magnification",
+          "Measure the size of the image",
+          "Divide the size of the image by the actual size"
+        ],
+        "correct_order": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "checked": true,
+        "topic_id": 592,
+        "topic_label": "Cells",
+        "source": {
+          "textbook": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+          "area": "Cells"
+        }
+      }
+    ],
+    "estimated_time": 60,
+    "assessment_id": "d6b2df87-bc95-40d3-b8d4-725e7090a533",
+    "subject": "Cambridge-IGCSE-Biology-MARRY-JONES-4th-Ed",
+    "topics": [
+      "Cells"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "cambridge",
+    "questionType": "study_mixed",
+    "textbook_id": 54,
+    "topic_ids": [
+      592
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "tick-all-correct",
+      "severity": "poor",
+      "index": 13,
+      "detail": "every option is correct, so nothing is tested"
+    }
+  ],
+  "figures": 3,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "issues": [
+      {
+        "label": "18",
+        "severity": "broken or poor",
+        "detail": "Vacuoles are incorrectly categorized as 'Both plant and animal cells'. They are more prominent in plant cells.",
+        "correction": "Change 'Vacuole' category to 'Plant cell only'."
+      }
+    ],
+    "summary": "Minor categorization error in question 18."
+  },
+  "totalSeconds": 30
+}

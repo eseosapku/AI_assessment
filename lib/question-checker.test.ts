@@ -6,6 +6,25 @@ const short = (id: number, question: string, accepted: string[]) =>
   ({ id, type: 'longform', marks: 1, question, short_answer: { accepted } })
 
 describe('the prompt', () => {
+  it('shows the complete matching exercise and its actual index key', () => {
+    const prompt = buildCheckPrompt([{ id: 1, type: 'interactive', kind: 'match', question: 'Match each term.', left_items: ['Sample Space', 'Probability'], right_items: ['Likelihood', 'All outcomes'], correct_pairs: [[0, 0], [1, 1]] }], { subject: 'REB Mathematics', stage: 'S6', others: [] })
+    expect(prompt).toContain('Sample Space')
+    expect(prompt).toContain('All outcomes')
+    expect(prompt).toContain('"correct_pairs":[[0,0],[1,1]]')
+  })
+  it('checks an A Level exam part with its symbolic solution and exam-specific rules', () => {
+    const prompt = buildCheckPrompt([{
+      id: 1, type: 'longform', part: 'a', exam_question_id: 'question-1',
+      scenario: 'A projectile is launched with speed u at angle theta.',
+      question: 'Show that its maximum height is u² sin²(theta) / (2g).',
+      model_answer: 'Use v² = u² sin²(theta) - 2gh with v = 0 at maximum height.',
+    }], { subject: 'Further Mathematics', stage: 'Cambridge AS and A Level', others: [], examPaper: true })
+    expect(prompt).toContain('WORKED MODEL ANSWER: Use v²')
+    expect(prompt).toContain('Symbolic answers')
+    expect(prompt).toContain('This is not answer leakage')
+    expect(prompt).toContain('All parts of this numbered question are shown together')
+    expect(prompt).toContain('PART: (a)')
+  })
   it('shows each question with its answer, and the rest of the paper for repeats', () => {
     const qs = [
       short(1, 'Work out the mean of 25, 15, 30 and 10.', ['12.5']),
@@ -41,6 +60,34 @@ describe('the prompt', () => {
     expect(p).toContain('WHAT THE BOOK TEACHES AT THIS STAGE')
     expect(p).toContain('area by counting squares')
     expect(p).toContain('Cambridge Primary Stage 3 (age 8)')
+  })
+})
+
+describe('repairs found by the random assessment sweep', () => {
+  it('does not keep an MCQ when the checker only says the answer is absent from the options', () => {
+    const q = { id: 1, type: 'mcq', options: ['1 1/3', '1 1/2', '1 3/4', '1 1/4'], correct_answer: 0, question: 'What is 3/4 + 5/6?' }
+    expect(applyVerdicts([q], [{ id: 1, verdict: 'fix', explanation: 'The correct answer 1 7/12 is not listed.' }]).kept).toHaveLength(0)
+  })
+  it('repairs a matching key without shuffling the displayed items', () => {
+    const q = { id: 1, type: 'interactive', kind: 'match', left_items: ['Sample space', 'Probability'], right_items: ['Likelihood', 'All outcomes'], correct_pairs: [[0, 0], [1, 1]] }
+    const result = applyVerdicts([q], [{ id: 1, verdict: 'fix', correct_pairs: [[0, 1], [1, 0]] }])
+    expect(result.fixed).toBe(1)
+    expect(q.correct_pairs).toEqual([[0, 1], [1, 0]])
+    expect(q.right_items).toEqual(['Likelihood', 'All outcomes'])
+  })
+  it('rejects an invalid matching repair rather than creating an unmarkable exercise', () => {
+    const q = { id: 1, type: 'interactive', kind: 'match', left_items: ['A', 'B'], right_items: ['X', 'Y'], correct_pairs: [[0, 0], [1, 1]] }
+    expect(applyVerdicts([q], [{ id: 1, verdict: 'fix', correct_pairs: [[0, 1], [1, 1]] }]).kept).toHaveLength(0)
+  })
+  it('keeps the worked answer consistent with a repaired mark scheme', () => {
+    const q = { id: 1, type: 'longform', question: 'Integrate 2x³.', marking_criteria: ['Use the power rule.', 'Answer is 2x⁴/3.'], model_answer: '2x⁴/3 + C', explanation: 'Use the power rule.' }
+    applyVerdicts([q], [{ id: 1, verdict: 'fix', mark_scheme: ['Increase the exponent to 4.', 'Divide 2 by 4: x⁴/2 + C.'], model_answer: 'The integral is x⁴/2 + C.' }])
+    expect(q.model_answer).toBe('The integral is x⁴/2 + C.')
+    expect(q.marking_criteria.join(' ')).not.toContain('2x⁴/3')
+  })
+  it('refills rather than substituting a rubric for a missing corrected worked answer', () => {
+    const q = { id: 1, type: 'longform', marking_criteria: ['Wrong value 11'], model_answer: 'The determinant is 11.' }
+    expect(applyVerdicts([q], [{ id: 1, verdict: 'fix', mark_scheme: ['The determinant is -13.'] }]).kept).toHaveLength(0)
   })
 })
 
@@ -139,6 +186,20 @@ describe('applying the verdicts', () => {
     // A "fix" with fewer points than the scheme it replaces is not a fix.
     const bad = applyVerdicts([{ ...q }], [{ id: 1, verdict: 'fix', mark_scheme: ['heat'] }])
     expect(bad.kept).toHaveLength(0)
+  })
+  it('keeps a valid worked answer when only the explanation changes and the rubric is identical', () => {
+    const q = { id: 1, type: 'longform', marks: 2, marking_criteria: ['Use v = u + at.', 'Obtain 24 m/s.'], model_answer: 'v = 4 + 2 × 10 = 24 m/s.' }
+    const out = applyVerdicts([q], [{ id: 1, verdict: 'fix', mark_scheme: [...q.marking_criteria], explanation: 'The final speed is 24 m/s.' }])
+    expect(out.kept).toHaveLength(1)
+    expect(out.kept[0].model_answer).toBe(q.model_answer)
+  })
+
+  it('repairs an overallocated generated exam part together with its worked answer', () => {
+    const q = { id: 1, type: 'longform', exam_question_id: 'exam-1', marks: 2, question: 'Name the number shown.', marking_criteria: ['Identify the number.', 'Name the number.'], model_answer: 'Four.' }
+    const out = applyVerdicts([q], [{ id: 1, verdict: 'fix', mark_scheme: ['Four.'], model_answer: 'Four.' }])
+    expect(out.kept).toHaveLength(1)
+    expect(out.kept[0].marks).toBe(1)
+    expect(out.kept[0].marking_criteria).toEqual(['Four.'])
   })
 
   it('leaves a question it got no verdict for, unchecked', () => {

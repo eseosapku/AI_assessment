@@ -1,0 +1,600 @@
+{
+  "index": 1,
+  "label": "Cambridge / Exam / CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+  "request": {
+    "subject": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+    "textbook_id": 42,
+    "topic_ids": [
+      4320
+    ],
+    "topics": [
+      "5 Multiplication and division"
+    ],
+    "curriculum": "cambridge",
+    "grade": 3,
+    "className": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3392178121,
+  "error": "ValidationException: Access to Anthropic models is not allowed for this account.",
+  "stage": "complete",
+  "generationSeconds": 43,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have two identical bags of marbles. Each bag contains the same number of marbles. The total number of marbles in both bags together is 34.",
+        "question": "Calculate the number of marbles in one bag.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct calculation showing the division of 34 by 2"
+        ],
+        "hints": [
+          "Divide the total number of marbles by 2 to find the number in one bag."
+        ],
+        "model_answer": "34 divided by 2 equals 17. So, there are 17 marbles in one bag.",
+        "explanation": "To find the number of marbles in one bag, divide the total number of marbles by 2.",
+        "exam_question_id": "77a58055-05d0-4d19-a673-9c19e1e0d832:1",
+        "topic_label": "Multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s145-f0.jpg",
+        "image_alt": "Two identical light-blue bags, each tied with a red ribbon, are joined by a plus sign, followed by an equals sign and 34. Below this, the text 'So', one bag, an equals sign and an empty square answer box.\nLabels: +, = 34, So, =\nOriginal exercise: Sofia and Zara have 34 marbles all together. They both have the same number of marbles. How many marbles do they have each? Each bag of marbles represents the unknown value.",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "Multiplication and division"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have two identical bags of marbles. Each bag contains the same number of marbles. The total number of marbles in both bags together is 34.",
+        "question": "State a multiplication fact that matches the situation.",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct multiplication fact showing 2 times the number of marbles in one bag equals 34"
+        ],
+        "hints": [
+          "Stay focused on this: State a multiplication fact that matches the situation — develop the idea fully rather than listing short points. Make sure you also cover: Correct multiplication fact showing 2 the number of marbles in one bag 34."
+        ],
+        "model_answer": "2 times 17 equals 34.",
+        "explanation": "Since there are 17 marbles in one bag, the multiplication fact is 2 times 17 equals 34.",
+        "exam_question_id": "77a58055-05d0-4d19-a673-9c19e1e0d832:1",
+        "topic_label": "Multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s145-f0.jpg",
+        "image_alt": "Two identical light-blue bags, each tied with a red ribbon, are joined by a plus sign, followed by an equals sign and 34. Below this, the text 'So', one bag, an equals sign and an empty square answer box.\nLabels: +, = 34, So, =\nOriginal exercise: Sofia and Zara have 34 marbles all together. They both have the same number of marbles. How many marbles do they have each? Each bag of marbles represents the unknown value.",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "Multiplication and division"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have 3 baskets of apples. Each basket contains 4 apples. You want to share the apples equally among 3 friends.",
+        "question": "Calculate how many apples each friend will get.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct division"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate how many apples each friend will get — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct division."
+        ],
+        "model_answer": "Total apples = 3 baskets * 4 apples/basket = 12 apples\nEach friend gets = 12 apples / 3 friends = 4 apples",
+        "explanation": "To find out how many apples each friend gets, you first calculate the total number of apples, then divide that number by the number of friends.",
+        "exam_question_id": "0e1ff566-8813-4855-b34c-89fa6ba816b6:1",
+        "topic_label": "5.1 Exploring multiplication and division (5 Multiplication and division)",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division (5 Multiplication and division)"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have 3 baskets of apples. Each basket contains 4 apples. You want to share the apples equally among 3 friends.",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct multiplication fact"
+        ],
+        "hints": [
+          "Stay focused on this: State a multiplication fact that matches the division fact in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: Correct multiplication fact."
+        ],
+        "model_answer": "4 apples/friend * 3 friends = 12 apples",
+        "explanation": "The multiplication fact should reflect the total number of apples and the number of friends, which should match the division fact from part (a).",
+        "exam_question_id": "0e1ff566-8813-4855-b34c-89fa6ba816b6:1",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "topic_id": 4320,
+        "subtopic_id": 15194,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are organising a small party and have 18 balloons. You want to arrange them in equal groups of 3.",
+        "question": "Calculate how many groups of balloons you can make.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct division"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate how many groups of balloons you can make — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation; Correct division."
+        ],
+        "model_answer": "Total balloons = 18\nGroups of balloons = 18 balloons / 3 balloons/group = 6 groups",
+        "explanation": "To find out how many groups of balloons you can make, you divide the total number of balloons by the number of balloons in each group.",
+        "exam_question_id": "0e1ff566-8813-4855-b34c-89fa6ba816b6:3",
+        "topic_label": "5.1 Exploring multiplication and division (5 Multiplication and division)",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division (5 Multiplication and division)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are organising a small party and have 18 balloons. You want to arrange them in equal groups of 3.",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct multiplication fact"
+        ],
+        "hints": [
+          "Stay focused on this: State a multiplication fact that matches the division fact in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: Correct multiplication fact."
+        ],
+        "model_answer": "3 balloons/group * 6 groups = 18 balloons",
+        "explanation": "The multiplication fact should reflect the number of balloons in each group and the number of groups, which should match the division fact from part (a).",
+        "exam_question_id": "0e1ff566-8813-4855-b34c-89fa6ba816b6:3",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "topic_id": 4320,
+        "subtopic_id": 15194,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are at a carnival and you see a game booth where you can trade tickets for toys. Each toy costs 3 tickets. You have 18 tickets.",
+        "question": "Calculate how many toys you can get with your 18 tickets.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly divide 18 by 3.",
+          "State the number of toys."
+        ],
+        "hints": [
+          "Remember to divide the total number of tickets by the number of tickets per toy."
+        ],
+        "model_answer": "18 tickets divided by 3 tickets per toy equals 6 toys. So, you can get 6 toys.",
+        "explanation": "To find out how many toys you can get, divide the total number of tickets by the number of tickets needed for each toy.",
+        "exam_question_id": "d4f1216b-0f47-4566-8f1d-01210e8fb3b8:1",
+        "topic_label": "5.3 Connecting 3 ×, 6 × and 9 × (5 Multiplication and division)",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.3 Connecting 3 ×, 6 × and 9 × (5 Multiplication and division)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are at a carnival and you see a game booth where you can trade tickets for toys. Each toy costs 3 tickets. You have 18 tickets.",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly state the multiplication fact."
+        ],
+        "hints": [
+          "Stay focused on this: State a multiplication fact that matches the division fact in part (a) — develop the idea fully rather than listing short points. Make sure you also cover: Correctly state the multiplication fact."
+        ],
+        "model_answer": "3 toys times 6 tickets per toy equals 18 tickets.",
+        "explanation": "To match the division fact, state the number of toys multiplied by the number of tickets per toy.",
+        "exam_question_id": "d4f1216b-0f47-4566-8f1d-01210e8fb3b8:1",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "topic_id": 4320,
+        "subtopic_id": 15194,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a set of 5 pencils. Each pencil is the same length. The total length of all the pencils together is 25 cm.",
+        "question": "Calculate the length of one pencil.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly dividing the total length by the number of pencils.",
+          "Arriving at the correct length of one pencil."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the length of one pencil — develop the idea fully rather than listing short points. Make sure you also cover: Correctly dividing the length by the of."
+        ],
+        "model_answer": "Total length of pencils = 25 cm, Number of pencils = 5. Length of one pencil = 25 cm / 5 = 5 cm.",
+        "explanation": "To find the length of one pencil, you need to divide the total length of all the pencils by the number of pencils.",
+        "exam_question_id": "805feae0-38e2-4df9-9990-a519e8b74430:1",
+        "topic_label": "Multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s83-f2.jpg",
+        "image_alt": "A grid of 5 rows and 10 columns of boxes holding the consecutive numbers 71 to 120. Row 1 runs 71 to 80, row 2 runs 81 to 90, row 3 runs 91 to 100, row 4 runs 101 to 110, and row 5 runs 111 to 120. No boxes are coloured.\nLabels: 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110\nOriginal exercise: Colour all the multiples of 8.",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "Multiplication and division"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a set of 5 pencils. Each pencil is the same length. The total length of all the pencils together is 25 cm.",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly stating the multiplication fact that corresponds to the division fact from part (a)."
+        ],
+        "hints": [
+          "Think about the relationship between multiplication and division."
+        ],
+        "model_answer": "5 pencils each of 5 cm makes 25 cm. So, 5 x 5 = 25.",
+        "explanation": "Since each pencil is 5 cm long and there are 5 pencils, the multiplication fact is 5 times 5 equals 25.",
+        "exam_question_id": "805feae0-38e2-4df9-9990-a519e8b74430:1",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s83-f2.jpg",
+        "image_alt": "A grid of 5 rows and 10 columns of boxes holding the consecutive numbers 71 to 120. Row 1 runs 71 to 80, row 2 runs 81 to 90, row 3 runs 91 to 100, row 4 runs 101 to 110, and row 5 runs 111 to 120. No boxes are coloured.\nLabels: 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110\nOriginal exercise: Colour all the multiples of 8.",
+        "subtopic_id": 15194,
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a collection of stickers. You arrange them in rows of 4. If you have 12 stickers, how many rows can you make?",
+        "question": "Calculate how many rows of stickers you can make.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct interpretation of the problem"
+        ],
+        "hints": [
+          "Divide the total number of stickers by the number of stickers per row."
+        ],
+        "model_answer": "12 ÷ 4 = 3 rows",
+        "explanation": "To find out how many rows of stickers you can make, you need to divide the total number of stickers by the number of stickers per row. Here, you have 12 stickers and you arrange them in rows of 4, so 12 divided by 4 equals 3 rows.",
+        "exam_question_id": "86934387-4acb-408a-b651-623b024adc87:1",
+        "topic_label": "Multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s91-f0.jpg",
+        "image_alt": "An array of identical yellow smiley face stickers on a light blue background. There are 9 rows and 6 columns, so 54 smiley faces in all. No numbers or words are printed.\nLabels: \nOriginal exercise: Write the multiplication and division fact family for this array.",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "Multiplication and division"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a collection of stickers. You arrange them in rows of 4. If you have 12 stickers, how many rows can you make?",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct multiplication fact"
+        ],
+        "hints": [
+          "Think about the relationship between multiplication and division."
+        ],
+        "model_answer": "4 × 3 = 12",
+        "explanation": "The multiplication fact that matches the division fact from part (a) is 4 times 3 equals 12, because you can make 3 rows of 4 stickers each, totaling 12 stickers.",
+        "exam_question_id": "86934387-4acb-408a-b651-623b024adc87:1",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s91-f0.jpg",
+        "image_alt": "An array of identical yellow smiley face stickers on a light blue background. There are 9 rows and 6 columns, so 54 smiley faces in all. No numbers or words are printed.\nLabels: \nOriginal exercise: Write the multiplication and division fact family for this array.",
+        "subtopic_id": 15194,
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "There are 24 flowers in a garden. They are arranged in equal rows with 3 flowers in each row. The flowers are red and yellow.",
+        "question": "Calculate how many rows of flowers there are in the garden.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the total number of flowers (24).",
+          "Correctly identify the number of flowers in each row (3)."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate how many rows of flowers there are in the garden — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the total number of flowers (24).; Correctly identify the number of flowers in each row (3)."
+        ],
+        "model_answer": "24 flowers divided by 3 flowers per row equals 8 rows. So, there are 8 rows of flowers.",
+        "explanation": "To find the number of rows, you need to divide the total number of flowers by the number of flowers in each row. This will give you the number of rows.",
+        "exam_question_id": "737b818f-3298-42a8-a725-e1a0ad86e473:1",
+        "topic_label": "Multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s170-f0.jpg",
+        "image_alt": "An array of identical yellow-orange stars with dark outlines, arranged in 4 rows and 8 columns, for a total of 32 stars. The stars are evenly spaced, and there are no labels or numbers.\nLabels: \nOriginal exercise: Write the multiplication and division fact family for this array.",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "Multiplication and division"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "There are 24 flowers in a garden. They are arranged in equal rows with 3 flowers in each row. The flowers are red and yellow.",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correctly state a multiplication fact that matches the division fact."
+        ],
+        "hints": [
+          "Use the result from part (a) to form a multiplication fact."
+        ],
+        "model_answer": "3 x 8 = 24",
+        "explanation": "The division fact from part (a) is 24 divided by 3 equals 8. The corresponding multiplication fact is 3 times 8 equals 24.",
+        "exam_question_id": "737b818f-3298-42a8-a725-e1a0ad86e473:1",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s170-f0.jpg",
+        "image_alt": "An array of identical yellow-orange stars with dark outlines, arranged in 4 rows and 8 columns, for a total of 32 stars. The stars are evenly spaced, and there are no labels or numbers.\nLabels: \nOriginal exercise: Write the multiplication and division fact family for this array.",
+        "subtopic_id": 15194,
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are arranging chairs for a school event. You have 15 chairs and you want to arrange them in rows of 5. Calculate how many rows of chairs you can make.",
+        "question": "Calculate how many rows of chairs you can make.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation showing division",
+          "Correct answer"
+        ],
+        "hints": [
+          "Divide the total number of chairs by the number in each row."
+        ],
+        "model_answer": "15 chairs divided by 5 chairs per row equals 3 rows. \n\n15 ÷ 5 = 3",
+        "explanation": "To find out how many rows of chairs you can make, you need to divide the total number of chairs by the number of chairs in each row. So, 15 divided by 5 equals 3.",
+        "exam_question_id": "c495f14d-dd19-495e-9e7b-c4e139d5a6d6:1",
+        "topic_label": "Multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s79-f0.jpg",
+        "image_alt": "An array of identical yellow stars with dark outlines, arranged in 6 rows and 5 columns. That makes 30 stars in all. There are no other labels or printed values.\nLabels: \nOriginal exercise: Write the fact family for this array.",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "Multiplication and division"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are arranging chairs for a school event. You have 15 chairs and you want to arrange them in rows of 5. Calculate how many rows of chairs you can make.",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct multiplication fact"
+        ],
+        "hints": [
+          "Think about the inverse operation of division."
+        ],
+        "model_answer": "3 rows of 5 chairs each equals 15 chairs. \n\n3 × 5 = 15",
+        "explanation": "Since you calculated that you can make 3 rows with 5 chairs each, you can state the multiplication fact as 3 times 5 equals 15.",
+        "exam_question_id": "c495f14d-dd19-495e-9e7b-c4e139d5a6d6:1",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "image_url": "/textbook-images/textbook-bank/42/s79-f0.jpg",
+        "image_alt": "An array of identical yellow stars with dark outlines, arranged in 6 rows and 5 columns. That makes 30 stars in all. There are no other labels or printed values.\nLabels: \nOriginal exercise: Write the fact family for this array.",
+        "subtopic_id": 15194,
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You have a collection of marbles. You know that 3 times a certain number of marbles equals 27.",
+        "question": "Calculate the number of marbles you have.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct number of marbles"
+        ],
+        "hints": [
+          "Think of the multiplication fact that equals 27."
+        ],
+        "model_answer": "3 times 9 equals 27, so the number of marbles is 9.",
+        "explanation": "To find out how many marbles you have, you need to determine the number that, when multiplied by 3, equals 27. The correct multiplication fact is 3 times 9 equals 27.",
+        "exam_question_id": "dfbb4253-d396-4aaf-81d8-c100ebc60934:1",
+        "topic_label": "5.3 Connecting 3 ×, 6 × and 9 × (5 Multiplication and division)",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.3 Connecting 3 ×, 6 × and 9 × (5 Multiplication and division)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You have a collection of marbles. You know that 3 times a certain number of marbles equals 27.",
+        "question": "State a division fact that matches the multiplication fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct division fact"
+        ],
+        "hints": [
+          "Think of the inverse operation of multiplication."
+        ],
+        "model_answer": "27 divided by 3 equals 9.",
+        "explanation": "To find the corresponding division fact, you need to divide the total number of marbles by the number that it is multiplied by. Since 3 times 9 equals 27, the division fact is 27 divided by 3 equals 9.",
+        "exam_question_id": "dfbb4253-d396-4aaf-81d8-c100ebc60934:1",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "topic_id": 4320,
+        "subtopic_id": 15194,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "You are at a carnival and you see a game booth where you can trade tickets for toys. Each toy costs 6 tickets. You have 36 tickets.",
+        "question": "Calculate how many toys you can get with your 36 tickets.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Correct number of toys"
+        ],
+        "hints": [
+          "Think of the division fact that equals 36."
+        ],
+        "model_answer": "36 divided by 6 equals 6, so you can get 6 toys.",
+        "explanation": "To find out how many toys you can get, you need to divide the total number of tickets by the number of tickets needed for each toy. The correct division fact is 36 divided by 6 equals 6.",
+        "exam_question_id": "dfbb4253-d396-4aaf-81d8-c100ebc60934:3",
+        "topic_label": "5.3 Connecting 3 ×, 6 × and 9 × (5 Multiplication and division)",
+        "topic_id": 4320,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.3 Connecting 3 ×, 6 × and 9 × (5 Multiplication and division)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "You are at a carnival and you see a game booth where you can trade tickets for toys. Each toy costs 6 tickets. You have 36 tickets.",
+        "question": "State a multiplication fact that matches the division fact in part (a).",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct multiplication fact"
+        ],
+        "hints": [
+          "Think of the inverse operation of division."
+        ],
+        "model_answer": "6 times 6 equals 36.",
+        "explanation": "To find the corresponding multiplication fact, you need to multiply the number of toys by the number of tickets needed for each toy. Since 36 divided by 6 equals 6, the multiplication fact is 6 times 6 equals 36.",
+        "exam_question_id": "dfbb4253-d396-4aaf-81d8-c100ebc60934:3",
+        "topic_label": "5.1 Exploring multiplication and division",
+        "topic_id": 4320,
+        "subtopic_id": 15194,
+        "source": {
+          "textbook": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+          "area": "5.1 Exploring multiplication and division"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "c2cdb9ee-db96-4151-abf4-51ddb7a1e37e",
+    "subject": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+    "topics": [
+      "5 Multiplication and division"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 42,
+    "topic_ids": [
+      4320
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 4"
+    }
+  ],
+  "figures": 5,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "totalSeconds": 46
+}

@@ -1,0 +1,24 @@
+{
+  "index": 8,
+  "label": "Cambridge / Exam / Cambridge International AS and A Level Computer Science Coursebook",
+  "request": {
+    "subject": "Cambridge International AS and A Level Computer Science Coursebook",
+    "textbook_id": 191,
+    "topic_ids": [
+      2649
+    ],
+    "topics": [
+      "Chapter 14: Programming and data representation"
+    ],
+    "curriculum": "cambridge",
+    "grade": 12,
+    "className": "Cambridge International AS and A Level Computer Science Coursebook",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "generating"
+}

@@ -1,0 +1,617 @@
+{
+  "index": 5,
+  "label": "REB / Exam / Computer Science S6 SB",
+  "request": {
+    "subject": "Computer Science S6 SB",
+    "textbook_id": 61,
+    "topic_ids": [
+      691,
+      688
+    ],
+    "topics": [
+      "Multimedia",
+      "Collections in Java"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "baseUrl": "http://localhost:3101",
+  "buildId": "YfBQJKbLOvqy86-SUbmaP",
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 37,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "Consider the binary tree diagram provided below with various nodes labelled. The root is labelled as A, and it has two children B and C. Node B has two children D and E, while node C has two children F and G. Node D has two children H and I, and node E has one child J. The diagram also marks specific nodes and relationships for your reference.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the depth of the tree, defined as the length of the longest path from the root to a leaf node.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the longest path from root to a leaf node",
+          "Count the number of edges in the longest path",
+          "Provide the final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the depth of the tree, defined as the length of the longest path from the root to a leaf node — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer."
+        ],
+        "model_answer": "The longest path from the root A is A -> B -> D -> I or A -> B -> D -> H. Both paths have a length of 3 edges.\n\n3",
+        "explanation": "The depth of the tree is determined by finding the longest path from the root node to a leaf node. The longest path in this tree is from the root A to the leaf nodes I or H, which each have a path length of 3 edges.",
+        "exam_question_id": "325e90b8-4b1a-4583-950a-f87ac4bc6d1d:1",
+        "topic_label": "Collections in Java",
+        "topic_id": 688,
+        "image_url": "/textbook-images/rwanda/61/page428-embedded-0.jpeg",
+        "image_alt": "A binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node.\nLabels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Collections in Java"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the binary tree diagram provided below with various nodes labelled. The root is labelled as A, and it has two children B and C. Node B has two children D and E, while node C has two children F and G. Node D has two children H and I, and node E has one child J. The diagram also marks specific nodes and relationships for your reference.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why the nodes D, H, and I form a sub-tree. What is the significance of the parent node in this context?",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the parent node of H and I",
+          "Explain what a sub-tree is",
+          "Explain the significance of the parent node D in this context"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Nodes D, H, and I form a sub-tree because D is the parent node of H and I. A sub-tree is a subset of nodes and edges of a tree where the root of the subset is connected to the rest of the tree through a single parent node. In this case, node D is the parent node of H and I, making them a sub-tree.\n\nD is the parent node, and H and I are child nodes forming a sub-tree.",
+        "explanation": "A sub-tree is a subset of nodes and edges in a tree where the root of the subset is connected to the rest of the tree through a single parent node. In this tree, node D is the parent node of nodes H and I, making them a sub-tree.",
+        "exam_question_id": "325e90b8-4b1a-4583-950a-f87ac4bc6d1d:1",
+        "topic_label": "Collections in Java",
+        "topic_id": 688,
+        "image_url": "/textbook-images/rwanda/61/page428-embedded-0.jpeg",
+        "image_alt": "A binary tree diagram with root A at Level 0. A has children B and C (Level 1). B has children D and E, and C has children F and G (Level 2). D has children H and I, and E has child J (Level 3). Annotations mark A as Root, D as Parent Node, H and I as Child Nodes, the triangle around D, H and I as Sub-tree, F and G as Siblings, and F as Leaf Node.\nLabels: Root, A, Level 0, B, C, Level 1, Parent Node, D, E, F, Siblings, G, Level 2, Child Node, H, I, J, Level 3, Sub-tree, Leaf Node\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Collections in Java"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "You are investigating the response time of two different multimedia applications when handling video playback. The response time is measured in milliseconds (ms).",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the average response time for Application A based on the following data: 15 ms, 18 ms, 20 ms, 16 ms, 17 ms.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly summing the response times",
+          "Dividing by the number of trials",
+          "Providing the final answer in ms"
+        ],
+        "hints": [
+          "Divide by the number of data points."
+        ],
+        "model_answer": "Sum = 15 + 18 + 20 + 16 + 17 = 86 ms. Average = 86 ms / 5 = 17.2 ms.",
+        "explanation": "Calculate the average by summing all response times and dividing by the number of trials.",
+        "exam_question_id": "cc9011ae-2432-421b-bde4-e07c91778a48:1",
+        "topic_label": "Interactive multimedia (Multimedia)",
+        "topic_id": 691,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia (Multimedia)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "You are investigating the response time of two different multimedia applications when handling video playback. The response time is measured in milliseconds (ms).",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why Application B has a higher average response time compared to Application A.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of possible reasons",
+          "Logical explanation",
+          "Use of relevant concepts"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why Application B has a higher average response time compared to Application A — develop the idea fully rather than listing short points. Make sure you also cover: Identification of possible reasons; Logical explanation; of relevant concepts."
+        ],
+        "model_answer": "Application B may have a higher average response time due to less efficient processing power, less optimization for video playback, or other factors that slow down its response time.",
+        "explanation": "Provide a logical explanation based on potential factors affecting response time.",
+        "exam_question_id": "cc9011ae-2432-421b-bde4-e07c91778a48:1",
+        "topic_label": "Interactive multimedia (Multimedia)",
+        "topic_id": 691,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia (Multimedia)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "You are comparing the memory usage of two different multimedia applications when displaying a high-resolution image.",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "State the total memory usage for Application C, which uses 250 MB of RAM when displaying an image.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly stating the memory usage",
+          "Including the unit (MB)"
+        ],
+        "hints": [
+          "Look at the given data."
+        ],
+        "model_answer": "250 MB",
+        "explanation": "Simply state the provided memory usage value.",
+        "exam_question_id": "cc9011ae-2432-421b-bde4-e07c91778a48:2",
+        "topic_label": "Interactive multimedia (Multimedia)",
+        "topic_id": 691,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia (Multimedia)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "You are comparing the memory usage of two different multimedia applications when displaying a high-resolution image.",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain how increasing the resolution of the image would affect the memory usage of Application C.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of resolution impact",
+          "Logical explanation",
+          "Use of relevant concepts"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how increasing the resolution of the image would affect the memory usage of Application C — develop the idea fully rather than listing short points. Make sure you also cover: Understanding of resolution impact; Logical explanation; of relevant concepts."
+        ],
+        "model_answer": "Increasing the resolution of the image would increase the memory usage of Application C because higher resolution means more pixels, which requires more memory to store and process the image data.",
+        "explanation": "Explain how higher resolution leads to higher memory usage.",
+        "exam_question_id": "cc9011ae-2432-421b-bde4-e07c91778a48:2",
+        "topic_label": "Interactive multimedia (Multimedia)",
+        "topic_id": 691,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia (Multimedia)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "You are analysing the data transfer rates of two multimedia streaming applications over a 10 Mbps network.",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the data transfer rate for Application D, given that it transfers 250 MB in 100 seconds.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculating the data transfer rate",
+          "Including the unit (Mbps)",
+          "Providing the final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the data transfer rate for Application D, given that it transfers 250 MB in 100 seconds — develop the idea fully rather than listing short points. Make sure you also cover: Including the unit; Providing the final answer."
+        ],
+        "model_answer": "Data Transfer Rate = (250 MB / 100 s) * 8 = 2 MB/s * 8 = 16 Mbps.",
+        "explanation": "Calculate the data transfer rate using the provided formula and convert to Mbps.",
+        "exam_question_id": "cc9011ae-2432-421b-bde4-e07c91778a48:3",
+        "topic_label": "Interactive multimedia (Multimedia)",
+        "topic_id": 691,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia (Multimedia)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "You are analysing the data transfer rates of two multimedia streaming applications over a 10 Mbps network.",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain the consequence of Application E having a data transfer rate of 8 Mbps over a 10 Mbps network.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding of data transfer rate impact",
+          "Logical explanation",
+          "Use of relevant concepts"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the consequence of Application E having a data transfer rate of 8 Mbps over a 10 Mbps network — develop the idea fully rather than listing short points. Make sure you also cover: Logical explanation; of relevant concepts."
+        ],
+        "model_answer": "If Application E has a data transfer rate of 8 Mbps over a 10 Mbps network, it means that the application is utilizing 80% of the network's capacity. This could result in sufficient performance without overwhelming the network, but it also means there is room for other applications to use the remaining 2 Mbps without issues.",
+        "explanation": "Explain the impact of the data transfer rate on network capacity and application performance.",
+        "exam_question_id": "cc9011ae-2432-421b-bde4-e07c91778a48:3",
+        "topic_label": "Interactive multimedia (Multimedia)",
+        "topic_id": 691,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Interactive multimedia (Multimedia)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "You are given a list of integers: [4, 2, 7, 1, 3]. Consider the list as a collection and perform the following operations.",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the sum of all the elements in the list.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation",
+          "Sum is 17"
+        ],
+        "hints": [
+          "Use a loop to iterate through the list and add each element."
+        ],
+        "model_answer": "The sum of the elements in the list is 4 + 2 + 7 + 1 + 3 = 17.",
+        "explanation": "Add each number in the list to get the total sum.",
+        "exam_question_id": "450efe99-b3a5-4600-9e7d-f84642929228:1",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "You are given a list of integers: [4, 2, 7, 1, 3]. Consider the list as a collection and perform the following operations.",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the maximum value in the list.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the maximum value",
+          "Maximum value is 7"
+        ],
+        "hints": [
+          "Use a loop or the built-in max function."
+        ],
+        "model_answer": "The maximum value in the list is 7.",
+        "explanation": "Compare each element in the list to find the largest value.",
+        "exam_question_id": "450efe99-b3a5-4600-9e7d-f84642929228:1",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "You are given the following list of strings: [\"apple\", \"banana\", \"cherry\", \"date\"]. Consider the list as a collection and perform the following operations.",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the length of the longest string in the list.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of string lengths",
+          "Identification of the longest string",
+          "Length of the longest string is 6"
+        ],
+        "hints": [
+          "Use a loop to iterate through the list and compare string lengths."
+        ],
+        "model_answer": "The length of the longest string in the list is 6, which is the length of the string \"banana\".",
+        "explanation": "Iterate through the list, find the length of each string, and identify the longest one.",
+        "exam_question_id": "450efe99-b3a5-4600-9e7d-f84642929228:3",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "You are given the following list of strings: [\"apple\", \"banana\", \"cherry\", \"date\"]. Consider the list as a collection and perform the following operations.",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe how you would sort the list in alphabetical order.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct description of sorting method",
+          "Explanation of alphabetical order"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would sort the list in alphabetical order — develop the idea fully rather than listing short points. Make sure you also cover: Correct description of."
+        ],
+        "model_answer": "To sort the list in alphabetical order, you can use a sorting algorithm such as bubble sort or a built-in method like Collections.sort(). This will rearrange the strings so that they appear in alphabetical order.",
+        "explanation": "Describe the steps or method to sort the list alphabetically.",
+        "exam_question_id": "450efe99-b3a5-4600-9e7d-f84642929228:3",
+        "topic_label": "Java - The collection interfaces and Classes (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Java - The collection interfaces and Classes (Collections in Java)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "You are creating a multimedia project and need to implement action buttons for user interactions. The action buttons will be used to navigate through different slides in a presentation.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the total number of action buttons needed if each slide requires 3 action buttons and there are 10 slides in the presentation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct multiplication of number of slides by number of buttons per slide",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total number of action buttons needed if each slide requires 3 action buttons and there are 10 slides in the presentation — develop the idea fully rather than listing short points. Make sure you also cover: Correct final answer."
+        ],
+        "model_answer": "Total number of action buttons = 10 slides * 3 buttons/slide = 30 buttons",
+        "explanation": "To find the total number of action buttons, multiply the number of slides by the number of buttons required per slide.",
+        "exam_question_id": "f872ad5a-c0de-4b41-8d99-e906cd698689:1",
+        "topic_label": "Creating action buttons",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2868,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Creating action buttons"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "You are creating a multimedia project and need to implement action buttons for user interactions. The action buttons will be used to navigate through different slides in a presentation.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain how to assign action buttons to navigate to the next and previous slides in the presentation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of assigning actions to buttons",
+          "Mention of navigation functionality"
+        ],
+        "hints": [
+          "Describe the process of setting up actions for the buttons."
+        ],
+        "model_answer": "Assign the action button for the next slide to advance to the next slide when clicked. Assign the action button for the previous slide to go back to the previous slide when clicked.",
+        "explanation": "Explain the process of assigning specific actions to action buttons for navigation purposes.",
+        "exam_question_id": "f872ad5a-c0de-4b41-8d99-e906cd698689:1",
+        "topic_label": "Creating action buttons",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2868,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Creating action buttons"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "You are developing a multimedia presentation that includes interactive action buttons for user engagement. The action buttons will be used to reveal hidden information and provide additional content.",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the number of action buttons needed if each slide has 4 action buttons and there are 12 slides in the presentation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct multiplication of number of slides by number of buttons per slide",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the number of action buttons needed if each slide has 4 action buttons and there are 12 slides in the presentation — develop the idea fully rather than listing short points. Make sure you also cover: Correct final answer."
+        ],
+        "model_answer": "Total number of action buttons = 12 slides * 4 buttons/slide = 48 buttons",
+        "explanation": "To find the total number of action buttons, multiply the number of slides by the number of buttons required per slide.",
+        "exam_question_id": "f872ad5a-c0de-4b41-8d99-e906cd698689:3",
+        "topic_label": "Creating action buttons",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2868,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Creating action buttons"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "You are developing a multimedia presentation that includes interactive action buttons for user engagement. The action buttons will be used to reveal hidden information and provide additional content.",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain how to design action buttons to ensure they are easily identifiable and accessible for all users.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct explanation of design principles for action buttons",
+          "Mention of usability and accessibility"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how to design action buttons to ensure they are easily identifiable and accessible for all users — develop the idea fully rather than listing short points. Make sure you also cover: Mention of usability and accessibility."
+        ],
+        "model_answer": "Design action buttons with clear labels and distinct visual cues to make them easily identifiable. Ensure that the buttons are placed in easily accessible locations and are large enough for users to interact with comfortably.",
+        "explanation": "Explain the design principles for creating action buttons that are easily identifiable and accessible for all users.",
+        "exam_question_id": "f872ad5a-c0de-4b41-8d99-e906cd698689:3",
+        "topic_label": "Creating action buttons",
+        "topic_id": 691,
+        "checked": true,
+        "subtopic_id": 2868,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Creating action buttons"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "You are given a list of strings: [\"apple\", \"banana\", \"cherry\", \"date\"]. Consider the list as a collection and perform the following operations.",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the length of the longest string in the list.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct iteration through the list",
+          "Correct comparison of string lengths",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Use a loop to compare the lengths of the strings."
+        ],
+        "model_answer": "int maxLength = 0; for (String s : list) { if (s.length() > maxLength) maxLength = s.length(); } // maxLength = 6",
+        "explanation": "Iterate through the list and compare the lengths of the strings to find the longest one.",
+        "exam_question_id": "8ff8dae6-4f4a-44e0-88bc-1ec127ea8ad9:2",
+        "topic_label": "Introduction to the Collection Framework (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Introduction to the Collection Framework (Collections in Java)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "You are given a list of strings: [\"apple\", \"banana\", \"cherry\", \"date\"]. Consider the list as a collection and perform the following operations.",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "Describe how you would sort the list in alphabetical order.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct explanation of sorting",
+          "Mention of the Collections.sort() method",
+          "Correct final explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how you would sort the list in alphabetical order — develop the idea fully rather than listing short points. Make sure you also cover: Correct explanation of sorting; Correct final explanation."
+        ],
+        "model_answer": "Collections.sort(list); // list sorted in alphabetical order",
+        "explanation": "Explain how to use the Collections.sort() method to sort the list in alphabetical order.",
+        "exam_question_id": "8ff8dae6-4f4a-44e0-88bc-1ec127ea8ad9:2",
+        "topic_label": "Introduction to the Collection Framework (Collections in Java)",
+        "topic_id": 688,
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Introduction to the Collection Framework (Collections in Java)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the diagram>",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Name the two panels that are used to modify the properties of the selected object in the animation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifying the Properties panel",
+          "Identifying the Library panel"
+        ],
+        "hints": [
+          "Look at the labels in the diagram to find the panels that modify properties."
+        ],
+        "model_answer": "The Properties panel and the Library panel are used to modify the properties of the selected object in the animation.",
+        "explanation": "The Properties panel allows you to adjust the shape, position, size, fill, and stroke of the selected object, while the Library panel allows you to manage assets such as images used in the animation.",
+        "exam_question_id": "5ef8aa73-dd50-4a34-bda9-f461d3caed06:1",
+        "topic_label": "Multimedia",
+        "topic_id": 691,
+        "image_url": "/textbook-images/rwanda/61/page601-embedded-1.jpeg",
+        "image_alt": "A screenshot of the Adobe Flash (Fl) animation software interface. A red box on the upper left outlines the Tools panel, which holds many tool icons. Two red oval callouts point to it, one reading \"Tools used\" and one reading \"Different tools\". The white stage in the centre of the Scene 1 window holds a small picture of a bird in flight. The Timeline with Layer 1 is at the top, the Properties panel (Shape, Position and size, Fill and stroke) is at the left, and the Library panel, which lists the file Siga.jpg, is at the right.\nLabels: Fl, File, Edit, View, Insert, Modify, Text, Commands, Contr",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Multimedia"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "<the shared setup for this numbered question: the diagram>",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Explain why it is important to use different tools from the Tools panel when creating animations.",
+        "marks": 3,
+        "marking_criteria": [
+          "Understanding the variety of tools",
+          "Recognising the need for different functionalities",
+          "Explaining the role of tools in animation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why it is important to use different tools from the Tools panel when creating animations — develop the idea fully rather than listing short points. Make sure you also cover: Recognising the need for different functionalities; Explaining the role of tools in."
+        ],
+        "model_answer": "Using different tools from the Tools panel is important because each tool serves a specific function that is necessary for creating a dynamic and visually appealing animation. For example, the Selection tool is used to move and resize objects, while the Paintbrush tool is used to draw or modify shapes. By using a variety of tools, animators can create complex effects and interactions that bring their animations to life.",
+        "explanation": "Different tools provide different functionalities that are essential for various stages of animation creation, such as selecting, drawing, transforming, and aligning objects.",
+        "exam_question_id": "5ef8aa73-dd50-4a34-bda9-f461d3caed06:1",
+        "topic_label": "Multimedia",
+        "topic_id": 691,
+        "image_url": "/textbook-images/rwanda/61/page601-embedded-1.jpeg",
+        "image_alt": "A screenshot of the Adobe Flash (Fl) animation software interface. A red box on the upper left outlines the Tools panel, which holds many tool icons. Two red oval callouts point to it, one reading \"Tools used\" and one reading \"Different tools\". The white stage in the centre of the Scene 1 window holds a small picture of a bird in flight. The Timeline with Layer 1 is at the top, the Properties panel (Shape, Position and size, Fill and stroke) is at the left, and the Library panel, which lists the file Siga.jpg, is at the right.\nLabels: Fl, File, Edit, View, Insert, Modify, Text, Commands, Contr",
+        "checked": true,
+        "source": {
+          "textbook": "Computer Science S6 SB",
+          "area": "Multimedia"
+        }
+      }
+    ],
+    "estimated_time": 51,
+    "assessment_id": "b374ce7a-c53a-4465-863f-15ad24b06ba8",
+    "subject": "Computer Science S6 SB",
+    "topics": [
+      "Multimedia",
+      "Collections in Java"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 61,
+    "topic_ids": [
+      691,
+      688
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 20,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 12"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 37
+}

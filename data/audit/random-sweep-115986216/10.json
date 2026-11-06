@@ -1,0 +1,1014 @@
+{
+  "index": 10,
+  "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+  "request": {
+    "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+    "textbook_id": 15,
+    "topic_ids": [
+      178
+    ],
+    "topics": [
+      "Global Theme 2: Reducing Carbon Emissions"
+    ],
+    "curriculum": "cambridge",
+    "grade": 10,
+    "className": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 115986216,
+  "error": "ValidationException: anthropic_version: Field required",
+  "generationSeconds": 91,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram titled 'The top six polluters' showing data on carbon emissions by country.",
+        "question": "Identify the country with the highest percentage of the world's total carbon emissions.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the correct country (1 mark)",
+          "State the percentage of world's total carbon emissions (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Identify the country with the highest percentage of the world's total carbon emissions — develop the idea fully rather than listing short points. Make sure you also cover: Identify the correct country (1 mark); the percentage of world's total carbon emissions (1 mark)."
+        ],
+        "model_answer": {
+          "working": "The country with the highest percentage of the world's total carbon emissions is China with 22.9%.",
+          "result": "China, 22.9%"
+        },
+        "explanation": "Identify the country with the highest percentage of the world's total carbon emissions from the given data.",
+        "exam_question_id": "fa2a89bb-a8b9-4b56-bacc-d8031da710e6:1",
+        "image_url": "/textbook-images/textbook-bank/15/s141-f0.jpg",
+        "image_alt": "A table titled 'The top six polluters' with columns Country, % of world's total carbon emissions, Emissions per person (tonnes), Amount from burning fossil fuels (million tonnes), and Amount from transport (million tonnes). Rows: China 22.9, 4.9, 6550, 334; USA 15.5, 18.4, 5596, 1456; India 5.1, 1.25, 1428, 121; Russia 4.9, 11.2, 1394, 112; Japan 3.5, 9, 1151, 203; Germany 2.2, 9.8, 804, 140; WORLD 100 with the other cells empty.\nLabels: B, The top six polluters, Country, % of world's total carbon emissions, Emissions per person (tonnes), Amount from burning fossil fuels (million tonnes), Amou",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram titled 'The top six polluters' showing data on carbon emissions by country.",
+        "question": "Describe the relationship between emissions per person and the amount of carbon emissions from burning fossil fuels for the USA.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identifies USA emissions per person as 18.4 tonnes (or 'high')",
+          "Identifies USA fossil fuel emissions as 5596 million tonnes (or 'high')",
+          "Describes relationship: high per-capita emissions contribute to/correlate with high total fossil fuel emissions, or equivalent statement linking the two variables"
+        ],
+        "hints": [
+          "Compare the values in the columns 'Emissions per person (tonnes)' and 'Amount from burning fossil fuels (million tonnes)' for the USA."
+        ],
+        "model_answer": {
+          "working": "The USA has an emissions per person of 18.4 tonnes and an amount of carbon emissions from burning fossil fuels of 5596 million tonnes. The higher emissions per person suggest that the USA has a significant amount of carbon emissions from burning fossil fuels, indicating a strong relationship between the two.",
+          "result": "The USA has an emissions per person of 18.4 tonnes and an amount of carbon emissions from burning fossil fuels of 5596 million tonnes. The higher emissions per person suggest that the USA has a significant amount of carbon emissions from burning fossil fuels, indicating a strong relationship between the two."
+        },
+        "explanation": "Describe the relationship between emissions per person and the amount of carbon emissions from burning fossil fuels for the USA.",
+        "exam_question_id": "fa2a89bb-a8b9-4b56-bacc-d8031da710e6:1",
+        "image_url": "/textbook-images/textbook-bank/15/s141-f0.jpg",
+        "image_alt": "A table titled 'The top six polluters' with columns Country, % of world's total carbon emissions, Emissions per person (tonnes), Amount from burning fossil fuels (million tonnes), and Amount from transport (million tonnes). Rows: China 22.9, 4.9, 6550, 334; USA 15.5, 18.4, 5596, 1456; India 5.1, 1.25, 1428, 121; Russia 4.9, 11.2, 1394, 112; Japan 3.5, 9, 1151, 203; Germany 2.2, 9.8, 804, 140; WORLD 100 with the other cells empty.\nLabels: B, The top six polluters, Country, % of world's total carbon emissions, Emissions per person (tonnes), Amount from burning fossil fuels (million tonnes), Amou",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram titled 'The top six polluters' showing data on carbon emissions by country.",
+        "question": "Suggest one measure that could be implemented to reduce carbon emissions from transport in Germany.",
+        "marks": 2,
+        "marking_criteria": [
+          "Suggest a relevant measure (1 mark)",
+          "Explain how it could reduce carbon emissions (1 mark)"
+        ],
+        "hints": [
+          "Consider measures related to transport and emissions from transport."
+        ],
+        "model_answer": {
+          "working": "One measure that could be implemented to reduce carbon emissions from transport in Germany is to increase the use of public transport. By encouraging more people to use public transport instead of private vehicles, the number of vehicles on the road would decrease, leading to lower carbon emissions from transport.",
+          "result": "Increase the use of public transport. By encouraging more people to use public transport instead of private vehicles, the number of vehicles on the road would decrease, leading to lower carbon emissions from transport."
+        },
+        "explanation": "Suggest one measure that could be implemented to reduce carbon emissions from transport in Germany and explain how it could reduce carbon emissions.",
+        "exam_question_id": "fa2a89bb-a8b9-4b56-bacc-d8031da710e6:1",
+        "image_url": "/textbook-images/textbook-bank/15/s141-f0.jpg",
+        "image_alt": "A table titled 'The top six polluters' with columns Country, % of world's total carbon emissions, Emissions per person (tonnes), Amount from burning fossil fuels (million tonnes), and Amount from transport (million tonnes). Rows: China 22.9, 4.9, 6550, 334; USA 15.5, 18.4, 5596, 1456; India 5.1, 1.25, 1428, 121; Russia 4.9, 11.2, 1394, 112; Japan 3.5, 9, 1151, 203; Germany 2.2, 9.8, 804, 140; WORLD 100 with the other cells empty.\nLabels: B, The top six polluters, Country, % of world's total carbon emissions, Emissions per person (tonnes), Amount from burning fossil fuels (million tonnes), Amou",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020.",
+        "question": "Calculate the percentage reduction in carbon emissions over the 10-year period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the initial and final values of carbon emissions.",
+          "Use the formula for percentage reduction.",
+          "Provide the final answer with correct units and significant figures."
+        ],
+        "hints": [
+          "Recall the formula for percentage reduction: ((Initial Value - Final Value) / Initial Value) * 100."
+        ],
+        "model_answer": {
+          "working": "Initial Value = 10 million tonnes of CO2\nFinal Value = 6 million tonnes of CO2\nPercentage Reduction = ((10 - 6) / 10) * 100 = 40%.",
+          "result": "40%"
+        },
+        "explanation": "Use the given data to find the percentage reduction in carbon emissions over the 10-year period.",
+        "exam_question_id": "7e475dff-7ee6-43cd-a5d0-d3fa3ef0ed73:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020.",
+        "question": "Describe two measures the city could have implemented to achieve this reduction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify at least two reasonable measures.",
+          "Explain how each measure contributes to reducing carbon emissions.",
+          "Provide a coherent and logical explanation."
+        ],
+        "hints": [
+          "Consider measures such as increasing public transport usage, promoting renewable energy, or improving energy efficiency in buildings."
+        ],
+        "model_answer": {
+          "working": "Measure 1: Increasing public transport usage can reduce the number of private vehicles on the road, thereby lowering emissions.\nMeasure 2: Promoting renewable energy sources like wind and solar can replace fossil fuel-based energy generation, reducing overall emissions.",
+          "result": "Increasing public transport usage and promoting renewable energy."
+        },
+        "explanation": "Explain two measures that could have contributed to the reduction in carbon emissions in the city.",
+        "exam_question_id": "7e475dff-7ee6-43cd-a5d0-d3fa3ef0ed73:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020.",
+        "question": "Explain the importance of reducing carbon emissions for the environment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the environmental impacts of carbon emissions.",
+          "Explain how reducing emissions can mitigate these impacts.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Consider the effects of carbon emissions on climate change, air quality, and ecosystems."
+        ],
+        "model_answer": {
+          "working": "Carbon emissions contribute to climate change by increasing the greenhouse effect, leading to global warming. Reducing emissions can mitigate climate change effects, improve air quality, and protect ecosystems from the adverse impacts of a changing climate.",
+          "result": "Reducing carbon emissions is crucial for mitigating climate change, improving air quality, and protecting ecosystems."
+        },
+        "explanation": "Explain why it is important to reduce carbon emissions for the environment.",
+        "exam_question_id": "7e475dff-7ee6-43cd-a5d0-d3fa3ef0ed73:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions. The city has a total population of 1 million people, with an average of 2.5 people per household. The city's total carbon emissions from transportation are 5 million metric tons of CO2 per year. The city has introduced electric buses and increased the number of charging stations for electric vehicles (EVs). The city also promotes cycling and walking as alternatives to car travel.",
+        "question": "Calculate the carbon emissions per capita for the city.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the total population and total carbon emissions from transportation.",
+          "Calculate carbon emissions per capita."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the carbon emissions per capita for the city — develop the idea fully rather than listing short points. Make sure you also cover: Identify the total population and total carbon emissions from transportation.; Calculate carbon emissions per capita."
+        ],
+        "model_answer": {
+          "working": "Carbon emissions per capita = 5,000,000 metric tons / 1,000,000 people = 5 metric tons per person.",
+          "result": "5 metric tons per person"
+        },
+        "explanation": "Use the provided data to calculate the carbon emissions per person in the city.",
+        "exam_question_id": "f93f8cb7-bd48-4d05-9818-41f4a46106ec:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions. The city has a total population of 1 million people, with an average of 2.5 people per household. The city's total carbon emissions from transportation are 5 million metric tons of CO2 per year. The city has introduced electric buses and increased the number of charging stations for electric vehicles (EVs). The city also promotes cycling and walking as alternatives to car travel.",
+        "question": "Explain how the introduction of electric buses and increased number of charging stations for EVs can help reduce carbon emissions in the city.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify the role of electric buses in reducing emissions.",
+          "Explain the impact of increased charging stations on EV adoption.",
+          "Discuss the combined effect on carbon emissions.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Think about how easier access to charging stations can encourage people to switch to EVs."
+        ],
+        "model_answer": {
+          "working": "Electric buses produce zero tailpipe emissions, unlike traditional buses that emit CO2 and other pollutants. Increased charging stations make it more convenient for people to use EVs, which can lead to a reduction in the number of traditional cars on the road. Together, these measures can significantly reduce the city's carbon emissions from transportation.",
+          "result": "The introduction of electric buses and increased number of charging stations for EVs can help reduce carbon emissions in the city by replacing traditional buses with zero-emission alternatives and encouraging more people to switch to EVs."
+        },
+        "explanation": "Explain the environmental benefits of electric buses and charging infrastructure, and how they contribute to reducing the city's carbon footprint.",
+        "exam_question_id": "f93f8cb7-bd48-4d05-9818-41f4a46106ec:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. The city has a total population of 1 million people, with an average of 2.5 people per household. The city's total carbon emissions from transportation are 5 million metric tons of CO2 per year. The city has introduced electric buses and increased the number of charging stations for electric vehicles (EVs). The city also promotes cycling and walking as alternatives to car travel.",
+        "question": "Calculate the carbon emissions per capita for the city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify total carbon emissions from transportation: 5 million metric tons CO2 per year",
+          "Identify total population: 1 million people",
+          "Divide total emissions by population: 5 million ÷ 1 million = 5 metric tons CO2 per capita per year"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the carbon emissions per capita for the city — develop the idea fully rather than listing short points. Make sure you also cover: Identify total carbon emissions from transportation: 5 million metric tons CO2 per year; Identify total population: 1 million people."
+        ],
+        "model_answer": {
+          "working": "Carbon emissions per capita = 5,000,000 metric tons of CO2 per year / 1,000,000 people = 5 metric tons of CO2 per person per year.",
+          "result": "5 metric tons of CO2 per person per year"
+        },
+        "explanation": "To find the carbon emissions per capita, divide the total carbon emissions by the total population.",
+        "exam_question_id": "e6ab076e-9c3c-4161-8519-022db898d169:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. The city has a total population of 1 million people, with an average of 2.5 people per household. The city's total carbon emissions from transportation are 5 million metric tons of CO2 per year. The city has introduced electric buses and increased the number of charging stations for electric vehicles (EVs). The city also promotes cycling and walking as alternatives to car travel.",
+        "question": "Explain how the introduction of electric buses and increased number of charging stations for EVs can help reduce carbon emissions in the city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that electric buses produce fewer emissions compared to traditional buses.",
+          "Identify that increased charging stations make it easier for people to use electric vehicles.",
+          "Explain how these measures can lead to a reduction in carbon emissions."
+        ],
+        "hints": [
+          "Consider the benefits of electric vehicles in reducing emissions."
+        ],
+        "model_answer": {
+          "working": "Electric buses produce fewer emissions compared to traditional buses, which burn fossil fuels. Increased charging stations make it easier for people to use electric vehicles, which also produce fewer emissions. These measures can lead to a reduction in carbon emissions by encouraging the use of vehicles with lower emissions.",
+          "result": "The introduction of electric buses and increased number of charging stations for EVs can help reduce carbon emissions in the city by promoting the use of vehicles with lower emissions."
+        },
+        "explanation": "Electric buses and increased charging stations for EVs can help reduce carbon emissions by encouraging the use of vehicles with lower emissions.",
+        "exam_question_id": "e6ab076e-9c3c-4161-8519-022db898d169:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020.",
+        "question": "Calculate the percentage reduction in carbon emissions over the 10-year period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the initial and final values of carbon emissions.",
+          "Apply the formula for percentage reduction correctly.",
+          "Provide the final answer with the correct percentage value."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage reduction in carbon emissions over the 10-year period — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the initial and final values of carbon emissions.; Apply the formula for percentage reduction correctly.; Provide…."
+        ],
+        "model_answer": {
+          "working": "Initial value = 10 million tonnes of CO2\nFinal value = 6 million tonnes of CO2\nPercentage reduction = ((10 - 6) / 10) * 100 = 40%",
+          "result": "40%"
+        },
+        "explanation": "Calculate the percentage reduction in carbon emissions using the given initial and final values.",
+        "exam_question_id": "6c8fa944-41b0-486e-b91b-893901764449:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020.",
+        "question": "Describe two measures the city could have implemented to achieve this reduction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify at least two reasonable measures that could reduce carbon emissions.",
+          "Explain how each measure contributes to reducing carbon emissions.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Consider measures related to transportation, energy efficiency, and renewable energy."
+        ],
+        "model_answer": {
+          "working": "Measure 1: Implementing public transportation improvements such as expanding bus and train services to reduce reliance on personal vehicles.\nMeasure 2: Encouraging the use of renewable energy sources like solar and wind power to decrease dependence on fossil fuels.",
+          "result": "Measure 1: Implementing public transportation improvements such as expanding bus and train services to reduce reliance on personal vehicles.\nMeasure 2: Encouraging the use of renewable energy sources like solar and wind power to decrease dependence on fossil fuels."
+        },
+        "explanation": "Describe two measures that the city could have implemented to reduce carbon emissions, explaining how each measure contributes to the reduction.",
+        "exam_question_id": "6c8fa944-41b0-486e-b91b-893901764449:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020.",
+        "question": "Explain how the introduction of electric buses and increased number of charging stations for EVs can help reduce carbon emissions in the city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the benefits of electric buses and charging stations for EVs.",
+          "Explain how these benefits contribute to reducing carbon emissions.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Consider the reduction in emissions from fossil fuel use and the promotion of cleaner transportation options."
+        ],
+        "model_answer": {
+          "working": "Electric buses and EVs produce zero tailpipe emissions, reducing reliance on fossil fuels. Increased charging stations make it easier for residents to switch to EVs, further decreasing emissions from transportation.",
+          "result": "Electric buses and EVs produce zero tailpipe emissions, reducing reliance on fossil fuels. Increased charging stations make it easier for residents to switch to EVs, further decreasing emissions from transportation."
+        },
+        "explanation": "Explain how the introduction of electric buses and increased number of charging stations for EVs can help reduce carbon emissions in the city, considering the benefits of cleaner transportation options.",
+        "exam_question_id": "6c8fa944-41b0-486e-b91b-893901764449:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country that has implemented various measures to reduce carbon emissions over the past decade. The country's total carbon emissions have decreased from 500 million tonnes of CO2 in 2010 to 350 million tonnes of CO2 in 2020.",
+        "question": "Calculate the percentage reduction in carbon emissions over the 10-year period.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the initial and final carbon emissions values.",
+          "Calculate the percentage reduction using the formula: ((Initial - Final) / Initial) * 100."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage reduction in carbon emissions over the 10-year period — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the initial and final carbon emissions values.; Calculate the percentage reduction using the formula: ((Initial -…."
+        ],
+        "model_answer": {
+          "working": "Initial carbon emissions = 500 million tonnes of CO2\nFinal carbon emissions = 350 million tonnes of CO2\nPercentage reduction = ((500 - 350) / 500) * 100 = 30%.",
+          "result": "30%"
+        },
+        "explanation": "Use the provided initial and final carbon emissions values to calculate the percentage reduction over the 10-year period.",
+        "exam_question_id": "56a16953-bcb8-4344-9ccc-c6e6926351e7:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country that has implemented various measures to reduce carbon emissions over the past decade. The country's total carbon emissions have decreased from 500 million tonnes of CO2 in 2010 to 350 million tonnes of CO2 in 2020.",
+        "question": "Describe two measures the country could have implemented to achieve this reduction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify and describe the first measure.",
+          "Identify and describe the second measure.",
+          "Ensure both measures are relevant to reducing carbon emissions."
+        ],
+        "hints": [
+          "Think about common strategies used to reduce carbon emissions."
+        ],
+        "model_answer": {
+          "working": "",
+          "result": "Two measures could include: 1) Transitioning to renewable energy sources such as wind and solar power, reducing reliance on fossil fuels. 2) Implementing stricter regulations on industrial emissions and promoting energy efficiency in buildings and transportation."
+        },
+        "explanation": "Describe two plausible measures that could have contributed to the reduction in carbon emissions over the 10-year period.",
+        "exam_question_id": "56a16953-bcb8-4344-9ccc-c6e6926351e7:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a country that has implemented various measures to reduce carbon emissions over the past decade. The country's total carbon emissions have decreased from 500 million tonnes of CO2 in 2010 to 350 million tonnes of CO2 in 2020.",
+        "question": "Explain the importance of reducing carbon emissions for the environment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the link between carbon emissions and climate change.",
+          "Discuss the environmental impacts of reduced carbon emissions.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Consider the effects of carbon emissions on global temperatures and ecosystems."
+        ],
+        "model_answer": {
+          "working": "",
+          "result": "Reducing carbon emissions is crucial for mitigating climate change, which leads to global warming, extreme weather events, and loss of biodiversity. By decreasing carbon emissions, we can help stabilize global temperatures, protect ecosystems, and ensure a healthier environment for future generations."
+        },
+        "explanation": "Explain the significance of reducing carbon emissions in terms of environmental benefits and the prevention of climate change impacts.",
+        "exam_question_id": "56a16953-bcb8-4344-9ccc-c6e6926351e7:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a country that has implemented various measures to reduce carbon emissions over the past decade. The country's total carbon emissions have decreased from 15 million tonnes of CO2 in 2010 to 9 million tonnes of CO2 in 2020.",
+        "question": "Calculate the percentage reduction in carbon emissions over the 10-year period.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the initial and final emissions values.",
+          "Calculate the difference in emissions between the two years.",
+          "Calculate the percentage reduction using the formula: (Difference / Initial Emissions) * 100."
+        ],
+        "hints": [
+          "Remember to convert the difference and initial emissions to the same units if necessary."
+        ],
+        "model_answer": {
+          "working": "Initial Emissions = 15 million tonnes of CO2\nFinal Emissions = 9 million tonnes of CO2\nDifference = 15 - 9 = 6 million tonnes of CO2\nPercentage Reduction = (6 / 15) * 100 = 40%.",
+          "result": "40%"
+        },
+        "explanation": "To find the percentage reduction in carbon emissions, first identify the initial and final emissions values. Then, calculate the difference between these two values. Finally, use the percentage reduction formula to determine the reduction percentage.",
+        "exam_question_id": "037daf6a-042e-4e1a-a19d-a9dd22d3d5e8:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a country that has implemented various measures to reduce carbon emissions over the past decade. The country's total carbon emissions have decreased from 15 million tonnes of CO2 in 2010 to 9 million tonnes of CO2 in 2020.",
+        "question": "Describe two measures the country could have implemented to achieve this reduction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify a measure related to energy production.",
+          "Identify a measure related to transportation.",
+          "Provide a brief explanation for each measure."
+        ],
+        "hints": [
+          "Think about renewable energy sources and public transportation."
+        ],
+        "model_answer": {
+          "working": "Measure 1: Transition to renewable energy sources such as wind and solar power to reduce reliance on fossil fuels.\nMeasure 2: Implement a comprehensive public transportation system to reduce the number of private vehicles on the road.",
+          "result": "Transition to renewable energy sources such as wind and solar power. Implement a comprehensive public transportation system."
+        },
+        "explanation": "To achieve a reduction in carbon emissions, a country could implement measures such as transitioning to renewable energy sources and improving public transportation systems.",
+        "exam_question_id": "037daf6a-042e-4e1a-a19d-a9dd22d3d5e8:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a country that has implemented various measures to reduce carbon emissions over the past decade. The country's total carbon emissions have decreased from 15 million tonnes of CO2 in 2010 to 9 million tonnes of CO2 in 2020.",
+        "question": "Explain the importance of reducing carbon emissions for the environment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the environmental impact of carbon emissions.",
+          "Explain how reducing carbon emissions can mitigate these impacts.",
+          "Provide an example of an environmental benefit."
+        ],
+        "hints": [
+          "Consider the effects of carbon emissions on climate change and ecosystems."
+        ],
+        "model_answer": {
+          "working": "Carbon emissions contribute to global warming and climate change, leading to more frequent and severe weather events, rising sea levels, and loss of biodiversity. Reducing carbon emissions helps mitigate these impacts by slowing the rate of global warming and preserving ecosystems.",
+          "result": "Carbon emissions contribute to global warming and climate change, leading to more frequent and severe weather events, rising sea levels, and loss of biodiversity. Reducing carbon emissions helps mitigate these impacts by slowing the rate of global warming and preserving ecosystems."
+        },
+        "explanation": "Reducing carbon emissions is crucial for the environment as it helps mitigate the adverse effects of climate change, such as more frequent and severe weather events, rising sea levels, and loss of biodiversity.",
+        "exam_question_id": "037daf6a-042e-4e1a-a19d-a9dd22d3d5e8:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. Assume that the population of the city remained constant at 1 million people over this period.",
+        "question": "Calculate the carbon emissions per capita for the city in 2010.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify total carbon emissions in 2010: 10 million tonnes of CO2",
+          "Identify population: 1 million people",
+          "Divide total emissions by population: 10 million ÷ 1 million",
+          "State answer: 10 tonnes CO2 per capita (or per person)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the carbon emissions per capita for the city in 2010 — develop the idea fully rather than listing short points. Make sure you also cover: Identify total carbon emissions in 2010: 10 million tonnes of CO2; Identify population: 1 million people; Divide total emissions by population: 10…."
+        ],
+        "model_answer": {
+          "working": "Carbon emissions per capita = 10,000,000 tonnes of CO2 / 1,000,000 people = 10 tonnes of CO2 per person.",
+          "result": "10 tonnes of CO2 per person"
+        },
+        "explanation": "Calculate the carbon emissions per person in 2010 by dividing the total carbon emissions by the population of the city.",
+        "exam_question_id": "5a0c33b9-dbd7-4b98-a970-d0bce907a73a:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. Assume that the population of the city remained constant at 1 million people over this period.",
+        "question": "Describe two measures the city could have implemented to achieve this reduction.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify first measure (e.g. renewable energy transition, public transport expansion, building energy efficiency, industrial emission controls, waste reduction)",
+          "Describe how/why first measure reduces emissions",
+          "Identify second measure (different sector or approach)",
+          "Describe how/why second measure reduces emissions"
+        ],
+        "hints": [
+          "Consider measures related to transportation, energy production, waste management, or industrial processes."
+        ],
+        "model_answer": {
+          "working": "Possible measures include: \n1. Implementing a city-wide public transportation system to reduce reliance on private vehicles. \n2. Promoting the use of renewable energy sources such as solar and wind power to reduce carbon emissions from energy production.",
+          "result": "1. Implementing a city-wide public transportation system. \n2. Promoting the use of renewable energy sources such as solar and wind power."
+        },
+        "explanation": "Describe two measures that the city could have implemented to reduce carbon emissions, considering various sectors such as transportation, energy production, waste management, or industrial processes.",
+        "exam_question_id": "5a0c33b9-dbd7-4b98-a970-d0bce907a73a:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. Assume that the population of the city remained constant at 1 million people over this period.",
+        "question": "Explain the importance of reducing carbon emissions for the environment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the environmental benefits of reducing carbon emissions.",
+          "Explain how reduced carbon emissions can mitigate climate change.",
+          "Discuss the potential long-term impacts of not reducing carbon emissions."
+        ],
+        "hints": [
+          "Consider the effects of carbon emissions on global temperatures, sea levels, and ecosystems."
+        ],
+        "model_answer": {
+          "working": "Reducing carbon emissions is crucial for the environment because: \n1. It helps to slow down global warming by reducing the amount of greenhouse gases in the atmosphere. \n2. Lower carbon emissions can lead to a decrease in the frequency and intensity of extreme weather events, such as hurricanes, droughts, and floods. \n3. Reducing carbon emissions can protect ecosystems and biodiversity by minimizing the impacts of climate change on habitats and species.",
+          "result": "Reducing carbon emissions is crucial for the environment because it helps to slow down global warming, decrease the frequency and intensity of extreme weather events, and protect ecosystems and biodiversity."
+        },
+        "explanation": "Explain the importance of reducing carbon emissions for the environment, considering the effects on global temperatures, sea levels, ecosystems, and biodiversity.",
+        "exam_question_id": "5a0c33b9-dbd7-4b98-a970-d0bce907a73a:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. Assume that the population of the city remained constant at 1 million people over this period.",
+        "question": "Calculate the carbon emissions per capita for the city in 2010.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the total carbon emissions in 2010 (10 million tonnes of CO2).",
+          "Correctly identify the population of the city (1 million people).",
+          "Correctly divide the total carbon emissions by the population to find the carbon emissions per capita."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the carbon emissions per capita for the city in 2010 — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the total carbon emissions in 2010 (10 million tonnes of CO2).; Correctly identify the population of the city (1 million people)."
+        ],
+        "model_answer": {
+          "working": "Carbon emissions per capita in 2010 = 10,000,000 tonnes of CO2 / 1,000,000 people = 10 tonnes of CO2 per person.",
+          "result": "10 tonnes of CO2 per person"
+        },
+        "explanation": "Use the given data to calculate the carbon emissions per capita for the city in 2010.",
+        "exam_question_id": "6de46f1d-796a-41ac-9f0a-1de8d9b780a2:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. Assume that the population of the city remained constant at 1 million people over this period.",
+        "question": "Describe two measures the city could have implemented to achieve this reduction.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify and describe the first measure.",
+          "Identify and describe the second measure.",
+          "Ensure both measures are relevant to reducing carbon emissions."
+        ],
+        "hints": [
+          "Think about common strategies for reducing carbon emissions in urban areas."
+        ],
+        "model_answer": {
+          "working": "Measure 1: The city could have implemented a public transportation system that uses electric buses, reducing reliance on fossil fuel-powered vehicles. Measure 2: The city could have introduced incentives for residents to use bicycles or walk instead of driving, reducing the number of cars on the road.",
+          "result": "Measure 1: Implementing a public transportation system using electric buses. Measure 2: Introducing incentives for using bicycles or walking."
+        },
+        "explanation": "Describe two plausible measures the city could have taken to reduce its carbon emissions.",
+        "exam_question_id": "6de46f1d-796a-41ac-9f0a-1de8d9b780a2:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a city that has implemented various measures to reduce carbon emissions over the past decade. The city's total carbon emissions have decreased from 10 million tonnes of CO2 in 2010 to 6 million tonnes of CO2 in 2020. Assume that the population of the city remained constant at 1 million people over this period.",
+        "question": "Explain the importance of reducing carbon emissions for the environment.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the environmental benefits of reducing carbon emissions.",
+          "Explain how these benefits contribute to overall environmental health.",
+          "Ensure the explanation is clear and relevant to the context of the question."
+        ],
+        "hints": [
+          "Think about the impacts of carbon emissions on climate change and the environment."
+        ],
+        "model_answer": {
+          "working": "Reducing carbon emissions is crucial for the environment because it helps mitigate climate change. Lower carbon emissions lead to reduced greenhouse gas concentrations in the atmosphere, which in turn slows down global warming. This has numerous benefits, such as preventing extreme weather events, protecting ecosystems, and ensuring a healthier planet for future generations.",
+          "result": "Reducing carbon emissions helps mitigate climate change, prevents extreme weather events, protects ecosystems, and ensures a healthier planet for future generations."
+        },
+        "explanation": "Explain the significance of reducing carbon emissions for the environment and its broader impacts.",
+        "exam_question_id": "6de46f1d-796a-41ac-9f0a-1de8d9b780a2:1",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Refer to the diagram showing global electricity generation from 1970 to 2030.",
+        "question": "Identify the energy source that has the highest projected electricity generation by 2030.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify the energy source with the highest projected value by 2030.",
+          "Correct identification of the energy source."
+        ],
+        "hints": [
+          "Stay focused on this: Identify the energy source that has the highest projected electricity generation by 2030 — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the energy source."
+        ],
+        "model_answer": "Coal has the highest projected electricity generation by 2030, with a value of approximately 12,000 billion kilowatt-hours.",
+        "explanation": "Look at the dotted lines in the diagram which represent the projected values for each energy source by 2030. Coal has the highest projected value.",
+        "exam_question_id": "fb6c557e-96e6-4820-953e-125e8587b8bd:1",
+        "image_url": "/textbook-images/textbook-bank/15/s200-f0.jpg",
+        "image_alt": "A line graph of global electricity generation in billion kilowatt-hours from 1970 to 2030. The y-axis runs from 0 to 12 000 in steps of 3000 and the x-axis is Year, marked every 10 years. Five lines are labelled: Coal (purple), Natural gas (blue), Renewables (green), Nuclear (red) and Oil (grey/brown). Solid lines show data up to about 2015 and dotted lines show the projection/estimate to 2030. Coal rises from about 2200 to about 12 000 by 2030, natural gas to about 9500, renewables to about 6200, nuclear levels off at about 3000, and oil stays at about 1300.\nLabels: Projection/ estimated, Coa",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Refer to the diagram showing global electricity generation from 1970 to 2030.",
+        "question": "Describe the trend in electricity generation from natural gas from 1970 to 2030.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the trend in electricity generation from natural gas.",
+          "Describe the trend accurately.",
+          "Use specific data points from the diagram to support the description."
+        ],
+        "hints": [
+          "Look at the line representing natural gas in the diagram."
+        ],
+        "model_answer": "The electricity generation from natural gas has shown a steady increase from 1970 to 2030. In 1970, it was around 3,000 billion kilowatt-hours, and it is projected to reach approximately 9,500 billion kilowatt-hours by 2030. This indicates a consistent upward trend over the years.",
+        "explanation": "Observe the line representing natural gas in the diagram. It starts at a value of around 3,000 billion kilowatt-hours in 1970 and ends at a projected value of approximately 9,500 billion kilowatt-hours by 2030. This indicates a steady increase over the years.",
+        "exam_question_id": "fb6c557e-96e6-4820-953e-125e8587b8bd:1",
+        "image_url": "/textbook-images/textbook-bank/15/s200-f0.jpg",
+        "image_alt": "A line graph of global electricity generation in billion kilowatt-hours from 1970 to 2030. The y-axis runs from 0 to 12 000 in steps of 3000 and the x-axis is Year, marked every 10 years. Five lines are labelled: Coal (purple), Natural gas (blue), Renewables (green), Nuclear (red) and Oil (grey/brown). Solid lines show data up to about 2015 and dotted lines show the projection/estimate to 2030. Coal rises from about 2200 to about 12 000 by 2030, natural gas to about 9500, renewables to about 6200, nuclear levels off at about 3000, and oil stays at about 1300.\nLabels: Projection/ estimated, Coa",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Refer to the diagram showing global electricity generation from 1970 to 2030.",
+        "question": "Explain how the projected increase in electricity generation from renewables can contribute to reducing carbon emissions.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain the relationship between electricity generation from renewables and carbon emissions.",
+          "Discuss the potential impact of increased electricity generation from renewables on carbon emissions.",
+          "Use specific data points from the diagram to support the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the projected increase in electricity generation from renewables can contribute to reducing carbon emissions — develop the idea fully rather than listing short points. Make sure you also cover: specific data points from the to support the explanation."
+        ],
+        "model_answer": "The projected increase in electricity generation from renewables can contribute to reducing carbon emissions because renewables, such as wind and solar power, produce electricity without emitting greenhouse gases. In the diagram, the electricity generation from renewables is projected to increase from around 2,000 billion kilowatt-hours in 1970 to approximately 6,200 billion kilowatt-hours by 2030. This increase in renewable energy generation can replace a significant portion of electricity generated from fossil fuels, which are major sources of carbon emissions. By reducing reliance on fossil fuels, the overall carbon emissions from electricity generation can be significantly decreased.",
+        "explanation": "Renewable energy sources, such as wind and solar power, produce electricity without emitting greenhouse gases. By increasing the proportion of electricity generated from renewables, the reliance on fossil fuels can be reduced, leading to a decrease in carbon emissions. The diagram shows a projected increase in electricity generation from renewables, which can contribute to reducing carbon emissions.",
+        "exam_question_id": "fb6c557e-96e6-4820-953e-125e8587b8bd:1",
+        "image_url": "/textbook-images/textbook-bank/15/s200-f0.jpg",
+        "image_alt": "A line graph of global electricity generation in billion kilowatt-hours from 1970 to 2030. The y-axis runs from 0 to 12 000 in steps of 3000 and the x-axis is Year, marked every 10 years. Five lines are labelled: Coal (purple), Natural gas (blue), Renewables (green), Nuclear (red) and Oil (grey/brown). Solid lines show data up to about 2015 and dotted lines show the projection/estimate to 2030. Coal rises from about 2200 to about 12 000 by 2030, natural gas to about 9500, renewables to about 6200, nuclear levels off at about 3000, and oil stays at about 1300.\nLabels: Projection/ estimated, Coa",
+        "checked": true,
+        "topic_label": "Global Theme 2: Reducing Carbon Emissions",
+        "source": {
+          "textbook": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+          "area": "Global Theme 2: Reducing Carbon Emissions"
+        }
+      }
+    ],
+    "estimated_time": 82,
+    "assessment_id": "101a73f6-7784-42f6-af0f-e84628a897bb",
+    "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+    "topics": [
+      "Global Theme 2: Reducing Carbon Emissions"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 15,
+    "topic_ids": [
+      178
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 28,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 3,
+      "detail": "14 questions open with the same sentence (4, 5, 6, 9, 10, 11, 12, 13, 20, 21, 22, 23, 24, 25): \"Consider a city that has implemented various measu\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 13,
+      "detail": "6 questions open with the same sentence (14, 15, 16, 17, 18, 19): \"Consider a country that has implemented various me\""
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 3,
+      "detail": "50 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 4,
+      "detail": "51 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 5,
+      "detail": "49 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 6,
+      "detail": "84 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 7,
+      "detail": "98 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 8,
+      "detail": "111 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 9,
+      "detail": "125 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 10,
+      "detail": "50 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 11,
+      "detail": "51 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 5"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 12,
+      "detail": "62 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 13,
+      "detail": "50 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 14,
+      "detail": "51 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 15,
+      "detail": "49 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 16,
+      "detail": "50 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 17,
+      "detail": "51 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 18,
+      "detail": "49 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 19,
+      "detail": "66 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 20,
+      "detail": "67 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 21,
+      "detail": "65 words"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 22,
+      "detail": "66 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 20"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 23,
+      "detail": "67 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 21"
+    },
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 24,
+      "detail": "65 words"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 22"
+    }
+  ],
+  "figures": 2,
+  "imageErrors": [
+    "/textbook-images/textbook-bank/15/s141-f0.jpg: HTTP 404",
+    "/textbook-images/textbook-bank/15/s200-f0.jpg: HTTP 404"
+  ],
+  "totalSeconds": 92
+}

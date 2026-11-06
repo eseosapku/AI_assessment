@@ -1,0 +1,72 @@
+{
+  "seed": 1895982454,
+  "results": [
+    {
+      "index": 1,
+      "label": "Cambridge / Exam / Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+      "request": {
+        "subject": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "textbook_id": 10,
+        "topic_ids": [
+          136,
+          142
+        ],
+        "topics": [
+          "Unit 2: Perimeter, area and volume",
+          "Unit 4: Understanding measurement"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      },
+      "seed": 1895982454,
+      "error": "ValidationException: anthropic_version: Field required",
+      "generationSeconds": 87,
+      "status": 200,
+      "numbered": 10,
+      "parts": 27,
+      "structureErrors": [],
+      "findings": [
+        {
+          "code": "scenario-repeated-across-paper",
+          "severity": "broken",
+          "index": 10,
+          "detail": "6 questions open with the same sentence (11, 12, 13, 16, 17, 18): \"A rectangular garden has a length of 12.5 metres a\""
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 10,
+          "detail": "47 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 11,
+          "detail": "49 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 12,
+          "detail": "51 words"
+        },
+        {
+          "code": "stem-too-long",
+          "severity": "poor",
+          "index": 23,
+          "detail": "51 words"
+        }
+      ],
+      "figures": 1,
+      "imageErrors": [
+        "/textbook-images/textbook-bank/10/s419-f0.jpg: HTTP 404"
+      ],
+      "totalSeconds": 97
+    }
+  ]
+}

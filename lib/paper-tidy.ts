@@ -1,3 +1,5 @@
+import { asksNothing } from '@/lib/question-audit'
+
 /**
  * Three marks the generator leaves on a finished paper.
  *
@@ -67,7 +69,7 @@ export function dropRepeatedSentences(stem: unknown): string {
 
   const keptText: string[] = []
   const keptWords: Set<string>[] = []
-  const asks = (s: string) => s.endsWith('?')
+  const asks = (s: string) => !asksNothing(s)
 
   for (const s of sentences) {
     const words = content(s)
@@ -186,6 +188,7 @@ export function dropRepeatedScenarios<T extends TidyQuestion>(questions: readonl
   const seen = new Map<string, number>()
   for (const q of questions) {
     const key = opener(q)
+    if (!asksNothing(String(q?.question ?? '').split(/(?<=[.!?])\s+/)[0] || '')) continue
     // A short opener is a command ("Look at the diagram."), not a scenario.
     if (key.split(' ').length < 5) continue
     seen.set(key, (seen.get(key) ?? 0) + 1)

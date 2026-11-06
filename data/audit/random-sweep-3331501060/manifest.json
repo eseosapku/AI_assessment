@@ -1,0 +1,445 @@
+{
+  "seed": 3331501060,
+  "jobs": [
+    {
+      "label": "Cambridge / Exam / Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+        "textbook_id": 27,
+        "topic_ids": [
+          375,
+          376
+        ],
+        "topics": [
+          "The Industrial Revolution in Britain, 1750–1850",
+          "Liberalism and nationalism in Germany, 1815–71"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Advanced Mathematics S6 SB (1)",
+      "exam": false,
+      "body": {
+        "subject": "Advanced Mathematics S6 SB (1)",
+        "textbook_id": 2,
+        "topic_ids": [
+          12,
+          18
+        ],
+        "topics": [
+          "Complex Numbers",
+          "Transformation of Matrices"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Primary Science 2 Learners Book PDF ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Primary Science 2 Learners Book PDF ",
+        "textbook_id": 49,
+        "topic_ids": [
+          566
+        ],
+        "topics": [
+          "The Earth and the Sun"
+        ],
+        "curriculum": "cambridge",
+        "grade": 2,
+        "className": "Cambridge Primary Science 2 Learners Book PDF ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Complete English for Cambridge Lower Secondary Student Book 7 ",
+      "exam": false,
+      "body": {
+        "subject": "Complete English for Cambridge Lower Secondary Student Book 7 ",
+        "textbook_id": 58,
+        "topic_ids": [
+          643
+        ],
+        "topics": [
+          "Manic media"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Complete English for Cambridge Lower Secondary Student Book 7 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+        "textbook_id": 611,
+        "topic_ids": [
+          4296
+        ],
+        "topics": [
+          "Chapter 6: Data collection and sampling"
+        ],
+        "curriculum": "cambridge",
+        "grade": 9,
+        "className": "Cambridge Lower Secondary Mathematics Stage 9 (syllabus outline)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / P3-English-PB (1)",
+      "exam": true,
+      "body": {
+        "subject": "P3-English-PB (1)",
+        "textbook_id": 150,
+        "topic_ids": [
+          1561,
+          1559
+        ],
+        "topics": [
+          "UNIT 10: Shopping",
+          "UNIT 8: Rwanda"
+        ],
+        "curriculum": "rwanda",
+        "grade": 3,
+        "className": "P3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Geography SB S6",
+      "exam": true,
+      "body": {
+        "subject": "Geography SB S6",
+        "textbook_id": 112,
+        "topic_ids": [
+          1191
+        ],
+        "topics": [
+          "World Multipurpose River Projects"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS  A Level Further Mathematics Coursebook",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "textbook_id": 19,
+        "topic_ids": [
+          255
+        ],
+        "topics": [
+          "Matrices 1"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS  A Level Further Mathematics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / IGCSE-Physics-Coursebook-by-David-Sang",
+      "exam": true,
+      "body": {
+        "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "textbook_id": 209,
+        "topic_ids": [
+          2571,
+          2585
+        ],
+        "topics": [
+          "Chapter 7: Density and floating",
+          "Chapter 21: Properties of sound"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "textbook_id": 200,
+        "topic_ids": [
+          2515,
+          2508
+        ],
+        "topics": [
+          "Chapter 9: Database structure",
+          "Chapter 2: The structure of a data packet"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Computer Science Coursebook (Cambridge International IGCSE)",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Physics S4 SB (1)",
+      "exam": true,
+      "body": {
+        "subject": "Physics S4 SB (1)",
+        "textbook_id": 173,
+        "topic_ids": [
+          1818,
+          1815
+        ],
+        "topics": [
+          "Unit 9: Universal gravitational field potential",
+          "Unit 6: Sources of Energy in the World"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Physics Learners book S2",
+      "exam": true,
+      "body": {
+        "subject": "Physics Learners book S2",
+        "textbook_id": 171,
+        "topic_ids": [
+          1788,
+          1792
+        ],
+        "topics": [
+          "Unit 9: Conservation of Mechanical Energy in Isolated System",
+          "Unit 13: Arrangement of Resistors in an Electric Circuit"
+        ],
+        "curriculum": "rwanda",
+        "grade": 8,
+        "className": "S2",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / GENERAL EDU-History-S5-SB",
+      "exam": false,
+      "body": {
+        "subject": "GENERAL EDU-History-S5-SB",
+        "textbook_id": 100,
+        "topic_ids": [
+          1048
+        ],
+        "topics": [
+          "Impact of the Colonial Rule on the African Societies"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Primary Computing Learners Book Stage 4 ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "textbook_id": 39,
+        "topic_ids": [
+          480
+        ],
+        "topics": [
+          "Unit 8: Be an innovator"
+        ],
+        "curriculum": "cambridge",
+        "grade": 4,
+        "className": "Cambridge Primary Computing Learners Book Stage 4 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / P3 Mathematics PB",
+      "exam": false,
+      "body": {
+        "subject": "P3 Mathematics PB",
+        "textbook_id": 149,
+        "topic_ids": [
+          1539
+        ],
+        "topics": [
+          "Numbers from 0 up to 5 000"
+        ],
+        "curriculum": "rwanda",
+        "grade": 3,
+        "className": "P3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / Subsidiary Mathematics SB S6",
+      "exam": false,
+      "body": {
+        "subject": "Subsidiary Mathematics SB S6",
+        "textbook_id": 187,
+        "topic_ids": [
+          1949,
+          1948
+        ],
+        "topics": [
+          "Unit 2: Logarithmic and Exponential Functions",
+          "Unit 1: Complex Numbers"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / Literature in English  S3 SB",
+      "exam": false,
+      "body": {
+        "subject": "Literature in English  S3 SB",
+        "textbook_id": 122,
+        "topic_ids": [
+          1291
+        ],
+        "topics": [
+          "Plot development"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "textbook_id": 190,
+        "topic_ids": [
+          2758,
+          2749
+        ],
+        "topics": [
+          "Chapter 16: Making halogenoalkanes",
+          "Chapter 7: What is a redox reaction?"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS _ A Level Chemistry Coursebook with Digital Access (2 Years) - Cambridge University Press (2020)",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Exam / Geography S4 SB",
+      "exam": true,
+      "body": {
+        "subject": "Geography S4 SB",
+        "textbook_id": 109,
+        "topic_ids": [
+          1157
+        ],
+        "topics": [
+          "Fishing in Rwanda"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge International AS & A Level Physics Coursebook",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge International AS & A Level Physics Coursebook",
+        "textbook_id": 22,
+        "topic_ids": [
+          319,
+          308
+        ],
+        "topics": [
+          "Chapter 18: Gravitational fields",
+          "Chapter 8: Electric fields"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge International AS & A Level Physics Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    }
+  ]
+}

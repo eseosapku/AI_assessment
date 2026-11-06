@@ -1,0 +1,484 @@
+{
+  "index": 13,
+  "label": "REB / Practice / GENERAL EDU-History-S5-SB",
+  "request": {
+    "subject": "GENERAL EDU-History-S5-SB",
+    "textbook_id": 100,
+    "topic_ids": [
+      1048
+    ],
+    "topics": [
+      "Impact of the Colonial Rule on the African Societies"
+    ],
+    "curriculum": "rwanda",
+    "grade": 11,
+    "className": "S5",
+    "style": "Test Style (Textbooks)",
+    "questionType": "interactive",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 18,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each term to its correct definition",
+        "matched_pairs": [
+          {
+            "left": "Colonialism",
+            "right": "A policy or practice by which one people or power exerts control over another"
+          },
+          {
+            "left": "Capitalism",
+            "right": "An economic and political system in which a country's trade and industry are controlled by private owners for profit, rather than by the state"
+          },
+          {
+            "left": "Exploitation",
+            "right": "The action of treating someone unfairly in order to benefit from their work"
+          },
+          {
+            "left": "Resistance",
+            "right": "The action of resisting something or someone"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Colonialism is defined as control by one power over another, Capitalism as a private-ownership economic system, Exploitation as unfair treatment for benefit, and Resistance as the act of opposing.",
+        "left_items": [
+          "Colonialism",
+          "Capitalism",
+          "Exploitation",
+          "Resistance"
+        ],
+        "right_items": [
+          "An economic and political system in which a country's trade and industry are controlled by private owners for profit, rather than by the state",
+          "A policy or practice by which one people or power exerts control over another",
+          "The action of resisting something or someone",
+          "The action of treating someone unfairly in order to benefit from their work"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "subtopic_id": 5048,
+        "topic_id": 1048,
+        "topic_label": "Definition of the Concepts: Colonialism and Capitalism",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Definition of the Concepts: Colonialism and Capitalism"
+        }
+      },
+      {
+        "id": 2,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put the stages of colonial rule in the correct order",
+        "ordered_items": [
+          "Establishment of colonial administration",
+          "Exploitation of resources",
+          "Introduction of new economic systems",
+          "Cultural assimilation policies"
+        ],
+        "marks": 4,
+        "explanation": "The stages begin with establishing administration, followed by resource exploitation, introduction of new economic systems, and finally, cultural assimilation policies.",
+        "items": [
+          "Introduction of new economic systems",
+          "Cultural assimilation policies",
+          "Exploitation of resources",
+          "Establishment of colonial administration"
+        ],
+        "correct_order": [
+          3,
+          2,
+          0,
+          1
+        ],
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      },
+      {
+        "id": 3,
+        "type": "interactive",
+        "kind": "true_false",
+        "question": "Mark each statement True or False",
+        "statements": [
+          "Colonialism led to the economic development of African societies",
+          "Capitalism contributed to wealth disparity in African societies",
+          "Colonial rule resulted in cultural enrichment for the colonized",
+          "Resistance movements were rare during colonial rule"
+        ],
+        "correct_answers": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "marks": 4,
+        "explanation": "Colonialism did not lead to economic development nor cultural enrichment, and resistance movements were common, hence the first, third, and fourth statements are false. Capitalism did contribute to wealth disparity.",
+        "checked": true,
+        "subtopic_id": 5047,
+        "topic_id": 1048,
+        "topic_label": "Colonialism and Capitalism",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Colonialism and Capitalism"
+        }
+      },
+      {
+        "id": 4,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Introduction of railways",
+          "Forced labour",
+          "Spread of education",
+          "Destruction of local industries"
+        ],
+        "correct_index": 2,
+        "marks": 1,
+        "explanation": "Spread of education is the odd one out as it is a positive impact, whereas the others are negative impacts of colonial rule.",
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      },
+      {
+        "id": 5,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each type of colonialism to its description",
+        "matched_pairs": [
+          {
+            "left": "Direct Rule",
+            "right": "Colonial power directly controls the administration"
+          },
+          {
+            "left": "Indirect Rule",
+            "right": "Colonial power governs through local rulers"
+          },
+          {
+            "left": "Protectorate",
+            "right": "Colonial power protects a territory in exchange for control over its foreign affairs"
+          },
+          {
+            "left": "Sphere of Influence",
+            "right": "A region in which a country has significant economic and political control"
+          }
+        ],
+        "marks": 4,
+        "explanation": "Direct Rule involves direct control, Indirect Rule involves governance through local rulers, a Protectorate involves protection in exchange for control over foreign affairs, and a Sphere of Influence involves significant control over a region.",
+        "left_items": [
+          "Direct Rule",
+          "Indirect Rule",
+          "Protectorate",
+          "Sphere of Influence"
+        ],
+        "right_items": [
+          "Colonial power governs through local rulers",
+          "A region in which a country has significant economic and political control",
+          "Colonial power directly controls the administration",
+          "Colonial power protects a territory in exchange for control over its foreign affairs"
+        ],
+        "correct_pairs": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      },
+      {
+        "id": 6,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category",
+        "categories": [
+          "Political Impact",
+          "Economic Impact"
+        ],
+        "items": [
+          "Introduction of new governance structures",
+          "Destruction of local industries",
+          "Forced labour",
+          "Disruption of traditional trade networks"
+        ],
+        "correct_category": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "marks": 4,
+        "explanation": "Introduction of new governance structures falls under political impact, while destruction of local industries, forced labour, and disruption of traditional trade networks fall under economic impact.",
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      },
+      {
+        "id": 7,
+        "type": "interactive",
+        "kind": "order",
+        "question": "Put these stages of colonial rule in the correct order",
+        "ordered_items": [
+          "Establishment of colonies",
+          "Economic exploitation",
+          "Introduction of new technologies",
+          "Cultural assimilation"
+        ],
+        "marks": 4,
+        "explanation": "Colonies were established first, then economic exploitation began (the primary colonial goal), followed by introduction of new technologies to support extraction, and finally cultural assimilation policies.",
+        "items": [
+          "Establishment of colonies",
+          "Introduction of new technologies",
+          "Economic exploitation",
+          "Cultural assimilation"
+        ],
+        "correct_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      },
+      {
+        "id": 8,
+        "type": "interactive",
+        "kind": "categorize",
+        "question": "Sort each item into the correct category: Economic or Social",
+        "categories": [
+          "Economic",
+          "Social"
+        ],
+        "items": [
+          "Introduction of cash crops",
+          "Disruption of traditional societies",
+          "Construction of infrastructure",
+          "Spread of Western education"
+        ],
+        "correct_category": [
+          1,
+          0,
+          1,
+          0
+        ],
+        "marks": 4,
+        "explanation": "Economic factors include cash crops (production for export) and infrastructure (roads, railways). Social factors include disruption of traditional societies and spread of Western education.",
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      },
+      {
+        "id": 9,
+        "type": "interactive",
+        "kind": "odd_one_out",
+        "question": "Tap the item that does NOT belong",
+        "items": [
+          "Cash crops",
+          "Infrastructure",
+          "Education",
+          "Weapons"
+        ],
+        "correct_index": 3,
+        "marks": 1,
+        "explanation": "Cash crops, infrastructure, and education were outcomes of colonial rule, while weapons were not a primary focus.",
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      },
+      {
+        "id": 10,
+        "type": "interactive",
+        "kind": "match",
+        "question": "Match each effect of colonisation to its description",
+        "matched_pairs": [
+          {
+            "left": "Urbanization",
+            "right": "The movement of people from rural areas to cities due to economic opportunities created by colonial rule."
+          },
+          {
+            "left": "Economic Dependency",
+            "right": "A situation where African economies became reliant on the export of raw materials to the colonizers."
+          },
+          {
+            "left": "Cultural Assimilation",
+            "right": "The process by which indigenous cultures were influenced and often eroded by the imposition of European culture."
+          },
+          {
+            "left": "Social Stratification",
+            "right": "The creation of new social classes based on race and economic status imposed by colonial rulers."
+          }
+        ],
+        "marks": 4,
+        "explanation": "Urbanisation refers to city growth, economic dependency to reliance on raw exports, cultural assimilation to cultural influence, and social stratification to new social classes.",
+        "left_items": [
+          "Urbanization",
+          "Economic Dependency",
+          "Cultural Assimilation",
+          "Social Stratification"
+        ],
+        "right_items": [
+          "A situation where African economies became reliant on the export of raw materials to the colonizers.",
+          "The process by which indigenous cultures were influenced and often eroded by the imposition of European culture.",
+          "The creation of new social classes based on race and economic status imposed by colonial rulers.",
+          "The movement of people from rural areas to cities due to economic opportunities created by colonial rule."
+        ],
+        "correct_pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "checked": true,
+        "topic_id": 1048,
+        "topic_label": "Impact of the Colonial Rule on the African Societies",
+        "source": {
+          "textbook": "GENERAL EDU-History-S5-SB",
+          "area": "Impact of the Colonial Rule on the African Societies"
+        }
+      }
+    ],
+    "estimated_time": 40,
+    "assessment_id": "76573c91-d0bd-44a0-b496-dc3adf554c40",
+    "subject": "GENERAL EDU-History-S5-SB",
+    "topics": [
+      "Impact of the Colonial Rule on the African Societies"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "interactive",
+    "textbook_id": 100,
+    "topic_ids": [
+      1048
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 4"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "2",
+        "severity": "poor",
+        "detail": "Question 2 and Question 7 are substantively identical (same stages in same order with minor wording variations). Both ask to order colonial rule stages: establishment → exploitation → new systems → cultural assimilation. This violates the no-repetition requirement.",
+        "correction": "Remove Question 7 or replace with distinct content (e.g., order specific resistance movements, colonial powers' chronology, or African societies' responses)."
+      },
+      {
+        "label": "8",
+        "severity": "broken",
+        "detail": "Categorization logic is inverted. Correct_category shows [1,0,1,0] but explanation states: cash crops and infrastructure are Economic, while disruption and education are Social. Array should be [0,1,0,1] to match the explanation.",
+        "correction": "Change correct_category from [1,0,1,0] to [0,1,0,1]."
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Explanation is weak. States 'weapons were not a primary focus' but weapons were integral to colonial conquest and enforcement. Better rationale: weapons are a means of colonization, not an outcome/impact like the others.",
+        "correction": "Revise explanation: 'Weapons enabled colonization but are not an impact/outcome of colonial rule, unlike cash crops, infrastructure, and education which resulted from it.'"
+      }
+    ],
+    "summary": "Assessment covers topic appropriately with age-suitable interactive formats. Critical issue: Question 2 and 7 duplicate identical content (colonial stages ordering). Question 8 has inverted categorization array. Question 9 explanation lacks clarity on why weapons differ. Recommend removing Q7 and correcting Q8 array."
+  },
+  "totalSeconds": 22
+}

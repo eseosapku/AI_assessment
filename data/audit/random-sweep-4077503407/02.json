@@ -1,0 +1,293 @@
+{
+  "index": 2,
+  "label": "REB / Practice / P2-English-PB",
+  "request": {
+    "subject": "P2-English-PB",
+    "textbook_id": 146,
+    "topic_ids": [
+      1512,
+      1520
+    ],
+    "topics": [
+      "Greetings, introductions and talking about school",
+      "Counting and writing"
+    ],
+    "curriculum": "rwanda",
+    "grade": 2,
+    "className": "P2",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mcq",
+    "count": 10,
+    "difficultyLevel": "beginner"
+  },
+  "seed": 4077503407,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 33,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "mcq",
+        "question": "What is the first letter of the word 'school'?",
+        "options": [
+          "s",
+          "c",
+          "h",
+          "l"
+        ],
+        "correct_answer": 0,
+        "explanation": "The first letter of the word 'school' is 's'. The other options, 'c', 'h', and 'l', are not the first letter of the word 'school'. 'c' is the second letter, 'h' is the third letter, and 'l' is the sixth letter.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Greetings, introductions and talking about school",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "Greetings, introductions and talking about school"
+        }
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "Which of these words means to say hello?",
+        "options": [
+          "Goodbye",
+          "Hello",
+          "Welcome",
+          "Bye"
+        ],
+        "correct_answer": 1,
+        "explanation": "The word 'Hello' is used to say hello. 'Goodbye' is used to say farewell, 'Welcome' is used to greet someone, and 'Bye' is another way to say goodbye.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Greetings, introductions and talking about school",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "What is the middle letter of the word 'class'?",
+        "options": [
+          "c",
+          "l",
+          "a",
+          "s"
+        ],
+        "correct_answer": 2,
+        "explanation": "The word 'class' has five letters: c-l-a-s-s. The middle letter is 'a'.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Counting and writing",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "What do you say when you want to introduce yourself?",
+        "options": [
+          "See you",
+          "Goodbye",
+          "Thank you",
+          "My name is..."
+        ],
+        "correct_answer": 3,
+        "explanation": "When you want to introduce yourself, you say 'My name is...'. 'Goodbye' is used to say farewell, 'Thank you' is used to show appreciation, and 'See you' is another way to say goodbye.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Greetings, introductions and talking about school",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "What is the last letter of the word 'teacher'?",
+        "options": [
+          "r",
+          "e",
+          "h",
+          "c"
+        ],
+        "correct_answer": 0,
+        "explanation": "The last letter of the word 'teacher' is 'r'. The other options, 'e', 'h', and 'c', are not the last letter of the word 'teacher'. 'e' is the second last letter, 'h' is the fourth letter, and 'c' is the third letter.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Counting and writing",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which sentence talks about school?",
+        "options": [
+          "I love to play",
+          "I go to school",
+          "I like ice cream",
+          "I have a pet"
+        ],
+        "correct_answer": 1,
+        "explanation": "The sentence 'I go to school' talks about school. The other sentences talk about playing, eating ice cream, and having a pet, not school.",
+        "checked": true,
+        "subtopic_id": 7701,
+        "topic_id": 1512,
+        "topic_label": "Talk about your school",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "Talk about your school"
+        }
+      },
+      {
+        "id": 7,
+        "type": "mcq",
+        "question": "How do you write the number 3?",
+        "options": [
+          "789",
+          "123",
+          "3",
+          "456"
+        ],
+        "correct_answer": 2,
+        "explanation": "The number 3 is written as '3'. '123', '456', and '789' are other numbers and not the way to write 3.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Greetings, introductions and talking about school",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What do you say when you meet someone new?",
+        "options": [
+          "See you",
+          "Bye",
+          "Goodbye",
+          "Hello"
+        ],
+        "correct_answer": 3,
+        "explanation": "When you meet someone new, you say 'Hello'. 'Goodbye', 'See you', and 'Bye' are used when you are leaving someone.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Counting and writing",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "What do you say to greet a friend?",
+        "options": [
+          "Hello",
+          "Goodbye",
+          "See you",
+          "Bye"
+        ],
+        "correct_answer": 0,
+        "explanation": "'Hello' is the word used to greet someone, especially a friend. 'Goodbye', 'See you', and 'Bye' are words used to say farewell, not to greet someone. So, the correct answer is 'Hello'.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Greetings, introductions and talking about school",
+        "source": {
+          "textbook": "P2-English-PB"
+        }
+      },
+      {
+        "id": 10,
+        "type": "mcq",
+        "question": "Which word starts with the same sound as'school'?",
+        "options": [
+          "Ship",
+          "Shoes",
+          "Sun",
+          "Sky"
+        ],
+        "correct_answer": 3,
+        "explanation": "School and Sky both start with the 'sk' sound. The other words start with different sounds.",
+        "checked": true,
+        "topic_id": 1512,
+        "topic_label": "Greetings, introductions and talking about school",
+        "source": {
+          "textbook": "P2-English-PB",
+          "area": "Greetings, introductions and talking about school"
+        }
+      }
+    ],
+    "estimated_time": 20,
+    "assessment_id": "f6d06093-961a-4b67-a898-1e583db9a0cc",
+    "subject": "P2-English-PB",
+    "topics": [
+      "Greetings, introductions and talking about school",
+      "Counting and writing"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mcq",
+    "textbook_id": 146,
+    "topic_ids": [
+      1512,
+      1520
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "no-option-fits",
+      "severity": "broken",
+      "index": 9,
+      "detail": "no option fits \"school\": Ship, Shoes, Sun, Sky"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Question asks 'How do you write the number 3?' but topic is 'Greetings, introductions and talking about school', not 'Counting and writing'. This is a topic mismatch.",
+        "correction": "Change topic_label to 'Counting and writing' to match the question content"
+      },
+      {
+        "label": "8",
+        "severity": "poor",
+        "detail": "Question asks 'What do you say when you meet someone new?' which is about greetings/introductions, but topic is labeled 'Counting and writing'. This is a topic mismatch.",
+        "correction": "Change topic_label to 'Greetings, introductions and talking about school' to match the question content"
+      },
+      {
+        "label": "10",
+        "severity": "broken",
+        "detail": "The correct answer is marked as index 3 ('Sky'), but 'school' starts with /sk/ sound while 'Sky' starts with /sk/ sound, 'Ship' and 'Shoes' start with /ʃ/ sound. However, 'Ship' (index 0) also starts with 'sh' like the 'sch' in 'school' phonetically. The /sk/ vs /ʃ/ distinction makes 'Sky' correct, but this is confusing for grade 2.",
+        "correction": "Correct answer index 3 ('Sky') is acceptable as both start with /sk/ sound, though the question may be too subtle for grade 2"
+      }
+    ],
+    "summary": "Assessment has 10 MCQ questions covering requested topics. Two questions (7, 8) have topic label mismatches with their content. Question 10's phonetic distinction may be challenging for grade 2 but is technically correct. All answers are unique, factually correct, and age-appropriate otherwise."
+  },
+  "totalSeconds": 42
+}

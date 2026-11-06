@@ -1,0 +1,288 @@
+{
+  "index": 2,
+  "label": "REB / Practice / GENERAL EDU-Chemistry-S2-SB",
+  "request": {
+    "subject": "GENERAL EDU-Chemistry-S2-SB",
+    "textbook_id": 94,
+    "topic_ids": [
+      974,
+      972
+    ],
+    "topics": [
+      "Categories of Chemical Reactions",
+      "Water Pollution"
+    ],
+    "curriculum": "rwanda",
+    "grade": 8,
+    "className": "S2",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3392178121,
+  "error": "ValidationException: Access to Anthropic models is not allowed for this account.",
+  "stage": "complete",
+  "generationSeconds": 26,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Describe the major categories of chemical reactions and give one example for each type. For each example, state whether the reaction is endothermic or exothermic.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the major categories of chemical reactions.",
+          "Provide one example for each type.",
+          "State whether each example is endothermic or exothermic."
+        ],
+        "hints": [
+          "Describe the categories first, then give examples with endothermic/exothermic labels."
+        ],
+        "model_answer": "Chemical reactions are mainly categorized into synthesis, decomposition, single replacement, and double replacement. An example of a synthesis reaction is the combination of hydrogen and oxygen to form water, which is exothermic. A decomposition reaction example is the breakdown of calcium carbonate into calcium oxide and carbon dioxide, which is endothermic. In a single replacement reaction, zinc reacts with copper sulfate to form zinc sulfate and copper, which is exothermic. Lastly, a double replacement reaction example is the reaction between silver nitrate and sodium chloride to form silver chloride and sodium nitrate, which is also exothermic.",
+        "explanation": "You will earn marks by correctly identifying and describing each type of chemical reaction, providing clear examples, and stating accurately whether each reaction is endothermic or exothermic. This demonstrates your understanding of the different reaction types and their energy changes.",
+        "subtopic_id": 4669,
+        "topic_id": 974,
+        "topic_label": "Classification of Chemical Reactions as Endothermic and Exothermic Reactions",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Classification of Chemical Reactions as Endothermic and Exothermic Reactions"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Explain how water pollution occurs and describe its dangers to human health.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain how water pollution occurs.",
+          "Describe its dangers to human health."
+        ],
+        "hints": [
+          "Stay focused on this: Explain how water pollution occurs and describe its dangers to human health — develop the idea fully rather than listing short points. Make sure you also cover: its dangers to human health."
+        ],
+        "model_answer": "Water pollution occurs when harmful substances, such as chemicals, bacteria, and plastics, contaminate water bodies. Industrial discharges, agricultural runoff, and sewage are major sources. Polluted water can cause diseases such as cholera, dysentery, and typhoid, leading to severe health issues including gastrointestinal disorders and long-term organ damage. Contaminants can also disrupt the endocrine system, leading to reproductive and developmental problems. Proper water treatment and pollution control measures are crucial to safeguard public health.",
+        "explanation": "You will earn marks by explaining the sources and mechanisms of water pollution and detailing the specific health risks associated with it. This shows your ability to connect environmental issues with human health.",
+        "subtopic_id": 4662,
+        "topic_id": 972,
+        "topic_label": "Dangers of Polluted Water",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Dangers of Polluted Water"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Look at the diagram. Which principle about paying for pollution, used to protect rivers and lakes from factory waste, does the factory equal money bag picture show?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "polluter pays principle",
+            "the polluter pays principle",
+            "polluter pays",
+            "the polluter pays",
+            "polluter-pays principle"
+          ]
+        },
+        "explanation": "The factory producing smoke is shown equal to a bag of money marked Frw. This means whoever causes pollution must pay for the damage or its cleanup. This idea is called the polluter pays principle.",
+        "image_url": "/textbook-images/rwanda/94/page77-embedded-0.jpeg",
+        "topic_label": "Water Pollution",
+        "vetted": true,
+        "image_alt": "On the left, a dark teal silhouette of a factory with four chimneys of different heights. Smoke rises from the chimneys and curls upward. An equals sign sits in the middle. On the right is a money bag with the letters \"Frw\" printed on it. The picture shows the polluter pays principle: pollution equals money paid. Printed on it: Frw.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Which principle about paying for pollution, used to protect rivers and lakes from factory waste, does the factory equal money bag picture show."
+        ],
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Calculate the amount of heat released when 50 g of water is cooled from 80°C to 25°C. The specific heat capacity of water is 4.18 J/g°C. Show your work.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify the relevant formula.",
+          "Substitute the given values into the formula.",
+          "Perform the calculation accurately.",
+          "Provide the answer with correct units."
+        ],
+        "hints": [
+          "Use the specific heat capacity formula q = mcΔT, where q is heat, m is mass, c is specific heat, and ΔT is temperature change."
+        ],
+        "model_answer": "To calculate the heat released, we use the formula q = mcΔT. Here, m = 50 g, c = 4.18 J/g°C, and ΔT = 80°C - 25°C = 55°C. Substituting these values, we get q = 50 g × 4.18 J/g°C × 55°C = 11499 J. Therefore, the amount of heat released is 11499 Joules.",
+        "explanation": "You will earn marks by correctly identifying and applying the specific heat capacity formula, performing the calculation accurately, and providing the answer with the correct units. This demonstrates your ability to apply mathematical concepts to solve chemistry problems.",
+        "topic_label": "Water Pollution",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Water Pollution"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "Explain how different pollutants in water affect aquatic life. Use examples to support your explanation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain how different pollutants affect aquatic life.",
+          "Use examples to support your explanation."
+        ],
+        "hints": [
+          "Discuss specific pollutants and their impacts, providing relevant examples."
+        ],
+        "model_answer": "Different pollutants in water have various effects on aquatic life. For instance, heavy metals like lead and mercury can accumulate in fish, making them toxic to consume and harming the entire food chain. Pesticides, such as DDT, can disrupt the reproductive systems of aquatic organisms, leading to population declines. Oil spills coat the gills of fish, preventing them from breathing and often resulting in death. Nutrient pollution, from fertilizers, causes algal blooms that deplete oxygen levels, leading to fish kills. These examples illustrate how pollutants can severely disrupt aquatic ecosystems and biodiversity.",
+        "explanation": "You will earn marks by explaining the specific effects of different pollutants on aquatic life and providing clear examples to support your points. This demonstrates your understanding of the connections between environmental pollutants and their biological impacts.",
+        "subtopic_id": 4661,
+        "topic_id": 972,
+        "topic_label": "Main Water Pollutants",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Main Water Pollutants"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "Explain why reducing water pollution is important for ensuring a clean future. Include measures that can be taken to achieve this goal.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain why reducing water pollution is important.",
+          "Include measures that can be taken to achieve this goal."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Reducing water pollution is crucial for ensuring a clean future because clean water is essential for drinking, agriculture, and maintaining healthy ecosystems. Polluted water can lead to diseases, harm wildlife, and degrade natural habitats. To achieve this goal, measures such as implementing stricter industrial regulations, promoting sustainable agricultural practices, improving wastewater treatment facilities, and increasing public awareness about the importance of water conservation are necessary. These actions help protect water resources, ensuring they remain available and safe for future generations.",
+        "explanation": "You will earn marks by explaining the importance of reducing water pollution and proposing specific measures to achieve this goal. This demonstrates your understanding of environmental issues and solutions.",
+        "subtopic_id": 4664,
+        "topic_id": 972,
+        "topic_label": "Our Clean Future",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Our Clean Future"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe the consequences of water pollution on ecosystems and propose solutions to mitigate its effects.",
+        "marks": 2,
+        "marking_criteria": [
+          "Describe the consequences of water pollution on ecosystems.",
+          "Propose solutions to mitigate its effects."
+        ],
+        "hints": [
+          "Discuss the specific impacts on ecosystems and suggest practical solutions."
+        ],
+        "model_answer": "Water pollution has severe consequences on ecosystems, including the loss of biodiversity, disruption of food chains, and degradation of habitats. For instance, pollutants like heavy metals can accumulate in the tissues of aquatic organisms, leading to toxic effects and population declines. Oil spills can smother marine life, causing death and habitat destruction. To mitigate these effects, solutions such as implementing stricter pollution controls, promoting sustainable waste management practices, restoring polluted water bodies, and educating communities about the importance of clean water are essential. These measures help protect ecosystems, ensuring their resilience and health.",
+        "explanation": "You will earn marks by describing the specific consequences of water pollution on ecosystems and proposing practical solutions to mitigate its effects. This shows your ability to connect environmental issues with ecosystem health and propose effective solutions.",
+        "subtopic_id": 4663,
+        "topic_id": 972,
+        "topic_label": "Prevention of Water Pollution",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Prevention of Water Pollution"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "Look at the photograph. Name one method that could make the \"Polluted water\" look like the \"Clean water\", and explain how it works.",
+        "marks": 2,
+        "marking_criteria": [
+          "Names a suitable method, such as filtration (or sedimentation/decantation, or coagulation then filtration).",
+          "Explains that the method removes the insoluble solid particles (soil, mud), which cause the brown colour, from the water, for example because they are trapped by the filter paper or sand."
+        ],
+        "model_answer": "Filtration can be used. The water is passed through filter paper or sand, which traps the insoluble brown particles such as soil and lets the water pass through, so the filtrate looks clear.",
+        "explanation": "A strong answer names one correct separation method and says how it works: it removes the insoluble particles that make the polluted water brown. Remember that filtering alone does not remove dissolved germs, so the water may still need to be boiled or treated with chlorine.",
+        "image_url": "/textbook-images/rwanda/94/page66-embedded-0.jpeg",
+        "topic_label": "Dangers of Polluted Water",
+        "vetted": true,
+        "image_alt": "Two identical tall drinking glasses side by side, each filled with liquid. The left glass holds brown, murky liquid labelled \"Polluted water\". The right glass holds clear, colourless liquid labelled \"Clean water\". Printed on it: Polluted water | Clean water.",
+        "hints": [
+          "Structure your answer around both demands: Look at the photograph; then Name one method that could make the \"Polluted water\" look like the \"Clean water\", and explain how it works. Make sure you also cover: a suitable method, as (or sedimentation/decantation, or coagulation then."
+        ],
+        "subtopic_id": 4662,
+        "topic_id": 972,
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Dangers of Polluted Water"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Explain the differences between physical and chemical water pollutants, giving examples of each. Additionally, describe how each type of pollutant affects water quality and aquatic life.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify physical pollutants and give examples.",
+          "Identify chemical pollutants and give examples.",
+          "Describe the effects of physical pollutants on water quality and aquatic life.",
+          "Describe the effects of chemical pollutants on water quality and aquatic life."
+        ],
+        "hints": [
+          "Start by defining physical and chemical pollutants, then provide examples and effects."
+        ],
+        "model_answer": "Physical pollutants in water include sediments and plastics, which can clog gills and reduce light penetration, affecting aquatic life. Chemical pollutants like nitrates and phosphates cause eutrophication, leading to algal blooms and oxygen depletion, harming aquatic organisms. Both types degrade water quality, but in different ways, impacting both ecosystems and human health.",
+        "explanation": "You will earn marks by clearly identifying and explaining both physical and chemical pollutants, providing specific examples, and detailing their distinct effects on water quality and aquatic life.",
+        "subtopic_id": 4661,
+        "topic_id": 972,
+        "topic_label": "Main Water Pollutants",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Main Water Pollutants"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Describe the process of water pollution prevention and include methods used to reduce both physical and chemical pollutants.",
+        "marks": 3,
+        "marking_criteria": [
+          "Describe the general process of water pollution prevention.",
+          "Include methods to reduce physical pollutants.",
+          "Include methods to reduce chemical pollutants."
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "Water pollution prevention involves monitoring, regulation, and community engagement. To reduce physical pollutants, methods include waste management systems and sedimentation control. For chemical pollutants, treatment plants and agricultural practices that minimize fertilizer use are effective. These strategies aim to maintain water quality and protect aquatic ecosystems.",
+        "explanation": "You will earn marks by describing the prevention process and detailing specific methods for reducing physical and chemical pollutants, showing an understanding of their roles in water quality management.",
+        "subtopic_id": 4663,
+        "topic_id": 972,
+        "topic_label": "Prevention of Water Pollution",
+        "source": {
+          "textbook": "GENERAL EDU-Chemistry-S2-SB",
+          "area": "Prevention of Water Pollution"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "a3f4cfc1-8c29-4231-b718-788f42079dc5",
+    "subject": "GENERAL EDU-Chemistry-S2-SB",
+    "topics": [
+      "Categories of Chemical Reactions",
+      "Water Pollution"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 94,
+    "topic_ids": [
+      974,
+      972
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 2,
+  "imageErrors": [],
+  "reviewModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "totalSeconds": 28
+}

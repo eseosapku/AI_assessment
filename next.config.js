@@ -19,7 +19,7 @@ const nextConfig = {
   // route and none of the papers, and every Cambridge quiz is generated
   // with no past-paper style.
   outputFileTracingIncludes: {
-    '/api/generate-assessment': ['./systems/cambridge/style/**/*'],
+    '/api/generate-assessment': ['./systems/cambridge/style/**/*', './data/past-paper-references.json'],
   },
   outputFileTracingExcludes: {
     '*': [

@@ -1,0 +1,1090 @@
+{
+  "index": 7,
+  "label": "REB / Exam / Geography SB S6",
+  "request": {
+    "subject": "Geography SB S6",
+    "textbook_id": 112,
+    "topic_ids": [
+      1191
+    ],
+    "topics": [
+      "World Multipurpose River Projects"
+    ],
+    "curriculum": "rwanda",
+    "grade": 12,
+    "className": "S6",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 198,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of percentage",
+          "Use of appropriate formula and units"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation — develop the idea fully rather than listing short points. Make sure you also cover: of appropriate formula and units."
+        ],
+        "model_answer": "Calculation: (50 m³/s / 200 m³/s) * 100 = 25%. The percentage of the total water flow rate allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power, divide the water flow rate for hydroelectric power by the total water flow rate and multiply by 100.",
+        "exam_question_id": "c6b9ccbe-26d2-497a-9807-69e35af84e98:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of sedimentation problem",
+          "Explanation of the impact on the river project",
+          "Use of relevant geographical concepts"
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identification of sedimentation problem; of relevant geographical concepts."
+        ],
+        "model_answer": "Sedimentation in the multipurpose river project can lead to the accumulation of silt and sediment in the riverbed, which can reduce the capacity of the river to hold water. This can cause flooding during heavy rains and reduce the efficiency of hydroelectric power generation. Additionally, sedimentation can clog irrigation canals, reducing the amount of water available for irrigation. This can lead to decreased agricultural productivity and increased water scarcity in the region.",
+        "explanation": "Sedimentation can have significant impacts on a multipurpose river project by affecting water flow, reducing the efficiency of hydroelectric power generation, and clogging irrigation canals, which can lead to decreased agricultural productivity and water scarcity.",
+        "exam_question_id": "c6b9ccbe-26d2-497a-9807-69e35af84e98:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of water pollution problem",
+          "Explanation of the impact on drinking water supply",
+          "Use of relevant geographical concepts"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: of relevant geographical concepts."
+        ],
+        "model_answer": "Water pollution in the multipurpose river project can introduce harmful substances such as chemicals, heavy metals, and pathogens into the water supply. These pollutants can originate from industrial discharges, agricultural runoff, and sewage. When these pollutants enter the river, they can contaminate the drinking water supply, leading to health issues such as gastrointestinal diseases, neurological disorders, and cancer. The polluted water can also affect the taste and odor of the drinking water, making it less acceptable to consumers. To mitigate this problem, the project should implement effective water treatment processes and monitor water quality regularly.",
+        "explanation": "Water pollution can have severe impacts on the drinking water supply by introducing harmful substances that can cause health issues and affect the taste and odour of the water. Effective water treatment processes and regular water quality monitoring are essential to mitigate these impacts.",
+        "exam_question_id": "c6b9ccbe-26d2-497a-9807-69e35af84e98:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the water flow rate for hydroelectric power (50 m³/s).",
+          "Correctly identify the total water flow rate (200 m³/s).",
+          "Correctly calculate the percentage using the formula: (Hydroelectric power flow rate / Total water flow rate) * 100."
+        ],
+        "hints": [
+          "Remember to convert the fraction to a percentage."
+        ],
+        "model_answer": "To calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation: \n\nHydroelectric power flow rate = 50 m³/s \nTotal water flow rate = 200 m³/s \n\nPercentage = (50 / 200) * 100 = 25%. \n\nThe percentage of the total water flow rate that is allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power, divide the water flow rate for hydroelectric power by the total water flow rate and then multiply by 100 to convert it to a percentage.",
+        "exam_question_id": "c0d0df47-4834-417f-8665-fff6db8e7eeb:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify a specific problem related to sedimentation.",
+          "Explain how sedimentation can cause this problem.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identify a specific problem related to sedimentation.; Provide a clear and coherent explanation."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is reduced river depth. Sedimentation can lead to the accumulation of silt and debris at the bottom of the river, which can decrease the river's depth. This reduced depth can hinder the flow of water, making it difficult to meet the water demands for irrigation, hydroelectric power, and drinking water. Additionally, reduced depth can also affect the efficiency of hydroelectric power generation by limiting the amount of water that can pass through the turbines.",
+        "explanation": "Sedimentation can lead to a buildup of silt and debris in the river, reducing its depth. This can affect the water flow, making it harder to meet the demands for irrigation, hydroelectric power, and drinking water. It can also reduce the efficiency of hydroelectric power generation.",
+        "exam_question_id": "c0d0df47-4834-417f-8665-fff6db8e7eeb:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the potential sources of water pollution.",
+          "Explain how water pollution can contaminate the drinking water supply.",
+          "Provide a clear and coherent description."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: Identify the potential sources of water pollution.; Provide a clear and coherent description."
+        ],
+        "model_answer": "Water pollution can significantly affect the drinking water supply in the nearby city. Pollutants such as industrial waste, agricultural runoff, and sewage can enter the river, contaminating the water. These pollutants can include harmful chemicals, heavy metals, and pathogens. If the river water is used for drinking without proper treatment, it can lead to waterborne diseases and other health issues for the city's residents. Additionally, the presence of pollutants can also affect the taste and odor of the water, making it less desirable for consumption.",
+        "explanation": "Water pollution can introduce harmful substances into the river, which can then contaminate the drinking water supply. This can lead to health issues for the city's residents and affect the quality of the water.",
+        "exam_question_id": "c0d0df47-4834-417f-8665-fff6db8e7eeb:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the total water flow rate and the water demand for hydroelectric power.",
+          "Calculate the percentage of the total water flow rate allocated for hydroelectric power generation.",
+          "Provide the final answer with the correct units and precision."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer with the correct units and precision."
+        ],
+        "model_answer": "Water demand for hydroelectric power = 50 m³/s\nTotal water flow rate = 200 m³/s\n\nPercentage = (50 / 200) * 100% = 25%\n\nThe percentage of the total water flow rate that is allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power generation, divide the water demand for hydroelectric power by the total water flow rate and multiply by 100%. This will give you the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "exam_question_id": "93ec7f55-44ca-4884-b7f6-656917e3f8e7:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify a specific problem caused by sedimentation.",
+          "Explain the impact of sedimentation on the identified problem.",
+          "Provide a clear and concise explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identify a specific problem caused by sedimentation.; Provide a clear and concise explanation."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is the reduction in the river's capacity to carry water. Sedimentation can lead to the accumulation of sediments at the bottom of the river, which reduces the depth and width of the river channel. This can result in a decrease in the river's flow rate, making it difficult to meet the water demands for irrigation, hydroelectric power generation, and drinking water supply. Reduced water flow can also lead to the formation of sandbars and shoals, which can obstruct navigation and hinder the transportation of goods and people.",
+        "explanation": "Sedimentation can lead to a reduction in the river's capacity to carry water, which can have significant consequences for the project's objectives. This can result in a decrease in the river's flow rate, making it difficult to meet the water demands for irrigation, hydroelectric power generation, and drinking water supply. Additionally, reduced water flow can lead to the formation of sandbars and shoals, which can obstruct navigation and hinder the transportation of goods and people.",
+        "exam_question_id": "93ec7f55-44ca-4884-b7f6-656917e3f8e7:1",
+        "topic_label": "Definition, aim, objectives and importance of multipurpose river Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5866,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Definition, aim, objectives and importance of multipurpose river Projects"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the potential sources of water pollution.",
+          "Explain how water pollution can contaminate the drinking water supply.",
+          "Describe the potential health impacts of contaminated drinking water."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "Water pollution can affect the drinking water supply in the nearby city in several ways. Industrial waste, agricultural runoff, and sewage discharge are common sources of water pollution. These pollutants can enter the river and contaminate the water, making it unsafe for drinking. Contaminated water can contain harmful chemicals, heavy metals, and pathogens that can cause various health problems, including gastrointestinal illnesses, reproductive issues, and neurological disorders. The presence of these contaminants in the drinking water supply can lead to an increased risk of disease and other health complications for the residents of the nearby city.",
+        "explanation": "Water pollution can have serious consequences for the drinking water supply in the nearby city. Pollutants such as industrial waste, agricultural runoff, and sewage discharge can enter the river and contaminate the water, making it unsafe for drinking. Contaminated water can contain harmful chemicals, heavy metals, and pathogens that can cause various health problems, including gastrointestinal illnesses, reproductive issues, and neurological disorders. The presence of these contaminants in the drinking water supply can lead to an increased risk of disease and other health complications for the residents of the nearby city.",
+        "exam_question_id": "93ec7f55-44ca-4884-b7f6-656917e3f8e7:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the percentage",
+          "Use of the correct formula",
+          "Clear and accurate final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the percentage; of the correct; Clear and accurate final answer."
+        ],
+        "model_answer": "To calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation, we use the formula: \n\n(Water demand for hydroelectric power / Total water flow rate) * 100 = (50 m³/s / 200 m³/s) * 100 = 25%\n\nThe percentage of the total water flow rate that is allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power generation, divide the water demand for hydroelectric power by the total water flow rate and multiply by 100.",
+        "exam_question_id": "01a2487b-35ae-4616-85cd-b7e598850d1f:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of a relevant problem caused by sedimentation",
+          "Clear explanation of the problem",
+          "Connection to the multipurpose river project context"
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identification of a relevant problem caused by sedimentation; Clear explanation of the problem."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is the reduction in the river's capacity to hold water. As sediment accumulates in the riverbed, the water depth decreases, which can lead to reduced water flow and efficiency in hydroelectric power generation. Additionally, sedimentation can clog irrigation canals, reducing the amount of water available for irrigation. This can also affect the quality of drinking water if the sediment contains pollutants.",
+        "explanation": "Sedimentation can lead to a decrease in the river's capacity to hold water, which affects hydroelectric power generation, irrigation, and drinking water quality.",
+        "exam_question_id": "01a2487b-35ae-4616-85cd-b7e598850d1f:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of how water pollution affects drinking water",
+          "Clear description of the impact",
+          "Connection to the multipurpose river project context"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: Clear description of the impact; Connection to the multipurpose project context."
+        ],
+        "model_answer": "Water pollution could affect the drinking water supply in the nearby city by introducing harmful contaminants into the river. Pollutants such as industrial waste, agricultural runoff containing pesticides and fertilizers, and sewage can enter the river and contaminate the water. This contaminated water, if not properly treated before being supplied to the city, can lead to health issues for the residents, such as gastrointestinal illnesses, reproductive problems, and even long-term chronic diseases. Therefore, it is crucial to implement effective water treatment processes to ensure the safety and quality of the drinking water supply.",
+        "explanation": "Water pollution introduces harmful contaminants into the river, which can affect the drinking water supply and lead to health issues for the residents if not properly treated.",
+        "exam_question_id": "01a2487b-35ae-4616-85cd-b7e598850d1f:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the total water flow rate and the water demand for hydroelectric power.",
+          "Calculate the percentage of the total water flow rate allocated for hydroelectric power.",
+          "Provide the final answer with the correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer with the correct units."
+        ],
+        "model_answer": "Total water flow rate = 200 m³/s\nWater demand for hydroelectric power = 50 m³/s\n\nPercentage = (50 / 200) * 100 = 25%.\n\nThe percentage of the total water flow rate allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power, divide the water demand for hydroelectric power by the total water flow rate and then multiply by 100 to convert it to a percentage.",
+        "exam_question_id": "bb42175a-920a-4861-9e79-e1e0690bb075:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the impact of sedimentation on the river project.",
+          "Explain the specific problem caused by sedimentation.",
+          "Provide a clear and relevant explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Provide a clear and relevant explanation."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is the reduction in the efficiency of hydroelectric power generation. Sediments can accumulate in the riverbed and around the turbines, leading to reduced water flow and power output. This can also increase maintenance costs and reduce the lifespan of the hydroelectric infrastructure.",
+        "explanation": "Sedimentation can lead to a buildup of sediments in the river, which can obstruct water flow and reduce the efficiency of hydroelectric power generation. This can result in decreased power output and increased maintenance costs.",
+        "exam_question_id": "bb42175a-920a-4861-9e79-e1e0690bb075:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the impact of water pollution on the river project.",
+          "Explain how water pollution can affect the drinking water supply.",
+          "Provide a clear and relevant explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: Identify the impact of water pollution on the project.; Provide a clear and relevant explanation."
+        ],
+        "model_answer": "Water pollution can significantly affect the drinking water supply in the nearby city by introducing harmful contaminants into the river. These contaminants can include chemicals, heavy metals, and pathogens from industrial discharge, agricultural runoff, and sewage. If the polluted water is used for drinking without proper treatment, it can lead to waterborne diseases, health issues, and a decline in water quality. This can compromise the safety and reliability of the drinking water supply.",
+        "explanation": "Water pollution can introduce harmful contaminants into the river, which can affect the quality of water used for drinking. Proper treatment and monitoring are necessary to ensure the safety and reliability of the drinking water supply.",
+        "exam_question_id": "bb42175a-920a-4861-9e79-e1e0690bb075:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the percentage.",
+          "Correct use of the formula for percentage.",
+          "Correct final answer."
+        ],
+        "hints": [
+          "Use the formula: (Part/Whole) * 100% to calculate the percentage."
+        ],
+        "model_answer": "The percentage of the total water flow rate allocated for hydroelectric power generation is calculated as follows: \n\n(50 m³/s / 200 m³/s) * 100% = 25%.\n\nThe percentage is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power generation, divide the water demand for hydroelectric power by the total water flow rate and multiply by 100%.",
+        "exam_question_id": "a33954dd-14e7-46ee-8747-dbe14a3155d4:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of a relevant problem caused by sedimentation.",
+          "Clear explanation of how sedimentation leads to the problem.",
+          "Relevance to the multipurpose river project."
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identification of a relevant problem caused by sedimentation.; Clear explanation of how sedimentation leads to the problem."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is the reduction in the river's capacity to hold water. Sediment accumulation can lead to a decrease in the depth and width of the river channel, which can reduce the overall flow rate. This can affect the project's ability to meet the water demands for irrigation, hydroelectric power generation, and drinking water supply.",
+        "explanation": "Sedimentation can fill up the river channel, reducing its capacity to hold water. This can lead to decreased flow rates, which can impact the project's ability to meet various water demands.",
+        "exam_question_id": "a33954dd-14e7-46ee-8747-dbe14a3155d4:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the impact of water pollution on drinking water.",
+          "Clear explanation of the potential consequences.",
+          "Relevance to the multipurpose river project."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: Clear explanation of the potential consequences.; Relevance to the multipurpose project."
+        ],
+        "model_answer": "Water pollution could affect the drinking water supply in the nearby city by introducing harmful contaminants into the water. Pollutants such as industrial waste, agricultural runoff, and sewage can contain toxic chemicals, pathogens, and heavy metals. If these pollutants are not properly treated before being released into the river, they can contaminate the water supply, posing health risks to the city's residents. This can lead to waterborne diseases and other health issues.",
+        "explanation": "Water pollution introduces harmful substances into the river, which can contaminate the drinking water supply. This can lead to serious health issues for the people relying on this water.",
+        "exam_question_id": "a33954dd-14e7-46ee-8747-dbe14a3155d4:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the water flow rate for hydroelectric power (50 m³/s).",
+          "Correctly identify the total water flow rate (200 m³/s).",
+          "Correctly calculate the percentage using the formula: (Hydroelectric Power Water Demand / Total Water Flow Rate) * 100."
+        ],
+        "hints": [
+          "Use the formula for percentage: (part/whole) * 100."
+        ],
+        "model_answer": "Percentage = (50 m³/s / 200 m³/s) * 100 = 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power, divide the water flow rate for hydroelectric power by the total water flow rate, then multiply by 100 to convert it to a percentage.",
+        "exam_question_id": "c63a442f-8ded-44df-b198-aa2019d4814a:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify a specific problem related to sedimentation.",
+          "Explain how the identified problem can occur due to sedimentation.",
+          "Describe the potential impact of the problem on the river project."
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identify a specific problem related to sedimentation."
+        ],
+        "model_answer": "One problem that could arise from sedimentation is the reduction in the river's depth, which can lead to decreased water flow. Sedimentation can cause the riverbed to rise, reducing the available water volume for irrigation, hydroelectric power generation, and drinking water supply. This can result in less effective irrigation, reduced hydroelectric power output, and potential water shortages for the nearby city.",
+        "explanation": "Sedimentation can accumulate in the riverbed, raising its level and reducing the effective depth of the river. This can decrease the water flow, impacting the project's ability to meet its demands for irrigation, hydroelectric power, and drinking water.",
+        "exam_question_id": "c63a442f-8ded-44df-b198-aa2019d4814a:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify how water pollution can contaminate the river water.",
+          "Explain how contaminated water can affect the drinking water supply.",
+          "Describe the potential health and safety impacts on the city's population."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: the potential and safety impacts on the city's."
+        ],
+        "model_answer": "Water pollution can introduce harmful substances such as chemicals, heavy metals, and pathogens into the river water. These pollutants can contaminate the drinking water supply, leading to waterborne diseases and health issues for the city's population. The polluted water may require extensive treatment to remove contaminants, which can be costly and may not always be effective. This can result in unsafe drinking water, posing serious health risks to the community.",
+        "explanation": "Water pollution introduces harmful substances into the river, which can contaminate the drinking water supply. This contamination can lead to waterborne diseases and health issues for the city's population, requiring costly and sometimes ineffective treatment processes to ensure safe drinking water.",
+        "exam_question_id": "c63a442f-8ded-44df-b198-aa2019d4814a:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the percentage",
+          "Correct use of the formula for percentage",
+          "Correct final answer"
+        ],
+        "hints": [
+          "Use the formula: (Part/Whole) * 100%."
+        ],
+        "model_answer": "To calculate the percentage of the total water flow rate allocated for hydroelectric power generation:\n\nPercentage = (Water demand for hydroelectric power / Total water flow rate) * 100%\n\nPercentage = (50 m³/s / 200 m³/s) * 100% = 25%\n\nThe percentage of the total water flow rate allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power generation, divide the water demand for hydroelectric power by the total water flow rate and multiply by 100%.",
+        "exam_question_id": "82cadc9b-b83a-4d25-b6ef-c2efbe08f558:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of a relevant problem",
+          "Explanation of how sedimentation causes the problem",
+          "Clear and logical explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identification of a relevant problem; Clear and logical explanation."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is the reduction in the efficiency of hydroelectric power generation. Sedimentation can lead to the accumulation of silt and debris in the riverbed, which can decrease the water flow and reduce the head (height difference) of water available for power generation. This reduction in head can significantly decrease the power output of the hydroelectric plant, leading to less electricity being generated.",
+        "explanation": "Sedimentation can accumulate in the riverbed, reducing water flow and the head of water available for hydroelectric power generation, which in turn decreases the power output.",
+        "exam_question_id": "82cadc9b-b83a-4d25-b6ef-c2efbe08f558:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 24,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the impact of water pollution",
+          "Explanation of how water pollution affects drinking water",
+          "Clear and logical explanation"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: Clear and logical explanation."
+        ],
+        "model_answer": "Water pollution can significantly affect the drinking water supply in the nearby city by introducing harmful contaminants into the river water. Pollutants such as industrial waste, agricultural runoff, and sewage can contain toxic chemicals, heavy metals, and pathogens that can make the water unsafe for consumption. If these pollutants are not adequately treated before being supplied to the city, they can cause serious health issues for the residents, including gastrointestinal diseases, neurological disorders, and even long-term chronic conditions. Therefore, effective water treatment processes are essential to ensure that the drinking water remains clean and safe for consumption.",
+        "explanation": "Water pollution introduces harmful contaminants into the river water, which can make it unsafe for drinking if not properly treated, leading to health issues for the residents.",
+        "exam_question_id": "82cadc9b-b83a-4d25-b6ef-c2efbe08f558:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the total water flow rate and the water demand for hydroelectric power.",
+          "Calculate the percentage of the total water flow rate allocated for hydroelectric power.",
+          "Provide the final answer with the correct unit and precision."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation — develop the idea fully rather than listing short points. Make sure you also cover: Provide the final answer with the correct unit and precision."
+        ],
+        "model_answer": "Water demand for hydroelectric power = 50 m³/s\nTotal water flow rate = 200 m³/s\n\nPercentage = (50 / 200) * 100 = 25%\n\nThe percentage of the total water flow rate allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power, divide the water demand for hydroelectric power by the total water flow rate and multiply by 100.",
+        "exam_question_id": "d73d518e-913c-433e-b279-dabe5255f020:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify a specific problem related to sedimentation.",
+          "Explain the impact of sedimentation on the identified problem.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identify a specific problem related to sedimentation.; Provide a clear and coherent explanation."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is the reduction in the river's capacity to hold water. Sedimentation can lead to the accumulation of silt and debris in the riverbed, which reduces the available space for water flow. This can cause the river to overflow more easily during high flow periods, increasing the risk of flooding. Additionally, sediment buildup can clog irrigation canals and hydroelectric turbines, reducing their efficiency and effectiveness.",
+        "explanation": "Sedimentation can reduce the river's capacity to hold water, leading to increased flooding risks and reduced efficiency of irrigation and hydroelectric systems.",
+        "exam_question_id": "d73d518e-913c-433e-b279-dabe5255f020:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 27,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify the potential sources of water pollution in the river.",
+          "Explain how water pollution can contaminate the drinking water supply.",
+          "Provide a clear and coherent explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: Identify the potential sources of water pollution in the; Provide a clear and coherent explanation."
+        ],
+        "model_answer": "Water pollution can affect the drinking water supply in the nearby city by introducing harmful substances into the river. Industrial waste and agricultural runoff can contain chemicals, heavy metals, and pathogens that contaminate the water. When this polluted water is used for drinking, it can lead to health issues such as gastrointestinal illnesses, neurological disorders, and other long-term health problems. Additionally, water treatment facilities may struggle to remove all contaminants, especially if the pollution levels are high, further compromising the safety of the drinking water supply.",
+        "explanation": "Water pollution can introduce harmful substances into the river, contaminating the drinking water supply and leading to various health issues.",
+        "exam_question_id": "d73d518e-913c-433e-b279-dabe5255f020:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 28,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the percentage (1 mark)",
+          "Correct use of the formula for percentage (1 mark)",
+          "Correct final answer with percentage symbol (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the percentage of the total water flow rate that is allocated for hydroelectric power generation — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of the formula for percentage (1 mark); Correct final answer with percentage symbol (1 mark)."
+        ],
+        "model_answer": "Calculation: (50 m³/s / 200 m³/s) * 100 = 25%. The percentage of the total water flow rate allocated for hydroelectric power generation is 25%.",
+        "explanation": "To find the percentage of the total water flow rate allocated for hydroelectric power, divide the water demand for hydroelectric power by the total water flow rate and then multiply by 100. This will give you the percentage.",
+        "exam_question_id": "13218feb-58b0-48a7-8332-ffed2ec43b9d:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 29,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Explain one problem that could arise from sedimentation in the multipurpose river project.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of a relevant problem caused by sedimentation (1 mark)",
+          "Clear explanation of how sedimentation leads to the problem (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Explain one problem that could arise from sedimentation in the multipurpose river project — develop the idea fully rather than listing short points. Make sure you also cover: Identification of a relevant problem caused by sedimentation (1 mark); Clear explanation of how sedimentation leads to…."
+        ],
+        "model_answer": "One problem that could arise from sedimentation in the multipurpose river project is the reduction in the river's capacity to provide water for irrigation and hydroelectric power. Sedimentation can lead to the accumulation of silt and debris at the bottom of the river, which can decrease the depth and flow rate of the river. This can result in less water being available for irrigation and less water passing through the hydroelectric turbines, reducing the power generation capacity of the project.",
+        "explanation": "Sedimentation can reduce the river's capacity to provide water for irrigation and hydroelectric power by decreasing the depth and flow rate of the river. This can lead to less water being available for irrigation and less water passing through the hydroelectric turbines, reducing the power generation capacity of the project.",
+        "exam_question_id": "13218feb-58b0-48a7-8332-ffed2ec43b9d:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      },
+      {
+        "id": 30,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Consider a multipurpose river project that is designed to provide water for irrigation, generate hydroelectric power, and supply drinking water to a nearby city. Assume the following data for the project: \n\n- Total water flow rate: 200 cubic metres per second (m³/s)\n- Water demand for irrigation: 120 m³/s\n- Water demand for hydroelectric power: 50 m³/s\n- Water demand for drinking water: 30 m³/s\n\nThe project has been facing several problems, including sedimentation, water pollution, and displacement of local communities.",
+        "question": "Describe how water pollution could affect the drinking water supply in the nearby city.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identification of the impact of water pollution on drinking water (1 mark)",
+          "Explanation of how water pollution affects the quality of drinking water (1 mark)",
+          "Description of potential health effects or consequences (1 mark)"
+        ],
+        "hints": [
+          "Stay focused on this: Describe how water pollution could affect the drinking water supply in the nearby city — develop the idea fully rather than listing short points. Make sure you also cover: Description of potential effects or consequences (1 mark)."
+        ],
+        "model_answer": "Water pollution could affect the drinking water supply in the nearby city by introducing harmful substances into the river. These substances could include chemicals, heavy metals, or pathogens from industrial discharge, agricultural runoff, or sewage. If the water pollution is not properly treated before it reaches the city's water treatment plants, it can contaminate the drinking water supply, making it unsafe for consumption. This can lead to various health issues, such as gastrointestinal illnesses, reproductive problems, or long-term chronic diseases, depending on the type and concentration of the pollutants.",
+        "explanation": "Water pollution can introduce harmful substances into the river, which can contaminate the drinking water supply if not properly treated. This can lead to various health issues, depending on the type and concentration of the pollutants.",
+        "exam_question_id": "13218feb-58b0-48a7-8332-ffed2ec43b9d:1",
+        "topic_label": "Problems affecting Multipurpose River Projects",
+        "topic_id": 1191,
+        "checked": true,
+        "subtopic_id": 5867,
+        "source": {
+          "textbook": "Geography SB S6",
+          "area": "Problems affecting Multipurpose River Projects"
+        }
+      }
+    ],
+    "estimated_time": 88,
+    "assessment_id": "c48a5433-8190-4fbf-a64f-a93fea239870",
+    "subject": "Geography SB S6",
+    "topics": [
+      "World Multipurpose River Projects"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 112,
+    "topic_ids": [
+      1191
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 30,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 0,
+      "detail": "10 questions open with the same sentence (1, 4, 7, 10, 13, 16, 19, 22, 25, 28): \"Calculate the percentage of the total water flow r\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 1,
+      "detail": "10 questions open with the same sentence (2, 5, 8, 11, 14, 17, 20, 23, 26, 29): \"Explain one problem that could arise from sediment\""
+    },
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 2,
+      "detail": "10 questions open with the same sentence (3, 6, 9, 12, 15, 18, 21, 24, 27, 30): \"Describe how water pollution could affect the drin\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 3,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 4,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 6,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 7,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 8,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 9,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 13,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 14,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 16,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 20,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 22,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 23,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 24,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 25,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 26,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 27,
+      "detail": "same as question 1"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 3"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "1c",
+      "2a",
+      "2b",
+      "2c",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "5c",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "7c",
+      "8a",
+      "8b",
+      "8c",
+      "9a",
+      "9b",
+      "9c",
+      "10a",
+      "10b",
+      "10c"
+    ],
+    "issues": [
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Topic label mismatch: question marked under 'Definition, aim, objectives and importance of multipurpose river Projects' (subtopic_id 5866) but should be 'Problems affecting Multipurpose River Projects' (subtopic_id 5867) to match question content on sedimentation problems.",
+        "correction": "Change topic_label to 'Problems affecting Multipurpose River Projects' and subtopic_id to 5867"
+      },
+      {
+        "label": "10b",
+        "severity": "poor",
+        "detail": "Marking criteria specifies 2 marks total but lists only 2 criteria (1 mark each). However, model answer is comprehensive and appropriate for 2 marks. Inconsistency: question 10a has 3 marks with 3 criteria; questions 10b and 10c should align with consistent mark distribution across parts.",
+        "correction": "Clarify if 10b should be 3 marks (add third criterion) or confirm 2 marks is intentional with explicit justification"
+      }
+    ],
+    "summary": "Assessment contains 10 questions (30 parts) across identical contexts with consistent data. All calculations verified as correct (25% answer). Model answers are substantive and age-appropriate for Grade 12. One topic labeling error in 3b; one minor mark distribution inconsistency in 10b. No repeated questions with identical data; no missing passages."
+  },
+  "totalSeconds": 203
+}

@@ -330,10 +330,22 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
     // the same numbers too. That paper came back 22 of 31.
     const scenario = String((q as { scenario?: unknown }).scenario ?? '').trim()
     const lead = leadIn(q.question)
-    const partOf = (k: T) =>
-      (scenario !== '' && String((k as { scenario?: unknown }).scenario ?? '').trim() === scenario) ||
-      (lead !== '' && leadIn(k.question) === lead)
-    if (kept.some((k) => !byRows(k) && !partOf(k) && sameDemand(k.question, q.question, bySubject))) {
+    const partOf = (k: T) => {
+      if (q.exam_question_id || k.exam_question_id) return Boolean(q.exam_question_id && q.exam_question_id === k.exam_question_id)
+      return (scenario !== '' && String(k.scenario ?? '').trim() === scenario) ||
+        (lead !== '' && leadIn(k.question) === lead)
+    }
+    const demand = (item: T) => item.exam_question_id
+      ? `${String(item.scenario ?? '')} ${String(item.question ?? '')}`
+      : item.question
+    const differentExamSetup = (k: T) => {
+      if (!k.exam_question_id || !q.exam_question_id) return false
+      const a = String(k.scenario ?? '').trim(), b = String(q.scenario ?? '').trim()
+      const numbers = (s: string) => (s.match(/-?\d+(?:\.\d+)?/g) || []).join(',')
+      const na = numbers(a), nb = numbers(b)
+      return na && nb ? na !== nb : a !== b
+    }
+    if (kept.some((k) => !byRows(k) && !partOf(k) && !differentExamSetup(k) && sameDemand(demand(k), demand(q), bySubject))) {
       removed++
       continue
     }

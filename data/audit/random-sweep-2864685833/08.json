@@ -1,0 +1,352 @@
+{
+  "index": 8,
+  "label": "REB / Practice / Physics S3 SB (1)",
+  "request": {
+    "subject": "Physics S3 SB (1)",
+    "textbook_id": 172,
+    "topic_ids": [
+      1799
+    ],
+    "topics": [
+      "Heat Transfer and Quantity of heat"
+    ],
+    "curriculum": "rwanda",
+    "grade": 9,
+    "className": "S3",
+    "style": "Test Style (Textbooks)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 2864685833,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 17,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "A 100 g block of metal at 90°C is placed into 50 g of water at 20°C in a calorimeter. The final temperature of the system is 30°C. Calculate the specific heat capacity of the metal. (Specific heat capacity of water = 4.2 J/g°C)",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify the known values",
+          "Apply the heat transfer equation",
+          "Calculate the specific heat capacity of the metal",
+          "Show all workings and units"
+        ],
+        "hints": [
+          "Structure your answer around both demands: A 100 g block of metal at 90°C is placed into 50 g of water at 20°C in a calorimeter; then The final temperature of the system is 30°C. Make sure you also cover: the known values; Apply the heat transfer; all workings and units."
+        ],
+        "model_answer": "First, identify the heat gained by the water as 50 g × 4.2 J/g°C × (30°C - 20°C) = 2100 J. Next, recognize that the heat lost by the metal is 100 g × c × (90°C - 30°C). Since the system is isolated, the heat gained by water equals the heat lost by the metal. Set up the equation 2100 J = 100 g × c × 60°C. Solving for c gives c = 2100 J / (100 g × 60°C) = 3.5 J/g°C. Thus, the specific heat capacity of the metal is 3.5 J/g°C.",
+        "explanation": "A strong answer will include identifying the correct values, applying the heat transfer equation correctly, and showing all steps and units. This demonstrates understanding of heat transfer and specific heat capacity.",
+        "subtopic_id": 8840,
+        "topic_id": 1799,
+        "topic_label": "Applications of heat transfer",
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Applications of heat transfer"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "question": "Look at the photograph. The Bunsen flame heats the beaker of water. Which method of heat transfer carries thermal energy through the water itself, by moving warm water upward?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "convection",
+            "Convection",
+            "convection currents",
+            "by convection"
+          ]
+        },
+        "explanation": "The flame heats the water at the bottom of the beaker. This warm water becomes less dense and rises, while cooler water sinks. This movement of the fluid is convection, which spreads heat through the water.",
+        "image_url": "/textbook-images/rwanda/172/page176-embedded-0.jpeg",
+        "topic_label": "Applications of heat transfer",
+        "vetted": true,
+        "image_alt": "A photograph of heating apparatus: a Pyrex glass beaker containing water sits on a wire gauze on a tripod stand. A thermometer with a yellow top leans in the water. A Bunsen burner with a blue flame stands below the gauze, on a white base mat. The beaker's scale shows 50, 100 and 150. Printed on it: PYREX | 150 | 100 | 50.",
+        "hints": [
+          "Structure your answer around both demands: Look at the photograph; then The Bunsen flame heats the beaker of water."
+        ],
+        "subtopic_id": 8840,
+        "topic_id": 1799,
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Applications of heat transfer"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "question": "Explain how the rate of heat transfer between two objects changes when the temperature difference between them increases.",
+        "marks": 4,
+        "marking_criteria": [
+          "Define heat transfer",
+          "Describe the relationship between temperature difference and heat transfer rate",
+          "Explain the mechanism behind this relationship",
+          "Use appropriate scientific terminology"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the rate of heat transfer between two objects changes when the temperature difference between them increases — develop the idea fully rather than listing short points. Make sure you also cover: the this relationship; appropriate scientific terminology."
+        ],
+        "model_answer": "Heat transfer is the movement of thermal energy from a region of higher temperature to a region of lower temperature. The rate of heat transfer between two objects is directly proportional to the temperature difference between them. This is because a greater temperature difference creates a larger driving force for heat flow, allowing more energy to transfer per unit time. The mechanism behind this is the increased kinetic energy of particles at higher temperatures, leading to more frequent and energetic collisions, thus facilitating faster heat transfer.",
+        "explanation": "A strong answer will define heat transfer, explain its dependence on temperature difference, and describe the mechanism using appropriate scientific terminology.",
+        "subtopic_id": 8840,
+        "topic_id": 1799,
+        "topic_label": "Applications of heat transfer",
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Applications of heat transfer"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "question": "Look at the diagram. Name the mode of heat transfer shown by the arrows inside the liquid at A, and explain why the warmer liquid moves upward.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identifies the mode of heat transfer at A as convection (convection currents).",
+          "Explains that liquid at the bottom is heated, expands and becomes less dense, so it rises (while cooler, denser liquid sinks)."
+        ],
+        "model_answer": "The mode of heat transfer at A is convection. The liquid at the bottom is heated, expands and becomes less dense, so it rises. Cooler, denser liquid at the top sinks to replace it, forming convection currents.",
+        "explanation": "A strong answer names convection for the liquid at A. It must also give the reason for the upward movement: heated liquid expands, becomes less dense than the cooler liquid around it, and rises while cooler liquid sinks.",
+        "image_url": "/textbook-images/rwanda/172/page116-embedded-0.jpeg",
+        "topic_label": "Applications of heat transfer",
+        "vetted": true,
+        "image_alt": "A saucepan of liquid is held by a hand on its red handle over a flame burning on black coals. Inside the pan, small arrows rise in the middle and curve down at the sides, and the liquid is blue at the top and red at the bottom. Wavy red arrows spread outward from the fire. Three letters mark parts: A points to the liquid in the pan, B points to the handle held by the hand, and C points to a wavy arrow coming from the fire. Printed on it: A | B | C.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Name the mode of heat transfer shown by the arrows inside the liquid at A, and explain why the warmer liquid moves upward."
+        ],
+        "subtopic_id": 8840,
+        "topic_id": 1799,
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Applications of heat transfer"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "question": "A metal rod of length 2 metres and cross-sectional area 0.01 m² is heated at one end while the other end is kept at a constant temperature. Describe how the temperature distribution along the rod changes over time and justify your reasoning.",
+        "marks": 4,
+        "marking_criteria": [
+          "Describe the initial temperature distribution",
+          "Explain the process of heat conduction",
+          "Predict the final temperature distribution",
+          "Justify the reasoning with scientific principles"
+        ],
+        "hints": [
+          "Structure your answer around both demands: A metal rod of length 2 metres and cross-sectional area 0.01 m² is heated at one end while the other end is kept at a constant temperature; then Describe how the temperature distribution along the rod changes over time and justify your reasoning. Make sure you also cover:…."
+        ],
+        "model_answer": "Initially, the end of the rod that is heated will have a higher temperature compared to the other end, creating a temperature gradient along the rod. As time progresses, heat will conduct from the hotter end to the cooler end. This conduction occurs through the transfer of kinetic energy from high-energy particles to low-energy particles. Eventually, the rod will reach a steady state where the temperature distribution along its length will be uniform, with the hottest part at the heated end and the coolest part at the other end. This is due to the principle of thermal equilibrium, where no further heat transfer occurs once the temperatures are equal.",
+        "explanation": "A strong answer will describe the initial and final temperature distributions, explain the process of heat conduction, and justify the reasoning with scientific principles.",
+        "subtopic_id": 8838,
+        "topic_id": 1799,
+        "topic_label": "Heat and temperature",
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Heat and temperature"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "question": "A student measures the heat energy required to raise the temperature of 200 g of a substance from 20°C to 60°C and finds it to be 8400 J. Calculate the specific heat capacity of the substance and compare it with that of water.",
+        "marks": 4,
+        "marking_criteria": [
+          "Calculate the specific heat capacity",
+          "Compare with the specific heat capacity of water",
+          "Show all workings and units",
+          "Explain the comparison"
+        ],
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "model_answer": "First, calculate the specific heat capacity using the formula Q = mcΔT, where Q = 8400 J, m = 200 g, and ΔT = 40°C. Rearranging gives c = Q / (mΔT) = 8400 J / (200 g × 40°C) = 1.05 J/g°C. The specific heat capacity of water is 4.2 J/g°C. Therefore, the substance has a lower specific heat capacity than water, meaning it requires less heat energy to raise its temperature by the same amount.",
+        "explanation": "A strong answer will include calculating the specific heat capacity, comparing it with that of water, and explaining the comparison with appropriate scientific terminology.",
+        "subtopic_id": 8838,
+        "topic_id": 1799,
+        "topic_label": "Heat and temperature",
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Heat and temperature"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Look at the diagram. The crushed ice is heated until it has all melted. What is the temperature shown by the thermometer while the ice is melting?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "0 °C",
+            "0°C",
+            "0 degrees Celsius",
+            "0 degrees",
+            "zero degrees Celsius",
+            "zero"
+          ]
+        },
+        "explanation": "While the ice melts, the temperature stays constant at 0 °C. The heat from the Bunsen burner is used to break the bonds between the particles (latent heat of fusion) rather than to raise the temperature of the ice-water mixture.",
+        "image_url": "/textbook-images/rwanda/172/page193-embedded-0.png",
+        "topic_label": "Heat and temperature",
+        "vetted": true,
+        "image_alt": "A drawing of apparatus for heating ice. A tripod holds a gauze, and a beaker of crushed ice sits on the gauze. A thermometer stands in the ice, and a lit Bunsen burner is below the gauze, inside the tripod. Printed on it: thermometer | beaker | crushed ice | gauze | tripod.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then The crushed ice is heated until it has all melted."
+        ],
+        "subtopic_id": 8838,
+        "topic_id": 1799,
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Heat and temperature"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "question": "In an experiment, a student uses a calorimeter to measure the heat of combustion of a fuel. The calorimeter contains 100 g of water initially at 20°C. After burning the fuel, the temperature of the water rises to 35°C. If the specific heat capacity of water is 4.2 J/g°C, calculate the heat of combustion of the fuel.",
+        "marks": 4,
+        "marking_criteria": [
+          "Identify the heat gained by the water",
+          "Apply the heat transfer equation",
+          "Calculate the heat of combustion",
+          "Show all workings and units"
+        ],
+        "hints": [
+          "Structure your answer around both demands: In an experiment, a student uses a calorimeter to measure the heat of combustion of a fuel; then The calorimeter contains 100 g of water initially at 20°C. Make sure you also cover: Apply the heat transfer equation; all workings and units."
+        ],
+        "model_answer": "First, calculate the heat gained by the water as 100 g × 4.2 J/g°C × (35°C - 20°C) = 6300 J. This heat comes from the combustion of the fuel. Therefore, the heat of combustion of the fuel is 6300 J. This value represents the amount of heat energy released per unit mass of the fuel when it is completely burned.",
+        "explanation": "A strong answer will include identifying the heat gained by the water, applying the heat transfer equation correctly, and showing all steps and units. This demonstrates understanding of calorimetry and heat of combustion.",
+        "subtopic_id": 8840,
+        "topic_id": 1799,
+        "topic_label": "Applications of heat transfer",
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Applications of heat transfer"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "question": "Look at the diagram. Which process transfers heat along the iron bar from the heated end to the thermometers?",
+        "marks": 1,
+        "short_answer": {
+          "accepted": [
+            "conduction",
+            "thermal conduction",
+            "heat conduction",
+            "by conduction"
+          ]
+        },
+        "explanation": "The answer is conduction. The iron bar is a solid, so heat passes along it from particle to particle. The thermometers nearer the flame show higher readings, so heat travels along the bar by conduction.",
+        "image_url": "/textbook-images/rwanda/172/page120-embedded-0.jpeg",
+        "topic_label": "Heat Transfer and Quantity of heat",
+        "vetted": true,
+        "image_alt": "A drawing of an experiment with an iron bar heated at its left end by a Bunsen burner flame. A screen stands next to the heated end. Five thermometers stand in a row along the bar, each with its bulb at the bar. A dashed curve runs across the thermometer tops, falling from the first thermometer to the last. Labelled parts are the thermometer, the screen and the iron bar. Printed on it: thermometer | screen | iron bar.",
+        "hints": [
+          "Structure your answer around both demands: Look at the diagram; then Which process transfers heat along the iron bar from the heated end to the thermometers."
+        ],
+        "topic_id": 1799,
+        "source": {
+          "textbook": "Physics S3 SB (1)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Explain how the quantity of heat transferred during a phase change is related to the mass of the substance and justify your reasoning.",
+        "marks": 4,
+        "marking_criteria": [
+          "Define phase change",
+          "Explain the relationship between heat quantity and mass",
+          "Justify the reasoning with scientific principles",
+          "Use appropriate scientific terminology"
+        ],
+        "hints": [
+          "Stay focused on this: Explain how the quantity of heat transferred during a phase change is related to the mass of the substance and justify your reasoning — develop the idea fully rather than listing short points. Make sure you also cover: Justify the reasoning with scientific principles; appropriate scientific…."
+        ],
+        "model_answer": "A phase change is a physical process where a substance transitions between solid, liquid, and gas phases. The quantity of heat transferred during a phase change is directly proportional to the mass of the substance. This is because more mass means more particles, and thus more energy is required to change the",
+        "subtopic_id": 8842,
+        "topic_id": 1799,
+        "topic_label": "Quantity of heat",
+        "source": {
+          "textbook": "Physics S3 SB (1)",
+          "area": "Quantity of heat"
+        }
+      }
+    ],
+    "estimated_time": 80,
+    "assessment_id": "000d90aa-6bcd-49ba-be43-07a3a05a3fcd",
+    "subject": "Physics S3 SB (1)",
+    "topics": [
+      "Heat Transfer and Quantity of heat"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 172,
+    "topic_ids": [
+      1799
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "stem-too-long",
+      "severity": "poor",
+      "index": 7,
+      "detail": "57 words"
+    },
+    {
+      "code": "explanation-missing",
+      "severity": "poor",
+      "index": 9,
+      "detail": "nothing shown after answering"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "5",
+        "severity": "poor",
+        "detail": "Model answer contradicts itself. States temperature distribution becomes 'uniform' at steady state, then claims 'hottest part at heated end and coolest at other end.' Steady state with continuous heating maintains a temperature gradient, not uniformity.",
+        "correction": "At steady state, a linear temperature gradient persists along the rod: hottest at the heated end, coolest at the constant-temperature end. Heat flow rate becomes constant, but temperatures remain unequal."
+      },
+      {
+        "label": "8",
+        "severity": "poor",
+        "detail": "Model answer calculates heat gained by water (6300 J) but then states this equals 'heat of combustion of the fuel' without acknowledging energy losses to the calorimeter, surroundings, and incomplete combustion. The value represents only the heat absorbed by water, not true combustion energy.",
+        "correction": "The heat gained by water is 6300 J. This approximates the heat of combustion only if calorimeter losses are negligible. In reality, total combustion energy exceeds 6300 J due to heat losses to the apparatus and environment."
+      },
+      {
+        "label": "10",
+        "severity": "broken",
+        "detail": "Model answer is incomplete. Sentence ends mid-thought: 'more energy is required to change the' — no conclusion provided. Answer cannot be marked or verified.",
+        "correction": "Complete sentence: '...more energy is required to change the state of all particles. The relationship is Q = mL, where L is latent heat. Doubling mass doubles heat required for the same phase change.'"
+      }
+    ],
+    "summary": "Assessment covers heat transfer and quantity of heat appropriately for Grade 9. Three substantive issues identified: Question 5 model answer contains logical contradiction about steady-state temperature distribution; Question 8 oversimplifies heat of combustion without acknowledging apparatus losses; Question 10 model answer is incomplete/truncated mid-sentence, making it unmarkable."
+  },
+  "totalSeconds": 23
+}

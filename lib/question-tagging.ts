@@ -15,25 +15,35 @@
  *   candidate section sits in one chapter -- that much is known.
  */
 import { tagTokens } from './tag-tokens'
+import { isLearningTitle } from './curriculum-title'
 
 export interface CandidateSubtopic { id: number; name: string; topic_id: number | null }
 
 /** Tags the questions in place; returns the ids of the subtopics matched. */
 export function tagQuestionsWithSubtopics(questions: any[], subtopics: readonly CandidateSubtopic[]): number[] {
   if (!Array.isArray(questions) || questions.length === 0 || subtopics.length === 0) return []
-  const candidates = subtopics.map((s) => ({ ...s, tokens: new Set(tagTokens(s.name)) }))
+  const candidates = subtopics.filter((s) => isLearningTitle(s.name)).map((s) => ({ ...s, tokens: new Set(tagTokens(s.name)) }))
+  if (!candidates.length) return []
   const chapters = new Set(candidates.map((c) => c.topic_id))
   const oneChapter = chapters.size === 1 ? candidates[0].topic_id : null
   const used = new Set<number>()
   for (const q of questions) {
     if (!q || typeof q !== 'object') continue
-    const qTokens = new Set(tagTokens(`${q.question ?? ''} ${Array.isArray(q.options) ? q.options.join(' ') : ''} ${q.explanation ?? ''}`))
+    const preferredCandidates = q.exam_question_id && q.topic_id ? candidates.filter((c) => c.topic_id === q.topic_id) : candidates
+    const qTokens = new Set(tagTokens(`${q.scenario ?? ''} ${q.question ?? ''} ${Array.isArray(q.options) ? q.options.join(' ') : ''} ${q.explanation ?? ''}`))
     // A one-word name has to be in the question itself: a lever question went
     // to "Speed" on an option reading "to increase speed".
-    const stemTokens = new Set(tagTokens(String(q.question ?? '')))
+    const stemTokens = new Set(tagTokens(`${q.scenario ?? ''} ${q.question ?? ''}`))
+    const hasEvidence = (c: typeof candidates[number]) => {
+      const hits = [...c.tokens].filter((t) => qTokens.has(t)).length
+      return hits >= 2 || c.tokens.size === 1 && [...c.tokens].every((t) => stemTokens.has(t))
+    }
+    // A figure can make the writer drift to another SELECTED chapter. Use
+    // clear content evidence rather than preserving a disproved planned label.
+    const scopedCandidates = preferredCandidates.some(hasEvidence) ? preferredCandidates : candidates
     let best: (typeof candidates)[number] | null = null
     let bestScore = 0
-    for (const c of candidates) {
+    for (const c of scopedCandidates) {
       let score = 0
       for (const tok of c.tokens) if (qTokens.has(tok)) score += 1
       if (score > bestScore) { bestScore = score; best = c }
@@ -41,7 +51,7 @@ export function tagQuestionsWithSubtopics(questions: any[], subtopics: readonly 
     // The student asked for exactly one subtopic: every question is from it.
     const strong = best && bestScore >= 2
     const wholeOneWord = best && best.tokens.size === 1 && bestScore === 1 && [...best.tokens].every((t) => stemTokens.has(t))
-    const chosen = candidates.length === 1 ? candidates[0] : strong || wholeOneWord ? best : null
+    const chosen = scopedCandidates.length === 1 ? scopedCandidates[0] : strong || wholeOneWord ? best : null
     if (chosen) {
       q.subtopic_id = chosen.id
       q.topic_id = chosen.topic_id ?? null

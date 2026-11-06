@@ -1,0 +1,752 @@
+{
+  "index": 3,
+  "label": "Cambridge / Exam / Cambridge Primary Science 2 Learners Book PDF ",
+  "request": {
+    "subject": "Cambridge Primary Science 2 Learners Book PDF ",
+    "textbook_id": 49,
+    "topic_ids": [
+      566
+    ],
+    "topics": [
+      "The Earth and the Sun"
+    ],
+    "curriculum": "cambridge",
+    "grade": 2,
+    "className": "Cambridge Primary Science 2 Learners Book PDF ",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 3331501060,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 72,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child and a tree with a long shadow. The Sun is low in the sky.",
+        "question": "Is it more likely to be midday or evening? Explain your answer.",
+        "marks": 2,
+        "marking_criteria": [
+          "1 mark for identifying evening or morning (both correct: Sun is low at both times)",
+          "1 mark for explaining: shadows are long when Sun is low; at midday Sun is high and shadows are short"
+        ],
+        "hints": [
+          "Think about where the Sun is in the sky and how shadows behave at different times of the day."
+        ],
+        "model_answer": "It is more likely to be evening or morning. The Sun is low in the sky at both these times, so shadows are long. At midday, the Sun is high and shadows are short.",
+        "explanation": "Consider the position of the Sun and how it affects the length of shadows.",
+        "exam_question_id": "35eb393b-0bd2-490e-bfb3-b457d766314e:1",
+        "topic_label": "The Earth and the Sun — Check your progress",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "The Earth and the Sun — Check your progress"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child and a tree with a long shadow. The Sun is low in the sky.",
+        "question": "Describe how the length of the shadow changes throughout the day.",
+        "marks": 2,
+        "marking_criteria": [
+          "1 mark for describing the shadow's length in the morning.",
+          "1 mark for describing the shadow's length at midday and in the evening."
+        ],
+        "hints": [
+          "Stay focused on this: Describe how the length of the shadow changes throughout the day — develop the idea fully rather than listing short points. Make sure you also cover: 1 mark for describing the shadow's length in the; 1 mark for describing the shadow's length at and in the."
+        ],
+        "model_answer": "In the morning, the shadow is long because the Sun is low. At midday, the Sun is high, and the shadow is short. In the evening, the Sun is low again, and the shadow is long.",
+        "explanation": "Explain how the Sun's position affects the length of the shadow at different times of the day.",
+        "exam_question_id": "35eb393b-0bd2-490e-bfb3-b457d766314e:1",
+        "topic_label": "The Earth and the Sun — Check your progress",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "The Earth and the Sun — Check your progress"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the diagram of a sundial seen from above at an angle. It has a round dark dial plate with hour numbers 5 to 12 and 1 to 7 printed around the edge, and a thin radial line for each hour. A tall, flat, triangular pointer (the gnomon) stands in the middle and casts a blue shadow across the plate towards the numbers 10 to 12. The tip of the shadow lies near the lines for 10 and 11, and the pointer itself lies near 12 and 1.",
+        "question": "State the time shown on the sundial in the diagram.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct time based on the position of the shadow.",
+          "Explanation of how the time is determined from the diagram."
+        ],
+        "hints": [
+          "Look at the position of the shadow's tip on the dial plate."
+        ],
+        "model_answer": "The time shown on the sundial is between 10 and 11. The tip of the shadow lies near the lines for 10 and 11, indicating the time is close to 10:30.",
+        "explanation": "Identify the position of the shadow's tip on the dial plate and match it with the corresponding hour numbers to determine the time.",
+        "exam_question_id": "dcf6585f-75f9-4050-a792-a8f8f7087715:1",
+        "topic_label": "The Earth and the Sun",
+        "topic_id": 566,
+        "image_url": "/textbook-images/textbook-bank/49/s65-f0.jpg",
+        "image_alt": "A drawing of a sundial seen from above at an angle. It has a round dark dial plate with hour numbers 5 to 12 and 1 to 7 printed around the edge, and a thin radial line for each hour. A tall, flat, triangular pointer (the gnomon) stands in the middle and casts a blue shadow across the plate towards the numbers 10 to 12. The tip of the shadow lies near the lines for 10 and 11, and the pointer itself lies near 12 and 1.\nLabels: 12, 1, 2, 3, 4, 5, 6, 7, 5, 6, 7, 8, 9, 10, 11\nOriginal exercise: Look at the picture. Can you tell what time it is?",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "The Earth and the Sun"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the diagram of a sundial seen from above at an angle. It has a round dark dial plate with hour numbers 5 to 12 and 1 to 7 printed around the edge, and a thin radial line for each hour. A tall, flat, triangular pointer (the gnomon) stands in the middle and casts a blue shadow across the plate towards the numbers 10 to 12. The tip of the shadow lies near the lines for 10 and 11, and the pointer itself lies near 12 and 1.",
+        "question": "Describe how the length of the shadow changes throughout the day on a sundial.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how the shadow length changes in the morning.",
+          "Explanation of how the shadow length changes at midday.",
+          "Explanation of how the shadow length changes in the evening."
+        ],
+        "hints": [
+          "Consider the position of the Sun in the sky at different times of the day."
+        ],
+        "model_answer": "In the morning, the Sun is low in the sky, so the shadow is long. At midday, when the Sun is highest, the shadow is shortest. In the evening, as the Sun gets lower, the shadow becomes long again.",
+        "explanation": "Explain how the length of the shadow on a sundial changes as the Sun moves across the sky during the day.",
+        "exam_question_id": "dcf6585f-75f9-4050-a792-a8f8f7087715:1",
+        "topic_label": "The Earth and the Sun",
+        "topic_id": 566,
+        "image_url": "/textbook-images/textbook-bank/49/s65-f0.jpg",
+        "image_alt": "A drawing of a sundial seen from above at an angle. It has a round dark dial plate with hour numbers 5 to 12 and 1 to 7 printed around the edge, and a thin radial line for each hour. A tall, flat, triangular pointer (the gnomon) stands in the middle and casts a blue shadow across the plate towards the numbers 10 to 12. The tip of the shadow lies near the lines for 10 and 11, and the pointer itself lies near 12 and 1.\nLabels: 12, 1, 2, 3, 4, 5, 6, 7, 5, 6, 7, 8, 9, 10, 11\nOriginal exercise: Look at the picture. Can you tell what time it is?",
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "The Earth and the Sun"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child and a tree with a long shadow. The Sun is low in the sky.",
+        "question": "State whether it is more likely to be morning, midday, or evening.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the time of day based on the Sun's position.",
+          "Explanation of why the time of day is identified correctly."
+        ],
+        "hints": [
+          "Consider the position of the Sun in the sky and the length of the shadow."
+        ],
+        "model_answer": "It is more likely to be either morning or evening. The Sun is low in the sky, which means it is either rising or setting, and shadows are long.",
+        "explanation": "Based on the picture, the Sun is low in the sky, indicating it is either morning or evening when the Sun is not at its highest point.",
+        "exam_question_id": "7bec21ab-9800-46e0-bb32-21b1dd02d9ba:1",
+        "topic_label": "Check your progress (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Check your progress (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child and a tree with a long shadow. The Sun is low in the sky.",
+        "question": "Describe how the length of the shadow changes throughout the day.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of how shadows change in the morning.",
+          "Explanation of how shadows change at midday.",
+          "Explanation of how shadows change in the evening."
+        ],
+        "hints": [
+          "Think about when the Sun is high in the sky and when it is low."
+        ],
+        "model_answer": "In the morning, the Sun rises and the shadows are long. As the Sun gets higher in the sky at midday, the shadows get shorter. In the evening, as the Sun sets, the shadows get longer again.",
+        "explanation": "Shadows are longest when the Sun is low in the sky, which happens in the morning and evening. At midday, when the Sun is highest, shadows are shortest.",
+        "exam_question_id": "7bec21ab-9800-46e0-bb32-21b1dd02d9ba:1",
+        "topic_label": "Check your progress (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Check your progress (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Look at the picture of a child and a tree with a long shadow. The Sun is low in the sky.",
+        "question": "Explain why shadows are longest when the Sun is low in the sky.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the Sun's position when it is low.",
+          "Explanation of how the angle of the Sun affects shadow length.",
+          "Correct conclusion based on the explanation."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why shadows are longest when the Sun is low in the sky — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the Sun's position when it is low.; Explanation of how the of the Sun affects shadow length.; Correct conclusion based on the…."
+        ],
+        "model_answer": "When the Sun is low in the sky, its rays hit the Earth at a more oblique angle, creating longer shadows. This happens in the morning and evening. When the Sun is high, its rays hit the Earth more directly, creating shorter shadows.",
+        "explanation": "The angle of the Sun's rays determines the length of the shadow. Lower angles create longer shadows.",
+        "exam_question_id": "7bec21ab-9800-46e0-bb32-21b1dd02d9ba:1",
+        "topic_label": "Check your progress (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Check your progress (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child playing with a stick and casting a shadow on the ground. The Sun is high in the sky.",
+        "question": "Explain why the shadow of the stick is shorter when the Sun is high in the sky.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that the Sun is high in the sky.",
+          "Explain that the angle of the Sun's rays affects the length of the shadow.",
+          "State that when the Sun is high, the rays are more direct, resulting in a shorter shadow."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the shadow of the stick is shorter when the Sun is high in the sky — develop the idea fully rather than listing short points. Make sure you also cover: that the of the Sun's affects the length of the shadow."
+        ],
+        "model_answer": "When the Sun is high in the sky, the rays of the Sun are more direct. This means they hit the stick at a more perpendicular angle, causing the shadow to be shorter. When the Sun is lower, the rays hit the stick at a more slanted angle, causing a longer shadow.",
+        "explanation": "Explain your answer by discussing the angle of the Sun's rays and how it affects the length of the shadow.",
+        "exam_question_id": "b3939fe3-5469-4ccb-ab08-c75b5a34456a:1",
+        "topic_label": "Changing shadows (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Changing shadows (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child playing with a stick and casting a shadow on the ground. The Sun is high in the sky.",
+        "question": "Describe how the length of the shadow changes from morning to evening.",
+        "marks": 3,
+        "marking_criteria": [
+          "Identify that the Sun rises in the morning and sets in the evening.",
+          "Explain that the position of the Sun changes throughout the day.",
+          "Describe that the shadow is longest in the morning and evening and shortest at midday."
+        ],
+        "hints": [
+          "Think about the position of the Sun at different times of the day."
+        ],
+        "model_answer": "In the morning, the Sun rises low in the sky, causing long shadows. As the Sun moves higher in the sky at midday, the shadows become shorter. In the evening, as the Sun sets low again, the shadows lengthen. So, the shadow is longest in the morning and evening and shortest at midday.",
+        "explanation": "Describe the changes in the length of the shadow by considering the position of the Sun at different times of the day.",
+        "exam_question_id": "b3939fe3-5469-4ccb-ab08-c75b5a34456a:1",
+        "topic_label": "Changing shadows (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Changing shadows (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child playing outside with a long shadow cast by the Sun. The Sun is low in the sky.",
+        "question": "Explain why the shadow is long.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation includes the Sun being low in the sky.",
+          "Explanation includes that shadows are longest when the Sun is low."
+        ],
+        "hints": [
+          "Think about when the Sun is higher or lower in the sky and how it affects the length of the shadow."
+        ],
+        "model_answer": "The shadow is long because the Sun is low in the sky. When the Sun is low, the angle of the sunlight is more oblique (or shallow/slanting), causing longer shadows.",
+        "explanation": "Shadows are longest when the Sun is low in the sky because the light rays hit at a shallow angle, creating a longer shadow on the ground.",
+        "exam_question_id": "1bf649dd-2e36-473e-a521-be1cafc9ea85:1",
+        "topic_label": "Day and night (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Day and night (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child playing outside with a long shadow cast by the Sun. The Sun is low in the sky.",
+        "question": "Describe how the length of the shadow changes from morning to evening.",
+        "marks": 2,
+        "marking_criteria": [
+          "Description includes that shadows are longest in the morning and evening.",
+          "Description includes that shadows are shortest around midday."
+        ],
+        "hints": [
+          "Consider the position of the Sun in the sky at different times of the day."
+        ],
+        "model_answer": "In the morning and evening, the Sun is low in the sky, so the shadows are long. Around midday, the Sun is high in the sky, so the shadows are short.",
+        "explanation": "Shadows change length throughout the day because the Sun's position in the sky changes, affecting the angle of the sunlight.",
+        "exam_question_id": "1bf649dd-2e36-473e-a521-be1cafc9ea85:1",
+        "topic_label": "Day and night (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Day and night (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child playing in a park. The Sun is high in the sky. The child's shadow is short.",
+        "question": "Explain why the child's shadow is short when the Sun is high in the sky.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that the Sun is high in the sky.",
+          "Explain that when the Sun is high, the light rays are more direct."
+        ],
+        "hints": [
+          "Think about how the position of the Sun affects the length of the shadow."
+        ],
+        "model_answer": "The Sun is high in the sky, so the light rays are more direct and the shadow is short.",
+        "explanation": "When the Sun is high in the sky, the light rays hit the ground more directly, causing shorter shadows.",
+        "exam_question_id": "371ccd50-6730-4632-8868-6bc3d2bd6d6c:1",
+        "topic_label": "Does the Sun move? (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Does the Sun move? (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child playing in a park. The Sun is high in the sky. The child's shadow is short.",
+        "question": "Describe how the length of the shadow changes from morning to evening.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explain that the shadow is longer in the morning and evening.",
+          "Explain that the shadow is shortest at midday."
+        ],
+        "hints": [
+          "Think about the position of the Sun throughout the day."
+        ],
+        "model_answer": "In the morning and evening, the Sun is lower in the sky, so the shadow is longer. At midday, the Sun is highest, and the shadow is shortest.",
+        "explanation": "The Sun's position in the sky changes throughout the day, affecting the length of the shadow.",
+        "exam_question_id": "371ccd50-6730-4632-8868-6bc3d2bd6d6c:1",
+        "topic_label": "Does the Sun move? (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Does the Sun move? (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Look at the picture of a child playing in a park. The Sun is high in the sky. The child's shadow is short.",
+        "question": "State whether it is more likely to be morning, midday, or evening when the Sun is high and the shadow is short.",
+        "marks": 2,
+        "marking_criteria": [
+          "Identify that the Sun is high in the sky.",
+          "State that it is more likely to be midday."
+        ],
+        "hints": [
+          "Think about when the Sun is highest in the sky."
+        ],
+        "model_answer": "It is more likely to be midday when the Sun is high and the shadow is short.",
+        "explanation": "The Sun is highest in the sky at midday, which results in shorter shadows.",
+        "exam_question_id": "371ccd50-6730-4632-8868-6bc3d2bd6d6c:1",
+        "topic_label": "Does the Sun move? (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Does the Sun move? (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child playing with a ball in a park. The Sun is high in the sky.",
+        "question": "Explain why the child's shadow is shorter when the Sun is high in the sky.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of Sun's position",
+          "Explanation of shadow length"
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the child's shadow is shorter when the Sun is high in the sky — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of Sun's position; Explanation of shadow length."
+        ],
+        "model_answer": "The Sun is high in the sky, so the Sun's rays are hitting the ground at a steeper angle, making the shadow shorter. When the Sun is lower, the rays hit the ground at a shallower angle, making the shadow longer.",
+        "explanation": "The Sun's rays hit the ground at a steeper angle when the Sun is high, which makes the shadow shorter.",
+        "exam_question_id": "72970423-f92a-45ab-ab3c-c1833bd95cac:1",
+        "topic_label": "Day and night (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Day and night (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child playing with a ball in a park. The Sun is high in the sky.",
+        "question": "Describe how the length of the shadow changes from morning to evening.",
+        "marks": 2,
+        "marking_criteria": [
+          "Description of shadow length in the morning",
+          "Description of shadow length in the evening"
+        ],
+        "hints": [
+          "Think about when the Sun is low in the sky."
+        ],
+        "model_answer": "In the morning, the Sun is low in the sky, so the shadow is long. As the day goes on and the Sun gets higher, the shadow gets shorter. In the evening, when the Sun is low again, the shadow is long once more.",
+        "explanation": "Shadows are longest in the morning and evening when the Sun is low, and shortest at midday when the Sun is high.",
+        "exam_question_id": "72970423-f92a-45ab-ab3c-c1833bd95cac:1",
+        "topic_label": "Day and night (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Day and night (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child playing in a park. The Sun is low in the sky. The child's shadow is long.",
+        "question": "Explain why the child's shadow is long when the Sun is low in the sky.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation of why the Sun being low causes long shadows.",
+          "Mention of the angle of sunlight."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the child's shadow is long when the Sun is low in the sky — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of why the Sun being low causes long; Mention of the of."
+        ],
+        "model_answer": "When the Sun is low in the sky, the sunlight hits the Earth at a more slanted angle, causing the shadows to be longer. This is because the light rays are spread out over a larger area.",
+        "explanation": "The angle of the Sun affects the length of shadows. When the Sun is low, the angle of sunlight is more oblique, which stretches the shadow.",
+        "exam_question_id": "d7835766-aedf-4657-b510-fd3eb232acfd:1",
+        "topic_label": "Changing shadows (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Changing shadows (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child playing in a park. The Sun is low in the sky. The child's shadow is long.",
+        "question": "Describe how the length of the shadow changes from morning to evening.",
+        "marks": 3,
+        "marking_criteria": [
+          "Description of shadow length in the morning.",
+          "Description of shadow length in the evening.",
+          "Explanation of the change in shadow length."
+        ],
+        "hints": [
+          "Consider the position of the Sun in the sky at different times of the day."
+        ],
+        "model_answer": "In the morning, the Sun is low on the horizon, causing long shadows. As the Sun moves higher in the sky around midday, the shadows become shorter. In the evening, as the Sun lowers again, the shadows lengthen once more.",
+        "explanation": "The length of the shadow changes as the Sun's position in the sky changes throughout the day. Shadows are longest when the Sun is low and shortest when it is high.",
+        "exam_question_id": "d7835766-aedf-4657-b510-fd3eb232acfd:1",
+        "topic_label": "Changing shadows (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Changing shadows (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child standing in a field with a long shadow. The Sun is low in the sky.",
+        "question": "Explain why the child's shadow is longer when the Sun is low in the sky.",
+        "marks": 2,
+        "marking_criteria": [
+          "Explanation includes the concept of the Sun's position relative to the Earth.",
+          "Explanation correctly states that the Sun is lower in the sky during morning and evening."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the child's shadow is longer when the Sun is low in the sky — develop the idea fully rather than listing short points. Make sure you also cover: Explanation includes the concept of the Sun's position relative to the Earth.; Explanation correctly states that the Sun is in the sky and."
+        ],
+        "model_answer": "The child's shadow is longer when the Sun is low in the sky because the Sun is at a lower angle, causing the light rays to hit the ground at an angle, which makes the shadow longer. This happens during morning and evening when the Sun is not directly overhead.",
+        "explanation": "A correct explanation should mention the Sun's lower angle and how it affects the shadow length.",
+        "exam_question_id": "73701b41-79ba-4046-ae32-088fc1348ebb:1",
+        "topic_label": "Day and night (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Day and night (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child standing in a field with a long shadow. The Sun is low in the sky.",
+        "question": "Describe how the length of the child's shadow changes from morning to evening.",
+        "marks": 2,
+        "marking_criteria": [
+          "Description includes the change in shadow length from morning to evening.",
+          "Description correctly states that the shadow is longer in the morning and evening and shorter at midday."
+        ],
+        "hints": [
+          "Consider the position of the Sun throughout the day."
+        ],
+        "model_answer": "The length of the child's shadow changes from being long in the morning, gradually getting shorter as the Sun rises higher in the sky at midday, and then getting long again in the evening. This is because the Sun is low in the sky during morning and evening, causing longer shadows, and high in the sky at midday, causing shorter shadows.",
+        "explanation": "A correct description should mention the changes in shadow length throughout the day and the Sun's position.",
+        "exam_question_id": "73701b41-79ba-4046-ae32-088fc1348ebb:1",
+        "topic_label": "Day and night (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Day and night (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Look at the picture of a child standing outside with a long shadow cast by the Sun. The Sun is low in the sky.",
+        "question": "Explain why the child's shadow is long.",
+        "marks": 3,
+        "marking_criteria": [
+          "State that the Sun is low in the sky.",
+          "Explain that when the Sun is low, the shadow is long.",
+          "Accept: because the light comes from a low angle / the light rays are at a low angle."
+        ],
+        "hints": [
+          "Stay focused on this: Explain why the child's shadow is long — develop the idea fully rather than listing short points. Make sure you also cover: that the Sun is low in the sky.; Accept: the comes from a low / the are at a low."
+        ],
+        "model_answer": "The child's shadow is long because the Sun is low in the sky. When the Sun is low, the light rays come at a low angle, which makes the shadow stretch out and be longer.",
+        "explanation": "Remember to explain the relationship between the Sun's position and the length of the shadow.",
+        "exam_question_id": "bc9e18ba-fa14-47c7-8637-eefc167af26e:1",
+        "topic_label": "Check your progress (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Check your progress (The Earth and the Sun)"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Look at the picture of a child standing outside with a long shadow cast by the Sun. The Sun is low in the sky.",
+        "question": "Describe how the length of the shadow changes from morning to evening.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explain that the shadow is longest when the Sun is low in the sky.",
+          "Describe that in the morning and evening, the Sun is low, so the shadow is long.",
+          "Explain that at midday, the Sun is high, so the shadow is short."
+        ],
+        "hints": [
+          "Address the full question in a clear chain of reasoning — not a single short statement."
+        ],
+        "model_answer": "The length of the shadow changes from morning to evening as follows: In the morning and evening, when the Sun is low in the sky, the shadow is long. At midday, when the Sun is high, the shadow is short. This is because the angle of the Sun affects the length of the shadow.",
+        "explanation": "Remember to describe the relationship between the Sun's position and the length of the shadow throughout the day.",
+        "exam_question_id": "bc9e18ba-fa14-47c7-8637-eefc167af26e:1",
+        "topic_label": "Check your progress (The Earth and the Sun)",
+        "topic_id": 566,
+        "checked": true,
+        "source": {
+          "textbook": "Cambridge Primary Science 2 Learners Book PDF",
+          "area": "Check your progress (The Earth and the Sun)"
+        }
+      }
+    ],
+    "estimated_time": 52,
+    "assessment_id": "715b79b7-56f8-48cc-a3bd-97772427425b",
+    "subject": "Cambridge Primary Science 2 Learners Book PDF ",
+    "topics": [
+      "The Earth and the Sun"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "cambridge",
+    "questionType": "longform",
+    "textbook_id": 49,
+    "topic_ids": [
+      566
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 22,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "scenario-repeated-across-paper",
+      "severity": "broken",
+      "index": 8,
+      "detail": "6 questions open with the same sentence (9, 11, 13, 16, 18, 22): \"Describe how the length of the shadow changes from\""
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 5,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 10,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 12,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 15,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 17,
+      "detail": "same as question 9"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 21,
+      "detail": "same as question 9"
+    }
+  ],
+  "figures": 1,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "1a",
+        "severity": "poor",
+        "detail": "Marking criteria allows both morning and evening as correct, but question asks 'Is it more likely to be midday or evening?' This phrasing suggests a binary choice between two options, not three. Ambiguity between question intent and marking criteria.",
+        "correction": "Clarify question: either ask 'Is it more likely to be midday, morning, or evening?' or revise marking criteria to reflect the binary choice presented."
+      },
+      {
+        "label": "2a",
+        "severity": "poor",
+        "detail": "Marking criteria lists 2 marks but only describes content (correct time + explanation). No mark allocation specified (e.g., 1 mark each). Model answer gives 10:30 but diagram description says shadow 'near the lines for 10 and 11'—10:30 is reasonable but not explicitly justified.",
+        "correction": "Specify mark allocation: '1 mark for stating time between 10–11; 1 mark for explaining shadow position.' Clarify if 10:30 or 'between 10 and 11' is expected."
+      },
+      {
+        "label": "2b",
+        "severity": "poor",
+        "detail": "Question asks about shadow length changes 'on a sundial' but model answer describes shadow length (which does change), not shadow direction/position (which rotates on a sundial). Conflates two different phenomena.",
+        "correction": "Revise question to: 'Describe how the shadow on a sundial moves throughout the day' OR revise model answer to clarify that shadow length also changes on a sundial as Sun's angle changes."
+      },
+      {
+        "label": "3a",
+        "severity": "poor",
+        "detail": "Question 3a is identical to Question 1a (same context, same image, same question wording). Assessment repeats the same question with identical data.",
+        "correction": "Remove Question 3a or replace with distinct question (e.g., different time scenario or different phenomenon)."
+      },
+      {
+        "label": "3b",
+        "severity": "poor",
+        "detail": "Question 3b is identical to Question 1b (same context, same question wording about shadow length changes throughout day). Repeated question.",
+        "correction": "Remove Question 3b or replace with distinct question."
+      },
+      {
+        "label": "3c",
+        "severity": "poor",
+        "detail": "Marking criteria item 2 reads 'Explanation of how the of the Sun affects shadow length' — incomplete text ('the of the Sun'). Appears to be corrupted/missing word.",
+        "correction": "Correct to: 'Explanation of how the angle of the Sun affects shadow length.'"
+      },
+      {
+        "label": "4a",
+        "severity": "poor",
+        "detail": "Marking criteria item 2 reads 'Explanation of how the of the Sun's affects the length of the shadow' — incomplete/corrupted text ('the of the Sun's'). Missing word.",
+        "correction": "Correct to: 'Explanation of how the angle of the Sun's rays affects the length of the shadow.'"
+      },
+      {
+        "label": "6c",
+        "severity": "poor",
+        "detail": "Question asks to 'State whether it is more likely to be morning, midday, or evening' but marking criteria only lists 2 marks. For a 3-option identification question, mark allocation is unclear.",
+        "correction": "Clarify: is this 1 mark for correct identification + 1 mark for brief justification? Specify mark breakdown."
+      },
+      {
+        "label": "8a",
+        "severity": "poor",
+        "detail": "Marking criteria item 2 reads 'Mention of the of.' — incomplete/corrupted text. Missing word(s).",
+        "correction": "Correct to: 'Mention of the angle of sunlight' or similar."
+      },
+      {
+        "label": "9a",
+        "severity": "poor",
+        "detail": "Marking criteria item 2 reads 'Explanation correctly states that the Sun is in the sky and.' — incomplete/corrupted text. Sentence fragment.",
+        "correction": "Correct to: 'Explanation correctly states that the Sun is lower in the sky during morning and evening.'"
+      },
+      {
+        "label": "10a",
+        "severity": "poor",
+        "detail": "Marking criteria item 3 reads 'Accept: the comes from a low / the are at a low.' — corrupted text with missing words ('the comes', 'the are').",
+        "correction": "Correct to: 'Accept: because the light comes from a low angle / the light rays are at a low angle.'"
+      }
+    ],
+    "summary": "Assessment contains 10 substantive issues: 2 repeated questions (1a/3a, 1b/3b), 5 corrupted marking criteria texts with missing words, 1 ambiguous question phrasing, 1 conflation of shadow length vs. position on sundial, and 1 unclear mark allocation. No factual errors in science content detected."
+  },
+  "totalSeconds": 81
+}

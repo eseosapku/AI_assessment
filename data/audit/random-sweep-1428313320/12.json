@@ -1,0 +1,315 @@
+{
+  "index": 12,
+  "label": "REB / Practice / GENERAL EDU-History-S4-SB",
+  "request": {
+    "subject": "GENERAL EDU-History-S4-SB",
+    "textbook_id": 99,
+    "topic_ids": [
+      1041,
+      1043
+    ],
+    "topics": [
+      "Human Rights Codification and Its Impact",
+      "Role of Gacaca and Abunzi in Conflict Solving"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Test Style (Textbooks)",
+    "questionType": "mixed",
+    "count": 10,
+    "difficultyLevel": "average"
+  },
+  "seed": 1428313320,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 48,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "question": "Explain the significance of the Universal Declaration of Human Rights in the codification of human rights.",
+        "marks": 4,
+        "marking_criteria": [
+          "Explanation of the historical context of the Declaration",
+          "Description of its key provisions",
+          "Impact on international human rights standards",
+          "Evaluation of its effectiveness"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the significance of the Universal Declaration of Human Rights in the codification of human rights — develop the idea fully rather than listing short points. Make sure you also cover: Explanation of the historical context of the Declaration; Description of its key provisions; Evaluation…."
+        ],
+        "model_answer": "The Universal Declaration of Human Rights, adopted in 1948, marked a significant milestone in the codification of human rights. It was created in response to the atrocities of World War II and aimed to establish a common standard of achievement for all peoples and nations. The Declaration outlines fundamental rights and freedoms, such as the right to life, liberty, and security of person. It has influenced numerous international treaties and national constitutions, setting a global benchmark for human rights protection. However, its effectiveness varies, as not all countries fully implement its principles.",
+        "explanation": "A strong answer will explain the historical context of the Declaration, describe its key provisions, discuss its impact on international human rights standards, and evaluate its effectiveness in promoting human rights globally.",
+        "checked": true,
+        "topic_label": "Human Rights Codification and Its Impact",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Human Rights Codification and Its Impact"
+        },
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalized in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\""
+      },
+      {
+        "id": 2,
+        "type": "mcq",
+        "question": "What role did Gacaca play in resolving conflicts in Rwanda?",
+        "options": [
+          "Promoted division among communities",
+          "Provided a platform for reconciliation and healing",
+          "Increased ethnic tensions",
+          "Neglected the needs of the victims"
+        ],
+        "correct_answer": 1,
+        "explanation": "Gacaca provided a platform for reconciliation and healing in Rwanda. It allowed communities to address past injustices, promote forgiveness, and rebuild relationships, contributing to the country's recovery from the genocide.",
+        "checked": true,
+        "topic_label": "Role of Gacaca and Abunzi in Conflict Solving",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Role of Gacaca and Abunzi in Conflict Solving"
+        },
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalized in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\""
+      },
+      {
+        "id": 3,
+        "type": "mcq",
+        "question": "Which of the following is a criticism of Gacaca mentioned in the source?",
+        "options": [
+          "It processed cases too quickly.",
+          "It focused too much on minor crimes.",
+          "It did not address the full scope of genocide crimes.",
+          "It was only effective in urban areas."
+        ],
+        "correct_answer": 2,
+        "explanation": "The source mentions that 'Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide,' indicating a criticism of its scope.",
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalised in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\"",
+        "topic_label": "Role of Gacaca and Abunzi in Conflict Solving",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Role of Gacaca and Abunzi in Conflict Solving"
+        }
+      },
+      {
+        "id": 4,
+        "type": "mcq",
+        "question": "What does the source suggest about the impact of the Universal Declaration of Human Rights (UDHR) on international law?",
+        "options": [
+          "It was only relevant to European countries.",
+          "It was ignored by most nations.",
+          "It had no significant impact on international law.",
+          "It served as a foundation for numerous international treaties."
+        ],
+        "correct_answer": 3,
+        "explanation": "The source states that the UDHR 'served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide.' This indicates its significant impact on international law.",
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalised in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\"",
+        "topic_label": "Human Rights Codification and Its Impact",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Human Rights Codification and Its Impact"
+        }
+      },
+      {
+        "id": 5,
+        "type": "mcq",
+        "question": "Which of the following statements best describes the role of Abunzi in conflict resolution?",
+        "options": [
+          "Abunzi emphasised community involvement and dialogue",
+          "Abunzi ignored the needs of the victims",
+          "Abunzi prioritised military intervention",
+          "Abunzi focused solely on punishing perpetrators"
+        ],
+        "correct_answer": 0,
+        "explanation": "Abunzi emphasised community involvement and dialogue in conflict resolution. It involved community members in discussions, facilitated reconciliation, and encouraged collective healing, rather than focusing solely on punishment.",
+        "topic_label": "Role of Gacaca and Abunzi in Conflict Solving",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Role of Gacaca and Abunzi in Conflict Solving"
+        },
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalized in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\""
+      },
+      {
+        "id": 6,
+        "type": "mcq",
+        "question": "Which of the following is a significant impact of the codification of human rights?",
+        "options": [
+          "Greater recognition of individual rights",
+          "Decreased international cooperation",
+          "Reduction in global conflicts",
+          "Increased economic inequality"
+        ],
+        "correct_answer": 0,
+        "explanation": "Greater recognition of individual rights is a significant impact of the codification of human rights. This is because the codification provides a clear and universal framework for protecting and promoting human rights, leading to increased awareness and protection of individual rights globally.",
+        "checked": true,
+        "topic_label": "Human Rights Codification and Its Impact",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Human Rights Codification and Its Impact"
+        },
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalized in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\""
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "question": "Describe the role of Gacaca courts in addressing the aftermath of the Rwandan genocide.",
+        "marks": 3,
+        "marking_criteria": [
+          "Explanation of the purpose of Gacaca courts",
+          "Description of the court's process and procedures",
+          "Assessment of its impact on reconciliation"
+        ],
+        "hints": [
+          "Stay focused on this: Describe the role of Gacaca courts in addressing the aftermath of the Rwandan genocide — develop the idea fully rather than listing short points. Make sure you also cover: Description of the court's and procedures; Assessment of its impact on."
+        ],
+        "model_answer": "Gacaca courts were established in Rwanda to address the massive backlog of genocide-related cases and promote reconciliation. These community-based courts allowed victims and perpetrators to face each other, facilitating dialogue and healing. The process involved community members in the judicial process, which helped to rebuild social cohesion and address the trauma of the genocide. While Gacaca courts have been criticized for their limitations, they played a crucial role in the country's recovery and reconciliation efforts.",
+        "explanation": "A strong answer will explain the purpose of Gacaca courts, describe the court's process and procedures, and assess its impact on reconciliation in Rwanda.",
+        "checked": true,
+        "topic_label": "Role of Gacaca and Abunzi in Conflict Solving",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Role of Gacaca and Abunzi in Conflict Solving"
+        },
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalized in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\""
+      },
+      {
+        "id": 8,
+        "type": "mcq",
+        "question": "What can a historian learn from the source about the interplay between traditional conflict resolution mechanisms and formal legal systems in Rwanda?",
+        "options": [
+          "Formal legal systems are always more effective than traditional mechanisms.",
+          "Traditional mechanisms are only used for minor disputes.",
+          "They are mutually exclusive and never work together.",
+          "They complement each other in rebuilding and reconciling society."
+        ],
+        "correct_answer": 3,
+        "explanation": "The source states that 'The interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile,' indicating their complementary roles.",
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalised in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\"",
+        "checked": true,
+        "topic_label": "Role of Gacaca and Abunzi in Conflict Solving",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Role of Gacaca and Abunzi in Conflict Solving"
+        }
+      },
+      {
+        "id": 9,
+        "type": "mcq",
+        "question": "How useful is the source for studying the role of Gacaca in Rwanda's post-genocide justice system?",
+        "options": [
+          "It provides a detailed account of Gacaca's legal procedures.",
+          "It offers insights into Gacaca's role in addressing crimes committed during the genocide.",
+          "It explains the full scope of Gacaca's effectiveness without any limitations.",
+          "It focuses solely on the negative aspects of Gacaca."
+        ],
+        "correct_answer": 1,
+        "explanation": "The source provides insights into Gacaca's role in addressing crimes committed during the genocide, highlighting its contribution to justice and reconciliation, which makes B. It offers insights into Gacaca's role in addressing crimes committed during the genocide. correct. It also acknowledges some limitations, ruling out C. It explains the full scope of Gacaca's effectiveness without any limitations., and it does not focus solely on negative aspects, ruling out D. It focuses solely on the negative aspects of Gacaca..",
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalised in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\"",
+        "checked": true,
+        "topic_label": "Role of Gacaca and Abunzi in Conflict Solving",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Role of Gacaca and Abunzi in Conflict Solving"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "question": "Explain the significance of the statement 'Gacaca courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation.'",
+        "marks": 4,
+        "marking_criteria": [
+          "1 mark for identifying the role of Gacaca courts.",
+          "1 mark for explaining the process of confrontation between victims and perpetrators.",
+          "1 mark for discussing the aim of facilitating justice.",
+          "1 mark for discussing the aim of reconciliation."
+        ],
+        "model_answer": "The statement highlights the dual purpose of Gacaca courts in Rwanda: to provide a platform for victims and perpetrators to confront each other and to facilitate both justice and reconciliation. This confrontational process was significant because it allowed victims to seek redress directly from those responsible for their suffering, which was crucial for healing. Additionally, by addressing crimes in a communal setting, Gacaca aimed to foster reconciliation, helping to rebuild social harmony and trust within the community.",
+        "explanation": "A strong answer must identify the role of Gacaca courts, explain the confrontation process, and discuss the aims of facilitating justice and reconciliation. Each point should be grounded in the source or historical context to earn the marks.",
+        "passage": "The codification of human rights has been a pivotal development in the global quest for justice and equality. The Universal Declaration of Human Rights (UDHR), adopted by the United Nations General Assembly on December 10, 1948, marked a significant milestone. Drafted in the aftermath of World War II, the UDHR was a response to the atrocities committed during the conflict, aiming to prevent future human rights abuses. It established a common standard of achievement for all peoples and all nations, setting forth fundamental rights and freedoms that are to be universally protected.\n\nThe impact of the UDHR was profound and far-reaching. It served as the foundation for numerous international treaties and national constitutions, embedding human rights principles into legal frameworks worldwide. For instance, the International Covenant on Civil and Political Rights (ICCPR) and the International Covenant on Economic, Social and Cultural Rights (ICESCR), both adopted in 1966, built upon the UDHR, creating binding obligations for signatory states. These covenants have influenced domestic policies, leading to landmark legal cases and reforms aimed at protecting individual rights.\n\nIn post-conflict Rwanda, the role of Gacaca and Abunzi in conflict resolution highlighted the importance of community-based justice systems in healing and reconciliation. Gacaca courts, traditional community courts, were revitalised in 2001 to address the crimes committed during the 1994 Rwandan Genocide. These courts aimed to provide a platform for victims and perpetrators to confront each other, facilitating justice and reconciliation. By 2012, Gacaca had processed over a million cases, significantly contributing to the country's judicial process and societal healing.\n\nHowever, the effectiveness of Gacaca was mixed. While it provided a space for communal justice and allowed many victims to seek redress, it also faced criticism for its limitations in addressing the full scope of genocide crimes. Critics argued that Gacaca's focus on community-level crimes sometimes overshadowed the broader, more severe crimes of the genocide. Despite these challenges, Gacaca played a crucial role in Rwanda's post-genocide justice system, complementing the work of the International Criminal Tribunal for Rwanda (ICTR).\n\nAbunzi, another traditional conflict resolution mechanism, focused on mediation and dialogue. It involved community elders and leaders working to resolve disputes and foster understanding among conflicting parties. Abunzi's approach was more informal and flexible, often leading to quicker resolutions compared to formal judicial processes. This method was particularly effective in addressing minor disputes and maintaining social harmony.\n\nThe interplay between traditional conflict resolution mechanisms like Gacaca and Abunzi and the formal legal system has been essential in Rwanda's efforts to rebuild and reconcile. These community-based approaches have complemented international human rights standards, demonstrating the potential of integrating traditional practices with modern legal frameworks to address complex social issues.",
+        "passage_source": "\"Textbook account of Human Rights Codification and Its Impact, and Role of Gacaca and Abunzi in Conflict Solving, 20th and 21st Century\"",
+        "checked": true,
+        "hints": [
+          "Answer every labelled part of the question, and link your points so a marker can follow the full argument."
+        ],
+        "topic_label": "Role of Gacaca and Abunzi in Conflict Solving",
+        "source": {
+          "textbook": "GENERAL EDU-History-S4-SB",
+          "area": "Role of Gacaca and Abunzi in Conflict Solving"
+        }
+      }
+    ],
+    "estimated_time": 44,
+    "assessment_id": "0c7aa4e3-e8e0-44db-80a2-3b21ea7721bf",
+    "subject": "GENERAL EDU-History-S4-SB",
+    "topics": [
+      "Human Rights Codification and Its Impact",
+      "Role of Gacaca and Abunzi in Conflict Solving"
+    ],
+    "style": "Test Style (Textbooks)",
+    "curriculum": "rwanda",
+    "questionType": "mixed",
+    "textbook_id": 99,
+    "topic_ids": [
+      1041,
+      1043
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 10,
+  "structureErrors": [],
+  "findings": [],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "reviewed_labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "issues": [
+      {
+        "label": "4",
+        "severity": "broken",
+        "detail": "MCQ correct_answer is 3, but option index 3 is 'It served as a foundation for numerous international treaties.' The correct answer should be index 3 (0-indexed), which corresponds to the fourth option. Indexing is inconsistent with standard 0-based array notation.",
+        "correction": "Verify correct_answer value matches intended option. If option 3 (0-indexed) is correct, confirm correct_answer: 3 is intended; if the fourth displayed option is intended, ensure indexing aligns with array structure (typically 0-3 for four options)."
+      },
+      {
+        "label": "5",
+        "severity": "broken",
+        "detail": "MCQ correct_answer is 0, but explanation states 'Abunzi emphasised community involvement and dialogue in conflict resolution,' which matches option index 0. However, the explanation text does not appear in the options list provided—option 0 reads 'Abunzi emphasised community involvement and dialogue.' Verify option text matches explanation.",
+        "correction": "Confirm option[0] text is 'Abunzi emphasised community involvement and dialogue' and correct_answer: 0 is accurate."
+      },
+      {
+        "label": "7",
+        "severity": "poor",
+        "detail": "Marking criteria lists three items but hints text is incomplete: 'Assessment of its impact on.' appears truncated. Criterion clarity is compromised for marker guidance.",
+        "correction": "Complete hints text: 'Assessment of its impact on reconciliation and societal healing.'"
+      },
+      {
+        "label": "9",
+        "severity": "poor",
+        "detail": "Question asks 'How useful is the source' (source evaluation), but this is a meta-question about the source itself rather than testing content knowledge of Gacaca's role. While valid for historiography, it shifts from content mastery to source criticism without prior context establishing this skill focus.",
+        "correction": "Acceptable if source evaluation is an explicit curriculum objective; otherwise replace with direct content question on Gacaca's limitations or complementary role with ICTR."
+      }
+    ],
+    "summary": "Assessment is largely sound with accurate factual content, appropriate marking criteria, and topic alignment. Three minor issues identified: MCQ indexing clarity (Q4), option text verification (Q5), incomplete marking guidance (Q7), and one meta-question (Q9) that shifts to source evaluation. No repeated questions, missing data, or age-inappropriateness detected."
+  },
+  "totalSeconds": 55
+}

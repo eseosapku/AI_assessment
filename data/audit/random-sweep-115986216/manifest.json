@@ -1,0 +1,443 @@
+{
+  "seed": 115986216,
+  "jobs": [
+    {
+      "label": "REB / Exam / S3 HISTORY AND CITIZENSHIP SB",
+      "exam": true,
+      "body": {
+        "subject": "S3 HISTORY AND CITIZENSHIP SB",
+        "textbook_id": 182,
+        "topic_ids": [
+          1907
+        ],
+        "topics": [
+          "The 1789 French Revolution"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Complete English Language for Cambridge International AS & A Level Second Edition",
+      "exam": true,
+      "body": {
+        "subject": "Complete English Language for Cambridge International AS & A Level Second Edition",
+        "textbook_id": 208,
+        "topic_ids": [
+          2622
+        ],
+        "topics": [
+          "Chapter 1: Elements of language"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Complete English Language for Cambridge International AS & A Level Second Edition",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Advanced Mathematics S6 SB (1)",
+      "exam": false,
+      "body": {
+        "subject": "Advanced Mathematics S6 SB (1)",
+        "textbook_id": 2,
+        "topic_ids": [
+          20,
+          13
+        ],
+        "topics": [
+          "Random Variables",
+          "Logarithmic and Exponential Functions"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Primary Science 1 Learner’s Book ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Primary Science 1 Learner’s Book ",
+        "textbook_id": 48,
+        "topic_ids": [
+          560
+        ],
+        "topics": [
+          "Hearing sounds"
+        ],
+        "curriculum": "cambridge",
+        "grade": 1,
+        "className": "Cambridge Primary Science 1 Learner’s Book ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge-AS-A-Level-Computing-Coursebook",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "textbook_id": 207,
+        "topic_ids": [
+          3026,
+          3025
+        ],
+        "topics": [
+          "Chapter 2: Designing solutions to problems",
+          "Chapter 1: Components of a computer system and modes of use"
+        ],
+        "curriculum": "cambridge",
+        "grade": 12,
+        "className": "Cambridge-AS-A-Level-Computing-Coursebook",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "textbook_id": 33,
+        "topic_ids": [
+          430
+        ],
+        "topics": [
+          "5 Properties of materials"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Science 7 Learners Book Second Edition ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / Mathematics-SB S6 HLP LFK HGL",
+      "exam": true,
+      "body": {
+        "subject": "Mathematics-SB S6 HLP LFK HGL",
+        "textbook_id": 130,
+        "topic_ids": [
+          1358,
+          1357
+        ],
+        "topics": [
+          "UNIT 2: COUNTING TECHNIQUES",
+          "UNIT 1: BIVARIATE STATISTICS"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Exam / Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+      "exam": true,
+      "body": {
+        "subject": "Sub Maths S4 Adapted SB 2022 LFK, HLP and HGL",
+        "textbook_id": 185,
+        "topic_ids": [
+          1941,
+          1942
+        ],
+        "topics": [
+          "UNIT 1: ARITHMETICS",
+          "UNIT 2: EQUATIONS AND INEQUALITIES"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / ICT  S3 SB",
+      "exam": false,
+      "body": {
+        "subject": "ICT  S3 SB",
+        "textbook_id": 115,
+        "topic_ids": [
+          1226
+        ],
+        "topics": [
+          "ArcGIS"
+        ],
+        "curriculum": "rwanda",
+        "grade": 9,
+        "className": "S3",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "textbook_id": 15,
+        "topic_ids": [
+          178
+        ],
+        "topics": [
+          "Global Theme 2: Reducing Carbon Emissions"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ and O Level Geography Coursebook with CD-ROM",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Geography S5 SB (1)",
+      "exam": false,
+      "body": {
+        "subject": "Geography S5 SB (1)",
+        "textbook_id": 110,
+        "topic_ids": [
+          1168
+        ],
+        "topics": [
+          "Soils"
+        ],
+        "curriculum": "rwanda",
+        "grade": 11,
+        "className": "S5",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / IGCSE-Physics-Coursebook-by-David-Sang",
+      "exam": false,
+      "body": {
+        "subject": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "textbook_id": 209,
+        "topic_ids": [
+          2589
+        ],
+        "topics": [
+          "Chapter 25: The magnetic effect of current"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "IGCSE-Physics-Coursebook-by-David-Sang",
+        "style": "Test Style (Textbooks)",
+        "questionType": "interactive",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge Lower Secondary Computing 7 ",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge Lower Secondary Computing 7 ",
+        "textbook_id": 29,
+        "topic_ids": [
+          385,
+          389
+        ],
+        "topics": [
+          "Decomposing problems: Creating a smart solution",
+          "Sequencing and pattern recognition: Getting the message across"
+        ],
+        "curriculum": "cambridge",
+        "grade": 7,
+        "className": "Cambridge Lower Secondary Computing 7 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / P6 Mathematics PB (1)",
+      "exam": true,
+      "body": {
+        "subject": "P6 Mathematics PB (1)",
+        "textbook_id": 165,
+        "topic_ids": [
+          1715,
+          1726
+        ],
+        "topics": [
+          "Powers, Indices, LCM and GCF",
+          "Data Handling"
+        ],
+        "curriculum": "rwanda",
+        "grade": 6,
+        "className": "P6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "REB / Practice / P2-English-PB",
+      "exam": false,
+      "body": {
+        "subject": "P2-English-PB",
+        "textbook_id": 146,
+        "topic_ids": [
+          1514
+        ],
+        "topics": [
+          "Telling the time"
+        ],
+        "curriculum": "rwanda",
+        "grade": 2,
+        "className": "P2",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Exam / Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+      "exam": true,
+      "body": {
+        "subject": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "textbook_id": 10,
+        "topic_ids": [
+          131,
+          137
+        ],
+        "topics": [
+          "Unit 1: Making sense of algebra",
+          "Unit 2: Introduction to probability"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE 3rd (Third Edition) Edition Mathematics 0580 Core and Extended ",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 10,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "REB / Practice / Computer Science S4 SB",
+      "exam": false,
+      "body": {
+        "subject": "Computer Science S4 SB",
+        "textbook_id": 60,
+        "topic_ids": [
+          664,
+          673
+        ],
+        "topics": [
+          "Unit 3: Safe & Ethical Use of Computers",
+          "Unit 12: Control Statements in C++"
+        ],
+        "curriculum": "rwanda",
+        "grade": 10,
+        "className": "S4",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mixed",
+        "count": 10,
+        "difficultyLevel": "average"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+      "exam": false,
+      "body": {
+        "subject": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+        "textbook_id": 199,
+        "topic_ids": [
+          2502
+        ],
+        "topics": [
+          "Chapter 11: Organic chemistry"
+        ],
+        "curriculum": "cambridge",
+        "grade": 10,
+        "className": "Cambridge IGCSE™ Chemistry Coursebook with Digital Access (2 Years) (Cambridge International IGCSE) 5th edition",
+        "style": "Test Style (Textbooks)",
+        "questionType": "study_mixed",
+        "count": 20,
+        "difficultyLevel": "beginner"
+      }
+    },
+    {
+      "label": "Cambridge / Practice / Oxford English for Cambridge Primary Student Book 2 ",
+      "exam": false,
+      "body": {
+        "subject": "Oxford English for Cambridge Primary Student Book 2 ",
+        "textbook_id": 135,
+        "topic_ids": [
+          1389,
+          1385
+        ],
+        "topics": [
+          "Unit 7: Fiction - Mountain bear adventure",
+          "Unit 3: Poetry - Everyday poems"
+        ],
+        "curriculum": "cambridge",
+        "grade": 2,
+        "className": "Oxford English for Cambridge Primary Student Book 2 ",
+        "style": "Test Style (Textbooks)",
+        "questionType": "mcq",
+        "count": 10,
+        "difficultyLevel": "intermediate"
+      }
+    },
+    {
+      "label": "REB / Exam / GENERAL EDU-History-S6-SB (1)",
+      "exam": true,
+      "body": {
+        "subject": "GENERAL EDU-History-S6-SB (1)",
+        "textbook_id": 101,
+        "topic_ids": [
+          1064
+        ],
+        "topics": [
+          "UNIT 11: PREVENTION AND RESOLUTION OF CONFLICTS"
+        ],
+        "curriculum": "rwanda",
+        "grade": 12,
+        "className": "S6",
+        "style": "Exam Style (Past Papers)",
+        "questionType": "longform",
+        "count": 20,
+        "difficultyLevel": "intermediate"
+      }
+    }
+  ]
+}

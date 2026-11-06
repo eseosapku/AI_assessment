@@ -1,0 +1,706 @@
+{
+  "index": 10,
+  "label": "REB / Exam / P4 Mathematics PB",
+  "request": {
+    "subject": "P4 Mathematics PB",
+    "textbook_id": 153,
+    "topic_ids": [
+      1586,
+      1584
+    ],
+    "topics": [
+      "Mass Measurements",
+      "Length Measurements"
+    ],
+    "curriculum": "rwanda",
+    "grade": 4,
+    "className": "P4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 10,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 234631567,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 26,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A school garden is in the shape of a rectangle. Its length is 8 metres and the width is 5 metres. The diagram shows this garden.",
+        "question": "Calculate the perimeter of the garden.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the perimeter using the formula P = 2(l + w).",
+          "Substituting the correct values for length and width.",
+          "Arriving at the correct final answer."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the perimeter of the garden — develop the idea fully rather than listing short points. Make sure you also cover: Correct calculation of the perimeter using the P = 2(l + w).; Substituting the correct values for and; Arriving at the correct final answer."
+        ],
+        "model_answer": "The perimeter P of a rectangle is calculated using the formula P = 2(l + w), where l is the length and w is the width. Here, l = 8 meters and w = 5 meters. So, P = 2(8 + 5) = 2(13) = 26 meters. The perimeter of the garden is 26 meters.",
+        "explanation": "To find the perimeter of the garden, we use the formula for the perimeter of a rectangle, which is P = 2(l + w). We substitute the given length (8 metres) and width (5 metres) into the formula and calculate the perimeter step by step.",
+        "exam_question_id": "4de6188d-b35a-4c85-94f9-09923210b1c8:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page97-embedded-0.jpeg",
+        "image_alt": "A drawing of a rectangular school garden seen in perspective, with brown soil planted with rows of green cabbages and surrounded by grass. One side is labelled 5 m and the adjacent side is labelled 8 m, each with a double-headed arrow.\nLabels: 5m, 8m\nOriginal exercise: A school garden is in the shape of a rectangle. Its length is 8 meters and the width is 5 meters. What is t",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A school garden is in the shape of a rectangle. Its length is 8 metres and the width is 5 metres. The diagram shows this garden.",
+        "question": "If the school decides to add a 1 metre wide pathway around the garden, calculate the new perimeter of the garden including the pathway.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct calculation of the new dimensions including the pathway.",
+          "Substituting the correct values for the new length and width.",
+          "Arriving at the correct final answer."
+        ],
+        "hints": [
+          "Remember to add 2 metres to each dimension for the pathway on both sides."
+        ],
+        "model_answer": "The original length is 8 meters and the original width is 5 meters. Adding a 1 meter wide pathway on each side increases the length to 8 + 2 = 10 meters and the width to 5 + 2 = 7 meters. The new perimeter P is calculated using the formula P = 2(l + w), where l is the new length and w is the new width. So, P = 2(10 + 7) = 2(17) = 34 meters. The new perimeter of the garden including the pathway is 34 meters.",
+        "explanation": "To find the new perimeter of the garden including the pathway, we first need to calculate the new dimensions of the garden. We add 1 metre to each side for the pathway, so the new length is 8 + 2 = 10 metres and the new width is 5 + 2 = 7 metres. Then we use the formula for the perimeter of a rectangle, P = 2(l + w), with the new dimensions to calculate the new perimeter.",
+        "exam_question_id": "4de6188d-b35a-4c85-94f9-09923210b1c8:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page97-embedded-0.jpeg",
+        "image_alt": "A drawing of a rectangular school garden seen in perspective, with brown soil planted with rows of green cabbages and surrounded by grass. One side is labelled 5 m and the adjacent side is labelled 8 m, each with a double-headed arrow.\nLabels: 5m, 8m\nOriginal exercise: A school garden is in the shape of a rectangle. Its length is 8 meters and the width is 5 meters. What is t",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a rectangular garden bed with a wooden border, filled with soil and four rows of green leafy plants, set on grass. The long side is labelled 10m and the shorter side is labelled 6m, each with a double-headed arrow.",
+        "question": "Calculate the perimeter of the garden bed.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the formula for the perimeter of a rectangle.",
+          "Correctly substitutes the given dimensions into the formula."
+        ],
+        "hints": [
+          "Recall the formula for the perimeter of a rectangle: P = 2(length + width)."
+        ],
+        "model_answer": "Perimeter = 2(10m + 6m) = 2(16m) = 32m",
+        "explanation": "The perimeter of a rectangle is found by adding up all the sides. Since the garden bed is a rectangle, you can use the formula P = 2(length + width) to find the perimeter. Substituting the given dimensions, 10m for length and 6m for width, gives you 2(16m) = 32m.",
+        "exam_question_id": "7a8e96bf-9d3f-4e8a-8f7d-c1994053b204:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page97-embedded-1.jpeg",
+        "image_alt": "A drawing of a rectangular garden bed with a wooden border, filled with soil and four rows of green leafy plants, set on grass. The long side is labelled 10m and the shorter side is labelled 6m, each with a double-headed arrow.\nLabels: 10m, 6m\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a rectangular garden bed with a wooden border, filled with soil and four rows of green leafy plants, set on grass. The long side is labelled 10m and the shorter side is labelled 6m, each with a double-headed arrow.",
+        "question": "Find the area of the garden bed.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identifies the formula for the area of a rectangle.",
+          "Correctly substitutes the given dimensions into the formula."
+        ],
+        "hints": [
+          "Recall the formula for the area of a rectangle: A = length × width."
+        ],
+        "model_answer": "Area = 10m × 6m = 60m²",
+        "explanation": "The area of a rectangle is found by multiplying the length by the width. Substituting the given dimensions, 10m for length and 6m for width, gives you 10m × 6m = 60m².",
+        "exam_question_id": "7a8e96bf-9d3f-4e8a-8f7d-c1994053b204:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page97-embedded-1.jpeg",
+        "image_alt": "A drawing of a rectangular garden bed with a wooden border, filled with soil and four rows of green leafy plants, set on grass. The long side is labelled 10m and the shorter side is labelled 6m, each with a double-headed arrow.\nLabels: 10m, 6m\nOriginal exercise:",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "scenario": "The diagram shows a triangular slice of chocolate cake with sprinkles on top, resting on a yellow square board. The triangle's corners are labelled P (top), Q (bottom left) and R (right). Side PQ is labelled 3 cm, side PR is labelled 4 cm, and side QR is labelled 4 cm.",
+        "question": "Calculate the perimeter of the cake slice.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the perimeter.",
+          "Correct units."
+        ],
+        "hints": [
+          "Remember to add up all the sides of the triangle."
+        ],
+        "model_answer": "3 cm + 4 cm + 4 cm = 11 cm\nThe perimeter of the cake slice is 11 cm.",
+        "explanation": "To find the perimeter of the cake slice, you need to add up the lengths of all the sides of the triangle.",
+        "exam_question_id": "d7a79e2d-74cd-442d-8f6f-83a66ea4209f:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page96-embedded-0.jpeg",
+        "image_alt": "A drawing of a triangular slice of chocolate cake with sprinkles on top, resting on a yellow square board. The triangle's corners are labelled P (top), Q (bottom left) and R (right). Side PQ is labelled 3 cm, side PR is labelled 4 cm, and side QR is labelled 4 cm.\nLabels: P, 3 cm, 4 cm, Q, 4 cm, R\nOriginal exercise: Activity 6.10 The diagram shows a cake in form of an isosceles triangle. The lengths of the sides of the cakes are shown on the diagram PQR. What is the distance a",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "scenario": "The diagram shows a triangular slice of chocolate cake with sprinkles on top, resting on a yellow square board. The triangle's corners are labelled P (top), Q (bottom left) and R (right). Side PQ is labelled 3 cm, side PR is labelled 4 cm, and side QR is labelled 4 cm.",
+        "question": "State the type of triangle that the cake slice represents.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of the type of triangle.",
+          "Correct reasoning."
+        ],
+        "hints": [
+          "Stay focused on this: State the type of triangle that the cake slice represents — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the type of triangle.; Correct reasoning."
+        ],
+        "model_answer": "The cake slice is an isosceles triangle because two of its sides are of equal length (PR = QR = 4 cm).",
+        "explanation": "An isosceles triangle has two sides of equal length. In this case, sides PR and QR are both 4 cm long.",
+        "exam_question_id": "d7a79e2d-74cd-442d-8f6f-83a66ea4209f:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page96-embedded-0.jpeg",
+        "image_alt": "A drawing of a triangular slice of chocolate cake with sprinkles on top, resting on a yellow square board. The triangle's corners are labelled P (top), Q (bottom left) and R (right). Side PQ is labelled 3 cm, side PR is labelled 4 cm, and side QR is labelled 4 cm.\nLabels: P, 3 cm, 4 cm, Q, 4 cm, R\nOriginal exercise: Activity 6.10 The diagram shows a cake in form of an isosceles triangle. The lengths of the sides of the cakes are shown on the diagram PQR. What is the distance a",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 7,
+        "type": "longform",
+        "part": "c",
+        "scenario": "The diagram shows a triangular slice of chocolate cake with sprinkles on top, resting on a yellow square board. The triangle's corners are labelled P (top), Q (bottom left) and R (right). Side PQ is labelled 3 cm, side PR is labelled 4 cm, and side QR is labelled 4 cm.",
+        "question": "Find the area of the cake slice using the given side lengths.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct application of the area formula for a triangle.",
+          "Correct calculation.",
+          "Correct units."
+        ],
+        "hints": [
+          "Stay focused on this: Find the area of the cake slice using the given side lengths — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of the area formula for a triangle.; Correct calculation.; Correct units."
+        ],
+        "model_answer": "Area = 1/2 * 3 cm * 4 cm = 6 cm^2\nThe area of the cake slice is 6 cm^2.",
+        "explanation": "To find the area of the cake slice, use the formula for the area of a triangle, which is 1/2 * base * height. Here, the base is 3 cm and the height is 4 cm.",
+        "exam_question_id": "d7a79e2d-74cd-442d-8f6f-83a66ea4209f:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page96-embedded-0.jpeg",
+        "image_alt": "A drawing of a triangular slice of chocolate cake with sprinkles on top, resting on a yellow square board. The triangle's corners are labelled P (top), Q (bottom left) and R (right). Side PQ is labelled 3 cm, side PR is labelled 4 cm, and side QR is labelled 4 cm.\nLabels: P, 3 cm, 4 cm, Q, 4 cm, R\nOriginal exercise: Activity 6.10 The diagram shows a cake in form of an isosceles triangle. The lengths of the sides of the cakes are shown on the diagram PQR. What is the distance a",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 8,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Given 4 wooden sticks of 1 metre each and a pencil of 15 centimetres: 1. Find the total length of all sticks in meters. 2. Use a conversion table, which shows that 1 metre is equal to 100 centimetres.",
+        "question": "Find the total length of all sticks in meters.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly identify the length of each stick and the number of sticks.",
+          "Correctly calculate the total length in meters."
+        ],
+        "hints": [
+          "Stay focused on this: Find the total length of all sticks in meters — develop the idea fully rather than listing short points. Make sure you also cover: Correctly identify the length of each and the number of sticks."
+        ],
+        "model_answer": "4 sticks * 1 meter/stick = 4 meters. So, the total length of all sticks is 4 meters.",
+        "explanation": "To find the total length of all sticks, multiply the length of one stick (1 metre) by the number of sticks (4). This gives you the total length in meters.",
+        "exam_question_id": "e5988371-f151-4356-9ffc-e19dcf8ee10a:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page94-embedded-0.jpeg",
+        "image_alt": "On the left, four wooden sticks lie side by side, with a double-headed arrow along their length labelled 1 m. On the right, a yellow pencil with a pink eraser has a double-headed arrow above it labelled 15 cm.\nLabels: 1 m, 15 cm\nOriginal exercise: Given 4 sticks of 1 m long each and a pencil of 15 cm: 1. Find the total length of all sticks in meter 2. Use a conversion table, con",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 9,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Given 4 wooden sticks of 1 metre each and a pencil of 15 centimetres: 1. Find the total length of all sticks in meters. 2. Use a conversion table, which shows that 1 metre is equal to 100 centimetres.",
+        "question": "Convert the length of the pencil from centimetres to meters using the conversion table.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly identify the length of the pencil in centimetres.",
+          "Correctly use the conversion factor to convert centimetres to meters.",
+          "Provide the final answer in meters."
+        ],
+        "hints": [
+          "Remember that 1 metre is equal to 100 centimetres."
+        ],
+        "model_answer": "15 centimeters * (1 meter / 100 centimeters) = 0.15 meters. So, the length of the pencil is 0.15 meters.",
+        "explanation": "To convert the length of the pencil from centimetres to meters, multiply the length in centimetres by the conversion factor (1 metre / 100 centimetres). This gives you the length in meters.",
+        "exam_question_id": "e5988371-f151-4356-9ffc-e19dcf8ee10a:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page94-embedded-0.jpeg",
+        "image_alt": "On the left, four wooden sticks lie side by side, with a double-headed arrow along their length labelled 1 m. On the right, a yellow pencil with a pink eraser has a double-headed arrow above it labelled 15 cm.\nLabels: 1 m, 15 cm\nOriginal exercise: Given 4 sticks of 1 m long each and a pencil of 15 cm: 1. Find the total length of all sticks in meter 2. Use a conversion table, con",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 10,
+        "type": "longform",
+        "part": "c",
+        "scenario": "Given 4 wooden sticks of 1 metre each and a pencil of 15 centimetres: 1. Find the total length of all sticks in meters. 2. Use a conversion table, which shows that 1 metre is equal to 100 centimetres.",
+        "question": "Calculate the total length of all sticks and the pencil in centimetres, then convert the total length to meters.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly find the total length of all sticks in meters.",
+          "Correctly find the length of the pencil in centimetres.",
+          "Correctly add the lengths and convert the total length to meters."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total length of all sticks and the pencil in centimetres, then convert the total length to meters — develop the idea fully rather than listing short points. Make sure you also cover: Correctly find the length of the pencil in centimetres."
+        ],
+        "model_answer": "Total length of sticks = 4 meters. Length of pencil = 15 centimeters = 0.15 meters. Total length = 4 meters + 0.15 meters = 4.15 meters. So, the total length is 4.15 meters.",
+        "explanation": "First, find the total length of all sticks in meters (4 metres). Then, convert the length of the pencil from centimetres to meters (15 centimetres = 0.15 metres). Add the lengths together and convert the total length to meters to get the final answer.",
+        "exam_question_id": "e5988371-f151-4356-9ffc-e19dcf8ee10a:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "image_url": "/textbook-images/rwanda/153/page94-embedded-0.jpeg",
+        "image_alt": "On the left, four wooden sticks lie side by side, with a double-headed arrow along their length labelled 1 m. On the right, a yellow pencil with a pink eraser has a double-headed arrow above it labelled 15 cm.\nLabels: 1 m, 15 cm\nOriginal exercise: Given 4 sticks of 1 m long each and a pencil of 15 cm: 1. Find the total length of all sticks in meter 2. Use a conversion table, con",
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Liam has 3 apples, each weighing 100 grams. He buys 2 more apples, each weighing 120 grams. The diagram shows the apples.",
+        "question": "Calculate the total mass of all the apples in grams.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly multiply the mass of the first 3 apples by 100 grams.",
+          "Correctly multiply the mass of the next 2 apples by 120 grams.",
+          "Correctly add the two results to get the total mass."
+        ],
+        "hints": [
+          "Remember to multiply the number of apples by the weight of each apple."
+        ],
+        "model_answer": "3 apples * 100 grams = 300 grams\n2 apples * 120 grams = 240 grams\n300 grams + 240 grams = 540 grams",
+        "explanation": "You multiplied the number of each type of apple by their respective weights and added the results to find the total mass.",
+        "exam_question_id": "de1778f1-01c8-44b1-bd10-b2ce6c92f642:1",
+        "topic_label": "Mass Measurements",
+        "topic_id": 1586,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Mass Measurements"
+        }
+      },
+      {
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Liam has 3 apples, each weighing 100 grams. He buys 2 more apples, each weighing 120 grams. The diagram shows the apples.",
+        "question": "If each apple costs 50 cents, calculate the total cost of all the apples in cents.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total mass of all the apples.",
+          "Correctly determine the cost per apple.",
+          "Correctly multiply the total mass by the cost per apple in cents."
+        ],
+        "hints": [
+          "You already know the total mass of all the apples from part (a)."
+        ],
+        "model_answer": "Total mass = 540 grams, Cost per apple = 50 cents, Total cost = 540 grams * 50 cents/apple = 27000 cents",
+        "explanation": "You used the total mass of the apples from part (a) and multiplied it by the cost per apple to find the total cost.",
+        "exam_question_id": "de1778f1-01c8-44b1-bd10-b2ce6c92f642:1",
+        "topic_label": "Mass Measurements",
+        "topic_id": 1586,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Mass Measurements"
+        }
+      },
+      {
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A fruit basket contains 4 oranges and 6 bananas. Each orange weighs 150 grams, and each banana weighs 100 grams. The diagram shows the fruit basket.",
+        "question": "Calculate the total mass of the oranges in grams.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly multiply the number of oranges by the weight of each orange.",
+          "Provide the correct result."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total mass of the oranges in grams — develop the idea fully rather than listing short points. Make sure you also cover: Correctly multiply the number of oranges by the weight of each orange.; Provide the correct result."
+        ],
+        "model_answer": "4 oranges * 150 grams = 600 grams",
+        "explanation": "You multiplied the number of oranges by the weight of each orange to find the total mass.",
+        "exam_question_id": "de1778f1-01c8-44b1-bd10-b2ce6c92f642:3",
+        "topic_label": "Mass Measurements",
+        "topic_id": 1586,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Mass Measurements"
+        }
+      },
+      {
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A fruit basket contains 4 oranges and 6 bananas. Each orange weighs 150 grams, and each banana weighs 100 grams. The diagram shows the fruit basket.",
+        "question": "Calculate the total mass of the bananas in grams.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly multiply the number of bananas by the weight of each banana.",
+          "Provide the correct result."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total mass of the bananas in grams — develop the idea fully rather than listing short points. Make sure you also cover: Correctly multiply the number of bananas by the weight of each banana.; Provide the correct result."
+        ],
+        "model_answer": "6 bananas * 100 grams = 600 grams",
+        "explanation": "You multiplied the number of bananas by the weight of each banana to find the total mass.",
+        "exam_question_id": "de1778f1-01c8-44b1-bd10-b2ce6c92f642:3",
+        "topic_label": "Mass Measurements",
+        "topic_id": 1586,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Mass Measurements"
+        }
+      },
+      {
+        "id": 15,
+        "type": "longform",
+        "part": "c",
+        "scenario": "A fruit basket contains 4 oranges and 6 bananas. Each orange weighs 150 grams, and each banana weighs 100 grams. The diagram shows the fruit basket.",
+        "question": "Calculate the total mass of the fruit basket in grams.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly calculate the total mass of the oranges.",
+          "Correctly calculate the total mass of the bananas.",
+          "Correctly add the two results to get the total mass of the fruit basket."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the total mass of the fruit basket in grams — develop the idea fully rather than listing short points. Make sure you also cover: Correctly add the two results to get the total mass of the fruit basket."
+        ],
+        "model_answer": "Total mass of oranges = 600 grams\nTotal mass of bananas = 600 grams\n600 grams + 600 grams = 1200 grams",
+        "explanation": "You added the total mass of the oranges and the total mass of the bananas to find the total mass of the fruit basket.",
+        "exam_question_id": "de1778f1-01c8-44b1-bd10-b2ce6c92f642:3",
+        "topic_label": "Mass Measurements",
+        "topic_id": 1586,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Mass Measurements"
+        }
+      },
+      {
+        "id": 16,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A piece of ribbon is cut into two pieces. The first piece is 2 metres long, and the second piece is 1.5 metres long.",
+        "question": "Calculate the total length of the ribbon in meters.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correctly add the lengths of the two pieces of ribbon.",
+          "Provide the final answer in meters."
+        ],
+        "hints": [
+          "Remember to add the lengths of both pieces together."
+        ],
+        "model_answer": "2 meters + 1.5 meters = 3.5 meters",
+        "explanation": "Add the lengths of the two pieces of ribbon to find the total length.",
+        "exam_question_id": "7f9d3fc7-d1e4-46c5-bf4e-7e3334baa3c5:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 17,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A piece of ribbon is cut into two pieces. The first piece is 2 metres long, and the second piece is 1.5 metres long.",
+        "question": "If a new piece of ribbon that is 0.5 metres long is added, find the new total length of the ribbon in meters.",
+        "marks": 2,
+        "marking_criteria": [
+          "Add the lengths of the three pieces of ribbon.",
+          "Provide the final answer in meters."
+        ],
+        "hints": [
+          "Stay focused on this: If a new piece of ribbon that is 0.5 metres long is added, find the new total length of the ribbon in meters — develop the idea fully rather than listing short points. Make sure you also cover: Add the lengths of the three pieces of ribbon."
+        ],
+        "model_answer": "2 meters + 1.5 meters + 0.5 meters = 4 meters",
+        "explanation": "Add the lengths of all three pieces of ribbon to find the new total length.",
+        "exam_question_id": "7f9d3fc7-d1e4-46c5-bf4e-7e3334baa3c5:1",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 18,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular playground is 10 metres long and 5 metres wide.",
+        "question": "Calculate the perimeter of the playground in meters.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use the formula for the perimeter of a rectangle (P = 2(L + W)).",
+          "Provide the final answer in meters."
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the perimeter of the playground in meters — develop the idea fully rather than listing short points. Make sure you also cover: the formula for the perimeter of a rectangle (P = 2(L + W))."
+        ],
+        "model_answer": "P = 2(10 meters + 5 meters) = 2(15 meters) = 30 meters",
+        "explanation": "Use the formula for the perimeter of a rectangle to find the perimeter.",
+        "exam_question_id": "7f9d3fc7-d1e4-46c5-bf4e-7e3334baa3c5:2",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 19,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular playground is 10 metres long and 5 metres wide.",
+        "question": "If the playground is surrounded by a 1 metre wide path, find the new perimeter of the playground including the path in meters.",
+        "marks": 3,
+        "marking_criteria": [
+          "Adjust the dimensions to include the path.",
+          "Use the formula for the perimeter of a rectangle.",
+          "Provide the final answer in meters."
+        ],
+        "hints": [
+          "Remember to add 2 metres to both the length and the width to account for the path on each side."
+        ],
+        "model_answer": "Adjusted length = 10 meters + 2 meters = 12 meters\nAdjusted width = 5 meters + 2 meters = 7 meters\nNew perimeter = 2(12 meters + 7 meters) = 2(19 meters) = 38 meters",
+        "explanation": "Adjust the dimensions to include the path, then use the formula for the perimeter of a rectangle to find the new perimeter.",
+        "exam_question_id": "7f9d3fc7-d1e4-46c5-bf4e-7e3334baa3c5:2",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 20,
+        "type": "longform",
+        "part": "a",
+        "scenario": "A rectangular piece of paper is 8 centimetres long and 4 centimetres wide. A border of 1 centimetre is added around the paper.",
+        "question": "Calculate the new dimensions of the paper including the border in centimetres.",
+        "marks": 3,
+        "marking_criteria": [
+          "Adjust the dimensions to include the border.",
+          "Provide the new length and width in centimetres.",
+          "Explain the adjustment process."
+        ],
+        "hints": [
+          "Remember to add 2 centimetres to both the length and the width to account for the border on each side."
+        ],
+        "model_answer": "New length = 8 centimeters + 2 centimeters = 10 centimeters\nNew width = 4 centimeters + 2 centimeters = 6 centimeters",
+        "explanation": "Add 2 centimetres to both the length and the width to account for the border on each side.",
+        "exam_question_id": "7f9d3fc7-d1e4-46c5-bf4e-7e3334baa3c5:3",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 21,
+        "type": "longform",
+        "part": "b",
+        "scenario": "A rectangular piece of paper is 8 centimetres long and 4 centimetres wide. A border of 1 centimetre is added around the paper.",
+        "question": "Calculate the new area of the paper including the border in square centimetres.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use the new dimensions to calculate the area.",
+          "Provide the final answer in square centimetres."
+        ],
+        "hints": [
+          "Remember the formula for the area of a rectangle (A = L x W)."
+        ],
+        "model_answer": "New area = 10 centimeters x 6 centimeters = 60 square centimeters",
+        "explanation": "Use the new dimensions to calculate the area of the paper including the border.",
+        "exam_question_id": "7f9d3fc7-d1e4-46c5-bf4e-7e3334baa3c5:3",
+        "topic_label": "Length Measurements",
+        "topic_id": 1584,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Length Measurements"
+        }
+      },
+      {
+        "id": 22,
+        "type": "longform",
+        "part": "a",
+        "scenario": "Emily is baking cookies and needs to measure out ingredients. She has 500 grams of flour, 200 grams of sugar, and 100 grams of butter.",
+        "question": "Calculate the total mass of all the ingredients Emily has.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly adding the masses of flour, sugar, and butter.",
+          "Writing the answer in grams.",
+          "Summing the correct values."
+        ],
+        "hints": [
+          "Remember to add all the ingredient masses together."
+        ],
+        "model_answer": "500 grams (flour) + 200 grams (sugar) + 100 grams (butter) = 800 grams",
+        "explanation": "You need to add the masses of all the ingredients Emily has: 500 grams of flour, 200 grams of sugar, and 100 grams of butter. The total mass is 800 grams.",
+        "exam_question_id": "f21f2d69-5b26-4da6-a0b3-b48d917e1c97:1",
+        "topic_label": "Mass Measurements",
+        "topic_id": 1586,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Mass Measurements"
+        }
+      },
+      {
+        "id": 23,
+        "type": "longform",
+        "part": "b",
+        "scenario": "Emily is baking cookies and needs to measure out ingredients. She has 500 grams of flour, 200 grams of sugar, and 100 grams of butter.",
+        "question": "If Emily uses 150 grams of flour for her recipe, how much flour will she have left?",
+        "marks": 2,
+        "marking_criteria": [
+          "Subtracting the used flour from the total flour.",
+          "Writing the answer in grams."
+        ],
+        "hints": [
+          "Stay focused on this: If Emily uses 150 grams of flour for her recipe, how much flour will she have left — develop the idea fully rather than listing short points."
+        ],
+        "model_answer": "500 grams (total flour) - 150 grams (used flour) = 350 grams",
+        "explanation": "To find out how much flour Emily has left, subtract the amount of flour she used (150 grams) from the total amount of flour (500 grams). She will have 350 grams of flour left.",
+        "exam_question_id": "f21f2d69-5b26-4da6-a0b3-b48d917e1c97:1",
+        "topic_label": "Mass Measurements",
+        "topic_id": 1586,
+        "checked": true,
+        "source": {
+          "textbook": "P4 Mathematics PB",
+          "area": "Mass Measurements"
+        }
+      }
+    ],
+    "estimated_time": 57,
+    "assessment_id": "09e2298a-7f94-49bd-899f-90d7a194b2eb",
+    "subject": "P4 Mathematics PB",
+    "topics": [
+      "Mass Measurements",
+      "Length Measurements"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 153,
+    "topic_ids": [
+      1586,
+      1584
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 10,
+  "parts": 23,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 2,
+      "detail": "same as question 1"
+    }
+  ],
+  "figures": 4,
+  "imageErrors": [],
+  "reviewModel": "amazon.nova-pro-v1:0",
+  "review": {
+    "reviewed_labels": [
+      "1a",
+      "1b",
+      "2a",
+      "2b",
+      "3a",
+      "3b",
+      "3c",
+      "4a",
+      "4b",
+      "4c",
+      "5a",
+      "5b",
+      "6a",
+      "6b",
+      "6c",
+      "7a",
+      "7b",
+      "8a",
+      "8b",
+      "9a",
+      "9b",
+      "10a",
+      "10b"
+    ],
+    "issues": [
+      {
+        "label": "5b",
+        "severity": "broken or poor",
+        "detail": "Incorrect calculation of total cost. The total mass of apples is 540 grams, and each apple costs 50 cents, so the total cost should be 540 * 0.5 = 270 cents, not 27000 cents.",
+        "correction": "Total cost = 540 grams * 0.5 cents/gram = 270 cents"
+      }
+    ],
+    "summary": "Minor issue in cost calculation for question 5b."
+  },
+  "totalSeconds": 31
+}

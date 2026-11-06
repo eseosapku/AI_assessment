@@ -39,6 +39,13 @@ describe('labels the figure does not have', () => {
 })
 
 describe('things the figure does not show', () => {
+  it('does not mistake a mathematical demand for counting objects in the picture', () => {
+    const figure = 'A regular polygon showing labelled vertices and a line drawn through its centre.'
+    for (const demand of ['Find the measure of the exterior angle.', 'Find the number of degrees in the interior angle.', 'Find the number of possible ways to choose two vertices.']) {
+      expect(absentCountedNouns(demand, figure)).toEqual([])
+    }
+    expect(absentCountedNouns('Count the number of distinct cubes.', figure)).toEqual(['cubes'])
+  })
   it('catches counting cubes in a picture of flowers', () => {
     // Shipped: fifteen painted flowers, asked about "the number of cubes",
     // with the stem asserting the learner counted twelve.

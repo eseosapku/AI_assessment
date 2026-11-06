@@ -1,3 +1,5 @@
+import { isExamStyle } from '@/lib/exam-parts'
+
 /**
  * Topping up a quiz that came back short, before the learner starts it.
  *
@@ -46,6 +48,9 @@ export function topUpBody(payload: Record<string, any>, data: QuizData): (Record
   count: number; topUp: { assessmentId: unknown; have: string[]; images: string[] }
 }) | null {
   const questions = questionsOf(data)
+  // Exam generation guarantees complete numbered groups server-side. A generic
+  // top-up counts answer records and would split or overfill those groups.
+  if (isExamStyle(payload?.style)) return null
   const missing = Math.floor(Number(payload?.count) || 0) - questions.length
   if (missing <= 0) return null
   // Saved, or the route has nothing to append to.

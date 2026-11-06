@@ -1,0 +1,1226 @@
+{
+  "index": 20,
+  "label": "REB / Exam / Core Math S4 SB",
+  "request": {
+    "subject": "Core Math S4 SB",
+    "textbook_id": 62,
+    "topic_ids": [
+      698
+    ],
+    "topics": [
+      "Unit 6: Quadratic equations and inequalities"
+    ],
+    "curriculum": "rwanda",
+    "grade": 10,
+    "className": "S4",
+    "style": "Exam Style (Past Papers)",
+    "questionType": "longform",
+    "count": 20,
+    "difficultyLevel": "intermediate"
+  },
+  "seed": 569222779,
+  "error": null,
+  "stage": "complete",
+  "generationSeconds": 89,
+  "status": 200,
+  "data": {
+    "questions": [
+      {
+        "number": 1,
+        "scenario": "Consider the quadratic equation x^2 - 4x - 5 = 0.",
+        "id": 1,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the roots of the equation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct factorisation",
+          "Correct roots found",
+          "Clear working shown"
+        ],
+        "hints": [
+          "Use factoring to solve the equation."
+        ],
+        "model_answer": "(x - 5)(x + 1) = 0\nx = 5 or x = -1",
+        "explanation": "Factor the quadratic equation to find the roots. The factors (x - 5) and (x + 1) give the roots when set to zero.",
+        "exam_question_id": "5455b112-fbad-49bc-b6ea-0e8d83b103b4:1",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the quadratic equation x^2 - 4x - 5 = 0.",
+        "id": 2,
+        "type": "longform",
+        "part": "b",
+        "question": "Which of the following is a solution to the equation?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct choice identified",
+          "Explanation of why other options are incorrect"
+        ],
+        "options": [
+          {
+            "option": "x = 5",
+            "explanation": "Correct answer"
+          },
+          {
+            "option": "x = 4",
+            "explanation": "Mistakenly used the sum of the coefficients (-4) instead of solving the equation."
+          },
+          {
+            "option": "x = -1",
+            "explanation": "Correct answer"
+          },
+          {
+            "option": "x = 1",
+            "explanation": "Mistakenly added the constant term (-5) to the coefficient of x (-4)."
+          }
+        ],
+        "model_answer": "x = 5 or x = -1",
+        "explanation": "The solutions to the equation are x = 5 and x = -1. The other options do not satisfy the equation.",
+        "exam_question_id": "5455b112-fbad-49bc-b6ea-0e8d83b103b4:1",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "correct_indices": [
+          0,
+          2
+        ],
+        "checked": true,
+        "hints": [
+          "Stay focused on this: Which of the following is a solution to the equation — develop the idea fully rather than listing short points. Make sure you also cover: Correct choice identified; Explanation of why other options are incorrect."
+        ],
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Solve the inequality x^2 - 4x + 3 <= 0.",
+        "id": 3,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the critical points of the inequality.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct factorisation",
+          "Correct identification of critical points"
+        ],
+        "hints": [
+          "Factor the quadratic expression."
+        ],
+        "model_answer": "The critical points are x = 1 and x = 3.",
+        "explanation": "Factor the quadratic expression to (x-1)(x-3) = 0. The critical points are the values of x that make the expression equal to zero.",
+        "exam_question_id": "b70eeca7-f1a6-4afe-b835-a9ee330b3b0f:2",
+        "topic_label": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Solve the inequality x^2 - 4x + 3 <= 0.",
+        "id": 4,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the intervals where the inequality holds true.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of intervals",
+          "Correct sign analysis",
+          "Correct conclusion"
+        ],
+        "hints": [
+          "Test values from each interval in the inequality."
+        ],
+        "model_answer": "The inequality holds true for 1 <= x <= 3.",
+        "explanation": "Test values from the intervals (-∞, 1), (1, 3), and (3, ∞) to determine where the inequality holds true.",
+        "exam_question_id": "b70eeca7-f1a6-4afe-b835-a9ee330b3b0f:2",
+        "topic_label": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A curve is defined by the parametric equations x = 2t + 1 and y = t^2 - 4, where t is a parameter.",
+        "id": 5,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the value of y when x = 5.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of x into the equation",
+          "Correct solving for t",
+          "Correct substitution of t into the equation for y"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the value of y when x = 5 — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of x into the; Correct for t; Correct substitution of t into the for y."
+        ],
+        "model_answer": "Substitute x = 5 into the equation: 5 = 2t + 1. Solving for t gives t = 2. Substitute t = 2 into the equation for y: y = (2)^2 - 4 = 0. The value of y when x = 5 is 0.",
+        "explanation": "You correctly solved for t and substituted it back into the equation for y to find the corresponding value of y when x = 5.",
+        "exam_question_id": "6fe5578c-d1f8-4a07-88b2-bbaa17a073c4:1",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A curve is defined by the parametric equations x = 2t + 1 and y = t^2 - 4, where t is a parameter.",
+        "id": 6,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the coordinates of the point on the curve where the parameter t equals 3.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of t into the equation for x",
+          "Correct substitution of t into the equation for y",
+          "Correct calculation of coordinates"
+        ],
+        "hints": [
+          "Substitute t = 3 into both parametric equations."
+        ],
+        "model_answer": "Substitute t = 3 into the equation for x: x = 2(3) + 1 = 7. Substitute t = 3 into the equation for y: y = (3)^2 - 4 = 5. The coordinates of the point are (7, 5).",
+        "explanation": "You correctly substituted t = 3 into both parametric equations to find the coordinates of the point on the curve.",
+        "exam_question_id": "6fe5578c-d1f8-4a07-88b2-bbaa17a073c4:1",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the parametric equations x = t^2 and y = 2t + 3, where t is a parameter.",
+        "id": 7,
+        "type": "longform",
+        "part": "a",
+        "question": "Explain the method to convert these parametric equations into a Cartesian equation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the relationship between x and t",
+          "Correct substitution into the equation for y",
+          "Correct simplification of the resulting equation"
+        ],
+        "hints": [
+          "Stay focused on this: Explain the method to convert these parametric equations into a Cartesian equation — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of the relationship between x and t; Correct substitution into the equation for y; Correct simplification…."
+        ],
+        "model_answer": "From x = t^2, we get t = sqrt(x). Substitute t = sqrt(x) into the equation for y: y = 2(sqrt(x)) + 3. The Cartesian equation is y = 2sqrt(x) + 3.",
+        "explanation": "You correctly identified the relationship between x and t and substituted it into the equation for y to convert the parametric equations into a Cartesian equation.",
+        "exam_question_id": "6fe5578c-d1f8-4a07-88b2-bbaa17a073c4:2",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the parametric equations x = t^2 and y = 2t + 3, where t is a parameter.",
+        "id": 8,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the value of t when y = 7.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of y into the equation",
+          "Correct solving for t",
+          "Correct calculation of t"
+        ],
+        "hints": [
+          "Stay focused on this: Find the value of t when y = 7 — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of y into the; Correct for t; Correct calculation of t."
+        ],
+        "model_answer": "Substitute y = 7 into the equation: 7 = 2t + 3. Solving for t gives t = 2. The value of t when y = 7 is 2.",
+        "explanation": "You correctly solved for t by substituting y = 7 into the equation and solving for t.",
+        "exam_question_id": "6fe5578c-d1f8-4a07-88b2-bbaa17a073c4:2",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "The parametric equations for a curve are given by x = 3t - 2 and y = t^2 + 1.",
+        "id": 9,
+        "type": "longform",
+        "part": "a",
+        "question": "State the coordinates of the point on the curve where t = -1.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct substitution of t into the equation for x",
+          "Correct substitution of t into the equation for y"
+        ],
+        "hints": [
+          "Substitute t = -1 into both parametric equations."
+        ],
+        "model_answer": "Substitute t = -1 into the equation for x: x = 3(-1) - 2 = -5. Substitute t = -1 into the equation for y: y = (-1)^2 + 1 = 2. The coordinates of the point are (-5, 2).",
+        "explanation": "You correctly substituted t = -1 into both parametric equations to find the coordinates of the point on the curve.",
+        "exam_question_id": "6fe5578c-d1f8-4a07-88b2-bbaa17a073c4:3",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "The parametric equations for a curve are given by x = 3t - 2 and y = t^2 + 1.",
+        "id": 10,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the value of t when x = 7.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of x into the equation",
+          "Correct solving for t",
+          "Correct calculation of t"
+        ],
+        "hints": [
+          "Stay focused on this: Calculate the value of t when x = 7 — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of x into the; Correct for t; Correct calculation of t."
+        ],
+        "model_answer": "Substitute x = 7 into the equation: 7 = 3t - 2. Solving for t gives t = 3. The value of t when x = 7 is 3.",
+        "explanation": "You correctly solved for t by substituting x = 7 into the equation and solving for t.",
+        "exam_question_id": "6fe5578c-d1f8-4a07-88b2-bbaa17a073c4:3",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the quadratic equation 2x^2 - 3x - 2 = 0.",
+        "id": 11,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the roots of the equation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct factorisation",
+          "Correct application of the quadratic formula",
+          "Correct solution"
+        ],
+        "hints": [
+          "Stay focused on this: Find the roots of the equation — develop the idea fully rather than listing short points. Make sure you also cover: Correct factorisation; Correct application of the; Correct solution."
+        ],
+        "model_answer": "Using the quadratic formula: x = [3 ± sqrt((3)^2 - 4*2*(-2))] / (2*2) = [3 ± sqrt(9 + 16)] / 4 = [3 ± 5] / 4. The roots are x = 2 and x = -0.5.",
+        "explanation": "The correct factorisation of the quadratic equation is (2x + 1)(x - 2) = 0, giving the roots x = -0.5 and x = 2.",
+        "exam_question_id": "6fc29c3d-beeb-4af6-a264-76bbdcf0878e:1",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the quadratic equation 2x^2 - 3x - 2 = 0.",
+        "id": 12,
+        "type": "longform",
+        "part": "b",
+        "question": "Which of the following is NOT a solution to the equation?",
+        "marks": 1,
+        "marking_criteria": [
+          "Correct identification of the incorrect solution"
+        ],
+        "hints": [
+          "Substitute each option into the equation and check."
+        ],
+        "model_answer": "x = 1",
+        "explanation": "When x = 1, 2(1)^2 - 3(1) - 2 = 2 - 3 - 2 = -3, which does not satisfy the equation.",
+        "exam_question_id": "6fc29c3d-beeb-4af6-a264-76bbdcf0878e:1",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is thrown vertically upwards from the ground with an initial velocity of 25 m/s. The height h (in meters) of the ball above the ground after t seconds is given by the equation h = -4.9t^2 + 25t.",
+        "id": 13,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the time at which the ball reaches its maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "At maximum height the vertical velocity is zero, so t = u_y/g = 25/9.8.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 2.551 s."
+        ],
+        "hints": [
+          "Recall the formula for the vertex of a parabola."
+        ],
+        "model_answer": "At maximum height the vertical velocity is zero, so t = u_y/g = 25/9.8. Therefore 2.551 s.",
+        "explanation": "At maximum height the vertical velocity is zero, so t = u_y/g = 25/9.8. Therefore 2.551 s.",
+        "exam_question_id": "aa95b7e7-5a38-4f32-a7a7-3ae26be1f81b:1",
+        "topic_label": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A ball is thrown vertically upwards from the ground with an initial velocity of 25 m/s. The height h (in meters) of the ball above the ground after t seconds is given by the equation h = -4.9t^2 + 25t.",
+        "id": 14,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the maximum height reached by the ball.",
+        "marks": 3,
+        "marking_criteria": [
+          "Substituting the correct time into the height equation",
+          "Correct calculation of the maximum height",
+          "Correct simplification and calculation"
+        ],
+        "hints": [
+          "Use the time calculated in part (a)."
+        ],
+        "model_answer": "Substitute t = 2.53 seconds into the height equation: h = -4.9(2.53)^2 + 25(2.53) = 32.04 meters.",
+        "explanation": "Use the time calculated in part (a) to find the maximum height by substituting it back into the height equation.",
+        "exam_question_id": "aa95b7e7-5a38-4f32-a7a7-3ae26be1f81b:1",
+        "topic_label": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A rectangular garden has a length that is 3 metres more than its width. The area of the garden is 40 square metres.",
+        "id": 15,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the dimensions of the garden.",
+        "marks": 4,
+        "marking_criteria": [
+          "Setting up the quadratic equation correctly",
+          "Solving the quadratic equation accurately",
+          "Identifying the correct dimensions",
+          "Checking the solution"
+        ],
+        "hints": [
+          "Stay focused on this: Find the dimensions of the garden — develop the idea fully rather than listing short points. Make sure you also cover: Setting up the correctly; the accurately; Identifying the correct dimensions."
+        ],
+        "model_answer": "Let the width be w meters, then the length is (w + 3) meters. The area is given by w(w + 3) = 40. Solving the quadratic equation w^2 + 3w - 40 = 0, we find w = 5 or w = -8 (not possible). So, the width is 5 meters and the length is 8 meters.",
+        "explanation": "Set up the quadratic equation using the relationship between length and width, solve it, and verify the solution by checking the area.",
+        "exam_question_id": "aa95b7e7-5a38-4f32-a7a7-3ae26be1f81b:2",
+        "topic_label": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A rectangular garden has a length that is 3 metres more than its width. The area of the garden is 40 square metres.",
+        "id": 16,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the perimeter of the garden.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct calculation of the perimeter",
+          "Use of correct dimensions"
+        ],
+        "hints": [
+          "Use the dimensions found in part (a)."
+        ],
+        "model_answer": "The perimeter is 2(length + width) = 2(8 + 5) = 26 meters.",
+        "explanation": "Use the dimensions of the garden found in part (a) to calculate the perimeter.",
+        "exam_question_id": "aa95b7e7-5a38-4f32-a7a7-3ae26be1f81b:2",
+        "topic_label": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A company sells a product at a price of $10 per unit. The cost to produce x units is given by the function C(x) = 2x + 50. The revenue function is R(x) = 10x.",
+        "id": 17,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the profit function P(x).",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct identification of the profit formula",
+          "Correct calculation of the profit function",
+          "Simplifying the expression correctly"
+        ],
+        "hints": [
+          "Profit is revenue minus cost."
+        ],
+        "model_answer": "P(x) = R(x) - C(x) = 10x - (2x + 50) = 8x - 50.",
+        "explanation": "The profit function is found by subtracting the cost function from the revenue function.",
+        "exam_question_id": "aa95b7e7-5a38-4f32-a7a7-3ae26be1f81b:3",
+        "topic_label": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A company sells a product at a price of $10 per unit. The cost to produce x units is given by the function C(x) = 2x + 50. The revenue function is R(x) = 10x.",
+        "id": 18,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the number of units that need to be sold to achieve a profit of $100.",
+        "marks": 3,
+        "marking_criteria": [
+          "Setting up the equation correctly",
+          "Solving the equation accurately",
+          "Verifying the solution"
+        ],
+        "hints": [
+          "Use the profit function found in part (a)."
+        ],
+        "model_answer": "Set P(x) = 100: 8x - 50 = 100. Solving for x, we get 8x = 150, x = 18.75. Since the number of units must be a whole number, the company needs to sell 19 units to achieve a profit of at least $100.",
+        "explanation": "Use the profit function to set up an equation and solve for the number of units that will yield the desired profit.",
+        "exam_question_id": "aa95b7e7-5a38-4f32-a7a7-3ae26be1f81b:3",
+        "topic_label": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Applications of quadratic equations and inequalities (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the quadratic inequality x^2 - 6x + 8 <= 0.",
+        "id": 19,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the critical points of the inequality.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct factorisation of the quadratic",
+          "Correct calculation of critical points"
+        ],
+        "hints": [
+          "Factor the quadratic expression."
+        ],
+        "model_answer": "x^2 - 6x + 8 = 0 \n=> (x - 4)(x - 2) = 0 \n=> x = 4 or x = 2",
+        "explanation": "The critical points are found by factoring the quadratic expression and solving for x, resulting in x = 4 and x = 2.",
+        "exam_question_id": "2b9c85b2-4c2e-468f-a95a-6b5bee258a87:2",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the quadratic inequality x^2 - 6x + 8 <= 0.",
+        "id": 20,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the intervals where the inequality holds true.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct identification of intervals",
+          "Correct testing of intervals"
+        ],
+        "hints": [
+          "Stay focused on this: Determine the intervals where the inequality holds true — develop the idea fully rather than listing short points. Make sure you also cover: Correct identification of intervals; Correct testing of intervals."
+        ],
+        "model_answer": "Intervals: (2, 4), \nTest points: x = 0 (positive), x = 3 (negative), x = 5 (positive)",
+        "explanation": "The intervals where the inequality holds true are determined by testing points in each interval using a sign chart.",
+        "exam_question_id": "2b9c85b2-4c2e-468f-a95a-6b5bee258a87:2",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the quadratic function f(x) = x^2 - 4x - 5.",
+        "id": 21,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the vertex of the parabola.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct application of vertex formula",
+          "Correct coordinates of vertex"
+        ],
+        "hints": [
+          "Stay focused on this: Find the vertex of the parabola — develop the idea fully rather than listing short points. Make sure you also cover: Correct application of vertex formula; Correct coordinates of vertex."
+        ],
+        "model_answer": "x = -(-4) / (2*1) = 2\nf(2) = (2)^2 - 4(2) - 5 = -9\nVertex is (2, -9)",
+        "explanation": "The vertex of the parabola is at (2, -9).",
+        "exam_question_id": "a2df66be-ecbe-4349-8e31-55732fdd4143:2",
+        "topic_label": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "Consider the quadratic function f(x) = x^2 - 4x - 5.",
+        "id": 22,
+        "type": "longform",
+        "part": "b",
+        "question": "Which of the following is the y-intercept of the parabola?",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct y-intercept",
+          "Incorrect y-intercepts"
+        ],
+        "hints": [
+          "Evaluate the function at x = 0."
+        ],
+        "model_answer": "-5",
+        "explanation": "The y-intercept of the parabola is -5.",
+        "exam_question_id": "a2df66be-ecbe-4349-8e31-55732fdd4143:2",
+        "topic_label": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Equations in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A rectangular playground has a length that is 4 metres more than its width. The area of the playground is 60 square metres.",
+        "id": 23,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the width of the playground.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct expression for the width in terms of x",
+          "Correct quadratic equation",
+          "Correct solution for x"
+        ],
+        "hints": [
+          "Stay focused on this: Find the width of the playground — develop the idea fully rather than listing short points. Make sure you also cover: Correct expression for the width in terms of x; Correct solution for x."
+        ],
+        "model_answer": "Let the width be x meters. Then the length is (x + 4) meters. The area is given by x(x + 4) = 60. Simplifying, x^2 + 4x - 60 = 0. Solving this quadratic equation, we get x = 6 or x = -10. Since width cannot be negative, the width is 6 meters.",
+        "explanation": "The width of the playground is 6 metres. This is found by setting up the quadratic equation based on the relationship between the length and width and solving it correctly.",
+        "exam_question_id": "7018a6fc-6ac5-4b43-b800-b5fb5f8c8dd3:1",
+        "topic_label": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A rectangular playground has a length that is 4 metres more than its width. The area of the playground is 60 square metres.",
+        "id": 24,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the length of the playground.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct use of the width to find the length",
+          "Correct length value"
+        ],
+        "hints": [
+          "Stay focused on this: Determine the length of the playground — develop the idea fully rather than listing short points. Make sure you also cover: Correct use of the to find the length; Correct length value."
+        ],
+        "model_answer": "The length is x + 4, where x is the width. With x = 6, the length is 6 + 4 = 10 meters.",
+        "explanation": "The length of the playground is 10 metres. This is determined by adding 4 metres to the width found in part (a).",
+        "exam_question_id": "7018a6fc-6ac5-4b43-b800-b5fb5f8c8dd3:1",
+        "topic_label": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A rectangular park has a length that is twice its width. The perimeter of the park is 60 metres.",
+        "id": 25,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the dimensions of the park.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correctly set up the equation based on the perimeter formula.",
+          "Solve the equation to find the width.",
+          "Calculate the length using the relationship between length and width."
+        ],
+        "hints": [
+          "Recall the formula for the perimeter of a rectangle."
+        ],
+        "model_answer": "Let the width be w. Then the length is 2w. The perimeter is given by 2(length + width) = 60. So, 2(2w + w) = 60. Simplifying, 6w = 60. Solving for w, w = 10. Therefore, the length is 2w = 20. The dimensions of the park are 20 meters by 10 meters.",
+        "explanation": "The dimensions of the park are found by setting up an equation for the perimeter and solving for the width and length.",
+        "exam_question_id": "b6365825-afe5-4ae2-b820-36426fe5554e:1",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A rectangular park has a length that is twice its width. The perimeter of the park is 60 metres.",
+        "id": 26,
+        "type": "longform",
+        "part": "b",
+        "question": "Calculate the area of the park.",
+        "marks": 2,
+        "marking_criteria": [
+          "Use the dimensions found in part (a) to calculate the area.",
+          "Provide the final area in square metres."
+        ],
+        "hints": [
+          "Recall the formula for the area of a rectangle."
+        ],
+        "model_answer": "The area of the park is length × width = 20 × 10 = 200 square meters.",
+        "explanation": "The area of the park is calculated by multiplying the length by the width.",
+        "exam_question_id": "b6365825-afe5-4ae2-b820-36426fe5554e:1",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A curve is defined by the parametric equations x = t + 2 and y = t^2 - 4, where t is a parameter.",
+        "id": 27,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the value of y when x = 4.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution into parametric equation for x.",
+          "Correct manipulation to solve for t.",
+          "Correct substitution of t back into parametric equation for y."
+        ],
+        "hints": [
+          "First, solve for t using the equation for x."
+        ],
+        "model_answer": "Substitute x = 4 into x = t + 2 to find t: 4 = t + 2, so t = 2. Then, substitute t = 2 into y = t^2 - 4: y = 2^2 - 4 = 4 - 4 = 0. Therefore, y = 0 when x = 4.",
+        "explanation": "You correctly solved for t using the equation for x, then correctly substituted t back into the equation for y to find the value of y.",
+        "exam_question_id": "6b766ddb-52e8-46cd-bcf2-e1f2a0e5af10:1",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "A curve is defined by the parametric equations x = t + 2 and y = t^2 - 4, where t is a parameter.",
+        "id": 28,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the coordinates of the point on the curve where the parameter t equals 1.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct substitution of t = 1 into the parametric equation for x.",
+          "Correct substitution of t = 1 into the parametric equation for y.",
+          "Correctly writing the coordinates as an ordered pair."
+        ],
+        "hints": [
+          "Use t = 1 in both parametric equations."
+        ],
+        "model_answer": "Substitute t = 1 into x = t + 2 to find x: x = 1 + 2 = 3. Then, substitute t = 1 into y = t^2 - 4 to find y: y = 1^2 - 4 = 1 - 4 = -3. Therefore, the coordinates are (3, -3).",
+        "explanation": "You correctly used t = 1 in both parametric equations and wrote the coordinates as an ordered pair.",
+        "exam_question_id": "6b766ddb-52e8-46cd-bcf2-e1f2a0e5af10:1",
+        "topic_label": "Parametric equations",
+        "topic_id": 698,
+        "checked": true,
+        "subtopic_id": 2905,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Parametric equations"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A rectangular garden has a length that is 5 metres more than its width. The area of the garden is 84 square metres.",
+        "id": 29,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the dimensions of the garden.",
+        "marks": 3,
+        "marking_criteria": [
+          "Setting up the correct equation",
+          "Solving the quadratic equation",
+          "Correct dimensions"
+        ],
+        "hints": [
+          "Stay focused on this: Find the dimensions of the garden — develop the idea fully rather than listing short points. Make sure you also cover: Setting up the correct equation; Solving the quadratic equation; Correct dimensions."
+        ],
+        "model_answer": "x(x + 5) = 84\nx^2 + 5x - 84 = 0\n(x + 12)(x - 7) = 0\nx = -12 (not possible), x = 7\nWidth = 7m, Length = 12m",
+        "explanation": "The equation is correctly set up, and the quadratic is solved to find the width and length of the garden.",
+        "exam_question_id": "0ae56fa3-5981-44a1-baef-6728982e42f6:2",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A rectangular garden has a length that is 5 metres more than its width. The area of the garden is 84 square metres.",
+        "id": 30,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the perimeter of the garden.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct use of dimensions",
+          "Correct calculation of perimeter"
+        ],
+        "hints": [
+          "Perimeter = 2(Length + Width)."
+        ],
+        "model_answer": "Perimeter = 2(12 + 7) = 38 meters",
+        "explanation": "The perimeter is correctly calculated using the dimensions found in part (a).",
+        "exam_question_id": "0ae56fa3-5981-44a1-baef-6728982e42f6:2",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A ball is thrown vertically upwards from the ground with an initial velocity of 20 m/s. The height h (in meters) of the ball above the ground after t seconds is given by the equation h = -4.9t^2 + 20t.",
+        "id": 31,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the time at which the ball reaches its maximum height.",
+        "marks": 2,
+        "marking_criteria": [
+          "At maximum height the vertical velocity is zero, so t = u_y/g = 20/9.8.",
+          "Obtain 2.0408 s."
+        ],
+        "hints": [
+          "Use the formula t = -b/(2a)."
+        ],
+        "model_answer": "At maximum height the vertical velocity is zero, so t = u_y/g = 20/9.8. Therefore 2.0408 s.",
+        "explanation": "At maximum height the vertical velocity is zero, so t = u_y/g = 20/9.8. Therefore 2.0408 s.",
+        "exam_question_id": "0ae56fa3-5981-44a1-baef-6728982e42f6:3",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A ball is thrown vertically upwards from the ground with an initial velocity of 20 m/s. The height h (in meters) of the ball above the ground after t seconds is given by the equation h = -4.9t^2 + 20t.",
+        "id": 32,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the maximum height reached by the ball.",
+        "marks": 2,
+        "marking_criteria": [
+          "Correct substitution of time into the height equation",
+          "Correct calculation of maximum height"
+        ],
+        "hints": [
+          "Stay focused on this: Find the maximum height reached by the ball — develop the idea fully rather than listing short points. Make sure you also cover: Correct substitution of time into the height equation; Correct calculation of maximum height."
+        ],
+        "model_answer": "h = -4.9(2.04)^2 + 20(2.04) = 20.4 meters",
+        "explanation": "The maximum height is correctly calculated by substituting the time into the height equation.",
+        "exam_question_id": "0ae56fa3-5981-44a1-baef-6728982e42f6:3",
+        "topic_label": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Simultaneous equations in two unknowns (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A rectangular box has a height that is 2 metres more than its width. The volume of the box is 48 cubic metres.",
+        "id": 33,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the dimensions of the box.",
+        "marks": 3,
+        "marking_criteria": [
+          "Setting up the equation for the volume of the box.",
+          "Solving the resulting cubic equation for the width.",
+          "Calculating the height and length based on the width."
+        ],
+        "hints": [
+          "Stay focused on this: Find the dimensions of the box — develop the idea fully rather than listing short points. Make sure you also cover: Setting up the for the of the box.; the resulting for the; Calculating the and based on the."
+        ],
+        "model_answer": "Let the width be w. Then the height is w + 2. The volume is given by V = w(w + 2)(l) = 48, where l is the length. Assume l = w (for simplicity in this scenario). So, w(w + 2)w = 48. Simplifying, w^3 + 2w^2 - 48 = 0. Solving this cubic equation gives w = 4. Therefore, the width is 4 metres, the height is 6 metres, and the length is also 4 metres.",
+        "explanation": "Set up the volume equation using the given relationships between the dimensions. Solve the cubic equation to find the width, and then calculate the height and length.",
+        "exam_question_id": "324e8c82-bef3-4778-9276-015ec9f559fb:2",
+        "topic_label": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A rectangular box has a height that is 2 metres more than its width. The volume of the box is 48 cubic metres.",
+        "id": 34,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the surface area of the box.",
+        "marks": 2,
+        "marking_criteria": [
+          "Calculating the area of each of the six faces of the box.",
+          "Summing these areas to find the total surface area."
+        ],
+        "hints": [
+          "Use the dimensions found in part (a) to calculate the area of each face."
+        ],
+        "model_answer": "The dimensions are width = 4 metres, height = 6 metres, and length = 4 metres. The surface area is 2(lw + lh + wh) = 2(4*4 + 4*6 + 4*6) = 2(16 + 24 + 24) = 2 * 64 = 128 square metres.",
+        "explanation": "Calculate the area of each pair of opposite faces and sum them to find the total surface area.",
+        "exam_question_id": "324e8c82-bef3-4778-9276-015ec9f559fb:2",
+        "topic_label": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Inequalities in one unknown (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the quadratic equation x^2 - 3x - 4 = 0.",
+        "id": 35,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the roots of the equation.",
+        "marks": 3,
+        "marking_criteria": [
+          "Correct factorisation or use of quadratic formula",
+          "Correct calculation of roots",
+          "Final answer"
+        ],
+        "hints": [
+          "Factor the quadratic equation."
+        ],
+        "model_answer": "x^2 - 3x - 4 = (x - 4)(x + 1) = 0, so x = 4 or x = -1",
+        "explanation": "Factor the quadratic equation to find the roots.",
+        "exam_question_id": "c77d7f2a-2f1c-4c55-9086-bd290a3b3a30:1",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 1,
+        "scenario": "Consider the quadratic equation x^2 - 3x - 4 = 0.",
+        "id": 36,
+        "type": "longform",
+        "part": "b",
+        "question": "Which of the following is NOT a solution to the equation?",
+        "marks": 2,
+        "marking_criteria": [
+          "Identification of incorrect option",
+          "Explanation of why the option is incorrect"
+        ],
+        "hints": [
+          "Check each option by substituting back into the equation."
+        ],
+        "model_answer": "x = 2",
+        "explanation": "X = 2 is not a solution because it does not satisfy the equation x^2 - 3x - 4 = 0. When x = 2, the left side equals 0, but the right side equals -4.",
+        "exam_question_id": "c77d7f2a-2f1c-4c55-9086-bd290a3b3a30:1",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A ball is thrown vertically upwards from the ground with an initial velocity of 30 m/s. The height h (in meters) of the ball above the ground after t seconds is given by the equation h = -4.9t^2 + 30t.",
+        "id": 37,
+        "type": "longform",
+        "part": "a",
+        "question": "Calculate the time at which the ball reaches its maximum height.",
+        "marks": 3,
+        "marking_criteria": [
+          "At maximum height the vertical velocity is zero, so t = u_y/g = 30/9.8.",
+          "Substitute the stated data consistently, using SI units.",
+          "Obtain 3.0612 s."
+        ],
+        "hints": [
+          "Use the vertex formula for a parabola."
+        ],
+        "model_answer": "At maximum height the vertical velocity is zero, so t = u_y/g = 30/9.8. Therefore 3.0612 s.",
+        "explanation": "At maximum height the vertical velocity is zero, so t = u_y/g = 30/9.8. Therefore 3.0612 s.",
+        "exam_question_id": "c77d7f2a-2f1c-4c55-9086-bd290a3b3a30:2",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 2,
+        "scenario": "A ball is thrown vertically upwards from the ground with an initial velocity of 30 m/s. The height h (in meters) of the ball above the ground after t seconds is given by the equation h = -4.9t^2 + 30t.",
+        "id": 38,
+        "type": "longform",
+        "part": "b",
+        "question": "Find the maximum height reached by the ball.",
+        "marks": 3,
+        "marking_criteria": [
+          "Substitute the time into the height equation",
+          "Correct calculation of maximum height",
+          "Final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the maximum height reached by the ball — develop the idea fully rather than listing short points. Make sure you also cover: Substitute the time into the height equation; Correct calculation of maximum height; Final answer."
+        ],
+        "model_answer": "h = -4.9*(3.06)^2 + 30*3.06 = 45.9 meters",
+        "explanation": "Substitute the time found in part (a) into the height equation to find the maximum height.",
+        "exam_question_id": "c77d7f2a-2f1c-4c55-9086-bd290a3b3a30:2",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A rectangular garden has a length that is 6 metres more than its width. The area of the garden is 72 square metres.",
+        "id": 39,
+        "type": "longform",
+        "part": "a",
+        "question": "Find the dimensions of the garden.",
+        "marks": 3,
+        "marking_criteria": [
+          "Setting up the equation for area",
+          "Solving the quadratic equation",
+          "Final answer"
+        ],
+        "hints": [
+          "Stay focused on this: Find the dimensions of the garden — develop the idea fully rather than listing short points. Make sure you also cover: Setting up the equation for area; Solving the quadratic equation; Final answer."
+        ],
+        "model_answer": "x(x + 6) = 72, x^2 + 6x - 72 = 0, (x + 12)(x - 6) = 0, x = 6 or x = -12 (not possible), width = 6m, length = 12m",
+        "explanation": "Set up the equation for the area of the rectangle and solve the quadratic equation.",
+        "exam_question_id": "c77d7f2a-2f1c-4c55-9086-bd290a3b3a30:3",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      },
+      {
+        "number": 3,
+        "scenario": "A rectangular garden has a length that is 6 metres more than its width. The area of the garden is 72 square metres.",
+        "id": 40,
+        "type": "longform",
+        "part": "b",
+        "question": "Determine the perimeter of the garden.",
+        "marks": 3,
+        "marking_criteria": [
+          "Using the dimensions found in part (a)",
+          "Calculating the perimeter",
+          "Final answer"
+        ],
+        "hints": [
+          "Perimeter = 2(length + width)."
+        ],
+        "model_answer": "Perimeter = 2(12 + 6) = 36 metres",
+        "explanation": "Use the dimensions found in part (a) to calculate the perimeter of the garden.",
+        "exam_question_id": "c77d7f2a-2f1c-4c55-9086-bd290a3b3a30:3",
+        "topic_label": "Introduction (Unit 6: Quadratic equations and inequalities)",
+        "topic_id": 698,
+        "checked": true,
+        "source": {
+          "textbook": "Core Math S4 SB",
+          "area": "Introduction (Unit 6: Quadratic equations and inequalities)"
+        }
+      }
+    ],
+    "estimated_time": 105,
+    "assessment_id": "788f01ab-ae78-433e-a1ae-ededeefeafdc",
+    "subject": "Core Math S4 SB",
+    "topics": [
+      "Unit 6: Quadratic equations and inequalities"
+    ],
+    "style": "Exam Style (Past Papers)",
+    "curriculum": "rwanda",
+    "questionType": "longform",
+    "textbook_id": 62,
+    "topic_ids": [
+      698
+    ],
+    "subtopic_ids": [],
+    "subtopic_id": null
+  },
+  "numbered": 20,
+  "parts": 40,
+  "structureErrors": [],
+  "findings": [
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 11,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 18,
+      "detail": "same as question 3"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 19,
+      "detail": "same as question 4"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 28,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 29,
+      "detail": "same as question 16"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 30,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 31,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 34,
+      "detail": "same as question 11"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 35,
+      "detail": "same as question 2"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 36,
+      "detail": "same as question 13"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 37,
+      "detail": "same as question 14"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 38,
+      "detail": "same as question 15"
+    },
+    {
+      "code": "duplicate-question",
+      "severity": "poor",
+      "index": 39,
+      "detail": "same as question 16"
+    }
+  ],
+  "figures": 0,
+  "imageErrors": [],
+  "review": {
+    "skipped": "Extra paid reviewer disabled; full questions retained for manual review."
+  },
+  "totalSeconds": 89
+}

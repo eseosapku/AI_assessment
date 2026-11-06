@@ -455,6 +455,7 @@ export function isMisalignedQuestion(q: unknown, subject: string): boolean {
   const text = `${(q as { question?: string })?.question || ''} ${(q as { explanation?: string })?.explanation || ''}`.toLowerCase()
 
   if (LITERARY_QUESTION_RE.test(text) && domain !== 'language') return true
+  if (domain === 'language' && /\b(compass bearing|determinant|integral|differentiate|polynomial|quadratic|molar mass|centripetal)\b/.test(text)) return true
 
   if (['science', 'math', 'technology'].includes(domain)) {
     if (/\b(read the passage|reading extract|the author|the writer|according to the story)\b/.test(text)) return true
