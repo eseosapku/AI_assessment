@@ -1,4 +1,5 @@
 import { isExamStyle } from '@/lib/exam-parts'
+import { fetchAssessment } from '@/lib/assessment-request'
 
 /**
  * Topping up a quiz that came back short, before the learner starts it.
@@ -90,7 +91,7 @@ export function mergeTopUp(data: QuizData, extra: unknown): QuizData {
 type Post = (body: Record<string, any>, signal?: AbortSignal) => Promise<{ ok: boolean; data: any }>
 
 const postToRoute: Post = async (body, signal) => {
-  const res = await fetch('/api/generate-assessment', {
+  const res = await fetchAssessment('/api/generate-assessment', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

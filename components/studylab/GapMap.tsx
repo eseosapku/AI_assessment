@@ -1,4 +1,5 @@
 'use client'
+import { fetchAssessment } from '@/lib/assessment-request'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -426,7 +427,7 @@ export default function GapMap({
         difficultyLevel: 'intermediate',
         curriculum: d.curriculum_slug ?? (userCountry === 'NG' ? 'nigeria' : 'cambridge'),
       }
-      const res = await fetch('/api/generate-assessment', {
+      const res = await fetchAssessment('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(quizPayload),

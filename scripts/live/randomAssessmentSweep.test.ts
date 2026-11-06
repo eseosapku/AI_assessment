@@ -27,8 +27,8 @@ const shuffled = <T,>(list: T[]) => list.map((value) => ({ value, rank: random()
 const outDir = resumeDir || path.join(process.cwd(), 'data/audit', `random-sweep-${seed}`)
 const buildId = fs.readFileSync('.next/BUILD_ID', 'utf8').trim()
 
-function generate(body: unknown, forwarded: string): Promise<{ status: number; ok: boolean; json: () => Promise<any> }> {
-  return new Promise((resolve, reject) => {
+async function generate(body: unknown, forwarded: string): Promise<{ status: number; ok: boolean; json: () => Promise<any> }> {
+  const response = await new Promise<{ status: number; ok: boolean; json: () => Promise<any> }>((resolve, reject) => {
     const request = http.request(new URL('/api/generate-assessment', base), { method: 'POST', signal: AbortSignal.timeout(660000), headers: { 'Content-Type': 'application/json', 'x-forwarded-for': forwarded } }, (response) => {
       let text = ''
       response.setEncoding('utf8')
@@ -39,6 +39,19 @@ function generate(body: unknown, forwarded: string): Promise<{ status: number; o
     request.on('error', reject)
     request.end(JSON.stringify(body))
   })
+  if (response.status !== 202) return response
+  const queued = await response.json()
+  if (!queued.job?.id) throw new Error('Generation submission returned no job ID')
+  const started = Date.now()
+  while (Date.now() - started < 20 * 60_000) {
+    const poll = await fetch(`${base}/api/jobs/${queued.job.id}`)
+    const { job, error } = await poll.json()
+    if (!poll.ok || !job) throw new Error(error || 'Could not read generation job')
+    if (job.status === 'succeeded') return { status: 200, ok: true, json: async () => job.result_payload }
+    if (job.status === 'failed') return { status: job.result_payload?.statusCode || 500, ok: false, json: async () => job.result_payload?.errorPayload || { error: job.error_message } }
+    await new Promise((resolve) => setTimeout(resolve, 2500))
+  }
+  throw new Error('Assessment worker did not finish within twenty minutes')
 }
 
 it('generates twenty random REB/Cambridge exams with exact numbered counts and complete parts', async () => {

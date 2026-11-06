@@ -23,6 +23,8 @@ const nextConfig = {
   },
   outputFileTracingExcludes: {
     '*': [
+      './.ai-worker/**/*',
+      './.aws-sam/**/*',
       './public/textbook-images/**/*',
       './public/exam-images/**/*',
       // The figure pipeline's inputs and records: read by scripts, never by

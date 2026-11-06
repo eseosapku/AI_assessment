@@ -1,4 +1,5 @@
 'use client'
+import { fetchAssessment } from '@/lib/assessment-request'
 
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -262,9 +263,9 @@ export default function PdfAssignmentPage() {
             if (USE_ASYNC_AI_JOBS) {
                 const job = await createAiJob('generate_assessment', generationPayload)
                 await triggerAiJobExecution(job.id)
-                data = await waitForAiJob<any>(job.id, { timeoutMs: 210000, pollIntervalMs: 2500 })
+                data = await waitForAiJob<any>(job.id, { timeoutMs: 20 * 60_000, pollIntervalMs: 2500 })
             } else {
-                const genRes = await fetch('/api/generate-assessment', {
+                const genRes = await fetchAssessment('/api/generate-assessment', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(generationPayload),

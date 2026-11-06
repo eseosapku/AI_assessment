@@ -1,4 +1,5 @@
 'use client'
+import { fetchAssessment } from '@/lib/assessment-request'
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -186,7 +187,7 @@ export default function StudioHome() {
             style: 'Test Style (Textbooks)',
             subjectDomainHint: target.subjectName,
           }
-          const res = await fetch('/api/generate-assessment', {
+          const res = await fetchAssessment('/api/generate-assessment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(quizPayload),

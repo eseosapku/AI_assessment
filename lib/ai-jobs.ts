@@ -88,13 +88,14 @@ export async function completeAiJob(jobId: string, resultPayload: Record<string,
   )
 }
 
-export async function failAiJob(jobId: string, message: string) {
+export async function failAiJob(jobId: string, message: string, failure: Record<string, unknown> | null = null) {
   await db.query(
     `UPDATE ai_jobs
      SET status = 'failed',
          error_message = $2,
-         finished_at = NOW()
-     WHERE id = $1`,
-    [jobId, message.slice(0, 4000)],
+         finished_at = NOW(),
+         result_payload = $3::jsonb
+     WHERE id = $1 AND status IN ('queued', 'running')`,
+    [jobId, message.slice(0, 4000), JSON.stringify(failure)],
   )
 }

@@ -1,4 +1,4 @@
-'use client'
+export const AI_JOB_WAIT_MS = 20 * 60_000
 
 export type AiJobType = 'generate_assessment' | 'grade_longform' | 'generate_feedback'
 
@@ -60,7 +60,7 @@ export async function waitForAiJob<T = any>(
   },
 ): Promise<T> {
   const pollIntervalMs = options?.pollIntervalMs ?? 2000
-  const timeoutMs = options?.timeoutMs ?? 210000
+  const timeoutMs = options?.timeoutMs ?? AI_JOB_WAIT_MS
   const signal = options?.signal
   const startedAt = Date.now()
 
@@ -75,7 +75,10 @@ export async function waitForAiJob<T = any>(
     const job = await getAiJob(jobId)
     if (signal?.aborted) throw aborted()
     if (job.status === 'succeeded') return (job.result_payload ?? null) as T
-    if (job.status === 'failed') throw new Error(job.error_message || 'AI job failed')
+    if (job.status === 'failed') throw Object.assign(new Error(job.error_message || 'AI job failed'), {
+      status: job.result_payload?.statusCode || 500,
+      payload: job.result_payload?.errorPayload || { error: job.error_message || 'AI job failed' },
+    })
     if (Date.now() - startedAt > timeoutMs) {
       throw new Error('AI job timed out. Please retry.')
     }
@@ -96,7 +99,6 @@ export async function waitForAiJob<T = any>(
 }
 
 export async function triggerAiJobExecution(jobId: string): Promise<void> {
-  await fetch(`/api/jobs/${encodeURIComponent(jobId)}/execute`, {
-    method: 'POST',
-  }).catch(() => undefined)
+  // Creation dispatches to SQS; never wait on a long HTTP execution request.
+  void jobId
 }

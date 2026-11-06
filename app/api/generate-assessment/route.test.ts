@@ -63,7 +63,7 @@ vi.mock('@aws-sdk/client-bedrock-runtime', () => ({
   },
 }))
 
-import { POST } from './route'
+import { generateAssessment as POST } from '@/lib/assessment-generation'
 
 const generate = (extra: Record<string, unknown> = {}) => POST(new NextRequest('http://localhost/api/generate-assessment', {
   method: 'POST', headers: { 'content-type': 'application/json' },

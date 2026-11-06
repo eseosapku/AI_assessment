@@ -24,12 +24,13 @@ export function hasBedrockCredentials(): boolean {
 }
 
 export function getBedrockCredentials():
-  | { accessKeyId: string; secretAccessKey: string }
+  | { accessKeyId: string; secretAccessKey: string; sessionToken?: string }
   | null {
   const accessKeyId = getBedrockAccessKeyId()
   const secretAccessKey = getBedrockSecretAccessKey()
   if (!accessKeyId || !secretAccessKey) return null
-  return { accessKeyId, secretAccessKey }
+  const sessionToken = process.env.BEDROCK_SESSION_TOKEN || process.env.AWS_SESSION_TOKEN
+  return { accessKeyId, secretAccessKey, ...(sessionToken ? { sessionToken } : {}) }
 }
 
 export const BEDROCK_CREDENTIALS_ERROR =

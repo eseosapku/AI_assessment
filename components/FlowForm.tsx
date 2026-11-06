@@ -1,4 +1,5 @@
 'use client'
+import { fetchAssessment } from '@/lib/assessment-request'
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, Check, Loader2, Send, Sparkles, ArrowLeft } from 'lucide-react'
@@ -1034,12 +1035,12 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
         const job = await createAiJob('generate_assessment', requestPayload)
         await triggerAiJobExecution(job.id)
         data = await waitForAiJob<any>(job.id, {
-          timeoutMs: isExamStyle(formData.style) ? 720000 : ['rwanda', 'cambridge'].includes(formData.curriculum) ? 420000 : 210000,
+          timeoutMs: 20 * 60_000,
           pollIntervalMs: 2500,
           signal: controller.signal,
         })
       } else {
-        const response = await fetch('/api/generate-assessment', {
+        const response = await fetchAssessment('/api/generate-assessment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestPayload),

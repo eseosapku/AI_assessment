@@ -17,14 +17,19 @@ Parameters:
     NoEcho: true
   BackendInternalBaseUrl:
     Type: String
-    Description: Long-running backend origin for the execute relay. Its hosting and gateway must allow at least 660 seconds; the worker timeout does not extend upstream limits.
+    Default: ''
+    Description: Legacy parameter retained for compatibility. Generation no longer uses an HTTP relay.
+  FigureBaseUrl:
+    Type: String
+    Default: ''
+    Description: Same CDN origin as the frontend NEXT_PUBLIC_FIGURE_BASE_URL.
   AwsRegion:
     Type: String
     Default: eu-west-1
 
 Globals:
   Function:
-    Runtime: nodejs20.x
+    Runtime: nodejs24.x
     Architectures:
       - arm64
     MemorySize: 1024
@@ -36,9 +41,19 @@ Globals:
         PG_DISABLE_SSL: !Ref PgDisableSsl
         INTERNAL_JOB_RUNNER_TOKEN: !Ref InternalJobRunnerToken
         BACKEND_INTERNAL_BASE_URL: !Ref BackendInternalBaseUrl
-        AWS_REGION: !Ref AwsRegion
+        BEDROCK_REGION: !Ref AwsRegion
 
 Resources:
+  QueueSenderPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allow the Amplify runtime to submit background AI jobs.
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sqs:SendMessage
+            Resource: !GetAtt AiJobQueue.Arn
   BackendApi:
     Type: AWS::Serverless::HttpApi
     Properties:
@@ -51,7 +66,7 @@ Resources:
   AiJobQueue:
     Type: AWS::SQS::Queue
     Properties:
-      VisibilityTimeout: 4320
+      VisibilityTimeout: 5400
       MessageRetentionPeriod: 345600
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt AiJobDLQ.Arn
@@ -65,8 +80,8 @@ Resources:
   SubmitAiJobFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: .
-      Handler: handlers/submit-ai-job.handler
+      CodeUri: ../../.ai-worker/
+      Handler: index.submitHandler
       Events:
         SubmitAiJob:
           Type: HttpApi
@@ -80,20 +95,12 @@ Resources:
       Environment:
         Variables:
           AI_JOB_QUEUE_URL: !Ref AiJobQueue
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        EntryPoints:
-          - handlers/submit-ai-job.ts
-        Minify: true
-        Target: es2022
-        Sourcemap: false
 
   GetAiJobFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: .
-      Handler: handlers/get-ai-job.handler
+      CodeUri: ../../.ai-worker/
+      Handler: index.statusHandler
       Events:
         GetAiJob:
           Type: HttpApi
@@ -101,25 +108,22 @@ Resources:
             ApiId: !Ref BackendApi
             Path: /api/jobs/{id}
             Method: GET
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        EntryPoints:
-          - handlers/get-ai-job.ts
-        Minify: true
-        Target: es2022
-        Sourcemap: false
 
   ExecuteAiJobFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: .
-      Handler: handlers/execute-ai-job.handler
-      Timeout: 720
+      CodeUri: ../../.ai-worker/
+      Handler: index.handler
+      Timeout: 900
       MemorySize: 2048
       ReservedConcurrentExecutions: 20
+      Environment:
+        Variables:
+          NEXT_PUBLIC_FIGURE_BASE_URL: !Ref FigureBaseUrl
       Policies:
         - AWSLambdaBasicExecutionRole
+        - SQSPollerPolicy:
+            QueueName: !GetAtt AiJobQueue.QueueName
         - Statement:
             - Effect: Allow
               Action:
@@ -133,14 +137,8 @@ Resources:
             Queue: !GetAtt AiJobQueue.Arn
             BatchSize: 1
             Enabled: true
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        EntryPoints:
-          - handlers/execute-ai-job.ts
-        Minify: true
-        Target: es2022
-        Sourcemap: false
+            FunctionResponseTypes:
+              - ReportBatchItemFailures
 
 Outputs:
   ApiBaseUrl:
@@ -149,3 +147,7 @@ Outputs:
   AiJobQueueUrl:
     Description: SQS queue URL
     Value: !Ref AiJobQueue
+  WorkerFunctionName:
+    Value: !Ref ExecuteAiJobFunction
+  QueueSenderPolicyArn:
+    Value: !Ref QueueSenderPolicy

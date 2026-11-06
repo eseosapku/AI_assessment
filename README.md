@@ -182,6 +182,11 @@ const topicsBySubject = { ... }
 
 ## Deployment
 
+For assessment generation on Amplify, deploy the SQS worker and configure the
+queue before deploying the frontend. Follow [the assessment worker deployment guide](docs/assessment-worker-deployment.md).
+The worker runs generation directly with a 15-minute timeout; the frontend
+submits jobs and polls their status instead of holding an HTTP request open.
+
 ### Vercel (Recommended)
 
 ```bash
