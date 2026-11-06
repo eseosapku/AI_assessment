@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build",
-    "build:ai-worker": "node scripts/build-ai-worker.cjs",
+    "build:lambda": "node scripts/build-ai-worker.cjs",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",

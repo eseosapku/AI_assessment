@@ -10,6 +10,7 @@ import { POST as createJob } from '../../../app/api/jobs/route'
 import { GET as getJob } from '../../../app/api/jobs/[id]/route'
 import { POST as executeJob } from '../../../app/api/jobs/[id]/execute/route'
 import { handler as sqsWorker } from './execute-ai-job'
+import { runAiJob } from '../../../lib/run-ai-job'
 
 function response(statusCode: number, body: unknown, headers?: Record<string, string>) {
   return {
@@ -81,10 +82,14 @@ function jobIdFromPath(path: string) {
   return match?.[1] ?? ''
 }
 
-export async function handler(event: any) {
+export async function handler(event: any, context?: { callbackWaitsForEmptyEventLoop: boolean }) {
+  if (context) context.callbackWaitsForEmptyEventLoop = false
+  if (event?.ai_job_id) {
+    await runAiJob(String(event.ai_job_id))
+    return { success: true }
+  }
   if (Array.isArray(event?.Records)) {
-    await sqsWorker(event)
-    return { batchItemFailures: [] }
+    return sqsWorker(event, context)
   }
 
   const { path, method } = pathAndMethod(event)

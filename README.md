@@ -182,10 +182,10 @@ const topicsBySubject = { ... }
 
 ## Deployment
 
-For assessment generation on Amplify, deploy the SQS worker and configure the
-queue before deploying the frontend. Follow [the assessment worker deployment guide](docs/assessment-worker-deployment.md).
-The worker runs generation directly with a 15-minute timeout; the frontend
-submits jobs and polls their status instead of holding an HTTP request open.
+Push to `aws_deploy` as usual. The existing GitHub workflow updates
+`studysquare_function`, and Amplify deploys the frontend. No separate worker,
+queue setup, or manual SAM deployment is required. The existing Lambda has a
+15-minute timeout; the browser can wait for generation for 20 minutes.
 
 ### Vercel (Recommended)
 

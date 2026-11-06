@@ -1,3 +1,4 @@
+import { jobApiUrl } from './job-api-url'
 export const AI_JOB_WAIT_MS = 20 * 60_000
 
 export type AiJobType = 'generate_assessment' | 'grade_longform' | 'generate_feedback'
@@ -26,7 +27,7 @@ interface JobStatusResponse {
 }
 
 export async function createAiJob(jobType: AiJobType, payload: unknown): Promise<AiJobRecord> {
-  const res = await fetch('/api/jobs', {
+  const res = await fetch(jobApiUrl('/api/jobs'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ job_type: jobType, payload }),
@@ -39,7 +40,7 @@ export async function createAiJob(jobType: AiJobType, payload: unknown): Promise
 }
 
 export async function getAiJob(jobId: string): Promise<AiJobRecord> {
-  const res = await fetch(`/api/jobs/${encodeURIComponent(jobId)}`, {
+  const res = await fetch(jobApiUrl(`/api/jobs/${encodeURIComponent(jobId)}`), {
     cache: 'no-store',
   })
   const json = (await res.json()) as JobStatusResponse & { error?: string }
@@ -99,6 +100,6 @@ export async function waitForAiJob<T = any>(
 }
 
 export async function triggerAiJobExecution(jobId: string): Promise<void> {
-  // Creation dispatches to SQS; never wait on a long HTTP execution request.
+  // Creation dispatches inside the existing Lambda; no long execution request.
   void jobId
 }

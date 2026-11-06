@@ -8,6 +8,11 @@ on:
     paths:
       - "app/api/auth/**"
       - "app/api/jobs/**"
+      - "app/api/generate-assessment/**"
+      - "lib/**"
+      - "data/**"
+      - "systems/**"
+      - "scripts/build-ai-worker.cjs"
       - "infra/lambda/handlers/**"
       - "lib/db.ts"
       - "lib/ai-jobs.ts"
@@ -36,7 +41,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
@@ -48,15 +53,8 @@ jobs:
       - name: Bundle single Lambda handler
         run: |
           rm -rf lambda-dist lambda-package.zip
-          mkdir -p lambda-dist
-          npx esbuild infra/lambda/handlers/single-lambda.ts \
-            --bundle \
-            --platform=node \
-            --target=node20 \
-            --format=cjs \
-            --outfile=lambda-dist/index.js \
-            --external:pg-native
-          cd lambda-dist
+          npm run build:lambda
+          cd .ai-worker
           zip -r ../lambda-package.zip .
 
       - name: Configure AWS credentials
@@ -79,6 +77,16 @@ jobs:
           aws lambda update-function-configuration \
             --function-name studysquare_function \
             --handler index.handler \
-            --runtime nodejs20.x
+            --runtime nodejs24.x \
+            --timeout 900
           aws lambda wait function-updated \
             --function-name studysquare_function
+
+      - name: Allow background work in the same Lambda
+        run: |
+          function_arn=$(aws lambda get-function-configuration --function-name studysquare_function --query FunctionArn --output text)
+          role_arn=$(aws lambda get-function-configuration --function-name studysquare_function --query Role --output text)
+          cat > lambda-execution-policy.json <<EOF
+          {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":"lambda:InvokeFunction","Resource":"$function_arn"},{"Effect":"Allow","Action":["bedrock:InvokeModel","bedrock:InvokeModelWithResponseStream"],"Resource":"*"}]}
+          EOF
+          aws iam put-role-policy --role-name "${role_arn##*/}" --policy-name AssessmentBackgroundExecution --policy-document file://lambda-execution-policy.json
