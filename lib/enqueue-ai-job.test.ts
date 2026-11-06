@@ -16,8 +16,20 @@ describe('durable production dispatch', () => {
     expect(mock.invoke).toHaveBeenCalledWith('j', 'studysquare_function')
     expect(mock.after).not.toHaveBeenCalled()
   })
-  it('forwards Amplify submissions to the existing backend instead of requiring new infrastructure', async () => {
+  it('starts the existing Lambda from Amplify with the Bedrock keys', async () => {
     vi.stubEnv('AWS_LAMBDA_FUNCTION_NAME', '')
+    vi.stubEnv('BEDROCK_ACCESS_KEY_ID', 'key')
+    vi.stubEnv('BEDROCK_SECRET_ACCESS_KEY', 'secret')
+    await enqueueAiJob('generate_assessment', { style: 'Exam Style (Past Papers)' })
+    expect(mock.invoke).toHaveBeenCalledWith('j', 'studysquare_function')
+    expect(mock.after).not.toHaveBeenCalled()
+  })
+  it('forwards Amplify submissions to the existing backend when it cannot sign a Lambda call', async () => {
+    vi.stubEnv('AWS_LAMBDA_FUNCTION_NAME', '')
+    vi.stubEnv('BEDROCK_ACCESS_KEY_ID', '')
+    vi.stubEnv('BEDROCK_SECRET_ACCESS_KEY', '')
+    vi.stubEnv('AWS_ACCESS_KEY_ID', '')
+    vi.stubEnv('AWS_SECRET_ACCESS_KEY', '')
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(Response.json({ job: { id: 'j' } }, { status: 201 })))
     expect(await enqueueAiJob('generate_assessment', {})).toEqual({ id: 'j' })
     expect(mock.create).not.toHaveBeenCalled()

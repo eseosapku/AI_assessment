@@ -1,20 +1,20 @@
 import { createHash, createHmac } from 'node:crypto'
-import { getBedrockRegion } from './aws-config'
+import { getBedrockCredentials, getBedrockRegion } from './aws-config'
 import { GENERATION_TIMEOUT_MS } from './generation-timeout'
 
 /** Signed asynchronous invocation of the SAME deployed Lambda; no new queue. */
 export async function invokeExistingLambda(jobId: string, functionName: string): Promise<void> {
-  const accessKeyId = process.env.AWS_ACCESS_KEY_ID
-  const secret = process.env.AWS_SECRET_ACCESS_KEY
-  if (!accessKeyId || !secret) throw new Error('Lambda runtime credentials are unavailable')
-  const region = process.env.AWS_REGION || getBedrockRegion()
+  const credentials = getBedrockCredentials()
+  if (!credentials) throw new Error('Lambda runtime credentials are unavailable')
+  const { accessKeyId, secretAccessKey: secret, sessionToken } = credentials
+  const region = getBedrockRegion()
   const host = `lambda.${region}.amazonaws.com`
   const uri = `/2015-03-31/functions/${encodeURIComponent(functionName)}/invocations`
   const body = JSON.stringify({ ai_job_id: jobId })
   const date = new Date().toISOString().replace(/[:-]|\.\d{3}/g, '')
   const day = date.slice(0, 8)
   const headers: Record<string, string> = { host, 'content-type': 'application/json', 'x-amz-date': date, 'x-amz-invocation-type': 'Event' }
-  if (process.env.AWS_SESSION_TOKEN) headers['x-amz-security-token'] = process.env.AWS_SESSION_TOKEN
+  if (sessionToken) headers['x-amz-security-token'] = sessionToken
   const names = Object.keys(headers).sort()
   const signed = names.join(';')
   const hash = (text: string) => createHash('sha256').update(text).digest('hex')
