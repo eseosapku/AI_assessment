@@ -13,7 +13,13 @@ export async function invokeExistingLambda(jobId: string, functionName: string):
   const body = JSON.stringify({ ai_job_id: jobId })
   const date = new Date().toISOString().replace(/[:-]|\.\d{3}/g, '')
   const day = date.slice(0, 8)
-  const headers: Record<string, string> = { host, 'content-type': 'application/json', 'x-amz-date': date, 'x-amz-invocation-type': 'Event' }
+  const headers: Record<string, string> = {
+    host,
+    'content-type': 'application/json',
+    'content-length': String(Buffer.byteLength(body)),
+    'x-amz-date': date,
+    'x-amz-invocation-type': 'Event',
+  }
   if (sessionToken) headers['x-amz-security-token'] = sessionToken
   const names = Object.keys(headers).sort()
   const signed = names.join(';')

@@ -53,11 +53,15 @@ jobs:
 
       - name: Set Lambda handler
         run: |
+          # Keep this function outside the VPC. The database is publicly
+          # reachable, and those subnets have no NAT, so a VPC function
+          # cannot open a connection to Bedrock.
           aws lambda update-function-configuration \
             --function-name studysquare_function \
             --handler index.handler \
             --runtime nodejs24.x \
-            --timeout 900
+            --timeout 900 \
+            --memory-size 2048
           aws lambda wait function-updated \
             --function-name studysquare_function
 

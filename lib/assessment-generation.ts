@@ -2002,16 +2002,15 @@ ${commandBlock}`
       // gets a 504 while the function is still patiently waiting. Batches run in
       // parallel, so worst-case wall time ≈ one primary (18s) + one fallback (9s).
       //
-      // Checkpoint gets a bigger budget, because the 30-second reasoning does
-      // not apply to it. A Checkpoint paper is twenty-odd batches, one per
-      // numbered question, and the request already runs for minutes -- there
-      // is no gateway window left to protect. On the old budget the Maths
-      // paper lost batch after batch to "timed out after 8758ms" under its own
-      // throughput contention and came back 10 questions of 29, which the
-      // route then refused outright. A slow paper beats no paper.
-      const PRIMARY_CALL_BUDGET_MS = 90_000
-      const FALLBACK_CALL_BUDGET_MS = 45_000
-      const PER_ATTEMPT_TIMEOUT_MS = 90_000
+      // Generation runs in a background job, but an individual stalled model
+      // call must still be bounded or it holds every call behind its wave.
+      // These calls sit inside parallel waves. Letting one stalled request hold
+      // a wave for 90 seconds made a ten-question paper take several minutes.
+      // Nova Micro is both cheaper and faster, so fail over promptly instead of
+      // spending the whole job budget on one Nova Lite request.
+      const PRIMARY_CALL_BUDGET_MS = examPaper ? 30_000 : 24_000
+      const FALLBACK_CALL_BUDGET_MS = examPaper ? 15_000 : 12_000
+      const PER_ATTEMPT_TIMEOUT_MS = PRIMARY_CALL_BUDGET_MS
 
       const tryModels = async (modelIds: string[], budgetMs: number): Promise<{
         text?: string
@@ -2091,7 +2090,7 @@ ${commandBlock}`
 
       const fallbackCandidates = buildModelCandidates(FALLBACK_MODEL_ID)
       if (fallbackCandidates.length > 0) {
-        console.warn('Primary model attempts failed or timed out. Falling back to google.gemma-3-12b-it...')
+        console.warn(`Primary model attempts failed or timed out. Falling back to ${FALLBACK_MODEL_ID}...`)
         const fallback = await tryModels(fallbackCandidates, FALLBACK_CALL_BUDGET_MS)
         if (fallback.text) return fallback.text
 
@@ -3389,7 +3388,11 @@ ${commandBlock}`
         }
       } else if (examPaper) {
         // Spare complete questions absorb losses to checking without restarting the paper.
-        const numbered = count + Math.max(2, Math.ceil(count * 0.25))
+        // Two complete spares are enough to absorb the normal guard/checker
+        // loss. The old 25% surplus made a ten-question paper generate 13
+        // numbered questions. With six illustrated questions that expanded
+        // into nine calls and three serial waves before checking even began.
+        const numbered = count + 2
         const foci = examFoci.length ? examFoci : [promptSubject]
         const focusedTopic = (index: number) => {
           const parent = promptTopics[index % promptTopics.length]
@@ -3856,7 +3859,7 @@ ${commandBlock}`
       const controller = new AbortController()
       // An ordinary quiz has what is left of its 30 seconds; a Checkpoint
       // paper runs as a job and has no such window.
-      const timeout = setTimeout(() => controller.abort(), isCheckpoint ? 45_000 : Math.max(1_000, Math.min(45_000, CHECK_DEADLINE_MS - (Date.now() - requestStarted))))
+      const timeout = setTimeout(() => controller.abort(), isCheckpoint ? 45_000 : Math.max(1_000, Math.min(20_000, CHECK_DEADLINE_MS - (Date.now() - requestStarted))))
       try {
         const modelId = CHECKER_MODEL
         const cmd = new InvokeModelCommand({
@@ -3891,7 +3894,10 @@ ${commandBlock}`
     const checksThisPaper = isCheckpoint || checkedSchoolQuiz
     // Past this, an ordinary quiz ships what it has unchecked rather than be
     // killed at maxDuration with nothing to show.
-    const CHECK_DEADLINE_MS = 840_000
+    // The checker is a safety layer, not a reason to turn a 20-second draft
+    // into a multi-minute request. Deterministic guards have already run; if
+    // this deadline is exhausted the remaining questions ship unchecked.
+    const CHECK_DEADLINE_MS = examPaper ? 55_000 : 40_000
     const runChecker = async (list: any[]): Promise<any[]> => {
       if (!checksThisPaper || !CHECKER_MODEL) return list
       if (!isCheckpoint && Date.now() - requestStarted > CHECK_DEADLINE_MS - 4_000) {
@@ -3923,8 +3929,13 @@ ${commandBlock}`
       // 30 and some were cut off by the deadline; half the length each, in
       // parallel, they finish in about half the time.
       const checkGroups = examPaper
-        ? paperGroups(list).map((g) => list.slice(g.start, g.end)).filter((group) => group.some((q) => todo.includes(q)))
-        : chunk(todo, isCheckpoint ? 6 : 3)
+        ? chunk(
+            paperGroups(list)
+              .map((g) => list.slice(g.start, g.end))
+              .filter((group) => group.some((q) => todo.includes(q))),
+            2,
+          ).map((groups) => groups.flat())
+        : chunk(todo, isCheckpoint ? 6 : 5)
       const checkOne = async (group: any[]) => {
         // Numbered 1..n inside the batch so the verdicts map back exactly;
         // ids from different passes can collide. Restored afterwards.
@@ -3942,8 +3953,9 @@ ${commandBlock}`
           let reply: string
           try {
             reply = await callChecker(prompt)
-          } catch (err) {
-            if (!isCheckpoint && Date.now() - requestStarted > CHECK_DEADLINE_MS - 6_000) throw err
+          } catch (err: any) {
+            const aborted = err?.name === 'AbortError' || /abort|timed?\s*out/i.test(String(err?.message || err))
+            if (aborted || (!isCheckpoint && Date.now() - requestStarted > CHECK_DEADLINE_MS - 6_000)) throw err
             reply = await callChecker(prompt)
           }
           const result = applyVerdicts(group, parseVerdicts(reply))
@@ -3962,8 +3974,8 @@ ${commandBlock}`
           group.forEach((q, k) => { q.id = ids[k] })
         }
       }
-      for (let offset = 0; offset < checkGroups.length; offset += 4) {
-        await Promise.allSettled(checkGroups.slice(offset, offset + 4).map(checkOne))
+      for (let offset = 0; offset < checkGroups.length; offset += 5) {
+        await Promise.allSettled(checkGroups.slice(offset, offset + 5).map(checkOne))
       }
       if (fixed || dropped.size) {
         const illustrated = [...dropped].filter((q: any) => q?.image_url).length

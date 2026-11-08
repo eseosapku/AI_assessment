@@ -111,13 +111,13 @@ describe('numbered exam generation', () => {
     expect(paperGroups(data.questions)).toHaveLength(10)
   })
 
-  it('checks every group with Nova Lite without switching to a more expensive model', async () => {
+  it('checks every group in paired Nova Lite calls without switching to a more expensive model', async () => {
     const response = await generate()
     const data = await response.json()
     expect(response.status, JSON.stringify(data)).toBe(200)
     expect(paperGroups(data.questions)).toHaveLength(10)
     expect(data.questions.every((q: any) => q.checked)).toBe(true)
-    expect(state.checkerPrompts.length).toBeGreaterThanOrEqual(10)
+    expect(state.checkerPrompts.length).toBeGreaterThanOrEqual(5)
     expect(state.checkerModels.every((id) => /amazon\.nova-lite-v1:0$/.test(id))).toBe(true)
   })
 
@@ -140,7 +140,10 @@ describe('numbered exam generation', () => {
     expect(paperGroups(data.questions)).toHaveLength(10)
     expect(state.calls).toBeGreaterThan(60)
     expect(state.checkerPrompts.every((p) => p.includes('AS and A Level Further Mathematics'))).toBe(true)
-    expect(state.checkerPrompts.every((p) => [...p.matchAll(/--- Q\d+ longform/g)].length === 3)).toBe(true)
+    expect(state.checkerPrompts.every((p) => {
+      const parts = [...p.matchAll(/--- Q\d+ longform/g)].length
+      return parts >= 2 && parts <= 6
+    })).toBe(true)
     expect(state.generationPrompts.some((p) => p.includes('Previous attempts had these faults'))).toBe(true)
   })
 

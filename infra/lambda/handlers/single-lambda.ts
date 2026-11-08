@@ -82,12 +82,30 @@ function jobIdFromPath(path: string) {
   return match?.[1] ?? ''
 }
 
+function jobIdFromEvent(event: any): string {
+  if (event?.ai_job_id) return String(event.ai_job_id)
+  const raw = typeof event?.body === 'string' ? event.body : ''
+  if (!raw) return ''
+  try {
+    const parsed = JSON.parse(raw)
+    return parsed?.ai_job_id ? String(parsed.ai_job_id) : ''
+  } catch {
+    return ''
+  }
+}
+
 export async function handler(event: any, context?: { callbackWaitsForEmptyEventLoop: boolean }) {
-  if (context) context.callbackWaitsForEmptyEventLoop = false
-  if (event?.ai_job_id) {
-    await runAiJob(String(event.ai_job_id))
+  const jobId = jobIdFromEvent(event)
+  if (jobId) {
+    // Leave the event loop open until the paper is saved. Freezing it here
+    // accepted the job and then killed the database write, so the site polled
+    // a queued row forever.
+    if (context) context.callbackWaitsForEmptyEventLoop = true
+    console.log(`Running AI job ${jobId}`)
+    await runAiJob(jobId)
     return { success: true }
   }
+  if (context) context.callbackWaitsForEmptyEventLoop = false
   if (Array.isArray(event?.Records)) {
     return sqsWorker(event, context)
   }

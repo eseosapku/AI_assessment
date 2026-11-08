@@ -4,7 +4,10 @@ import { claimQueuedAiJob, completeAiJob, failAiJob } from './ai-jobs'
 /** Called inside Lambda by SQS. No call back through Amplify/API Gateway. */
 export async function runAiJob(id: string): Promise<void> {
   const job = await claimQueuedAiJob(id)
-  if (!job) return // Duplicate SQS delivery must not generate or charge twice.
+  if (!job) {
+    console.error(`AI job ${id} was not queued on this database, so nothing was generated`)
+    return
+  }
   try {
     const request = new NextRequest(`http://ai-worker.internal/api/${job.job_type}`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(job.input_payload || {}),

@@ -1,4 +1,4 @@
-/** Live, paid QA: 20 seeded random exams, ten per curriculum. Run against next start. */
+/** Live, paid QA: 20 seeded random assessments across both curricula and styles. */
 import { expect, it } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -25,9 +25,22 @@ let rngState = seed
 const random = () => { rngState = (Math.imul(rngState, 1664525) + 1013904223) >>> 0; return rngState / 4294967296 }
 const shuffled = <T,>(list: T[]) => list.map((value) => ({ value, rank: random() })).sort((a, b) => a.rank - b.rank).map((x) => x.value)
 const outDir = resumeDir || path.join(process.cwd(), 'data/audit', `random-sweep-${seed}`)
-const buildId = fs.readFileSync('.next/BUILD_ID', 'utf8').trim()
+const buildId = process.env.QA_DIRECT === '1' ? 'direct-current-source' : fs.readFileSync('.next/BUILD_ID', 'utf8').trim()
 
 async function generate(body: unknown, forwarded: string): Promise<{ status: number; ok: boolean; json: () => Promise<any> }> {
+  if (process.env.QA_DIRECT === '1') {
+    const [{ generateAssessment }, { NextRequest }] = await Promise.all([
+      import('@/lib/assessment-generation'),
+      import('next/server'),
+    ])
+    const response = await generateAssessment(new NextRequest('http://localhost/api/generate-assessment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-forwarded-for': forwarded },
+      body: JSON.stringify(body),
+    }))
+    const text = await response.text()
+    return { status: response.status, ok: response.ok, json: async () => JSON.parse(text) }
+  }
   const response = await new Promise<{ status: number; ok: boolean; json: () => Promise<any> }>((resolve, reject) => {
     const request = http.request(new URL('/api/generate-assessment', base), { method: 'POST', signal: AbortSignal.timeout(660000), headers: { 'Content-Type': 'application/json', 'x-forwarded-for': forwarded } }, (response) => {
       let text = ''
@@ -54,15 +67,17 @@ async function generate(body: unknown, forwarded: string): Promise<{ status: num
   throw new Error('Assessment worker did not finish within twenty minutes')
 }
 
-it('generates twenty random REB/Cambridge exams with exact numbered counts and complete parts', async () => {
+it('generates twenty random REB/Cambridge assessments with exact counts and complete exam parts', async () => {
   fs.mkdirSync(outDir, { recursive: true })
   const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.PG_DISABLE_SSL === 'true' ? false : { rejectUnauthorized: false }, connectionTimeoutMillis: 5000, query_timeout: 5000, max: 1 })
   const createdIds: string[] = []
   const results: any[] = []
   try {
-    const productionAsset = await fetch(`${base}/_next/static/${buildId}/_buildManifest.js`)
-    await productionAsset.body?.cancel()
-    if (!productionAsset.ok) throw new Error('Run next build and next start before this production assessment sweep.')
+    if (process.env.QA_DIRECT !== '1') {
+      const productionAsset = await fetch(`${base}/_next/static/${buildId}/_buildManifest.js`)
+      await productionAsset.body?.cancel()
+      if (!productionAsset.ok) throw new Error('Run next build and next start before this production assessment sweep.')
+    }
     // Use the versioned catalogue for reproducible sampling; the real route resolves
     // and validates every selected ID against the current database on generation.
     const snapshot = JSON.parse(fs.readFileSync('curriculum/snapshot.json', 'utf8'))
