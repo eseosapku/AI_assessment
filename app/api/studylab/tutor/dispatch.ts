@@ -1,6 +1,6 @@
 // app/api/studylab/tutor/dispatch.ts
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
-import { modelForJob, fallbackForJob } from '@/lib/studylab/lessonJobs'
+import { modelForJob, fallbackForJob, reasoningForJob } from '@/lib/studylab/lessonJobs'
 import type { LessonPolicy } from '@/lib/studylab/lessonPolicy'
 import {
   nextBeat, passCheck, failCheck, requestTestOut, skipStep, jumpTo,
@@ -464,6 +464,8 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       maxTokens: 2600,
       temperature: 0.6,
       model: modelForJob('teach_beat'),
+      reasoningEffort: reasoningForJob('teach_beat'),
+      noGemmaFallback: true,
       fallbackModel: fallbackForJob('teach_beat'),
       usage: input.requestId
         ? { feature: 'lesson_teach_beat', requestId: input.requestId, userId: input.userId }
@@ -823,6 +825,8 @@ async function applyDiagnose(input: DispatchInput, run: LessonRun): Promise<Disp
     maxTokens: 300,
     temperature: 0.4,
     model: modelForJob('help'),
+    reasoningEffort: reasoningForJob('help'),
+    noGemmaFallback: true,
     fallbackModel: fallbackForJob('help'),
     usage: input.requestId ? { feature: 'lesson_diagnose', requestId: input.requestId, userId: input.userId } : undefined,
     signal: signalFor(input.deadline),
@@ -889,6 +893,8 @@ async function applyHelp(
     maxTokens: 350,
     temperature: 0.4,
     model: modelForJob('help'),
+    reasoningEffort: reasoningForJob('help'),
+    noGemmaFallback: true,
     fallbackModel: fallbackForJob('help'),
     usage: input.requestId ? { feature: 'lesson_help', requestId: input.requestId, userId: input.userId } : undefined,
     signal: signalFor(input.deadline),
@@ -1737,6 +1743,8 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     maxTokens: 2600,
     temperature: 0.6,
     model: modelForJob('teach_beat'),
+    reasoningEffort: reasoningForJob('teach_beat'),
+    noGemmaFallback: true,
     fallbackModel: fallbackForJob('teach_beat'),
     ...(photo ? { image: photo } : {}),
     usage: input.requestId
@@ -1927,6 +1935,8 @@ async function writeCheck(
     maxTokens: 900,
     temperature: 0.3,
     model: modelForJob('check'),
+    reasoningEffort: reasoningForJob('check'),
+    noGemmaFallback: true,
     fallbackModel: fallbackForJob('check'),
     usage: requestId
       ? { feature: 'lesson_check', requestId, userId }
@@ -2704,6 +2714,9 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     maxTokens: 700,
     temperature: 0.4,
     model: modelForJob('plan'),
+    fallbackModel: fallbackForJob('plan'),
+    reasoningEffort: reasoningForJob('plan'),
+    noGemmaFallback: true,
     usage: input.requestId
       ? { feature: 'lesson_plan', requestId: input.requestId, userId: input.userId }
       : undefined,

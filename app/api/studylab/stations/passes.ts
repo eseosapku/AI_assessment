@@ -1,6 +1,6 @@
 // app/api/studylab/stations/passes.ts
 import { buildModelCandidates, callGemma, parseJsonRobust } from '@/lib/bedrock'
-import { modelForJob, fallbackForJob } from '@/lib/studylab/lessonJobs'
+import { modelForJob, fallbackForJob, reasoningForJob } from '@/lib/studylab/lessonJobs'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
 import { isValidPart } from '@/lib/studylab/point'
 import {
@@ -226,6 +226,8 @@ async function ask(pass: Exclude<Pass, 'verify'>, ctx: PassContext, opts: PassOp
     maxTokens: BUDGET[pass],
     temperature: 0.5,
     model: modelForJob('author'),
+    reasoningEffort: reasoningForJob('author'),
+    noGemmaFallback: true,
     fallbackModel: fallbackForJob('author'),
     maxCandidates: onlyModel(modelForJob('author')),
     signal: opts.signal,
@@ -416,6 +418,8 @@ async function judgeStation(bundle: StationBundle, ctx: PassContext, opts: PassO
       maxTokens: BUDGET.verify,
       temperature: 0,
       model: modelForJob('judge'),
+      reasoningEffort: reasoningForJob('judge'),
+      noGemmaFallback: true,
       fallbackModel: fallbackForJob('judge'),
       maxCandidates: Math.max(onlyModel(modelForJob('judge')), onlyModel(modelForJob('plan'))),
       signal: opts.signal,

@@ -17,21 +17,48 @@
 export type LessonJob = 'plan' | 'teach_beat' | 'check' | 'grade' | 'help' | 'author' | 'judge'
 
 /**
- * Claude for the lesson itself (the redesign's model table): Sonnet drafts the
- * plan -- one or two short calls that shape everything after -- and Haiku runs
- * the live turns, the checks (whose keys must be right) and help. Grading stays
+ * Kimi K3.1 (a global inference profile) runs every lesson job but marking.
+ * The account's Claude access is refused, and in a blind test judged by Claude
+ * Opus Kimi was the best model available for each of these jobs. Grading stays
  * on Nova Lite: the grade route is frozen, and the practice route shares it.
  */
+const KIMI = 'global.moonshotai.kimi-k3.1'
 export const JOB_MODELS: Record<LessonJob, string> = {
-  plan: 'anthropic.claude-sonnet-4-5-20250929-v1:0',
-  teach_beat: 'anthropic.claude-haiku-4-5-20251001-v1:0',
-  check: 'anthropic.claude-haiku-4-5-20251001-v1:0',
+  plan: KIMI,
+  teach_beat: KIMI,
+  check: KIMI,
   grade: 'amazon.nova-lite-v1:0',
-  help: 'anthropic.claude-haiku-4-5-20251001-v1:0',
-  // Writing a station ahead is judgement about the subject; checking it is a
-  // bounded read against code that already ran.
-  author: 'anthropic.claude-sonnet-4-5-20250929-v1:0',
-  judge: 'anthropic.claude-haiku-4-5-20251001-v1:0',
+  help: KIMI,
+  author: KIMI,
+  judge: KIMI,
+}
+
+export type JobReasoning = 'none' | 'low' | 'medium' | 'high'
+
+/**
+ * How hard Kimi thinks per job. Thinking tokens come out of max_tokens (the
+ * wrapper adds headroom), so it is off where the answer is a short, bounded
+ * transform (plan, check) and low where the wording is read by a student or
+ * the content is judged. 'low' is the setting that won the blind test.
+ */
+export const JOB_REASONING: Record<LessonJob, JobReasoning | undefined> = {
+  plan: 'none',
+  teach_beat: 'low',
+  check: 'none',
+  grade: undefined,
+  help: 'low',
+  author: 'low',
+  judge: 'low',
+}
+
+const REASONING_ENV_KEYS: Record<LessonJob, string> = {
+  plan: 'AWS_LESSON_PLAN_REASONING',
+  teach_beat: 'AWS_LESSON_TEACH_REASONING',
+  check: 'AWS_LESSON_CHECK_REASONING',
+  grade: 'AWS_LESSON_GRADE_REASONING',
+  help: 'AWS_LESSON_HELP_REASONING',
+  author: 'AWS_LESSON_AUTHOR_REASONING',
+  judge: 'AWS_LESSON_JUDGE_REASONING',
 }
 
 const ENV_KEYS: Record<LessonJob, string> = {
@@ -48,18 +75,34 @@ const ENV_KEYS: Record<LessonJob, string> = {
 export function modelForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env): string {
   const configured = String(env[ENV_KEYS[job]] ?? '').trim()
   const model = configured || JOB_MODELS[job]
+  // Regional prefixes are stripped (the wrapper re-adds the right one);
+  // `global.` is a different kind of profile and stays.
   return model.replace(/^(us|eu|ap)\./, '')
 }
 
+/** How hard a job's model thinks; undefined for models that take no setting. */
+export function reasoningForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env): JobReasoning | undefined {
+  const configured = String(env[REASONING_ENV_KEYS[job]] ?? '').trim().toLowerCase()
+  if (configured === 'none' || configured === 'low' || configured === 'medium' || configured === 'high') return configured
+  return JOB_REASONING[job]
+}
+
+/** Where the live jobs go when Kimi is busy. On demand in eu-west-1. */
+const BUSY_FALLBACK = 'qwen.qwen3-next-80b-a3b'
+
 /**
- * The model a lesson job falls back to when its own is busy: Sonnet for the
- * Haiku jobs. Dearer, and used only for the call Haiku could not take. The
- * plan is Sonnet already, and marking has its own path.
+ * The model a lesson job falls back to when Kimi is busy. Qwen3 Next 80B is
+ * the best alternative available in the EU in the blind test, and much weaker
+ * than Kimi -- but a slower answer from a weaker model beats a dead lesson, so
+ * the live jobs (plan, teach_beat, help, check) take it. Overridable with
+ * AWS_LESSON_FALLBACK_MODEL_ID.
+ *
+ * author and judge get none: authoring is never urgent, and a busy author just
+ * fails the pass so the station runs live, which is better than a station
+ * written or passed by a weaker model. Grade has its own path.
  */
 export function fallbackForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env): string | undefined {
-  // Authoring is never urgent: a busy author fails the pass, and the station
-  // runs live -- better than a station written by a weaker model.
-  if (job === 'plan' || job === 'grade' || job === 'author') return undefined
-  const fallback = modelForJob('plan', env)
+  if (job !== 'plan' && job !== 'teach_beat' && job !== 'help' && job !== 'check') return undefined
+  const fallback = String(env.AWS_LESSON_FALLBACK_MODEL_ID ?? '').trim() || BUSY_FALLBACK
   return fallback === modelForJob(job, env) ? undefined : fallback
 }

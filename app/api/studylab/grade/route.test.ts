@@ -46,10 +46,10 @@ describe('a checkpoint grade that is not a real boolean', () => {
 })
 
 describe('what it asks, and of whom', () => {
-  it('runs on the model that marked 36 of 36', async () => {
+  it('runs on the check job model (Kimi, thinking off), never falling to Gemma 12B', async () => {
     vi.mocked(callGemma).mockResolvedValue('{"correct":true,"feedback":"Yes."}')
     await grade()
-    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: 'anthropic.claude-haiku-4-5-20251001-v1:0' })
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: 'global.moonshotai.kimi-k3.1', reasoningEffort: 'none', noGemmaFallback: true })
   })
   it('judges the result, not the route', async () => {
     vi.mocked(callGemma).mockResolvedValue('{"correct":true,"feedback":"Yes."}')

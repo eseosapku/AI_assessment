@@ -56,7 +56,7 @@ describe('runPass: explore', () => {
     // Nothing in a sort, match or order that a teacher could argue, and no sorting by a judgement.
     expect(String(prompt)).toMatch(/sort, a match or an order/i)
     expect(String(prompt)).toMatch(/never sort by a judgement/i)
-    expect(opts).toMatchObject({ model: modelForJob('author'), maxTokens: expect.any(Number) })
+    expect(opts).toMatchObject({ model: modelForJob('author'), maxTokens: expect.any(Number), reasoningEffort: 'low', noGemmaFallback: true })
     expect((opts as { maxTokens: number }).maxTokens).toBeLessThanOrEqual(1500)
   })
   it('takes the intent from the material when the model puts it there, and keeps it off the action', async () => {
@@ -463,7 +463,9 @@ describe('runPass: verify', () => {
     reply({ ok: true })
     const out = await runPass('verify', ctx(whole))
     expect(out).toMatchObject({ ok: true, bundle: { version: 'v1', stepId: 's1' } })
-    expect(call()[1]).toMatchObject({ model: modelForJob('judge'), fallbackModel: modelForJob('plan') })
+    expect(call()[1]).toMatchObject({ model: modelForJob('judge'), reasoningEffort: 'low', noGemmaFallback: true })
+    expect((call()[1] as { fallbackModel?: string }).fallbackModel).toBeUndefined()
+    expect(modelForJob('judge')).toBe('global.moonshotai.kimi-k3.1')
     // Nor the judge: a station judged by a weaker model is worse than one served live.
     expect((call()[1] as { maxCandidates?: number }).maxCandidates).toBeGreaterThan(0)
     // A short reply ends at its JSON whatever the cap; at 350 a long one was cut off and the try lost.

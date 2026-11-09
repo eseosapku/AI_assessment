@@ -10,7 +10,7 @@ import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
 import { intArrayParam, jsonbParam } from '@/lib/pg-json'
 import { BEDROCK_CREDENTIALS_ERROR, getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
-import { buildModelCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust, fixLatexInRawJson } from '@/lib/bedrock'
+import { buildInvokeBody, extractText, buildModelCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust, fixLatexInRawJson } from '@/lib/bedrock'
 import { authorityForCurriculum, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
@@ -130,11 +130,12 @@ const CHECKPOINT_DRAWN_FIGURES = process.env.CHECKPOINT_DRAWN_FIGURES === '1'
 const BANK_FIGURE_SHARE: Record<string, number> = { Science: 0.7, Mathematics: 0.5 }
 const MAX_SOURCE_CHARS = 12000
 /**
- * The second reader when BEDROCK_CHECKER_MODEL_ID is unset. Haiku: Sonnet
- * costs more than generating the quiz did, and Haiku catches the wrong keys
- * and the content from a later stage that the reviews found.
+ * The second reader when BEDROCK_CHECKER_MODEL_ID is unset. Kimi K3.1 on low
+ * thinking: in a blind test it caught every planted fault with no false alarms,
+ * and the account's Claude access is refused. The request body and the reply
+ * are built by lib/bedrock, so BEDROCK_CHECKER_MODEL_ID can name any model.
  */
-const DEFAULT_CHECKER_MODEL = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
+const DEFAULT_CHECKER_MODEL = 'global.moonshotai.kimi-k3.1'
 const MAX_EXAM_SOURCE_CHARS = 32000
 
 
@@ -3644,7 +3645,7 @@ ${commandBlock}`
      * A careful second reader for every Checkpoint question. See
      * lib/question-checker.ts for why.
      *
-     * Haiku unless BEDROCK_CHECKER_MODEL_ID names another model, or "off"
+     * Kimi unless BEDROCK_CHECKER_MODEL_ID names another model, or "off"
      * (Amplify passes BEDROCK_* through to production). Each question is checked once -- `checked` marks
      * it -- so the top-up passes only pay for what they add. A question the
      * checker drops leaves a gap the next top-up pass fills. If the checker
@@ -3663,12 +3664,7 @@ ${commandBlock}`
           modelId: CHECKER_MODEL,
           contentType: 'application/json',
           accept: 'application/json',
-          body: JSON.stringify({
-            anthropic_version: 'bedrock-2023-05-31',
-            max_tokens: 4000,
-            temperature: 0,
-            messages: [{ role: 'user', content: prompt }],
-          }),
+          body: buildInvokeBody(CHECKER_MODEL, prompt, 4000, 0, undefined, 'low'),
         })
         const res = await withUsageTracking(
           {
@@ -3681,9 +3677,7 @@ ${commandBlock}`
           () => bedrockClient.send(cmd, { abortSignal: controller.signal }),
         )
         const body = JSON.parse(new TextDecoder().decode(res.body))
-        return Array.isArray(body?.content)
-          ? body.content.filter((b: any) => b?.type === 'text').map((b: any) => b.text).join('\n')
-          : ''
+        return extractText(CHECKER_MODEL, body)
       } finally {
         clearTimeout(timeout)
       }

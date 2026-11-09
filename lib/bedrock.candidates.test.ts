@@ -49,4 +49,10 @@ describe('isModelIdError', () => {
     // whole chain and was reported as a model-id problem.
     expect(isModelIdError({ name: 'ValidationException', message: 'temperature: must be less than or equal to 1' })).toBe(false)
   })
+
+  it('treats a global. profile as one id: no regional variants, no bare id', () => {
+    expect(buildModelCandidates('global.moonshotai.kimi-k3.1')).toEqual(['global.moonshotai.kimi-k3.1'])
+    rememberWorkingModel('global.moonshotai.kimi-k3.1')
+    expect(buildModelCandidates('global.moonshotai.kimi-k3.1')).toEqual(['global.moonshotai.kimi-k3.1'])
+  })
 })

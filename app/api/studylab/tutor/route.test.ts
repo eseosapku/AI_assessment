@@ -147,7 +147,8 @@ describe('draftPlan', () => {
       userId: 'u1', subtopics: [], database: dbWith([]),
     })
     expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: modelForJob('plan') })
-    expect(modelForJob('plan')).not.toBe(modelForJob('teach_beat'))
+    // Kimi runs both now; what separates the jobs is how hard it thinks.
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ reasoningEffort: 'none', noGemmaFallback: true })
   })
 
   it('locks a drafted step the learner was measured weak on', async () => {
@@ -2657,11 +2658,11 @@ describe('a near-twin after a miss', () => {
 })
 
 describe('a busy model', () => {
-  it('names Sonnet as the fallback on every Haiku lesson job', async () => {
+  it('names Qwen3 Next as the fallback on every live lesson job', async () => {
     vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Here', actions: [] }))
     await applyAction({ run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
     await applyAction({ run: stationRun('name'), policy: GAP, userId: 'u1', action: { type: 'diagnose' }, context: {} })
-    for (const call of vi.mocked(callGemma).mock.calls) expect(call[1]).toMatchObject({ fallbackModel: modelForJob('plan') })
+    for (const call of vi.mocked(callGemma).mock.calls) expect(call[1]).toMatchObject({ fallbackModel: 'qwen.qwen3-next-80b-a3b', noGemmaFallback: true })
   })
 })
 

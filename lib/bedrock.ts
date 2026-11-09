@@ -36,7 +36,17 @@ export function hasBedrockCredentials(): boolean {
 }
 
 function stripPrefix(modelId: string): string {
-  return modelId.replace(/^(us|eu|ap)\./, '')
+  return modelId.replace(/^(us|eu|ap|apac|global)\./, '')
+}
+
+export type ReasoningEffort = 'none' | 'low' | 'medium' | 'high'
+
+/** Thinking tokens count against max_tokens; the caller's budget is for the answer. */
+export const REASONING_HEADROOM_TOKENS = 3000
+
+/** Only these families accept `reasoning_effort`; every other body must not carry it. */
+export function takesReasoningEffort(modelId: string): boolean {
+  return /^(moonshotai\.kimi|openai\.gpt-oss|minimax\.)/.test(stripPrefix(modelId))
 }
 
 function regionPrefix(): (typeof PREFIXES)[number] {
@@ -80,6 +90,9 @@ export function buildModelCandidates(seedId: string): string[] {
   // What worked last time, first.
   const known = WORKING_MODEL.get(bare)
   if (known) expanded.push(known)
+  // A global inference profile is one id in every region: no regional
+  // variants exist to probe, and inventing them only hides a wrong id.
+  if (clean.startsWith('global.')) return [...new Set([...expanded, clean])]
   // An id configured WITH a prefix is taken at its word.
   if (clean !== bare) expanded.push(clean)
   // Otherwise this region's inference profile before the bare id: newer
@@ -139,7 +152,8 @@ export function buildInvokeBody(
   prompt: string,
   maxTokens: number,
   temperature: number,
-  image?: ImageInput
+  image?: ImageInput,
+  reasoningEffort?: ReasoningEffort
 ): string {
   const m = stripPrefix(modelId)
   // Claude: the Anthropic messages body. Sent the OpenAI-style shape below,
@@ -176,6 +190,13 @@ export function buildInvokeBody(
     })
   }
   // mistral, google (gemma), nvidia, openai on Bedrock — OpenAI-style messages.
+  const reasoning: Record<string, unknown> = {}
+  let budget = maxTokens
+  if (reasoningEffort && takesReasoningEffort(modelId)) {
+    reasoning.reasoning_effort = reasoningEffort
+    if (reasoningEffort !== 'none') budget += REASONING_HEADROOM_TOKENS
+  }
+  maxTokens = budget
   if (image) {
     return JSON.stringify({
       messages: [
@@ -189,9 +210,10 @@ export function buildInvokeBody(
       ],
       max_tokens: maxTokens,
       temperature,
+      ...reasoning,
     })
   }
-  return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature })
+  return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature, ...reasoning })
 }
 
 export function extractText(modelId: string, payload: any): string {
@@ -210,10 +232,23 @@ export function extractText(modelId: string, payload: any): string {
     payload?.content?.[0]?.text ??
     payload?.outputs?.[0]?.text ??
     ''
+  // Answer only: separate reasoning fields (reasoning_content) are never read,
+  // reasoning parts inside a content array are skipped, and reasoning pasted
+  // inline is cut out.
   if (Array.isArray(raw)) {
-    return raw.map((item: any) => (typeof item === 'string' ? item : item?.text || '')).join('\n').trim()
+    const parts = raw.filter((item: any) => !/^(reasoning|thinking)/.test(String(item?.type || '')))
+    return stripInlineReasoning(parts.map((item: any) => (typeof item === 'string' ? item : item?.text || '')).join('\n'))
   }
-  return String(raw || '').trim()
+  return stripInlineReasoning(String(raw || ''))
+}
+
+/** Remove <think>/<reasoning> blocks (an unclosed one swallows the rest). */
+export function stripInlineReasoning(text: string): string {
+  return text
+    .replace(/<(think|thinking|reasoning)>[\s\S]*?<\/\1>/gi, '')
+    .replace(/<(think|thinking|reasoning)>[\s\S]*$/i, '')
+    .replace(/^[\s\S]*?<\/(think|thinking|reasoning)>/i, '')
+    .trim()
 }
 
 let cachedClient: BedrockRuntimeClient | null = null
@@ -258,6 +293,14 @@ export interface CallGemmaOptions {
    * answered at once; without this the lesson stopped.
    */
   fallbackModel?: string
+  /** Thinking level for models that take one (Kimi, GPT-OSS, MiniMax); ignored by the rest. */
+  reasoningEffort?: ReasoningEffort
+  /**
+   * Never fall to google.gemma-3-12b-it. A lesson job that cannot use its model
+   * id must raise, not quietly become a 12B model. A busy model still goes to
+   * `fallbackModel`.
+   */
+  noGemmaFallback?: boolean
 }
 
 /**
@@ -301,7 +344,7 @@ async function callModel(prompt: string, opts: CallGemmaOptions): Promise<string
 
   const candidates = [
     ...buildModelCandidates(opts.model || DEFAULT_GEMMA_MODEL),
-    ...buildModelCandidates('google.gemma-3-12b-it'),
+    ...(opts.noGemmaFallback ? [] : buildModelCandidates('google.gemma-3-12b-it')),
   ]
   let uniqueCandidates = [...new Set(candidates)]
   if (opts.maxCandidates && opts.maxCandidates > 0) {
@@ -316,7 +359,7 @@ async function callModel(prompt: string, opts: CallGemmaOptions): Promise<string
         modelId,
         contentType: 'application/json',
         accept: 'application/json',
-        body: buildInvokeBody(modelId, prompt, maxTokens, temperature, opts.image),
+        body: buildInvokeBody(modelId, prompt, maxTokens, temperature, opts.image, opts.reasoningEffort),
       })
       const res = opts.usage
         ? await withUsageTracking(
