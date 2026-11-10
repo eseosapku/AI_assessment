@@ -1,0 +1,65 @@
+{
+  "files": 456,
+  "extracted": 347,
+  "needs_review": 109,
+  "unreadable": 0,
+  "questions": 7996,
+  "subjects": [
+    {
+      "subject": "biology",
+      "questions": 2384,
+      "parser_records": 2969,
+      "exemplars": 6,
+      "commands": 15
+    },
+    {
+      "subject": "chemistry",
+      "questions": 1191,
+      "parser_records": 1715,
+      "exemplars": 6,
+      "commands": 14
+    },
+    {
+      "subject": "computer_science",
+      "questions": 285,
+      "parser_records": 878,
+      "exemplars": 6,
+      "commands": 13
+    },
+    {
+      "subject": "economics",
+      "questions": 575,
+      "parser_records": 747,
+      "exemplars": 6,
+      "commands": 14
+    },
+    {
+      "subject": "english",
+      "questions": 96,
+      "parser_records": 111,
+      "exemplars": 6,
+      "commands": 6
+    },
+    {
+      "subject": "geography",
+      "questions": 73,
+      "parser_records": 194,
+      "exemplars": 1,
+      "commands": 14
+    },
+    {
+      "subject": "history",
+      "questions": 133,
+      "parser_records": 866,
+      "exemplars": 0,
+      "commands": 4
+    },
+    {
+      "subject": "math",
+      "questions": 315,
+      "parser_records": 516,
+      "exemplars": 6,
+      "commands": 10
+    }
+  ]
+}

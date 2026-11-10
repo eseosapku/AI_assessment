@@ -2,41 +2,166 @@
   "system": "cambridge",
   "level": "igcse",
   "subject": "english",
-  "question_count": 0,
-  "thin": true,
-  "derived": true,
-  "command_words": {},
-  "marks": {
-    "count": 0,
-    "min": null,
-    "max": null,
-    "median": null
+  "question_count": 96,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "complete": 6,
+    "find": 3,
+    "give": 12,
+    "write": 22,
+    "show": 2,
+    "name": 1
   },
-  "marks_per_command": {},
+  "marks": {
+    "count": 72,
+    "min": 1,
+    "max": 8,
+    "median": 2
+  },
+  "marks_per_command": {
+    "complete": {
+      "count": 6,
+      "median": 8
+    },
+    "find": {
+      "count": 2,
+      "median": 1
+    },
+    "give": {
+      "count": 8,
+      "median": 2
+    },
+    "write": {
+      "count": 5,
+      "median": 8
+    },
+    "name": {
+      "count": 1,
+      "median": 1
+    }
+  },
   "parts": {
-    "single": 0,
-    "multi": 0,
-    "median_parts": null
+    "single": 67,
+    "multi": 29,
+    "median_parts": 0
   },
   "stem_words": {
-    "median": null,
-    "p25": null,
-    "p75": null
+    "median": 16,
+    "p25": 12,
+    "p75": 124
   },
   "context": {
-    "named": 0,
-    "abstract": 0
+    "named": 7,
+    "abstract": 89
   },
-  "units_rate": 0,
+  "units_rate": 0.09375,
   "figure_rate": 0,
-  "openings": [],
-  "closings": [],
-  "exemplars": [],
+  "openings": [
+    {
+      "phrase": "read the article",
+      "count": 6
+    },
+    {
+      "phrase": "for each question,",
+      "count": 5
+    },
+    {
+      "phrase": "what are the",
+      "count": 4
+    },
+    {
+      "phrase": "what is the",
+      "count": 3
+    },
+    {
+      "phrase": "what does the",
+      "count": 3
+    },
+    {
+      "phrase": "which painting was",
+      "count": 2
+    },
+    {
+      "phrase": "which film are",
+      "count": 2
+    },
+    {
+      "phrase": "what does jennifer",
+      "count": 2
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "university of blank page",
+      "count": 5
+    },
+    {
+      "phrase": "the line. which person",
+      "count": 5
+    },
+    {
+      "phrase": "[total: 12] exercise 5",
+      "count": 3
+    },
+    {
+      "phrase": "[total: 12] exercise 6",
+      "count": 3
+    },
+    {
+      "phrase": "[total: 16] exercise 6",
+      "count": 3
+    },
+    {
+      "phrase": "does the exhibition finish?",
+      "count": 2
+    },
+    {
+      "phrase": "on the class trip?",
+      "count": 2
+    },
+    {
+      "phrase": "going to canada with?",
+      "count": 2
+    }
+  ],
+  "exemplars": [
+    {
+      "marks": 1,
+      "command_word": "find",
+      "text": "How did Jennifer first find out about the job?"
+    },
+    {
+      "marks": 2,
+      "command_word": "give",
+      "text": "What advice does Jennifer give for keeping warm inside the research station? Give two details."
+    },
+    {
+      "marks": 1,
+      "command_word": "name",
+      "text": "What is the name for the first group of books which are chosen as possible prizewinners?"
+    },
+    {
+      "marks": 2,
+      "command_word": null,
+      "text": "Which painting was the woman impressed by? When does the exhibition finish?"
+    },
+    {
+      "marks": 2,
+      "command_word": null,
+      "text": "What are the students going to do a project about? What two things do the students have to take on the class trip?"
+    },
+    {
+      "marks": 2,
+      "command_word": null,
+      "text": "What is the man going to Canada for? Who is he going to Canada with?"
+    }
+  ],
   "provenance": {
     "based_on": [
-      "cambridge/primary_checkpoint/english"
+      "cambridge/igcse/english"
     ],
-    "validation_files": 0,
-    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 0. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+    "validation_files": 60,
+    "validation_note": "Taken from the IGCSE question papers in Cambridge/igcse.2. 96 usable questions retained from 111 parser records."
   }
 }

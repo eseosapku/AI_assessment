@@ -2,238 +2,182 @@
   "system": "cambridge",
   "level": "igcse",
   "subject": "chemistry",
-  "question_count": 0,
-  "thin": true,
-  "derived": true,
+  "question_count": 1191,
+  "thin": false,
+  "derived": false,
   "command_words": {
-    "state": 33,
-    "complete": 67,
-    "describe": 19,
-    "name": 78,
-    "find": 13,
-    "determine": 34,
-    "show": 44,
-    "write": 10,
-    "suggest": 2,
-    "give": 32,
-    "identify": 14,
-    "explain": 12,
-    "outline": 3,
-    "predict": 2,
-    "draw": 5,
-    "calculate": 7,
-    "compare": 2,
-    "plot": 1,
-    "deduce": 1
+    "show": 12,
+    "name": 38,
+    "complete": 25,
+    "find": 2,
+    "describe": 7,
+    "state": 11,
+    "give": 14,
+    "identify": 1,
+    "outline": 2,
+    "explain": 2,
+    "deduce": 1,
+    "draw": 1,
+    "write": 1,
+    "predict": 1
   },
   "marks": {
-    "count": 529,
-    "min": 1,
-    "max": 22,
-    "median": 7
+    "count": 14,
+    "min": 5,
+    "max": 14,
+    "median": 8
   },
   "marks_per_command": {
-    "determine": {
-      "count": 24,
-      "median": 13
+    "complete": {
+      "count": 2,
+      "median": 7
     },
-    "write": {
-      "count": 7,
-      "median": 4
-    },
-    "suggest": {
+    "explain": {
       "count": 1,
       "median": 9
     },
-    "complete": {
-      "count": 19,
-      "median": 7
-    },
-    "give": {
-      "count": 6,
-      "median": 4
-    },
-    "find": {
+    "name": {
       "count": 3,
-      "median": 6
-    },
-    "identify": {
-      "count": 8,
       "median": 8
     },
-    "show": {
-      "count": 7,
-      "median": 10
+    "state": {
+      "count": 4,
+      "median": 7.5
     },
-    "predict": {
+    "deduce": {
+      "count": 1,
+      "median": 14
+    },
+    "give": {
       "count": 2,
-      "median": 6.5
+      "median": 5.5
     },
     "draw": {
       "count": 1,
-      "median": 9
-    },
-    "calculate": {
-      "count": 5,
-      "median": 9
-    },
-    "explain": {
-      "count": 3,
-      "median": 7
-    },
-    "name": {
-      "count": 10,
-      "median": 9.5
-    },
-    "describe": {
-      "count": 4,
-      "median": 6
-    },
-    "compare": {
-      "count": 1,
-      "median": 3
-    },
-    "state": {
-      "count": 17,
-      "median": 4
-    },
-    "plot": {
-      "count": 1,
-      "median": 4
+      "median": 11
     }
   },
   "parts": {
-    "single": 2172,
-    "multi": 668,
+    "single": 1175,
+    "multi": 16,
     "median_parts": 0
   },
   "stem_words": {
-    "median": 31,
-    "p25": 12,
-    "p75": 54
+    "median": 43,
+    "p25": 30,
+    "p75": 58
   },
   "context": {
-    "named": 70,
-    "abstract": 2770
+    "named": 31,
+    "abstract": 1160
   },
-  "units_rate": 0.15035211267605633,
-  "figure_rate": 0.07323943661971831,
+  "units_rate": 0.15449202350965574,
+  "figure_rate": 0.07052896725440806,
   "openings": [
     {
       "phrase": "which statement about",
-      "count": 103
+      "count": 71
     },
     {
-      "phrase": "the diagram shows",
-      "count": 85
+      "phrase": "which row describes",
+      "count": 32
     },
     {
-      "phrase": "................................................................................................................................................",
-      "count": 59
-    },
-    {
-      "phrase": "this question is",
-      "count": 39
-    },
-    {
-      "phrase": "the table shows",
-      "count": 34
-    },
-    {
-      "phrase": "a student investigates",
-      "count": 30
-    },
-    {
-      "phrase": "you are provided",
+      "phrase": "which statements about",
       "count": 29
     },
     {
-      "phrase": "........................................................................................................................................",
-      "count": 27
+      "phrase": "the diagram shows",
+      "count": 24
+    },
+    {
+      "phrase": "what is the",
+      "count": 19
+    },
+    {
+      "phrase": "which statement describes",
+      "count": 18
+    },
+    {
+      "phrase": "which row shows",
+      "count": 15
+    },
+    {
+      "phrase": "some properties of",
+      "count": 14
     }
   ],
   "closings": [
     {
-      "phrase": "................................................................................................................................................",
-      "count": 59
-    },
-    {
-      "phrase": "2 and 3 only",
-      "count": 46
-    },
-    {
       "phrase": "175103 lr lawrencium –",
-      "count": 37
+      "count": 25
     },
     {
-      "phrase": "........................................................................................................................................",
-      "count": 27
+      "phrase": "a b c d",
+      "count": 18
     },
     {
       "phrase": "d 3 and 4",
-      "count": 25
+      "count": 10
     },
     {
       "phrase": "1, 2 and 3",
-      "count": 25
+      "count": 9
     },
     {
-      "phrase": "which statements are correct?",
-      "count": 20
+      "phrase": "c nitrogen d oxygen",
+      "count": 7
     },
     {
-      "phrase": "of the periodic table.",
-      "count": 18
+      "phrase": "gaps 1 and 2?",
+      "count": 7
+    },
+    {
+      "phrase": "in their outer shell",
+      "count": 5
+    },
+    {
+      "phrase": "only d z only",
+      "count": 5
     }
   ],
   "exemplars": [
     {
       "marks": null,
-      "command_word": null,
-      "text": "Which oxide is amphoteric?\nA Al\nO\n B   CO\nC   Na\nO\nD   SO"
+      "command_word": "name",
+      "text": "What is not the correct use of the fraction named? name of fraction use A fuel oil making waxes B gas oil fuel in diesel engines C kerosene jet fuel D naphtha making chemicals"
     },
     {
-      "marks": 9,
-      "command_word": "determine",
-      "text": "A student is given a sample of an organic acid, V, and asked to\n  • determine its relative molecular mass,\n  • suggest its molecular formula.\n A sample of the acid is placed in a previously weighed container and reweighed.\n mass of container + V   =   8.38 g\n mass of container          =   6.92 g"
+      "marks": null,
+      "command_word": "complete",
+      "text": "The electronic structures of helium, neon and argon are shown. HeNeAr Which row describes these gases? reactivity form of the gas electronic structure A reactive monoatomic incomplete outer shell of electrons B unreactive diatomic complete outer shell of electrons C unreactive diatomic incomplete outer shell of electrons D unreactive monoatomic complete outer shell of electrons"
     },
     {
-      "marks": 4,
-      "command_word": null,
-      "text": "seconds\n20406080100\n90 seconds\n20406080100\n120 seconds\ntime /s\nexperiment 1 \nvolume of oxygen \ncollected /cm\nexperiment 2 \nvolume of oxygen \ncollected /cm\n  3030\n  6050\n  9064\n12074\n1508084\n1808484"
+      "marks": null,
+      "command_word": "show",
+      "text": "The diagrams show experiments to investigate rusting of iron nails. boiled water salt water tap water layer of oil In which test-tubes do the nails rust? A 1 only B 1 and 2 only C 1 and 3 only D 1, 2 and 3"
     },
     {
-      "marks": 6,
-      "command_word": null,
-      "text": "A  student  separates  hexane,  C\nH\n,  (b.p.  69°C)  and  heptane,  C\nH\n,  (b.p.  98°C)  using  the  \napparatus shown.\nthermometer\nA\nB\nC\nwater out\nwater in\nhexane and\nheptane\nmixture\nheat"
+      "marks": null,
+      "command_word": "give",
+      "text": "Some metal nitrates and carbonates decompose when heated strongly. Metal Q has a nitrate that decomposes to give a salt and a colourless gas only. The carbonate of metal Q does not decompose when heated with a Bunsen burner. What is metal Q? A calcium B copper C sodium D zinc"
     },
     {
-      "marks": 7,
-      "command_word": null,
-      "text": "The reaction between aqueous barium chloride and dilute sulfuric acid produces a precipitate of\nbarium sulfate.\nBaCl \n(aq)    +    H\nSO\n(aq)        2HCl (aq)    +    BaSO\n(s)"
+      "marks": null,
+      "command_word": "state",
+      "text": "Substances change state when their temperature is changed. Which changes of state take place when the temperature of a substance is lowered?"
     },
     {
-      "marks": 8,
-      "command_word": null,
-      "text": "A sample of ethanoic acid, CH\nCOOH, can be prepared in the apparatus shown.\nheat\nwater in\nwater\nout\nethanol + aqueous acidified\npotassium manganate(VII) \nC"
-    },
-    {
-      "marks": 14,
-      "command_word": "find",
-      "text": "A student is given a bottle containing small pieces of scrap iron. She is asked to find the purity of\nthis sample of iron.\n A small quantity of the iron is placed in a previously weighed container which is then reweighed.\n mass of container + scrap iron =    7.16 g\n mass of container =    5.72 g"
-    },
-    {
-      "marks": 5,
-      "command_word": "identify",
-      "text": "A student is given compound M which contains a cation and an anion. He does the following tests\nto identify the two ions."
+      "marks": null,
+      "command_word": "describe",
+      "text": "In reaction R, 2000 molecules of CH =CH react to form a single molecule X only. 2000 CH =CH → X Which terms describe reaction R, CH =CH and X? reaction R CH =CH X A addition monomer polymer B addition polymer monomer C substitution monomer polymer D substitution polymer monomer"
     }
   ],
   "provenance": {
     "based_on": [
-      "cambridge/o_level/chemistry",
-      "cambridge/as_and_a_level/chemistry"
+      "cambridge/igcse/chemistry"
     ],
-    "validation_files": 0,
-    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 7. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+    "validation_files": 42,
+    "validation_note": "Taken from the IGCSE question papers in Cambridge/igcse.2. 1191 usable questions retained from 1715 parser records."
   }
 }

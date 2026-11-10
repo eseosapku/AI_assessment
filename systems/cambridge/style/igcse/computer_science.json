@@ -2,217 +2,205 @@
   "system": "cambridge",
   "level": "igcse",
   "subject": "computer_science",
-  "question_count": 0,
-  "thin": true,
-  "derived": true,
+  "question_count": 285,
+  "thin": false,
+  "derived": false,
   "command_words": {
-    "show": 10,
-    "identify": 26,
-    "give": 5,
-    "state": 12,
-    "name": 17,
-    "explain": 4,
-    "describe": 5,
-    "complete": 22,
-    "write": 19,
-    "draw": 12,
-    "calculate": 4,
-    "outline": 3,
-    "find": 3,
-    "suggest": 1
+    "name": 14,
+    "draw": 36,
+    "give": 10,
+    "explain": 27,
+    "describe": 27,
+    "identify": 31,
+    "complete": 47,
+    "show": 26,
+    "calculate": 5,
+    "state": 20,
+    "find": 6,
+    "write": 20,
+    "outline": 3
   },
   "marks": {
-    "count": 234,
+    "count": 242,
     "min": 1,
-    "max": 27,
-    "median": 6
+    "max": 18,
+    "median": 5
   },
   "marks_per_command": {
-    "show": {
+    "name": {
       "count": 10,
-      "median": 5
-    },
-    "identify": {
-      "count": 18,
-      "median": 4
-    },
-    "give": {
-      "count": 4,
       "median": 4.5
     },
-    "state": {
-      "count": 11,
+    "draw": {
+      "count": 32,
       "median": 5
+    },
+    "give": {
+      "count": 10,
+      "median": 3.5
     },
     "explain": {
-      "count": 3,
-      "median": 3
+      "count": 24,
+      "median": 5.5
     },
     "describe": {
-      "count": 4,
-      "median": 7
+      "count": 25,
+      "median": 6
     },
-    "name": {
-      "count": 6,
-      "median": 4
-    },
-    "write": {
-      "count": 7,
-      "median": 5
-    },
-    "draw": {
-      "count": 8,
-      "median": 4
-    },
-    "calculate": {
-      "count": 3,
+    "identify": {
+      "count": 27,
       "median": 4
     },
     "complete": {
-      "count": 15,
+      "count": 41,
       "median": 4
+    },
+    "show": {
+      "count": 24,
+      "median": 5
+    },
+    "calculate": {
+      "count": 5,
+      "median": 3
+    },
+    "state": {
+      "count": 18,
+      "median": 4
+    },
+    "find": {
+      "count": 5,
+      "median": 7
+    },
+    "write": {
+      "count": 8,
+      "median": 8
     },
     "outline": {
       "count": 1,
       "median": 6
-    },
-    "suggest": {
-      "count": 1,
-      "median": 4
     }
   },
   "parts": {
-    "single": 330,
-    "multi": 179,
+    "single": 203,
+    "multi": 82,
     "median_parts": 0
   },
   "stem_words": {
-    "median": 8,
-    "p25": 2,
-    "p75": 35
+    "median": 63,
+    "p25": 35,
+    "p75": 103
   },
   "context": {
-    "named": 13,
-    "abstract": 496
+    "named": 20,
+    "abstract": 265
   },
-  "units_rate": 0.019646365422396856,
-  "figure_rate": 0.003929273084479371,
+  "units_rate": 0.028070175438596492,
+  "figure_rate": 0.031578947368421054,
   "openings": [
     {
-      "phrase": "................................................................................................................................................",
-      "count": 19
+      "phrase": "all variables, constants",
+      "count": 11
     },
     {
-      "phrase": "................................................................................................................................................ ...................................................................................................................................................",
-      "count": 12
-    },
-    {
-      "phrase": "consider the logic",
-      "count": 10
-    },
-    {
-      "phrase": "tick (✓) one",
+      "phrase": "tick (3) one",
       "count": 9
     },
     {
-      "phrase": "....................................................................................................................................................... ..........................................................................................................................................................",
+      "phrase": "tick (✓) one",
+      "count": 8
+    },
+    {
+      "phrase": "this flowchart inputs",
       "count": 6
     },
     {
-      "phrase": "this pseudocode algorithm",
+      "phrase": "the flowchart represents",
       "count": 6
     },
     {
-      "phrase": "endwhile",
-      "count": 6
-    },
-    {
-      "phrase": "........................................................................................................................................",
+      "phrase": "the table contains",
       "count": 5
+    },
+    {
+      "phrase": "four validation checks",
+      "count": 4
+    },
+    {
+      "phrase": "this flowchart represents",
+      "count": 4
     }
   ],
   "closings": [
     {
-      "phrase": "................................................................................................................................................",
-      "count": 19
-    },
-    {
-      "phrase": "................................................................................................................................................ ...................................................................................................................................................",
-      "count": 12
+      "phrase": "university of blank page",
+      "count": 7
     },
     {
       "phrase": "write in this margin",
-      "count": 10
+      "count": 7
     },
     {
-      "phrase": ".......................................................................................................................................................... .......................................................................................................................................................... .......................................................................................................................................................... ....................................................................................................................................................",
-      "count": 8
-    },
-    {
-      "phrase": "....................................................................................................................................................... ..........................................................................................................................................................",
+      "phrase": "the university of cambridge",
       "count": 6
     },
     {
-      "phrase": "endwhile",
+      "phrase": "of cambridge blank page",
       "count": 6
     },
     {
-      "phrase": "traceable. trace id: pc-86bb9d3cd8",
-      "count": 6
+      "phrase": "name data type use",
+      "count": 4
     },
     {
-      "phrase": "........................................................................................................................................",
-      "count": 5
+      "phrase": "c design d testing",
+      "count": 3
+    },
+    {
+      "phrase": "cambridge local blank page",
+      "count": 3
+    },
+    {
+      "phrase": "of the university of",
+      "count": 3
     }
   ],
   "exemplars": [
     {
-      "marks": 9,
-      "command_word": null,
-      "text": "Consider the logic statement:\nX = (((A NAND B) OR (B XOR C)) AND NOT C)"
+      "marks": 3,
+      "command_word": "name",
+      "text": "Name three different sensors. Sensor 1 Sensor 2 Sensor 3"
     },
     {
-      "marks": 8,
-      "command_word": null,
-      "text": "Carla’s computer has a USB port.\n Carla uses the USB port to connect her mobile device to her computer, to transfer her photos."
-    },
-    {
-      "marks": null,
-      "command_word": null,
-      "text": "Two error detection methods that Allison’s computer uses are check digit and checksum."
-    },
-    {
-      "marks": 6,
-      "command_word": "show",
-      "text": "Six components of a computer are given.\n Some  are  part  of  the  central  processing  unit  (CPU)  of  the  Von  Neumann  model  for  a  computer  \nsystem. \n Tick (✓) to show if each component is a CPU component or is Not a CPU component.\nComponent\nCPU \ncomponent \n(✓)\nNot a CPU \ncomponent \n(✓)\nArithmetic logic unit (ALU)\nHard disk drive (HDD)\nMemory address register (MAR)\nRandom access memory (RAM)\nSolid state drive (SSD)\nControl unit (CU)"
+      "marks": 3,
+      "command_word": "give",
+      "text": "Give the meaning of the following terms. HTML http https"
     },
     {
       "marks": 4,
+      "command_word": "explain",
+      "text": "A high definition video and a large text file are to be sent as email attachments. Both files are compressed before sending. Each file is compressed using a different type of data compression algorithm. Explain, with reasons, which type of data compression algorithm should be chosen for each file."
+    },
+    {
+      "marks": 3,
+      "command_word": "describe",
+      "text": "Describe the differences between a barcode and a Quick Response (QR) code."
+    },
+    {
+      "marks": 8,
       "command_word": "identify",
-      "text": "Four scenarios are given.\n Identify the most suitable sensor for each scenario. \n A different sensor must be used for each scenario.\nSensorScenario\nDetecting when a person is approaching an automatic \ndoor system\nMonitoring the pollution level in a river\nChecking if a tropical aquarium is 25 degrees Celsius\nCounting the number of cars that cross a bridge"
+      "text": "Identify three uses for hexadecimal and for each one give an example of hexadecimal that matches the use. Use 1 Example Use 2 Example Use 3 Example Explain why hexadecimal is used to represent binary numbers."
     },
     {
-      "marks": 10,
-      "command_word": null,
-      "text": "Hans  has  a  website  selling  comic  books.  Customers  can  create  an  account  to  buy  the  comic\nbooks.\n Customers enter a username and password to log in to their account."
-    },
-    {
-      "marks": 7,
-      "command_word": null,
-      "text": "Both an interpreter and a compiler can be used when writing a program in a high-level language."
-    },
-    {
-      "marks": 16,
-      "command_word": null,
-      "text": "All variables, constants and other identifiers must have meaningful names."
+      "marks": 3,
+      "command_word": "calculate",
+      "text": "A 32-second sound clip will be recorded. The sound will be sampled 16000 times a second. Each sample will be stored using 8 bits. Calculate the file size in kilobytes. You must show all of your working. File Size kB"
     }
   ],
   "provenance": {
     "based_on": [
-      "cambridge/o_level/computerscience",
-      "cambridge/as_and_a_level/compscience"
+      "cambridge/igcse/computer_science"
     ],
-    "validation_files": 0,
-    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 4. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+    "validation_files": 85,
+    "validation_note": "Taken from the IGCSE question papers in Cambridge/igcse.2. 285 usable questions retained from 878 parser records."
   }
 }

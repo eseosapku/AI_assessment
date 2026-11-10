@@ -2,232 +2,190 @@
   "system": "cambridge",
   "level": "igcse",
   "subject": "math",
-  "question_count": 0,
-  "thin": true,
-  "derived": true,
+  "question_count": 315,
+  "thin": false,
+  "derived": false,
   "command_words": {
-    "find": 535,
-    "calculate": 118,
-    "write": 208,
-    "estimate": 22,
-    "complete": 60,
-    "show": 105,
-    "draw": 15,
-    "describe": 5,
-    "give": 33,
-    "state": 10,
-    "sketch": 38,
-    "name": 6,
-    "explain": 1,
-    "plot": 1,
-    "determine": 1,
-    "identify": 1
+    "find": 88,
+    "write": 66,
+    "give": 31,
+    "show": 20,
+    "calculate": 17,
+    "complete": 14,
+    "draw": 6,
+    "sketch": 2,
+    "name": 2,
+    "estimate": 2
   },
   "marks": {
-    "count": 1830,
+    "count": 304,
     "min": 1,
-    "max": 25,
-    "median": 5
+    "max": 27,
+    "median": 3
   },
   "marks_per_command": {
     "find": {
-      "count": 478,
-      "median": 5
-    },
-    "calculate": {
-      "count": 107,
-      "median": 4
+      "count": 86,
+      "median": 3
     },
     "write": {
-      "count": 148,
-      "median": 3
-    },
-    "estimate": {
-      "count": 21,
+      "count": 63,
       "median": 2
     },
-    "complete": {
-      "count": 56,
-      "median": 5
+    "give": {
+      "count": 30,
+      "median": 3
     },
     "show": {
-      "count": 97,
+      "count": 19,
       "median": 7
+    },
+    "calculate": {
+      "count": 17,
+      "median": 4
+    },
+    "complete": {
+      "count": 11,
+      "median": 5
     },
     "draw": {
-      "count": 13,
-      "median": 4
-    },
-    "describe": {
-      "count": 5,
-      "median": 3
-    },
-    "give": {
-      "count": 28,
-      "median": 3
-    },
-    "state": {
-      "count": 10,
-      "median": 7
+      "count": 6,
+      "median": 8.5
     },
     "sketch": {
-      "count": 27,
-      "median": 3
+      "count": 2,
+      "median": 4.5
     },
     "name": {
-      "count": 3,
-      "median": 4
+      "count": 2,
+      "median": 2.5
     },
-    "explain": {
-      "count": 1,
-      "median": 7
-    },
-    "plot": {
-      "count": 1,
-      "median": 8
-    },
-    "determine": {
-      "count": 1,
-      "median": 8
-    },
-    "identify": {
-      "count": 1,
-      "median": 7
+    "estimate": {
+      "count": 2,
+      "median": 2
     }
   },
   "parts": {
-    "single": 557,
-    "multi": 1514,
-    "median_parts": 2
+    "single": 176,
+    "multi": 139,
+    "median_parts": 0
   },
   "stem_words": {
-    "median": 12,
-    "p25": 0,
-    "p75": 30
+    "median": 26,
+    "p25": 14,
+    "p75": 43
   },
   "context": {
-    "named": 49,
-    "abstract": 2022
+    "named": 6,
+    "abstract": 309
   },
-  "units_rate": 0.13906325446644133,
-  "figure_rate": 0.11492032834379527,
+  "units_rate": 0.24761904761904763,
+  "figure_rate": 0.1619047619047619,
   "openings": [
     {
-      "phrase": "the diagram shows",
-      "count": 52
+      "phrase": "solve the system",
+      "count": 12
     },
     {
-      "phrase": "solve the equation",
-      "count": 38
+      "phrase": "write down the",
+      "count": 7
     },
     {
-      "phrase": "do not use",
-      "count": 36
+      "phrase": "work out +",
+      "count": 6
     },
     {
-      "phrase": "in this question",
-      "count": 32
+      "phrase": "work out the",
+      "count": 6
     },
     {
-      "phrase": "it is given",
-      "count": 29
+      "phrase": "a bag contains",
+      "count": 6
     },
     {
-      "phrase": "by writing each",
-      "count": 23
+      "phrase": "not to scale",
+      "count": 6
     },
     {
-      "phrase": "solve the simultaneous",
-      "count": 21
+      "phrase": "write as a",
+      "count": 5
     },
     {
-      "phrase": "the table shows",
-      "count": 21
+      "phrase": "find the least",
+      "count": 4
     }
   ],
   "closings": [
     {
-      "phrase": "in this margin dfd",
-      "count": 35
+      "phrase": "in its simplest form.",
+      "count": 15
     },
     {
-      "phrase": "write in this margin",
-      "count": 27
-    },
-    {
-      "phrase": "calculator in this question.",
-      "count": 10
-    },
-    {
-      "phrase": "factorise.",
-      "count": 8
-    },
-    {
-      "phrase": "equation of the curve.",
-      "count": 8
-    },
-    {
-      "phrase": "work out.",
+      "phrase": "x = y =",
       "count": 7
     },
     {
-      "phrase": "traceable. trace id: pc-207577c0c5",
-      "count": 7
+      "phrase": "p = q =",
+      "count": 4
     },
     {
-      "phrase": "solve the equation",
-      "count": 7
+      "phrase": "of x. x =",
+      "count": 4
+    },
+    {
+      "phrase": "sides of this polygon.",
+      "count": 4
+    },
+    {
+      "phrase": "in its lowest terms.",
+      "count": 3
+    },
+    {
+      "phrase": "of p. p =",
+      "count": 3
+    },
+    {
+      "phrase": "= or x =",
+      "count": 3
     }
   ],
   "exemplars": [
     {
-      "marks": 2,
-      "command_word": "calculate",
-      "text": "A bottle full of liquid has a total mass of  1.27 kg.\n When the bottle is half-full of liquid the total mass is  900 grams.\n Calculate the mass of the bottle.\n Answer  .................................. grams"
+      "marks": 1,
+      "command_word": "find",
+      "text": "In a group of students the probability that a student is left-handed is 0.28 . A student is chosen at random from the group. Find the probability that this student is not left-handed."
     },
     {
       "marks": 3,
-      "command_word": null,
-      "text": "Factorise completely\nxyxy320512-+- . \n Answer  .............................................[2]\n()fx   x29=-"
+      "command_word": "calculate",
+      "text": "Five angles of a hexagon are each 115°. Calculate the size of the sixth angle."
     },
     {
-      "marks": 4,
-      "command_word": null,
-      "text": "A sequence of diagrams is made using counters.\nDiagram 1Diagram 2Diagram 3Diagram 4"
+      "marks": 1,
+      "command_word": "write",
+      "text": "Write, in figures, the number seventy thousand and twenty."
     },
     {
-      "marks": 5,
-      "command_word": null,
-      "text": "Henri did a survey of the lengths of the leaves on a plant.\n The results are summarised in the table.\nLength (x cm)\nx131Gx341Gx451Gx581G\nFrequency68106"
+      "marks": 2,
+      "command_word": "complete",
+      "text": "Manuel changes 4500 Mexican Pesos to dollars. He receives $250. Complete this statement about the exchange rate. $1 = Mexican Pesos"
     },
     {
-      "marks": 12,
-      "command_word": null,
-      "text": "The diagram shows the speed-time graph of a train which slows down from 20 m/s to a stop in T seconds.\nSpeed\n(m/s)\nTime (t seconds)\nT"
+      "marks": 3,
+      "command_word": "give",
+      "text": "A car travels at a constant speed of 20 m/s. Work out the time it takes for the car to travel 18 km. Give your answer in minutes. minutes"
     },
     {
-      "marks": null,
-      "command_word": null,
-      "text": "The table shows some information about the temperatures in a city.\nDateMaximum temperatureMinimum temperature"
-    },
-    {
-      "marks": 8,
+      "marks": 9,
       "command_word": "show",
-      "text": "The table and histogram show some information about the times taken by a group of\n students to travel to school one day.\nTime (t minutes)\nt0101Gt10201Gt20301Gt30601Gt601201G\nFrequency28405218m\n0203010405060708090100120\n110\nFrequency\ndensity\nTime (t minutes)"
-    },
-    {
-      "marks": 7,
-      "command_word": null,
-      "text": "\b\nA=\n-\nJ\nL\nK\nK\nN\nP\nO\nO\n\b\b\b\b\b\b\b\b\b\nB=\n-\nJ\nL\nK\nK\nN\nP\nO\nO"
+      "text": "The angles of a triangle are in the ratio 2 : 3 : 5. Show that the triangle is right-angled. The length of the hypotenuse of the triangle is 12 cm. Use trigonometry to calculate the length of the shortest side of this triangle. cm"
     }
   ],
   "provenance": {
     "based_on": [
-      "cambridge/o_level/math",
-      "cambridge/as_and_a_level/math",
-      "cambridge/primary_checkpoint/math"
+      "cambridge/igcse/math"
     ],
-    "validation_files": 0,
-    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 118. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+    "validation_files": 48,
+    "validation_note": "Taken from the IGCSE question papers in Cambridge/igcse.2. 315 usable questions retained from 516 parser records."
   }
 }

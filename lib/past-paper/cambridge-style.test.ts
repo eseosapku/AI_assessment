@@ -16,18 +16,18 @@ describe('loadCambridgeStyle', () => {
     expect(prompt).toContain('show (85)')
   })
 
-  it('derives IGCSE biology from the real O Level and AS/A Level papers', () => {
+  it('uses the real IGCSE biology papers', () => {
     const style = loadCambridgeStyle('Cambridge IGCSE Biology', 1)
     expect(style?.level).toBe('igcse')
-    expect(style?.derived).toBe(true)
-    expect(style?.sources?.map((item) => item.level)).toEqual(['o_level', 'as_and_a_level'])
-    expect(style?.sources?.every((item) => item.question_count > 50 && item.derived === false)).toBe(true)
+    expect(style?.derived).toBe(false)
+    expect(style?.subject).toBe('biology')
+    expect(style?.question_count).toBe(2384)
+    expect(style?.sources).toBeUndefined()
     const prompt = cambridgeStylePrompt(style!).toLowerCase()
-    expect(prompt).toContain('igcse biology')
-    expect(prompt).toContain('2365 real papers')
-    expect(prompt).toContain('2999 real papers')
-    expect(prompt).toContain('name (52)')
-    expect(prompt).toContain('describe (78)')
+    expect(prompt).toContain('2384 real past-paper questions')
+    expect(prompt).toContain('name (106)')
+    expect(prompt).toContain('in which a human fetus grows')
+    expect(prompt).not.toContain('not readable')
   })
 
   it('does not load a style for a Rwanda book', () => {
@@ -71,38 +71,53 @@ describe('loadCambridgeStyle', () => {
     expect(loadCambridgeStyle('Complete English Language for Cambridge International AS & A Level Second Edition', 1)).toBeNull()
   })
 
-  it('uses the computer science papers for an ICT book', () => {
+  it('uses the real IGCSE computer science papers for an ICT book', () => {
     const style = loadCambridgeStyle('Cambridge IGCSE™ ICT Coursebook', 1)
     expect(style?.level).toBe('igcse')
-    expect(style?.derived).toBe(true)
-    expect(style?.sources?.map((item) => `${item.level}/${item.subject}`)).toEqual([
-      'o_level/computerscience',
-      'as_and_a_level/compscience',
-    ])
+    expect(style?.derived).toBe(false)
+    expect(style?.subject).toBe('computer_science')
+    expect(style?.question_count).toBe(285)
+    expect(style?.sources).toBeUndefined()
+    expect(cambridgeStylePrompt(style!).toLowerCase()).toContain('barcode')
   })
 
-  it('uses the computer science papers for a computer science book', () => {
+  it('uses the real IGCSE computer science papers for a computer science book', () => {
     const style = loadCambridgeStyle('Cambridge IGCSE and O Level Computer Science Coursebook', 1)
     expect(style?.level).toBe('igcse')
-    expect(style?.sources?.map((item) => `${item.level}/${item.subject}`)).toEqual([
-      'o_level/computerscience',
-      'as_and_a_level/compscience',
-    ])
+    expect(style?.derived).toBe(false)
+    expect(style?.subject).toBe('computer_science')
+    expect(style?.question_count).toBe(285)
   })
 
   it('uses the physics papers for the hyphenated IGCSE physics coursebook', () => {
     const style = loadCambridgeStyle('IGCSE-Physics-Coursebook-by-David-Sang', 1)
     expect(style?.level).toBe('igcse')
-    expect(style?.sources?.map((item) => item.level)).toEqual(['o_level', 'as_and_a_level'])
-    expect(style?.sources?.every((item) => item.subject === 'physics')).toBe(true)
+    expect(style?.derived).toBe(true)
+    expect(style?.sources?.map((item) => `${item.level}/${item.subject}`)).toEqual([
+      'o_level/physics',
+      'as_and_a_level/physics',
+    ])
+    const prompt = cambridgeStylePrompt(style!).toLowerCase()
+    expect(prompt).toContain('no igcse papers for this subject')
+    expect(prompt).toContain('from o level physics, 3639 real past-paper questions')
+    expect(prompt).toContain('from as and a level physics, 2068 real past-paper questions')
+    expect(prompt).toContain('o level mark weight')
   })
 
-  it('uses the O Level and AS/A Level papers for a book titled IGCSE and O Level', () => {
-    const style = loadCambridgeStyle('Cambridge IGCSE and O Level Economics Coursebook', 1)
-    expect(style?.level).toBe('igcse')
+  it('keeps the O Level and A Level mix for an IGCSE subject with no papers of its own', () => {
+    const style = loadCambridgeStyle('Cambridge IGCSE™ Physics Workbook with Digital Access', 1)
     expect(style?.derived).toBe(true)
     expect(style?.sources?.map((item) => item.level)).toEqual(['o_level', 'as_and_a_level'])
-    expect(style?.sources?.every((item) => item.question_count > 50)).toBe(true)
+    expect(style?.sources?.every((item) => item.derived === false && item.question_count > 50)).toBe(true)
+  })
+
+  it('uses the real IGCSE economics papers for a book titled IGCSE and O Level', () => {
+    const style = loadCambridgeStyle('Cambridge IGCSE and O Level Economics Coursebook', 1)
+    expect(style?.level).toBe('igcse')
+    expect(style?.derived).toBe(false)
+    expect(style?.subject).toBe('economics')
+    expect(style?.question_count).toBe(575)
+    expect(cambridgeStylePrompt(style!).toLowerCase()).toContain('highest standard of living')
   })
 
   it('classifies every Cambridge book in the snapshot without borrowing the wrong subject', () => {
@@ -119,7 +134,7 @@ describe('loadCambridgeStyle', () => {
       if (style) attached += 1
       const ict = /\bict\b|information and communication technology/.test(lower)
       if (ict && /\bigcse\b/.test(lower)) {
-        const from = style?.sources?.map((item) => item.subject).join(' ') ?? ''
+        const from = style?.sources?.map((item) => item.subject).join(' ') || style?.subject || ''
         if (!/comp/.test(from)) problems.push(`${name} did not get the computer science papers`)
       }
       if (/\benglish\b/.test(lower) && style && !/english/.test(style.subject)) {
@@ -128,9 +143,16 @@ describe('loadCambridgeStyle', () => {
       if (style?.derived) {
         if (style.level !== 'igcse') problems.push(`${name} derived as ${style.level}`)
         if (!style.sources?.length) problems.push(`${name} derived with no sources`)
+        if (style.sources?.some((item) => item.level !== 'o_level' && item.level !== 'as_and_a_level')) {
+          problems.push(`${name} was not taken from O Level or A Level`)
+        }
         if (style.sources?.some((item) => item.derived || item.question_count < 50)) {
           problems.push(`${name} source is not a real paper set`)
         }
+      }
+      if (/\bphysics\b/.test(lower) && /\bigcse\b/.test(lower)) {
+        const from = style?.sources?.map((item) => item.level).join(',') ?? ''
+        if (from !== 'o_level,as_and_a_level') problems.push(`${name} physics mix is ${from || 'missing'}`)
       }
       if (style && /lower secondary/.test(lower)) problems.push(`${name} got a style with no papers`)
     }
@@ -138,5 +160,29 @@ describe('loadCambridgeStyle', () => {
     expect(problems).toEqual([])
     expect(attached).toBeGreaterThan(30)
     expect(attached).toBeLessThan(70)
+  })
+
+  it('keeps every generated IGCSE template aligned with the audited corpus', () => {
+    const summary = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'past-paper-corpus', 'igcse-summary.json'), 'utf8')) as {
+      subjects: { subject: string; questions: number; parser_records: number }[]
+    }
+    expect(summary.subjects.map((item) => item.subject).sort()).toEqual([
+      'biology', 'chemistry', 'computer_science', 'economics', 'english', 'geography', 'history', 'math',
+    ])
+    for (const item of summary.subjects) {
+      const template = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'systems', 'cambridge', 'style', 'igcse', `${item.subject}.json`), 'utf8'))
+      expect(template.level, item.subject).toBe('igcse')
+      expect(template.subject, item.subject).toBe(item.subject)
+      expect(template.derived, item.subject).toBe(false)
+      expect(template.question_count, item.subject).toBe(item.questions)
+      expect(item.parser_records, item.subject).toBeGreaterThanOrEqual(item.questions)
+    }
+
+    const geography = cambridgeStylePrompt(loadCambridgeStyle('Cambridge IGCSE Geography', 1)!)
+    const english = cambridgeStylePrompt(loadCambridgeStyle('Cambridge IGCSE English', 1)!)
+    const maths = cambridgeStylePrompt(loadCambridgeStyle('Cambridge IGCSE Mathematics', 1)!)
+    expect(geography.toLowerCase()).not.toContain('study fig.')
+    expect(english.toLowerCase()).not.toContain('how did jennifer')
+    expect(maths.toLowerCase()).not.toContain('on each shape')
   })
 })

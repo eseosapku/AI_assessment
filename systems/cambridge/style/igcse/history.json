@@ -2,39 +2,125 @@
   "system": "cambridge",
   "level": "igcse",
   "subject": "history",
-  "question_count": 0,
-  "thin": true,
-  "derived": true,
-  "command_words": {},
-  "marks": {
-    "count": 0,
-    "min": null,
-    "max": null,
-    "median": null
+  "question_count": 133,
+  "thin": false,
+  "derived": false,
+  "command_words": {
+    "explain": 124,
+    "state": 1,
+    "give": 5,
+    "find": 3
   },
-  "marks_per_command": {},
+  "marks": {
+    "count": 111,
+    "min": 6,
+    "max": 12,
+    "median": 8
+  },
+  "marks_per_command": {
+    "explain": {
+      "count": 103,
+      "median": 8
+    },
+    "give": {
+      "count": 5,
+      "median": 6
+    },
+    "find": {
+      "count": 3,
+      "median": 7
+    }
+  },
   "parts": {
-    "single": 0,
+    "single": 133,
     "multi": 0,
-    "median_parts": null
+    "median_parts": 0
   },
   "stem_words": {
-    "median": null,
-    "p25": null,
-    "p75": null
+    "median": 23,
+    "p25": 20,
+    "p75": 28
   },
   "context": {
-    "named": 0,
-    "abstract": 0
+    "named": 31,
+    "abstract": 102
   },
-  "units_rate": 0,
-  "figure_rate": 0,
-  "openings": [],
-  "closings": [],
+  "units_rate": 0.24060150375939848,
+  "figure_rate": 0.03007518796992481,
+  "openings": [
+    {
+      "phrase": "study all the",
+      "count": 22
+    },
+    {
+      "phrase": "study sources a",
+      "count": 18
+    },
+    {
+      "phrase": "study source c.",
+      "count": 12
+    },
+    {
+      "phrase": "study sources f",
+      "count": 11
+    },
+    {
+      "phrase": "study sources d",
+      "count": 9
+    },
+    {
+      "phrase": "study source e.",
+      "count": 9
+    },
+    {
+      "phrase": "study sources c",
+      "count": 9
+    },
+    {
+      "phrase": "study source g.",
+      "count": 8
+    }
+  ],
+  "closings": [
+    {
+      "phrase": "source and your knowledge.",
+      "count": 50
+    },
+    {
+      "phrase": "sources and your knowledge.",
+      "count": 38
+    },
+    {
+      "phrase": "details of the sources.",
+      "count": 18
+    },
+    {
+      "phrase": "and evaluate the sources.",
+      "count": 11
+    },
+    {
+      "phrase": "details of the source.",
+      "count": 4
+    },
+    {
+      "phrase": "cambridge local blank page",
+      "count": 3
+    },
+    {
+      "phrase": "university of cambridge local",
+      "count": 3
+    },
+    {
+      "phrase": "university of blank page",
+      "count": 2
+    }
+  ],
   "exemplars": [],
   "provenance": {
-    "based_on": [],
-    "validation_files": 0,
-    "validation_note": "0 of the on-disk IGCSE files parsed to text. 0 questions came out. The rest are not readable PDFs (the file starts with null bytes, not %PDF). Observed calculate count 0; O Level base calculate count 0. Rebuild with scripts/build-style-templates.mjs when real IGCSE papers replace these files."
+    "based_on": [
+      "cambridge/igcse/history"
+    ],
+    "validation_files": 46,
+    "validation_note": "Taken from the IGCSE question papers in Cambridge/igcse.2. 133 usable questions retained from 866 parser records."
   }
 }
