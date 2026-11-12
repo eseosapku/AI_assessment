@@ -6,6 +6,15 @@ export const SUBSCRIPTION_USD = Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOU
 /** Fixed local price for Rwanda (RWF) — not tied to USD conversion. */
 export const SUBSCRIPTION_RWF = Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF ?? 1500)
 
+/** Server checkout price. Keep the public value as the browser fallback only. */
+export function usdSubscriptionAmount(): number {
+  return Number(
+    process.env.FLW_SUBSCRIPTION_AMOUNT_USD ??
+      process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_USD ??
+      5,
+  )
+}
+
 export function rwfSubscriptionAmount(): number {
   return Number(
     process.env.FLW_SUBSCRIPTION_AMOUNT_RWF ??

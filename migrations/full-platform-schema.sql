@@ -13,6 +13,7 @@
 --   - migrations.sql (strict_mode, submission_reason, violation_count)
 --   - supabase-ai-jobs-migration.sql (async AI job queue)
 --   - supabase-subscription-migration.sql (Flutterwave paywall)
+--   - add-payment-integrity.sql (checkout ownership + transaction idempotency)
 --   - supabase-exam-sources-migration.sql (exam/textbook source columns)
 --   - supabase-studylab-migration.sql (LearnSpace + topic mastery)
 --
@@ -62,6 +63,30 @@ COMMENT ON COLUMN users.country IS 'ISO-style country code: RW=Rwanda, NG=Nigeri
 COMMENT ON COLUMN users.subscription_status IS 'free | active | expired | cancelled';
 COMMENT ON COLUMN users.free_assessments_used IS 'Count of successful AI assessment generations on free tier (max 2).';
 COMMENT ON COLUMN users.flutterwave_ref IS 'Last Flutterwave transaction or subscription reference.';
+
+-- Every checkout records the server-owned price and account before the user
+-- leaves for Flutterwave. Verification compares the paid transaction to this.
+CREATE TABLE IF NOT EXISTS subscription_checkouts (
+  tx_ref VARCHAR(120) PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  amount NUMERIC(14, 2) NOT NULL,
+  currency VARCHAR(3) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Claim each Flutterwave transaction once so redirect verification and the
+-- webhook can race or retry without extending a subscription twice.
+CREATE TABLE IF NOT EXISTS subscription_payments (
+  transaction_id VARCHAR(120) PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  tx_ref VARCHAR(120),
+  amount NUMERIC(14, 2),
+  currency VARCHAR(3),
+  applied_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_subscription_payments_user
+  ON subscription_payments (user_id);
 
 -- ----------------------------------------------------------------------------
 -- Curriculum / Catalog

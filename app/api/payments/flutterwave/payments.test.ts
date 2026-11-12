@@ -12,7 +12,7 @@ vi.mock('@/lib/flutterwave', async (importActual) => ({
 }))
 
 import { db } from '@/lib/db'
-import { createFlutterwaveCheckout, verifyTransactionById } from '@/lib/flutterwave'
+import { createFlutterwaveCheckout, ensurePaymentPlan, verifyTransactionById } from '@/lib/flutterwave'
 import { POST as initiate } from './initiate/route'
 import { POST as verify } from './verify/route'
 import { POST as webhook } from './webhook/route'
@@ -64,6 +64,7 @@ beforeEach(() => {
   vi.mocked(db.query).mockReset()
   vi.mocked(verifyTransactionById).mockReset()
   vi.mocked(createFlutterwaveCheckout).mockClear()
+  vi.mocked(ensurePaymentPlan).mockClear()
   store = fakeDatabase()
 })
 
@@ -73,12 +74,31 @@ describe('opening a checkout', () => {
     const res = await post(initiate, '/api/payments/flutterwave/initiate', { user_id: A, currency: 'RWF', amount: 1 })
     expect(res.status).toBe(200)
     const charged = vi.mocked(createFlutterwaveCheckout).mock.calls[0][0]
-    expect(charged.amount).toBeGreaterThan(1)
+    expect(charged.amount).toBe(1500)
     expect([...store.checkouts.values()][0]).toMatchObject({ user_id: A, amount: charged.amount, currency: 'RWF' })
   })
 
   it('refuses a currency there is no price for', async () => {
     const res = await post(initiate, '/api/payments/flutterwave/initiate', { user_id: A, currency: 'XYZ' })
+    expect(res.status).toBe(400)
+    expect(createFlutterwaveCheckout).not.toHaveBeenCalled()
+  })
+
+  it('uses the account email and a monthly plan, ignoring browser overrides', async () => {
+    const res = await post(initiate, '/api/payments/flutterwave/initiate', {
+      user_id: A,
+      currency: 'USD',
+      email: 'attacker@example.com',
+      interval: 'daily',
+    })
+    expect(res.status).toBe(200)
+    expect(ensurePaymentPlan).toHaveBeenCalledWith(5, 'USD', 'monthly')
+    expect(createFlutterwaveCheckout).toHaveBeenCalledWith(expect.objectContaining({ email: 'p@example.com' }))
+  })
+
+  it('requires a real account email instead of inventing one', async () => {
+    vi.mocked(db.query).mockImplementationOnce(async () => ({ rows: [{ id: A, email: null, role: 'student' }] }) as any)
+    const res = await post(initiate, '/api/payments/flutterwave/initiate', { user_id: A, currency: 'RWF' })
     expect(res.status).toBe(400)
     expect(createFlutterwaveCheckout).not.toHaveBeenCalled()
   })
@@ -115,6 +135,18 @@ describe('confirming a payment from the success page', () => {
     vi.mocked(verifyTransactionById).mockResolvedValue({ status: 'successful', id: '79', txRef, amount: 1, currency: 'RWF' })
     const res = await post(verify, '/api/payments/flutterwave/verify', { user_id: A, transaction_id: '79' })
     expect(res.status).toBe(402)
+    expect(store.extended).toEqual([])
+  })
+
+  it('refuses the wrong currency and a transaction that is still pending', async () => {
+    const { txRef, amount } = await openCheckout(A)
+    vi.mocked(verifyTransactionById).mockResolvedValueOnce({ status: 'successful', id: '82', txRef, amount, currency: 'UGX' })
+    const wrongCurrency = await post(verify, '/api/payments/flutterwave/verify', { user_id: A, transaction_id: '82' })
+    expect(wrongCurrency.status).toBe(402)
+
+    vi.mocked(verifyTransactionById).mockResolvedValueOnce({ status: 'pending', id: '83', txRef, amount, currency: 'RWF' })
+    const pending = await post(verify, '/api/payments/flutterwave/verify', { user_id: A, transaction_id: '83' })
+    expect(pending.status).toBe(402)
     expect(store.extended).toEqual([])
   })
 })
@@ -169,5 +201,25 @@ describe('the Flutterwave webhook', () => {
       { 'verif-hash': 'hook-secret' },
     )
     expect(store.extended).toEqual([A])
+  })
+
+  it('ignores non-charge events and rejects an invalid secret', async () => {
+    process.env.FLW_WEBHOOK_SECRET = 'hook-secret'
+    const ignored = await post(
+      webhook,
+      '/api/payments/flutterwave/webhook',
+      { event: 'transfer.completed', data: { id: 99 } },
+      { 'verif-hash': 'hook-secret' },
+    )
+    expect(ignored.status).toBe(200)
+    expect(verifyTransactionById).not.toHaveBeenCalled()
+
+    const invalid = await post(
+      webhook,
+      '/api/payments/flutterwave/webhook',
+      { event: 'charge.completed', data: { id: 99 } },
+      { 'verif-hash': 'wrong-secret' },
+    )
+    expect(invalid.status).toBe(401)
   })
 })

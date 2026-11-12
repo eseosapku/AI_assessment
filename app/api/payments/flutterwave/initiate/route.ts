@@ -33,12 +33,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
-    const email = String(body.email ?? user.email ?? '').trim() || `user+${userId.slice(0, 8)}@studysquare.org`
+    // A recurring Flutterwave subscription is permanently tied to this email.
+    // Use the account record, never a caller-supplied email or a fake fallback.
+    const email = String(user.email ?? '').trim()
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      return NextResponse.json({ error: 'A valid account email is required for payment.' }, { status: 400 })
+    }
     const currency = String(body.currency ?? process.env.FLW_SUBSCRIPTION_CURRENCY ?? 'USD').toUpperCase()
     if (!isSupportedCheckoutCurrency(currency)) {
       return NextResponse.json({ error: 'Unsupported currency' }, { status: 400 })
     }
-    const interval = String(body.interval ?? 'monthly')
+    // This product is monthly. Letting the browser choose this could create a
+    // daily/yearly Flutterwave plan while the app still grants 30-day access.
+    const interval = 'monthly'
 
     // body.amount used to be charged as sent, so a subscription cost whatever
     // the caller typed. The price is the server's, and it is recorded so the

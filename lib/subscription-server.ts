@@ -8,7 +8,12 @@ import {
   type SubscriptionUser,
 } from '@/lib/subscription'
 import { convertUsd, roundForCurrency } from '@/lib/fx-rates'
-import { fixedLocalAmount, isSupportedCheckoutCurrency, type SubscriptionCurrency } from '@/lib/subscription-pricing'
+import {
+  fixedLocalAmount,
+  isSupportedCheckoutCurrency,
+  usdSubscriptionAmount,
+  type SubscriptionCurrency,
+} from '@/lib/subscription-pricing'
 import {
   checkSubscriptionPayment,
   isPaidFlutterwaveStatus,
@@ -76,15 +81,20 @@ export function subscriptionPaywallBody(gate: Extract<SubscriptionGateResult, { 
 }
 
 export async function incrementFreeAssessmentUsage(userId: string): Promise<void> {
-  const user = await fetchSubscriptionUser(userId)
-  if (!user || isTeacherExempt(user) || isSubscriptionActive(user)) return
-
-  const used = Math.max(0, Number(user.free_assessments_used) || 0)
-  if (used >= FREE_ASSESSMENT_LIMIT) return
-
+  // Do the check and increment in one statement. Two completed generations
+  // must not both read the same old count and overwrite each other.
   await db.query(
-    `UPDATE users SET free_assessments_used = $2, updated_at = NOW() WHERE id = $1`,
-    [userId, used + 1],
+    `UPDATE users
+        SET free_assessments_used = LEAST(COALESCE(free_assessments_used, 0) + 1, $2),
+            updated_at = NOW()
+      WHERE id = $1
+        AND LOWER(COALESCE(role, '')) <> 'teacher'
+        AND NOT (
+          LOWER(COALESCE(subscription_status, 'free')) = 'active'
+          AND (subscription_expires_at IS NULL OR subscription_expires_at > NOW())
+        )
+        AND COALESCE(free_assessments_used, 0) < $2`,
+    [userId, FREE_ASSESSMENT_LIMIT],
   )
 }
 
@@ -92,7 +102,7 @@ export async function incrementFreeAssessmentUsage(userId: string): Promise<void
 export async function quoteSubscription(currency: SubscriptionCurrency): Promise<SubscriptionQuote> {
   const fixedCurrency = (process.env.FLW_SUBSCRIPTION_CURRENCY ?? '').toUpperCase()
   const fixedAmount = process.env.FLW_SUBSCRIPTION_AMOUNT ? Number(process.env.FLW_SUBSCRIPTION_AMOUNT) : null
-  const amountUsd = Number(process.env.FLW_SUBSCRIPTION_AMOUNT_USD ?? 5)
+  const amountUsd = usdSubscriptionAmount()
 
   const fixedLocal = fixedLocalAmount(currency)
   if (fixedLocal != null) return { amount: roundForCurrency(fixedLocal, currency), currency, converted: false }

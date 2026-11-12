@@ -8,6 +8,14 @@ function normalizeStudentId(value: unknown) {
     return trimmed ? trimmed.toUpperCase() : null
 }
 
+function normalizeEmail(value: unknown) {
+    return String(value ?? '').trim().toLowerCase()
+}
+
+function isValidEmail(value: string) {
+    return /^\S+@\S+\.\S+$/.test(value)
+}
+
 function parseSubjects(input: unknown): string[] | null {
     if (input == null) return null
     if (Array.isArray(input)) {
@@ -33,6 +41,8 @@ export async function POST(request: NextRequest) {
         const userId = String(body.userId ?? '').trim()
         const studentId = normalizeStudentId(body.studentId)
         const name = String(body.name ?? '').trim()
+        const hasEmailUpdate = Object.prototype.hasOwnProperty.call(body, 'email')
+        const email = hasEmailUpdate ? normalizeEmail(body.email) : ''
         const className = String(body.className ?? '').trim()
         const subjects = parseSubjects(body.subjects)
         const currentPassword = String(body.currentPassword ?? '')
@@ -41,6 +51,11 @@ export async function POST(request: NextRequest) {
 
         if (!userId && !studentId) {
             return NextResponse.json({ error: 'User ID or student ID is required' }, { status: 400 })
+        }
+
+
+        if (hasEmailUpdate && !isValidEmail(email)) {
+            return NextResponse.json({ error: 'Enter a valid email address' }, { status: 400 })
         }
 
         const userResult = userId
@@ -53,6 +68,17 @@ export async function POST(request: NextRequest) {
         }
 
         const updatePayload: Record<string, unknown> = {}
+
+        if (hasEmailUpdate) {
+            const duplicate = await db.query(
+                'SELECT id FROM users WHERE LOWER(email) = LOWER($1) AND id <> $2 LIMIT 1',
+                [email, userData.id],
+            )
+            if (duplicate.rows[0]) {
+                return NextResponse.json({ error: 'That email is already used by another account' }, { status: 409 })
+            }
+            updatePayload.email = email
+        }
 
         if (Object.prototype.hasOwnProperty.call(body, 'name')) {
             if (!name) {
@@ -116,6 +142,7 @@ export async function POST(request: NextRequest) {
 
         const columnMap: Record<string, string> = {
             name: 'name',
+            email: 'email',
             class: 'class',
             subjects: 'subjects',
             country: 'country',
@@ -171,6 +198,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ success: true, user, message: 'Profile updated successfully' })
     } catch (error) {
         console.error('Update profile error:', error)
+        if ((error as { code?: string })?.code === '23505') {
+            return NextResponse.json({ error: 'That email is already used by another account' }, { status: 409 })
+        }
         return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 })
     }
 }

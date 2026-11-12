@@ -64,6 +64,7 @@ interface CompleteProfilePayload {
 
 interface UpdateProfilePayload {
   name?: string
+  email?: string
   className?: string
   subjects?: string[]
   country?: CountryCode

@@ -85,19 +85,28 @@ async function flwFetch(path: string, init?: RequestInit) {
   if (!secret) {
     throw new Error('Payment service not configured. FLW_SECRET_KEY is required.')
   }
-  const res = await fetch(`${flwBase()}${path}`, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${secret}`,
-      'Content-Type': 'application/json',
-      ...(init?.headers ?? {}),
-    },
-  })
-  const json = await res.json().catch(() => ({}))
-  if (!res.ok) {
-    throw new Error(json?.message ?? json?.error ?? `Flutterwave error ${res.status}`)
+  const configuredTimeout = Number(process.env.FLW_REQUEST_TIMEOUT_MS ?? 15_000)
+  const timeoutMs = Number.isFinite(configuredTimeout) ? Math.max(1_000, Math.min(configuredTimeout, 55_000)) : 15_000
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const res = await fetch(`${flwBase()}${path}`, {
+      ...init,
+      signal: init?.signal ?? controller.signal,
+      headers: {
+        Authorization: `Bearer ${secret}`,
+        'Content-Type': 'application/json',
+        ...(init?.headers ?? {}),
+      },
+    })
+    const json = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      throw new Error(json?.message ?? json?.error ?? `Flutterwave error ${res.status}`)
+    }
+    return json
+  } finally {
+    clearTimeout(timer)
   }
-  return json
 }
 
 export async function ensurePaymentPlan(amount: number, currency: string, interval: string, name = 'StudySquare Monthly'): Promise<string> {
@@ -112,7 +121,8 @@ export async function ensurePaymentPlan(amount: number, currency: string, interv
       if (
         String(plan.currency ?? '').toUpperCase() === cur &&
         Math.abs(Number(plan.amount) - amount) < 0.0001 &&
-        String(plan.interval ?? '').toLowerCase() === iv
+        String(plan.interval ?? '').toLowerCase() === iv &&
+        String(plan.status ?? 'active').toLowerCase() === 'active'
       ) {
         cachedPlanId = envPlanId
         return envPlanId
@@ -120,6 +130,31 @@ export async function ensurePaymentPlan(amount: number, currency: string, interv
     } catch {
       // create fresh plan below
     }
+  }
+
+  // Serverless cold starts do not share cachedPlanId. Reuse an existing
+  // matching plan before creating one, otherwise every cold checkout can add
+  // another identical plan to the merchant account.
+  const query = new URLSearchParams({
+    amount: String(amount),
+    currency: cur,
+    interval: iv,
+    status: 'active',
+  })
+  try {
+    const existing = await flwFetch(`/v3/payment-plans?${query.toString()}`)
+    const match = (Array.isArray(existing?.data) ? existing.data : []).find((plan: any) =>
+      String(plan?.currency ?? '').toUpperCase() === cur &&
+      Math.abs(Number(plan?.amount) - amount) < 0.0001 &&
+      String(plan?.interval ?? '').toLowerCase() === iv &&
+      String(plan?.status ?? 'active').toLowerCase() === 'active'
+    )
+    if (match?.id != null) {
+      cachedPlanId = String(match.id)
+      return cachedPlanId
+    }
+  } catch {
+    // Listing is an optimization; creating a plan remains the safe fallback.
   }
 
   const created = await flwFetch('/v3/payment-plans', {
@@ -142,7 +177,9 @@ export async function createFlutterwaveCheckout(opts: {
   redirectUrl?: string
 }): Promise<{ link: string; txRef: string }> {
   const currency = opts.currency.toUpperCase()
-  const paymentOptions = paymentOptionsForCurrency(currency)
+  // Flutterwave payment plans support card payments only. Make the payload
+  // explicit instead of advertising methods that cannot subscribe.
+  const paymentOptions = opts.planId ? 'card' : paymentOptionsForCurrency(currency)
 
   const payload: Record<string, unknown> = {
     tx_ref: opts.txRef,
@@ -204,10 +241,8 @@ export function parseFlutterwaveTransaction(txn: any, fallbackId?: string): Flut
 }
 
 export async function findTransactionByTxRef(txRef: string): Promise<FlutterwaveTransaction | null> {
-  const data = await flwFetch(`/v3/transactions?tx_ref=${encodeURIComponent(txRef)}`)
-  const rows = Array.isArray(data?.data) ? data.data : []
-  if (!rows.length) return null
-  return parseFlutterwaveTransaction(rows[0])
+  const data = await flwFetch(`/v3/transactions/verify_by_reference?tx_ref=${encodeURIComponent(txRef)}`)
+  return data?.data ? parseFlutterwaveTransaction(data.data) : null
 }
 
 export async function verifyTransactionById(transactionId: string): Promise<FlutterwaveTransaction | null> {

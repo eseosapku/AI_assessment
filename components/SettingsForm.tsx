@@ -46,6 +46,7 @@ export default function SettingsForm() {
     const router = useRouter()
 
     const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
     const [className, setClassName] = useState('')
     const [subjectsText, setSubjectsText] = useState('')
     const [country, setCountry] = useState<CountryCode>('RW')
@@ -75,6 +76,7 @@ export default function SettingsForm() {
     useEffect(() => {
         if (!user) return
         setName(user.name ?? '')
+        setEmail(user.email ?? '')
         setClassName(user.class ?? '')
         setCountry((user.country as CountryCode) ?? 'RW')
         setUniCourse(user.universityCourse ?? '')
@@ -147,10 +149,21 @@ export default function SettingsForm() {
         setProfileSuccess('')
 
         const trimmedName = name.trim()
+        const trimmedEmail = email.trim().toLowerCase()
         const trimmedClass = className.trim()
 
         if (!trimmedName) {
             setProfileError('Name is required.')
+            return
+        }
+
+        if (trimmedEmail && !/^\S+@\S+\.\S+$/.test(trimmedEmail)) {
+            setProfileError('Enter a valid email address.')
+            return
+        }
+
+        if (user?.email && !trimmedEmail) {
+            setProfileError('Your account email cannot be removed.')
             return
         }
 
@@ -168,10 +181,11 @@ export default function SettingsForm() {
 
         setIsSavingProfile(true)
         try {
+            const emailUpdate = trimmedEmail ? { email: trimmedEmail } : {}
             if (isUni) {
-                await updateProfile({ name: trimmedName, subjects, universityCourse: uniCourse, universityYear: uniYear })
+                await updateProfile({ name: trimmedName, subjects, universityCourse: uniCourse, universityYear: uniYear, ...emailUpdate })
             } else {
-                await updateProfile({ name: trimmedName, className: trimmedClass, subjects, country })
+                await updateProfile({ name: trimmedName, className: trimmedClass, subjects, country, ...emailUpdate })
             }
             setProfileSuccess('Profile updated successfully.')
         } catch (error: any) {
@@ -294,6 +308,24 @@ export default function SettingsForm() {
 
                 <form onSubmit={handleProfileSubmit} className="space-y-5">
                     <div className="grid gap-5 sm:grid-cols-2">
+                        <div className="sm:col-span-2">
+                            <label htmlFor="set-email" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                                Email address
+                            </label>
+                            <input
+                                id="set-email"
+                                type="email"
+                                value={email}
+                                onChange={event => setEmail(event.target.value)}
+                                className={inputClass}
+                                placeholder="you@example.com"
+                                autoComplete="email"
+                                aria-describedby="set-email-hint"
+                            />
+                            <p id="set-email-hint" className="mt-1 text-[12px] font-semibold text-ss-slate">
+                                Required for payment receipts and subscription checkout. Your student ID still works for login.
+                            </p>
+                        </div>
                         <div>
                             <label htmlFor="set-full-name" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Full name

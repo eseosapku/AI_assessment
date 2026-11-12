@@ -76,9 +76,10 @@ export async function getSubscriptionStatus(userId: string): Promise<Subscriptio
     throw new Error('Failed to fetch subscription status')
   }
   const data = await res.json()
+  const snapshot = data?.data ?? data?.subscription
   return {
-    active: Boolean(data?.subscription?.isSubscribed ?? data?.active),
-    expiresAt: data?.subscription?.expiresAt ?? data?.expiresAt,
+    active: Boolean(snapshot?.isSubscribed ?? data?.active),
+    expiresAt: snapshot?.expiresAt ?? data?.expiresAt,
     lastPaymentId: data?.lastPaymentId,
   }
 }
