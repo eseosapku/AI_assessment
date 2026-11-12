@@ -28,6 +28,9 @@ export interface RecordedCheckout {
   userId: string
   amount: number
   currency: string
+  baseAmount?: number | null
+  discountPercentage?: number | null
+  referralCodeId?: string | null
 }
 
 export type PaymentCheck =

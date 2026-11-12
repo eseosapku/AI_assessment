@@ -14,6 +14,7 @@
 --   - supabase-ai-jobs-migration.sql (async AI job queue)
 --   - supabase-subscription-migration.sql (Flutterwave paywall)
 --   - add-payment-integrity.sql (checkout ownership + transaction idempotency)
+--   - add-referrals.sql (referral discounts + anonymous conversion tracking)
 --   - supabase-exam-sources-migration.sql (exam/textbook source columns)
 --   - supabase-studylab-migration.sql (LearnSpace + topic mastery)
 --
@@ -64,12 +65,28 @@ COMMENT ON COLUMN users.subscription_status IS 'free | active | expired | cancel
 COMMENT ON COLUMN users.free_assessments_used IS 'Count of successful AI assessment generations on free tier (max 2).';
 COMMENT ON COLUMN users.flutterwave_ref IS 'Last Flutterwave transaction or subscription reference.';
 
+CREATE TABLE IF NOT EXISTS referral_codes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  code VARCHAR(32) NOT NULL UNIQUE,
+  owner_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  discount_percentage NUMERIC(5, 2) NOT NULL
+    CHECK (discount_percentage > 0 AND discount_percentage < 100),
+  active BOOLEAN NOT NULL DEFAULT TRUE,
+  expires_at TIMESTAMP WITH TIME ZONE,
+  created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+  CHECK (code = UPPER(code))
+);
+
 -- Every checkout records the server-owned price and account before the user
 -- leaves for Flutterwave. Verification compares the paid transaction to this.
 CREATE TABLE IF NOT EXISTS subscription_checkouts (
   tx_ref VARCHAR(120) PRIMARY KEY,
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   amount NUMERIC(14, 2) NOT NULL,
+  base_amount NUMERIC(14, 2),
+  discount_percentage NUMERIC(5, 2),
+  referral_code_id UUID REFERENCES referral_codes(id) ON DELETE SET NULL,
   currency VARCHAR(3) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -87,6 +104,21 @@ CREATE TABLE IF NOT EXISTS subscription_payments (
 
 CREATE INDEX IF NOT EXISTS idx_subscription_payments_user
   ON subscription_payments (user_id);
+
+CREATE TABLE IF NOT EXISTS referral_redemptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  referral_code_id UUID NOT NULL REFERENCES referral_codes(id) ON DELETE RESTRICT,
+  referred_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  transaction_id VARCHAR(120) NOT NULL UNIQUE,
+  amount_paid NUMERIC(14, 2) NOT NULL,
+  currency VARCHAR(3) NOT NULL,
+  redeemed_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+  UNIQUE (referred_user_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_referral_codes_owner ON referral_codes (owner_user_id);
+CREATE INDEX IF NOT EXISTS idx_referral_redemptions_code_time
+  ON referral_redemptions (referral_code_id, redeemed_at DESC);
 
 -- ----------------------------------------------------------------------------
 -- Curriculum / Catalog

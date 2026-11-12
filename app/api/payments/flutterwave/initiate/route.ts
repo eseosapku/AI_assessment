@@ -10,6 +10,7 @@ import {
 } from '@/lib/flutterwave'
 import { isSupportedCheckoutCurrency } from '@/lib/subscription-pricing'
 import { quoteSubscription, recordCheckout } from '@/lib/subscription-server'
+import { discountedSubscriptionQuote, normalizeReferralCode, validateReferralCode } from '@/lib/referrals'
 
 export async function POST(request: NextRequest) {
   try {
@@ -50,14 +51,37 @@ export async function POST(request: NextRequest) {
     // body.amount used to be charged as sent, so a subscription cost whatever
     // the caller typed. The price is the server's, and it is recorded so the
     // payment can be checked against it later.
-    const quote = await quoteSubscription(currency)
+    const baseQuote = await quoteSubscription(currency)
+    let quote = baseQuote
+    let appliedReferral: { id: string; code: string; discountPercentage: number } | null = null
+    const requestedReferralCode = normalizeReferralCode(body.referral_code)
+    if (requestedReferralCode) {
+      const validation = await validateReferralCode(requestedReferralCode, userId)
+      if (!validation.ok) {
+        return NextResponse.json({ error: validation.error }, { status: validation.status })
+      }
+      appliedReferral = {
+        id: validation.referral.id,
+        code: validation.referral.code,
+        discountPercentage: validation.referral.discountPercentage,
+      }
+      quote = discountedSubscriptionQuote(baseQuote, appliedReferral.discountPercentage)
+    }
     const amountToCharge = quote.amount
 
     const txRef = `sub_${user.id}_${randomBytes(4).toString('hex')}`
-    await recordCheckout(txRef, String(user.id), quote)
+    await recordCheckout(
+      txRef,
+      String(user.id),
+      quote,
+      appliedReferral
+        ? { id: appliedReferral.id, baseAmount: baseQuote.amount, discountPercentage: appliedReferral.discountPercentage }
+        : null,
+    )
     const meta = {
       user_id: userId,
       country: { USD: 'US', NGN: 'NG', UGX: 'UG', RWF: 'RW', KES: 'KE', GHS: 'GH' }[currency] ?? 'US',
+      ...(appliedReferral ? { referral_code: appliedReferral.code } : {}),
     }
 
     const planId = supportsFlutterwavePaymentPlan(currency)
@@ -74,7 +98,15 @@ export async function POST(request: NextRequest) {
       meta,
     })
 
-    return NextResponse.json({ checkoutUrl: link, paymentReference: txRef })
+    return NextResponse.json({
+      checkoutUrl: link,
+      paymentReference: txRef,
+      amount: amountToCharge,
+      currency,
+      referral: appliedReferral
+        ? { code: appliedReferral.code, discountPercentage: appliedReferral.discountPercentage }
+        : null,
+    })
   } catch (err: unknown) {
     console.error('Flutterwave initiate error:', err)
     const message = err instanceof Error ? err.message : 'Failed to initiate payment'

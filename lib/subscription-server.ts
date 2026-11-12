@@ -113,22 +113,54 @@ export async function quoteSubscription(currency: SubscriptionCurrency): Promise
   return { amount: roundForCurrency(await convertUsd(amountUsd, currency), currency), currency, converted: true }
 }
 
-export async function recordCheckout(txRef: string, userId: string, quote: SubscriptionQuote): Promise<void> {
+export async function recordCheckout(
+  txRef: string,
+  userId: string,
+  quote: SubscriptionQuote,
+  referral?: { id: string; baseAmount: number; discountPercentage: number } | null,
+): Promise<void> {
   await db.query(
-    `INSERT INTO subscription_checkouts (tx_ref, user_id, amount, currency) VALUES ($1, $2, $3, $4)`,
-    [txRef, userId, quote.amount, quote.currency],
+    `INSERT INTO subscription_checkouts
+       (tx_ref, user_id, amount, currency, base_amount, discount_percentage, referral_code_id)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+    [
+      txRef,
+      userId,
+      quote.amount,
+      quote.currency,
+      referral?.baseAmount ?? quote.amount,
+      referral?.discountPercentage ?? null,
+      referral?.id ?? null,
+    ],
   )
 }
 
 export async function findCheckout(txRef: string | undefined | null): Promise<RecordedCheckout | null> {
   const ref = String(txRef ?? '').trim()
   if (!ref) return null
-  const { rows } = await db.query<{ user_id: string; amount: string | number; currency: string }>(
-    `SELECT user_id, amount, currency FROM subscription_checkouts WHERE tx_ref = $1 LIMIT 1`,
+  const { rows } = await db.query<{
+    user_id: string
+    amount: string | number
+    currency: string
+    base_amount: string | number | null
+    discount_percentage: string | number | null
+    referral_code_id: string | null
+  }>(
+    `SELECT user_id, amount, currency, base_amount, discount_percentage, referral_code_id
+       FROM subscription_checkouts WHERE tx_ref = $1 LIMIT 1`,
     [ref],
   )
   const row = rows[0]
-  return row ? { userId: String(row.user_id), amount: Number(row.amount), currency: String(row.currency) } : null
+  return row
+    ? {
+        userId: String(row.user_id),
+        amount: Number(row.amount),
+        currency: String(row.currency),
+        baseAmount: row.base_amount == null ? null : Number(row.base_amount),
+        discountPercentage: row.discount_percentage == null ? null : Number(row.discount_percentage),
+        referralCodeId: row.referral_code_id ? String(row.referral_code_id) : null,
+      }
+    : null
 }
 
 export async function userIdForEmail(email: string | undefined | null): Promise<string | null> {
@@ -169,6 +201,7 @@ export async function settleSubscriptionPayment(
     txRef: txn.txRef,
     amount: txn.amount,
     currency: txn.currency,
+    referralCodeId: checkout?.referralCodeId,
   })
   if (!result.ok) return result
   return { ok: true, userId: check.userId, transactionId: check.transactionId, applied: result.applied }
@@ -191,6 +224,7 @@ export async function applySubscriptionPayment(params: {
   txRef?: string | null
   amount?: number | null
   currency?: string | null
+  referralCodeId?: string | null
 }): Promise<ApplyPaymentResult> {
   const update = await db.query<{ subscription_status: string }>(
     `WITH claimed AS (
@@ -199,15 +233,33 @@ export async function applySubscriptionPayment(params: {
        ON CONFLICT (transaction_id) DO NOTHING
        RETURNING user_id
      )
-     UPDATE users
+     , activated AS (
+       UPDATE users
         SET subscription_status = 'active',
             subscription_started_at = NOW(),
             subscription_expires_at = GREATEST(COALESCE(subscription_expires_at, NOW()), NOW()) + INTERVAL '30 days',
             flutterwave_ref = $1,
             updated_at = NOW()
       WHERE id = (SELECT user_id FROM claimed)
-      RETURNING subscription_status`,
-    [params.transactionId, params.userId, params.txRef ?? null, params.amount ?? null, params.currency ?? null],
+      RETURNING subscription_status
+     ), recorded_referral AS (
+       INSERT INTO referral_redemptions
+         (referral_code_id, referred_user_id, transaction_id, amount_paid, currency)
+       SELECT $6::uuid, $2::uuid, $1, $4, $5
+         FROM claimed
+        WHERE $6::uuid IS NOT NULL
+       ON CONFLICT DO NOTHING
+       RETURNING id
+     )
+     SELECT subscription_status FROM activated`,
+    [
+      params.transactionId,
+      params.userId,
+      params.txRef ?? null,
+      params.amount ?? null,
+      params.currency ?? null,
+      params.referralCodeId ?? null,
+    ],
   )
   if (update.rows[0]?.subscription_status === 'active') return { ok: true, applied: true }
 

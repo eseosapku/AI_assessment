@@ -1,6 +1,8 @@
 'use client'
 
-import { ChevronDown } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { ChevronDown, Gift } from 'lucide-react'
 import ThemeToggle from '@/components/ThemeToggle'
 import { useSubscription } from '@/components/SubscriptionProvider'
 import { useAuth } from '@/components/AuthProvider'
@@ -10,6 +12,32 @@ import NotificationBell from '@/components/studio/NotificationBell'
 export function TopBar({ firstName, onProfile }: { firstName: string; onProfile: () => void }) {
   const { openPaywall, snapshot } = useSubscription()
   const { user } = useAuth()
+  const [hasActiveReferral, setHasActiveReferral] = useState(false)
+
+  useEffect(() => {
+    if (!user?.id) {
+      setHasActiveReferral(false)
+      return
+    }
+    let cancelled = false
+    const load = async () => {
+      try {
+        const response = await fetch(`/api/referrals/status?user_id=${encodeURIComponent(user.id)}`, { cache: 'no-store' })
+        const body = await response.json()
+        if (!cancelled) setHasActiveReferral(response.ok && body?.active === true)
+      } catch {
+        if (!cancelled) setHasActiveReferral(false)
+      }
+    }
+    void load()
+    const timer = window.setInterval(load, 60_000)
+    window.addEventListener('focus', load)
+    return () => {
+      cancelled = true
+      window.clearInterval(timer)
+      window.removeEventListener('focus', load)
+    }
+  }, [user?.id])
   return (
     // banner landmark: the shell had main, navigation and complementary but no
     // banner, so the one region a screen-reader user jumps to for identity and
@@ -32,6 +60,15 @@ export function TopBar({ firstName, onProfile }: { firstName: string; onProfile:
       </div>
 
       <div className="lg:ml-auto">
+        {hasActiveReferral && (
+          <Link
+            href="/referrals"
+            className="mr-2 inline-flex h-11 items-center gap-2 rounded-2xl bg-ss-accent px-3.5 text-[13px] font-black text-white shadow-sm transition-transform hover:-translate-y-0.5"
+          >
+            <Gift className="h-[18px] w-[18px]" strokeWidth={1.9} />
+            <span className="hidden sm:inline">Referral</span>
+          </Link>
+        )}
         <NotificationBell />
       </div>
 

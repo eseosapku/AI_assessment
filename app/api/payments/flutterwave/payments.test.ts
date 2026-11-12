@@ -23,16 +23,38 @@ const B = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
 /** Just enough Postgres for these routes: checkouts, spent payments, extensions. */
 function fakeDatabase() {
   const users = new Set([A, B])
-  const checkouts = new Map<string, { user_id: string; amount: number; currency: string }>()
+  const checkouts = new Map<string, {
+    user_id: string
+    amount: number
+    currency: string
+    base_amount: number
+    discount_percentage: number | null
+    referral_code_id: string | null
+  }>()
   const payments = new Map<string, string>()
   const extended: string[] = []
+  const creditedReferralIds: string[] = []
   vi.mocked(db.query).mockImplementation((async (sql: string, params: any[] = []) => {
     if (/SELECT id, email, role FROM users/.test(sql)) {
       return { rows: users.has(params[0]) ? [{ id: params[0], email: 'p@example.com', role: 'student' }] : [] }
     }
     if (/INSERT INTO subscription_checkouts/.test(sql)) {
-      checkouts.set(params[0], { user_id: params[1], amount: params[2], currency: params[3] })
+      checkouts.set(params[0], {
+        user_id: params[1], amount: params[2], currency: params[3],
+        base_amount: params[4], discount_percentage: params[5], referral_code_id: params[6],
+      })
       return { rows: [] }
+    }
+    if (/FROM referral_codes rc/.test(sql)) {
+      return {
+        rows: params[0] === 'SAVE40'
+          ? [{
+              id: 'cccccccc-cccc-4ccc-8ccc-cccccccccccc', code: 'SAVE40', owner_user_id: B,
+              discount_percentage: 40, active: true, expires_at: null,
+              uses: 0, used_by_user: false,
+            }]
+          : [],
+      }
     }
     if (/FROM subscription_checkouts/.test(sql)) {
       const row = checkouts.get(params[0])
@@ -42,6 +64,7 @@ function fakeDatabase() {
       if (payments.has(params[0])) return { rows: [] }
       payments.set(params[0], params[1])
       extended.push(params[1])
+      if (params[5]) creditedReferralIds.push(params[5])
       return { rows: [{ subscription_status: 'active' }] }
     }
     if (/FROM subscription_payments/.test(sql)) {
@@ -53,7 +76,7 @@ function fakeDatabase() {
     }
     return { rows: [] }
   }) as any)
-  return { checkouts, extended }
+  return { checkouts, extended, creditedReferralIds }
 }
 
 const post = (handler: (r: NextRequest) => Promise<Response>, path: string, body: unknown, headers = {}) =>
@@ -102,6 +125,34 @@ describe('opening a checkout', () => {
     expect(res.status).toBe(400)
     expect(createFlutterwaveCheckout).not.toHaveBeenCalled()
   })
+
+  it('applies a valid referral to the server price and records its source', async () => {
+    const res = await post(initiate, '/api/payments/flutterwave/initiate', {
+      user_id: A,
+      currency: 'RWF',
+      referral_code: 'save40',
+    })
+    expect(res.status).toBe(200)
+    const charged = vi.mocked(createFlutterwaveCheckout).mock.calls[0][0]
+    expect(charged.amount).toBe(900)
+    expect(charged.meta).toMatchObject({ referral_code: 'SAVE40' })
+    expect([...store.checkouts.values()][0]).toMatchObject({
+      amount: 900,
+      base_amount: 1500,
+      discount_percentage: 40,
+      referral_code_id: 'cccccccc-cccc-4ccc-8ccc-cccccccccccc',
+    })
+  })
+
+  it('rejects unknown referral codes instead of silently charging full price', async () => {
+    const res = await post(initiate, '/api/payments/flutterwave/initiate', {
+      user_id: A,
+      currency: 'RWF',
+      referral_code: 'UNKNOWN',
+    })
+    expect(res.status).toBe(404)
+    expect(createFlutterwaveCheckout).not.toHaveBeenCalled()
+  })
 })
 
 async function openCheckout(userId: string) {
@@ -148,6 +199,16 @@ describe('confirming a payment from the success page', () => {
     const pending = await post(verify, '/api/payments/flutterwave/verify', { user_id: A, transaction_id: '83' })
     expect(pending.status).toBe(402)
     expect(store.extended).toEqual([])
+  })
+
+  it('credits a referral only after a verified successful payment and only once', async () => {
+    await post(initiate, '/api/payments/flutterwave/initiate', { user_id: A, currency: 'RWF', referral_code: 'SAVE40' })
+    const { txRef, amount } = vi.mocked(createFlutterwaveCheckout).mock.calls.at(-1)![0]
+    expect(store.creditedReferralIds).toEqual([])
+    vi.mocked(verifyTransactionById).mockResolvedValue({ status: 'successful', id: '84', txRef, amount, currency: 'RWF' })
+    await post(verify, '/api/payments/flutterwave/verify', { user_id: A, transaction_id: '84' })
+    await post(verify, '/api/payments/flutterwave/verify', { user_id: A, transaction_id: '84' })
+    expect(store.creditedReferralIds).toEqual(['cccccccc-cccc-4ccc-8ccc-cccccccccccc'])
   })
 })
 

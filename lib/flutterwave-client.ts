@@ -28,12 +28,14 @@ export async function initiateMonthlySubscription(
   userId: string,
   userEmail?: string | null,
   currency?: string,
+  referralCode?: string | null,
 ): Promise<InitiatePaymentResult> {
   const payload: Record<string, unknown> = {
     user_id: userId,
     email: userEmail ?? undefined,
     currency: (currency ?? 'USD').toUpperCase(),
     interval: 'monthly',
+    referral_code: referralCode?.trim() || undefined,
   }
 
   const res = await fetch('/api/payments/flutterwave/initiate', {

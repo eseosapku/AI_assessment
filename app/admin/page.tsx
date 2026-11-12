@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Search,
@@ -256,6 +257,12 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/admin/referrals"
+              className="rounded-xl bg-ss-accent px-3 py-2 text-[13px] font-bold text-white"
+            >
+              Referrals
+            </Link>
             {/* Only ever rendered on the measured view. Someone who does not
                 know the URL never sees it, and someone who deliberately went
                 there needs telling which figures they are reading. */}

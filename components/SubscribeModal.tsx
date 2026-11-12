@@ -39,6 +39,13 @@ type PricingQuote = {
   rateUpdatedAt: string | null
 }
 
+type AppliedReferral = {
+  code: string
+  discountPercentage: number
+  originalFormatted: string
+  formatted: string
+}
+
 const BENEFITS = [
   'Unlimited AI-generated assessments',
   'Exam prep with past-paper style questions',
@@ -61,6 +68,9 @@ export default function SubscribeModal({
   const [pricing, setPricing] = useState<PricingQuote | null>(null)
   const [pricingLoading, setPricingLoading] = useState(false)
   const [useUsdCheckout, setUseUsdCheckout] = useState(false)
+  const [referralCode, setReferralCode] = useState('')
+  const [appliedReferral, setAppliedReferral] = useState<AppliedReferral | null>(null)
+  const [applyingReferral, setApplyingReferral] = useState(false)
 
   const localCurrency = useMemo(() => currencyForCountry(userCountry), [userCountry])
   const checkoutCurrency: SubscriptionCurrency = useUsdCheckout ? 'USD' : localCurrency
@@ -71,7 +81,13 @@ export default function SubscribeModal({
     if (!open) return
     setUseUsdCheckout(false)
     setError(null)
+    setReferralCode('')
+    setAppliedReferral(null)
   }, [open, localCurrency])
+
+  useEffect(() => {
+    setAppliedReferral(null)
+  }, [checkoutCurrency])
 
   useEffect(() => {
     if (!open) return
@@ -104,6 +120,10 @@ export default function SubscribeModal({
       setError('Please log in to subscribe.')
       return
     }
+    if (referralCode.trim() && !appliedReferral) {
+      setError('Apply the referral code before continuing to checkout.')
+      return
+    }
     setStarting(true)
     setError(null)
     try {
@@ -111,6 +131,7 @@ export default function SubscribeModal({
         userId,
         userEmail,
         checkoutCurrency,
+        appliedReferral?.code,
       )
       try {
         sessionStorage.setItem('flw_pending_user_id', userId)
@@ -125,7 +146,36 @@ export default function SubscribeModal({
     }
   }
 
-  const displayPrice = pricing?.formatted ?? (checkoutCurrency === 'USD' ? `$${SUBSCRIPTION_USD.toFixed(2)}` : '…')
+  const applyReferral = async () => {
+    if (!userId) {
+      setError('Please log in to apply a referral code.')
+      return
+    }
+    if (!referralCode.trim()) {
+      setError('Enter a referral code first.')
+      return
+    }
+    setApplyingReferral(true)
+    setError(null)
+    try {
+      const response = await fetch('/api/referrals/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, code: referralCode, currency: checkoutCurrency }),
+      })
+      const body = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(body?.error || 'Could not apply referral code.')
+      setReferralCode(String(body.code))
+      setAppliedReferral(body as AppliedReferral)
+    } catch (e) {
+      setAppliedReferral(null)
+      setError(e instanceof Error ? e.message : 'Could not apply referral code.')
+    } finally {
+      setApplyingReferral(false)
+    }
+  }
+
+  const displayPrice = appliedReferral?.formatted ?? pricing?.formatted ?? (checkoutCurrency === 'USD' ? `$${SUBSCRIPTION_USD.toFixed(2)}` : '…')
   const showUsdAlternative = localCurrency !== 'USD'
 
   return (
@@ -171,6 +221,12 @@ export default function SubscribeModal({
                   </>
                 )}
               </div>
+              {appliedReferral && (
+                <p className="mt-1 text-sm text-white/75">
+                  <span className="line-through">{appliedReferral.originalFormatted}</span>
+                  <span className="ml-2 font-semibold">{appliedReferral.discountPercentage}% referral discount</span>
+                </p>
+              )}
 
             </div>
 
@@ -208,6 +264,39 @@ export default function SubscribeModal({
                       </li>
                     ))}
                   </ul>
+
+                  <div className="mb-5 rounded-2xl border border-ss-line bg-ss-chip p-4">
+                    <label htmlFor="subscription-referral-code" className="text-xs font-semibold uppercase tracking-wide text-ss-slate">
+                      Referral code
+                    </label>
+                    <div className="mt-2 flex gap-2">
+                      <input
+                        id="subscription-referral-code"
+                        value={referralCode}
+                        onChange={(event) => {
+                          setReferralCode(event.target.value.toUpperCase())
+                          setAppliedReferral(null)
+                          setError(null)
+                        }}
+                        placeholder="Enter referral code"
+                        autoComplete="off"
+                        className="min-w-0 flex-1 rounded-xl border border-ss-line bg-ss-panel px-3 py-2.5 text-sm font-semibold uppercase tracking-wide text-ss-ink outline-none focus:border-ss-accent"
+                      />
+                      <button
+                        type="button"
+                        onClick={applyReferral}
+                        disabled={applyingReferral || !referralCode.trim()}
+                        className="rounded-xl bg-[#0C74B4] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+                      >
+                        {applyingReferral ? 'Applying…' : appliedReferral ? 'Applied' : 'Apply'}
+                      </button>
+                    </div>
+                    {appliedReferral && (
+                      <p className="mt-2 text-xs font-semibold text-[color:var(--ss-good)]">
+                        {appliedReferral.code} applied — you pay {appliedReferral.formatted}.
+                      </p>
+                    )}
+                  </div>
 
                   <div className="mb-5 rounded-2xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.03] p-4">
                     <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">

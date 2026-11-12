@@ -20,6 +20,15 @@ describe('browser payment payloads', () => {
     })
   })
 
+  it('includes an applied referral code in the checkout request', async () => {
+    const fetchMock = vi.fn(async (_input: RequestInfo | URL, _init?: RequestInit) =>
+      Response.json({ checkoutUrl: 'https://pay', paymentReference: 'ref' }))
+    vi.stubGlobal('fetch', fetchMock)
+    await initiateMonthlySubscription('user-1', 'payer@example.com', 'RWF', 'SAVE40')
+    const [, init] = fetchMock.mock.calls[0]
+    expect(JSON.parse(String(init?.body))).toMatchObject({ referral_code: 'SAVE40' })
+  })
+
   it('sends both redirect identifiers to server-side verification', async () => {
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, _init?: RequestInit) => Response.json({ active: true }))
     vi.stubGlobal('fetch', fetchMock)
