@@ -17,15 +17,32 @@ export interface QueueState {
  * along it and keeps what is still to come; anything else is new work and starts
  * a new queue. Hands back the same object when nothing moved, so a re-render with
  * the burst still in the spotlight cannot rewind the learner.
+ *
+ * New work goes first, and the cards the learner had not reached yet wait behind
+ * it, where `carry` lets them. Starting afresh filed them as finished, unseen: in
+ * the owner's Respiration lesson "Go deeper" built two cards, a question on the
+ * first built one more, and the second was never shown.
  */
-export function syncQueue(queue: QueueState | null, spotlight: string[]): QueueState | null {
+export function syncQueue(queue: QueueState | null, spotlight: string[], carry: (id: string) => boolean = () => false): QueueState | null {
   if (spotlight.length === 0) return null
   if (queue && spotlight.every((id) => queue.ids.includes(id))) {
     if (spotlight.length > 1) return queue
     const at = queue.ids.indexOf(spotlight[0])
     return at === queue.at ? queue : { ...queue, at }
   }
-  return { ids: spotlight, at: 0 }
+  const behind = queue ? queue.ids.slice(queue.at + 1).filter((id) => !spotlight.includes(id) && carry(id)) : []
+  return { ids: [...spotlight, ...behind], at: 0 }
+}
+
+/**
+ * Which unreached cards may wait behind new work: those still on the board and on
+ * the same branch, the same detour or the trail itself. The trail's cards behind
+ * a detour just opened are its way back (the detour's `returnTo`), not part of it.
+ */
+export function sameBranch(detours: { id: string; cardIds: string[] }[], spotlight: string[], onBoard: ReadonlySet<string>): (id: string) => boolean {
+  const branchOf = (id: string) => detours.find((d) => d.cardIds.includes(id))?.id ?? null
+  const branch = spotlight.length > 0 ? branchOf(spotlight[0]) : null
+  return (id) => onBoard.has(id) && branchOf(id) === branch
 }
 
 export function focusOf(queue: QueueState | null): string | null {

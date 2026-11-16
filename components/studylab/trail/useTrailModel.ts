@@ -12,7 +12,7 @@ import { canRetry, freshAttempt, openLookBack, sandboxCallbacks, type LookBack }
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { KANA_TALL, planFrom } from '@/lib/studylab/trail/opening'
 import { assignBlocks, placeCards, reminderOf, trailSpotlight, type Placement } from '@/lib/studylab/trail/placement'
-import { focusOf, holdOn, pinnedFocus, syncQueue, withHold, type QueueState } from '@/lib/studylab/trail/queue'
+import { focusOf, holdOn, pinnedFocus, sameBranch, syncQueue, withHold, type QueueState } from '@/lib/studylab/trail/queue'
 import type { Size, TrailWorld } from '@/lib/studylab/trail/types'
 import type { DisplayLine } from '@/lib/studylab/trail/voice'
 
@@ -125,7 +125,8 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
   if (memory !== storedMemory) setMemory(memory)
   memoryRef.current = memory
 
-  const synced = away ? held : syncQueue(held, spotlight)
+  const onBoard = useMemo(() => new Set(nodes.filter((n) => !n.hidden).map((n) => n.id)), [nodes])
+  const synced = away ? held : syncQueue(held, spotlight, sameBranch(memory.detours, spotlight, onBoard))
   if (synced !== held) setHeld(synced)
 
   const [hold, setHold] = useState<string | null>(null)

@@ -4,7 +4,7 @@ import { blockSize } from '../blocks'
 import type { LessonRun } from '../lessonRun'
 import type { StudyNode } from '../types'
 import { cardTitle, reminderOf, assignBlocks, isTrailCard, placeCards, trailSpotlight, type PlacementInput } from './placement'
-import { focusOf, pinnedFocus, syncQueue, waitingIds } from './queue'
+import { focusOf, pinnedFocus, sameBranch, syncQueue, waitingIds } from './queue'
 import type { CardInput } from './types'
 
 const node = (id: string, step: number | undefined, over: Record<string, unknown> = {}) =>
@@ -22,6 +22,28 @@ describe('syncQueue', () => {
     const q = { ids: ['a', 'b', 'c'], at: 2 }
     expect(syncQueue(q, ['a', 'b', 'c'])).toEqual(q)
   })
+  // The owner's Respiration lesson, 2026-11-16: "Go deeper" built two cards, a
+  // question asked on the first built one more, and the second was filed as
+  // finished without ever being shown.
+  it('new work keeps the cards not reached yet waiting behind it', () =>
+    expect(syncQueue({ ids: ['a', 'b', 'c'], at: 0 }, ['z'], () => true)).toEqual({ ids: ['z', 'b', 'c'], at: 0 }))
+  it('carries only what may follow the new work', () =>
+    expect(syncQueue({ ids: ['a', 'b', 'c'], at: 0 }, ['z'], (id) => id !== 'c')).toEqual({ ids: ['z', 'b'], at: 0 }))
+  it('does not carry a card the new work already holds', () =>
+    expect(syncQueue({ ids: ['a', 'b'], at: 0 }, ['b', 'z'], () => true)).toEqual({ ids: ['b', 'z'], at: 0 }))
+  it('carries nothing without a rule', () => expect(syncQueue({ ids: ['a', 'b'], at: 0 }, ['z'])).toEqual({ ids: ['z'], at: 0 }))
+})
+
+describe('sameBranch', () => {
+  const detours = [{ id: 'd', cardIds: ['d1', 'd2', 'd3'] }]
+  const board = new Set(['m1', 'm2', 'd1', 'd2', 'd3'])
+  it('lets a detour card wait behind more of the same detour', () => expect(sameBranch(detours, ['d3'], board)('d2')).toBe(true))
+  it('keeps the trail out of a detour: those cards are its way back', () => expect(sameBranch(detours, ['d3'], board)('m1')).toBe(false))
+  it('lets a trail card wait behind more of the trail, and keeps detour cards out', () => {
+    expect(sameBranch(detours, ['m2'], board)('m1')).toBe(true)
+    expect(sameBranch(detours, ['m2'], board)('d2')).toBe(false)
+  })
+  it('drops a card no longer on the board', () => expect(sameBranch(detours, ['m2'], new Set(['m2']))('m1')).toBe(false))
 })
 
 describe('queue helpers', () => {
