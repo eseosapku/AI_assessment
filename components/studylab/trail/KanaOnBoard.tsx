@@ -7,7 +7,7 @@ import { SafeLatex } from '../canvasShared'
 import { KanaLive } from './KanaLive'
 import { flightPoint } from '@/lib/studylab/kana/poses'
 import { prefersReducedMotion } from '@/lib/studylab/motionPresets'
-import { pointSelector } from '@/lib/studylab/point'
+import { pointerTakesCamera, pointSelector } from '@/lib/studylab/point'
 import { KANA_W, restingSpot } from '@/lib/studylab/trail/opening'
 import type { Point, Rect, TrailWorld } from '@/lib/studylab/trail/types'
 import { kanaPoseFor, type BubbleLine } from '@/lib/studylab/trail/voice'
@@ -191,7 +191,13 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, inChat
   show.current = onShowCard
   const away = useRef(steppedBack)
   away.current = steppedBack
+  // What the last run of the effect saw, to tell a new pointer from a new focus.
+  const lastSeen = useRef<{ point: string; focus: string | null }>({ point: '', focus: focusId })
   useEffect(() => {
+    const point = pointNode ? `${pointNode}#${pointPart ?? ''}` : ''
+    const pointerMoved = point !== lastSeen.current.point
+    const focusMoved = focusId !== lastSeen.current.focus
+    lastSeen.current = { point, focus: focusId }
     if (!pointNode) return
     let el: Element | null = null
     const timer = setTimeout(() => {
@@ -202,7 +208,7 @@ export function KanaOnBoard({ world, focusId, line, chips, extra, hidden, inChat
       }
       el?.classList.add('ss-trail-pointed')
       const rect = cards.current[pointNode]
-      if (pointNode !== focusId && rect && !away.current) show.current(rect)
+      if (rect && pointerTakesCamera({ pointerMoved, focusMoved, pointNode, focusId, placed: true, away: !!away.current })) show.current(rect)
     }, 150)
     return () => {
       clearTimeout(timer)

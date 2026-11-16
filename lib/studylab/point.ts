@@ -34,3 +34,17 @@ export function pointSelector(nodeId: string, part?: string): string {
   const card = `.react-flow__node[data-id="${quoted(nodeId)}"]`
   return part && isValidPart(part) ? `${card} [data-part="${part}"]` : card
 }
+
+/**
+ * Whether the camera goes to what Kana points at: only when the pointing is new
+ * and the learner's card did not change with it. A turn that builds a new card
+ * and points at an older one keeps the camera on the new card, the older one
+ * glowing; and moving along the queue with a pointer still up does not fly back
+ * to it. Flying there fought the camera on its way to the new card, left it
+ * between the two, and marked the board as moved by the learner ("Back to my
+ * card") when they had not touched it.
+ */
+export function pointerTakesCamera(input: { pointerMoved: boolean; focusMoved: boolean; pointNode: string | null; focusId: string | null; placed: boolean; away: boolean }): boolean {
+  const { pointerMoved, focusMoved, pointNode, focusId, placed, away } = input
+  return !!pointNode && pointerMoved && !focusMoved && pointNode !== focusId && placed && !away
+}

@@ -1,6 +1,6 @@
 // lib/studylab/point.test.ts
 import { describe, it, expect } from 'vitest'
-import { isValidPart, pointSelector } from './point'
+import { isValidPart, pointSelector, pointerTakesCamera } from './point'
 
 describe('isValidPart -- the parts a card names', () => {
   it('takes list items, worked steps, table cells, options, pieces and slots', () => {
@@ -36,5 +36,22 @@ describe('the parts of the new question formats', () => {
   it('names a blank, a slot and a region of a diagram', () => {
     for (const part of ['blank-1', 'blank-12', 'slot-3', 'region-nucleus', 'region-optic-nerve']) expect(isValidPart(part), part).toBe(true)
     for (const part of ['blank-', 'region-', 'region-Nucleus Bad', 'region-a"b']) expect(isValidPart(part), part).toBe(false)
+  })
+})
+
+// The owner's Sonder lesson, 2026-11-16: a turn built a new card and pointed at
+// the sort before it. The camera set off for the new card, Kana's pointer sent
+// it to the sort 150 ms later, it settled between them and "Back to my card"
+// came up although the learner had not moved the board.
+describe('pointerTakesCamera', () => {
+  const base = { pointerMoved: true, focusMoved: false, pointNode: 'sort', focusId: 'card', placed: true, away: false }
+  it('goes to a card pointed at in a turn that kept the learner where they were', () => expect(pointerTakesCamera(base)).toBe(true))
+  it('stays on a new card the same turn built, and lets the pointed one glow', () => expect(pointerTakesCamera({ ...base, focusMoved: true })).toBe(false))
+  it('does not fly back to an old pointer when the learner moves along the queue', () => expect(pointerTakesCamera({ ...base, pointerMoved: false, focusMoved: true })).toBe(false))
+  it('has nowhere to go for the card already in focus, one not placed, or while looking back', () => {
+    expect(pointerTakesCamera({ ...base, pointNode: 'card' })).toBe(false)
+    expect(pointerTakesCamera({ ...base, placed: false })).toBe(false)
+    expect(pointerTakesCamera({ ...base, away: true })).toBe(false)
+    expect(pointerTakesCamera({ ...base, pointNode: null })).toBe(false)
   })
 })
