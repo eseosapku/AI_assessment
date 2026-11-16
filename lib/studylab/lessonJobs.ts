@@ -87,22 +87,37 @@ export function reasoningForJob(job: LessonJob, env: NodeJS.ProcessEnv = process
   return JOB_REASONING[job]
 }
 
-/** Where the live jobs go when Kimi is busy. On demand in eu-west-1. */
-const BUSY_FALLBACK = 'qwen.qwen3-next-80b-a3b'
+/**
+ * Where the live jobs go when Kimi K3.1 is busy. Bedrock often is short of
+ * K3.1: on 2026-11-16 it refused 5 of 30 calls, and the older Kimi K3
+ * answered all 5 at once.
+ *
+ * Blind Opus test the same day, on the live prompts:
+ * - help: Kimi K3 8/8 acceptable (7.9/10) in 4-8 s; Qwen3 Next 6/8 (4.9).
+ * - teach: K3 8/8 (7.4) but 15-21 s a turn with low thinking, too near the
+ *   24 s turn, so Qwen3 Next (6/8, 4.8) for now.
+ * - plan: K3 ran out of room at the plan's 700 tokens every time; Qwen3 Next.
+ * - check: Qwen3 Next got 22 of 23 keys right, K3 19 of 21.
+ */
+const BUSY_FALLBACK: Partial<Record<LessonJob, string>> = {
+  plan: 'qwen.qwen3-next-80b-a3b',
+  teach_beat: 'qwen.qwen3-next-80b-a3b',
+  check: 'qwen.qwen3-next-80b-a3b',
+  help: 'global.moonshotai.kimi-k3',
+}
 
 /**
- * The model a lesson job falls back to when Kimi is busy. Qwen3 Next 80B is
- * the best alternative available in the EU in the blind test, and much weaker
- * than Kimi -- but a slower answer from a weaker model beats a dead lesson, so
- * the live jobs (plan, teach_beat, help, check) take it. Overridable with
- * AWS_LESSON_FALLBACK_MODEL_ID.
+ * The model a lesson job falls back to when its own is busy: a slower or
+ * weaker answer beats a dead lesson. AWS_LESSON_FALLBACK_MODEL_ID overrides
+ * every job's.
  *
  * author and judge get none: authoring is never urgent, and a busy author just
  * fails the pass so the station runs live, which is better than a station
  * written or passed by a weaker model. Grade has its own path.
  */
 export function fallbackForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env): string | undefined {
-  if (job !== 'plan' && job !== 'teach_beat' && job !== 'help' && job !== 'check') return undefined
-  const fallback = String(env.AWS_LESSON_FALLBACK_MODEL_ID ?? '').trim() || BUSY_FALLBACK
+  const own = BUSY_FALLBACK[job]
+  if (!own) return undefined
+  const fallback = String(env.AWS_LESSON_FALLBACK_MODEL_ID ?? '').trim() || own
   return fallback === modelForJob(job, env) ? undefined : fallback
 }
