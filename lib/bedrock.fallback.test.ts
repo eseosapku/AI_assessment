@@ -80,3 +80,57 @@ describe('callGemma with a fallback model', () => {
     expect(haikuTries()).toBe(2)
   })
 })
+
+/**
+ * "Too many requests" is not a struggling model: it comes back in under a
+ * second, and the next ask often goes through. Kimi refused 5 of 12 single
+ * calls on 2026-11-15 with nothing else running; benched for a minute on the
+ * first refusal, a lesson ran almost wholly on its fallback.
+ */
+describe('a model that says too many requests', () => {
+  const KIMI = 'global.moonshotai.kimi-k3.1'
+  const QWEN = 'qwen.qwen3-next-80b-a3b'
+  const throttled = () => Object.assign(new Error('Too many requests, please wait before trying again.'), { name: 'ThrottlingException', $metadata: { httpStatusCode: 429 } })
+  const kimiTries = () => send.mock.calls.filter(([c]) => c.input.modelId.includes('kimi')).length
+  const qwenTries = () => send.mock.calls.filter(([c]) => c.input.modelId.includes('qwen')).length
+  const settle = async <T,>(p: Promise<T>) => { await vi.advanceTimersByTimeAsync(5_000); return p }
+
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['Date', 'setTimeout'] })
+    vi.setSystemTime(Date.now() + 10 * 60_000)
+  })
+
+  it('is asked once more, after a short pause, before the fallback', async () => {
+    let n = 0
+    send.mockImplementation(async (cmd: { input: { modelId: string } }) => {
+      if (cmd.input.modelId.includes('kimi') && n++ === 0) throw throttled()
+      return reply('{"from":"kimi"}')
+    })
+    await expect(settle(callGemma('p', { model: KIMI, fallbackModel: QWEN }))).resolves.toBe('{"from":"kimi"}')
+    expect(kimiTries()).toBe(2)
+    expect(qwenTries()).toBe(0)
+  })
+
+  it('hands over to the fallback when it refuses again, and is left alone for 15 seconds, not a minute', async () => {
+    send.mockImplementation(async (cmd: { input: { modelId: string } }) => {
+      if (cmd.input.modelId.includes('kimi')) throw throttled()
+      return reply('{"from":"qwen"}')
+    })
+    await expect(settle(callGemma('p', { model: KIMI, fallbackModel: QWEN }))).resolves.toBe('{"from":"qwen"}')
+    expect(kimiTries()).toBe(2)
+    await settle(callGemma('p', { model: KIMI, fallbackModel: QWEN }))
+    expect(kimiTries()).toBe(2)
+    vi.setSystemTime(Date.now() + 16_000)
+    await settle(callGemma('p', { model: KIMI, fallbackModel: QWEN }))
+    expect(kimiTries()).toBe(4)
+  })
+
+  it('is asked once more when no fallback is named, then fails as before', async () => {
+    send.mockRejectedValue(throttled())
+    // Caught before the clock moves, so the refusal is never unhandled.
+    const out = callGemma('p', { model: KIMI }).catch((e) => e)
+    await vi.advanceTimersByTimeAsync(5_000)
+    expect(await out).toMatchObject({ name: 'ThrottlingException' })
+    expect(kimiTries()).toBe(2)
+  })
+})

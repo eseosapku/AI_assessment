@@ -318,12 +318,37 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
   try {
     return await callModel(prompt, opts)
   } catch (err) {
-    if (!fallback || !isTransientModelError(err) || opts.signal?.aborted) throw err
-    BUSY_UNTIL.set(own, Date.now() + BUSY_COOLDOWN_MS)
-    console.warn(`Model busy (${(err as { name?: string }).name}); asking ${fallback}`)
+    let failure = err
+    if (isTooManyRequests(err) && !opts.signal?.aborted) {
+      await new Promise((resolve) => setTimeout(resolve, THROTTLE_PAUSE_MS + Math.random() * 800))
+      if (opts.signal?.aborted) throw abortError()
+      try {
+        return await callModel(prompt, opts)
+      } catch (again) {
+        failure = again
+      }
+    }
+    if (!fallback || !isTransientModelError(failure) || opts.signal?.aborted) throw failure
+    BUSY_UNTIL.set(own, Date.now() + (isTooManyRequests(failure) ? THROTTLE_COOLDOWN_MS : BUSY_COOLDOWN_MS))
+    console.warn(`Model busy (${(failure as { name?: string }).name}); asking ${fallback}`)
     return callModel(prompt, { ...opts, model: fallback, fallbackModel: undefined })
   }
 }
+
+/**
+ * "Too many requests" is not a struggling model. It comes back in under a
+ * second and the next ask often goes through: Kimi refused 5 of 12 single
+ * calls on 2026-11-15 with nothing else running. So it is asked once more
+ * after a short pause, and on a second refusal left alone for 15 seconds --
+ * benched for a minute on the first, a lesson ran almost wholly on its
+ * fallback.
+ */
+function isTooManyRequests(err: unknown): boolean {
+  const e = err as { name?: unknown; $metadata?: { httpStatusCode?: unknown } } | null
+  return e?.name === 'ThrottlingException' || e?.$metadata?.httpStatusCode === 429
+}
+const THROTTLE_PAUSE_MS = 600
+const THROTTLE_COOLDOWN_MS = 15_000
 
 /**
  * Models that answered busy, and until when calls with a fallback skip them.
