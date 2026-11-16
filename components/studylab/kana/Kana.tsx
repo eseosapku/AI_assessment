@@ -11,7 +11,7 @@ const BEAK_OPEN: Record<KanaBeak, number> = { closed: 0, smile: 0.25, open: 0.9 
 const SILHOUETTE = 'M200 64 C268 64 300 116 298 176 C296 230 312 270 304 314 C294 366 252 382 200 382 C148 382 106 366 96 314 C88 270 104 230 102 176 C100 116 132 64 200 64 Z'
 const EAR_L = 'M122 122 C104 98 98 70 104 48 C126 58 148 74 162 92 Z'
 const EAR_R = 'M278 122 C296 98 302 70 296 48 C274 58 252 74 238 92 Z'
-const FACE_DISC = 'M200 136 C178 104 108 106 106 168 C104 222 152 240 200 228 C248 240 296 222 294 168 C292 106 222 104 200 136 Z'
+const FACE_DISC = 'M200 136 C178 104 108 106 106 168 C104 222 152 244 200 240 C248 244 296 222 294 168 C292 106 222 104 200 136 Z'
 const WING_RAISED = 'M282 238 C318 218 350 176 360 122 C364 102 380 104 380 124 C380 140 374 150 386 158 C376 172 368 178 378 192 C356 220 324 248 290 264 Z'
 const WING_REST_R = 'M288 214 C318 252 316 306 290 338 C284 326 276 322 280 312 C270 304 266 300 272 290 C266 270 266 246 272 226 Z'
 const WING_REST_L = 'M112 214 C82 252 84 306 110 338 C116 326 124 322 120 312 C130 304 134 300 128 290 C134 270 134 246 128 226 Z'
@@ -144,9 +144,10 @@ export function Kana({ pose, size = 160, title, ...rest }: KanaProps) {
         <Eye cx={240} side="R" eyes={eyes} blinking={blinking} look={look} />
 
         {/* The beak. */}
-        <path d="M184 204 Q200 196 216 204 Q209 220 200 228 Q191 220 184 204 Z" fill={C.deep} />
-        <path d="M190 222 Q200 226 210 222 Q206 236 200 241 Q194 236 190 222 Z" fill={C.deeper} style={{ transform: `translateY(${beakOpen * 9}px)` }} />
-        {beakOpen > 0.15 && <path d={`M192 224 Q200 ${226 + beakOpen * 6} 208 224`} fill={C.ink} opacity=".55" />}
+        <path d="M191 217 Q200 221 209 217 Q206 228 200 232 Q194 228 191 217 Z" fill={C.deeper} style={{ transform: `translateY(${beakOpen * 6}px)` }} />
+        {beakOpen > 0.15 && <path d={`M192 216 Q200 ${224 + beakOpen * 12} 208 216`} fill={C.ink} opacity=".9" />}
+        <path d="M181 201 Q200 191 219 201 Q213 217 200 223 Q187 217 181 201 Z" fill={C.deep} />
+        {!simple && <path d="M190 201 Q200 196.5 210 201" stroke={C.white} strokeWidth="3.5" strokeLinecap="round" fill="none" opacity=".4" />}
 
         {/* Rounded toes. */}
         <g fill={C.deep}>
