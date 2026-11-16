@@ -103,6 +103,15 @@ describe('applyAction', () => {
     expect(callGemma).toHaveBeenCalledOnce()
   })
 
+  it('teaches at the student level, says where a coined word comes from, and asks for their own words', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Here', actions: [], suggestions: [], awaitUser: true }))
+    await applyAction({ run: lockedRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' } })
+    const p = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(p).toMatch(/secondary-school student of about 14 to 16/)
+    expect(p).toMatch(/where it comes from/)
+    expect(p).toMatch(/OWN WORDS: at least once in the lesson/)
+  })
+
   it('keeps a lesson step by step when a stale page asks for run-ahead, without calling a model', async () => {
     const result = await applyAction({
       run: lockedRun(), policy: GAP, userId: 'u1',
@@ -503,6 +512,15 @@ describe('the planning exchange', () => {
       userId: 'u1', subtopics: [], database: dbWith([]),
     })
     expect(questions).toEqual(['Exam prep or understanding?', 'Done this before?'])
+  })
+
+  it('asks the plan for the level, the word origin, and one answer in the student own words', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ steps: [{ title: 'A', goal: 'g' }] }))
+    await draftPlan({ title: 'The Concept of Sonder', subject: null, policy: GAP, userId: 'u1', subtopics: [], database: dbWith([]) })
+    const p = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(p).toMatch(/secondary-school student of about 14 to 16/)
+    expect(p).toMatch(/where it comes from/)
+    expect(p).toMatch(/answer in a sentence of their own words/)
   })
 
   it('asks for questions on a first draft and not on a re-draft', async () => {

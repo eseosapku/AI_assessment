@@ -3,6 +3,7 @@ import type { Stage } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { COMPREHENSION_CHIPS } from '@/lib/studylab/chips'
 import { fenceStudentText } from '@/lib/studylab/untrusted'
+import { AFTER_ACTIVITY_RULE } from '@/lib/studylab/teachingRules'
 import type { Explored } from '@/lib/studylab/boardSummary'
 
 /**
@@ -31,6 +32,7 @@ const NAME = [
   'STAGE: NAME IT — now name what the student just did.',
   'Emit 1 or 2 cards that build on what the student just did on the board above — the result they reached,',
   'the arrangement they made, the prediction they wrote — and give the idea its name. Connect them to it.',
+  AFTER_ACTIVITY_RULE,
   'No checkpoint this turn.',
   `End with "suggestions" set to exactly [${CHIPS}].`,
 ].join('\n')

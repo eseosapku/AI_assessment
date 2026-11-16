@@ -1,4 +1,5 @@
 // app/api/studylab/tutor/dispatch.ts
+import { LEVEL_RULE, ORIGIN_RULE, OWN_WORDS_PLAN_RULE, OWN_WORDS_TEACH_RULE } from '@/lib/studylab/teachingRules'
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
 import { modelForJob, fallbackForJob, reasoningForJob } from '@/lib/studylab/lessonJobs'
 import type { LessonPolicy } from '@/lib/studylab/lessonPolicy'
@@ -2581,6 +2582,10 @@ function buildTeachPrompt(
     struggling,
     given,
     '',
+    LEVEL_RULE,
+    ORIGIN_RULE,
+    hw ? '' : OWN_WORDS_TEACH_RULE,
+    '',
     'THE PLAN:',
     planList,
     '',
@@ -2684,6 +2689,9 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     catalogue,
     answering ? `\nTHE LEARNER SAID: ${input.answer!.trim()}\nShape the plan around that. Drop steps it makes unnecessary, add ones it calls for.` : '',
     '',
+    LEVEL_RULE,
+    ORIGIN_RULE,
+    OWN_WORDS_PLAN_RULE,
     '',
     'Also set "programming" to true ONLY if this lesson teaches writing or reading',
     'source code. A lesson that merely mentions software, or that quotes dialogue,',

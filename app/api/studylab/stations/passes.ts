@@ -1,4 +1,5 @@
 // app/api/studylab/stations/passes.ts
+import { AFTER_ACTIVITY_RULE, LEVEL_RULE, ORIGIN_RULE } from '@/lib/studylab/teachingRules'
 import { buildModelCandidates, callGemma, parseJsonRobust } from '@/lib/bedrock'
 import { modelForJob, fallbackForJob, reasoningForJob } from '@/lib/studylab/lessonJobs'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
@@ -90,6 +91,8 @@ function context(ctx: PassContext): string {
     // Found live: a naming card read "The explore item shows this".
     'The student never sees the words "explore item", "station", "stage" or "pass": in anything they read, name',
     'a thing as it appears (the slider, the sort, the bars).',
+    LEVEL_RULE,
+    ORIGIN_RULE,
   ].filter((l) => l !== '').join('\n')
 }
 
@@ -135,6 +138,7 @@ const NAME_ASK = [
   '          explore item shows when it is done, as a demonstration. Never describe a result they did not reach.',
   '  "point": the part of the explore item that shows the idea, as the board names it -- "piece-<id>" for one of',
   '          its items, "slot-<id>" for a slot -- or leave it out.',
+  '          ' + AFTER_ACTIVITY_RULE,
   'Describe only what the explore item above holds: its items, labels and answer, as they are written there.',
   '',
   'Reply with JSON only: { "card": {...}, "solved": { "say": "..." }, "helped": { "say": "...", "card": {...} },',

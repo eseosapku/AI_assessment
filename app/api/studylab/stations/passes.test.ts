@@ -183,6 +183,15 @@ describe('runPass: name', () => {
     expect(p).toMatch(/true whatever the student did/i)
   })
 
+  it('keeps the naming card from listing the answer key, and pitches it plainly', async () => {
+    replyName()
+    await runPass('name', ctx({ explore: explore as never }))
+    const p = String(call()[0])
+    expect(p).toMatch(/must NOT list which item went where/)
+    expect(p).toMatch(/secondary-school student of about 14 to 16/)
+    expect(p).toMatch(/where it comes from/)
+  })
+
   it('keeps the words the passes are briefed in off the board', async () => {
     // Found live: a naming card read "The explore item shows this".
     replyName()
