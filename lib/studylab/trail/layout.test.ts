@@ -1,6 +1,6 @@
 // lib/studylab/trail/layout.test.ts
 import { describe, it, expect } from 'vitest'
-import { trailLayout, FINISHED_W, FILED_W, FOCUS_W } from './layout'
+import { heldWorld, trailLayout, FINISHED_W, FILED_W, FOCUS_W } from './layout'
 import type { CardInput, DetourInput, PlotBox, PlotInput, PlotState, Rect, TrailLayoutInput, TrailWorld } from './types'
 
 const hit = (a: Rect, b: Rect) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h
@@ -227,4 +227,22 @@ describe('a run that does not go in a straight line', () => {
     expect(w.plots).toHaveLength(5)
     for (let i = 0; i < w.plots.length; i++) for (let j = i + 1; j < w.plots.length; j++) expect(hit(boxOf(w.plots[i]), boxOf(w.plots[j]))).toBe(false)
   })
+})
+
+// A new card was placed at a guessed size and moved again once it was measured:
+// every card, the plot and the camera moved twice, and its ring showed empty.
+describe('heldWorld', () => {
+  const place = (x: number, role: 'focus' | 'finished' = 'finished') => ({ x, y: 0, w: 100, h: 100, scale: 1, role })
+  const base = (cards: TrailWorld['cards']): TrailWorld => ({ bounds: { x: 0, y: 0, w: 1, h: 1 }, title: { x: 0, y: 0, w: 1, h: 1 }, plots: [], detours: [], tiles: [], links: [], cards, speaker: null })
+  const prev = base({ a: place(0, 'focus') })
+  const fresh = base({ a: place(500), b: place(900, 'focus') })
+
+  it('keeps the board as it was while the new focus is measured, drawing that card hidden', () => {
+    const held = heldWorld(prev, fresh, 'b', false)
+    expect(held.cards.a).toEqual(prev.cards.a)
+    expect(held.cards.b).toEqual({ ...fresh.cards.b, role: 'measuring' })
+  })
+  it('moves once the new focus is measured', () => expect(heldWorld(prev, fresh, 'b', true)).toBe(fresh))
+  it('has nothing to hold on a first board', () => expect(heldWorld(null, fresh, 'b', false)).toBe(fresh))
+  it('holds nothing for a focus the board already shows', () => expect(heldWorld(base({ a: place(0), b: place(9) }), fresh, 'b', false)).toBe(fresh))
 })

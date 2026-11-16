@@ -325,3 +325,16 @@ export function trailLayout(input: TrailLayoutInput): TrailWorld {
   const boxes: DetourBox[] = detours.map((d, i) => ({ id: d.id, station: d.station, rect: detourRects[i], open: d.focus !== null }))
   return { bounds: { x: left, y: top, w: right - left, h: bottom - top }, title, plots, detours: boxes, tiles, links, cards, speaker: spoken }
 }
+
+/**
+ * The board while a new focus card is still being measured: as it was, with the
+ * new card drawn hidden at its guessed place so it can be measured. Laid out from
+ * a guess, every card, the plot and the camera moved twice, and the new card's
+ * ring stood empty until its real size came in.
+ */
+export function heldWorld(prev: TrailWorld | null, fresh: TrailWorld, focusId: string | null, measured: boolean): TrailWorld {
+  if (measured || !prev || !focusId || prev.cards[focusId]) return fresh
+  const cards = { ...prev.cards }
+  for (const [id, place] of Object.entries(fresh.cards)) if (!cards[id]) cards[id] = { ...place, role: 'measuring' }
+  return { ...prev, cards }
+}

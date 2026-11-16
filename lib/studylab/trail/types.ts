@@ -15,7 +15,8 @@ export interface Rect extends Point, Size {}
 /** `next` is the small plot the journey goes to next: drawn in the subject colour, not yet opened. */
 export type PlotState = 'future' | 'next' | 'current' | 'done'
 
-export type CardRole = 'focus' | 'finished' | 'filed' | 'reopened'
+/** 'measuring': a new focus drawn hidden, so its real size is known before anything moves. */
+export type CardRole = 'focus' | 'finished' | 'filed' | 'reopened' | 'measuring'
 
 export interface CardInput {
   id: string

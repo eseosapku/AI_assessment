@@ -124,6 +124,14 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
     const title = cardTitle({ data: data as unknown as StudyNodeData })
     return (
       <div className="ss-trail-frame" style={{ width: place.w, height: place.h }} data-role={place.role}>
+        {/* The focus ring, scaled with the card and by the same glide, so the two
+            cannot part. Drawn from the frame's size, it trailed the card by up to a
+            tenth of a second and left a second outline beside it. Always there, so a
+            card turning into the focus brings its ring along at its own size. */}
+        <div
+          className="ss-trail-ring"
+          style={{ width: place.w / place.scale, height: place.h / place.scale, transform: `scale(${place.scale})`, '--trail-scale': place.scale } as CSSProperties}
+        />
         {place.role === 'focus' && type === 'quiz' && checkStep && <CheckStepBar step={checkStep} />}
         <div ref={scroller} className={`ss-trail-scroller${scrolls ? ' ss-trail-scrolls nowheel' : ''}`} tabIndex={scrolls ? 0 : undefined}>
         <div

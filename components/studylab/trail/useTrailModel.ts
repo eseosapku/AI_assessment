@@ -4,7 +4,7 @@ import { RIBBON_ROOM } from '@/lib/studylab/trail/camera'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useReactFlow } from '@xyflow/react'
 import type { LessonStageProps } from './stageProps'
-import { FOCUS_W, trailLayout } from '@/lib/studylab/trail/layout'
+import { FOCUS_W, heldWorld, trailLayout } from '@/lib/studylab/trail/layout'
 import { blockSize } from '@/lib/studylab/blocks'
 import { absorbTurn, backFromDetour, dueNotes, loadMemory, memoryKey, onAskAnswered, pruneMemory, saveMemory, stillNotSure as nextApproach, type Detour, type TrailMemory, type UnsureNote } from '@/lib/studylab/trail/detours'
 import { interludeFrom } from '@/lib/studylab/trail/action'
@@ -56,6 +56,9 @@ export interface TrailModel {
   sizes: Record<string, Size>
   onMeasure: (id: string, size: Size) => void
 }
+
+/** How long a new focus card may take to report its size before the board moves without it. */
+const MEASURE_WAIT_MS = 600
 
 const PARKED = "Let's park this and keep going; it often clicks after the next part."
 
@@ -269,7 +272,7 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
   }, [reopenedGone])
   const reopenedType = reopenedId ? nodes.find((n) => n.id === reopenedId)?.type : undefined
   const reopenedAt = lookBack?.at
-  const world = useMemo(
+  const fresh = useMemo(
     () =>
       trailLayout({
         stations: placement.stations,
@@ -283,6 +286,20 @@ export function useTrailModel(props: LessonStageProps, view: { focusWidth: numbe
       }),
     [placement, focusWidth, speaker, speakerH, focusRoom, memory.open, reopenedId, reopenedAt, reopenedGone, reopenedType, sizes],
   )
+  // A new focus is measured before anything moves (see heldWorld). A card that
+  // never reports a size is not waited for long.
+  const newFocus = placement.focus
+  const [gaveUp, setGaveUp] = useState<string | null>(null)
+  const measured = !newFocus || !!sizes[newFocus] || gaveUp === newFocus
+  const shownWorld = useRef<TrailWorld | null>(null)
+  const world = heldWorld(shownWorld.current, fresh, newFocus, measured)
+  if (world === fresh) shownWorld.current = fresh
+  const holdingWorld = world !== fresh
+  useEffect(() => {
+    if (!holdingWorld || !newFocus) return
+    const timer = setTimeout(() => setGaveUp(newFocus), MEASURE_WAIT_MS)
+    return () => clearTimeout(timer)
+  }, [holdingWorld, newFocus])
 
   useEffect(() => {
     if (spaceId) saveMemory(storage(), spaceId, { ...memory, queue: synced, blocks })

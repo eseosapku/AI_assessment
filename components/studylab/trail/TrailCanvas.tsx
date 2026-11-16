@@ -163,7 +163,10 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
         const where = !active || active === document.body ? 'body' : inCard === focusId ? 'card' : box.contains(active) ? 'board' : 'outside'
         if (takesArrivalFocus({ where, firstFrame: opening })) card.focus({ preventScroll: true })
       }, prefersReducedMotion() ? 0 : 480)
-    }, 120)
+      // With the cards: the board moves only once the new card is measured
+      // (heldWorld), so there is nothing to wait for, and waiting let the cards
+      // set off a tenth of a second ahead of the camera.
+    }, 0)
     return () => clearTimeout(timer)
   }, [focusId, sized, frameWork, world.plots.length, restKey, lookingBack])
 

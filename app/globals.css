@@ -423,7 +423,35 @@
    is what React Flow and the layout see. A card is one surface, not a frame in a frame. */
 .ss-trail-frame {
   position: relative;
-  transition: width 1.1s var(--trail-glide), height 1.1s var(--trail-glide);
+}
+/* The frame is the layout's box and snaps to its size: the card inside glides by
+   transform, and so does its ring (.ss-trail-ring). Its width and height used to
+   glide too, on the main thread, and the ring drawn from them fell behind the card. */
+.ss-trail-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  transition: transform 1.1s var(--trail-glide);
+}
+.ss-trail-ring::before {
+  content: '';
+  position: absolute;
+  inset: calc(-9px / var(--trail-scale));
+  border: calc(3px / var(--trail-scale)) solid var(--subject);
+  border-radius: calc(28px / var(--trail-scale));
+  box-shadow: 0 0 0 calc(7px / var(--trail-scale)) color-mix(in srgb, var(--subject) 16%, transparent), 0 calc(30px / var(--trail-scale)) calc(64px / var(--trail-scale)) calc(-22px / var(--trail-scale)) color-mix(in srgb, var(--subject) 60%, transparent);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.ss-trail-frame[data-role='focus'] > .ss-trail-ring::before,
+.ss-trail-frame[data-role='reopened'] > .ss-trail-ring::before {
+  opacity: 1;
+}
+/* A new focus, drawn hidden to be measured before the board moves (heldWorld). */
+.ss-trail-frame[data-role='measuring'] {
+  visibility: hidden;
 }
 .ss-trail-scroller {
   position: absolute;
@@ -973,21 +1001,11 @@
 
 /* The card at work stands out: a ring in the lesson's colour with light behind it,
    and everything finished steps back until you reach for it. */
-.ss-trail-frame[data-role='focus']::before,
-.ss-trail-frame[data-role='reopened']::before {
-  content: '';
-  position: absolute;
-  inset: -9px;
-  border: 3px solid var(--subject);
-  border-radius: 28px;
-  box-shadow: 0 0 0 7px color-mix(in srgb, var(--subject) 16%, transparent), 0 30px 64px -22px color-mix(in srgb, var(--subject) 60%, transparent);
-  pointer-events: none;
-}
 .ss-trail-frame[data-role='finished'],
 .ss-trail-frame[data-role='filed'] {
   opacity: 0.55;
   filter: saturate(0.6);
-  transition: width 1.1s var(--trail-glide), height 1.1s var(--trail-glide), opacity 0.2s, filter 0.2s;
+  transition: opacity 0.2s, filter 0.2s;
 }
 .ss-trail-frame[data-role='finished']:hover,
 .ss-trail-frame[data-role='filed']:hover {
@@ -1470,6 +1488,8 @@
 @media (prefers-reduced-motion: reduce) {
   .ss-trail .react-flow .react-flow__node,
   .ss-trail-frame,
+  .ss-trail-ring,
+  .ss-trail-ring::before,
   .ss-trail-card,
   .ss-trail-plot,
   .ss-trail-plot-shape,
