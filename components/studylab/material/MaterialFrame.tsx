@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { motionFor } from '@/lib/studylab/motionPresets'
 import { MATERIAL_BOX } from '@/lib/studylab/material/fit'
 import type { Group, MaterialSpec } from '@/lib/studylab/material/types'
+import type { GroupLayout } from '@/lib/studylab/material/sortLayout'
 
 export function MaterialFrame({
   spec,
@@ -15,6 +16,9 @@ export function MaterialFrame({
   controls,
   says,
   solved = false,
+  layout = 'columns',
+  holding = false,
+  onGroupTap,
 }: {
   spec: MaterialSpec
   displays?: ReactNode
@@ -25,10 +29,13 @@ export function MaterialFrame({
   says?: string[]
   /** Solved: every group closes, a lid with a tick dropping over it. */
   solved?: boolean
+  /** 'rows' stacks the bins full width, for sentences; 'columns' is the compact side-by-side. */
+  layout?: GroupLayout
+  /** An item is picked up by tap, so every bin is a place to put it. */
+  holding?: boolean
+  onGroupTap?: (group: Group) => void
 }) {
   const reduced = useReducedMotion() ?? false
-  const zoneMax = MATERIAL_BOX.slotPx * MATERIAL_BOX.maxRows
-    + MATERIAL_BOX.slotGapPx * Math.max(0, MATERIAL_BOX.maxRows - 1)
 
   return (
     <div
@@ -36,17 +43,21 @@ export function MaterialFrame({
       style={{
         width: MATERIAL_BOX.widthPx,
         maxWidth: MATERIAL_BOX.widthPx,
-        maxHeight: MATERIAL_BOX.heightPx,
-        overflow: 'hidden',
       }}
     >
       {displays}
-      <div className="flex min-h-0 flex-1" style={{ gap: MATERIAL_BOX.gridGapPx }}>
+      <div className={layout === 'rows' ? 'flex flex-col' : 'flex'} style={{ gap: MATERIAL_BOX.gridGapPx }}>
         {spec.groups.map((group) => (
           <div
             key={group.id}
-            className="relative min-w-0 flex-1 rounded-lg border-2 p-2 transition-colors duration-200 motion-reduce:transition-none"
-            style={{ borderColor: solved ? 'var(--ss-good)' : 'var(--ss-line)', backgroundColor: 'var(--ss-canvas)' }}
+            data-group={group.id}
+            onClick={holding && onGroupTap ? () => onGroupTap(group) : undefined}
+            className={`relative min-w-0 rounded-lg border-2 p-2 transition-colors duration-200 motion-reduce:transition-none ${layout === 'rows' ? 'w-full' : 'flex-1'} ${holding ? 'cursor-pointer' : ''}`}
+            style={{
+              borderColor: solved ? 'var(--ss-good)' : holding ? 'var(--ss-accent)' : 'var(--ss-line)',
+              borderStyle: holding && !solved ? 'dashed' : 'solid',
+              backgroundColor: 'var(--ss-canvas)',
+            }}
           >
             <div className="mb-1.5 flex items-center gap-1.5 text-[12px] font-bold text-ss-ink">
               <SafeLatex>{group.label}</SafeLatex>
@@ -62,12 +73,7 @@ export function MaterialFrame({
                 </motion.span>
               )}
             </div>
-            <div
-              className="nowheel min-h-0 overflow-y-auto"
-              style={{ maxHeight: zoneMax }}
-            >
-              {groups(group)}
-            </div>
+            <div>{groups(group)}</div>
           </div>
         ))}
       </div>

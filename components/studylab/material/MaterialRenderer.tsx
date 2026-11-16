@@ -15,6 +15,7 @@ import { DisplayView } from './DisplayView'
 import { MaterialFrame } from './MaterialFrame'
 import { PieceChip } from './PieceChip'
 import { SlotTarget } from './SlotTarget'
+import { chooseGroupLayout, isPlainSort, resolveTap } from '@/lib/studylab/material/sortLayout'
 import { ConditionList } from '@/components/studylab/check/ConditionList'
 import type { Condition } from '@/lib/studylab/activities/conditions'
 
@@ -105,6 +106,36 @@ export function MaterialRenderer({
 
   const drag = useActivityDrag(place)
 
+  // Tap to place: pick an item up, then tap a bin. Phones have no drag.
+  const [held, setHeld] = useState<string | null>(null)
+  const layout = chooseGroupLayout(spec)
+  const roomy = isPlainSort(spec)
+  const wide = layout === 'rows'
+  const tapPiece = (pieceId: string) => {
+    const placed = state.placement[pieceId] !== undefined
+    const r = resolveTap(held, { kind: 'piece', id: pieceId, placed })
+    if (r.type === 'select') setHeld(r.pieceId)
+    else if (r.type === 'unplace') {
+      const placement = { ...state.placement }
+      delete placement[pieceId]
+      const next: MaterialState = { ...state, placement }
+      setState({ ...next, status: tick(spec, next).solved ? 'solved' : 'in_progress' })
+      playSound('drop')
+    }
+  }
+  const tapSlot = (slotId: string) => {
+    const r = resolveTap(held, { kind: 'slot', id: slotId })
+    if (r.type !== 'place') return
+    setHeld(null)
+    place(r.pieceId, r.slotId)
+  }
+  const tapGroup = (group: { id: string }) => {
+    const slots = spec.slots.filter((s) => s.groupId === group.id)
+    const free = slots.find((s) => Object.values(state.placement).filter((v) => v === s.id).length < s.capacity)
+    const target = free ?? slots[0]
+    if (target) tapSlot(target.id)
+  }
+
   const pieceView = (piece: Piece) => (
     <PieceChip
       key={piece.id}
@@ -112,6 +143,9 @@ export function MaterialRenderer({
       dragging={drag.dragId === piece.id}
       dragProps={drag.itemProps(piece.id, slotIds)}
       wrong={wrongIds.includes(piece.id)}
+      wide={wide}
+      selected={held === piece.id}
+      onTap={() => tapPiece(piece.id)}
     />
   )
 
@@ -157,7 +191,7 @@ export function MaterialRenderer({
           groups={(group) => (
             <div className="flex flex-wrap content-start items-start gap-1.5">
               {spec.slots.filter((slot) => slot.groupId === group.id).map((slot) => (
-                <SlotTarget key={slot.id} slot={slot} hot={drag.overId === slot.id}>
+                <SlotTarget key={slot.id} slot={slot} hot={drag.overId === slot.id} roomy={roomy} stack={wide} onTap={held ? () => tapSlot(slot.id) : undefined}>
                   {spec.pieces
                     .filter((piece) => state.placement[piece.id] === slot.id)
                     .map(pieceView)}
@@ -166,7 +200,7 @@ export function MaterialRenderer({
             </div>
           )}
           pool={unplaced.length ? (
-            <div className="flex min-h-[30px] flex-wrap gap-1.5">
+            <div className={wide ? 'flex flex-col gap-1.5' : 'flex min-h-[30px] flex-wrap gap-1.5'}>
               {unplaced.map(pieceView)}
             </div>
           ) : undefined}
@@ -184,6 +218,9 @@ export function MaterialRenderer({
           ) : undefined}
           says={result.says}
           solved={solvedProp ?? result.solved}
+          layout={layout}
+          holding={held !== null}
+          onGroupTap={tapGroup}
         />
         {conditions.length > 0 && (
           <div className="mt-2.5">
