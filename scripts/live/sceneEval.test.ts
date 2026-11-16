@@ -54,7 +54,7 @@ const SUBJECT: Record<string, string> = {
   orbit: 'Physics', particles: 'Chemistry', atom: 'Chemistry', bonding: 'Chemistry', 'lab-bench': 'Chemistry',
   'coordinate-plane': 'Mathematics', 'body-flow': 'Biology', 'cause-chain': 'History',
   'algebra-tiles': 'Mathematics', 'food-web': 'Biology', 'supply-demand': 'Economics', 'business-finance': 'Business Studies',
-  ledger: 'Accounting', 'counters-place-value': 'Mathematics', 'algorithm-tracer': 'Computer Science', 'measure-shape': 'Mathematics', 'stats-explorer': 'Mathematics', 'sets-logic': 'Mathematics', 'circle-theorems': 'Mathematics', electrolysis: 'Chemistry', magnetism: 'Physics', forces: 'Physics', 'geometry-construction': 'Mathematics',
+  ledger: 'Accounting', 'counters-place-value': 'Mathematics', 'algorithm-tracer': 'Computer Science', 'measure-shape': 'Mathematics', 'stats-explorer': 'Mathematics', 'sets-logic': 'Mathematics', 'immune-response': 'Biology', 'loci-constructions': 'Mathematics', 'nerve-impulses': 'Biology', 'circle-theorems': 'Mathematics', electrolysis: 'Chemistry', magnetism: 'Physics', forces: 'Physics', 'geometry-construction': 'Mathematics',
 }
 
 const DIMENSIONS = ['valid', 'solvable', 'unsolvedStart', 'noSelfAnswer', 'noAnswerVisible', 'picturesFit', 'noOverlap', 'changes', 'promptTrue', 'clear'] as const
