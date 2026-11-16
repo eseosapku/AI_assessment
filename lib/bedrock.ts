@@ -44,6 +44,9 @@ export type ReasoningEffort = 'none' | 'low' | 'medium' | 'high'
 /** Thinking tokens count against max_tokens; the caller's budget is for the answer. */
 export const REASONING_HEADROOM_TOKENS = 3000
 
+/** How many times the answer budget Kimi K3 gets (see buildInvokeBody). */
+const KIMI_K3_ROOM = 3
+
 /** Only these families accept `reasoning_effort`; every other body must not carry it. */
 export function takesReasoningEffort(modelId: string): boolean {
   return /^(moonshotai\.kimi|openai\.gpt-oss|minimax\.)/.test(stripPrefix(modelId))
@@ -191,7 +194,10 @@ export function buildInvokeBody(
   }
   // mistral, google (gemma), nvidia, openai on Bedrock — OpenAI-style messages.
   const reasoning: Record<string, unknown> = {}
-  let budget = maxTokens
+  // Kimi K3 (not K3.1) says the same in more words: at a lesson plan's 700
+  // tokens all eight of its plans were cut off, at 1300 two of eight, at 2100
+  // none (2026-11-16). Its quota is 10M tokens a minute, so the room is cheap.
+  let budget = m === 'moonshotai.kimi-k3' ? maxTokens * KIMI_K3_ROOM : maxTokens
   if (reasoningEffort && takesReasoningEffort(modelId)) {
     reasoning.reasoning_effort = reasoningEffort
     if (reasoningEffort !== 'none') budget += REASONING_HEADROOM_TOKENS

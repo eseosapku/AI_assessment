@@ -87,3 +87,17 @@ describe('the checker body for a non-Anthropic model', () => {
     expect(b.anthropic_version).toBeUndefined()
   })
 })
+
+// Kimi K3 says the same in more words: at a plan's 700 tokens all eight of its
+// plans were cut off, at 1300 two of eight, at 2100 none (2026-11-16).
+describe('room for Kimi K3', () => {
+  it('gets three times the answer budget', () => {
+    expect(JSON.parse(buildInvokeBody('global.moonshotai.kimi-k3', 'Plan', 700, 0.4, undefined, 'none')).max_tokens).toBe(2100)
+  })
+  it('keeps the thinking headroom on top', () => {
+    expect(JSON.parse(buildInvokeBody('global.moonshotai.kimi-k3', 'Help', 700, 0.4, undefined, 'low')).max_tokens).toBe(5100)
+  })
+  it('is not given to Kimi K3.1', () => {
+    expect(JSON.parse(buildInvokeBody('global.moonshotai.kimi-k3.1', 'Plan', 700, 0.4, undefined, 'none')).max_tokens).toBe(700)
+  })
+})

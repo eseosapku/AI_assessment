@@ -66,8 +66,13 @@ describe('modelForJob', () => {
 })
 
 describe('fallbackForJob', () => {
-  it('hands plan, teach and check to Qwen3 Next when Kimi is busy', () => {
-    for (const job of ['plan', 'teach_beat', 'check'] as const) expect(fallbackForJob(job, {} as never), job).toBe('qwen.qwen3-next-80b-a3b')
+  it('hands teach and check to Qwen3 Next when Kimi is busy', () => {
+    for (const job of ['teach_beat', 'check'] as const) expect(fallbackForJob(job, {} as never), job).toBe('qwen.qwen3-next-80b-a3b')
+  })
+  // Given room, Kimi K3's plans were the best of three in a blind Opus test
+  // (7.9/10, against Qwen3 Next's 4.9 with a false fact), in 5-11 s.
+  it('hands plan to Kimi K3', () => {
+    expect(fallbackForJob('plan', {} as never)).toBe('global.moonshotai.kimi-k3')
   })
   // Blind Opus test, 2026-11-16: Kimi K3 hints 8/8 acceptable (7.9/10) against
   // Qwen3 Next 6/8 (4.9), in 4-8 s, and answered every time K3.1 was refused.

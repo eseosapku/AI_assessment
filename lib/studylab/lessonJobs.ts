@@ -94,13 +94,15 @@ export function reasoningForJob(job: LessonJob, env: NodeJS.ProcessEnv = process
  *
  * Blind Opus test the same day, on the live prompts:
  * - help: Kimi K3 8/8 acceptable (7.9/10) in 4-8 s; Qwen3 Next 6/8 (4.9).
- * - teach: K3 8/8 (7.4) but 15-21 s a turn with low thinking, too near the
- *   24 s turn, so Qwen3 Next (6/8, 4.8) for now.
- * - plan: K3 ran out of room at the plan's 700 tokens every time; Qwen3 Next.
+ * - plan: given room (buildInvokeBody gives K3 three times the budget), K3
+ *   7.9/10 in 5-11 s, against Qwen3 Next 5/8 (4.9) with a false fact. One
+ *   K3 reply in 8 did not parse, and an unparsed plan asks the learner again.
+ * - teach: K3 8/8 (7.4) but 15-21 s a turn with low thinking, and 3 of 8
+ *   turns past 24 s with it off; the turn has 24 s, so Qwen3 Next (6/8, 4.8).
  * - check: Qwen3 Next got 22 of 23 keys right, K3 19 of 21.
  */
 const BUSY_FALLBACK: Partial<Record<LessonJob, string>> = {
-  plan: 'qwen.qwen3-next-80b-a3b',
+  plan: 'global.moonshotai.kimi-k3',
   teach_beat: 'qwen.qwen3-next-80b-a3b',
   check: 'qwen.qwen3-next-80b-a3b',
   help: 'global.moonshotai.kimi-k3',
