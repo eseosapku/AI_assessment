@@ -3,7 +3,7 @@
 import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import type { SequencePayload } from '@/lib/studylab/activities/types'
-import { getApparatus } from '@/lib/studylab/material/canon'
+import { legacyMaterial } from '@/lib/studylab/material/canon/legacyMaterial'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
 import { sortAdapter, sequenceAdapter, compareAdapter } from '@/components/studylab/material/adapters'
 import { CardFrame } from '../canvasShared'
@@ -38,7 +38,7 @@ export function ActivityNode({ id, data }: NodeProps) {
   }
   switch (spec.pattern) {
     case 'sort': {
-      const material = getApparatus('sorting-frame')?.legacy?.fromLegacy(
+      const material = legacyMaterial('sorting-frame',
         spec.payload,
         spec.success,
       )
@@ -77,7 +77,7 @@ export function ActivityNode({ id, data }: NodeProps) {
     case 'sequence': {
       // Steps written out do not fit the track's narrow columns: clipped mid-word, they cannot be read.
       const wordy = (spec.payload as SequencePayload).items.some((item) => item.label.length > TRACK_LABEL_MAX)
-      const material = wordy ? null : getApparatus('ordering-track')?.legacy?.fromLegacy(
+      const material = wordy ? null : legacyMaterial('ordering-track',
         spec.payload,
         spec.success,
       )
@@ -103,7 +103,7 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'compare': {
-      const material = getApparatus('venn-sets')?.legacy?.fromLegacy(
+      const material = legacyMaterial('venn-sets',
         spec.payload,
         spec.success,
       )
