@@ -22,7 +22,8 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"geography.{c}" for c in ("map-reading-and-interpretation", "topographic-maps", "map-skills-measurement"))
 AVOID = r"exam-style|^introduction$"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"map|grid reference|direction|bearing|location|topographic"
+# P6: IGCSE "Part B: Geographical Skills" lists only its 1:25 000 and 1:50 000 map extracts as sections.
+NEEDS = r"map|grid reference|direction|bearing|location|topographic|geographical skills"
 SYMBOLS = {"school": ("s", "#1a1a1a"), "church": ("P", "#1a1a1a"), "health centre": ("o", "#d62728"),
            "market": ("^", "#1f77b4"), "water point": ("D", "#1f77b4"), "mosque": ("*", "#2a7a3a")}
 POINTS = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"]

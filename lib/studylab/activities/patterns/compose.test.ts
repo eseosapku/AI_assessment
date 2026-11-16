@@ -1,6 +1,6 @@
 // lib/studylab/activities/patterns/compose.test.ts
 import { describe, it, expect } from 'vitest'
-import { composeModule, joinCount, joinId } from './compose'
+import { composeModule, isAlgebra, joinCount, joinId } from './compose'
 import type { ComposePayload } from '../types'
 
 const payload: ComposePayload = {
@@ -163,5 +163,39 @@ describe('composeModule', () => {
         }),
       ).toBe(false)
     })
+  })
+})
+
+describe('a build a learner can actually finish', () => {
+  const parts = [{ id: 'x1', label: 'x', slots: 2 }, { id: 'x2', label: 'x', slots: 2 }, { id: 'three1', label: '3', slots: 2 }, { id: 'three2', label: '3', slots: 2 }]
+  const payload = { parts, validJoins: [{ a: 'x', b: '3' }, { a: 'x', b: 'x' }], target: { label: 'T' } }
+  it('refuses a rule that joins a part to itself', () => {
+    expect(composeModule.canBeMet!(payload, { kind: 'exactSet', itemIds: ['x1-x1'] })).toBe(false)
+  })
+  it('refuses a rule that names a pair no one may join', () => {
+    expect(composeModule.canBeMet!(payload, { kind: 'exactSet', itemIds: ['three1-three2'] })).toBe(false)
+  })
+  it('refuses a rule that asks more of a part than its slots', () => {
+    const tight = { ...payload, parts: parts.map((p) => ({ ...p, slots: 1 })) }
+    expect(composeModule.canBeMet!(tight, { kind: 'exactSet', itemIds: ['three1-x1', 'three2-x1'] })).toBe(false)
+  })
+  it('passes the water molecule', () => {
+    const water = { parts: [{ id: 'h1', label: 'H', slots: 1 }, { id: 'h2', label: 'H', slots: 1 }, { id: 'o1', label: 'O', slots: 2 }], validJoins: [{ a: 'H', b: 'O' }], target: { label: 'Water' } }
+    expect(composeModule.canBeMet!(water, { kind: 'exactSet', itemIds: ['h1-o1', 'h2-o1'] })).toBe(true)
+  })
+  it('marks by what was built: parts with one name are interchangeable', () => {
+    const rule = { kind: 'exactSet', itemIds: ['three1-x1', 'three2-x2'] } as const
+    expect(composeModule.validate(payload, { joins: [['x1', 'three2'], ['x2', 'three1']] }, rule).ok).toBe(true)
+    expect(composeModule.validate(payload, { joins: [['x1', 'x2'], ['x2', 'three1']] }, rule).ok).toBe(false)
+  })
+})
+
+describe('algebra is not bonding', () => {
+  const withLabels = (...labels: string[]) => ({ parts: labels.map((label, i) => ({ id: `p${i}`, label, slots: 2 })), validJoins: [{ a: labels[0], b: labels[1] }], target: { label: 'T' } })
+  it('refuses terms and numbers, however they are written', () => {
+    for (const labels of [['x', '3'], ['$x$', '$5$'], ['x^2', 'y'], ['$5x$', 'y'], ['x\u00b2', 'y'], ['2.5', 'y']]) expect(isAlgebra(withLabels(...labels))).toBe(true)
+  })
+  it('leaves atoms, ions and components alone', () => {
+    for (const labels of [['H', 'O'], ['Na', 'Cl'], ['resistor', 'battery'], ['C', 'H'], ['Fe3+', 'O2-']]) expect(isAlgebra(withLabels(...labels))).toBe(false)
   })
 })

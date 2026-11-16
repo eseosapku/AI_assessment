@@ -1,6 +1,7 @@
 import type { PatternModule, SuccessRule, ValidateResult, VaryPayload } from '../types'
 import { evaluateSuccess } from '../success'
 import { evaluateExpr } from '../expr'
+import { assetUrl } from '../assetCatalog'
 
 export interface VaryWork { value: number }
 
@@ -32,6 +33,53 @@ export function computeReadouts(payload: VaryPayload, value: number): VaryReadou
 /** Evaluate one model expression, or null if it is unusable. */
 export function modelValue(payload: VaryPayload, expr: string, value: number): number | null {
   return evaluateExpr(expr, { [payload.variable.id]: value })
+}
+
+/**
+ * A unit after its number, in the singular when the number is 1: "1 unit",
+ * "1 square unit". Only a plural word is changed; "cm" and "s" stay.
+ */
+export function unitAfter(value: number, unit?: string): string {
+  if (!unit) return ''
+  const one = value === 1 && unit.length > 3 && /[^s]s$/.test(unit) ? unit.slice(0, -1) : unit
+  return ` ${one}`
+}
+
+/**
+ * Each bar read out: its value now, in the unit of the readout of the same
+ * name. A bar showed only a height, and a height with no number and no unit
+ * says nothing about the river it stands for.
+ */
+export function barReadings(payload: VaryPayload, value: number): VaryReadout[] {
+  if (payload.model.kind !== 'bars') return []
+  const units = new Map(payload.readouts.map((r) => [r.label.trim().toLowerCase(), r.unit]))
+  const out: VaryReadout[] = []
+  for (const bar of payload.model.bars) {
+    const v = modelValue(payload, bar.expr, value)
+    if (v === null) continue
+    const unit = units.get(bar.label.trim().toLowerCase())
+    out.push({ label: bar.label, value: v, ...(unit ? { unit } : {}) })
+  }
+  return out
+}
+
+/** The readouts no bar already says: a bar now carries its own reading. */
+export function extraReadouts(payload: VaryPayload, value: number): VaryReadout[] {
+  const onBars = payload.model.kind === 'bars' ? new Set(payload.model.bars.map((b) => b.label.trim().toLowerCase())) : new Set<string>()
+  return computeReadouts(payload, value).filter((r) => !onBars.has(r.label.trim().toLowerCase()))
+}
+
+/** What the learner is asked to reach. Without it, Check marks a goal nothing on the card states. */
+export function goalOf(payload: VaryPayload): { label: string; value: number } | null {
+  const target = payload.target
+  if (!target) return null
+  const shown = [...payload.readouts, ...(payload.model.kind === 'bars' ? payload.model.bars : [])]
+  return { label: shown.find((r) => r.expr === target.expr)?.label ?? payload.variable.label, value: target.value }
+}
+
+/** The picture of the thing the slider changes, from the catalogue only; nothing for any other name. */
+export function sceneUrl(payload: VaryPayload): string | null {
+  return typeof payload.scene === 'string' ? assetUrl(payload.scene) : null
 }
 
 const finite = (n: unknown): boolean => typeof n === 'number' && Number.isFinite(n)
@@ -82,6 +130,20 @@ export const varyModule: PatternModule<VaryPayload, VaryWork> = {
   },
 
   validate(payload, work, success: SuccessRule): ValidateResult {
+    // Marked on what the learner watches when the card names it: the target's
+    // reading at this slider position. A card marked on the slider's own value
+    // counted the Moon as solved at 45 degrees of slider, whatever it showed.
+    // Within half a step's change of the reading, so a target between two
+    // positions can still be reached.
+    const t = payload.target
+    if (t && typeof t.expr === 'string' && Number.isFinite(t.value)) {
+      const step = positive(payload.variable.step) ? payload.variable.step : 1
+      const here = modelValue(payload, t.expr, work.value)
+      const next = modelValue(payload, t.expr, Math.min(work.value + step, payload.variable.max))
+      const slack = here !== null && next !== null ? Math.abs(next - here) / 2 : 0
+      const ok = here !== null && Math.abs(here - t.value) <= Math.max(t.tolerance, slack)
+      return { ok, wrongIds: [] }
+    }
     // Defence in depth: a `numericWithin` rule with a tolerance tighter than
     // half the slider's step is often unreachable — the student can only ever
     // land ON a step boundary, and the target may sit between two of them.

@@ -2,6 +2,7 @@
 import { db as defaultDb, type Database } from '@/lib/db'
 import { GAP_THRESHOLD } from '@/lib/admin/gap-metrics'
 import type { LessonStep } from './lessonRun'
+import { readLatest } from './mastery-latest'
 
 /**
  * Marks the steps a measurement says the learner is weak on.
@@ -25,7 +26,7 @@ export async function applyLocks(
 
   try {
     const { rows } = await database.query(
-      `SELECT subtopic_id, accuracy
+      `SELECT *
          FROM topic_mastery
         WHERE user_id = $1
           AND subtopic_id = ANY($2::int[])
@@ -36,7 +37,10 @@ export async function applyLocks(
 
     const measured = new Map<number, number>()
     for (const r of rows as Record<string, unknown>[]) {
-      measured.set(Number(r.subtopic_id), Number(r.accuracy))
+      // Judge on the latest attempt, not the running average. Rows without
+      // `attempts` (older shapes) are treated as measured.
+      const { score } = readLatest({ attempts: 1, ...r })
+      if (score !== null) measured.set(Number(r.subtopic_id), score)
     }
 
     return steps.map((step) => {

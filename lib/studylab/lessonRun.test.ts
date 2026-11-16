@@ -3,8 +3,8 @@ import { describe, it, expect } from 'vitest'
 import { policyFor } from './lessonPolicy'
 import {
   emptyRun, proposePlan, acceptPlan, editPlan, nextBeat, beginCheck,
-  passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stop, finish, measuredBefore,
-  type LessonRun, type LessonStep,
+  passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stepPaced, stop, finish, measuredBefore,
+  stageOf, type LessonRun, type LessonStep,
 } from './lessonRun'
 
 const GAP = policyFor('gap')
@@ -39,13 +39,10 @@ describe('emptyRun', () => {
     expect(run.currentStep).toBe(-1)
   })
 
-  it('takes its starting pace from the policy', () => {
-    // Remediation and homework open step-by-step; browsing a topic opens
-    // running. Homework moved: at "run ahead" a step is built in one turn, and
-    // a homework step is a question the learner has to hand in.
+  it('opens every kind of lesson step by step -- run-ahead is gone', () => {
     expect(emptyRun(GAP).pace).toBe('step')
     expect(emptyRun(policyFor('homework')).pace).toBe('step')
-    expect(emptyRun(policyFor('scratch')).pace).toBe('run')
+    expect(emptyRun(policyFor('scratch')).pace).toBe('step')
   })
 })
 
@@ -227,10 +224,18 @@ describe('invariants', () => {
 })
 
 describe('setPace and stop', () => {
-  it('changes pace without disturbing anything else', () => {
+  it('keeps every lesson step by step: there is one pace now, whatever is asked for', () => {
     const run = unwrap(setPace(teaching(GAP), 'run'))
-    expect(run.pace).toBe('run')
+    expect(run.pace).toBe('step')
     expect(run.currentStep).toBe(0)
+  })
+
+  it('moves a lesson stored at run-ahead pace to step by step when it is read', () => {
+    const stored = { ...teaching(GAP), pace: 'run' as const }
+    expect(stepPaced(stored).pace).toBe('step')
+    expect(stepPaced(stored).currentStep).toBe(stored.currentStep)
+    const already = teaching(GAP)
+    expect(stepPaced(already)).toBe(already)
   })
 
   it('marks the run as awaiting the learner', () => {
@@ -547,5 +552,103 @@ describe('where the student stood before the lesson', () => {
   it('is nothing when no step was measured', () => {
     expect(measuredBefore({ ...emptyRun(policyFor('gap')), steps: [step('a')] })).toBeNull()
     expect(measuredBefore(null)).toBeNull()
+  })
+})
+
+describe('stations', () => {
+  it('starts a new lesson on the station recipe, at explore', () => {
+    const run = teaching()
+    expect(run.recipe).toBe('station')
+    expect(run.stage).toBe('explore')
+    expect(stageOf(run)).toBe('explore')
+  })
+
+  it('walks a station: explore, name it, practice, check -- and holds at check', () => {
+    let run = teaching()
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('name')
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('practice')
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('check')
+    run = unwrap(nextBeat(run))
+    expect(run.stage).toBe('check')
+  })
+
+  it('is at check while a check is open, at practice after missing it, and starts the next station at explore', () => {
+    const run = teaching()
+    const open = unwrap(beginCheck(run, 'a', 'cp-a', 'checkpoint', 'hard'))
+    expect(open.stage).toBe('check')
+    expect(unwrap(failCheck(open, ['q'])).stage).toBe('practice')
+    const passed = unwrap(passCheck(open))
+    expect(passed.currentStep).toBe(1)
+    expect(passed.stage).toBe('explore')
+  })
+
+  it('leaves the current station alone during a test-out of another step', () => {
+    const run = unwrap(nextBeat(teaching(OPEN)))
+    expect(run.stage).toBe('name')
+    const testing = unwrap(requestTestOut(run, 'c', 'to-c', OPEN))
+    expect(testing.stage).toBe('name')
+    expect(unwrap(passCheck(testing)).stage).toBe('name')
+    // Missing it teaches that step from the start: it was never taught.
+    const missed = unwrap(failCheck(testing, []))
+    expect(missed.currentStep).toBe(2)
+    expect(missed.stage).toBe('explore')
+  })
+
+  it('starts at explore on a step jumped to', () => {
+    const run = unwrap(nextBeat(teaching()))
+    expect(unwrap(jumpTo(run, 'c', GAP)).stage).toBe('explore')
+  })
+
+  it('leaves a lesson saved before stations exactly as it was', () => {
+    // An old run: no recipe. Every transition must leave it without one.
+    const { recipe: _r, stage: _s, ...old } = teaching()
+    let run: LessonRun = old
+    run = unwrap(nextBeat(run))
+    expect(run.recipe).toBeUndefined()
+    expect(run.stage).toBeUndefined()
+    const open = unwrap(beginCheck(run, 'a', 'cp-a', 'checkpoint', 'hard'))
+    expect(open.stage).toBeUndefined()
+    expect(unwrap(failCheck(open, [])).stage).toBeUndefined()
+    expect(unwrap(passCheck(open)).stage).toBeUndefined()
+    expect(stageOf(run)).toBeNull()
+  })
+})
+
+describe('final review: stations hold their place', () => {
+  it('keeps the stage when the learner clicks the station they are on (I1)', () => {
+    const atPractice = unwrap(nextBeat(unwrap(nextBeat(teaching()))))
+    expect(atPractice.stage).toBe('practice')
+    expect(unwrap(jumpTo(atPractice, 'a', GAP)).stage).toBe('practice')
+  })
+
+  it('has no stage on a homework step -- a question they were set is not explored from scratch (I2)', () => {
+    const hw = teaching(OPEN, [step('q1', { homework: { label: 'Q1' } as LessonStep['homework'] })])
+    expect(stageOf(hw)).toBeNull()
+    expect(stageOf(unwrap(nextBeat(unwrap(nextBeat(hw)))))).toBeNull()
+  })
+
+  it('goes back to name it, a different way, after the second missed check on a station (I4)', () => {
+    const check = (run: LessonRun) => {
+      const b = beginCheck(run, 'a', `cp-${Math.random()}`, 'checkpoint', 'hard')
+      if (!b.ok) throw new Error(b.reason)
+      return b.run
+    }
+    const once = unwrap(failCheck(check(teaching()), ['q']))
+    expect(once.stage).toBe('practice')
+    expect(once.stationMisses).toBe(1)
+    const twice = unwrap(failCheck(check(once), ['q']))
+    expect(twice.stage).toBe('name')
+    expect(twice.stationMisses).toBe(2)
+    // The next station starts with a clean slate.
+    expect(unwrap(passCheck(check(twice))).stationMisses).toBeUndefined()
+  })
+
+  it('never re-accepts a plan once the lesson is under way -- an old lesson keeps its recipe (M5)', () => {
+    const legacy: LessonRun = { ...teaching(), recipe: undefined, stage: undefined }
+    const again = acceptPlan(legacy)
+    expect(again.ok).toBe(false)
   })
 })

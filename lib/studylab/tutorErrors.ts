@@ -23,3 +23,26 @@ export function friendlyTutorError(failure: { status?: number; bodyError?: strin
   if ((status === 400 || status === 402 || status === 403 || status === 409 || status === 429) && said) return said
   return 'Something went wrong on our side. Try again.'
 }
+
+const BUSY_NAMES = new Set([
+  'ThrottlingException',
+  'ServiceUnavailableException',
+  'ModelNotReadyException',
+  'InternalServerException',
+  'ModelTimeoutException',
+])
+
+/**
+ * Whether a model call failed because the model was busy or briefly down --
+ * throttled, a 503, a model still warming up -- rather than because the
+ * request was wrong. Nothing about the lesson caused it, so it is answered
+ * the way a reply that did not parse is: the turn did not come through, try
+ * it again, and nothing moved.
+ */
+export function isTransientModelError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false
+  const e = error as { name?: unknown; $metadata?: { httpStatusCode?: unknown } }
+  if (typeof e.name === 'string' && BUSY_NAMES.has(e.name)) return true
+  const status = e.$metadata?.httpStatusCode
+  return status === 429 || status === 500 || status === 502 || status === 503
+}

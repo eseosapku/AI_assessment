@@ -19,7 +19,7 @@ from ..core import GRID, INK, NAMES, exact, mcq, measure, new_figure, short
 ID = "heating_curve"
 KIND = "graph.line"
 SUBJECT = "physics"
-BANDS = ("LS", "UP")
+BANDS = ("LS", "UP", "AL")  # AL from P6: the ice curve with the heater's power and the mass printed
 CONCEPTS = tuple(f"physics.{c}" for c in ("changes-of-state", "heat-and-temperature", "internal-energy", "heat-capacity-and-specific-heat",
                                           "states-of-matter"))
 # Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
@@ -27,12 +27,37 @@ ALSO = tuple(f"science.{c}" for c in ('changes-of-state', 'states-of-matter', 't
 # Not climate, radiation, insulation, pressure, density, circuits or farming.
 AVOID = r"^chapter 9: heat transfer$|^thermal energy transfers$|climate|greenhouse|global warming|radiation|insulat|pressure|environmental|plant growth|gas laws|resistors|pascal|agriculture|density|making measurements|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 MELTS = {"stearic acid": 69, "naphthalene": 80, "lauric acid": 44}
+
+
+def avoid_for(p: dict) -> str:
+    """The AS figure (P6) serves the thermal physics chapter, not the chapters on resistance or ideal gases that share a
+    broad concept with it; the Lower Secondary and IGCSE figures link exactly as before."""
+    return AVOID + (r"|resist|ideal gas" if p["band"] == "AL" else "")
 STATES = ["solid only", "solid and liquid", "liquid only", "liquid and gas"]
 SETTINGS = ["in the school laboratory", "at the science club", "for a class practical", "during a physics lesson", "for a science fair"]
 
 
+def _sample_al(rng: random.Random) -> dict:
+    """AS Level (P6): ice heated by a heater of printed power, its mass printed, for the latent heat and the specific heat
+    capacity worked from the graph (AS "Thermal physics": calculating energy changes)."""
+    while True:
+        T0 = rng.choice([-30, -20, -10])
+        melt = rng.randint(3, 8)
+        warm = rng.choice([w for w in range(4, 13) if 1.1 <= w / melt <= 1.45] or [round(1.25 * melt)])
+        heater = _heater(melt, warm, rng)
+        if heater and heater[1] != 1:  # 1 kg would make the energy and the latent heat the same number
+            break
+    t1 = max(1, round(melt * -T0 * 2100 / 334000))
+    t = [0, t1, t1 + melt, t1 + melt + warm, t1 + melt + warm + rng.randint(2, 4)]
+    P, M = heater
+    return {"band": "AL", "kind": "ice", "substance": "water", "corners": [[t[0], T0], [t[1], 0], [t[2], 0], [t[3], 100], [t[4], 100]],
+            "power": P, "mass": exact(M)}
+
+
 def sample(rng: random.Random) -> dict:
-    band = rng.choice(BANDS)
+    if rng.random() < 0.25:
+        return _sample_al(rng)
+    band = rng.choice(("LS", "UP"))
     if rng.random() < 0.5:
         T0 = rng.choice([-30, -20, -10])
         melt = rng.randint(3, 8)
@@ -89,7 +114,30 @@ def draw(p: dict):
     ax.set_xlabel("Time (minutes)")
     ax.set_ylabel("Temperature (°C)")
     ax.tick_params(labelsize=8)
+    if p["band"] == "AL":
+        ax.set_title(f"{p['mass']} kg of ice heated by a {p['power']} W heater\n"
+                     "All the heater's energy goes into the ice and water", fontsize=10)
     return fig
+
+
+def _al_questions(p: dict, rng: random.Random, first: list) -> list:
+    """AS Level wording (P6), after the three questions every ice curve asks: the energy taken in while melting, the
+    specific latent heat of fusion and the specific heat capacity of water, from the graph's times and the printed power
+    and mass."""
+    c = p["corners"]
+    melt, warm = c[2][0] - c[1][0], c[3][0] - c[2][0]
+    P, M = p["power"], Fraction(p["mass"])
+    energy = P * melt * 60
+    L = Fraction(energy) / M
+    cap = Fraction(P * warm * 60) / (M * 100)
+    return first + [
+        short(f"The heater's power is {P} W. How much energy, in joules, did the ice take in while it melted?", energy,
+              measure(energy, "J")),
+        short(f"Use the graph to find the specific latent heat of fusion of ice, in J kg⁻¹ ({exact(M)} kg of ice, {P} W "
+              "heater).", exact(L), measure(L, "J/kg") + [f"{exact(L)} J kg⁻¹", f"{exact(L)} J kg-1"]),
+        short(f"Use the graph to find the specific heat capacity of water, in J kg⁻¹ K⁻¹ ({exact(M)} kg of water, {P} W "
+              "heater).", exact(cap),
+              measure(cap, "J/(kg K)") + [f"{exact(cap)} J kg⁻¹ K⁻¹", f"{exact(cap)} J kg-1 K-1", f"{exact(cap)} J/kg K"])]
 
 
 def _heater(span: int, warm: int, rng: random.Random):
@@ -120,6 +168,8 @@ def questions(p: dict, rng: random.Random) -> list:
         qs = [short(f"{name} heated some ice in a beaker {rng.choice(SETTINGS)}. How long did the ice take to melt?", span, minutes),
               short("What was the temperature of the ice at the start?", T0, measure(T0, "°C")),
               state]
+        if p["band"] == "AL":
+            return _al_questions(p, rng, qs)
         if p["band"] == "UP":
             heater = _heater(span, c[3][0] - c[2][0], rng)
             P, M = heater if heater else (rng.choice([200, 300, 500, 1000]), None)

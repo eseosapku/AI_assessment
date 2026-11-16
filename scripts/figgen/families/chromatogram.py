@@ -26,6 +26,9 @@ ALSO = tuple(f"science.{c}" for c in ('paper-chromatography', 'separation-techni
 AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|titration|gas-chromatograph|acid|concentration|waste|oxide|oxygen|salt|states|water|petro|solvent extraction|laboratory safety|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"chromatog|separat|purif|purity"
+# The AS chapter "General principles of chromatography" teaches paper and thin-layer chromatography with Rf values
+# exactly so (P6): an Upper Secondary chromatogram also serves the AL chapters whose names say chromatography.
+ALSO_BANDS = {"UP": ("AL",)}
 WHAT = ["a black ink", "a food colouring", "a fruit drink colouring", "a felt-tip pen ink", "a sweet coating"]
 
 

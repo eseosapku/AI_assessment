@@ -5,9 +5,10 @@ import { jsonbParam } from '@/lib/pg-json'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import { runFromLegacy } from '@/lib/studylab/lessonRunMigrate'
-import { proposePlan, type LessonRun } from '@/lib/studylab/lessonRun'
+import { proposePlan, stepPaced, type LessonRun } from '@/lib/studylab/lessonRun'
 import { keepMeasuredSteps } from '@/lib/studylab/stepLocks'
 import { applyAction, draftPlan } from './dispatch'
+import { isTransientModelError } from '@/lib/studylab/tutorErrors'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 // The system prompt lives in `./system-prompt`: a route module may export
@@ -68,12 +69,14 @@ export async function POST(request: NextRequest) {
     }
 
     const policy = policyFor(space.origin)
-    let run: LessonRun =
+    // Every lesson is step by step; a run stored at run-ahead pace is moved over as it is read.
+    let run: LessonRun = stepPaced(
       space.lesson_run ??
-      runFromLegacy(
-        { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
-        policy,
-      )
+        runFromLegacy(
+          { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
+          policy,
+        ),
+    )
     // The space owns its mode, not the request. Reading it off the row rather
     // than the body means a lesson cannot be switched mid-way by anything a
     // client sends, and a run stored before this column existed reads as the
@@ -160,8 +163,11 @@ export async function POST(request: NextRequest) {
     // The board travels with the action. The client's canvas is authoritative
     // here — `space.canvas_state` is a debounced autosave and can be a beat
     // behind, which is exactly the window a duplicate card gets created in.
+    // A model that was busy or briefly down (throttled, a 503) failed nothing
+    // about the lesson: the turn did not come through, it can be sent again,
+    // and the run stays where it was -- the same as a reply that did not parse.
     const result = await applyAction({
-      run, policy, userId, action, requestId, deadline,
+      run, policy, userId, action, requestId, deadline, spaceId: learnspaceId,
       context: {
         title: space.title,
         subject: space.subject,
@@ -174,6 +180,10 @@ export async function POST(request: NextRequest) {
           ? space.canvas_state.homework.given
           : [],
       },
+    }).catch((error: unknown) => {
+      if (!isTransientModelError(error)) throw error
+      console.warn('Tutor model busy:', (error as { name?: string }).name)
+      return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
     })
     if (!result.refusal) await saveRun(learnspaceId, result.run, space.lesson_run)
     return NextResponse.json(result)

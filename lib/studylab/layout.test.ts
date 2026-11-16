@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { layoutGraph } from '@/lib/studylab/layout'
+import { layoutGraph, withMeasuredSizes } from '@/lib/studylab/layout'
 import type { StudyNode, StudyEdge } from '@/lib/studylab/types'
 
 function node(id: string, type = 'concept', extra: Partial<StudyNode> = {}): StudyNode {
@@ -119,5 +119,42 @@ describe('steps already folded away', () => {
     // Both sit in step 2's band, right of the column of folded steps.
     expect(pos['step-2'].x).toBeGreaterThan(0)
     expect(pos.c2.x).toBeGreaterThan(0)
+  })
+})
+
+describe('layoutGraph with measured cards', () => {
+  it('spaces cards by the size they were measured at, not the guess', () => {
+    // A four-option question measures far taller than the quiz guess; laid out
+    // by the guess, the next card landed on top of it.
+    const tall: StudyNode = {
+      id: 'q', type: 'quiz', position: { x: 0, y: 0 }, height: 520, width: 340,
+      data: { kind: 'quiz', step: 1 },
+    }
+    const next: StudyNode = { id: 'p', type: 'practice', position: { x: 0, y: 0 }, data: { kind: 'practice', step: 1 } }
+    const pos = layoutGraph([tall, next], [])
+    const [top, bottom] = [tall, next].sort((a, b) => pos[a.id].y - pos[b.id].y)
+    const topHeight = top.height ?? 400
+    expect(pos[bottom.id].y - pos[top.id].y).toBeGreaterThanOrEqual(topHeight)
+  })
+})
+
+describe('withMeasuredSizes', () => {
+  const card = (id: string, extra: Partial<StudyNode> = {}): StudyNode => ({
+    id, type: 'quiz', position: { x: 0, y: 0 }, data: { kind: 'quiz', step: 1 }, ...extra,
+  })
+
+  it('keeps the measured size on each card and lays the lesson out again', () => {
+    const next = withMeasuredSizes({ nodes: [card('a'), card('b')], edges: [] }, { a: { w: 340, h: 520 } })
+    expect(next?.nodes.find((n) => n.id === 'a')).toMatchObject({ width: 340, height: 520 })
+    const [a, b] = ['a', 'b'].map((id) => next!.nodes.find((n) => n.id === id)!)
+    const [top, bottom] = [a, b].sort((x, y) => x.position.y - y.position.y)
+    expect(bottom.position.y - top.position.y).toBeGreaterThanOrEqual(top.height ?? 220)
+  })
+
+  it('changes nothing for a few pixels, or for a learner’s own blocks', () => {
+    const sized = card('a', { width: 340, height: 300 })
+    expect(withMeasuredSizes({ nodes: [sized], edges: [] }, { a: { w: 342, h: 303 } })).toBeNull()
+    const mine = { id: 'm', type: 'sticky', source: 'freeform', position: { x: 5, y: 5 }, data: { kind: 'sticky' } } as unknown as StudyNode
+    expect(withMeasuredSizes({ nodes: [mine], edges: [] }, { m: { w: 500, h: 500 } })).toBeNull()
   })
 })

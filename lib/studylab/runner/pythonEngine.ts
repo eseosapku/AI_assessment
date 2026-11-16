@@ -82,7 +82,7 @@ function runOnce(code: string, signal: AbortSignal): Promise<RunResult> {
       b.worker.onmessage = (e: MessageEvent) => {
         const d = e.data
         if (d?.type !== 'done' && d?.type !== 'error') return
-        finish({ ok: d.type === 'done', stdout: d.stdout ?? '', stderr: d.stderr ?? '' }, false)
+        finish({ ok: d.type === 'done', stdout: d.stdout ?? '', stderr: d.stderr ?? '', ...(Array.isArray(d.trace) ? { trace: d.trace } : {}) }, false)
       }
       b.worker.onerror = (e) => finish({ ok: false, stdout: '', stderr: e.message }, true)
       b.worker.postMessage({ type: 'run', code })

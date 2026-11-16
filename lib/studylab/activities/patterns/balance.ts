@@ -21,7 +21,7 @@ export function sideTotal(payload: BalancePayload, ids: string[]): number {
  * Ceiling on how many items may be authored onto `left` or `right` — but
  * NOT `pool` (see `okItems`/`isPayload` below for why the two differ).
  *
- * A pan is rendered `absolute`, anchored at `top: 50%` inside the beam box,
+ * A pan is rendered `absolute`, anchored under its hanger inside the beam box,
  * with roughly `BALANCE_PAN.headroomPx` of headroom below that anchor before
  * it would grow past the container and into the pool strip below (see
  * `dropZoneGeometry.ts` for the full derivation from the card's actual

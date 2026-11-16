@@ -87,7 +87,7 @@ describe('boardSummary', () => {
 
   it('survives a missing canvas', () => {
     expect(boardSummary(null)).toEqual({
-      cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, recent: [],
+      cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, exploreByStep: {}, recent: [],
     })
   })
 })
@@ -98,7 +98,7 @@ describe('parseBoardSummary', () => {
   })
 
   it('returns an empty board for anything that is not one', () => {
-    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, recent: [] }
+    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, missedByStep: {}, exploreByStep: {}, recent: [] }
     expect(parseBoardSummary(null)).toEqual(empty)
     expect(parseBoardSummary('nope')).toEqual(empty)
     expect(parseBoardSummary({})).toEqual(empty)
@@ -202,5 +202,53 @@ describe('a card made in answer to a question', () => {
     expect(round.cards.find((c) => c.id === 'asked-1')?.aside).toBe(true)
     expect(round.cards.find((c) => c.id === 'taught')?.aside).toBeUndefined()
     expect(round.cardsSinceCheck[1]).toBe(1)
+  })
+})
+
+describe('a practice problem the learner missed', () => {
+  const practice = (id: string, step: number, state: string, body = `Work out ${id}`): StudyNode => ({
+    id, type: 'practice', position: { x: 0, y: 0 },
+    data: { kind: 'practice', title: `Practice ${id}`, body, step, practice: { state } } as unknown as StudyNode['data'],
+  })
+
+  it('is listed against its step while it is the latest practice there', () => {
+    const s = boardSummary({ nodes: [practice('a', 1, 'correct'), practice('b', 1, 'incorrect', 'Work out 4 + 8')] })
+    expect(s.missedByStep).toEqual({ 1: ['Work out 4 + 8'] })
+  })
+  it('counts a close answer as a miss', () => {
+    expect(boardSummary({ nodes: [practice('a', 2, 'close', 'Find x')] }).missedByStep).toEqual({ 2: ['Find x'] })
+  })
+  it('is cleared by a near-twin answered right after it', () => {
+    expect(boardSummary({ nodes: [practice('a', 1, 'incorrect'), practice('b', 1, 'correct')] }).missedByStep).toEqual({})
+  })
+  it('survives the trip to the server', () => {
+    expect(parseBoardSummary({ missedByStep: { 1: ['Work out 4 + 8', 7] } }).missedByStep).toEqual({ 1: ['Work out 4 + 8'] })
+  })
+})
+
+describe('what the learner did with a station\'s explore item (I3)', () => {
+  const node = (id: string, type: string, step: number, data: Record<string, unknown>): StudyNode =>
+    ({ id, type, position: { x: 0, y: 0 }, data: { kind: type, step, title: id, ...data } }) as unknown as StudyNode
+
+  it('reads the first hands-on card of each step', () => {
+    const s = boardSummary({ nodes: [
+      node('m1', 'activity', 1, { activityState: { status: 'solved', attempts: 1 } }),
+      node('p1', 'practice', 1, { practice: { state: 'incorrect' } }),
+      node('m2', 'material', 2, { materialState: { status: 'in_progress', attempts: 2 } }),
+      node('p3', 'practice', 3, { practice: { state: 'close', attempt: 'about 10', attempts: 1 } }),
+      node('m4', 'activity', 4, { activityState: { status: 'untouched', attempts: 0 } }),
+    ] })
+    expect(s.exploreByStep).toEqual({
+      1: { outcome: 'solved', attempts: 1 },
+      2: { outcome: 'tried', attempts: 2 },
+      3: { outcome: 'tried', attempts: 1, answer: 'about 10' },
+      4: { outcome: 'untried', attempts: 0 },
+    })
+  })
+
+  it('survives the trip to the server, and drops what is not one', () => {
+    expect(parseBoardSummary({ exploreByStep: { 1: { outcome: 'solved', attempts: 2 }, 2: { outcome: 'bogus' } } }).exploreByStep).toEqual({
+      1: { outcome: 'solved', attempts: 2 },
+    })
   })
 })

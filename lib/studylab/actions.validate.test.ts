@@ -15,3 +15,14 @@ describe('isValidAction createCard', () => {
     expect(isValidAction({ type: 'createCard', id: 'x', card: 'nonsense' })).toBe(false)
   })
 })
+
+describe('isValidAction point', () => {
+  it('accepts a card, or a named part of one', () => {
+    expect(isValidAction({ type: 'point', nodeId: 'n1' })).toBe(true)
+    expect(isValidAction({ type: 'point', nodeId: 'n1', part: 'option-2' })).toBe(true)
+  })
+  it('refuses a point with no card, or a part that is not a part', () => {
+    expect(isValidAction({ type: 'point' })).toBe(false)
+    expect(isValidAction({ type: 'point', nodeId: 'n1', part: 'x"] *' })).toBe(false)
+  })
+})

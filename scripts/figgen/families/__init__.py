@@ -110,6 +110,56 @@ from . import community_data_p, community_helpers_p, sector_map_p, transport_com
 from . import election_results, government_chart
 # P5 history imports
 from . import family_history_p, history_timeline, kingdom_structure, source_provenance
+# P6 physical imports
+from . import functional_groups
+from . import comm_signals
+from . import orbital_boxes
+from . import double_slit
+from . import property_trend
+from . import uncertainty_table
+from . import work_energy
+from . import momentum_collision
+from . import seismogram
+from . import conductivity_test
+from . import water_waste_data
+from . import salt_heating
+from . import alloys_corrosion
+from . import born_haber, equilibrium_data, gibbs_graph, medical_imaging
+from . import heat_transfer, phase_diagram
+from . import hydrocarbon_fractions, polymer_structure, stars_universe
+from . import oxidation_numbers
+from . import induction_demo, magnet_tests, magnetic_force
+from . import orbit_data, relative_motion
+# P6 life imports
+# P6 life-a imports
+from . import behaviour_data, diet_table, digestive_system, respiration_data, thermoregulation
+# P6 life-b imports
+from . import gametogenesis, gene_technology, mitotic_index, mutation_sequence, selection_data
+# P6 life-c imports
+from . import asexual_plants, disease_data, human_impact, membrane_transport, plant_gas_exchange, predator_prey
+# P6 life-d imports
+from . import cell_diagram, fair_test, practical_analysis
+# P6 life-e imports
+from . import breathing_p, illness_data_p, light_p, senses_p, skeleton_p, sound_p
+# P6 life-f imports
+from . import air_pollution_p, drinking_water_p, energy_p, tools_p, waste_p
+# P6 life-g imports
+from . import animal_care_p, flower_parts_p, natural_made_p, plant_parts_p
+# P6 maths imports
+from . import (algebraic_fraction, angle_measure_p, circular_measure, decimal_chart, early_numbers_p, factor_tree,
+               halves_p, measures_p, number_base, ratio_bar, solid_mensuration, solids_p, surd_shapes, symmetry_p, thales,
+               turns_p)
+# P6 maths-mech imports
+from . import circular_motion_m, collision_m, elastic_string_m, projectile_m, rigid_body_m
+# P6 maths-al imports
+from . import (arrangements, exp_tangent, hyperbolic_graph, paired_t_test, sign_test)
+# P6 maths-up imports
+from . import (cayley_table, completing_square, coord_geometry, sequence_plot)
+# P6 maths-geom imports
+# P6 geography imports
+from . import energy_mix, farm_production, fish_catch, forest_cover, soil_conservation, tourism_data, trade_balance
+from . import climate_change, hazard_events, hiv_impact, mining_methods, waste_recycling, water_resources
+from . import fieldwork_data, industry_location, photo_sketch, settlement_pattern, transport_network
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -226,4 +276,54 @@ FAMILIES = {m.ID: m for m in (
     election_results, government_chart,
     # P5 history families
     history_timeline, source_provenance, kingdom_structure, family_history_p,
+    # P6 physical families
+    functional_groups,
+    comm_signals,
+    orbital_boxes,
+    double_slit,
+    property_trend,
+    uncertainty_table,
+    work_energy,
+    momentum_collision,
+    seismogram,
+    conductivity_test,
+    water_waste_data,
+    salt_heating,
+    alloys_corrosion,
+    born_haber, equilibrium_data, gibbs_graph, medical_imaging,
+    heat_transfer, phase_diagram,
+    hydrocarbon_fractions, polymer_structure, stars_universe,
+    oxidation_numbers,
+    induction_demo, magnet_tests, magnetic_force,
+    orbit_data, relative_motion,
+    # P6 life families
+    # P6 life-a families
+    respiration_data, thermoregulation, digestive_system, diet_table, behaviour_data,
+    # P6 life-b families
+    gene_technology, selection_data, mutation_sequence, gametogenesis, mitotic_index,
+    # P6 life-c families
+    membrane_transport, predator_prey, human_impact, plant_gas_exchange, asexual_plants, disease_data,
+    # P6 life-d families
+    fair_test, practical_analysis, cell_diagram,
+    # P6 life-e families
+    senses_p, sound_p, skeleton_p, breathing_p, illness_data_p, light_p,
+    # P6 life-f families
+    tools_p, waste_p, air_pollution_p, drinking_water_p, energy_p,
+    # P6 life-g families
+    animal_care_p, plant_parts_p, natural_made_p, flower_parts_p,
+    # P6 maths families
+    number_base, early_numbers_p, halves_p, measures_p, factor_tree, surd_shapes, ratio_bar, decimal_chart,
+    circular_measure, solid_mensuration, thales, symmetry_p, turns_p, angle_measure_p, solids_p,
+    algebraic_fraction,
+    # P6 maths-mech families
+    projectile_m, collision_m, elastic_string_m, circular_motion_m, rigid_body_m,
+    # P6 maths-al families
+    sign_test, paired_t_test, hyperbolic_graph, arrangements, exp_tangent,
+    # P6 maths-up families
+    cayley_table, sequence_plot, coord_geometry, completing_square,
+    # P6 maths-geom families
+    # P6 geography families
+    forest_cover, soil_conservation, energy_mix, fish_catch, farm_production, tourism_data, trade_balance,
+    waste_recycling, water_resources, hazard_events, hiv_impact, climate_change, mining_methods, settlement_pattern,
+    transport_network, photo_sketch, industry_location, fieldwork_data,
 )}

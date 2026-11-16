@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest'
 import { openStore } from './store'
 import { BudgetExceeded, totalSpend } from './spend'
-import { HAIKU, NOVA_LITE, SONNET, askJson, extractJson, readReply, requestBody, runPool, type ImageInput, type SendFn } from './claude'
+import { HAIKU, NOVA_LITE, SONNET, SONNET_45, askJson, extractJson, readReply, requestBody, runPool, type ImageInput, type SendFn } from './claude'
 
 const noWait = async () => {}
 
@@ -120,6 +120,12 @@ describe('the request sent to Bedrock', () => {
     ])
     expect(body.output_config).toEqual({ effort: 'low' })
     expect(body).not.toHaveProperty('temperature')
+  })
+
+  it('gives Sonnet 4.5 no effort setting -- Bedrock refuses it as an extra input', () => {
+    expect(requestBody(SONNET_45, 'hello', 100)).toEqual({
+      anthropic_version: 'bedrock-2023-05-31', max_tokens: 100, messages: [{ role: 'user', content: 'hello' }],
+    })
   })
 })
 

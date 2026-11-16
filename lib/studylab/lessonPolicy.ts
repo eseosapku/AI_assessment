@@ -50,7 +50,8 @@ export const POLICIES: Record<LessonOrigin, LessonPolicy> = {
   scratch: {
     gaps: 'advise',
     planEditable: 'always',
-    defaultPace: 'run',
+    // One pace for every lesson: run-ahead was taken out (user, 2026-10-26).
+    defaultPace: 'step',
     completion: 'learner-says',
     planSize: { min: 4, max: 6 },
     testOut: 'hide',

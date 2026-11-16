@@ -10,8 +10,8 @@ const lockDown = new Function(`${LOCKDOWN_SRC}; return lockDown`)() as (scope: o
  * Runs the JavaScript worker's text with a stand-in for a worker's global
  * scope: `self` is the global, and it has a network to take away.
  */
-async function runJs(code: string): Promise<{ type: string; stdout: string; stderr: string }> {
-  const posted: { type: string; stdout: string; stderr: string }[] = []
+async function runJs(code: string): Promise<{ type: string; stdout: string; stderr: string; trace?: { line: number; out?: string }[] }> {
+  const posted: { type: string; stdout: string; stderr: string; trace?: { line: number; out?: string }[] }[] = []
   const scope: Record<string, any> = {
     postMessage: (m: any) => posted.push(m),
     fetch: () => 'reached',
@@ -35,7 +35,20 @@ describe('the scripts the runners hand their workers', () => {
 
   it('run JavaScript and hand back what it printed', async () => {
     const r = await runJs('console.log("sum", 1 + 2); console.error("careful")')
-    expect(r).toEqual({ type: 'done', stdout: 'sum 3', stderr: 'careful' })
+    expect(r).toMatchObject({ type: 'done', stdout: 'sum 3', stderr: 'careful' })
+  })
+
+  it('hand back each print of a JavaScript run with the line that printed it', async () => {
+    const r = await runJs('console.log("a")\nlet x = 2\nconsole.log("b", x)\nfunction f() { console.log("f") }\nf()')
+    expect(r.trace).toEqual([{ line: 1, out: 'a\n' }, { line: 3, out: 'b 2\n' }, { line: 4, out: 'f\n' }])
+  })
+
+  it("trace a Python run line by line on the learner's code only, and put the tracer back after", () => {
+    const src = pythonWorkerSrc('v0.26.4')
+    expect(src).toContain('sys.settrace')
+    expect(src).toContain('<exec>')
+    expect(src).toMatch(/sys\.settrace\(None\)/)
+    expect(src).toMatch(/trace: /)
   })
 
   it('report an error with what was printed before it', async () => {

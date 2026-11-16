@@ -16,18 +16,49 @@ export type CardKind =
 // ── Knowledge-check checkpoints ───────────────────────────────────────────────
 
 export type CheckpointQuestion =
-  | { id: string; format: 'mcq'; prompt: string; options: string[]; answer: number; explain?: string }
+  | {
+      id: string; format: 'mcq'; prompt: string; options: string[]; answer: number; explain?: string
+      /**
+       * One line per option, written for a learner who picked it: why that
+       * choice is right, or what it missed. Shown on a first miss in place of
+       * a generic nudge. Dropped by `coerceQuestion` unless it lines up with
+       * `options`.
+       */
+      optionFeedback?: string[]
+    }
   | { id: string; format: 'short'; prompt: string; rubric?: string }
   | { id: string; format: 'code'; prompt: string; language?: string; starter?: string; goal: string }
   | { id: string; format: 'match'; prompt: string; pairs: { left: string; right: string }[] }
+  /**
+   * A sentence with blanks, each written "___", and a bank of tiles: every
+   * answer (answer[i] fills blank i) and one to three that do not belong.
+   */
+  | { id: string; format: 'fill'; prompt: string; text: string; tiles: string[]; answer: string[] }
+  /**
+   * Items to put in order, written here in the right order and shown shuffled;
+   * each clue says one item comes before another, and ticks as it comes true.
+   */
+  | { id: string; format: 'order'; prompt: string; items: string[]; clues?: { text: string; before: string; after: string }[] }
+  /** Tap the part(s) of one of our own diagrams: region ids from lib/studylab/check/diagramRegions. */
+  | { id: string; format: 'tap'; prompt: string; figure: string; answer: string[] }
 
 export interface QuizCell {
   checkpointId: string
   gate: 'hard' | 'soft'
+  /** Set on a test-out's questions, whose gate is soft but which are a test. */
+  kind?: 'testout'
   question: CheckpointQuestion
   state: 'unanswered' | 'pending' | 'correct' | 'incorrect'
   given?: number | string | string[]
   feedback?: string
+  /**
+   * Tries spent. While learning a cell stays 'unanswered' between tries and
+   * only settles as correct or incorrect when final, so the checkpoint's own
+   * marking sees exactly what it always did. Absent on cells saved before.
+   */
+  attempts?: number
+  /** The learner asked to see the answer; the cell settles as incorrect. */
+  revealed?: boolean
 }
 
 export interface StudyNodeData {
@@ -71,6 +102,8 @@ export interface StudyNodeData {
   rubric?: string
   /** Practice card: the learner's attempt and how it was marked. */
   practice?: PracticeCell
+  /** Practice card: a question answered by hand (mcq, fill, order or tap) in place of written working. */
+  question?: CheckpointQuestion
   /** Made in answer to a question rather than to teach the step. */
   aside?: boolean
   /** Callout variant. */
@@ -151,6 +184,12 @@ export interface CanvasState {
    * kilobytes per card on a page that shows twenty of them.
    */
   thumb?: string
+  /**
+   * Time spent actually learning in this lesson, in milliseconds: the page
+   * visible and the learner active in the last two minutes. Shown on the
+   * lesson-complete scene. Absent on boards saved before it was counted.
+   */
+  activeMs?: number
 }
 
 /**
@@ -228,6 +267,8 @@ export type TutorAction =
       /** Practice card: the expected answer, and what a good one shows. */
       answer?: string
       rubric?: string
+      /** Practice card: a question to answer by hand; checked before it lands, and dropped if it cannot be answered. */
+      question?: CheckpointQuestion
       step?: number
       position?: 'auto' | { x: number; y: number }
       /**
@@ -273,7 +314,20 @@ export type TutorAction =
   | { type: 'groupStep'; step: number; label: string; cardIds: string[] }
   | { type: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
   | { type: 'highlight'; nodeId: string }
-  | { type: 'checkpoint'; id: string; step: number; gate: 'hard' | 'soft'; questions: CheckpointQuestion[] }
+  /**
+   * Kana points at a part of a card: it glows, and the bubble's arrow reaches
+   * it. `part` is a name from lib/studylab/point.ts; without one, the card.
+   */
+  | { type: 'point'; nodeId: string; part?: string }
+  | {
+      type: 'checkpoint'
+      id: string
+      step: number
+      gate: 'hard' | 'soft'
+      questions: CheckpointQuestion[]
+      /** A test-out: soft-gated (a miss teaches the step) but marked as a test. */
+      kind?: 'checkpoint' | 'testout'
+    }
 
 export interface TutorResponse {
   say: string

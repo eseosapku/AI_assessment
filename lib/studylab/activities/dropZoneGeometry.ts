@@ -67,17 +67,15 @@ const CHIP_VERTICAL_PADDING_PX = 8
 interface ZoneChrome {
   borderPx: number
   paddingPx: number
-  labelMarginPx: number
-  labelGapPx: number
+  /** Absent when the zone's label is drawn outside it (a pan's, on the beam). */
+  label?: { marginPx: number; gapPx: number }
 }
 
 function chromeHeightPx(chrome: ZoneChrome): number {
   return (
     2 * chrome.borderPx +
     2 * chrome.paddingPx +
-    LABEL_LINE_PX +
-    chrome.labelMarginPx +
-    chrome.labelGapPx
+    (chrome.label ? LABEL_LINE_PX + chrome.label.marginPx + chrome.label.gapPx : 0)
   )
 }
 
@@ -117,23 +115,29 @@ function deriveGeometry(
 }
 
 /**
- * A balance pan: `absolute`, anchored at `top: 50%` inside the beam's
- * 300:190 viewBox, 33%-wide (~119px, too narrow for two 20px-icon chips per
+ * The beam box's viewBox height, and where a pan hangs in it: under its
+ * hanger, at the beam's pivot (60) plus the hanger's drop (35). The box runs
+ * on below the pans so four rows fit; the artwork above is unchanged.
+ */
+export const BALANCE_VIEW_HEIGHT = 240
+export const BALANCE_PAN_TOP = 95
+
+/**
+ * A balance pan: `absolute`, anchored at `top: 95/240` inside the beam's
+ * 300:240 viewBox, 33%-wide (~119px, too narrow for two 20px-icon chips per
  * row). Chrome read from BalanceActivity.tsx's pan containers —
- * `border-2 ... p-2` on a `flex flex-col gap-2` outer box, and a label `<p>`
- * with `mb-1`; chips wrap inside the pan's inner `flex flex-wrap ... gap-1`
- * div, so the row gap is 4px, not the outer 8px. See balance.ts
+ * `border-2 ... p-2`. Its label is drawn on the beam above it, not inside it:
+ * inside, the label line cost a whole row. Chips wrap inside the pan's
+ * `flex flex-wrap ... gap-1`, so the row gap is 4px. See balance.ts
  * (`MAX_ITEMS_PER_GROUP`).
  *
- * 360 / (300/190) = 228px box; 228 * 0.5 = 114px headroom; chrome is
- * 2*2 + 2*8 + 18 + 4 + 8 = 50px, leaving 64px for chips at a 28px row
- * (20px icon + 8px `py-1`) and a 4px gap — 2 rows.
+ * 360 / (300/240) = 288px box; 288 * (1 - 95/240) = 174px headroom; chrome
+ * is 2*2 + 2*8 = 20px, leaving 154px for chips at a 28px row (20px icon +
+ * 8px `py-1`) and a 4px gap — 4 rows.
  */
-export const BALANCE_PAN = deriveGeometry(300 / 190, 0.5, 20, 4, {
+export const BALANCE_PAN = deriveGeometry(300 / BALANCE_VIEW_HEIGHT, BALANCE_PAN_TOP / BALANCE_VIEW_HEIGHT, 20, 4, {
   borderPx: 2,
   paddingPx: 8,
-  labelMarginPx: 4,
-  labelGapPx: 8,
 })
 
 /**
@@ -153,6 +157,5 @@ export const BALANCE_PAN = deriveGeometry(300 / 190, 0.5, 20, 4, {
 export const COMPARE_ZONE = deriveGeometry(300 / 220, 0.318, 22, 4, {
   borderPx: 1,
   paddingPx: 8,
-  labelMarginPx: 2,
-  labelGapPx: 8,
+  label: { marginPx: 2, gapPx: 8 },
 })

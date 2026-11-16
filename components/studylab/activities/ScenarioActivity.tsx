@@ -1,5 +1,6 @@
 // components/studylab/activities/ScenarioActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ScenarioPayload } from '@/lib/studylab/activities/types'
@@ -25,6 +26,12 @@ export function ScenarioActivity({ id, spec, onOutcome, initialState }: {
   // touches `work` or the graded answer.
   const [previewId, setPreviewId] = useState<string | null>(null)
   const activeId = previewId ?? chosen
+  const acceptable: readonly string[] = spec.success.kind === 'exactSet' ? spec.success.itemIds : []
+  const heading = !activeId
+    ? 'What happened'
+    : activeId === chosen
+      ? a.solved ? 'Good choice' : 'Not the best choice'
+      : acceptable.includes(activeId) ? 'This one would have worked' : 'This one would not have worked'
 
   // Scenario deliberately auto-grades on the first choice — the click IS the
   // decision, there is nothing further to submit, so there is no Check button
@@ -67,7 +74,7 @@ export function ScenarioActivity({ id, spec, onOutcome, initialState }: {
           />
         )}
 
-        <p className="text-[13px] font-semibold leading-snug text-ss-ink">{payload.situation}</p>
+        <p className="text-[13px] font-semibold leading-snug text-ss-ink"><SafeLatex>{payload.situation}</SafeLatex></p>
 
         <div className="flex flex-col gap-2">
           {payload.choices.map((choice) => {
@@ -78,14 +85,18 @@ export function ScenarioActivity({ id, spec, onOutcome, initialState }: {
                 key={choice.id}
                 type="button"
                 onClick={() => pick(choice.id)}
+                // Set inline: an opacity on a colour variable renders nothing, so the
+                // choice in view looked just like the others.
+                style={isActive ? { borderColor: 'var(--subject, var(--ss-accent))', backgroundColor: 'var(--subject-soft, var(--ss-chip))' } : undefined}
                 className={`nodrag rounded-lg border px-3 py-2 text-left text-[12.5px] font-semibold transition motion-reduce:transition-none ${
                   isActive
-                    ? 'border-[color:var(--ss-accent)]/50 bg-[color:var(--ss-accent)]/10 text-ss-ink'
+                    ? 'text-ss-ink'
                     : 'border-ss-line bg-ss-panel text-ss-ink hover:border-[color:var(--ss-accent)]/40'
                 }`}
               >
-                {choice.label}
-                {isGraded && !isActive && (
+                <SafeLatex>{choice.label}</SafeLatex>
+                {chosen && acceptable.includes(choice.id) && <span aria-label="This works" className="ml-2 font-bold" style={{ color: 'var(--ss-good)' }}>✓</span>}
+                {isGraded && (
                   <span className="ml-2 text-[12px] font-normal uppercase tracking-widest text-ss-slate">
                     your choice
                   </span>
@@ -105,14 +116,14 @@ export function ScenarioActivity({ id, spec, onOutcome, initialState }: {
               initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
               className="rounded-lg border border-ss-line bg-[color:var(--ss-canvas)]/60 px-3 py-2"
             >
-              <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">What happened</p>
-              <p className="mt-1 text-[12.5px] leading-relaxed text-ss-ink">{active.consequence}</p>
+              <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">{heading}</p>
+              <p className="mt-1 text-[12.5px] leading-relaxed text-ss-ink"><SafeLatex>{active.consequence}</SafeLatex></p>
             </motion.div>
           )}
         </AnimatePresence>
 
         {chosen && payload.followUp && (
-          <p className="text-[12px] italic leading-relaxed text-ss-slate">{payload.followUp}</p>
+          <p className="text-[12px] italic leading-relaxed text-ss-slate"><SafeLatex>{payload.followUp}</SafeLatex></p>
         )}
 
         {chosen && (

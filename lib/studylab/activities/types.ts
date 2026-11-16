@@ -5,6 +5,8 @@
 export type ActivityPattern =
   | 'threePeriod' | 'sort' | 'label' | 'sequence' | 'vary'
   | 'balance' | 'compare' | 'scenario' | 'compose'
+  /** A purpose-built engine (lib/studylab/scenes): the engine marks it. */
+  | 'scene'
 
 export type ActivityStatus = 'untouched' | 'in_progress' | 'solved'
 
@@ -16,6 +18,8 @@ export type SuccessRule =
   | { kind: 'numericWithin'; target: number; tolerance: number }
   | { kind: 'pairing'; pairs: readonly (readonly [string, string])[] }
   | { kind: 'allSubgoals'; subgoals: readonly SuccessRule[] }
+  /** A scene is marked by its engine's own check. */
+  | { kind: 'scene' }
 
 /** Declarative visual model for vary/balance. Closed union — no code execution. */
 export type ModelSpec =
@@ -54,12 +58,19 @@ export interface LabelPayload {
 export interface SequencePayload {
   items: { id: string; label: string; imageUrl?: string }[]        // authored in CORRECT order
   orientation?: 'vertical' | 'horizontal'
+  /** Clues the order follows from ("Melting comes before boiling"), ticked as each comes true. Four at most. */
+  rules?: { text: string; before: string; after: string }[]
 }
 export interface VaryPayload {
   variable: { id: string; label: string; min: number; max: number; step: number; unit?: string }
   model: ModelSpec
   readouts: { label: string; expr: string; unit?: string }[]
   target?: { expr: string; value: number; tolerance: number }
+  /**
+   * A picture of the thing the slider changes, as a catalogue name
+   * ("asset:river-profile"), so the card is about a river and not a slider.
+   */
+  scene?: string
 }
 export interface BalancePayload {
   left: { id: string; label: string; weight: number; imageUrl?: string }[]
@@ -97,7 +108,13 @@ export interface ComposePayload {
 
 export type ActivityPayload =
   | ThreePeriodPayload | SortPayload | LabelPayload | SequencePayload | VaryPayload
-  | BalancePayload | ComparePayload | ScenarioPayload | ComposePayload
+  | BalancePayload | ComparePayload | ScenarioPayload | ComposePayload | ScenePayload
+
+/** A scene: which engine, and the few fields the tutor names for it. */
+export interface ScenePayload {
+  engine: string
+  config: unknown
+}
 
 export interface ActivitySpec {
   pattern: ActivityPattern
@@ -153,4 +170,6 @@ export interface PatternModule<P = ActivityPayload, W = Record<string, unknown>>
   accepts?(payload: P, work: W, move: { itemId: string; targetId: string }): boolean
   /** Structural check of the payload shape for validate.ts. */
   isPayload(p: unknown): p is P
+  /** Can the success rule be met by moves `accepts` allows? A spec that cannot is refused. */
+  canBeMet?(payload: P, success: SuccessRule): boolean
 }

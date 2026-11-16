@@ -1,17 +1,20 @@
 // app/api/studylab/tutor/dispatch.ts
+import { LEVEL_RULE, ORIGIN_RULE, OWN_WORDS_PLAN_RULE, OWN_WORDS_TEACH_RULE } from '@/lib/studylab/teachingRules'
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
-import { modelForJob } from '@/lib/studylab/lessonJobs'
+import { modelForJob, fallbackForJob, reasoningForJob } from '@/lib/studylab/lessonJobs'
 import type { LessonPolicy } from '@/lib/studylab/lessonPolicy'
 import {
   nextBeat, passCheck, failCheck, requestTestOut, skipStep, jumpTo,
-  setPace, stop, finish, acceptPlan, editPlan, proposePlan, beginCheck,
-  type LessonRun, type LessonStep, type Transition,
+  setPace, stop, finish, acceptPlan, editPlan, proposePlan, beginCheck, stageOf, withStage,
+  type LessonRun, type LessonStep, type Transition, type Stage,
 } from '@/lib/studylab/lessonRun'
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
-import { isValidQuestion, coerceQuestion, markCheck, salvageQuestions, type CheckAnswers } from '@/lib/studylab/quiz'
-import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
+import { isValidQuestion, coerceQuestion, markCheck, missedQuestions, salvageQuestions, type CheckAnswers } from '@/lib/studylab/quiz'
+import { parseBoardSummary, type BoardSummary, type Explored } from '@/lib/studylab/boardSummary'
+import { authorState, stationVersion } from '@/lib/studylab/stationJobs'
+import { verifyBundleCode, type Outcome, type StationBundle } from '@/lib/studylab/stationBundle'
 import { parseHomeworkSheet, stepsFromQuestions } from '@/lib/studylab/homework'
 import { isCardKind } from '@/lib/studylab/blocks'
 import { parseImageDataUrl } from '@/lib/studylab/imageMime'
@@ -19,16 +22,23 @@ import { fenceStudentText, MAX_TYPED_CHARS } from '@/lib/studylab/untrusted'
 import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
-import { systemPrompt } from './system-prompt'
-import { validateSpec } from '@/lib/studylab/activities/validate'
+import { systemPrompt, stationSystemPrompt } from './system-prompt'
+import { stagePrompt } from './stagePrompt'
+import { COMPREHENSION_CHIPS } from '@/lib/studylab/chips'
+import { isAlgebraBuild, validateSpec } from '@/lib/studylab/activities/validate'
+import { COMPOSE_IS_NOT_ALGEBRA } from '@/lib/studylab/activities/patterns/compose'
 import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from '@/lib/studylab/activities/intent'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { validateMaterial } from '@/lib/studylab/material/validate'
 import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
-import { unmatchedArt } from '@/lib/studylab/activities/artMatch'
+import { unmatchedArt, sameName } from '@/lib/studylab/activities/artMatch'
+import { pictureFits } from '@/lib/studylab/meaning/art'
+import { meaningFaults } from '@/lib/studylab/meaning'
 import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
-import { assetCatalogPromptBlock } from '@/lib/studylab/activities/assetCatalog'
+import { assetCatalogPromptBlock, assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { BALANCE_PAN, COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
+import { byHandFormats } from './questionFormats'
+import { sceneCatalogue } from '@/lib/studylab/engines'
 
 export type LessonAction =
   /** `answer` is present on a re-draft, carrying what the learner said back. */
@@ -57,6 +67,18 @@ export type LessonAction =
    */
   | { type: 'ask'; question: string; image?: string }
   /**
+   * "Not really" after an explanation. Not a request to hear it again: the
+   * tutor asks which part is unclear, with the likeliest sticking points as
+   * chips, and explains only the one the learner picks. Nothing moves.
+   */
+  | { type: 'diagnose'; about?: string }
+  /**
+   * Get help, after a miss: the question, and what the learner did, described
+   * on the page (lib/studylab/attempt.ts). The tutor reads the attempt back and
+   * asks one question that narrows the gap. Nothing moves.
+   */
+  | { type: 'help'; nodeId: string; prompt: string; attempt: string }
+  /**
    * Homework only, and the replacement for `draft_plan` + `accept_plan` there.
    *
    * The questions the learner picked off their own sheet become the steps, so
@@ -82,6 +104,10 @@ export interface DispatchInput {
   action: LessonAction
   /** Everything the teaching job needs to write its cards. Absent in tests. */
   context?: Record<string, unknown>
+  /** The lesson's id, where its stations written ahead are found. Absent in tests. */
+  spaceId?: string
+  /** How a turn waits for a station nearly written. Tests pass their own. */
+  sleep?: (ms: number) => Promise<void>
   requestId?: string
   /**
    * When the route must answer by, as epoch ms. Amplify ends a request at
@@ -195,6 +221,8 @@ function transitionFor(input: DispatchInput): Transition {
     case 'finish': return finish(run, policy)
     // A question is not progress: state passes through unchanged.
     case 'ask': return { ok: true, run }
+    case 'diagnose': return { ok: true, run }
+    case 'help': return { ok: true, run }
   }
 }
 
@@ -236,6 +264,10 @@ const CARDS_BEFORE_CHECK = 3
  * apart; a count of turns can.
  */
 function shouldCloseStep(board: BoardSummary, stepNo: number, run: LessonRun): boolean {
+  // A station closes on its stage, not on a count of cards: at its check, or at
+  // the end of a whole-station turn at run pace. Only the station being taught.
+  const stage = stationStage(run, run.steps[stepNo - 1])
+  if (stage) return stepNo === run.currentStep + 1 && (run.pace === 'run' || stage === 'check')
   if (run.pace === 'step' && run.beats < 1) return false
   // After three misses the turn is spent re-teaching the idea a different way,
   // and a check on the end of that is a fourth attempt at the same ground with
@@ -247,6 +279,54 @@ function shouldCloseStep(board: BoardSummary, stepNo: number, run: LessonRun): b
     board.cards.filter((c) => c.step === stepNo && !c.aside).length
   const retry = board.checkedSteps.includes(stepNo)
   return since >= (retry ? 1 : CARDS_BEFORE_CHECK)
+}
+
+/**
+ * The stage a teaching turn on this step follows, or null when it is taught the
+ * way lessons were before stations: a run from before them, or a homework step
+ * -- a question the student was set is worked through from their own attempt,
+ * not explored from scratch.
+ */
+function stationStage(run: LessonRun, step: LessonStep | undefined): Stage | null {
+  return step && !step.homework ? stageOf(run) : null
+}
+
+/**
+ * Said when an explore turn came back with only reading. Asked once: the first
+ * answer of a lesson that goes on beats a refusal, so a second miss is taken.
+ */
+const EXPLORE_AGAIN = [
+  'EXPLORE, AGAIN: your reply opened this station with reading and nothing to handle.',
+  'Reply again with the explore turn THE STAGE asks for: ONE material ("createActivity" or',
+  '"build_material"), or where no material honestly fits, ONE "practice" card titled "Predict: ..." --',
+  'and no "concept", "table", "callout", "mermaid" or "worked" card.',
+].join('\n')
+
+/** Time a second explore call needs; with less left, the first answer stands. */
+const EXPLORE_AGAIN_BUDGET_MS = 12_000
+
+/**
+ * Whether a turn's actions, as they would be kept, give the student something
+ * to handle: a material, or a problem to work.
+ */
+function opensWithHands(actions: unknown, run: LessonRun): boolean {
+  const returned = Array.isArray(actions) ? actions : []
+  const { kept: activities } = refuseUnjustifiedActivities(fitCardsToLesson(returned, run))
+  const { kept } = refuseUnjustifiedMaterials(activities)
+  return kept.some((a) => {
+    if (!isValidAction(a)) return false
+    const type = (a as { type?: unknown }).type
+    return type === 'createActivity' || type === 'build_material' || (type === 'createCard' && (a as { card?: unknown }).card === 'practice')
+  })
+}
+
+/**
+ * At most one point a turn, the first valid one: two glowing parts and one
+ * arrow is a turn that points at nothing in particular.
+ */
+function onePoint(actions: unknown[]): unknown[] {
+  const first = actions.find((a) => isValidAction(a) && (a as { type?: unknown }).type === 'point')
+  return actions.filter((a) => !(a && typeof a === 'object' && (a as { type?: unknown }).type === 'point') || a === first)
 }
 
 /**
@@ -306,7 +386,19 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     return { run: input.run, say: '', actions: [], suggestions: [], refusal: transition.reason }
   }
 
-  const advanced = transition.run
+  let advanced = transition.run
+
+  // Back on a station that was taught already: its cards are on the board, so
+  // it picks up at practice rather than exploring the same thing again. An
+  // untaught one still opens at explore.
+  if (
+    input.action.type === 'jump' &&
+    advanced.currentStep !== input.run.currentStep &&
+    stageOf(advanced) === 'explore' &&
+    !needsTeaching(input.action, advanced, parseBoardSummary(input.context?.board))
+  ) {
+    advanced = withStage(advanced, 'practice')
+  }
 
   // test_out deliberately bypasses NEEDS_TEACHING: that path calls the
   // teaching job, which writes cards. A test-out needs questions, from the
@@ -319,6 +411,14 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   // no-op, so nothing here is allowed to advance the lesson.
   if (input.action.type === 'ask') {
     return applyAsk(input, advanced)
+  }
+
+  if (input.action.type === 'diagnose') {
+    return applyDiagnose(input, advanced)
+  }
+
+  if (input.action.type === 'help') {
+    return applyHelp(input, input.action, advanced)
   }
 
   const board = parseBoardSummary(input.context?.board)
@@ -340,15 +440,40 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const step = advanced.steps[advanced.currentStep]
   if (!step) return { run: advanced, say: '', actions: [], suggestions: [] }
 
-  const raw = await callGemma(buildTeachPrompt(advanced, step, input.context ?? {}, false), {
-    maxTokens: 2600,
-    temperature: 0.6,
-    model: modelForJob('teach_beat'),
-    usage: input.requestId
-      ? { feature: 'lesson_teach_beat', requestId: input.requestId, userId: input.userId }
-      : undefined,
-    signal: signalFor(input.deadline),
-  })
+  // The station stage this turn teaches; null on a run from before stations.
+  const stage = stationStage(advanced, step)
+  // What was just missed, for a near-twin: the questions of the check this
+  // action failed, marked here from the questions the run kept, and a missed
+  // practice problem still on this step.
+  // Only a check that was failed: a pass with one wrong answer left a twin of
+  // it on the next station's turn.
+  const asked = input.action.type === 'answer_check' ? input.run.openCheck?.questions : undefined
+  const failed =
+    input.action.type === 'answer_check' && asked?.length && !markCheck(asked, input.action.answers)
+      ? missedQuestions(asked, input.action.answers)
+      : []
+  const missed = [...new Set([...failed, ...(board.missedByStep[advanced.currentStep + 1] ?? [])])].slice(0, 3)
+
+  // A station written ahead is served as written, with no model call.
+  const authored = await authoredTurn(input, advanced, step, stage, board, missed)
+  if (authored.result) return authored.result
+  advanced = authored.run
+
+  const prompt = buildTeachPrompt(advanced, step, input.context ?? {}, false, missed)
+  const teach = (text: string) =>
+    callGemma(text, {
+      maxTokens: 2600,
+      temperature: 0.6,
+      model: modelForJob('teach_beat'),
+      reasoningEffort: reasoningForJob('teach_beat'),
+      noGemmaFallback: true,
+      fallbackModel: fallbackForJob('teach_beat'),
+      usage: input.requestId
+        ? { feature: 'lesson_teach_beat', requestId: input.requestId, userId: input.userId }
+        : undefined,
+      signal: signalFor(input.deadline),
+    })
+  const raw = await teach(prompt)
 
   let parsed: { say?: unknown; actions?: unknown; suggestions?: unknown }
   try {
@@ -363,6 +488,26 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
       retry: true,
+    }
+  }
+
+  // A station opens with the student's hands. Told so, the model still opens
+  // with a reading card often enough to matter, and a reading card first is the
+  // whole thing stations exist to undo -- so it is asked once more, saying what
+  // was wrong. The second answer is taken whatever it holds.
+  if (
+    stage === 'explore' &&
+    !opensWithHands(parsed?.actions, advanced) &&
+    (input.deadline === undefined || input.deadline - Date.now() > EXPLORE_AGAIN_BUDGET_MS)
+  ) {
+    try {
+      const again = parseJsonRobust(await teach(`${prompt}\n\n${EXPLORE_AGAIN}`)) as typeof parsed
+      // Taken only if it has something to handle that survives the checks: a
+      // second answer whose materials are all refused would swap usable cards
+      // for a line about a material that is not there.
+      if (opensWithHands(again?.actions, advanced)) parsed = again
+    } catch {
+      /* the first answer stands */
     }
   }
 
@@ -437,21 +582,336 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const intents = closed.actions
     .map((a) => (a && typeof a === 'object' ? parseIntent((a as Record<string, unknown>).intent) : null))
     .filter((i): i is TeachingIntent => i !== null)
-  const { kept: afterActivities, refused: activityRefusals } = refuseUnjustifiedActivities(closed.actions)
+  const { kept: afterActivities, refused: activityRefusals } = refuseUnjustifiedActivities(
+    closed.actions,
+    step ? { title: step.title, goal: step.goal } : undefined,
+  )
   const { kept, refused: buildMaterialRefusals } = refuseUnjustifiedMaterials(afterActivities)
   const materialRefusals = [...activityRefusals, ...buildMaterialRefusals]
   for (const reason of materialRefusals) console.log(`Refused a material: ${reason}`)
 
+  const offered = Array.isArray(parsed?.suggestions)
+    ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
+    : []
+  // On a station the stage decides the chips, and only a name turn has any:
+  // exactly the two that ask whether it landed. Beside a check there are none,
+  // and while the student is handling or practising a chip asking "why does it
+  // do that?" gives away what they are there to find.
+  const suggestions =
+    stage === null ? offered : stage === 'name' && stageOf(closed.run) !== 'check' ? [...COMPREHENSION_CHIPS] : []
+
+  // On an explore, Kana's line says what to watch on the card. When a material
+  // the turn wrote was refused, that line may describe the refused one -- live:
+  // "Drag the river features..." over a slope slider. The surviving material's
+  // own instruction is certain to be about what is on the board.
+  const isMaterial = (a: unknown) => ['createActivity', 'build_material'].includes(String((a as { type?: unknown } | null)?.type))
+  const survivor = kept.find(isMaterial) as { spec?: { prompt?: unknown } } | undefined
+  const shownSay =
+    stage === 'explore' && survivor && kept.filter(isMaterial).length < closed.actions.filter(isMaterial).length &&
+    typeof survivor.spec?.prompt === 'string' && survivor.spec.prompt.trim()
+      ? survivor.spec.prompt.trim()
+      : say
+
   return {
     run: closed.run,
-    say,
-    actions: kept,
-    suggestions: Array.isArray(parsed?.suggestions)
-      ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
-      : [],
+    say: shownSay,
+    actions: onePoint(kept),
+    suggestions,
     intents: intents.length > 0 ? intents : undefined,
     materialRefusals: materialRefusals.length > 0 ? materialRefusals : undefined,
   }
+}
+
+/**
+ * The turn a station written ahead has for this stage, with the run it leaves,
+ * or no result to teach the turn live.
+ *
+ * A station's origin is decided once, at its explore: authored when a bundle
+ * for this exact version of the step is ready and still passes its checks,
+ * live otherwise -- and live it stays. Live too, as before bundles, for a
+ * near-twin after a miss, everything after a missed check (a second naming has
+ * to be a different way), and a run-pace station anywhere but its start, where
+ * it is served whole. The learner is never told which they got.
+ */
+async function authoredTurn(
+  input: DispatchInput,
+  run: LessonRun,
+  step: LessonStep,
+  stage: Stage | null,
+  board: BoardSummary,
+  missed: string[],
+): Promise<{ run: LessonRun; result?: DispatchResult }> {
+  if (!stage || !input.spaceId) return { run }
+  const deciding = stage === 'explore' && !run.stationOrigin
+  if (!deciding && run.stationOrigin !== 'authored') return { run }
+  const live: LessonRun = deciding ? { ...run, stationOrigin: 'live' } : run
+  if (missed.length > 0 || (run.stationMisses ?? 0) > 0) return { run: live }
+  // At run pace a station is one turn: served whole at its explore, and live
+  // from anywhere else in it.
+  if (run.pace === 'run' && !deciding) return { run: live }
+
+  const bundle = await readyBundle(input, run, step, deciding)
+  if (!bundle) return { run: live }
+  const origin: LessonRun = deciding ? { ...run, stationOrigin: 'authored' } : run
+  const result = run.pace === 'run' ? serveWhole(bundle, origin, step, board) : serveStage(stage, bundle, origin, step, board)
+  return result ? { run: result.run, result } : { run: live }
+}
+
+/**
+ * The whole station in one turn, as a live run-pace turn builds it: the
+ * explore, the naming card -- written true whatever the student did, so it
+ * claims no result -- the practice, and the check. Topic lessons start at run
+ * pace, so without this most would pay for a station and never be served it.
+ */
+function serveWhole(bundle: StationBundle, run: LessonRun, step: LessonStep, board: BoardSummary): DispatchResult | null {
+  const explore = serveStage('explore', bundle, run, step, board)
+  const named = keptAuthored(bundle.name.solved.actions, run, step)
+  const practice = keptAuthored([withIntent(bundle.practice)], run, step)
+  if (!explore || !named || !practice) return null
+  const check = serveStage('check', bundle, run, step, board)
+  if (!check) return null
+  return {
+    run: check.run,
+    say: bundle.explore.opening,
+    actions: [...explore.actions, ...onePoint(named), ...practice, ...check.actions],
+    suggestions: [],
+    ...(explore.intents ? { intents: explore.intents } : {}),
+  }
+}
+
+/** Longest a station's first turn waits for a bundle with only its verify left: a live turn takes as long. */
+const WAIT_FOR_VERIFY_MS = 10_000
+const WAIT_POLL_MS = 1_000
+/** What a live turn needs if the wait comes to nothing. */
+const LIVE_TURN_MS = 14_000
+
+/**
+ * The bundle written for this step as it stands now, if it is ready and still
+ * passes its checks. At a station's start, one with only its verify left is
+ * waited for, briefly: the plan is usually accepted before station 1 is done,
+ * and a live first turn takes as long as the wait.
+ */
+async function readyBundle(input: DispatchInput, run: LessonRun, step: LessonStep, mayWait: boolean): Promise<StationBundle | null> {
+  // Exactly as the author route computes it, or nothing written is ever found.
+  const subject = input.context?.subject ? String(input.context.subject) : undefined
+  const version = stationVersion({ title: step.title, goal: step.goal, position: run.currentStep, subject })
+  const sleep = input.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)))
+  try {
+    let state = await authorState(input.spaceId!, step.id, version)
+    const nearly = (['explore', 'name', 'practice_check'] as const).every((p) => state.done.includes(p))
+    const room = Math.min(WAIT_FOR_VERIFY_MS, (input.deadline ?? Infinity) - Date.now() - LIVE_TURN_MS)
+    if (mayWait && state.status === 'authoring' && nearly) {
+      for (let waited = 0; state.status === 'authoring' && waited + WAIT_POLL_MS <= room; waited += WAIT_POLL_MS) {
+        await sleep(WAIT_POLL_MS)
+        state = await authorState(input.spaceId!, step.id, version)
+      }
+    }
+    if (state.status !== 'ready' || !state.bundle) return null
+    const verdict = verifyBundleCode(state.bundle)
+    if (!verdict.ok) {
+      console.log(`Authored station refused at serve time (${verdict.pass}): ${verdict.reasons.join('; ')}`)
+      return null
+    }
+    return verdict.bundle.version === version && verdict.bundle.stepId === step.id ? verdict.bundle : null
+  } catch (error) {
+    console.warn('Authored station lookup failed:', (error as { message?: string })?.message)
+    return null
+  }
+}
+
+/** Which name cut fits how the explore went: never one claiming a result they did not reach. */
+function cutFor(explored: Explored | undefined): Outcome {
+  if (explored?.outcome === 'solved') return explored.attempts <= 1 ? 'solved' : 'helped'
+  return 'untried'
+}
+
+/** An authored item's action with its intent back on, for the gates, which take it off again. */
+function withIntent(item: { action: unknown; intent?: TeachingIntent }): unknown {
+  return item.intent ? { ...(item.action as object), intent: item.intent } : item.action
+}
+
+/**
+ * The explore with the hints written for it on its activity's spec, where the
+ * card gives them after a miss. They were written ahead and paid for, then
+ * dropped here: a scene missed in a real lesson had nothing to say.
+ */
+function hinted(explore: StationBundle['explore']): StationBundle['explore'] {
+  const a = explore.action as { type?: unknown; spec?: { hints?: unknown } }
+  if (a.type !== 'createActivity' || !a.spec || a.spec.hints !== undefined || !explore.hints?.length) return explore
+  return { ...explore, action: { ...a, spec: { ...a.spec, hints: explore.hints } } as never }
+}
+
+/**
+ * Authored actions through the same gates a live turn's pass, or null when any
+ * of them would be dropped: a station is served whole or not at all.
+ */
+function keptAuthored(actions: unknown[], run: LessonRun, step: LessonStep): unknown[] | null {
+  const { kept: activities } = refuseUnjustifiedActivities(fitCardsToLesson(actions, run), { title: step.title, goal: step.goal })
+  const { kept } = refuseUnjustifiedMaterials(activities)
+  const valid = kept.filter(isValidAction)
+  return valid.length === actions.length && valid.length > 0 ? valid : null
+}
+
+function serveStage(stage: Stage, bundle: StationBundle, run: LessonRun, step: LessonStep, board: BoardSummary): DispatchResult | null {
+  const stepNo = run.currentStep + 1
+  if (stage === 'check') {
+    const checkpointId = `cp-${step.id}-${Math.random().toString(36).slice(2, 6)}`
+    const begun = beginCheck(run, step.id, checkpointId, 'checkpoint', 'hard')
+    if (!begun.ok) return null
+    const questions = bundle.check.questions
+    return {
+      run: keepQuestions(begun.run, checkpointId, questions),
+      say: bundle.check.say,
+      actions: [{ type: 'checkpoint', id: checkpointId, step: stepNo, gate: 'hard', questions }],
+      suggestions: [],
+    }
+  }
+  const { say, actions, intent } =
+    stage === 'explore'
+      ? {
+          say: bundle.explore.opening,
+          // The material's intent goes back on for the gates, which take it off again.
+          actions: [withIntent(hinted(bundle.explore))] as unknown[],
+          intent: bundle.explore.intent,
+        }
+      : stage === 'name'
+        ? { ...bundle.name[cutFor(board.exploreByStep[stepNo])], intent: undefined }
+        : { say: bundle.practice.say, actions: [withIntent(bundle.practice)] as unknown[], intent: bundle.practice.intent }
+  const kept = keptAuthored(actions, run, step)
+  if (!kept || isAllRepeats(kept, board)) return null
+  return {
+    run,
+    say,
+    actions: onePoint(kept),
+    suggestions: stage === 'name' ? [...COMPREHENSION_CHIPS] : [],
+    ...(intent ? { intents: [intent] } : {}),
+  }
+}
+
+/**
+ * "Not really": one question about what is unclear, before any re-explaining.
+ *
+ * The tutor reads back what it just said and built on this step, and names the
+ * two or three likeliest sticking points as chips ("the tiles, or how they
+ * make 7x?"). It builds nothing -- the learner's pick comes back as a question,
+ * and that is answered with a card about that one point. Only the tutor's own
+ * lines and card titles go into the prompt, never the learner's typing.
+ */
+async function applyDiagnose(input: DispatchInput, run: LessonRun): Promise<DispatchResult> {
+  const board = parseBoardSummary(input.context?.board)
+  const step = run.steps[run.currentStep]
+  const stepNo = run.currentStep + 1
+  const said = board.recent.filter((m) => m.role === 'assistant').slice(-2).map((m) => `  "${m.text}"`)
+  const built = board.cards.filter((c) => c.step === stepNo && !c.aside).slice(-4).map((c) => `  [${c.kind}] ${c.title}`)
+  const prompt = [
+    'You are Kana, a patient tutor. You just explained something and the student said "Not really": it has not landed.',
+    '',
+    `LESSON: ${String(input.context?.title ?? 'this topic')}`,
+    step ? `STEP: ${step.title} -- ${step.goal}` : '',
+    '',
+    'WHAT YOU JUST SAID:',
+    said.length ? said.join('\n') : '  (nothing on record)',
+    'WHAT IS ON THE BOARD FOR THIS STEP:',
+    built.length ? built.join('\n') : '  (nothing yet)',
+    '',
+    'Ask ONE question, a short one, that finds out which part is unclear, before explaining anything again.',
+    'Offer the two or three likeliest sticking points as the choices, each a few words the student',
+    'would pick ("The tiles", "How they make 7x"). Name parts of what is on the board, not the whole topic.',
+    'Do not explain, do not build anything, and do not give an answer.',
+    '',
+    'Reply with JSON only: { "say": "<the one question>", "suggestions": ["<sticking point>", "<sticking point>"] }',
+  ].filter((l) => l !== '').join('\n')
+
+  const raw = await callGemma(prompt, {
+    maxTokens: 300,
+    temperature: 0.4,
+    model: modelForJob('help'),
+    reasoningEffort: reasoningForJob('help'),
+    noGemmaFallback: true,
+    fallbackModel: fallbackForJob('help'),
+    usage: input.requestId ? { feature: 'lesson_diagnose', requestId: input.requestId, userId: input.userId } : undefined,
+    signal: signalFor(input.deadline),
+  })
+  let parsed: { say?: unknown; suggestions?: unknown }
+  try {
+    parsed = parseJsonRobust(raw)
+  } catch {
+    return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  }
+  const say = typeof parsed?.say === 'string' ? parsed.say.trim() : ''
+  if (!say) return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  return {
+    run,
+    say,
+    actions: [],
+    suggestions: Array.isArray(parsed.suggestions)
+      ? parsed.suggestions.filter((s): s is string => typeof s === 'string' && s.trim().length > 0).slice(0, 3)
+      : [],
+  }
+}
+
+/**
+ * Get help: read the attempt back, then ONE question that narrows the gap.
+ *
+ * The attempt is the learner's own -- typed text, or a description of what they
+ * chose or placed -- so it goes in fenced, as student text the tutor reads and
+ * never follows. Never the answer: the reveal button is how an answer is seen,
+ * after two misses. No cards: the help is in the conversation.
+ */
+async function applyHelp(
+  input: DispatchInput,
+  action: { nodeId: string; prompt: string; attempt: string },
+  run: LessonRun,
+): Promise<DispatchResult> {
+  const question = String(action.prompt ?? '').trim().slice(0, 1200)
+  if (!question) {
+    return { run, say: '', actions: [], suggestions: [], refusal: 'Which question? Press Get help on the card you are stuck on.' }
+  }
+  const attempt = String(action.attempt ?? '').trim().slice(0, MAX_TYPED_CHARS) || '(nothing given)'
+  const step = run.steps[run.currentStep]
+  const prompt = [
+    'You are Kana, a patient tutor. The student missed this question and pressed Get help: "Why was my answer wrong?"',
+    '',
+    `LESSON: ${String(input.context?.title ?? 'this topic')}`,
+    step ? `STEP: ${step.title} -- ${step.goal}` : '',
+    '',
+    'THE QUESTION:',
+    question,
+    '',
+    fenceStudentText('WHAT THEY DID', attempt),
+    '',
+    'First read their attempt back in your own words: what they did, specifically ("You chose 2x + 3", "You put the enzyme on the left").',
+    'Then ask ONE question that narrows the gap between what they did and what is right, so they can see it for themselves.',
+    'Never give the answer, the right option or the rule outright. Build nothing.',
+    /^[\w:.-]{1,80}$/.test(String(action.nodeId ?? ''))
+      ? `You may point at their work on card "${action.nodeId}" with ONE action: {"type":"point","nodeId":"${action.nodeId}","part":"option-N" (a question's Nth option, from 1) | "piece-<id>" | "slot-<id>"}.`
+      : '',
+    '',
+    'Reply with JSON only: { "say": "<the read-back, then the one question>", "actions": [] }',
+  ].filter((l, i, all) => l !== '' || all[i - 1] !== '').join('\n')
+
+  const raw = await callGemma(prompt, {
+    maxTokens: 350,
+    temperature: 0.4,
+    model: modelForJob('help'),
+    reasoningEffort: reasoningForJob('help'),
+    noGemmaFallback: true,
+    fallbackModel: fallbackForJob('help'),
+    usage: input.requestId ? { feature: 'lesson_help', requestId: input.requestId, userId: input.userId } : undefined,
+    signal: signalFor(input.deadline),
+  })
+  let parsed: { say?: unknown; actions?: unknown }
+  try {
+    parsed = parseJsonRobust(raw)
+  } catch {
+    return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  }
+  const say = typeof parsed?.say === 'string' ? parsed.say.trim() : ''
+  if (!say) return { run, say: '', actions: [], suggestions: [], refusal: 'That did not come through. Try that again.', retry: true }
+  // One point at their work, and nothing else: help is said, not built.
+  const returned = Array.isArray(parsed.actions) ? parsed.actions : []
+  const point = returned.find((a) => isValidAction(a) && (a as { type?: unknown }).type === 'point')
+  return { run, say, actions: point ? [point] : [], suggestions: [] }
 }
 
 /**
@@ -789,7 +1249,10 @@ function coerceCardAction(a: Record<string, unknown>): Record<string, unknown> {
  * mismatch so the next turn has something to act on — telling it only that the
  * turn failed produces the same turn again.
  */
-export function refuseUnjustifiedActivities(actions: unknown[]): {
+export function refuseUnjustifiedActivities(
+  actions: unknown[],
+  topic?: { title: string; goal: string },
+): {
   kept: unknown[]
   refused: string[]
 } {
@@ -803,6 +1266,10 @@ export function refuseUnjustifiedActivities(actions: unknown[]): {
     }
     const a = raw as Record<string, unknown>
 
+    if (isAlgebraBuild(a.spec)) {
+      refused.push(COMPOSE_IS_NOT_ALGEBRA)
+      continue
+    }
     if (!validateSpec(a.spec)) {
       const pattern = (a.spec as { pattern?: unknown } | null | undefined)?.pattern
       const named = typeof pattern === 'string' && pattern ? `"${pattern}"` : 'activity'
@@ -838,12 +1305,86 @@ export function refuseUnjustifiedActivities(actions: unknown[]): {
       )
       continue
     }
+    // Pictures that do not belong to the step come off, and the material keeps
+    // its words: a fern on "Prophase" taught nothing about prophase.
+    const spec = topic ? dropStrayArt(a.spec, topic, intent, refused) : a.spec
+    // Well-formed is not enough. What is left after the stray pictures came
+    // off must still move when moved, start unsolved and keep its answers to
+    // itself: the immune card, its pictures gone, printed every name it asked.
+    const faults = meaningFaults({ type: 'createActivity', spec })
+    if (faults.length) {
+      const pattern = (spec as { pattern?: unknown }).pattern
+      refused.push(`The ${typeof pattern === 'string' ? `"${pattern}"` : 'activity'} would teach nothing as it is: ${faults.join('; ')}.`)
+      continue
+    }
     // The intent is why the material exists, not part of it; keeping it on the
     // action would carry it into the node's data and onto the screen.
     const { intent: _dropped, ...action } = a
-    kept.push(action)
+    kept.push({ ...action, spec })
   }
   return { kept, refused }
+}
+
+/** Words too common to say a picture and a step are about the same thing. */
+const STRAY_STOP = new Set([
+  'with', 'from', 'that', 'this', 'their', 'into', 'about', 'each', 'which', 'what', 'when', 'where',
+  'there', 'these', 'those', 'have', 'more', 'most', 'used', 'uses', 'using', 'show', 'shows',
+  'half', 'section', 'cross', 'diagram', 'picture', 'image', 'simple', 'small', 'large', 'labelled',
+])
+
+function terms(text: string): string[] {
+  return text.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 4 && !STRAY_STOP.has(w))
+}
+
+/** The same word, as a plural or by a shared stem of five letters or more. */
+function sameTerm(a: string, b: string): boolean {
+  return sameName(a, b) || (a.length >= 5 && b.length >= 5 && a.slice(0, 5) === b.slice(0, 5))
+}
+
+/**
+ * Takes off every catalogue picture on a material that has nothing to do with
+ * the step -- no term of its name or hint in the step's title or goal -- unless
+ * it pictures the item it is on ("Fern" with the fern), or the intent names
+ * it. What comes off is said, in `refused`.
+ */
+function dropStrayArt(
+  spec: unknown,
+  topic: { title: string; goal: string },
+  intent: TeachingIntent,
+  refused: string[],
+): unknown {
+  const about = `${topic.title} ${topic.goal}`
+  const strip = (node: unknown): unknown => {
+    if (Array.isArray(node)) return node.map(strip)
+    if (!node || typeof node !== 'object') return node
+    const out: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(node as Record<string, unknown>)) out[k] = strip(v)
+    const image = out.imageUrl
+    if (typeof image !== 'string' || assetHint(image) === null) return out
+    const name = image.replace(/^asset:/, '')
+    const label = typeof out.label === 'string' ? out.label : ''
+    // An item's picture must show that item, not just the step: a neuron on
+    // "Memory cell" passed because the step was about cells. A picture with no
+    // item (a diagram, a situation) must show what the step is about.
+    if (label ? pictureFits(image, label) : pictureFits(image, about)) return out
+    refused.push(label ? `Took the picture "${name}" off "${label}": it does not show ${label}.` : `Took the picture "${name}" off: nothing in it is about ${topic.title}.`)
+    const { imageUrl: _stray, ...rest } = out
+    return rest
+  }
+  const stripped = strip(spec) as { pattern?: unknown; prompt?: unknown; payload?: Record<string, unknown> }
+  // A slider card's scene must be the thing the slider changes: a globe stood for the Moon.
+  const scene = stripped?.payload?.scene
+  if (stripped?.pattern === 'vary' && typeof scene === 'string') {
+    const variable = stripped.payload?.variable as { label?: unknown } | undefined
+    const card = `${typeof stripped.prompt === 'string' ? stripped.prompt : ''} ${typeof variable?.label === 'string' ? variable.label : ''}`
+    if (!pictureFits(scene, card, true)) {
+      refused.push(`Took the scene "${scene.replace(/^asset:/, '')}" off: it is not the thing the slider changes.`)
+      const { scene: _scene, ...payload } = stripped.payload!
+      return { ...stripped, payload }
+    }
+  }
+  void intent
+  return stripped
 }
 
 /**
@@ -894,6 +1435,11 @@ export function refuseUnjustifiedMaterials(actions: unknown[]): {
     const verdict = checkMaterialIntent(intent, validation.spec)
     if (!verdict.ok) {
       refused.push(verdict.reason)
+      continue
+    }
+    const faults = meaningFaults({ type: 'build_material', spec: validation.spec })
+    if (faults.length) {
+      refused.push(`The material would teach nothing as it is: ${faults.join('; ')}.`)
       continue
     }
 
@@ -993,8 +1539,10 @@ function openEmittedCheckpoint(
   if (cpIndex === -1) return { run, actions: rawActions }
 
   const cp = rawActions[cpIndex] as { id: string; step: number; gate?: unknown }
-  const gate: 'hard' | 'soft' = cp.gate === 'soft' ? 'soft' : 'hard'
   const target = run.steps[cp.step - 1] ?? run.steps[run.currentStep]
+  // A station's check is a check: hard, whatever the model asked for. A soft
+  // one is a learning card -- two tries, help, the answer -- and Continue
+  // walked past it.
 
   if (!target) {
     // Neither the emitted step number nor the current step resolves — there
@@ -1028,8 +1576,9 @@ function openEmittedCheckpoint(
   // board, so no new questions appeared, while the run opened a check against
   // that id and waited for an answer to cards that were already answered and
   // gone. Nothing could resolve it and the lesson stopped dead on step three.
+  const gate: 'hard' | 'soft' = cp.gate === 'soft' && !stationStage(run, target) ? 'soft' : 'hard'
   const id = `cp-${target.id}-${Math.random().toString(36).slice(2, 6)}`
-  const renamed = rawActions.map((a, i) => (i === cpIndex ? { ...(a as object), id } : a))
+  const renamed = rawActions.map((a, i) => (i === cpIndex ? { ...(a as object), id, gate } : a))
 
   const opened = beginCheck(run, target.id, id, 'checkpoint', gate)
   if (!opened.ok) {
@@ -1120,7 +1669,7 @@ async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<
     run: keepQuestions(advanced, check.checkpointId, questions),
     say: '',
     actions: [
-      { type: 'checkpoint', id: check.checkpointId, step: stepIndex + 1, gate: check.gate, questions },
+      { type: 'checkpoint', id: check.checkpointId, step: stepIndex + 1, gate: check.gate, kind: 'testout', questions },
     ],
     suggestions: [],
   }
@@ -1178,6 +1727,11 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     finished
       ? 'The lesson is FINISHED. The student has a follow-up question about it — answer it against the whole lesson, adding a card if that is the clearest way. Do not restart the lesson and do not emit a checkpoint.'
       : "The student has a question about the current step — answer it. You may add or update a card if that's the clearest way to explain, but do NOT advance to a new beat or step.",
+    // On a station, asked about a material they were working, the tutor built
+    // a labelled diagram of it -- the material's answers, handed over.
+    !finished && stationStage(advanced, step)
+      ? 'If the question is about work on the board they have not finished -- a material, a practice problem, a question -- do not show its answer: no labelled, sorted or solved version of it, in a card or in "say". Explain the one idea they are stuck on with a different example, then hand the work back to them.'
+      : '',
     photo
       ? 'THEY HAVE ATTACHED A PHOTO OF THEIR OWN WORK. Read it and answer what is actually on it — say what is right before what is wrong, and name the first line that goes wrong rather than listing everything. Do not write out a corrected version for them to copy.'
       : '',
@@ -1190,6 +1744,9 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     maxTokens: 2600,
     temperature: 0.6,
     model: modelForJob('teach_beat'),
+    reasoningEffort: reasoningForJob('teach_beat'),
+    noGemmaFallback: true,
+    fallbackModel: fallbackForJob('teach_beat'),
     ...(photo ? { image: photo } : {}),
     usage: input.requestId
       ? { feature: photo ? 'lesson_ask_photo' : 'lesson_ask', requestId: input.requestId, userId: input.userId }
@@ -1251,9 +1808,23 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     }
   }
 
+  // An answer with nothing left in it -- the model built only what an aside
+  // drops -- is a question that silently vanished. Said so instead.
+  const said = typeof parsed?.say === 'string' ? parsed.say : ''
+  if (!said.trim() && asideActions.length === 0) {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'That did not come through. Try that again.',
+      retry: true,
+    }
+  }
+
   return {
     run: advanced,
-    say: typeof parsed?.say === 'string' ? parsed.say : '',
+    say: said,
     actions: asideActions,
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
@@ -1356,6 +1927,8 @@ async function writeCheck(
     '    "pairs": [ { "left": "...", "right": "..." }, { "left": "...", "right": "..." } ] }',
     '] }',
     '',
+    byHandFormats(),
+    '',
     '"answer" is the zero-based index into "options". Reply with that JSON and nothing else.',
   ].join('\n')
 
@@ -1363,6 +1936,9 @@ async function writeCheck(
     maxTokens: 900,
     temperature: 0.3,
     model: modelForJob('check'),
+    reasoningEffort: reasoningForJob('check'),
+    noGemmaFallback: true,
+    fallbackModel: fallbackForJob('check'),
     usage: requestId
       ? { feature: 'lesson_check', requestId, userId }
       : undefined,
@@ -1461,7 +2037,7 @@ function acceptsParaphrase(q: CheckpointQuestion): CheckpointQuestion {
  * the apparatus, and both materials were refused for a claim rather than for
  * anything wrong with what they taught.
  */
-function materialContract(): string {
+function materialContract(station?: string): string {
   return `★ MATERIAL CONTRACT — MONTESSORI MODE. THE STUDENT LEARNS BY DOING, NOT READING. ★
 
 This is the authoritative contract for this turn. It REPLACES the card-first
@@ -1485,6 +2061,29 @@ conflicts with it — specifically:
 - Text cards are supporting material only: AT MOST ONE may accompany a material,
   and it comes AFTER it — never before it, and never instead of it.
 - NEVER return a turn of cards and connects alone with no "createActivity".
+` + materialRules(station)
+}
+
+/**
+ * How to build a material well, without montessori's order to build one on
+ * every turn. A station builds one only where its stage asks (explore, a
+ * practice variant), so its turns take these rules and not that mandate --
+ * a check turn told to emit `createActivity` "without exception" was being
+ * told to contradict its own stage.
+ */
+// Stations only: the older prompts stay byte for byte, so a lesson from before them is taught as it was.
+const COMPOSE_FOR_REAL_THINGS = ' -- only real things joined to real things: atoms into a molecule, components into a circuit. Never algebra or arithmetic: its "bonds" mean nothing for expanding brackets, factorising or adding terms. For a method in maths, use "sequence" on its steps, or "balance", or a practice card that asks for the working.'
+const COMPOSE_MUST_FINISH = ' A part never bonds to itself, and a rule that needs that, or more bonds than a part has slots, cannot be finished and is refused. "target" is on screen from the start: it names what is being built, so it must never be the answer to the question you ask.'
+
+export function materialRules(station?: string): string {
+  // Only the scenes near the station: every entry in every prompt would not fit once there are dozens.
+  const scenes = sceneCatalogue(station)
+  return `${scenes ? `SCENES -- purpose-built engines that draw one idea exactly and mark it themselves. When the idea is one a
+scene is for, USE THE SCENE before any apparatus below: it is always right, starts unsolved, and never shows its
+answer -- you only name what to ask. Its intent's "apparatus" is "scene:<engine>".
+
+${scenes}
+` : ''}
 - Before reaching for a "mermaid" or "concept" card for anything with a
   structure, a flow or a process, check WHICH APPARATUS first: a flow of stages
   is "sequence", the parts of a structure are "label" or "compose", a trend or
@@ -1536,8 +2135,10 @@ one carries is printed beside it; that is the value your intent must state:
 - the parts of a diagram, an anatomy, a structure → label (isolates "position")
 - cause and effect, or one variable's influence on an outcome → vary (isolates "magnitude")
 - equality, conservation, balancing an equation, a budget → balance (isolates "structure"; "quantity" ONLY when "mode" is "weights")
+  -- always the "balance" activity with its pans already loaded so they do NOT balance at the start; never a
+  "balance-beam" material, which starts empty, is balanced before anything is placed, and is refused.
 - an ethical, civic, financial or safety decision → scenario (isolates "consequence")
-- building a valid whole out of parts → compose          (isolates "structure")
+- building a valid whole out of parts → compose          (isolates "structure")${station ? COMPOSE_FOR_REAL_THINGS : ''}
 - something that looks to have no hands-on angle → still take the CLOSEST
   fitting apparatus above (a "scenario" for why it matters, a "compare" for how
   it differs from its neighbour) rather than falling back to a card.
@@ -1565,6 +2166,11 @@ APPARATUS — "threePeriod" — isolates "identity" (name → identify → recal
              "phases":["present","identify","recall"] }
   success: { "kind":"pairing", "pairs":[["cu","Copper"]] }    // [item id, its label]
   TWO or more items with DIFFERENT labels, unique ids — one label names nothing.
+  EVERY ITEM NEEDS A PICTURE THAT SHOWS IT: an "imageUrl" from the catalogue whose
+  name or description IS that item (copper for "Copper", not a test tube for
+  "Antibody"). The card asks "What is this?" of the picture — an item with no
+  fitting picture would show its own name as the answer. If the catalogue lacks
+  pictures for the items, use a different apparatus.
 
 APPARATUS — "sort" — isolates "category" (drop each item into the bin it belongs to):
   payload: { "bins":[{"id":"acid","label":"Acid"},{"id":"base","label":"Base"}],
@@ -1578,6 +2184,10 @@ APPARATUS — "sequence" — isolates "order" (put scrambled steps into order):
                       {"id":"b","label":"Tadpole"}] }   // authored in the CORRECT order
   success: { "kind":"exactOrder", "itemIds":["a","b"] }
   Two or more items, unique ids. The board is shuffled before the student sees it.
+  Optional "rules": up to four clues the order follows from, each ticked on the card as it
+  comes true -- [{"text":"Melting comes before boiling","before":"<id>","after":"<id>"}].
+  Each must name two items and be true of the order written. Use them where the order is
+  reasoned out from facts; never one for every neighbouring pair, which reads out the answer.
 
 APPARATUS — "compare" — isolates "membership" (a Venn: left / both / right):
   payload: { "sets":[{"id":"left","label":"Mammals"},{"id":"right","label":"Birds"}],
@@ -1611,14 +2221,29 @@ APPARATUS — "label" — isolates "position" (drag names onto points on a pictu
 APPARATUS — "vary" — isolates "magnitude", never "consequence" (move ONE slider, watch a live model respond):
   payload: { "variable":{"id":"d","label":"Density","min":0,"max":2000,"step":10,"unit":"kg/m3"},
              "model":{"kind":"bars","bars":[{"label":"Upthrust","expr":"d * 10 / 1000","max":20}]},
-             "readouts":[{"label":"Upthrust","expr":"d * 10 / 1000","unit":"N"}] }
+             "readouts":[{"label":"Upthrust","expr":"d * 10 / 1000","unit":"N"}],
+             "target":{"expr":"d * 10 / 1000","value":10,"tolerance":0.5} }
   success: { "kind":"numericWithin", "target":1000, "tolerance":50 }
+  "target" IS REQUIRED: the card is marked on what the learner WATCHES, never on the
+  slider's own number — "expr" is a reading of the slider (usually a bar's), "value"
+  what it must reach. Some slider position must reach it, and the starting one must not.
+  EVERY BAR MUST MOVE as the slider moves, and visibly: an expression without the
+  slider's id ("50") reads the same everywhere and shows nothing; set each bar's
+  "max" near its largest reading. If what the idea shows is not a number that
+  changes (which half of the Moon is lit, which way a ray bends), this is the wrong
+  apparatus: use another, or a predict item.
+  "scene": "asset:<name>" — a picture that must BE the thing the slider changes, by its
+  name ("asset:river-profile" for a river's gradient, "asset:circuit-series" for a
+  circuit's resistance). Leave it out unless the catalogue has that very thing.
+  Give a readout with the same label as each bar, in its unit, so every bar says what
+  it reads ("Flow speed" bar, "Flow speed" readout in cm/s) — a bare height says nothing.
   "model.kind" is one of: "bars" ("bars":[{label,expr,max}], every "max" > 0),
   "tank" ({"fluidExpr","objectExpr"} — the object floats or sinks as its density
   crosses the fluid's), or "plot" ({"fn","xRange":[lo,hi],"yRange":[lo,hi]},
   where the axis variable is "x").
   EXPRESSIONS may use ONLY the declared variable id (and "x" in a plot), numbers,
-  + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round floor ceil.
+  + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round floor ceil --
+  comparisons (< > <= >= == !=) and cond ? a : b draw a curve that changes shape -- a peak t < 40 ? t * 0.6 : max(0, 24 - (t - 40) * 1.2), a ceiling min(x / 250, 20), a floor max(0, ...).
   Anything else is rejected and that readout is dropped.
   "max" must be greater than "min", "step" greater than 0, and
   "success.tolerance" at least half of "step" and NEVER 0 — the slider only
@@ -1668,7 +2293,7 @@ APPARATUS — "compose" — isolates "structure" (join parts into a valid whole)
   IDS sorted and hyphenated — ["o1","h1"].sort().join("-") -> "h1-o1" — and
   every bond in "success.itemIds" must be written that way. "slots" is a
   positive whole number: how many bonds that part can take. Two or more parts,
-  unique ids.
+  unique ids.${station ? COMPOSE_MUST_FINISH : ''}
 
 WORKED EXAMPLES — the whole action, intent included:
 {"type":"createActivity","id":"s2-compose-water","step":2,
@@ -1758,6 +2383,7 @@ function buildTeachPrompt(
   step: LessonStep,
   context: Record<string, unknown>,
   aside = false,
+  missed: string[] = [],
 ): string {
   const board = parseBoardSummary(context.board)
   const stepNo = run.currentStep + 1
@@ -1793,9 +2419,20 @@ function buildTeachPrompt(
   // beats in, the lesson was still on step 1 with no checkpoint in sight and
   // no way for the learner to finish it.
   const wrapUp = shouldCloseStep(board, stepNo, run)
+  // A station's turn is decided by its stage. Asides and homework steps are
+  // taught as lessons were before stations.
+  const stage = aside ? null : stationStage(run, step)
+  // A question on a station is answered, not paced: the legacy blocks below
+  // read the station's own close rule and told every ask at run pace to close
+  // the step with a checkpoint -- which an aside drops.
+  const askedOnStation = aside && stationStage(run, step) !== null
 
   const pace =
-    wrapUp
+    askedOnStation
+      ? ''
+      : stage
+      ? stagePrompt(stage, { missed, pace: run.pace, explored: board.exploreByStep[stepNo], misses: run.stationMisses })
+      : wrapUp
       ? [
           `PACE — CLOSE THIS STEP: it has had ${run.beats} turn(s) already.`,
           'If this step taught a method, a procedure or a calculation, add ONE "practice"',
@@ -1829,7 +2466,8 @@ function buildTeachPrompt(
   const sameKindRun =
     recentKinds.length >= 2 && new Set(recentKinds).size === 1 ? recentKinds[0] : null
 
-  const variety = sameKindRun
+  // A station's stage already says what kind of thing each turn is.
+  const variety = sameKindRun && !stage && !askedOnStation
     ? `VARIETY: your last ${recentKinds.length} cards were all "${sameKindRun}" cards. Do NOT make another one — pick a different type that fits the content (mermaid, worked, table, callout).`
     : ''
 
@@ -1897,8 +2535,10 @@ function buildTeachPrompt(
   // a real learner is long gone by then. Driving a lesson while answering
   // vaguely produced exactly that: seven checks on one step, twenty-three more
   // cards, and the rail never moved.
+  // On a station a miss goes back to practice, then the check again; the stage
+  // carries what this did.
   const struggling =
-    !hw && asked >= 3
+    !hw && !stage && asked >= 3
       ? [
           '',
           `THEY HAVE MISSED THIS STEP'S CHECK ${asked} TIMES. Stop explaining it the`,
@@ -1923,7 +2563,8 @@ function buildTeachPrompt(
   // separately is how they would come apart — an aside turn told "you MUST
   // emit createActivity" with no schema anywhere under it is the failure this
   // whole fix is about, in miniature.
-  const montessori = run.mode === 'montessori' && !aside
+  const montessori = run.mode === 'montessori' && !aside && !stage
+  const builds = !!stage && (run.pace === 'run' || stage === 'explore' || stage === 'practice')
 
   return [
     // Mode-aware: in montessori the card-first mandate is REPLACED rather than
@@ -1933,13 +2574,17 @@ function buildTeachPrompt(
     // both this — and an instruction contradicting the authoritative ACTION
     // TYPES list from lower down the same prompt is precisely the arrangement
     // that produced zero materials on five topics out of five.
-    systemPrompt(montessori ? 'montessori' : 'classic'),
+    stage ? stationSystemPrompt() : systemPrompt(montessori ? 'montessori' : 'classic'),
     '',
     `LESSON: ${String(context.title ?? 'this topic')}`,
     context.subject ? `SUBJECT: ${String(context.subject)}` : '',
     homework,
     struggling,
     given,
+    '',
+    LEVEL_RULE,
+    ORIGIN_RULE,
+    hw ? '' : OWN_WORDS_TEACH_RULE,
     '',
     'THE PLAN:',
     planList,
@@ -1961,8 +2606,10 @@ function buildTeachPrompt(
     variety,
     freshOpener,
     '',
-    montessori ? materialContract() : '',
-    montessori ? advertiseVocabulary() : '',
+    montessori ? materialContract(`${String(context.title ?? '')} ${step.title} ${step.goal}`) : '',
+    // A station builds a material where its stage may ask for one.
+    builds ? `HOW TO BUILD A MATERIAL, when THE STAGE asks for one:\n\n${materialRules(`${String(context.title ?? '')} ${step.title} ${step.goal}`)}` : '',
+    montessori || builds ? advertiseVocabulary() : '',
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',
   ]
@@ -2042,6 +2689,9 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     catalogue,
     answering ? `\nTHE LEARNER SAID: ${input.answer!.trim()}\nShape the plan around that. Drop steps it makes unnecessary, add ones it calls for.` : '',
     '',
+    LEVEL_RULE,
+    ORIGIN_RULE,
+    OWN_WORDS_PLAN_RULE,
     '',
     'Also set "programming" to true ONLY if this lesson teaches writing or reading',
     'source code. A lesson that merely mentions software, or that quotes dialogue,',
@@ -2072,6 +2722,9 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     maxTokens: 700,
     temperature: 0.4,
     model: modelForJob('plan'),
+    fallbackModel: fallbackForJob('plan'),
+    reasoningEffort: reasoningForJob('plan'),
+    noGemmaFallback: true,
     usage: input.requestId
       ? { feature: 'lesson_plan', requestId: input.requestId, userId: input.userId }
       : undefined,

@@ -1,11 +1,15 @@
 // components/studylab/activities/SequenceActivity.tsx
 'use client'
+import { moved } from '@/lib/studylab/activities/patterns/sequence'
+import { SafeLatex } from '../canvasShared'
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, SequencePayload } from '@/lib/studylab/activities/types'
 import type { SequenceWork } from '@/lib/studylab/activities/patterns/sequence'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { ActivityFrame } from './ActivityFrame'
+import { ConditionList } from '@/components/studylab/check/ConditionList'
+import { conditionsFor } from '@/lib/studylab/activities/conditions'
 import { useActivityDrag } from './useActivityDrag'
 import { useActivityState } from './useActivityState'
 
@@ -38,19 +42,10 @@ export function SequenceActivity({ id, spec, onOutcome, initialState }: {
   const rootRef = useRef<HTMLDivElement>(null)
   const byId = new Map(payload.items.map((i) => [i.id, i]))
 
-  // Reordering: dropping item A onto row B removes A from its current spot
-  // and re-inserts it at B's (post-removal) index — a plain array splice, no
-  // control of error at drop time. A wrong order is left to stand until Check.
+  // No control of error at drop time: a wrong order is left to stand until Check.
   const reorder = (itemId: string, targetId: string) => {
-    if (itemId === targetId) return
-    const next = [...order]
-    const from = next.indexOf(itemId)
-    if (from === -1) return
-    next.splice(from, 1)
-    const to = next.indexOf(targetId)
-    if (to === -1) return
-    next.splice(to, 0, itemId)
-    a.setWork({ order: next })
+    const next = moved(order, itemId, targetId)
+    if (next !== order) a.setWork({ order: next })
   }
 
   const drag = useActivityDrag(reorder)
@@ -62,6 +57,7 @@ export function SequenceActivity({ id, spec, onOutcome, initialState }: {
       hint={a.hint} hintAvailable={a.hintAvailable} onHint={a.showHint}
       onCheck={() => { const o = a.check(); if (o) onOutcome(o) }}
     >
+      <div className="flex flex-col gap-3">
       <div ref={rootRef} className={`flex gap-2 ${vertical ? 'flex-col' : 'flex-row flex-wrap'}`}>
         {order.map((itemId, idx) => {
           const item = byId.get(itemId)
@@ -86,11 +82,13 @@ export function SequenceActivity({ id, spec, onOutcome, initialState }: {
               </span>
               <StepArt item={item} />
               <span className={`text-[12.5px] font-semibold ${wrong ? 'text-red-600 dark:text-red-400' : 'text-ss-ink'}`}>
-                {item.label}
+                <SafeLatex>{item.label}</SafeLatex>
               </span>
             </motion.div>
           )
         })}
+      </div>
+      <ConditionList items={conditionsFor('sequence', payload, { order })} label="Rules" />
       </div>
     </ActivityFrame>
   )

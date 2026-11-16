@@ -14,6 +14,7 @@ import {
   hasBedrockCredentials as hasCredentials,
 } from '@/lib/aws-config'
 import { withUsageTracking } from '@/lib/ai-usage-recorder'
+import { isTransientModelError } from '@/lib/studylab/tutorErrors'
 
 const PREFIXES = ['eu', 'us', 'ap'] as const
 
@@ -40,18 +41,12 @@ function stripPrefix(modelId: string): string {
 
 export type ReasoningEffort = 'none' | 'low' | 'medium' | 'high'
 
+/** Thinking tokens count against max_tokens; the caller's budget is for the answer. */
+export const REASONING_HEADROOM_TOKENS = 3000
+
 /** Only these families accept `reasoning_effort`; every other body must not carry it. */
 export function takesReasoningEffort(modelId: string): boolean {
   return /^(moonshotai\.kimi|openai\.gpt-oss|minimax\.)/.test(stripPrefix(modelId))
-}
-
-/** Remove <think>/<reasoning> blocks from a reply (an unclosed one swallows the rest). */
-export function stripInlineReasoning(text: string): string {
-  return text
-    .replace(/<(think|thinking|reasoning)>[\s\S]*?<\/\1>/gi, '')
-    .replace(/<(think|thinking|reasoning)>[\s\S]*$/i, '')
-    .replace(/^[\s\S]*?<\/(think|thinking|reasoning)>/i, '')
-    .trim()
 }
 
 function regionPrefix(): (typeof PREFIXES)[number] {
@@ -95,9 +90,8 @@ export function buildModelCandidates(seedId: string): string[] {
   // What worked last time, first.
   const known = WORKING_MODEL.get(bare)
   if (known) expanded.push(known)
-  // A global inference profile is one id in every region: there are no
-  // regional variants to probe, and "eu.global.moonshotai.kimi-k3.1" is
-  // refused as an invalid model identifier.
+  // A global inference profile is one id in every region: no regional
+  // variants exist to probe, and inventing them only hides a wrong id.
   if (clean.startsWith('global.')) return [...new Set([...expanded, clean])]
   // An id configured WITH a prefix is taken at its word.
   if (clean !== bare) expanded.push(clean)
@@ -153,18 +147,28 @@ export interface ImageInput {
   mimeType: string
 }
 
-function buildInvokeBody(
+export function buildInvokeBody(
   modelId: string,
   prompt: string,
   maxTokens: number,
   temperature: number,
-  image?: ImageInput
+  image?: ImageInput,
+  reasoningEffort?: ReasoningEffort
 ): string {
   const m = stripPrefix(modelId)
+  // Claude: the Anthropic messages body. Sent the OpenAI-style shape below,
+  // Bedrock refuses it for want of anthropic_version.
   if (m.startsWith('anthropic.')) {
     const content: any[] = [{ type: 'text', text: prompt }]
-    if (image) content.unshift({ type: 'image', source: { type: 'base64', media_type: image.mimeType, data: image.base64 } })
-    return JSON.stringify({ anthropic_version: 'bedrock-2023-05-31', messages: [{ role: 'user', content }], max_tokens: maxTokens, temperature })
+    if (image) {
+      content.unshift({ type: 'image', source: { type: 'base64', media_type: image.mimeType, data: image.base64 } })
+    }
+    return JSON.stringify({
+      anthropic_version: 'bedrock-2023-05-31',
+      max_tokens: maxTokens,
+      temperature,
+      messages: [{ role: 'user', content }],
+    })
   }
   if (m.startsWith('amazon.nova')) {
     const content: any[] = [{ text: prompt }]
@@ -186,6 +190,13 @@ function buildInvokeBody(
     })
   }
   // mistral, google (gemma), nvidia, openai on Bedrock — OpenAI-style messages.
+  const reasoning: Record<string, unknown> = {}
+  let budget = maxTokens
+  if (reasoningEffort && takesReasoningEffort(modelId)) {
+    reasoning.reasoning_effort = reasoningEffort
+    if (reasoningEffort !== 'none') budget += REASONING_HEADROOM_TOKENS
+  }
+  maxTokens = budget
   if (image) {
     return JSON.stringify({
       messages: [
@@ -199,13 +210,18 @@ function buildInvokeBody(
       ],
       max_tokens: maxTokens,
       temperature,
+      ...reasoning,
     })
   }
-  return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature })
+  return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature, ...reasoning })
 }
 
-function extractText(modelId: string, payload: any): string {
+export function extractText(modelId: string, payload: any): string {
   const m = stripPrefix(modelId)
+  if (m.startsWith('anthropic.')) {
+    const blocks = Array.isArray(payload?.content) ? payload.content : []
+    return blocks.filter((b: any) => b?.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('').trim()
+  }
   if (m.startsWith('amazon.nova')) return payload?.output?.message?.content?.[0]?.text ?? ''
   if (m.startsWith('meta.llama')) return payload?.generation ?? ''
   const raw =
@@ -216,10 +232,23 @@ function extractText(modelId: string, payload: any): string {
     payload?.content?.[0]?.text ??
     payload?.outputs?.[0]?.text ??
     ''
+  // Answer only: separate reasoning fields (reasoning_content) are never read,
+  // reasoning parts inside a content array are skipped, and reasoning pasted
+  // inline is cut out.
   if (Array.isArray(raw)) {
-    return raw.map((item: any) => (typeof item === 'string' ? item : item?.text || '')).join('\n').trim()
+    const parts = raw.filter((item: any) => !/^(reasoning|thinking)/.test(String(item?.type || '')))
+    return stripInlineReasoning(parts.map((item: any) => (typeof item === 'string' ? item : item?.text || '')).join('\n'))
   }
-  return String(raw || '').trim()
+  return stripInlineReasoning(String(raw || ''))
+}
+
+/** Remove <think>/<reasoning> blocks (an unclosed one swallows the rest). */
+export function stripInlineReasoning(text: string): string {
+  return text
+    .replace(/<(think|thinking|reasoning)>[\s\S]*?<\/\1>/gi, '')
+    .replace(/<(think|thinking|reasoning)>[\s\S]*$/i, '')
+    .replace(/^[\s\S]*?<\/(think|thinking|reasoning)>/i, '')
+    .trim()
 }
 
 let cachedClient: BedrockRuntimeClient | null = null
@@ -257,14 +286,79 @@ export interface CallGemmaOptions {
    * one so the call stops in time to answer properly instead.
    */
   signal?: AbortSignal
+  /**
+   * Another model to ask when this one is busy -- throttled, unavailable, still
+   * warming up -- and only then. Haiku 4.5 answered every call in eu-west-1
+   * with ServiceUnavailable for a stretch of a real lesson while Sonnet
+   * answered at once; without this the lesson stopped.
+   */
+  fallbackModel?: string
+  /** Thinking level for models that take one (Kimi, GPT-OSS, MiniMax); ignored by the rest. */
+  reasoningEffort?: ReasoningEffort
+  /**
+   * Never fall to google.gemma-3-12b-it. A lesson job that cannot use its model
+   * id must raise, not quietly become a 12B model. A busy model still goes to
+   * `fallbackModel`.
+   */
+  noGemmaFallback?: boolean
 }
 
 /**
  * Call Gemma (or whichever Bedrock model is configured) with a single prompt.
  * Tries the configured model id across region prefixes/variants, then falls back
- * to google.gemma-3-12b-it. Returns the raw text response.
+ * to google.gemma-3-12b-it. Returns the raw text response. A busy model is
+ * handed to `fallbackModel`, when one is named.
  */
 export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Promise<string> {
+  const fallback = opts.fallbackModel
+  const own = stripPrefix(opts.model || DEFAULT_GEMMA_MODEL)
+  if (fallback && (BUSY_UNTIL.get(own) ?? 0) > Date.now()) {
+    return callModel(prompt, { ...opts, model: fallback, fallbackModel: undefined })
+  }
+  try {
+    return await callModel(prompt, opts)
+  } catch (err) {
+    let failure = err
+    if (isTooManyRequests(err) && !opts.signal?.aborted) {
+      await new Promise((resolve) => setTimeout(resolve, THROTTLE_PAUSE_MS + Math.random() * 800))
+      if (opts.signal?.aborted) throw abortError()
+      try {
+        return await callModel(prompt, opts)
+      } catch (again) {
+        failure = again
+      }
+    }
+    if (!fallback || !isTransientModelError(failure) || opts.signal?.aborted) throw failure
+    BUSY_UNTIL.set(own, Date.now() + (isTooManyRequests(failure) ? THROTTLE_COOLDOWN_MS : BUSY_COOLDOWN_MS))
+    console.warn(`Model busy (${(failure as { name?: string }).name}); asking ${fallback}`)
+    return callModel(prompt, { ...opts, model: fallback, fallbackModel: undefined })
+  }
+}
+
+/**
+ * "Too many requests" is not a struggling model. It comes back in under a
+ * second and the next ask often goes through: Kimi refused 5 of 12 single
+ * calls on 2026-11-15 with nothing else running. So it is asked once more
+ * after a short pause, and on a second refusal left alone for 15 seconds --
+ * benched for a minute on the first, a lesson ran almost wholly on its
+ * fallback.
+ */
+function isTooManyRequests(err: unknown): boolean {
+  const e = err as { name?: unknown; $metadata?: { httpStatusCode?: unknown } } | null
+  return e?.name === 'ThrottlingException' || e?.$metadata?.httpStatusCode === 429
+}
+const THROTTLE_PAUSE_MS = 600
+const THROTTLE_COOLDOWN_MS = 15_000
+
+/**
+ * Models that answered busy, and until when calls with a fallback skip them.
+ * Each busy answer took about six seconds, of a lesson turn's 24: tried first
+ * on every turn of an outage, it pushed whole-step turns past the deadline.
+ */
+const BUSY_UNTIL = new Map<string, number>()
+const BUSY_COOLDOWN_MS = 60_000
+
+async function callModel(prompt: string, opts: CallGemmaOptions): Promise<string> {
   if (!hasBedrockCredentials()) {
     throw new Error(BEDROCK_CREDENTIALS_ERROR)
   }
@@ -275,7 +369,7 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
 
   const candidates = [
     ...buildModelCandidates(opts.model || DEFAULT_GEMMA_MODEL),
-    ...buildModelCandidates('google.gemma-3-12b-it'),
+    ...(opts.noGemmaFallback ? [] : buildModelCandidates('google.gemma-3-12b-it')),
   ]
   let uniqueCandidates = [...new Set(candidates)]
   if (opts.maxCandidates && opts.maxCandidates > 0) {
@@ -290,7 +384,7 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
         modelId,
         contentType: 'application/json',
         accept: 'application/json',
-        body: buildInvokeBody(modelId, prompt, maxTokens, temperature, opts.image),
+        body: buildInvokeBody(modelId, prompt, maxTokens, temperature, opts.image, opts.reasoningEffort),
       })
       const res = opts.usage
         ? await withUsageTracking(

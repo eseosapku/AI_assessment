@@ -1,9 +1,10 @@
 // lib/studylab/activities/validate.ts
+import { composeModule, isAlgebra } from './patterns/compose'
 import type { ActivitySpec, SuccessRule } from './types'
 import { getPatternModule } from './registry'
 
 const SUCCESS_KINDS = new Set([
-  'exactSet', 'exactOrder', 'binAssignment', 'numericWithin', 'pairing', 'allSubgoals',
+  'exactSet', 'exactOrder', 'binAssignment', 'numericWithin', 'pairing', 'allSubgoals', 'scene',
 ])
 
 function isSuccessRule(r: unknown): r is SuccessRule {
@@ -21,9 +22,17 @@ function isSuccessRule(r: unknown): r is SuccessRule {
       return Array.isArray(x.pairs) && x.pairs.every((p: unknown) => Array.isArray(p) && p.length === 2)
     case 'allSubgoals':
       return Array.isArray(x.subgoals) && x.subgoals.length > 0 && x.subgoals.every(isSuccessRule)
+    case 'scene':
+      return true
     default:
       return false
   }
+}
+
+/** A "compose" written for algebra, told apart so the tutor can be told why it was refused. */
+export function isAlgebraBuild(x: unknown): boolean {
+  const s = x as ActivitySpec | null | undefined
+  return s?.pattern === 'compose' && composeModule.isPayload(s.payload) && isAlgebra(s.payload)
 }
 
 /**
@@ -39,6 +48,7 @@ export function validateSpec(x: unknown): x is ActivitySpec {
   const mod = getPatternModule(s.pattern)
   if (!mod || typeof mod.isPayload !== 'function') return false
   if (!mod.isPayload(s.payload)) return false
+  if (mod.canBeMet && !mod.canBeMet(s.payload, s.success)) return false
   if (s.hints !== undefined && (!Array.isArray(s.hints) || !s.hints.every((h) => typeof h === 'string'))) return false
   if (s.reveal !== undefined && typeof s.reveal !== 'string') return false
   return true

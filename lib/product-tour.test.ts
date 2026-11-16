@@ -67,8 +67,6 @@ describe('anchors', () => {
       home: ['hero-cta', '/practice', '/studylab', '/studylab/gap-map', '/progress', '/classrooms'],
       practice: ['practice-build', 'practice-custom', 'practice-modes'],
       learnspace: ['learnspace-new', 'learnspace-homework', 'learnspace-list'],
-      lesson: ['lesson-board', 'lesson-chat', 'lesson-continue', 'lesson-plan', 'lesson-pace'],
-      // 'lesson-add-block' also exists, used by the demo's cues rather than a tour.
       gapmap: ['gapmap-canvas', 'gapmap-legend'],
       progress: ['progress-overall', 'progress-subjects', 'progress-recent'],
       recall: ['recall-due', 'recall-decks'],
@@ -108,10 +106,6 @@ describe('anchors', () => {
     expect(TOURS.home.steps[0].anchor).toBe('hero-cta')
     expect(TOURS.practice.steps[0].anchor).toBe('practice-build')
     expect(TOURS.learnspace.steps[0].anchor).toBe('learnspace-new')
-    // Inside a lesson the board is the exception, and deliberately so: it is
-    // the thing the student is already looking at and the one that explains
-    // what everything else is for.
-    expect(TOURS.lesson.steps[0].anchor).toBe('lesson-board')
   })
 })
 

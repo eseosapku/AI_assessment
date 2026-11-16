@@ -1,12 +1,28 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { type NodeProps } from '@xyflow/react'
-import { PenLine, Check, Loader2, Eye } from 'lucide-react'
+import { PenLine, Eye } from 'lucide-react'
+import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from 'framer-motion'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { CardFrame, SafeLatex, CanvasContext } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
-import { localVerdict, isAttemptable, type PracticeCell } from '@/lib/studylab/practice'
+import { localVerdict, isAttemptable, practiceQuestion, markPracticeQuestion, type PracticeCell, type PracticeState } from '@/lib/studylab/practice'
+import { MAX_LEARN_TRIES, restoreEvent, isLiveChange, feedbackFor, answerIsFinal, type CheckFlowState } from '@/lib/studylab/checkFlow'
+import { barModel, barOptionsFor, resultFocus, type BarAction, type BarOptions } from '@/lib/studylab/checkBarModel'
+import { useDock } from './stage/StageContext'
+import { attemptText } from '@/lib/studylab/attempt'
+import { motionFor } from '@/lib/studylab/motionPresets'
+import { CheckBar, toneBorder } from './check/CheckBar'
+import { useCheckFlow } from './check/useCheckFlow'
+import { ANSWER_TARGETS } from './check/targets'
+import { McqOptions } from './check/McqOptions'
+import { FillBlanks } from './check/FillBlanks'
+import { OrderSlots } from './check/OrderSlots'
+import { TapFigure } from './check/TapFigure'
+import type { PartsState } from './check/parts'
+import { initialAnswer, attemptOf, isAnswered, type Answer } from '@/lib/studylab/check/answers'
+import { playSound } from '@/lib/studylab/sound'
 
 /**
  * A problem the learner works, rather than reads.
@@ -23,37 +39,122 @@ import { localVerdict, isAttemptable, type PracticeCell } from '@/lib/studylab/p
  * The worked solution is always available and never forced. Someone stuck
  * should be able to see how it goes without having to fail first, and someone
  * who got it should not have the answer shoved at them.
+ *
+ * Checking runs through the shared check flow: a miss gives another go with the
+ * tutor's feedback on what was written; after two, "Show me how" takes the
+ * lead -- but another go is never taken away.
+ *
+ * A card may instead carry a question answered by hand -- choose one, fill the
+ * blanks, put in order, tap the part -- marked here on the card, for nothing,
+ * from what was chosen or placed. One that cannot be answered as written was
+ * never kept, and the card asks for working.
  */
 export function PracticeNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData & { practice?: PracticeCell }
   const cell: PracticeCell = d.practice ?? { state: 'unattempted' }
 
+  // Checked again here, not only when the card was made: a board saved
+  // before, or edited, may carry anything.
+  const q = useMemo(() => (d.question ? practiceQuestion(d.question, id) : null), [d.question, id])
   const [attempt, setAttempt] = useState(cell.attempt ?? '')
-  const settled = cell.state === 'correct' || cell.state === 'close' || cell.state === 'incorrect'
+  const [given, setGiven] = useState<Answer>(() => (q ? initialAnswer(q, cell.given) : undefined))
+  const [showSteps, setShowSteps] = useState(Boolean(cell.revealed))
+  const reduced = useReducedMotion() ?? false
+  const shake = useAnimationControls()
+  const primaryRef = useRef<HTMLButtonElement>(null)
+  // Where focus goes when a result leaves no button to press.
+  const rootRef = useRef<HTMLDivElement>(null)
 
   const { onNodeDataChange } = useContext(CanvasContext)
   const { user } = useAuth()
-  const patch = (next: Partial<PracticeCell>) =>
-    onNodeDataChange(id, { practice: { ...cell, ...next } })
+  // Several saves can land in one tick (the attempt, then the verdict); each
+  // builds on the last rather than on the cell this render started with.
+  const latest = useRef(cell)
+  latest.current = cell
+  const patch = (next: Partial<PracticeCell>) => {
+    latest.current = { ...latest.current, ...next }
+    onNodeDataChange(id, { practice: latest.current })
+  }
+
+  // The verdict the next save carries: "close" and "incorrect" are both misses
+  // to the flow, but the card still shows which.
+  const verdict = useRef<PracticeState>(cell.state === 'marking' ? 'unattempted' : cell.state)
+
+  const { state, dispatch } = useCheckFlow(
+    'learn',
+    {
+      attempts: cell.attempts,
+      settled: cell.state === 'correct' ? 'correct' : undefined,
+      revealed: Boolean(cell.revealed) && (cell.attempts ?? 0) >= MAX_LEARN_TRIES,
+    },
+    (s) => patch({ attempts: s.attempts, state: savedState(s, verdict.current) }),
+  )
 
   // "marking" is saved with the board, so a reload mid-request left the button
   // disabled for good. On mount only: a request in flight belongs to this one.
   useEffect(() => {
     if (cell.state === 'marking') patch({ state: 'unattempted' })
+    const restored = restoreEvent(state, q ? isAnswered(q, given) : isAttemptable(attempt))
+    if (restored) dispatch(restored)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Results marked now sway the card and move focus; a restored card does neither.
+  const seen = useRef<Pick<CheckFlowState, 'phase' | 'attempts'>>()
+  useEffect(() => {
+    const prev = seen.current
+    const live = isLiveChange(prev, state)
+    seen.current = { phase: state.phase, attempts: state.attempts }
+    if (!live) return
+    // Try again: back to the answer, which is where the next go starts.
+    if (state.phase === 'idle' && (prev?.phase === 'retry' || prev?.phase === 'wrong')) {
+      rootRef.current?.querySelector<HTMLElement>(ANSWER_TARGETS)?.focus({ preventScroll: true })
+    }
+    if (state.phase === 'retry' || state.phase === 'wrong') {
+      const m = motionFor('shakeSoft', reduced)
+      if (m.animate) void shake.start({ ...m.animate, transition: m.transition })
+    }
+    if (state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'correct' || state.phase === 'revealed') {
+      const target = resultFocus(barModel(state, options)) === 'primary' ? primaryRef.current : rootRef.current
+      target?.focus({ preventScroll: true })
+    }
+  }, [state.phase, state.attempts, reduced, shake])
+
+  const locked = state.phase === 'checking' || state.phase === 'correct' || state.phase === 'revealed'
+  // Marked parts stay as they were marked until Try again, as in a check.
+  const marked = state.phase === 'correct' || state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'revealed'
+  const parts: PartsState = { locked: locked || state.phase === 'retry' || state.phase === 'wrong', marked, showAnswer: state.phase === 'revealed', mode: 'learn' }
+  const give = (next: Answer) => {
+    if (!q || parts.locked) return
+    setGiven(next)
+    dispatch({ type: 'answer', present: isAnswered(q, next) })
+  }
+
   const submit = async () => {
-    if (!isAttemptable(attempt) || cell.state === 'marking') return
+    if (q) {
+      if (state.phase !== 'ready' || !isAnswered(q, given)) return
+      dispatch({ type: 'check' })
+      const right = markPracticeQuestion(q, given)
+      const v = right ? 'correct' : 'incorrect'
+      verdict.current = v
+      const said = q.format === 'mcq' ? feedbackFor(q, given, v, { final: answerIsFinal('learn', v) }) : undefined
+      patch({ given: given as number | string[], feedback: said })
+      dispatch({ type: 'result', verdict: v })
+      return
+    }
+    if (state.phase !== 'ready' || !isAttemptable(attempt)) return
+    dispatch({ type: 'check' })
 
     // Free and instant where it can be. Only working the tutor has to actually
     // read costs anything.
     if (d.answer && localVerdict(d.answer, attempt) === 'correct') {
-      patch({ attempt, state: 'correct', feedback: 'That is right.' })
+      verdict.current = 'correct'
+      patch({ attempt, feedback: undefined })
+      dispatch({ type: 'result', verdict: 'correct' })
       return
     }
 
-    patch({ attempt, state: 'marking' })
+    patch({ attempt })
     try {
       const res = await fetch('/api/studylab/practice', {
         method: 'POST',
@@ -68,111 +169,157 @@ export function PracticeNode({ id, data }: NodeProps) {
       })
       const json = await res.json()
       if (!res.ok || json?.error || json?.verdict === 'unmarked') {
-        patch({ attempt, state: 'unattempted', feedback: json?.feedback ?? json?.error ?? 'Could not mark that — try again.' })
+        dispatch({ type: 'result', verdict: 'ungraded', message: json?.feedback ?? 'Couldn’t mark that — try again.' })
         return
       }
-      patch({ attempt, state: json.verdict, feedback: json.feedback })
+      verdict.current = json.verdict
+      patch({ attempt, feedback: json.feedback })
+      dispatch({ type: 'result', verdict: json.verdict === 'correct' ? 'correct' : 'incorrect' })
     } catch {
-      patch({ attempt, state: 'unattempted', feedback: 'Could not reach the tutor — try again.' })
+      dispatch({ type: 'result', verdict: 'ungraded', message: 'Couldn’t reach the tutor — try again.' })
     }
   }
 
-  const tone =
-    cell.state === 'correct' ? 'var(--ss-good)'
-    : cell.state === 'close' ? 'var(--ss-warn)'
-    : cell.state === 'incorrect' ? 'var(--ss-bad)'
-    : 'var(--ss-accent)'
+  const hasSteps = Boolean(d.steps && d.steps.length > 0)
+  const dock = useDock()
+  const options: BarOptions = barOptionsFor(
+    {
+      // A question by hand can always show its answer, steps or not.
+      canReveal: hasSteps || !!q,
+      hasWhy: false,
+      whyOpened: false,
+      // From the dock only; the bar offers it after a miss.
+      hasHelp: !!dock.help,
+      hasContinue: false,
+      revealLabel: 'Show me how',
+      canSkip: true,
+    },
+    dock.docked,
+    dock.cont,
+  )
+
+  const onAction = (action: BarAction) => {
+    if (action === 'check') void submit()
+    else if (action === 'tryAgain') {
+      // A fresh choice for an mcq; what was placed or tapped stays, to be moved.
+      if (q?.format === 'mcq') setGiven(undefined)
+      dispatch({ type: 'tryAgain' })
+    }
+    else if (action === 'reveal') {
+      setShowSteps(true)
+      patch({ revealed: true })
+      dispatch({ type: 'reveal' })
+    } else if (action === 'getHelp') {
+      dock.help?.({
+        prompt: q?.prompt || d.body || d.title || 'this problem',
+        attempt: q ? attemptOf(q, given) : attemptText({ kind: 'text', text: attempt }),
+      })
+    } else if (action === 'continue') dock.onContinue()
+  }
+
+  const tone = barModel(state, options).tone
+  const line =
+    state.phase === 'retry' || state.phase === 'wrong' || state.phase === 'correct'
+      ? cell.feedback ?? undefined
+      : state.message
 
   return (
-    <CardFrame accent="violet">
-      <div className="flex items-center gap-2 px-4 pt-4">
-        <div
-          className="grid h-7 w-7 shrink-0 place-items-center rounded-lg"
-          style={{ backgroundColor: 'var(--ss-accent-soft)' }}
-        >
-          <PenLine className="h-4 w-4 text-ss-accent" />
-        </div>
-        <h3 className="text-[15px] font-semibold leading-tight">{d.title || 'Your turn'}</h3>
-      </div>
-
-      <div className="flex flex-col gap-2.5 px-4 pb-4 pt-2.5">
-        {d.body && (
-          <p className="text-[13.5px] leading-relaxed text-ss-ink">
-            <SafeLatex>{d.body}</SafeLatex>
-          </p>
-        )}
-
-        <textarea
-          value={attempt}
-          onChange={(e) => setAttempt(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-              e.preventDefault()
-              void submit()
-            }
-          }}
-          rows={2}
-          placeholder="Work it through here…"
-          className="w-full resize-none rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[13px] text-ss-ink outline-none placeholder:text-ss-slate focus:border-[color:var(--ss-accent)] nodrag nowheel"
-        />
-
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => void submit()}
-            disabled={!isAttemptable(attempt) || cell.state === 'marking'}
-            className="inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[12.5px] font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-            style={{ backgroundColor: 'var(--ss-accent)' }}
-          >
-            {cell.state === 'marking' ? (
-              <>
-                <Loader2 className="h-3.5 w-3.5 animate-spin" /> Marking…
-              </>
-            ) : (
-              <>
-                <Check className="h-3.5 w-3.5" /> {settled ? 'Check again' : 'Check my answer'}
-              </>
-            )}
-          </button>
-
-          {/* Never gated behind failing first. Someone stuck should be able to
-              see how it goes; someone who got it is not shown it. */}
-          {d.steps && d.steps.length > 0 && !cell.revealed && (
-            <button
-              type="button"
-              onClick={() => patch({ revealed: true })}
-              className="inline-flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-[12.5px] font-bold text-ss-slate hover:text-ss-ink"
+    <motion.div ref={rootRef} tabIndex={-1} {...dock.engage} animate={shake} className="rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--subject)]">
+      <CardFrame accent="violet" borderColor={tone === 'neutral' ? undefined : toneBorder(tone)}>
+          <div className="flex items-center gap-2 px-4 pt-4">
+            <div
+              className="grid h-7 w-7 shrink-0 place-items-center rounded-lg"
+              style={{ backgroundColor: 'var(--subject-soft)' }}
             >
-              <Eye className="h-3.5 w-3.5" /> Show me how
-            </button>
-          )}
-        </div>
+              <PenLine className="h-4 w-4 text-ss-subject" />
+            </div>
+            <h3 className="text-[15px] font-semibold leading-tight"><SafeLatex>{d.title || 'Your turn'}</SafeLatex></h3>
+          </div>
 
-        {cell.feedback && (
-          <p
-            className="rounded-xl px-3 py-2 text-[12.5px] font-semibold leading-snug"
-            style={{
-              color: tone,
-              background: `color-mix(in srgb, ${tone} 12%, transparent)`,
-            }}
-          >
-            {cell.feedback}
-          </p>
-        )}
+          <div className="flex flex-col gap-3 px-4 pb-4 pt-2.5">
+            {d.body && d.body.trim() !== q?.prompt.trim() && (
+              <p className="text-[13.5px] leading-relaxed text-ss-ink">
+                <SafeLatex>{d.body}</SafeLatex>
+              </p>
+            )}
 
-        {cell.revealed && d.steps && d.steps.length > 0 && (
-          <ol className="flex list-none flex-col gap-1.5 rounded-xl bg-ss-chip px-3 py-2.5">
-            {d.steps.map((s, i) => (
-              <li key={i} className="flex gap-2 text-[12.5px] leading-relaxed text-ss-ink">
-                <span className="font-bold text-ss-slate tabular-nums">{i + 1}</span>
-                <span>
-                  <SafeLatex>{s}</SafeLatex>
-                </span>
-              </li>
-            ))}
-          </ol>
-        )}
-      </div>
-    </CardFrame>
+            {q && (
+              <p className="text-[13.5px] font-semibold leading-relaxed text-ss-ink">
+                <SafeLatex>{q.prompt}</SafeLatex>
+              </p>
+            )}
+            {q?.format === 'mcq' && (
+              <McqOptions q={q} chosen={given as number | undefined} phase={state.phase} mode="learn" showAnswer={parts.showAnswer} locked={parts.locked} onChoose={(i) => { playSound('tap'); give(i) }} onSubmit={() => void submit()} />
+            )}
+            {q?.format === 'fill' && <FillBlanks q={q} value={given as string[]} onChange={give} state={parts} />}
+            {q?.format === 'order' && <OrderSlots q={q} value={given as string[]} onChange={give} state={parts} />}
+            {q?.format === 'tap' && <TapFigure q={q} value={given as string[]} onChange={give} state={parts} />}
+
+            {!q && <textarea
+              value={attempt}
+              disabled={locked}
+              onChange={(e) => {
+                setAttempt(e.target.value)
+                dispatch({ type: 'answer', present: isAttemptable(e.target.value) })
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                  e.preventDefault()
+                  void submit()
+                }
+              }}
+              rows={2}
+              placeholder="Work it through here…"
+              aria-label="Your working"
+              className="w-full resize-none rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[13px] text-ss-ink outline-none placeholder:text-ss-slate focus:border-[color:var(--subject)] disabled:opacity-80 nodrag nowheel"
+            />}
+
+            {dock.place(<CheckBar ref={primaryRef} state={state} options={options} onAction={onAction} line={line} />)}
+
+            {/* Never gated behind failing first. Someone stuck should be able to
+                see how it goes; someone who got it is not shown it. */}
+            {hasSteps && !showSteps && state.phase !== 'correct' && (
+              <button
+                type="button"
+                onClick={() => {
+                  setShowSteps(true)
+                  patch({ revealed: true })
+                }}
+                className="nodrag inline-flex w-fit items-center gap-1.5 rounded-xl px-1 py-1 text-[12.5px] font-bold text-ss-slate hover:text-ss-ink"
+              >
+                <Eye className="h-3.5 w-3.5" /> Show me how
+              </button>
+            )}
+
+            <AnimatePresence>
+              {showSteps && hasSteps && (
+                <motion.ol
+                  {...motionFor('rise', reduced)}
+                  className="flex list-none flex-col gap-1.5 rounded-xl bg-ss-chip px-3 py-2.5"
+                >
+                  {d.steps!.map((s, i) => (
+                    <li key={i} className="flex gap-2 text-[12.5px] leading-relaxed text-ss-ink">
+                      <span className="font-bold text-ss-slate tabular-nums">{i + 1}</span>
+                      <span>
+                        <SafeLatex>{s}</SafeLatex>
+                      </span>
+                    </li>
+                  ))}
+                </motion.ol>
+              )}
+            </AnimatePresence>
+          </div>
+      </CardFrame>
+    </motion.div>
   )
+}
+
+/** The practice cell's saved state for a flow state and the last verdict. */
+function savedState(s: CheckFlowState, last: PracticeState): PracticeState {
+  if (s.phase === 'checking') return 'marking'
+  if (s.phase === 'correct') return 'correct'
+  if (s.phase === 'retry' || s.phase === 'wrong' || s.phase === 'revealed') {
+    return last === 'close' || last === 'incorrect' ? last : 'incorrect'
+  }
+  return 'unattempted'
 }

@@ -57,7 +57,7 @@ export function MermaidNode({ id, data }: NodeProps) {
         <div className="w-7 h-7 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
           <GitBranch className="w-4 h-4 text-orange-500" />
         </div>
-        <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
+        <h3 className="font-semibold text-[15px] leading-tight"><SafeLatex>{d.title}</SafeLatex></h3>
       </div>
       <div className="px-4 pb-4 pt-2">
         {imageUrl ? (

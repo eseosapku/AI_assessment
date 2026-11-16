@@ -5,37 +5,40 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
-import StudyLabSidebar from './StudyLabSidebar'
-import ProductTour from '@/components/studio/ProductTour'
 import DemoOffer from './DemoOffer'
-import ChatMouthpiece from './ChatMouthpiece'
-import type { CanvasEffects } from './StudyCanvas'
-import { applyActions, toggleStepGroup, autoGroupStep, plainTitle, createImageCard } from '@/lib/studylab/actions'
+import type { LessonStageProps, CanvasEffects, LastAsk } from './trail/stageProps'
+import { useActiveTime } from './stage/useActiveTime'
+import { proveItTopics } from '@/lib/studylab/proveIt'
+import { toggleStepGroup, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { parseHomeworkSheet, mergeSheets, questionCards, type HomeworkSheet } from '@/lib/studylab/homework'
 import { downscaleDataUrl } from '@/lib/studylab/imageScale'
+import { chipAction } from '@/lib/studylab/chips'
+import { boardAfterTurn } from '@/lib/studylab/turnBoard'
 import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
-import { layoutGraph } from '@/lib/studylab/layout'
+import { layoutGraph, withMeasuredSizes } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
+import { focusFromTurn } from '@/lib/studylab/spotlight'
 import { checkAnswers, checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards, recallNotice } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import type { ChatPlan } from '@/lib/studylab/types'
 import { measuredBefore, type LessonRun } from '@/lib/studylab/lessonRun'
+import { whatToAuthor, stationKey, driveInLanes, type AuthorStatus } from '@/lib/studylab/prefetch'
 import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { completeShortQuiz } from '@/lib/quiz-top-up'
 
-// React Flow is client-only; load without SSR.
-const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
+// The Trail reads the browser, so it is drawn on the client only.
+const TrailStage = dynamic<LessonStageProps>(() => import('./trail/TrailStage'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-ss-canvas dark:bg-[#0a0a0a]">
-      <Loader2 className="w-7 h-7 text-ss-accent animate-spin" />
+    <div className="h-screen w-full flex items-center justify-center bg-ss-canvas dark:bg-[#0a0a0a]">
+      <Loader2 className="w-8 h-8 text-ss-accent animate-spin" />
     </div>
   ),
 })
@@ -67,11 +70,18 @@ export default function Workspace({ id }: { id: string }) {
   const [canvas, setCanvas] = useState<CanvasState>(EMPTY_CANVAS)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [effects, setEffects] = useState<CanvasEffects>({ version: 0, list: [] })
+  // The part the latest turn pointed at, held until the next turn.
+  const [pointer, setPointer] = useState<{ nodeId: string; part?: string } | null>(null)
   const [currentStep, setCurrentStep] = useState(0)
   const [busy, setBusy] = useState(false)
   // What the tutor is doing right now, so the wait names its own cause.
   const [working, setWorking] = useState('Thinking…')
   const [run, setRun] = useState<LessonRun | null>(null)
+  // What the stage is about: the cards the last turn built, or the one the
+  // learner was sent to. Empty after a reload; the spotlight falls back.
+  const [focus, setFocus] = useState<string[]>([])
+  // The latest question answered with new cards: a detour, on the Trail.
+  const [lastAsk, setLastAsk] = useState<LastAsk | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -104,6 +114,8 @@ export default function Workspace({ id }: { id: string }) {
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const addOffset = useRef(0)
   const submitted = useRef<Set<string>>(new Set())
+  // Failed checks to take off the board once the next turn has landed.
+  const hideAfterTurn = useRef<Set<string>>(new Set())
 
   const suggestions = useMemo(() => {
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -228,6 +240,7 @@ export default function Workspace({ id }: { id: string }) {
     async (action: Record<string, unknown>) => {
       if (busyRef.current) return
       busyRef.current = true
+      setPointer(null)
       setWorking(busyLabel(action as { type?: string }))
       setBusy(true)
       // A stalled request spun forever. The route gives up at 24 s and
@@ -275,9 +288,12 @@ export default function Workspace({ id }: { id: string }) {
           return
         }
         if (body.refusal) {
-          // A refusal is a sentence in the tutor's voice, not an error toast —
-          // and the run is unchanged, so there is nothing else to apply.
+          // A refusal is a sentence in the tutor's voice, not an error toast.
           // One that pressing again can fix offers the button to do it.
+          // The run it comes with is the true one: another tab can have moved it
+          // on, and a page that kept its own copy was refused for ever, with
+          // nothing to press, over a check it had never heard of.
+          if (body.run) setRun(body.run)
           setMessages((prev) => [
             ...prev,
             { role: 'assistant', kind: 'refusal', content: body.refusal!, ...(body.retry ? { retryAction: action } : {}) },
@@ -304,36 +320,38 @@ export default function Workspace({ id }: { id: string }) {
         let nextCanvas: CanvasState = canvasRef.current
         let nextStep = stepRef.current
 
-        if (actions.length > 0) {
-          const { nodes, edges, effects: fx, created } = applyActions(nextCanvas, actions)
-          nextCanvas = { ...nextCanvas, nodes, edges }
-
-          // Deterministic grouping: `run.currentStep` (0-based, -1 while
-          // nothing is being taught) is the source of truth for where
-          // teaching is now — translate to the card-numbering convention
-          // (1-based) and collapse the step just left when it moved forward.
-          nextStep = nextRun && nextRun.currentStep >= 0 ? nextRun.currentStep + 1 : stepRef.current
-          if (nextStep > stepRef.current) {
-            nextCanvas = autoGroupStep(nextCanvas, stepRef.current)
-          }
-
-          // Auto-tidy the AI lesson graph (freeform blocks keep their positions).
-          const layout = layoutGraph(nextCanvas.nodes, nextCanvas.edges)
-          if (Object.keys(layout).length > 0) {
-            nextCanvas = {
-              ...nextCanvas,
-              nodes: nextCanvas.nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)),
+        // Teaching's step, 1-based, from the run (`currentStep` is -1 while
+        // nothing is being taught); the step just left folds into its tile.
+        if (nextRun && nextRun.currentStep >= 0) nextStep = nextRun.currentStep + 1
+        const hide = [...hideAfterTurn.current]
+        hideAfterTurn.current.clear()
+        if (actions.length > 0 || hide.length > 0) {
+          // The turn that answers a failed check takes it off, before the
+          // board is laid out (see boardAfterTurn).
+          const turn = boardAfterTurn({
+            canvas: nextCanvas,
+            actions,
+            hide,
+            foldStep:
+              actions.length > 0 && nextStep > stepRef.current
+                ? { step: stepRef.current, title: runRef.current?.steps[stepRef.current - 1]?.title }
+                : undefined,
+          })
+          nextCanvas = turn.canvas
+          setCanvas(nextCanvas)
+          if (actions.length > 0) {
+            // What this turn built is the new focus; the board's camera follows it.
+            const seen = focusFromTurn(turn.created, turn.effects)
+            if (seen.focus) setFocus(seen.focus)
+            if (action.type === 'ask' && turn.created.length > 0) {
+              setLastAsk((prev) => ({ version: (prev?.version ?? 0) + 1, question: String(action.question), created: turn.created }))
+            }
+            setPointer(seen.point)
+            if (seen.effects.length > 0) {
+              effectVersion.current += 1
+              setEffects({ version: effectVersion.current, list: seen.effects })
             }
           }
-
-          setCanvas(nextCanvas)
-          const list = created.length > 0 ? [...fx, { kind: 'fitNodes' as const, nodeIds: created }] : fx
-          if (list.length > 0) {
-            effectVersion.current += 1
-            setEffects({ version: effectVersion.current, list })
-          }
-        } else if (nextRun && nextRun.currentStep >= 0) {
-          nextStep = nextRun.currentStep + 1
         }
         if (nextStep !== stepRef.current) setCurrentStep(nextStep)
 
@@ -641,6 +659,33 @@ export default function Workspace({ id }: { id: string }) {
     [busy, handleAdvance, sendAction, sayToTutor]
   )
 
+  // A chip, under Kana or in the drawer. "Makes sense" is Continue in the
+  // learner's words; "Not really" asks what is unclear before anything is
+  // explained again; any other chip -- a sticking point the diagnosis offered,
+  // or a question the tutor suggested -- is asked.
+  const handleChip = useCallback(
+    (label: string) => {
+      if (busy) return
+      const act = chipAction(label)
+      if (act === 'ask') return handleSend(label)
+      sayToTutor({ role: 'user', content: label })
+      if (act === 'advance') handleAdvance()
+      else void sendAction({ type: 'diagnose' })
+    },
+    [busy, handleSend, handleAdvance, sendAction, sayToTutor]
+  )
+
+  // Get help after a miss. The learner's line is the question they would ask;
+  // the attempt goes with it for the tutor to read back.
+  const handleHelp = useCallback(
+    (request: { nodeId: string; prompt: string; attempt: string }) => {
+      if (busy) return
+      sayToTutor({ role: 'user', content: 'Why was my answer wrong?' })
+      void sendAction({ type: 'help', ...request })
+    },
+    [busy, sendAction, sayToTutor]
+  )
+
   // A card's context-menu action ("Explain this deeper", "Quiz me on this"…)
   // is card-scoped content, not an "advance" gesture — routing it through
   // handleSend's silent path would wrongly fire next_beat/accept_plan instead.
@@ -702,6 +747,28 @@ export default function Workspace({ id }: { id: string }) {
     },
     [scheduleCanvasSave]
   )
+
+  // The board measured the cards: keep the sizes, and if any card is not the
+  // size the layout assumed, tidy again so nothing sits on top of anything.
+  const handleMeasured = useCallback(
+    (sizes: Record<string, { w: number; h: number }>) => {
+      if (!withMeasuredSizes(canvasRef.current, sizes)) return
+      setCanvas((prev) => {
+        const next = withMeasuredSizes(prev, sizes)
+        return next ? { ...prev, ...next } : prev
+      })
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave],
+  )
+
+  // Time actually spent learning. Kept on the board in memory and carried by
+  // its ordinary saves (each turn, and when the page is hidden) -- not worth a
+  // save of its own every few seconds.
+  const handleActive = useCallback((ms: number) => {
+    setCanvas((prev) => (prev.activeMs === ms ? prev : { ...prev, activeMs: ms }))
+  }, [])
+  useActiveTime(canvas.activeMs ?? 0, handleActive)
 
   // ── Freeform blocks (palette) ────────────────────────────────────────────────
   const handleAddBlock = useCallback(
@@ -809,9 +876,11 @@ export default function Workspace({ id }: { id: string }) {
    * free-topic path, so it works for a space with no curriculum rows behind it.
    */
   const [provingIt, setProvingIt] = useState(false)
+  const [proveFailed, setProveFailed] = useState(false)
   const handleProveIt = useCallback(async () => {
     if (provingIt) return
     setProvingIt(true)
+    setProveFailed(false)
     try {
       // The lesson's own book and topic, as the Gap Map's "Quiz me" sends
       // them. With the title alone the score landed in a "Mastering ..."
@@ -830,16 +899,18 @@ export default function Workspace({ id }: { id: string }) {
               style: 'Test Style (Textbooks)',
               questionType: 'mcq',
               difficultyLevel: 'intermediate',
+              lessonQuiz: true,
             }
           : {
               user_id: user?.id,
               subject: space?.title || space?.subject || 'Study session',
               subjectDomainHint: space?.subject || undefined,
-              topics: [space?.title || space?.subject].filter(Boolean),
+              topics: proveItTopics(runRef.current, space?.title || space?.subject),
               count: 10,
               style: 'Test Style (Textbooks)',
               questionType: 'mcq',
               difficultyLevel: 'intermediate',
+              lessonQuiz: true,
             }
       const res = await fetchAssessment('/api/generate-assessment', {
         method: 'POST',
@@ -857,6 +928,7 @@ export default function Workspace({ id }: { id: string }) {
     } catch {
       // It used to fail in silence: a tap, a wait, and nothing.
       setProvingIt(false)
+      setProveFailed(true)
       setMessages((prev) => [
         ...prev,
         { role: 'assistant', kind: 'error', content: "Couldn't build the quiz just now. Check your connection and try again." },
@@ -864,35 +936,14 @@ export default function Workspace({ id }: { id: string }) {
     }
   }, [provingIt, space, user?.id, user?.class])
 
-  // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
-  // Surface the count + the node ids still unanswered so the chat banner can tell
-  // the student how many remain and jump the canvas to the next one.
-  const pendingCheckpoint = useMemo(() => {
-    const byCp = new Map<string, { id: string; gate: 'hard' | 'soft'; answered: boolean }[]>()
-    for (const n of canvas.nodes) {
-      const q = n.data.quiz
-      if (!q) continue
-      byCp.set(q.checkpointId, [
-        ...(byCp.get(q.checkpointId) ?? []),
-        { id: n.id, gate: q.gate, answered: q.state === 'correct' || q.state === 'incorrect' },
-      ])
-    }
-    // Only the check the RUN is holding open gates anything. Scanning every
-    // quiz ever placed meant one abandoned checkpoint blocked the lesson for
-    // good — three of them stacked up, Continue refused, and moving to another
-    // step made no difference because the board still had them.
-    const openId = run?.openCheck?.checkpointId
-    if (!openId) return null
-    const cells = byCp.get(openId)
-    if (!cells || cells.length === 0) return null
-    if (!cells.some((c) => c.gate === 'hard') || cells.every((c) => c.answered)) return null
-
-    const unanswered = cells.filter((c) => !c.answered)
-    return { total: cells.length, remaining: unanswered.length, nextId: unanswered[0]?.id ?? null }
-  }, [canvas.nodes, run?.openCheck?.checkpointId])
-
-  // Pan/zoom the canvas to a specific node (used by the "show me the check" banner).
+  // Puts a card in the spotlight: the next question, the check, a card the chat names.
   const goToNode = useCallback((nodeId: string) => {
+    setFocus([nodeId])
+  }, [])
+
+  // Brings a card into view and leaves the spotlight where it is: a part Kana
+  // pointed at off screen.
+  const showNode = useCallback((nodeId: string) => {
     effectVersion.current += 1
     setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId }] })
   }, [])
@@ -933,19 +984,11 @@ export default function Workspace({ id }: { id: string }) {
         // already been asked, from the board — wrote the retry with nothing to
         // avoid and asked the same question in different words. The learner
         // missed it again and could not get past the step.
-        if (!passed) {
-          setCanvas((prev) => ({
-            ...prev,
-            nodes: prev.nodes.map((n) =>
-              n.data.quiz?.checkpointId === cpId || n.id === `${cpId}-hdr`
-                ? { ...n, hidden: true }
-                : n,
-            ),
-            edges: prev.edges.filter(
-              (e) => !e.source.startsWith(cpId) && !e.target.startsWith(cpId),
-            ),
-          }))
-        }
+        //
+        // Not at once, though: hidden the moment it was marked, the question
+        // vanished before its result could be read -- no "Incorrect", no
+        // answer, no Why?. It stays until the tutor's next turn lands.
+        if (!passed) hideAfterTurn.current.add(cpId)
 
         // `passed` is only the page's view; the tutor marks `answers` itself.
         void sendAction({
@@ -974,6 +1017,28 @@ export default function Workspace({ id }: { id: string }) {
       }
     }
   }, [canvas.nodes, busy, sendAction, user?.id, space?.subject, space?.title, id])
+
+  /**
+   * Hands the open check in again, from the dock's "Hand in". The answers are
+   * on the board; the hand-in that should have taken them was refused or
+   * failed, and nothing else would send it again.
+   */
+  const handIn = useCallback(() => {
+    const cpId = runRef.current?.openCheck?.checkpointId
+    if (!cpId) return
+    const cells = canvasRef.current.nodes
+      .filter((n) => n.data.quiz?.checkpointId === cpId)
+      .map((n) => n.data.quiz!)
+    if (cells.length === 0) return
+    const passed = cells.filter((c) => c.state === 'correct').length > cells.length / 2
+    if (!passed) hideAfterTurn.current.add(cpId)
+    void sendAction({
+      type: 'answer_check',
+      passed,
+      missed: cells.filter((c) => c.state !== 'correct').map((c) => c.question.prompt),
+      answers: checkAnswers(cells),
+    })
+  }, [sendAction])
 
   /**
    * Lets go of a check the learner has no way to answer.
@@ -1087,6 +1152,33 @@ export default function Workspace({ id }: { id: string }) {
     }
   }, [id, user?.id])
 
+  // ── Writing the next station ahead ──────────────────────────────────────────
+  // While the learner works on this step, the next one is written in the
+  // background, one pass a request. It never waits on a turn and shows
+  // nothing; a station not ready in time is taught live.
+  const authored = useRef<Record<string, AuthorStatus>>({})
+  const [authoredTick, setAuthoredTick] = useState(0)
+  const authorTarget = useMemo(() => {
+    const stepId = whatToAuthor(run, authored.current)
+    const index = stepId && run ? run.steps.findIndex((s) => s.id === stepId) : -1
+    return stepId && run && index >= 0 ? { stepId, key: stationKey(run.steps[index], index) } : null
+    // authoredTick re-reads the ref once a station settles.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [run, authoredTick])
+  const authorStep = authorTarget?.stepId
+  const authorKey = authorTarget?.key
+  useEffect(() => {
+    if (!authorStep || !authorKey || !user?.id || !loaded) return
+    const ctrl = new AbortController()
+    authored.current[authorKey] = 'authoring'
+    void driveInLanes({ spaceId: id, stepId: authorStep, userId: user.id, signal: ctrl.signal }).then((status) => {
+      if (!status) return
+      authored.current[authorKey] = status
+      setAuthoredTick((t) => t + 1)
+    })
+    return () => ctrl.abort()
+  }, [authorStep, authorKey, user?.id, loaded, id])
+
   // The lesson no longer starts itself. A space with a run already in progress
   // resumes it; one that has never been planned asks for a plan and nothing
   // else, so no cards exist until the learner has agreed to the outline.
@@ -1155,102 +1247,102 @@ export default function Workspace({ id }: { id: string }) {
   }
 
   return (
-    <div className="h-screen w-full flex overflow-hidden">
-      <StudyLabSidebar
-        title={space.title}
-        subject={space.subject}
-        currentStep={currentStep}
-        groups={groups}
-        plan={canvas.plan}
-        cardCount={cardCount}
-        run={run}
-        policy={policy}
-        origin={space?.origin}
-        onBack={() => router.push('/studylab')}
-        onFocusGroup={handleFocusGroup}
-        onTestOut={(stepId) => {
+    <TrailStage
+      subjectKey={space.subject ?? space.title}
+      focus={focus}
+      activeMs={canvas.activeMs ?? 0}
+      onAdvance={handleAdvance}
+      onFocus={goToNode}
+      onHandIn={handIn}
+      pointer={pointer}
+      onShowNode={showNode}
+      trail={{ spaceId: id, lastAsk }}
+      rail={{
+        title: space.title,
+        subject: space.subject,
+        currentStep,
+        groups,
+        plan: canvas.plan,
+        cardCount,
+        run,
+        policy,
+        origin: space?.origin,
+        onBack: () => router.push('/studylab'),
+        onFocusGroup: handleFocusGroup,
+        onTestOut: (stepId) => {
           // The rail is clickable as soon as a plan is drafted, before it is
           // accepted — but test_out (via the check job on the step it opens)
           // writes real questions, so it must wait like everything else does.
           if (run?.phase === 'planning') return
           void sendAction({ type: 'test_out', stepId, checkpointId: `to-${stepId}` })
-        }}
-        onJump={(stepId) => {
+        },
+        onJump: (stepId) => {
           if (run?.phase === 'planning') return
           void sendAction({ type: 'jump', stepId })
-        }}
-        onSetPace={(pace) => void sendAction({ type: 'set_pace', pace })}
-        onAddPage={handleAddPage}
-      />
-
-      <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
-        {unsaved && (
+        },
+        onSetPace: (pace) => void sendAction({ type: 'set_pace', pace }),
+        onAddPage: handleAddPage,
+      }}
+      boardOverlay={
+        unsaved && (
           <div role="status" className="absolute left-3 top-3 z-20 rounded-full border border-ss-line bg-ss-panel px-3 py-1.5 text-[12.5px] font-semibold text-ss-ink shadow">
             Not saved yet. Retrying…
           </div>
-        )}
-        <StudyCanvas
-          nodes={canvas.nodes}
-          edges={canvas.edges}
-          effects={effects}
-          run={run}
-          onNodesPositionChange={handleNodesPositionChange}
-          onToggleGroup={handleToggleGroup}
-          onNodeDataChange={handleNodeDataChange}
-          onAddBlock={handleAddBlock}
-          onDeleteNode={handleDeleteNode}
-          onNodeResize={handleNodeResize}
-          onAskTutor={handleAskTutor}
-          onConnectEdge={handleConnectEdge}
-          onEdgeLabel={handleEdgeLabel}
-          onCardPrompt={handleCardPrompt}
-          busy={busy}
-          title={space?.title}
-          plan={canvas.plan}
-        />
-      </div>
-
-      <div className="w-[360px] shrink-0 h-full border-l border-gray-100 dark:border-gray-800">
-        <ChatMouthpiece
-          messages={messages}
-          suggestions={suggestions}
-          busy={busy}
-          working={working}
-          done={done}
-          onSend={handleSend}
-          onFocusCard={goToNode}
-          defaultPace={policy.defaultPace}
-          pendingCheckpoint={pendingCheckpoint}
-          onGoToCheck={goToNode}
-          onProveIt={handleProveIt}
-          provingIt={provingIt}
-          proveUpdatesGapMap={Boolean(space?.textbook_id && space?.topic_id)}
-          before={measuredBefore(run)}
-          onAcceptPlan={(pace) => {
-            markPlanSettled()
-            void sendAction({ type: 'accept_plan', pace })
-          }}
-          onAnswerPlan={(answer) => {
-            markPlanSettled()
-            sayToTutor({ role: 'user', content: answer })
-            void sendAction({ type: 'draft_plan', answer })
-          }}
-          onStartHomework={startHomework}
-          onRetry={(action) => void sendAction(action)}
-        />
-      </div>
-
+        )
+      }
+      board={{
+        nodes: canvas.nodes,
+        edges: canvas.edges,
+        effects,
+        run,
+        onNodesPositionChange: handleNodesPositionChange,
+        onToggleGroup: handleToggleGroup,
+        onNodeDataChange: handleNodeDataChange,
+        onAddBlock: handleAddBlock,
+        onDeleteNode: handleDeleteNode,
+        onNodeResize: handleNodeResize,
+        onAskTutor: handleAskTutor,
+        onConnectEdge: handleConnectEdge,
+        onEdgeLabel: handleEdgeLabel,
+        onCardPrompt: handleCardPrompt,
+        busy,
+        title: space?.title,
+        plan: canvas.plan,
+        onNodesMeasured: handleMeasured,
+      }}
+      chat={{
+        messages,
+        suggestions,
+        busy,
+        working,
+        done,
+        onSend: handleSend,
+        onChip: handleChip,
+        onHelp: handleHelp,
+        onFocusCard: goToNode,
+        defaultPace: policy.defaultPace,
+        onProveIt: handleProveIt,
+        provingIt,
+        proveFailed,
+        proveUpdatesGapMap: Boolean(space?.textbook_id && space?.topic_id),
+        before: measuredBefore(run),
+        onAcceptPlan: (pace) => {
+          markPlanSettled()
+          void sendAction({ type: 'accept_plan', pace })
+        },
+        onAnswerPlan: (answer) => {
+          markPlanSettled()
+          sayToTutor({ role: 'user', content: answer })
+          void sendAction({ type: 'draft_plan', answer })
+        },
+        onStartHomework: startHomework,
+        onRetry: (action) => void sendAction(action),
+      }}
+    >
       {/* Offered before anything else, on whichever lesson they open first —
           a topic they typed, a gap from the map, or a homework photo. It is
           the only moment the offer is useful. */}
       <DemoOffer lessonId={id} title={space.title} />
-
-      {/* Coach marks, held back until the first card is on the board. Every
-          step points at a control that only exists once teaching has started —
-          the pace toggle is hidden during planning, and Continue is replaced by
-          the plan card's own buttons — so running it on arrival would spotlight
-          things that are not there yet. */}
-      <ProductTour id="lesson" enabled={run?.phase === 'teaching' && canvas.nodes.length > 0} />
-    </div>
+    </TrailStage>
   )
 }

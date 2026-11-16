@@ -1,6 +1,8 @@
+import { moved } from './sequence'
 import { describe, it, expect } from 'vitest'
 import { sequenceModule } from './sequence'
 import type { SequencePayload } from '../types'
+import { conditionsFor } from '../conditions'
 
 const payload: SequencePayload = {
   items: [{ id: 'a', label: 'Prophase' }, { id: 'b', label: 'Metaphase' }, { id: 'c', label: 'Anaphase' }],
@@ -41,5 +43,65 @@ describe('sequenceModule', () => {
   it('leaves a single-item sequence alone', () => {
     const one = { items: [{ id: 'only', label: 'Only' }] }
     expect(sequenceModule.initialWork(one as never, 3).order).toEqual(['only'])
+  })
+  it('refuses rules that are not true of the right order, name an item it lacks, or say nothing', () => {
+    const rule = (before: string, after: string, text = 'A rule') => ({ ...payload, rules: [{ text, before, after }] })
+    expect(sequenceModule.isPayload(rule('a', 'c'))).toBe(true)
+    expect(sequenceModule.isPayload(rule('c', 'a'))).toBe(false)
+    expect(sequenceModule.isPayload(rule('a', 'z'))).toBe(false)
+    expect(sequenceModule.isPayload(rule('a', 'a'))).toBe(false)
+    expect(sequenceModule.isPayload(rule('a', 'c', ' '))).toBe(false)
+    const five = { ...payload, rules: Array.from({ length: 5 }, () => ({ text: 'A rule', before: 'a', after: 'b' })) }
+    expect(sequenceModule.isPayload(five)).toBe(false)
+  })
+})
+
+describe('a sequence ticks its rules', () => {
+  const ruled: SequencePayload = {
+    ...payload,
+    rules: [
+      { text: 'Prophase comes before anaphase', before: 'a', after: 'c' },
+      { text: 'Metaphase comes before anaphase', before: 'b', after: 'c' },
+    ],
+  }
+  const met = (order: string[]) => conditionsFor('sequence', ruled, { order }).map((c) => c.met)
+
+  it('ticks each rule only while it holds in the arrangement', () => {
+    expect(met(['c', 'a', 'b'])).toEqual([false, false])
+    expect(met(['a', 'c', 'b'])).toEqual([true, false])
+    expect(met(['a', 'b', 'c'])).toEqual([true, true])
+    expect(conditionsFor('sequence', ruled, { order: ['a', 'b', 'c'] })[0].text).toBe('Prophase before Anaphase')
+  })
+
+  it('words each rule as the one pair it checks, whatever its writer said', () => {
+    // A real heart lesson ticked "Each chamber relaxes after it contracts" for the atria
+    // alone, with the ventricles still out of order.
+    const broad: SequencePayload = { ...payload, rules: [{ text: 'Each phase follows the one before it', before: 'a', after: 'c' }] }
+    expect(conditionsFor('sequence', broad, { order: ['c', 'a', 'b'] })).toEqual([{ text: 'Prophase before Anaphase', met: false }])
+  })
+
+  it('leaves a rule unticked while one of its items is not placed', () => {
+    expect(met(['a'])).toEqual([false, false])
+  })
+
+  it('shows no rules for a sequence written without them', () => {
+    expect(conditionsFor('sequence', payload, { order: ['a', 'b', 'c'] })).toEqual([])
+  })
+})
+
+describe('moving a step', () => {
+  const order = ['a', 'b', 'c', 'd']
+  it('takes the place of the row it lands on, going up or down', () => {
+    expect(moved(order, 'd', 'b')).toEqual(['a', 'd', 'b', 'c'])
+    expect(moved(order, 'a', 'c')).toEqual(['b', 'c', 'a', 'd'])
+  })
+  it('can reach the last place and the first', () => {
+    expect(moved(order, 'a', 'd')).toEqual(['b', 'c', 'd', 'a'])
+    expect(moved(order, 'c', 'a')).toEqual(['c', 'a', 'b', 'd'])
+  })
+  it('leaves the order alone for a drop on itself or something unknown', () => {
+    expect(moved(order, 'a', 'a')).toBe(order)
+    expect(moved(order, 'z', 'a')).toBe(order)
+    expect(moved(order, 'a', 'z')).toBe(order)
   })
 })

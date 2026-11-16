@@ -30,7 +30,7 @@ export const jsEngine: RunEngine = {
       signal.addEventListener('abort', onAbort)
       worker.onmessage = (e: MessageEvent) => {
         const d = e.data
-        finish({ ok: d.type === 'done', stdout: d.stdout ?? '', stderr: d.stderr ?? '' })
+        finish({ ok: d.type === 'done', stdout: d.stdout ?? '', stderr: d.stderr ?? '', ...(Array.isArray(d.trace) ? { trace: d.trace } : {}) })
       }
       worker.onerror = (e) => finish({ ok: false, stdout: '', stderr: e.message })
       worker.postMessage(code)

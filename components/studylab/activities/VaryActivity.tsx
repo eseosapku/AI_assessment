@@ -1,6 +1,8 @@
 'use client'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ModelSpec, VaryPayload } from '@/lib/studylab/activities/types'
-import { computeReadouts, modelValue } from '@/lib/studylab/activities/patterns/vary'
+import { barReadings, extraReadouts, goalOf, modelValue, sceneUrl, unitAfter } from '@/lib/studylab/activities/patterns/vary'
+import { assetHint } from '@/lib/studylab/activities/assetCatalog'
 import { evaluateExpr } from '@/lib/studylab/activities/expr'
 import { ActivityFrame } from './ActivityFrame'
 import { useActivityState } from './useActivityState'
@@ -10,11 +12,25 @@ const VB_H = 150
 
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n)
 
-/** Bars: height is expr/max, clamped so a runaway expression stays in the chart. */
+/** How a reading moves to its new value as the slider goes: over a quarter second, or at once under reduced motion. */
+function useRedraw() {
+  const reduced = useReducedMotion() ?? false
+  return reduced ? { duration: 0 } : { duration: 0.25, ease: 'easeOut' as const }
+}
+
+/** A reading as it is said: whole numbers whole, the rest to one place. */
+const said = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1))
+
+/**
+ * Bars: height is expr/max, clamped so a runaway expression stays in the
+ * chart, and each one says what it reads, in its unit.
+ */
 function BarsModel({ payload, value, model }: { payload: VaryPayload; value: number; model: Extract<ModelSpec, { kind: 'bars' }> }) {
   const bars = model.bars
   const slot = VB_W / Math.max(bars.length, 1)
   const barW = Math.min(slot * 0.5, 56)
+  const readings = new Map(barReadings(payload, value).map((r) => [r.label, r]))
+  const redraw = useRedraw()
   return (
     <g>
       {bars.map((b, i) => {
@@ -28,11 +44,16 @@ function BarsModel({ payload, value, model }: { payload: VaryPayload; value: num
         const x = slot * i + (slot - barW) / 2
         return (
           <g key={b.label + i}>
-            <rect x={x} y={VB_H - 20 - h} width={barW} height={h} rx={4} className="fill-[color:var(--ss-accent)]" />
+            <motion.rect x={x} width={barW} rx={4} className="fill-[color:var(--ss-accent)]" initial={false} animate={{ y: VB_H - 20 - h, height: h }} transition={redraw} />
             <rect x={x} y={10} width={barW} height={VB_H - 30} rx={4} className="fill-[color:var(--ss-ink)]" fillOpacity={0.05} />
             <text x={x + barW / 2} y={VB_H - 6} textAnchor="middle" className="fill-[color:var(--ss-slate)] text-[12px]">
               {b.label}
             </text>
+            {readings.has(b.label) && (
+              <motion.text x={x + barW / 2} textAnchor="middle" className="fill-[color:var(--ss-ink)] text-[12px] font-bold" initial={false} animate={{ y: Math.max(9, VB_H - 24 - h) }} transition={redraw}>
+                {said(readings.get(b.label)!.value)}{unitAfter(readings.get(b.label)!.value, readings.get(b.label)!.unit)}
+              </motion.text>
+            )}
           </g>
         )
       })}
@@ -57,6 +78,7 @@ function TankModel({ payload, value, model }: { payload: VaryPayload; value: num
   const objSize = 34
   // ratio 0 => floats at the surface, 1 => rests on the bottom.
   const objY = waterTop - objSize / 2 + ratio * (waterH - objSize / 2)
+  const redraw = useRedraw()
   return (
     <g>
       <rect x={70} y={waterTop} width={VB_W - 140} height={waterH} rx={3} className="fill-[color:var(--ss-accent)]" fillOpacity={0.22} />
@@ -64,8 +86,9 @@ function TankModel({ payload, value, model }: { payload: VaryPayload; value: num
         x={70} y={tankTop} width={VB_W - 140} height={tankH} rx={4}
         className="fill-none stroke-[color:var(--ss-ink)]" strokeWidth={2} strokeOpacity={0.3}
       />
-      <rect
-        x={VB_W / 2 - objSize / 2} y={objY} width={objSize} height={objSize} rx={5}
+      <motion.rect
+        initial={false} animate={{ y: objY }} transition={redraw}
+        x={VB_W / 2 - objSize / 2} width={objSize} height={objSize} rx={5}
         className="fill-[color:var(--ss-warn)] stroke-[color:var(--ss-ink)]" strokeWidth={1.5} strokeOpacity={0.4}
       />
     </g>
@@ -90,11 +113,12 @@ function PlotModel({ payload, value, model }: { payload: VaryPayload; value: num
       pts.push(`${px.toFixed(1)},${py.toFixed(1)}`)
     }
   }
+  const redraw = useRedraw()
   return (
     <g>
       <line x1={0} y1={VB_H - 14} x2={VB_W} y2={VB_H - 14} className="stroke-[color:var(--ss-ink)]" strokeWidth={1} strokeOpacity={0.2} />
       {pts.length > 1 && (
-        <polyline points={pts.join(' ')} className="fill-none stroke-[color:var(--ss-accent)]" strokeWidth={2.5} strokeLinejoin="round" />
+        <motion.polyline initial={false} animate={{ points: pts.join(' ') }} transition={redraw} className="fill-none stroke-[color:var(--ss-accent)]" strokeWidth={2.5} strokeLinejoin="round" />
       )}
     </g>
   )
@@ -125,8 +149,10 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
     ? (a.work as { value: number }).value
     : payload.variable.min
 
-  const readouts = computeReadouts(payload, value)
+  const readouts = extraReadouts(payload, value)
   const v = payload.variable
+  const scene = sceneUrl(payload)
+  const goal = goalOf(payload)
 
   return (
     <ActivityFrame
@@ -135,6 +161,12 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
       onCheck={() => { const o = a.check(); if (o) onOutcome(o) }}
     >
       <div className="flex flex-col gap-3">
+        {goal && <p className="text-[13px] font-bold text-ss-subject-ink">Aim for: {goal.label} = {goal.value}</p>}
+        {scene && (
+          // The thing the slider changes, so the card is about a river and not a slider.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={scene} alt={assetHint(payload.scene ?? '') ?? ''} className="mx-auto max-h-40 w-full rounded-xl object-contain" />
+        )}
         <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="w-full" style={{ height: 'auto' }} role="img" aria-label={v.label}>
           {payload.model.kind === 'bars' && <BarsModel payload={payload} value={value} model={payload.model} />}
           {payload.model.kind === 'tank' && <TankModel payload={payload} value={value} model={payload.model} />}
@@ -147,7 +179,7 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
               {v.label}
             </label>
             <span className="text-[13px] font-extrabold text-ss-ink">
-              {value}{v.unit ? ` ${v.unit}` : ''}
+              {value}{unitAfter(value, v.unit)}
             </span>
           </div>
           <input
@@ -167,7 +199,7 @@ export function VaryActivity({ id, spec, onOutcome, initialState }: {
             {readouts.map((r) => (
               <span key={r.label} className="rounded-lg border border-ss-line px-2.5 py-1.5 text-[12px] font-semibold text-ss-ink">
                 {r.label}: <span className="text-ss-accent">{Number.isInteger(r.value) ? r.value : r.value.toFixed(2)}</span>
-                {r.unit ? ` ${r.unit}` : ''}
+                {unitAfter(r.value, r.unit)}
               </span>
             ))}
           </div>

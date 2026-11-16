@@ -84,3 +84,23 @@ export function summarizeCheckpoints(nodes: StudyNode[]): CheckpointSummary[] {
 
   return [...byId.values()].sort((a, b) => a.step - b.step)
 }
+
+/**
+ * Takes checks the lesson has moved past off the board: their questions, their
+ * header and the links to them. Hidden, not deleted -- the check job is told
+ * what this learner has already been asked, from the board, so a retry never
+ * asks the same question in other words.
+ */
+export function hideChecks<B extends { nodes: StudyNode[]; edges: { source: string; target: string }[] }>(board: B, checkpointIds: string[]): B {
+  if (checkpointIds.length === 0) return board
+  const gone = (id: string) => checkpointIds.some((cp) => id.startsWith(cp))
+  return {
+    ...board,
+    nodes: board.nodes.map((n) =>
+      (n.data.quiz && checkpointIds.includes(n.data.quiz.checkpointId)) || checkpointIds.some((cp) => n.id === `${cp}-hdr`)
+        ? { ...n, hidden: true }
+        : n,
+    ),
+    edges: board.edges.filter((e) => !gone(e.source) && !gone(e.target)),
+  }
+}

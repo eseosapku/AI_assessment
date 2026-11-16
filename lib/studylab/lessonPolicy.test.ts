@@ -19,7 +19,8 @@ describe('policyFor', () => {
     expect(p.gaps).toBe('advise')
     expect(p.planEditable).toBe('always')
     expect(p.completion).toBe('learner-says')
-    expect(p.defaultPace).toBe('run')
+    // One pace for every lesson now: run-ahead was taken out (user, 2026-10-26).
+    expect(p.defaultPace).toBe('step')
   })
 
   it('treats homework as questions to work, not a syllabus', () => {

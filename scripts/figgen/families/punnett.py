@@ -1,4 +1,8 @@
-"""Punnett square for a single gene with complete dominance, one cell left blank."""
+"""Punnett square for a single gene with complete dominance, one cell left blank.
+
+Drawn for Upper Secondary, and the same square for Lower Secondary (P6): Rwanda S3 "Unit 20: Genetics" teaches
+monohybrid crosses with Mendel's peas. A figure without "band" in its params is Upper Secondary, as before.
+"""
 from __future__ import annotations
 
 import random
@@ -10,7 +14,7 @@ from ..core import NAMES, mcq, new_figure, short
 ID = "punnett"
 KIND = "bio.genetics"
 SUBJECT = "biology"
-BANDS = ("UP",)
+BANDS = ("UP", "LS")
 CONCEPTS = tuple(f"biology.{c}" for c in ("monohybrid-inheritance", "inheritance-concepts"))
 AVOID = r"division"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
@@ -30,13 +34,22 @@ def _genotype(a: str, b: str) -> str:
     return "".join(sorted([a, b], key=lambda c: (c.islower(), c)))  # dominant allele first: Tt, not tT
 
 
+def _peek(rng: random.Random) -> float:
+    """A draw that does not move rng: the seeds that drew Upper Secondary squares still draw exactly them."""
+    return random.Random(str(rng.getstate()[1][:8])).random()
+
+
 def sample(rng: random.Random) -> dict:
+    lower = _peek(rng) < 0.3
     letter, dom, rec, what = rng.choice(TRAITS)
     p1, p2 = rng.choice(CROSSES)
     p1 = p1.replace("A", letter).replace("a", letter.lower())
     p2 = p2.replace("A", letter).replace("a", letter.lower())
     blank = [rng.randrange(2), rng.randrange(2)]
-    return {"letter": letter, "dom": dom, "rec": rec, "what": what, "p1": p1, "p2": p2, "blank": blank}
+    p = {"letter": letter, "dom": dom, "rec": rec, "what": what, "p1": p1, "p2": p2, "blank": blank}
+    if lower:
+        p["band"] = "LS"
+    return p
 
 
 def offspring(p: dict) -> list[list[str]]:

@@ -4,6 +4,8 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    // Scene engines draw their own views beside their maths.
+    './lib/studylab/engines/**/*.tsx',
     '!./app/api/**/*',
     '!./app/**/route.{js,ts}',
   ],
@@ -38,6 +40,9 @@ module.exports = {
         'ss-good': 'var(--ss-good)',
         'ss-bad': 'var(--ss-bad)',
         'ss-warn': 'var(--ss-warn)',
+        'ss-subject': 'var(--subject)',
+        'ss-subject-soft': 'var(--subject-soft)',
+        'ss-subject-ink': 'var(--subject-ink)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'sans-serif'],

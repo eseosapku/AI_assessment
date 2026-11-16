@@ -4,13 +4,17 @@
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 import { isCardKind, blockSize } from './blocks'
 import { salvageQuestions } from './quiz'
+import { practiceQuestion } from './practice'
 import { validateSpec } from './activities/validate'
 import { parseMaterialSpec } from './material/parse'
 import { createInitialMaterialState } from './material/initialState'
+import { isValidPart } from './point'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
   | { kind: 'fitNodes'; nodeIds: string[] }
+  /** Not the camera's: the stage glows the part and aims Kana's bubble at it. */
+  | { kind: 'point'; nodeId: string; part?: string }
 
 const CARD_W = 300
 const CARD_H = 200
@@ -126,6 +130,10 @@ function findByMaterialPrompt(nodes: StudyNode[], prompt: string): StudyNode | u
   const p = prompt.trim().toLowerCase()
   return nodes.find((n) => {
     if (n.hidden) return false
+    // A card already solved is not a duplicate of a new one: the same prompt again
+    // is the tutor asking for another go, and sending the learner back to the old
+    // card would hand them their own finished answer.
+    if (n.data.activityState?.status === 'solved' || n.data.materialState?.status === 'solved') return false
     if (n.type === 'material') {
       return (n.data.materialSpec?.prompt ?? '').trim().toLowerCase() === p
     }
@@ -151,6 +159,8 @@ export function isValidAction(a: any): a is TutorAction {
       return ['fit', 'node', 'reset'].includes(a.target)
     case 'highlight':
       return typeof a.nodeId === 'string'
+    case 'point':
+      return typeof a.nodeId === 'string' && (a.part === undefined || (typeof a.part === 'string' && isValidPart(a.part)))
     case 'checkpoint':
       // Lenient: the reducer salvages valid questions, so accept any checkpoint
       // with an id and a non-empty questions array (don't reject the whole thing
@@ -219,6 +229,8 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
           action.position && action.position !== 'auto'
             ? action.position
             : autoPosition(nodes, step, cardType)
+        // A practice card's question to answer by hand, if it can be answered as written.
+        const question = cardType === 'practice' ? practiceQuestion(action.question, action.id) : null
         nodes.push({
           id: action.id,
           type: cardType,
@@ -241,6 +253,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             variant: action.variant,
             answer: action.answer,
             rubric: action.rubric,
+            ...(question ? { question } : {}),
             // Only ever set by the server, on a turn that answered a question.
             ...(action.aside ? { aside: true as const } : {}),
             step,
@@ -363,7 +376,17 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             id: nodeId,
             type: 'quiz',
             position: autoPosition(nodes, step, 'quiz'),
-            data: { kind: 'quiz', step, quiz: { checkpointId: action.id, gate, question: q, state: 'unanswered' } },
+            data: {
+              kind: 'quiz',
+              step,
+              quiz: {
+                checkpointId: action.id,
+                gate,
+                ...(action.kind === 'testout' ? { kind: 'testout' as const } : {}),
+                question: q,
+                state: 'unanswered',
+              },
+            },
           })
           created.push(nodeId)
           edges.push({ id: `e-${headerId}-${nodeId}`, source: headerId, target: nodeId, animated: false })
@@ -432,6 +455,12 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
         // Highlight is rendered via a transient selection effect.
         effects.push({ kind: 'zoom', target: 'node', nodeId: action.nodeId })
         break
+      case 'point':
+        // A card that is not on the board has nothing to point at.
+        if (nodes.some((n) => n.id === action.nodeId)) {
+          effects.push({ kind: 'point', nodeId: action.nodeId, ...(action.part ? { part: action.part } : {}) })
+        }
+        break
     }
   }
 
@@ -441,15 +470,16 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
 // When the tutor advances past a step, collapse that step's AI cards (content +
 // its answered checkpoint) into one group node — deterministically, so grouping
 // no longer depends on the model remembering to emit groupStep. No-op if the step
-// is already grouped or has no cards.
-export function autoGroupStep(state: CanvasState, step: number): CanvasState {
+// is already grouped or has no cards. `title` names the folded station on the
+// board's path; without it the station is called by its number.
+export function autoGroupStep(state: CanvasState, step: number, title?: string): CanvasState {
   if (step < 1) return state
   if (state.nodes.some((n) => n.type === 'stepGroup' && n.data.step === step)) return state
   const cardIds = state.nodes
     .filter((n) => n.data.step === step && n.type !== 'stepGroup' && n.source !== 'freeform' && !n.hidden)
     .map((n) => n.id)
   if (cardIds.length === 0) return state
-  const { nodes, edges } = applyActions(state, [{ type: 'groupStep', step, label: `Step ${step}`, cardIds }])
+  const { nodes, edges } = applyActions(state, [{ type: 'groupStep', step, label: title?.trim() || `Step ${step}`, cardIds }])
   // Chain this step's pill to the previous one so completed steps form a
   // connected backbone rather than floating disconnected.
   const prevId = `step-${step - 1}`

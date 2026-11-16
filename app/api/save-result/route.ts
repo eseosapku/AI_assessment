@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
 import { jsonbParam } from '@/lib/pg-json'
-import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
-import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 
+import { writeMasteryBucket, scoreQuestions, legacyBuckets } from '@/lib/studylab/mastery-write'
 import { isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 
 type ResultRow = {
@@ -50,8 +49,8 @@ function isSchemaColumnMissing(error: unknown) {
   return isMissingColumn(error)
 }
 
-// Incrementally upsert one mastery bucket (a topic-level or subtopic-level row).
-async function upsertMasteryBucket(
+// Incrementally upsert one mastery bucket (see lib/studylab/mastery-write.ts).
+function upsertMasteryBucket(
   userId: string,
   textbookId: number,
   topicId: number,
@@ -60,29 +59,7 @@ async function upsertMasteryBucket(
   addTotal: number,
   nowIso: string
 ) {
-  if (addTotal <= 0) return
-  const existingResult = await db.query(
-    `SELECT attempts, correct FROM topic_mastery
-     WHERE user_id = $1 AND textbook_id = $2 AND topic_id = $3 AND subtopic_id = $4 LIMIT 1`,
-    [userId, textbookId, topicId, subtopicId]
-  )
-  const existing = existingResult.rows[0]
-
-  const attempts = Number(existing?.attempts ?? 0) + addTotal
-  const correct = Number(existing?.correct ?? 0) + Math.round(addCorrect)
-  const accuracy = attempts > 0 ? Math.round((correct / attempts) * 10000) / 100 : 0
-
-  await db.query(
-    `INSERT INTO topic_mastery (user_id, textbook_id, topic_id, subtopic_id, attempts, correct, accuracy, last_assessed, updated_at)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-     ON CONFLICT (user_id, textbook_id, topic_id, subtopic_id) DO UPDATE SET
-       attempts = EXCLUDED.attempts,
-       correct = EXCLUDED.correct,
-       accuracy = EXCLUDED.accuracy,
-       last_assessed = EXCLUDED.last_assessed,
-       updated_at = EXCLUDED.updated_at`,
-    [userId, textbookId, topicId, subtopicId, attempts, correct, accuracy, nowIso, nowIso]
-  )
+  return writeMasteryBucket(db, userId, textbookId, topicId, subtopicId, addCorrect, addTotal, nowIso)
 }
 
 // Update per-subtopic mastery for the StudyLab Learning Gap Map. When questions
@@ -125,51 +102,7 @@ async function updateTopicMastery(params: {
     const nowIso = new Date().toISOString()
 
     // ── Precise path: score each tagged question and bucket per subtopic. ──────
-    const questions: any[] = Array.isArray(questionsData) ? questionsData : []
-    const mcqAnswers = (answers && typeof answers === 'object' && answers.mcq) ? answers.mcq : (answers ?? {})
-    const interactiveAnswers = (answers && typeof answers === 'object' && answers.interactive) ? answers.interactive : {}
-    const lfGrades = longformGrades ?? {}
-    const subBuckets = new Map<number, { correct: number; total: number }>()
-    const topicBuckets = new Map<number, { correct: number; total: number }>()
-    let scoredAny = false
-
-    questions.forEach((q: any, idx: number) => {
-      const sid = Number(q?.subtopic_id) || 0
-      const tid = Number(q?.topic_id) || 0
-      if (sid <= 0 && tid <= 0) return
-
-      let frac: number | null = null
-      if (q?.type === 'longform') {
-        const g = lfGrades?.[idx] ?? lfGrades?.[String(idx)]
-        const totalMarks = Number(g?.marks_total)
-        if (g && Number.isFinite(totalMarks) && totalMarks > 0) {
-          frac = Math.max(0, Math.min(1, Number(g.marks_awarded ?? 0) / totalMarks))
-        }
-      } else if (q?.type === 'interactive') {
-        const normalized = normalizeInteractiveQuestion(q)
-        if (normalized) {
-          const ans = interactiveAnswers?.[idx] ?? interactiveAnswers?.[String(idx)]
-          const grade = gradeInteractiveQuestion(normalized, ans)
-          if (grade.marks_total > 0) {
-            frac = Math.max(0, Math.min(1, grade.marks_awarded / grade.marks_total))
-          }
-        }
-      } else if (q?.type === 'mcq' || Array.isArray(q?.options)) {
-        const ua = mcqAnswers?.[idx] ?? mcqAnswers?.[String(idx)]
-        frac = ua !== undefined && ua !== null && Number(ua) === Number(q?.correct_answer) ? 1 : 0
-      } else {
-        return
-      }
-      if (frac === null) return // ungraded long-form — skip rather than misattribute
-
-      scoredAny = true
-      const bucket = sid > 0 ? subBuckets : topicBuckets
-      const key = sid > 0 ? sid : tid
-      const b = bucket.get(key) ?? { correct: 0, total: 0 }
-      b.correct += frac
-      b.total += 1
-      bucket.set(key, b)
-    })
+    const { sections: subBuckets, chapters: topicBuckets, scoredAny } = scoreQuestions(questionsData, answers, longformGrades)
 
     if (scoredAny && (subBuckets.size > 0 || topicBuckets.size > 0)) {
       const tasks: Promise<void>[] = []
@@ -180,21 +113,8 @@ async function updateTopicMastery(params: {
     }
 
     // ── Fallback: legacy assessment-level estimate (no tagged questions). ──────
-    const topicIds: number[] = Array.isArray((assessment as any).topic_ids) ? (assessment as any).topic_ids.map(Number).filter(Number.isFinite) : []
-    const subtopicIds: number[] = Array.isArray((assessment as any).subtopic_ids) ? (assessment as any).subtopic_ids.map(Number).filter(Number.isFinite) : []
-    const keys: Array<{ topic_id: number; subtopic_id: number }> = []
-    if (subtopicIds.length > 0) subtopicIds.forEach((sid) => keys.push({ topic_id: 0, subtopic_id: sid }))
-    else if (topicIds.length > 0) topicIds.forEach((tid) => keys.push({ topic_id: tid, subtopic_id: 0 }))
-    if (keys.length === 0) return
-
-    const pct = Number.isFinite(score) ? Math.max(0, Math.min(100, Number(score))) : 0
-    const total = Number.isFinite(totalQuestions) && totalQuestions > 0 ? Number(totalQuestions) : 0
-    if (total === 0) return
-    const correctCount = Math.round((pct / 100) * total)
-    const perCorrect = correctCount / keys.length
-    const perTotal = total / keys.length
-    for (const key of keys) {
-      await upsertMasteryBucket(userId, textbookId, key.topic_id, key.subtopic_id, perCorrect, perTotal, nowIso)
+    for (const b of legacyBuckets(assessment, score, totalQuestions)) {
+      await upsertMasteryBucket(userId, textbookId, b.topic_id, b.subtopic_id, b.correct, b.total, nowIso)
     }
   } catch (err) {
     console.error('Topic mastery update skipped:', err)

@@ -4,6 +4,28 @@ import { seededShuffle } from '../shuffle'
 
 export interface SequenceWork { order: string[] }
 
+/** Up to four rules, each naming two of the items and true of the order written: one that never ticks on the right answer misleads. */
+function rulesHold(x: SequencePayload): boolean {
+  const at = new Map(x.items.map((item, i) => [item.id, i]))
+  return Array.isArray(x.rules) && x.rules.length <= 4 && x.rules.every((r) =>
+    typeof r?.text === 'string' && r.text.trim().length > 0 &&
+    at.has(r.before) && at.has(r.after) && at.get(r.before)! < at.get(r.after)!)
+}
+
+/**
+ * The order after dropping one item on another: it takes that place. Inserting it
+ * always before the row it landed on meant the last place could never be reached.
+ */
+export function moved(order: string[], itemId: string, targetId: string): string[] {
+  const from = order.indexOf(itemId)
+  if (itemId === targetId || from === -1) return order
+  const next = order.filter((id) => id !== itemId)
+  const at = next.indexOf(targetId)
+  if (at === -1) return order
+  next.splice(from <= at ? at + 1 : at, 0, itemId)
+  return next
+}
+
 export const sequenceModule: PatternModule<SequencePayload, SequenceWork> = {
   pattern: 'sequence',
   initialWork(payload, seed = 1): SequenceWork {
@@ -29,6 +51,6 @@ export const sequenceModule: PatternModule<SequencePayload, SequenceWork> = {
     )) return false
     const ids = new Set(x.items.map((i) => i.id))
     if (ids.size !== x.items.length) return false // duplicate item ids would collide in `order`
-    return true
+    return x.rules === undefined || rulesHold(x)
   },
 }

@@ -1,5 +1,6 @@
 // components/studylab/activities/ThreePeriodActivity.tsx
 'use client'
+import { SafeLatex } from '../canvasShared'
 import { useEffect, useMemo, useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ThreePeriodPayload } from '@/lib/studylab/activities/types'
@@ -12,15 +13,21 @@ import { useActivityState } from './useActivityState'
 
 type Item = ThreePeriodPayload['items'][number]
 
-/** Picture-first: the image IS the lesson. Text is only a fallback. */
-function ItemArt({ item, size = 84 }: { item: Item; size?: number }) {
+/**
+ * Picture-first: the image IS the lesson. It is named only where the card
+ * names it ("This is …"); where the card asks for the name -- "Show me",
+ * "What is this?" -- neither the tile nor its alt text says it, or the card
+ * answers itself. An item with no picture is a "?" there (the meaning gates
+ * refuse such a card; this is the defence behind them).
+ */
+function ItemArt({ item, size = 84, named = false, n = 1 }: { item: Item; size?: number; named?: boolean; n?: number }) {
   const src = item.imageUrl ? assetUrl(item.imageUrl) : null
   if (src) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={src}
-        alt={item.label}
+        alt={named ? item.label : `Picture ${n}`}
         width={size}
         height={size}
         className="rounded-lg border border-ss-line bg-ss-panel object-contain p-1.5"
@@ -32,8 +39,9 @@ function ItemArt({ item, size = 84 }: { item: Item; size?: number }) {
     <div
       className="flex items-center justify-center rounded-lg border border-ss-line bg-ss-panel text-center text-[13px] font-bold leading-tight text-ss-ink"
       style={{ width: size, height: size }}
+      aria-label={named ? undefined : `Picture ${n}`}
     >
-      {item.label}
+      {named ? item.label : '?'}
     </div>
   )
 }
@@ -92,8 +100,8 @@ export function ThreePeriodActivity({ id, spec, onOutcome, initialState }: {
         hint={a.hint} hintAvailable={a.hintAvailable} onHint={a.showHint}
       >
         <div ref={rootRef} className="flex flex-col items-center gap-3 py-2">
-          <ItemArt item={item} size={112} />
-          <p className="text-[13px] font-semibold text-ss-ink">This is {item.label}.</p>
+          <ItemArt item={item} size={112} named />
+          <p className="text-[13px] font-semibold text-ss-ink">This is <SafeLatex>{item.label}</SafeLatex>.</p>
           <button
             type="button"
             onClick={() => (isLast ? setPhase(1) : setPresentIdx(presentIdx + 1))}
@@ -118,9 +126,9 @@ export function ThreePeriodActivity({ id, spec, onOutcome, initialState }: {
         hint={a.hint} hintAvailable={a.hintAvailable} onHint={a.showHint}
       >
         <div ref={rootRef} className="flex flex-col gap-3">
-          <p className="text-center text-[13px] font-semibold text-ss-ink">Show me: {target.label}</p>
+          <p className="text-center text-[13px] font-semibold text-ss-ink">Show me: <SafeLatex>{target.label}</SafeLatex></p>
           <div className="flex flex-wrap justify-center gap-2.5">
-            {options.map((item) => (
+            {options.map((item, k) => (
               <motion.button
                 key={item.id}
                 type="button"
@@ -134,7 +142,7 @@ export function ThreePeriodActivity({ id, spec, onOutcome, initialState }: {
                 }}
                 className="nodrag cursor-pointer"
               >
-                <ItemArt item={item} />
+                <ItemArt item={item} n={k + 1} />
               </motion.button>
             ))}
           </div>

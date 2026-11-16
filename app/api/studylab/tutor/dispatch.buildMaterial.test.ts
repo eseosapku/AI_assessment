@@ -10,7 +10,23 @@ const intent = {
   why: 'Sorting makes the grouping decision the whole of the work.',
 }
 
-const spec = getApparatus('sorting-frame')!.base
+// A real material, not the apparatus's base: the base heads its frames "Warm"
+// and "Cool" and names its tiles the same, which answers itself.
+const spec = {
+  ...getApparatus('sorting-frame')!.base,
+  prompt: 'Sort each element into metal or non-metal.',
+  pieces: [
+    { id: 'fe', label: 'Iron', traits: { category: 'metal' } },
+    { id: 's', label: 'Sulfur', traits: { category: 'nonmetal' } },
+  ],
+  groups: [{ id: 'metal', label: 'Metal', ordered: false }, { id: 'nonmetal', label: 'Non-metal', ordered: false }],
+  slots: [{ id: 's-metal', groupId: 'metal', x: 0, y: 0, capacity: 2 }, { id: 's-nonmetal', groupId: 'nonmetal', x: 0, y: 0, capacity: 2 }],
+  rules: [
+    { op: 'allow', selector: { trait: 'category', equals: 'metal' }, groupId: 'metal' },
+    { op: 'allow', selector: { trait: 'category', equals: 'nonmetal' }, groupId: 'nonmetal' },
+  ],
+  goal: { kind: 'binAssignment', assign: { fe: 'metal', s: 'nonmetal' } },
+}
 
 describe('refuseUnjustifiedMaterials', () => {
   it('lets a justified material through', () => {
@@ -79,7 +95,7 @@ describe('refuseUnjustifiedMaterials', () => {
     expect(refused[0]?.length).toBeGreaterThan(0)
   })
 
-  it('accepts balance-beam with isolates structure (equation-style)', () => {
+  it('takes an equation-style balance-beam intent, but refuses a beam that is balanced before anything is placed', () => {
     const balance = getApparatus('balance-beam')!.base
     const { kept, refused } = refuseUnjustifiedMaterials([
       {
@@ -94,7 +110,10 @@ describe('refuseUnjustifiedMaterials', () => {
         spec: balance,
       },
     ])
-    expect(refused).toEqual([])
-    expect(kept).toHaveLength(1)
+    // The intent is fine ("structure" for balancing atoms); the beam is not: a
+    // material starts with nothing placed, so an empty beam already balances.
+    expect(refused.join(' ')).not.toMatch(/isolates/)
+    expect(refused.join(' ')).toMatch(/solved before anything is moved/)
+    expect(kept).toHaveLength(0)
   })
 })

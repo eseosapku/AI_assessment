@@ -1,15 +1,20 @@
 'use client'
-import { useCallback, useContext, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import type { ActivitySpec, ActivityState } from '@/lib/studylab/activities/types'
 import { buildOutcome } from '@/lib/studylab/activities/telemetry'
+import { conditionsFor } from '@/lib/studylab/activities/conditions'
 import { createInitialMaterialState } from '@/lib/studylab/material/initialState'
 import { tick } from '@/lib/studylab/material/interpreter'
 import type { MaterialSpec, MaterialState } from '@/lib/studylab/material/types'
 import { CanvasContext } from '@/components/studylab/canvasShared'
 import type { MaterialWorkAdapter } from './adapters'
 import { MaterialRenderer } from './MaterialRenderer'
+import { withLessonPrompt } from '@/lib/studylab/material/lessonPrompt'
+import { seededShuffle } from '@/lib/studylab/activities/shuffle'
+import { useCheckFlow } from '../check/useCheckFlow'
+import { restoreEvent } from '@/lib/studylab/checkFlow'
+import type { BarAction } from '@/lib/studylab/checkBarModel'
 
-const HINT_AFTER_ATTEMPTS = 2
 
 function seedMaterialState(
   materialSpec: MaterialSpec,
@@ -77,6 +82,20 @@ export function MaterialActivity({
   const [wrongIds, setWrongIds] = useState<string[]>([])
   const [revealed, setRevealed] = useState(activity.status === 'solved')
 
+  // The lesson's check flow. Attempts are already saved on the activity state
+  // by `check`, so the flow keeps no separate copy of its own.
+  const { state: flow, dispatch } = useCheckFlow(
+    'learn',
+    { attempts: activity.attempts, settled: activity.status === 'solved' ? 'correct' : undefined },
+    () => {},
+  )
+  // Work already on the material is an answer that can be checked.
+  useEffect(() => {
+    const restored = restoreEvent(flow, activity.status === 'in_progress')
+    if (restored) dispatch(restored)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const persistActivity = useCallback((next: ActivityState) => {
     // Refusal and placement callbacks can fire before React renders between them.
     activityRef.current = next
@@ -98,7 +117,10 @@ export function MaterialActivity({
       work,
       status: latest.status === 'solved' ? 'solved' : 'in_progress',
     })
-  }, [adapter, materialSpec, persistActivity, spec.payload])
+    // Moving a piece is the answer, and after a miss it is the next go.
+    setWrongIds([])
+    dispatch({ type: 'answer', present: true })
+  }, [adapter, materialSpec, persistActivity, spec.payload, dispatch])
 
   const handleRefusal = useCallback((pieceId: string, slotId: string) => {
     const targetId = adapter.refusalTarget(slotId)
@@ -111,6 +133,7 @@ export function MaterialActivity({
   }, [adapter, persistActivity])
 
   const check = useCallback(() => {
+    dispatch({ type: 'check' })
     const tickResult = tick(materialSpec, materialState)
     const work = adapter.workFromPlacement(
       materialState.placement,
@@ -123,12 +146,15 @@ export function MaterialActivity({
       ? []
       : adapter.wrongIdsWhenUnsolved(spec.payload, work, spec.success)
     const validate = { ok: tickResult.solved, wrongIds: failedWrongIds }
+    // A miss shows the next hint, so count it as used.
+    const hintShown = !validate.ok && (spec.hints?.length ?? 0) > 0
     const next: ActivityState = {
       ...activity,
       attempts,
       work,
       status: validate.ok ? 'solved' : 'in_progress',
       elapsedMs: Date.now() - startedAt.current,
+      hintsUsed: hintShown ? activity.hintsUsed + 1 : activity.hintsUsed,
     }
     persistActivity(next)
     setWrongIds(validate.wrongIds)
@@ -136,29 +162,48 @@ export function MaterialActivity({
       setRevealed(true)
       setMaterialState({ ...materialState, status: 'solved' })
     }
+    dispatch({ type: 'result', verdict: validate.ok ? 'correct' : 'incorrect' })
     onOutcome(buildOutcome(id, spec.pattern, next, validate))
-  }, [activity, adapter, id, materialSpec, materialState, onOutcome, persistActivity, spec])
+  }, [activity, adapter, id, materialSpec, materialState, onOutcome, persistActivity, spec, dispatch])
 
-  const hintAvailable =
-    (spec.hints?.length ?? 0) > 0 && activity.attempts >= HINT_AFTER_ATTEMPTS
-  const hint = hintAvailable
-    ? spec.hints![Math.min(activity.hintsUsed, spec.hints!.length - 1)]
-    : null
+  // After a miss, Kana's line is the next hint, where the activity has one.
+  const missed = flow.phase === 'retry' || flow.phase === 'wrong'
+  const hints = spec.hints ?? []
+  const checkLine =
+    missed && hints.length > 0 ? hints[Math.min(Math.max(activity.hintsUsed - 1, 0), hints.length - 1)] : undefined
+
+  // A sequence's rules, read off the board as it stands.
+  const conditions = conditionsFor(
+    spec.pattern,
+    spec.payload,
+    adapter.workFromPlacement(materialState.placement, materialSpec, spec.payload, materialState.controls),
+  )
+
+  const onCheckAction = (action: BarAction) => {
+    if (action === 'check') check()
+    else if (action === 'tryAgain') dispatch({ type: 'tryAgain' })
+  }
 
   return (
     <MaterialRenderer
-      spec={materialSpec}
+      // The pieces in the activity's own shuffled order, as the old renderers
+      // drew them: in the order written, a sort listed its answer.
+      spec={withLessonPrompt({ ...materialSpec, pieces: seededShuffle(materialSpec.pieces, spec.seed ?? 1) }, spec)}
       state={materialState}
       onStateChange={handleStateChange}
       onRefusal={handleRefusal}
       solved={activity.status === 'solved'}
       revealed={revealed}
       reveal={spec.reveal}
-      hint={hint}
-      hintAvailable={hintAvailable}
-      onHint={() => persistActivity({ ...activity, hintsUsed: activity.hintsUsed + 1 })}
+      hint={null}
+      hintAvailable={false}
+      onHint={() => undefined}
       onCheck={activity.status === 'solved' ? undefined : check}
       wrongIds={wrongIds}
+      checkState={flow}
+      onCheckAction={onCheckAction}
+      checkLine={checkLine}
+      conditions={conditions}
     />
   )
 }

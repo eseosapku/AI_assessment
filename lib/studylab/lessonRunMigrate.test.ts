@@ -39,8 +39,8 @@ describe('runFromLegacy', () => {
     expect(run.steps.every((s) => !s.lockedBy)).toBe(true)
   })
 
-  it('takes its pace from the policy, since none was ever stored', () => {
-    expect(runFromLegacy({ plan: PLAN, currentStep: 1, status: 'active' }, OPEN).pace).toBe('run')
+  it('takes its pace from the policy, since none was ever stored -- step by step, the only pace', () => {
+    expect(runFromLegacy({ plan: PLAN, currentStep: 1, status: 'active' }, OPEN).pace).toBe('step')
   })
 
   it('survives a plan whose entries are malformed', () => {

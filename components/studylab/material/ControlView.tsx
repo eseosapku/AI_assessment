@@ -1,4 +1,5 @@
 'use client'
+import { SafeLatex } from '../canvasShared'
 import type { Control } from '@/lib/studylab/material/types'
 
 export function ControlView({
@@ -13,7 +14,7 @@ export function ControlView({
   return (
     <label className="nodrag flex flex-col gap-1 text-[12px] font-semibold text-ss-ink">
       <span>
-        {control.label}
+        <SafeLatex>{control.label}</SafeLatex>
         {control.unit ? ` (${control.unit})` : ''}: {value}
       </span>
       <input

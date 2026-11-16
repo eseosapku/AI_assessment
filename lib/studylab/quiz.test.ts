@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, salvageQuestions, checkAnswers } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, missedQuestions, salvageQuestions, checkAnswers, coerceQuestion, blanksIn, gradeFill, gradeOrder, gradeTap, clueStates } from '@/lib/studylab/quiz'
 import type { CheckpointQuestion, QuizCell } from '@/lib/studylab/types'
+import type { FillQuestion, OrderQuestion, TapQuestion } from '@/lib/studylab/quiz'
 
 const mcq: CheckpointQuestion = { id: 'q1', format: 'mcq', prompt: 'p', options: ['a', 'b'], answer: 1 }
 const match: CheckpointQuestion = {
@@ -147,5 +148,115 @@ describe('marking a check on the server', () => {
   it('reports each answered cell by its question id', () => {
     const cells = [{ checkpointId: 'cp', gate: 'hard' as const, question: mcq, state: 'correct' as const, given: 0 }]
     expect(checkAnswers(cells)).toEqual({ q1: { given: 0, state: 'correct' } })
+  })
+})
+
+describe('per-option feedback on a multiple-choice question', () => {
+  const base = { id: 'f', format: 'mcq' as const, prompt: 'Which?', options: ['A', 'B', 'C'], answer: 1 }
+
+  it('keeps feedback that has one line per option', () => {
+    const q = coerceQuestion({ ...base, optionFeedback: ['no', 'yes', 'no'] })
+    expect(q.format === 'mcq' && q.optionFeedback).toEqual(['no', 'yes', 'no'])
+  })
+
+  it('drops feedback that does not line up with the options', () => {
+    const short = coerceQuestion({ ...base, optionFeedback: ['no', 'yes'] })
+    expect(short.format === 'mcq' && 'optionFeedback' in short).toBe(false)
+    const notText = coerceQuestion({ ...base, optionFeedback: ['no', 3, 'no'] as unknown as string[] })
+    expect(notText.format === 'mcq' && 'optionFeedback' in notText).toBe(false)
+  })
+})
+
+describe('missedQuestions -- what a near-twin is made from', () => {
+  const mcq = { id: 'q1', format: 'mcq' as const, prompt: 'What is 4 + 8?', options: ['11', '12'], answer: 1 }
+  const match = { id: 'q2', format: 'match' as const, prompt: 'Pair them', pairs: [{ left: 'x', right: '1' }, { left: 'y', right: '2' }] }
+  const short = { id: 'q3', format: 'short' as const, prompt: 'Why?' }
+
+  it('lists the prompts of the questions answered wrong, marked the way the check is', () => {
+    expect(missedQuestions([mcq, match, short], { q1: { given: 0 }, q2: { given: ['1', '2'] }, q3: { state: 'incorrect' } })).toEqual([
+      'What is 4 + 8?',
+      'Why?',
+    ])
+  })
+  it('counts an unanswered question as missed, and a right one as not', () => {
+    expect(missedQuestions([mcq, short], { q3: { state: 'correct' } })).toEqual(['What is 4 + 8?'])
+  })
+})
+
+describe('fill, order and tap', () => {
+  const fill: FillQuestion = { id: 'f1', format: 'fill', prompt: 'Complete the sentence.', text: 'Plants make ___ from carbon dioxide and ___.', tiles: ['glucose', 'water', 'oxygen'], answer: ['glucose', 'water'] }
+  const order: OrderQuestion = { id: 'o1', format: 'order', prompt: 'Put the stages in order.', items: ['Egg', 'Larva', 'Pupa', 'Adult'], clues: [{ text: 'The larva hatches from the egg.', before: 'Egg', after: 'Larva' }, { text: 'The adult comes out of the pupa.', before: 'Pupa', after: 'Adult' }] }
+  const tap: TapQuestion = { id: 't1', format: 'tap', prompt: 'Tap the nucleus.', figure: 'asset:plant-cell', answer: ['nucleus'] }
+
+  it('counts the blanks in a sentence', () => {
+    expect(blanksIn(fill.text)).toBe(2)
+    expect(blanksIn('No blanks here.')).toBe(0)
+  })
+
+  it('accepts a fill whose tiles can fill its blanks, and refuses one that cannot', () => {
+    expect(isValidQuestion(fill)).toBe(true)
+    expect(isValidQuestion({ ...fill, answer: ['glucose'] })).toBe(false) // blanks != answers
+    expect(isValidQuestion({ ...fill, tiles: ['glucose', 'oxygen'] })).toBe(false) // an answer missing from the tiles
+    expect(isValidQuestion({ ...fill, tiles: ['glucose', 'water', 'water'] })).toBe(false) // a tile repeated
+    expect(isValidQuestion({ ...fill, tiles: ['glucose', 'water', 'a', 'b', 'c', 'd', 'e', 'f', 'g'] })).toBe(false) // more than 8
+  })
+
+  it('accepts an order of 3 to 6 different items whose clues hold, and refuses one that does not', () => {
+    expect(isValidQuestion(order)).toBe(true)
+    expect(isValidQuestion({ ...order, items: ['Egg', 'Larva', 'Egg'] })).toBe(false)
+    expect(isValidQuestion({ ...order, items: ['Egg', 'Adult'], clues: [] })).toBe(false)
+    expect(isValidQuestion({ ...order, clues: [{ text: 'x', before: 'Egg', after: 'Caterpillar' }] })).toBe(false)
+    expect(isValidQuestion({ ...order, clues: [{ text: 'x', before: 'Adult', after: 'Egg' }] })).toBe(false) // false in the right order
+  })
+
+  it('accepts a tap on parts we have mapped, and refuses anything else', () => {
+    expect(isValidQuestion(tap)).toBe(true)
+    expect(isValidQuestion({ ...tap, figure: 'asset:made-up' })).toBe(false)
+    expect(isValidQuestion({ ...tap, answer: ['golgi'] })).toBe(false)
+    expect(isValidQuestion({ ...tap, answer: [] })).toBe(false)
+    expect(isValidQuestion({ ...tap, answer: ['nucleus', 'nucleus'] })).toBe(false)
+    // Every part an answer: tapping everything would win.
+    expect(isValidQuestion({ ...tap, answer: ['cell-wall', 'cell-membrane', 'vacuole', 'nucleus', 'chloroplast'] })).toBe(false)
+  })
+
+  it('marks each from what was given', () => {
+    expect(gradeFill(fill, ['Glucose ', 'water'])).toBe(true)
+    expect(gradeFill(fill, ['water', 'glucose'])).toBe(false)
+    expect(gradeOrder(order, ['Egg', 'Larva', 'Pupa', 'Adult'])).toBe(true)
+    expect(gradeOrder(order, ['Egg', 'Pupa', 'Larva', 'Adult'])).toBe(false)
+    expect(gradeTap({ ...tap, answer: ['nucleus', 'vacuole'] }, ['vacuole', 'nucleus'])).toBe(true)
+    expect(gradeTap(tap, ['nucleus', 'vacuole'])).toBe(false)
+  })
+
+  it('marks them on the server from what was given, never from a page that says it was right', () => {
+    const qs = [fill, order, tap] as unknown as CheckpointQuestion[]
+    const lying = { f1: { given: ['water', 'glucose'], state: 'correct' }, o1: { given: ['Adult'], state: 'correct' }, t1: { given: ['vacuole'], state: 'correct' } }
+    expect(markCheck(qs, lying)).toBe(false)
+    expect(missedQuestions(qs, lying)).toHaveLength(3)
+    const right = { f1: { given: ['glucose', 'water'] }, o1: { given: ['Egg', 'Larva', 'Pupa', 'Adult'] }, t1: { given: ['nucleus'] } }
+    expect(markCheck(qs, right)).toBe(true)
+  })
+
+  it('ticks a clue only when both of its items are placed, in that order', () => {
+    expect(clueStates(order, ['Egg', 'Larva', '', ''])).toEqual([true, false])
+    expect(clueStates(order, ['Larva', 'Egg', 'Pupa', 'Adult'])).toEqual([false, true])
+    expect(clueStates(order, [])).toEqual([false, false])
+  })
+})
+
+describe('a question its writer found broken', () => {
+  const base = { id: 'q', format: 'mcq', prompt: 'P', options: ['a', 'b'], answer: 0 }
+  it('is refused', () => {
+    const fb = ['Right.', 'Wait—actually, this IS one too. But option A is also correct, so pick the first one.']
+    expect(isValidQuestion({ ...base, optionFeedback: fb })).toBe(false)
+    expect(isValidQuestion({ ...base, explain: 'Both are correct, really.' })).toBe(false)
+  })
+  it('is refused when a wrong option is said to work', () => {
+    expect(isValidQuestion({ ...base, optionFeedback: ['Right.', 'This works but loses the pattern.'] })).toBe(false)
+    expect(isValidQuestion({ ...base, optionFeedback: ['This works: it is the rule.', 'Halving comes first.'] })).toBe(true)
+  })
+  it('ordinary feedback is not', () => {
+    expect(isValidQuestion({ ...base, optionFeedback: ['Yes: this is the square of 3.', 'You would wait longer for that.'] })).toBe(true)
+    expect(isValidQuestion({ ...base, explain: 'It actually reaches the same value.' })).toBe(true)
   })
 })

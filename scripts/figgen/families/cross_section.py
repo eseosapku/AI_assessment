@@ -15,7 +15,8 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"geography.{c}" for c in ("cross-sections-sketch-maps", "topographic-maps", "relief-landforms"))
 AVOID = r"exam-style|^introduction$"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"cross.section|contour|relief|topographic|map work|map reading|sketch map|vertical exaggeration"
+# P6: IGCSE "Part B: Geographical Skills" lists only its 1:25 000 and 1:50 000 map extracts as sections.
+NEEDS = r"cross.section|contour|relief|topographic|map work|map reading|sketch map|vertical exaggeration|geographical skills"
 VERTICAL = [5000, 10000, 25000]  # 1 : this, under a horizontal 1 : 50 000
 
 

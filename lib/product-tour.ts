@@ -25,7 +25,7 @@
  * itself.
  */
 
-export type TourId = 'home' | 'practice' | 'learnspace' | 'lesson' | 'gapmap' | 'progress' | 'recall'
+export type TourId = 'home' | 'practice' | 'learnspace' | 'gapmap' | 'progress' | 'recall'
 
 export interface TourStep {
   /** Value of the target's data-tour attribute. */
@@ -144,81 +144,29 @@ export const TOURS: Record<TourId, Tour> = {
     ],
   },
 
-  /**
-   * Inside a lesson, as distinct from the `learnspace` hub above.
-   *
-   * Runs once the first card is on the board — not on arrival. A first-timer
-   * staring at an empty canvas has nothing to point at, and every step here
-   * describes a control that is only there once teaching has started. It waits
-   * until something has visibly happened, then explains how to steer it.
-   */
-  lesson: {
-    id: 'lesson',
-    steps: [
-      {
-        anchor: 'lesson-board',
-        eyebrow: 'The board',
-        title: 'The board is the lesson, not the chat',
-        body:
-          'Every idea, example and diagram becomes a card here, joined left to right so the lesson reads as a path. The chat on the right is a thin guide that points at what it just built — the teaching itself is always on a card.',
-        action: 'Drag cards anywhere. Nothing you build is ever deleted.',
-      },
-      {
-        anchor: 'lesson-chat',
-        eyebrow: 'Finding what it made',
-        title: 'Every card it adds is listed here',
-        body:
-          'When the tutor says "see the card", the block underneath names it. Click that block and the board flies straight to it, so you never have to go hunting across the canvas.',
-      },
-      {
-        anchor: 'lesson-continue',
-        eyebrow: 'Moving and asking',
-        title: 'Continue is the only thing that moves forward',
-        body:
-          'The outlined buttons above it are questions about what is on screen right now — asking one gets you another card without skipping ahead. You can also type your own question, or paste a photo of your working.',
-        action: 'Right-click any card for Simplify, Explain deeper, or Quiz me on this.',
-      },
-      {
-        anchor: 'lesson-plan',
-        eyebrow: 'Your plan',
-        title: 'Click any step to go straight to it',
-        body:
-          'Each row shows its own state: waiting, being taught, or done. Clicking a step you have not reached starts teaching it; clicking one you have finished brings its cards back without re-explaining them.',
-      },
-      {
-        anchor: 'lesson-pace',
-        eyebrow: 'How fast',
-        title: 'Change the pace whenever it stops fitting',
-        body:
-          'Step by step adds one card and waits for you. Run ahead builds a whole step at once and finishes with a quick check. Switch when a step covers something you already know, and switch back when it gets hard.',
-        action: 'Takes effect on the next turn.',
-      },
-    ],
-  },
-
   gapmap: {
     id: 'gapmap',
     steps: [
       {
         anchor: 'gapmap-canvas',
         eyebrow: 'The whole picture',
-        title: 'Your knowledge as a wall',
+        title: 'Your chapters as tiles',
         body:
-          'Every topic you have been quizzed on is a tile here, grouped by subject. Nothing to pan or open — the gaps are the holes in the wall, and they sort themselves to the front.',
+          'Every chapter of your subjects is a tile, in book order. Tiles sticking up have gaps, and Kana points you to the lowest one.',
       },
       {
         anchor: 'gapmap-legend',
         eyebrow: 'Reading it',
         title: 'Every tile carries a mark, not just a colour',
         body:
-          'A tick means you are getting these right, a dash means shaky, a cross means it needs work, and a dashed outline means no quiz has covered it yet — which is not the same as being bad at it.',
+          'A tick means you are getting these right, a dash means shaky, a gold star means a gap you closed, and a faded picture means no quiz has covered it yet, which is not the same as being bad at it.',
       },
       {
         anchor: 'gapmap-canvas',
         eyebrow: 'Acting on it',
-        title: 'Tap a hole to fill it',
+        title: 'Tap a tile to fix it',
         body:
-          'Any tile opens a panel with what it is, how you did and how often you have been tested — and a button that builds a lesson on that exact subtopic. Find the gap, study it, prove it closed.',
+          'Each tile opens a path of its sections. Kana can teach you one, then you retake it and watch the tile drop back into its slot. Find the gap, study it, prove it closed.',
       },
     ],
   },

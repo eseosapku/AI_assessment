@@ -1,6 +1,6 @@
 // lib/studylab/activities/artMatch.test.ts
 import { describe, it, expect } from 'vitest'
-import { unmatchedArt } from './artMatch'
+import { unmatchedArt, sameName } from './artMatch'
 import type { ActivitySpec } from './types'
 
 const threePeriod = (items: { id: string; label: string; imageUrl?: string }[]) =>
@@ -31,5 +31,22 @@ describe('unmatchedArt', () => {
 
   it('never throws on a malformed payload', () => {
     expect(unmatchedArt({ pattern: 'sort', payload: null } as unknown as ActivitySpec)).toEqual([])
+  })
+})
+
+describe('sameName -- exact, or a known plural', () => {
+  it('matches a name with its plural', () => {
+    expect(sameName('beans', 'bean')).toBe(true)
+    expect(sameName('boxes', 'box')).toBe(true)
+    expect(sameName('berries', 'berry')).toBe(true)
+    expect(sameName('Red blood cells', 'red-blood-cell')).toBe(true)
+  })
+  it('does not strip every trailing s', () => {
+    expect(sameName('glass', 'glas')).toBe(false)
+    expect(sameName('gas', 'ga')).toBe(false)
+    expect(sameName('bus', 'bu')).toBe(false)
+  })
+  it('keeps different things different', () => {
+    expect(sameName('cell', 'cello')).toBe(false)
   })
 })

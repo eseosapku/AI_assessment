@@ -1,16 +1,15 @@
 'use client'
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  Brain, Plus, Sparkles, Clock, X, Loader2, Upload, CheckCircle2,
-  Leaf, Sigma, Zap, LineChart, Binary, GraduationCap, ArrowRight, FileQuestion, type LucideIcon,
-} from 'lucide-react'
+import { Loader2, Sparkles, Upload, X } from 'lucide-react'
 import { hasSeenDemo } from '@/lib/studylab/demoGate'
 import { useAuth } from '@/components/AuthProvider'
 import PersonaPanel from '@/components/studylab/PersonaPanel'
-import { subjectArt } from '@/lib/studio/subjectArt'
+import { HubAsk } from '@/components/studylab/hub/HubAsk'
+import { CarryOn, LessonShelf } from '@/components/studylab/hub/HubLessons'
+import { shelvesOf, type HubLesson } from '@/lib/studylab/hubLessons'
 import type { PersonaSnapshot } from '@/lib/studylab/persona'
 import { openLearnSpace as openSpaceInTab } from '@/lib/studylab/openSpace'
 import { setHomeworkImage, setHomeworkText } from '@/lib/studylab/homeworkHandoff'
@@ -21,89 +20,75 @@ import ProductTour from '@/components/studio/ProductTour'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
-interface LearnSpace {
-  id: string
-  title: string
-  subject: string | null
-  origin: string
-  /** Homework only: a small first page, for the card. */
-  thumb?: string | null
-  current_step: number
-  status: string
-  created_at: string
-  updated_at: string
-}
-
-const SUGGESTIONS: Array<{ topic: string; subject: string; icon: LucideIcon }> = [
-  { topic: 'Why leaves are green', subject: 'Biology', icon: Leaf },
-  { topic: 'Completing the square', subject: 'Mathematics', icon: Sigma },
-  { topic: 'How a transistor switches', subject: 'Physics', icon: Zap },
-  { topic: 'Why prices settle where they do', subject: 'Economics', icon: LineChart },
-  { topic: 'What a binary search tree is for', subject: 'Computer Science', icon: Binary },
-]
-
-export default function StudyLabHub({ embedded = false }: { embedded?: boolean }) {
+export default function StudyLabHub() {
   const router = useRouter()
   const { user, isLoading } = useAuth()
-  const [spaces, setSpaces] = useState<LearnSpace[]>([])
+  const [spaces, setSpaces] = useState<HubLesson[]>([])
   const [loading, setLoading] = useState(true)
   const [warning, setWarning] = useState<string | null>(null)
   // A failed load used to look exactly like an empty account: "Start your
   // first LearnSpace", to a student whose lessons were all still there.
   const [loadFailed, setLoadFailed] = useState(false)
-  const [showCreate, setShowCreate] = useState(false)
-  // Read after mount: hasSeenDemo touches localStorage, and deciding the tile's
-  // framing on the server would flash "Start here" at everyone.
+  // Read after mount: hasSeenDemo touches localStorage, and deciding the page's
+  // framing on the server would flash "See how a lesson works" at everyone.
   const [demoSeen, setDemoSeen] = useState(true)
   useEffect(() => setDemoSeen(hasSeenDemo()), [])
-  // Arriving from a weak subject on Progress. The dialog opens with the
-  // subject already filled so the student only has to name the topic — the
-  // point is to remove a step between "I'm bad at this" and being taught it.
+  // Arriving from a weak subject on Progress. The subject is already filled so
+  // the student only has to name the topic — the point is to remove a step
+  // between "I'm bad at this" and being taught it.
   const [seedSubject, setSeedSubject] = useState('')
+  const [fill, setFill] = useState<{ topic: string; at: number } | null>(null)
 
-  // ?study=<subject> opens the dialog straight away, so "Study this" on a weak
-  // subject lands on the thing that teaches it rather than on a hub page.
+  // ?study=<subject> lands on the question straight away, so "Study this" on a
+  // weak subject arrives at the thing that teaches it rather than at a list.
   useEffect(() => {
     if (typeof window === 'undefined') return
     const subject = new URLSearchParams(window.location.search).get('study')
     if (!subject) return
     setSeedSubject(subject)
-    setShowCreate(true)
-    // Clear it so a refresh, or a back-navigation, does not reopen the dialog.
+    // Clear it so a refresh, or a back-navigation, does not ask again.
     window.history.replaceState({}, '', window.location.pathname)
   }, [])
   const [showSnap, setShowSnap] = useState(false)
   const [persona, setPersona] = useState<PersonaSnapshot | null>(null)
   const [personaLoading, setPersonaLoading] = useState(true)
 
-  useEffect(() => {
-    if (!embedded && !isLoading && !user) router.push('/login')
-  }, [user, isLoading, router, embedded])
-
-  const load = useCallback(async () => {
+  const load = useCallback(async ({ quiet = false }: { quiet?: boolean } = {}) => {
     if (!user?.id || !UUID_RE.test(user.id)) {
       setSpaces([])
       setLoading(false)
       return
     }
-    setLoading(true)
-    setLoadFailed(false)
+    if (!quiet) setLoading(true)
+    if (!quiet) setLoadFailed(false)
     try {
       const res = await fetch(`/api/studylab?user_id=${encodeURIComponent(user.id)}`)
       const json = await res.json().catch(() => null)
       if (!res.ok || !json) throw new Error('load failed')
       setSpaces(json.data ?? [])
       setWarning(json.warning ?? null)
+      setLoadFailed(false)
     } catch {
-      setLoadFailed(true)
+      // A quiet refresh that fails leaves what is on screen alone.
+      if (!quiet) setLoadFailed(true)
     } finally {
-      setLoading(false)
+      if (!quiet) setLoading(false)
     }
   }, [user])
 
   useEffect(() => {
     if (user) load()
   }, [user, load])
+
+  // A lesson opens in its own tab, so coming back here is coming back from it:
+  // Continue has to say where they have got to now, not where they were.
+  useEffect(() => {
+    const onReturn = () => {
+      if (document.visibilityState === 'visible') void load({ quiet: true })
+    }
+    document.addEventListener('visibilitychange', onReturn)
+    return () => document.removeEventListener('visibilitychange', onReturn)
+  }, [load])
 
   useEffect(() => {
     if (!user?.id || !UUID_RE.test(user.id)) {
@@ -127,19 +112,18 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
     return () => { cancelled = true }
   }, [user])
 
+  const shelves = useMemo(() => shelvesOf(spaces), [spaces])
+
   const openLearnSpace = (id: string) => {
     openSpaceInTab(id, router)
   }
 
-  if (!embedded && (isLoading || !user)) {
-    return (
-      <div className="studio-surface flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-ss-accent" />
-      </div>
-    )
+  const created = (id: string) => {
+    openLearnSpace(id)
+    void load({ quiet: true })
   }
 
-  if (embedded && (isLoading || !user)) {
+  if (isLoading || !user) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-ss-accent" />
@@ -147,181 +131,67 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
     )
   }
 
-  return (
-    <div className={embedded ? '' : 'studio-surface min-h-screen'}>
-      {!embedded && (
-        <header className="sticky top-0 z-20 border-b border-black/[0.06] bg-white/90 backdrop-blur">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-            <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-ss-accent-soft">
-                <Brain className="h-5 w-5 text-ss-accent" />
-              </div>
-              <div>
-                <h1 className="font-display text-sm font-black">LearnSpace</h1>
-                <p className="text-xs font-semibold text-ss-slate">Your AI builds the lesson</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button type="button" onClick={() => setShowSnap(true)} className="btn-secondary !py-2.5 !px-4 text-sm">
-                <Upload className="h-4 w-4" />
-                Homework help
-              </button>
-              <button type="button" onClick={() => setShowCreate(true)} className="btn-primary !py-2.5 !px-4 text-sm">
-                <Plus className="h-4 w-4" />
-                New LearnSpace
-              </button>
-            </div>
-          </div>
-        </header>
-      )}
+  const hasPanel = personaLoading || persona !== null
+  const hasShelf = shelves.inProgress.length + shelves.completed.length > 0
 
-      <main className={`mx-auto max-w-6xl px-4 sm:px-6 ${embedded ? 'py-2' : 'py-8'}`}>
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-ss-accent">LearnSpace</p>
-            <h2 className="mt-1 text-[30px] font-extrabold tracking-tight text-ss-ink sm:text-[34px]">
-              Learn any topic on a <span className="text-ss-good">living canvas</span>
-            </h2>
-            {/* The old copy ("your spatial AI tutor") named the technology, not
-                the job. Say what a LearnSpace does for the student. */}
-            <p className="mt-2 max-w-xl text-sm font-semibold text-ss-slate">
-              Ask about anything and the tutor builds you the whole lesson — explainer cards, diagrams,
-              worked examples and checkpoints that quiz you as you go. Stuck on homework? Snap it and
-              it&apos;ll walk you through.
-            </p>
-          </div>
-          {embedded && (
-            <div className="flex items-center gap-2 self-start">
-              <button type="button" data-tour="learnspace-homework" onClick={() => setShowSnap(true)} className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2.5 text-sm font-bold text-ss-ink hover:bg-ss-chip">
-                <Upload className="h-4 w-4" /> Homework help
-              </button>
-              <button type="button" data-tour="learnspace-new" onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 rounded-full bg-ss-accent px-4 py-2.5 text-sm font-bold text-white hover:brightness-95">
-                <Plus className="h-4 w-4" /> New LearnSpace
-              </button>
+  return (
+    <div className="pt-3">
+      <div className={`grid grid-cols-1 gap-x-10 gap-y-8 ${hasPanel ? 'lg:grid-cols-[minmax(0,1fr)_minmax(300px,380px)]' : ''}`}>
+        <div className="min-w-0">
+          <HubAsk
+            userId={user.id}
+            seedSubject={seedSubject}
+            fill={fill}
+            firstTime={!loading && !loadFailed && spaces.length === 0}
+            demoSeen={demoSeen}
+            onCreated={created}
+            onHomework={() => setShowSnap(true)}
+          />
+          {shelves.next && (
+            <div className="mt-9">
+              <CarryOn lesson={shelves.next} onOpen={openLearnSpace} />
             </div>
           )}
         </div>
+        {hasPanel && <PersonaPanel persona={persona} loading={personaLoading} userId={user.id} />}
+      </div>
 
-        <PersonaPanel persona={persona} loading={personaLoading} userId={user!.id} />
+      {warning && (
+        <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-800">
+          {warning}
+        </div>
+      )}
 
-
-        {warning && (
-          <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-800">
-            {warning}
-          </div>
-        )}
-
-        {loading ? (
-          <div className="flex justify-center py-24">
-            <Loader2 className="h-7 w-7 animate-spin text-ss-accent" />
-          </div>
-        ) : loadFailed && spaces.length === 0 ? (
-          <div role="alert" className="flex flex-col items-center gap-3 rounded-2xl border border-ss-line bg-ss-chip px-6 py-14 text-center">
-            <p className="text-[15px] font-bold text-ss-ink">Couldn&apos;t load your LearnSpaces.</p>
-            <p className="text-[13.5px] text-ss-slate">Your lessons are safe. Check your connection and try again.</p>
-            <button type="button" onClick={() => load()} className="rounded-full bg-ss-accent px-5 py-2 text-[13.5px] font-bold text-white hover:opacity-90">
-              Try again
-            </button>
-          </div>
-        ) : spaces.length === 0 ? (
-          <EmptyState onCreate={() => setShowCreate(true)} />
-        ) : (
-          <div data-tour="learnspace-list" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <button
-              type="button"
-              onClick={() => setShowCreate(true)}
-              className="group flex flex-col items-center justify-center gap-3 rounded-[20px] border-2 border-dashed border-ss-line py-10 text-ss-slate transition-colors hover:border-ss-accent hover:text-ss-accent"
-            >
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-ss-accent-soft text-ss-accent transition-transform group-hover:scale-110">
-                <Plus className="h-6 w-6" />
-              </div>
-              <span className="text-sm font-extrabold">New LearnSpace</span>
-            </button>
-
-            <DemoTile seen={demoSeen} />
-
-            {spaces.map((space) => {
-              const completed = space.status === 'completed'
-              const homework = space.origin === 'homework'
-              return (
-              <button
-                key={space.id}
-                type="button"
-                onClick={() => openLearnSpace(space.id)}
-                className="relative flex flex-col gap-3 rounded-[20px] border border-ss-line bg-ss-panel p-5 text-left transition-all hover:-translate-y-0.5 hover:shadow-ss-panel"
-              >
-                {completed && (
-                  <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-[color:var(--ss-good)]/15 px-2 py-1 text-[12px] font-extrabold uppercase tracking-wide text-ss-good">
-                    <CheckCircle2 className="h-3 w-3" /> Completed
-                  </span>
-                )}
-                {/* The page they photographed, which is what they will
-                    recognise the space by — far more than a title the model
-                    wrote for it. Anchored to the top because that is where a
-                    question is printed. */}
-                {homework && space.thumb ? (
-                  <div className="h-24 overflow-hidden rounded-xl border border-ss-line bg-white">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={space.thumb} alt="" aria-hidden className="h-full w-full object-cover object-top" />
-                  </div>
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={subjectArt(space.subject)} alt="" aria-hidden className="h-11 w-11 object-contain" />
-                )}
-                <div>
-                  {homework && (
-                    <p className="mb-0.5 flex items-center gap-1 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">
-                      <FileQuestion className="h-3.5 w-3.5" aria-hidden />
-                      Homework
-                    </p>
-                  )}
-                  <h3 className="line-clamp-2 font-extrabold text-ss-ink">{space.title}</h3>
-                  {space.subject && <p className="mt-0.5 text-sm font-semibold text-ss-slate">{space.subject}</p>}
-                </div>
-                <div className="mt-auto flex items-center gap-3 pt-2 text-xs font-semibold text-ss-slate">
-                  <span className="flex items-center gap-1">
-                    {completed ? <CheckCircle2 className="h-3.5 w-3.5 text-ss-good" /> : <Sparkles className="h-3.5 w-3.5" />}
-                    {/* "Step 3" is a course's word. A homework space's steps
-                        are the questions off the sheet. */}
-                    {completed
-                      ? 'Completed'
-                      : homework
-                        ? `Question ${space.current_step || 1}`
-                        : `Step ${space.current_step || 0}`}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" /> {formatDate(space.updated_at)}
-                  </span>
-                </div>
-              </button>
-              )
-            })}
-          </div>
-        )}
-      </main>
+      {loading ? (
+        <div className="flex justify-center py-16">
+          <Loader2 className="h-7 w-7 animate-spin text-ss-accent" />
+        </div>
+      ) : loadFailed && spaces.length === 0 ? (
+        <div role="alert" className="mt-10 flex flex-col items-center gap-3 rounded-2xl border border-ss-line bg-ss-chip px-6 py-14 text-center">
+          <p className="text-[15px] font-bold text-ss-ink">Couldn&apos;t load your LearnSpaces.</p>
+          <p className="text-[13.5px] text-ss-slate">Your lessons are safe. Check your connection and try again.</p>
+          <button type="button" onClick={() => load()} className="rounded-full bg-ss-accent px-5 py-2 text-[13.5px] font-bold text-white hover:opacity-90">
+            Try again
+          </button>
+        </div>
+      ) : hasShelf ? (
+        <LessonShelf
+          inProgress={shelves.inProgress}
+          completed={shelves.completed}
+          demoSeen={demoSeen}
+          onOpen={openLearnSpace}
+          onBuild={(topic) => setFill({ topic, at: Date.now() })}
+        />
+      ) : null}
 
       <AnimatePresence>
-        {showCreate && (
-          <CreateModal
-            userId={user!.id}
-            seedSubject={seedSubject}
-            onClose={() => {
-              setShowCreate(false)
-              setSeedSubject('')
-            }}
-            onCreated={(id) => {
-              setShowCreate(false)
-              openLearnSpace(id)
-            }}
-          />
-        )}
         {showSnap && (
           <SnapModal
-            userId={user!.id}
+            userId={user.id}
             onClose={() => setShowSnap(false)}
             onCreated={(id) => {
               setShowSnap(false)
-              openLearnSpace(id)
+              created(id)
             }}
           />
         )}
@@ -540,300 +410,4 @@ function SnapModal({
       </motion.div>
     </motion.div>
   )
-}
-
-function EmptyState({ onCreate }: { onCreate: () => void }) {
-  return (
-    <div className="flex flex-col items-center overflow-hidden rounded-[24px] border border-ss-line bg-ss-panel px-6 py-16 text-center">
-      <div className="relative mb-5 grid h-28 w-full place-items-center">
-        <div className="absolute h-40 w-40 rounded-full bg-[color:var(--ss-accent)]/10 blur-2xl" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/art/tutor-canvas.png" alt="" aria-hidden className="relative h-28 w-auto drop-shadow" />
-      </div>
-      <h3 className="font-display text-xl font-black text-ss-ink">Start your first LearnSpace</h3>
-      <p className="mt-2 max-w-md text-sm font-semibold text-ss-slate">
-        Name anything you&apos;re stuck on and the tutor writes the lesson for it — explainer cards,
-        diagrams, worked examples, and checkpoints that quiz you as you go.
-      </p>
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <button type="button" onClick={onCreate} className="btn-primary">
-          <Plus className="h-4 w-4" />
-          Pick a topic
-        </button>
-        {/* The grid below never renders for an account with no lessons, so the
-            demo has to be offered here too — this is the only screen a genuinely
-            new user sees. */}
-        <a
-          href="/studylab/demo"
-          className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2.5 text-sm font-bold text-ss-ink hover:bg-ss-chip"
-        >
-          <GraduationCap className="h-4 w-4 text-ss-accent" />
-          See how it works first
-        </a>
-      </div>
-    </div>
-  )
-}
-
-/**
- * The demo, sitting in the grid beside "New LearnSpace".
- *
- * Kept in the grid rather than only in the header because this is where
- * someone looks when they are deciding what to do, and "what is this thing"
- * is a reasonable thing to be deciding.
- *
- * It does not disappear once taken. Hiding it would leave a returning learner
- * with no way back to it, and it costs one tile; what changes is the framing —
- * "Start here" while it is new, a quieter "Run it again" afterwards.
- */
-function DemoTile({ seen }: { seen: boolean }) {
-  return (
-    <a
-      href="/studylab/demo"
-      className="group flex flex-col justify-between rounded-[20px] border border-ss-line bg-ss-panel p-5 text-left transition-colors hover:border-ss-accent"
-    >
-      <div>
-        <div
-          className="grid h-12 w-12 place-items-center rounded-2xl transition-transform group-hover:scale-110"
-          style={{ backgroundColor: 'var(--ss-accent-soft)' }}
-        >
-          <GraduationCap className="h-6 w-6 text-ss-accent" />
-        </div>
-        {!seen && (
-          <span
-            className="mt-3 inline-block rounded-full px-2 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-white"
-            style={{ backgroundColor: 'var(--ss-accent)' }}
-          >
-            Start here
-          </span>
-        )}
-        <h3 className="mt-2 text-base font-extrabold text-ss-ink">
-          {seen ? 'Run the demo again' : 'See how a LearnSpace works'}
-        </h3>
-        <p className="mt-1 text-sm font-semibold text-ss-slate">
-          A short pre-written lesson where you press every control yourself. Nothing is saved.
-        </p>
-      </div>
-      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-ss-accent">
-        Take the tour
-        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-      </span>
-    </a>
-  )
-}
-
-function CreateModal({
-  userId,
-  seedSubject = '',
-  onClose,
-  onCreated,
-}: {
-  userId: string
-  seedSubject?: string
-  onClose: () => void
-  onCreated: (id: string) => void
-}) {
-  const { ref, dialogProps } = useDialogBehavior({ open: true, onClose, labelledBy: 'new-space-title' })
-  const [title, setTitle] = useState('')
-  const [subject, setSubject] = useState(seedSubject)
-  const [mode, setMode] = useState<'classic' | 'montessori'>('classic')
-  // Montessori ("Hands-on") is built but unfinished, so the product does not
-  // offer it: with this false the picker is not rendered and every new space
-  // is created classic, which is where the mode stood before it was first
-  // exposed. The code behind it ships dormant rather than being unpicked —
-  // it reaches into actions, types, blocks, boardSummary and checkpointState,
-  // and tearing it out would take StudyLab with it.
-  //
-  // Phase 2 turns this back on. Nothing else needs changing.
-  const OFFER_MONTESSORI = false
-  const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const submit = async () => {
-    if (!title.trim() || submitting) return
-    setSubmitting(true)
-    setError(null)
-    try {
-      const res = await fetch('/api/studylab', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, title: title.trim(), subject: subject.trim(), origin: 'scratch', mode }),
-      })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error || 'Failed to create LearnSpace')
-      onCreated(json.data.id)
-    } catch (err: any) {
-      setError(err.message)
-      setSubmitting(false)
-    }
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.95, opacity: 0, y: 10 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()}
-        ref={ref}
-        {...dialogProps}
-        className="w-full max-w-lg overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-ss-panel"
-      >
-        {/* A header with some weight to it. The form underneath asks a student
-            to describe what they are confused about, which takes a bit of
-            nerve; opening on a bare grey box does not help. */}
-        <div className="relative overflow-hidden px-6 py-5" style={{ background: 'linear-gradient(135deg,#0C86CE,#2ACBF2)' }}>
-          <div aria-hidden className="pointer-events-none absolute -right-8 -top-10 h-36 w-36 rounded-full bg-white/15" />
-          <div aria-hidden className="pointer-events-none absolute -bottom-14 right-16 h-28 w-28 rounded-full bg-white/10" />
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="absolute right-4 top-4 rounded-lg p-1.5 text-white/85 transition-colors hover:bg-white/20 hover:text-white"
-          >
-            <X className="h-5 w-5" />
-          </button>
-          <div className="relative flex items-start gap-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/20 backdrop-blur">
-              <Brain className="h-5 w-5 text-white" />
-            </span>
-            <div className="min-w-0 pr-8">
-              <h3 id="new-space-title" className="font-display text-[19px] font-black leading-tight text-white">
-                What do you want to learn?
-              </h3>
-              <p className="mt-1 text-[13px] font-medium text-white/85">
-                Name it and the tutor writes you the lesson — explanations, diagrams, worked examples
-                and checkpoints that quiz you as you go.
-              </p>
-              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[12px] font-bold text-white">
-                <Clock className="h-3.5 w-3.5" /> Ready in about a minute
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-5 p-6">
-          <div>
-            <label htmlFor="new-space-topic" className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">
-              Topic
-            </label>
-            <p className="mb-2 text-[13px] font-medium text-ss-slate">
-              The narrower the better — &ldquo;photosynthesis&rdquo; gives you a broad tour, &ldquo;why leaves are green&rdquo; gives you an answer.
-            </p>
-            <input
-              id="new-space-topic"
-              autoFocus
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && submit()}
-              placeholder="e.g. Understanding Binary Search Trees"
-              className="w-full rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none"
-            />
-            <p className="mt-3 text-[13px] font-medium text-ss-slate" id="new-space-suggestions">
-              Or borrow one of these — they show the kind of question that works best:
-            </p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2" role="group" aria-labelledby="new-space-suggestions">
-              {SUGGESTIONS.map(({ topic, subject: subj, icon: Icon }) => (
-                <button
-                  key={topic}
-                  type="button"
-                  onClick={() => {
-                    setTitle(topic)
-                    // Fill the subject too: the example is only honest if it
-                    // shows what a well-formed request looks like.
-                    if (!subject.trim()) setSubject(subj)
-                  }}
-                  className="group flex items-center gap-2.5 rounded-xl border border-ss-line px-3 py-2.5 text-left transition-all hover:-translate-y-px hover:border-ss-accent hover:shadow-ss-panel"
-                >
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[color:var(--ss-accent)]/10 text-ss-accent">
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block truncate text-[12.5px] font-bold text-ss-ink">{topic}</span>
-                    <span className="block text-[12px] font-semibold text-ss-slate">{subj}</span>
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <label htmlFor="new-space-subject" className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">
-              Subject (optional)
-            </label>
-            <p className="mb-2 text-[13px] font-medium text-ss-slate">
-              Helps the tutor pitch it right. Leave it blank and it works the subject out from your topic.
-            </p>
-            <input
-              id="new-space-subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && submit()}
-              placeholder="e.g. Computer Science"
-              className="w-full rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none"
-            />
-          </div>
-          <div hidden={!OFFER_MONTESSORI}>
-            <span className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate" id="new-space-mode">
-              How it teaches
-            </span>
-            <p className="mb-2 text-[13px] font-medium text-ss-slate">
-              Reading and working through cards, or a material you handle — drag the pieces and the
-              material itself shows you when a move is wrong.
-            </p>
-            <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-labelledby="new-space-mode">
-              {([
-                { value: 'classic', label: 'Cards', hint: 'Explanations, worked examples, checkpoints' },
-                { value: 'montessori', label: 'Hands-on', hint: 'Drag-and-drop materials you work' },
-              ] as const).map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  role="radio"
-                  aria-checked={mode === option.value}
-                  onClick={() => setMode(option.value)}
-                  className={`rounded-xl border-2 px-3 py-2.5 text-left transition-all ${
-                    mode === option.value
-                      ? 'border-ss-accent shadow-ss-panel'
-                      : 'border-ss-line hover:-translate-y-px hover:border-ss-accent'
-                  }`}
-                  style={mode === option.value ? { background: 'var(--ss-accent-soft)' } : undefined}
-                >
-                  <span className="block text-[12.5px] font-bold text-ss-ink">{option.label}</span>
-                  <span className="block text-[12px] font-semibold text-ss-slate">{option.hint}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          {error && <p className="text-sm font-semibold text-ss-bad">{error}</p>}
-        </div>
-        {/* One row, never wrapping: the hint is allowed to shrink and truncate
-            before the buttons are allowed to fall onto a second line. */}
-        <div className="flex items-center justify-end gap-3 border-t border-ss-line bg-ss-chip px-6 py-4">
-          {!title.trim() && (
-            <p className="mr-auto min-w-0 truncate text-[12.5px] font-semibold text-ss-slate">
-              Type a topic above to continue.
-            </p>
-          )}
-          <button type="button" onClick={onClose} className="btn-secondary shrink-0 !py-2.5">Cancel</button>
-          <button type="button" onClick={submit} disabled={!title.trim() || submitting} className="btn-primary shrink-0 whitespace-nowrap !py-2.5 disabled:opacity-60">
-            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-            {submitting ? 'Building your lesson…' : 'Build my lesson'}
-          </button>
-        </div>
-      </motion.div>
-    </motion.div>
-  )
-}
-
-function formatDate(value: string) {
-  try {
-    return new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  } catch {
-    return ''
-  }
 }

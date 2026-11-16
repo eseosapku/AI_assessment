@@ -26,20 +26,20 @@ export function StepRegionNode({ data }: NodeProps) {
 
   const current = d.status === 'current'
   const done = d.status === 'done'
-  const accent = done ? 'var(--ss-good)' : current ? 'var(--ss-accent)' : 'var(--ss-slate)'
+  const accent = done ? 'var(--ss-good)' : current ? 'var(--subject)' : 'var(--ss-slate)'
 
   // Filled, not just outlined. A one-pixel line in --ss-line disappears against
   // the dotted canvas, which left the titles floating with no area under them —
   // the regions were there and could not be seen. `color-mix` keeps the tint
   // derived from the tokens, so both themes stay correct.
   const fill = current
-    ? 'color-mix(in srgb, var(--ss-accent) 9%, transparent)'
+    ? 'color-mix(in srgb, var(--subject) 9%, transparent)'
     : done
       ? 'color-mix(in srgb, var(--ss-panel) 62%, transparent)'
       : 'color-mix(in srgb, var(--ss-panel) 34%, transparent)'
 
   const stroke = current
-    ? 'var(--ss-accent)'
+    ? 'var(--subject)'
     : 'color-mix(in srgb, var(--ss-slate) 34%, transparent)'
 
   return (
@@ -57,8 +57,8 @@ export function StepRegionNode({ data }: NodeProps) {
     >
       <div className="flex items-center gap-2 px-5 pt-3">
         <span
-          className="grid h-5 w-5 shrink-0 place-items-center rounded-md text-[12px] font-black text-white"
-          style={{ backgroundColor: accent }}
+          className="grid h-5 w-5 shrink-0 place-items-center rounded-md text-[12px] font-black"
+          style={{ backgroundColor: accent, color: 'var(--ss-panel)' }}
         >
           {done ? <Check className="h-3 w-3" strokeWidth={4} /> : d.step}
         </span>

@@ -53,4 +53,32 @@ describe('evaluateExpr', () => {
     expect(evaluateExpr('', {})).toBeNull()
     expect(evaluateExpr('1/0', {})).toBeNull() // non-finite rejected
   })
+
+  // Piecewise curves are real science (an enzyme's optimum, a limiting factor's
+  // plateau), and writers reach for ?: to draw them however they are told not to.
+  it('compares, giving 1 or 0', () => {
+    expect(evaluateExpr('t < 40', { t: 30 })).toBe(1)
+    expect(evaluateExpr('t >= 40', { t: 30 })).toBe(0)
+    expect(evaluateExpr('t == 40', { t: 40 })).toBe(1)
+    expect(evaluateExpr('t != 40', { t: 40 })).toBe(0)
+  })
+
+  it('chooses with ?: and nests', () => {
+    const enzyme = 'temp < 40 ? temp * 0.6 : max(0, 24 - (temp - 40) * 1.2)'
+    expect(evaluateExpr(enzyme, { temp: 20 })).toBeCloseTo(12)
+    expect(evaluateExpr(enzyme, { temp: 50 })).toBeCloseTo(12)
+    expect(evaluateExpr(enzyme, { temp: 70 })).toBe(0)
+    expect(evaluateExpr('x < 0 ? -1 : x == 0 ? 0 : 1', { x: 5 })).toBe(1)
+    expect(evaluateExpr('min(x < 3 ? x : 3, 10)', { x: 7 })).toBe(3)
+  })
+
+  it('does not fail on the branch it does not take', () => {
+    expect(evaluateExpr('x > 0 ? 1 / x : 0', { x: 0 })).toBe(0)
+  })
+
+  it('still fails closed on a broken conditional', () => {
+    expect(evaluateExpr('x < ? 1 : 2', { x: 1 })).toBeNull()
+    expect(evaluateExpr('x < 3 ? 1', { x: 1 })).toBeNull()
+    expect(evaluateExpr('x < 3 ? y : 2', { x: 1 })).toBeNull()
+  })
 })

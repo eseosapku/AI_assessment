@@ -12,8 +12,8 @@ import type { CheckpointQuestion, TutorAction } from './types'
  *
  * It is a SCRIPT OF ACTS rather than a lesson that reacts. Each act names the
  * one thing the learner should do next, and the tutor's answer to it is already
- * written. That is what lets the demo cover the whole surface — the plan, the
- * pace, chips, asking, rewriting a card, checks, jumping, your own blocks —
+ * written. That is what lets the demo cover the whole surface — the plan,
+ * chips, asking, rewriting a card, checks, jumping, your own blocks —
  * in a fixed order, instead of hoping the learner stumbles into each one.
  */
 
@@ -56,7 +56,6 @@ export type DemoTrigger =
   | 'ask'
   | 'card-menu'
   | 'answer-check'
-  | 'set-pace'
   | 'jump'
   | 'add-block'
 
@@ -162,8 +161,8 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     expect: 'continue',
     step: 1,
     cue: {
-      action: 'Press Continue',
-      why: 'Continue is the only control that moves the lesson forward. Everything else explores where you already are.',
+      action: 'Press Continue at the bottom of the board',
+      why: 'The bar under the board is the only control that moves the lesson forward. Everything else explores where you already are.',
       anchor: 'lesson-continue',
     },
     say: 'And the colours differ in one way that matters for all of this.',
@@ -189,8 +188,8 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     expect: 'chip',
     step: 1,
     cue: {
-      action: 'Press the chip “Show me what a prism does”',
-      why: 'The outlined buttons are questions about what is on the board right now. Asking one adds a card without skipping ahead — the lesson stays where it is.',
+      action: 'Press the chip “Show me what a prism does” under Kana',
+      why: 'The buttons under Kana’s bubble are questions about what is on the board right now. Asking one adds a card without skipping ahead — the lesson stays where it is.',
       anchor: 'lesson-chips',
     },
     say: 'Here is the prism itself.',
@@ -215,7 +214,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     compose: 'Why do we see a rainbow after it rains?',
     cue: {
       action: 'Send the question already in the box',
-      why: 'You can ask anything in your own words. The answer arrives as a card joined to the step you are on — not as a line of chat you will scroll past.',
+      why: 'The chat opens from Kana’s button, or the / key. You can ask anything in your own words; the answer arrives as a card joined to the step you are on — not as a line of chat you will scroll past.',
       anchor: 'lesson-composer',
     },
     say: 'Good question — same physics, different glass.',
@@ -256,7 +255,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 1,
     opensCheck: 'demo-cp-1',
     cue: {
-      action: 'Press Continue',
+      action: 'Press Continue at the bottom of the board',
       why: 'The step has covered its idea, so the tutor closes it with a check rather than adding more cards.',
       anchor: 'lesson-continue',
     },
@@ -270,32 +269,23 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 1,
     completesStep: true,
     cue: {
-      action: 'Answer the check on the board',
+      action: 'Pick an answer, then press Check below it',
       why: 'A check blocks Continue until it is answered. Getting one wrong is not a dead end — the tutor re-teaches that point instead of moving on.',
       anchor: 'lesson-board',
     },
   },
 
-  // ── Step 2: the same lesson at the other pace ────────────────────────────
-  {
-    expect: 'set-pace',
-    step: 2,
-    cue: {
-      action: 'Switch the pace to “Run ahead”',
-      why: '“Step by step” adds one card and waits, which is what you have had so far. “Run ahead” builds a whole step in one turn and finishes with the check. Switch whenever a step is covering something you already know.',
-      anchor: 'lesson-pace',
-    },
-  },
+  // ── Step 2: why the sky is blue ─────────────────────────────────────────
   {
     expect: 'continue',
     step: 2,
     opensCheck: 'demo-cp-2',
     cue: {
-      action: 'Press Continue and watch the difference',
-      why: 'At this pace the whole step arrives at once — three cards and its check, instead of one card and a wait.',
+      action: 'Press Continue at the bottom',
+      why: 'The next step arrives: why the sky is blue, and the check that closes it.',
       anchor: 'lesson-continue',
     },
-    say: 'Whole step this time: why the sky is blue, and the check.',
+    say: 'Why the sky is blue, and the check.',
     actions: [
       {
         type: 'createCard',
@@ -337,7 +327,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     completesStep: true,
     cue: {
       action: 'Answer this one too',
-      why: 'Both paces end the same way. The check is what tells you the step actually landed.',
+      why: 'Every step ends this way. The check is what tells you the step actually landed.',
       anchor: 'lesson-board',
     },
   },
@@ -347,7 +337,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     expect: 'jump',
     step: 3,
     cue: {
-      action: 'Click step 3 in the plan on the left',
+      action: 'Click station 3 on the path at the left',
       why: 'You do not have to go in order. A step you have not reached starts teaching straight away; one you have finished just shows you what you built.',
       anchor: 'lesson-plan',
     },
@@ -381,7 +371,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 3,
     opensCheck: 'demo-cp-3',
     cue: {
-      action: 'Press Continue for the last card',
+      action: 'Press Continue at the bottom for the last card',
       why: 'One more card, then the check that finishes the lesson.',
       anchor: 'lesson-continue',
     },

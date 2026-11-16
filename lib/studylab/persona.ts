@@ -1,4 +1,5 @@
 import type { MasteryStatus } from '@/lib/studylab/types'
+import { bandFor } from '@/lib/studylab/mastery-latest'
 
 export interface WeakArea {
   kind: 'subtopic' | 'topic'
@@ -37,6 +38,9 @@ interface GapSubtopic {
   name: string
   status: MasteryStatus
   accuracy: number | null
+  /** The latest-attempt score the map judges on; falls back to accuracy. */
+  score?: number | null
+  lowest?: number | null
   last_assessed: string | null
 }
 
@@ -45,6 +49,8 @@ interface GapTopic {
   name: string
   status: MasteryStatus
   accuracy: number | null
+  score?: number | null
+  lowest?: number | null
   last_assessed: string | null
   subtopics: GapSubtopic[]
 }
@@ -76,6 +82,15 @@ function isThisWeek(iso: string | null): boolean {
   return Number.isFinite(t) && Date.now() - t <= WEEK_MS
 }
 
+/** The same bands the map draws: gold counts as mastered, shaky as developing. */
+function judged(node: { score?: number | null; lowest?: number | null; accuracy: number | null }): { status: MasteryStatus; value: number | null } {
+  const value = typeof node.score === 'number' ? node.score : node.accuracy
+  if (value === null || value === undefined) return { status: 'not_assessed', value: null }
+  const lowest = typeof node.score === 'number' && typeof node.lowest === 'number' ? node.lowest : value
+  const band = bandFor(value, lowest)
+  return { status: band === 'gap' ? 'gap' : band === 'shaky' ? 'developing' : 'mastered', value }
+}
+
 function statusRank(s: MasteryStatus): number {
   if (s === 'gap') return 0
   if (s === 'developing') return 1
@@ -85,7 +100,7 @@ function statusRank(s: MasteryStatus): number {
 
 export function buildPersonaFromGapTree(data: GapTreeInput): PersonaSnapshot {
   const subjects = data.textbooks ?? []
-  const summary = data.summary ?? { gap: 0, developing: 0, mastered: 0, not_assessed: 0 }
+  const summary = { gap: 0, developing: 0, mastered: 0 }
 
   const weekScores: number[] = []
   for (const s of subjects) {
@@ -102,13 +117,14 @@ export function buildPersonaFromGapTree(data: GapTreeInput): PersonaSnapshot {
     if (!subject.id) continue
     for (const topic of subject.topics ?? []) {
       for (const sub of topic.subtopics ?? []) {
-        if (sub.status === 'gap' || sub.status === 'developing') {
+        const j = judged(sub)
+        if (j.status === 'gap' || j.status === 'developing') {
           weakAreas.push({
             kind: 'subtopic',
             label: sub.name,
             subjectName: subject.name,
-            status: sub.status,
-            accuracy: sub.accuracy,
+            status: j.status,
+            accuracy: j.value,
             textbook_id: subject.id,
             topic_id: topic.id,
             subtopic_id: sub.id,
@@ -116,16 +132,24 @@ export function buildPersonaFromGapTree(data: GapTreeInput): PersonaSnapshot {
           })
         }
       }
+      const subJudged = (topic.subtopics ?? []).map(judged)
+      const tj = judged(topic)
+      const counted = subJudged.some((j) => j.status !== 'not_assessed') ? subJudged : [tj]
+      for (const j of counted) {
+        if (j.status === 'gap') summary.gap++
+        else if (j.status === 'developing') summary.developing++
+        else if (j.status === 'mastered') summary.mastered++
+      }
       if (
-        (topic.status === 'gap' || topic.status === 'developing') &&
-        !topic.subtopics.some((s) => s.status === 'gap' || s.status === 'developing')
+        (tj.status === 'gap' || tj.status === 'developing') &&
+        !subJudged.some((j) => j.status === 'gap' || j.status === 'developing')
       ) {
         weakAreas.push({
           kind: 'topic',
           label: topic.name,
           subjectName: subject.name,
-          status: topic.status,
-          accuracy: topic.accuracy,
+          status: tj.status,
+          accuracy: tj.value,
           textbook_id: subject.id,
           topic_id: topic.id,
           last_assessed: topic.last_assessed,

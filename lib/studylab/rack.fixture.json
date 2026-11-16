@@ -1,0 +1,399 @@
+{
+ "data": {
+  "source": "assessments",
+  "textbooks": [
+   {
+    "id": 1,
+    "name": "Mathematics",
+    "curriculum_slug": "cambridge",
+    "status": "developing",
+    "accuracy": 50,
+    "overall_quiz_avg": 50,
+    "attempts": 3,
+    "last_assessed": "2026-11-01T10:00:00Z",
+    "topics": [
+     {
+      "id": 101,
+      "name": "Algebra",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 3,
+      "topic_level_only": false,
+      "subtopics": [
+       {
+        "id": 1011,
+        "name": "Expanding brackets",
+        "status": "developing",
+        "accuracy": 73,
+        "attempts": 10,
+        "last_assessed": "2026-10-20T09:00:00Z",
+        "score": 73,
+        "lowest": 73
+       },
+       {
+        "id": 1012,
+        "name": "Factorising",
+        "status": "gap",
+        "accuracy": 44,
+        "attempts": 10,
+        "last_assessed": "2026-10-25T09:00:00Z",
+        "score": 44,
+        "lowest": 44
+       },
+       {
+        "id": 1013,
+        "name": "Quadratic equations",
+        "status": "gap",
+        "accuracy": 22,
+        "attempts": 10,
+        "last_assessed": "2026-10-28T09:00:00Z",
+        "score": 22,
+        "lowest": 22
+       },
+       {
+        "id": 1014,
+        "name": "Simultaneous equations",
+        "status": "not_assessed",
+        "accuracy": null,
+        "attempts": 0,
+        "last_assessed": null,
+        "score": null,
+        "lowest": null
+       }
+      ],
+      "score": null,
+      "lowest": null,
+      "art": "/gap-art/algebra.v1.svg"
+     },
+     {
+      "id": 102,
+      "name": "Number",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 1,
+      "topic_level_only": false,
+      "subtopics": [
+       {
+        "id": 1021,
+        "name": "Types of number",
+        "status": "mastered",
+        "accuracy": 86,
+        "attempts": 10,
+        "last_assessed": "2026-11-01T09:00:00Z",
+        "score": 86,
+        "lowest": 38
+       }
+      ],
+      "score": null,
+      "lowest": null,
+      "art": null
+     },
+     {
+      "id": 103,
+      "name": "Geometry",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 0,
+      "topic_level_only": false,
+      "subtopics": [
+       {
+        "id": 1031,
+        "name": "Angles",
+        "status": "not_assessed",
+        "accuracy": null,
+        "attempts": 0,
+        "last_assessed": null,
+        "score": null,
+        "lowest": null
+       }
+      ],
+      "score": null,
+      "lowest": null,
+      "art": null
+     }
+    ],
+    "topics_assessed": 1,
+    "assessments": [
+     {
+      "id": "a1",
+      "label": "Mathematics quiz",
+      "difficulty": null,
+      "percentage": 60,
+      "score": 6,
+      "total_questions": 10,
+      "created_at": "2026-11-01T10:00:00Z",
+      "status": "developing",
+      "topic_count": 1
+     }
+    ]
+   },
+   {
+    "id": 2,
+    "name": "Biology",
+    "curriculum_slug": "cambridge",
+    "status": "developing",
+    "accuracy": 50,
+    "overall_quiz_avg": 50,
+    "attempts": 3,
+    "last_assessed": "2026-11-01T10:00:00Z",
+    "topics": [
+     {
+      "id": 201,
+      "name": "Movement into and out of cells",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 2,
+      "topic_level_only": false,
+      "subtopics": [
+       {
+        "id": 2011,
+        "name": "Osmosis",
+        "status": "gap",
+        "accuracy": 34,
+        "attempts": 10,
+        "last_assessed": "2026-10-30T09:00:00Z",
+        "score": 34,
+        "lowest": 34
+       },
+       {
+        "id": 2012,
+        "name": "Diffusion",
+        "status": "developing",
+        "accuracy": 61,
+        "attempts": 10,
+        "last_assessed": "2026-10-30T09:00:00Z",
+        "score": 61,
+        "lowest": 61
+       },
+       {
+        "id": 2013,
+        "name": "Active transport",
+        "status": "not_assessed",
+        "accuracy": null,
+        "attempts": 0,
+        "last_assessed": null,
+        "score": null,
+        "lowest": null
+       }
+      ],
+      "score": null,
+      "lowest": null,
+      "art": null
+     },
+     {
+      "id": 202,
+      "name": "Enzymes",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 3,
+      "topic_level_only": false,
+      "subtopics": [
+       {
+        "id": 2021,
+        "name": "Enzyme action",
+        "status": "mastered",
+        "accuracy": 88,
+        "attempts": 10,
+        "last_assessed": "2026-10-22T09:00:00Z",
+        "score": 88,
+        "lowest": 88
+       },
+       {
+        "id": 2022,
+        "name": "Temperature and enzymes",
+        "status": "mastered",
+        "accuracy": 88,
+        "attempts": 10,
+        "last_assessed": "2026-10-22T09:00:00Z",
+        "score": 88,
+        "lowest": 88
+       },
+       {
+        "id": 2023,
+        "name": "pH and enzymes",
+        "status": "mastered",
+        "accuracy": 88,
+        "attempts": 10,
+        "last_assessed": "2026-10-22T09:00:00Z",
+        "score": 88,
+        "lowest": 88
+       }
+      ],
+      "score": null,
+      "lowest": null,
+      "art": null
+     }
+    ],
+    "topics_assessed": 1,
+    "assessments": [
+     {
+      "id": "a2",
+      "label": "Biology quiz",
+      "difficulty": null,
+      "percentage": 60,
+      "score": 6,
+      "total_questions": 10,
+      "created_at": "2026-11-01T10:00:00Z",
+      "status": "developing",
+      "topic_count": 1
+     }
+    ]
+   },
+   {
+    "id": 3,
+    "name": "Chemistry",
+    "curriculum_slug": "cambridge",
+    "status": "developing",
+    "accuracy": 50,
+    "overall_quiz_avg": 50,
+    "attempts": 3,
+    "last_assessed": "2026-11-01T10:00:00Z",
+    "topics": [
+     {
+      "id": 301,
+      "name": "The Periodic Table",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 0,
+      "topic_level_only": false,
+      "subtopics": [
+       {
+        "id": 3011,
+        "name": "Groups",
+        "status": "not_assessed",
+        "accuracy": null,
+        "attempts": 0,
+        "last_assessed": null,
+        "score": null,
+        "lowest": null
+       },
+       {
+        "id": 3012,
+        "name": "Periods",
+        "status": "not_assessed",
+        "accuracy": null,
+        "attempts": 0,
+        "last_assessed": null,
+        "score": null,
+        "lowest": null
+       }
+      ],
+      "score": 40,
+      "lowest": 40,
+      "art": null
+     },
+     {
+      "id": 302,
+      "name": "Atoms",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 0,
+      "topic_level_only": false,
+      "subtopics": [],
+      "score": 74,
+      "lowest": 74,
+      "art": null
+     },
+     {
+      "id": 303,
+      "name": "An unusually long chapter name that goes on and on An unusually long chapter name that goes on and on An unusually long chapter name that go",
+      "status": "not_assessed",
+      "accuracy": null,
+      "attempts": 0,
+      "last_assessed": null,
+      "subtopics_assessed": 0,
+      "topic_level_only": false,
+      "subtopics": [],
+      "score": null,
+      "lowest": null,
+      "art": null
+     }
+    ],
+    "topics_assessed": 1,
+    "assessments": [
+     {
+      "id": "a3",
+      "label": "Chemistry quiz",
+      "difficulty": null,
+      "percentage": 60,
+      "score": 6,
+      "total_questions": 10,
+      "created_at": "2026-11-01T10:00:00Z",
+      "status": "developing",
+      "topic_count": 1
+     }
+    ]
+   },
+   {
+    "id": null,
+    "name": "Geography",
+    "curriculum_slug": "",
+    "status": "not_assessed",
+    "accuracy": null,
+    "overall_quiz_avg": 61,
+    "attempts": 3,
+    "last_assessed": "2026-10-01T10:00:00Z",
+    "topics": [],
+    "topics_assessed": 0,
+    "assessments": [
+     {
+      "id": "g1",
+      "label": "Geography quiz",
+      "difficulty": null,
+      "percentage": 70,
+      "score": null,
+      "total_questions": 10,
+      "created_at": "2026-10-01T10:00:00Z",
+      "status": "developing",
+      "topic_count": 0
+     },
+     {
+      "id": "g2",
+      "label": "Geography quiz",
+      "difficulty": null,
+      "percentage": 55,
+      "score": null,
+      "total_questions": 10,
+      "created_at": "2026-10-02T10:00:00Z",
+      "status": "developing",
+      "topic_count": 0
+     },
+     {
+      "id": "g3",
+      "label": "Geography quiz",
+      "difficulty": null,
+      "percentage": 58,
+      "score": null,
+      "total_questions": 10,
+      "created_at": "2026-10-03T10:00:00Z",
+      "status": "developing",
+      "topic_count": 0
+     }
+    ]
+   }
+  ],
+  "summary": {
+   "mastered": 0,
+   "developing": 0,
+   "gap": 0,
+   "not_assessed": 0,
+   "total_assessed": 0,
+   "overall_mastery": 0
+  },
+  "unlinked_results": null
+ }
+}

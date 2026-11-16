@@ -44,3 +44,59 @@ describe('a checkpoint grade that is not a real boolean', () => {
     expect((await (await grade()).json()).correct).toBe(true)
   })
 })
+
+describe('what it asks, and of whom', () => {
+  it('runs on the check job model (Kimi, thinking off), never falling to Gemma 12B', async () => {
+    vi.mocked(callGemma).mockResolvedValue('{"correct":true,"feedback":"Yes."}')
+    await grade()
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({ model: 'global.moonshotai.kimi-k3.1', reasoningEffort: 'none', noGemmaFallback: true })
+  })
+  it('judges the result, not the route', async () => {
+    vi.mocked(callGemma).mockResolvedValue('{"correct":true,"feedback":"Yes."}')
+    await grade()
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('not their steps, the order of them')
+    expect(prompt).toContain('One of two solutions is not complete')
+  })
+})
+
+describe('the mark comes from what it found', () => {
+  const reply = (fields: object) => JSON.stringify({ feedback: 'f', ...fields })
+  const mark = async (fields: object) => {
+    vi.mocked(callGemma).mockResolvedValue(reply(fields))
+    return (await (await grade()).json()).correct
+  }
+  it('a matching result is correct, whatever else it says', async () => {
+    expect(await mark({ result_matches: true, used_named_method: null })).toBe(true)
+    expect(await mark({ result_matches: true, used_named_method: true, correct: false })).toBe(true)
+  })
+  it('a result that does not match is not, even called correct', async () => {
+    expect(await mark({ result_matches: false, used_named_method: true, correct: true })).toBe(false)
+  })
+  it('the right result by another way, when the question named its method, is not', async () => {
+    expect(await mark({ result_matches: true, used_named_method: false })).toBe(false)
+  })
+  it('sends back only the mark and the feedback, never its working', async () => {
+    vi.mocked(callGemma).mockResolvedValue(reply({ my_result: 'x = 4', student_result: 'x = 4', result_matches: true, used_named_method: null }))
+    expect(await (await grade()).json()).toEqual({ correct: true, feedback: 'f' })
+  })
+})
+
+describe('what it says about a wrong answer', () => {
+  const asked = async (final: boolean) => {
+    vi.mocked(callGemma).mockResolvedValue('{"correct":false,"feedback":"f"}')
+    await POST(new NextRequest('http://localhost/api/studylab/grade', { method: 'POST', body: JSON.stringify({ prompt: 'P', answer: 'no', format: 'short', final }) }))
+    return String(vi.mocked(callGemma).mock.calls[0][0])
+  }
+  it('on a check, the only go: never tells them to try anything', async () => {
+    expect(await asked(true)).toContain('never tell them to try')
+  })
+  it('where they can go again: names the one fix', async () => {
+    const prompt = await asked(false)
+    expect(prompt).toContain('name the one key fix')
+    expect(prompt).not.toContain('never tell them to try')
+  })
+  it('never asks it to praise', async () => {
+    expect(await asked(true)).toContain('Do not thank them or praise effort')
+  })
+})

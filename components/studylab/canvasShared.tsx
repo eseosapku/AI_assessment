@@ -6,6 +6,8 @@ import Latex from 'react-latex-next'
 import type { LucideIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { toDollarMath } from '@/lib/studylab/mathText'
+import { splitGlossary } from '@/lib/studylab/glossary'
+import { GlossaryTerm } from './GlossaryTerm'
 
 // Shared canvas primitives used by both the static node renderers (canvasNodes)
 // and the interactive RunnableCodeCard. Lives in its own module so those two
@@ -40,26 +42,84 @@ function mdEmphasis(s: string): string {
 const NOT_MATH = /[|\n]/
 
 // Renders model card text: $…$ segments as KaTeX math, the rest as markdown
-// emphasis. Coerces non-strings (the model occasionally sends a number/object).
+// emphasis, and [[term|definition]] marks as tap-to-define terms. Coerces
+// non-strings (the model occasionally sends a number/object).
 export function SafeLatex({ children }: { children?: unknown }) {
   if (children == null) return null
   const raw = typeof children === 'string' ? children : String(children)
   if (!raw) return null
-  const text = toDollarMath(raw)
-  const parts = text.split(/(\$[^$]+\$)/g)
+  const parts = splitGlossary(raw)
+  if (parts.length === 1 && parts[0].kind === 'text') return <LatexText text={parts[0].text} />
   return (
     <>
-      {parts.map((p, i) => {
+      {parts.map((part, i) =>
+        part.kind === 'text' ? (
+          <LatexText key={i} text={part.text} />
+        ) : (
+          <GlossaryTerm
+            key={i}
+            label={part.term}
+            term={<LatexText text={part.term} />}
+            definition={<LatexText text={part.definition} />}
+          />
+        ),
+      )}
+    </>
+  )
+}
+
+/**
+ * A formula between dollars: tight against them, and the closing one not before a
+ * digit, as TeX renderers rule it. "$1,200. After taxes your net is $950" is two
+ * prices, and it set a whole sentence in maths italics. Spaced out, it needs a
+ * maths sign inside to count: "$ x^2 $".
+ */
+const INLINE_MATH = /(\$(?=\S)[^$]+?(?<=\S)\$(?!\d)|\$\s[^$]*[=^_\+][^$]*\s\$(?!\d))/g
+
+const HTML_TAG = /<\/?(?:p|br|b|i|u|em|strong|span|div|ul|ol|li|sup|sub|small|code|a|h[1-6])(?:\s[^<>]*)?\/?>/gi
+
+/**
+ * Model text now and then carries HTML tags. They are escaped on the way out,
+ * so they showed as typed. Drop the known ones, with a break for the block
+ * kinds; a bare "<" in maths ("x < 3") is not a tag and stays.
+ */
+export function stripHtmlTags(s: string): string {
+  return s.replace(/<(?:br\s*\/?|\/p|\/li|\/div|\/h[1-6])>/gi, ' ').replace(HTML_TAG, '')
+}
+
+function isMathPart(p: string): boolean {
+  return p.length > 2 && p.startsWith('$') && p.endsWith('$') && !NOT_MATH.test(p)
+}
+
+/** Full stops and the like that belong to the formula before them. */
+const TRAILING_PUNCT = /^[.,;:!?)\]]+/
+
+function LatexText({ text: raw }: { text: string }) {
+  if (!raw) return null
+  const text = toDollarMath(stripHtmlTags(raw))
+  // Bold around a formula: the marks would be split apart below and show as they are.
+  const bold = text.split(/(\*\*[^*]*\$[^*]*\*\*)/g)
+  if (bold.length > 1) {
+    return <>{bold.map((run, i) => (run.startsWith('**') ? <strong key={i}><LatexText text={run.slice(2, -2)} /></strong> : <LatexText key={i} text={run} />))}</>
+  }
+  const parts = text.split(INLINE_MATH)
+  return (
+    <>
+      {parts.map((p0, i) => {
+        // Punctuation straight after a formula stays on its line: it wrapped alone.
+        const prevMath = i > 0 && isMathPart(parts[i - 1])
+        const p = prevMath ? p0.replace(TRAILING_PUNCT, '') : p0
+        const tail = isMathPart(p0) ? (parts[i + 1]?.match(TRAILING_PUNCT)?.[0] ?? '') : ''
         // A `$` is a currency symbol far more often than it is a delimiter. A
         // transcribed homework table reading "Initial Cost ($) | 200,000" put
         // everything from that bracket to the next dollar into maths mode, and
         // the whole table came out as one run of italics. A span carrying a
         // table pipe or a line break is not an inline formula.
-        if (p.length > 2 && p.startsWith('$') && p.endsWith('$') && !NOT_MATH.test(p)) {
+        if (isMathPart(p)) {
           try {
-            return <Latex key={i}>{p}</Latex>
+            return tail ? <span key={i} style={{ whiteSpace: 'nowrap' }}><Latex>{p}</Latex>{tail}</span> : <Latex key={i}>{p}</Latex>
           } catch {
-            return <span key={i}>{p}</span>
+            return <span key={i}>{p}{tail}</span>
           }
         }
         return p ? <span key={i} dangerouslySetInnerHTML={{ __html: mdEmphasis(p) }} /> : null
@@ -89,7 +149,7 @@ export function NodeHeader({ icon: Icon, title, tone = 'cyan' }: { icon: LucideI
       <div className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl ${t.chip}`}>
         <Icon className={`h-[18px] w-[18px] ${t.icon}`} strokeWidth={2} />
       </div>
-      <h3 className="text-[14.5px] font-extrabold leading-tight text-ss-ink">{title}</h3>
+      <h3 className="text-[14.5px] font-extrabold leading-tight text-ss-ink"><SafeLatex>{title}</SafeLatex></h3>
     </div>
   )
 }
@@ -97,9 +157,12 @@ export function NodeHeader({ icon: Icon, title, tone = 'cyan' }: { icon: LucideI
 export function CardFrame({
   children,
   accent = 'blue',
+  borderColor,
 }: {
   children: React.ReactNode
   accent?: 'blue' | 'orange' | 'violet'
+  /** A result tone for the whole card (the check bar's), drawn 2px. */
+  borderColor?: string
 }) {
   const ring =
     accent === 'orange'
@@ -109,7 +172,8 @@ export function CardFrame({
         : 'border-ss-line'
   return (
     <div
-      className={`sl-node-enter w-[300px] rounded-2xl bg-ss-panel border ${ring} shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] overflow-hidden`}
+      className={`sl-node-enter w-[300px] rounded-2xl bg-ss-panel ${borderColor ? 'border-2 transition-colors duration-200 motion-reduce:transition-none' : `border ${ring}`} shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)] overflow-hidden`}
+      style={borderColor ? { borderColor } : undefined}
     >
       <Handle type="target" position={Position.Left} className={handleClass} />
       {children}

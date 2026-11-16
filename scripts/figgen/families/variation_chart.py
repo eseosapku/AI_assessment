@@ -4,6 +4,9 @@ discontinuously (blood group, tongue rolling, earlobes), its bars apart. Which c
 variation, how many students are in a group, and the modal class.
 
 Every bar ends on a gridline; the histogram has one tallest bar.
+
+The same charts serve AS Level (P6): the AS chapter "Selection and evolution" opens with continuous and
+discontinuous variation drawn as these two charts.
 """
 from __future__ import annotations
 
@@ -14,7 +17,7 @@ from ..core import GRID, INK, NAMES, mcq, new_figure, short
 ID = "variation_chart"
 KIND = "graph.bar"
 SUBJECT = "biology"
-BANDS = ("LS", "UP")
+BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("continuous-discontinuous-variation", "variation-causes"))
 AVOID = r"cell|enzyme|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|ecolog|population|mitosis|meiosis|mutation"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
@@ -24,7 +27,19 @@ DISCRETE = [("blood group", ["A", "B", "AB", "O"]), ("tongue rolling", ["can rol
             ("earlobes", ["free", "attached"])]
 
 
+def _peek(rng: random.Random) -> float:
+    """A draw that does not move rng: the seeds that drew LS and UP charts still draw exactly them."""
+    return random.Random(str(rng.getstate()[1][:8])).random()
+
+
 def sample(rng: random.Random) -> dict:
+    p = _sample(rng)
+    if _peek(rng) < 0.25:
+        p["band"] = "AL"
+    return p
+
+
+def _sample(rng: random.Random) -> dict:
     feature, unit, start, width = rng.choice(CONTINUOUS)
     k = rng.choice([5, 6, 7])
     classes = [f"{start + i * width}–{start + (i + 1) * width - 1}" for i in range(k)]
@@ -35,7 +50,7 @@ def sample(rng: random.Random) -> dict:
     dfreq = rng.sample(range(2, 14), len(cats))
     left = rng.choice(["continuous", "discrete"])
     letters = {"continuous": "P" if left == "continuous" else "Q", "discrete": "Q" if left == "continuous" else "P"}
-    return {"band": rng.choice(BANDS), "continuous": {"letter": letters["continuous"], "feature": feature, "unit": unit,
+    return {"band": rng.choice(("LS", "UP")), "continuous": {"letter": letters["continuous"], "feature": feature, "unit": unit,
                                                       "classes": classes, "freq": freq},
             "discrete": {"letter": letters["discrete"], "feature": name, "categories": cats, "freq": dfreq},
             "left": left, "ask": rng.choice(cats)}

@@ -2,9 +2,10 @@
 'use client'
 import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
+import type { SequencePayload } from '@/lib/studylab/activities/types'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
-import { sortAdapter, sequenceAdapter, compareAdapter, balanceAdapter, labelAdapter, varyAdapter, scenarioAdapter, composeAdapter, threePeriodAdapter } from '@/components/studylab/material/adapters'
+import { sortAdapter, sequenceAdapter, compareAdapter } from '@/components/studylab/material/adapters'
 import { CardFrame } from '../canvasShared'
 import { SortActivity } from './SortActivity'
 import { ThreePeriodActivity } from './ThreePeriodActivity'
@@ -14,7 +15,10 @@ import { LabelActivity } from './LabelActivity'
 import { VaryActivity } from './VaryActivity'
 import { BalanceActivity } from './BalanceActivity'
 import { ScenarioActivity } from './ScenarioActivity'
+import { SceneActivity } from './SceneActivity'
 import { ComposeActivity } from './ComposeActivity'
+
+const TRACK_LABEL_MAX = 24
 
 /** Outcomes travel to Workspace via a DOM event so the canvas stays decoupled. */
 export function emitActivityOutcome(outcome: unknown) {
@@ -60,22 +64,7 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'threePeriod': {
-      const material = getApparatus('three-period-cards')?.legacy?.fromLegacy(
-        spec.payload,
-        spec.success,
-      )
-      if (material) {
-        return (
-          <MaterialActivity
-            id={id}
-            spec={spec}
-            materialSpec={material}
-            adapter={threePeriodAdapter}
-            onOutcome={emitActivityOutcome}
-            initialState={initialState}
-          />
-        )
-      }
+      // Drawn as the lesson wrote it, not as a material: converted, it began at recall, matching each name to a box headed with that same name.
       return (
         <ThreePeriodActivity
           id={id}
@@ -86,7 +75,9 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'sequence': {
-      const material = getApparatus('ordering-track')?.legacy?.fromLegacy(
+      // Steps written out do not fit the track's narrow columns: clipped mid-word, they cannot be read.
+      const wordy = (spec.payload as SequencePayload).items.some((item) => item.label.length > TRACK_LABEL_MAX)
+      const material = wordy ? null : getApparatus('ordering-track')?.legacy?.fromLegacy(
         spec.payload,
         spec.success,
       )
@@ -138,22 +129,7 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'label': {
-      const material = getApparatus('labelled-diagram')?.legacy?.fromLegacy(
-        spec.payload,
-        spec.success,
-      )
-      if (material) {
-        return (
-          <MaterialActivity
-            id={id}
-            spec={spec}
-            materialSpec={material}
-            adapter={labelAdapter}
-            onOutcome={emitActivityOutcome}
-            initialState={initialState}
-          />
-        )
-      }
+      // Drawn as the lesson wrote it, not as a material: converted, it dropped the diagram and printed each answer as the heading of its own target.
       return (
         <LabelActivity
           id={id}
@@ -164,22 +140,10 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'vary': {
-      const material = getApparatus('variable-model')?.legacy?.fromLegacy(
-        spec.payload,
-        spec.success,
-      )
-      if (material) {
-        return (
-          <MaterialActivity
-            id={id}
-            spec={spec}
-            materialSpec={material}
-            adapter={varyAdapter}
-            onOutcome={emitActivityOutcome}
-            initialState={initialState}
-          />
-        )
-      }
+      // Not through the material apparatus: it kept only the slider -- a fixed
+      // prompt, one unlabelled bar echoing the slider's own number -- and a
+      // river lesson read as nothing. This draws what the lesson wrote: its
+      // prompt, labelled bars from the model's formula, tank, curve, readouts.
       return (
         <VaryActivity
           id={id}
@@ -190,22 +154,7 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'balance': {
-      const material = getApparatus('balance-beam')?.legacy?.fromLegacy(
-        spec.payload,
-        spec.success,
-      )
-      if (material) {
-        return (
-          <MaterialActivity
-            id={id}
-            spec={spec}
-            materialSpec={material}
-            adapter={balanceAdapter}
-            onOutcome={emitActivityOutcome}
-            initialState={initialState}
-          />
-        )
-      }
+      // Drawn as the lesson wrote it, not as a material: converted, it dropped the mode: a weights balance hid its weights, an equation balance showed a sum it must hide.
       return (
         <BalanceActivity
           id={id}
@@ -216,22 +165,7 @@ export function ActivityNode({ id, data }: NodeProps) {
       )
     }
     case 'scenario': {
-      const material = getApparatus('decision-branch')?.legacy?.fromLegacy(
-        spec.payload,
-        spec.success,
-      )
-      if (material) {
-        return (
-          <MaterialActivity
-            id={id}
-            spec={spec}
-            materialSpec={material}
-            adapter={scenarioAdapter}
-            onOutcome={emitActivityOutcome}
-            initialState={initialState}
-          />
-        )
-      }
+      // Drawn as the lesson wrote it, not as a material: converted, it dropped the situation, its picture and every consequence, and its gauge showed the answer before Check.
       return (
         <ScenarioActivity
           id={id}
@@ -241,23 +175,12 @@ export function ActivityNode({ id, data }: NodeProps) {
         />
       )
     }
+    case 'scene': {
+      // A purpose-built engine: it draws and marks its own idea.
+      return <SceneActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
+    }
     case 'compose': {
-      const material = getApparatus('bonding-ring')?.legacy?.fromLegacy(
-        spec.payload,
-        spec.success,
-      )
-      if (material) {
-        return (
-          <MaterialActivity
-            id={id}
-            spec={spec}
-            materialSpec={material}
-            adapter={composeAdapter}
-            onOutcome={emitActivityOutcome}
-            initialState={initialState}
-          />
-        )
-      }
+      // Drawn as the lesson wrote it, not as a material: converted, it dropped the target, its formula, the parts' pictures and valences, and the building itself.
       return (
         <ComposeActivity
           id={id}

@@ -23,7 +23,9 @@ BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("electric-field", "electric-field-strength", "electric-potential", "potential-difference",
                                           "electrostatics", "applications-of-electrostatics"))
 # Not gravitational or magnetic fields alone, nor circuits.
-AVOID = r"gravitational|magnet|circuit|resistor|kirchhoff|resist|electronic|alternating|current|installation|telecommunication|transmission|electrical quantities"
+# P6: a chapter named for electric AND gravitational potential (Rwanda S5) teaches this figure's fields and potentials too;
+# a chapter on gravitational fields alone stays avoided.
+AVOID = r"gravitational(?! potential$)|magnet|circuit|resistor|kirchhoff|resist|electronic|alternating|current|installation|telecommunication|transmission|electrical quantities"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"electric field|field strength|electrostat|charges?\b|coulomb|potential|plates"
 DIRS = {"up": (0, 1), "down": (0, -1), "left": (-1, 0), "right": (1, 0)}

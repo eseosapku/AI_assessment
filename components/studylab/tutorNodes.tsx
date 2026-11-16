@@ -9,7 +9,8 @@ import { splitMarkdownTable } from '@/lib/studylab/markdownTable'
 
 export function WorkedNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
-  const steps = Array.isArray(d.steps) ? d.steps : []
+  // The model sometimes leaves a blank line between groups of steps: not a step to number.
+  const steps = (Array.isArray(d.steps) ? d.steps : []).filter((s) => String(s ?? '').trim())
   return (
     <CardFrame>
       <NodeHeader icon={ListOrdered} title={d.title} tone="green" />
@@ -17,7 +18,7 @@ export function WorkedNode({ data }: NodeProps) {
         {steps.length > 0 ? (
           <ol className="space-y-1.5">
             {steps.map((s, i) => (
-              <li key={i} className="flex gap-2">
+              <li key={i} data-part={`step-${i + 1}`} className="flex gap-2">
                 <span className="shrink-0 w-5 h-5 rounded-full bg-[color:var(--ss-good)]/15 text-ss-good text-[12px] font-bold flex items-center justify-center">{i + 1}</span>
                 <span className="pt-0.5"><SafeLatex>{s}</SafeLatex></span>
               </li>
@@ -47,7 +48,7 @@ export function TableNode({ data }: NodeProps) {
               <thead>
                 <tr>
                   {head.map((c, i) => (
-                    <th key={i} className="border border-ss-line px-2 py-1 text-left font-semibold bg-ss-chip">
+                    <th key={i} data-part={`r0c${i + 1}`} className="border border-ss-line px-2 py-1 text-left font-semibold bg-ss-chip">
                       <SafeLatex>{c}</SafeLatex>
                     </th>
                   ))}
@@ -58,7 +59,7 @@ export function TableNode({ data }: NodeProps) {
               {body.map((r, ri) => (
                 <tr key={ri}>
                   {r.map((c, ci) => (
-                    <td key={ci} className="border border-ss-line px-2 py-1">
+                    <td key={ci} data-part={`r${ri + 1}c${ci + 1}`} className="border border-ss-line px-2 py-1">
                       <SafeLatex>{c}</SafeLatex>
                     </td>
                   ))}
@@ -88,7 +89,7 @@ export function CalloutNode({ data }: NodeProps) {
       <Handle type="target" position={Position.Left} className={handleClass} />
       <div className="flex items-center gap-2 mb-1">
         <Icon className={`w-4 h-4 ${s.color}`} />
-        <span className={`text-[12px] font-bold uppercase tracking-wide ${s.color}`}>{d.title ?? s.label}</span>
+        <span className={`text-[12px] font-bold uppercase tracking-wide ${s.color}`}><SafeLatex>{d.title ?? s.label}</SafeLatex></span>
       </div>
       <div className="text-[13px] text-ss-ink whitespace-pre-wrap">
         <SafeLatex>{d.body}</SafeLatex>
@@ -137,7 +138,7 @@ function QuestionBody({ text }: { text: string }) {
           <thead>
             <tr>
               {head.map((c, i) => (
-                <th key={i} className="border border-ss-line bg-ss-chip px-2 py-1 text-left font-semibold">
+                <th key={i} data-part={`r0c${i + 1}`} className="border border-ss-line bg-ss-chip px-2 py-1 text-left font-semibold">
                   <SafeLatex>{c}</SafeLatex>
                 </th>
               ))}
@@ -147,7 +148,7 @@ function QuestionBody({ text }: { text: string }) {
             {body.map((r, ri) => (
               <tr key={ri}>
                 {r.map((c, ci) => (
-                  <td key={ci} className="border border-ss-line px-2 py-1 tabular-nums">
+                  <td key={ci} data-part={`r${ri + 1}c${ci + 1}`} className="border border-ss-line px-2 py-1 tabular-nums">
                     <SafeLatex>{c}</SafeLatex>
                   </td>
                 ))}
@@ -174,7 +175,7 @@ export function QuestionNode({ data }: NodeProps) {
         <span aria-hidden className="w-1 shrink-0 rounded-full bg-ss-accent" />
         <div className="min-w-0">
           <p className="text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">
-            {d.title ?? 'Question'}
+            <SafeLatex>{d.title ?? 'Question'}</SafeLatex>
           </p>
           <QuestionBody text={d.body ?? ''} />
         </div>
