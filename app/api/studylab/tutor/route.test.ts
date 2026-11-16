@@ -2676,7 +2676,7 @@ describe('a near-twin after a miss', () => {
 })
 
 describe('a busy model', () => {
-  it('names a fallback on every live lesson job: Qwen3 Next to teach, Kimi K3 to help', async () => {
+  it('names a fallback on every live lesson job: Mistral Large 3 to teach, Kimi K3 to help', async () => {
     vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Here', actions: [] }))
     await applyAction({ run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {} })
     const teaching = vi.mocked(callGemma).mock.calls.length
@@ -2684,7 +2684,7 @@ describe('a busy model', () => {
     const calls = vi.mocked(callGemma).mock.calls
     expect(teaching).toBeGreaterThan(0)
     expect(calls.length).toBeGreaterThan(teaching)
-    for (const call of calls.slice(0, teaching)) expect(call[1]).toMatchObject({ fallbackModel: 'qwen.qwen3-next-80b-a3b', noGemmaFallback: true })
+    for (const call of calls.slice(0, teaching)) expect(call[1]).toMatchObject({ fallbackModel: 'mistral.mistral-large-3-675b-instruct', noGemmaFallback: true })
     for (const call of calls.slice(teaching)) expect(call[1]).toMatchObject({ fallbackModel: 'global.moonshotai.kimi-k3', noGemmaFallback: true })
   })
 })

@@ -96,6 +96,8 @@ export function buildModelCandidates(seedId: string): string[] {
   // A global inference profile is one id in every region: no regional
   // variants exist to probe, and inventing them only hides a wrong id.
   if (clean.startsWith('global.')) return [...new Set([...expanded, clean])]
+  // A model served in one region only is called there by its own id.
+  if (homeRegionFor(clean)) return [...new Set([...expanded, bare])]
   // An id configured WITH a prefix is taken at its word.
   if (clean !== bare) expanded.push(clean)
   // Otherwise this region's inference profile before the bare id: newer
@@ -257,19 +259,36 @@ export function stripInlineReasoning(text: string): string {
     .trim()
 }
 
-let cachedClient: BedrockRuntimeClient | null = null
-function getClient(): BedrockRuntimeClient {
-  if (cachedClient) return cachedClient
+/**
+ * Models Bedrock serves in one region only, with no inference profile, so a
+ * call from anywhere else is refused: Mistral Large 3, the teaching backup,
+ * answers in us-east-1 and is "The provided model identifier is invalid" from
+ * eu-west-1 (2026-11-16).
+ */
+const HOME_REGION: Record<string, string> = {
+  'mistral.mistral-large-3-675b-instruct': 'us-east-1',
+}
+
+/** The one region a model must be called in, when it has one. */
+export function homeRegionFor(modelId: string): string | undefined {
+  return HOME_REGION[stripPrefix(modelId)]
+}
+
+const clients = new Map<string, BedrockRuntimeClient>()
+function getClient(region: string = awsRegion()): BedrockRuntimeClient {
+  const cached = clients.get(region)
+  if (cached) return cached
   const credentials = getBedrockCredentials()
   if (!credentials) {
     throw new Error(BEDROCK_CREDENTIALS_ERROR)
   }
-  cachedClient = new BedrockRuntimeClient({
-    region: awsRegion(),
+  const client = new BedrockRuntimeClient({
+    region,
     maxAttempts: 1,
     credentials,
   })
-  return cachedClient
+  clients.set(region, client)
+  return client
 }
 
 export interface CallGemmaOptions {
@@ -371,7 +390,6 @@ async function callModel(prompt: string, opts: CallGemmaOptions): Promise<string
 
   const maxTokens = opts.maxTokens ?? 2000
   const temperature = opts.temperature ?? 0.6
-  const client = getClient()
 
   const candidates = [
     ...buildModelCandidates(opts.model || DEFAULT_GEMMA_MODEL),
@@ -385,6 +403,7 @@ async function callModel(prompt: string, opts: CallGemmaOptions): Promise<string
   let lastErr: any = null
   for (const modelId of uniqueCandidates) {
     if (opts.signal?.aborted) throw abortError()
+    const client = getClient(homeRegionFor(modelId))
     try {
       const cmd = new InvokeModelCommand({
         modelId,

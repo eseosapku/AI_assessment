@@ -98,12 +98,16 @@ export function reasoningForJob(job: LessonJob, env: NodeJS.ProcessEnv = process
  *   7.9/10 in 5-11 s, against Qwen3 Next 5/8 (4.9) with a false fact. One
  *   K3 reply in 8 did not parse, and an unparsed plan asks the learner again.
  * - teach: K3 8/8 (7.4) but 15-21 s a turn with low thinking, and 3 of 8
- *   turns past 24 s with it off; the turn has 24 s, so Qwen3 Next (6/8, 4.8).
+ *   turns past 24 s with it off; the turn has 24 s. A six-way blind test of
+ *   the rest: Mistral Large 3 7/8 (5.3, no factual errors) in about 5 s, then
+ *   DeepSeek 6/8 (5.1), GLM 5 and Kimi K2.5 6/8 (5.0), Qwen3 Next 5/8 (4.5).
+ *   Nothing came near K3.1 (8/8, 7.8). Mistral is called in us-east-1, its
+ *   only region (lib/bedrock.ts homeRegionFor).
  * - check: Qwen3 Next got 22 of 23 keys right, K3 19 of 21.
  */
 const BUSY_FALLBACK: Partial<Record<LessonJob, string>> = {
   plan: 'global.moonshotai.kimi-k3',
-  teach_beat: 'qwen.qwen3-next-80b-a3b',
+  teach_beat: 'mistral.mistral-large-3-675b-instruct',
   check: 'qwen.qwen3-next-80b-a3b',
   help: 'global.moonshotai.kimi-k3',
 }

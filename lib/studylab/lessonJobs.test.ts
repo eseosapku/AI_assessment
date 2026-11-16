@@ -66,8 +66,14 @@ describe('modelForJob', () => {
 })
 
 describe('fallbackForJob', () => {
-  it('hands teach and check to Qwen3 Next when Kimi is busy', () => {
-    for (const job of ['teach_beat', 'check'] as const) expect(fallbackForJob(job, {} as never), job).toBe('qwen.qwen3-next-80b-a3b')
+  it('hands check to Qwen3 Next when Kimi is busy', () => {
+    expect(fallbackForJob('check', {} as never)).toBe('qwen.qwen3-next-80b-a3b')
+  })
+  // Six-way blind Opus test, 2026-11-16: Mistral Large 3 taught 7 of 8 turns
+  // acceptably (5.3/10, no factual errors) against Qwen3 Next's 5 of 8 (4.5),
+  // in about 5 s. Nothing on Bedrock came near Kimi K3.1 (8 of 8, 7.8).
+  it('hands teaching to Mistral Large 3', () => {
+    expect(fallbackForJob('teach_beat', {} as never)).toBe('mistral.mistral-large-3-675b-instruct')
   })
   // Given room, Kimi K3's plans were the best of three in a blind Opus test
   // (7.9/10, against Qwen3 Next's 4.9 with a false fact), in 5-11 s.
