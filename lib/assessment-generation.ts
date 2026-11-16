@@ -10,7 +10,7 @@ import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
 import { intArrayParam, jsonbParam } from '@/lib/pg-json'
 import { BEDROCK_CREDENTIALS_ERROR, getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
-import { buildModelCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust, fixLatexInRawJson } from '@/lib/bedrock'
+import { buildModelCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust, fixLatexInRawJson, stripInlineReasoning, takesReasoningEffort, type ReasoningEffort } from '@/lib/bedrock'
 import { authorityForCurriculum, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
@@ -137,11 +137,54 @@ const CHECKPOINT_DRAWN_FIGURES = process.env.CHECKPOINT_DRAWN_FIGURES === '1'
 const BANK_FIGURE_SHARE: Record<string, number> = { Science: 0.7, Mathematics: 0.5 }
 const MAX_SOURCE_CHARS = 12000
 /**
- * The random live sweeps found numerical errors that Haiku marked as sound.
- * Use the stronger reviewer by default; installations can still explicitly
- * choose their quality/cost tradeoff with BEDROCK_CHECKER_MODEL_ID.
+ * The second reader: Kimi K3.1, thinking off. Nova Lite read lettered options
+ * but answered in numbers and mixed the two up: given ten questions whose
+ * keys were all right, six times over, it pointed at a wrong option 9 times
+ * in 60, three of those went out keyed to a wrong answer, and it threw away
+ * 19 sound questions -- a third of every quiz, which the retry passes then
+ * had to write again. Kimi on the same 30 checks: every one right, none
+ * dropped. BEDROCK_CHECKER_MODEL_ID still names another model, or "off".
  */
-const DEFAULT_CHECKER_MODEL = 'amazon.nova-lite-v1:0'
+const DEFAULT_CHECKER_MODEL = 'global.moonshotai.kimi-k3.1'
+const CHECKER_REASONING: ReasoningEffort = 'none'
+/**
+ * The quiz writer: Kimi K3.1 with low thinking. Judged blind by Claude Opus
+ * on eight real requests (2026-11-15) against every model this AWS account
+ * can call: Kimi low 8.0/10 with 1 wrong key in about 64 questions; Nova
+ * Lite, the writer before it, 2.9 with 20 (4.6 and 8 after its checker);
+ * Qwen3 32B 5.6, Nova Pro 4.0, Nova 2 Lite 3.6.
+ *
+ * Its own setting, QUIZ_WRITER_MODEL_ID: the worker Lambda carries
+ * AWS_GENERATION_MODEL_ID=eu.amazon.nova-lite-v1:0, and the other routes
+ * still read that one.
+ */
+const DEFAULT_QUIZ_WRITER_MODEL = 'global.moonshotai.kimi-k3.1'
+const QUIZ_WRITER_REASONING: ReasoningEffort = (['none', 'low', 'medium', 'high'] as const)
+  .find((e) => e === String(process.env.QUIZ_WRITER_REASONING || '').trim()) ?? 'low'
+/**
+ * A busy or failing writer hands the batch to Qwen3 32B: next best of the
+ * fast models in the blind test (5.6/10), eight seconds a quiz, and from a
+ * different provider, so one provider's outage does not take both.
+ */
+const QUIZ_FALLBACK_MODEL = 'qwen.qwen3-32b-v1:0'
+/**
+ * Busy, not broken: worth asking again, or asking another model. Kimi says
+ * "Too many requests" a lot -- 5 of 12 single calls on 2026-11-15, with
+ * nothing else running, and the same for Kimi K3 -- because Bedrock runs
+ * short of capacity for it, not because of this account's quota.
+ */
+function isBusyError(err: any): boolean {
+  return /throttl|too many requests|serviceunavailable|service unavailable|modelnotready|servicequotaexceeded/i
+    .test(`${err?.name || ''} ${err?.message || ''}`)
+}
+/** Thinking tokens count against max_tokens; the caller's budget is for the answer. */
+const REASONING_HEADROOM_TOKENS = 3000
+/**
+ * The token budgets below were set for Nova's terse output. Kimi writes the
+ * same question in more words and was cut off mid-question 14 times in 64
+ * quizzes; 1.7 times the budget took those to about none.
+ */
+const KIMI_TOKEN_FACTOR = 1.7
 const MAX_EXAM_SOURCE_CHARS = 32000
 
 
@@ -1943,7 +1986,7 @@ ${commandBlock}`
       credentials,
     })
 
-    const stripPrefix = (id: string) => id.replace(/^(us|eu|ap)\./, '')
+    const stripPrefix = (id: string) => id.replace(/^(us|eu|ap|apac|global)\./, '')
 
     // Candidate ids, the model-id error test and the memory of which id worked
     // all come from lib/bedrock.ts. This route had its own copies of all
@@ -1954,8 +1997,21 @@ ${commandBlock}`
     // walked the whole chain and was reported as "the provided model
     // identifier is invalid"). The fix never reached this copy.
 
-    function buildBedrockBody(modelId: string, prompt: string, maxTokens: number, temperature = 0.2): string {
+    function buildBedrockBody(modelId: string, prompt: string, maxTokens: number, temperature = 0.2, reasoningEffort?: ReasoningEffort, kimiTokenFactor = KIMI_TOKEN_FACTOR): string {
       const m = stripPrefix(modelId)
+      // Kimi K3.1 and GPT-OSS: a thinking level, room for the thinking on top
+      // of the answer (it counts against max_tokens), and the model's own
+      // sampling -- the blind test ran Kimi without a temperature.
+      if (takesReasoningEffort(modelId)) {
+        const kimi = m.startsWith('moonshotai.kimi')
+        const effort = reasoningEffort ?? (kimi ? 'none' : undefined)
+        const answer = kimi ? Math.round(maxTokens * kimiTokenFactor) : maxTokens
+        return JSON.stringify({
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: answer + (effort && effort !== 'none' ? REASONING_HEADROOM_TOKENS : 0),
+          ...(effort ? { reasoning_effort: effort } : {}),
+        })
+      }
       if (m.startsWith('anthropic.')) {
         return JSON.stringify({ anthropic_version: 'bedrock-2023-05-31', messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature })
       }
@@ -1982,34 +2038,30 @@ ${commandBlock}`
       if (m.startsWith('anthropic.')) return (body?.content || []).filter((b: any) => b?.type === 'text').map((b: any) => b.text).join('\n')
       if (m.startsWith('amazon.nova')) return body?.output?.message?.content?.[0]?.text ?? ''
       if (m.startsWith('meta.llama')) return body?.generation ?? ''
-      return body?.choices?.[0]?.message?.content ?? body?.choices?.[0]?.text ?? body?.outputs?.[0]?.text ?? ''
+      // The answer only: a model that pastes its thinking inline (<think>...)
+      // would otherwise hand that to the JSON parser.
+      return stripInlineReasoning(String(body?.choices?.[0]?.message?.content ?? body?.choices?.[0]?.text ?? body?.outputs?.[0]?.text ?? ''))
     }
 
     async function callBedrock(prompt: string, maxTokens: number, temperature?: number): Promise<string> {
-      const preferredFromEnv =
-        process.env.AWS_GENERATION_MODEL_ID ||
-        process.env.AWS_BEDROCK_MODEL_ID ||
-        process.env.AWS_MODEL_ID ||
-        ''
-
-      const seed = (preferredFromEnv || aiModel) as string
+      // The quiz writer has its own setting (see DEFAULT_QUIZ_WRITER_MODEL).
+      // The request's aiModel is not read: the page sends a fixed id, and a
+      // client must not choose what the account pays for.
+      const seed = String(process.env.QUIZ_WRITER_MODEL_ID || '').trim() || DEFAULT_QUIZ_WRITER_MODEL
       const candidates = buildModelCandidates(seed)
+      const thinks = takesReasoningEffort(seed)
 
       // Fallback to a DIFFERENT reliable model (not gemma — see model-id failures
-      // in production logs). Nova Micro is the fastest on-demand Bedrock model.
-      const FALLBACK_MODEL_ID = 'amazon.nova-micro-v1:0'
-      // Budgets MUST fit inside the platform gateway window (~30s) or the client
-      // gets a 504 while the function is still patiently waiting. Batches run in
-      // parallel, so worst-case wall time ≈ one primary (18s) + one fallback (9s).
-      //
-      // Generation runs in a background job, but an individual stalled model
-      // call must still be bounded or it holds every call behind its wave.
-      // These calls sit inside parallel waves. Letting one stalled request hold
-      // a wave for 90 seconds made a ten-question paper take several minutes.
-      // Nova Micro is both cheaper and faster, so fail over promptly instead of
-      // spending the whole job budget on one Nova Lite request.
-      const PRIMARY_CALL_BUDGET_MS = examPaper ? 30_000 : 24_000
-      const FALLBACK_CALL_BUDGET_MS = examPaper ? 15_000 : 12_000
+      // in production logs).
+      const FALLBACK_MODEL_ID = QUIZ_FALLBACK_MODEL
+      // Generation runs in a background job (the page waits up to 20 minutes),
+      // but an individual stalled model call must still be bounded or it holds
+      // every call behind its wave. These calls sit inside parallel waves.
+      // Letting one stalled request hold a wave for 90 seconds made a
+      // ten-question paper take several minutes. Kimi with low thinking takes
+      // 10-35 s for a batch, so it gets a minute; Nova kept its old budgets.
+      const PRIMARY_CALL_BUDGET_MS = thinks ? (examPaper ? 75_000 : 60_000) : (examPaper ? 30_000 : 24_000)
+      const FALLBACK_CALL_BUDGET_MS = examPaper ? 30_000 : 20_000
       const PER_ATTEMPT_TIMEOUT_MS = PRIMARY_CALL_BUDGET_MS
 
       const tryModels = async (modelIds: string[], budgetMs: number): Promise<{
@@ -2023,7 +2075,8 @@ ${commandBlock}`
         let onlyModelIdErrors = modelIds.length > 0
         let lastTimeout: { modelId: string; ms: number } | null = null
 
-        for (const modelId of modelIds) {
+        for (let i = 0, busy = 0; i < modelIds.length; i++) {
+          const modelId = modelIds[i]
           const elapsed = Date.now() - started
           const remaining = Math.min(budgetMs - elapsed, 840_000 - (Date.now() - requestStarted))
           if (remaining <= 0) break
@@ -2037,7 +2090,7 @@ ${commandBlock}`
               modelId,
               contentType: 'application/json',
               accept: 'application/json',
-              body: buildBedrockBody(modelId, prompt, maxTokens, temperature),
+              body: buildBedrockBody(modelId, prompt, maxTokens, temperature, QUIZ_WRITER_REASONING),
             })
             // Every attempt is recorded, including the ones that fail over to
             // the next model id — a fallback that burned tokens still cost
@@ -2067,6 +2120,22 @@ ${commandBlock}`
               onlyModelIdErrors = false
               lastTimeout = { modelId, ms: perAttemptTimeoutMs }
               console.warn(`Bedrock ${modelId} timed out after ${perAttemptTimeoutMs}ms — trying next model...`)
+              continue
+            }
+
+            // Busy, not broken. This used to be thrown, and the batch was lost
+            // until a retry pass wrote it again.
+            if (isBusyError(err)) {
+              onlyModelIdErrors = false
+              if (busy < 2 && Date.now() - started < budgetMs - 10_000) {
+                busy++
+                console.warn(`Bedrock ${modelId} busy — asking again (${busy})...`)
+                await new Promise((resolve) => setTimeout(resolve, 800 * busy + Math.random() * 1500))
+                i--
+              } else {
+                busy = 0
+                console.warn(`Bedrock ${modelId} still busy — trying next model...`)
+              }
               continue
             }
 
@@ -2105,7 +2174,7 @@ ${commandBlock}`
         if (primary.onlyModelIdErrors && fallback.onlyModelIdErrors) {
           const e: any = new Error(
             'No valid Bedrock model identifier found for generation in this account/region. ' +
-            'Set AWS_GENERATION_MODEL_ID (or AWS_BEDROCK_MODEL_ID) to a model you have access to.'
+            'Set QUIZ_WRITER_MODEL_ID to a model you have access to.'
           )
           e.code = 'MODEL_ID_INVALID'
           e.attemptedModels = attemptedModels
@@ -2118,7 +2187,7 @@ ${commandBlock}`
       if (primary.onlyModelIdErrors) {
         const e: any = new Error(
           'No valid Bedrock model identifier found for generation in this account/region. ' +
-          'Set AWS_GENERATION_MODEL_ID (or AWS_BEDROCK_MODEL_ID) to a model you have access to.'
+          'Set QUIZ_WRITER_MODEL_ID to a model you have access to.'
         )
         e.code = 'MODEL_ID_INVALID'
         e.attemptedModels = candidates
@@ -3846,7 +3915,7 @@ ${commandBlock}`
      * A careful second reader for every Checkpoint question. See
      * lib/question-checker.ts for why.
      *
-     * Nova Lite unless BEDROCK_CHECKER_MODEL_ID names another model, or "off"
+     * Kimi K3.1 unless BEDROCK_CHECKER_MODEL_ID names another model, or "off"
      * (Amplify passes BEDROCK_* through to production). Each question is checked once -- `checked` marks
      * it -- so the top-up passes only pay for what they add. A question the
      * checker drops leaves a gap the next top-up pass fills. If the checker
@@ -3855,18 +3924,39 @@ ${commandBlock}`
      */
     const CHECKER_SETTING = String(process.env.BEDROCK_CHECKER_MODEL_ID ?? '').trim()
     const CHECKER_MODEL = CHECKER_SETTING.toLowerCase() === 'off' ? '' : buildModelCandidates(CHECKER_SETTING || DEFAULT_CHECKER_MODEL)[0]
+    // A busy checker is asked again after a pause, twice, and then the batch
+    // goes to Qwen3 32B, which -- asked for letters -- checked 30 of 30 right
+    // and dropped none. Before, a busy Kimi meant the batch shipped unread.
+    const CHECKER_FALLBACK = CHECKER_MODEL ? buildModelCandidates(QUIZ_FALLBACK_MODEL)[0] : ''
     const callChecker = async (prompt: string): Promise<string> => {
+      const plan = [CHECKER_MODEL, CHECKER_MODEL, CHECKER_MODEL, ...(CHECKER_FALLBACK && CHECKER_FALLBACK !== CHECKER_MODEL ? [CHECKER_FALLBACK] : [])]
+      for (let k = 0; ; k++) {
+        try {
+          return await checkOnce(plan[k], prompt)
+        } catch (err: any) {
+          const next = plan[k + 1]
+          if (!next) throw err
+          if (next === plan[k]) {
+            if (!isBusyError(err)) { k = plan.length - 2; continue } // not busy: straight to the fallback
+            console.warn(`Checker ${plan[k]} busy — asking again...`)
+            await new Promise((resolve) => setTimeout(resolve, 800 * (k + 1) + Math.random() * 1500))
+          }
+        }
+      }
+    }
+    const checkOnce = async (modelId: string, prompt: string): Promise<string> => {
       const controller = new AbortController()
       // An ordinary quiz has what is left of its 30 seconds; a Checkpoint
       // paper runs as a job and has no such window.
-      const timeout = setTimeout(() => controller.abort(), isCheckpoint ? 45_000 : Math.max(1_000, Math.min(20_000, CHECK_DEADLINE_MS - (Date.now() - requestStarted))))
+      const timeout = setTimeout(() => controller.abort(), isCheckpoint ? 45_000 : Math.max(1_000, Math.min(30_000, CHECK_DEADLINE_MS - (Date.now() - requestStarted))))
       try {
-        const modelId = CHECKER_MODEL
         const cmd = new InvokeModelCommand({
           modelId,
           contentType: 'application/json',
           accept: 'application/json',
-          body: buildBedrockBody(modelId, prompt, 4000, 0),
+          // Not scaled up like the writer's: five verdicts fit in 4000, and
+          // Bedrock holds the whole max_tokens against the quota while it runs.
+          body: buildBedrockBody(modelId, prompt, 4000, 0, CHECKER_REASONING, 1),
         })
         const res = await withUsageTracking(
           {
@@ -3897,7 +3987,10 @@ ${commandBlock}`
     // The checker is a safety layer, not a reason to turn a 20-second draft
     // into a multi-minute request. Deterministic guards have already run; if
     // this deadline is exhausted the remaining questions ship unchecked.
-    const CHECK_DEADLINE_MS = examPaper ? 55_000 : 40_000
+    // Two minutes: the job runs in the background and the page waits up to
+    // twenty, and Kimi writes a quiz in 10-60 s. At 40 s the checker was
+    // skipped on half of Kimi's quizzes, and those went out unread.
+    const CHECK_DEADLINE_MS = examPaper ? 150_000 : 120_000
     const runChecker = async (list: any[]): Promise<any[]> => {
       if (!checksThisPaper || !CHECKER_MODEL) return list
       if (!isCheckpoint && Date.now() - requestStarted > CHECK_DEADLINE_MS - 4_000) {

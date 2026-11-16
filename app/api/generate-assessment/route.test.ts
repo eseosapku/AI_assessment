@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
 import { paperGroups } from '@/lib/exam-parts'
 
-const state = vi.hoisted(() => ({ calls: 0, incomplete: false, bareArray: false, damageFirst: 0, rejectUntil: 0, rejectFigures: false, checkerModels: [] as string[], checkerPrompts: [] as string[], generationPrompts: [] as string[] }))
+const state = vi.hoisted(() => ({ calls: 0, incomplete: false, bareArray: false, damageFirst: 0, rejectUntil: 0, rejectFigures: false, checkerModels: [] as string[], checkerPrompts: [] as string[], generationPrompts: [] as string[], writerModels: [] as string[] }))
 vi.mock('@/lib/aws-config', () => ({
   getBedrockCredentials: () => ({ accessKeyId: 'test', secretAccessKey: 'test' }),
   getBedrockRegion: () => 'eu-west-1', BEDROCK_CREDENTIALS_ERROR: 'missing credentials',
@@ -30,6 +30,9 @@ vi.mock('@aws-sdk/client-bedrock-runtime', () => ({
       const body = JSON.parse(command.input.body)
       const message = body.messages[0].content
       const text = typeof message === 'string' ? message : message[0].text
+      // Each model answers in its own shape: Nova's, or the OpenAI-style one Kimi and Qwen use.
+      const nova = /amazon\.nova/.test(command.input.modelId)
+      const reply = (out: string) => (nova ? { output: { message: { content: [{ text: out }] } } } : { choices: [{ message: { content: out } }] })
       if (body.anthropic_version || text.includes('QUESTIONS TO CHECK:')) {
         state.checkerModels.push(command.input.modelId)
         const prompt = text as string
@@ -42,10 +45,11 @@ vi.mock('@aws-sdk/client-bedrock-runtime', () => ({
           why: bad ? 'The particle cannot reach the top of the ring with the given speed. Use a different physically possible setup.' : undefined,
         }))
         const response = body.anthropic_version ? { content: [{ type: 'text', text: JSON.stringify(verdicts) }] }
-          : { output: { message: { content: [{ text: JSON.stringify(verdicts) }] } } }
+          : reply(JSON.stringify(verdicts))
         return { body: new TextEncoder().encode(JSON.stringify(response)) }
       }
-      state.generationPrompts.push(body.messages[0].content[0].text)
+      state.writerModels.push(command.input.modelId)
+      state.generationPrompts.push(text)
       const n = ++state.calls
       const questions = (state.incomplete || n <= state.damageFirst ? ['a'] : ['a', 'b', 'c', 'd']).map((part) => ({
         type: 'longform', part, scenario: `A point P has coordinates (${n * 7}, ${n * 11}).`,
@@ -57,7 +61,7 @@ vi.mock('@aws-sdk/client-bedrock-runtime', () => ({
         explanation: 'A translation adds the displacement to the original coordinate; reflection changes its sign.',
         hints: ['Apply the transformation to the appropriate coordinate.'],
       }))
-      const payload = { output: { message: { content: [{ text: JSON.stringify(state.bareArray ? questions : { questions }) }] } } }
+      const payload = reply(JSON.stringify(state.bareArray ? questions : { questions }))
       return { body: new TextEncoder().encode(JSON.stringify(payload)) }
     }
   },
@@ -81,7 +85,9 @@ describe('numbered exam generation', () => {
     state.checkerModels = []
     state.checkerPrompts = []
     state.generationPrompts = []
-    vi.stubEnv('AWS_GENERATION_MODEL_ID', 'amazon.nova-lite-v1:0')
+    state.writerModels = []
+    // The worker Lambda still carries this; quiz writing no longer reads it.
+    vi.stubEnv('AWS_GENERATION_MODEL_ID', 'eu.amazon.nova-lite-v1:0')
   })
 
   it('delivers ten complete question pages, keeps shared images, and gives time for every part', async () => {
@@ -111,14 +117,20 @@ describe('numbered exam generation', () => {
     expect(paperGroups(data.questions)).toHaveLength(10)
   })
 
-  it('checks every group in paired Nova Lite calls without switching to a more expensive model', async () => {
+  it('writes with Kimi K3.1 and checks every group with it, whatever AWS_GENERATION_MODEL_ID says', async () => {
     const response = await generate()
     const data = await response.json()
     expect(response.status, JSON.stringify(data)).toBe(200)
     expect(paperGroups(data.questions)).toHaveLength(10)
     expect(data.questions.every((q: any) => q.checked)).toBe(true)
     expect(state.checkerPrompts.length).toBeGreaterThanOrEqual(5)
-    expect(state.checkerModels.every((id) => /amazon\.nova-lite-v1:0$/.test(id))).toBe(true)
+    expect(state.writerModels.every((id) => id === 'global.moonshotai.kimi-k3.1')).toBe(true)
+    expect(state.checkerModels.every((id) => id === 'global.moonshotai.kimi-k3.1')).toBe(true)
+  })
+
+  it('names the options by letter to the checker', async () => {
+    await generate()
+    expect(state.checkerPrompts[0]).toMatch(/"right": the LETTER/)
   })
 
   it('refills complete groups and their lost figures without splitting any group', async () => {

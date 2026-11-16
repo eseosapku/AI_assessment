@@ -35,7 +35,23 @@ export function hasBedrockCredentials(): boolean {
 }
 
 function stripPrefix(modelId: string): string {
-  return modelId.replace(/^(us|eu|ap)\./, '')
+  return modelId.replace(/^(us|eu|ap|apac|global)\./, '')
+}
+
+export type ReasoningEffort = 'none' | 'low' | 'medium' | 'high'
+
+/** Only these families accept `reasoning_effort`; every other body must not carry it. */
+export function takesReasoningEffort(modelId: string): boolean {
+  return /^(moonshotai\.kimi|openai\.gpt-oss|minimax\.)/.test(stripPrefix(modelId))
+}
+
+/** Remove <think>/<reasoning> blocks from a reply (an unclosed one swallows the rest). */
+export function stripInlineReasoning(text: string): string {
+  return text
+    .replace(/<(think|thinking|reasoning)>[\s\S]*?<\/\1>/gi, '')
+    .replace(/<(think|thinking|reasoning)>[\s\S]*$/i, '')
+    .replace(/^[\s\S]*?<\/(think|thinking|reasoning)>/i, '')
+    .trim()
 }
 
 function regionPrefix(): (typeof PREFIXES)[number] {
@@ -79,6 +95,10 @@ export function buildModelCandidates(seedId: string): string[] {
   // What worked last time, first.
   const known = WORKING_MODEL.get(bare)
   if (known) expanded.push(known)
+  // A global inference profile is one id in every region: there are no
+  // regional variants to probe, and "eu.global.moonshotai.kimi-k3.1" is
+  // refused as an invalid model identifier.
+  if (clean.startsWith('global.')) return [...new Set([...expanded, clean])]
   // An id configured WITH a prefix is taken at its word.
   if (clean !== bare) expanded.push(clean)
   // Otherwise this region's inference profile before the bare id: newer

@@ -19,6 +19,13 @@ describe('buildModelCandidates', () => {
     expect(c.indexOf('amazon.nova-lite-v1:0')).toBeGreaterThan(0)
   })
 
+  it('takes a global inference profile as the one id to try', () => {
+    // "eu.global.moonshotai.kimi-k3.1" is refused as an invalid model identifier.
+    expect(buildModelCandidates('global.moonshotai.kimi-k3.1')).toEqual(['global.moonshotai.kimi-k3.1'])
+    rememberWorkingModel('global.moonshotai.kimi-k3.1')
+    expect(buildModelCandidates('global.moonshotai.kimi-k3.1')).toEqual(['global.moonshotai.kimi-k3.1'])
+  })
+
   it('takes an id configured with a prefix at its word', () => {
     expect(buildModelCandidates('us.amazon.nova-lite-v1:0')[0]).toBe('us.amazon.nova-lite-v1:0')
   })

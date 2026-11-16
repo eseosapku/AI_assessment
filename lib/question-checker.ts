@@ -43,10 +43,10 @@ export interface Verdict {
   why?: string
   /** Every answer a marker should accept, for a one-word/one-number answer. */
   accepted?: string[]
-  /** The 0-based index of the one correct option of a ring-around. */
-  correct_option?: number
-  /** The 0-based indices of every true statement of a tick list. */
-  correct_options?: number[]
+  /** The letter of the one correct option of a ring-around ("C"); a number is read 0-based. */
+  correct_option?: number | string
+  /** The letters of every true statement of a tick list (["A", "D"]); numbers are read 0-based. */
+  correct_options?: Array<number | string>
   /** For a table: the heading of the right column, for each row in order. */
   correct_columns?: string[]
   /** A replacement mark scheme with exactly one point per mark. */
@@ -64,7 +64,7 @@ export interface Verdict {
    * finds correct, judged one by one. One, and the key follows it; none or
    * two, and the question goes.
    */
-  right?: number[]
+  right?: Array<number | string>
   /** Why the right option is right, to the learner -- used when the key moves. */
   explain?: string
 }
@@ -81,8 +81,8 @@ For each question give ONE verdict:
 
 "fix"  -- the QUESTION is sound but its answer is wrong or too narrow. Give the corrected field(s) only:
           "accepted": every answer a fair marker would accept (include common correct alternatives, singular/plural, with/without units) -- for a one-word or one-number answer
-          "correct_option": 0-based index of the one right option -- for a ring-around (mcq)
-          "correct_options": 0-based indices of ALL true statements -- for a tick list
+          "correct_option": the LETTER of the one right option, as printed -- for a ring-around (mcq), e.g. "C"
+          "correct_options": the LETTERS of ALL true statements, as printed -- for a tick list, e.g. ["A", "D"]
           "correct_columns": the column heading for each row, in order -- for a table
           "mark_scheme": one creditable point per step the answer needs -- at least as many points as the scheme shown
           "model_answer": a complete corrected worked answer whenever a written mark scheme changes. Keep the scheme, model answer and explanation numerically consistent.
@@ -109,13 +109,29 @@ Do not drop a sound question for minor spelling, grammar or presentation prefere
 For written rubrics, fix missing variable names or corrupted phrases using the actual scenario and worked answer. Each point must express a meaningful marking requirement. Do not create multiple redundant points for naming one variable.
 
 A ring-around (mcq) is shown WITHOUT its key. For every one, whatever its verdict, also give:
-          "right": the 0-based index of EVERY option a fair examiner would mark correct for the question exactly as written. Solve it, then test each option on its own. An option that is also true counts, even when another seems "more" right: on parallel lines alternate AND corresponding angles are both equal; a melting solid's particles both "move faster" and "gain energy"; a toy car can use batteries. Count an option only if it is really correct, not merely plausible.
+          "right": the LETTER, as printed, of EVERY option a fair examiner would mark correct (e.g. ["B"]) for the question exactly as written. Solve it, then test each option on its own. An option that is also true counts, even when another seems "more" right: on parallel lines alternate AND corresponding angles are both equal; a melting solid's particles both "move faster" and "gain energy"; a toy car can use batteries. Count an option only if it is really correct, not merely plausible.
           "explain": one or two sentences, to the learner, on why the right option is right.
 
 Return ONLY a JSON array, one object per question, in order. "id" is the question's number as a plain number (Q3 -> 3):
-[{"id": <number>, "work": "<your own working or check, under 40 words>", "verdict": "ok"|"fix"|"drop", "why": "<under 20 words, for fix or drop>", "right": [<for an mcq>], "explain": "<for an mcq>", ...fix fields}]`
+[{"id": <number>, "work": "<your own working or check, under 40 words>", "verdict": "ok"|"fix"|"drop", "why": "<under 20 words, for fix or drop>", "right": [<letters, for an mcq>], "explain": "<for an mcq>", ...fix fields}]`
 
 const letter = (i: number) => String.fromCharCode(65 + i)
+
+/**
+ * An option as the checker names it. Options are printed as letters, so a
+ * letter is what it is asked for; a number is read 0-based, as the prompt
+ * used to ask. Asked for 0-based numbers beside lettered options, Nova Lite
+ * named the wrong option in 9 of 60 checks of questions whose keys were all
+ * right ("doubling 42 gives 84", then option B, which was 42), and the key
+ * moved with it: three questions went out marked against the right answer.
+ */
+export function optionIndex(x: unknown): number {
+  if (typeof x === 'number') return x
+  const s = String(x ?? '').trim()
+  const m = s.match(/^\(?([A-Za-z])\)?\.?$/)
+  if (m) return m[1].toUpperCase().charCodeAt(0) - 65
+  return s === '' ? NaN : Number(s)
+}
 
 /** One right option out of several: checked blind. A tick list keeps its key shown. */
 const isRingAround = (q: Q) => q.type === 'mcq' && Array.isArray(q.options) && !Array.isArray(q.correct_indices)
@@ -262,13 +278,13 @@ function applyFix(q: Q, v: Verdict): boolean {
     applied = true
   }
   if (v.correct_option !== undefined) {
-    const i = Number(v.correct_option)
+    const i = optionIndex(v.correct_option)
     if (q.type !== 'mcq' || !Array.isArray(q.options) || !Number.isInteger(i) || i < 0 || i >= q.options.length) return false
     q.correct_answer = i
     applied = true
   }
   if (v.correct_options !== undefined) {
-    const idx = Array.isArray(v.correct_options) ? v.correct_options.map(Number) : []
+    const idx = Array.isArray(v.correct_options) ? v.correct_options.map(optionIndex) : []
     if (!Array.isArray(q.options) || idx.length === 0 || idx.some((i) => !Number.isInteger(i) || i < 0 || i >= q.options.length)) return false
     q.correct_indices = [...new Set(idx)].sort((a, b) => a - b)
     applied = true
@@ -334,7 +350,7 @@ export function applyVerdicts<T extends Q>(questions: readonly T[], verdicts: re
     }
     if (isRingAround(q) && Array.isArray(v.right)) {
       const n = (q.options as unknown[]).length
-      const right = [...new Set(v.right.map(Number))].filter((i) => Number.isInteger(i) && i >= 0 && i < n)
+      const right = [...new Set(v.right.map(optionIndex))].filter((i) => Number.isInteger(i) && i >= 0 && i < n)
       if (right.length !== 1) {
         dropped.push({ id: Number(q.id), why: right.length ? `options ${right.map(letter).join(' and ')} are all right` : 'no option is right' })
         continue

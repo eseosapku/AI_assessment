@@ -1,6 +1,6 @@
 // lib/question-checker.test.ts
 import { describe, it, expect } from 'vitest'
-import { buildCheckPrompt, applyVerdicts, parseVerdicts, chunk } from './question-checker'
+import { buildCheckPrompt, applyVerdicts, parseVerdicts, chunk, optionIndex } from './question-checker'
 
 const short = (id: number, question: string, accepted: string[]) =>
   ({ id, type: 'longform', marks: 1, question, short_answer: { accepted } })
@@ -143,6 +143,57 @@ describe('a ring-around checked blind', () => {
 
   it('goes when the key is wrong and nothing explains the right one', () => {
     expect(applyVerdicts([ring(2)], [{ id: 1, verdict: 'ok', right: [1] }]).kept).toEqual([])
+  })
+
+  // Asked for 0-based numbers beside lettered options, Nova Lite named the
+  // wrong option in 9 of 60 checks of right keys, and the key moved with it.
+  it('asks for the right options by the letters it prints', () => {
+    const p = buildCheckPrompt([ring(0)], { subject: 'Mathematics', stage: 'Cambridge Lower Secondary Stage 8', others: [] })
+    expect(p).toMatch(/   B\. Alternate angles/)
+    expect(p).toMatch(/"right": the LETTER/)
+    expect(p).not.toMatch(/"right": the 0-based index/)
+  })
+
+  it('reads a letter as the option it names', () => {
+    const out = applyVerdicts([ring(2)], [{ id: 1, verdict: 'ok', right: ['B'], explain: 'Alternate angles are equal on parallel lines.' }])
+    expect(out.kept[0].correct_answer).toBe(1)
+    expect(applyVerdicts([ring(1)], [{ id: 1, verdict: 'ok', right: ['b'], explain: 'x' }]).fixed).toBe(0)
+    expect(applyVerdicts([ring(1)], [{ id: 1, verdict: 'ok', right: ['(B)'], explain: 'x' }]).kept).toHaveLength(1)
+  })
+
+  it('keeps the key where the checker names it by letter', () => {
+    const out = applyVerdicts([ring(1)], [{ id: 1, verdict: 'ok', right: ['B'], explain: 'x' }])
+    expect(out.kept[0].correct_answer).toBe(1)
+    expect(out.fixed).toBe(0)
+  })
+
+  it('still reads a number as 0-based', () => {
+    expect(applyVerdicts([ring(2)], [{ id: 1, verdict: 'ok', right: [1], explain: 'x' }]).kept[0].correct_answer).toBe(1)
+  })
+
+  it('drops an option it cannot read, or one past the last', () => {
+    expect(applyVerdicts([ring(1)], [{ id: 1, verdict: 'ok', right: ['the second'], explain: 'x' }]).kept).toEqual([])
+    expect(applyVerdicts([ring(1)], [{ id: 1, verdict: 'ok', right: ['E'], explain: 'x' }]).kept).toEqual([])
+  })
+
+  it('reads letters in the fix fields too', () => {
+    const tick = { id: 1, type: 'mcq', question: 'Tick every even number.', options: ['2', '3', '4', '5'], correct_indices: [0], explanation: 'x' }
+    expect(applyVerdicts([tick], [{ id: 1, verdict: 'fix', correct_options: ['A', 'C'] }]).kept[0].correct_indices).toEqual([0, 2])
+    const fixed = applyVerdicts([ring(2)], [{ id: 1, verdict: 'fix', correct_option: 'B', right: ['B'], explain: 'Alternate angles are equal.' }])
+    expect(fixed.kept[0].correct_answer).toBe(1)
+  })
+})
+
+describe('optionIndex', () => {
+  it('reads letters, bracketed letters and numbers', () => {
+    expect(optionIndex('A')).toBe(0)
+    expect(optionIndex('d')).toBe(3)
+    expect(optionIndex('(C)')).toBe(2)
+    expect(optionIndex('C.')).toBe(2)
+    expect(optionIndex(2)).toBe(2)
+    expect(optionIndex('2')).toBe(2)
+    expect(optionIndex('')).toBeNaN()
+    expect(optionIndex('B and C')).toBeNaN()
   })
 })
 
