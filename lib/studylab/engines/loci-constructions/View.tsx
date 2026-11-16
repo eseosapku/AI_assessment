@@ -4,7 +4,7 @@ import type { SceneViewProps } from '../types'
 import type { ArcState, LociConfig, LociState, Pt } from './config'
 import {
   arcCentre, compassGeometry, conditionError, circleIntersections, COMPASS_A, COMPASS_B, COMPASS_ARM_1, COMPASS_ARM_2, COMPASS_VERTEX,
-  fmt, initialPencil, lociConstructionsEngine, markedText, measurements, onLocus, readArcs, readCompassPoint, readInk, readPencil, traceCoverage,
+  fmt, initialPencil, lociConstructionsEngine, markedText, measurements, nearestOnSegment, onLocus, readArcs, readCompassPoint, readInk, readPencil, traceCoverage,
   TRACE_A, TRACE_B, TRACE_C, TRACE_SEG_A, TRACE_SEG_B, TRACE_VERTEX, TRACE_ARM_1, TRACE_ARM_2,
 } from './config'
 
@@ -139,7 +139,41 @@ function PencilHit({ at, locked, onDown, onKey, label }: { at: Pt; locked: boole
 
 const buttonClass = 'nodrag flex h-7 min-w-7 shrink-0 select-none items-center justify-center whitespace-nowrap rounded-lg border-2 border-ss-line bg-ss-panel px-1.5 text-[13px] font-extrabold leading-none text-ss-ink touch-manipulation transition-colors hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none'
 
-function TraceView({ config, state, setState, marked, locked }: Props & { config: Extract<LociConfig, { task: 'trace' }> }) {
+type TraceConfig = Extract<LociConfig, { task: 'trace' }>
+
+/** The exact point of the path nearest a pencil position: where its ink is drawn. */
+function snapToLocus(config: TraceConfig, p: Pt): Pt {
+  const out = (from: Pt, r: number): Pt => {
+    const d = Math.hypot(p.x - from.x, p.y - from.y)
+    return d < 1e-6 ? p : { x: from.x + (p.x - from.x) * r / d, y: from.y + (p.y - from.y) * r / d }
+  }
+  const onto = (o: Pt, ux: number, uy: number): Pt => {
+    const t = (p.x - o.x) * ux + (p.y - o.y) * uy
+    return { x: o.x + t * ux, y: o.y + t * uy }
+  }
+  if (config.relation === 'point') return out(TRACE_C, config.distance)
+  if (config.relation === 'segment') return out(nearestOnSegment(p, TRACE_SEG_A, TRACE_SEG_B), config.distance)
+  if (config.relation === 'two-points') {
+    const d = Math.hypot(TRACE_B.x - TRACE_A.x, TRACE_B.y - TRACE_A.y)
+    return onto({ x: (TRACE_A.x + TRACE_B.x) / 2, y: (TRACE_A.y + TRACE_B.y) / 2 }, -(TRACE_B.y - TRACE_A.y) / d, (TRACE_B.x - TRACE_A.x) / d)
+  }
+  const a = (Math.atan2(TRACE_ARM_1.y - TRACE_VERTEX.y, TRACE_ARM_1.x - TRACE_VERTEX.x) + Math.atan2(TRACE_ARM_2.y - TRACE_VERTEX.y, TRACE_ARM_2.x - TRACE_VERTEX.x)) / 2
+  return onto(TRACE_VERTEX, Math.cos(a), Math.sin(a))
+}
+
+/** One plain line under the paper: where the pencil is now, and when it inks. */
+function pencilStatus(config: TraceConfig, m1: number, m2: number, valid: boolean): string {
+  if (config.relation === 'point' || config.relation === 'segment') {
+    const from = config.relation === 'point' ? 'C' : 'AB'
+    const target = `${fmt(config.distance)} cm`
+    if (valid) return fmt(m1) === fmt(config.distance) ? `${target} from ${from}: on the rule, so it inks.` : `${fmt(m1)} cm from ${from}: near enough to ${target}, so it inks.`
+    return `${fmt(m1)} cm from ${from}: too ${m1 > config.distance ? 'far' : 'close'}. It inks only near ${target}.`
+  }
+  if (config.relation === 'two-points') return valid ? `PA ${fmt(m1)} cm, PB ${fmt(m2)} cm: near enough equal, so it inks.` : `PA ${fmt(m1)} cm, PB ${fmt(m2)} cm: not equal. It inks only where PA = PB.`
+  return valid ? `${fmt(m1)} cm and ${fmt(m2)} cm from the lines: near enough equal, so it inks.` : `${fmt(m1)} cm and ${fmt(m2)} cm from the lines: not equal. It inks only where they match.`
+}
+
+function TraceView({ config, state, setState, marked, locked }: Props & { config: TraceConfig }) {
   const now = marked === 'shown' ? lociConstructionsEngine.solve(config) : state
   const pencil = readPencil(config, now)
   const ink = readInk(now)
@@ -219,7 +253,8 @@ function TraceView({ config, state, setState, marked, locked }: Props & { config
             {config.relation === 'two-lines' && <><PerpendicularTape from={pencil} a={TRACE_VERTEX} b={TRACE_ARM_1} label={`line 1: ${fmt(m1)} cm`} side={-1} /><PerpendicularTape from={pencil} a={TRACE_VERTEX} b={TRACE_ARM_2} label={`line 2: ${fmt(m2)} cm`} side={1} /></>}
             {goodInk.length > 0 && (() => {
         const strokes: Pt[][] = []
-        for (const p of goodInk) {
+        // Ink lands on the exact path, so a wobbly hand still reveals one clean shape.
+        for (const p of goodInk.map((q) => snapToLocus(config, q))) {
           const last = strokes[strokes.length - 1]
           if (!last || Math.hypot(p.x - last[last.length - 1].x, p.y - last[last.length - 1].y) > 0.35) strokes.push([p])
           else last.push(p)
@@ -233,12 +268,12 @@ function TraceView({ config, state, setState, marked, locked }: Props & { config
             </g>
           </svg>
         </div>
-        <figcaption className="text-center text-[12px] font-bold text-ss-slate">Blue ink stays where the distance condition holds.</figcaption>
+        <figcaption className={`text-center text-[12px] font-bold ${valid ? 'text-ss-ink' : 'text-ss-slate'}`} aria-live="polite">{pencilStatus(config, m1, m2, valid)}</figcaption>
       </figure>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[12px] font-bold text-ss-slate">Ink coverage</span>
+        <span className="text-[12px] font-bold text-ss-slate">Path inked</span>
         <span className="flex items-center gap-1">{moveButton(-PENCIL_STEP, 0, 'Move pencil left')}{moveButton(0, -PENCIL_STEP, 'Move pencil up')}{moveButton(0, PENCIL_STEP, 'Move pencil down')}{moveButton(PENCIL_STEP, 0, 'Move pencil right')}</span>
-        <span className="min-w-[48px] text-right text-[15px] font-extrabold tabular-nums text-ss-ink" aria-label="Ink coverage">{Math.round(coverage * 100)}%</span>
+        <span className="min-w-[48px] text-right text-[15px] font-extrabold tabular-nums text-ss-ink" aria-label="Path inked">{Math.round(coverage * 100)}%</span>
       </div>
       {marked !== 'idle' && <p className="rounded-xl border-2 border-ss-line bg-ss-panel px-3 py-2 text-[13px] font-extrabold leading-snug text-ss-ink" aria-live="polite">{markedText(config, now, marked)}</p>}
     </div>

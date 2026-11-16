@@ -224,9 +224,11 @@ function Gametes({ allocation, reduced, motionClass = '' }: { allocation: Alloca
         <g key={k} transform={`translate(${cell.x} ${cell.y})`}>
           <path d="M 0 -49 C -36 -49 -58 -32 -58 0 C -58 32 -36 49 0 49 C 36 49 58 32 58 0 C 58 -32 36 -49 0 -49 Z" fill={CELL} stroke={CELL_EDGE} strokeWidth={2.4} />
           <ellipse rx={49} ry={40} fill="none" stroke={CELL_INNER} strokeWidth={1.2} />
-          {cell.ids.map((id, j) => (
-            <g key={id} transform={`translate(${j === 0 ? -14 : 14} 0) rotate(${j === 0 ? -12 : 12})`}><GameteChromosome id={id} swap={(k + j) % 2 === 0} /></g>
-          ))}
+          {cell.ids.map((id, j, list) => {
+            // Spread however many chromatids arrived, so a wrong division with three on one side still shows all three.
+            const at = j - (list.length - 1) / 2
+            return <g key={id} transform={`translate(${at * (list.length > 2 ? 18 : 28)} 0) rotate(${at * (list.length > 2 ? 8 : 24)})`}><GameteChromosome id={id} swap={(k + j) % 2 === 0} /></g>
+          })}
           <text style={LABEL_STYLE} x={0} y={37} textAnchor="middle" fontFamily={FONT} fontSize={12} fontWeight={700}>{`gamete ${k + 1}`}</text>
         </g>
       ))}
@@ -234,32 +236,40 @@ function Gametes({ allocation, reduced, motionClass = '' }: { allocation: Alloca
   )
 }
 
-/** Metaphase becomes anaphase: the sister chromatids of every X visibly travel to opposite poles. */
-function Anaphase({ reduced }: { reduced: boolean }) {
+/** Metaphase becomes anaphase: the sister chromatids of every X visibly travel from the equator to opposite poles. */
+function Anaphase({ moving }: { moving: boolean }) {
   return (
     <g data-anaphase="1">
       <path d={cellPath(false)} fill={CELL} stroke={CELL_EDGE} strokeWidth={3} />
       <Pole x={43} y={129} /><Pole x={317} y={129} />
-      {CHROMOSOMES.map((id) => {
-        const y = isLong(id) ? 87 : 166
+      {CHROMOSOMES.map((id, i) => {
+        const y = isLong(id) ? 100 : 158
+        const fromX = [105, 150, 210, 255][i]
         return (
           <g key={id} data-anaphase-chromosome={id}>
             {(['left', 'right'] as const).map((side) => {
-              const x = side === 'left' ? 67 : 293
+              const x = (side === 'left' ? 84 : 276) + (isBlue(id) ? -11 : 11)
+              const from = { '--dx': `${fromX - x}px`, '--dy': `${129 - y}px` } as CSSProperties
               return <g key={side}>
                 <line x1={side === 'left' ? 43 : 317} y1={129} x2={x} y2={y} stroke={FIBRE} strokeWidth={1.2} />
-                <g className={side === 'left' ? 'cd-sister-left' : 'cd-sister-right'} transform={`translate(${x} ${y})`}>
-                  <GameteChromosome id={id} />
+                <g className={moving ? 'cd-pull' : ''} style={from}>
+                  <g transform={`translate(${x} ${y})`}><GameteChromosome id={id} /></g>
                 </g>
               </g>
             })}
           </g>
         )
       })}
-      <text style={LABEL_STYLE} x={180} y={218} textAnchor="middle" fontFamily={FONT} fontSize={12} fontWeight={700}>sister chromatids separate</text>
     </g>
   )
 }
+
+/** The two stages each division plays, in order, with the words that name them on the plate and on the stage buttons. */
+const STAGES = {
+  mitosis: [{ chip: 'Pulled apart', title: 'The copies are pulled to opposite poles' }, { chip: 'Two cells', title: 'Two identical cells' }],
+  meiosis: [{ chip: '1st division', title: '1st division: the cell splits in two' }, { chip: '2nd division', title: '2nd division: the copies separate' }],
+} as const
+type Phase = 'parent' | 'to1' | 's1' | 'to2' | 's2'
 
 function Verdict({ marked, text }: { marked: SceneMarked; text: string }) {
   if (marked === 'idle') return null
@@ -271,20 +281,20 @@ export function CellDivisionView({ config, state, setState, marked, reduced, loc
   const current = marked === 'shown' ? cellDivisionEngine.solve(config) : state
   const allocation = sidesOf(current)
   const [drag, setDrag] = useState<{ id: ChromosomeId; p: Pt } | null>(null)
-  const [phase, setPhase] = useState<'parent' | 'split' | 'daughters' | 'second-split' | 'gametes'>(current.divided ? config.task === 'meiosis' ? 'gametes' : 'daughters' : 'parent')
+  const [phase, setPhase] = useState<Phase>(current.divided ? 's2' : 'parent')
   const wasDivided = useRef(Boolean(current.divided))
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([])
+  const stopTimers = () => { timers.current.forEach(clearTimeout); timers.current = [] }
 
+  // Dividing plays both stages slowly enough to follow, each named on the plate, then the stage buttons can replay either one.
   useEffect(() => {
-    if (!current.divided) { wasDivided.current = false; setPhase('parent'); return }
-    if (!wasDivided.current && !reduced) {
-      wasDivided.current = true
-      setPhase('split')
-      const first = setTimeout(() => setPhase(config.task === 'mitosis' ? 'daughters' : 'second-split'), 750)
-      const second = config.task === 'meiosis' ? setTimeout(() => setPhase('gametes'), 1550) : null
-      return () => { clearTimeout(first); if (second) clearTimeout(second) }
-    }
+    if (!current.divided) { wasDivided.current = false; stopTimers(); setPhase('parent'); return }
+    if (wasDivided.current) { setPhase((p) => (p === 'to1' || p === 'to2' ? 's2' : p)); return }
     wasDivided.current = true
-    setPhase(config.task === 'mitosis' ? 'daughters' : 'gametes')
+    if (reduced) { setPhase('s2'); return }
+    setPhase('to1')
+    timers.current = [setTimeout(() => setPhase('s1'), 900), setTimeout(() => setPhase('to2'), 3100), setTimeout(() => setPhase('s2'), 4000)]
+    return stopTimers
   }, [current.divided, config.task, reduced])
 
   const set = (id: ChromosomeId, side: Side) => {
@@ -320,22 +330,32 @@ export function CellDivisionView({ config, state, setState, marked, reduced, loc
   const allPlaced = config.task === 'mitosis' ? ready : CHROMOSOMES.every((id) => allocation[id] !== 'none')
   const divided = Boolean(current.divided)
   const text = marked === 'right' || marked === 'shown' ? working(config) : marked === 'wrong' ? madeText(config, current) : ''
+  const stages: readonly { chip: string; title: string }[] = STAGES[config.task]
+  const stage: number = phase === 'to1' || phase === 's1' ? 0 : phase === 'to2' || phase === 's2' ? 1 : -1
 
   return (
     <div className="nodrag flex w-full max-w-[360px] flex-col gap-2">
       <figure className="m-0 flex w-full flex-col gap-1.5">
         <svg ref={svg} viewBox={`0 0 ${W} ${H}`} role="group" aria-label={cellDescription(config.task, allocation, divided)} className="block h-auto w-full select-none">
           <rect x={0.75} y={0.75} width={W - 1.5} height={H - 1.5} rx={16} fill={PLATE} stroke={PLATE_EDGE} strokeWidth={1.5} />
-          {!reduced && <style>{`.cd-old{transform-origin:180px 129px;animation:cd-old 750ms ease-in both}.cd-new{transform-origin:180px 129px;animation:cd-new 750ms ease-out both}@keyframes cd-old{to{opacity:0;transform:scale(.82)}}@keyframes cd-new{from{opacity:0;transform:scale(1.28)}to{opacity:1;transform:scale(1)}}`}</style>}
-          {(phase === 'parent' || phase === 'split') && <g className={phase === 'split' ? 'cd-old' : ''}><ParentScene config={config} allocation={allocation} divided={false} set={set} drag={drag} begin={begin} move={move} end={end} locked={locked || phase === 'split'} reduced={reduced} /></g>}
-          {(phase === 'split' || phase === 'daughters' || phase === 'second-split') && <Daughters meiosis={config.task === 'meiosis'} allocation={allocation} reduced={reduced} motionClass={phase === 'split' ? 'cd-new' : phase === 'second-split' ? 'cd-old' : ''} />}
-          {(phase === 'second-split' || phase === 'gametes') && <Gametes allocation={allocation} reduced={reduced} motionClass={phase === 'second-split' ? 'cd-new' : ''} />}
-          {phase === 'parent' && (
-            <g fontFamily={FONT} fontSize={12} fontWeight={700} aria-hidden="true">
-              <rect x={77} y={8} width={206} height={19} rx={9.5} fill={PLATE} />
-              <text style={LABEL_STYLE} x={180} y={22} textAnchor="middle">model: two chromosome pairs</text>
-            </g>
-          )}
+          {!reduced && <style>{`.cd-old{animation:cd-old 900ms ease-in both}.cd-new{animation:cd-new 900ms ease-out both}.cd-pull{animation:cd-pull 900ms cubic-bezier(.3,.7,.3,1) both}@keyframes cd-old{to{opacity:0}}@keyframes cd-new{from{opacity:0}}@keyframes cd-pull{from{transform:translate(var(--dx),var(--dy))}}`}</style>}
+          {(phase === 'parent' || phase === 'to1') && <g className={phase === 'to1' ? 'cd-old' : ''}><ParentScene config={config} allocation={allocation} divided={false} set={set} drag={drag} begin={begin} move={move} end={end} locked={locked || phase === 'to1'} reduced={reduced} /></g>}
+          {(phase === 'to1' || phase === 's1' || phase === 'to2') && <g className={phase === 'to1' ? 'cd-new' : phase === 'to2' ? 'cd-old' : ''}>
+            {config.task === 'mitosis' ? <Anaphase moving={phase === 'to1' && !reduced} /> : <Daughters meiosis allocation={allocation} reduced={reduced} />}
+          </g>}
+          {(phase === 'to2' || phase === 's2') && <g className={phase === 'to2' ? 'cd-new' : ''}>
+            {config.task === 'mitosis' ? <Daughters meiosis={false} allocation={allocation} reduced={reduced} /> : <Gametes allocation={allocation} reduced={reduced} />}
+          </g>}
+          {(() => {
+            const title = stage < 0 ? 'model: two chromosome pairs' : stages[stage].title
+            const w = Math.round(title.length * 6.6 + 22)
+            return (
+              <g fontFamily={FONT} fontSize={12} fontWeight={700} aria-hidden="true">
+                <rect x={180 - w / 2} y={6} width={w} height={20} rx={10} fill={PLATE} stroke={stage < 0 ? 'none' : PLATE_EDGE} />
+                <text style={stage < 0 ? LABEL_STYLE : { fill: INK, color: INK }} x={180} y={20.5} textAnchor="middle">{title}</text>
+              </g>
+            )
+          })()}
         </svg>
         <figcaption className="flex flex-wrap justify-center gap-x-3 gap-y-0.5 text-[12px] font-semibold text-ss-slate" aria-hidden="true">
           <span className="flex items-center gap-1 whitespace-nowrap"><i className="h-2.5 w-2.5 rounded-full" style={{ background: BLUE }} />Blue homologue</span>
@@ -344,14 +364,24 @@ export function CellDivisionView({ config, state, setState, marked, reduced, loc
         </figcaption>
       </figure>
       <div className="flex items-center justify-between gap-2 border-t border-ss-line pt-2">
-        <span className="text-[12px] font-bold text-ss-slate">{config.task === 'mitosis' ? 'Cell division' : 'First, then second division'}</span>
+        {stage < 0 ? <span className="text-[12px] font-bold text-ss-slate">{config.task === 'mitosis' ? 'Cell division' : 'First, then second division'}</span> : (
+          <div className="flex gap-1.5" role="group" aria-label="Replay a stage">
+            {stages.map((s, i) => (
+              <button
+                key={s.chip} type="button" aria-pressed={stage === i}
+                onClick={() => { stopTimers(); setPhase(i === 0 ? 's1' : 's2') }}
+                className={`nodrag h-8 whitespace-nowrap rounded-lg border-2 bg-ss-panel px-2.5 text-[12px] font-extrabold touch-manipulation transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] motion-reduce:transition-none ${stage === i ? 'border-[color:var(--subject)] text-ss-ink' : 'border-ss-line text-ss-slate hover:border-[color:var(--subject)]'}`}
+              >{`${i + 1}. ${s.chip}`}</button>
+            ))}
+          </div>
+        )}
         <button
           type="button" aria-label={divided && marked === 'wrong' ? 'Undo division' : config.task === 'mitosis' ? 'Divide the cell' : 'Divide twice'} disabled={locked || !allPlaced || (divided && marked !== 'wrong')}
           onClick={() => { if (!locked) setState({ ...current, divided: divided && marked === 'wrong' ? false : true }) }}
           className="nodrag h-8 whitespace-nowrap rounded-lg border-2 border-ss-line bg-ss-panel px-3 text-[12px] font-extrabold text-ss-ink touch-manipulation transition-colors hover:border-[color:var(--subject)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--subject)] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none"
         >{divided && marked === 'wrong' ? 'Undo division' : config.task === 'mitosis' ? 'Divide the cell' : 'Divide twice'}</button>
       </div>
-      <span className="sr-only" aria-live="polite">{divided ? config.task === 'mitosis' ? 'The membrane has pinched into two cells.' : 'The two divisions have made four gametes.' : ready ? 'The chromosome sets can now be divided.' : config.task === 'mitosis' ? 'Move every copied chromosome onto the equator.' : 'Move each copied chromosome to a pole.'}</span>
+      <span className="sr-only" aria-live="polite">{divided ? stage >= 0 ? `${stages[stage].title}.` : '' : ready ? 'The chromosome sets can now be divided.' : config.task === 'mitosis' ? 'Move every copied chromosome onto the equator.' : 'Move each copied chromosome to a pole.'}</span>
       <Verdict marked={marked} text={text} />
     </div>
   )
