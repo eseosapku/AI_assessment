@@ -1,4 +1,4 @@
-// lib/studylab/engines/international-trade-kimi31/config.ts
+// lib/studylab/engines/international-trade/config.ts
 //
 // International trade as two things the learner can change:
 //   specialise -- move six workers in each of two fictional countries between two goods. Both orders must be

@@ -1,4 +1,4 @@
-// lib/studylab/engines/reactivity-series-kimi31/config.ts
+// lib/studylab/engines/reactivity-series/config.ts
 //
 // Two small laboratory experiments, not a reactivity quiz. The learner lowers a metal strip into a solution,
 // watches, and reports the observation. Aluminium has one preparation step first: rub its dull surface with

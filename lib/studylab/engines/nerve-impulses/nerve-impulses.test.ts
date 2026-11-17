@@ -1,4 +1,4 @@
-// lib/studylab/engines/nerve-impulses-kimi31/nerve-impulses.test.ts
+// lib/studylab/engines/nerve-impulses/nerve-impulses.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

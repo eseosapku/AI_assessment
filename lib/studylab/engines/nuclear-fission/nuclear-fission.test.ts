@@ -1,4 +1,4 @@
-// lib/studylab/engines/nuclear-fission-kimi31/nuclear-fission.test.ts
+// lib/studylab/engines/nuclear-fission/nuclear-fission.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

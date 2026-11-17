@@ -1,4 +1,4 @@
-// lib/studylab/engines/reactivity-series-kimi31/reactivity-series.test.ts
+// lib/studylab/engines/reactivity-series/reactivity-series.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

@@ -1,4 +1,4 @@
-// lib/studylab/engines/simultaneous-equations-kimi31/config.ts
+// lib/studylab/engines/simultaneous-equations/config.ts
 //
 // Two linear equations are two lines. In `graph`, the learner places a point that belongs to both.
 // In `eliminate`, they form p(first) + q(second): the resulting line pivots about the same crossing,

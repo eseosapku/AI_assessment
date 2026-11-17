@@ -1,4 +1,4 @@
-// lib/studylab/engines/cell-division-kimi31/cell-division.test.ts
+// lib/studylab/engines/cell-division/cell-division.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

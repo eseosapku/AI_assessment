@@ -1,4 +1,4 @@
-// lib/studylab/engines/cell-division-kimi31/config.ts
+// lib/studylab/engines/cell-division/config.ts
 //
 // Chromosome sets, handled rather than named. Two representative homologous pairs (one long, one short),
 // already copied into sister chromatids. The learner pulls each copied chromosome to a pole and divides the cell.

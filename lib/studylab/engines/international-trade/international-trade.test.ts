@@ -1,4 +1,4 @@
-// lib/studylab/engines/international-trade-kimi31/international-trade.test.ts
+// lib/studylab/engines/international-trade/international-trade.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

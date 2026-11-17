@@ -1,4 +1,4 @@
-// lib/studylab/engines/circle-theorems-kimi31/circle-theorems.test.ts
+// lib/studylab/engines/circle-theorems/circle-theorems.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

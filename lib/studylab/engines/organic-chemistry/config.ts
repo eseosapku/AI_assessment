@@ -1,4 +1,4 @@
-// lib/studylab/engines/organic-chemistry-kimi31/config.ts
+// lib/studylab/engines/organic-chemistry/config.ts
 //
 // A displayed-formula workbench. The learner changes connectivity, never a label:
 // build a molecule carbon by carbon; open C=C and add bromine, hydrogen or steam;

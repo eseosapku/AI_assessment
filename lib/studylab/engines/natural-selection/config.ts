@@ -1,4 +1,4 @@
-// lib/studylab/engines/natural-selection-kimi31/config.ts
+// lib/studylab/engines/natural-selection/config.ts
 //
 // The learner IS the selection pressure. On bark, a tap sends a bird to eat that moth; in a Petri dish,
 // a dose bursts the susceptible bacterial cells. Only then may the learner reproduce the survivors.

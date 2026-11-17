@@ -1,4 +1,4 @@
-// lib/studylab/engines/nuclear-fission-kimi31/config.ts
+// lib/studylab/engines/nuclear-fission/config.ts
 //
 // Two small nuclear experiments, drawn as apparatus rather than answered as quizzes.
 //   reactor -- lower real control rods through a cutaway core. One split has led to three, and the learner

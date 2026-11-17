@@ -1,4 +1,4 @@
-// lib/studylab/engines/sets-logic-kimi31/config.ts
+// lib/studylab/engines/sets-logic/config.ts
 //
 // Two-set Venn diagrams as four yes/no decisions, not four mysterious shapes.
 //   shade  -- tap whole regions until every region where the rule is true is yellow;

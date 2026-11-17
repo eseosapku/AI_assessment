@@ -1,4 +1,4 @@
-// lib/studylab/engines/circle-theorems-kimi31/config.ts
+// lib/studylab/engines/circle-theorems/config.ts
 //
 // Dynamic circle geometry: the learner deforms a real figure and reads two live angles.
 //   centre     -- slide C off minor arc AB; O stays fixed while C changes, then stays

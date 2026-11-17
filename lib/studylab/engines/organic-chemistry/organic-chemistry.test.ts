@@ -1,4 +1,4 @@
-// lib/studylab/engines/organic-chemistry-kimi31/organic-chemistry.test.ts
+// lib/studylab/engines/organic-chemistry/organic-chemistry.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

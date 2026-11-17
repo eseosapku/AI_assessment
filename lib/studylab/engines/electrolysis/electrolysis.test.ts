@@ -1,4 +1,4 @@
-// lib/studylab/engines/electrolysis-kimi31/electrolysis.test.ts
+// lib/studylab/engines/electrolysis/electrolysis.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

@@ -1,4 +1,4 @@
-// lib/studylab/engines/nerve-impulses-kimi31/config.ts
+// lib/studylab/engines/nerve-impulses/config.ts
 //
 // One chemical synapse, drawn large. An impulse has reached the sending neurone; the learner handles the
 // molecular machinery, never the drawing's verdict:

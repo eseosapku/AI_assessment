@@ -1,4 +1,4 @@
-// lib/studylab/engines/natural-selection-kimi31/natural-selection.test.ts
+// lib/studylab/engines/natural-selection/natural-selection.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

@@ -1,4 +1,4 @@
-// lib/studylab/engines/immune-response-kimi31/config.ts
+// lib/studylab/engines/immune-response/config.ts
 //
 // Specific antibodies, and what happens after one binds. The learner drags a Y-shaped antibody onto bacteria;
 // complementary surface antigens stay bound, other shapes do not. A phagocyte then visibly engulfs each tagged

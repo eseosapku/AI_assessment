@@ -1,4 +1,4 @@
-// lib/studylab/engines/loci-constructions-kimi31/config.ts
+// lib/studylab/engines/loci-constructions/config.ts
 //
 // A locus is made by a moving point. `trace` gives the learner a pencil: two live distances
 // answer every move, and the pencil leaves blue ink only while its condition holds. Coverage

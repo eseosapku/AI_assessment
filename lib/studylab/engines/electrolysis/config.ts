@@ -1,4 +1,4 @@
-// lib/studylab/engines/electrolysis-kimi31/config.ts
+// lib/studylab/engines/electrolysis/config.ts
 //
 // A working DC electrolysis cell. The learner plugs the red (positive) and black (negative)
 // leads onto two electrode terminals. Only then do ions migrate and the electrode events

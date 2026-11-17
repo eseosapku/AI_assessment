@@ -1,4 +1,4 @@
-// lib/studylab/engines/sets-logic-kimi31/sets-logic.test.ts
+// lib/studylab/engines/sets-logic/sets-logic.test.ts
 import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
