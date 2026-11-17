@@ -40,7 +40,7 @@ function MuscleRow({ label, value, disabled, set }: { label: string; value: Musc
 export function EyeView({ config, state, setState, marked, reduced, locked }: Props) {
   if (!drawable(config)) return null
   const shown = readState(marked === 'shown' ? eyeEngine.solve(config) : state)
-  const frozen = locked || marked !== 'idle'
+  const frozen = locked || marked === 'right' || marked === 'shown'
   const set = (key: keyof EyeState) => (next: Muscle) => {
     if (frozen || shown[key] === next) return
     setState({ ...shown, [key]: next })

@@ -42,7 +42,7 @@ const cap = (w: string) => w.charAt(0).toUpperCase() + w.slice(1)
 export function TreeView({ config, state, setState, marked, reduced, locked }: Props) {
   const ok = treeEngine.faults(config).length === 0
   const shown: TreeState = readState(marked === 'shown' && ok ? treeEngine.solve(config) : state)
-  const frozen = locked || marked !== 'idle'
+  const frozen = locked || marked === 'right' || marked === 'shown'
   if (!ok) return null
 
   // The board moves cards with the arrow keys; inside the card they belong to the card.

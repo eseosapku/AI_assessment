@@ -43,7 +43,7 @@ const PROTECTIONS: Record<Protection, { text: string; label: string }> = {
 export function RustingView({ config, state, setState, marked, reduced, locked }: Props) {
   const ok = rustingEngine.faults(config).length === 0 && config.kind !== 'other'
   const shown: RustState = readState(marked === 'shown' && ok ? rustingEngine.solve(config) : state)
-  const frozen = locked || marked !== 'idle'
+  const frozen = locked || marked === 'right' || marked === 'shown'
 
   // The week: the day counter steps while the nail is left, and the Picture grows the rust between steps.
   const [day, setDay] = useState(shown.left ? WEEK : 0)

@@ -23,7 +23,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 export function TransformersView({ config, state, setState, marked, reduced, locked }: Props) {
   if (config.kind === 'other' || transformersEngine.faults(config).length) return null
   const shown = readState(marked === 'shown' ? transformersEngine.solve(config) : state)
-  const frozen = locked || marked !== 'idle'
+  const frozen = locked || marked === 'right' || marked === 'shown'
   const onKey = (e: KeyboardEvent) => { if (e.key.startsWith('Arrow')) e.stopPropagation() }
 
   const wind = (by: number) => {

@@ -74,23 +74,25 @@ const dayWords = (m: { time: string; wind: string; sky: string }) => {
 export function EnergyView({ config, state, setState, marked, reduced, locked }: Props) {
   const ok = energyEngine.faults(config).length === 0
   const shown: PowerState = readState(marked === 'shown' && ok ? energyEngine.solve(config) : state)
-  const frozen = locked || marked !== 'idle'
+  const frozen = locked || marked === 'right' || marked === 'shown'
+  // A wrong card still opens on the first dark time, but its builds stay free to change.
+  const reviewing = locked || marked !== 'idle'
 
   // What the student last changed decides how the town answers: a new time plays the sunset first, a build answers at once.
   const [changed, setChanged] = useState<'mix' | 'time'>('mix')
   // Once marked, the card can still be looked at: the times keep working without touching the work.
   const [looked, setLooked] = useState<number | null>(null)
   useEffect(() => {
-    if (!frozen) setLooked(null)
-  }, [frozen])
+    if (!reviewing) setLooked(null)
+  }, [reviewing])
 
   if (!ok) return null
 
   const moments = momentsOf(config)
-  const jump = frozen ? jumpTo(config, shown) : null
-  const at = Math.min(frozen && looked !== null ? looked : jump ?? shown.shown, moments.length - 1)
+  const jump = reviewing ? jumpTo(config, shown) : null
+  const at = Math.min(reviewing && looked !== null ? looked : jump ?? shown.shown, moments.length - 1)
   // A marked card opens on the first time homes went dark: the sky answers before the town does.
-  const effChanged = frozen && jump !== null && looked === null ? 'time' : changed
+  const effChanged = reviewing && jump !== null && looked === null ? 'time' : changed
   const m = moments[at]
 
   // The board moves cards with the arrow keys; inside the card they belong to the card.
@@ -103,7 +105,7 @@ export function EnergyView({ config, state, setState, marked, reduced, locked }:
   }
   const pick = (i: number) => {
     setChanged('time')
-    if (frozen) setLooked(i)
+    if (reviewing) setLooked(i)
     else if (i !== shown.shown) setState({ ...shown, shown: i })
   }
 

@@ -24,7 +24,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 export function EncryptionView({ config, state, setState, marked, reduced, locked }: Props) {
   const ok = encryptionEngine.faults(config).length === 0 && config.kind !== 'other'
   const shown: EncryptionState = readState(marked === 'shown' && ok ? encryptionEngine.solve(config) : state)
-  const frozen = locked || marked !== 'idle'
+  const frozen = locked || marked === 'right' || marked === 'shown'
 
   // The verdict waits until the picture has finished its motion.
   const [held, setHeld] = useState(false)

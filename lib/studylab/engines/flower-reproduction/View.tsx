@@ -257,7 +257,7 @@ export function FlowerReproductionView({ config, state, setState, marked, reduce
   const svgRef = useRef<SVGSVGElement>(null)
   const [drag, setDrag] = useState<Drag | null>(null)
   const done = marked !== 'idle'
-  const frozen = locked || done
+  const frozen = locked || marked === 'right' || marked === 'shown'
   const flower = flowerOf(config)
   const toSvg = (e: { clientX: number; clientY: number }): Pt => {
     const r = svgRef.current!.getBoundingClientRect()

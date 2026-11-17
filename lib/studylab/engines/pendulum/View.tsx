@@ -46,7 +46,7 @@ const PULL_BUTTONS: PullDeg[] = [5, 10]
 export function PendulumView({ config, state, setState, marked, reduced, locked }: Props) {
   const ok = pendulumEngine.faults(config).length === 0 && config.kind !== 'other'
   const shown: PendulumState = readState(marked === 'shown' && ok ? pendulumEngine.solve(config) : state)
-  const frozen = locked || marked !== 'idle'
+  const frozen = locked || marked === 'right' || marked === 'shown'
 
   // The timer reads the latest state and setter without restarting when they change identity.
   const latest = useRef({ shown, setState })

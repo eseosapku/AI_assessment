@@ -5,7 +5,8 @@ import { describe, it, expect, vi } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { ReactFlowProvider } from '@xyflow/react'
-import { registerEngine, getEngine, sceneCatalogue } from './registry'
+import { registerEngine, getEngine, sceneCatalogue, engines } from './registry'
+import { examplesOf } from './examples'
 import type { SceneEngine } from './types'
 import { validateSpec } from '../activities/validate'
 import { getPatternModule } from '../activities/registry'
@@ -160,5 +161,34 @@ describe('a view and its config import each other', () => {
       .filter(({ init }) => !/^(?:async\s+)?(?:\([^)]*\)|\w+)\s*(?::[^=]+)?=>/.test(init.trim()))
       .flatMap(({ name, init }) => risky.filter((n) => new RegExp(`\\b${n}\\b`).test(init)).map((n) => `${name} uses ${n}`))
     expect(found).toEqual([])
+  })
+})
+
+describe('a wrong verdict is never a dead end', () => {
+  // The lesson card keeps 'wrong' until the View calls setState, so after one wrong Check
+  // every registered scene must still show a control the student can use.
+  // A control is a button or input that is not disabled, or an element the keyboard can reach
+  // that is not marked aria-disabled and has an interactive role (the scenes' drag handles,
+  // sliders, grids and SVG buttons carry role and tabindex instead of being native buttons).
+  const ROLES = /role="(?:button|slider|grid|radio|checkbox|switch|textbox|spinbutton|option)"/
+  const usable = (html: string) =>
+    [...html.matchAll(/<(button|input)\b[^>]*>/g)].some((m) => !/\sdisabled(?=[\s=>/])/.test(m[0])) ||
+    [...html.matchAll(/<[a-z]+\b[^>]*>/g)].some((m) => ROLES.test(m[0]) && /tabindex="0"/i.test(m[0]) && !/aria-disabled="true"/.test(m[0]))
+
+  it('every catalogue example keeps a usable control when marked wrong', async () => {
+    await import('./index')
+    const dead: string[] = []
+    let n = 0
+    for (const e of engines()) {
+      for (const ex of examplesOf(e)) {
+        const config = e.parse(ex.config)
+        if (config === null) { dead.push(`${e.id}: example does not parse`); continue }
+        n++
+        const html = renderToStaticMarkup(createElement(ReactFlowProvider, null, createElement(e.View, { config, state: e.initial(config), setState() {}, marked: 'wrong', reduced: false, locked: false })))
+        if (!usable(html)) dead.push(`${e.id}: ${ex.prompt.slice(0, 50)}`)
+      }
+    }
+    expect(n).toBeGreaterThan(50)
+    expect(dead).toEqual([])
   })
 })
