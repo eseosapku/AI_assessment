@@ -2005,14 +2005,14 @@ function AssessmentPageClient() {
   const here = paperGroup ? String(paperGroup.number) : (labels[currentQuestion] ?? String(currentQuestion + 1))
   const groupedParts = paperGroup ? assessment.questions.slice(paperGroup.start, paperGroup.end) : []
   const showPartsTogether = groupedParts.length > 1
-  // Exam-style papers carry long stems and shared scenarios; they read better smaller.
+  // Exam-style papers carry long stems and shared scenarios, so they sit a step smaller than practice.
   const examPaper = 'exam_question_id' in question && Boolean(question.exam_question_id)
   const stemClass = examPaper
-    ? 'text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-6 leading-relaxed'
-    : 'text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight'
+    ? 'text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-6 leading-relaxed whitespace-pre-line'
+    : 'text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-6 sm:mb-8 leading-relaxed whitespace-pre-line'
   const scenarioClass = examPaper
     ? 'mb-5 text-[15px] sm:text-base leading-relaxed text-gray-700 dark:text-gray-200'
-    : 'mb-6 text-lg leading-relaxed text-gray-900 dark:text-white'
+    : 'mb-5 text-base sm:text-[17px] leading-relaxed text-ss-ink'
   const isCurrentLongForm = isLongForm(question)
   const isCurrentInteractive = isInteractive(question)
   // Every question on a reading paper carries the same text, so this is

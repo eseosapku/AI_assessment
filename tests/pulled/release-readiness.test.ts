@@ -116,11 +116,14 @@ describe('exam-style papers', () => {
     expect(paperGroups(qs)).toEqual([{ start: 0, end: 2, number: 1 }, { start: 2, end: 3, number: 2 }])
   })
 
-  it('the quiz page uses the smaller text only for exam-style questions', () => {
+  it('the quiz page sizes exam papers a step smaller than practice, and neither oversized', () => {
     const page = read('app/assessment/page.tsx')
     expect(page).toMatch(/const examPaper = 'exam_question_id' in question/)
     expect(page).toMatch(/className=\{stemClass\}/)
-    expect(page).toMatch(/text-xl sm:text-2xl lg:text-3xl/)
+    expect(page).toMatch(/'text-base sm:text-lg font-semibold/)
+    expect(page).toMatch(/'text-lg sm:text-xl font-semibold/)
+    expect(page).not.toMatch(/text-xl sm:text-2xl lg:text-3xl/)
+    expect(page).toMatch(/<ScenarioText text=\{question\.scenario\} \/>/)
   })
 })
 
