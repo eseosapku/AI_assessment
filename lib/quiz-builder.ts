@@ -2,7 +2,7 @@ import { isExamStyle } from '@/lib/exam-parts'
 
 /** How many questions the builder may offer. An exam paper stops at 20. */
 export function questionCountChoices(style: string): number[] {
-  return isExamStyle(style) ? [10, 20] : [10, 20, 40]
+  return isExamStyle(style) ? [5, 10] : [10, 20, 40]
 }
 
 /**

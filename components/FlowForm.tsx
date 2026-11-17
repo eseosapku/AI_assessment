@@ -1885,7 +1885,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
               </motion.div>
             )}
 
-            {/* Step 7: Count. Exam papers stop at 20. Practice still offers 40. */}
+            {/* Step 7: Count. Exam papers offer 5 or 10. Practice still offers 40. */}
             {flowMode === 'ai' && step === 7 && !!formData.style && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question count" />

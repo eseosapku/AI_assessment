@@ -21,6 +21,7 @@ import { stripPrintedMarks } from '@/lib/demand-variety'
 import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@/types/interactive'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 import { LatexText as L } from '@/lib/latex-text'
+import ScenarioText from '@/components/ScenarioText'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 import PassageReader from '@/components/exam/PassageReader'
 import { pace, marksAttempted } from '@/lib/exam-pacing'
@@ -2004,6 +2005,14 @@ function AssessmentPageClient() {
   const here = paperGroup ? String(paperGroup.number) : (labels[currentQuestion] ?? String(currentQuestion + 1))
   const groupedParts = paperGroup ? assessment.questions.slice(paperGroup.start, paperGroup.end) : []
   const showPartsTogether = groupedParts.length > 1
+  // Exam-style papers carry long stems and shared scenarios; they read better smaller.
+  const examPaper = 'exam_question_id' in question && Boolean(question.exam_question_id)
+  const stemClass = examPaper
+    ? 'text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-6 leading-relaxed'
+    : 'text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight'
+  const scenarioClass = examPaper
+    ? 'mb-5 text-[15px] sm:text-base leading-relaxed text-gray-700 dark:text-gray-200'
+    : 'mb-6 text-lg leading-relaxed text-gray-900 dark:text-white'
   const isCurrentLongForm = isLongForm(question)
   const isCurrentInteractive = isInteractive(question)
   // Every question on a reading paper carries the same text, so this is
@@ -2595,9 +2604,9 @@ function AssessmentPageClient() {
               {showPartsTogether && (
                 <div className="space-y-8">
                   {'scenario' in question && question.scenario && (
-                    <h2 id={`question-text-${currentQuestion}`} className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight">
-                      <L>{question.scenario}</L>
-                    </h2>
+                    <div id={`question-text-${currentQuestion}`} role="heading" aria-level={2} className={examPaper ? scenarioClass : stemClass}>
+                      <ScenarioText text={question.scenario} />
+                    </div>
                   )}
                   {[...groupedParts]
                     .map((partQuestion, offset) => ({ partQuestion, index: (paperGroup?.start ?? 0) + offset }))
@@ -2612,7 +2621,7 @@ function AssessmentPageClient() {
                     return (
                       <section key={index} className="scroll-mt-24 border-t border-ss-line pt-6">
                         <p className="mb-2 text-sm font-semibold text-ss-slate">({('part' in partQuestion && partQuestion.part) || 'a'}) · {isLongForm(partQuestion) ? `${partQuestion.marks} marks` : 'Multiple choice'}</p>
-                        <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
+                        <h3 className={examPaper ? 'mb-3 text-base font-semibold leading-relaxed text-gray-900 dark:text-white' : 'mb-4 text-lg font-bold text-gray-900 dark:text-white'}>
                           <L>{stripPrintedMarks(partQuestion.question)}</L>
                         </h3>
                         {written && (
@@ -2654,14 +2663,14 @@ function AssessmentPageClient() {
                   of them: five parts each restating it read as five copies
                   of the same question. */}
               {!showPartsTogether && 'scenario' in question && question.scenario && (
-                <p className="mb-6 text-lg leading-relaxed text-gray-900 dark:text-white">
-                  <L>{question.scenario}</L>
-                </p>
+                <div className={scenarioClass}>
+                  <ScenarioText text={question.scenario} />
+                </div>
               )}
 
               {!showPartsTogether && <h2
                 id={`question-text-${currentQuestion}`}
-                className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight"
+                className={stemClass}
               >
                 {/* Stripped again here, not only at generation.
                     The marks chip above already says "2 marks", so a stem

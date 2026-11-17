@@ -62,7 +62,7 @@ import { isLazyChoiceQuestion, sourceNeedsWorkedProblems, workedProblemRules } f
 import { cambridgeStylePrompt, loadCambridgeStyle } from '@/lib/past-paper/cambridge-style'
 import { pastPaperReferences } from '@/lib/past-paper/references'
 import { completeExamQuestions } from '@/lib/exam-parts'
-import { buildExamPrompt, examQuestionSchema, examStyleRules, expandExamQuestions, isBareStatement, isExamStyle, paperGroups, splitExamStem, STATEMENT_RULE, takeNumberedQuestions } from '@/lib/exam-parts'
+import { buildExamPrompt, examQuestionSchema, examStyleRules, expandExamQuestions, hasExamContext, isBareStatement, isExamStyle, paperGroups, splitExamStem, STATEMENT_RULE, takeNumberedQuestions } from '@/lib/exam-parts'
 import { normaliseWrittenType } from '@/lib/written-type'
 import { prettyMaths } from '@/lib/maths-notation'
 import { correctParagraphLetter, citesAMissingParagraph, paragraphNumberToLetter, paragraphMismatch } from '@/lib/paragraph-reference'
@@ -922,7 +922,7 @@ Return exactly ${questionParts.length} questions, in this order, all type "longf
   // that said some questions should be calculations. The note has to replace
   // the task, not sit under it.
   if (isExamStyle(style) && figureAppetite !== 'exam-paper') {
-    questionInstruction = examStyleRules(Math.max(1, Math.round(count / 3)))
+    questionInstruction = examStyleRules(Math.max(1, Math.round(count / 3)), Number(opts.grade) || undefined)
     questionsBlock = `    ${examQuestionSchema()}`
   }
 
@@ -1048,7 +1048,7 @@ ${gradeAgeNote ? `\n${gradeAgeNote}\n` : ''}
 ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 ${opts.cambridgePaperStyle ? `\n${opts.cambridgePaperStyle}\n` : ''}
 ${STATEMENT_RULE}
-${isExamStyle(style) ? `\n${examStyleRules(count)}\n` : ''}
+${isExamStyle(style) ? `\n${examStyleRules(count, Number(opts.grade) || undefined)}\n` : ''}
 
 **Task:** ${questionInstruction}
 ${opts.batchFocus?.length ? `
@@ -3337,6 +3337,7 @@ ${commandBlock}`
         figure: figure?.description,
         source: [sourceText, alreadyOnPaper.length ? '' : savedPaperReferences].filter(Boolean).join('\n\n'),
         audience: `Audience: ${className || `Grade ${gradeForPrompt || ''}`}. Difficulty: ${difficultyLevel || 'standard'}. Stay within this curriculum and age level.`,
+        grade: Number(gradeForPrompt) || undefined,
       })
       console.log(`Exam batch: ${numbered} numbered question(s) on ${topics.slice(0, 2).join('; ') || promptSubject}`)
       const previous = paperGroups(alreadyOnPaper).slice(-16).map((group) => {
@@ -3381,7 +3382,9 @@ ${commandBlock}`
           }
         }
       }
-      const complete = takeNumberedQuestions(completeExamQuestions(list), numbered)
+      const contextual = list.filter((q: any) => hasExamContext(q.scenario))
+      if (contextual.length < list.length) examRejections.push('A numbered question had no scenario. Every numbered question needs a short setup its parts are about.')
+      const complete = takeNumberedQuestions(completeExamQuestions(contextual), numbered)
       if (!complete.length) console.warn(`Exam candidate contained no complete part group: ${text.slice(0, 700)}`)
       return complete
     }

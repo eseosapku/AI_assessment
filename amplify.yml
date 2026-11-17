@@ -18,7 +18,9 @@ frontend:
         #   EMAIL_FROM, EMAIL_FROM_NAME
         #   GOOGLE_CLIENT_ID, NEXT_PUBLIC_GOOGLE_CLIENT_ID
         #   FIGURE_LIBRARY_SOURCE=postgres, FIGURE_ASSET_BASE (the figure library; lib/amplify-env.test.ts)
-        - env | grep -E '^(FLW_|DATABASE_URL|JWT_SECRET|BEDROCK_|PG_DISABLE_SSL|INTERNAL_JOB|AI_JOB_QUEUE|BACKEND_INTERNAL|SMTP_|EMAIL_|GOOGLE_|FIGURE_)' >> .env.production || true
+        #   AWS_LESSON_*_MODEL_ID, AWS_LESSON_*_REASONING, AWS_LESSON_FALLBACK_MODEL_ID
+        #   (lesson model overrides; Amplify still blocks the AWS_ACCESS_KEY_ID credential prefix)
+        - env | grep -E '^(FLW_|DATABASE_URL|JWT_SECRET|BEDROCK_|PG_DISABLE_SSL|INTERNAL_JOB|AI_JOB_QUEUE|BACKEND_INTERNAL|SMTP_|EMAIL_|GOOGLE_|FIGURE_|AWS_LESSON_)' >> .env.production || true
         - env | grep -e NEXT_PUBLIC_ >> .env.production || true
         - npm run build
         - cp .env.production .next/standalone/.env.production 2>/dev/null || true

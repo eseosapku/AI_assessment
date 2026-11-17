@@ -4,6 +4,9 @@ import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 import { modelForJob, fallbackForJob, reasoningForJob } from '@/lib/studylab/lessonJobs'
 
+/** Amplify drops the request at 30s. Stop the model in time to answer with JSON. */
+const GRADE_BUDGET_MS = 20_000
+
 function gradedCorrect(value: unknown): boolean | null {
   if (value === true || value === false) return value
   const text = String(value ?? '').trim().toLowerCase()
@@ -84,7 +87,15 @@ export async function POST(request: NextRequest) {
         // Haiku, not Nova Lite, which marks practice: on twelve answers with known marks,
         // run three times each, Haiku got 36 of 36. Nova got 27, and failed right working
         // for not following the rubric. A check is what moves the lesson on.
-        { maxTokens: 500, temperature: 0.2, model: modelForJob('check'), reasoningEffort: reasoningForJob('check'), noGemmaFallback: true, fallbackModel: fallbackForJob('check') }
+        {
+          maxTokens: 500,
+          temperature: 0.2,
+          model: modelForJob('check'),
+          reasoningEffort: reasoningForJob('check'),
+          noGemmaFallback: true,
+          fallbackModel: fallbackForJob('check'),
+          signal: AbortSignal.timeout(GRADE_BUDGET_MS),
+        }
       )
     } catch {
       return NextResponse.json({ correct: false, feedback: 'Could not grade right now — try again in a moment.' })

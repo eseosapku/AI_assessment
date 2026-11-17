@@ -1,4 +1,5 @@
 import { asksNothing } from '@/lib/question-audit'
+import { isPointerOnly } from '@/lib/shared-scenario'
 
 /** The form's exam-style choice. Practice stays a single question per screen. */
 export function isExamStyle(style: unknown): boolean {
@@ -144,7 +145,7 @@ export function examQuestionSchema(): string {
       "id": <number>,
       "type": "longform",
       "part": "a or b or c",
-      "scenario": "<the shared setup for this numbered question: the data, the equation, the vectors. Copy this exact text onto every part of the same numbered question.>",
+      "scenario": "<the shared setup for this numbered question, short and complete: only the facts and data its parts use. Copy this exact text onto every part of the same numbered question.>",
       "question": "<ONLY this part's demand, starting with Calculate, Find, Show, Explain, State or Name>",
       "marks": <2 or 3>,
       "marking_criteria": ["<one point per mark>"],
@@ -155,6 +156,15 @@ export function examQuestionSchema(): string {
 }
 
 const EXAM_PARTS = ['a', 'b', 'c'] as const
+
+/**
+ * Does this scenario set up a situation? An empty one, or a bare pointer at
+ * the figure, leaves the parts with nothing to be about.
+ */
+export function hasExamContext(scenario: unknown): boolean {
+  const text = String(scenario ?? '').trim()
+  return text.split(/\s+/).length >= 4 && !isPointerOnly(text)
+}
 
 /** At most (a), (b) and (c), in that order. A fourth part is dropped. */
 export function capExamParts<T extends { part?: string | null; exam_question_id?: string }>(questions: T[]): T[] {
@@ -215,6 +225,7 @@ export function buildExamPrompt(opts: {
   source?: string
   audience?: string
   guidance?: string
+  grade?: number
 }): string {
   return [
     `You write exam papers. Subject: ${opts.subject}.`,
@@ -228,7 +239,7 @@ export function buildExamPrompt(opts: {
     opts.figure ? `A diagram is printed with the first part. It shows: ${opts.figure}. That part must say "the diagram" and be answerable from it.` : '',
     'Solve every part yourself before returning it. Use consistent, physically possible data and provide all assumptions needed. For circular motion, check contact/reachability conditions before asking about the top of a circle. If a symbol is intentionally left general, explicitly ask for an answer in terms of that symbol. Each part needs its own correct working and mark scheme.',
     'For reading or literary analysis, print a short original extract in the shared scenario and ask only about that extract. Never ask about an unseen textbook story, poem, chapter, recording or page.',
-    examStyleRules(opts.numbered),
+    examStyleRules(opts.numbered, opts.grade),
     `Write exactly ${opts.numbered} numbered question(s).`,
     'Command words: Calculate, Find, State, Name, Explain, Describe, Show. Do not use Propose, Design, Hypothesise, Synthesise, Formulate, or Assess.',
     `Return JSON only. The questions array MUST contain exactly ${opts.numbered} numbered parent objects. Each parent has its own scenario and a parts array containing (a), (b), optionally (c). Counting part objects is NOT counting numbered questions.`,
@@ -237,7 +248,7 @@ export function buildExamPrompt(opts: {
 }
 
 /** Extra prompt for an exam paper. Practice does not get this block. */
-export function examStyleRules(numbered: number): string {
+export function examStyleRules(numbered: number, grade?: number): string {
   const n = Math.max(1, Math.round(numbered))
   const numberedQuestions = n
   return [
@@ -249,6 +260,31 @@ export function examStyleRules(numbered: number): string {
     'Do not write one long question that contains (a), (b) and (c) in the same string.',
     'Do not return a bare statement such as "Endothermic reactions absorb heat."',
     'A figure may still be used. When a part needs it, say "the diagram" in that part.',
+    scenarioRules(grade),
+  ].join('\n')
+}
+
+/**
+ * How long a scenario may run, by the learner's age, and how it is laid out.
+ *
+ * A primary child will not read a paragraph to reach a one-mark demand; an
+ * older learner will, when the parts genuinely need that much. Either way the
+ * scenario is never empty -- without it the parts cannot be answered.
+ */
+export function scenarioRules(grade?: number): string {
+  const length = grade && grade <= 6
+    ? 'one or two short sentences, under 35 words, in everyday words, plus a small table when the parts need data. A reading extract may run to 80 words.'
+    : grade && grade >= 10
+      ? 'under 80 words plus a table when the parts need data. Go longer, up to 140 words, only when the parts cannot be answered otherwise: a method, a data set or an extract. A reading extract may run to 220 words.'
+      : 'two or three short sentences, under 60 words, plus a table when the parts need data. A reading extract may run to 150 words.'
+  return [
+    'SCENARIO RULES:',
+    'Every numbered question MUST have a scenario that sets up the situation. Never leave it empty, and never write only "Look at the diagram."',
+    `Length: ${length}`,
+    'Keep only what the parts use: every fact and number in it must be needed by a part. One situation per numbered question; never add a second investigation.',
+    'Short, plain sentences: who did what, and what they measured or found.',
+    'When a diagram is printed, do not describe it in words. The learner can see it; say only what it is about.',
+    'Put results in a markdown table, never in a sentence of numbers. Each row on its own line, separated by "\\n": the header row, then a |---| row, then the data rows. Put a blank line ("\\n\\n") between a paragraph and a table.',
   ].join('\n')
 }
 

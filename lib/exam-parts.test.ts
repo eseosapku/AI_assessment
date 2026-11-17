@@ -119,7 +119,7 @@ describe('quiz builder order', () => {
   it('skips the format step for an exam paper and caps the length at 20', () => {
     expect(nextBuilderStep(7, 'Exam Style (Past Papers)')).toBe(9)
     expect(previousBuilderStep(9, 'Exam Style (Past Papers)')).toBe(7)
-    expect(questionCountChoices('Exam Style (Past Papers)')).toEqual([10, 20])
+    expect(questionCountChoices('Exam Style (Past Papers)')).toEqual([5, 10])
   })
 
   it('keeps the format step and the 40-question choice for practice', () => {
