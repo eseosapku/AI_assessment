@@ -1,5 +1,7 @@
 'use client'
 
+import { markToolUsed } from '@/lib/studylab/tour/usage'
+
 import { useContext } from 'react'
 import type { NodeProps } from '@xyflow/react'
 import { SafeLatex } from '../canvasShared'
@@ -56,7 +58,7 @@ export function TrailConceptCard({ id, data }: NodeProps) {
       {/* It asks the tutor, and nothing done on a reopened card may change the lesson. */}
       {lookingBack !== id && (
         <div className="ss-trail-concept-links">
-          <button type="button" onClick={() => onDeeper(id, d.title ?? lead)}>
+          <button type="button" data-tour="lesson-go-deeper" onClick={() => { markToolUsed('lesson-go-deeper'); onDeeper(id, d.title ?? lead) }}>
             Go deeper
           </button>
         </div>

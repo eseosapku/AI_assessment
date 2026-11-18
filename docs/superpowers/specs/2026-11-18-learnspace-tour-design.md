@@ -20,8 +20,9 @@ The current demo (`/studylab/demo`, `components/studylab/DemoWorkspace.tsx` with
   3. `lesson-next`: the main button. It never moves, and it says what comes next: Start, Next step, Check.
   4. `lesson-ask`: Ask Kana. Ask anything about this lesson, or tap Kana.
   5. `lesson-stations`: Stations. Jump to any station, or see the whole board.
-  6. `lesson-leave`: Leave any time. Your place is saved.
-  7. Close: "That's it. Press Start when you're ready."
+  6. `lesson-board-menu`: the Board menu. See the whole board or get back to your card, zoom in and out, add your own notes, and turn the sound effects on or off.
+  7. `lesson-leave`: Leave any time. Your place is saved.
+  8. Close: "That's it. Press Start when you're ready."
 - **Movement:** the cut-out glides between controls (about 220 ms, ease-out); with reduced motion it jumps.
 - **Clicks:** the dimmed area blocks clicks. The highlighted control is not clickable during the tour; Next advances.
 - **Replay:** the Board menu (TrailTopBar) gains **Show me around**, which replays the tour at any time.
@@ -32,6 +33,11 @@ The current demo (`/studylab/demo`, `components/studylab/DemoWorkspace.tsx` with
   - `lesson-finished` (Finished cards): "Finished cards collect here. Tap one to look back at it." Shows when the list first has a card.
   - `lesson-unsure` (Still unsure): "Not clear yet? Tap Still unsure and I'll explain it another way." Shows when the detour footer first shows.
   - `lesson-attach` (the picture button in the chat box, desktop only): "Stuck on paper? Tap the picture button to send me a photo of your working." Shows the first time the chat opens, as a slim strip directly above the input (not a floating card), so it never covers the conversation. Attaching an image marks it used.
+  - `lesson-back-to-card` (the floating Back to my card button, the first time it appears): "Wandered off? This brings you straight back to your card."
+  - `lesson-go-deeper` (the Go deeper link on the card in front, at the start of a lesson): "Curious? Go deeper takes a short side trip, then brings you back."
+  - `lesson-detour-back` (the detour ribbon's Back, on the first detour): "You're on a side trip. Tap here to go back to where you were."
+  - `lesson-look-back` (the looking-back ribbon's Back, the first time a finished card is reopened): "You're looking back at a finished card. Tap here to return to now."
+  - `lesson-prove-it` (the Prove it button when the lesson is finished): "Ready? Prove it builds a short quiz, and doing well updates your Gap Map."
   - `lesson-stations`: "Lost your place? Stations shows the whole trail." Shows once the lesson has three or more stations.
   - `lesson-board-menu`: "You can add your own notes to the board from the Board menu." Shows only if adding blocks is available.
 - **At the beginning of a lesson** (after the introduction is done, about 6 seconds after the first card settles, with the chat closed), Kana offers one tip about a tool that is on screen and not yet used. That makes one tip per lesson start at most.

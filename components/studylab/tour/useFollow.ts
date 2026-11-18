@@ -8,6 +8,16 @@ export function findAnchor(anchor: string): HTMLElement | null {
   return document.querySelector<HTMLElement>(`[data-tour="${CSS.escape(anchor)}"]`)
 }
 
+/** The control a tip points at, only when it is really in view (a card off the edge of the board does not count). */
+export function findTipTarget(tip: { anchor: string; selector?: string }): HTMLElement | null {
+  const el = tip.selector ? document.querySelector<HTMLElement>(tip.selector) : findAnchor(tip.anchor)
+  if (!el) return null
+  const r = el.getBoundingClientRect()
+  const cx = r.left + r.width / 2
+  const cy = r.top + r.height / 2
+  return r.width > 0 && r.height > 0 && cx >= 0 && cx <= window.innerWidth && cy >= 0 && cy <= window.innerHeight ? el : null
+}
+
 /** An element's box in the viewport, or null when it is not drawn. */
 export type Measurable = Pick<HTMLElement, 'getBoundingClientRect'>
 

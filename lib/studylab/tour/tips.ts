@@ -7,6 +7,8 @@ export interface TipDef {
   id: string
   /** The `data-tour` anchor the ring pulses around. */
   anchor: string
+  /** A CSS selector for the control when its `data-tour` id alone could match something out of reach. */
+  selector?: string
   text: string
   /** Shown only with the chat open (the composer lives there); every other tip needs it closed. */
   inChat?: boolean
@@ -18,6 +20,11 @@ export interface TipDef {
 
 /** In priority order: the first one that is ready is the one offered. */
 export const TIPS: readonly TipDef[] = [
+  { id: 'lesson-detour-back', anchor: 'lesson-detour-back', text: "You're on a side trip. Tap here to go back to where you were." },
+  { id: 'lesson-look-back', anchor: 'lesson-look-back', text: "You're looking back at a finished card. Tap here to return to now." },
+  { id: 'lesson-back-to-card', anchor: 'lesson-back-to-card', text: 'Wandered off? This brings you straight back to your card.' },
+  { id: 'lesson-prove-it', anchor: 'lesson-prove-it', text: 'Ready? Prove it builds a short quiz, and doing well updates your Gap Map.' },
+  { id: 'lesson-go-deeper', anchor: 'lesson-go-deeper', selector: '.ss-trail-frame[data-role="focus"] [data-tour="lesson-go-deeper"]', text: 'Curious? Go deeper takes a short side trip, then brings you back.', atStart: true },
   { id: 'lesson-attach', anchor: 'lesson-attach', text: 'Stuck on paper? Tap the picture button to send me a photo of your working.', inChat: true, strip: true },
   { id: 'lesson-finished', anchor: 'lesson-finished', text: 'Finished cards collect here. Tap one to look back at it.' },
   { id: 'lesson-unsure', anchor: 'lesson-unsure', text: "Not clear yet? Tap Still not sure and I'll explain it another way." },

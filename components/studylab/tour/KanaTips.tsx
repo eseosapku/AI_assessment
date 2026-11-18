@@ -6,7 +6,7 @@ import { Kana } from '../kana/Kana'
 import { placeCard, type Box } from '@/lib/studylab/tour/place'
 import { BEGINNING_DELAY_MS, nextTip, tipById, TIPS, type TipDef } from '@/lib/studylab/tour/tips'
 import { markShown, readUsage, USED_EVENT } from '@/lib/studylab/tour/usage'
-import { boxOf, findAnchor, useFollow } from './useFollow'
+import { boxOf, findAnchor, findTipTarget, useFollow } from './useFollow'
 
 const CARD_W = 292
 const TICK_MS = 1000
@@ -54,19 +54,24 @@ export function KanaTips(facts: TipFacts) {
     const cur = tipRef.current
     const usage = readUsage()
     if (cur) {
-      if (f.touring || (cur.inChat ?? false) !== f.chatOpen || usage.used.includes(cur.id) || !boxOf(findAnchor(cur.anchor))) setTip(null)
+      if (f.touring || (cur.inChat ?? false) !== f.chatOpen || usage.used.includes(cur.id) || !boxOf(findTipTarget(cur))) setTip(null)
       return
     }
     if (!f.ready) return
     const started = readySince.current !== null && Date.now() - readySince.current >= BEGINNING_DELAY_MS
     const wanted: Record<string, boolean> = {
       'lesson-attach': f.chatOpen && !f.phone,
+      'lesson-detour-back': true,
+      'lesson-look-back': true,
+      'lesson-back-to-card': true,
+      'lesson-prove-it': true,
+      'lesson-go-deeper': true,
       'lesson-finished': f.filedCount > 0,
       'lesson-unsure': f.footerShown,
       'lesson-stations': f.stationCount >= 3,
       'lesson-board-menu': true,
     }
-    const visible = new Set(TIPS.filter((t) => wanted[t.id] && (!t.atStart || started) && boxOf(findAnchor(t.anchor))).map((t) => t.id))
+    const visible = new Set(TIPS.filter((t) => wanted[t.id] && (!t.atStart || started) && boxOf(findTipTarget(t))).map((t) => t.id))
     const t = nextTip({ visible, used: new Set(usage.used), shown: new Set(usage.shown), now: Date.now(), lastTipAt: lastTipAt.current, chatOpen: f.chatOpen, touring: f.touring })
     if (t) show(t)
   }, [show])
@@ -87,7 +92,7 @@ export function KanaTips(facts: TipFacts) {
     const forced = tipById(new URLSearchParams(window.location.search).get('tip') ?? '')
     if (!forced) return
     const id = setInterval(() => {
-      if (boxOf(findAnchor(forced.anchor))) {
+      if (boxOf(findTipTarget(forced))) {
         setTip(forced)
         clearInterval(id)
       }
@@ -116,7 +121,7 @@ function TipView({ tip, onDismiss }: { tip: TipDef; onDismiss: () => void }) {
   useEffect(() => {
     if (tip.strip) setSlot(document.querySelector('[data-tour-slot="chat-tip"]'))
   }, [tip.strip])
-  const find = useMemo(() => () => findAnchor(tip.anchor), [tip.anchor])
+  const find = useMemo(() => () => findTipTarget(tip), [tip])
   const draw = useCallback((box: Box | null) => {
     const r = ring.current
     const c = card.current

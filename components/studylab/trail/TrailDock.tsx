@@ -1,5 +1,6 @@
 'use client'
 
+import { markToolUsed } from '@/lib/studylab/tour/usage'
 import { DetourFooter, type DetourFooterModel } from './DetourFooter'
 import { forwardRef, type ReactNode } from 'react'
 import { ArrowRight, RotateCcw, Trophy } from 'lucide-react'
@@ -52,7 +53,7 @@ export const TrailDock = forwardRef<HTMLDivElement, {
               </button>
             )}
             {onProveIt && (
-              <button type="button" onClick={onProveIt} disabled={provingIt} className="ss-trail-go flex-1">
+              <button type="button" data-tour="lesson-prove-it" onClick={() => { markToolUsed('lesson-prove-it'); onProveIt() }} disabled={provingIt} className="ss-trail-go flex-1">
                 {provingIt ? 'Building your quiz…' : 'Prove it — take the quiz'}
               </button>
             )}

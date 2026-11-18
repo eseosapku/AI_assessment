@@ -84,6 +84,9 @@ describe('placeCard', () => {
     expect(p.y).toBeGreaterThanOrEqual(60)
     expect(p.clear).toBe(true)
   })
+  it('goes above a control in the lower half even with room below', () => {
+    expect(placeCard({ x: 400, y: 450, w: 100, h: 40 }, card, view).side).toBe('above')
+  })
   it('goes above a control at the bottom', () => {
     const p = placeCard({ x: 400, y: 700, w: 200, h: 64 }, card, view)
     expect(p.side).toBe('above')

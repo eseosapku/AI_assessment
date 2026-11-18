@@ -1,6 +1,7 @@
 'use client'
 
 import { SafeLatex } from '../canvasShared'
+import { markToolUsed } from '@/lib/studylab/tour/usage'
 
 /**
  * Hangs from the top while the learner is away from their card: blue looking
@@ -13,7 +14,7 @@ export function TrailRibbon({ kind, text, onBack, waiting = false }: { kind: 'lo
     <div role="status" aria-live="polite" className={`ss-trail-ribbon ss-trail-ribbon-${kind}`}>
       <span className="min-w-0 truncate"><SafeLatex>{text}</SafeLatex></span>
       <span aria-hidden>·</span>
-      <button type="button" onClick={onBack} disabled={waiting} style={waiting ? { opacity: 0.5 } : undefined}>
+      <button type="button" data-tour={kind === 'detour' ? 'lesson-detour-back' : 'lesson-look-back'} onClick={() => { markToolUsed(kind === 'detour' ? 'lesson-detour-back' : 'lesson-look-back'); onBack() }} disabled={waiting} style={waiting ? { opacity: 0.5 } : undefined}>
         Back
       </button>
     </div>

@@ -6,6 +6,7 @@ import { ReactFlow, Background, BackgroundVariant, Panel, useReactFlow, type Nod
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
 import { Crosshair } from 'lucide-react'
+import { markToolUsed } from '@/lib/studylab/tour/usage'
 import { studyNodeTypes } from '../canvasNodes'
 import { CARD_ACTIONS } from './stageProps'
 import { TrailConceptCard } from './TrailConceptCard'
@@ -394,9 +395,11 @@ export const TrailCanvas = forwardRef<TrailCanvasHandle, TrailCanvasProps>(funct
           <Panel position="bottom-right" className="ss-trail-pill" style={{ marginBottom: 24 }}>
             <button
               type="button"
+              data-tour="lesson-back-to-card"
               title={BACK_TO_CARD_HINT}
               aria-description={BACK_TO_CARD_HINT}
               onClick={() => {
+                markToolUsed('lesson-back-to-card')
                 setExploring(false)
                 frameWork()
               }}

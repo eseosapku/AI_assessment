@@ -49,7 +49,8 @@ export function placeCard(target: Box | null, card: { w: number; h: number }, vi
     { side: 'left', x: target.x - gap - card.w, y: cy, room: target.x - gap - card.w >= margin },
   ]
   // A control that fills most of the height (the card in front) is flanked, not covered above or below.
-  const order: Side[] = target.h > view.h * 0.4 ? ['right', 'left', 'below', 'above'] : ['below', 'above', 'right', 'left']
+  const lower = target.y + target.h / 2 > view.h * 0.5
+  const order: Side[] = target.h > view.h * 0.4 ? ['right', 'left', 'below', 'above'] : lower ? ['above', 'below', 'right', 'left'] : ['below', 'above', 'right', 'left']
   const clear = order.map((side) => candidates.find((c) => c.side === side)!).find((c) => c.room)
   if (clear) {
     const b = fit(clear.x, clear.y)

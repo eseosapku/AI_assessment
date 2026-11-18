@@ -18,6 +18,7 @@ export const TOUR_STEPS: readonly TourStep[] = [
   { id: 'next', anchor: 'lesson-next', title: 'The main button', body: 'It never moves, and it says what comes next: Start, Next step, Check.' },
   { id: 'ask', anchor: 'lesson-ask', title: 'Ask Kana', body: 'Ask anything about this lesson, or tap me.' },
   { id: 'stations', anchor: 'lesson-stations', title: 'Stations', body: 'Jump to any station, or see the whole board.' },
+  { id: 'boardmenu', anchor: 'lesson-board-menu', title: 'The Board menu', body: 'See the whole board or get back to your card, zoom in and out, add your own notes, and turn the sound effects on or off.' },
   { id: 'leave', anchor: 'lesson-leave', title: 'Leave any time', body: 'Your place is saved.' },
   { id: 'close', anchor: null, title: "That's it", body: "Press Start when you're ready." },
 ]
