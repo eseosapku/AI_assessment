@@ -106,6 +106,17 @@ describe('placeCard', () => {
     const p = placeCard({ x: 100, y: 60, w: 400, h: 600 }, card, view)
     expect(p.side).toBe('right')
   })
+  it('keeps clear of the speech bubble and puts a top ribbon tip beside it', () => {
+    const bubble = { x: 560, y: 120, w: 400, h: 170 }
+    const wide = { w: 1440, h: 800 }
+    const p = placeCard({ x: 870, y: 66, w: 80, h: 40 }, card, wide, 10, 16, [bubble])
+    expect(p.side).toBe('right')
+    expect(p.y).toBeLessThan(bubble.y)
+  })
+  it('falls below only when beside would hit something', () => {
+    const p = placeCard({ x: 870, y: 66, w: 80, h: 40 }, card, { w: 1440, h: 800 }, 10, 16, [{ x: 960, y: 0, w: 400, h: 100 }])
+    expect(p.side).not.toBe('right')
+  })
   it('centres with no control', () => {
     const p = placeCard(null, card, view)
     expect(p).toMatchObject({ x: 350, y: 325, side: 'center' })

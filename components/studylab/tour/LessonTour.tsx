@@ -6,7 +6,7 @@ import { Kana } from '../kana/Kana'
 import { hasSeenDemo, markDemoSeen } from '@/lib/studylab/demoGate'
 import { placeCard, type Box } from '@/lib/studylab/tour/place'
 import { stepsPresent, type TourStep } from '@/lib/studylab/tour/steps'
-import { boxOf, findAnchor, reducedMotion, useFollow, type Measurable } from './useFollow'
+import { boxOf, findAnchor, reducedMotion, readingBoxes, useFollow, type Measurable } from './useFollow'
 
 const PAD = 8
 const GLIDE_MS = 260
@@ -141,6 +141,8 @@ function Tour({ steps, index, setIndex, onEnd }: { steps: TourStep[]; index: num
 
   const find = useMemo(() => (step ? () => (step.anchor ? findStepTarget(step) : null) : null), [step])
 
+  const findRef = useRef(find)
+  findRef.current = find
   // Writes the cut-out and the card straight into the DOM.
   const draw = useCallback((box: Box | null) => {
     boxRef.current = box
@@ -159,7 +161,7 @@ function Tour({ steps, index, setIndex, onEnd }: { steps: TourStep[]; index: num
     h.style.width = `${target.w}px`
     h.style.height = `${target.h}px`
     h.style.transform = `translate(${target.x}px, ${target.y}px)`
-    const p = placeCard(box ? target : null, { w: c.offsetWidth, h: c.offsetHeight }, { w: vw, h: vh })
+    const p = placeCard(box ? target : null, { w: c.offsetWidth, h: c.offsetHeight }, { w: vw, h: vh }, 16, 16, readingBoxes(((t) => (t instanceof HTMLElement ? t : null))(findRef.current?.() ?? null)))
     c.style.transform = `translate(${p.x}px, ${p.y}px)`
   }, [])
   useFollow(find, draw)

@@ -34,7 +34,7 @@ function overlap(a: Box, b: Box): number {
  * Sides are tried below, above, right, left; the first that clears the control wins.
  * If none does, the card goes where it overlaps the control least.
  */
-export function placeCard(target: Box | null, card: { w: number; h: number }, view: { w: number; h: number }, gap = 16, margin = 16): Placement {
+export function placeCard(target: Box | null, card: { w: number; h: number }, view: { w: number; h: number }, gap = 16, margin = 16, avoid: Box[] = [], prefer?: Side[]): Placement {
   const fit = (x: number, y: number): Box => ({ x: clamp(x, margin, view.w - card.w - margin), y: clamp(y, margin, view.h - card.h - margin), w: card.w, h: card.h })
   if (!target) {
     const b = fit((view.w - card.w) / 2, (view.h - card.h) / 2)
@@ -50,7 +50,21 @@ export function placeCard(target: Box | null, card: { w: number; h: number }, vi
   ]
   // A control that fills most of the height (the card in front) is flanked, not covered above or below.
   const lower = target.y + target.h / 2 > view.h * 0.5
+  const top = target.y + target.h / 2 < 130
   const order: Side[] = target.h > view.h * 0.4 ? ['right', 'left', 'below', 'above'] : lower ? ['above', 'below', 'right', 'left'] : ['below', 'above', 'right', 'left']
+  // First choice: a side with room that also leaves what the learner is reading (the speech bubble, the card) alone.
+  // Along the top (the ribbons) the free board is beside the control, level with it.
+  const freeOrder: Side[] = prefer ?? (top ? (['right', 'left', 'below', 'above'] as Side[]) : order)
+  const free = (avoid.length === 0 && !prefer ? [] : freeOrder).map((side) => candidates.find((c) => c.side === side)!).find((c) => {
+    if (!c.room) return false
+    const b = fit(c.x, c.y)
+    // A few pixels of a bubble's soft edge may be touched; its text may not.
+    return !avoid.some((a) => overlap(b, { x: a.x + 10, y: a.y + 10, w: a.w - 20, h: a.h - 20 }) > 0)
+  })
+  if (free) {
+    const b = fit(free.x, free.y)
+    return { x: b.x, y: b.y, side: free.side, clear: true }
+  }
   const clear = order.map((side) => candidates.find((c) => c.side === side)!).find((c) => c.room)
   if (clear) {
     const b = fit(clear.x, clear.y)

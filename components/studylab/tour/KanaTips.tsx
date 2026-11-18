@@ -6,9 +6,9 @@ import { Kana } from '../kana/Kana'
 import { placeCard, type Box } from '@/lib/studylab/tour/place'
 import { BEGINNING_DELAY_MS, nextTip, tipById, TIPS, type TipDef } from '@/lib/studylab/tour/tips'
 import { markShown, readUsage, USED_EVENT } from '@/lib/studylab/tour/usage'
-import { boxOf, findAnchor, findTipTarget, useFollow } from './useFollow'
+import { boxOf, findAnchor, findTipTarget, readingBoxes, sidesFor, useFollow } from './useFollow'
 
-const CARD_W = 292
+const CARD_W = 256
 const TICK_MS = 1000
 
 export interface TipFacts {
@@ -138,7 +138,7 @@ function TipView({ tip, onDismiss }: { tip: TipDef; onDismiss: () => void }) {
     r.style.width = `${box.w + pad * 2}px`
     r.style.height = `${box.h + pad * 2}px`
     r.style.transform = `translate(${box.x - pad}px, ${box.y - pad}px)`
-    const p = placeCard({ x: box.x - pad, y: box.y - pad, w: box.w + pad * 2, h: box.h + pad * 2 }, { w: c.offsetWidth, h: c.offsetHeight }, { w: window.innerWidth, h: window.innerHeight }, 14, 12)
+    const p = placeCard({ x: box.x - pad, y: box.y - pad, w: box.w + pad * 2, h: box.h + pad * 2 }, { w: c.offsetWidth, h: c.offsetHeight }, { w: window.innerWidth, h: window.innerHeight }, 8, 12, readingBoxes(find()), sidesFor(find()))
     c.style.transform = `translate(${p.x}px, ${p.y}px)`
   }, [])
   useFollow(find, draw)

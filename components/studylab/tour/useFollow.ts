@@ -61,6 +61,18 @@ export function useFollow(find: (() => Measurable | null) | null, onBox: (box: B
   }, [find])
 }
 
+/** What a card should keep off when it can: Kana's speech bubble, the card in front, and the top-bar pills. */
+export function readingBoxes(except: HTMLElement | null): Box[] {
+  const els = Array.from(document.querySelectorAll<HTMLElement>('.ss-trail-speech, .ss-trail-bubble, .ss-trail-frame[data-role="focus"], .ss-trail-frame[data-role="reopened"], .ss-trail-ribbon, [data-tour="lesson-next"], .ss-trail-go, [data-tour="lesson-board-menu"], [data-tour="lesson-stations"], [data-tour="lesson-leave"]'))
+  return els.filter((e) => e !== except && !except?.contains(e) && (e.classList.contains('ss-trail-ribbon') || !e.contains(except))).flatMap((e) => boxOf(e) ?? [])
+}
+
+/** A control inside the card in front: its card goes to the side, over the board, not over the text. */
+export function sidesFor(el: HTMLElement | null): ('left' | 'right')[] | undefined {
+  const inCard = !!el?.closest('.ss-trail-frame[data-role="focus"]')
+  return inCard ? ['left', 'right'] : undefined
+}
+
 export function reducedMotion(): boolean {
   try {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches
