@@ -115,13 +115,11 @@ function LessonCard({ lesson, onOpen }: { lesson: HubLesson; onOpen: (id: string
 export function LessonShelf({
   inProgress,
   completed,
-  demoSeen,
   onOpen,
   onBuild,
 }: {
   inProgress: HubLesson[]
   completed: HubLesson[]
-  demoSeen: boolean
   onOpen: (id: string) => void
   onBuild: (topic: string) => void
 }) {
@@ -182,9 +180,6 @@ export function LessonShelf({
             Show {Math.min(left, PAGE * 2)} more
           </button>
         ) : <span />}
-        {demoSeen && (
-          <a href="/studylab/demo" className="text-[13.5px] font-semibold text-ss-slate hover:text-ss-ink hover:underline">Run the demo again</a>
-        )}
       </div>
     </section>
   )

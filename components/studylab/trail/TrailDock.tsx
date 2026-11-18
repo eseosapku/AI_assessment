@@ -36,7 +36,7 @@ export const TrailDock = forwardRef<HTMLDivElement, {
         {footer && <DetourFooter {...footer} />}
         {/* Cards draw their bar in here, and it stays mounted while something
             else has the button. React never renders into it. */}
-        <div ref={slotRef} className={`ss-trail-slot empty:hidden${action.kind === 'bar' ? '' : ' hidden'}`} />
+        <div ref={slotRef} data-tour={action.kind === 'bar' ? 'lesson-next' : undefined} className={`ss-trail-slot empty:hidden${action.kind === 'bar' ? '' : ' hidden'}`} />
         {(action.kind === 'bar' || action.kind === 'continue') && action.retry && (
           <button type="button" onClick={onRetry} className="ss-press ss-trail-retry">
             <RotateCcw className="h-4 w-4" aria-hidden />
@@ -89,7 +89,7 @@ function MainButton({ action, onContinue, onGoToStation, onStart, onTryAgain, on
   // One button for all of these: pressing it turns it into the working state in
   // place, because swapping it for another element would drop the keyboard focus.
   return (
-    <button type="button" aria-disabled={working || undefined} aria-label={working ? 'Working' : undefined} onClick={press} className={`ss-trail-go${working ? ' ss-trail-go-working' : ''}`}>
+    <button type="button" data-tour="lesson-next" aria-disabled={working || undefined} aria-label={working ? 'Working' : undefined} onClick={press} className={`ss-trail-go${working ? ' ss-trail-go-working' : ''}`}>
       {working ? (
         <span className="ss-trail-dots" aria-hidden>
           <i />

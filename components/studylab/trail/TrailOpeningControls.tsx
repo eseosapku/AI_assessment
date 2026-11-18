@@ -30,7 +30,7 @@ export function TrailOpeningControls({ onAnswer }: { onAnswer: (answer: string) 
   }
 
   return (
-    <div ref={root} className="relative shrink-0">
+    <div ref={root} data-tour="lesson-plan" className="relative shrink-0">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}

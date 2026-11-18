@@ -105,7 +105,7 @@ describe('the shelf of lessons', () => {
   const shelf = (over: Record<string, unknown> = {}) =>
     renderToStaticMarkup(createElement(LessonShelf, {
       inProgress: many, completed: [lesson({ id: 'done', title: 'A finished one', status: 'completed' })],
-      demoSeen: true, onOpen: vi.fn(), onBuild: vi.fn(), ...over,
+      onOpen: vi.fn(), onBuild: vi.fn(), ...over,
     }))
 
   it('opens on what is in progress, a few at a time, with the rest offered', () => {
@@ -141,8 +141,9 @@ describe('Kana asking', () => {
     expect(ask()).not.toContain('Topics to try')
     expect(ask({ firstTime: true })).toContain('Topics to try')
   })
-  it('offers the demo until it has been seen', () => {
-    expect(ask()).not.toContain('See how a lesson works')
-    expect(ask({ demoSeen: false })).toContain('See how a lesson works')
+  it('says Kana shows you around, until the tour has been seen', () => {
+    expect(ask()).not.toContain('shows you around')
+    expect(ask({ demoSeen: false })).toContain('Kana shows you around in your first lesson')
+    expect(ask({ demoSeen: false })).not.toContain('/studylab/demo')
   })
 })

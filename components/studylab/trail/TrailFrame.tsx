@@ -123,7 +123,7 @@ export function withTrailFrame(Inner: ComponentType<NodeProps>) {
     const quiet = !live ? ({ inert: true, 'aria-hidden': true } as Record<string, boolean>) : steppedBack ? ({ inert: true } as Record<string, boolean>) : {}
     const title = cardTitle({ data: data as unknown as StudyNodeData })
     return (
-      <div className="ss-trail-frame" style={{ width: place.w, height: place.h }} data-role={place.role}>
+      <div className="ss-trail-frame" style={{ width: place.w, height: place.h }} data-role={place.role} data-tour={place.role === 'finished' || place.role === 'filed' ? 'lesson-finished' : undefined}>
         {/* The focus ring, scaled with the card and by the same glide, so the two
             cannot part. Drawn from the frame's size, it trailed the card by up to a
             tenth of a second and left a second outline beside it. Always there, so a

@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
-import DemoOffer from './DemoOffer'
 import type { LessonStageProps, CanvasEffects, LastAsk } from './trail/stageProps'
 import { useActiveTime } from './stage/useActiveTime'
 import { proveItTopics } from '@/lib/studylab/proveIt'
@@ -1338,11 +1337,6 @@ export default function Workspace({ id }: { id: string }) {
         onStartHomework: startHomework,
         onRetry: (action) => void sendAction(action),
       }}
-    >
-      {/* Offered before anything else, on whichever lesson they open first —
-          a topic they typed, a gap from the map, or a homework photo. It is
-          the only moment the offer is useful. */}
-      <DemoOffer lessonId={id} title={space.title} />
-    </TrailStage>
+    />
   )
 }

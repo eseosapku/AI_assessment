@@ -348,26 +348,6 @@
     text-size-adjust: 100%;
   }
 }
-/* ── Guided demo ───────────────────────────────────────────────────
-   The control the current step is asking for. A ring rather than an overlay:
-   the control has to stay usable, because pressing it is the whole point. */
-/* A ring only: it must not reposition what it rings (the docked bar is
-   absolutely placed, and `position: relative` here dropped it out of view). */
-[data-demo-here] {
-  border-radius: 12px;
-  box-shadow: 0 0 0 2px var(--ss-accent), 0 0 0 6px var(--ss-accent-soft);
-  animation: ss-demo-pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes ss-demo-pulse {
-  0%, 100% { box-shadow: 0 0 0 2px var(--ss-accent), 0 0 0 6px var(--ss-accent-soft); }
-  50%      { box-shadow: 0 0 0 2px var(--ss-accent), 0 0 0 10px var(--ss-accent-soft); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-demo-here] { animation: none; }
-}
-
 /* ── Step regions ─────────────────────────────────────────────────────────
    Scenery behind the cards, and transparent to the pointer. React Flow puts a
    node's `style` on an inner element, not the wrapper, so setting
@@ -1751,5 +1731,119 @@
   .ss-hub-side,
   .ss-hub-card {
     transition: none;
+  }
+}
+
+/* The in-lesson tour and Kana's tips. One fixed overlay; positions are written by script. */
+.ss-tour-block {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  cursor: default;
+}
+.ss-tour-hole,
+.ss-tip-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  border-radius: 18px;
+  will-change: transform;
+}
+.ss-tour-hole {
+  z-index: 71;
+  width: 0;
+  height: 0;
+  box-shadow: 0 0 0 2px var(--ss-accent-bright), 0 0 0 9999px rgba(8, 14, 20, 0.62);
+}
+.ss-tour-card,
+.ss-tip-card,
+.ss-tour-offer {
+  z-index: 72;
+  max-width: calc(100vw - 32px);
+  border-radius: 20px;
+  border: 1px solid var(--ss-line);
+  background: var(--ss-panel);
+  padding: 16px;
+  box-shadow: 0 18px 48px rgba(8, 14, 20, 0.28);
+}
+.ss-tour-card,
+.ss-tip-card {
+  position: fixed;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+.ss-tip-card {
+  z-index: 55;
+  padding: 12px 14px;
+}
+.ss-tip-ring {
+  z-index: 54;
+  box-shadow: 0 0 0 2px var(--ss-accent-bright);
+  animation: ss-tip-pulse 1.8s ease-out infinite;
+}
+@keyframes ss-tip-pulse {
+  0% { box-shadow: 0 0 0 2px var(--ss-accent-bright), 0 0 0 0 color-mix(in srgb, var(--ss-accent-bright) 55%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 2px var(--ss-accent-bright), 0 0 0 14px transparent; }
+}
+.ss-tour-glide.ss-tour-hole {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), width 220ms cubic-bezier(0.22, 1, 0.36, 1), height 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ss-tour-glide.ss-tour-card {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ss-tour-offer {
+  position: fixed;
+  z-index: 72;
+  left: 20px;
+  bottom: 176px;
+  width: 360px;
+}
+@media (max-width: 639px) {
+  .ss-tour-offer {
+    left: 16px;
+    right: 16px;
+    bottom: auto;
+    top: 72px;
+    width: auto;
+  }
+}
+.ss-tour-pop {
+  animation: ss-tour-pop 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes ss-tour-pop {
+  from { opacity: 0; scale: 0.96; }
+  to { opacity: 1; scale: 1; }
+}
+.ss-tour-primary,
+.ss-tour-ghost {
+  flex: 1;
+  min-height: 48px;
+  border-radius: 14px;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.ss-tour-primary {
+  background: var(--subject, var(--ss-accent));
+  color: var(--ss-panel);
+}
+.ss-tour-ghost {
+  border: 1px solid var(--ss-line);
+  color: var(--ss-ink);
+}
+.ss-tour-ghost:disabled {
+  opacity: 0.4;
+}
+.ss-tour-small {
+  flex: none;
+  min-height: 40px;
+  font-size: 15px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ss-tip-ring,
+  .ss-tour-pop {
+    animation: none;
   }
 }

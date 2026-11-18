@@ -7,6 +7,7 @@ import { usePopoverBehavior } from '@/components/ui/Modal'
 import { paletteItems } from '@/lib/studylab/blocks'
 import { useMuted } from '@/lib/studylab/sound'
 import { trailMenu, type MenuId, type PillTone } from '@/lib/studylab/trail/furniture'
+import { markToolUsed } from '@/lib/studylab/tour/usage'
 import type { PlotBox } from '@/lib/studylab/trail/types'
 
 const PILL = 'pointer-events-auto rounded-full border border-ss-line bg-ss-panel shadow-ss-panel'
@@ -19,7 +20,7 @@ const PILL_FILL: Record<PillTone, string> = { done: 'var(--ss-good)', current: '
  * The lesson across the top: a way out, the journey with where you are, and the
  * Board menu. The station list flies the camera and nothing else.
  */
-export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBoard, onBackToCard, onAddBlock, onMenuChange }: {
+export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBoard, onBackToCard, onAddBlock, onMenuChange, onTour }: {
   pills: { tone: PillTone }[]
   label: string
   plots: PlotBox[]
@@ -30,6 +31,8 @@ export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBo
   onAddBlock: (type: string) => void
   /** So Esc closes this first and leaves the chat alone. */
   onMenuChange: (open: boolean) => void
+  /** Replays the tour. */
+  onTour?: () => void
 }) {
   const rf = useReactFlow()
   const [muted, setMuted] = useMuted()
@@ -67,14 +70,18 @@ export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBo
 
   return (
     <div ref={root} className="pointer-events-none absolute inset-x-0 top-3 z-30 flex items-start justify-between gap-2 px-3 sm:px-4">
-      <button type="button" onClick={onLeave} aria-label="Back to all LearnSpaces" className={`${PILL} ss-press flex h-11 w-11 shrink-0 items-center justify-center text-ss-ink`}>
+      <button type="button" data-tour="lesson-leave" onClick={onLeave} aria-label="Back to all LearnSpaces" className={`${PILL} ss-press flex h-11 w-11 shrink-0 items-center justify-center text-ss-ink`}>
         <X className="h-5 w-5" aria-hidden />
       </button>
 
       <div className="relative min-w-0">
         <button
           type="button"
-          onClick={() => setMenu((m) => (m === 'stations' ? null : 'stations'))}
+          data-tour="lesson-stations"
+          onClick={() => {
+            if (menu !== 'stations') markToolUsed('lesson-stations')
+            setMenu((m) => (m === 'stations' ? null : 'stations'))
+          }}
           aria-expanded={menu === 'stations'}
           aria-haspopup="true"
           className={`${PILL} ss-press flex h-11 min-w-0 max-w-full items-center gap-3 px-4`}
@@ -118,6 +125,7 @@ export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBo
       <div className="relative shrink-0">
         <button
           type="button"
+          data-tour="lesson-board-menu"
           onClick={() => setMenu((m) => (m === 'board' ? null : 'board'))}
           aria-expanded={menu === 'board'}
           aria-haspopup="menu"
@@ -145,6 +153,7 @@ export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBo
                           className={ROW}
                           onClick={() => {
                             close()
+                            markToolUsed('lesson-board-menu')
                             onAddBlock(b.type)
                           }}
                         >
@@ -155,6 +164,19 @@ export function TrailTopBar({ pills, label, plots, onLeave, onStation, onWholeBo
                 )}
               </div>
             ))}
+            {onTour && (
+              <button
+                type="button"
+                role="menuitem"
+                className={ROW}
+                onClick={() => {
+                  close()
+                  onTour()
+                }}
+              >
+                Show me around
+              </button>
+            )}
           </div>
         )}
       </div>

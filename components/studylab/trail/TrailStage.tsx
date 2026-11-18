@@ -17,6 +17,9 @@ import { TrailCanvas, type TrailCanvasHandle } from './TrailCanvas'
 import { TrailChatPanel } from './TrailChatPanel'
 import { ThroughTheSquare } from './ThroughTheSquare'
 import { TrailDock } from './TrailDock'
+import { LessonTour } from '../tour/LessonTour'
+import { KanaTips } from '../tour/KanaTips'
+import { markToolUsed } from '@/lib/studylab/tour/usage'
 import { TrailOpeningControls } from './TrailOpeningControls'
 import { TrailTopBar } from './TrailTopBar'
 import { TrailPlacementContext, type TrailPlacement } from './TrailFrame'
@@ -230,9 +233,17 @@ function TrailStageInner(props: LessonStageProps) {
     if (plot) canvas.current?.flyTo(plot.rect, { minZoom: PLOT_ZOOM })
   }, [])
   const checkStep = useMemo(() => checkSteps(board.nodes, board.run, focusId), [board.nodes, board.run, focusId])
+  const { open: openFiled } = model
+  const openCard = useCallback(
+    (id: string) => {
+      markToolUsed('lesson-finished')
+      openFiled(id)
+    },
+    [openFiled],
+  )
   const placementValue = useMemo<TrailPlacement>(
-    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: model.open, onStation: flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, onNote: model.showNote }),
-    [world.cards, model.onMeasure, model.open, flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, model.showNote],
+    () => ({ places: world.cards, onMeasure: model.onMeasure, onOpen: openCard, onStation: flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, onNote: model.showNote }),
+    [world.cards, model.onMeasure, openCard, flyToStation, onDeeper, lookingBack, checkStep, pointer, epochOf, dataOf, sandboxFor, model.showNote],
   )
 
   // A failed turn that can be sent again: the dock offers it.
@@ -319,6 +330,10 @@ function TrailStageInner(props: LessonStageProps) {
 
   const openChat = useCallback(() => setOpen(true), [setOpen])
   const [menuOpen, setMenuOpen] = useState(false)
+  // The tour (offered on a first lesson, replayed from the Board menu) and Kana's tips.
+  const [tourRun, setTourRun] = useState(0)
+  const [touring, setTouring] = useState(false)
+  const startTour = useCallback(() => setTourRun((n) => n + 1), [])
 
   // Looking back: the camera goes to the card and the keyboard follows; Back
   // returns both to the card the learner was on.
@@ -436,7 +451,7 @@ function TrailStageInner(props: LessonStageProps) {
                   onRetry={last?.retryAction ? () => chat.onRetry?.(last.retryAction!) : undefined}
                 />
                 {!open && (
-                  <div className="ss-trail-ask">
+                  <div className="ss-trail-ask" data-tour="lesson-ask">
                     <KanaLive pose="happy" size={140} label="Ask Kana" onPoke={openChat} crop />
                     <button type="button" onClick={openChat} aria-label="Ask Kana" title="Ask Kana" className="ss-trail-ask-pill">
                       <MessageSquareText className="h-7 w-7" strokeWidth={1.75} aria-hidden />
@@ -453,13 +468,14 @@ function TrailStageInner(props: LessonStageProps) {
                   onBackToCard={() => canvas.current?.flyToFocus()}
                   onAddBlock={(type) => board.onAddBlock(type)}
                   onMenuChange={setMenuOpen}
+                  onTour={startTour}
                 />
                 {lookBack ? (
                   <TrailRibbon kind="lookBack" text={`Looking back: ${lookBack.title}`} onBack={backFromLooking} />
                 ) : detourOpen ? (
                   <TrailRibbon kind="detour" text={`You were on: ${world.plots[detourOpen.station]?.title ?? 'your station'}`} onBack={leaveDetour} waiting={chat.busy} />
                 ) : null}
-                <FiledCardsList items={filed} onOpen={model.open} />
+                <FiledCardsList items={filed} onOpen={openCard} />
                 {finished && summaryOpen && board.run && (
                   <LessonCompleteScene
                     title={rail.title}
@@ -477,6 +493,8 @@ function TrailStageInner(props: LessonStageProps) {
             </div>
             {children}
             {intro && <ThroughTheSquare onDone={endIntro} />}
+            <LessonTour ready={!intro && !!focusId} replay={tourRun} onActive={setTouring} />
+            <KanaTips ready={!intro && !!focusId} touring={touring} chatOpen={open} phone={phone} filedCount={filed.length} footerShown={footerShown} stationCount={world.plots.length} />
           </div>
         </TrailPlacementContext.Provider>
       </CanvasContext.Provider>

@@ -10,6 +10,7 @@ import { SafeLatex } from './canvasShared'
 import { useMuted } from '@/lib/studylab/sound'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
 import { plainTitle } from '@/lib/studylab/actions'
+import { markToolUsed } from '@/lib/studylab/tour/usage'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5 MB
@@ -133,6 +134,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   const send = (text: string) => {
     const trimmed = text.trim()
     if ((!trimmed && !attachment) || busy) return
+    markToolUsed('lesson-composer')
     onSend(trimmed || "Here's my work — can you take a look?", { image: attachment ?? undefined })
     // A composed question belongs to the caller, which clears it by no longer
     // offering one; wiping local state here would leave the box showing it.

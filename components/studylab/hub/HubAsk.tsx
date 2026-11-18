@@ -129,12 +129,7 @@ export function HubAsk({
         ) : (
           <p id="hub-ask-hint" className="mt-2 text-[13.5px] text-ss-slate">
             The narrower the better: &ldquo;why leaves are green&rdquo; gets you an answer, &ldquo;photosynthesis&rdquo; a tour.
-            {!demoSeen && (
-              <>
-                {' '}
-                <a href="/studylab/demo" className="font-bold text-ss-accent hover:underline">See how a lesson works</a>
-              </>
-            )}
+            {!demoSeen && <> Kana shows you around in your first lesson.</>}
           </p>
         )}
 

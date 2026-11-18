@@ -178,7 +178,6 @@ export default function StudyLabHub() {
         <LessonShelf
           inProgress={shelves.inProgress}
           completed={shelves.completed}
-          demoSeen={demoSeen}
           onOpen={openLearnSpace}
           onBuild={(topic) => setFill({ topic, at: Date.now() })}
         />

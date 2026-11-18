@@ -1,5 +1,7 @@
 'use client'
 
+import { markToolUsed } from '@/lib/studylab/tour/usage'
+
 export interface DetourFooterModel {
   /** The card the learner goes back to, or "my card" if it has gone. */
   backTo: string
@@ -16,7 +18,7 @@ export function DetourFooter({ backTo, onBack, onStillNotSure, onAnother }: Deto
       <button type="button" className="ss-press ss-trail-footer-primary" onClick={onBack}>
         Back to {backTo}
       </button>
-      <button type="button" className="ss-press" onClick={onStillNotSure}>
+      <button type="button" data-tour="lesson-unsure" className="ss-press" onClick={() => { markToolUsed('lesson-unsure'); onStillNotSure() }}>
         Still not sure
       </button>
       <button type="button" className="ss-press" onClick={onAnother}>
