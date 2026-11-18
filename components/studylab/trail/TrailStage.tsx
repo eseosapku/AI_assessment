@@ -493,8 +493,8 @@ function TrailStageInner(props: LessonStageProps) {
             </div>
             {children}
             {intro && <ThroughTheSquare onDone={endIntro} />}
-            <LessonTour ready={!intro && !!focusId} replay={tourRun} onActive={setTouring} />
-            <KanaTips ready={!intro && !!focusId} touring={touring} chatOpen={open} phone={phone} filedCount={filed.length} footerShown={footerShown} stationCount={world.plots.length} />
+            <LessonTour ready={!intro && (!!focusId || planning)} replay={tourRun} onActive={setTouring} />
+            <KanaTips ready={!intro && (!!focusId || planning)} touring={touring} chatOpen={open} phone={phone} filedCount={filed.length} footerShown={footerShown} stationCount={world.plots.length} />
           </div>
         </TrailPlacementContext.Provider>
       </CanvasContext.Provider>

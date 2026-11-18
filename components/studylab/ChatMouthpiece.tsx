@@ -117,6 +117,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
     }
     try {
       setAttachment(await readFileAsDataUrl(file))
+      markToolUsed('lesson-attach')
     } catch {
       setAttachError('Could not read that image.')
     }
@@ -134,7 +135,6 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   const send = (text: string) => {
     const trimmed = text.trim()
     if ((!trimmed && !attachment) || busy) return
-    markToolUsed('lesson-composer')
     onSend(trimmed || "Here's my work — can you take a look?", { image: attachment ?? undefined })
     // A composed question belongs to the caller, which clears it by no longer
     // offering one; wiping local state here would leave the box showing it.
@@ -311,6 +311,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           </div>
         )}
         {attachError && <p className="text-[12px] text-red-500 mb-1.5">{attachError}</p>}
+        <div data-tour-slot="chat-tip" />
         <div
           data-tour="lesson-composer"
           className="ss-chat-box"
@@ -326,6 +327,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             }}
           />
           <button
+            data-tour="lesson-attach"
             onClick={() => fileRef.current?.click()}
             disabled={busy || locked}
             className="w-8 h-8 rounded-xl text-ss-slate hover:text-ss-accent hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center disabled:opacity-60 shrink-0 transition-colors"

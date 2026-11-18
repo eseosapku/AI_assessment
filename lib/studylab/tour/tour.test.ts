@@ -46,8 +46,8 @@ describe('nextTip', () => {
   })
   it('keeps every tip but the composer one away from an open chat', () => {
     expect(nextTip({ ...base, chatOpen: true, visible: new Set(['lesson-stations']) })).toBeNull()
-    expect(nextTip({ ...base, chatOpen: true, visible: new Set(['lesson-stations', 'lesson-composer']) })?.id).toBe('lesson-composer')
-    expect(nextTip({ ...base, chatOpen: false, visible: new Set(['lesson-composer']) })).toBeNull()
+    expect(nextTip({ ...base, chatOpen: true, visible: new Set(['lesson-stations', 'lesson-attach']) })?.id).toBe('lesson-attach')
+    expect(nextTip({ ...base, chatOpen: false, visible: new Set(['lesson-attach']) })).toBeNull()
   })
   it('has unique ids', () => {
     expect(new Set(TIPS.map((t) => t.id)).size).toBe(TIPS.length)

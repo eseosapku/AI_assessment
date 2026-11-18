@@ -6,15 +6,32 @@ import { Kana } from '../kana/Kana'
 import { hasSeenDemo, markDemoSeen } from '@/lib/studylab/demoGate'
 import { placeCard, type Box } from '@/lib/studylab/tour/place'
 import { stepsPresent, type TourStep } from '@/lib/studylab/tour/steps'
-import { boxOf, findAnchor, reducedMotion, useFollow } from './useFollow'
+import { boxOf, findAnchor, reducedMotion, useFollow, type Measurable } from './useFollow'
 
 const PAD = 8
 const GLIDE_MS = 260
 const CARD_W = 344
 
 /** The board step points at the card in front, not the whole board, so the dimming means something. */
-function findStepTarget(step: TourStep): HTMLElement | null {
-  if (step.anchor === 'lesson-board') return document.querySelector<HTMLElement>('.ss-trail-frame[data-role="focus"]') ?? findAnchor('lesson-board')
+function findStepTarget(step: TourStep): Measurable | null {
+  if (step.anchor === 'lesson-board') {
+    const focus = document.querySelector<HTMLElement>('.ss-trail-frame[data-role="focus"]')
+    if (focus) return focus
+    // Before the first card (the plan stage) the trail itself is what there is to see: the stations together.
+    const plots = Array.from(document.querySelectorAll<SVGGraphicsElement>('.ss-trail-plot'))
+    if (plots.length > 0) {
+      return {
+        getBoundingClientRect: () => {
+          const rs = plots.map((p) => p.getBoundingClientRect()).filter((r) => r.width > 0)
+          if (rs.length === 0) return new DOMRect(0, 0, 0, 0)
+          const x = Math.min(...rs.map((r) => r.left)), y = Math.min(...rs.map((r) => r.top))
+          // A little more above: the station names sit over the shapes.
+          return new DOMRect(x, y - 30, Math.max(...rs.map((r) => r.right)) - x, Math.max(...rs.map((r) => r.bottom)) - y + 30)
+        },
+      }
+    }
+    return findAnchor('lesson-board')
+  }
   return step.anchor ? findAnchor(step.anchor) : null
 }
 

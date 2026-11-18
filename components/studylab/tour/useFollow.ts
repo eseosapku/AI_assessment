@@ -9,7 +9,9 @@ export function findAnchor(anchor: string): HTMLElement | null {
 }
 
 /** An element's box in the viewport, or null when it is not drawn. */
-export function boxOf(el: HTMLElement | null): Box | null {
+export type Measurable = Pick<HTMLElement, 'getBoundingClientRect'>
+
+export function boxOf(el: Measurable | null): Box | null {
   if (!el) return null
   const r = el.getBoundingClientRect()
   return r.width > 0 && r.height > 0 ? { x: r.left, y: r.top, w: r.width, h: r.height } : null
@@ -22,7 +24,7 @@ const same = (a: Box | null, b: Box | null) => (a === b) || (!!a && !!b && Math.
  * `onBox` is called only when it actually moved. Nothing re-renders; the caller
  * writes the box into its own elements. Stopped (no frames at all) when `find` is null.
  */
-export function useFollow(find: (() => HTMLElement | null) | null, onBox: (box: Box | null) => void): void {
+export function useFollow(find: (() => Measurable | null) | null, onBox: (box: Box | null) => void): void {
   const cb = useRef(onBox)
   cb.current = onBox
   useEffect(() => {

@@ -1754,7 +1754,7 @@
   z-index: 71;
   width: 0;
   height: 0;
-  box-shadow: 0 0 0 2px var(--ss-accent-bright), 0 0 0 9999px rgba(8, 14, 20, 0.62);
+  box-shadow: 0 0 0 2px var(--ss-accent-bright), 0 0 14px 4px color-mix(in srgb, var(--ss-accent-bright) 55%, transparent), 0 0 0 9999px rgba(15, 23, 42, 0.68);
 }
 .ss-tour-card,
 .ss-tip-card,
@@ -1798,7 +1798,12 @@
   z-index: 72;
   left: 20px;
   bottom: 176px;
-  width: 360px;
+  width: 420px;
+}
+.ss-tour-offer .ss-tour-primary,
+.ss-tour-offer .ss-tour-ghost {
+  white-space: nowrap;
+  padding: 0 12px;
 }
 @media (max-width: 639px) {
   .ss-tour-offer {
@@ -1846,4 +1851,25 @@
   .ss-tour-pop {
     animation: none;
   }
+}
+
+.ss-tip-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 6px 8px 6px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--ss-line);
+  background: var(--ss-accent-soft);
+}
+.ss-tour-tiny {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+:root.dark .ss-tour-hole,
+.dark .ss-tour-hole {
+  box-shadow: 0 0 0 2px var(--ss-accent-bright), 0 0 16px 4px color-mix(in srgb, var(--ss-accent-bright) 50%, transparent), 0 0 0 9999px rgba(0, 0, 0, 0.7);
 }

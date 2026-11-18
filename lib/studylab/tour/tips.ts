@@ -11,12 +11,14 @@ export interface TipDef {
   /** Shown only with the chat open (the composer lives there); every other tip needs it closed. */
   inChat?: boolean
   /** Offered only at the beginning of a lesson, once things have settled, not the moment it is true. */
+  /** Drawn as a slim strip above the chat box, not a floating card, so it never covers the conversation. */
+  strip?: boolean
   atStart?: boolean
 }
 
 /** In priority order: the first one that is ready is the one offered. */
 export const TIPS: readonly TipDef[] = [
-  { id: 'lesson-composer', anchor: 'lesson-composer', text: 'Tip: Ctrl+Enter sends your message.', inChat: true },
+  { id: 'lesson-attach', anchor: 'lesson-attach', text: 'Stuck on paper? Tap the picture button to send me a photo of your working.', inChat: true, strip: true },
   { id: 'lesson-finished', anchor: 'lesson-finished', text: 'Finished cards collect here. Tap one to look back at it.' },
   { id: 'lesson-unsure', anchor: 'lesson-unsure', text: "Not clear yet? Tap Still not sure and I'll explain it another way." },
   { id: 'lesson-stations', anchor: 'lesson-stations', text: 'Lost your place? Stations shows the whole trail.', atStart: true },

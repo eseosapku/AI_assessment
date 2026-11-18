@@ -60,7 +60,7 @@ export function KanaTips(facts: TipFacts) {
     if (!f.ready) return
     const started = readySince.current !== null && Date.now() - readySince.current >= BEGINNING_DELAY_MS
     const wanted: Record<string, boolean> = {
-      'lesson-composer': f.chatOpen && !f.phone,
+      'lesson-attach': f.chatOpen && !f.phone,
       'lesson-finished': f.filedCount > 0,
       'lesson-unsure': f.footerShown,
       'lesson-stations': f.stationCount >= 3,
@@ -110,17 +110,24 @@ export function KanaTips(facts: TipFacts) {
 function TipView({ tip, onDismiss }: { tip: TipDef; onDismiss: () => void }) {
   const ring = useRef<HTMLDivElement>(null)
   const card = useRef<HTMLDivElement>(null)
+  // A strip tip lives in the chat panel's own flow, directly above the input, so it takes
+  // room instead of covering the conversation.
+  const [slot, setSlot] = useState<Element | null>(null)
+  useEffect(() => {
+    if (tip.strip) setSlot(document.querySelector('[data-tour-slot="chat-tip"]'))
+  }, [tip.strip])
   const find = useMemo(() => () => findAnchor(tip.anchor), [tip.anchor])
   const draw = useCallback((box: Box | null) => {
     const r = ring.current
     const c = card.current
-    if (!r || !c) return
+    if (!r) return
     if (!box) {
       r.style.display = 'none'
-      c.style.display = 'none'
+      if (c) c.style.display = 'none'
       return
     }
     r.style.display = ''
+    if (!c) return
     c.style.display = ''
     const pad = 4
     r.style.width = `${box.w + pad * 2}px`
@@ -130,6 +137,26 @@ function TipView({ tip, onDismiss }: { tip: TipDef; onDismiss: () => void }) {
     c.style.transform = `translate(${p.x}px, ${p.y}px)`
   }, [])
   useFollow(find, draw)
+  if (tip.strip) {
+    return (
+      <>
+        <div ref={ring} className="ss-tip-ring" aria-hidden />
+        {slot &&
+          createPortal(
+            <div className="ss-tip-strip ss-tour-pop">
+              <div className="shrink-0" aria-hidden>
+                <Kana pose="happy" size={28} />
+              </div>
+              <p className="min-w-0 flex-1 text-[14px] font-semibold leading-snug text-ss-ink">{tip.text}</p>
+              <button type="button" onClick={onDismiss} className="ss-press ss-tour-primary ss-tour-small ss-tour-tiny">
+                Got it
+              </button>
+            </div>,
+            slot,
+          )}
+      </>
+    )
+  }
   return (
     <>
       <div ref={ring} className="ss-tip-ring" aria-hidden />

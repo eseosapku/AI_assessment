@@ -8,7 +8,7 @@ describe('tools mark themselves used where their real control fires', () => {
   const wired: Record<string, string[]> = {
     'lesson-finished': ['components/studylab/trail/TrailStage.tsx'],
     'lesson-unsure': ['components/studylab/trail/DetourFooter.tsx'],
-    'lesson-composer': ['components/studylab/ChatMouthpiece.tsx'],
+    'lesson-attach': ['components/studylab/ChatMouthpiece.tsx'],
     'lesson-stations': ['components/studylab/trail/TrailTopBar.tsx'],
     'lesson-board-menu': ['components/studylab/trail/TrailTopBar.tsx'],
   }
